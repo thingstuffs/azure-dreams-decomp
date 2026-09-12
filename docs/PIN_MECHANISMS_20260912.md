@@ -223,3 +223,46 @@ when the selected compiler/SLUS-reference set changes, invalidating some reusabl
 compilations. The ten-row replay made 90 compiler calls and ten cache hits. Queue stable
 row recipe identities with cross-batch regression and legacy-publication compatibility;
 do not weaken current source/recipe checks merely to reuse old cache entries.
+
+## Zero-copy mechanism: first CSE now isolated
+
+While the atlas runs on frozen source, a bounded read-only compiler investigation
+resolved the pass ownership of `dungeon/func_80283F70`'s remaining one-word copy
+mismatch. The 42-word retail site map and existing lineage fingerprint were reread.
+At the existing `2.7.2-G0 -fno-strength-reduce` recipe, both source versions were
+compiled with all RTL dumps. Ordinary compilation produces identical non-comment
+assembly to the dump-enabled compile; the only extra text is `-da` in a comment.
+
+The initial RTL already explains why these are different CSE inputs. With the pin,
+insn 19 sets hard register `a2` in HI mode to zero; insn 22 reads that same hard
+register in QI mode into the record ID. Without the pin, insn 22 reads a QI
+`subreg` of HI pseudo 75. The first CSE dump changes that pseudo subregister read
+to `const_int 0`, but preserves the pinned QI register read. Subsequent passes keep
+this distinction. Final assembly differs only at `move $5,$6` versus `move $5,$0`.
+This is observed constant folding before allocation, not a free-register selection
+problem at that site.
+
+A locally retained FSF 2.7.2 `cse.c` corroborates the narrowing-subregister folding
+path: `fold_rtx` asks `equiv_constant` for the inner register and extracts its low
+part. Its directory was misleadingly named as CDK, so the actual `version.c` was
+checked and both source files were preserved with hashes. Matching version strings
+do not prove that every local binary patch is reproduced; the pass dumps are the
+direct evidence. The unrelated 2.6.3/CDK trees are not cited as the tested binary.
+
+A bounded scan of the 6,567 historical records matching current source found **14
+sites in 14 functions** where generated code copies zero and retail copies another
+register into the same destination. Five have a one-word total residue. This is a
+candidate family, not proof of zero equivalence or one shared cause. It includes
+same-mode keep removals and cross-mode register-pin removals; a detector must preserve
+that distinction. The historical recipe limitation still applies.
+
+**Tracked route: rtl_probe/I2.** After the atlas completes, refresh this family and
+select independent representatives of those two source situations. Establish their
+first diverging pass and retail zero-value provenance before proposing a lifetime or
+mode rule. No natural C replacement is validated yet; do not add volatile accesses,
+fake dependencies, fences, or a blanket assembler zero-copy rewrite to force a match.
+No production source or atlas recipe changed in this investigation.
+
+Machine-readable pass excerpts, exact hashes, source corroboration, lead list and
+queued action: [cse_zero_copy_20260912.json](evidence/cse_zero_copy_20260912.json).
+Full dumps: `work/pin_search/mechanism_80283F70/rtl_current/`.

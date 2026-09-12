@@ -1,0 +1,333 @@
+{
+  "id": "dungeon/func_80283F70",
+  "cfg": "2.7.2-G0 -fno-strength-reduce",
+  "source_sha": "feb60cf13edd47015b3cd3ff90251961195929c0347b16fecf5f83962209bf7a",
+  "compiler_sha": "0359379289db8e3904b8ed3b25b422ca631c8d71ab2f543d533c39ed2967764f",
+  "conclusion": "First CSE folds the unpinned HI-to-QI pseudo subregister copy to zero; the hard-register QI read remains a copy. The final assembly differs only in that source operand.",
+  "feature_owner": "compiler CSE, mode-sensitive RTL representation",
+  "source_route": "No natural C lever validated; keep pin until a guarded source lifetime or mode rule transfers.",
+  "route": "rtl_probe/I2",
+  "next_action": "Use the completed atlas to select independent zero-copy residues; reproduce the first diverging pass on same-mode keep removal and cross-mode register-pin removal before building a generator.",
+  "assembly_control": "Dump-enabled and ordinary compiler output identical after removing comments; -da appears only in the compiler argument comment.",
+  "retail": {
+    "path": "work/pin_search/mechanism_80283F70/retail.s",
+    "sha": "aceb4527d125618128d8d7881ee5702b8e514f436c3f7a76b3b1df283d34c3c9",
+    "words": 42,
+    "copy_address": "0x80016f7c",
+    "retail": "move a1,a2",
+    "erased": "move a1,zero"
+  },
+  "dumps": [
+    {
+      "source": "pinned",
+      "stage": "rtl",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/pinned/probe.i.rtl",
+      "sha": "a4f18d4cd25d63aba8608e18f3d3342901ced44045f0f2bfb35063185680231a",
+      "line": 41,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (reg:QI 6 a2)) -1 (nil)\n    (nil))"
+    },
+    {
+      "source": "pinned",
+      "stage": "jump",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/pinned/probe.i.jump",
+      "sha": "7192d5bd12668b4e9524ad2254df6d292076535736313e7802d0b8b4c7e8dd20",
+      "line": 41,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (reg:QI 6 a2)) -1 (nil)\n    (nil))"
+    },
+    {
+      "source": "pinned",
+      "stage": "cse",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/pinned/probe.i.cse",
+      "sha": "e2a02d3dcd8f6b067587cc7e00572582bb9da35da272890f38c9a9714736ac9d",
+      "line": 48,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (reg:QI 6 a2)) 166 {movqi_internal2} (nil)\n    (nil))"
+    },
+    {
+      "source": "pinned",
+      "stage": "cse2",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/pinned/probe.i.cse2",
+      "sha": "b4cc5000ff703ffdaf440fd3e2fc511271c1a383d3081bbe988f75f40eb213de",
+      "line": 46,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (reg:QI 6 a2)) 166 {movqi_internal2} (nil)\n    (nil))"
+    },
+    {
+      "source": "pinned",
+      "stage": "greg",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/pinned/probe.i.greg",
+      "sha": "582e3064d7ce070f0538aeec3c65dd94163591584077c5fee8786daf9a587ab0",
+      "line": 60,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 5 a1)\n        (reg:QI 6 a2)) 166 {movqi_internal2} (insn_list:REG_DEP_OUTPUT 16 (insn_list 19 (nil)))\n    (nil))"
+    },
+    {
+      "source": "counter_erased",
+      "stage": "rtl",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/counter_erased/probe.i.rtl",
+      "sha": "9bb6ac1d09a91b7bae99ebb8de245ab9871cc3d2280e77b51813374564c164c6",
+      "line": 41,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (subreg:QI (reg/v:HI 75) 0)) -1 (nil)\n    (nil))"
+    },
+    {
+      "source": "counter_erased",
+      "stage": "jump",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/counter_erased/probe.i.jump",
+      "sha": "5f01ce0289285fc0135eccd10c48b1c2b584e8240b1c2ee22650dc1dffce02b6",
+      "line": 41,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (subreg:QI (reg/v:HI 75) 0)) -1 (nil)\n    (nil))"
+    },
+    {
+      "source": "counter_erased",
+      "stage": "cse",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/counter_erased/probe.i.cse",
+      "sha": "fad003ab5a8d8f5160442cf5fa0f0e0228bd3a4ca37d97bfb24badeca9c38110",
+      "line": 48,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (const_int 0)) 166 {movqi_internal2} (nil)\n    (expr_list:REG_EQUAL (const_int 0)\n        (nil)))"
+    },
+    {
+      "source": "counter_erased",
+      "stage": "cse2",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/counter_erased/probe.i.cse2",
+      "sha": "1743fdc3fcc73ccfe1cfde61acfac264219e8eca9a2a5581cf018b07d2884c54",
+      "line": 46,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 80)\n        (const_int 0)) 166 {movqi_internal2} (nil)\n    (expr_list:REG_EQUAL (const_int 0)\n        (nil)))"
+    },
+    {
+      "source": "counter_erased",
+      "stage": "greg",
+      "path": "work/pin_search/mechanism_80283F70/rtl_current/counter_erased/probe.i.greg",
+      "sha": "d964bfee5a87fe12ec8d614e2fdb42c1fb19479ec0719f3c8f9eaf63f177a337",
+      "line": 61,
+      "insn": "(insn 22 19 25 (set (reg/v:QI 5 a1)\n        (const_int 0)) 166 {movqi_internal2} (insn_list:REG_DEP_OUTPUT 16 (nil))\n    (expr_list:REG_EQUAL (const_int 0)\n        (nil)))"
+    }
+  ],
+  "source_corroboration": {
+    "version": "2.7.2",
+    "file": "work/pin_search/mechanism_80283F70/rtl_current/fsf_2_7_2_cse.c",
+    "sha": "efea2372c1f4589c7e64751f1a700113fc36d0df820f955f972f5049f06bb645",
+    "sections": [
+      "fold_rtx SUBREG: 4875-4896",
+      "equiv_constant: 5698-5705"
+    ],
+    "scope": "Matching version string, not a verified reconstruction of every binary patch; dumps are the direct observation."
+  },
+  "related_historical_leads": {
+    "scope": "current-source historical records; recipe identity unavailable; residue is a lead, zero equivalence not yet proven",
+    "matched_sites": 6567,
+    "sites": [
+      {
+        "id": "main/func_8001AB30",
+        "site": 0,
+        "macro": "ASM_KEEP",
+        "total": 11,
+        "got": "move $a2, $zero",
+        "tgt": "move $a2, $s1",
+        "source_sha": "3017827795eafa67982eea68cb95fc73fc81d379c693ff9a77cba9c4a5026976",
+        "var": "count",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "incr"
+        ]
+      },
+      {
+        "id": "town/func_8033077C",
+        "site": 3,
+        "macro": "ASM_KEEP",
+        "total": 5,
+        "got": "move $a0, $zero",
+        "tgt": "move $a0, $a3",
+        "source_sha": "103e7c9664deaa7e07484162f4ea9bf354187366cd9f5a74cd42f71733cee816",
+        "var": "total_weight",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "update"
+        ]
+      },
+      {
+        "id": "town/func_8088134C",
+        "site": 0,
+        "macro": "ASM_KEEP",
+        "total": 12,
+        "got": "move $a0, $zero",
+        "tgt": "move $a0, $s1",
+        "source_sha": "3d8f4adffbd5f04415b95f701fe1ec5a99865289953871652c4fd000abc060d4",
+        "var": "index",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "incr"
+        ]
+      },
+      {
+        "id": "dungeon/func_800D74DC",
+        "site": 2,
+        "macro": "ASM_KEEP",
+        "total": 9,
+        "got": "move $a1, $zero",
+        "tgt": "move $a1, $a3",
+        "source_sha": "a90b81cc9f33477712f3248941cf0221ce6259dbf8b8cf5daea0e642dcd78fef",
+        "var": "entry_index",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "incr"
+        ]
+      },
+      {
+        "id": "dungeon/func_80283F70",
+        "site": 1,
+        "macro": "ASM_REG",
+        "total": 1,
+        "got": "move $a1, $zero",
+        "tgt": "move $a1, $a2",
+        "source_sha": "feb60cf13edd47015b3cd3ff90251961195929c0347b16fecf5f83962209bf7a",
+        "var": "type1_count",
+        "var_type": "s16",
+        "defs": [
+          "const",
+          "copy"
+        ]
+      },
+      {
+        "id": "dungeon/func_80286684",
+        "site": 2,
+        "macro": "ASM_REG",
+        "total": 17,
+        "got": "move $s6, $zero",
+        "tgt": "move $s6, $a0",
+        "source_sha": "6b467eb81e333e780c3f8bbcde47ec447dfa5c2b2a6359d6ea2f73a6da3b9987",
+        "var": "slot",
+        "var_type": "ptr",
+        "defs": [
+          "arith"
+        ]
+      },
+      {
+        "id": "dungeon/func_8181214C",
+        "site": 1,
+        "macro": "ASM_KEEP_NV",
+        "total": 1,
+        "got": "move $s2, $zero",
+        "tgt": "move $s2, $s1",
+        "source_sha": "985c0480a298f5669804069d64cbcdb0bc220931cada14d8bbb4ccf35ff19f72",
+        "var": "slot",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "update",
+          "update",
+          "const",
+          "update"
+        ]
+      },
+      {
+        "id": "town/func_8094D708",
+        "site": 2,
+        "macro": "ASM_KEEP",
+        "total": 20,
+        "got": "move $a1, $zero",
+        "tgt": "move $a1, $s0",
+        "source_sha": "b8fe160eb90c3ea6cc1ef76b2e2fc990c7bfd5c26cae9593f72f7d3ac9130b54",
+        "var": "i",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "incr"
+        ]
+      },
+      {
+        "id": "dungeon/func_80AEF12C",
+        "site": 11,
+        "macro": "ASM_KEEP_NV",
+        "total": 3,
+        "got": "move $a2, $zero",
+        "tgt": "move $a2, $a0",
+        "source_sha": "42828e80bb031a531c84079dc2d2d67c8431f0efad8c030073061df34da48d4a",
+        "var": "zero_arg",
+        "var_type": "s32",
+        "defs": [
+          "const"
+        ]
+      },
+      {
+        "id": "dungeon/func_8132B8AC",
+        "site": 10,
+        "macro": "ASM_KEEP_NV",
+        "total": 6,
+        "got": "move $s0, $zero",
+        "tgt": "move $s0, $a2",
+        "source_sha": "b8f02980a690910c04542cd015b2c831fd2c510eee22c80831ba9b1f0169dcfa",
+        "var": "wait_particle_count",
+        "var_type": "s32",
+        "defs": [
+          "copy",
+          "update"
+        ]
+      },
+      {
+        "id": "dungeon/func_81811EC0",
+        "site": 1,
+        "macro": "ASM_KEEP",
+        "total": 1,
+        "got": "move $v1, $zero",
+        "tgt": "move $v1, $a3",
+        "source_sha": "4720de381bf4ee93c81324e76742db0e7a62f989a5fb89711851ebd6e0531424",
+        "var": "occurrence",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "update"
+        ]
+      },
+      {
+        "id": "dungeon/func_81959E04",
+        "site": 5,
+        "macro": "ASM_KEEP_NV",
+        "total": 1,
+        "got": "move $s0, $zero",
+        "tgt": "move $s0, $s3",
+        "source_sha": "21fbf9c9e777f0ff389bdb8b5d6655bfe4e8a5144ea31d0ceb822090aa502e0e",
+        "var": "var_s3",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "update"
+        ]
+      },
+      {
+        "id": "town/func_8046C048",
+        "site": 3,
+        "macro": "ASM_KEEP",
+        "total": 1,
+        "got": "move $s5, $zero",
+        "tgt": "move $s5, $s3",
+        "source_sha": "40241b291d3a6ba86e7dd2c6c311638c533c14af238d6caed29c5672f6e7e834",
+        "var": "row_index",
+        "var_type": "s32",
+        "defs": [
+          "const",
+          "update"
+        ]
+      },
+      {
+        "id": "town/func_806D85A0",
+        "site": 7,
+        "macro": "ASM_KEEP_NV",
+        "total": 6,
+        "got": "move $s4, $zero",
+        "tgt": "move $s4, $a2",
+        "source_sha": "bf12cc2d8c3acbd856ceafa5d8e668b11aac1e02f326967b44e1e6eb094304e7",
+        "var": "initial_value",
+        "var_type": "s32",
+        "defs": [
+          "const"
+        ]
+      }
+    ]
+  },
+  "caveats": [
+    "14 leads are residue matches, not proven equivalent mechanisms or confirmed removable pins.",
+    "Historical inputs match current source but lack recipe identity; refresh from atlas before deciding coverage.",
+    "No claim of compiler-lineage impossibility; retail fingerprint is not uniquely attributive."
+  ]
+}
