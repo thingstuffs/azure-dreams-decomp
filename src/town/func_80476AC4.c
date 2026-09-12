@@ -11,7 +11,7 @@ extern D_80019BB0_t D_80019BB0;
 
 /* Set state 4 and return whether check 0x3FE fails or check 0x3FF succeeds. */
 s32 func_80017AC4(void) {
-    register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 result;
     s32 ret;
 
     D_80019BB0.value = 4;

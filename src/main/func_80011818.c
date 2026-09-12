@@ -69,7 +69,6 @@ void func_80024818(void *context)
 
         func_8004DA74(first_buffer, D_800283C4, 1);
         text_buffer = root + 0x204;
-        ASM_USE_NV(text_buffer);
         table = D_800283B8;
         ASM_USE_NV(table);
         selection = mode_one << 2;

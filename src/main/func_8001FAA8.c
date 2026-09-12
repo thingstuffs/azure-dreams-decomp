@@ -45,14 +45,11 @@ void func_80406AA8(S_func_80406AA8_0 *state)
         state->unk_34 = func_80406DA0;
         func_80403144(state_base);
         next_callback = func_804069FC;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     } else {
         func_80405A00(state->unk_04, state->unk_2C);
         func_80404688(*(s32 *)((u8 *)state + (0xC + state->unk_2C * 4)));
         if (D_80010208 != 0) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             next_callback = func_80406A74;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         } else {
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             next_callback = func_80406DA0;

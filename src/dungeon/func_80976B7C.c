@@ -64,11 +64,9 @@ s32 func_8017237C(void *action_data, void *effect_data, void *target_data, void 
 
         actor_flags = (u8)(actor_flags & 0x7F);
         ((S_8017237C_0 *)actor)->unk_71 = actor_flags;
-        ASM_KEEP(actor_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         global_page = (u8 *)0x80080000;
         ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         global_flags = (u16 *)(global_page + 0x3460);
-        ASM_KEEP(global_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         action_ready = 0;
 
         if (global_flags[1] & 0x2000) {

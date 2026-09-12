@@ -57,7 +57,6 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     vertex_or_link = scratch + 0x80;
     *((u16 *) (scratch + 0x7C)) = vertex_z;
     vertex_z = *((u16 *) (((u8 *) quad) + 0x24));
-    ASM_SET(vertex3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     vertex3 = scratch + 0x88;
     *((u32 *) (scratch + 0x88)) = last_xy;
     *((u16 *) (scratch + 0x84)) = vertex_z;

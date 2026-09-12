@@ -106,7 +106,7 @@ void func_80123604(void) {
     }
 
     {
-        register u8 *source_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *source_table;
         register u8 *object_table ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING

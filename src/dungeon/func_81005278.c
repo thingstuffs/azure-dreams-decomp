@@ -58,7 +58,7 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     void *part = input_part;
     register void *state ASM_REG("$18") = input_obj;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 mode_or_dir ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 value_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 value_bits;
     Callback callback;
     s32 height_offset;
     s16 floor_delta;

@@ -205,7 +205,6 @@ state_1:
 #endif
         set_mask = 0x200000;
 #ifndef NON_MATCHING
-        ASM_KEEP(set_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #endif
         do {
             linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;

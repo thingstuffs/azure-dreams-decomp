@@ -61,7 +61,6 @@ void func_818D4A94(void *motion, S_818D4A94_0 *position)
     updated_value = ((S_818D4A94_1 *)motion)->unk_34;
     ASM_USE(updated_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_MEM_NV(axis_value, D_80025118[0]);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_USE2_NV(axis_value, updated_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_818D4A94_1 *)motion)->unk_44 = axis_step;
     axis_value = position->unk_00.at02.v;
     ASM_USE(axis_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

@@ -97,7 +97,7 @@ void func_8017360C(void *action, void *context, void *entity, void *actor)
 state_0:
     {
         u8 *dungeon_state;
-        register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *effect_page;
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
@@ -121,7 +121,7 @@ state_1:
             return;
         }
         {
-            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 *effect_page;
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect_table = effect_page + 0x4150;
@@ -133,7 +133,7 @@ state_2:
             return;
         }
         {
-            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 *effect_page;
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect_table = effect_page + 0x4158;
@@ -225,7 +225,7 @@ final_check:
         }
 
         {
-            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 *effect_page;
             effect_page = (u8 *)0x80170000;
             ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             effect_table = effect_page + 0x4160;
@@ -248,7 +248,7 @@ final_check:
 state_4:
         {
         u32 phase_flag = 0x40000;
-        register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *effect_page;
         u32 phase_flags;
 
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {

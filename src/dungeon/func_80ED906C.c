@@ -126,7 +126,7 @@ void *func_8014C86C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     u16 child_flags;
     u16 elem_flags;
     register s32 call_code ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 call_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 call_zero;
     register u32 color ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;

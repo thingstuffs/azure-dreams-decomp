@@ -72,7 +72,6 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
     s32 distance;
     s16 offset[3];
 
-    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     {
         register s32 original_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         actor = (u8 *)S32(effect, 0);

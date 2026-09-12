@@ -131,7 +131,6 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
 
         if (*motion != 0) {
             ((S_80172DEC_0 *)action_state)->unk_98 &= 0xFF7F;
-            ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             {
                 s32 global_target_flag = use_global_target;
 

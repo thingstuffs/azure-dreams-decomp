@@ -63,7 +63,7 @@ void *func_8015E854(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     s32 left;
     s32 right;
     void *work;
-    register s16 saved_arg3 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 saved_arg3;
     register void *obj ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s8 saved_arg2;
     register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

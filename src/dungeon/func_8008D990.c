@@ -235,7 +235,7 @@ block_23:
         register s32 zero_arg_2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         register s32 zero_arg_3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *flags_base;
-        register u16 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u16 flags;
 
         command = 6;
         zero_arg_1 = 0;

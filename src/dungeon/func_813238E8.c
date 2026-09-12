@@ -159,7 +159,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register M2C_UNK (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
     register s32 view_direction;
-    register s32 direction_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 direction_index;
     register s32 prior_direction;
     s16 floor_height;
     s16 height_delta;
@@ -323,7 +323,6 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 direction_animations = ((S_8016B0E8_14 *)sprite)->unk_2C;
                 if (direction_animations != 0) {
                     animation_id = *(direction_animations + direction_index);
-                    ASM_USE_NV(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     func_80047738(sprite, animation_id, ((S_8016B0E8_14 *)sprite)->unk_04);
                 }
                 ((S_8016B0E8_0 *)entity)->unk_94 = view_direction;

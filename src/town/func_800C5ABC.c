@@ -58,9 +58,7 @@ void func_800C321C(s32 obj_addr, s32 callback_arg, void *motion_data) {
         }
         if (!(obj->flags71 & 1)) {
             if ((func_800C2F14(obj->field72, obj->field64) << 0x10) == 0) {
-                motion_flags = *(u16 *)((u8 *)motion + 0x14);
-                ASM_KEEP_NV(motion_flags);
-                motion_flags &= 0xfffe;
+                motion_flags = (u16)(*(u16 *)((u8 *)motion + 0x14) & 0xfffe);
                 goto store_motion_flags;
             }
             goto set_motion_flag;

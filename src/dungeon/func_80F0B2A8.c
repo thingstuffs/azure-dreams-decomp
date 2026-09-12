@@ -141,7 +141,6 @@ void func_80172AA8(void *motion_state, void *transform, void *sprite, void *acto
 
         if (*motion != 0) {
             ((S_80172AA8_0 *)motion_state)->unk_98 &= 0xFF7F;
-            ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             {
                 s32 player_target = use_player_target;
 

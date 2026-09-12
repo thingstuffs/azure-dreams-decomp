@@ -29,7 +29,7 @@ s16 func_800A48F0(void *object, s32 id, s32 value) {
     s8 used_id;
     register void *entry_owner ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 entry_id ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 entry_value ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 entry_value;
     s32 id_shift;
     s32 match_id;
     s32 insert_id;
@@ -109,7 +109,6 @@ insert_entry:
             s32 lowest_id;
             s32 retry_id;
 
-            ASM_KEEP_NV(entry_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             retry_id_shift = entry_id << 24;
             lowest_id = (s16) min_id;
             retry_id = retry_id_shift >> 24;
