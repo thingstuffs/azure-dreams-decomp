@@ -71,16 +71,16 @@ void func_8016583C(S_8016583C_0 *source, s32 duration, s32 scale, s32 offset_x, 
     S_8016583C_1 *effect_state;
     void *effect;
     s16 held_duration = duration;
-    register s32 held_scale ASM_REG("$21") = scale;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 held_scale ASM_REG("$21") ;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 held_offset_y = offset_y;
-    register s32 held_offset_x ASM_REG("$16") = offset_x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 held_offset_x = offset_x;
     s32 held_offset_z = offset_z;
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
+        held_scale = scale;
         (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_801654F0;
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_02 + held_offset_x);
-        ASM_KEEP(held_offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_06 + held_offset_y);
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_0A + held_offset_z);
         effect_state = effect + 0x20;
@@ -105,7 +105,6 @@ void func_8016583C(S_8016583C_0 *source, s32 duration, s32 scale, s32 offset_x, 
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)D_80173B34 + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
-        ASM_KEEP(held_scale);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }

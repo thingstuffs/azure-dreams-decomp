@@ -32,17 +32,17 @@ void func_800948BC(void)
     record_type = 0x13;
     slot_table = D_800E3DF0;
     record = (u8 *)0x8001024B;
-    do {
+    loop_1: {
         if (record[-2] == record_type) {
             slot_index = record[0] & 0x1F;
             linked_slot = slot_table[slot_index];
             if (linked_slot != 0) {
-                register u32 slot_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                u32 slot_base;
                 slot_base = 0x800102F0;
                 func_800422DC((DungeonSlot *)(slot_base + slot_index * 0x54), linked_slot);
             }
         }
         count++;
         record += 4;
-    } while (count < 0x14);
+    } if (count < 0x14) goto loop_1;
 }

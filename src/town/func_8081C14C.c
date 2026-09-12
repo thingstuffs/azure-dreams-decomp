@@ -31,7 +31,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
     u8 *state = state_data;
     s32 *position = position_data;
     u8 *sprite = sprite_data;
-    register u8 *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *object;
     u8 *owner;
     s32 remaining;
     s32 next_x;
@@ -48,7 +48,6 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
     u8 *effect_sprite;
     u8 *color_state;
 
-    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     object = PTR(state, 0);
     U16(object, 0x58) |= 1;
     owner = PTR(object, 0);
@@ -58,10 +57,10 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         case 0:
             U8(sprite, 0xC) = 0xFF;
             remaining = 3;
-            do {
+            loop_0: {
                 func_800267DC(position);
                 remaining--;
-            } while (remaining >= 0);
+            } if (remaining >= 0) goto loop_0;
             break;
         case 1:
             U16(sprite, 0x14) |= 0xC;

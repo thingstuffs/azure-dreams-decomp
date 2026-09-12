@@ -270,20 +270,18 @@ state1:
 
 state2:
     {
-        for (entity = 0; (s32)entity < 4; entity++) {
+        entity = 0; if ((s32)entity < 4) { loop_0: {
             s32 random = func_80069EF8();
             u8 *task;
             s32 particle_color;
             s32 particle_param;
 
             task = effect_data - 0x20;
-            ASM_KEEP(task);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             particle_color = 0x002020E0;
-            ASM_KEEP(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             random &= 0xFF;
             particle_param = random | 0x80;
             D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
-        }
+        } entity++; if ((s32)entity < 4) goto loop_0; }
 
         if (S16_AT(effect_data, 0x92) == 0) {
             S16_AT(effect_data, 0x92) = 1;

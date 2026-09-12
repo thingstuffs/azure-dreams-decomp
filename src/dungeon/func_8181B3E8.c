@@ -423,10 +423,10 @@ state_1:
         }
 
         particle_count = 0;
-        do {
+        loop_0: {
             register void *effect_task ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 direction;
-            register s32 particle_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 particle_color;
             register s32 intensity ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             particle_count++;
             random_intensity = func_80069EF8();
@@ -437,7 +437,7 @@ state_1:
             ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
             func_80024758(effect_task, direction, particle_color, intensity, 0, 0, 0);
-        } while (particle_count < 4);
+        } if (particle_count < 4) goto loop_0;
 
         ((S_80024BE8_0 *)effect)->unk_7B--;
         if (((S_80024BE8_0 *)effect)->unk_7B > 0) {

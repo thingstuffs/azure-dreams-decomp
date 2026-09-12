@@ -65,7 +65,7 @@ void func_80BC1528(
     s32 offset_x, s32 offset_y, s32 offset_z)
 {
     S_80BC1528_1 *parent = parent_obj;
-    register s16 saved_param ASM_REG("$23") = effect_param;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s16 saved_param ASM_REG("$23") ;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 saved_value = initial_value;
     register s32 saved_duration ASM_REG("$22") = duration;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 saved_offset_x = offset_x;
@@ -84,6 +84,7 @@ void func_80BC1528(
 
     effect = func_8003FD64(0x211, parent);
     if (effect != 0) {
+        saved_param = effect_param;
         ((S_80BC1528_0 *)effect)->unk_10 = D_80170A64;
 
         ((S_80BC1528_3 *)(((S_80BC1528_0 *)effect)->unk_08))->unk_02 =
@@ -142,7 +143,6 @@ void func_80BC1528(
         effect_data->unk_08 = saved_value;
     }
 
-    ASM_KEEP(saved_param);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(saved_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(saved_duration);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

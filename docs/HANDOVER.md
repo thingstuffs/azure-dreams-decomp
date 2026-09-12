@@ -23,6 +23,20 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Eighth round, gated (56 windows MATCH, SLUS SHA-1 MATCH): **9,347 pins in 1,565 rows** (85 pins, 12
+more functions pin-free).
+- **The goto-loop family, from astra's result on the 42-pin row.** gcc's `loop.c` optimizes only
+  loops with loop notes, so a backward-goto loop is never hoisted. `t41` do-while: 15 rows. `t41b`
+  while/for: 1 row. `t41c` greedy from an exact goto base: 38 rows.
+- **`t42_sinkcopy`** (from the argconst luna lane's 2 wins): a pinned parameter copy is assigned in
+  the block that uses it. 9 rows, plus 1 lane row.
+- **The cascade** in `land8.sh`, now covering `t36`–`t42` and T2: 7 more.
+- **The 42-pin row `dungeon/func_809A38E4` is parked.** Luna, sol and astra were all spent; astra's
+  best is 4 pins at TOTAL 2, the one-word residue coming from the setup's `do {} while (0)` loop
+  note.
+- **Open owner question:** about 54 rows now use `loop_N:` goto loops. Each can be reverted from
+  the `t41`/`t41b`/`t41c` journals.
+
 Seventh round, gated (15 windows MATCH, SLUS SHA-1 MATCH): **9,432 pins in 1,577 rows** (28 pins).
 - **Residue map refreshed.** 644 rows were re-atlased single-site, so records now cover 99% of
   pins. The `pin_atlas.py` long-probe-name bug is fixed; a crashed run must be finished under a new

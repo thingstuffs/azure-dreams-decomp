@@ -87,7 +87,7 @@ void *BODY_NAME(s32, s8, s8, s16)
 void *BODY_NAME(s32 init_flags, s8 pos_x, s8 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;
-    register s16 saved_value ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 saved_value;
     register s32 saved_flags ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80FF3000_2 *base_data;
     register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -98,15 +98,14 @@ void *BODY_NAME(s32 init_flags, s8 pos_x, s8 pos_y, s16 init_value) {
     S_80FF3000_3 *placement;
     S_80FF3000_4 *extended_state;
 
-    saved_flags = init_flags;
     object_state = NULL;
     ASM_KEEP_NV(object_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(saved_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_x = pos_x;
     saved_value = init_value;
     saved_y = pos_y;
     object = func_8003FD64(0x112, &D_80083498);
     if (object != NULL) {
+        saved_flags = init_flags;
         setup_flags = saved_flags;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         object_state = object + 0x20;

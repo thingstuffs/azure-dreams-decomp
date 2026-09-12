@@ -110,12 +110,11 @@ void func_80D3B0B8(u8 *owner_data, u8 *source_position, u8 *source_sprite) {
 
         copy_end = (Copy16 *)(source_sprite + 0x30);
         copy_dst = (Copy16 *)sprite;
-        do {
+        loop_0: {
             *copy_dst = *copy_src;
             copy_src++;
             copy_dst++;
-        } while (copy_src != copy_end);
-        ASM_KEEP(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        } if (copy_src != copy_end) goto loop_0;
 
         func_8004491C(object, &D_80045340);
         direction_table = D_800E23F0;

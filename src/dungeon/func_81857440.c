@@ -70,7 +70,7 @@ initialize:
     random_value = func_8006649C(0xA0, 0x1F7);
     point_index = 1;
     {
-        register u8 *point_cursor ASM_REG("$3");
+        u8 *point_cursor;
         point_cursor = (u8 *)entity + 8;
         entity->field42 = random_value;
         entity->field3E = 0x1F;
@@ -79,13 +79,13 @@ initialize:
         entity->timer48 = 0;
         entity->field3A = 0;
         entity->delta44 = -0x1C;
-        do {
+        loop_0: {
             *(u16 *)(point_cursor + 4) = entity->points[0].x;
             *(u16 *)(point_cursor + 6) = entity->points[0].y;
             *(u16 *)(point_cursor + 8) = entity->points[0].z + entity->delta44 * point_index;
             point_cursor += 8;
             point_index++;
-        } while (point_index < 5);
+        } if (point_index < 5) goto loop_0;
     }
     state = (u16)entity->state4A + 1;
     goto store_state;

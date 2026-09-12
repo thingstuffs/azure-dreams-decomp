@@ -12,7 +12,7 @@ extern s32 D_80082A38[];
 /* Copy a global state word and a 17-word block into the record. */
 void func_800AE0F4(s32 *record) {
     Words *src;
-    register Words *dst ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (word_0 copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    Words *dst;
     Words *end;
 
     {
@@ -24,7 +24,7 @@ void func_800AE0F4(s32 *record) {
         record[0xC] = base[0x20];
         end = (Words *)(base + 0x42);
     }
-    do {
+    loop_0: {
         s32 word_0;
         s32 word_1;
         s32 word_2;
@@ -41,6 +41,6 @@ void func_800AE0F4(s32 *record) {
         ASM_KEEP(src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         src++;
         dst++;
-    } while (src != end);
+    } if (src != end) goto loop_0;
     dst->a = src->a;
 }

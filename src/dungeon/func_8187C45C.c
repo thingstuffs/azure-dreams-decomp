@@ -71,7 +71,7 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     void *motion = motion_data;
     void *sprite = sprite_data;
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *object ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object;
     register void *object_data ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *busy_base;
     void *effect_object;
@@ -432,7 +432,7 @@ fade_projectile:
     }
 
     object_data = 0;
-    do {
+    loop_0: {
         object_data = (u8 *)object_data + 1;
         particle_color = func_80069EF8();
         {
@@ -448,7 +448,7 @@ fade_projectile:
             ASM_KEEP(brightness);
             func_800250B0(task, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
         }
-    } while ((s32)object_data < 4);
+    } if ((s32)object_data < 4) goto loop_0;
     goto end;
 
 finish_fade:

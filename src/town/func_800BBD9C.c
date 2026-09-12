@@ -91,7 +91,6 @@ kind_5:
 
 kind_5_default:
     entries_base = D_800718E4;
-    ASM_KEEP(entry_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     entry_slot = &entries_base[entry_count];
     entry = D_800D1D54;
     goto store_value;
@@ -131,7 +130,6 @@ kind_15:
 
 kind_15_default:
     entries_base = D_800718E4;
-    ASM_KEEP(entry_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     entry_slot = &entries_base[entry_count];
     entry = D_800D1DB4;
     goto store_value;
@@ -171,7 +169,6 @@ kind_16:
 
 kind_16_default:
     entries_base = D_800718E4;
-    ASM_KEEP(entry_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     entry_slot = &entries_base[entry_count];
     entry = D_800D1DD4;
     goto store_value;
@@ -209,7 +206,7 @@ fallback:
     entries_base = D_800718E4;
     entry_slot = (void **)(entry_count << 2);
     next_entry = (void **)((unsigned long)entry_slot + (unsigned long)entries_base);
-    do {
+    loop_0: {
         selector = town_state[6];
         entry_count++;
         entry_slot = (void **)(u32)*(u8 *)(((unsigned long)selector << 5) + (unsigned long)fallback_records);
@@ -219,10 +216,9 @@ fallback:
         *next_entry = entry;
         choice_index++;
         next_entry++;
-    } while (choice_index < 2);
+    } if (choice_index < 2) goto loop_0;
 
 finish:
-    ASM_KEEP(entry_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     entry_slot = D_800718E4;
     selector = entry_count << 2;
     *(void **)((unsigned long)selector + (unsigned long)entry_slot) = 0;

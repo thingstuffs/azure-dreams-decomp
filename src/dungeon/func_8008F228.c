@@ -167,7 +167,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     u8 *var_s2;
     S_80094988_12 *temp_s1_2;
     S_80094988_13 *temp_v0_2;
-    register void *var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *var_a0;
     void *var_v1;
     register u8 *page ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 idx0;
@@ -263,7 +263,7 @@ loop_1:
     ff2 = 0xFF;
     table2 = (void **)(page2 + 0x248);
     var_a0 = arg0;
-    do {
+    loop_0: {
         var_v1_2 = (u8 *)(var_t1 + (u32)var_a3);
         idx0 = ((S_80094988_5 *)var_v1_2)->unk_2D52;
         if (idx0 != ff2) {
@@ -274,7 +274,7 @@ loop_1:
         }
         var_t1 += 1;
         var_a0 += 4;
-    } while (var_t1 < 2);
+    } if (var_t1 < 2) goto loop_0;
 
     dispatch_probe = 0x80010000;
     dispatch_probe = ((S_80094988_7 *)((void *)dispatch_probe))->unk_21E0;

@@ -85,7 +85,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
     s32 left_x;
     s32 far_z;
     s32 near_z;
-    register Vertex *vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    Vertex *vertex;
     s32 camera_z;
     s16 min_y;
     s16 max_y;
@@ -113,8 +113,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
     ASM_KEEP4(vertex, right_x, left_x, index_or_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(far_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(near_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    do
-    {
+    loop_0: {
       vertex->x = right_x;
       if (index_or_row < 2)
       {
@@ -131,8 +130,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
       }
       index_or_row--;
       vertex--;
-    }
-    while (index_or_row >= 0);
+    } if (index_or_row >= 0) goto loop_0;
     projection_ptr = &projection;
     ASM_KEEP4_NV(projection_ptr, projection_ptr, projection_ptr, projection_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     min_xy &= 0xFFFF;

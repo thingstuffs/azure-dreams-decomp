@@ -429,9 +429,9 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
 
     case 2:
         index = 0;
-        do {
+        loop_0: {
             register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 particle_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            s32 particle_color;
             register s32 particle_shade ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             index++;
@@ -442,7 +442,7 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             particle_shade = (random_bits & 0xFF) | 0x80;
             ASM_KEEP_NV(particle_shade);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_80025080(effect_object, effect->unk_7E.s16, particle_color, particle_shade, 0, 0, 0);
-        } while (index < 4);
+        } if (index < 4) goto loop_0;
         result = func_800A4778(motion->unk_00.u16_02.unk_02, motion->unk_04.u16_06.unk_06,
                                motion->unk_08.s16_0A.unk_0A, owner->unk_60);
         if ((s16)result != 0) {

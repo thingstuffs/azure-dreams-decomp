@@ -451,6 +451,59 @@ stores become a chained assignment. `best.lreg` shows the `0xfb` pseudo back at 
 Sol measured the loop, aggregate, pointer, declaration, type, angle-derived and assignment-order
 directions. Astra is the last escalation for this row, queued after the next gate.
 
+**The 42-pin row, astra (last escalation): best TOTAL 2 at 4 pins.** Astra rewrote the arc loop as
+a backward goto, `arc_segment: … if (…) goto arc_segment;`, and 38 pin sites became unnecessary.
+The mechanism: gcc 2.x runs `loop.c` (invariant hoisting, strength reduction) only on loops the
+front end marked with `NOTE_INSN_LOOP_BEG/END` (`for`, `while`, `do`). In the marked loop the
+constant `0xfb` was hoisted out, and the 36 `ASM_USE_NV(angle)` statements had compensated for
+that hoisted constant's allocation. Unmarked, the constant stays local: 5 references over 10
+instructions (`dumps/candidate/candidate.c.lreg`).
+
+The one residue left is the pointer add `vertex_data = prim + 0x1A`, 3 words early; sol's best
+candidate had the same residue. In the base, the setup's `do { … } while (0)` emits a loop note
+that makes the add depend on a radius load, and the goto form has no such note. Restoring the
+base's fence around both setup statements gave TOTAL 101, and around the add alone TOTAL 14. The
+row is parked with this evidence: luna, sol and astra have all been spent. That is a measured dead
+end, not a verdict. `tools/xform/t41_gotoloop.py` tests the goto-loop mechanism tree-wide.
+
+`t41` first sweep: 236 do-while loops hold 744 pins in 171 rows (64 more loops skipped for
+`break`/`continue`). **15 rows went exact**, 9 with every body pin erased and 6 with one. The form
+is `loop_N: { … } if (C) goto loop_N;`, which keeps the meaning, since the backward jump re-enters
+the block. `t41b_gotoloop_while` extends it to `while`/`for` loops, written as the guarded
+bottom-tested goto that gcc's rotation of a marked loop produces:
+`INIT; if (C) { top: { BODY } STEP; if (C) goto top; }`. Its population is small: 27 loops holding
+65 pins, because m2c writes most loops as `do`-while. It landed 1 row. The lint confirmed the guard
+and the bottom test carry the same condition.
+
+**Argconst lane (luna, `work/native_lane/argconst/`): 2 of 10.** Both are the same mechanism. A
+parameter copy assigned at the function top moves into the branch that uses it, after the
+allocation call's success check, and its keep goes:
+- `town/func_800BEE14`: `saved_angle = angle`; its `ASM_REG` stays.
+- `dungeon/func_8028C354`: `saved_render_param = render_param`.
+
+The shorter live range reproduces retail's order of the argument constants.
+
+The 8 unresolved rows stay at TOTAL 2. Constant propagation folds every literal-only argument, so a
+constant survives as its own producer only through a genuine non-constant use. The lane measured
+literals, macros, types, register hints, reuse and reordering on them. `tools/xform/t42_sinkcopy.py`
+generalizes the sink.
+
+It moves a pinned parameter copy to the start of the innermost block that holds every use, and
+refuses when the parameter or the copy is written anywhere else. Its unit test reproduced the lane's
+`dungeon/func_8028C354` edit. `town/func_800BEE14` did not reproduce: the lane had chosen a different
+branch there, and its own candidate lands. 125 of 1,468 pinned rows have a sinkable copy.
+First sweep: **9 rows**, each with the copy assigned exactly once. The first run was killed when the
+machine ran briefly low on memory, with other sessions on the box. It had applied nothing and
+written nothing, and it was resumed at 4 workers.
+
+**`tools/xform/t41c_gotoloop_greedy.py`: 38 rows, about 50 pins.** It builds an exact base (the goto
+form alone, or with the body's pins erased), then erases the function's remaining pins one at a
+time, body first and then nearest outside. It is the largest of the three goto-loop generators:
+most of the pins a goto loop frees sit outside its body, where `t41` never looked. The goto-loop
+family is 54 rows so far (15 + 1 + 38). The loops become `loop_N:` gotos, which is valid 1997 C and
+not scaffolding. The owner may prefer structured loops; each rewrite can be reverted from its
+journal.
+
 **Argmove, astra (last escalation): 1 of 3** (`work/native_lane/argmove_astra/REPORT.md`).
 
 `dungeon/func_8188E3A0` is exact at its current cell, 2.7.2-cdk-G0, with its `$4` pin off and

@@ -107,7 +107,7 @@ void func_8016E4E8(void *animation, s32 *origin, void *color)
     u8 *texture;
     u8 *src_vertices;
     u8 *dst_vertices;
-    register u8 *color_dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *color_dst;
     u8 *src_coord;
     u8 *dst_coord;
     s32 state;
@@ -208,13 +208,13 @@ outer_loop:
             ((S_8016E4E8_4 *)effect)->unk_0D = 0x80;
             ((S_8016E4E8_4 *)effect)->unk_0C = 0x80;
 
-            do {
+            loop_0: {
                 color_dst[0] = ((S_8016E4E8_1 *)color)->unk_0C;
                 color_dst[1] = ((S_8016E4E8_1 *)color)->unk_0D;
                 color_dst[2] = ((S_8016E4E8_1 *)color)->unk_0E;
                 color_index++;
                 color_dst += 4;
-            } while (color_index < 4);
+            } if (color_index < 4) goto loop_0;
 
             if (row == one) {
                 part[6] = 0;

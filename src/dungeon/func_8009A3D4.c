@@ -20,8 +20,7 @@ s32 func_8009FB34(s32 point_x, s32 point_y) {
         y = point_y & 0xFFFF;
         count = initial_count;
         record = D_800E2970;
-        do {
-            ASM_KEEP(record);
+        loop_0: {
             if ((*(s16 *)(record + 10) != 0) &&
                 (x >= *(volatile u16 *)(record + 0)) &&
                 ({
@@ -39,7 +38,7 @@ s32 func_8009FB34(s32 point_x, s32 point_y) {
             }
             index++;
             record += 20;
-        } while (index < count);
+        } if (index < count) goto loop_0;
     }
     return -1;
 }

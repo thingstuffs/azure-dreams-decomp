@@ -354,8 +354,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         ((S_800218E4_0 *)game)->unk_44 = -1;
         ((S_800218E4_0 *)game)->unk_00 = &D_80083780;
         ((S_800218E4_0 *)game)->unk_10 = (void *) (base_object + 0x10);
-        do {
-            ASM_KEEP(init_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        loop_1: {
             init_object = ((S_800218E4_2 *)init_slot)->unk_20;
             object_index -= 1;
             init_object_base = init_object;
@@ -368,7 +367,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
             object_motion->unk_14 = 0;
             ((S_800218E4_2 *)init_slot)->unk_14 = (void *) (init_object_base + 0x4A);
             init_slot -= 4;
-        } while (object_index >= 0);
+        } if (object_index >= 0) goto loop_1;
         ((S_800218E4_5 *)base_object)->unk_08 = 0;
         object_index = 3;
         init_flags = 0x10000000;

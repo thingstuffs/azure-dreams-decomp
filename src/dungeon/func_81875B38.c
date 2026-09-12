@@ -66,7 +66,7 @@ void func_81875B38(
     S_func_81875B38_1 *source_obj = source;
     s16 saved_property_34 = property_34;
     u32 saved_property_28 = property_28;
-    register s16 saved_property_52 ASM_REG("$20") = property_52;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s16 saved_property_52 ASM_REG("$20") ;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
     S_func_81875B38_2 *effect_ptr;
@@ -87,6 +87,7 @@ void func_81875B38(
 
     effect_ptr = func_8003FD64(0x211, source_obj);
     if (effect_ptr != NULL) {
+        saved_property_52 = property_52;
         effect_ptr->unk_10 = (s32)&D_80025278;
         x_jitter = rand() & 0x1F;
         effect_x = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_02;
@@ -123,7 +124,6 @@ void func_81875B38(
         ((S_func_81875B38_5 *)effect_ptr)->unk_32 = saved_property_52;
         ((S_func_81875B38_5 *)effect_ptr)->unk_34 = saved_property_52;
         func_8004491C(effect_obj, effect_config, z_dest);
-        ASM_KEEP(saved_property_52);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_func_81875B38_5 *)effect_ptr)->unk_48 = rand() + 0x10000;
         ((S_func_81875B38_5 *)effect_ptr)->unk_08 = saved_property_28;
     }

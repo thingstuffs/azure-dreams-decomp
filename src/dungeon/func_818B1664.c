@@ -141,7 +141,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     TargetInfo *target_info;
     Motion *source;
     register Motion *child_motion ASM_REG("$6");
-    register u8 *angle_update ASM_REG("$5");
+    u8 *angle_update;
     u8 *angle_clear;
     u8 *angle_build;
     u8 *effect_clear;
@@ -198,7 +198,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     ASM_KEEP(state);
     ASM_KEEP(motion);
     entity = state->entity;
-    do {
+    loop_0: {
         angle_raw = *(u16 *)(angle_update + 26) + (u16)state->angleStep;
         angle_signed = (s16)angle_raw;
         angle_adjusted = angle_signed;
@@ -207,7 +207,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
         *(u16 *)(angle_update + 26) = angle_raw;
         index--;
         angle_update -= 2;
-    } while (index >= 0);
+    } if (index >= 0) goto loop_0;
     {
         register u16 timer_value ASM_REG("$2");
 

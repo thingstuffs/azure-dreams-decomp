@@ -132,8 +132,8 @@ s32 func_80F90E88(void *object) {
     register s32 quad_ot_slot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 side;
     register s8 *base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u32 depth ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register S_80F90E88_5 *mode_ot_slot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 depth;
+    S_80F90E88_5 *mode_ot_slot;
     register WorkCell *endpoint ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 half_width;
     s32 left_offset;
@@ -243,7 +243,7 @@ draw_object:
     max_xy |= 0x8AD00000;
     max_xy &= upper_mask;
     max_xy |= 0x8AD0;
-    do {
+    loop_1: {
         point_addr = side * 8;
         screen_out = &screen_x;
         base = points;
@@ -284,7 +284,7 @@ draw_object:
             min_xy |= upper_coord;
         }
         side -= 1;
-    } while (side >= 0);
+    } if (side >= 0) goto loop_1;
     if (depth < 0x1E0U) {
         right_x = (s16) max_xy;
         left_x = (s16) min_xy;

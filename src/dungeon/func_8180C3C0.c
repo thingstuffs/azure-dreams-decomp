@@ -660,14 +660,14 @@ show_result:
             s32 object_index = 0;
             u8 *restore_scene = D_80083160;
             s16 *table_x = (s16 *)&D_8006CCD8;
-            do {
+            loop_7: {
                 register void *object ASM_REG("$16") =
                     ((S_800253C0_18 *)((void *)((object_index << 2) + (s32)sequence)))->unk_AC;
                 if (object != 0) {
                     register void *prim ASM_REG("$8") = ((S_800253C0_5_pre *)object)[-1].unk_00;
                     register void *child ASM_REG("$5") = ((S_800253C0_5_pre *)object)[-1].unk_04;
                     s32 index;
-                    register u8 *y_table ASM_REG("$2");
+                    u8 *y_table;
                     s32 effect_size;
                     s32 x;
                     s32 y;
@@ -691,7 +691,7 @@ show_result:
                         (s16)(z - 0x20), effect_size);
                 }
                 object_index++;
-            } while (object_index < 2);
+            } if (object_index < 2) goto loop_7;
             {
                 register s32 next_timer ASM_REG("$3");
                 next_timer = 64;

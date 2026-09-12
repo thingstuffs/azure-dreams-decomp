@@ -369,13 +369,13 @@ advance:
         ctrl->timer = 0;
         ctrl->state++;
         {
-            register Child **child_slot ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            Child **child_slot;
             u8 *global_page;
 
             index = 7;
             global_page = (u8 *)0x80080000;
             child_slot = &ctrl->children[1];
-            do {
+            loop_3: {
                 child = child_slot[6];
                 if (child != 0) {
                     s32 child_flags;
@@ -391,7 +391,7 @@ advance:
                 }
                 index--;
                 child_slot--;
-            } while (index >= 0);
+            } if (index >= 0) goto loop_3;
         }
         goto finish;
 

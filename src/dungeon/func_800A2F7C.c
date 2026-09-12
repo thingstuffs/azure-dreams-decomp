@@ -6,12 +6,11 @@ void func_800A86DC(s32 entry_index) {
 
     if (entry_index < 19) {
         ptr += entry_index * 4;
-        do {
-            ASM_KEEP(ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        loop_0: {
             entry_index++;
             *(s32 *)(ptr + 0x29C) = *(s32 *)(ptr + 0x2A0);
             ptr += 4;
-        } while (entry_index < 19);
+        } if (entry_index < 19) goto loop_0;
     }
     {
         u8 *page = (u8 *)0x80010000;

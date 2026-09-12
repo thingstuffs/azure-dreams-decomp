@@ -13,7 +13,7 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     s32 entry;
     s32 context;
     s32 count;
-    register s32 best_entry ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 best_entry;
     s32 best_value;
     s32 index;
     s32 value;
@@ -33,7 +33,7 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
     index = 0;
     best_entry = index;
     if (count > 0) {
-        do {
+        loop_0: {
             value = func_8001AB20(entry, context);
             if (value < best_value) {
                 best_entry = entry;
@@ -41,7 +41,7 @@ s32 func_8001AB74(s32 entries, s32 eval_context, s32 entry_count) {
             }
             index++;
             entry += 8;
-        } while (index < count);
+        } if (index < count) goto loop_0;
     }
 
     if (best_entry == 0) {

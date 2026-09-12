@@ -16,7 +16,7 @@ UA32 *func_80018B64(UA32 *buffer)
     u32 header_page;
     register UA32 *header ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     UA32 **entry_ptr;
-    register u8 *write_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *write_ptr;
     u8 *entry_list;
     u8 *state;
     u8 y;
@@ -40,7 +40,7 @@ UA32 *func_80018B64(UA32 *buffer)
     entry_ptr = (UA32 **)(entry_list + 0x29C);
     write_ptr = (u8 *)result + 4;
     if (*(UA32 **)(entry_list + 0x29C) != 0) {
-        do {
+        loop_0: {
             *(UA32 *)write_ptr = **entry_ptr;
             y = write_ptr[1];
             grid_row = (u8 *)((u32)(y * 0x14) + (u32)grid_rows);
@@ -50,7 +50,7 @@ UA32 *func_80018B64(UA32 *buffer)
             }
             entry_ptr++;
             write_ptr += 4;
-        } while (*entry_ptr != 0);
+        } if (*entry_ptr != 0) goto loop_0;
     }
     *(s32 *)write_ptr = 0;
     return result;

@@ -34,7 +34,7 @@ void func_800251A0(void *anim_state)
     s32 offset;
     s32 offset_delta;
     DungeonAnimSlot *setup_slot;
-    register DungeonAnimSlot *slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    DungeonAnimSlot *slot;
 
     slot_index = 1;
     setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
@@ -53,7 +53,7 @@ void func_800251A0(void *anim_state)
 
     slot_index = 1;
     slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
-    do {
+    loop_1: {
         offset_delta = func_800644B8(slot->field_50) >> 9;
         offset = slot->field_62;
         phase = (u16)slot->field_50;
@@ -69,7 +69,7 @@ void func_800251A0(void *anim_state)
         }
         slot_index += 1;
         slot = (DungeonAnimSlot *)((u8 *)slot + 2);
-    } while (slot_index < 9);
+    } if (slot_index < 9) goto loop_1;
 
 
     if ((s16)((S_800251A0_0 *)anim_state)->unk_02 <= 0) {

@@ -137,10 +137,10 @@ mode_two:
     }
     {
         s32 segment_index = 6;
-        register s32 gap_limit ASM_REG("$4") = 0x160;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 gap_limit = 0x160;
         register u8 *segment ASM_REG("$6") = (u8 *)effect + 0x24;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         register s32 next_offset ASM_REG("$7") = 0x2A;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        do {
+        loop_3: {
             u16 position = ((S_80024B20_3 *)segment)->unk_12.v;
             if (gap_limit < (((S_80024B20_4 *)((u8 *)effect + next_offset))->unk_12 - ((S_80024B20_3 *)segment)->unk_12.n)) {
                 ((S_80024B20_3 *)segment)->unk_12.n = position + (gap_limit + (gap_limit >> 1));
@@ -149,7 +149,7 @@ mode_two:
             segment -= 6;
             segment_index--;
             next_offset -= 6;
-        } while (segment_index >= 0);
+        } if (segment_index >= 0) goto loop_3;
     }
     if (((S_80024B20_2 *)effect)->unk_42.s < 8) {
         ((S_80024B20_2 *)effect)->unk_0C += (s32)0xFFF3F3F4;

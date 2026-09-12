@@ -152,7 +152,7 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     u8 *segment_data;
     void *position;
     register s32 vertex ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *vertex_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *vertex_color;
     void *render_data;
     s32 side;
     u8 *vertex_base;
@@ -284,13 +284,13 @@ interpolate_axis:
             ((S_80168C88_9 *)render_data)->unk_0D = 0x80;
             ((S_80168C88_9 *)render_data)->unk_0C = 0x80;
 
-            do {
+            loop_2: {
                 ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color)->unk_0C;
                 ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color)->unk_0D;
                 vertex += 1;
                 ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color)->unk_0E;
                 vertex_color += 4;
-            } while (vertex < 4);
+            } if (vertex < 4) goto loop_2;
 
             if (segment == 0) {
                 ((S_80168C88_4 *)segment_data)->unk_06 = 0;

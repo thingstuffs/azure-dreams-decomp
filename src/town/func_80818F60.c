@@ -137,7 +137,7 @@ void func_80022F60(void *arg0) {
     u8 *main_state = D_800834B8;
     s32 state;
     u16 timer;
-    register s32 two ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 two;
     void *obj;
     u8 *sprite;
     s32 *position;
@@ -212,7 +212,7 @@ void func_80022F60(void *arg0) {
         {
             u8 *motion = (u8 *)&D_80083780;
             u8 *loop_asset;
-            register s32 *table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 *table_base;
             s8 one;
             s16 flag_one;
             u8 *alloc_page;
@@ -257,7 +257,7 @@ void func_80022F60(void *arg0) {
                     table_base = D_80026F2C;
                     two = (s32)(table_base + 1);
                     main_state = (u8 *)0xB0;
-                    do {
+                    loop_0: {
                         obj = func_8003FD64(1, D_80083498);
                         if (obj != NULL) {
 
@@ -279,7 +279,7 @@ void func_80022F60(void *arg0) {
                         two -= 4;
                         secondary = (u8 *)((s32)secondary - 1);
                         main_state -= 0xC;
-                    } while ((s32)secondary >= 0);
+                    } if ((s32)secondary >= 0) goto loop_0;
 
                     obj = func_8003FC64(0x136);
                     if (obj != NULL) {
