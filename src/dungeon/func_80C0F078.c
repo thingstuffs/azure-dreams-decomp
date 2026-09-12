@@ -56,7 +56,7 @@ typedef struct S_8014C878_4 {
 } S_8014C878_4;   /* temp_s5 in func_8014C878 */
 
 /* Allocates an object and initializes its state, placement, and callbacks. */
-void *func_8014C878(s16 init_flags, s8 grid_x, s8 grid_y, s16 type_id)
+void *func_8014C878(s16 init_flags, s16 grid_x, s16 grid_y, s16 type_id)
 {
     s32 mode;
     s32 state_flags;
@@ -66,9 +66,9 @@ void *func_8014C878(s16 init_flags, s8 grid_x, s8 grid_y, s16 type_id)
     void *object;
     S_8014C878_4 *extended_state;
     S_8014C878_1 *state;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     register s16 saved_type;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
 
     state = 0;
     saved_x = grid_x;

@@ -126,9 +126,8 @@ void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 
                 ASM_KEEP_NV(product_hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
             {
-                register s32 fade_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register s16 fade_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 fade_value = (product_hi >> 3) - (fade_numerator >> 31);
-                ASM_KEEP_NV(fade_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 brightness = fade_value;
             }
         }

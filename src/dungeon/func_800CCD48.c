@@ -63,16 +63,16 @@ extern M2C_UNK D_800D28E4;
 extern M2C_UNK D_800E221C;
 
 /* Create a dungeon object at the given tile and initialize its sprite and tile flags. */
-void *func_800D24A8(s16 object_kind, u8 tile_x, u8 tile_y, s16 height) {
+void *func_800D24A8(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     M2C_UNK tile_flags;
     s16 saved_kind;
     S_800D24A8_3 *sprite;
     S_800D24A8_2 *position;
     void *object;
     S_800D24A8_0 *state;
-    register u8 saved_tile_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 saved_tile_x;
     s16 saved_height;
-    register u8 saved_tile_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 saved_tile_y;
     s32 kind;
     u8 flag_tile_x;
     u8 flag_tile_y;

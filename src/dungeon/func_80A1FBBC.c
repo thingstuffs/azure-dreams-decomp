@@ -174,7 +174,7 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                     register s32 draw_command ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     register s32 draw_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     u32 particle_color;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    register u16 draw_param ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    s32 draw_param;
 
                     random_offset %= ((S_801733BC_1 *)effect_state)->unk_A8.s + 0x60;
                     particle_render = 0x00040404;

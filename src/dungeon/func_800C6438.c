@@ -50,7 +50,7 @@ typedef struct S_800CBB98_4 {
 void *func_800CBB98(s32 tile_x, s32 tile_y, s16 height, void *owner) {
     s16 saved_height = height;
     S_800CBB98_3 *saved_owner = owner;
-    register s32 saved_tile_x ASM_REG("$17") = tile_x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 saved_tile_x = tile_x;
     register s32 saved_tile_y ASM_REG("$18") = tile_y;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_800CBB98_2 *sprite;
     S_800CBB98_0 *effect;

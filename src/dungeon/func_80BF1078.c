@@ -56,7 +56,7 @@ typedef struct S_8016A878_4 {
 } S_8016A878_4;   /* temp_s5 in func_8016A878 */
 
 /* Allocate and initialize an object with its placement, flags, and runtime state. */
-void *func_8016A878(s16 init_flags, s8 tile_x, s8 tile_y, s16 object_id)
+void *func_8016A878(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
 {
     s32 mode;
     s32 flags_14;
@@ -66,9 +66,9 @@ void *func_8016A878(s16 init_flags, s8 tile_x, s8 tile_y, s16 object_id)
     void *object;
     S_8016A878_4 *runtime;
     S_8016A878_1 *state;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     register s16 saved_id;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
 
     state = 0;
     saved_x = tile_x;

@@ -102,7 +102,7 @@ extern u8 D_8017586C[];
 extern u8 D_80175894[];
 
 /* Create an object with kind-dependent flags and initialize its three child objects. */
-void *func_8017087C(s16 kind_flags, s8 tile_x, s8 tile_y, s16 part_id)
+void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
@@ -112,9 +112,9 @@ void *func_8017087C(s16 kind_flags, s8 tile_x, s8 tile_y, s16 part_id)
     s32 entry_id_fixed;
     void *part_b;
     register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s8 saved_x ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_part_id;
-    register s8 saved_y ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     s32 setup_value;
     register s32 work_flags;
     register void *alloc_or_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -126,7 +126,6 @@ void *func_8017087C(s16 kind_flags, s8 tile_x, s8 tile_y, s16 part_id)
 
     work = 0;
     alloc_or_entry = (void *)274;
-    ASM_USE_NV(alloc_or_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_x = tile_x;
     saved_part_id = part_id;
     saved_y = tile_y;
@@ -198,7 +197,7 @@ init_parts:
             child_obj = func_8003FD64(274, D_80083498);
             ((S_8017087C_4 *)slot)->unk_A4 = child_obj;
             if (child_obj != 0) {
-                register void *child_work ASM_REG("$17") = (u8 *)child_obj + 0x20;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                void *child_work = (u8 *)child_obj + 0x20;
 
                 if (child_index != 0) {
                     ((S_8017087C_6 *)child_work)->unk_02 = 1;

@@ -50,7 +50,7 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
         Context *context = D_80083160;
         u32 length_mask = 0xFF000000;
         register Scratch *scratch ASM_REG("$17") = (Scratch *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register u32 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         register u32 green ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         register u32 blue ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 zero_arg;
@@ -94,7 +94,6 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
             pixel_command = 0x6A;
             *(s32 *)(prim + 4) = color;
             red = *(volatile u8 *)(prim + 4);
-            ASM_KEEP(red);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             green = *(volatile u8 *)(prim + 5);
             ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             blue = *(volatile u8 *)(prim + 6);

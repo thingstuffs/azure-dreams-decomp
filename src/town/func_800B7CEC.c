@@ -23,7 +23,7 @@ void *func_800B544C(void *output, void *object)
     register s32 copy_tail ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 raw_count;
     s32 pair_test;
-    s32 count;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 count;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 marker_page;
     u8 format_buf[64];
     s32 pair_count;
@@ -41,7 +41,6 @@ void *func_800B544C(void *output, void *object)
     strcat(output, func_8004E634(1, format_buf));
     raw_count = func_80043868(object);
     count = raw_count;
-    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     pair_test = (s16)raw_count / 2;
     if (pair_test > 0) {
         pair_index = 0;

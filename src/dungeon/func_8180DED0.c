@@ -49,17 +49,16 @@ extern s32 D_80083498;
 extern s32 D_800DF358;
 
 /* Creates a visual object with the given position and size. */
-void *func_80026ED0(s16 x, s16 y, s16 z, s16 size) {
+void *func_80026ED0(s16 x, s16 y, s16 z, s32 size) {
     void *object;
     S_80026ED0_1 *position;
     S_80026ED0_2 *render_data;
     S_80026ED0_3 *effect_data;
-    register s16 saved_size ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_size;
 
     saved_size = size;
 
     object = func_8003FD64(0x12, &D_80083498);
-    ASM_KEEP(saved_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (object != NULL) {
         ((S_80026ED0_0 *)object)->unk_10 = &D_80026E3C;
         func_8004491C(object, &D_80045340);

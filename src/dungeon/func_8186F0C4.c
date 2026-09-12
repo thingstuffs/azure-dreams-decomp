@@ -247,7 +247,7 @@ state1:
             u32 raw_timer = U8_AT(effect_data, 0x7B);
             s32 timer_copy;
             s32 duration_squared;
-            register u32 raw_reload ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register s16 raw_reload ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 timer_reload;
             s32 next_state;
 
@@ -259,13 +259,10 @@ state1:
             *(volatile s16 *)(effect_data + 0x82) = 0;
             raw_reload = *(volatile u8 *)(effect_data + 0x7B);
             next_state = U16_AT(effect_data, 0x0A);
-            ASM_KEEP(raw_reload);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             timer_reload = (s32)(raw_reload << 24) >> 24;
             next_state++;
             S16_AT(effect_data, 0x0A) = next_state;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             S16_AT(effect_data, 0x88) = timer_reload;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             S16_AT(effect_data, 0x8A) = duration_squared;
         }
         goto done;

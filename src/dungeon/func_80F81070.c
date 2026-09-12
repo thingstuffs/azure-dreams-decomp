@@ -61,7 +61,7 @@ extern u8 D_80150194[];
 extern u8 D_801501DC[];
 
 /* Creates an actor and initializes its parts and flags for the requested kind. */
-void *func_8014C870(s16 kind_flags, s8 grid_x, s8 grid_y, s16 part_value)
+void *func_8014C870(s16 kind_flags, s16 grid_x, s16 grid_y, s16 part_value)
 {
     s32 kind;
     S_8014C870_1 *work;
@@ -70,7 +70,7 @@ void *func_8014C870(s16 kind_flags, s8 grid_x, s8 grid_y, s16 part_value)
     S_8014C870_3 *part_b;
     S_8014C870_4 *actor;
     void *init_obj;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_value;
     s8 saved_y;
     s32 flags_14;
@@ -80,7 +80,6 @@ void *func_8014C870(s16 kind_flags, s8 grid_x, s8 grid_y, s16 part_value)
     saved_x = grid_x;
     saved_value = part_value;
     saved_y = grid_y;
-    ASM_KEEP_NV(saved_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (void *)((Work *)((u8 *)obj + 0x20));

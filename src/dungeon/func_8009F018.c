@@ -14,7 +14,7 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
     s32 y_distance;
     register s32 center_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 probe_coord;
-    register s32 source_z ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 source_z;
     s32 center_y;
     s32 x_offset;
     s32 x_step;

@@ -81,7 +81,7 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
     s32 temp_ret;
     s32 temp_v1;
     s32 var_v0;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s16 result;
     void *temp_model;
     void *temp_tag;
     S_818B7BD0_1 *temp_s0;

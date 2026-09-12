@@ -53,14 +53,14 @@ typedef struct S_800BBA40_3 {
 } S_800BBA40_3;   /* var_v1 in func_800BBA40 */
 
 /* Creates an effect at the tile center and initializes its rendering and five angles. */
-void *func_800BBA40(s32 tile_x, s32 tile_y, s16 pos_z, M2C_UNK transform_data, s32 scale, s32 setup_word_5c, s32 setup_word_60) {
+void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s32 scale, s32 setup_word_5c, s32 setup_word_60) {
     s32 call_data[2];
     s16 angle;
     void *effect;
     S_800BBA40_1 *position;
     S_800BBA40_2 *render_data;
     s32 held_tile_x = tile_x;
-    register s16 held_pos_z ASM_REG("$21") = pos_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 held_pos_z = pos_z;
     register M2C_UNK held_transform ASM_REG("$22") = transform_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *setup_base;
 
@@ -86,7 +86,6 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s16 pos_z, M2C_UNK transform_data, s
         render_data->unk_0C = 0x808080;
         render_data->unk_06 = 8;
         func_8003DB94(effect + 0x2C, held_transform, 0);
-        ASM_KEEP(held_pos_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_transform);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         setup_base = effect + 0x20;
         ASM_KEEP(setup_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

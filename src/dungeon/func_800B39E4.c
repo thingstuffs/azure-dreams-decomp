@@ -249,15 +249,14 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
             S32(scratch, 0xC) <<= 8;
 
             {
-                register s32 clut ASM_REG("$2");
+                s32 clut;
                 s32 clut_offset = U16(sprite, 0x12);
                 if (clut_offset != 0) {
                     if (U16(scratch, 0x24) & 0x100) {
                         U16(packet, 0x0E) = clut_offset;
                     } else {
                         clut = U16(part, 6);
-                        clut = clut_offset + clut;
-                        U16(packet, 0x0E) = clut;
+                        U16(packet, 0x0E) = clut_offset + clut;
                     }
                 } else {
                     clut = U16(part, 6);
@@ -281,7 +280,7 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
                 U16(packet, 0x16) = tex_page;
             }
             {
-                register s32 edge_work ASM_REG("$2");
+                s16 edge_work;
                 s32 uv_work;
                 register s32 right_u ASM_REG("$4");
                 register s32 left_x ASM_REG("$5");

@@ -52,7 +52,7 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
                     volatile s32 part_b_value)
 {
     s32 saved_mode;
-    register s32 saved_byte_24 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_byte_24;
     long value_or_part_b;
     long byte_or_work;
     s32 alloc_code;

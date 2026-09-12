@@ -75,7 +75,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
     s32 saved_x;
     s32 height_or_sprite;
     register s32 y_or_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 init_flags ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 init_flags;
     void *object;
     register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 mode_or_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

@@ -138,7 +138,7 @@ void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 saved_arg3;
     s16 saved_arg2;
     register s32 saved_arg0 = (s32)arg0;
-    register s32 original_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 original_arg0;
     void *call_a0;
     void *call_a1;
     s32 kind;

@@ -225,7 +225,7 @@ void func_80025374(State *state_arg, Vec12 *position_arg, Graphic *graphic_arg)
 initialize:
     {
         D_80020000Page *page;
-        register s32 next_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 next_state;
         register u32 flags_or_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         u16 source_z;
 
@@ -236,8 +236,7 @@ initialize:
         page = (D_80020000Page *)0x80020000;
         ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         flags_or_result = entity->flags2A;
-        next_state = 1;
-        page->flag5924 = next_state;
+        page->flag5924 = 1;
         next_state = *(u16 *)&state->stateA;
         flags_or_result = (flags_or_result >> 9) & 7;
         next_state++;

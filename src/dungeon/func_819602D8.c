@@ -54,10 +54,9 @@ void func_819602D8(s16 center_x, s32 center_y) {
     *D_8002744D = center_y;
 row_loop:
     {
-        register u32 row_center_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u16 row_center_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 shifted_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         row_center_x = saved_center_x.h;
-        ASM_KEEP_NV(row_center_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         col = 0;
         shifted_y = tile_y << 16;
         signed_y = shifted_y >> 16;

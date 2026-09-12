@@ -77,7 +77,7 @@ void func_80173904(
     register s32 angle_work ASM_REG("$19");
     s32 initial_angle;
     register void *source;
-    register u16 depth_delta ASM_REG("$23");
+    s32 depth_delta;
     S_80173904_2 *display;
     S_80173904_0 *state;
     void *object;

@@ -93,7 +93,7 @@ void func_8016E4E8(void *animation, s32 *origin, void *color)
     register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u16 effect_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 tick_count;
-    register u16 frame_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 frame_count;
     register s32 color_index;
     s32 vertex_index;
     s32 axis;

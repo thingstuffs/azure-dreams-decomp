@@ -100,10 +100,10 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
     S_func_800D8728_2 *monster = monster_data;
     register S_func_800D8728_0 *actor ASM_REG("$18");
     s16 previous_direction;
-    register s32 direction_sector ASM_REG("$2");
-    register s32 state_direction ASM_REG("$16");
+    s32 direction_sector;
+    s32 state_direction;
     register s32 lookup_direction ASM_REG("$21");
-    register s32 compare_direction ASM_REG("$4");
+    s16 compare_direction;
     s16 floor_height;
     u16 model_flags;
 
@@ -147,7 +147,7 @@ void func_800D8728(void *entity_data, void *motion_data, void *monster_data)
         if (entity->unk_94 != compare_direction) {
             void *direction_table = monster->unk_2C;
             if (direction_table != 0) {
-                register s32 direction_offset ASM_REG("$2") = (s16)compare_direction * 4;
+                s32 direction_offset = (s16)compare_direction * 4;
                 func_8003DB94(monster,
                               *(void **)(direction_offset + (s32)direction_table),
                               monster->unk_04);

@@ -78,7 +78,7 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
     s32 target_x;
     s32 candidate_heading;
     s16 target_heading;
-    register M2C_UNK direction_or_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 direction_or_x;
     s32 next_y;
     s32 room_cache;
     s32 turn_flags;

@@ -66,7 +66,7 @@ extern M2C_UNK D_800DE870;
 /* Creates an effect with randomized position offsets and initializes its rendering state. */
 void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s32 offset_x, s32 offset_y, s32 offset_z) {
     s32 jitter;
-    register s32 world_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 world_coord;
     s32 jittered_coord;
     s32 origin_coord;
     s16 random_size;

@@ -55,7 +55,7 @@ extern u8 D_8015BC7C[];
 extern u8 D_8015BCDC[];
 
 /* Create an object, configure its parts and mode flags, and return its work area. */
-void *func_80158854(s16 mode_flags, s8 attribute_24, s8 attribute_25, s16 attribute_0a)
+void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attribute_0a)
 {
     s32 kind;
     void *obj;
@@ -65,9 +65,9 @@ void *func_80158854(s16 mode_flags, s8 attribute_24, s8 attribute_25, s16 attrib
     S_80158854_4 *actor;
     s32 flags_or_result;
     s32 secondary_flags;
-    register s8 saved_attribute_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_attribute_24;
     s16 saved_attribute_0a;
-    register s8 saved_attribute_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_attribute_25;
     void *object_arg;
     register void *part_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's

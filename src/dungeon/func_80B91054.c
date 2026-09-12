@@ -56,7 +56,7 @@ extern M2C_UNK D_8014CE5C;
 extern u8 D_8014FD0C[];
 extern u8 D_8014FD4C[];
 
-void *func_8014C854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     S_8014C854_1 *work = 0;
@@ -78,7 +78,6 @@ void *func_8014C854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     saved_arg1 = arg1;
     saved_arg2 = arg2;
     saved_arg3 = arg3;
-    ASM_KEEP_DEP_NV(saved_arg2, saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

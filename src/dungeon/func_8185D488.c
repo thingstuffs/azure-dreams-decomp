@@ -378,15 +378,13 @@ advance:
             do {
                 child = child_slot[6];
                 if (child != 0) {
-                    u16 child_flags;
-                    register u32 global_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    s32 child_flags;
+                    s32 global_flags;
 
                     child_flags = child->flags;
-                    ASM_KEEP(child_flags);
                     global_flags = *(u32 *)(global_page + 0x14A0);
                     child_flags |= 0x8000;
                     global_flags |= 0x8000;
-                    ASM_KEEP(global_flags);
                     child->flags = child_flags;
                     *(u32 *)(global_page + 0x14A0) = global_flags;
                     child_slot[6] = 0;

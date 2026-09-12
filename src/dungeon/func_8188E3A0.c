@@ -98,7 +98,7 @@ void func_80025BA0(void) {
     s32 right_y;
     s32 below_y;
     s32 diagonal_y;
-    register s32 effect_or_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 effect_or_x;
     s32 right_z;
     s32 below_z;
     s32 diagonal_z;
@@ -117,8 +117,7 @@ void func_80025BA0(void) {
             SET_COUNT_PAGE();
             if (effect != NULL) {
                 effect_or_x = (s32)effect;
-                addr_or_coord = (s32)D_800255E8;
-                effect->unk_10 = (void *)addr_or_coord;
+                effect->unk_10 = D_800255E8;
                 func_8004491C((void *)effect_or_x, D_800259DC);
 
                 row_start = quad_index & ~0xF;

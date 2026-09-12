@@ -284,7 +284,7 @@ case_1_entry:
             ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             {
                 register u16 position_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                register u16 offset_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 offset_z;
 
                 position_z = position->unk_08.parts_0A.unk_0A.u16;
                 offset_z = (u16)DELTA(2);

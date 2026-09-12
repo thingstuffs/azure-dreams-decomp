@@ -60,11 +60,12 @@ void func_801721A4(S_801721A4_1 *arg0, void *arg1, S_801721A4_2 *arg2, S_801721A
     if (!(D_80083462 & 0x2000) &&
         ((func_800A2BDC(arg3) << 16) == 0)) {
         if (arg3->unk_1C & 0x400) {
-            register s32 link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 link;
 
             link = arg3->unk_14;
-            if (link >= 0) {
-                arg3->unk_14 = link | 0x80000000;
+            if (!(link & 0x80000000)) {
+                link |= 0x80000000;
+                arg3->unk_14 = link;
                 arg3->unk_2A.s +=
                     (func_800A6D30() & 7) << 9;
             }

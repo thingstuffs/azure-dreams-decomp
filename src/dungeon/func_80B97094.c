@@ -56,14 +56,14 @@ extern void func_80174F00(void);
 extern s32 D_80045340;
 extern u8 D_80083498[];
 
-void *func_80170894(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_80170894(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     void *work;
     s16 saved_arg3;
     s32 saved_arg0;
     void *obj;
-    register s8 saved_arg2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg2;
     register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *part_a;
     s16 original_arg0;

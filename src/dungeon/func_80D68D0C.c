@@ -161,7 +161,7 @@ state_0:
     }
     {
         register u16 state_or_height ASM_REG("$2") = ((S_8017450C_0 *)state)->unk_9B;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u16 height_offset ASM_REG("$5") = ((S_8017450C_0 *)state)->unk_90.at02.v;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 height_offset = ((S_8017450C_0 *)state)->unk_90.at02.v;
         s32 *sound_flags = &D_800E296C;
         s32 sound_bits;
 

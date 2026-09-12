@@ -144,11 +144,10 @@ retry_position:
             }
 
             if (retries_left >= 0) {
-                s32 spawn_type;
+                s16 spawn_type;
 
                 D_800E2968 = 1;
                 spawn_type = monster_type;
-                ASM_KEEP_NV(spawn_type);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 monster = func_800A0B94(spawn_type, spawn_availability, 1)
                     (0, (u8)spawn_x, (u8)y, -0x400);
                 if (monster != 0) {

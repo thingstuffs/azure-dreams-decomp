@@ -51,7 +51,7 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
     s16 move_result;
     s32 x;
     s32 y;
-    register u16 control_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 control_flags;
 
     if (((S_8017139C_0 *)state)->unk_71.s <= 0) {
         return;

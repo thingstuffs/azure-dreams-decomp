@@ -42,7 +42,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
     StackU16 collision;
     u16 saved_offset;
     s16 monster_index;
-    register s32 floor_height ASM_REG("$18");
+    register s16 floor_height ASM_REG("$18");
     s32 target_height;
     u32 direction_bits;
     u8 *x_steps;
@@ -143,10 +143,9 @@ collision_clear:
                             target_x_u16 = target_x & 0xFFFF;
                             if (collision.value & 0x40) {
                                 {
-                                    s32 sample_x;
+                                    u16 sample_x;
                                     register u32 sample_offset ASM_REG("$8");
                                     sample_x = target_x_u16;
-                                    ASM_KEEP_NV(sample_x);
                                     target_y_u16 = coord_work & 0xFFFF;
                                     ASM_USE(target_y_u16);
                                     sample_offset = saved_offset;
@@ -179,7 +178,6 @@ move_failed:
                             floor_height = func_800BCB04(target_x & 0xFFFF, coord_work & 0xFFFF,
                                                         (s16)(height - sample_offset));
                         }
-                        ASM_KEEP_NV(floor_height);
                         coord_or_height = floor_height << 0x10;
 check_height:
                         result = -1;

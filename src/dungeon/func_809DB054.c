@@ -55,7 +55,7 @@ extern u8 D_80161C7C[];
 extern u8 D_80161CDC[];
 
 /* Creates an actor, configures its parts and flags, and returns its work data. */
-void *func_8015E854(s16 flags, s8 x, s8 y, s16 part_id)
+void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
 {
     s32 kind;
     void *obj;
@@ -65,9 +65,9 @@ void *func_8015E854(s16 flags, s8 x, s8 y, s16 part_id)
     S_8015E854_4 *actor;
     s32 flag_bits;
     s32 secondary_flags;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_part_id;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *init_obj;
     register void *query_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's

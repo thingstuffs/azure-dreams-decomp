@@ -143,7 +143,7 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
     s16 vertex_x;
     s16 vertex_y;
     s32 signed_flags;
-    register u8 primitive_flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 primitive_flags;
     u8 *primitive_check;
     u8 **primitive_ref;
     u8 *next_batch;

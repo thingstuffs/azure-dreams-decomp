@@ -78,7 +78,7 @@ extern void func_80041094();
 /* Draws randomized vertical streaks and advances the object's motion and fade sequence. */
 void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect) {
     StackData draw_data;
-    s32 use_alt_buffer;
+    s16 use_alt_buffer;
     u32 buffer_diff;
     RenderState **render_state_slot;
     RenderState *render_state;
@@ -128,7 +128,6 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
                     prim->fieldE = bottom_y;
                     prim->fieldA -= 0xE0;
                 }
-                ASM_USE_NV(use_alt_buffer);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             }
             prim->field4 = 0;
             func_800667BC(prim);

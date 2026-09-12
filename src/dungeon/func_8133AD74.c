@@ -482,12 +482,11 @@ jt_c17:
             ((S_80171D74_3 *)motion_in)->unk_04.at00.v = pos_y + vel_y;
         }
         {
-            u16 height_offset;
+            s32 height_offset;
             u16 next_frame;
             height_offset = ((S_80171D74_1 *)state_in)->unk_92.u;
             next_frame = ((S_80171D74_1 *)state_in)->unk_96;
             height_offset = height_offset - 2;
-            ASM_KEEP_NV(height_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             next_frame = next_frame + 1;
             arc_frame = next_frame;
             ((S_80171D74_1 *)state_in)->unk_96 = arc_frame;

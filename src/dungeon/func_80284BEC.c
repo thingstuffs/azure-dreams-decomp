@@ -45,7 +45,7 @@ s32 func_80017BEC(s16 region_id) {
     } cursor;
     s16 *x_step;
     s16 *y_step;
-    register s16 next_y ASM_REG("$5");
+    s32 next_y;
     register s16 next_x ASM_REG("$6");
     s32 direction;
     s16 next_direction;

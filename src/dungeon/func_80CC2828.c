@@ -63,7 +63,7 @@ void func_80176028(void *owner_data, s32 unused, void *entry_data, void *work_da
     u8 *work = work_data;
     register s32 state = owner[0x9B];
     register u8 *actor = *(u8 **)(work + 0x60);
-    register s32 type_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 type_check;
 
     if (state == 1) {
         goto state_1;

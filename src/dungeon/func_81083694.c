@@ -225,10 +225,9 @@ case_9:
         if (F(stats, u32, 0x1C) & 0x400) {
             register s32 turn_flags ASM_REG("$2") = F(stats, s32, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (turn_flags >= 0) {
-                register void *random_actor ASM_REG("$4") = actor;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                register void *random_context ASM_REG("$5") = context;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                turn_flags = (u32)turn_flags | 0x80000000;
-                F(stats, u32, 0x14) = turn_flags;
+                void *random_actor = actor;
+                void *random_context = context;
+                F(stats, u32, 0x14) = (u32)turn_flags | 0x80000000;
                 F(stats, u16, 0x2A) +=
                     (func_800A6D30(random_actor, random_context) & 7) << 9;
             }

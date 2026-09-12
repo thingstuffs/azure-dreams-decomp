@@ -26,7 +26,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     long v_s4;
     u8 *v_s3;
     u8 *v_s6;
-    register s32 v_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 v_s7;
     s32 alloc_kind;
     register u8 *alloc_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 callback_page;

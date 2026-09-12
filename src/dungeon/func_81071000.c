@@ -91,7 +91,7 @@ __asm__(".globl func_81071000\n"
 #endif
 
 /* Allocate a dungeon object and initialize its placement, flags, and behavior. */
-FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s8 x, s8 y, s16 config_value) {
+FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 config_value) {
     S_FUNC_81071000_BODY_1 *object_state;
     s32 mode_or_roll;
     u16 state_flags;
@@ -99,9 +99,9 @@ FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s8 x, s8 y, s16 con
     S_FUNC_81071000_BODY_2 *config;
     S_FUNC_81071000_BODY_4 *behavior;
     void *object;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_config_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *init_object;
     void *init_config;
 

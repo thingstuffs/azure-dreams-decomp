@@ -78,7 +78,7 @@ void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s32 offse
     register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_offset_z = offset_z;
     register s32 color_component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u16 sprite_flags;
+    s32 sprite_flags;
     S_80166204_2 *sprite;
     S_80166204_1 *effect_state;
     void *effect;
@@ -112,7 +112,6 @@ void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s32 offse
         sprite->unk_12 = 0x7DCF;
         sprite_flags = sprite->unk_14.s & 0xFFF3;
         sprite_flags |= 2;
-        ASM_KEEP_NV(sprite_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         sprite->unk_14.u = sprite_flags;
         sprite_flags |= 0x100;
         sprite->unk_14.s = sprite_flags;

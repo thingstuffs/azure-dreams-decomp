@@ -171,7 +171,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     void *var_v1;
     register u8 *page ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 idx0;
-    register s32 idx1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s16 idx1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 idx1_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *entry_ptr;
     register S_800E3E48 *entries ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -236,7 +236,6 @@ loop_1:
     (*(S_800E3E48 *)((u8 *)var_t6 + 0)) =
         (*(S_800E3E48 *)((u8 *)var_t4 + 0x2260));
     idx1 = ((S_80094988_2 *)var_t3)->unk_224C;
-    ASM_KEEP(idx1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (idx1 != ff) {
         idx1_copy = idx1;
         entry_ptr = (void *)((u32)(idx1_copy * sizeof(S_800E3E48)) +

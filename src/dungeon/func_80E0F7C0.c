@@ -191,10 +191,9 @@ apply_effect:
 
         (*(volatile u16 *)((u8 *)anim + 0x98)) &= 0xFF7F;
         {
-            s32 special_flag;
+            s16 special_flag;
 
             special_flag = is_special;
-            ASM_KEEP(special_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (special_flag != 0) {
                 effect = D_800814A8[0];
                 ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = effect;
@@ -285,8 +284,6 @@ shrink_sprite:
     ((S_80172FC0_0 *)anim)->unk_A0 = func_80175858(anim, transform, sprite);
     {
         s16 *camera_data;
-#ifndef NON_MATCHING
-#endif
         s32 direction;
         u8 frame;
         void *model_root;

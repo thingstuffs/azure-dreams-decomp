@@ -55,7 +55,7 @@ extern u8 D_80150C3C[];
 extern u8 D_80150C8C[];
 
 /* Creates an actor and initializes its parts and flags for the selected kind. */
-void *func_80ABF07C(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
+void *func_80ABF07C(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     s32 kind;
     void *obj;
@@ -65,9 +65,9 @@ void *func_80ABF07C(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
     S_80ABF07C_4 *actor;
     s32 flags_or_roll;
     s32 state_flags;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *init_obj;
     void *init_part;
 

@@ -27,7 +27,7 @@ s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     s16 count;
     s16 c2;
     s16 c3;
-    register s32 mod ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 mod;
     s16 r;
     s32 dir;
     s32 zero;

@@ -246,7 +246,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     s32 event_flags;
     s32 item_word;
     s32 use_item;
-    register s32 use_item_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 use_item_test;
     s32 message_end;
     s32 save_slot;
     u8 command;

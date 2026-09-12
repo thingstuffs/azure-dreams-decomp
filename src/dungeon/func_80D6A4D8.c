@@ -304,7 +304,7 @@ state_6:
         s16 *floor_stats;
         register u8 map_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         s32 visit_count;
-        register u16 floor_count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 floor_count;
 
         scene_page = (u8 *)0x80080000;
         ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

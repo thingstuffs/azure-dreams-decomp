@@ -98,7 +98,7 @@ void func_80026010(void) {
     s32 upper_right_y;
     s32 lower_left_y;
     s32 lower_right_y;
-    register s32 object_or_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 object_or_x;
     s32 upper_right_z;
     s32 lower_left_z;
     s32 lower_right_z;
@@ -117,8 +117,7 @@ void func_80026010(void) {
             SET_COUNT_PAGE();
             if (fragment != NULL) {
                 object_or_x = (s32)fragment;
-                addr_or_coord = (s32)D_80025A58;
-                fragment->unk_10 = (void *)addr_or_coord;
+                fragment->unk_10 = D_80025A58;
                 func_8004491C((void *)object_or_x, D_80025E4C);
 
                 row_start = quad_index & ~0xF;

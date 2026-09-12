@@ -106,11 +106,10 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
         register s32 segment ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
         {
-            register s32 band_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s16 band_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 band_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             band_raw = band;
-            ASM_KEEP_NV(band_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             segment = 0;
             band_shifted = band_raw << 16;
             band_index = band_shifted >> 16;
@@ -230,7 +229,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
                 {
                     register s32 scaled_trig ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    s32 end_radius_copy;
+                    s16 end_radius_copy;
                     void *render_data;
                     s32 trig_angle;
                     s32 vertex_coord;
@@ -252,7 +251,6 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     ((S_80C96F24_1 *)effect_data)->unk_4A = vertex_coord;
                     trig_value = func_80064584(end_angle);
                     end_radius_copy = end_radius;
-                    ASM_KEEP_NV(end_radius_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     scaled_trig = end_radius_copy * trig_value;
                     vertex_coord = scaled_trig >> 12;
                     ((S_80C96F24_1 *)effect_data)->unk_50 = vertex_coord;

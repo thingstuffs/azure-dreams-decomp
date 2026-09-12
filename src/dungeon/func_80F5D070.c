@@ -57,7 +57,7 @@ extern u8 D_80174194[];
 extern u8 D_801741DC[];
 
 /* Allocates an object, initializes its parts and actor state, and returns its work area. */
-void *func_80170870(s16 kind_flags, s8 x, s8 y, s16 part_value)
+void *func_80170870(s16 kind_flags, s16 x, s16 y, s16 part_value)
 {
     s32 kind;
     void *obj;
@@ -67,9 +67,9 @@ void *func_80170870(s16 kind_flags, s8 x, s8 y, s16 part_value)
     S_80170870_4 *actor;
     register s32 primary_flags;
     register s32 secondary_flags;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     register void *init_obj;
     register void *init_part;
 

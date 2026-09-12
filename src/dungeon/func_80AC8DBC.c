@@ -85,7 +85,7 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
     register void *next_link ASM_REG("$2") = ((S_801745BC_0 *)head)->unk_5C;
     void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
     s32 match_y;
-    register s32 height_arg ASM_REG("$7") = target_height;
+    u16 height_arg = target_height;
     register s32 center_height ASM_REG("$20");
     register s32 height_shifted ASM_REG("$2");
 

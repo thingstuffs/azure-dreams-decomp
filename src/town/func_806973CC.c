@@ -15,8 +15,6 @@ extern M2C_UNK D_8001A0A1;
 M2C_UNK *func_806973CC(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
     M2C_UNK *temp_s3;
     M2C_UNK *var_v0;
-#ifndef NON_MATCHING
-#endif
 
     temp_s3 = func_80017BDC(&D_80018974, &D_80018AD0, arg0, arg2);
     var_v0 = temp_s3;

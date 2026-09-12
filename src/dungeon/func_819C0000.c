@@ -69,7 +69,7 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     s16 column;
     s16 row;
     s16 next_tick;
-    u16 move_ticks;
+    s32 move_ticks;
     s32 anim_ticks;
     LocalPoint *point;
 
@@ -146,7 +146,6 @@ state_zero:
         anim_ticks = U16_AT(effect_in, 0x32);
         move_ticks--;
         anim_ticks++;
-        ASM_KEEP_NV(move_ticks);
         VU16_AT(effect_in, 0x32) = anim_ticks;
         anim_ticks = (anim_ticks << 16) >> 16;
         VU16_AT(effect_in, 0x30) = move_ticks;

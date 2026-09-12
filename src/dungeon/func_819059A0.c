@@ -31,7 +31,7 @@ void func_800251A0(void *anim_state)
     register u16 ticks_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *active_flag;
     u16 phase;
-    register u16 offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 offset;
     s32 offset_delta;
     DungeonAnimSlot *setup_slot;
     register DungeonAnimSlot *slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

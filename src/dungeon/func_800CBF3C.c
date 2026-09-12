@@ -14,7 +14,7 @@ extern s32 func_800448BC(s32 x, s32 y);
 /* Appends a coordinate record with a value or sentinel if capacity and the position check allow. */
 void func_800D169C(s32 x, s32 y, s32 value, s32 store_value)
 {
-    register s32 record_x ASM_REG("$16") = x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 record_x = x;
     register s32 record_y ASM_REG("$17") = y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     Record *record;
     volatile u16 *counter_page;

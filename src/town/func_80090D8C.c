@@ -215,8 +215,8 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
 
                             if (func_8008CE08(quad_scratch) != 0) {
                                 {
-                                    register s32 vertex_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                                    register s32 normal_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                                    s16 vertex_coord;
+                                    s32 normal_x;
                                     height = ((normal_x = scratch->planes[*(u16 *)(flags_ptr - 6)].x) * ((vertex_coord = vertices[record->vertex0].x) - (s16)scratch->x)
                                            + scratch->planes[*(u16 *)(flags_ptr - 6)].z * ((vertex_coord = vertices[record->vertex0].z) - (s16)scratch->z)
                                            + scratch->planes[*(u16 *)(flags_ptr - 6)].y * vertices[record->vertex0].y) / scratch->planes[*(u16 *)(flags_ptr - 6)].y;

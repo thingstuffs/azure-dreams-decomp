@@ -248,7 +248,7 @@ set_target_velocity:
     } else {
         register s32 probe_y_dest_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u16 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u16 *x_step_ptr;
         register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -328,7 +328,6 @@ set_path_destination:
             ((S_80024660_8 *)destination)->unk_00.at02.v = probe_y_dest_x;
             probe_y_dest_x = (s16) probe_y_dest_x;
             saved_tile_y = scratch.saved_y;
-            ASM_KEEP(saved_tile_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             probe_x_dest_y = ((s32) (saved_tile_y << 0x10));
             probe_x_dest_y = (probe_x_dest_y >> 0xA) + ((edge_steps[(s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E] + 1) << 5);
             ((S_80024660_8 *)destination)->unk_04.at02.v = probe_x_dest_y;

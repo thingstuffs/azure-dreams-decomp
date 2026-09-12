@@ -112,7 +112,7 @@ s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *ti
             }
         }
         {
-            register s32 dispatch_result ASM_REG("$2") = (s32)effect;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            s16 dispatch_result = (s32)effect;
 
             ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_80174438();

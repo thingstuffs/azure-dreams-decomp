@@ -228,7 +228,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
         register s32 height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 frame_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         register s32 coord_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        u16 coord_half;
+        s32 coord_half;
         register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         SignedProduct product;
 
@@ -250,7 +250,6 @@ build_y_pairs:
             return func_800F83EC(vertex_ptr, saved_a1, saved_a2, vertex_pair);
         }
         coord_half = coord_work + 0x20;
-        ASM_KEEP(coord_half);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
         pair_addr = stack.sp18;
         coord_half = ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v;

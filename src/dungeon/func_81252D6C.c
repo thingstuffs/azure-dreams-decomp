@@ -113,7 +113,7 @@ void func_8017256C(void *action_data, void *motion_data, void *sprite_data, void
     s32 kind;
     u32 kind_index;
     u16 ticks;
-    u16 next_ticks;
+    s32 next_ticks;
     u8 *target_link;
 
     ASM_KEEP(action);
@@ -264,7 +264,6 @@ state1:
     func_800A56E0(0x703);
     ticks = ((S_8017256C_0 *)action)->unk_96;
     next_ticks = ticks + 1;
-    ASM_KEEP(next_ticks);
     ((S_8017256C_0 *)action)->unk_96 = next_ticks;
     if ((s16)ticks < 8 && !(((S_8017256C_4 *)sprite)->unk_14 & 0x8000)) {
         return;
@@ -278,7 +277,6 @@ state2:
     if (((S_8017256C_0 *)action)->unk_A2 != 0) {
         ticks = ((S_8017256C_0 *)action)->unk_96;
         next_ticks = ticks + 1;
-        ASM_KEEP(next_ticks);
         ((S_8017256C_0 *)action)->unk_96 = next_ticks;
         if ((s16)ticks < 15 && !(((S_8017256C_4 *)sprite)->unk_14 & 0x8000)) {
             return;
@@ -298,7 +296,6 @@ state3:
     func_80170E18(action, motion, sprite, actor);
     ticks = ((S_8017256C_0 *)action)->unk_96;
     next_ticks = ticks + 1;
-    ASM_KEEP(next_ticks);
     ((S_8017256C_0 *)action)->unk_96 = next_ticks;
     if ((s16)ticks < 3 && !(((S_8017256C_4 *)sprite)->unk_14 & 0xE000)) {
         return;
@@ -313,7 +310,6 @@ state4:
     ((S_8017256C_4 *)sprite)->unk_14 |= 0x800;
     ticks = ((S_8017256C_0 *)action)->unk_96;
     next_ticks = ticks + 1;
-    ASM_KEEP(next_ticks);
     ((S_8017256C_0 *)action)->unk_96 = next_ticks;
     if ((s16)ticks < 10 && !(((S_8017256C_4 *)sprite)->unk_14 & 0x8000)) {
         return;

@@ -393,6 +393,111 @@ Fifth round (one gate): **84 pins**; 68 windows MATCH, SLUS SHA-1 MATCH; census 
 The scan is keyed on each row's text hash and resumes itself, so it only rescans rows whose text
 changes.
 
+**Prologue parameter copies are typed one width too narrow (`tools/xform/t36_paramwidth.py`).**
+The atlas residue map, clustered by signature over the 4,841 pins in rows unchanged since the atlas
+ran, has its two largest clusters in the prologue:
+- 67 rows: `move $s6,$a1` plus the save `sw $s6,0x28($sp)`;
+- 60 rows: `move $s2,$a3` plus `sw $s2,0x18($sp)`.
+
+The whole prologue-reorder family is 237 pins in 129 functions, 182 of them on m2c's pinned
+copies of parameters (`register u8 saved_x ASM_REG("$22"); … saved_x = tile_x;`). A hand pilot
+on `dungeon/func_800CC510` found the fix:
+- Dropping the copies (`natural.py` dropcopy) left the residue unchanged (total 14).
+- Declaring the parameters `s32` also left it unchanged.
+- Declaring them `u16`, one width above the `u8` copies, was byte-exact with both pins off.
+
+The narrowing copy is no longer merged into the parameter's entry move, so it is scheduled from
+its own source line. `t36` retypes the copied parameters (every one together, then each one alone),
+erases the copies' pins, and changes a same-file prototype with the definition.
+
+First sweep: **57 of 121 eligible rows, 102 pins**, 51 through the joint one-step widening. It is
+mostly one object-spawner shape across overlays, `void *f(s16 kind, s8 x, s8 y, s16 z)`. Joint
+menus at the second to fourth width choices, and widening every narrow parameter, found 0 more in
+the 64 refused rows. With the pins off, those rows score totals of 6–38, apart from four at 1–4:
+a different mechanism.
+
+**`tools/xform/t37_localwidth.py`, the dual of `t36`: 21 of 1,456 rows (about 1.4%).** It declares a
+pinned integer local at another width and erases its pins. The hits are mostly counts, flags and
+directions going from `s32` to `s16`/`u16`, and coordinates and ticks going from `u16` to `s32`.
+None of the retyped locals holds an address. That first sweep's declaration regex stopped at the
+`ASM_REG(` parenthesis, so it skipped every register-bound local. `ASM_REG` accounts for about half
+of all pins. With the regex fixed, 3,298 pinned integer locals are eligible (717 with two or more
+pins). A `--force` rerun of `t37` landed **60 more rows**, and `t37b` (one pin at a time, from the
+template lane) landed **37 rows**. Census after both: **9,505 pins**, before the landing's lane
+wins, `t39` and T2. Lesson: unit-test a new generator's eligibility on a row of each pin kind, not
+only on its motivating row.
+
+**Template lane (luna, `work/native_lane/template1/`): the width lever with partial erasure.** Both
+template rows gave one pin each:
+- `dungeon/func_800D0360`: `register u32 color_b ASM_REG("$7")` becomes `register u8 color_b
+  ASM_REG("$7")`, and its `ASM_KEEP(color_b)` goes. Nine siblings share the template and have 7
+  pins each.
+- `dungeon/func_80AC5000`: the same edit on `blue`. Two siblings share the template.
+
+The lane delivered 4 exact candidates: both template rows, plus the transfer to siblings
+`func_80BC1084` and `func_80BD3084`. Its account is that the byte type keeps the volatile load
+into `$a3` without the keep. The 42-pin row `dungeon/func_809A38E4` did not yield. Every
+reduction in its 36-use block moved the register allocation or the setup order; the lane measured
+removing the uses, retyping, rewriting the conditions and dropping the register bindings.
+The register binding stays; only the keep becomes unnecessary once the local has its real width.
+`t37` could not find this, because it erases every pin of the local it retypes.
+`tools/xform/t37b_localwidth_keep.py` retypes a local that has two or more pins and erases one pin
+at a time.
+
+**Argmove, astra (last escalation): 1 of 3** (`work/native_lane/argmove_astra/REPORT.md`).
+
+`dungeon/func_8188E3A0` is exact at its current cell, 2.7.2-cdk-G0, with its `$4` pin off and
+nothing added. The change: `addr_or_coord = (s32)D_800255E8; effect->unk_10 = (void *)addr_or_coord;`
+became `effect->unk_10 = D_800255E8;`.
+
+The RTL account:
+- The pin never added a dependency to the argument move, and it did not change the move's sched2
+  priority.
+- Staging the symbol's low half through the `v0`-pinned local makes it a hard-register producer.
+  An ordinary pseudo gets a different ready-list rank (`0x7f000001`) in the *first* scheduler,
+  and backward selection then puts the address pair after the move. The fix is decided before
+  allocation.
+- Sol's fenced version of the same edit had been at the old cell (2.8.1-G0). The cell switch in an
+  earlier round is what let the plain edit work.
+
+The other two rows stay at total 2. In each, an argument-copy tie is decided by source order in
+the first scheduler, and in one of them a dependency is created only after allocation. Eight and
+six natural rewrites were measured on them, respectively. Astra's rule is scoped to "a symbol
+address staged through a pinned hard-register local with no other reader".
+
+**Fake-dependency lane 4 (luna, `work/native_lane/fakedep4/`): 1 of 12.**
+`dungeon/func_800A57A0` goes pin-free. `if (object_flags >= 0) { sign_bit = 0x80000000; ->unk_14 =
+object_flags | sign_bit; }` with `object_flags` pinned to `$2` became `if (!(object_flags &
+0x80000000)) { object_flags |= 0x80000000; ->unk_14 = object_flags; }`. About 5 of the 12 evidence
+records no longer matched the row's current text; later rounds had changed those rows. The fake
+lanes have gone 2/12, 1/12 and 1/12, and each mechanism was narrow. Stop them unless
+`ledger/pin_evidence.jsonl` is refreshed against the current tree first.
+
+**`tools/xform/t39_signbit.py`** (from fakedep4): `if (X >= 0) { … F = X | 0x80000000; }` becomes
+`if (!(X & 0x80000000)) { X |= 0x80000000; F = X; }`. 8 of the 13 rows with the shape went exact.
+
+**Sixth round, one gate:** 202 windows MATCH, SLUS SHA-1 MATCH; **288 pins, down to 9,460 in 1,577
+rows**. All of it came from generators, and three of those generators came from lane results:
+- the type-width family: `t36`, `t37`, `t37b`;
+- `t38` (astra) and `t39` (fakedep4);
+- the four lane wins themselves;
+- T2.
+
+What worked:
+- **Clustering the atlas's residue records.** It needed no model and found the largest single lever
+  (`t36`).
+- **Turning each lane win into a generator the same day.** Astra's 1 row became 8 via `t38`,
+  fakedep4's 1 became 8 via `t39`, and template1's 4 became part of `t37b`'s 37.
+
+What did not:
+- **The 42-pin row.** Its 36 references to `angle` still resist a natural rewrite.
+- **Fake-evidence lanes on a stale ledger.**
+
+Next levers:
+- Re-cluster the residue records. Only rows whose text has not changed since the atlas still have
+  valid records, so a fresh atlas over the changed rows would renew the map.
+- Widths of struct fields and globals: the next level of the type-width family.
+
 Lanes launched after this gate:
 - **astra on three argmove rows** (`work/native_lane/argmove_astra/`), the owner's last escalation
   after luna and sol. Its brief states that sol's fence-for-pin trade was refused.

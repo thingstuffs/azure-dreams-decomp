@@ -42,11 +42,10 @@ void func_8008F664(void *collider, void *position) {
 object_loop:
     {
         void *other;
-        register void *object_ref ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        void *object_ref;
 
         other = SCPTR(scratch, 4);
-        object_ref = PTR_AT(VSPTR(scratch, 4), 8);
-        SCPTR(scratch, 8) = object_ref;
+        SCPTR(scratch, 8) = PTR_AT(VSPTR(scratch, 4), 8);
         other_bounds = PTR_AT(other, 0xC);
         ASM_KEEP_NV(other_bounds);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         object_ref = other;

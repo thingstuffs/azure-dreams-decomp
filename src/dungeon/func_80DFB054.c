@@ -63,7 +63,7 @@ extern M2C_UNK func_800AA36C();
 #define CALLBACK_PAGE 0x80160000U
 #endif
 
-void *func_80158854(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_80158854(s32 arg0, s8 arg1, s16 arg2, s32 arg3)
 {
     s32 kind;
     s32 left;
@@ -74,7 +74,7 @@ void *func_80158854(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     register s8 saved_arg2;
     s8 saved_arg1;
     register void *part_a ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 final_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 final_arg0;
     S_80158854_3 *part_b;
     void *actor;
     u32 callback_page;
@@ -83,7 +83,6 @@ void *func_80158854(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     saved_arg1 = arg1;
     saved_arg3 = arg3;
     saved_arg2 = arg2;
-    ASM_KEEP_DEP_NV(saved_arg2, saved_arg3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         final_arg0 = arg0;

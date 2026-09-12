@@ -165,7 +165,7 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     u8 *effect_page;
     u8 *active_page;
     void *object;
-    register u16 next_state ASM_REG("$2");
+    s32 next_state;
     u16 direction_index;
     u16 dungeon_count;
     u8 object_kind;

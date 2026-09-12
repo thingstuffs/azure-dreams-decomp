@@ -28,7 +28,7 @@ extern u8 D_80174F58[];
 void func_80174234(void *arg0, void *arg1, void *arg2, void *arg3) {
     s32 temp_s2;
     s32 temp_v0;
-    register s32 temp_field ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 temp_field;
     void *temp_v0_2;
     register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *end_base;
@@ -37,8 +37,9 @@ void func_80174234(void *arg0, void *arg1, void *arg2, void *arg3) {
     if (!(D_80083462 & 0x2000) && ((func_800A2BDC(arg3) << 0x10) == 0)) {
         if (M2C_FIELD(arg3, s32 *, 0x1C) & 0x400) {
             temp_field = M2C_FIELD(arg3, s32 *, 0x14);
-            if (temp_field >= 0) {
-                M2C_FIELD(arg3, s32 *, 0x14) = (s32) (temp_field | 0x80000000);
+            if (!(temp_field & 0x80000000)) {
+                temp_field |= 0x80000000;
+                M2C_FIELD(arg3, s32 *, 0x14) = (s32)temp_field;
                 M2C_FIELD(arg3, u16 *, 0x2A) = (u16) (M2C_FIELD(arg3, u16 *, 0x2A) + ((func_800A6D30() & 7) << 9));
             }
         }

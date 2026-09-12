@@ -23,6 +23,19 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Sixth round, gated (202 windows MATCH, SLUS SHA-1 MATCH): **9,460 pins in 1,577 rows**, 288 pins
+and 21 more functions pin-free since round 5. Parts: `t36` 102, `t37` 81 rows, `t37b` 37 rows,
+`t38` 8, `t39` 8, lane wins 4, T2 14. The next-lever notes are in PIN_MECHANISMS (sixth-round
+summary). What happened, in order:
+- **`t36_paramwidth`** (from clustering the atlas residue map; the largest clusters are prologue
+  reorders on m2c's pinned parameter copies): 57 rows / 102 pins. The copied parameters are declared
+  one width up.
+- **Astra argmove: 1 of 3.** A direct symbol store in place of staging through a `v0`-pinned local.
+  That became the generator **`t38_unstage`** (379 sites / 195 rows).
+- **`t37_localwidth`** (the dual of `t36`, retyping pinned locals) is sweeping.
+- The luna lanes `fakedep4` and `template1` are running. `template1` has the 42-pin row
+  `dungeon/func_809A38E4` and two overlay templates, 11 + 3 rows.
+- Landing: `scratchpad land6.sh` pattern (stop the scan, t38 pass 2, lane wins, tidy, T2, one gate).
 
 **2026-09-12 atlas harvest (15:45 UTC):** `pins_atlas_20260912` completed. No single pin
 erases alone; 22 functions had exact joint subsets. Those subsets plus T2/T20 follow-up

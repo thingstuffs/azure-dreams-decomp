@@ -50,7 +50,7 @@ extern s32 D_80024FF0;
 /* Creates an object at a randomized offset from the source and initializes its actor data. */
 void func_8187B8B0(
     void *source,
-    s16 field_04_value,
+    s32 field_04_value,
     s32 field_00_value,
     s16 paired_value,
     s32 x_offset,
@@ -59,8 +59,8 @@ void func_8187B8B0(
 {
     s32 saved_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_func_8187B8B0_0 *source_obj = source;
-    register s16 saved_field_04 ASM_REG("$22") = field_04_value;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_field_00 ASM_REG("$23") = field_00_value;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_field_04 = field_04_value;
+    u32 saved_field_00 = field_00_value;
     register s16 saved_pair ASM_REG("$20") = paired_value;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
@@ -116,14 +116,12 @@ void func_8187B8B0(
         ASM_KEEP(saved_y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         actor_data->unk_04 = saved_field_04;
-        ASM_KEEP(saved_field_04);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         actor_data->unk_10 = saved_pair;
         actor_data->unk_12 = saved_pair;
         func_8004491C(init_obj, init_data, z_dest);
         ASM_KEEP(saved_pair);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         actor_data->unk_B4 = rand() + 0x10000;
         spawned_obj->unk_20 = saved_field_00;
-        ASM_KEEP(saved_field_00);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 

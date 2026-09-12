@@ -57,7 +57,7 @@ extern u8 D_80162194[];
 extern u8 D_801621DC[];
 
 /* Allocate an object, initialize its parts and kind flags, and return its work area. */
-void *func_8015E870(s16 spawn_flags, s8 value_24, s8 value_25, s16 value_0a)
+void *func_8015E870(s16 spawn_flags, s16 value_24, s16 value_25, s16 value_0a)
 {
     s32 kind;
     void *obj;
@@ -67,9 +67,9 @@ void *func_8015E870(s16 spawn_flags, s8 value_24, s8 value_25, s16 value_0a)
     S_8015E870_4 *actor;
     register s32 flags_14;
     register s32 flags_1c;
-    register s8 saved_value_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_value_24;
     s16 saved_value_0a;
-    register s8 saved_value_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_value_25;
     register void *init_obj;
     register void *init_part_a;
 

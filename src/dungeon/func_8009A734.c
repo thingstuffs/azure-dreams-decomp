@@ -9,7 +9,7 @@ s32 func_8009FE94(s32 x0, s32 y0, s32 check_param, s32 x1, volatile s32 y1) {
     register s32 raw_x0 ASM_REG("$6") = x0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 raw_y0 ASM_REG("$8") = y0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 axis_delta;
-    register s32 held_x1 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 held_x1;
     s32 loaded_y1;
     register s32 held_y1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 dx;

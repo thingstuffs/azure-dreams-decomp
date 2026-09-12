@@ -57,7 +57,7 @@ extern u8 D_80161D4C[];
 extern M2C_UNK D_8015EE5C;
 
 /* Creates a dungeon actor with the supplied placement and spawn flags. */
-void *func_80B7F054(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 rotation)
+void *func_80B7F054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 rotation)
 {
     s32 kind;
     void *work;
@@ -67,9 +67,9 @@ void *func_80B7F054(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 rotation)
     S_80B7F054_4 *actor;
     s32 flags_or_roll;
     s32 pending_flags;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_rotation;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *init_obj;
     void *saved_part_a;
 

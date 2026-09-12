@@ -65,16 +65,16 @@ typedef struct S_800D2CB4_3 {
 } S_800D2CB4_3;   /* temp_s0 in func_800D2CB4 */
 
 /* Creates a dungeon object at the given tile and initializes its graphics and state. */
-void *func_800D2CB4(s16 object_kind, u8 tile_x, u8 tile_y, s16 height) {
+void *func_800D2CB4(s16 object_kind, u16 tile_x, u16 tile_y, s16 height) {
     M2C_UNK tile_flags;
     s16 saved_kind;
     S_800D2CB4_3 *graphics;
     S_800D2CB4_2 *position;
     void *object;
     S_800D2CB4_0 *state;
-    register u8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 saved_x;
     s16 saved_height;
-    register u8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 saved_y;
     s32 kind;
     u8 call_x;
     u8 call_y;

@@ -55,7 +55,7 @@ extern s32 D_80025278;
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
 void func_81875B38(
     void *source,
-    s16 property_34,
+    s32 property_34,
     s32 property_28,
     s16 property_52,
     s32 x_offset,
@@ -64,8 +64,8 @@ void func_81875B38(
 {
     s32 saved_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_func_81875B38_1 *source_obj = source;
-    register s16 saved_property_34 ASM_REG("$22") = property_34;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_property_28 ASM_REG("$23") = property_28;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_property_34 = property_34;
+    u32 saved_property_28 = property_28;
     register s16 saved_property_52 ASM_REG("$20") = property_52;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
@@ -120,14 +120,12 @@ void func_81875B38(
         ASM_KEEP(saved_y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ((S_func_81875B38_5 *)effect_ptr)->unk_14 = saved_property_34;
-        ASM_KEEP(saved_property_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_func_81875B38_5 *)effect_ptr)->unk_32 = saved_property_52;
         ((S_func_81875B38_5 *)effect_ptr)->unk_34 = saved_property_52;
         func_8004491C(effect_obj, effect_config, z_dest);
         ASM_KEEP(saved_property_52);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_func_81875B38_5 *)effect_ptr)->unk_48 = rand() + 0x10000;
         ((S_func_81875B38_5 *)effect_ptr)->unk_08 = saved_property_28;
-        ASM_KEEP(saved_property_28);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 
