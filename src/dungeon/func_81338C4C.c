@@ -1,6 +1,8 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_80170000[];
+extern u8 D_80080000[];
 
 typedef struct S_8016FC4C_0 {
     u8 pad_00[0xAC];
@@ -108,7 +110,7 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
     void *link_slot;
     void *shrink_source;
     void *burst_source;
-    register u32 common_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 common_page;
     u32 table_page;
     u16 table_angle;
     u32 table_ptr;
@@ -255,14 +257,10 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         goto update_sprite;
     }
 update_sprite:
-    common_page = 0x80170000;
-    ASM_KEEP(common_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    if (((S_8016FC4C_8 *)((u8 *)common_page))->unk_5D50 != 0) {
+    if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {
         s16 sprite_direction;
         s32 old_direction;
-        common_page = 0x80080000U;
-        ASM_KEEP(common_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        common_page = (u32)(s32)((S_8016FC4C_8 *)((u8 *)common_page))->unk_3228;
+        common_page = (u32)(s32)((S_8016FC4C_8 *)D_80080000)->unk_3228;
         direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;
         old_direction = ((S_8016FC4C_3 *)effect)->unk_94;
         sprite_direction = direction;

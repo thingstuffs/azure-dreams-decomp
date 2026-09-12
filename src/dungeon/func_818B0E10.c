@@ -45,7 +45,7 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
   register s32 *point ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *line_prim;
-  register RenderState *initial_ctx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+  RenderState *initial_ctx;
   GlobalState *render_state = &D_80083160;
   register s32 depth ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   point = (s32 *) (((u8 *) point_base) + 0x3C);

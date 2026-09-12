@@ -46,7 +46,6 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
     s32 col;
     s32 row;
     s32 tile_value;
-    s32 rand_min;
     s32 rand_max;
     s32 origin_x;
     s32 origin_y;
@@ -80,14 +79,12 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
                 tile_value = func_800BCA68(
                     ((col + origin_x) << 6) & 0xFFC0,
                     ((row + origin_y) << 6) & 0xFFC0);
-                rand_min = 1;
                 rand_max = 3;
-                ASM_KEEP(rand_min);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 base_row = row_base + 4;
                 base_cell = (u16 *)((unsigned long)(col * 2) +
                     (unsigned long)base_row);
                 *base_cell = -tile_value;
-                random_offset = func_800A6DA4(rand_min, rand_max);
+                random_offset = func_800A6DA4(1, rand_max);
                 random_offset = (random_offset & 0xFFFF) << 5;
                 *offset_cell = random_offset;
                 if (reverse_flag != 0) {

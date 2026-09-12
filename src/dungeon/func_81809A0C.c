@@ -402,14 +402,11 @@ check_other_side:
 
             func_800A56E0(0x503);
             {
-                s32 center_x;
                 s32 side_offset;
                 register s32 world_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 S_8002520C_10 *world_node;
                 register S_8002520C_12 *world_cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                center_x = 1;
-                ASM_KEEP_NV(center_x);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                 world_page = (s32 *)0x800E0000;
                 side_offset = ((S_8002520C_0 *)menu)->unk_26;
                 world_base = ((S_8002520C_9 *)world_page)->unk_3D7C;
@@ -419,7 +416,7 @@ check_other_side:
                 side_offset += world_base;
                 world_cell = world_node->unk_0C;
                 actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
-                direction = (func_800A0818(center_x, center_x, world_cell->unk_24, world_cell->unk_25, &target_y) >> 9) & 7;
+                direction = (func_800A0818(1, 1, world_cell->unk_24, world_cell->unk_25, &target_y) >> 9) & 7;
             }
             {
                 s32 turned_dir;

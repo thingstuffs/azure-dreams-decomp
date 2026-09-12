@@ -46,7 +46,6 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
         flags_page = (u8 *)0x80080000;
         ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         global_flags = (u16 *)(flags_page + 0x3460);
-        ASM_KEEP(global_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         action_mode = 0;
         if (global_flags[1] & 0x2000) {
             return -1;

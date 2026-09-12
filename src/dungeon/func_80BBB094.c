@@ -124,17 +124,11 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                         func_800A48F0(result, 1, (random & 0x3F) | 0x20);
                         partB->unk2C = D_80150F00;
                     }
-                    slot2 = 0x80150000UL;
                 } else {
-                    slot2 = 0x80150000UL;
                 }
-                slot2 -= 0x3164;
-                resultAlias->unk8C = (void *)slot2;
+                resultAlias->unk8C = (void *)D_8014CE9C;
             } else {
-                slot2 = 0x80150000UL;
-                ASM_KEEP_NV(slot2);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                slot2 -= 0x3164;
-                result->unk8C = (void *)slot2;
+                result->unk8C = (void *)D_8014CE9C;
             }
             slot2 = (unsigned long)D_80150ED8;
         }

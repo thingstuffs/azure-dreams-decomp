@@ -127,7 +127,6 @@ void func_818E0D94(void *effect, S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
 
         ((S_818E0D94_0_pre *)effect)[-1].unk_00 |= 0x8000;
         flags_base = (u32 *)0x80080000;
-        ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         flags_base[0x528] |= 0x8000;
     }
 }

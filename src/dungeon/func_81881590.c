@@ -74,7 +74,6 @@ void *func_80024D90(void *source_pos, s16 effect_param) {
     register s32 angle;
     s32 value;
     register void *component;
-    s32 fixed_offset;
 
     do {
         effect = func_8003FC64(0x202);
@@ -94,11 +93,9 @@ void *func_80024D90(void *source_pos, s16 effect_param) {
             ((S_80024D90_3 *)component)->unk_1E = 0x1CCC;
             ((S_80024D90_3 *)component)->unk_0C = 0;
             func_8003DB94(component, D_80025854, 0);
-            fixed_offset = 0x400;
-            ASM_KEEP(fixed_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             value = counter_page[0x57CC / 2];
             source_pos = (u8 *)effect + 0x20;
-            ((S_80024D90_3 *)component)->unk_16 = fixed_offset;
+            ((S_80024D90_3 *)component)->unk_16 = 0x400;
             ((S_80024D90_3 *)component)->unk_18 = component_offset;
             ((S_80024D90_4 *)source_pos)->unk_24 = effect_index;
             ((S_80024D90_4 *)source_pos)->unk_14 = state_param;

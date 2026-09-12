@@ -57,7 +57,6 @@ void func_80023A00(void *object, void *output, void *entity_data)
     s32 state;
     s32 initial_magnitude;
     s32 magnitude;
-    s32 limit;
     u8 *direction_table;
     static void *const switch_keep[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4
@@ -101,10 +100,8 @@ case_1:
 
 case_2:
     magnitude = ((S_80023A00_1 *)state_base)->unk_48;
-    limit = 0xFFFF;
-    ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     magnitude = abs(magnitude);
-    if (limit < magnitude) {
+    if (0xFFFF < magnitude) {
         goto common;
     }
     (*(void * *)((u8 *)entity + 0x2C)) = D_800D23A0;
@@ -116,10 +113,8 @@ case_2:
 
 case_3:
     magnitude = ((S_80023A00_1 *)state_base)->unk_48;
-    limit = 0xFFFF;
-    ASM_KEEP(limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     magnitude = abs(magnitude);
-    if (limit >= magnitude) {
+    if (0xFFFF >= magnitude) {
         goto common;
     }
     direction_table = D_800D2398;

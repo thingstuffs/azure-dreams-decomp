@@ -87,15 +87,13 @@ void func_8102F348(void *effect, S_8102F348_0 *position, Rec_D_80082E80 *sprite)
 
     ((S_8102F348_1 *)effect)->unk_1E.u = ((S_8102F348_1 *)effect)->unk_1E.u - 1;
     if ((s16)((S_8102F348_1 *)effect)->unk_1E.u <= 0) {
-        register s32 *status_page ASM_REG("$3") = (s32 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 *status_page = (s32 *)0x80080000;
         ((S_8102F348_1_pre *)effect)[-1].unk_00 |= 0x8000;
         status_page[0x14A0 / 4] |= 0x8000;
     }
 
     if (sprite->unk_14.at00_u16.v & 0x8000) {
-        register s32 *status_page ASM_REG("$3") = (s32 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 *status_page = (s32 *)0x80080000;
         ((S_8102F348_1_pre *)effect)[-1].unk_00 |= 0x8000;
         status_page[0x14A0 / 4] |= 0x8000;
     }

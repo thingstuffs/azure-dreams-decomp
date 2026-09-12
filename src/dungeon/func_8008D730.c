@@ -85,7 +85,6 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     s32 found_match;
     s32 tile_origin;
     s32 target_pos;
-    register s32 effect_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     s16 match_result;
     s16 frames_left;
     s16 move_frames;
@@ -129,11 +128,10 @@ void func_80092E90(void *controller, void *motion, void *actor, void *entry)
     return;
 
 start_effect:
-    effect_id = 0x10;
     if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
         return;
     }
-    func_800419EC(effect_id, 8);
+    func_800419EC(0x10, 8);
     (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
     func_80048A44(
         actor,

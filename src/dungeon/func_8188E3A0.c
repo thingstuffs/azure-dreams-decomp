@@ -192,5 +192,4 @@ void func_80025BA0(void) {
         } while (quad_index < quad_count);
     }
     *(volatile s16 *)&D_80026476 = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

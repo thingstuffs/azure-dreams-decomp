@@ -158,13 +158,11 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             render->unk_10 = x_offset;
             render->unk_0C = color;
 #ifndef NON_MATCHING
-            color = 0x800D0000;
-            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
             render_flags |= 0xC;
             render->unk_14 = render_flags;
 #ifndef NON_MATCHING
-            func_8004491C(*slot, (void *)(color - 0x6FCC));
+            func_8004491C(*slot, (void *)D_800C9034);
 #else
             func_8004491C(*slot, D_800C9034);
 #endif

@@ -43,7 +43,6 @@ void func_800951B4(Actor *actor)
     Vec3 *call_result;
 
     town = &D_80083160;
-    ASM_KEEP(town);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     direction_index = func_80094BC8(town->field8, town->fieldC8);
     if (direction_index == -1) {
         return;

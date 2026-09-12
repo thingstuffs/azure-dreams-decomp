@@ -33,11 +33,10 @@ s32 func_800A1C58(void *entity) {
     if (F(entity, u32, 0x1C) & 0x228) {
         return can_level_up;
     }
-    exp_table = (s32 *)0x80080000;
-    ASM_KEEP(exp_table); /* Required for byte-exact code generation. */
+     /* Required for byte-exact code generation. */
     level = F(entity, u8, 0x11);
     table_offset = level << 2;
-    exp_table = (s32 *)((u8 *)exp_table + 0x35E8);
+    exp_table = (s32 *)D_800835E8;
     exp_entry = (u8 *)(table_offset + (u32)exp_table);
     ASM_KEEP(exp_entry); /* Required for byte-exact code generation. */
     if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {

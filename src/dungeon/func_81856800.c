@@ -324,9 +324,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                     register s32 size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     {
-                        register s32 color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                        color = 0x00404040;
                         size = 32;
                         texture = D_800DEC70;
                            /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -334,15 +332,13 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                            /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                            /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        part->unk_0C = color;
+                        part->unk_0C = 0x00404040;
                     }
                     part->unk_10 = size;
                     part->unk_00 = texture;
                     particle_data->unk_4A = 16;
                 } else {
-                    register s32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                    color = 0x00282828;
                     {
                         s32 size;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
@@ -355,7 +351,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                         texture = D_800DEC50;
                         part->unk_00 = texture;
                     }
-                    part->unk_0C = color;
+                    part->unk_0C = 0x00282828;
                     particle_data->unk_4A = 8;
                 }
                 {

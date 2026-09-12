@@ -149,18 +149,14 @@ update_count:
         if (!(record_flags & 0x4000)) {
             status_page = (u8 *)(record_flags & 0x2000);
             if (status_page) {
-                status_page = (u8 *)0x80080000;
-                ASM_KEEP_NV(status_page);
-                counter_base = (s32 *)(status_page + 0x3460);
+                counter_base = D_80083460;
                 if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {
                     ((S_800A32A4_6 *)counter_base)->unk_1C.s = (s16)(((S_800A32A4_6 *)counter_base)->unk_1C.u - 1);
                 }
                 update_mode = 2;
             } else {
                 s32 *counter_base;
-                status_page = (u8 *)0x80080000;
-                ASM_KEEP_NV(status_page);
-                counter_base = (s32 *)(status_page + 0x3460);
+                counter_base = D_80083460;
                 if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {
                     ((S_800A32A4_6 *)counter_base)->unk_1C.s = (s16)(((S_800A32A4_6 *)counter_base)->unk_1C.u - 1);
                 }

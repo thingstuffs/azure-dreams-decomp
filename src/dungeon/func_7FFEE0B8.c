@@ -30,7 +30,6 @@ void func_8008B818(s32 initial_mode, s32 *value_list, u8 *init_context, u8 *targ
     s32 list_value;
     u32 *mode_table;
     register u32 mode_entry ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 object_state;
 
     ASM_KEEP4_NV(mode, list, context, object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
@@ -45,11 +44,9 @@ void func_8008B818(s32 initial_mode, s32 *value_list, u8 *init_context, u8 *targ
         list_value = *list;
     }
     func_80033C1C(object, list_value);
-    object_state = 2;
     mode_table = D_800CFB74;
     *(u8 **)(context + 0x20) = object;
-    *(u32 *)(object + 0x60) = object_state;
-    ASM_SET(object_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    *(u32 *)(object + 0x60) = 2;
     *(u32 *)(record + 4) = 0;
     *(u16 *)(record + 0x66) = (u16)mode;
     mode_entry = mode_table[mode];

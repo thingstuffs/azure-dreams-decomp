@@ -122,7 +122,6 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     matrix = (void *)0x1F800050;
     ASM_KEEP_NV(rotation);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(matrix);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_SET(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = (Scratch *)0x1F800000;
     scratch->w6C = 0;
     scratch->w68 = 0;
