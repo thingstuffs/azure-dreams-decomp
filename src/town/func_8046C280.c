@@ -66,14 +66,11 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
     } while (0);
 
     {
-        u8 *engine_page;
         u8 *data_page;
         Engine *engine;
         register u8 *dispatch_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-        engine_page = (u8 *)0x80010000;
-        ASM_KEEP(engine_page);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        engine = *(Engine **)(engine_page + 0x6000);
+        engine = *(Engine **)((u8 *)D_80016000);
         dispatch_ptr = engine->items;
         dispatch_ptr += group;
         head = dispatch_ptr[0x3700];
@@ -89,7 +86,7 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
         ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n, group);
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        dispatch_ptr = *(u8 **)(engine_page + 0x6000);
+        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -115,17 +112,14 @@ negative:
 common:
 
     {
-        u8 *engine_page;
         u8 *data_page;
         Entry *vertex;
-        register u8 *dispatch_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        u8 *dispatch_ptr;
         u8 *callback_context;
         u8 *format_page;
         s32 coordinate;
 
-        engine_page = (u8 *)0x80010000;
-        ASM_KEEP(engine_page);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        dispatch_ptr = *(u8 **)(engine_page + 0x6000);
+        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
         do {
             dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
@@ -135,7 +129,7 @@ common:
         ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n);
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        dispatch_ptr = *(u8 **)(engine_page + 0x6000);
+        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
         ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
         ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -152,7 +146,7 @@ common:
         coordinate = vertex->first;
         ((Callback)dispatch_ptr)(callback_context, format_page - 0x6E7C, coordinate);
 
-        dispatch_ptr = *(u8 **)(engine_page + 0x6000);
+        dispatch_ptr = *(u8 **)((u8 *)D_80016000);
         dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

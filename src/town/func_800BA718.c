@@ -13,7 +13,6 @@ extern void LoadImage(void *, void *);
 void func_800B7E78(u16 *frame_tick) {
     u16 next_tick;
     s32 tick_index;
-    s32 rect_page;
     void *rect;
     static void *const frame_labels[] = { &&L0, &&L4, &&L8, &&L12 };
 
@@ -30,10 +29,8 @@ void func_800B7E78(u16 *frame_tick) {
     goto *D_800893A0[tick_index];
 
 L0:
-    rect_page = (s32)0x80110000;
-    ASM_KEEP(rect_page);
-    rect = (void *)(rect_page + 0x1FA8);
-    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    rect = (void *)D_80111FA8;
+    (*D_80111FA8) = 808;
     ((u16 *)rect)[1] = 128;
     ((u16 *)rect)[2] = 8;
     ((u16 *)rect)[3] = 32;
@@ -41,10 +38,8 @@ L0:
     return;
 
 L4:
-    rect_page = (s32)0x80110000;
-    ASM_KEEP(rect_page);
-    rect = (void *)(rect_page + 0x1FA8);
-    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    rect = (void *)D_80111FA8;
+    (*D_80111FA8) = 808;
     ((u16 *)rect)[1] = 128;
     ((u16 *)rect)[2] = 8;
     ((u16 *)rect)[3] = 32;
@@ -52,10 +47,8 @@ L4:
     return;
 
 L8:
-    rect_page = (s32)0x80110000;
-    ASM_KEEP(rect_page);
-    rect = (void *)(rect_page + 0x1FA8);
-    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    rect = (void *)D_80111FA8;
+    (*D_80111FA8) = 808;
     ((u16 *)rect)[1] = 128;
     ((u16 *)rect)[2] = 8;
     ((u16 *)rect)[3] = 32;
@@ -63,11 +56,9 @@ L8:
     return;
 
 L12:
-    rect_page = (s32)0x80110000;
-    ASM_KEEP(rect_page);
-    rect = (void *)(rect_page + 0x1FA8);
+    rect = (void *)D_80111FA8;
 
-    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    (*D_80111FA8) = 808;
     ((u16 *)rect)[1] = 128;
     ((u16 *)rect)[2] = 8;
     ((u16 *)rect)[3] = 32;

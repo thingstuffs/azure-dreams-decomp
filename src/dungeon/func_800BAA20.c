@@ -13,9 +13,8 @@ s32 func_800C0180(void)
 {
     s32 slot_index;
     void *object;
-    register u8 *object_page ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *object_page;
     s16 *height_table;
-    u8 *height_page;
 
     if (func_800C07AC(&D_80083498) == 0) {
         return 0;
@@ -23,10 +22,7 @@ s32 func_800C0180(void)
 
     slot_index = 1;
     object_page = (u8 *)0x800E0000;
-    ASM_KEEP(object_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    height_page = (u8 *)0x800E0000;
-    ASM_KEEP(height_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    height_table = (s16 *)(height_page - 0x312C);
+    height_table = D_800DCED4;
     do {
         object = *(void **)(*(u8 **)(object_page + 0x3D7C) + 0xAC + slot_index * 4);
         if (object != 0) {

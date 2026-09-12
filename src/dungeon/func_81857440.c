@@ -62,12 +62,8 @@ initialize:
     }
     {
         void *entity_base;
-        u8 *data_page;
         entity_base = (u8 *)entity - 0x20;
-        ASM_KEEP(entity_base);
-        data_page = (u8 *)0x80020000;
-        ASM_KEEP(data_page);
-        func_8004491C(entity_base, data_page + 0x49BC);
+        func_8004491C(entity_base, D_800249BC);
     }
     entity->value34 = 0x00C0C0C0;
     entity->field40 = func_80066460(0, 1, 0x2C0, 0x100);
@@ -145,9 +141,8 @@ store_state:
 
 finish:
     {
-        register u32 *flags_page ASM_REG("$3");
+        u32 *flags_page;
         flags_page = (u32 *)0x80080000;
-        ASM_KEEP(flags_page);
         *(u16 *)((u8 *)entity - 2) |= 0x8000;
         flags_page[0x528] |= 0x8000;
     }

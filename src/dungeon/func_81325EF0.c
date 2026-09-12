@@ -27,6 +27,7 @@ extern u8 D_8016B778[];
 extern u8 D_801746A4[];
 extern u8 D_801746AC[];
 extern u8 D_801746C4[];
+extern u8 D_80080000[];
 
 
 typedef struct S_8016D6F0_0 {
@@ -85,7 +86,6 @@ void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, vo
     S_8016D6F0_7 *reference_pos;
     register u8 *direction_table ASM_REG("$5");
     u8 *counter_base;
-    u8 *globals_page;
     u8 *flags_page;
     u8 *reference_base;
     void *action_actor;
@@ -115,13 +115,11 @@ state_zero:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    globals_page = (u8 *)0x80080000;
     direction_table = D_801746A4;
-    ASM_KEEP(globals_page);
     sprite->unk_2C.as_pu8 = direction_table;
     func_80047784(
         sprite,
-        direction_table[((((S_8016D6F0_2 *)globals_page)->unk_3228 +
+        direction_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
                 ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     counter_base = D_80083460;
@@ -132,9 +130,7 @@ state_one:
     if ((func_80042900(entity, 1) << 0x10) == 0) {
         goto post_actions;
     }
-    globals_page = (u8 *)0x80080000;
-    ASM_KEEP(globals_page);
-    if (((S_8016D6F0_2 *)globals_page)->unk_3462 & 0x1000) {
+    if (((S_8016D6F0_2 *)D_80080000)->unk_3462 & 0x1000) {
         goto done;
     }
     if (actor->unk_B4 == 0) {
@@ -176,11 +172,9 @@ action_body:
         goto done;
     }
     if ((func_800A2C34(entity) << 0x10) != 0) {
-        globals_page = (u8 *)0x80080000;
-        ASM_KEEP(globals_page);
         if ((func_8009A180(
                  entity,
-                 ((S_8016D6F0_9 *)(((S_8016D6F0_2 *)globals_page)->unk_14A8))->unk_58 + 0x20)
+                 ((S_8016D6F0_9 *)(((S_8016D6F0_2 *)D_80080000)->unk_14A8))->unk_58 + 0x20)
              << 0x10) != 0) {
             goto done;
         }
@@ -207,12 +201,10 @@ second_check:
 
 post_actions:
     direction_table = D_801746AC;
-    globals_page = (u8 *)0x80080000;
-    ASM_KEEP(globals_page);
     sprite->unk_2C.as_pu8 = direction_table;
     func_80047784(
         sprite,
-        direction_table[((((S_8016D6F0_2 *)globals_page)->unk_3228 +
+        direction_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
                 ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     if (sprite->unk_14.at00_u16.v & 0x8000) {

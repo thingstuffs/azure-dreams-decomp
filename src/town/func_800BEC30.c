@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80080000[];
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -63,12 +64,9 @@ advance_state:
 
 state_2:
 {
-    register u32 flag_page ASM_REG("$3");
 
-    flag_page = 0x80080000;
-    ASM_KEEP(flag_page);
     U16_AT(object, -2) = U16_AT(object, -2) | 0x8000;
-    S32_AT((void *)flag_page, 0x14A0) |= 0x8000;
+    S32_AT((void *)D_80080000, 0x14A0) |= 0x8000;
 }
 
 done:

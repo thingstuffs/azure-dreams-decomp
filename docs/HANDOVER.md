@@ -1,5 +1,12 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**2026-09-12 address-literal harvest (evening):** `t29_addrsym` writes pinned integer pages back
+as symbols, at the recorded cell or at a CDK cell that admits the pinned text. It removed
+**139 pins in 44 functions** (14 pin-free), all gated. Neither the rewrite nor the cell switch works
+alone. `apply_candidates.py --cells` lands switches under `pin_cells_land.py` rules 1–2. Next:
+the admissible-cell scan's pins dead at a CDK cell, then the CDK hypothesis. See
+[PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md), last section.
+
 **2026-09-12 atlas harvest (15:45 UTC):** `pins_atlas_20260912` completed. No single pin
 erases alone; 22 functions had exact joint subsets. Those subsets plus T2/T20 follow-up
 removed **65 pins** (gates MATCH), leaving **10,141 pins in 1,632 rows**. Erasure-only search is

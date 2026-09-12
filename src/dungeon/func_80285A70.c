@@ -78,6 +78,7 @@ extern u8 D_8001F584;
 extern s16 D_8001F586;
 extern s32 D_8001F594[];
 extern u8 D_800F0000[];
+extern u8 D_80081468[];
 
 void func_80018A70(void) {
     u8 *page8_common;
@@ -307,10 +308,7 @@ do_action:
     func_800BC228(2);
 
     {
-        u8 *page8_temp;
-        page8_temp = (u8 *)0x80080000;
-        ASM_KEEP_NV(page8_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        page8_common = page8_temp + 0x1468;
+        page8_common = D_80081468;
     }
 poll_ready:
         func_8001744C();

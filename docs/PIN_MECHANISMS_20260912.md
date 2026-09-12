@@ -266,3 +266,43 @@ No production source or atlas recipe changed in this investigation.
 Machine-readable pass excerpts, exact hashes, source corroboration, lead list and
 queued action: [cse_zero_copy_20260912.json](evidence/cse_zero_copy_20260912.json).
 Full dumps: `work/pin_search/mechanism_80283F70/rtl_current/`.
+
+## Address literals are split symbol addresses, and the CDK cell splits them
+
+The atlas's residue map put 975 pins in 336 functions on variables defined from an
+address literal. Their residue is generated `lui;ori` against retail `lui;addiu`, or
+retail's `lui` into a scratch register followed by `addiu` into the destination. In one
+function it is a lone `lui` sitting in a branch delay slot. That is gcc splitting a
+*symbol* address into HIGH/LO_SUM. Upstream matched these rows at cells that emit the
+one-instruction `la` macro, and emulated the split with an integer page plus pins
+(`page = 0x80070000; ASM_KEEP(page); page -= 0x3328;`).
+
+Five hand probes went 0/5 at the recorded cells with the symbol written back, but 2/5
+at `2.7.2-cdk(-G0)`, where the pinned text is exact too. Each lever alone had failed:
+`litsym` only matched `u8 *p = (u8 *)0x8XXXXXXX;` and never saw these spellings, and the
+09-09 cell sweep stripped pins but left integers where symbols belong.
+
+`tools/xform/t29_addrsym.py` rewrites every use as the symbol at its effective address,
+spelled from the file's own declaration. It deletes the variable, its definitions and
+its pins, then scores at the recorded cell. Failing that, it tries the CDK cell that keeps
+the row's `-G0` setting. A switch lands only under `tools/pin_cells_land.py` rules 1–2:
+the candidate is exact there and not at the recorded cell, and the pinned text is exact
+there too. It reaches 431 pins in 199 rows. `tools/apply_candidates.py --cells` lands
+switches from outside the sweep under the same rules.
+
+First harvest: 52 winning rows / 113 pins, of which 44 rows landed. Seven of the others
+edited a NON_MATCHING arm, and one needed its new extern outside an `#ifdef`; the
+generator now refuses the first and places externs after the includes. 32 wins used a
+CDK cell. An attribution control found only 2 of those exact at the CDK cell without the
+rewrite, so the pair of levers, not the cell, is the finding. T2 at the new cells removed
+41 more pins. **Net: 139 pins and one fence in 44 functions, 14 of them pin-free.** Rule 3
+(module corroboration): 25 of the 29 switches checked have module siblings at the
+target cell; four are alone in theirs.
+
+**The CDK hypothesis, not yet proven:** a stage-1 scan of the 355 smallest pinned rows
+found another admissible cell for most of them. 96% of rows recorded at `2.8.1-G0`, and
+58% at `2.7.2`, are also exact at a CDK cell. All 32 addrsym switches, and all 30 earlier
+`pin_cells_land.py` switches, point at CDK. Many recorded non-CDK cells may be ambiguities
+that the pins happened to resolve. The resumable admissible-cell scan continues; its pins
+dead at a CDK cell are the next harvest. Hits at 2.95.2 and 2.91.66 are recorded, not
+landed: those are 1999 compilers, after the game's release.

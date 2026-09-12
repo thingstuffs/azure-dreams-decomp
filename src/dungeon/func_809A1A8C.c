@@ -21,6 +21,7 @@ extern s32 D_8008346C[];
 extern u8 D_801710EC[];
 extern u8 D_80175E88[];
 extern u8 D_80175EB8[];
+extern u8 D_80080000[];
 
 /* Updates the actor's directional motion and animation across three action states. */
 void func_8017328C(void *action, void *motion, void *sprite, void *actor)
@@ -174,18 +175,13 @@ advance_state:
 
 state_two:
 {
-    u8 *globals_base;
 
     if ((U16(sprite, 0x14) & 0xE000) == 0) {
         goto done;
     }
     func_800AD594(actor, 0x100);
     PTR(action, 0x8C) = D_801710EC;
-    do {
-        globals_base = (u8 *)0x80080000;
-    } while (0);
-    ASM_KEEP(globals_base);
-    S32(globals_base, 0x346C) = 0;
+    S32(D_80080000, 0x346C) = 0;
     U16(actor, 0x46) &= 0x7FFF;
     func_800A4ACC(actor);
 }

@@ -18,14 +18,11 @@ typedef struct S_8001747C_0 {
 
 /* Returns a handler result or a fixed fallback address based on the object checks. */
 s32 func_8001747C(s32 object, M2C_UNK request, M2C_UNK context) {
-    u8 *page_base;
     s32 default_result;
     s32 result;
 
     if (func_80017E98(object, request) != 0) {
-        page_base = (u8 *)0x80020000;
-        ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return (s32)(page_base - 0x49C4);
+        return (s32)((u8 *)&D_8001B63C);
     }
     default_result = func_80019ABC(&D_8001A9AC, &D_8001B1F8, object, context);
     result = default_result;
@@ -33,9 +30,7 @@ s32 func_8001747C(s32 object, M2C_UNK request, M2C_UNK context) {
         if (func_8001A510(((S_8001747C_0 *)object)->unk_18) != 0) {
             result = func_8001628C(object, request, context);
         } else {
-            page_base = (u8 *)0x80020000;
-            ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            result = (s32)(page_base - 0x304C);
+            result = (s32)((u8 *)&D_8001CFB4);
         }
     }
     return result;

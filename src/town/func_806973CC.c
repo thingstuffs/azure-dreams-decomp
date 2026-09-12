@@ -16,7 +16,6 @@ M2C_UNK *func_806973CC(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
     M2C_UNK *temp_s3;
     M2C_UNK *var_v0;
 #ifndef NON_MATCHING
-    u8 *dead_page;
 #endif
 
     temp_s3 = func_80017BDC(&D_80018974, &D_80018AD0, arg0, arg2);
@@ -24,9 +23,7 @@ M2C_UNK *func_806973CC(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
     if (func_80017B24(&D_80018974, arg0, arg2) != 0) {
         if (func_800187D8(8) != 0) {
 #ifndef NON_MATCHING
-            dead_page = (u8 *)0x80020000;
-            ASM_KEEP(dead_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            var_v0 = (M2C_UNK *)(dead_page - 0x5F5F);
+            var_v0 = &D_8001A0A1;
 #else
             var_v0 = &D_8001A0A1;
 #endif

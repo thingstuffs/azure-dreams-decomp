@@ -14,6 +14,8 @@ extern s32 func_80099194(void *arg0, s32 arg1);
 extern void func_80099290(s32 arg0);
 extern void func_800A5720(s32 arg0);
 extern void func_800ACB98(void *arg0, s32 arg1, s32 arg2, void *arg3);
+extern u8 D_800E05E1[];
+extern u8 D_800E05F0[];
 
 
 typedef struct S_800956B8_0 {
@@ -67,17 +69,11 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
                 u8 *msg;
                 value = func_80099194(D_800E0B18, (s32)arg0);
                 if (result != 0) {
-                    u8 *page;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-                    page = (u8 *)0x800E0000;
-                    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    msg = page + 0x5F0;
+                    msg = D_800E05F0;
                 } else {
-                    u8 *page;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-                    page = (u8 *)0x800E0000;
-                    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    msg = page + 0x5E1;
+                    msg = D_800E05E1;
                        /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 }
                 tail_result = func_80099194(msg, value);

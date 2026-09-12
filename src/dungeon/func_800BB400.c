@@ -24,6 +24,7 @@ extern u8 D_800E1411[];
 extern u8 D_800E1426[];
 extern u8 D_80089380[];
 extern u8 D_80083460[];
+extern u8 D_800E140A[];
 
 /* Changes the entity's element, updates its slots, and displays the result. */
 s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
@@ -65,10 +66,7 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
             event_type = event[0];
             if (event_type == 5) {
                 {
-                    u8 *message_page;
-                    message_page = (u8 *)0x800E0000;
-                    ASM_KEEP_NV(message_page);
-                    message = message_page + 0x13FB;
+                    message = D_800E13FB;
                 }
                 {
                     effect_target = entity - 32;
@@ -78,12 +76,8 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
                     base_flags = *(s32 *)(entity + 0x1C) | 1;
                 }
             } else if (event_type == 6) {
-                ASM_SCHED_BARRIER();
                 {
-                    u8 *message_page;
-                    message_page = (u8 *)0x800E0000;
-                    ASM_KEEP_NV(message_page);
-                    message = message_page + 0x1402;
+                    message = D_800E1402;
                 }
                 {
                     effect_target = entity - 32;
@@ -94,10 +88,7 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
                 }
             } else {
                 {
-                    u8 *message_page;
-                    message_page = (u8 *)0x800E0000;
-                    ASM_KEEP_NV(message_page);
-                    message = message_page + 0x140A;
+                    message = D_800E140A;
                 }
                 effect_target = entity - 32;
                 color_mask = 0xF000;

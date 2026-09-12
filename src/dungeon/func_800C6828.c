@@ -18,7 +18,6 @@ s32 func_800CBF88(s32 entity)
 {
     void *effect;
     s32 status;
-    u32 message_page;
     register s32 effect_id;
     register s16 effect_id_half;
     register u16 *effect_counts;
@@ -28,7 +27,6 @@ s32 func_800CBF88(s32 entity)
             return 0;
         }
         status = func_80042900(entity, 0x1C);
-        message_page = 0x800E0000;
         if ((status << 0x10) == 0) {
             if ((func_800A48F0(entity, 0x1C, 0x10) << 0x10) >= 0) {
                 effect = func_8003FC64(2);
@@ -39,17 +37,14 @@ s32 func_800CBF88(s32 entity)
                 effect_id_half = effect_id;
                 ASM_KEEP(effect_id_half);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 *(s16 *)((u8 *)effect + 0x24) = effect_id_half;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 effect_counts = (u16 *)D_80083460;
-                ASM_KEEP(effect_counts);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 effect_counts[5] = (u16)(effect_counts[5] + 1);
                 func_800419EC(effect_id, 8);
                 func_800A56E0(0x818);
                 return 1;
             }
         } else {
-            ASM_KEEP(message_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_800997FC(message_page + 0x1B5D);
+            func_800997FC(&D_800E1B5D);
         }
     }
     return 1;

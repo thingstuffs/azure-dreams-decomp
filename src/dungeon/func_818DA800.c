@@ -295,15 +295,10 @@ case1:
         goto finish;
     }
     {
-        u8 *base_page;
         actor_or_corner = 3;
 #ifdef __mips__
-        base_page = (u8 *)0x80020000;
-        ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        image_base = base_page + 0x4538;
-        base_page = (u8 *)0x800E0000;
-        ASM_KEEP(base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        resource_base = base_page - 0x1520;
+        image_base = D_80024538;
+        resource_base = D_800DEAE0;
 #else
         image_base = D_80024538;
         resource_base = D_800DEAE0;
