@@ -64,7 +64,7 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     s16 *delta_y;
     register s32 step_count ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 tile_x ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 tile_y ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tile_y;
     s32 signed_x;
     s32 signed_y;
     s32 direction_offset;
@@ -142,7 +142,7 @@ loop:
 
     {
         register u32 step_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register u32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u32 step_y;
 
         step_x = (u16)*delta_x;
         step_y = (u16)*delta_y;

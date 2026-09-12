@@ -144,8 +144,6 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
 state_zero:
         move_ticks = U16_AT(effect_in, 0x30);
         anim_ticks = U16_AT(effect_in, 0x32);
-        ASM_KEEP_NV(move_ticks);
-        ASM_KEEP_NV(anim_ticks);
         move_ticks--;
         anim_ticks++;
         ASM_KEEP_NV(move_ticks);

@@ -344,9 +344,7 @@ select_donor:
                 u8 *copy_src;
 
                 copy_dst_offset = copy_dst_index * 3;
-                ASM_KEEP_NV(copy_dst_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 copy_dst = merged_abilities;
-                ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 copy_src_index = (s16) result_primary;
 
                 copy_src = result + (copy_src_index * 3);

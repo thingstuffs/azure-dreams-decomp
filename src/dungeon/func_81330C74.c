@@ -322,9 +322,7 @@ update_positions:
         clamp_pair_offset = clamp_pair_stride;
 clamp_axes:
         clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
-        ASM_KEEP_NV(clamp_row);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         clamp_axis_offset = clamp_axis * 2;
-        ASM_KEEP_NV(clamp_axis_offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         clamp_index = clamp_row * 0x60;
         clamp_index = clamp_index + (s32)clamp_base;
         clamp_index = clamp_pair_offset + clamp_index;

@@ -58,7 +58,7 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     u8 duration;
     u8 *stream;
     void *call_obj;
-    register void *obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *obj;
     void *entity;
     register s32 result;
     u32 anim_page;
@@ -102,16 +102,13 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
 
     angle = command_byte & 7;
     obj_flags = ((S_80174320_1 *)obj)->unk_46;
-    ASM_KEEP_NV(obj_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     angle <<= 9;
     ((S_80174320_1 *)obj)->unk_2A = angle;
     clear_opcode = 0xD0;
-    ASM_USE(clear_opcode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj_flags |= 0x8000;
     ((S_80174320_1 *)obj)->unk_46 = obj_flags;
     opcode = command & 0xF8;
     ASM_KEEP(command);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
 
     if (opcode == clear_opcode) {
         goto block_D0;
@@ -156,7 +153,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
 
 block_8:
     call_obj = obj;
-    ASM_KEEP_NV(call_obj);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     func_8016FCE4(call_obj, context_arg, entity, call_obj);
     result = 0;
     return result;

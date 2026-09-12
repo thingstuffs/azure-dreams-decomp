@@ -146,7 +146,7 @@ s32 func_80F90E88(void *object) {
     s32 coord;
     register u32 coord_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 point_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *screen_out ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *screen_out;
     s32 *depth_out;
     s32 bound_test;
     u32 upper_coord;
@@ -247,9 +247,7 @@ draw_object:
         point_addr = side * 8;
         screen_out = &screen_x;
         base = points;
-        ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         depth_out = scratch_ptr;
-        ASM_USE_NV(depth_out);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         point_addr = (s32) base + point_addr;
         depth = func_80065420(point_addr, screen_out, depth_out, depth_out) - 4;
         ASM_KEEP_NV(depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

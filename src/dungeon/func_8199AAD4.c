@@ -209,9 +209,7 @@ finish:
     func_800B8D64(((S_8199AAD4_2 *)coords)->unk_00.at02u.v, ((S_8199AAD4_2 *)coords)->unk_04.at02u.v,
                   ((S_8199AAD4_2 *)coords)->unk_08.at02u.v);
     tail_z = ((S_8199AAD4_0_pre *)self)[-1].unk_00;
-    ASM_KEEP(tail_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     global_flags = (s32 *)0x80080000;
-    ASM_KEEP(global_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_8199AAD4_0_pre *)self)[-1].unk_00 = tail_z | 0x8000;
     count = ((S_8199AAD4_0 *)self)->unk_28.p;
     ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */

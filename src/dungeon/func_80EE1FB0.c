@@ -71,8 +71,8 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     s32 offset_z;
     s32 direction;
     s32 action_kind;
-    register s32 particle_zero ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 particle_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 particle_zero;
+    s32 particle_color;
     register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 timer;
@@ -266,10 +266,8 @@ particle_loop:
     offset_y = (s16)offset_y;
     offset_z = func_80069EF8();
     particle_origin = (u8 *)action - 0x20;
-    ASM_USE(particle_origin);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     particle_zero = 0;
     particle_color = 0xC0C0C0;
-    ASM_USE(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     offset_z = (s16)((offset_z & 0x3F) - 0x20);
     func_80171498(
         particle_origin,

@@ -479,9 +479,7 @@ check_tile_path:
     y_step_value = y_step_offset + y_step_value;
     landing_x <<= 6;
     y_step_value = ((S_func_81008664_9 *) y_step_value)->unk_00;
-    ASM_KEEP_NV(y_step_value);
     landing_x |= 0x20;
-    ASM_KEEP_NV(landing_x);
     landing_y += y_step_value;
     sprite->unk_25 = (u8) landing_y;
     landing_height = func_800BCB04(landing_x, (sprite->unk_25 << 6) | 0x20, (s16) (motion->unk_08.unk_0A.unk_0A - 0x80));
@@ -575,7 +573,6 @@ set_return_motion:
         actor->unk_96 = return_velocity;
         return_velocity = (u32) D_8006CCD8;
         direction = angle_or_duration >> 8;
-        ASM_KEEP(direction);
         return_step_offset = direction & 0xE;
         return_velocity = return_step_offset + return_velocity;
         return_velocity = ((S_func_81008664_10 *) return_velocity)->unk_00;

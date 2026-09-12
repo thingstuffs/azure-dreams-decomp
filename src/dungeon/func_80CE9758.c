@@ -317,8 +317,6 @@ init_loop:
 setup_loop:
     x_offsets = (u8 *)&D_8006CCD8;
     angle_offset = &D_8006CD00;
-    ASM_KEEP(attempt);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
 loop:
     base_angle = (s32)((S_80172F58_1 *)actor)->unk_2A.s;

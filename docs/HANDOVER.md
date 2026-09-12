@@ -1,5 +1,11 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**2026-09-12 atlas harvest (15:45 UTC):** `pins_atlas_20260912` completed. No single pin
+erases alone; 22 functions had exact joint subsets. Those subsets plus T2/T20 follow-up
+removed **65 pins** (gates MATCH), leaving **10,141 pins in 1,632 rows**. Erasure-only search is
+exhausted; the next lead is the address-literal family (975 pins / 336 functions). See
+[PIN_ATLAS_20260912.md](PIN_ATLAS_20260912.md), "Harvest and evaluation".
+
 **2026-09-12 interruption recovery:** T27 stopped at 08:21 UTC. Its 27 changed rows,
 including three unjournalled writes, were recovered and independently checked. T2/T20
 follow-up brings the recovery to 49 pins removed; all changed overlay windows and SLUS
