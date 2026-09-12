@@ -56,46 +56,44 @@ s32 func_80099A1C(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_dat
     s32 transform_result;
 
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP(scratch);
 
-loop:
-    ((S_80099A1C_0 *)scratch)->unk_00 = position->unk_02;
-    ((S_80099A1C_0 *)scratch)->unk_02 = position->unk_06;
-    ((S_80099A1C_0 *)scratch)->unk_04 = position->unk_0A;
+    do {
+        ((S_80099A1C_0 *)scratch)->unk_00 = position->unk_02;
+        ((S_80099A1C_0 *)scratch)->unk_02 = position->unk_06;
+        ((S_80099A1C_0 *)scratch)->unk_04 = position->unk_0A;
 
-    transform_result = func_80065420(
-        scratch,
-        scratch + 0xB8,
-        scratch + 0x90,
-        scratch + 0x94);
-    ((S_80099A1C_0 *)scratch)->unk_C0 = transform_result - offset_data->unk_06;
+        transform_result = func_80065420(
+            scratch,
+            scratch + 0xB8,
+            scratch + 0x90,
+            scratch + 0x94);
+        ((S_80099A1C_0 *)scratch)->unk_C0 = transform_result - offset_data->unk_06;
 
-    {
-        s32 half_offset;
-        u16 adjusted_coord;
+        {
+            s32 half_offset;
+            u16 adjusted_coord;
 
-        half_offset = ((S_80099A1C_3 *)object)->unk_00;
-        adjusted_coord = ((S_80099A1C_0 *)scratch)->unk_B8;
-        do {
+            half_offset = ((S_80099A1C_3 *)object)->unk_00;
+            adjusted_coord = ((S_80099A1C_0 *)scratch)->unk_B8;
             half_offset = (half_offset << 16) >> 17;
-        } while (0);
-        adjusted_coord -= half_offset;
-        ((S_80099A1C_0 *)scratch)->unk_B8 = adjusted_coord;
-    }
-    ((S_80099A1C_0 *)scratch)->unk_B8 +=
-        (func_800644B8(
-            (((S_80099A1C_3 *)object)->unk_0C << 8) +
-            (((S_80099A1C_3 *)object)->unk_08 << 7)) *
-         (((S_80099A1C_3 *)object)->unk_08 >> 2)) >> 9;
+            adjusted_coord -= half_offset;
+            ((S_80099A1C_0 *)scratch)->unk_B8 = adjusted_coord;
+        }
+        ((S_80099A1C_0 *)scratch)->unk_B8 +=
+            (func_800644B8(
+                (((S_80099A1C_3 *)object)->unk_0C << 8) +
+                (((S_80099A1C_3 *)object)->unk_08 << 7)) *
+             (((S_80099A1C_3 *)object)->unk_08 >> 2)) >> 9;
 
-    func_800C96E8(object, scratch);
+        func_800C96E8(object, scratch);
 
-    next_node = ((S_80099A1C_3_pre *)object)[-1].unk_00;
-    object = (u8 *)next_node + 0x20;
-    if (next_node != 0) {
+        next_node = ((S_80099A1C_3_pre *)object)[-1].unk_00;
+        object = (u8 *)next_node + 0x20;
+        if (next_node == 0) {
+            break;
+        }
         position = ((S_80099A1C_4 *)next_node)->unk_08;
         offset_data = ((S_80099A1C_4 *)next_node)->unk_0C;
-        goto loop;
-    }
+    } while (1);
     return 0;
 }

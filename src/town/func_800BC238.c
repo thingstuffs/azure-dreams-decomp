@@ -48,7 +48,6 @@ void func_800B9998(void *object, void *position, void *rotation) {
     s32 dy;
     s32 near_x;
     s32 speed_sq;
-    register s32 position_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 position_y;
     s32 spin_speed;
     s32 raw_speed;
@@ -80,9 +79,9 @@ void func_800B9998(void *object, void *position, void *rotation) {
     speed_ready:
     town_state = (u8 *)&D_80083780;
     dx = ((S_800B9998_1 *)town_state)->unk_02;
-    position_x = ((S_800B9998_2 *)position_data)->unk_02;
+    dy = ((S_800B9998_2 *)position_data)->unk_02;
     position_y = ((S_800B9998_2 *)position_data)->unk_06;
-    dx -= position_x;
+    dx -= dy;
     if (dx < 0) {
         dx = -dx;
     }

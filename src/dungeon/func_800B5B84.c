@@ -49,7 +49,6 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
     u16 width;
     s32 width_hi;
     s32 y;
-    register s32 buffer_diff ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 offset_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 rect_offset_y;
     register s32 line_offset_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -60,8 +59,8 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
     state_addr = (u8 **)D_80083160;
     state = *(u8 **)D_80083160;
     ordering_table = state + 0x8B0;
-    buffer_diff = (s32)state ^ (s32)D_801C9E40;
-    offset_y = buffer_diff != 0;
+    width_hi = (s32)state ^ (s32)D_801C9E40;
+    offset_y = width_hi != 0;
     rect_offset_y = offset_y;
     ASM_KEEP_NV(fill_rect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(state_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

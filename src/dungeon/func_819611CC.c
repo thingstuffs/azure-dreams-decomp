@@ -20,8 +20,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     u8 tex_u;
     u8 tex_v;
     u8 code;
-    register u8 uv_end ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 uv_size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 uv_size;
     u16 vertex_z;
     u16 last_z;
     u32 depth_bucket;
@@ -51,7 +50,6 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     vertex0 = scratch + 0x70;
     vertex_z = *((u16 *) (((u8 *) quad) + 0x14));
     texture = *((u8 **) (((u8 *) quad_material) + 8));
-    ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     last_xy = *((u32 *) (((u8 *) quad) + 0x28));
     vertex1 = scratch + 0x78;
     *((u16 *) (scratch + 0x74)) = vertex_z;
@@ -76,19 +74,19 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
         tex_u = texture[8];
         quad_code[0x15] = tex_u;
         quad_code[5] = tex_u;
-        uv_end = texture[8];
+        render_state = texture[8];
         uv_size = texture[0xA];
-        uv_end = uv_end + uv_size;
-        quad_code[0x1D] = uv_end;
-        quad_code[0xD] = uv_end;
+        render_state = render_state + uv_size;
+        quad_code[0x1D] = render_state;
+        quad_code[0xD] = render_state;
         tex_v = texture[9];
         quad_code[0xE] = tex_v;
         quad_code[6] = tex_v;
-        uv_end = texture[9];
+        render_state = texture[9];
         uv_size = texture[0xB];
-        uv_end = uv_end + uv_size;
-        quad_code[0x1E] = uv_end;
-        quad_code[0x16] = uv_end;
+        render_state = render_state + uv_size;
+        quad_code[0x1E] = render_state;
+        quad_code[0x16] = render_state;
         *((u16 *) (quad_code + 0xF)) = *((u16 *) (texture + 4));
         *((s32 *) (quad_code - 3)) = *((s32 *) (((u8 *) quad_material) + 0xC));
         func_800666F4(packet);

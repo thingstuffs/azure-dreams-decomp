@@ -45,6 +45,7 @@ extern u8 D_80083160[];
 extern M2C_UNK D_80083780;
 extern s32 D_800A5A98;
 extern M2C_UNK D_800FE488;
+extern u8 D_800D0000[];
 
 /* Updates the object and interpolates town angles before advancing the state. */
 void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
@@ -58,7 +59,6 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     u16 ticks;
     u8 *town;
     u8 *coords;
-    u8 *flag_page;
 
      /* MATCH: Order the s2 parameter copy before the s0 copy. */
     object_ref = (s32) object;
@@ -68,9 +68,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     if (((S_800A58CC_0 *)((void *) object_ref))->unk_0A >= threshold) {
         func_80095A94((void *) object_ref, threshold, &D_800FE488);
     } else {
-        flag_page = (u8 *)0x800D0000;
-        ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (flag_page[-0x311] != 0) {
+        if (D_800D0000[-0x311] != 0) {
             ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = 0;
             func_800954F4((void *) object_ref, threshold);
         } else {

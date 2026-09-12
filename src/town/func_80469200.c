@@ -31,10 +31,10 @@ void func_8001A200(void *records, s32 *value_sets) {
     void *context;
     s32 value_addr;
     s32 slot_index;
-    register u8 *kind_table ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *kind_table;
     u8 *status_ptr;
     register void *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *table_page;
     s32 next_status;
     register s32 end_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -44,8 +44,7 @@ void func_8001A200(void *records, s32 *value_sets) {
     values_base = *((((S_8001A200_1 *)context)->unk_2D4(0)) + (s32 *)status_ptr);
     if ((((S_8001A200_2 *)record)->unk_01 & 0xC0) != 0x80) {
         table_page = (u8 *)0x80010000;
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        kind_table = table_page + 0x791C;
+        kind_table = (u8 *)&D_8001791C;
         status_ptr = record + 1;
 next_record:
         slot_index = 1;

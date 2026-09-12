@@ -27,7 +27,7 @@ extern s32 D_800814A0[3];
 /* Alternate the effect shade, decay its intensity, and flag expiration. */
 void func_80026E3C(void *effect, M2C_UNK unused, S_80026E3C_1 *color)
 {
-    u16 ticks_left;
+    register u16 ticks_left ASM_REG("$4");
     u16 frame;
     u16 intensity;
     u32 shade;
@@ -45,8 +45,7 @@ void func_80026E3C(void *effect, M2C_UNK unused, S_80026E3C_1 *color)
     color->unk_0C = (s8) shade;
     intensity = ((S_80026E3C_0 *)effect)->unk_6A.u16;
     decay = (s16)intensity >> 4;
-    ticks_left = (((S_80026E3C_0 *)effect)->unk_66) + shade;
-    ticks_left -= shade;
+    ticks_left = ((S_80026E3C_0 *)effect)->unk_66;
     do {
         intensity -= decay;
     } while (0);

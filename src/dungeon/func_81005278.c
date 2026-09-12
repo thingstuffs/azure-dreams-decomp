@@ -58,7 +58,6 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     void *part = input_part;
     register void *state ASM_REG("$18") = input_obj;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 mode_or_dir ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 direction ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u32 value_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback callback;
     s32 height_offset;
@@ -125,13 +124,13 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     if (!(part_flags & 0x8000)) {
         value_bits = *(s16 *)((u8 *)D_80083460 - 0x238) +
             ((S_80170A78_2 *)state)->unk_2A + 0x100;
-        direction = ((s32)value_bits >> 9) & 7;
-        mode_or_dir = direction;
+        input_motion = ((s32)value_bits >> 9) & 7;
+        mode_or_dir = input_motion;
         if ((*(s16 *)((u8 *)obj + 0x94)) != mode_or_dir) {
             func_80047738(part,
                 *(u8 *)(((S_80170A78_1 *)part)->unk_2C.p + mode_or_dir),
                 ((S_80170A78_1 *)part)->unk_04);
-            (*(s16 *)((u8 *)obj + 0x94)) = direction;
+            (*(s16 *)((u8 *)obj + 0x94)) = input_motion;
         }
         direction_flag = D_8006CCF8[mode_or_dir];
         ASM_KEEP(mode_or_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

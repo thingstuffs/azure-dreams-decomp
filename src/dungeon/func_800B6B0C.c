@@ -31,7 +31,6 @@ void *func_800BC26C(s32 owner, s32 mode, s32 param)
 {
     void *object;
     u8 *fields;
-    s32 initial_value;
     register s32 saved_mode ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     object = func_8003FD64(0x110, (void *)owner);
@@ -44,12 +43,10 @@ void *func_800BC26C(s32 owner, s32 mode, s32 param)
         ((S_800BC26C_0 *)object)->unk_20 = owner;
         ((S_800BC26C_1 *)fields)->unk_04 = param;
         if ((mode << 16) != 0) {
-            initial_value = 0x7F80;
+            ((S_800BC26C_1 *)fields)->unk_0C = 0x7F80;
         } else {
-            ASM_SCHED_BARRIER();
-            initial_value = 0x7FC0;
+            ((S_800BC26C_1 *)fields)->unk_0C = 0x7FC0;
         }
-        ((S_800BC26C_1 *)fields)->unk_0C = initial_value;
         ((S_800BC26C_1 *)fields)->unk_0E = saved_mode;
     }
     return object;

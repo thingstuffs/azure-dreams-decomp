@@ -53,7 +53,6 @@ void func_8009D6F4(void) {
     if ((1 << ((S_8009D6F4_0 *)grid_dims)->unk_16) > 0) {
         register s32 col_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 nibble_mask;
-        register s32 row_wide ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 next_col ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         row_index = 0;
@@ -64,8 +63,8 @@ row_loop:
         ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         col_index = 0;
         if (first_col < (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
-            row_wide = row_index << 16;
-            row = row_wide >> 16;
+            nibble_mask = row_index << 16;
+            row = nibble_mask >> 16;
 col_loop:
             nibble_mask = col_index & 1;
             if (nibble_mask == 0) {

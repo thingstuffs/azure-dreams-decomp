@@ -280,7 +280,6 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     register u8 prim_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 right_u;
     u8 bottom_v;
-    register u8 blend_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     u8 *frame_data;
     S_func_81904990_2 *frame;
     S_func_81904990_3 *frame_header;
@@ -503,13 +502,13 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         frame->unk_0C.as_u8_0F.unk_0F = prim_code;
         sprite_flags = scratch->unk_24;
         if (sprite_flags & 8) {
-            blend_code = sprite_flags & 4;
-            if (blend_code != 0) {
-                blend_code = prim_code | 2;
+            origin_byte = sprite_flags & 4;
+            if (origin_byte != 0) {
+                origin_byte = prim_code | 2;
             } else {
-                blend_code = prim_code & 0xFD;
+                origin_byte = prim_code & 0xFD;
             }
-            frame->unk_0C.as_u8_0F.unk_0F = blend_code;
+            frame->unk_0C.as_u8_0F.unk_0F = origin_byte;
         }
         first_quad = (u8 *)packet;
         packet->unk_04 = (s32) frame->unk_0C.as_s32_0C;

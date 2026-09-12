@@ -38,9 +38,8 @@ void func_80097DB8(Object *arg0, s32 arg1, s32 arg2, Resource *arg3) {
     s32 guard;
     D83160 *ctx;
     /* MATCH: Keep the shared flag table in its retail saved register. */
-    register u16 *flags ASM_REG("$17");
+    u16 *flags;
     /* MATCH: Keep the incoming resource in a3 for the pass-through call. */
-    Resource *resource = arg3;
     /* MATCH: Set a0 in both guard delay slots without a redundant call-slot move. */
     Resource *callResource;
 
@@ -67,7 +66,6 @@ state_zero:
 
 state_one:
     /* MATCH: Prevent propagation of the a3 copy into the a0 argument setup. */
-    ASM_KEEP_NV(resource);
     if ((D_80083460[1] & 4) == 0 && (arg0->flags & 0x10) != 0) {
         guard = ctx->flags & 0x20;
         callResource = arg3;

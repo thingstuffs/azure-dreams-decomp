@@ -37,7 +37,6 @@ extern u8 D_80174B14[];
 
 /* Updates a timed effect sequence and restores the actor animation when it finishes. */
 void func_80174260(void *state_input, void *motion_input, void *animation_input, void *actor_input) {
-    void *state_data = state_input;
     void *motion = motion_input;
     void *animation = animation_input;
     void *actor = actor_input;
@@ -53,12 +52,11 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
     s32 effect_data;
     s32 next_state;
 
-    ASM_KEEP(state_data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(state_input);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(animation);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    U16_AT(state_data, 0xA0)--;
-    state = U8_AT(state_data, 0x9B);
+    U16_AT(state_input, 0xA0)--;
+    state = U8_AT(state_input, 0x9B);
 
     if (state == active_state) {
         goto state_one;
@@ -81,7 +79,7 @@ state_zero:
         if (effect_data != 0) {
             func_800C8150(effect_data, 0x10, 0x10);
         }
-        U8_AT(state_data, 0x9B) = 2;
+        U8_AT(state_input, 0x9B) = 2;
         return;
     }
 
@@ -110,33 +108,33 @@ state_zero:
     {
         register s32 duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        next_state = U8_AT(state_data, 0x9B);
+        next_state = U8_AT(state_input, 0x9B);
         duration = 0x1E;
-        S16_AT(state_data, 0x96) = duration;
+        S16_AT(state_input, 0x96) = duration;
     }
     goto advance_state;
 state_one:
     effect_data = S32_AT(actor, 0x60);
     if (effect_data != 0) {
-        timer = S16_AT(state_data, 0x96);
+        timer = S16_AT(state_input, 0x96);
         if (timer >= 0x12) {
             effect_object = (u8 *)(long)effect_data - 0x20;
             if (timer < 0x17) {
                 U16_AT(PTR_AT(effect_object, 0x0C), 0x1C) = effect_values_1c.value[timer - 0x12];
-                U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_data, 0x96) - 0x12];
+                U16_AT(PTR_AT(effect_object, 0x0C), 0x1E) = effect_values_1e.value[S16_AT(state_input, 0x96) - 0x12];
             }
         }
     }
 
-    if (S16_AT(state_data, 0x96) == 0x14) {
+    if (S16_AT(state_input, 0x96) == 0x14) {
         effect_data = S32_AT(actor, 0x60);
         if (effect_data != 0) {
             func_800C8150(effect_data, 0x10, 0x10);
         }
     }
 
-    timer = U16_AT(state_data, 0x96) - 1;
-    S16_AT(state_data, 0x96) = timer;
+    timer = U16_AT(state_input, 0x96) - 1;
+    S16_AT(state_input, 0x96) = timer;
     if (timer > 0) {
         goto end;
     }
@@ -145,9 +143,9 @@ state_one:
     func_80047784(animation,
         D_80174B14[((D_80083228 + S16_AT(actor, 0x2A) + 0x100) >> 9) & 7],
         0);
-    next_state = U8_AT(state_data, 0x9B);
+    next_state = U8_AT(state_input, 0x9B);
 advance_state:
-    U8_AT(state_data, 0x9B) = next_state + 1;
+    U8_AT(state_input, 0x9B) = next_state + 1;
     return;
 state_two:
     if (U16_AT(animation, 0x14) & 0xE000) {
@@ -165,7 +163,7 @@ state_two:
         func_800A4ACC(actor);
         U8_AT(actor, 0x6D) = 0;
         U16_AT(actor, 0x46) &= 0x7FFF;
-        PTR_AT(state_data, 0x8C) = D_80171138;
+        PTR_AT(state_input, 0x8C) = D_80171138;
     }
 end:
     return;

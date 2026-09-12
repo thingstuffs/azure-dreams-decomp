@@ -70,7 +70,7 @@ void func_801685CC(void *source_obj, void *origin, s32 unused, s32 effect_param,
     s32 vertex_offset;
     s32 vertex_index;
     s32 pair_offset;
-    register s32 held_vertex_offset ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 held_vertex_offset;
     s32 pair_index;
     u16 *coord_src;
     u16 coord_value;
@@ -123,7 +123,7 @@ copy_done:
     callback_obj = obj;
     if (obj != NULL) {
         callback_data = &D_80045340;
-        ASM_KEEP(callback_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         part = (u8 *)obj + 0x20;
         S16_AT(part, 0x18) = 0x50;
         S16_AT(part, 0x1A) = 0x50;
@@ -207,19 +207,20 @@ copy_vertex:
             coord_index = 0;
             held_vertex_offset = vertex_offset;
             coord_src = (u16 *)(vertex_base + 0x74);
-copy_coord:
-            coord_value = *coord_src++;
-            coord_offset = coord_index * 2;
-            coord_index += 1;
-            out_index =
-                (s16)S16_AT(part, 0x1C) * 0x60;
-            out_index = out_index + (s32)out_base;
-            out_index = pair_offset + out_index;
-            out_index = held_vertex_offset + out_index;
-            *(u16 *)(coord_offset + out_index) = coord_value;
-            if (coord_index < 3) {
-                goto copy_coord;
-            }
+            do {
+                coord_value = *coord_src++;
+                coord_offset = coord_index * 2;
+                coord_index += 1;
+                out_index =
+                    (s16)S16_AT(part, 0x1C) * 0x60;
+                out_index = out_index + (s32)out_base;
+                out_index = pair_offset + out_index;
+                out_index = held_vertex_offset + out_index;
+                *(u16 *)(coord_offset + out_index) = coord_value;
+                if (coord_index >= 3) {
+                    break;
+                }
+            } while (1);
             vertex_base += 6;
             vertex_index += 1;
             vertex_offset += 6;
@@ -229,7 +230,7 @@ copy_coord:
             pair_index += 1;
             pair_offset += 0xC;
         } while (pair_index < 8);
-        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     }
 
     (void)unused;

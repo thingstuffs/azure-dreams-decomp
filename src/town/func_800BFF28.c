@@ -126,10 +126,9 @@ state_zero:
         }
         ASM_KEEP(x_gap);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register u32 gap_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            gap_offset = x_gap + 0xFFE00000;
-            if (gap_offset > 0x200000U) {
+            random_value = x_gap + 0xFFE00000;
+            if (random_value > 0x200000U) {
                 member_index = 1;
                 speed_limit = 0x7FFFF;
                 speed_bias = 0xFFF80000;

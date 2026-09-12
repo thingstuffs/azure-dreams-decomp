@@ -18,7 +18,6 @@ void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_va
     register s16 bottom_row;
     s16 x;
     s16 y;
-    s16 right_col;
     info_page = (u8 *)0x80080000;
     ASM_KEEP_NV(info_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     info = (DungeonInfo *)(info_page + 0x333c);
@@ -39,7 +38,6 @@ void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_va
     tile[1] = tile_value;
     tile[2] = 9;
 
-    right_col = right_x;
     tile = (s16 *)(D_800E9FFA + 6 + ((((bottom_row << info->shift) + right_x) * 6)));
     tile[0] = 0xC;
     tile[1] = tile_value;
@@ -64,8 +62,7 @@ void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_va
 
     y = top_y;
     tile = (s16 *)(D_800E9FFA + ((((y << info->shift) + left_x) * 6)));
-    opposite_tile = (s16 *)(D_800E9FFA + 6 + ((((y << info->shift) + right_col) * 6)));
-    ASM_USE_NV(bottom_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    opposite_tile = (s16 *)(D_800E9FFA + 6 + ((((y << info->shift) + right_x) * 6)));
     if (y < bottom_row) {
         do {
             y++;

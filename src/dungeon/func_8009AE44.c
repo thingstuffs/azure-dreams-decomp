@@ -30,15 +30,14 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     s32 x;
     s32 y;
     s32 signed_limit;
-    register u8 *x_table ASM_REG("$2");
     s16 blocked;
 
     found = 0;
     direction = (heading >> 9) & 7;
     ASM_KEEP_NV(direction);
-    x_table = (u8 *)D_8006CCD8;
+    signed_limit = (u8 *)D_8006CCD8;
     offset_or_x_step = direction * 2;
-    x_step = x_table + offset_or_x_step;
+    x_step = signed_limit + offset_or_x_step;
     ASM_KEEP_NV(x_step);
     height_range = 0x20;
     {
@@ -62,28 +61,27 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     }
 
     {
-        register volatile s32 x_result ASM_REG("$2");
         register volatile s32 y_result ASM_REG("$3");
 
-        x_result = *(u8 *)x_step;
-        x_result -= x;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x_result;
+        start_y = *(u8 *)x_step;
+        start_y -= x;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y;
         y_result = *(u8 *)(u32)y_step_or_count;
         ASM_KEEP(y_result);
-        x_result = 0;
+        start_y = 0;
         goto collision_tail;
 
 collision_exit:
-        x_result = *(u8 *)(u32)offset_or_x_step;
-        x_result -= x;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x_result;
+        start_y = *(u8 *)(u32)offset_or_x_step;
+        start_y -= x;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y;
         y_result = *(u8 *)(u32)limit_or_y_step;
         ASM_KEEP_NV(y_result);
-        x_result = 0;
+        start_y = 0;
 collision_tail:
         y_result -= y;
         ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = y_result;
-        return (void *)x_result;
+        return (void *)start_y;
     }
 
 blocked_exit:

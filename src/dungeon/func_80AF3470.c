@@ -54,7 +54,6 @@ void func_80174C70(void *effect, void *motion, void *render)
     long render_or_step = (long)render;
     register s32 phase_angle ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 phase_offset;
-    register s32 angle_high ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 brightness;
     u32 frame;
     static void *const frame_labels[27] = {
@@ -120,8 +119,8 @@ common:
     if ((s16)phase_offset < 0) {
         phase_angle = phase_offset + 0x1000;
     }
-    angle_high = phase_angle << 16;
-    render_or_step = angle_high >> 16;
+    render_or_step = phase_angle << 16;
+    render_or_step = render_or_step >> 16;
 
     {
         s32 sine = func_80064584(render_or_step);

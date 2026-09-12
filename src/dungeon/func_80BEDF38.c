@@ -46,15 +46,15 @@ void func_80173738(void *effect, FuncArg1 *position, Rec_D_80082E80 *primitive) 
     s32 y_offset;
     s32 base_y;
     s32 z_step;
-    void *primitive_dst;
+    register void *primitive_dst ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     ((S_80173738_0 *)effect)->unk_1E = (u16) (((S_80173738_0 *)effect)->unk_1E - 0x12C);
     ((S_80173738_0 *)effect)->unk_20 = (u16) (((S_80173738_0 *)effect)->unk_20 + 2);
     position->unk00 = (s32) (((S_80173738_0 *)effect)->unk_40 + ((s16) ((S_80173738_0 *)effect)->unk_20 * func_80064584((s16) ((S_80173738_0 *)effect)->unk_1E) * 0x10));
     y_offset = (s16) ((S_80173738_0 *)effect)->unk_20 * func_800644B8((s16) ((S_80173738_0 *)effect)->unk_1E);
     primitive_dst = primitive;
-    z_step = (0xFFF40000U) + y_offset;
-    z_step -= y_offset;
+    z_step = 0xFFF40000U;
+    ASM_KEEP_NV(z_step);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     base_y = ((S_80173738_0 *)effect)->unk_44;
     position->unk08 = (s32) (position->unk08 + z_step);
     position->unk04 = (s32) (base_y + (y_offset * 0x10));

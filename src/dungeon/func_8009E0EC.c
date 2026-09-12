@@ -57,7 +57,6 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s16 target_angle;
   register s16 slot ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   s16 effect_blocked;
-  register s32 slot_seed ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   register s32 slot_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 slot_index;
   register s32 ability_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -133,8 +132,8 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   if (self->status98 & 1)
   {
     slots_checked = 0;
-    slot_seed = D_8008347E;
-    slot = slot_seed & 3;
+    target_mode = D_8008347E;
+    slot = target_mode & 3;
     outer_loop:
     if (slot == 3)
     {

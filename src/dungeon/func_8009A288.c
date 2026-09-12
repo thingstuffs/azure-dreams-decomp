@@ -19,7 +19,6 @@ extern DungeonEntry D_80013720[];
 /* Scan backward through special entry kinds for a matching kind and flag bit. */
 void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     s32 entry_index;
-    register s32 count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 count_page;
     s32 kind_group;
     s32 group_70;
@@ -31,9 +30,9 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
 
     entries = (void *)0x80010000;
     ASM_KEEP(entries);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    count = 0x80010000;
-    count = *(volatile u16 *)(count + 0x3716);
-    entry_index = count - 1;
+    kind_group = 0x80010000;
+    kind_group = *(volatile u16 *)(kind_group + 0x3716);
+    entry_index = kind_group - 1;
     entries = (void *)((u32)entries | 0x3720);
     if (entry_index < 0) {
         return entries;
@@ -51,8 +50,8 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     wanted_flag &= 0xFF;
     count_page = 0x80010000;
     ASM_KEEP(count_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    count = entry_index * 2;
-    entry = (void *)((u32)count + (u32)entries);
+    kind_group = entry_index * 2;
+    entry = (void *)((u32)kind_group + (u32)entries);
     do {
         kind_group = ((S_8009F9E8_0 *)entry)->unk_01 & 0xF8;
         if (kind_group == group_70 || kind_group == group_78 || kind_group == group_80 || kind_group == group_90) {

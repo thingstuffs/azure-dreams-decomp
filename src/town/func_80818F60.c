@@ -190,18 +190,17 @@ void func_80022F60(void *arg0) {
 
     case 2:
         {
-            register u16 angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            register s32 raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 raw;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             raw = ((S_80022F60_1 *)main_state)->unk_10.u + 0x200;
-            angle = raw & 0xFFF;
-            ((S_80022F60_1 *)main_state)->unk_10.u = angle;
+            arg0 = raw & 0xFFF;
+            ((S_80022F60_1 *)main_state)->unk_10.u = arg0;
             if (((S_80022F60_0 *)arg)->unk_02.u <= 0) {
                 u8 *motion = (u8 *)&D_80083780;
 
                 ((S_80022F60_2 *)motion)->unk_10 = 0;
                 ((S_80022F60_2 *)motion)->unk_0C = 0;
-                if (angle == 0) {
+                if (arg0 == 0) {
                     ((S_80022F60_0 *)arg)->unk_00.u++;
                 }
             }

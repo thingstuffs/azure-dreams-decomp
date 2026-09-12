@@ -77,7 +77,6 @@ s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
     register u32 blue ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 pinned_zero ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s32 pinned_one ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u32 color_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 *packet;
     u32 draw_mode;
     u8 *packet_start;
@@ -109,10 +108,10 @@ s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
 
         pinned_zero = 0;
         pinned_one = 1;
-        color_word = *(u32 *)(render_bytes + 8);
+        packet_start = *(u32 *)(render_bytes + 8);
         *(s8 *)(packet + 3) = 2;
         packet_code = 0x6A;
-        *(s32 *)(packet + 4) = color_word;
+        *(s32 *)(packet + 4) = packet_start;
         red = *(volatile u8 *)(packet + 4);
         ASM_KEEP(red);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         green = *(volatile u8 *)(packet + 5);

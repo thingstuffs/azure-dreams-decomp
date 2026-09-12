@@ -260,17 +260,16 @@ void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
 case_0:
 {
     register void *player ASM_REG("$3") = D_800814A8_case0[0];   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *world_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 coord_z;
     u16 heading;
     ((S_8197192C_1 *)player)->unk_F4 = 0;
     ((S_8197192C_1 *)player)->unk_96 = 20;
     ((S_8197192C_2 *)D_80082E86)->unk_00 = 6;
-    world_pos = D_80083780;
+    state = D_80083780;
     ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
-    ((S_8197192C_0 *)effect)->unk_7C.s = ((S_8197192C_3 *)world_pos)->unk_02;
-    ((S_8197192C_0 *)effect)->unk_7E.s = ((S_8197192C_3 *)world_pos)->unk_06;
-    coord_z = ((S_8197192C_3 *)world_pos)->unk_0A;
+    ((S_8197192C_0 *)effect)->unk_7C.s = ((S_8197192C_3 *)state)->unk_02;
+    ((S_8197192C_0 *)effect)->unk_7E.s = ((S_8197192C_3 *)state)->unk_06;
+    coord_z = ((S_8197192C_3 *)state)->unk_0A;
     ((S_8197192C_4 *)D_80025FF4)->unk_00 = 1;
     ((S_8197192C_0 *)effect)->unk_80.s = coord_z;
     ASM_KEEP(coord_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

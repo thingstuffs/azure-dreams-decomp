@@ -173,11 +173,10 @@ loop:
         ((S_81892C5C_0 *)scratch)->unk_6E = (s16)(center->unk_06 +
             (((func_80064584(mid_angle) >> 4) * radius) >> 8));
         {
-            register s32 end_y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             end_y_scaled = (func_80064584(end_angle) >> 4) * radius;
-            end_y_offset = end_y_scaled >> 8;
-            ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + end_y_offset);
+            base_height = end_y_scaled >> 8;
+            ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
         }
 
         {

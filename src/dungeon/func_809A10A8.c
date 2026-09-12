@@ -110,7 +110,6 @@ L2:
         s16 *direction_y_ptr;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 arc;
         register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 direction_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 direction_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 step_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -122,10 +121,10 @@ L2:
         direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
         direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
         do {
-            direction_x = *direction_x_ptr;
+            arc = *direction_x_ptr;
         } while (0);
         direction_y = *direction_y_ptr;
-        step_x = direction_x << 16;
+        step_x = arc << 16;
         step_y = direction_y << 16;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
@@ -155,7 +154,6 @@ L3:
         s16 *direction_y_ptr;
         s32 arc;
         register s32 direction_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 direction_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 direction_offset;
         register s32 step_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -173,9 +171,9 @@ L3:
         direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
         ASM_KEEP(direction_x_ptr);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         direction_x = *direction_x_ptr;
-        direction_y = *direction_y_ptr;
+        arc = *direction_y_ptr;
         step_x = direction_x << 16;
-        step_y = direction_y << 16;
+        step_y = arc << 16;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
         arc = -func_800644B8(((S_801728A8_0 *)action)->unk_96.s * 170);

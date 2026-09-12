@@ -56,7 +56,7 @@ extern u8 D_80044BB0[];
 void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *settings, s32 field_28_value)
 {
     Palette palette;
-    register s32 *palette_entries ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 *palette_entries;
     register u16 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 tint_color;
     s32 palette_value;
@@ -78,8 +78,10 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
         if (signed_position < 0) {
             ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             value = -value;
+            position->unk_02 = value;
+        } else {
+            position->unk_02 = value;
         }
-        position->unk_02 = value;
         value = 0x80;
         position_aux = ((S_80956E6C_0 *)object)->unk_08.p32;
         position_aux->unk_06 = value;

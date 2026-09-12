@@ -157,7 +157,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 path_dx;
     s16 next_phase;
     s32 path_dz;
-    register s32 velocity_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 velocity_z;
     s32 target_ticks;
     s32 probe_dir_offset;
@@ -178,7 +177,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
     register s32 probe_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 end_z_signed;
-    register s32 current_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 current_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 current_z;
     s32 position_xy;
@@ -415,12 +413,12 @@ build_path_endpoint:
     end_y_signed = (s32) ((u16) end_y << 0x10);
     end_z = ((S_80025738_5 *)motion)->unk_08.at02.v + 0x20;
     ((S_80025738_7 *)destination)->unk_08.at02.v = end_z;
-    current_x = ((S_80025738_5 *)motion)->unk_00.at02u.v;
+    phase = ((S_80025738_5 *)motion)->unk_00.at02u.v;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     end_y_signed >>= 0x10;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     path_dx = end_x_signed;
-    path_dx -= current_x;
+    path_dx -= phase;
     if (path_dx >= 0) {
         goto store_path_dx;
     }
@@ -476,13 +474,13 @@ set_path_velocity:
 phase_move_target:
     position_xy = ((S_80025738_5 *)motion)->unk_00.at00.v;
     step_x_or_z = ((S_80025738_5 *)motion)->unk_0C;
-    velocity_y = ((S_80025738_5 *)motion)->unk_10;
+    target_dx = ((S_80025738_5 *)motion)->unk_10;
     velocity_z = ((S_80025738_5 *)motion)->unk_14;
     position_xy += step_x_or_z;
     ((S_80025738_5 *)motion)->unk_00.at00.v = position_xy;
     position_xy = ((S_80025738_5 *)motion)->unk_04.at00.v;
     step_x_or_z = ((S_80025738_5 *)motion)->unk_08.at00.v;
-    position_xy += velocity_y;
+    position_xy += target_dx;
     step_x_or_z += velocity_z;
     ((S_80025738_5 *)motion)->unk_04.at00.v = position_xy;
     ((S_80025738_5 *)motion)->unk_08.at00.v = step_x_or_z;

@@ -82,7 +82,6 @@ void func_8016C190(void *action, void *transform, void *sprite, void *actor)
     };
     u8 action_state;
     u8 *action_slot;
-    register u8 *target_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *direction_table;
     u8 *action_control;
     s32 target_mode;
@@ -155,9 +154,9 @@ selection_done:
                     action_value = (s32)((S_8016C190_1 *)actor)->unk_60;
                     if (action_value != 0) {
 set_from_object:
-                        target_sprite = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
-                        ((S_8016C190_1 *)actor)->unk_72.s = target_sprite[0x24];
-                        ((S_8016C190_1 *)actor)->unk_73.s = target_sprite[0x25];
+                        action_control = (u8 *)((S_8016C190_2_pre *)action_value)[-1].unk_00;
+                        ((S_8016C190_1 *)actor)->unk_72.s = action_control[0x24];
+                        ((S_8016C190_1 *)actor)->unk_73.s = action_control[0x25];
                     }
                 } else {
                     ((S_8016C190_1 *)actor)->unk_60 = func_800A05A4(

@@ -34,12 +34,11 @@ s32 CheckBuildBuildingLandNo(s32 entry_id, s8 *slots_out) {
     }
 
     {
-        register u32 kind ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         unsigned long dispatch_addr;
 
-        kind = entry[3];
-        dispatch_addr = kind - 1;
-        ASM_KEEP_NV(dispatch_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        entry_id = entry[3];
+        dispatch_addr = entry_id - 1;
+           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (dispatch_addr >= 16) {
             goto case_default;
         }

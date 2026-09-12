@@ -102,8 +102,7 @@ top:
     script = D_80175DC4;
     command = script[1];
     ASM_KEEP(command);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    command_byte = command & 0xFF;
-    ASM_KEEP(command_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    command_byte = (u8) command;
     if (command_byte == 0) {
         entity->fieldAF = 0;
         goto common;

@@ -87,7 +87,6 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
     s32 match_y;
     register s32 height_arg ASM_REG("$7") = target_height;
     register s32 center_height ASM_REG("$20");
-    register s32 min_height ASM_REG("$21");
     register s32 height_shifted ASM_REG("$2");
 
     ASM_KEEP(next_link);
@@ -97,7 +96,7 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
     if (node != head) {
         height_shifted = height_arg << 16;
         center_height = height_shifted >> 16;
-        min_height = center_height - 0x40;
+        target_height = center_height - 0x40;
         do {
             S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;
             S_801745BC_3 *node_position = ((S_801745BC_1_pre *)node)[-1].unk_00;
@@ -106,7 +105,7 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
             if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
                 (node_data->unk_25 == (match_y & 0xFFFF))) {
                 height = node_position->unk_0A;
-                if (((center_height + 0x40) >= height) && (min_height < height)) {
+                if (((center_height + 0x40) >= height) && (target_height < height)) {
                     if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
                         s32 message_id;
                         u16 angle;

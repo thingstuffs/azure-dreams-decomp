@@ -30,7 +30,7 @@ void func_80123A60(void *object_data) {
     s32 second_image_id;
     s32 image_id;
     s32 slot;
-    s32 grid_category;
+    s16 grid_category;
     s32 category;
 
     clear_rect[0] = 0x180;
@@ -61,7 +61,6 @@ void func_80123A60(void *object_data) {
         }
         goto done;
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     grid_category = object->unk_0F;
     loop_image_base = (u8 *)D_80126E98;
     image_id = grid_category * 0x10;

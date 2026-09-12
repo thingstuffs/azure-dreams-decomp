@@ -146,7 +146,7 @@ state_one: {
 state_two: {
     s16 timer;
     s16 next_timer;
-    register s32 next_height ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 next_height;
     register s32 fall_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
@@ -155,8 +155,7 @@ state_two: {
         if (((S_80172D08_2 *)actor)->unk_60 != 0) {
             register s32 scaled_arc ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register s32 arc_scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 height_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            s32 arc_offset;
+            s32 height_delta;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 arc_sample;
             void *owner;
 
@@ -168,9 +167,9 @@ state_two: {
             scaled_arc = arc_sample * arc_scale;
             height_delta = (((S_80172D08_4 *)owner)->unk_0A - ((S_80172D08_2 *)actor)->unk_88.s) << 13;
             height_delta *= 0x11 - ((S_80172D08_0 *)action)->unk_96.s;
-            arc_offset = scaled_arc << 8;
-            next_height = height_delta - arc_offset;
-            goto store_vertical;
+            arc_sample = scaled_arc << 8;
+            next_height = height_delta - arc_sample;
+            ((S_80172D08_0 *)action)->unk_A0 = next_height;
         } else if (((S_80172D08_0 *)action)->unk_AF != 0) {
             s32 arc_sample;
 
@@ -204,7 +203,6 @@ state_two: {
         ((Rec_func_80172D08_arg1 *)motion)->unk_0C = 0;
         fall_step = 0x40000;
         next_height = ((S_80172D08_0 *)action)->unk_A0 + fall_step;
-store_vertical:
         ((S_80172D08_0 *)action)->unk_A0 = next_height;
     }
 

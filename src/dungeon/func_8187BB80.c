@@ -51,60 +51,58 @@ extern void func_800255AC(void) __attribute__((noreturn));
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
-    u8 *effect = effect_data;
     u8 *colors = color_data;
     register s32 tick_limit;
     s32 phase_state;
 
-    ASM_KEEP(colors);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     D_8002694C = 1;
-    ((S_8187BB80_0 *)effect)->unk_02.u--;
+    ((S_8187BB80_0 *)effect_data)->unk_02.u--;
 
-    if (((S_8187BB80_0 *)effect)->unk_40.at00.v == 0) {
+    if (((S_8187BB80_0 *)effect_data)->unk_40.at00.v == 0) {
         s32 mid_y;
         u16 mid_x;
 
-        ((S_8187BB80_0 *)effect)->unk_20.s =
-            (((S_8187BB80_0 *)effect)->unk_1E.s + ((S_8187BB80_0 *)effect)->unk_58) / 2;
-        mid_y = (((S_8187BB80_0 *)effect)->unk_2A.s + ((S_8187BB80_0 *)effect)->unk_60) / 2;
-        ((S_8187BB80_0 *)effect)->unk_2C.s = mid_y;
-        mid_x = *(volatile u16 *)(effect + 0x20);
-        ((S_8187BB80_0 *)effect)->unk_66 = mid_y;
-        ((S_8187BB80_0 *)effect)->unk_62 = mid_y;
-        ((S_8187BB80_0 *)effect)->unk_5E = mid_x;
-        ((S_8187BB80_0 *)effect)->unk_5A = mid_x;
+        ((S_8187BB80_0 *)effect_data)->unk_20.s =
+            (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_58) / 2;
+        mid_y = (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_60) / 2;
+        ((S_8187BB80_0 *)effect_data)->unk_2C.s = mid_y;
+        mid_x = *(volatile u16 *)(effect_data + 0x20);
+        ((S_8187BB80_0 *)effect_data)->unk_66 = mid_y;
+        ((S_8187BB80_0 *)effect_data)->unk_62 = mid_y;
+        ((S_8187BB80_0 *)effect_data)->unk_5E = mid_x;
+        ((S_8187BB80_0 *)effect_data)->unk_5A = mid_x;
     }
 
-    phase_state = ((S_8187BB80_0 *)effect)->unk_40.at00.v;
+    phase_state = ((S_8187BB80_0 *)effect_data)->unk_40.at00.v;
     tick_limit = 1;
     if (phase_state == tick_limit) {
-        ((S_8187BB80_0 *)effect)->unk_20.s =
-            (((S_8187BB80_0 *)effect)->unk_1E.s + ((S_8187BB80_0 *)effect)->unk_58) / 2;
-        ((S_8187BB80_0 *)effect)->unk_20.s =
-            (((S_8187BB80_0 *)effect)->unk_1E.s + ((S_8187BB80_0 *)effect)->unk_20.s) / 2;
-        ((S_8187BB80_0 *)effect)->unk_2C.s =
-            (((S_8187BB80_0 *)effect)->unk_2A.s + ((S_8187BB80_0 *)effect)->unk_60) / 2;
-        ((S_8187BB80_0 *)effect)->unk_2C.s =
-            (((S_8187BB80_0 *)effect)->unk_2A.s + ((S_8187BB80_0 *)effect)->unk_2C.s) / 2;
-        ((S_8187BB80_0 *)effect)->unk_5A = ((S_8187BB80_0 *)effect)->unk_5E =
-            ((S_8187BB80_0 *)effect)->unk_20.u;
-        ((S_8187BB80_0 *)effect)->unk_62 = ((S_8187BB80_0 *)effect)->unk_66 =
-            ((S_8187BB80_0 *)effect)->unk_2C.u;
+        ((S_8187BB80_0 *)effect_data)->unk_20.s =
+            (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_58) / 2;
+        ((S_8187BB80_0 *)effect_data)->unk_20.s =
+            (((S_8187BB80_0 *)effect_data)->unk_1E.s + ((S_8187BB80_0 *)effect_data)->unk_20.s) / 2;
+        ((S_8187BB80_0 *)effect_data)->unk_2C.s =
+            (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_60) / 2;
+        ((S_8187BB80_0 *)effect_data)->unk_2C.s =
+            (((S_8187BB80_0 *)effect_data)->unk_2A.s + ((S_8187BB80_0 *)effect_data)->unk_2C.s) / 2;
+        ((S_8187BB80_0 *)effect_data)->unk_5A = ((S_8187BB80_0 *)effect_data)->unk_5E =
+            ((S_8187BB80_0 *)effect_data)->unk_20.u;
+        ((S_8187BB80_0 *)effect_data)->unk_62 = ((S_8187BB80_0 *)effect_data)->unk_66 =
+            ((S_8187BB80_0 *)effect_data)->unk_2C.u;
     }
 
-    if (*(volatile s32 *)(effect + 0x40) == 0x10000) {
-        u32 start_x = ((S_8187BB80_0 *)effect)->unk_1E.u;
-        u32 start_y = ((S_8187BB80_0 *)effect)->unk_2A.u;
+    if (*(volatile s32 *)(effect_data + 0x40) == 0x10000) {
+        u32 start_x = ((S_8187BB80_0 *)effect_data)->unk_1E.u;
+        u32 start_y = ((S_8187BB80_0 *)effect_data)->unk_2A.u;
 
         ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(start_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_8187BB80_0 *)effect)->unk_5E = start_x;
-        ((S_8187BB80_0 *)effect)->unk_5A = start_x;
-        ((S_8187BB80_0 *)effect)->unk_66 = start_y;
-        ((S_8187BB80_0 *)effect)->unk_62 = start_y;
+        ((S_8187BB80_0 *)effect_data)->unk_5E = start_x;
+        ((S_8187BB80_0 *)effect_data)->unk_5A = start_x;
+        ((S_8187BB80_0 *)effect_data)->unk_66 = start_y;
+        ((S_8187BB80_0 *)effect_data)->unk_62 = start_y;
     }
 
-    if (((S_8187BB80_0 *)effect)->unk_40.at00u.v == tick_limit) {
+    if (((S_8187BB80_0 *)effect_data)->unk_40.at00u.v == tick_limit) {
         s32 phase;
         static void *const phase_labels[] = {
             &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4,
@@ -112,19 +110,19 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
         };
 
         (void)phase_labels;
-        ((S_8187BB80_0 *)effect)->unk_40.at00u.v = 0;
-        phase = ((S_8187BB80_0 *)effect)->unk_40.at02.v;
+        ((S_8187BB80_0 *)effect_data)->unk_40.at00u.v = 0;
+        phase = ((S_8187BB80_0 *)effect_data)->unk_40.at02.v;
         if ((u32)phase >= 9) {
             goto jt_c8;
         }
         goto *D_80024038[(u32)phase];
 
 jt_c0:
-        ((S_8187BB80_0 *)effect)->unk_40.at02.v = 1;
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 1;
         return func_800255AC();
 
 jt_c1: {
-            u32 phase_value = ((S_8187BB80_0 *)effect)->unk_4C;
+            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
             s32 next_phase = 2;
             ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
@@ -132,7 +130,7 @@ jt_c1: {
         }
 
 jt_c2: {
-            u32 phase_value = ((S_8187BB80_0 *)effect)->unk_4C;
+            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
             s32 next_phase = 3;
             ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
@@ -140,7 +138,7 @@ jt_c2: {
         }
 
 jt_c3: {
-            u32 phase_value = ((S_8187BB80_0 *)effect)->unk_4C;
+            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
             s32 next_phase = 4;
             ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
@@ -148,13 +146,13 @@ jt_c3: {
         }
 
 jt_c4:
-        ((S_8187BB80_0 *)effect)->unk_40.at02.v = 5;
-        ((S_8187BB80_0 *)effect)->unk_4C = 0x80;
-        ((S_8187BB80_0 *)effect)->unk_4D += 0x20;
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 5;
+        ((S_8187BB80_0 *)effect_data)->unk_4C = 0x80;
+        ((S_8187BB80_0 *)effect_data)->unk_4D += 0x20;
         return func_800255AC();
 
 jt_c5: {
-            u32 phase_value = ((S_8187BB80_0 *)effect)->unk_4C;
+            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
             s32 next_phase = 6;
             ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
@@ -162,37 +160,37 @@ jt_c5: {
         }
 
 jt_c6:
-        ((S_8187BB80_0 *)effect)->unk_40.at02.v = 7;
-        ((S_8187BB80_0 *)effect)->unk_4C += 0x20;
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 7;
+        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
         return func_800255AC();
 
 jt_c7:
-        ((S_8187BB80_0 *)effect)->unk_4E = 0;
-        ((S_8187BB80_0 *)effect)->unk_4F = 0;
+        ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
+        ((S_8187BB80_0 *)effect_data)->unk_4F = 0;
         ((S_8187BB80_1 *)colors)->unk_0D = 0xFF;
         ((S_8187BB80_1 *)colors)->unk_0C = 0xFF;
         ((S_8187BB80_1 *)colors)->unk_0E = 0;
-        ((S_8187BB80_0 *)effect)->unk_37 = 0xFF;
-        ((S_8187BB80_0 *)effect)->unk_36 = 0xFF;
-        ((S_8187BB80_0 *)effect)->unk_38 = 0;
+        ((S_8187BB80_0 *)effect_data)->unk_37 = 0xFF;
+        ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
+        ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
         ((S_8187BB80_1 *)colors)->unk_14 |= 0xC;
         return func_800255AC();
     } else {
-        ((S_8187BB80_0 *)effect)->unk_40.at00p.v++;
+        ((S_8187BB80_0 *)effect_data)->unk_40.at00p.v++;
     }
 
 jt_c8:
-    if (((S_8187BB80_0 *)effect)->unk_02.s < 30) {
+    if (((S_8187BB80_0 *)effect_data)->unk_02.s < 30) {
         ((S_8187BB80_1 *)colors)->unk_0C =
-            (((S_8187BB80_0 *)effect)->unk_36 * ((S_8187BB80_0 *)effect)->unk_02.s) / 30;
+            (((S_8187BB80_0 *)effect_data)->unk_36 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
         ((S_8187BB80_1 *)colors)->unk_0D =
-            (((S_8187BB80_0 *)effect)->unk_37 * ((S_8187BB80_0 *)effect)->unk_02.s) / 30;
+            (((S_8187BB80_0 *)effect_data)->unk_37 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
         ((S_8187BB80_1 *)colors)->unk_0E =
-            (((S_8187BB80_0 *)effect)->unk_38 * ((S_8187BB80_0 *)effect)->unk_02.s) / 30;
+            (((S_8187BB80_0 *)effect_data)->unk_38 * ((S_8187BB80_0 *)effect_data)->unk_02.s) / 30;
     }
 
-    if (((S_8187BB80_0 *)effect)->unk_02.s <= 0) {
-        (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
+    if (((S_8187BB80_0 *)effect_data)->unk_02.s <= 0) {
+        (*(u16 *)((u8 *)effect_data + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

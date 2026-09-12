@@ -273,7 +273,7 @@ diagonal_3:
     {
         register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 band ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register s32 current_zone ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 current_zone;
         register s32 zone_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 zone_y;
         s32 actor_y;
@@ -281,15 +281,13 @@ diagonal_3:
         u8 *zone_data;
         zone_data = (u8 *)D_80024020;
         current_zone = *zone_id;
-        ASM_KEEP(current_zone);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         actor_x = actor->x;
         actor_y = actor->y;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         zone_x = ((Zone *)zone_data)[current_zone].x;
         edge_delta = ((Zone *)zone_data)[current_zone].w;
         zone_y = ((Zone *)zone_data)[current_zone].y;
-        edge_delta = zone_x + edge_delta;
-        edge_delta = edge_delta - 0x100;
+        edge_delta = zone_x + edge_delta - 0x100;
         band = zone_y - edge_delta;
         edge_delta = actor_x + band;
         edge_delta = actor_y - edge_delta;

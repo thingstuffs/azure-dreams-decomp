@@ -24,7 +24,7 @@ s32 func_80046F88(void *object_addr)
 {
     S_80046F88 *obj = (S_80046F88 *)object_addr;
     /* delta must live in $a3; counter entry_index takes $a2. Guarded pin for PC port. */
-    s32 delta;
+    register s32 delta ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s32 addr_or_count;
     s32 ptr_value;
     s32 entry_index;
@@ -33,15 +33,10 @@ s32 func_80046F88(void *object_addr)
 
     delta = 0;
     if (object_addr != obj->anchor) {
-        do {
-            delta = (s32)object_addr - (s32)obj->anchor;
-        } while (0);
+        delta = (s32)object_addr - (s32)obj->anchor;
         ptr_value = (s32)obj->arr;
-        do {
-            addr_or_count = (obj->val14) + ptr_value;
-            addr_or_count -= ptr_value;
-            entry_index = 0;
-        } while (0);
+        addr_or_count = obj->val14;
+        entry_index = 0;
         obj->anchor = object_addr;
         ptr_value = ptr_value + delta;
         obj->arr = (s32 *)ptr_value;

@@ -49,7 +49,6 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     s32 direction_offset;
     s32 coord_value;
     register s32 coord_offset ASM_REG("$2");
-    register s32 bounded_coord ASM_REG("$3");
     s32 query_arg;
     s32 direction_arg;
     void *tile_flags_out;
@@ -95,14 +94,14 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     target_x = coord_value + coord_offset;
     bounds_page = 0x80080000;
     ASM_KEEP_DEP_NV(bounds_page, target_x);
-    bounded_coord = target_x & 0xFFFF;
+    coord_value = target_x & 0xFFFF;
     bounds = (u8 *)(bounds_page + 0x333C);
-    if (bounded_coord == 0) {
+    if (coord_value == 0) {
         goto out_of_bounds;
     }
     ASM_KEEP_NV(bounds);
     position_copy = (void *)1;
-    if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < bounded_coord) {
+    if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
         return -1;
     }
     lookup_base = D_8006CCE8;
@@ -110,11 +109,11 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     coord_value = coords->unk_25.s;
     coord_offset = *step_y;
     target_coord = coord_value + coord_offset;
-    bounded_coord = target_coord & 0xFFFF;
-    if (bounded_coord == 0) {
+    coord_value = target_coord & 0xFFFF;
+    if (coord_value == 0) {
         return -1;
     }
-    if (!(((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < bounded_coord)) {
+    if (!(((1 << ((S_800CA1E0_1 *)bounds)->unk_16) - 1) < coord_value)) {
         goto check_step;
     }
 out_of_bounds:

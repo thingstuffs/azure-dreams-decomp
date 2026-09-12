@@ -81,7 +81,6 @@ typedef struct S_80092E90_9 {
 /* Move toward the target tile, process matching list entries, and advance the effect state. */
 void func_80092E90(void *controller, void *motion, void *actor, void *entry)
 {
-    register void *list_head ASM_REG("$21") = entry;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *player;
     s32 found_match;
     s32 tile_origin;
@@ -138,7 +137,7 @@ start_effect:
     (*(void * *)((u8 *)actor + (0x2C))) = D_800DCFF8;
     func_80048A44(
         actor,
-        D_800DCFF8[((D_80083228 + ((S_80092E90_5 *)list_head)->unk_2A + 0x100) >> 9) & 7],
+        D_800DCFF8[((D_80083228 + ((S_80092E90_5 *)entry)->unk_2A + 0x100) >> 9) & 7],
         0,
         1);
     ((S_80092E90_4 *)controller)->unk_9B++;
@@ -152,7 +151,7 @@ finish_effect:
 
     found_match = 0;
     if (!(D_80013714 & 8)) {
-        node = (u8 *)((S_80092E90_5 *)list_head)->unk_5C + 0x20;
+        node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
         player = D_80082E80;
         do {
             if ((((S_80092E90_6 *)player)->unk_26 ==
@@ -162,7 +161,7 @@ finish_effect:
                 found_match = 1;
             }
             node = (u8 *)((S_80092E90_7 *)node)->unk_5C + 0x20;
-        } while (node != list_head);
+        } while (node != entry);
 
         match_result = found_match;
         {

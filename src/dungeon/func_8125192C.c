@@ -102,7 +102,6 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     register s32 saved_state ASM_REG("$2");
     s32 current_state;
     register s32 view_angle ASM_REG("$2");
-    register s32 next_height ASM_REG("$2");
     Callback callback;
     Callback active_callback;
     s16 floor_height;
@@ -213,8 +212,8 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
             height_gap = abs(height_gap);
             divisor_magic = 0x66660000;
             if (height_gap >= 0x65) {
-                next_height = height_bits + 8;
-                ((S_8017112C_4 *)motion)->unk_08.at02.v = next_height;
+                height_gap = height_bits + 8;
+                ((S_8017112C_4 *)motion)->unk_08.at02.v = height_gap;
             } else {
                 height_delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
                 height_fixed = ((S_8017112C_4 *)motion)->unk_08.at00.v;

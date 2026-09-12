@@ -24,6 +24,7 @@ extern Entry D_80083498;
 extern Callback D_800DCF80[];
 extern Callback D_800DCFA4;
 extern s32 D_800E296C;
+extern u8 D_800E0000[];
 
 /* Dispatch eligible entry callbacks according to the current mode. */
 void func_800897E4(void)
@@ -32,7 +33,6 @@ void func_800897E4(void)
         register Callback *callback_slot ASM_REG("$16");
         register Callback *callback_base;
         register Callback *special_start;
-        u8 *table_page;
         Callback *sentinel_scan;
         register Callback callback;
         register Entry **entry_slot;
@@ -50,9 +50,7 @@ loop_first:
                 if (!(entry->flags & 0x800)) {
                     register Callback *special_scan;
 
-                    table_page = (u8 *)0x800E0000;
-                    ASM_KEEP(table_page);
-                    sentinel_scan = (Callback *)(table_page - 0x3080);
+                    sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
                     special_scan = special_start;
 first_scan:
                     if (*special_scan == callback) {
@@ -84,10 +82,9 @@ first_advance:
         register Callback *callback_slot ASM_REG("$18");
         register Callback *callback_base;
         register Callback *special_start;
-        register u8 *table_page;
+        register u8 *D_800E0000;
         Callback *special_scan;
         register Callback callback ASM_REG("$7");
-        register Callback special_callback ASM_REG("$2");
         register Entry **entry_slot;
         register Entry *entry;
         void *callback_data;
@@ -95,9 +92,9 @@ first_advance:
         s32 callback_arg2;
         s32 saved;
 
-        table_page = (u8 *)0x800E0000;
-        ASM_KEEP(table_page);
-        special_start = (Callback *)(table_page - 0x3080);
+        D_800E0000 = (u8 *)0x800E0000;
+        ASM_KEEP(D_800E0000);
+        special_start = (Callback *)(D_800E0000 - 0x3080);
         callback_base = D_80083360;
         callback_slot = callback_base;
         entry_slot = D_800833E0;
@@ -107,9 +104,9 @@ loop_second:
             entry = *entry_slot;
             if (entry != 0) {
                 if (!(entry->flags & 0x800)) {
-                    special_callback = *(Callback *)(table_page - 0x3080);
+                    callback_data = *(Callback *)(D_800E0000 - 0x3080);
                     special_scan = special_start + 1;
-                    if (special_callback != callback) {
+                    if (callback_data != callback) {
                         goto second_scan_check;
                     }
                     entry = &D_80083498;
@@ -163,16 +160,16 @@ second_advance:
         register Entry **entry_slot;
         register Entry *entry ASM_REG("$17");
         register s32 slot_index ASM_REG("$19");
-        register u8 *table_page ASM_REG("$2");
+        register u8 *D_800E0000 ASM_REG("$2");
         s32 stop_dispatch;
 
         slot_index = 0;
-        table_page = (u8 *)0x80080000;
-        ASM_KEEP(table_page);
-        callback_slot = (Callback *)(table_page + 0x3360);
-        table_page = (u8 *)0x80080000;
-        ASM_KEEP(table_page);
-        entry_slot = (Entry **)(table_page + 0x33E0);
+        D_800E0000 = (u8 *)0x80080000;
+        ASM_KEEP(D_800E0000);
+        callback_slot = (Callback *)(D_800E0000 + 0x3360);
+        D_800E0000 = (u8 *)0x80080000;
+        ASM_KEEP(D_800E0000);
+        entry_slot = (Entry **)(D_800E0000 + 0x33E0);
 loop_third:
         callback = *callback_slot;
         if (callback != 0) {

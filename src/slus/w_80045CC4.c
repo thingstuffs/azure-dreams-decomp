@@ -341,13 +341,12 @@ next_entry:
                 ((S_80045CC4_2 *)sprite)->unk_0F = gpu_code;
                 flags = SP_U16(0x24);
                 if (flags & 8) {
-                    register u32 blend_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     if (flags & 4) {
-                        blend_code = gpu_code | 2;
+                        x = gpu_code | 2;
                     } else {
-                        blend_code = gpu_code & 0xFD;
+                        x = gpu_code & 0xFD;
                     }
-                    ((S_80045CC4_2 *)sprite)->unk_0F = blend_code;
+                    ((S_80045CC4_2 *)sprite)->unk_0F = x;
                 }
 
                 {
