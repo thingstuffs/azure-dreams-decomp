@@ -231,13 +231,12 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                     u8 *objects_page;
                     s32 action;
                     register s32 amount ASM_REG("$6");
-                    register s32 amount_high ASM_REG("$2");
                     GlobalObj *object;
                     result = func_80098C80(work->handle);
                     action = 0x48;
                     ASM_KEEP_DEP_NV(action, result);
-                    amount_high = (s32)((u32)result << 16);
-                    amount = amount_high >> 16;
+                    result = (s32)((u32)result << 16);
+                    amount = result >> 16;
                     objects_page = (u8 *)0x800E0000;
                     ASM_KEEP_DEP_NV(objects_page, amount);
                     object = *(GlobalObj **)(objects_page + 0x3D7C);

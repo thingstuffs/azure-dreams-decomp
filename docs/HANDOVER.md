@@ -255,6 +255,33 @@ the SLUS SHA-1 gate MATCH after each phase.
   `depinject` and `livetie` constructs as scaffolding (`fakedep`), which makes 12 older rows' hidden
   debt (10 + 2 sites from earlier WIDE runs) visible; dead stores cannot be detected by pattern and
   remain a known gap (four older `deadstore` landings in the t15 journal to review by hand).
+  **Follow-up, same policy: the 14 older t15 fake landings (09-10/11; 10 `depinject`, 4 `deadstore`)
+  are reverted too**, 22 pins back. None of their texts had changed since the landing, so each went
+  back to exactly its landing's input (sha-checked against the journal and git), all 14 scorer-exact;
+  journal `t15_shapes` `reverted` records carry the restored pin sites. What stays live and counted:
+  `town/func_800A56D0` (a lane-written `packet + depth_or_page - depth_or_page`, d876ca54) and
+  `main/func_8000F774` (`row_count * 0x11 + row_count - row_count`, upstream's own text since the pin).
+- **Nothing a search learned is lost when its result is refused: `ledger/pin_evidence.jsonl`**
+  (`tools/pin_evidence.py --build` derives it from the `reverted` journal records; 81 records, 49
+  rows). One record per pin: which fake construct matched byte-exact (`depinject x^a`, `livetie v`,
+  `deadstore v`), on which text, by which pass, and why it was not kept. `tools/pin_facts.py` prints it
+  as a `PIN EVIDENCE` line in the FACTS block of every lane pack for that row, so the next pass starts
+  from "the pin orders `x` against `a`" and looks for the natural C that creates that dependency,
+  rather than re-deriving it or re-landing the fake. Owner's steer (2026-09-12): either keep the pin or
+  take the fake with the debt tracked, as long as the next pass knows what was tried - pins kept,
+  because every pin tool re-tests a pin and nothing re-tests a fake construct. Add a record kind here
+  whenever a byte-exact result is refused on policy. Each record carries `reproduced`: re-checked
+  through the sweeps' own `verify(..., include_root=include)` on today's text, all 30 single-step
+  t18 rows and all 14 t15 landings reproduce byte-exact (54 records); the 27 others are multi-step
+  climbs or rows the host pass has since moved (`reproduced: null`, and the facts line says so). A
+  first reconstruction by hand scored 4 of those rows non-exact, but they are exact on re-test, with
+  or without `--include-root`, and with or without the pin note. Cause not found: re-score a
+  surprising negative before believing it.
+  **Re-running a sweep over these 49 rows needs
+  `--force`**: each one's current text is already journalled (the t15 rows' text is their original
+  landing's `in_sha`, the t18 rows' text is the `reverted` record's `out_sha`), so a plain sweep
+  skips all of them. Id lists: `fake_rows.txt` (35) and `t15_fake_reverted.txt` (14), in
+  `work/native_lane/fakedep/`.
 - **Two more native lanes landed:** the 17-row cross-jump family (`work/native_lane/family17/REPORT.md`
   - hosting, the opposite of splitting; t21 now reproduces it with its "host" step) and the
   register-rename class (`work/native_lane/regrename/REPORT.md` - cse class head, the commutative

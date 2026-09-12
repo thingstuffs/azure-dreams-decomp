@@ -343,13 +343,12 @@ emit_trail:
         } while (particle_index < 4);
     }
     {
-        register u32 saved_z ASM_REG("$4");
         bits = F(effect_base, u16, 0xC);
         component = F(effect_base, u16, 0xE);
-        saved_z = F(effect_base, u16, 0x10);
+        effect = F(effect_base, u16, 0x10);
         F(effect_base, u16, 0x12) = (u16)bits;
         F(effect_base, u16, 0x14) = (u16)component;
-        F(effect_base, u16, 0x16) = (u16)saved_z;
+        F(effect_base, u16, 0x16) = (u16)effect;
     }
 emit_flash:
     if (F(effect_base, s16, 0x20) != 11) {

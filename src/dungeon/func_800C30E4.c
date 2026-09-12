@@ -38,17 +38,16 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
         dispatch_v1 = 0;
     }
     {
-        register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 signed_value;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-        shifted = (s32)value << 16;
-        signed_value = shifted >> 16;
-        shifted = dispatch_v1 < signed_value;
-        if (shifted != 0) {
+        result = (s32)value << 16;
+        signed_value = result >> 16;
+        result = dispatch_v1 < signed_value;
+        if (result != 0) {
             goto call;
         }
-        shifted = 0xFF;
-        if (signed_value != shifted) {
+        result = 0xFF;
+        if (signed_value != result) {
             goto failure;
         }
 call:

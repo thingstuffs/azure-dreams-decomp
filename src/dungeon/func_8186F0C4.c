@@ -244,8 +244,7 @@ state1:
         S32_AT(effect_pos, 0x14) = ((S16_AT(effect_data, 0x78) << 16) -
             S32_AT(effect_pos, 0x08)) / S8_AT(effect_data, 0x7B);
         {
-            register u32 raw_timer ASM_REG("$2") = U8_AT(effect_data, 0x7B);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            u32 raw_timer = U8_AT(effect_data, 0x7B);
             s32 timer_copy;
             s32 duration_squared;
             register u32 raw_reload ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -253,11 +252,10 @@ state1:
             s32 next_state;
 
             ASM_KEEP(raw_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            timer = (s32)(raw_timer << 24) >> 24;
-            ASM_KEEP(timer);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            timer_copy = timer;
+            timer_reload = (s32)(raw_timer << 24) >> 24;
+            timer_copy = timer_reload;
             ASM_KEEP(timer_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            duration_squared = timer * timer_copy;
+            duration_squared = timer_reload * timer_copy;
             *(volatile s16 *)(effect_data + 0x82) = 0;
             raw_reload = *(volatile u8 *)(effect_data + 0x7B);
             next_state = U16_AT(effect_data, 0x0A);

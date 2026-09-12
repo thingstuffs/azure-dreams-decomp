@@ -80,7 +80,6 @@ void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appe
     S_818FF5B8_3 *position;
     register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register Copy12 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 copy0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 copy4 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 copy8 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -111,10 +110,10 @@ void func_818FF5B8(void **owner_ref, S_818FF5B8_4 *spawn_pos, S_818FF5B8_5 *appe
         copy_page = (u8 *) 0x80020000;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_src = (Copy12 *) (copy_page + 0x5E64);
-        copy0 = copy_src->word0;
+        state = copy_src->word0;
         copy4 = copy_src->word4;
         copy8 = copy_src->word8;
-        (*(Copy12 *)((u8 *)object + 0x40)).word0 = copy0;
+        (*(Copy12 *)((u8 *)object + 0x40)).word0 = state;
         (*(Copy12 *)((u8 *)object + 0x40)).word4 = copy4;
         (*(Copy12 *)((u8 *)object + 0x40)).word8 = copy8;
         ASM_KEEP(copy8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

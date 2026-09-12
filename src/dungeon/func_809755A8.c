@@ -66,7 +66,6 @@ void func_80170DA8(void *entity_in, void *motion_in, void *sprite_in)
     s32 height_offset;
     s32 signed_tick;
     register s32 bob_angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 height_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 ground_height;
     s16 ground_delta;
     u16 sprite_flags;
@@ -188,9 +187,9 @@ void func_80170DA8(void *entity_in, void *motion_in, void *sprite_in)
         if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
             s32 height_adjust = -0x20;
             height_offset = (*(s16 *)((u8 *)entity + (0x92)));
-            height_bits = (*(u16 *)((u8 *)entity + (0x92)));
+            entity_flags = (*(u16 *)((u8 *)entity + (0x92)));
             if (height_adjust < height_offset) {
-                height_adjust = height_bits - 8;
+                height_adjust = entity_flags - 8;
                 (*(s16 *)((u8 *)entity + (0x92))) = height_adjust;
                 goto final_adjustment;
             }
@@ -257,15 +256,15 @@ reset_offset:
     if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
         s32 height_adjust = -0x20;
         height_offset = (*(s16 *)((u8 *)entity + (0x92)));
-        height_bits = (*(u16 *)((u8 *)entity + (0x92)));
+        entity_flags = (*(u16 *)((u8 *)entity + (0x92)));
         if (height_adjust < height_offset) {
-            height_adjust = height_bits - 8;
+            height_adjust = entity_flags - 8;
             (*(s16 *)((u8 *)entity + (0x92))) = height_adjust;
         } else {
 low_height_adjustment:
             height_adjust = height_offset < -0x28;
             if (height_adjust) {
-                height_adjust = height_bits + 8;
+                height_adjust = entity_flags + 8;
                 (*(s16 *)((u8 *)entity + (0x92))) = height_adjust;
             }
         }

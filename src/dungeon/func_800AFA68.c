@@ -71,7 +71,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   volatile u16 camera_roll;
   register u16 initial_pitch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   register u16 initial_yaw ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  register u16 initial_roll ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   s32 shadow_scale[3];
   register u8 *entry_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 world_x;
@@ -145,7 +144,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
   initial_pitch = *((u16 *) (((s8 *) camera_state) + 0xC4));
   initial_yaw = *((u16 *) (((s8 *) camera_state) + 0xC6));
-  initial_roll = *((u16 *) (((s8 *) camera_state) + 0xC8));
+  world_x = *((u16 *) (((s8 *) camera_state) + 0xC8));
   primitive_buffer = *((void **) (((s8 *) render_state) + 0x8D0));
   *((u8 **) (scratch + 0x020)) = render_state + 0xB0;
   *((u16 *) (scratch + 0x08c)) = 0;
@@ -154,9 +153,9 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   *((u16 *) (scratch + 0x074)) = 0;
   camera_pitch = initial_pitch;
   camera_yaw = initial_yaw;
-  camera_roll = initial_roll;
+  camera_roll = world_x;
   *((u8 **) (scratch + 0x018)) = primitive_buffer;
-  func_80064AE0(transform_dst, initial_yaw, initial_roll, primitive_buffer);
+  func_80064AE0(transform_dst, initial_yaw, world_x, primitive_buffer);
   next_entry:
   entry_table = (u8 *) (&D_800E3648);
 

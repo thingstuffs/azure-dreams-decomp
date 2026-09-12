@@ -620,13 +620,12 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
                 child_render = upper_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
-                    register u16 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     register u16 saved_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-                    render_flags = child_render->unk_14 | 0xC;
-                    child_render->unk_14 = render_flags;
+                    render_data = child_render->unk_14 | 0xC;
+                    child_render->unk_14 = render_data;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags = render_flags;
+                    saved_flags = render_data;
                     ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     child_render->unk_10.u16 = 64;
                     child_render->unk_14 = saved_flags | 0x80;
@@ -703,13 +702,12 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
                 child_render = ring_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
-                    register u16 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     register u16 saved_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-                    render_flags = child_render->unk_14 & 0xFFF3;
-                    child_render->unk_14 = render_flags;
+                    render_data = child_render->unk_14 & 0xFFF3;
+                    child_render->unk_14 = render_data;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags = render_flags;
+                    saved_flags = render_data;
                     ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     child_render->unk_10.s16 = 32;
                     child_render->unk_14 = saved_flags | 0x80;

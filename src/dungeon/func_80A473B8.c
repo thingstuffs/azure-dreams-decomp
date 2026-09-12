@@ -120,14 +120,13 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
         register void *motion_arg ASM_REG("$5") = motion;   /* Byte-exact pin. */
         register void *entity_arg ASM_REG("$6") = entity;   /* Byte-exact pin. */
         void *actor_context;
-        register u32 state_byte ASM_REG("$2");   /* Byte-exact pin. */
 
-        state_byte = (*(u8 *)((u8 *)actor + 0x6D));
+        global_flags = (*(u8 *)((u8 *)actor + 0x6D));
         actor_context = actor;
-        state_byte <<= 24;
+        global_flags <<= 24;
         ASM_KEEP(actor_arg);   /* Byte-exact pin. */
         ASM_KEEP(actor_context);   /* Byte-exact pin. */
-        state_index = (s32)state_byte >> 24;
+        state_index = (s32)global_flags >> 24;
         if (func_800A9E70(actor_arg, motion_arg, entity_arg, actor_context) != 0) {
             goto done;
         }
@@ -294,10 +293,9 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
                 height_raw = (*(volatile u16 *)((u8 *)actor + 0x92));
                 height_limit = ground_offset - 0x18;
                 if (height_limit < height_offset) {
-                    register u32 next_height ASM_REG("$2");   /* Byte-exact pin. */
 
-                    next_height = height_raw - 8;
-                    (*(u16 *)((u8 *)actor + 0x92)) = next_height;
+                    global_flags = height_raw - 8;
+                    (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
                     goto final_collision;
                 }
                 goto adjust_height;

@@ -100,14 +100,12 @@ typedef struct S_800BA074_2 {
 /* Creates three linked display objects for the selection and initializes their appearance. */
 void *func_800BA074(u8 *selection_data) {
     Obj *objects[3];
-    u8 *selection;
     D_80083780_t *layout;
     Obj **object_slot;
     s32 part_index;
-    register u8 *global_page ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *global_page;
     s32 last_part;
 
-    selection = selection_data;
 
     if (func_8003FA44(3) == 0) {
         return 0;
@@ -149,7 +147,7 @@ loop:
 
         if (part_index == 0) {
             func_800C77D0(objects[0], transform, 8, D_800DCE66[0]);
-            sprite->f8 = (void *)func_8004A658(selection[1], selection[0]);
+            sprite->f8 = (void *)func_8004A658(selection_data[1], selection_data[0]);
         } else if (part_index == 1) {
             sprite->f8 = D_800DF368;
         } else {
@@ -171,7 +169,7 @@ loop:
             if (part_index != 0) {
                 part_state->f28 = objects[0];
             } else {
-                part_state->f2C = selection;
+                part_state->f2C = selection_data;
             }
             if (func_800BA33C(((S_800BA074_2 *)(((S_800BA074_1 *)global_page)->unk_3D7C))->unk_AC) != 0) {
                 part_state->fE = 8;
@@ -203,6 +201,6 @@ next:
         *(u16 *)(counter_base + 0xA) += 1;
     }
     func_800B1768(0, 0x27, 0x40, 0x209, 0, 0);
-    func_800B1B10(selection, 0x4C, 0x50, 0x200, 0, 2);
+    func_800B1B10(selection_data, 0x4C, 0x50, 0x200, 0, 2);
     return objects[0];
 }

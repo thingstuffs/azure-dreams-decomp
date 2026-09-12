@@ -34,7 +34,7 @@ typedef struct S_800BD5C4_0_pre {
 /* Applies an entity update and handles its follow-up effects and state count. */
 s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     u16 *type_flags;
-    register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call_arg;
     register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 saved_context ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     D_80083460_t *state;
@@ -50,12 +50,8 @@ s32 func_800BD5C4(void *entity, s32 update_value, s16 mode) {
     if ((u32) entity <= 0x9FFFFFFFU) {
         func_800A63B8(entity, update_value, mode);
         call_arg = entity;
-        type_flags = (u16 *)0x800E0000;
-        ASM_KEEP(type_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         type_index = ((Rec_D_800E3D7C *)entity)->unk_10.at03_u8.v;
-        ASM_KEEP(type_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        type_flags = (u16 *)((u8 *)type_flags - 0x217C);
-        ASM_KEEP(type_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        type_flags = (u16 *)&D_800DDE84;
         if (func_800AD6FC(call_arg, (type_flags[type_index] >> 6) & 3, 0) == 0) {
             func_800A5F38(entity, update_value);
             return 1;

@@ -52,7 +52,6 @@ void func_81844F2C(void *effect_data) {
     u32 step;
     s32 state;
     u32 color_delta;
-    register u32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_81844F2C_1 *entity;
     u8 *color_cursor;
 
@@ -125,8 +124,8 @@ state_1:
     if ((tick_or_index << 16) > 0) {
         return;
     }
-    next_state = saved_state + 1;
-    ((S_81844F2C_0 *)effect)->unk_2C.p = (u16)next_state;
+    position = saved_state + 1;
+    ((S_81844F2C_0 *)effect)->unk_2C.p = (u16)position;
     func_80024860();
     return;
 

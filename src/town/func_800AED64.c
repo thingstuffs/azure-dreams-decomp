@@ -322,14 +322,12 @@ void func_800AC4C4(void) {
     func_80064D20((u8 *)render_state + 0x50);
     if (D_800D1554[0] != 0) {
         render_state->unk_1A = -0xB8;
-        work_value = 0x1DA;
+        render_state->unk_1E = 0x1DA;
     } else {
 
         render_state->unk_1A = -0x88;
-        work_value = 0x1AA;
+        render_state->unk_1E = 0x1AA;
     }
-    render_state->unk_1E = work_value;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     view_bounds = (u8 *)render_state + 0x20;
     func_80046884((u8 *)render_state + 0x18, view_bounds, 0);
     work_ptr = view_bounds;

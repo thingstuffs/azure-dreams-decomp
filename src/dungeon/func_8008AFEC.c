@@ -13,7 +13,6 @@ s32 func_8009074C(s16 direction_offset, u16 *flags, u16 *angle) {
     register s32 direction_or_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 direction_result;
     s32 angle_distance;
-    register s32 shifted_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 current_bits;
     u16 angle_bits;
     u16 updated_flags;
@@ -190,12 +189,12 @@ block_27:
         ASM_KEEP(wrap_lo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         result_angle = wrap_hi | wrap_lo;
     }
-    shifted_angle = result_angle << 0x10;
+    direction_result = result_angle << 0x10;
     goto block_29;
 block_28:
-    shifted_angle = result_angle << 0x10;
+    direction_result = result_angle << 0x10;
 block_29:
-    direction_or_angle = shifted_angle >> 0x10;
+    direction_or_angle = direction_result >> 0x10;
     direction_result = current_angle < direction_or_angle;
     if (!direction_result) {
         goto block_31;

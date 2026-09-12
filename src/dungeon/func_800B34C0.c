@@ -48,14 +48,12 @@ void func_800B8C20(void *owner, s32 value, void *child_data, void *tail_data)
     EntityHeader *header;
 
     {
-        register u8 *call_page ASM_REG("$5");
+        u8 *call_page;
         s32 kind;
 
         call_page = (u8 *)0x80080000;
         kind = 0x12;
-        ASM_KEEP(call_page);
-        ASM_KEEP(kind);
-        object = func_8003FD64(kind, call_page + 0x3498);
+        object = func_8003FD64(kind, (u8 *)&D_80083498);
     }
     if (object != 0) {
         child = object->child;

@@ -17,7 +17,7 @@ register s32 dispatch_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing 
 
 s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
     State *state = arg0;
-    register s16 value ASM_REG("$17") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 value = arg1;
     s8 arg2 = arg2_in;
     s32 result;
     s32 dividend;
@@ -29,28 +29,26 @@ s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
     dividend = func_800A6D30() & 0xFFFF;
     dispatch_v1 = state->divisor;
     {
-        register s32 shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         register s32 signed_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         if (dispatch_v1 != 0) {
-            register s32 divreg ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 divreg;
 
             divreg = dispatch_v1;
             ASM_KEEP(divreg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             dispatch_v1 = dividend % divreg;
-            shifted = (s32)value << 16;
             goto join;
         }
         dispatch_v1 = 0;
-        shifted = (s32)value << 16;
 join:
-        signed_value = shifted >> 16;
-        shifted = dispatch_v1 < signed_value;
-        if (shifted != 0) {
+        result = (s32)value << 16;
+        signed_value = result >> 16;
+        result = dispatch_v1 < signed_value;
+        if (result != 0) {
             goto call;
         }
-        shifted = 0xFF;
-        if (signed_value != shifted) {
+        result = 0xFF;
+        if (signed_value != result) {
             goto failure;
         }
 call:

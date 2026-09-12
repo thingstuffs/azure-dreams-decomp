@@ -81,12 +81,11 @@ extern s32 D_800DEA68;
 /* Spawns up to 13 scattered objects and marks the owner finished when its timer expires. */
 void func_800DAEF4(void *source_owner, void *spawn_params)
 {
-    void *params;
     s32 remaining;
     u8 *link;
     void *object;
     void *node;
-    register u8 *work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *work;
     s32 offset_roll_a;
     s32 spread_roll_b;
     s32 spread_roll_a;
@@ -97,7 +96,6 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
     u16 target_height;
     void *part;
 
-    params = spawn_params;
     remaining = 12;
     link = (u8 *)&D_800DEA68;
     do {
@@ -129,18 +127,18 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
                 offset_sum = (biased_roll >> 6) << 6;
                 offset_sum = roll_remainder + (offset_roll_b - offset_sum) - 64;
                    /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)params)->unk_02 + offset_sum / 2;
+                ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)spawn_params)->unk_02 + offset_sum / 2;
             }
 
             spread_roll_a = func_80069EF8();
             spread_roll_b = func_80069EF8();
-            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 = ((S_800DAEF4_2 *)params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
+            ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_06 = ((S_800DAEF4_2 *)spawn_params)->unk_06 + (spread_roll_a % 64 + spread_roll_b % 64 - 64) / 2;
 
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_0A = ((S_800DAEF4_3 *)source_owner)->unk_10.s;
-            ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)params)->unk_08.at02.v;
+            ((S_800DAEF4_4 *)work)->unk_10 = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
 
             divisor = (func_80069EF8() & 3) + 4;
-            height_delta = ((S_800DAEF4_2 *)params)->unk_08.at00.v;
+            height_delta = ((S_800DAEF4_2 *)spawn_params)->unk_08.at00.v;
             height_delta -= ((S_800DAEF4_3 *)source_owner)->unk_10.u << 16;
             ((S_800DAEF4_7 *)(((S_800DAEF4_0 *)object)->unk_08))->unk_14 = height_delta / divisor;
 
@@ -157,7 +155,7 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
             ((S_800DAEF4_5 *)node)->unk_04 = 0;
             ((S_800DAEF4_5 *)node)->unk_05 = 0;
             ((S_800DAEF4_5 *)node)->unk_08 = link_value;
-            target_height = ((S_800DAEF4_2 *)params)->unk_08.at02.v;
+            target_height = ((S_800DAEF4_2 *)spawn_params)->unk_08.at02.v;
             ((S_800DAEF4_4 *)work)->unk_48 = 4;
             ((S_800DAEF4_4 *)work)->unk_10 = target_height;
         }

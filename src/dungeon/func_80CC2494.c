@@ -7,8 +7,6 @@ extern u16 D_80083462;
 
 /* Checks an object action, dispatches its update, and clears flags as needed. */
 s32 func_80175C94(void *object, s32 query_x, s32 query_y, s32 action_override) {
-    s32 saved_x = query_x;
-    s32 saved_y = query_y;
     register s32 saved_override ASM_REG("$19") = action_override;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *saved_object = object;
     s32 next_state;
@@ -16,10 +14,8 @@ s32 func_80175C94(void *object, s32 query_x, s32 query_y, s32 action_override) {
     s16 action_result;
     s32 override_bits;
 
-    action_result = func_800ADDA0(saved_x, saved_y, saved_object, 3, 6,
+    action_result = func_800ADDA0(query_x, query_y, saved_object, 3, 6,
                            (u8 *)saved_object + 0x9C);
-    ASM_KEEP(saved_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (action_result < 0) {
         goto return_zero;
     }
@@ -44,7 +40,7 @@ zero_block:
     goto return_zero;
 
 call_block:
-    func_8017405C(saved_object, saved_x, saved_y, saved_object);
+    func_8017405C(saved_object, query_x, query_y, saved_object);
     goto return_zero;
 
 tail_block:

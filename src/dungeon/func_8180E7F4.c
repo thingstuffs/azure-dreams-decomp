@@ -258,7 +258,6 @@ void *func_800277F4(void *first, void *second, void *destination) {
     void *clear_entry;
     void *source;
     void *other;
-    register void *fallback_creature ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *result;
     register void *donor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *first_creature = first;
@@ -459,7 +458,7 @@ scan_abilities:
                 merge_key = ((S_800277F4_10 *)((key_source + ability_offset)))->unk_08;
                 other_match = func_800A57B4(other, merge_key);
                 if (other_match < 0) {
-                    fallback_creature = donor;
+                    clear_result_seen = donor;
                     goto copy_source_ability;
                 }
                 if (other_match >= 0) {
@@ -493,13 +492,13 @@ scan_abilities:
                         ability_data[2] = ((S_800277F4_12 *)((other_data + match_offset)))->unk_0A;
                         goto finish_ability;
                     }
-                    fallback_creature = donor;
+                    clear_result_seen = donor;
                     goto copy_source_ability;
                 }
 copy_source_ability:
                 fallback_output = merge_out + (ability_count * 3);
                 if (source_side == 0) {
-                    fallback_creature = result;
+                    clear_result_seen = result;
                 }
                 {
                     s32 fallback_index = scan_index >> 1;
@@ -508,7 +507,7 @@ copy_source_ability:
                     register u8 *fallback_source ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     u8 *second_source;
 
-                    fallback_source = fallback_creature + fallback_offset;
+                    fallback_source = clear_result_seen + fallback_offset;
 
                     ((S_800277F4_13 *)fallback_output)->unk_00 = ((S_800277F4_14 *)fallback_source)->unk_08;
                     second_source = donor;

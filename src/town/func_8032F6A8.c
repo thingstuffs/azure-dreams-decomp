@@ -21,25 +21,24 @@ void func_80019EA8(s32 records_addr, s32 record_count)
 
     if ((records_addr != 0) && (record_index = 0, (record_count > 0))) {
         condition_ids = D_8001B8A8;
-loop:
         do {
             record = (TownRecord *)((record_index * 8) + records_addr);
-        } while (0);
-        func_8001AD60(record->unk2);
-        ASM_KEEP(record_index);
-        if (func_8001ADE0(condition_ids[1]) == 0) {
-            func_8001AD60(record->unk4);
-        } else {
-            record = (TownRecord *)((record_index * 8) + records_addr);
-            if (func_8001ADE0(record->unk0) != 0) {
-                func_8001ACE8(record->unk4);
+            func_8001AD60(record->unk2);
+            ASM_KEEP(record_index);
+            if (func_8001ADE0(condition_ids[1]) == 0) {
+                func_8001AD60(record->unk4);
+            } else {
+                record = (TownRecord *)((record_index * 8) + records_addr);
+                if (func_8001ADE0(record->unk0) != 0) {
+                    func_8001ACE8(record->unk4);
+                }
             }
-        }
-        func_8001AD60(((TownRecord *)((record_index * 8) + records_addr))->unk0);
-        record_index++;
-        if (record_index < record_count) {
-            goto loop;
-        }
+            func_8001AD60(((TownRecord *)((record_index * 8) + records_addr))->unk0);
+            record_index++;
+            if (record_index >= record_count) {
+                break;
+            }
+        } while (1);
     }
 }
 

@@ -66,7 +66,6 @@ void func_8014CDA8(void *entity_in, void *motion_in, void *sprite_in)
     s32 height_offset;
     s32 bob_phase;
     register s32 bob_angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 raw_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 ground_height;
     s16 ground_delta;
     u16 sprite_flags;
@@ -188,9 +187,9 @@ void func_8014CDA8(void *entity_in, void *motion_in, void *sprite_in)
         if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
             s32 offset_work = -0x20;
             height_offset = (*(s16 *)((u8 *)entity + 0x92));
-            raw_offset = (*(u16 *)((u8 *)entity + 0x92));
+            entity_flags = (*(u16 *)((u8 *)entity + 0x92));
             if (offset_work < height_offset) {
-                offset_work = raw_offset - 8;
+                offset_work = entity_flags - 8;
                 (*(s16 *)((u8 *)entity + 0x92)) = offset_work;
                 goto final_adjustment;
             }
@@ -257,15 +256,15 @@ reset_offset:
     if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
         s32 offset_work = -0x20;
         height_offset = (*(s16 *)((u8 *)entity + 0x92));
-        raw_offset = (*(u16 *)((u8 *)entity + 0x92));
+        entity_flags = (*(u16 *)((u8 *)entity + 0x92));
         if (offset_work < height_offset) {
-            offset_work = raw_offset - 8;
+            offset_work = entity_flags - 8;
             (*(s16 *)((u8 *)entity + 0x92)) = offset_work;
         } else {
 low_height_adjustment:
             offset_work = height_offset < -0x28;
             if (offset_work) {
-                offset_work = raw_offset + 8;
+                offset_work = entity_flags + 8;
                 (*(s16 *)((u8 *)entity + 0x92)) = offset_work;
             }
         }

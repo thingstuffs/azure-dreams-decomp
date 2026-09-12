@@ -90,6 +90,31 @@ def facts(row, text, regions_text=""):
                      "MEASURED INERT on this shape (~15 tried).  Do not spend budget re-walking "
                      "them; only a call between the definition and the use blocks the fold, and "
                      "that puts the value in a callee-saved register, which is not retail's shape.")
+    # What earlier searches learned about this row's pins (tools/pin_evidence.py): a byte-exact
+    # removal the project declined because the price was a fake dependency.  It names the value a
+    # pin orders, so the next pass does not re-derive it - and does not re-land the fake.
+    try:
+        from pin_evidence import for_row
+        ev = for_row(row["id"], text)
+    except Exception:
+        ev = []
+    for r in ev[:6]:
+        where = r.get("where") or (f"site {r['site']} `{r['macro']}({r['arg']})` (line {r['line']})"
+                                   if r.get("macro") else "this row")
+        if not r.get("current", True):
+            where += " on an earlier text - match it by the names, the numbering may have moved"
+        verdict = r["verdict"]
+        if r.get("reproduced") is False:
+            verdict += " - BUT it did NOT reproduce when re-checked on this text, so treat it as a weak hint"
+        elif r.get("reproduced") is None:
+            verdict += " (found as part of a multi-step search; not re-checked on its own)"
+        lines.append(f"- PIN EVIDENCE ({r['found_by']}): {where}: {r['hint']}.  {verdict}.  "
+                     "Read it as a map of WHICH value the pin orders, not as an answer: look for the "
+                     "natural C that creates that dependency (a real second use of the value, the "
+                     "same statement written in both arms, one variable reused for two jobs).  The "
+                     "fake construct itself is scaffolding and is counted as debt.")
+    if len(ev) > 6:
+        lines.append(f"- ({len(ev) - 6} more evidence records: python3 tools/pin_evidence.py {row['id']})")
     if row.get("true_name"):
         lines.append("- SCORING: this row has a recorded true name, so the per-row scorer links it "
                      "exactly where the window gate does - they agree, and every word of the "

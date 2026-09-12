@@ -76,13 +76,13 @@ mode_zero:
 
 mode_one:
     do {
-        message = (func_80099194(D_800E0CF3, func_80099734(state, message))) + meter;
-        message -= meter;
+        message = func_80099194(D_800E0CF3, func_80099734(state, message));
     } while (0);
     meter += 0x300;
     goto dispatch_done;
 
 mode_two:
+    ASM_USE2_NV(message, message);
     message = func_80099194(D_800E0D1B, func_80099734(state, message));
     if ((item != 0) && (item[1] == 0xC) && (item[0] == 6)) {
         meter += 0xA00;

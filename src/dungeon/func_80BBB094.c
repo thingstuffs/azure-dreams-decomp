@@ -54,7 +54,6 @@ extern void func_800AA36C(Func80BBB094PartC *, Func80BBB094PartA *,
 
 Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    s32 arg0Reg = arg0;
     Func80BBB094PartC *result = 0;
     register s32 arg1Reg ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register unsigned long slot1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -74,9 +73,8 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     arg2Reg = arg2;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
-        savedArg0 = arg0Reg;
-        ASM_USE(savedArg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_NV(arg0Reg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        savedArg0 = arg0;
+        ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         result = &obj->unk20;
         result->unk13 = 14;
         func_8004491C(obj, D_80045340);
@@ -89,7 +87,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         partB->unk24 = arg1Reg;
         resultAlias = result;
 
-        mode = arg0Reg & 3;
+        mode = arg0 & 3;
         if (mode == 1) {
             result->unk8C = D_8014CE9C;
             ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -114,7 +112,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             slot2 = (unsigned long)D_80150ED8;
             ASM_KEEP_NV(slot2);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         } else {
-            slot2 = arg0Reg & -4;
+            slot2 = arg0 & -4;
             slot2 = (u32)slot2 << 16;
             if (slot2 == 0) {
                 flag = result->unk14 & 0x200;

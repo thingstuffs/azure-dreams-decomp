@@ -104,7 +104,7 @@ void func_8080EEC4(u8 **arg0, u8 *arg1, u8 *arg2)
     s32 limit;
     register s32 shift ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 x;
     s32 state;
     s32 old_angle;
     s32 copied;
@@ -311,16 +311,17 @@ case_5:
             dx = 0;
         } while (0);
         dy = 0x7A;
-    case_5_loop:
-            local.rect.natural.x = dy;
-            local.rect.natural.w = 6;
-            x = ((s16)((S_8080EEC4_2 *)arg0)->unk_72.u >> 1) + dx;
-            func_8006E854(&local, D_8053067C + ((x % 3) << 5));
-            dy += 0x10;
-            dx++;
-        if (dx < 3) {
-            goto case_5_loop;
-        }
+            do {
+                local.rect.natural.x = dy;
+                local.rect.natural.w = 6;
+                x = ((s16)((S_8080EEC4_2 *)arg0)->unk_72.u >> 1) + dx;
+                func_8006E854(&local, D_8053067C + ((x % 3) << 5));
+                dy += 0x10;
+                dx++;
+                if (dx >= 3) {
+                    break;
+                }
+            } while (1);
         case5_old = ((S_8080EEC4_2 *)arg0)->unk_72.u;
         case5_next = case5_old + 1;
         ((S_8080EEC4_2 *)arg0)->unk_72.u = case5_next;

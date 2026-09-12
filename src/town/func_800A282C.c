@@ -23,7 +23,7 @@ extern TownState *D_80100900;
 s32 func_8009FF8C(s32 record_set, void *target)
 {
     TownRecord *records;
-    register TownRecord *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    TownRecord *record;
     u8 *flag_base;
     s32 count;
     s32 best_distance;
@@ -57,8 +57,10 @@ s32 func_8009FF8C(s32 record_set, void *target)
                     best_distance = distance;
                     best_index = record_index;
                 }
+                record++;
+            } else {
+                record++;
             }
-            record++;
             record_index++;
             flag_base += 4;
         } while (record_index < count);

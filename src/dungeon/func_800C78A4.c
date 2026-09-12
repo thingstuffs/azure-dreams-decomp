@@ -88,7 +88,6 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
     s32 random_low;
     register s32 roll_modulus ASM_REG("$2");
     register s32 roll_remainder ASM_REG("$3");
-    register s32 roll_or_data ASM_REG("$2");
     s32 roll_range;
     s32 tile_x;
     void *effect;
@@ -112,22 +111,22 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
             roll_modulus = roll_range;
             ASM_KEEP(random_low);
             roll_remainder = random_low % roll_modulus;
-            roll_or_data = roll_remainder;
+            random_value = roll_remainder;
         } else {
-            roll_or_data = 0;
+            random_value = 0;
         }
     } else {
-        roll_or_data = 0;
+        random_value = 0;
     }
 
-    if (roll_or_data < 0x30) {
+    if (random_value < 0x30) {
         effect = func_8003FC64(2);
         if (effect == NULL) {
             goto return_object;
         }
         init_effect = effect;
-        roll_or_data = (s32)&D_800CCDA0;
-        ((S_800CD004_1 *)effect)->unk_10 = (void *)roll_or_data;
+        random_value = (s32)&D_800CCDA0;
+        ((S_800CD004_1 *)effect)->unk_10 = (void *)random_value;
         func_8004491C(init_effect, &D_80045340);
 
         map = ((S_800CD004_0_pre *)source)[-1].unk_00;

@@ -423,6 +423,18 @@ scope (lazy reuse, very 1997), never a fresh block-local. 12 rows / 22 pins clos
 (`PIN = v;`, a cse cost tie) and same-register groups of three or more stay group problems, and 31
 sites are not C at all (a hand-written epilogue, an assembler marker).
 
+**Fake dependencies as evidence** (2026-09-12). Every byte-exact trade of a pin for t15's
+`depinject` / `livetie` / `deadstore` was reverted (49 rows, HANDOVER 2026-09-12), but the trade is
+kept in `ledger/pin_evidence.jsonl` and shown to every lane as a `PIN EVIDENCE` fact: it says which
+value the pin orders. The 57 `depinject` records cluster: nearly every pair is a second coordinate
+against the first (`old_y^old_x` in one function across three overlays, `next_y^next_x`,
+`start_y^start_x`, `vel_y^pos_x`, `step_y^delta_x`, `offset_z^position_y`, `height^width`) or a
+colour pair (`color_a^color_b`, 19 pins in `dungeon/func_809A38E4`). The pin ties the second
+member's computation to the first. That points at a pair-shaped source idiom - one pointer or index
+reaching both members, a `{x, y}` struct or array, PsyQ's comma-expression pair macros (`setXY0`,
+`setRGB0`; none in `include/`) - not at a statement order: hoisting `old_y`'s load next to `old_x`'s
+is inert on `80E37EA4`. A native lane is on it (`work/native_lane/fakedep/`).
+
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences
 remain. `ret2break`, `postinc` and `gotoloop` closed nothing outside their own test rows, and

@@ -88,7 +88,6 @@ void func_801652FC(
     register s32 duration_s16;
     register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 numerator_x;
-    register s32 numerator_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_x;
     register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 quotient_z;
@@ -123,8 +122,8 @@ void func_801652FC(
         quotient_x = numerator_x / divisor;
         ((S_801652FC_0 *)state)->unk_4C = quotient_x / 2;
         ASM_KEEP(quotient_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        numerator_y = -(saved_offset_y << 16);
-        quotient_y = numerator_y / divisor;
+        duration = -(saved_offset_y << 16);
+        quotient_y = duration / divisor;
         ((S_801652FC_0 *)state)->unk_50 = quotient_y / 2;
         ASM_KEEP(quotient_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         quotient_z = -(saved_offset_z << 16) / divisor;

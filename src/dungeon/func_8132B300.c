@@ -93,13 +93,12 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
     s8 *view_state;
     register CopyBlock *copy_dst ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     CopyBlock *copy_src;
-    register CopyBlock *copy_end ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    CopyBlock *copy_end;
     s32 word0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 word1;
     s32 word2;
     s32 word3;
     u16 template_1c;
-    void *setup_object;
     s32 direction_index;
     s32 parent_angle;
     s16 setup_mode;
@@ -132,7 +131,6 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
             copy_src++;
             copy_dst++;
         } while (copy_src != copy_end);
-        ASM_KEEP(copy_end);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_8004491C(effect_object, &D_80045340, copy_dst, copy_src);
         ((S_80172B00_3 *)sprite)->unk_2C = D_80174C74;
         view_state = D_80083160;
@@ -142,7 +140,6 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         effect_pos->unk_06 = (u16) source_pos->unk_06;
         effect_pos->unk_0A = (u16) source_pos->unk_0A;
         template_1c = ((S_80172B00_7 *)sprite_template)->unk_1C;
-        setup_object = effect_object;
         ((S_80172B00_3 *)sprite)->unk_1C = template_1c;
         ((S_80172B00_3 *)sprite)->unk_1E = (u16) ((S_80172B00_7 *)sprite_template)->unk_1E;
         ((S_80172B00_3 *)sprite)->unk_0E = 0x80;
@@ -158,7 +155,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         direction_index &= 7;
         ((S_80172B00_3 *)sprite)->unk_06 = (s16) (D_800DCECC[direction_index] * 4);
         ((S_80172B00_2 *)parent_data)->unk_B0 = (u8) (((S_80172B00_2 *)parent_data)->unk_B0 + 1);
-        func_800BC26C(setup_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
+        func_800BC26C(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
     }
 }
 /* MECHANISM: The 0x30 frame follows seven held callee-saved roles, including a reused &D_80083160 base.

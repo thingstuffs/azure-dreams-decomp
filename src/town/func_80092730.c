@@ -16,7 +16,7 @@ extern s32 func_8008FE78();
 
 /* Finds the first eligible active node in the circular list. */
 Node *func_8008FE90(Node *origin) {
-    register s32 node_field_c ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 node_field_c;
     s32 node_field_8;
     s32 origin_field_8;
     s32 origin_field_c;
@@ -26,21 +26,22 @@ Node *func_8008FE90(Node *origin) {
     origin_field_c = origin->fieldC;
     origin_field_8 = origin->field8;
     if (node != origin) {
-loop:
-        node_field_8 = node->field8;
-        node_field_c = node->fieldC;
-        if (node->active != 0) {
-            if (((u32)(node->type - 2) >= 2U) ||
-                (func_8008FE78(node->angle, origin->angle) != 0)) {
-                if (func_8008FD9C(origin_field_c, origin_field_8, node_field_c, node_field_8) != 0) {
-                    return node;
+        do {
+            node_field_8 = node->field8;
+            node_field_c = node->fieldC;
+            if (node->active != 0) {
+                if (((u32)(node->type - 2) >= 2U) ||
+                    (func_8008FE78(node->angle, origin->angle) != 0)) {
+                    if (func_8008FD9C(origin_field_c, origin_field_8, node_field_c, node_field_8) != 0) {
+                        return node;
+                    }
                 }
             }
-        }
-        node = node->next;
-        if (node != origin) {
-            goto loop;
-        }
+            node = node->next;
+            if (node == origin) {
+                break;
+            }
+        } while (1);
     }
     return 0;
 }

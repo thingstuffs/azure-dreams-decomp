@@ -117,12 +117,11 @@ main_path:
             node = saved_node;
             result = func_80099368(target, node);
             {
-                register s32 node_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-                node_arg = node;
+                entity_value = node;
                 node = result;
                 ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                func_800998C0(node_offset, node_arg);
+                func_800998C0(node_offset, entity_value);
             }
             func_80099290(func_80099194(&D_8008937C, node));
         }
@@ -147,12 +146,11 @@ main_path:
         node = saved_node;
         result = func_80099368(target, node);
         {
-            register s32 node_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
-            node_arg = node;
+            entity_value = node;
             node = result;
             ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            func_800998C0(node_offset, node_arg);
+            func_800998C0(node_offset, entity_value);
         }
         func_80099290(func_80099194(&D_8008937C, node));
     }

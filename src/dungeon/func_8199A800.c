@@ -28,6 +28,7 @@ extern void func_800240A0(void);
 extern void func_80024124(void);
 extern void func_8002414C(void);
 extern void func_80024218(void);
+extern u8 D_80080000[];
 
 #define MANAGER_PTR() ((void *)(u32)U32_AT(D_800814A8, 0))
 
@@ -82,10 +83,8 @@ case_0:
         goto default_case;
     }
     {
-        u8 *manager_page = (u8 *)0x80080000;
         void *manager =
-            *(void **)(manager_page + 0x14A8);
-        ASM_KEEP(manager_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            *(void **)(D_80080000 + 0x14A8);
 
         U16_AT(state, 0x18) = 0x12;
         result = U16_AT(manager, 0xA6) - 1;

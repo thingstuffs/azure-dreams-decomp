@@ -11,8 +11,8 @@ u8 *func_800A1618(s32 requested_id, s32 requested_type) {
     u8 *ram_base;
     s32 slot_type;
     s32 match_id;
-    register s32 short_id ASM_REG("$4");
-    s32 slot_id;
+    s32 short_id;
+    s16 slot_id;
     register s32 saved_type ASM_REG("$9");
     s32 slot_index;
     u8 *entry_id;
@@ -23,7 +23,6 @@ u8 *func_800A1618(s32 requested_id, s32 requested_type) {
     saved_type = requested_type;
     slot_type = requested_type;
     short_id = requested_id;
-    ASM_KEEP_NV(short_id);
     short_id = (s16)short_id;
     if (short_id == 0x38) {
         table = D_800E3DB0;

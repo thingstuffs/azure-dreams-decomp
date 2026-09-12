@@ -131,7 +131,6 @@ void func_8081DD70(void *source_data, void *record_data) {
             register void *copy_packet ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 record_word_0;
             s32 record_word_1;
-            register s32 record_word_2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register s32 record_word_3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             call_object = object;
@@ -141,11 +140,11 @@ void func_8081DD70(void *source_data, void *record_data) {
             ((S_8081DD70_2 *)object)->unk_10 = &D_800206D0;
             record_word_0 = ((S_8081DD70_3 *)record)->unk_00;
             record_word_1 = ((S_8081DD70_3 *)record)->unk_04;
-            record_word_2 = ((S_8081DD70_3 *)record)->unk_08;
+            record_data = ((S_8081DD70_3 *)record)->unk_08;
             record_word_3 = ((S_8081DD70_3 *)record)->unk_0C;
             ((S_8081DD70_4 *)copy_packet)->unk_00 = record_word_0;
             ((S_8081DD70_4 *)copy_packet)->unk_04 = record_word_1;
-            ((S_8081DD70_4 *)copy_packet)->unk_08 = record_word_2;
+            ((S_8081DD70_4 *)copy_packet)->unk_08 = record_data;
             ((S_8081DD70_4 *)copy_packet)->unk_0C = record_word_3;
             record_word_0 = ((S_8081DD70_3 *)record)->unk_10;
             record_word_1 = ((S_8081DD70_3 *)record)->unk_14;

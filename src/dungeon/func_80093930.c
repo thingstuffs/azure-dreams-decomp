@@ -9,21 +9,20 @@ s32 func_80099090(void)
     s32 index;
     s32 result;
 
-    do {
-        index = 0;
-    } while (0);
+    index = 0;
     entry = D_800E3E48;
-loop:
-    if (entry[0x13] == 0) {
-        result = index;
-        goto done;
-    }
+    do {
+        if (entry[0x13] == 0) {
+            result = index;
+            goto done;
+        }
 
-    index++;
-    entry += 0x8C;
-    if (index < 0x14) {
-        goto loop;
-    }
+        index++;
+        entry += 0x8C;
+        if (index >= 0x14) {
+            break;
+        }
+    } while (1);
 
     result = -1;
 done:

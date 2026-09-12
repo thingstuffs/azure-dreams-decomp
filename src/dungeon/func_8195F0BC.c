@@ -49,7 +49,7 @@ extern void *func_8009B4B0();
 
 /* Animate nearby tile heights and fade the color, then finalize the dungeon transition. */
 void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
-    register FadeColor *fade_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    FadeColor *fade_color;
     s32 grid_x;
     register s32 grid_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 tile_x;
@@ -80,9 +80,8 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
         fade_color = (FadeColor *)0x80020000;
         if (!(state->timer & 3)) {
             func_800419EC(8, 16);
-            fade_color = (FadeColor *)0x80020000;
         }
-        fade_color = (FadeColor *)((u8 *)fade_color + 0x7398);
+        fade_color = (FadeColor *)&D_80027398;
         fade_color->red += (0xF0 - fade_color->red) / (s16)state->timer;
         fade_color->green += (0x40 - fade_color->green) / (s16)state->timer;
         fade_color->blue += (0x20 - fade_color->blue) / (s16)state->timer;

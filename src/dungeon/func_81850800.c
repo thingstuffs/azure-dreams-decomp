@@ -222,7 +222,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s16 effect_flags;
     s32 tiles_ahead;
     s32 off_x;
-    register s32 off_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 off_y;
     register s32 facing ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 dx ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -249,7 +249,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     register u8 base_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s16 ground_height;
     S_81850800_1 *caster_data;
-    register S_81850800_4 *caster_sprite ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_81850800_4 *caster_sprite;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_81850800_8 *work;
     S_81850800_9 *obj;
     S_81850800_1 *target;
@@ -318,30 +318,31 @@ state_0:
 
         off_y = 0;
         off_x = 0;
-state_0_loop:
-        min_height = -0x400;
-        ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        tile_pixel_x = caster_sprite->unk_24;
-        tile_pixel_y = caster_sprite->unk_25;
-        tile_pixel_x = (tile_pixel_x + off_x) << 6;
-        ASM_KEEP(tile_pixel_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dx = tile_pixel_x + 0x20;
-        tile_pixel_y = (tile_pixel_y + off_y) << 6;
-        ASM_KEEP(tile_pixel_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dy = tile_pixel_y + 0x20;
-        probe_x = (u16)dx;
-        probe_y = (u16)dy;
-        ground_height = func_800BCB04(probe_x, probe_y, min_height);
-        if ((s16)func_800A4688(probe_x, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
-                               caster_data->unk_60) != 0) {
-            goto state_0_tail;
-        }
-        tiles_ahead++;
-        off_y += step_y;
-        off_x += step_x;
-        if (tiles_ahead < 2) {
-            goto state_0_loop;
-        }
+        do {
+            min_height = -0x400;
+            ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            tile_pixel_x = caster_sprite->unk_24;
+            tile_pixel_y = caster_sprite->unk_25;
+            tile_pixel_x = (tile_pixel_x + off_x) << 6;
+            ASM_KEEP(tile_pixel_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            dx = tile_pixel_x + 0x20;
+            tile_pixel_y = (tile_pixel_y + off_y) << 6;
+            ASM_KEEP(tile_pixel_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            dy = tile_pixel_y + 0x20;
+            probe_x = (u16)dx;
+            probe_y = (u16)dy;
+            ground_height = func_800BCB04(probe_x, probe_y, min_height);
+            if ((s16)func_800A4688(probe_x, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+                                   caster_data->unk_60) != 0) {
+                goto state_0_tail;
+            }
+            tiles_ahead++;
+            off_y += step_y;
+            off_x += step_x;
+            if (tiles_ahead >= 2) {
+                break;
+            }
+        } while (1);
 state_0_tail:
         dx = step_x * tiles_ahead;
         dy = step_y * tiles_ahead;

@@ -289,7 +289,6 @@ build_y_pairs:
         s32 pairs_end;
         register s32 frame_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         register s32 coord_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u16 coord_half ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         SignedProduct product;
 
@@ -306,20 +305,20 @@ build_x_pairs:
             ASM_TAILSLOT_PIN_TIED(lower_coord);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_800F8488(vertex_ptr, saved_a1, (void *)pair_addr, (void *)pairs_end);
         }
-        coord_half = coord_work + 0x20;
-        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = coord_half;
+        caller_a1 = coord_work + 0x20;
+        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = caller_a1;
         ASM_KEEP_NV(vertex_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        coord_half = ((S_807B0B3C_3 *)vertex_ptr)->unk_00.v;
-        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_00 = coord_half;
-        coord_half = ((S_807B0B3C_1 *)effect)->unk_02.u;
+        caller_a1 = ((S_807B0B3C_3 *)vertex_ptr)->unk_00.v;
+        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_00 = caller_a1;
+        caller_a1 = ((S_807B0B3C_1 *)effect)->unk_02.u;
         coord_work = (s32)((u32)8 + (u32)pair_addr);
-        ((S_807B0B3C_6 *)((u8 *)coord_work))->unk_02 = coord_half;
-        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_02 = coord_half;
+        ((S_807B0B3C_6 *)((u8 *)coord_work))->unk_02 = caller_a1;
+        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_02 = caller_a1;
         height = ((S_807B0B3C_1 *)effect)->unk_04;
         ((S_807B0B3C_6 *)((u8 *)coord_work))->unk_04 = height;
-        coord_half = ((S_807B0B3C_1 *)effect)->unk_08.u16;
+        caller_a1 = ((S_807B0B3C_1 *)effect)->unk_08.u16;
         div5_magic = stack.sp1C;
-        frame_remainder = (s16)coord_half;
+        frame_remainder = (s16)caller_a1;
         product.value = (long long)frame_remainder * div5_magic;
         ASM_KEEP_NV(product.words.hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         product_hi = product.words.hi;

@@ -37,7 +37,7 @@ s32 func_800595C0(Entity *entity)
 {
     register Entity *ent ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     s32 command;
-    s32 operand;
+    s16 operand;
     s32 value;
     register s32 saved_command ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 command_index;
@@ -76,7 +76,7 @@ L_case_47:
     func_80057948(ent->field_4C, ent->field_4A, 0);
     return 1;
 L_case_48: {
-    register s32 next_byte ASM_REG("$3") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 next_byte = func_800589B8(ent);
     u32 slot_count;
     operand = next_byte;
     slot_count = D_800869B4[0];
@@ -84,7 +84,6 @@ L_case_48: {
     if (slot_count != 0) {
         u32 slot_index = 0;
         s32 slot_value = ((next_byte & 0x7F) << 1) + 2;
-        ASM_KEEP(next_byte);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
         do {
             D_80085FA8[slot_index].field_24 = slot_value;
             slot_index++;
@@ -93,23 +92,20 @@ L_case_48: {
     goto ret_bool;
 }
 L_case_49: {
-    register s32 next_byte ASM_REG("$2") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 next_byte = func_800589B8(ent);
     operand = next_byte;
-    ASM_KEEP(next_byte);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     func_80058494(ent->field_4C, 0, next_byte & 0x7F);
     goto ret_bool;
 }
 L_case_4A: {
-    register s32 next_byte ASM_REG("$2") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 next_byte = func_800589B8(ent);
     operand = next_byte;
-    ASM_KEEP(next_byte);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     func_8005845C(ent->field_4C, next_byte & 0x7F);
     goto ret_bool;
 }
 L_case_4B: {
     s32 next_byte = func_800589B8(ent);
     operand = next_byte;
-    ASM_KEEP(next_byte);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     ent->field_4C = next_byte & 0xF;
     goto ret_bool;
 }
@@ -118,9 +114,8 @@ L_case_7F:
     ent->field_2C = 1;
     goto ret_bool;
 L_default: {
-    register s32 next_byte ASM_REG("$2") = func_800589B8(ent);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 next_byte = func_800589B8(ent);
     operand = next_byte;
-    ASM_KEEP(next_byte);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
     func_8005914C(ent, (ent->field_4C + 0xB0) & 0xFF,
                   saved_command & 0x7F, next_byte & 0x7F);
 }

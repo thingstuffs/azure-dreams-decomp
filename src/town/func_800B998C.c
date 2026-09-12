@@ -39,7 +39,7 @@ void func_800B70EC(void) {
     s32 single_row;
     s32 size;
     s32 limit;
-    register s32 seven ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 seven;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *asset_data;
     u8 *state_base;
     u8 *asset_state;
@@ -48,7 +48,6 @@ void func_800B70EC(void) {
     register u16 *initial_rect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *image_data;
     register u8 *scene_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 *scene_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     upload_rect = D_80111FA8;
     initial_rect = upload_rect;
@@ -115,10 +114,10 @@ common:
     func_80067014(0);
     *(void **)asset_state = asset_data;
     func_800B73F0(asset_data);
-    scene_table = D_800D2FB4;
+    size = D_800D2FB4;
     scene_index = D_800D381A[0];
     scene_offset = scene_index << 5;
-    scene_entry = scene_table + scene_offset;
+    scene_entry = size + scene_offset;
     ASM_KEEP(scene_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(scene_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     scene_id = *scene_entry;
