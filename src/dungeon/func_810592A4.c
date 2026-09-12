@@ -58,7 +58,7 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
     void *part = part_input;
     register void *entity ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 state_direction;
-    register s32 direction_index ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 direction_index;
     register void *call_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *call_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *call_part ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -152,7 +152,6 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
         }
 
         direction_flag = D_8006CCF8[direction_index];
-        ASM_KEEP(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (direction_flag != 0) {
             ((S_80170AA4_0 *)part)->unk_14.n |= 1;
         } else {

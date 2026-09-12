@@ -74,7 +74,7 @@ s32 func_801732A4(Entity *input_entity, s32 action_param, Aux *input_aux)
     register Entity *actor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *script;
     s32 command;
-    register s32 command_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 command_byte;
     s32 animation;
     s32 next_phase;
     s32 opcode;
@@ -101,7 +101,6 @@ top:
     }
     script = D_80175DC4;
     command = script[1];
-    ASM_KEEP(command);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     command_byte = (u8) command;
     if (command_byte == 0) {
         entity->fieldAF = 0;
@@ -114,13 +113,11 @@ top:
         D_80175DC4 = script + 2;
         D_80175DC8 = 0;
     }
-    ASM_KEEP(script);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     old_flags = actor->flags46;
     actor->angle = (s16)((command & 7) << 9);
     turn_opcode = 0xD8;
     actor->flags46 = (u16)(old_flags | 0x8000);
     opcode = command_byte & 0xF8;
-    ASM_KEEP(command_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (opcode == turn_opcode) {
         goto case_D8;
     }

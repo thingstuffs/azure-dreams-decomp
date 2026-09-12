@@ -43,7 +43,7 @@ s32 func_81845068(u8 *first_node)
     u8 *render_state;
     register u8 *alloc_ctx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *ot_ctx;
-    register u8 *ot_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *ot_entry;
     u8 *prim;
     Coord *screen_base;
     Coord *screen_pos;
@@ -117,7 +117,6 @@ s32 func_81845068(u8 *first_node)
             tex_value = 7 - *(s16 *)(effect_node + 0x2A);
             ((Scratch *)&screen_coords[2])->word = tex_value;
             ot_entry = (u8 *)(depth_bucket * 4);
-            ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             tex_u_end = (((Scratch *)&screen_coords[2])->byte & 3) << 5;
             tex_u_start = tex_u_end - 0x80;
             tex_u_end -= 0x61;

@@ -76,7 +76,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     register u8 *subject ASM_REG("$19") = actor;   /* Byte-exact pin. */
     register u8 *part ASM_REG("$20");   /* Byte-exact pin. */
     register u8 *sprite ASM_REG("$16");   /* Byte-exact pin. */
-    register s32 state_index ASM_REG("$17");   /* Byte-exact pin. */
+    s32 state_index;
     u32 global_flags;
     u16 *global_flags_ptr = (u16 *)0x80080000;
     u8 *part_base;
@@ -235,7 +235,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     entity_flags = ((S_80170BB8_4 *)entity)->unk_14;
     if (!(entity_flags & 0x8000)) {
         {
-            register s32 view_angle ASM_REG("$2");   /* Byte-exact pin. */
+            s32 view_angle;
 
             view_angle =
                 D_80083228[0] + ((S_80170BB8_1 *)subject)->unk_2A + 0x100;
@@ -393,5 +393,4 @@ done:
     ASM_KEEP(motion);   /* Byte-exact pin. */
     ASM_KEEP(entity);   /* Byte-exact pin. */
     ASM_KEEP(sprite);   /* Byte-exact pin. */
-    ASM_KEEP(state_index);   /* Byte-exact pin. */
 }

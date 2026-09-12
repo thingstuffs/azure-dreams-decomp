@@ -40,7 +40,7 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
 {
     CoordPair bottom_center;
     register s32 fill_rect ASM_REG("$22") = fill;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 draw_id ASM_REG("$19") = content_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 draw_id = content_id;
     register u8 **state_addr ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *state;
     u8 *ordering_table;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -53,7 +53,7 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
     s32 rect_offset_y;
     register s32 line_offset_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 apply_offset_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *line_table ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *line_table;
     s32 primitive_flag;
 
     state_addr = (u8 **)D_80083160;
@@ -98,7 +98,6 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
             ((S_800BB2E4_2 *)packet)->unk_0C.at02.v -= 0xE0;
         }
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
-        ASM_UNDEF(draw_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0;
         ((S_800BB2E4_2 *)packet)->unk_04.at03.v = 0x40;
         func_8006658C(line_table, packet, offset_y);
