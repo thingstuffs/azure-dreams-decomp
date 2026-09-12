@@ -1124,7 +1124,9 @@ def basesym_candidates(text):
             break
         if j is not None:
             s = t.m[j]
-            m1 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*=[ \t]*(?:\((?P<c1>[^()]*)\)[ \t]*)?\(?[ \t]*(?:\((?P<c2>[^()]*\*)[ \t]*\)[ \t]*)?%s[ \t]*(?P<op>[-+])[ \t]*(?P<k>-?[ \t]*%s)[ \t]*\)?[ \t]*;[ \t]*$" % (re.escape(v), re.escape(v), NUM), s)
+            # the close paren may follow the variable (`((u8 *) v) + 0x3460`, dungeon/func_800A7828 -
+            # found by the permuter trial) or the offset (`(u8 *)(v + K)`)
+            m1 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*=[ \t]*(?:\((?P<c1>[^()]*)\)[ \t]*)?\(?[ \t]*(?:\((?P<c2>[^()]*\*)[ \t]*\)[ \t]*)?%s[ \t]*\)?[ \t]*(?P<op>[-+])[ \t]*(?P<k>-?[ \t]*%s)[ \t]*\)?[ \t]*;[ \t]*$" % (re.escape(v), re.escape(v), NUM), s)
             m2 = re.match(r"^(?P<i>[ \t]*)%s[ \t]*(?P<op>[-+])=[ \t]*(?P<k>-?[ \t]*%s)[ \t]*;[ \t]*$" % (re.escape(v), NUM), s)
             m = m1 or m2
             if m:
@@ -1220,10 +1222,107 @@ def basesym_candidates(text):
     return out
 
 
+# ------------------------------------------------------------------------------ 8. splitcursor
+
+STEP_RE = r"^(?P<i>[ \t]*)%s[ \t]*=(?!=)[ \t]*(?P<e>[^;]+?)[ \t]*;[ \t]*$"
+
+
+def splitcursor_candidates(text):
+    """One name per step of a chain, where m2c reused one cursor: `v = E0; ... v = f(v); ...
+    v = g(v);` -> `v = E0; ... v2 = f(v); ... v3 = g(v2);`, reads renamed up to the next step.
+
+    From a research pass over ygofm-decomp's measured workflow (cc1psx 2.8.1): "a chain of pointer
+    steps wants one name per step, not one cursor ... five distinct locals, each assigned once,
+    gives five short-lived pseudos that ping-pong through $v0/$v1 the way retail does" (34 -> 7 on
+    one row; fully inlining the chain was worse).  The reused cursor is one long-lived pseudo -
+    exactly what a register pin on it stands in for - so the variable's pin comes off with it.
+    Straight-line chains only (no label, loop or brace change between the steps) and nothing
+    writes the variable after its last step, so the renaming cannot change behaviour.  At the pin
+    census (2026-09-12): 171 pinned variables in 115 rows are stepped this way.
+    """
+    t = _T(text)
+    out = []
+    for a, b in t.spans:
+        body = "\n".join(t.m[a:b + 1])
+        seen = set()
+        for k in range(a, b + 1):
+            for cand in re.findall(r"\b(%s)\b" % ID, t.m[k]):
+                if cand in seen or cand in CTRL:
+                    continue
+                seen.add(cand)
+                di, ty, init = _decl(t.m, a, b, cand)
+                if di is None or init or _addr_taken(body, cand):
+                    continue
+                v = cand
+                rx = _occ(v)
+                writes = [j for j in range(di + 1, b + 1) if re.match(STEP_RE % re.escape(v), t.m[j])]
+                steps = [j for j in writes if rx.search(re.match(STEP_RE % re.escape(v), t.m[j]).group("e"))]
+                if len(steps) < 2 or _writes(body, v) != len(writes):
+                    continue           # a ++, a compound write or a write through a pointer: leave it
+                first = writes[0]
+                if first in steps or steps[-1] != writes[-1]:
+                    continue           # the chain must start with a plain set and end the writes
+                lo, hi = first, steps[-1]
+                if any(LABEL_RE.match(t.m[j]) or re.match(r"^[ \t]*(?:do|while|for|goto|switch|case)\b", t.m[j])
+                       or "{" in t.m[j] or "}" in t.m[j] for j in range(lo, hi + 1)):
+                    continue           # straight-line chains only
+                pins = {j for j in range(a, b + 1) if PIN_STMT_RE.match(t.m[j])
+                        and re.search(r"[(,]\s*%s\s*[,)]" % re.escape(v), t.m[j])}
+                base_ty = re.sub(r"\bregister\b", "", ty).strip()
+                for which in ("all", "last"):
+                    split = steps if which == "all" else steps[-1:]
+                    names, n = {}, 1
+                    for j in split:
+                        n += 1
+                        names[j] = "%s%d" % (v, n)
+                    edits, cur = {}, v
+                    for j in range(first, b + 1):
+                        if j in pins:
+                            continue
+                        ln_m, ln = t.m[j], _nl(t.lines[j])
+                        if j in names:
+                            m = re.match(STEP_RE % re.escape(v), ln_m)
+                            e0, e1 = m.start("e"), m.end("e")
+                            rhs = ln[e0:e1]
+                            reps = [(o.start(), o.end(), cur) for o in rx.finditer(ln_m[e0:e1])]
+                            for s0, s1, r in sorted(reps, reverse=True):
+                                rhs = rhs[:s0] + r + rhs[s1:]
+                            cur = names[j]
+                            edits[j] = m.group("i") + "%s = %s;" % (cur, rhs)
+                            continue
+                        if cur != v:
+                            hits = list(rx.finditer(ln_m))
+                            if hits:
+                                for h in reversed(hits):
+                                    ln = ln[:h.start()] + cur + ln[h.end():]
+                                edits[j] = ln
+                    decl_ln = _nl(t.lines[di])
+                    plain = re.sub(r"[ \t]*ASM_REG[ \t]*\([^)]*\)", "", re.sub(r"\bregister[ \t]+", "", decl_ln))
+                    ind = _ind(t.lines[di])
+                    extra = [ind + "%s%s%s;" % (base_ty, "" if base_ty.endswith("*") else " ", nm)
+                             for nm in names.values()]
+                    edits[di] = plain.rstrip()
+                    for keep_pins in ((False, True) if pins else (False,)):
+                        drop = set() if keep_pins else set(pins)
+                        e2 = dict(edits)
+                        if keep_pins:
+                            for j in pins:       # a keep on v follows the name live at that point
+                                live = v
+                                for s in split:
+                                    if s < j:
+                                        live = names[s]
+                                if live != v:
+                                    ln = _nl(t.lines[j])
+                                    e2[j] = re.sub(r"\b%s\b" % re.escape(v), live, ln)
+                        out.append(("splitcursor:%s/%s%s" % (v, which, "+pins" if keep_pins else ""),
+                                    t.build(e2, drop, {di: extra})))
+    return out
+
+
 # ------------------------------------------------------------------------------ the menu
 
 GENERATORS = (dropcopy_candidates, armstore_candidates, ret2break_candidates, ptr2index_candidates,
-              postinc_candidates, gotoloop_candidates)
+              postinc_candidates, gotoloop_candidates, splitcursor_candidates)
 
 
 def candidates(text, basesym=True):

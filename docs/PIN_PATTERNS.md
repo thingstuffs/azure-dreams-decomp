@@ -366,6 +366,20 @@ that too now — from the row's pre-agy text it closes the lane's site and a sec
 three widenings, 46 rows in all: the base-page shape is the family this campaign's lanes kept
 finding.
 
+**Research from other decomps (2026-09-12, `work/research/sotn_findings.md`).** A pass over
+sotn-decomp, ygofm-decomp (cc1psx 2.8.1 + maspsx, the closest toolchain) and the permuter forks,
+with BFM's harvest not repeated. The levers new to this tree: one name per pointer-chain step
+instead of a reused cursor (ygofm, 34 -> 7 on one row); a named local, not a cast, to stop combine
+substituting a sign-extend away; an lvalue cast (`*(s8 *)&x`) where a value cast is dropped; store
+groups ordered by phase to dodge dead-store elimination; declaration placement as a register-class
+lever; `find_cross_jump` compares only the block physically above a label, so arm order decides a
+merge; and sotn's `FAKE` convention — shipped, matched code that uses a plain named local, an extra
+copy, a dead block or an empty `if` where this tree spends an `ASM_*` macro. The first lever is now
+`natural.splitcursor` (straight-line chains, `v = E0; v = f(v); …` → `v`, `v2`, `v3`, the
+variable's pin dropped): 31 rows carry a candidate, 16 a pin-deleting one, **3 landed** (3 pins).
+`FAKE`-style replacements are deliberately NOT mechanised yet: census cannot see a plain copy, so a
+bulk trade would hide debt; if adopted they must carry a `FAKE` note that census counts.
+
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences
 remain. `ret2break`, `postinc` and `gotoloop` closed nothing outside their own test rows, and

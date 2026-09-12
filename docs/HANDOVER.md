@@ -220,6 +220,20 @@ the SLUS SHA-1 gate MATCH after each phase.
 4. Unchanged from the section below: the shared control-flag unit (`dungeon/func_80091258`,
    `func_80087054`) and the address-materialisation second handle (`dungeon/func_8098D5A8`).
 
+### 2026-09-12 (owner's standing goal: keep working the pins, free rein, decisions documented)
+
+- **Research:** `work/research/sotn_findings.md` (sotn-decomp, ygofm-decomp, permuter forks; BFM not
+  repeated) — levers summarised in PIN_PATTERNS section 10. First one mechanised:
+  `natural.splitcursor` (one name per chain step): 3 rows, 3 pins.
+- **The permuter is wired to this tree:** `tools/permute_pins.py` (strip a close row's pins, build
+  `target.o` from its own pinned byte-exact text with `tools/permute_cc.sh`, run the old
+  decomp-permuter (the old checkout's patched copy and venv; `$PERMUTER_DIR` / `$PERMUTER_PY`), judge score-0 outputs with
+  `verify.py`, transplant the function back into the file). A 12-row trial on the 1-4-word strip
+  population (`work/permute_trial/`) is the evidence for whether it becomes a long CPU job; its first
+  finding was a generator gap (`((u8 *)v) + K` - `basesym` now takes it).
+- **Controversial-in-waiting, not done:** sotn's `FAKE` convention (plain-C stand-ins for allocator
+  ties). Not mechanised - census cannot see it; adopting it needs a counted `FAKE` note first.
+
 ### Rules learned today
 
 - **The harvest proves the scorer, never the window.** Pack 2 batch 1 (owner-launched): the lane
