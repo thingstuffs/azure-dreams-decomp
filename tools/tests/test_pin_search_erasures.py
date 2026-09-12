@@ -40,6 +40,18 @@ class ErasureTests(unittest.TestCase):
         self.assertEqual(next(groups),tuple(range(10)))
         self.assertEqual(next(groups),(0,9))
 
+    def test_family_plan_does_not_expand_unrelated_pairs(self):
+        live=sites_of(SOURCE)
+        self.assertEqual(list(engine.erasure_groups(live,families_only=True)),[(0,1,2)])
+        self.assertEqual(len(list(engine.erasure_groups(live))),7)
+
+    def test_zero_fallback_retains_near_evidence_without_extra_verifies(self):
+        with tempfile.TemporaryDirectory() as tmp,patch.object(engine,'compile_s',side_effect=lambda row,text:['same'] if text==SOURCE else ['different']):
+            s=self.session(tmp,lambda text:self.fail('zero fallback must not verify a nonzero screen'),fallback=0)
+            text,info=s.run('erasures')
+            self.assertEqual(text,SOURCE);self.assertTrue(s.near)
+            self.assertEqual(info.get('tried',0),0)
+
     def test_joint_removal_without_single_or_near_pair_win(self):
         def cc(row,text):return ['same'] if len(sites_of(text)) in (0,3) else ['different']
         with tempfile.TemporaryDirectory() as tmp,patch.object(engine,'compile_s',side_effect=cc):

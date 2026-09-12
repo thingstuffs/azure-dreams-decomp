@@ -81,6 +81,13 @@ python3 tools/pin_search.py start --tag erase_next --workers 4
 python3 tools/pin_search.py publish --tag erase_next --mode erasures --workers 4
 ```
 
+For larger functions, `--families-only` limits the plan to the full set, groups sharing a
+variable, and macro families. It skips exhaustive subsets and the quadratic pair walk;
+results name this limited plan explicitly. `--fallback 0` disables extra full verification
+of nonzero assembly screens for a measured throughput experiment (default remains two).
+Zero-screen candidates still require full byte verification, source checks and final gates.
+Near misses remain saved for later research; a no-op is not proof of necessity.
+
 This is an experiment in joint-removal coverage, not a replacement for baseline search.
 T2 tests singles; baseline T27 can exhaust its budget in shape search before reaching
 larger subsets or distant pairs. Read the manifest and stopping reason before calling a

@@ -120,6 +120,8 @@ def prepare(a):
     from pin_search_engine import DEFAULTS
     if a.pilot and a.mode not in ("baseline", "targeted"):
         raise ValueError("this mode cannot be combined with the pin comparison pilot")
+    if getattr(a, "families_only", False) and a.mode != "erasures":
+        raise ValueError("--families-only requires --mode erasures")
     d = safe_tag(a.tag)
     if (d / "manifest.json").exists(): raise RuntimeError("tag already prepared; use run to resume or a new tag")
     rs = [r for r in rows() if r.get("stock") and r.get("exists") and r["container"] not in PARKED_CONTAINERS]
@@ -156,7 +158,9 @@ def prepare(a):
         records.append(dict(row=r, source_sha=sha_text(t), input=str(p.relative_to(d)),
                             current_sha=sha_file(clean_path(r)), replay=r["id"] in used))
     opts = dict(DEFAULTS, screens=a.screens, verifies=a.verifies, cpu_seconds=a.cpu_seconds,
-                objective="fences" if a.mode == "fences" else "pins")
+                objective="fences" if a.mode == "fences" else "pins",
+                fallback=getattr(a, "fallback", DEFAULTS["fallback"]),
+                families_only=getattr(a, "families_only", False))
     manifest = dict(schema=1, created=utc(), tag=a.tag, rows=records, options=opts,
                     modes=["baseline", "targeted"] if a.pilot else [a.mode],
                     environment=POLICY_ENV, fingerprints=fingerprints([r for r, _ in chosen]))
@@ -499,6 +503,8 @@ def main():
     ap.add_argument("--sample",type=int,default=0);ap.add_argument("--seed",type=int,default=20260912)
     ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline","fences","erasures"],default="baseline")
     ap.add_argument("--screens",type=int,default=1200);ap.add_argument("--verifies",type=int,default=12);ap.add_argument("--cpu-seconds",type=float,default=40)
+    ap.add_argument("--fallback",type=int,default=2,choices=range(0,3),help="near-screen full-verifier allowance per row")
+    ap.add_argument("--families-only",action="store_true",help="erasures: full set, variable groups and macro families only")
     ap.add_argument("--replay-commit",default="c35efafb")
     ap.add_argument("--defer",action="append",default=[],metavar="ROW_ID",
                     help="publish only: explicitly leave this retryable search error unresolved (repeatable)")

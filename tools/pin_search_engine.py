@@ -93,10 +93,10 @@ def diverse(items, count):
     chosen.extend(x for x in ordered if x not in chosen)
     return chosen[:count]
 
-def erasure_groups(live):
+def erasure_groups(live, families_only=False):
     """Largest subsets first; exhaustive through eight sites, bounded families above that."""
     n = len(live)
-    if n <= 8:
+    if n <= 8 and not families_only:
         for size in range(n, 0, -1):
             yield from itertools.combinations(range(n), size)
         return
@@ -116,6 +116,7 @@ def erasure_groups(live):
     for macro in sorted({site[1] for site in live}):
         group = tuple(i for i, site in enumerate(live) if site[1] == macro)
         if 1 < len(group) < n: yield group
+    if families_only: return
     yield from itertools.combinations(range(n), 2)
     yield from ((i,) for i in range(n))
 
@@ -341,7 +342,7 @@ class Session:
             cur = self.best
             live = sites_of(cur)
             near = []
-            for group in erasure_groups(live):
+            for group in erasure_groups(live, self.options.get("families_only", False)):
                 self.check()
                 candidate = old.erase_many(cur, [live[i] for i in group], clean_notes=True)
                 asm = self.compile(self.row, candidate)
@@ -366,7 +367,8 @@ class Session:
                         steps.append("erase-near:" + "+".join(map(str, group)))
                         break
             if self.best == cur: break
-        return dict(steps=steps, exhaustive_subset_max=8)
+        return dict(steps=steps, exhaustive_subset_max=0 if self.options.get("families_only") else 8,
+                    erasure_plan="families" if self.options.get("families_only") else "subsets")
 
     def fences(self):
         from xform import t20_fencefree as t20
