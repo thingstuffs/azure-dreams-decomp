@@ -115,7 +115,7 @@ void func_80171C34(void *move_data, void *context, void *position_data, void *ac
     u8 *dungeon_state = (u8 *)&D_80083460;
     u16 dungeon_flags = ((S_80171C34_0 *)dungeon_state)->unk_02;
     s32 limit_detour = 0;
-    s32 detour_check;
+    s16 detour_check;
     s32 actor_flags;
     void *target;
     s32 trial_angle;
@@ -304,7 +304,6 @@ init_loop:
         if (func_8009A8C0(trial_angle, position, actor, 0x20) > 0) {
             if (turn_index >= 3) {
                 detour_check = limit_detour;
-                ASM_KEEP_NV(detour_check);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (detour_check != 0) {
                     goto success;
                 }

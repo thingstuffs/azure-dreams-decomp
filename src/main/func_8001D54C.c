@@ -11,9 +11,6 @@ void func_8001D54C(void *state) {
     do {
         value = *(s32 **)(cursor + 0x1D8);
         *value = 0;
-        index++;
-        do {
-            cursor += 4;
-        } while (0);
-    } while (index < 10);
+        cursor += 4;
+    } while (++index < 10);
 }

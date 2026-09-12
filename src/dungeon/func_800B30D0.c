@@ -234,9 +234,7 @@ state_two:
         u16 object_flags;
 
         object_flags = ((S_800B8830_0_pre *)motion)[-1].unk_00;
-        ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         flags_page = (void *)0x80080000;
-        ASM_KEEP_NV(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         object_flags |= 0x8000;
         ((S_800B8830_0_pre *)motion)[-1].unk_00 = object_flags;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
