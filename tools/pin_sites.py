@@ -36,7 +36,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, clean_path
 from pin_census import sites_of, erase, context_of, arm_labels, HAS_PP_RE
 from verify import verify
-from xform.t12_stmtorder import mask, NOTE_RE
+from xform.t12_stmtorder import mask
 
 INCLUDE = ROOT / "include"
 SITES_OUT = LEDGER / "pins_site.jsonl"
@@ -273,6 +273,9 @@ def site_facts(text, masked, sites, idx):
 
 # ------------------------------------------------------------------------------- erasure
 
+ERASED_PIN_NOTE_RE = re.compile(
+    r"[ \t]*/\*\s*(?:MATCH(?: pin)?\s*:|UNRESOLVED C shape \(pin\)|Byte-exact pin\b).*?\*/", re.S)
+
 def erase_many(text, chosen, clean_notes=False):
     """Erase the chosen site tuples (from one sites_of(text) call), last first.  With clean_notes,
     the pin note on an erased pin's own line goes with it (a landing must not leave a comment
@@ -286,7 +289,7 @@ def erase_many(text, chosen, clean_notes=False):
         ls = cur.rfind("\n", 0, s[3]) + 1
         le = cur.find("\n", s[3])
         le = len(cur) if le < 0 else le
-        m = NOTE_RE.search(cur, ls)
+        m = ERASED_PIN_NOTE_RE.search(cur, ls)
         if m and m.start() < le:
             cur = cur[:m.start()] + cur[m.end():]
             le = cur.find("\n", ls)

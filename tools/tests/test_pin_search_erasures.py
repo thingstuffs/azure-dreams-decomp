@@ -7,6 +7,7 @@ from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import pin_search_engine as engine
 from pin_census import sites_of
+from pin_sites import erase_many
 from xform import natural
 
 SOURCE='void f(int a, int b, int c) {\n ASM_KEEP(a);\n\n\n\n\n ASM_KEEP(b);\n\n\n\n\n ASM_KEEP(c);\n}\n'
@@ -15,6 +16,15 @@ class ErasureTests(unittest.TestCase):
     def session(self,tmp,vf,**options):
         return engine.Session(dict(id='town/test',kind='overlay',c_path='test.c',cfg='2.7.2'),SOURCE,
                               'recipe',Path(tmp)/'cache.sqlite',dict(engine.DEFAULTS,**options),vf)
+
+    def test_erasure_removes_only_notes_on_selected_pin_lines(self):
+        source='int f(void) {\n register int value ASM_REG("$3"); /* MATCH: reserve the value register. */\n ASM_KEEP(value); /* Byte-exact pin. */\n ASM_KEEP(other); /* MATCH: retain this pin. */\n return 0; /* Useful explanation. */\n}\n'
+        result=erase_many(source,sites_of(source)[:2],clean_notes=True)
+        self.assertNotIn('reserve the value',result)
+        self.assertNotIn('Byte-exact pin',result)
+        self.assertIn('retain this pin',result)
+        self.assertIn('Useful explanation',result)
+        self.assertEqual(len(sites_of(result)),1)
 
     def test_host_preserves_integer_and_pointer_types(self):
         template='int f(void) {\n register s32 angle ASM_REG("$3");\n %s host;\n angle = 2;\n use(angle + 1);\n host = 0;\n return 0;\n}\n'
@@ -39,6 +49,15 @@ class ErasureTests(unittest.TestCase):
         live=sites_of(source);groups=engine.erasure_groups(live)
         self.assertEqual(next(groups),tuple(range(10)))
         self.assertEqual(next(groups),(0,9))
+
+    def test_multioperand_pin_connects_declarations_once(self):
+        source='void f(void) {\n register int a ASM_REG("$3");\n register int b ASM_REG("$4");\n ASM_KEEP4(a, b, c, d);\n ASM_KEEP(other);\n}\n'
+        groups=list(engine.erasure_groups(sites_of(source),families_only=True))
+        self.assertIn((0,2),groups);self.assertIn((1,2),groups)
+        self.assertIn((0,1,2),groups)
+        self.assertEqual(len(groups),len(set(groups)))
+        complex_source=source.replace('ASM_KEEP4(a, b, c, d)','ASM_USE2(a, call(b))')
+        self.assertNotIn((0,1,2),list(engine.erasure_groups(sites_of(complex_source),families_only=True)))
 
     def test_family_plan_does_not_expand_unrelated_pairs(self):
         live=sites_of(SOURCE)

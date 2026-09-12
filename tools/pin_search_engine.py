@@ -100,22 +100,36 @@ def erasure_groups(live, families_only=False):
         for size in range(n, 0, -1):
             yield from itertools.combinations(range(n), size)
         return
-    yield tuple(range(n))
-    # A hard-register declaration and distant keep of the same variable can only
-    # become dead together. Prioritize these groups before quadratic pair scans.
+    if not n: return
+    full = tuple(range(n)); seen = {full}
+    yield full
+    # Group all plain named operands of a keep/use, including multi-operand pins.
+    # Connected groups can remove a shared keep together with several declarations.
     variables = collections.defaultdict(list)
     for i, site in enumerate(live):
         if site[0] == "reg":
             match = re.search(r"([A-Za-z_]\w*)$", site[6])
-            name = match[1] if match else None
+            names = [match[1]] if match else []
         else:
-            name = site[2] if re.fullmatch(r"[A-Za-z_]\w*", site[2]) else None
-        if name: variables[name].append(i)
+            names = [part.strip() for part in site[2].split(",")]
+            if not all(re.fullmatch(r"[A-Za-z_]\w*", name) for name in names): names = []
+        for name in dict.fromkeys(names): variables[name].append(i)
+    parents = list(range(n))
+    def root(i):
+        while parents[i] != i:
+            parents[i] = parents[parents[i]]; i = parents[i]
+        return i
     for group in variables.values():
-        if 1 < len(group) < n: yield tuple(group)
-    for macro in sorted({site[1] for site in live}):
-        group = tuple(i for i, site in enumerate(live) if site[1] == macro)
-        if 1 < len(group) < n: yield group
+        for i in group[1:]: parents[root(i)] = root(group[0])
+    components = collections.defaultdict(list)
+    for i in range(n): components[root(i)].append(i)
+    macros = collections.defaultdict(list)
+    for i, site in enumerate(live): macros[site[1]].append(i)
+    for group in itertools.chain(variables.values(), components.values(),
+                                 (macros[name] for name in sorted(macros))):
+        key = tuple(sorted(set(group)))
+        if 1 < len(key) < n and key not in seen:
+            seen.add(key); yield key
     if families_only: return
     yield from itertools.combinations(range(n), 2)
     yield from ((i,) for i in range(n))
