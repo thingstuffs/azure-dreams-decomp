@@ -61,7 +61,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
     s16 sp1A;
     s16 temp_v0;
     s32 temp_a1;
-    s32 temp_s0;
+    s16 temp_s0;
     s32 temp_s2;
     s32 call_result;
     S_80094270_1 *temp_v1;
@@ -122,7 +122,6 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
                 register u32 table_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                 temp_bits = arg3->unk_03 & 0x1F;
-                ASM_KEEP_NV(temp_bits);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 temp_s0 = temp_bits & 0xFF;
                 temp_a1 = func_80099194(&D_800E0747, temp_s2);
                 temp_a1 = func_8009929C(0xA, temp_a1);

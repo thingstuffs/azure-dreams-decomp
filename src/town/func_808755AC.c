@@ -21,7 +21,7 @@ register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it chan
 
 s32 func_808755AC(s32 arg0) {
     if (func_80700C9C(zero | 2) == 0) {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s16 result;
 
         func_80700D54(zero | 2);
         result = arg0;

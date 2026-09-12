@@ -191,9 +191,7 @@ void func_8080E59C(void)
             ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             object_state = ((S_8080E59C_0 *)object)->unk_08;
             render_part = ((S_8080E59C_0 *)object)->unk_0C;
-            ASM_KEEP(render_part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             setup_table = D_805300C4;
-            ASM_KEEP(setup_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_8080E59C_0 *)object)->unk_10 = handler;
             ((S_8080E59C_0 *)object)->unk_24 = child_slots;
             ((S_8080E59C_0 *)object)->unk_74.s16 = child_index;

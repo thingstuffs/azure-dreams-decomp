@@ -213,8 +213,8 @@ void func_80022F60(void *arg0) {
             u8 *motion = (u8 *)&D_80083780;
             u8 *loop_asset;
             register s32 *table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 one ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            s32 flag_one;
+            s8 one;
+            s16 flag_one;
             u8 *alloc_page;
 
             ((S_80022F60_1 *)main_state)->unk_10.u =

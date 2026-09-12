@@ -45,9 +45,9 @@ extern s16 D_8006ADD4;
 /* Process eligible entries and mark those handled successfully as active. */
 void func_8009DA50(u8 *entries, void *bounds, s32 origin_x, s32 origin_y)
 {
-    register s32 test_x ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 test_x;
     register s32 test_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    s32 entry_x;
+    s16 entry_x;
     register s32 entry_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *entry_data;
     register u8 *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

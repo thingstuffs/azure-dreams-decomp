@@ -128,13 +128,10 @@ case_7:
     do {
         initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
         initial_offset += 8;
-        target_object = *object_cursor;
-        ASM_KEEP(target_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        target_object = *object_cursor++;
         data_word = *initial_data;
-        ASM_KEEP(data_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         object_index += 1;
         target_object->unk_00 = data_word;
-        object_cursor += 1;
     } while (object_index < 16);
 
 case_8_10:
@@ -142,12 +139,10 @@ case_8_10:
     object_table = D_80129728;
     object_cursor = &object_table[14];
     do {
-        object_data = ((S_801260E8_3 *)(*object_cursor))->unk_08;
+        object_data = ((S_801260E8_3 *)(*object_cursor++))->unk_08;
         object_word = object_data->unk_02;
-        ASM_KEEP(object_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_index += 1;
         object_data->unk_02 = (u16)(object_word - 0x100);
-        object_cursor += 1;
     } while (object_index < 28);
     goto done;
 
@@ -159,12 +154,10 @@ case_12_14:
     object_table = D_80129728;
     object_cursor = &object_table[14];
     do {
-        object_data = ((S_801260E8_3 *)(*object_cursor))->unk_08;
+        object_data = ((S_801260E8_3 *)(*object_cursor++))->unk_08;
         object_word = object_data->unk_02;
-        ASM_KEEP(object_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_index += 1;
         object_data->unk_02 = (u16)(object_word - 0x100);
-        object_cursor += 1;
     } while (object_index < 28);
     goto done;
 

@@ -129,9 +129,7 @@ void func_800A17CC(void *sprite, s32 position) {
         s32 left_u;
 
         texture_x = ((S_800A17CC_2 *)sprite)->unk_6C;
-        ASM_KEEP_NV(texture_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         scratch = (u8 *)0x1F800000;
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         left_u = (s16)(texture_x % 0x80);
         left_u /= 2;
         ((S_800A17CC_1 *)textured_quad)->unk_1C = left_u;

@@ -19,9 +19,9 @@ extern void (*D_80126B74[])(void *);
 
 /* Runs the initial handler, packs and bounds the state code, then runs the final handler. */
 void func_80126704(S_80126704_0 *state) {
-    register s32 middle_bits ASM_REG("$4");
-    u32 packed_code;
-    u32 code_bits;
+    s8 middle_bits;
+    u8 packed_code;
+    u8 code_bits;
     u16 below_limit;
 
     {

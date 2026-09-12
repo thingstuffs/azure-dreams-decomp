@@ -18,7 +18,7 @@ void func_8001CD98(void) {
     register s32 first_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 entry_index;
     register s32 entry_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 next_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 next_flags;
     s8 **entry_page;
     void **root_page;
     s32 condition_result;
@@ -45,13 +45,15 @@ loop:
             condition_result = func_8001E670(*(u16 *)(entry + 2));
             if (condition_result == 0) {
                 goto next;
+                root_page = (void **)0x80010000;
+            } else {
+                root_page = (void **)0x80010000;
             }
-            root_page = (void **)0x80010000;
             entry = selected_values + entry_index;
             goto use_entry;
         } else {
-            condition_result = func_8001E670(*(u16 *)(entry + 2));
-            if (condition_result == 1) {
+            next_flags = func_8001E670(*(u16 *)(entry + 2));
+            if (next_flags == 1) {
                 goto next;
             }
             root_page = (void **)0x80010000;

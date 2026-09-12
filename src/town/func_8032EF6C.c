@@ -51,8 +51,10 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
         packed_word = 0xC0000000;
         if (record_flags != 0) {
             record->unk8 = header_word;
+            packed_word = tag_bits | packed_word;
+        } else {
+            packed_word = tag_bits | packed_word;
         }
-        packed_word = tag_bits | packed_word;
         packed_word = flag_bits | packed_word;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         half_bits = record->unkC.half.lo;
@@ -68,7 +70,6 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
         header_or_addr = (u32)record;
     } while (*(entry - 0x13) != 0x80);
     ASM_KEEP(record_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(tag_bits);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(flag_bits);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(header_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return record;

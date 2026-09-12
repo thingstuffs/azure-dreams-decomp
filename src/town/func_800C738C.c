@@ -46,7 +46,6 @@ void func_800C4AEC(void *object_arg, s32 update_arg)
     u32 extra_x;
     u32 extra_y;
     s32 x_offset;
-    register s32 y_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     u32 coord;
     S_800C4AEC_2 *sprite_pos;
 
@@ -67,17 +66,18 @@ void func_800C4AEC(void *object_arg, s32 update_arg)
             x_offset = frame_offsets[0];
             extra_x = frame_offsets[2];
             ASM_KEEP(extra_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            y_offset = frame_offsets[1];
+            sprite_flags = frame_offsets[1];
             extra_y = frame_offsets[3];
             ASM_KEEP(extra_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             x_offset += extra_x;
-            y_offset += extra_y;
+            sprite_flags += extra_y;
             goto apply_offsets;
         }
+        x_offset = 0;
+    } else {
+        x_offset = 0;
     }
-    x_offset = 0;
-    ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    y_offset = x_offset;
+    sprite_flags = x_offset;
 
 apply_offsets:
     if (sprite != NULL) {
@@ -87,7 +87,7 @@ apply_offsets:
         sprite_pos->unk_10 = (s16)coord;
         coord = ((S_800C4AEC_0 *)object)->unk_8A;
         sprite_pos = ((S_800C4AEC_0 *)object)->unk_98;
-        coord -= y_offset;
+        coord -= sprite_flags;
         sprite_pos->unk_12 = (s16)coord;
     }
     ((S_800C4AEC_0 *)object)->unk_84 = ((S_800C4AEC_0 *)object)->unk_88;

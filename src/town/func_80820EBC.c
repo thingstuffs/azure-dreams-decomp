@@ -142,10 +142,8 @@ state_2:
         goto state_2_collision;
     }
     ((Rec_func_800206D0_arg1 *)motion)->unk_14 = -((Rec_func_800206D0_arg1 *)motion)->unk_14 >> 1;
-    ASM_KEEP(collision_addr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    collision_addr = 0x80020000;
 state_2_collision:
-    collision_addr += 0x4488;
+    collision_addr = (u32)&D_80024488;
     if (func_8008FD9C((void *)collision_addr, motion, &D_800D0420, D_80083780) == 0) {
         return;
     }
