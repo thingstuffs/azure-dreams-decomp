@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-12T11:20:48Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-12T11:43:41Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -32,12 +32,12 @@ Baseline NOT exact: 0 rows
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 341 | 266,540 | 10.4% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 135 | 130,236 | 5.1% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 418 | 296,976 | 11.6% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 417 | 296,940 | 11.6% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3179 | 1,620,468 | 63.3% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2795 | 469,208 | 18.3% |
 
-Pin sites now: 10,303 in 1,634 rows; REG 4,985, KEEP 2,611, KEEP_NV 1,026, SCHED_BARRIER 595, TAILSLOT_PIN 166, USE_NV 148, KEEP_DEP_NV 131, USE 102.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 10,282 in 1,634 rows; REG 4,983, KEEP 2,601, KEEP_NV 1,018, SCHED_BARRIER 594, TAILSLOT_PIN 166, USE_NV 148, KEEP_DEP_NV 131, USE 102.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 ## Cleanliness levels (bytes at or above each level)
 

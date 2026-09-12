@@ -49,7 +49,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
 {
   Entity800B4194 *entityp = entity;
   Context800B4194 *contextp;
-  s32 blocked;
+  s16 blocked;
   s32 total;
   s32 flag;
   u8 *saved;
@@ -66,7 +66,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   code = func_800A9400(arg0);
   total = entityp->value28 + entityp->value64;
   flag = total < 1;
-  ASM_KEEP_NV(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   blocked = flag;
   if (code == 0)
   {
@@ -97,7 +96,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   mode16:
   {
     s32 modeTest = blocked;
-    ASM_KEEP_NV(modeTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (modeTest)
     {
       goto common;
@@ -123,7 +121,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   mode21:
   {
     s32 modeTest = blocked;
-    ASM_KEEP_NV(modeTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (modeTest || (entityp->flags1C & 0x20))
     {
       goto common;
@@ -194,7 +191,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   event4:
   {
     s32 eventTest = blocked;
-    ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (eventTest || (entityp->flags1C & 0x20))
     {
       return 0;
@@ -219,7 +215,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     s32 low; /* MATCH: merge random-range bounds in the retail argument registers. */
     s32 high; /* MATCH: preserve the range-bound delay slots. */
     s32 eventTest = blocked;
-    ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (!eventTest)
     {
       return 0;
@@ -266,7 +262,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   s32 eventTest;
      /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
   eventTest = blocked;
-  ASM_KEEP_NV(eventTest);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+     /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
   if (eventTest)
   {

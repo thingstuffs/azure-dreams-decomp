@@ -12,8 +12,7 @@ void func_81960864(void *draw_data, s32 draw_mode)
 {
     s32 start_packet;
     s32 end_packet;
-    s16 buffer_shift_copy;
-    s32 buffer_shift;
+    s16 buffer_shift;
     register void *ordering_table ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 mode_offset;
     s32 base_offset;
@@ -29,21 +28,18 @@ void func_81960864(void *draw_data, s32 draw_mode)
     buffer_shift = draw_context != (void *)D_801C9E40;
     func_80067E2C(start_packet, D_80083160[0], draw_context);
     {
-        register void *packet_table ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        void *packet_table;
         s32 packet_addr;
 
         packet_table = ordering_table;
         packet_addr = start_packet;
-        ASM_KEEP(packet_addr);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         func_8006658C(packet_table, packet_addr);
     }
-    buffer_shift_copy = buffer_shift;
 
     if (draw_mode != 0) {
         s32 needs_shift;
 
         needs_shift = buffer_shift;
-        ASM_KEEP(needs_shift);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         mode_offset = 0;
         if (needs_shift != 0) {
             mode_offset = -0xE0;
@@ -54,7 +50,7 @@ void func_81960864(void *draw_data, s32 draw_mode)
     {
         s32 needs_shift;
 
-        needs_shift = buffer_shift_copy;
+        needs_shift = buffer_shift;
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         base_offset = 0;
         if (needs_shift != 0) {

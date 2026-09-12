@@ -1,0 +1,98 @@
+# Pin and fence mechanisms — 2026-09-12 follow-up
+
+## Loop counter increment in the condition
+
+`main/func_8001D54C` (true address `8040454C`, stock GCC 2.6.3, 36 retail bytes)
+clears ten values reached through a pointer table. Retail is a frameless leaf:
+`a0` walks the table, `v1` counts iterations, and `v0` holds each loaded pointer.
+The pointer load precedes the counter increment, which fills its load delay;
+the table cursor advances in the back-edge delay slot. All nine retail instructions
+were read from the row's exact container extent before the source probes.
+
+The starting C had `index++;` followed by a fenced `cursor += 4;`, ending with
+`while (index < 10)`. Simply removing the fence moved the increment ahead of the
+load and introduced a load-delay nop. An equivalent `for` spelling did the same.
+Moving the increment into the test, `while (++index < 10)`, produced all nine
+retail instructions without the fence. Independent per-row verification reports
+zero substitutions and zero insertions/deletions at the existing stock recipe.
+
+The reusable candidate rule crosses only independent updates of ordinary,
+unescaped, nonvolatile locals. It requires an unconditional increment at the
+tail of a `do` body, a simple comparison, and no `continue` or other early exits
+that could change how often the increment executes. It adds neither pins nor
+fences. Acceptance still requires the full byte verifier and final window gate.
+
+Measurement scope matters: a mechanical scan produced 47 distinct variants across
+16 fenced functions. Only the original example matched; the 15 other functions
+did not. This is a useful narrow rule, not evidence for broad coverage. Keep it
+in the dedicated fence pass rather than expanding the general pin-search menu.
+Full sources, retail listing and results: `work/pin_search/mechanism_8001D54C/`.
+The fence removal has now landed through the combined main/overlay window gates and
+full SLUS gate. Tracked family evidence:
+[loop_test_increment_20260912.json](evidence/loop_test_increment_20260912.json).
+
+## Zero-equivalent copy at a loop entry: still open
+
+`dungeon/func_80283F70` (true address `80016F70`, 168 bytes) initializes two runs
+of records and one final record. The complete retail listing is frameless, uses
+`a0` as the record cursor, `v1` as the ID-field cursor, `a1` as the ID, `a2` as
+the counter and `a3` as the type constant. The loops have identical layouts.
+
+Erasing only the counter's `$6` register pin at the existing stock recipe
+(`2.7.2-G0 -fno-strength-reduce`) leaves one substitution and no length change:
+generated `move a1,zero` versus retail `move a1,a2` after `a2` was set to zero.
+Sharing the two loop counters under one name leaves exactly the same residue;
+widening the first counter also changes the sign-extension/loop-test shape and
+is worse (regional aligned distance seven). No source from these probes landed.
+
+The lineage scanner was run on the exact frozen bytes using the instrument's
+own environment. It reports insufficient store-emission evidence, one two-register
+address construction and one zero-equivalent copy; this is not a unique compiler
+attribution. No config sweep or toolchain change was made. The current recipe is
+retained because the pinned source is independently exact at that recipe.
+
+Queued compiler-pass investigation: compare CSE/RTL equivalence selection at the
+initial zero assignment with and without the hard-register declaration. Determine
+whether a natural live-range structure preserves the copy before building another
+generator. Do not resume declaration-order or width grinding without that evidence.
+Site map, lineage output, candidate sources and aligned regions are saved under
+`work/pin_search/mechanism_80283F70/`.
+
+## Exact template transfer: limited measured opportunity
+
+A bounded Luna audit of pinned dungeon rows found 32 repeated `true_name` groups
+covering 95 rows / 628 pins. Conservative token normalization found only five
+exact pairs (10 rows / 70 pins). No verified transferable edit was established.
+Near templates have changed constants and control flow, so they remain research
+leads rather than automatic patch targets. This does not justify building a broad
+fuzzy-transfer tool yet. Evidence: `work/pin_search/template_audit_20260912/`.
+
+The historical census's roughly two dozen dominant mechanism classes remain a
+reasonable organizing hypothesis. Repeated mechanisms should drive guarded
+generators; repeated-looking functions alone do not establish interchangeable fixes.
+
+## Second harvest and the next experiment
+
+The 85-row baseline follow-up completed without errors: nine candidates removing
+17 pins, 76 noops, 131,407 compiler invocations, 37 full-verifier calls, and 3,641
+CPU seconds. It used doubled row budgets on 84 previously productive, budget-limited
+rows plus the repaired timeout case. The latter no longer timed out.
+
+Independent publication plus T2/T20 yielded 21 pins in total; the manual loop rewrite
+added one fence removal. All 15 combined windows, five follow-up windows and the
+full SLUS gate passed. Current census: 10,282 pins in 1,634 rows. Evidence and source
+hashes: [pin_followup_20260912.json](evidence/pin_followup_20260912.json) and
+`ledger/pin_runs/pins_followup_20260912*.json`.
+
+This batch's search yield was about 17 pins per CPU hour, versus about 39 in the
+first broad batch. Selection differs, so this is not a controlled algorithm comparison.
+It argues against simply doubling every remaining row's budget. The next bounded
+experiment targets fences, including functions with no ASM pins. A fresh static scan
+found 534 scored fences across 411 functions before the manual fence landing; 19
+functions had no T20 completion record for their current source hash.
+
+Queued harvest-efficiency change: refine staged candidates with bounded T2/T20 before
+publication, recording parent and derived hashes, then run the combined gates once.
+Current follow-up is correct but rebuilding the large dungeon window after both
+publication and follow-up adds unnecessary work. Preserve transactional rollback,
+source-policy checks and independent final verification when making this change.

@@ -21,12 +21,18 @@ was explicitly deferred in the original receipt; its invalid load-folding genera
 now fixed and its diagnostic replay completes without a timeout. See
 [PIN_SEARCH_RESULTS_20260912.md](PIN_SEARCH_RESULTS_20260912.md) and `ledger/pin_runs/`.
 
-**Active restart (11:21 UTC):** `pins_followup_20260912`, baseline search over 84 productive rows that
-exhausted budgets, plus the repaired timeout row. Four low-priority processes, 2,400 screens /
-24 full verifies / 80 CPU seconds per row. Inspect with
-`python3 tools/pin_search.py status --tag pins_followup_20260912`; publication uses the
-controller's checked `publish` command after search completes. Search stages candidates
-and makes no model calls. The old sharded launcher and its partial journal remain historical.
+**Second harvest:** `pins_followup_20260912` completed all 85 rows without errors. Its
+larger budgets found 17 pins in nine functions; T2/T20 removed four more. A manually
+derived loop-test rewrite also removed one fence from `main/func_8001D54C`. All 15
+combined windows, the five follow-up windows, and SLUS passed. Current total:
+**10,282 pins in 1,634 pinned rows**. See [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md)
+and [pin_followup_20260912.json](evidence/pin_followup_20260912.json).
+
+**Next direction:** dedicated fence search, starting with 19 fenced functions whose
+current text has no T20 completion record. The second pin batch yielded about 17 pins
+per CPU hour before follow-up, versus 39 in the broad first batch; do not increase the
+budget corpus-wide on this evidence. Search stages candidates and makes no model calls.
+The old sharded launcher and its partial journal remain historical.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.

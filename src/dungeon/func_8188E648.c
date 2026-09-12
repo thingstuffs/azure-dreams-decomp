@@ -216,7 +216,7 @@ state_3:
         u8 *glow;
         s32 glow_color;
         register s32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 fade_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s16 fade_step;
         s32 color_step;
         u16 angle_step;
         u16 frames_left;

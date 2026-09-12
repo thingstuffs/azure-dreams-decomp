@@ -236,10 +236,8 @@ cleanup:
         cleanup_state = cleanup_base + count;
         do {
             cleanup_state->active = 0;
-            cleanup_state->kind = 0;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            (cleanup_state++)->kind = 0;
             count++;
-            cleanup_state++;
         } while (count < 0x40);
     }
     func_8001EC54();

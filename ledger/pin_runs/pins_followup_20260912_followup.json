@@ -1,0 +1,62 @@
+{
+  "parent": "pins_followup_20260912",
+  "finished": "2026-09-12T11:43:59Z",
+  "rows_checked": 9,
+  "files": [
+    {
+      "id": "dungeon/func_80A49CB0",
+      "path": "src/dungeon/func_80A49CB0.c",
+      "before_sha": "b26b013c89be68954c8ef652b2f8415510f054e84d1e3f3549265423c1b62d47",
+      "after_sha": "ec237b1b8a396de61e51458157273775f77405993ecba4e93f8950dc1cfab045",
+      "debt_before": [
+        6,
+        0,
+        0
+      ],
+      "debt_after": [
+        5,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_800AEA34",
+      "path": "src/dungeon/func_800AEA34.c",
+      "before_sha": "27868995ecdbcb472e2ae9c5862203ece7efd30f8b751a71adaf1b6af677b369",
+      "after_sha": "8b5ed96d58421cdca1f9364586b9b9201d897615626ba89651ba2a66ebdf3561",
+      "debt_before": [
+        4,
+        0,
+        0
+      ],
+      "debt_after": [
+        2,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "dungeon/func_810078B4",
+      "path": "src/dungeon/func_810078B4.c",
+      "before_sha": "7a790f8c37ca4b0b7b8fbd1708651d76b0b92cda703d6c65912bc38106c4f7ea",
+      "after_sha": "ce013a0aeb08d5e00318af99d1c959fd8993a472fc808cc0f74bc927d4e94b9b",
+      "debt_before": [
+        6,
+        0,
+        0
+      ],
+      "debt_after": [
+        5,
+        0,
+        0
+      ]
+    }
+  ],
+  "overlay": "MATCH",
+  "slus": "MATCH",
+  "options": {
+    "t20_verifies": 24,
+    "t20_fence_verifies": 12,
+    "t20_rounds": 2
+  }
+}

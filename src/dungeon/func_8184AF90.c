@@ -9,6 +9,7 @@ s32 func_80064584();                             /* extern */
 extern M2C_UNK D_800246AC;
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEB28;
+extern u8 D_800E0000[];
 
 typedef struct S_80024790_0 {
     u8 pad_00[0x8];
@@ -71,7 +72,6 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
     s32 angle_dividend;
     s32 height;
     s8 shade;
-    u8 *sprite_page;
     u8 *sprite_data;
     S_80024790_3 *sprite;
     S_80024790_4 *position;
@@ -103,9 +103,7 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         sprite->unk_0D = shade;
         sprite->unk_0C = shade;
         ASM_KEEP(color_index);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        sprite_page = (u8 *) 0x800E0000;
-        ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        sprite_data = sprite_page - 0x14D8;
+        sprite_data = D_800E0000 - 0x14D8;
         if (signed_index < 0) {
             frame_dividend = signed_index + 7;
         }

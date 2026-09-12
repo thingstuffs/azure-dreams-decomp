@@ -1,0 +1,61 @@
+{
+  "search": {
+    "tag": "pins_followup_20260912",
+    "run_key": "28970f123931f5c5adf6fc717bbe1a3539a57bd0212d70153bb28df1d2a57203",
+    "at": "2026-09-12T11:37:24Z",
+    "modes": {
+      "baseline": {
+        "records": 85,
+        "outcomes": {
+          "noop": 76,
+          "candidate": 9
+        },
+        "stops": {
+          "complete": 49,
+          "screen-budget": 18,
+          "cpu-budget": 18
+        },
+        "pins_removed": 17,
+        "totals": {
+          "compiled": 131407,
+          "screened": 132251,
+          "cache_hits": 844,
+          "tried": 37,
+          "seconds": 3617.1215613111854,
+          "cpu_seconds": 3641.485013,
+          "generation_seconds": 0,
+          "fallback_tried": 0,
+          "fallback_wins": 0,
+          "compile_timeouts": 0
+        }
+      }
+    }
+  },
+  "followup": {
+    "rows": 3,
+    "pins_removed": 4,
+    "windows": 5,
+    "finished": "2026-09-12T11:43:59Z"
+  },
+  "manual_fence": {
+    "phase": "complete",
+    "id": "main/func_8001D54C",
+    "path": "src/main/func_8001D54C.c",
+    "before_sha": "c77edf023a0d9443a88e8a96a94ed09894ef83b7f0f02f84689429cb54594664",
+    "after_sha": "07328bd475179839c5ce6b56b926cf59f31b2ce50f9974d072580040160827d8",
+    "at": "2026-09-12T11:37:48Z",
+    "finished": "2026-09-12T11:40:44Z",
+    "pins_removed": 0,
+    "fences_removed": 1,
+    "overlay": "MATCH",
+    "slus": "MATCH",
+    "gates_with": "pins_followup_20260912"
+  },
+  "total": {
+    "pins_removed": 21,
+    "fences_removed": 1,
+    "changed_rows": 10
+  },
+  "overlay": "MATCH",
+  "slus": "MATCH"
+}
