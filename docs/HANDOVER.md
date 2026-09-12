@@ -1054,3 +1054,14 @@ functions are already eligible for the atlas. These sites predate this work. Cor
 recognition/alias coverage, test it, replay the seven affected rows, and record the
 inventory correction separately from removals. Evidence and concrete steps are in
 `docs/evidence/pin_alias_audit_20260912.json` and `docs/PIN_ATLAS_20260912.md`.
+
+### Atlas counter exception and automatic recovery
+
+At the 13:58 checkpoint, durable results covered 570 rows although `state.json`
+showed 224. One 100-pin row exceeded the filename component limit; the executor
+is draining all other queued work before reporting that exception. Do not restart.
+A detached pidfd supervisor (PID 599575 at launch) waits for the original controller,
+then completes that single row using bounded artifact names and saved probes,
+validates all identities and writes the final report. Check the actual processes,
+`work/pin_search/pins_atlas_20260912/recovery_state.json`, and the retained recovery
+script/log. Full explanation and post-run tool fixes are in `docs/PIN_ATLAS_20260912.md`.
