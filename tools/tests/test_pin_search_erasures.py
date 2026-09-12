@@ -26,6 +26,12 @@ class ErasureTests(unittest.TestCase):
         self.assertIn('Useful explanation',result)
         self.assertEqual(len(sites_of(result)),1)
 
+    def test_t2_followup_uses_the_same_note_cleanup(self):
+        from xform.t2_pins import T
+        source='void f(int x) {\n ASM_KEEP(x); /* MATCH: keep x in its register. */\n}\n'
+        result,info=T.apply_verified(source,{}, {},lambda text:{'exact':True})
+        self.assertNotIn('MATCH:',result);self.assertEqual(info['erased'],1)
+
     def test_host_preserves_integer_and_pointer_types(self):
         template='int f(void) {\n register s32 angle ASM_REG("$3");\n %s host;\n angle = 2;\n use(angle + 1);\n host = 0;\n return 0;\n}\n'
         with patch.object(natural,'HOST_WIDE',True):

@@ -9,7 +9,8 @@ import re, tempfile
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from pin_census import sites_of, erase
+from pin_census import sites_of
+from pin_sites import erase_many
 
 class T:
     name = "t2_pins"; level = 1
@@ -27,7 +28,7 @@ class T:
         tried = 0
         def attempt(site):
             nonlocal cur, erased, tried
-            cand = erase(cur, site)
+            cand = erase_many(cur, [site], clean_notes=True)
             tried += 1
             v = verify_fn(cand)
             if v.get("exact"):
