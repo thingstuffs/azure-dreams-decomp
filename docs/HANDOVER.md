@@ -349,6 +349,22 @@ the SLUS SHA-1 gate MATCH after each phase.
   `work/t26_chain.log` (t2, gate, SLUS gate and STATUS chained). **Next for the tooling:** give t18 and
   t20 the same screen (their `verify_fn` could screen first), which would let the menus grow without
   the scorer's price.
+- **t26 result (2d6b680e):** 98 rows landed by t26 over 1,652 rows in 62 min, and t2 freed pins in 14
+  more: 103 rows, 160 pins, 7 rows pin-free. By lever: `unhost` 56, `hostwide` 53, `erase` 14 (dead
+  pins found along the way), `host` 9, `declorder` 0. UNHOST, one row in the lane's eight, turned
+  out to be the largest single lever: keep a temporary local to its block by dropping the
+  second-block copy. Tree: 10,641 pin sites in 1,648 rows.
+- **The screen, measured.** The risk that matters is a false negative: an exact candidate the screen
+  rejects, which is never scored. Measured on pairs of byte-exact texts from landing commits, the
+  first version said "different" for 8 of 177. Seven of those were one address spelled two ways,
+  for example `li $2,0x800E0000; addu $4,$2,-12416` against
+  `lui/addiu %hi/%lo(D_800E0000-12416)`, from `basesym` and host rewrites. `screen.py` now reduces
+  address constants to the halves the assembler emits: 1 miss in 280 pairs (a moved `sw $31`), and
+  the negative controls stay unequal. The t27 run launched 07:36 predates the fix (sweep.py runs
+  its workers as threads, so it keeps the module it loaded), so it may miss the few wins that
+  respell an address. The other direction is only a cost: 29 t26 sites had an identical listing
+  but did not score exact. They are assembler-side pins (`ASM_SCHED_BARRIER`,
+  `ASM_JALDELAY_PIN`, `ASM_UNDEF` ...), whose effect happens in maspsx, after cc1.
 - **`t27_beam`: the combination search the screen makes affordable.** For each pin group (the
   census's groups where the census is current, then every pin alone, then pins within 4 lines of
   each other), it erases the group and runs a beam over t15's whole menu (`T15_WIDE=1 T15_NOFENCE=1`:

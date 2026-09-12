@@ -10,7 +10,16 @@ scorer runs.
 
 Normalisation: only the lines between `.ent` and `.end` (every function in the file), comments and
 `#APP`/`#NO_APP` dropped (an empty volatile asm pin leaves nothing else), `.loc/.frame/.mask/.fmask/
-.set` dropped, whitespace collapsed, `$L` labels renumbered in order of appearance.
+.set` dropped, whitespace collapsed, `$L` labels renumbered in order of appearance.  Address
+constants are reduced to the halves the assembler emits, so two spellings of one address compare
+equal: `li $r,0xNNNN0000` is `lui $r,0xNNNN`; `%hi(D_XXXXXXXX+K)` / `%lo(...)` are the carry-adjusted
+halves of that address (the symbol's name IS its address); `addu $r,$s,IMM` is `addiu`.  Measured
+2026-09-12 on 177 pairs of byte-exact texts (two landing commits): before, 8 compared unequal - 7 of
+them `basesym`/host rewrites that respell an address - and after, only one (a moved `sw $31`).
+
+Assembler-side pins are invisible here: erasing `ASM_SCHED_BARRIER`, `ASM_JALDELAY_PIN`,
+`ASM_TAILSLOT_PIN` and the like can leave cc1's listing identical while maspsx's output changes (29
+such sites in t26), which costs one scorer run and nothing else.
 """
 import difflib, re, subprocess, sys, tempfile
 from pathlib import Path
@@ -53,8 +62,38 @@ def compile_s(row, text):
             continue
         s = re.sub(r"\s+", " ", s)
         s = re.sub(r"\$L\d+", lambda m: lab.setdefault(m.group(0), "L%d" % len(lab)), s)
-        out.append(s)
+        out.append(_addr(s))
     return out
+
+
+_HILO = re.compile(r"%(hi|lo)\(D_([0-9A-Fa-f]{8})\s*([+-]\s*(?:0x[0-9A-Fa-f]+|\d+))?\)")
+_LI = re.compile(r"^li (\$\w+),(-?(?:0x[0-9A-Fa-f]+|\d+))$")
+_ADDU_IMM = re.compile(r"^addu (\$\w+),(\$\w+),(-?(?:0x[0-9A-Fa-f]+|\d+))$")
+
+
+def _halves(v):
+    v &= 0xFFFFFFFF
+    lo = v & 0xFFFF
+    lo = lo - 0x10000 if lo & 0x8000 else lo
+    return ((v - lo) >> 16) & 0xFFFF, lo
+
+
+def _addr(s):
+    """One spelling per address constant (see the module docstring)."""
+    def hilo(m):
+        v = int(m.group(2), 16) + (int(m.group(3).replace(" ", ""), 0) if m.group(3) else 0)
+        hi, lo = _halves(v)
+        return str(hi) if m.group(1) == "hi" else str(lo)
+    s = _HILO.sub(hilo, s)
+    m = _LI.match(s)
+    if m:
+        v = int(m.group(2), 0) & 0xFFFFFFFF
+        if v & 0xFFFF == 0:
+            return "lui %s,%d" % (m.group(1), v >> 16)
+    m = _ADDU_IMM.match(s)
+    if m:
+        return "addiu %s,%s,%d" % (m.group(1), m.group(2), int(m.group(3), 0))
+    return s
 
 
 def sdiff(a, b):
