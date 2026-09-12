@@ -7,6 +7,7 @@ from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import pin_search_engine as engine
 from pin_census import sites_of
+from xform import natural
 
 SOURCE='void f(int a, int b, int c) {\n ASM_KEEP(a);\n\n\n\n\n ASM_KEEP(b);\n\n\n\n\n ASM_KEEP(c);\n}\n'
 
@@ -14,6 +15,14 @@ class ErasureTests(unittest.TestCase):
     def session(self,tmp,vf,**options):
         return engine.Session(dict(id='town/test',kind='overlay',c_path='test.c',cfg='2.7.2'),SOURCE,
                               'recipe',Path(tmp)/'cache.sqlite',dict(engine.DEFAULTS,**options),vf)
+
+    def test_host_preserves_integer_and_pointer_types(self):
+        template='int f(void) {\n register s32 angle ASM_REG("$3");\n %s host;\n angle = 2;\n use(angle + 1);\n host = 0;\n return 0;\n}\n'
+        with patch.object(natural,'HOST_WIDE',True):
+            good=natural.host_candidates(template % 'int')
+            self.assertTrue(any(label=='host:angle->host' for label,c in good))
+            for ty in ('void *','u32','volatile s32'):
+                self.assertFalse(any(label=='host:angle->host' for label,c in natural.host_candidates(template % ty)))
 
     def test_all_small_subsets_once_largest_first(self):
         live=[(None,'ASM_KEEP')]*8

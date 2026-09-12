@@ -1448,6 +1448,7 @@ def host_candidates(text):
     from pin_census import sites_of
     t = _T(text)
     sites = sites_of(text)
+    functions = list(_functions(t))
     pinned = set()
     for s in sites:
         if s[0] == "reg":
@@ -1469,6 +1470,8 @@ def host_candidates(text):
         if not sp:
             continue
         a, b = sp
+        function = next((f for f in functions if f.a == a), None)
+        if function is None: continue
         d, j = 0, b
         for k in range(i + 1, b + 1):
             d += t.m[k].count("{") - t.m[k].count("}")
@@ -1506,13 +1509,22 @@ def host_candidates(text):
         for h in hosts[:6 if HOST_WIDE else 4]:
             rx = _occ(v)
             edits = {}
+            compatible = True
             for k in range(i + 1, j):
                 hits = list(rx.finditer(t.m[k]))
                 if hits:
+                    source_decl, host_decl = function.resolve(v, k), function.resolve(h, k)
+                    if not source_decl or not host_decl:
+                        compatible = False; break
+                    vt, ht = source_decl["ty"], host_decl["ty"]
+                    if (not vt or not ht or (source_decl["quals"] | host_decl["quals"]) & NOSHARE
+                            or not (vt == ht or _tclass(vt) in ("s", "u") and _tclass(vt) == _tclass(ht))):
+                        compatible = False; break
                     ln = _nl(t.lines[k])
                     for hh in reversed(hits):
                         ln = ln[:hh.start()] + h + ln[hh.end():]
                     edits[k] = ln
+            if not compatible: continue
             cand = t.build(edits, {i})
             if [(x[1], x[2]) for x in sites_of(cand)] != want:
                 continue            # a kept pin named v: its text would change
