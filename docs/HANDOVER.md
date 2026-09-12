@@ -28,8 +28,18 @@ combined windows, the five follow-up windows, and SLUS passed. Current total:
 **10,282 pins in 1,634 pinned rows**. See [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md)
 and [pin_followup_20260912.json](evidence/pin_followup_20260912.json).
 
-**Next direction:** dedicated fence search, starting with 19 fenced functions whose
-current text has no T20 completion record. The second pin batch yielded about 17 pins
+**Fence batch:** `pins_fences_20260912` is prepared for those 19 fenced functions whose
+current text has no T20 completion record, using `--mode fences`, 24 full-verifier
+attempts and 40 CPU seconds per row, four detached workers. Check authoritative liveness
+with `python3 tools/pin_search.py status --tag pins_fences_20260912`; resume interrupted
+work with `start --tag pins_fences_20260912 --workers 4`. Publish completed candidates
+with `publish --tag pins_fences_20260912 --mode fences --workers 4`, then follow the
+standing census/follow-up/gate workflow. This batch has not yet been harvested.
+The new mode passed 35 tests, including interrupted fence-only checkpoint recovery and
+publication; its full mechanical path reproduced the known loop fix in two verifies,
+then passed an independent byte check (`docs/evidence/fence_mode_smoke_20260912.json`).
+
+**Next direction:** measure this dedicated fence batch before selecting more source. The second pin batch yielded about 17 pins
 per CPU hour before follow-up, versus 39 in the broad first batch; do not increase the
 budget corpus-wide on this evidence. Search stages candidates and makes no model calls.
 The old sharded launcher and its partial journal remain historical.
