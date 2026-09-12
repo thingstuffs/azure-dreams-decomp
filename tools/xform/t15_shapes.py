@@ -553,33 +553,54 @@ LOADLOCAL_RE = re.compile(r"^(?P<i>[ \t]*)(?P<n>[A-Za-z_]\w*)\s*=\s*(?P<e>[^;=]*
 
 
 def fold_load_candidates(text):
-    """A local assigned once from a memory load, inlined into every consumer.
+    """Fold a load temporary into its single, immediately following consumer.
 
     From a `broad` lane, 2 for 2, WITH a precondition that says when to reach for it: compare the
     residue's register sets.  When retail's set is a strict SUPERSET of ours - retail keeps one
     more value live - folding the load directly into each consuming expression, instead of storing
     it to a named intermediate, recovers the missing register.  When the two sets are EQUAL it is a
     hard-register tie and no C reshaping moved a single word in five attempts, so do not spend
-    probes.  `pin_facts` now prints that verdict per row.
+    probes.  `pin_facts` now prints that verdict per row. Keep this textual generator narrow:
+    one declaration, one definition, one read in the next simple statement; no escaped address,
+    updates or intervening control flow. Remove the declaration before substituting the read.
+    The older global substitution produced invalid declarations and rewrote later assignments,
+    including a reproducible gcc-2.7.2 timeout. Byte verification remains mandatory.
     """
     out = []
     lines = text.splitlines(True)
     masked = mask(text).splitlines(True)
     whole = mask(text)
-    scal = {n for _, _, _, n in decls(text)}
+    declarations = decls(text)
+    scal = {n for _, _, _, n in declarations}
     for i, ln in enumerate(masked):
         m = LOADLOCAL_RE.match(ln.rstrip("\n"))
         if not m or m.group("n") not in scal:
             continue
         name = m.group("n")
         uses = len(re.findall(r"\b%s\b" % re.escape(name), whole))
-        if uses < 3:                      # declaration + this assignment + at least one use
+        if uses != 3 or i + 1 >= len(lines):  # declaration, definition, exactly one read
+            continue
+        declaration = [idx for idx, _, _, n in declarations if n == name]
+        if len(declaration) != 1 or declaration[0] >= i:
+            continue
+        consumer = masked[i + 1].strip()
+        # A simple return or assignment to another ordinary scalar. Avoid lvalues,
+        # field-name collisions, address escape, calls, updates and conditional evaluation.
+        use = re.fullmatch(r"(?:return\s+|([A-Za-z_]\w*)\s*=\s*)([^;]+);", consumer)
+        if not use or (use[1] is not None and use[1] not in scal):
+            continue
+        rhs = use[2]
+        if not re.search(r"\b%s\b" % re.escape(name), rhs):
+            continue
+        if re.search(r"(?:->|\.|\[|\]|\+\+|--|&&|\|\||[&=?,]|\b[A-Za-z_]\w*\s*\()", rhs):
             continue
         expr = lines[i].split("=", 1)[1].rsplit(";", 1)[0].strip()
-        rest = "".join(lines[:i] + lines[i + 1:])
-        rest = re.sub(r"\b%s\b" % re.escape(name), "(" + expr + ")", rest)
-        rest = re.sub(r"^[ \t]*(?:u8|s8|u16|s16|u32|s32|int|unsigned|void)[\w \t\*]*?\b%s\b[ \t]*;[ \t]*\n"
-                      % re.escape(name), "", rest, count=1, flags=re.M)
+        if re.search(r"\+\+|--|[=,?]|\b[A-Za-z_]\w*\s*\(", m.group("e")):
+            continue
+        read = re.search(r"\b%s\b" % re.escape(name), masked[i + 1])
+        edited = lines[i + 1][:read.start()] + "(" + expr + ")" + lines[i + 1][read.end():]
+        rest = "".join(edited if j == i + 1 else line for j, line in enumerate(lines)
+                       if j not in (declaration[0], i))
         out.append(("foldload:%s" % name, rest))
     return out
 

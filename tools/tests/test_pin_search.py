@@ -17,12 +17,33 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pin_search as controller
 import pin_search_engine as engine
 from xform import screen
+from xform.t15_shapes import fold_load_candidates
 from build.gate_all import gate_current
 
 PINNED = 'void f(int x) {\n    ASM_KEEP(x);\n}\n'
 FREE = 'void f(int x) {\n}\n'
 
 class SearchTests(unittest.TestCase):
+    def test_fold_load_removes_declaration_before_substituting_read(self):
+        source='int f(int *p) {\n    register int value;\n    value = *p;\n    return value + 1; /* value stays in this comment */\n}\n'
+        candidates=fold_load_candidates(source)
+        self.assertEqual(len(candidates),1)
+        result=candidates[0][1]
+        self.assertNotIn('register int',result)
+        self.assertIn('return (*p) + 1;',result)
+        self.assertIn('/* value stays in this comment */',result)
+        subprocess.run(['gcc','-fsyntax-only','-x','c','-'],input=result,text=True,check=True,capture_output=True)
+
+    def test_fold_load_refuses_reassigned_escaped_or_conditional_temporary(self):
+        for body in ('    value = 1;\n    return value;\n',
+                     '    return value++;\n','    return &value;\n',
+                     '    return p->value;\n','    return g(value);\n',
+                     '    return p ? value : 0;\n','    return p && value;\n',
+                     '    value += 1;\n','    return value + value;\n',
+                     '    g();\n    return value;\n'):
+            source='int f(int *p) {\n    int value;\n    value = *p;\n'+body+'}\n'
+            with self.subTest(body=body):self.assertEqual(fold_load_candidates(source),[])
+
     def test_changed_budget_and_recipe_change_run_key(self):
         m = dict(rows=[{"source_sha":"a","row":{"cfg":"2.7.2"}}], fingerprints={"recipe":"r","search":"s"},
                  options={"screens":10}, environment={}, modes=["targeted"])
