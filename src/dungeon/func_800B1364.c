@@ -261,7 +261,7 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     u8 *direction_anim;
     u8 state;
     u8 species;
-    register u8 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 next_state;
     S_func_800B1364_2 *creature_pos;
     S_func_800B1364_8 *summon_state;
     S_func_800B1364_9 *item_entry;
@@ -301,7 +301,8 @@ align_actor: {
     func_80048A44(sprite, D_800DD108[((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7], 0, 1);
     next_state = action->unk_9B;
     action->unk_96 = 0x12U;
-    goto advance_state;
+    action->unk_9B = (u8) (next_state + 1);
+    return;
 }
 turn_actor:
     actor->unk_2A = (s16) ((u16) actor->unk_2A + 0x200);
@@ -653,9 +654,7 @@ finish_creature:
 play_direction_anim:
     func_80048A44(anim_sprite, *direction_anim, copy_src, 1);
 read_next_state:
-    next_state = action->unk_9B;
-advance_state:
-    action->unk_9B = (u8) (next_state + 1);
+    action->unk_9B = (u8) (action->unk_9B + 1);
     return;
 restore_idle:
     final_flags = sprite->unk_14;
@@ -664,7 +663,7 @@ restore_idle:
     }
     sprite->unk_14 = (u16) (final_flags & 0xFDFF);
     action->unk_8C = &D_8008ACDC;
-    ASM_USE2(action, action);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 done:
     return;
 }

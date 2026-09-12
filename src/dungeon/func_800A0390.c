@@ -36,7 +36,7 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
     s16 timer;
     s16 state;
     u16 level;
-    register u16 next_state ASM_REG("$2"); /* MATCH: Both arms merge the updated state in retail's $v0. */
+    u16 next_state; /* MATCH: Both arms merge the updated state in retail's $v0. */
 
     state = ((S_800A5AF0_0 *)transition)->unk_04.s;
     if (state == 0) {
@@ -55,8 +55,8 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
         if ((timer << 16) <= 0) {
             ((S_800A5AF0_0 *)transition)->unk_06 = 0x30;
             appearance->unk_1C = 0x1000;
-            next_state = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
-            goto store_state;
+            ((S_800A5AF0_0 *)transition)->unk_04.u = ((S_800A5AF0_0 *)transition)->unk_04.u + 1;
+            goto end;
         }
     } else if (state == 1) {
         if (D_80083170[0] != 0) {
@@ -70,7 +70,6 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
 
             ((S_800A5AF0_0 *)transition)->unk_06 = 0x20;
             next_state = next_state + 1;
-store_state:
             ((S_800A5AF0_0 *)transition)->unk_04.u = next_state;
             goto end;
         }

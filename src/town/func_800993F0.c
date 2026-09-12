@@ -17,9 +17,7 @@ extern State D_800FE520;
 /* Process the terminated entry list and initialize the state for the current mode. */
 void func_80096B50(s32 *entries) {
     s16 mode;
-    register State *state ASM_REG("$2");
     s32 *entry;
-    register s32 tail_value;
 
     entry = entries;
     D_800FE508[0] = 0x1FFFFFFF;
@@ -37,24 +35,18 @@ void func_80096B50(s32 *entries) {
     mode = D_8006ADD6;
     if (mode == 8) {
         D_800FE520.unk0 = 0x03000000;
-        ASM_SCHED_BARRIER();
-        state = &D_800FE520;
-        state->unk4 = 0x04000000;
-        ASM_SCHED_BARRIER();
-        tail_value = 0x02A00000;
-        goto tail;
+        (&D_800FE520)->unk4 = 0x04000000;
+        (&D_800FE520)->unkC = 0x02A00000;
+        (&D_800FE520)->unk8 = 0;
+        (&D_800FE520)->unk10 = 0x80000000;
+        return;
     }
     if (mode == 0xB) {
         D_800FE520.unk0 = 0;
-        ASM_SCHED_BARRIER();
-        state = &D_800FE520;
-        state->unk4 = 0x04A00000;
-        ASM_SCHED_BARRIER();
-        tail_value = 0x03B00000;
-    tail:
-        state->unkC = tail_value;
-        state->unk8 = 0;
-        state->unk10 = 0x80000000;
+        (&D_800FE520)->unk4 = 0x04A00000;
+        (&D_800FE520)->unkC = 0x03B00000;
+        (&D_800FE520)->unk8 = 0;
+        (&D_800FE520)->unk10 = 0x80000000;
         return;
     }
     D_800FE520.unk0 = 0x80000000;

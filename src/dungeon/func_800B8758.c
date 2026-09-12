@@ -106,8 +106,7 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
         ((S_800BDEB8_1 *)(((S_800BDEB8_0_pre *)entity)[-1].unk_00))->unk_06 = 0;
     }
     {
-        register u8 *message ASM_REG("$4"); /* MATCH: Keep the merged message address in retail's argument register. */
-        register s32 message_arg ASM_REG("$5"); /* MATCH: Both arms supply the shared call through a1 before the tail jump. */
+        u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
         result = func_800A48F0(entity, 10, 0x20);
         if ((s16)result >= 0) {
             saved_id = ((S_800BDEB8_0 *)entity)->unk_13;
@@ -116,13 +115,12 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
             result = func_80099734(entity, message_handle);
             ((S_800BDEB8_0 *)entity)->unk_13 = saved_id;
             message = D_800E0FA4;
-            message_arg = result;
+            result = func_80099194(message, result);
         } else {
             message_handle = func_800990FC();
             message = D_800E0FB9;
-            message_arg = message_handle;
+            result = func_80099194(message, message_handle);
         }
-        result = func_80099194(message, message_arg);
     }
     func_80099290(result);
     func_800A5720(message_handle);

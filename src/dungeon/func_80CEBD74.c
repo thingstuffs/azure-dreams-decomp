@@ -77,7 +77,7 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
     register Obj0 *controller ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *context;
     Obj2 *animation;
-    register Obj3 *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    Obj3 *actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 actor_kind;
     unsigned long table_entry;
     register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -101,27 +101,35 @@ void func_80175574(Obj0 *controller_arg, void *context_arg, Obj2 *animation_arg,
             ((S_80175574_2 *)counter_base)->unk_0A--;
         }
         {
-            register u8 *dir_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             switch (((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v) {
             default:
                 goto increment_state;
             case 13:
-                dir_table = D_80175E54;
+                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E54;
+                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)D_80175E54;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
+                    0);
                 break;
             case 14:
-                dir_table = D_80175E5C;
+                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E5C;
+                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)D_80175E5C;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
+                    0);
                 break;
             case 15:
-                dir_table = D_80175E64;
+                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E64;
+                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)D_80175E64;
+                func_80047784(animation,
+                    *(u8 *)table_entry,
+                    0);
                 break;
             }
-            (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
-            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-            table_entry += (unsigned long)dir_table;
-            func_80047784(animation,
-                *(u8 *)table_entry,
-                0);
         }
         goto increment_state;
 
@@ -231,7 +239,6 @@ second_table_call:
 select_second_table:
         actor_kind = ((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v;
         {
-            register u8 *dir_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             if (actor_kind == 14) {
                 goto second_table_14;
@@ -248,17 +255,25 @@ check_second_kind_15:
             }
             goto increment_counter;
 second_table_13:
-            dir_table = D_80175E6C;
-            goto selected_second_table;
-second_table_14:
-            dir_table = D_80175E74;
-            goto selected_second_table;
-second_table_15:
-            dir_table = D_80175E7C;
-selected_second_table:
-            (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+            (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
             table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-            table_entry += (unsigned long)dir_table;
+            table_entry += (unsigned long)D_80175E6C;
+            func_80047784(animation,
+                *(u8 *)table_entry,
+                0);
+            goto increment_counter;
+second_table_14:
+            (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
+            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry += (unsigned long)D_80175E74;
+            func_80047784(animation,
+                *(u8 *)table_entry,
+                0);
+            goto increment_counter;
+second_table_15:
+            (*(void * *)((u8 *)animation + 0x2C)) = D_80175E7C;
+            table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            table_entry += (unsigned long)D_80175E7C;
             func_80047784(animation,
                 *(u8 *)table_entry,
                 0);

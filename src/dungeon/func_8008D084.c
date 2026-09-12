@@ -123,7 +123,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, S_800927E
     u16 timer;
     u8 *angle_hi;
     s16 *angle_page;
-    register s32 tail_value ASM_REG("$2"); /* MATCH: keep the shared-tail store value in retail's v0. */
+    s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
     u8 *flags_base;
 
     state_or_text = ((S_800927E4_0 *)action)->unk_9B;
@@ -158,8 +158,8 @@ state_zero:
                     actor->unk_2A.s + 0x100) >> 9) & 7],
             0,
             1);
-        tail_value = ((S_800927E4_0 *)action)->unk_9B + 1;
-        goto state_advance;
+        ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+        return;
     }
 
     angle_hi = (u8 *)0x80080000;
@@ -186,8 +186,8 @@ state_zero:
                             actor->unk_2A.s + 0x100) >> 9) & 7],
                     0,
                     1);
-                tail_value = ((S_800927E4_0 *)action)->unk_9B + 1;
-                goto state_advance;
+                ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
+                return;
             }
         }
 
@@ -221,7 +221,7 @@ state_one:
 
             if (sprite->unk_14.at00_u16.v & 0x8000) {
                 effect = (u8 *)effect_obj + 0x20;
-                tail_value = actor->unk_88 - 0x50;
+                effect_prim->unk_0A = actor->unk_88 - 0x50;
             } else {
                 effect = (u8 *)effect_obj + 0x20;
                 ASM_KEEP(effect);   /* Pin: removal changes the address form (%hi/%lo vs base+offset). */
@@ -229,8 +229,8 @@ state_one:
                 effect_prim->unk_06 += offset[1];
                 tail_value = offset[2];
                 tail_value += actor->unk_88;
+                effect_prim->unk_0A = tail_value;
             }
-            effect_prim->unk_0A = tail_value;
             effect->unk_A8 = 0x1E;
             effect->unk_AA = 2;
             effect->unk_90 = sprite;
@@ -259,9 +259,7 @@ state_one:
     }
 
     ((S_800927E4_0 *)action)->unk_96 = 0x1E;
-    tail_value = ((S_800927E4_0 *)action)->unk_9B + 1;
-state_advance:
-    ((S_800927E4_0 *)action)->unk_9B = tail_value;
+    ((S_800927E4_0 *)action)->unk_9B = ((S_800927E4_0 *)action)->unk_9B + 1;
     return;
 
 state_two:

@@ -126,7 +126,7 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
     s8 result;
     u16 state;
     u8 *table;
-    register u8 *high_table ASM_REG("$5"); /* MATCH: both table-selection paths feed the shared tail in a1. */
+    u8 *high_table; /* MATCH: both table-selection paths feed the shared tail in a1. */
 
     if (D_80083462 & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)arg0)->unk_9A.as_u8 = 0xE;
@@ -146,7 +146,11 @@ void func_80170E54(void *arg0, void *arg1, void *arg2, void *arg3)
             next_state = D_80174188;
             high_table = next_state;
         }
-        goto high_table_store;
+        (*(void * *)((u8 *)arg2 + 0x2C)) = high_table;
+        func_80047784(arg2,
+            *((u8 *)(((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)high_table),
+            0);
+        return;
     }
 
     if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x200) {
@@ -190,11 +194,9 @@ normal_state:
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_u32 & 0x80000) {
             func_800AA888(arg0, arg1, arg2, arg3);
             func_80173EF4(arg0, arg1, arg2, arg3);
-            high_table = D_80174140;
-high_table_store:
-            (*(void * *)((u8 *)arg2 + 0x2C)) = high_table;
+            (*(void * *)((u8 *)arg2 + 0x2C)) = D_80174140;
             func_80047784(arg2,
-                *((u8 *)(((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)high_table),
+                *((u8 *)(((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)D_80174140),
                 0);
             return;
         }

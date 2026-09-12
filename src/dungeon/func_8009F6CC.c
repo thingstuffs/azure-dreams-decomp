@@ -22,7 +22,7 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
     s16 x;
     s16 y;
     s32 attempts;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 result;
     DungeonArea *area;
     s16 *limits;
     DungeonArea *areas;
@@ -67,19 +67,18 @@ s32 func_800A4E2C(u8 *arg0, u8 *arg1)
         goto fallback;
     }
     result = 0;
-    goto done;
+    return result;
 
 found:
        /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     *arg0 = x;
     *arg1 = y;
-    goto done;
+    return result;
 
 fallback:
     *arg0 = 1;
     *arg1 = 1;
     result = 0;
-done:
     return result;
 }
 

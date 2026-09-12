@@ -16,12 +16,8 @@ extern u8 D_80176360[];
 void func_80173720(void *object_arg, void *context, void *source_arg, void *target_arg) {
     void *object = object_arg;
     void *source = source_arg;
-    register void *target ASM_REG("$18") = target_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *target = target_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *state_table;
-    register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *direction_entry;
-    void *call_source;
-    s32 direction_index;
 
     if (func_800AC82C(object_arg, context, source_arg, target_arg) != 0) {
         if ((func_800AD9B4(source, target) << 0x10) > 0) {
@@ -39,20 +35,17 @@ void func_80173720(void *object_arg, void *context, void *source_arg, void *targ
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }
-        direction_table = D_801762C8;
+        *(void **)((u8 *)source + 0x2C) = D_801762C8;
+        func_80047784(source, D_801762C8[((D_80083228 + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7], 0);
     } else if (state_table == D_80176360) {
         if (*(s32 *)((u8 *)target + 0x1C) & 0x208) {
             return;
         }
-        direction_table = D_80176328;
+        *(void **)((u8 *)source + 0x2C) = D_80176328;
+        func_80047784(source, D_80176328[((D_80083228 + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9) & 7], 0);
     } else {
         return;
     }
 
-    *(void **)((u8 *)source + 0x2C) = direction_table;
-    direction_index = (D_80083228 + *(s16 *)((u8 *)target + 0x2A) + 0x100) >> 9;
-    call_source = source;
-    direction_entry = (u8 *)((u32)(direction_index & 7) + (u32)direction_table);
-    func_80047784(call_source, *direction_entry, 0);
 }
 

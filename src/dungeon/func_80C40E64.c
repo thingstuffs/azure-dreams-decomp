@@ -67,7 +67,7 @@ void func_80172664(void *animation, void *motion, void *sprite, void *actor)
     s32 direction_y;
     s32 direction_offset;
     s32 state;
-    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 next_state;
 
     direction_offset = ((u16)((S_80172664_0 *)actor)->unk_2A >> 8) & 0xE;
     direction_x = *(s16 *)((u8 *)&D_8006CCD8 + direction_offset);
@@ -141,7 +141,8 @@ state_1:
         0);
     next_state = ((S_80172664_1 *)animation)->unk_9B;
     ((S_80172664_1 *)animation)->unk_96.s = 8;
-    goto increment_loaded_state;
+    ((S_80172664_1 *)animation)->unk_9B = next_state + 1;
+    goto end;
 
 state_2:
     {
@@ -177,9 +178,7 @@ state_3:
     func_8009C12C(actor, sprite, ((S_80172664_0 *)actor)->unk_2A, 1);
 
 increment_state:
-    next_state = ((S_80172664_1 *)animation)->unk_9B;
-increment_loaded_state:
-    ((S_80172664_1 *)animation)->unk_9B = next_state + 1;
+    ((S_80172664_1 *)animation)->unk_9B = ((S_80172664_1 *)animation)->unk_9B + 1;
     goto end;
 
 state_4:

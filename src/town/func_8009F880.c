@@ -38,7 +38,7 @@ typedef struct S_8009CFE0_2 {
 s32 func_8009CFE0(S_8009CFE0_0 *object, void *position_data)
 {
     S_8009CFE0_2 *position = position_data;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 result;
     s32 one;
     s32 geometry_result;
     s32 state_result;
@@ -57,12 +57,12 @@ s32 func_8009CFE0(S_8009CFE0_0 *object, void *position_data)
            /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state_result == one) {
             result = 1;
-            goto return_value;
+            return result;
         }
 check_flags:
         if (state->unk_01 & 0x10) {
             result = 0;
-            goto return_value;
+            return result;
         }
     } else {
         goto geometry;
@@ -70,7 +70,7 @@ check_flags:
 check_mode:
     if (D_8006ADD4 == 0xC) {
         result = 0;
-        goto return_value;
+        return result;
     }
 geometry:
     if (func_8008CC90(
@@ -95,10 +95,9 @@ geometry:
         (s32)(s16)(D_80082D08[0xD] - object->unk_86));
     result = 2;
     if (geometry_result == 0) {
-        goto return_value;
+        return result;
     }
 return_zero:
     result = 0;
-return_value:
     return result;
 }

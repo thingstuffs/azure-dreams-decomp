@@ -58,7 +58,6 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
     s32 item_b3;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     Item *temp_s2;
     Item *var_s0;
-    register u8 *message ASM_REG("$4"); /* MATCH: both message arms merge their address in a0 before the shared call. */
     u8 *head_c;
     u8 *head_b;
     u8 head_b_value;
@@ -71,8 +70,9 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
             var_s1 = func_800990FC();
                /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             item_b3 = func_80099368(var_s0, func_80099194(D_800E080A, func_80099734(arg0, func_8009929C(8, var_s1))));
-            message = D_80088B64;
-            goto show_message;
+            func_80099290(func_80099194(D_80088B64, item_b3));
+            func_800A5720(var_s1);
+            return;
         }
         var_s0 = func_80097F84(var_s0, D_800E07C0, D_800E07D3, 0);
         if (var_s0 == NULL) {
@@ -87,9 +87,7 @@ void func_800982A8(Arg0 *arg0, Item *arg1) {
             func_800A56E0(0x70A);
             var_s1 = func_800990FC();
             item_b3 = func_80099368(temp_s2, func_8009929C(8, var_s1));
-            message = D_800E081C;
-show_message:
-            func_80099290(func_80099194(message, item_b3));
+            func_80099290(func_80099194(D_800E081C, item_b3));
             func_800A5720(var_s1);
             return;
         }

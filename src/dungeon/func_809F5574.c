@@ -106,7 +106,7 @@ void func_80172D74(void *action, void *motion, void *sprite, void *actor)
     s32 step_x;
     s32 step_z;
     s32 next_state;
-    register u8 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 state_value;
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state16
     };
@@ -254,7 +254,8 @@ ready_item:
     func_800A56E0(0x703);
     state_value = ((S_80172D74_1 *)action)->unk_9B;
     ((S_80172D74_1 *)action)->unk_96.s = 6;
-    goto increment_state_loaded;
+    ((S_80172D74_1 *)action)->unk_9B = state_value + 1;
+    return;
 
 empty_slot:
     ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
@@ -296,9 +297,7 @@ state2:
     }
 
 increment_state:
-    state_value = ((S_80172D74_1 *)action)->unk_9B;
-increment_state_loaded:
-    ((S_80172D74_1 *)action)->unk_9B = state_value + 1;
+    ((S_80172D74_1 *)action)->unk_9B = ((S_80172D74_1 *)action)->unk_9B + 1;
     return;
 
 state3:

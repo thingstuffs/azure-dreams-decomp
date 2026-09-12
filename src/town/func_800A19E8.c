@@ -5,7 +5,7 @@ extern u8 D_8009EE9C[];
 /* Initialize entity flags, transform, and type-dependent variant. */
 void func_8009F148(void *entity, void *state, void *transform)
 {
-  register s32 variant_id ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  s32 variant_id;
   u8 *entity_bytes = entity;
   *(((s8 *) state) + 0x14) = 1;
   *(((s8 *) state) + 0x15) = 1;
@@ -19,11 +19,10 @@ void func_8009F148(void *entity, void *state, void *transform)
   variant_id = 0x12;
   if ((*((u8 *) (entity_bytes + 0x4D))) != variant_id)
   {
-    variant_id = 0x59;
+    *((s32 *) (entity + 0x60)) = 0x59;
   }
   else
   {
-    variant_id = 0x58;
+    *((s32 *) (entity + 0x60)) = 0x58;
   }
-  *((s32 *) (entity + 0x60)) = variant_id;
 }

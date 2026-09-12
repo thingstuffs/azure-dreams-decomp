@@ -81,7 +81,6 @@ typedef struct S_80170EA8_5 {
 void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
 {
     u8 *anim_table;
-    register u8 *next_table ASM_REG("$5");
     s32 tile_record;
     s32 direction_aux;
     u32 dungeon_flags = D_80083462;
@@ -95,8 +94,10 @@ void func_80170EA8(void *actor, void *context, void *sprite, void *entity)
     if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
         func_800AA79C(actor, context, sprite, entity);
         if (((S_80170EA8_2 *)sprite)->unk_2C != D_80174088) {
-            next_table = D_80174080;
-            goto set_table;
+            (*(void * *)((u8 *)sprite + (0x2C))) = D_80174080;
+            func_80047784(sprite,
+                D_80174080[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                0);
         }
         return;
     }
@@ -295,10 +296,8 @@ ordinary_cleanup:
     if (((S_80170EA8_2 *)sprite)->unk_2C == anim_table) {
         return;
     }
-    next_table = anim_table;
-set_table:
-    (*(void * *)((u8 *)sprite + (0x2C))) = next_table;
+    (*(void * *)((u8 *)sprite + (0x2C))) = anim_table;
     func_80047784(sprite,
-        *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)next_table),
+        *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
 }

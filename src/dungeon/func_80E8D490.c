@@ -107,7 +107,7 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, v
     u32 state;
     register u8 *selector ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 special;
-    register s32 tail_state ASM_REG("$2"); /* MATCH: the shared state store receives its value in v0. */
+    s32 tail_state; /* MATCH: the shared state store receives its value in v0. */
     u16 position[3];
     static void *const dispatch_labels[] = {
         &&L0, &&L1, &&L2, &&L3, &&L4, &&L5, &&L6, &&L16,
@@ -273,7 +273,8 @@ OwnerDone:
         {
             tail_state = ((S_80172C90_1 *)action)->unk_9B;
             tail_state++;
-            goto StoreState;
+            ((S_80172C90_1 *)action)->unk_9B = tail_state;
+            return;
         }
     }
 
@@ -310,8 +311,8 @@ L1:
         motion->unk_14.u = 0;
         motion->unk_14.s = (s32)0xFFF30000;
         {
-            tail_state = ((S_80172C90_1 *)action)->unk_9B + 1;
-            goto StoreState;
+            ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
+            return;
         }
     }
     motion->unk_0C.s *= 2;
@@ -404,9 +405,7 @@ L5:
         D_80174EF8[((D_80083228[0] + ((S_80172C90_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
         0);
     ((S_80172C90_1 *)action)->unk_96.s = 10;
-    tail_state = ((S_80172C90_1 *)action)->unk_9B + 1;
-StoreState:
-    ((S_80172C90_1 *)action)->unk_9B = tail_state;
+    ((S_80172C90_1 *)action)->unk_9B = ((S_80172C90_1 *)action)->unk_9B + 1;
     return;
 
 L6:

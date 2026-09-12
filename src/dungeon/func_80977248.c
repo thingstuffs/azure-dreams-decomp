@@ -93,7 +93,6 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
     s32 next_state;
     u8 state;
     void *target;
-    register u8 *model_base ASM_REG("$5"); /* MATCH: shared model setup materializes its pointer in a1. */
 
 
     do {
@@ -291,8 +290,11 @@ state_3:
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
-    model_base = D_80174110;
-    goto set_model;
+    (*(void * *)((u8 *)actor + 0x2C)) = D_80174110;
+    func_80047784(actor,
+        *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174110)),
+        0);
+    return;
 
 state_4:
     func_80170A44(action, motion, actor, item);
@@ -421,8 +423,11 @@ state_18:
     ((S_80172A48_0 *)action)->unk_9B++;
     func_800A56E0(0x703);
     /* MATCH: the preceding eight-byte model table uses a distinct address expression in this arm. */
-    model_base = (u8 *)((u32)D_80174118 - 8);
-    goto set_model;
+    (*(void * *)((u8 *)actor + 0x2C)) = (u8 *)((u32)D_80174118 - 8);
+    func_80047784(actor,
+        *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)(u8 *)((u32)D_80174118 - 8))),
+        0);
+    return;
 
 state_19:
     func_80170A44(action, motion, actor, item);
@@ -469,13 +474,11 @@ state_21:
     ((S_80172A48_0 *)action)->unk_96.u = 0;
     ((S_80172A48_0 *)action)->unk_9B++;
     {
-        model_base = D_80174118;
 
-set_model:
 
-        (*(void * *)((u8 *)actor + 0x2C)) = model_base;
+        (*(void * *)((u8 *)actor + 0x2C)) = D_80174118;
         func_80047784(actor,
-            *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)model_base)),
+            *((u8 *)((((D_80083228 + (*(s16 *)((u8 *)item + 0x2A)) + 0x100) >> 9) & 7) + (u32)D_80174118)),
             0);
     }
     return;

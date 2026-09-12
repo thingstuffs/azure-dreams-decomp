@@ -15,7 +15,6 @@ void func_800B7E78(u16 *frame_tick) {
     s32 tick_index;
     s32 rect_page;
     void *rect;
-    register void *pixels ASM_REG("$5");
     static void *const frame_labels[] = { &&L0, &&L4, &&L8, &&L12 };
 
     next_tick = *frame_tick + 1;
@@ -34,33 +33,43 @@ L0:
     rect_page = (s32)0x80110000;
     ASM_KEEP(rect_page);
     rect = (void *)(rect_page + 0x1FA8);
-    pixels = D_80110EC8;
-    goto tail;
+    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    ((u16 *)rect)[1] = 128;
+    ((u16 *)rect)[2] = 8;
+    ((u16 *)rect)[3] = 32;
+    LoadImage(rect, D_80110EC8);
+    return;
 
 L4:
     rect_page = (s32)0x80110000;
     ASM_KEEP(rect_page);
     rect = (void *)(rect_page + 0x1FA8);
-    pixels = D_801110C8;
-    goto tail;
+    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    ((u16 *)rect)[1] = 128;
+    ((u16 *)rect)[2] = 8;
+    ((u16 *)rect)[3] = 32;
+    LoadImage(rect, D_801110C8);
+    return;
 
 L8:
     rect_page = (s32)0x80110000;
     ASM_KEEP(rect_page);
     rect = (void *)(rect_page + 0x1FA8);
-    pixels = D_801112C8;
-    goto tail;
+    (*(u16 *)(rect_page + 0x1FA8)) = 808;
+    ((u16 *)rect)[1] = 128;
+    ((u16 *)rect)[2] = 8;
+    ((u16 *)rect)[3] = 32;
+    LoadImage(rect, D_801112C8);
+    return;
 
 L12:
     rect_page = (s32)0x80110000;
     ASM_KEEP(rect_page);
     rect = (void *)(rect_page + 0x1FA8);
-    pixels = D_801114C8;
 
-tail:
     (*(u16 *)(rect_page + 0x1FA8)) = 808;
     ((u16 *)rect)[1] = 128;
     ((u16 *)rect)[2] = 8;
     ((u16 *)rect)[3] = 32;
-    LoadImage(rect, pixels);
+    LoadImage(rect, D_801114C8);
 }

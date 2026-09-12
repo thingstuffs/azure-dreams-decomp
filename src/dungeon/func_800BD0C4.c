@@ -162,7 +162,6 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     s16 fade_ticks;
     s16 wait_ticks;
     s32 state;
-    register s16 next_state ASM_REG("$2"); /* MATCH: all state-update arms join with the value in v0. */
     register u8 *flags_page ASM_REG("$4"); /* MATCH: retain the shared flag page in retail a0. */
     void *linked_object;
     s32 effect_param;
@@ -243,8 +242,8 @@ state_fade:
     if ((fade_ticks << 0x10) > 0) {
         goto done;
     }
-    next_state = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
-    goto store_state;
+    ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+    return;
 state_release:
     linked_object = func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
     if (linked_object == 0) {
@@ -277,8 +276,8 @@ clear_release_tile:
 finish_release:
     func_8009A028(((S_800C2824_0 *)effect)->unk_00);
     func_80099844(((S_800C2824_0 *)effect)->unk_00, &D_800E1640);
-    next_state = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
-    goto store_state;
+    ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
+    return;
 state_finish: {
     register u8 *coords_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register void *active_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -310,9 +309,7 @@ state_start_wait:
         goto done;
     }
     ((S_800C2824_0 *)effect)->unk_06 = 0x3C;
-    next_state = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
-store_state:
-    ((S_800C2824_0 *)effect)->unk_04 = next_state;
+    ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
     return;
 state_wait:
     wait_ticks = (u16) ((S_800C2824_0 *)effect)->unk_06 - 1;

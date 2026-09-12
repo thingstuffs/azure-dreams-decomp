@@ -38,7 +38,6 @@ void func_80172524(void *action, void *motion, void *sprite, void *actor) {
     u16 move_ticks;
     u16 settle_ticks;
     u8 phase;
-    register u8 *animations ASM_REG("$5"); /* Pin preserves the shared animation argument register. */
 
     phase = ((S_80172524_0 *)action)->unk_9B.n;
     if (phase >= 6U) {
@@ -68,8 +67,9 @@ jt_c1:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    animations = &D_80174F30;
-    goto set_animation;
+    (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F30;
+    func_80047784(sprite, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)&D_80174F30), 0);
+    goto advance_phase;
 jt_c2:
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 >> 1);
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((s32) ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v >> 1);
@@ -77,8 +77,9 @@ jt_c2:
         goto done;
     }
     func_800A56E0(0x808);
-    animations = &D_80174F38;
-    goto set_animation;
+    (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F38;
+    func_80047784(sprite, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)&D_80174F38), 0);
+    goto advance_phase;
 jt_c3:
     if (((Rec_D_80082E80 *)sprite)->unk_04.as_s8 != 2) {
         goto check_animation;
@@ -128,10 +129,8 @@ check_move_done:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    animations = &D_80174F40;
-set_animation:
-    (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)animations;
-    func_80047784(sprite, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)animations), 0);
+    (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F40;
+    func_80047784(sprite, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)&D_80174F40), 0);
 advance_phase:
     phase = ((S_80172524_0 *)action)->unk_9B.n;
 store_next_phase:

@@ -51,12 +51,10 @@ void *func_800243E0(S_800243E0_3 *source) {
     S_800243E0_1 *appearance;
     S_800243E0_0 *object;
     S_800243E0_2 *components;
-    register void *result ASM_REG("$2"); /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
+    void *result; /* MATCH: Keep the merged return value in v0 for the shared epilogue. */
 
     object = func_8003FC64(0x212);
-    if (object == 0) {
-        result = 0;
-    } else {
+    if (object != 0) {
         object->unk_10 = &D_80024374;
         appearance = object->unk_0C;
         appearance->unk_0E = 0x80;
@@ -71,6 +69,9 @@ void *func_800243E0(S_800243E0_3 *source) {
         components->unk_06 = source->unk_06;
         components->unk_0A = source->unk_0A;
         result = object;
+        return result;
+    } else {
+        result = 0;
+        return result;
     }
-    return result;
 }

@@ -54,7 +54,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   s32 flag;
   u8 *saved;
   u8 *text;
-  register u8 *suffix ASM_REG("$4"); /* MATCH: merge suffix addresses in the retail argument register. */
   s32 code;
   s32 delta;
   s16 amount;
@@ -114,8 +113,10 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
        /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     text = func_80099194(D_800E0BC7, saved);
     text = func_80099734(entityp, text);
-    suffix = D_800892C4;
-    goto mode_text;
+    text = func_80099194(D_800892C4, text);
+    text = func_80099290(text);
+    func_800A5720(saved);
+    goto common;
   }
 
 
@@ -137,9 +138,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
     saved = func_800990FC();
     text = func_80099194(D_800E0BDC, saved);
     text = func_80099734(entityp, text);
-    suffix = D_800892C8;
-    mode_text:
-    text = func_80099194(suffix, text);
+    text = func_80099194(D_800892C8, text);
     text = func_80099290(text);
     func_800A5720(saved);
   }
@@ -210,8 +209,10 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
        /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     text = func_80099194(D_800E0BF3, saved);
     text = func_80099734(entityp, text);
-    suffix = D_800892C4;
-    goto event_text;
+    text = func_80099194(D_800892C4, text);
+    text = func_80099290(text);
+    func_800A5720(saved);
+    return 0;
   }
 
   event5:
@@ -288,9 +289,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   saved = func_800990FC();
   text = func_80099194(D_800E0C09, saved);
   text = func_80099734(entityp, text);
-  suffix = D_800E0C1D;
-  event_text:
-  text = func_80099194(suffix, text);
+  text = func_80099194(D_800E0C1D, text);
   text = func_80099290(text);
   func_800A5720(saved);
   done:

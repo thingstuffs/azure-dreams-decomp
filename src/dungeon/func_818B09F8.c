@@ -43,11 +43,9 @@ MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
     MainObj *obj = func_8003FC64(530);
     SubObj *sub;
     VecObj *vec;
-    register MainObj *result ASM_REG("$2");
+    MainObj *result;
 
-    if (obj == 0) {
-        result = 0;
-    } else {
+    if (obj != 0) {
         obj->callback = D_8002417C;
         sub = obj->sub;
         obj->arg0 = object_value;
@@ -68,6 +66,9 @@ MainObj *func_800241F8(s32 object_value, VecObj *source_vec) {
         vec->unkA = source_vec->unkA;
 
         result = obj;
+        return result;
+    } else {
+        result = 0;
+        return result;
     }
-    return result;
 }

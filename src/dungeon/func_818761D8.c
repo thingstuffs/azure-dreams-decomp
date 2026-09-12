@@ -323,7 +323,6 @@ void func_800259D8(void *in0, void *in1, void *in2)
     }
     {
     u16 z_value;
-    register s32 tail_z ASM_REG("$2");   /* MATCH: both z arms merge into the retail v0 store. */
     ((S_800259D8_4 *)arg1)->unk_00.at02.v = ((S_800259D8_5 *)entry)->unk_00.at02.v;
     ((S_800259D8_4 *)arg1)->unk_04.at02.v = ((S_800259D8_5 *)entry)->unk_04.at02.v;
     z_value = ((S_800259D8_5 *)entry)->unk_08.at02.v;
@@ -331,15 +330,13 @@ void func_800259D8(void *in0, void *in1, void *in2)
     if (!(((S_800259D8_13 *)(((S_800259D8_1 *)base)->unk_0C))->unk_14 & 0x8000U)) {
         ((S_800259D8_4 *)arg1)->unk_00.at02.v += delta.x;
         ((S_800259D8_4 *)arg1)->unk_04.at02.v += delta.y;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        tail_z = ((S_800259D8_4 *)arg1)->unk_08.at02.v;
-        tail_z = tail_z + delta.z;
+           /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ((S_800259D8_4 *)arg1)->unk_08.at02u.v = ((S_800259D8_4 *)arg1)->unk_08.at02.v + delta.z;
     } else {
 L0_adjust_z:
            /* MATCH: retain the alternate z calculation's scheduling boundary. */
-        tail_z = z_value - 0x40;
+((S_800259D8_4 *)arg1)->unk_08.at02u.v = z_value - 0x40;
     }
-    ((S_800259D8_4 *)arg1)->unk_08.at02u.v = tail_z;
     }
     if (!(((S_800259D8_14 *)(((S_800259D8_0 *)arg0)->unk_04))->unk_00 & 0x80U)) {
         goto done;

@@ -43,7 +43,6 @@ void func_8015D9A0(Obj0 *owner, void *context, Obj2 *display_arg, Obj3 *state_ar
     Obj2 *display = display_arg;
     Obj3 *state = state_arg;
     u32 selected_table;
-    register u32 new_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 current_table;
     u8 kind;
     s32 direction_index;
@@ -123,30 +122,27 @@ update_state:
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        new_table = (u32)&D_8015DDC4;
-        *(u32 * volatile)((u8 *)display + 0x2c) = new_table;
+        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_8015DDC4;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + new_table), 0);
+        func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDC4), 0);
         return;
     case 14:
         if (display->table2c != D_8015DE5C ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        new_table = (u32)&D_8015DDCC;
-        *(u32 * volatile)((u8 *)display + 0x2c) = new_table;
+        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_8015DDCC;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + new_table), 0);
+        func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDCC), 0);
         return;
     case 15:
         if (display->table2c != D_8015DE64 ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        new_table = (u32)&D_8015DDD4;
-        *(u32 * volatile)((u8 *)display + 0x2c) = new_table;
+        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_8015DDD4;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + new_table), 0);
+        func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_8015DDD4), 0);
         return;
     default:
         return;

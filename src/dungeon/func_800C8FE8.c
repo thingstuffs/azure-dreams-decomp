@@ -153,14 +153,12 @@ block_28:
             if (var_s2 & 1) {
                 temp_a1_2 = func_8009955C(((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_60, var_a1);
                 {
-                    register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                     if (!(var_s1 & 1)) {
-                        message = D_800E1B76;
+                        var_a1 = func_80099194(D_800E1B76, temp_a1_2);
                     } else {
-                        message = D_800E1B87;
+                        var_a1 = func_80099194(D_800E1B87, temp_a1_2);
                     }
-                    var_a1 = func_80099194(message, temp_a1_2);
                 }
                 if (var_s2 & 2) {
                     var_a1 = func_8009929C(0xA, var_a1);
@@ -169,15 +167,13 @@ block_28:
             if (var_s2 & 2) {
                 temp_a1 = func_8009955C(((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_64, var_a1);
                 {
-                    register void *message ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                     if (!(var_s1 & 2)) {
-                        message = D_800E1B99;
+                        var_a1 = func_80099194(D_800E1B99, temp_a1);
                     } else {
-                        message = D_800E1BAA;
+                        var_a1 = func_80099194(D_800E1BAA, temp_a1);
                     }
                        /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    var_a1 = func_80099194(message, temp_a1);
                 }
             }
             func_80099290(var_a1);

@@ -62,7 +62,6 @@ void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *acto
     register void *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *actor = actor_arg;
     u8 *expected_table;
     u8 *current_table;
@@ -109,10 +108,9 @@ state_0:
     }
 set_ac8_pre:
 set_ac8:
-    direction_table = D_80173AC8;
-    (*(u8 * *)((u8 *)object + 0x2C)) = direction_table;
+    (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AC8;
     direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-    func_80047784(object, direction_table[direction_index & 7], 0);
+    func_80047784(object, D_80173AC8[direction_index & 7], 0);
     goto increment_state;
 
 state_1:
@@ -200,10 +198,9 @@ kind_ge_15:
         goto increment_counter_pre;
     }
 set_ad0:
-    direction_table = D_80173AD0;
-    (*(u8 * *)((u8 *)object + 0x2C)) = direction_table;
+    (*(u8 * *)((u8 *)object + 0x2C)) = D_80173AD0;
     direction_index = (D_80083228 + ((S_8016D0FC_3 *)actor)->unk_2A + 0x100) >> 9;
-    func_80047784(object, direction_table[direction_index & 7], 0);
+    func_80047784(object, D_80173AD0[direction_index & 7], 0);
 increment_counter_pre:
     counter_base = D_80083460;
 increment_counter:

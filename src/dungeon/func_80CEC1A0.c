@@ -43,7 +43,6 @@ void func_801759A0(Obj0 *actor, void *context, Obj2 *display_arg, Obj3 *state_ar
     Obj2 *display = display_arg;
     Obj3 *state = state_arg;
     u32 selected_table;
-    register u32 fallback_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 current_table;
     u8 kind;
     s32 direction_index;
@@ -123,30 +122,27 @@ update_state:
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80175DC4;
-        *(u32 * volatile)((u8 *)display + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_80175DC4;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DC4), 0);
         return;
     case 14:
         if (display->table2c != D_80175E5C ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80175DCC;
-        *(u32 * volatile)((u8 *)display + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_80175DCC;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DCC), 0);
         return;
     case 15:
         if (display->table2c != D_80175E64 ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80175DD4;
-        *(u32 * volatile)((u8 *)display + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)display + 0x2c) = (u32)&D_80175DD4;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(display, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(display, *(u8 *)((direction_index & 7) + (u32)&D_80175DD4), 0);
         return;
     default:
         return;

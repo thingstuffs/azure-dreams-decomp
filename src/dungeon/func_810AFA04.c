@@ -73,7 +73,6 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
     u8 *counter_base;
     u8 *floor_base;
     u8 *status_page;
-    register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     mode = update_mode;
     ASM_KEEP_NV(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -107,11 +106,10 @@ state_0:
     if (!(sprite->unk_14 & 0xE000)) {
         goto done;
     }
-    direction_table = D_80173C9C;
-    sprite->unk_2C = direction_table;
+    sprite->unk_2C = D_80173C9C;
     func_80047784(
         sprite,
-        direction_table[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80173C9C[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     counter_base = D_80083460;
     ((S_80173204_3 *)counter_base)->unk_0A =
@@ -120,11 +118,10 @@ state_0:
 
 state_1:
     if ((func_80042900(entity, 1) << 16) == 0) {
-        direction_table = D_80173CA4;
-        sprite->unk_2C = direction_table;
+        sprite->unk_2C = D_80173CA4;
         func_80047784(
             sprite,
-            direction_table[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            D_80173CA4[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
         if (sprite->unk_14 & 0x8000) {
             entity->unk_1C.as_s32 &= ~0x200;
@@ -198,11 +195,10 @@ second_check:
     if ((func_80042900(entity, 1) << 16) != 0) {
         goto done;
     }
-    direction_table = D_80173CA4;
-    sprite->unk_2C = direction_table;
+    sprite->unk_2C = D_80173CA4;
     func_80047784(
         sprite,
-        direction_table[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
+        D_80173CA4[((D_80083228[0] + entity->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
     if (sprite->unk_14 & 0x8000) {
         entity->unk_1C.as_s32 &= ~0x200;

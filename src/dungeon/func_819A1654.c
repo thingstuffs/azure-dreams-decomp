@@ -180,7 +180,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
     Coord *origin_path;
     register u8 *copy_page ASM_REG("$2");
     register u8 *copy_source ASM_REG("$6");
-    register LookupGlobal *lookup ASM_REG("$5");
     World *world;
     void *focus;
     Coord *focus_coord;
@@ -269,8 +268,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
         }
 
         if (entity->timer == 24) {
-            lookup = &D_80082E80[0];
-            if (func_8003DF74(lookup->found, lookup, &entity->x, 0) != 0) {
+            if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
                 u8 *origin_loop_page;
                 spawn_index = 0;
                 particle_callback = func_80024B3C;
@@ -319,8 +317,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
         }
 
         if (entity->timer == 24) {
-            lookup = &D_80082E80[0];
-            if (func_8003DF74(lookup->found, lookup, &entity->x, 0) != 0) {
+            if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
                 task = func_8003FC64(0x212);
                 effect = &task->effect;
                 if (task != 0) {
@@ -367,8 +364,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                         path_pair = 3;
                     }
 
-                    lookup = &D_80082E80[0];
-                    if (func_8003DF74(lookup->found, lookup, &entity->x, 0) != 0) {
+                    if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
                         s32 path_point;
                         register Entity *path_entity ASM_REG("$5");
                         register s32 path_half ASM_REG("$4");

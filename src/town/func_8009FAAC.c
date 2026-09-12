@@ -29,7 +29,7 @@ typedef struct S_8009D20C_2 {
 s32 func_8009D20C(Rec_D_80082D58 *record, void *position_data)
 {
     S_8009D20C_2 *position = position_data;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 result;
     s32 one;
     s32 geom_result;
     s32 state_result;
@@ -47,14 +47,15 @@ s32 func_8009D20C(Rec_D_80082D58 *record, void *position_data)
         one = 1;
         if (state_result == one) {
             result = 1;
+            return result;
         } else {
 check_flags:
             if (!(state->unk_01 & 0x10)) {
                 goto check_positions;
             }
             result = 0;
+return result;
         }
-        return result;
     }
 check_positions:
     if (func_8008CC90(
@@ -71,10 +72,9 @@ check_positions:
         (s32)(s16)(D_80082D08[0xC] - record->unk_84), (s32)(s16)(D_80082D08[0xD] - record->unk_86));
     result = 2;
     if (geom_result == 0) {
-        goto geom_done;
+        return result;
     }
 geom_zero:
     result = 0;
-geom_done:
     return result;
 }

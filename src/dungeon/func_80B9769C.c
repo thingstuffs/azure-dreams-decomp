@@ -104,7 +104,6 @@ void func_80170E9C(void *entity_arg, M2C_UNK context_arg, void *sprite_arg, void
     void *sprite = sprite_arg;
     M2C_UNK direction_aux;
     M2C_UNK *resume_handler;
-    register M2C_UNK *anim_table ASM_REG("$5"); /* MATCH: the merged pointer occupies a1 at the shared tail. */
     void *reference_entity;
     RefPosition *action_target;
     RefPosition *idle_target;
@@ -133,8 +132,9 @@ block_3:
     if (((S_80170E9C_2 *)sprite)->unk_2C == &D_80174F00) {
         goto block_63;
     }
-    anim_table = &D_80174EF8;
-    goto block_62;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
+    func_80047784(sprite, *(u8 *)((((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)&D_80174EF8), 0);
+    return;
 block_7:
     state_flags = ((S_80170E9C_1 *)state)->unk_1C;
     if (!(state_flags & 0x200)) {
@@ -305,10 +305,8 @@ block_59:
     if (((S_80170E9C_2 *)sprite)->unk_2C == (M2C_UNK *)D_80174EE0) {
         goto block_63;
     }
-    anim_table = (M2C_UNK *)D_80174EE0;
-block_62:
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
-    func_80047784(sprite, *(u8 *)((((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table), 0);
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)D_80174EE0;
+    func_80047784(sprite, D_80174EE0[((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7], 0);
 block_63:
     return;
 }

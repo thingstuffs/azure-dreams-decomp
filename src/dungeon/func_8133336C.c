@@ -113,7 +113,6 @@ void func_8016A36C(void *actor, void *context, void *sprite_arg, void *entity) {
     M2C_UNK *turn_state;
     u8 *pose2_table;
     u8 *pose3_table;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     unsigned long table_index;
     u8 *next_table;
     u8 *current_table;
@@ -182,20 +181,29 @@ block_13:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173AC0 + 8)) {
         goto block_150;
     }
-    anim_table = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
-    goto block_130;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
+    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A58 + 0x68);
+    func_80047784(sprite, *(u8 *)table_index, 0);
+    return;
 block_15:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p == (M2C_UNK *)((u8 *)&D_80173A58 + 0x70)) {
         goto block_150;
     }
-    anim_table = &D_80173AC0;
-    goto block_130;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80173AC0;
+    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index += (unsigned long)&D_80173AC0;
+    func_80047784(sprite, *(u8 *)table_index, 0);
+    return;
 block_17:
     if (((S_8016A36C_3 *)sprite)->unk_2C.p == &D_80173AC8) {
         goto block_150;
     }
-    anim_table = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
-    goto block_130;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = (M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
+    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index += (unsigned long)(M2C_UNK *)((u8 *)&D_80173A00 + 0xC0);
+    func_80047784(sprite, *(u8 *)table_index, 0);
+    return;
 block_19:
     if (!(((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x200)) {
         goto block_36;
@@ -565,14 +573,12 @@ block_128:
     current_table = ((S_8016A36C_3 *)sprite)->unk_2C.p2;
     next_table = &D_801739A8;
 block_129:
-    anim_table = next_table;
-    if (current_table == anim_table) {
+    if (current_table == next_table) {
         goto block_150;
     }
-block_130:
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = next_table;
     table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-    table_index += (unsigned long)anim_table;
+    table_index += (unsigned long)next_table;
     func_80047784(sprite, *(u8 *)table_index, 0);
     return;
 block_131:
@@ -610,8 +616,13 @@ block_137:
     if ((s16) pose2_anim_ticks < 0x12) {
         goto block_150;
     }
-    anim_table = &D_801739B0;
-    goto block_149;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B0;
+    table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+    table_index += (unsigned long)&D_801739B0;
+    func_80047784(sprite, *(u8 *)table_index, 0);
+    ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
+    ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);
+    return;
 block_140:
     pose3_table = ((S_8016A36C_3 *)sprite)->unk_2C.p;
     idle_table = &D_801739B8;
@@ -648,11 +659,9 @@ block_146:
     if ((s16) pose3_anim_ticks < 0x12) {
         goto block_150;
     }
-    anim_table = &D_801739B8;
-block_149:
-    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_801739B8;
     table_index = ((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-    table_index += (unsigned long)anim_table;
+    table_index += (unsigned long)&D_801739B8;
     func_80047784(sprite, *(u8 *)table_index, 0);
     ((Rec_func_800A9E70_arg0 *)actor)->unk_9E.as_u16 = 0U;
     ((Rec_func_800A9E70_arg0 *)actor)->unk_A0.at00_s16.v = (s16) ((func_80069EF8() & 0x3F) + 0x3C);

@@ -47,12 +47,9 @@ void *func_80024600(s32 *owner_data, Copy24 *initial_data) {
     S_80024600_1 *render_state;
     S_80024600_0 *object;
     Copy24 *object_data;
-    register void *result ASM_REG("$2");
 
     object = func_8003FD64(0x212, (s8 *) owner_data - 0x20);
-    if (object == NULL) {
-        result = NULL;
-    } else {
+    if (object != NULL) {
         object->unk_10 = &D_8002457C;
         owner_value = *owner_data;
         render_state = object->unk_0C;
@@ -69,7 +66,8 @@ void *func_80024600(s32 *owner_data, Copy24 *initial_data) {
         func_8004491C(object, &D_80045340);
         object_data = object->unk_08;
         *object_data = *initial_data;
-        result = object;
+        return object;
+    } else {
+        return NULL;
     }
-    return result;
 }

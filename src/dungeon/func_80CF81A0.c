@@ -43,7 +43,6 @@ void func_801699A0(Obj0 *owner, void *context, Obj2 *sprite_arg, Obj3 *entity_ar
     Obj2 *sprite = sprite_arg;
     Obj3 *entity = entity_arg;
     u32 selected_table;
-    register u32 fallback_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 current_table;
     u8 kind;
     s32 direction_index;
@@ -123,30 +122,27 @@ after_first_update:
             (entity->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80169DC4;
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DC4;
         direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
-        func_80047784(sprite, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DC4), 0);
         return;
     case 14:
         if (sprite->table2c != D_80169E5C ||
             (entity->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80169DCC;
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DCC;
         direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
-        func_80047784(sprite, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DCC), 0);
         return;
     case 15:
         if (sprite->table2c != D_80169E64 ||
             (entity->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80169DD4;
-        *(u32 * volatile)((u8 *)sprite + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)sprite + 0x2c) = (u32)&D_80169DD4;
         direction_index = (D_80083228 + entity->value2a + 0x100) >> 9;
-        func_80047784(sprite, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(sprite, *(u8 *)((direction_index & 7) + (u32)&D_80169DD4), 0);
         return;
     default:
         return;
