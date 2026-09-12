@@ -18,12 +18,42 @@ import pin_search as controller
 import pin_search_engine as engine
 from xform import screen
 from xform.t15_shapes import fold_load_candidates
+from xform.loop_test_increment import loop_test_increment_candidates
 from build.gate_all import gate_current
 
 PINNED = 'void f(int x) {\n    ASM_KEEP(x);\n}\n'
 FREE = 'void f(int x) {\n}\n'
 
 class SearchTests(unittest.TestCase):
+    def test_fence_objective_is_componentwise_and_strict(self):
+        self.assertTrue(engine.improves_fence('do { x++; } while (0);', 'x++;'))
+        self.assertFalse(engine.improves_fence('x++;', 'x++;'))
+
+    def test_loop_increment_rewrite_rejects_unsafe_forms(self):
+        template = 'int f(void) {\n int i=0;\n int j=0;\n do {\n%s\n } while (i < 3);\n return i;\n}\n'
+        safe = template % '  i++;\n  j++;'
+        self.assertTrue(loop_test_increment_candidates(safe))
+        cases = [template % body for body in (
+            '  if (j)\n   i++;', '  if (j) {\n   i++;\n  }',
+            '  continue;\n  i++;', '  i++;\n  j += i;',
+            '  use(&i);\n  i++;', '  i++;\n  use(&j);',
+            '  i++;\n  i += 1;', '  i++;\n  j += step;',
+            '  again:\n  i++;')]
+        cases += [safe.replace('int i=0;', ty+' i=0;') for ty in
+                  ('volatile int', 'static int', 'opaque_integer', 'int *')]
+        cases += [safe.replace('int j=0;', 'volatile int j=0;'),
+                  safe.replace('while (i < 3)', 'while (i < i)')]
+        for src in cases:
+            with self.subTest(source=src):self.assertEqual(loop_test_increment_candidates(src), [])
+
+    def test_loop_increment_rewrite_positive_source_preserving(self):
+        src='int f(void) {\n int i=0;\n char *cursor;\n do {\n  *cursor = 0;\n  i++; /* counter */\n  cursor += 4;\n } while (i < 3);\n return i;\n}\n'
+        got=loop_test_increment_candidates(src)
+        self.assertEqual(len(got),1)
+        self.assertIn('} while (++i < 3);',got[0][1])
+        self.assertIn('/* counter */',got[0][1])
+        self.assertIn('cursor += 4;',got[0][1])
+
     def test_fold_load_removes_declaration_before_substituting_read(self):
         source='int f(int *p) {\n    register int value;\n    value = *p;\n    return value + 1; /* value stays in this comment */\n}\n'
         candidates=fold_load_candidates(source)

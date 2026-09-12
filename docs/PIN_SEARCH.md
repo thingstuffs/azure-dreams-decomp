@@ -63,6 +63,31 @@ are not persisted as negative assembly cache entries. Production tags share cach
 pilot tag has separate cold caches for its two arms. Distinct C states are retained even if
 they currently emit the same assembly, because later transformations can behave differently.
 
+## Fence search
+
+Use `--mode fences` for scored scheduling fences, including functions with no ASM pins:
+
+```sh
+python3 tools/pin_search.py prepare --tag fences_next --mode fences --ids selected_ids.txt --verifies 24 --cpu-seconds 40
+python3 tools/pin_search.py start --tag fences_next --workers 4
+python3 tools/pin_search.py status --tag fences_next
+python3 tools/pin_search.py publish --tag fences_next --mode fences --workers 4
+```
+
+The manifest fixes the mode and acceptance objective. This arm runs bounded T20 full-byte
+verification directly; assembly-screen counts and cache hits therefore stay zero. It does
+not call a model. Pins, fences and detected fake dependencies must each stay nonincreasing,
+and pins plus fences must strictly fall. The same acceptance policy protects recovered
+checkpoints and publication. Verified partial wins survive CPU/verify limits; summaries
+report both pin and fence reductions. T20 settings and the added generator menu are restored
+after each worker row, leaving the original baseline, targeted and standalone T20 menus intact.
+
+The dedicated menu includes the measured `loop_test_increment` rule, which moves an
+unconditional local counter increment into a do-loop comparison. It rejects control flow,
+escaped or volatile locals, unknown scalar typedefs, and dependent crossed updates. Only one
+of 16 measured source examples matched; this remains a narrow rule. See
+[PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
+
 ## Publish checked source
 
 ```sh
@@ -111,7 +136,7 @@ No model is needed for each candidate, ordinary failure, or progress poll.
 Validation:
 
 ```sh
-python3 -m unittest discover -s tools/tests -p 'test_pin_search.py'
+python3 -m unittest discover -s tools/tests -p 'test_pin_search*.py'
 nice -n 10 python3 tools/tests/replay_pin_screen.py
 ```
 

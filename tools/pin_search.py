@@ -109,19 +109,22 @@ def run_key(manifest):
 def configure(env):
     # Ambient search flags must not silently affect candidate generation or the resume key.
     for k in list(os.environ):
-        if k.startswith(("T15_", "T27_", "NATURAL_", "PIN_CC_", "AZURE_MASPSX")) or k in (
+        if k.startswith(("T15_", "T20_", "T27_", "NATURAL_", "PIN_CC_", "AZURE_MASPSX")) or k in (
                 "GCC_EXEC_PREFIX","COMPILER_PATH","CPATH","C_INCLUDE_PATH","LIBRARY_PATH"):
             os.environ.pop(k)
     os.environ.update(env)
 
 def prepare(a):
     from pin_census import sites_of, asm_blocker
+    from xform.natural import fences
     from pin_search_engine import DEFAULTS
+    if a.pilot and a.mode == "fences":
+        raise ValueError("fence mode cannot be combined with the pin comparison pilot")
     d = safe_tag(a.tag)
     if (d / "manifest.json").exists(): raise RuntimeError("tag already prepared; use run to resume or a new tag")
     rs = [r for r in rows() if r.get("stock") and r.get("exists") and r["container"] not in PARKED_CONTAINERS]
     eligible = [(r, clean_path(r).read_text()) for r in rs if clean_path(r).exists()]
-    eligible = [(r, t) for r, t in eligible if sites_of(t) and not asm_blocker(t)]
+    eligible = [(r, t) for r, t in eligible if (sites_of(t) if a.mode != "fences" else fences(t)) and not asm_blocker(t)]
     if a.ids:
         keep = set(Path(a.ids).read_text().replace("\n", ",").strip(",").split(","))
         eligible = [(r, t) for r, t in eligible if r["id"] in keep]
@@ -152,7 +155,8 @@ def prepare(a):
         p = d / "inputs" / (r["id"].replace("/", "_") + ".c"); atomic_text(p, t)
         records.append(dict(row=r, source_sha=sha_text(t), input=str(p.relative_to(d)),
                             current_sha=sha_file(clean_path(r)), replay=r["id"] in used))
-    opts = dict(DEFAULTS, screens=a.screens, verifies=a.verifies, cpu_seconds=a.cpu_seconds)
+    opts = dict(DEFAULTS, screens=a.screens, verifies=a.verifies, cpu_seconds=a.cpu_seconds,
+                objective="fences" if a.mode == "fences" else "pins")
     manifest = dict(schema=1, created=utc(), tag=a.tag, rows=records, options=opts,
                     modes=["baseline", "targeted"] if a.pilot else [a.mode],
                     environment=POLICY_ENV, fingerprints=fingerprints([r for r, _ in chosen]))
@@ -344,6 +348,7 @@ def summarize(d, m):
         report["modes"][mode] = dict(records=len(records), outcomes=dict(collections.Counter(r["outcome"] for r in records)),
             stops=dict(collections.Counter(r.get("stop_reason") for r in records)),
             pins_removed=sum(r.get("pins_in",0)-r.get("pins_out",0) for r in records if r["outcome"] == "candidate"),
+            fences_removed=sum(r.get("fences_in",0)-r.get("fences_out",0) for r in records if r["outcome"] == "candidate"),
             totals={k:sum(r.get(k,0) for r in records) for k in ("compiled", "screened", "cache_hits", "tried", "seconds", "cpu_seconds", "generation_seconds", "fallback_tried", "fallback_wins", "compile_timeouts")})
     atomic_json(d / "summary.json", report)
     print(json.dumps(report, indent=2))
@@ -443,7 +448,7 @@ def gate_pilot(a):
 
 def publish(a):
     from pin_census import landing_refusal
-    from pin_search_engine import improves
+    from pin_search_engine import improvement_policy
     from verify import verify
     # Historical search output can be independently verified after search-code changes.
     # The frozen manifest, result identities and actual compilation recipe must still match.
@@ -458,13 +463,14 @@ def publish(a):
         state["phase"]="rolled-back";atomic_json(tx,state)
     accepted,deferred=publication_results(d,m,mode,getattr(a,"defer",[]) or [])
     files=[]
+    policy = improvement_policy(m["options"])
     for x,r in accepted:
         if r["outcome"]!="candidate": continue
         row=x["row"]; source=clean_path(row); cand=d/r["candidate"]
         if sha_file(source)!=x["source_sha"] or sha_file(cand)!=r["candidate_sha"]: raise RuntimeError("stale source or candidate: "+row["id"])
         before=source.read_text(); text=cand.read_text()
         bad=landing_refusal(text,before,str(source.relative_to(ROOT)))
-        if bad or not improves(before,text): raise RuntimeError("candidate policy failure: "+str(bad))
+        if bad or not policy(before,text): raise RuntimeError("candidate policy failure: "+str(bad))
         with tempfile.TemporaryDirectory(prefix="pin_final_") as tmp:
             p=Path(tmp)/Path(row["c_path"]).name;p.write_text(text)
             v=verify(row,p,include_root=ROOT/"include")
@@ -491,7 +497,7 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument("action",choices=["prepare","run","start","status","packets","gate-pilot","publish"])
     ap.add_argument("--tag",required=True);ap.add_argument("--workers",type=int,default=4)
     ap.add_argument("--sample",type=int,default=0);ap.add_argument("--seed",type=int,default=20260912)
-    ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline"],default="baseline")
+    ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline","fences"],default="baseline")
     ap.add_argument("--screens",type=int,default=1200);ap.add_argument("--verifies",type=int,default=12);ap.add_argument("--cpu-seconds",type=float,default=40)
     ap.add_argument("--replay-commit",default="c35efafb")
     ap.add_argument("--defer",action="append",default=[],metavar="ROW_ID",

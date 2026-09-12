@@ -13,7 +13,7 @@ from pathlib import Path
 
 from common import sha_text
 from pin_census import sites_of, unscored_text
-from census import _fakedep
+from census import _fakedep, _dowhile0
 from xform import t27_beam as old
 from xform.screen import compile_s, sdiff
 
@@ -30,6 +30,19 @@ def debt(text):
 def improves(before, after):
     a, b = debt(before), debt(after)
     return b[0] < a[0] and all(y <= x for x, y in zip(a[1:], b[1:]))
+
+def fence_debt(text):
+    return (len(sites_of(text)), _dowhile0(text), _fakedep(text))
+
+def improves_fence(before, after):
+    a, b = fence_debt(before), fence_debt(after)
+    return all(y <= x for x, y in zip(a, b)) and b[0] + b[1] < a[0] + a[1]
+
+def improvement_policy(options):
+    objective = options.get("objective", "pins")
+    if objective == "pins": return improves
+    if objective == "fences": return improves_fence
+    raise ValueError("unknown search objective: " + str(objective))
 
 def mechanism(ref, got):
     if got is None:
@@ -85,6 +98,7 @@ class Limit(Exception):
 class Session:
     def __init__(self, row, text, recipe, cache, options, verify_fn, on_win=None):
         self.row, self.original, self.options, self.verify_fn = row, text, options, verify_fn
+        self.improves = improvement_policy(options)
         self.start, self.cpu_start = time.monotonic(), cpu_time()
         self.stats = collections.Counter()
         self.best = text
@@ -147,7 +161,7 @@ class Session:
         self.check()
         h = sha_text(text)
         if h in self.verified: return self.verified[h]
-        if unscored_text(text) != unscored_text(self.original) or not improves(self.original, text):
+        if unscored_text(text) != unscored_text(self.original) or not self.improves(self.original, text):
             return {"exact": False, "status": "debt-or-unscored-edit"}
         if self.stats["tried"] >= self.options["verifies"]:
             raise Limit("verify-budget")
@@ -155,7 +169,7 @@ class Session:
         t0 = time.monotonic(); result = self.verify_fn(text)
         self.stats["verify_seconds"] += time.monotonic() - t0
         self.verified[h] = result
-        if result.get("exact") and improves(self.best, text):
+        if result.get("exact") and self.improves(self.best, text):
             self.best = text
             if self.on_win: self.on_win(text)
         return result
@@ -290,10 +304,35 @@ class Session:
             if not won: break
         return dict(steps=steps, groups=group_log[:40])
 
+    def fences(self):
+        from xform import t20_fencefree as t20
+        from xform.loop_test_increment import loop_test_increment_candidates
+        saved = {k: getattr(t20, k) for k in ("BUDGET", "FENCE_BUDGET", "ROUNDS", "NEAR", "PIN_PASS")}
+        menu = t20.T._menu
+        try:
+            t20.BUDGET = self.options["verifies"]
+            t20.FENCE_BUDGET = self.options.get("fence_menu_budget", 24)
+            t20.ROUNDS = self.options.get("fence_rounds", 2)
+            t20.NEAR = self.options.get("fence_near", 6)
+            t20.PIN_PASS = self.options.get("fence_pin_pass", True)
+            def fence_menu(text, slus):
+                self.check()
+                return menu(text, slus) + loop_test_increment_candidates(text)
+            t20.T._menu = staticmethod(fence_menu)
+            # Use the same policy, verification cache and checkpoint path as resume.
+            # Starting from a recovered win avoids spending its budget rediscovering it.
+            _, info = t20.T.apply_verified(self.best, self.row, {}, self.verify)
+            if info.get("tried", 0) >= t20.BUDGET:
+                self.stop = "verify-budget"
+            return info
+        finally:
+            for k, v in saved.items(): setattr(t20, k, v)
+            t20.T._menu = staticmethod(menu)
+
     def run(self, mode):
         info = {}
         try:
-            info = self.baseline() if mode == "baseline" else self.targeted()
+            info = self.baseline() if mode == "baseline" else self.fences() if mode == "fences" else self.targeted()
         except Limit as exc:
             self.stop = str(exc)
             info = {"groups": self.group_log[:40]}
@@ -306,4 +345,5 @@ class Session:
         return self.best, dict(info, **dict(self.stats), stop_reason=self.stop,
             seconds=time.monotonic()-self.start, cpu_seconds=cpu_time()-self.cpu_start,
             pins_in=debt(self.original)[0], pins_out=debt(self.best)[0],
+            fences_in=fence_debt(self.original)[1], fences_out=fence_debt(self.best)[1],
             debt_in=debt(self.original), debt_out=debt(self.best))
