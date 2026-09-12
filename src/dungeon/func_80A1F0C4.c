@@ -152,7 +152,7 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     s32 special_mode;
     s32 special_test;
     s32 particle_count;
-    register s32 current_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 current_state;
     u8 *anim;
     u16 timer;
     void *effect;
@@ -290,7 +290,8 @@ object_ready:
         func_800DA840(pos, (s16)((*anim - 1) % 3));
         current_state = ((S_801728C4_0 *)action)->unk_9B;
         ((S_801728C4_0 *)action)->unk_96 = 30000;
-        goto increment_state;
+        ((S_801728C4_0 *)action)->unk_9B = current_state + 1;
+        goto done;
     }
     goto done;
 
@@ -409,9 +410,7 @@ state_2:
             sprite,
             D_80174850[((D_80083228 + ((S_801728C4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
-        current_state = ((S_801728C4_0 *)action)->unk_9B;
-increment_state:
-        ((S_801728C4_0 *)action)->unk_9B = current_state + 1;
+        ((S_801728C4_0 *)action)->unk_9B = ((S_801728C4_0 *)action)->unk_9B + 1;
         goto done;
     }
     goto done;

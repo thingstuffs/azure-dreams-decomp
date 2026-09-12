@@ -84,10 +84,7 @@ void func_8008F428(void *effect_state, void *unused, void *animation, void *owne
     s32 effect_result;
     u16 ticks_left;
     u8 state;
-    u8 *effect;
-    register u8 *direction_table ASM_REG("$5");
     void *target;
-    register s32 next_state ASM_REG("$2");
 
     if (((S_8008F428_0 *)effect_state)->unk_124 != 0) {
         if (!(((S_8008F428_1 *)animation)->unk_14 & 0x6000)) {
@@ -116,10 +113,12 @@ void func_8008F428(void *effect_state, void *unused, void *animation, void *owne
                 goto start_wait;
             }
 use_effect:
-            effect = D_8008EAC8;
-            target = effect_target;
-            direction_table = D_800DD0B8;
-            goto set_effect;
+            ((S_8008F428_0 *)effect_state)->unk_8C = D_8008EAC8;
+            (*(u8 * *)((u8 *)effect_target + (0x2C))) = D_800DD0B8;
+            func_80048A44(effect_target,
+                D_800DD0B8[((D_80083228 + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
+                0, 1);
+            return;
         }
 
         if (state == 1) {
@@ -153,8 +152,8 @@ use_effect:
                 D_800E3540 = saved_global;
                 ((S_8008F428_4 *)owner)->unk_1C = flags & owner_mask;
             }
-            next_state = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
-            goto store_state;
+            ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
+            return;
         }
 
         {
@@ -176,9 +175,7 @@ use_effect:
         ((S_8008F428_1 *)animation)->unk_14 |= 0x800;
 start_wait:
         ((S_8008F428_0 *)effect_state)->unk_96 = 0x10;
-        next_state = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
-store_state:
-        ((S_8008F428_0 *)effect_state)->unk_9B = next_state;
+        ((S_8008F428_0 *)effect_state)->unk_9B = ((S_8008F428_0 *)effect_state)->unk_9B + 1;
         return;
     }
 
@@ -202,14 +199,10 @@ store_state:
         func_800A5720(saved_effect_id);
         target = animation;
 reset_effect:
-        effect = (u8 *)&D_8008ACDC;
-        direction_table = D_800DCFB0;
-set_effect:
-        ((S_8008F428_0 *)effect_state)->unk_8C = effect;
-        (*(u8 * *)((u8 *)target + (0x2C))) = direction_table;
-        effect = (u8 *)((((D_80083228 + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7) + (u32)direction_table);
+        ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;
+        (*(u8 * *)((u8 *)target + (0x2C))) = D_800DCFB0;
         func_80048A44(target,
-            *effect,
+            D_800DCFB0[((D_80083228 + ((S_8008F428_4 *)owner)->unk_2A + 0x100) >> 9) & 7],
             0, 1);
     }
 }

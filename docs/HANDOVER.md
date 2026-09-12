@@ -238,6 +238,16 @@ the SLUS SHA-1 gate MATCH after each phase.
   a pin group in band.
 - **Controversial-in-waiting, not done:** sotn's `FAKE` convention (plain-C stand-ins for allocator
   ties). Not mechanised - census cannot see it; adopting it needs a counted `FAKE` note first.
+- **`t21_crossjump` (an Opus agent built it from the native lane's rewrite; report
+  `work/native_lane/crossjump/REPORT.md`):** m2c's cross-jump gotos undone at statement level (sink the
+  shared tail into every predecessor, forward-substitute the temporaries, substitute link-time
+  constants, try the swapped arm order). Acceptance 7/7; **102 rows landed, 107 pins off**, then t2 over
+  them freed more in 20 rows; 98 touched windows MATCH, SLUS MATCH. Misses worth a lane: a 17-row
+  family (one function, 17 overlays) 2 words off where the erased variable serves a second use.
+- **The scratchpad class (native lane, `work/native_lane/scratchpad/REPORT.md`):** mechanism found
+  (combine folds `addu base,K` into `ori` on a constant base; a REAL loop, not m2c's phony goto loop,
+  lets loop.c substitute first). One row closed, `dungeon/func_800942BC` - its landing waits for the
+  deep t18 pass to finish (a sweep overwrites a file it read earlier).
 
 ### Rules learned today
 

@@ -9,12 +9,10 @@ extern s32 func_80018C50();
 
 /* Selects data using query 0xFBC and forwards it with the supplied values. */
 void func_80016434(s32 primaryValue, s32 unusedValue, s32 secondaryValue) {
-    register void *selectedData ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (func_80018C50(0xFBC) != 0) {
-        selectedData = &D_80018E34;
+        func_800181C8(&D_80018E34, &D_8001925C, primaryValue, secondaryValue);
     } else {
-        selectedData = &D_80018E1C;
+        func_800181C8(&D_80018E1C, &D_8001925C, primaryValue, secondaryValue);
     }
-    func_800181C8(selectedData, &D_8001925C, primaryValue, secondaryValue);
 }

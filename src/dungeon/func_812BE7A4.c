@@ -143,7 +143,6 @@ void func_80159FA4(void *actor, void *context, void *sprite, void *entity)
             u8 current_state = ((S_80159FA4_0 *)actor)->unk_9A;
             u32 next_state = 0xE;
             void *current_anim;
-            register void *anim_table ASM_REG("$5"); /* MATCH: merge the two anim_table values in a1 for the shared store. */
 
             if (current_state != next_state) {
                 ((S_80159FA4_0 *)actor)->unk_9A = next_state;
@@ -154,18 +153,20 @@ void func_80159FA4(void *actor, void *context, void *sprite, void *entity)
                 if (!(((S_80159FA4_2 *)sprite)->unk_14 & 0xE000)) {
                     goto state_ready;
                 }
-                anim_table = D_8015DC30;
+                (*(void * *)((u8 *)sprite + 0x2C)) = D_8015DC30;
+                func_80047784(sprite,
+                    D_8015DC30[((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    0);
             } else {
                 void *idle_anim = D_8015DC30;
                 if (current_anim == idle_anim) {
                     goto state_ready;
                 }
-                anim_table = idle_anim;
+                (*(void * *)((u8 *)sprite + 0x2C)) = idle_anim;
+                func_80047784(sprite,
+                    *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)idle_anim),
+                    0);
             }
-            (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-            func_80047784(sprite,
-                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
-                0);
             ((S_80159FA4_2 *)sprite)->unk_05 = 1;
             ((S_80159FA4_0 *)actor)->unk_A2.s = 0;
             ((S_80159FA4_0 *)actor)->unk_9E = 0;

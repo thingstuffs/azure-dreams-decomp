@@ -60,12 +60,10 @@ void *func_8002441C(s32 object_id, S_8002441C_3 *initial_state) {
     S_8002441C_1 *display;
     S_8002441C_0 *object;
     S_8002441C_2 *state;
-    register void *result ASM_REG("$2");
+    void *result;
 
     object = func_8003FC64(0x212);
-    if (object == 0) {
-        result = 0;
-    } else {
+    if (object != 0) {
         object->unk_10 = &D_80024370;
         display = object->unk_0C;
         object->unk_20 = object_id;
@@ -90,6 +88,9 @@ void *func_8002441C(s32 object_id, S_8002441C_3 *initial_state) {
         state->unk_10 = initial_state->unk_10;
         state->unk_14 = initial_state->unk_14;
         result = object;
+        return result;
+    } else {
+        result = 0;
+        return result;
     }
-    return result;
 }

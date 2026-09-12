@@ -23,7 +23,6 @@ typedef struct {
 /* Advance the envelope delay, level ramp, and triangular modulation output. */
 void func_80056098(S_80085458 *envelope) {
     s32 target_level;
-    register s32 level ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 scaled_wave;
     s32 phase;
     register s32 doubled_phase ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
@@ -46,12 +45,10 @@ void func_80056098(S_80085458 *envelope) {
         } else {
             if (ramp_ticks != 0) {
                 /* split so f2c loads into $v0 first, then f38 into $v1 */
-                level = envelope->f2c;
-                level = level + envelope->f38;
+                envelope->f2c = envelope->f2c + envelope->f38;
             } else {
-                level = envelope->f38;
+                envelope->f2c = envelope->f38;
             }
-            envelope->f2c = level;
             envelope->f28 = envelope->f28 + 1;
         }
         /* Dual-typed pointers defeat store-load CSE → sb then lb.

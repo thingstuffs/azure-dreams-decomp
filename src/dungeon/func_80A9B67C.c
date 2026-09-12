@@ -126,7 +126,6 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
     s8 room_id;
     u16 action_state;
     u8 *anim_table;
-    register u8 *next_anim ASM_REG("$5");
 
     if (D_80083462 & 0x1000) {
         ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
@@ -139,8 +138,11 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
         if (((S_80170E7C_2 *)object)->unk_2C == D_80174C8C) {
             return;
         }
-        next_anim = D_80174C84;
-        goto set_high_table;
+        (*(void * *)((u8 *)object + (0x2C))) = D_80174C84;
+        func_80047784(object,
+            D_80174C84[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            0);
+        return;
     }
 
     if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x200) {
@@ -187,16 +189,12 @@ void func_80170E7C(void *actor, void *position, void *object, void *actor_data)
         }
 
         if (((Rec_D_800E3D7C *)actor_data)->unk_1C.as_u32 & 0x80000) {
-            u8 *selected_anim;
 
             func_800AA888(actor, position, object, actor_data);
             func_80173F20(actor, position, object, actor_data);
-            next_anim = D_80174C34;
-set_high_table:
-            selected_anim = next_anim;
-            (*(void * *)((u8 *)object + (0x2C))) = selected_anim;
+            (*(void * *)((u8 *)object + (0x2C))) = D_80174C34;
             func_80047784(object,
-                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)selected_anim),
+                D_80174C34[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
                 0);
             return;
         }

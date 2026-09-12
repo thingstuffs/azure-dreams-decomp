@@ -101,7 +101,6 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     register s32 channel_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 owner_z;
     s32 effect_z;
-    register s32 z_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 tile_distance;
 
     table_value = (void **)0x80020000;
@@ -169,13 +168,11 @@ initialize:
         U16(motion, 6) = U16(motion, 6) + origin_offset[1];
         ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         effect_z = U16(motion, 0xA);
-        z_offset = origin_offset[2];
-        effect_z += z_offset;
-        goto store_z;
+        effect_z += origin_offset[2];
+        U16(motion, 0xA) = effect_z;
+        goto await_launch;
     }
-    effect_z = owner_z - 0x40;
-store_z:
-    U16(motion, 0xA) = effect_z;
+    U16(motion, 0xA) = owner_z - 0x40;
 
 await_launch:
     if (!(U16(PTR(effect, 4), 0) & 0x80)) {

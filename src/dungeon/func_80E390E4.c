@@ -86,7 +86,6 @@ void func_801728E4(void *action, void *item, void *sprite, void *actor)
     register s32 use_global_source ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 action_flags;
     s32 item_kind;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     static void *const kind_labels[] = {
         &&K8, &&KB, &&KE, &&KNone, &&K8Special, &&KBSpecial, &&KESpecial
@@ -226,8 +225,12 @@ L2:
     if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    anim_table = D_80176648;
-    goto PlayEffect;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
+    func_80047784(sprite,
+        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
+                (uptr)D_80176648),
+        0);
+    goto AdvanceState;
 
 L3:
     if (((S_801728E4_4 *)sprite)->unk_04 == 6 && (((S_801728E4_4 *)sprite)->unk_14 & 0x1000)) {
@@ -241,13 +244,11 @@ L3:
     if (!(((S_801728E4_4 *)sprite)->unk_14 & 0xE000)) {
         return;
     }
-    anim_table = D_80176668;
 
-PlayEffect:
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
     func_80047784(sprite,
         *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
-                (uptr)anim_table),
+                (uptr)D_80176668),
         0);
 AdvanceState:
     ((S_801728E4_0 *)action)->unk_9B++;
@@ -255,10 +256,9 @@ AdvanceState:
 
 L4:
     if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
-        anim_table = D_801765D8;
-        (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
         func_80047784(sprite,
-            anim_table[((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801765D8[((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     ((Rec_D_800E3D7C *)item)->unk_14.as_s32 = 0;

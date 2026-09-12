@@ -183,15 +183,14 @@ s32 func_800A504C(s32 unused, void *source_entity)
     u8 *base = (u8 *)&D_80083460;
     s32 count = ((S_800A504C_0 *)base)->unk_0A.s;
     s32 offset;
-    register s32 load_result ASM_REG("$2");
-    register u8 *load_spawned ASM_REG("$5");
+    s32 load_result;
+    u8 *load_spawned;
     s32 saved_word_5c;
     s32 saved_word_58;
     s32 angle;
     s32 global_flags;
     u16 data_flags;
     u16 remaining_count;
-    u32 entity_id;
     register s32 flags_mask ASM_REG("$7");
     register s32 update_flags ASM_REG("$3");
     register s32 flags_result ASM_REG("$2");
@@ -246,10 +245,13 @@ load_copy:
     if (spawned == NULL) {
         return 0;
     }
-    entity_id = ((S_800A504C_1 *)entity)->unk_13;
-    load_result = func_80047DB8(entity_id);
+    load_result = func_80047DB8(((S_800A504C_1 *)entity)->unk_13);
     load_spawned = spawned;
-    goto start_loading;
+    D_80081488 = load_result;
+    func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
+    D_800E3E40[0] = 0;
+    Control_CD(0xFF, D_8003E140, D_800E3E40);
+    goto increment_mode;
 
 wait_copy:
     if (D_800E3E40[0] != 0) {
@@ -368,7 +370,6 @@ load_replacement:
     load_result = func_80048118(((S_800A504C_1 *)entity)->unk_13, D_8008149C);
     load_spawned = spawned;
 
-start_loading:
     D_80081488 = load_result;
     func_800A0B94(((S_800A504C_1 *)entity)->unk_13, load_spawned, 0);
     D_800E3E40[0] = 0;

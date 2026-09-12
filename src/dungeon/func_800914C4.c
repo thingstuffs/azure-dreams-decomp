@@ -92,7 +92,6 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
 
         {
             s16 move_kind;
-            register u8 *next_anim ASM_REG("$5");
 
             updated_state = (u16 *)&D_80083460;
             move_kind = (s16)move_result;
@@ -100,10 +99,9 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
                 func_80099F70(S32(map, 0x5C));
                 func_80099F04(S32(map, 0x5C));
                 if (!(updated_state[1] & 0x80)) {
-                    next_anim = D_800DD274;
-                    P32(actor, 0x2C) = next_anim;
+                    P32(actor, 0x2C) = D_800DD274;
                     facing_offset = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
-                    func_8003DB94(actor, *(void **)(next_anim + (facing_offset & 0x1C)), 0);
+                    func_8003DB94(actor, *(void **)(D_800DD274 + (facing_offset & 0x1C)), 0);
                 }
                 U8(obj, 0x9A) = 0x35;
                 updated_state[2] = 8;
@@ -111,10 +109,9 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
             }
 
             U16(obj, 0x98) |= 0xC;
-            next_anim = D_800DD274 + 0x20;
-            P32(actor, 0x2C) = next_anim;
+            P32(actor, 0x2C) = D_800DD274 + 0x20;
             facing_offset = (D_80083228 + S16(map, 0x2A) + 0x100) >> 7;
-            func_8003DB94(actor, *(void **)(next_anim + (facing_offset & 0x1C)), 0);
+            func_8003DB94(actor, *(void **)((D_800DD274 + 0x20) + (facing_offset & 0x1C)), 0);
             if (move_kind < 4) {
                 U16(obj, 0xA2) |= 1;
             } else if (move_kind == 2 || move_kind == 4) {

@@ -195,9 +195,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     void *actor = actor_in;
     register void *owner = owner_in;
     u8 *scene = D_80083160;
-    register void *anim_actor ASM_REG("$4");
-    s32 anim_mode;
-    register u8 *anim_entry ASM_REG("$2");
+    u8 *anim_entry;
     u8 state;
     u32 result_flags;
 
@@ -235,12 +233,12 @@ start_sequence:
             index = ((((S_800253C0_2 *)turn_scene)->unk_C8 +
                 ((S_800253C0_1 *)owner)->unk_2A.s + 0x100) >> 9) & 7;
             if (index == 2) {
-                anim_actor = actor;
-                ((S_800253C0_3 *)anim_actor)->unk_2C = D_800DD148;
-                anim_mode = 0;
+                ((S_800253C0_3 *)actor)->unk_2C = D_800DD148;
                 anim_entry = D_800DD148 + ((((((S_800253C0_2 *)turn_scene)->unk_C8 +
                     ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
-                goto set_animation;
+                func_80048A44(actor, *anim_entry, 0, 1);
+                ((S_800253C0_0 *)sequence)->unk_9B.n = ((S_800253C0_0 *)sequence)->unk_9B.n + 1;
+                goto done;
             }
             ((S_800253C0_1 *)owner)->unk_2A.s = old_angle + 0x200;
             goto done;
@@ -816,13 +814,10 @@ show_result:
         }
 
     case 11:
-        anim_actor = actor;
-        ((S_800253C0_3 *)anim_actor)->unk_2C = D_800DD150;
-        anim_mode = 0;
+        ((S_800253C0_3 *)actor)->unk_2C = D_800DD150;
         anim_entry = D_800DD150 + ((((((Rec_D_80083160 *)D_80083160)->unk_C8.as_s16 +
             ((S_800253C0_1 *)owner)->unk_2A.s) + 0x100) >> 9) & 7);
-set_animation:
-        func_80048A44(anim_actor, *anim_entry, anim_mode, 1);
+        func_80048A44(actor, *anim_entry, 0, 1);
 advance_state:
         state = ((S_800253C0_0 *)sequence)->unk_9B.n;
 store_next_state:

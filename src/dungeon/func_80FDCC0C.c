@@ -65,7 +65,6 @@ void func_8017240C(State *action, Motion *motion, Actor *actor, Entity *entity)
 {
     s32 direction_scratch[2];
     s32 direction_index;
-    register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 phase;
     u32 entity_flags;
 
@@ -75,10 +74,9 @@ void func_8017240C(State *action, Motion *motion, Actor *actor, Entity *entity)
         if ((actor->flags14 & 0x6000) == 0) {
             goto end_state;
         }
-        direction_table = D_80174050;
-        *(u8 * volatile *)((u8 *)actor + 0x2C) = direction_table;
+        *(u8 * volatile *)((u8 *)actor + 0x2C) = D_80174050;
         direction_index = (D_80083228 + entity->direction2A + 0x100) >> 9;
-        func_80047784(actor, direction_table[direction_index & 7], 0);
+        func_80047784(actor, D_80174050[direction_index & 7], 0);
         action->flags98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
         action->timerA4 = 5;
@@ -123,10 +121,9 @@ state_two:
         motion->dy10 = 0;
         motion->dxC = 0;
         func_800A2B04(motion, actor->x24, actor->y25);
-        direction_table = D_80174058;
-        *(u8 * volatile *)((u8 *)actor + 0x2C) = direction_table;
+        *(u8 * volatile *)((u8 *)actor + 0x2C) = D_80174058;
         direction_index = (D_80083228 + entity->direction2A + 0x100) >> 9;
-        func_80047784(actor, direction_table[direction_index & 7], 0);
+        func_80047784(actor, D_80174058[direction_index & 7], 0);
         action->state9B++;
         break;
     default:

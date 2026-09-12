@@ -57,7 +57,7 @@ s32 func_80024130(s32 context, S_80024130_3 *position)
     S_80024130_0 *object;
     S_80024130_2 *object_pos;
     s32 pos_z;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    void *result;
 
     object = func_8003FC64(0x212);
     if (object != 0) {
@@ -83,8 +83,9 @@ s32 func_80024130(s32 context, S_80024130_3 *position)
         pos_z = position->unk_0A;
         result = object;
         object_pos->unk_0A = pos_z;
+        return (s32)result;
     } else {
         result = 0;
+        return (s32)result;
     }
-    return (s32)result;
 }

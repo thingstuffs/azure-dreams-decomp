@@ -77,7 +77,6 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
     register void *sprite ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *actor;
     s32 state;
-    register u8 *direction_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *actor_to_check ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 *status;
     s32 actor_flags;
@@ -108,10 +107,9 @@ state_zero:
     if (!(((S_80173D4C_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    direction_table = D_80174E4C;
-    (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E4C;
     func_80047784(sprite,
-        direction_table[((D_80083228 + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174E4C[((D_80083228 + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     {
         u8 *counter_base;
@@ -192,10 +190,9 @@ final_check_call:
     }
 
 update_table:
-    direction_table = D_80174E54;
-    (*(void * *)((u8 *)sprite + 0x2C)) = direction_table;
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_80174E54;
     func_80047784(sprite,
-        direction_table[((D_80083228 + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
+        D_80174E54[((D_80083228 + ((S_80173D4C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
     if (((S_80173D4C_1 *)sprite)->unk_14 & 0x8000) {
         goto assign_owner;

@@ -148,8 +148,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     register s32 probe_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s16 end_y;
     s16 end_x;
-    register u16 base_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u16 delta_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 base_z;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 floor_z;
     s16 end_z;
     s32 phase;
@@ -190,7 +189,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
     register s32 target_dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 target_dz;
     u16 source_z;
-    u16 adjusted_z;
     s32 next_tile_y;
     register s32 last_tile_x;
     u32 table_page;
@@ -239,15 +237,28 @@ copy_source_position:
     }
     ((S_80025738_5 *)motion)->unk_00.at02.v = (u16) (((S_80025738_5 *)motion)->unk_00.at02.v + frame.delta[0]);
     ((S_80025738_5 *)motion)->unk_04.at02.v = (u16) (((S_80025738_5 *)motion)->unk_04.at02.v + frame.delta[1]);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     base_z = ((S_80025738_5 *)motion)->unk_08.at02.v;
-    delta_z = frame.delta[2];
-    adjusted_z = base_z + delta_z;
-    goto store_source_z;
+    ((S_80025738_5 *)motion)->unk_08.at02.v = base_z + frame.delta[2];
+    if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
+        goto clear_update_flag;
+    }
+    target = ((S_80025738_1 *)owner)->unk_60;
+    index = 1;
+    if (target == NULL) {
+        goto scan_path;
+    }
+    ((S_80025738_0 *)state)->unk_18 = target;
+    destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
+    target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
+    target_dx -= ((S_80025738_5 *)motion)->unk_00.at02u.v;
+    if (target_dx >= 0) {
+        goto store_target_dx;
+    }
+    target_dx = 0 - target_dx;
+    goto store_target_dx;
 lower_source_z:
-    adjusted_z = source_z - 0x40;
-store_source_z:
-    ((S_80025738_5 *)motion)->unk_08.at02.v = adjusted_z;
+    ((S_80025738_5 *)motion)->unk_08.at02.v = source_z - 0x40;
     if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
         goto clear_update_flag;
     }

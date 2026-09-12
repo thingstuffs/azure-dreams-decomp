@@ -115,28 +115,25 @@ void func_80093894(void) {
         is_available = func_8009FF50(state_index) == 1;
 
         if (!is_available) {
-            register void *message ASM_REG("$4"); /* MATCH: keep the merged message address in the retail argument register. */
             void *callback_slot;
             register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             if (func_800937F8() != 0) {
-                message = D_80088C0C;
+                func_8008B5D8(D_80088C0C, 0x11);
             } else if (func_800A0608() >= 0x12) {
-                message = D_80088C48;
+                func_8008B5D8(D_80088C48, 0x11);
             } else {
                 if (work.bytes.unk1 != 0x13) {
                     goto process;
                 }
-                message = D_80088C8C;
+                func_8008B5D8(D_80088C8C, 0x11);
             }
-            func_8008B5D8(message, 0x11);
             func_800947BC(object, position, callback_data);
             callback_slot = &D_800FE5D8;
             callback = (void (*)(void *, void *, void *))&D_80093D48;
             *(void (**)(void *, void *, void *))callback_slot = callback;
             goto reset;
         } else {
-            register void *message ASM_REG("$4"); /* MATCH: keep the merged message address in the retail argument register. */
 
             if (work.bytes.unk1 == 0x13) {
                 goto process;
@@ -146,11 +143,10 @@ void func_80093894(void) {
                 if (func_8009F71C((void *)0x80010980, D_800D0728[mode]) != -1) {
                     goto process;
                 }
-                message = D_80088CCC;
+                func_8008B5D8(D_80088CCC, 0x11);
             } else {
-                message = D_80088D04;
+                func_8008B5D8(D_80088D04, 0x11);
             }
-            func_8008B5D8(message, 0x11);
             func_800947BC(object, position, callback_data);
             D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
 reset:

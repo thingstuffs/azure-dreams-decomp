@@ -94,7 +94,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
         &&state_sixteen,
     };
     struct GlobalStruct *global_state;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *anim_table;
     u32 clear_mask;
     u32 entity_flags;
     u8 state;
@@ -124,11 +124,16 @@ state_zero:
         goto done;
     }
     {
-        register s32 initial_speed ASM_REG("$2") = 0xFFF80000;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 initial_speed = 0xFFF80000;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         anim_table = D_801744F4;
         ((S_801738E0_3 *)motion)->unk_14 = initial_speed;
     }
-    goto play_and_advance;
+    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+    func_80047784(
+        sprite,
+        *(u8 *)((((D_80083228 + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
+        0);
+    goto advance_state;
 
 state_one:
     if (((S_801738E0_3 *)motion)->unk_14 <= 0xFFFFF) {
@@ -258,13 +263,11 @@ state_three:
     if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    anim_table = D_801744EC;
 
-play_and_advance:
-    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(void * *)((u8 *)sprite + 0x2C)) = D_801744EC;
     func_80047784(
         sprite,
-        *(u8 *)((((D_80083228 + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
+        D_801744EC[((D_80083228 + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],
         0);
 
 advance_state:

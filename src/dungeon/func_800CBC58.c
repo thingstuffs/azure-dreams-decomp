@@ -32,7 +32,7 @@ void func_800D13B8(void) {
     s16 diagonal_y;
     s32 next_direction;
     s32 offset_x_high;
-    register s32 last_direction ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 last_direction;
     s32 last_x;
     s32 last_y;
     s32 last_x_high;
@@ -62,6 +62,7 @@ void func_800D13B8(void) {
             last_direction = (direction - 3) & 7;
             last_x = (s16) (diagonal_x + ((s16) *diagonal_x_step * 0xA));
             last_y = (s16) (diagonal_y + ((s16) D_8006CCE8[direction] * 0xA));
+            func_800D112C(last_direction, last_x, last_y);
         } else {
             direction_work = (s8 *) (s32) direction;
             func_800D112C((s32) direction_work, coord_x, coord_y);
@@ -86,7 +87,7 @@ void func_800D13B8(void) {
             last_x = last_x_high >> 16;
             last_y_high = (s32) ((u32) (coord_y + (axis_step * 0xA)) << 16);
             last_y = last_y_high >> 16;
+            func_800D112C(last_direction, last_x, last_y);
         }
-        func_800D112C(last_direction, last_x, last_y);
     }
 }

@@ -348,7 +348,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     S_80089AA0_2 *world_object;
     void *companion_counters;
     S_80089AA0_3 *status_base;
-    register void *status_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *callback_status ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_80089AA0_23 *tail_status;
     void *input_snapshot;
@@ -465,8 +464,7 @@ snapshot_input:
                                 ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                                 ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                                 if (!(D_80013714 & 8)) {
-                                    status_page = &D_80083460;
-                                    ((S_80089AA0_8 *)status_page)->unk_1E = (u16) (((S_80089AA0_8 *)status_page)->unk_1E + 1);
+                                    ((S_80089AA0_8 *)&D_80083460)->unk_1E = (u16) (((S_80089AA0_8 *)&D_80083460)->unk_1E + 1);
                                     actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
                                     D_800E3D70 = (s32)actor_fraction;
                                     actor_points = (*(u8 *)((u8 *)actor + 0x28));
@@ -575,8 +573,7 @@ clear_turn_flags:
     }
 mark_input_entry:
 mark_input_active:
-    status_page = &D_80083460;
-    ((S_80089AA0_8 *)status_page)->unk_02 = (u16) (((S_80089AA0_8 *)status_page)->unk_02 | 4);
+    ((S_80089AA0_8 *)&D_80083460)->unk_02 = (u16) (((S_80089AA0_8 *)&D_80083460)->unk_02 | 4);
 after_status_or:
     if (!(D_80013714 & 8)) {
         if (((*(u8 *)((u8 *)actor_or_result + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
@@ -822,9 +819,8 @@ clear_linked_flags:
                         linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
                     } while (linked_actor != sprite_or_root);
                 }
-                status_page = &D_80083460;
-                ((S_80089AA0_8 *)status_page)->unk_02 =
-                    (u16)((((S_80089AA0_8 *)status_page)->unk_02 & 0xDFFF) | 0x1000);
+                ((S_80089AA0_8 *)&D_80083460)->unk_02 =
+                    (u16)((((S_80089AA0_8 *)&D_80083460)->unk_02 & 0xDFFF) | 0x1000);
                 goto process_turns;
             }
             ((S_80089AA0_22 *)turn_status)->unk_02 = (u16) (((S_80089AA0_22 *)turn_status)->unk_02 & 0xDFFF);
@@ -841,9 +837,8 @@ clear_linked_flags:
                     linked_actor = (u8 *)D_800E3DE8 + 0x20;
                 } while (linked_actor != actor);
             }
-            status_page = &D_80083460;
-            ((S_80089AA0_8 *)status_page)->unk_02 =
-                (u16) (((S_80089AA0_8 *)status_page)->unk_02 | 0x2000);
+            ((S_80089AA0_8 *)&D_80083460)->unk_02 =
+                (u16) (((S_80089AA0_8 *)&D_80083460)->unk_02 | 0x2000);
             goto process_turns;
         }
     }

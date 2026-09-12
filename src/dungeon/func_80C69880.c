@@ -57,7 +57,7 @@ void *func_80171080(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
 {
     s32 kind;
     s32 flags0;
-    register s32 flags1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 flags1;
     void *result;
     void *object;
     S_80171080_2 *part0;
@@ -98,7 +98,9 @@ void *func_80171080(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         flags1 = ((S_80171080_1 *)result)->unk_1C;
         flags0 |= 0x6000;
         flags1 |= 0x6000;
-        goto store_flags;
+        ((S_80171080_1 *)result)->unk_14 = flags0;
+        ((S_80171080_1 *)result)->unk_1C = flags1;
+        goto common;
     }
 
     if (kind >= 2) {
@@ -106,7 +108,6 @@ void *func_80171080(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         flags1 = ((S_80171080_1 *)result)->unk_1C;
         flags0 |= 0x2000;
         flags1 |= 0x2000;
-store_flags:
         ((S_80171080_1 *)result)->unk_14 = flags0;
         ((S_80171080_1 *)result)->unk_1C = flags1;
         goto common;

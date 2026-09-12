@@ -22,7 +22,7 @@ void func_800B7F8C(u16 *anim_tick)
         &&L4
     };
     s32 texture_base;
-    register s32 palette_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 palette_base;
     void *rect;
     register void *upload_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 palette_phase;
@@ -82,24 +82,37 @@ after_first:
         ASM_KEEP(palette_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(palette_base + 0x1FA8);
         upload_data = D_80111F48;
-        goto second_common;
+        *(u16 *)(palette_base + 0x1FA8) = 16;
+        ((u16 *)rect)[1] = 449;
+        ((u16 *)rect)[2] = 16;
+        ((u16 *)rect)[3] = 1;
+        func_800672D8(rect, upload_data);
+        return;
     case 2:
         palette_base = (s32)0x80110000;
         ASM_KEEP(palette_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(palette_base + 0x1FA8);
         upload_data = D_80111F68;
-        goto second_common;
+        *(u16 *)(palette_base + 0x1FA8) = 16;
+        ((u16 *)rect)[1] = 449;
+        ((u16 *)rect)[2] = 16;
+        ((u16 *)rect)[3] = 1;
+        func_800672D8(rect, upload_data);
+        return;
     case 4:
         palette_base = (s32)0x80110000;
         ASM_KEEP(palette_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         rect = (void *)(palette_base + 0x1FA8);
         upload_data = D_80111F88;
-        goto second_common;
+        *(u16 *)(palette_base + 0x1FA8) = 16;
+        ((u16 *)rect)[1] = 449;
+        ((u16 *)rect)[2] = 16;
+        ((u16 *)rect)[3] = 1;
+        func_800672D8(rect, upload_data);
     default:
         return;
     }
 
-second_common:
     *(u16 *)(palette_base + 0x1FA8) = 16;
     ((u16 *)rect)[1] = 449;
     ((u16 *)rect)[2] = 16;

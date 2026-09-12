@@ -46,7 +46,7 @@ void func_80023B14(TownObject *obj_arg, TownMotion *motion)
     TownObject *obj = obj_arg;
     TownChild *child;
     s16 ticks_left;
-    register u16 state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u16 state;
 
     ASM_KEEP_NV(obj);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -121,8 +121,8 @@ store_timer:
         motion->dz = 0;
         motion->dy = 0;
         motion->dx = 0;
-        state = obj->state;
-        goto advance_state;
+        obj->state = obj->state + 1;
+        goto epilogue;
     }
 
     case 1:
@@ -132,8 +132,8 @@ store_timer:
         obj->timer = 8;
         motion->dx = ((s32)0x02A00000 - motion->x) / obj->timer;
         motion->dy = ((s32)0xFFC00000 - motion->y) / obj->timer;
-        state = obj->state;
-        goto advance_state;
+        obj->state = obj->state + 1;
+        goto epilogue;
 
     case 2:
         if ((ticks_left << 16) >= 0) {
@@ -183,10 +183,10 @@ store_timer:
         SD_Call(0x300);
         state = obj->state;
         obj->timer = 7;
-        goto advance_state;
+        obj->state = state + 1;
+        goto epilogue;
     }
 
-advance_state:
         obj->state = state + 1;
         goto epilogue;
 

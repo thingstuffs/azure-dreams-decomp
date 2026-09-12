@@ -47,7 +47,6 @@ typedef struct S_801737F8_1 {
 void func_801737F8(void *action, void *motion, void *sprite, void *actor)
 {
     u8 state;
-    register u16 tail_flags ASM_REG("$2"); /* MATCH: keep the shared flags value in retail's v0. */
     static void *const state_labels[] = { &&initialize, &&start_animation, &&advance_timer, &&finish_animation, &&lower_actor };
 
     state = ((S_801737F8_0 *)action)->unk_9B;
@@ -75,8 +74,8 @@ initialize:
     }
     ((S_801737F8_0 *)action)->unk_9B++;
     ((Rec_D_80082E80 *)sprite)->unk_10.as_s16 = 0x20;
-    tail_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x000C;
-    goto store_flags;
+    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v | 0x000C;
+    return;
 
 start_animation:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_800E2380;
@@ -139,7 +138,5 @@ lower_actor:
     ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v &= 0x7FFF;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 |= 0x40000;
     ((S_801737F8_0 *)action)->unk_98 |= 8;
-    tail_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFF3;
-store_flags:
-    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = tail_flags;
+    ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xFFF3;
 }

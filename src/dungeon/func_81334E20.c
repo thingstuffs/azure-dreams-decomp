@@ -114,11 +114,13 @@ jt_c0:
 
 jt_c1:
     {
-        register u8 *anim_table ASM_REG("$5"); /* MATCH: keep the merged anim_table address in a1 across both arms. */
         if (D_80175DC1 == 0) {
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
-            anim_table = D_80173A40;
+            (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
+            func_80047784(actor,
+                D_80173A40[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                0);
         } else {
             if (D_80175DC0 == 0) {
                 return;
@@ -126,12 +128,11 @@ jt_c1:
             ((S_8016BE20_0 *)state)->unk_96.s = 0;
             ((S_8016BE20_0 *)state)->unk_9B.n++;
             func_800A56E0(0x300);
-            anim_table = D_80173A40;
+            (*(u8 * *)((u8 *)actor + 0x2C)) = D_80173A40;
+            func_80047784(actor,
+                D_80173A40[((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7],
+                0);
         }
-        (*(u8 * *)((u8 *)actor + 0x2C)) = anim_table;
-        func_80047784(actor,
-            *(u8 *)((((D_80083228 + ((S_8016BE20_2 *)ctx)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
-            0);
         return;
     }
 

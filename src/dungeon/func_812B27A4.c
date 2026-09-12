@@ -144,7 +144,6 @@ void func_80165FA4(void *actor, void *actor_aux, void *sprite, void *actor_data)
             u32 next_state = 0xE;
             void *current_anim;
             void *anim_table;
-            register void *next_anim ASM_REG("$5"); /* MATCH: merge the selected anim_table address in a1. */
 
             if (current_state != next_state) {
                 ((S_80165FA4_0 *)actor)->unk_9A = next_state;
@@ -155,18 +154,20 @@ void func_80165FA4(void *actor, void *actor_aux, void *sprite, void *actor_data)
                 if (!(((S_80165FA4_2 *)sprite)->unk_14 & 0xE000)) {
                     goto state_done;
                 }
-                next_anim = D_80169C30;
+                (*(void * *)((u8 *)sprite + 0x2C)) = D_80169C30;
+                func_80047784(sprite,
+                    D_80169C30[((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+                    0);
             } else {
                 anim_table = D_80169C30;
                 if (current_anim == anim_table) {
                     goto state_done;
                 }
-                next_anim = anim_table;
+                (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+                func_80047784(sprite,
+                    *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anim_table),
+                    0);
             }
-            (*(void * *)((u8 *)sprite + 0x2C)) = next_anim;
-            func_80047784(sprite,
-                *(u8 *)((((D_80083228 + ((Rec_D_800E3D7C *)actor_data)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)next_anim),
-                0);
             ((S_80165FA4_2 *)sprite)->unk_05 = 1;
             ((S_80165FA4_0 *)actor)->unk_A2.s = 0;
             ((S_80165FA4_0 *)actor)->unk_9E = 0;

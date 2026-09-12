@@ -57,7 +57,6 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
     register void *dungeon_state;
     void *saved_entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 state;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 direction;
 
     saved_context = context;
@@ -82,10 +81,9 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
 #ifndef __mips__
 #endif
         ((S_801739F8_2 *)activity_counts)->unk_0A--;
-        anim_table = D_80174AFC;
-        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AFC;
         direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-        func_80047784(sprite, anim_table[direction & 7], 0);
+        func_80047784(sprite, D_80174AFC[direction & 7], 0);
         goto increment_state;
     }
 
@@ -93,10 +91,9 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
         if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v != 0) {
             register u8 *activity_counts;
 
-            anim_table = D_80174AF4;
-            (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+            (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
             direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-            func_80047784(sprite, anim_table[direction & 7], 0);
+            func_80047784(sprite, D_80174AF4[direction & 7], 0);
             (*(u32 *)((u8 *)entity + 0x1C)) |= 0x40000;
             activity_counts = (u8 *)&D_80083460;
 #ifndef __mips__
@@ -150,10 +147,9 @@ void func_801739F8(void *controller, void *context, void *sprite, void *entity)
             return;
         }
 
-        anim_table = D_80174AF4;
-        (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174AF4;
         direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-        func_80047784(sprite, anim_table[direction & 7], 0);
+        func_80047784(sprite, D_80174AF4[direction & 7], 0);
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
         ((S_801739F8_4 *)dungeon_state)->unk_0A++;
 

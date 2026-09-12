@@ -55,12 +55,9 @@ void *func_80024264(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
     S_80024264_2 *state;
     S_80024264_1 *appearance;
     S_80024264_0 *object;
-    register void *result ASM_REG("$2");
 
     object = func_8003FC64(0x212);
-    if (object == NULL) {
-        result = NULL;
-    } else {
+    if (object != NULL) {
         object->unk_10 = &D_800241D8;
         appearance = object->unk_0C;
         object->unk_20 = object_tag;
@@ -80,7 +77,8 @@ void *func_80024264(s32 object_tag, Rec_func_80024264_arg1 *initial_state)
         state->unk_0C = initial_state->unk_0C.at00_s32.v;
         state->unk_10 = initial_state->unk_10.at00_s32.v;
         state->unk_14 = initial_state->unk_14;
-        result = object;
+        return object;
+    } else {
+        return NULL;
     }
-    return result;
 }

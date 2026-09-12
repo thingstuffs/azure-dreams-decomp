@@ -62,12 +62,9 @@ void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data,
     S_800249F0_0 *state;
     void *object;
     S_800249F0_4 *source_position;
-    register void *result ASM_REG("$2");
 
     object = func_8003FC64(0x212);
-    if (object == NULL) {
-        result = NULL;
-    } else {
+    if (object != NULL) {
         state = object + 0x20;
         state->unk_2A = 0x3C;
         (*(M2C_UNK **)((u8 *)object + 0x10)) = &D_800249A0;
@@ -95,7 +92,8 @@ void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data,
         ((S_800249F0_5 *)render_data)->unk_0C = (s8) render_mode;
         (*(Packed12 *)((u8 *)object + 0x92)) = *(Packed12 *)packed_data;
         ((S_800249F0_5 *)render_data)->unk_08 = (void *) (object + 0x92);
-        result = state;
+        return state;
+    } else {
+        return NULL;
     }
-    return result;
 }

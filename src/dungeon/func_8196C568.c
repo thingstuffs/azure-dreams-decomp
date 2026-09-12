@@ -159,13 +159,11 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     Motion *motion;
     register s32 particle_index;
     Position *pos;
-    register Position *origin ASM_REG("$4");
     register DungeonState *dungeon ASM_REG("$3");
     void **state_table;
     register u8 *search_page ASM_REG("$3");
     u8 *effect_page;
     u8 *active_page;
-    register SearchContext *search ASM_REG("$5");
     void *object;
     register u16 next_state ASM_REG("$2");
     u16 direction_index;
@@ -229,8 +227,7 @@ state0:
 
 state1:
     if (work->timer < 39) {
-        search = &D_80082E80;
-        if (func_8003DF74(search->field8, search, &work->x, 0)) {
+        if (func_8003DF74((&D_80082E80)->field8, &D_80082E80, &work->x, 0)) {
             if (work->timer == 38) {
                 effect = func_8003FC64(0x212);
                 if (effect != 0) {
@@ -246,10 +243,9 @@ state1:
                     local_y = work->y;
                     pos->y = local_y;
                     pos->z = work->z;
-                    origin = &D_80083780;
-                    pos->x += origin->x;
-                    pos->y += origin->y;
-                    pos->z += origin->z;
+                    pos->x += (&D_80083780)->x;
+                    pos->y += (&D_80083780)->y;
+                    pos->z += (&D_80083780)->z;
                     sprite->scale_x = 0x900;
                     sprite->scale_y = 0x604;
                     sprite->b = 0x80;
@@ -275,10 +271,9 @@ state1:
                     local_y = work->y;
                     pos->y = local_y;
                     pos->z = work->z;
-                    origin = &D_80083780;
-                    pos->x += origin->x;
-                    pos->y += origin->y;
-                    pos->z += origin->z;
+                    pos->x += (&D_80083780)->x;
+                    pos->y += (&D_80083780)->y;
+                    pos->z += (&D_80083780)->z;
                     sprite->scale_x = 0x1800;
                     sprite->scale_y = 0x1000;
                     sprite->b = 0x80;
@@ -321,8 +316,7 @@ state1:
 state2:
     if (D_800814A8.value->field60 != 0) {
         if (work->timer >= 13) {
-            search = &D_80082E80;
-            if (func_8003DF74(search->field8, search, &work->x, 0)) {
+            if (func_8003DF74((&D_80082E80)->field8, &D_80082E80, &work->x, 0)) {
                 for (particle_index = 0; particle_index < 4; particle_index++) {
                     func_80024CA4(work, position_arg, sprite_arg, work->x, work->y, work->z);
                 }
@@ -356,10 +350,9 @@ state2:
                         local_y = work->y;
                         pos->y = local_y;
                         pos->z = work->z - 16;
-                        origin = &D_80083780;
-                        pos->x += origin->x;
-                        pos->y += origin->y;
-                        pos->z += origin->z;
+                        pos->x += (&D_80083780)->x;
+                        pos->y += (&D_80083780)->y;
+                        pos->z += (&D_80083780)->z;
                         sprite->scale_y = 0x1000;
                         sprite->scale_x = 0x1000;
                         sprite->b = 0x80;
@@ -394,10 +387,9 @@ state2:
                             local_y = work->y;
                             pos->y = local_y;
                             pos->z = work->z - 16;
-                            origin = &D_80083780;
-                            pos->x += origin->x;
-                            pos->y += origin->y;
-                            pos->z += origin->z;
+                            pos->x += (&D_80083780)->x;
+                            pos->y += (&D_80083780)->y;
+                            pos->z += (&D_80083780)->z;
                             sprite->scale_y = 0x1000;
                             sprite->scale_x = 0x1000;
                             sprite->b = 0x80;
@@ -429,10 +421,9 @@ state2:
                 local_y = work->y;
                 pos->y = local_y;
                 pos->z = work->z;
-                origin = &D_80083780;
-                pos->x += origin->x;
-                pos->y += origin->y;
-                pos->z += origin->z;
+                pos->x += (&D_80083780)->x;
+                pos->y += (&D_80083780)->y;
+                pos->z += (&D_80083780)->z;
                 sprite->scale_x = 0x1800;
                 sprite->scale_y = 0x1000;
                 sprite->b = 0x80;

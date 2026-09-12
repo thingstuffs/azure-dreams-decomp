@@ -50,12 +50,9 @@ void *func_800242A0(s32 object_value, S_800242A0_3 *source_coords) {
     S_800242A0_1 *sprite;
     S_800242A0_0 *object;
     S_800242A0_2 *coords;
-    register void *result ASM_REG("$2"); /* MATCH: Merge both return values in retail's v0 register. */
 
     object = func_8003FC64(0x212);
-    if (object == NULL) {
-        result = NULL;
-    } else {
+    if (object != NULL) {
         object->unk_10 = &D_80024224;
         sprite = object->unk_0C;
         object->unk_2C = object_value;
@@ -70,7 +67,8 @@ void *func_800242A0(s32 object_value, S_800242A0_3 *source_coords) {
         coords->unk_02 = (u16)source_coords->unk_02;
         coords->unk_06 = (u16)source_coords->unk_06;
         coords->unk_0A = (u16)source_coords->unk_0A;
-        result = object;
+        return object;
+    } else {
+        return NULL;
     }
-    return result;
 }

@@ -70,12 +70,12 @@ void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor
     register void *motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_800CA444_0 *tile;
     void *actor;
-    register s16 next_heading ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 next_heading;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 height;
-    register s32 heading ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 heading;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 heading_offset;
     register s32 scan_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 next_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 next_index;
     register s16 scan_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     M2C_UNK direction_index;
     s8 tile_type;
@@ -150,11 +150,19 @@ calc_call:
     }
     if (scan_result != 0) {
         next_index = scan_result + 1;
-        goto scan_increment;
+        scan_result = next_index;
+        if (next_index < 8) {
+            goto scan_loop;
+        }
+        goto state_done;
     }
     if (map_state[0x12] == tile->unk_24.at00u.v) {
         next_index = scan_result + 1;
-        goto scan_increment;
+        scan_result = next_index;
+        if (next_index < 8) {
+            goto scan_loop;
+        }
+        goto state_done;
     }
     if ((func_8009A180(actor, ((S_800CA444_4 *)(*D_800814A8))->unk_58 + 0x20) << 0x10) != 0) {
         goto done;
@@ -162,7 +170,6 @@ calc_call:
     do {
         next_index = scan_result + 1;
     } while (0);
-scan_increment:
     scan_result = next_index;
     if (next_index < 8) {
         goto scan_loop;

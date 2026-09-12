@@ -42,7 +42,6 @@ void func_80172700(void *action_arg, void *motion_arg, void *sprite_arg, void *a
     register s32 adjustment ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *turn_actor;
     u16 flags;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register u8 *dir_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u8 *dir_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -80,10 +79,9 @@ state_0:
         goto done;
     }
     if (!(flags & 0xE000)) goto done;
-    anim_table = D_801744B4;
-    FPTR(sprite, 0x2C) = anim_table;
+    FPTR(sprite, 0x2C) = D_801744B4;
     result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, anim_table[result & 7], 0);
+    func_80047784(sprite, D_801744B4[result & 7], 0);
     F32(motion, 0xC) = (-step_x) << 18;
     F32(motion, 0x10) = (-step_y) << 18;
     F16(action, 0x98) |= 8;
@@ -114,13 +112,12 @@ state_2:
     F32(motion, 0x14) = result;
     phase_ticks = 4;
     if (FS16(action, 0x96) == phase_ticks) {
-        anim_table = D_801744BC;
         F32(motion, 0xC) = 0;
         F32(motion, 0x10) = 0;
         F32(motion, 0x14) = 0;
-        FPTR(sprite, 0x2C) = anim_table;
+        FPTR(sprite, 0x2C) = D_801744BC;
         result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
-        func_80047784(sprite, anim_table[result & 7], 0);
+        func_80047784(sprite, D_801744BC[result & 7], 0);
     }
     if (FS16(action, 0x96) > 0) goto done;
     if (!(F16(sprite, 0x14) & 0xE000)) goto done;
@@ -133,10 +130,9 @@ state_2:
     adjustment = step_y << 17;
     result += adjustment;
     F32(motion, 0x10) = result;
-    anim_table = D_801744C4;
-    FPTR(sprite, 0x2C) = anim_table;
+    FPTR(sprite, 0x2C) = D_801744C4;
     result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, anim_table[result & 7], 0);
+    func_80047784(sprite, D_801744C4[result & 7], 0);
     goto increment;
 
 state_3:
@@ -160,10 +156,9 @@ increment_loaded:
 state_4:
     F32(action, 0x90) += 0x80000;
     if (!(F16(sprite, 0x14) & 0xE000)) goto done;
-    anim_table = D_801744CC;
-    FPTR(sprite, 0x2C) = anim_table;
+    FPTR(sprite, 0x2C) = D_801744CC;
     result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, anim_table[result & 7], 0);
+    func_80047784(sprite, D_801744CC[result & 7], 0);
     F32(motion, 0x14) = 0;
     F32(action, 0x90) = 0;
     F16(action, 0x98) &= 0xFFF7;
@@ -195,10 +190,9 @@ state_ff:
     FPTR(action, 0x8C) = D_801713A8;
     D_8008346C = 0;
     func_800A4ACC(actor);
-    anim_table = D_8017449C;
-    FPTR(sprite, 0x2C) = anim_table;
+    FPTR(sprite, 0x2C) = D_8017449C;
     result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
-    func_80047784(sprite, anim_table[result & 7], 0);
+    func_80047784(sprite, D_8017449C[result & 7], 0);
     if (FS8(actor, 0x6D) == 0) {
         F16(actor, 0x46) &= 0x7FFF;
         goto done;

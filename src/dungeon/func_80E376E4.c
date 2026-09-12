@@ -112,7 +112,6 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
     s8 tile_index;
     s16 facing_angle;
     u16 action_flags;
-    register void *next_table ASM_REG("$5"); /* MATCH: merge the selected table in a1 at the shared update. */
     u8 *animation_table;
     void *target_position;
     void *target_actor;
@@ -131,8 +130,12 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         if (((S_80170EE4_2 *)map_object)->unk_2C == D_80176650) {
             return;
         }
-        next_table = D_80176678;
-        goto update_table;
+        (*(u8 * *)((u8 *)map_object + (0x2C))) = D_80176678;
+        func_80047784(
+            map_object,
+            D_80176678[((D_80083228 + ((S_80170EE4_1 *)actor_data)->unk_2A + 0x100) >> 9) & 7],
+            0);
+        return;
     }
 
     if (((S_80170EE4_1 *)actor_data)->unk_1C & 0x200) {
@@ -297,9 +300,6 @@ jt_default:
         return;
     }
     ASM_KEEP(map_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    next_table = animation_table;
-update_table:
-    animation_table = next_table;
     (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     func_80047784(
         map_object,

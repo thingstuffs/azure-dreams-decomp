@@ -66,7 +66,6 @@ void func_80173A08(void *action, void *motion, void *sprite, void *entity)
     s32 action_ticks;
     s32 entity_flags;
     s32 facing_index;
-    register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     u8 *map_base;
 
@@ -92,10 +91,9 @@ state_zero:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto tick;
     }
-    anim_table = D_801748A0;
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A0;
     facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    func_80047784(sprite, D_801748A0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_98 |= 8;
     ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= 0xF7FFFFFF;
     ((S_80173A08_0 *)action)->unk_B0.s = 5;
@@ -108,10 +106,9 @@ state_one:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000)) {
         goto tick;
     }
-    anim_table = D_801748A8;
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748A8;
     facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    func_80047784(sprite, D_801748A8[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_98 |= 8;
     ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 &= 0xF7FFFFFF;
     ((S_80173A08_0 *)action)->unk_B0.s = 5;
@@ -151,14 +148,13 @@ state_two:
     }
 
     entity_mask = 0x08000000;
-    ASM_KEEP(entity_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173A08_0 *)action)->unk_90 = 0;
     ((S_80173A08_0 *)action)->unk_98 &= 0xFFF7;
     ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 |= entity_mask;
-    anim_table = D_801748B0;
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
     facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    func_80047784(sprite, D_801748B0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_9B++;
 
 state_three:
@@ -170,10 +166,9 @@ state_three:
     ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
     func_800A2B04(motion, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25);
-    anim_table = D_801748B0;
-    (*(u8 * *)((u8 *)sprite + 0x2C)) = anim_table;
+    (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801748B0;
     facing_index = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
-    func_80047784(sprite, anim_table[facing_index & 7], 0);
+    func_80047784(sprite, D_801748B0[facing_index & 7], 0);
     ((S_80173A08_0 *)action)->unk_9B++;
 
 tick:

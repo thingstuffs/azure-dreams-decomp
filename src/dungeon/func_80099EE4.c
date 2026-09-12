@@ -29,7 +29,6 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
     s32 flag_bit;
     s16 action_offset;
     u32 dispatch_index;
-    register s32 out_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     if (D_800E296C[0] & 0x10000000) {
         return;
@@ -82,13 +81,13 @@ entry_valid:
 
 jt_case0:
         entry[1] = saved_action | kind;
-        out_value = entry[0] + 1;
-        goto jt_write0;
+        entry[0] = entry[0] + 1;
+        goto jt_default;
 
 jt_case20:
         entry[1] = saved_action | kind;
-        out_value = saved_payload | 0x80;
-        goto jt_write0;
+        entry[0] = saved_payload | 0x80;
+        goto jt_default;
 
 jt_case40:
         entry[1] = saved_action | kind;
@@ -117,8 +116,6 @@ jt_case48:
         entry[0] = ((saved_payload & 1) << 5) | -0x80 | (saved_extra & 0x1F);
         goto jt_default;
 
-jt_write0:
-    entry[0] = out_value;
 
 jt_default:
 

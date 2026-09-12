@@ -43,7 +43,6 @@ void func_801519A0(Obj0 *owner, void *context, Obj2 *render_arg, Obj3 *state_arg
     Obj2 *render_obj = render_arg;
     Obj3 *state = state_arg;
     u32 selected_table;
-    register u32 fallback_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 current_table;
     u8 kind;
     s32 direction_index;
@@ -123,30 +122,27 @@ update_object:
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80151DC4;
-        *(u32 * volatile)((u8 *)render_obj + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)render_obj + 0x2c) = (u32)&D_80151DC4;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(render_obj, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(render_obj, *(u8 *)((direction_index & 7) + (u32)&D_80151DC4), 0);
         return;
     case 14:
         if (render_obj->table2c != D_80151E5C ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80151DCC;
-        *(u32 * volatile)((u8 *)render_obj + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)render_obj + 0x2c) = (u32)&D_80151DCC;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(render_obj, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(render_obj, *(u8 *)((direction_index & 7) + (u32)&D_80151DCC), 0);
         return;
     case 15:
         if (render_obj->table2c != D_80151E64 ||
             (state->flags1c & 0x208) != 0) {
             return;
         }
-        fallback_table = (u32)&D_80151DD4;
-        *(u32 * volatile)((u8 *)render_obj + 0x2c) = fallback_table;
+        *(u32 * volatile)((u8 *)render_obj + 0x2c) = (u32)&D_80151DD4;
         direction_index = (D_80083228 + state->value2a + 0x100) >> 9;
-        func_80047784(render_obj, *(u8 *)((direction_index & 7) + fallback_table), 0);
+        func_80047784(render_obj, *(u8 *)((direction_index & 7) + (u32)&D_80151DD4), 0);
         return;
     default:
         return;

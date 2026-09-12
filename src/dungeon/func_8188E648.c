@@ -73,8 +73,7 @@ void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
     {
         register s32 base_angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 held_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 angle_offset;
-        register s16 angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s16 angle;
 
         update_count = D_80026472.value;
         base_angle = ((S_80025E48_0 *)effect)->unk_22;
@@ -83,20 +82,26 @@ void func_80025E48(void *effect, S_80025E48_1 *points, S_80025E48_2 *tint)
         D_80026472.value = update_count;
         held_angle = base_angle;
         if (((S_80025E48_0 *)effect)->unk_24 != 0) {
-            angle_offset = ((S_80025E48_0 *)effect)->unk_18.s * 0x10;
-            angle = base_angle + angle_offset;
+            angle = base_angle + (((S_80025E48_0 *)effect)->unk_18.s * 0x10);
+            points->unk_02 = ((S_80025E48_0 *)effect)->unk_5C +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
+            points->unk_06 = ((S_80025E48_0 *)effect)->unk_5E +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
+            points->unk_0E = ((S_80025E48_0 *)effect)->unk_5C +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
+            points->unk_12 = ((S_80025E48_0 *)effect)->unk_5E +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
         } else {
-            angle_offset = ((S_80025E48_0 *)effect)->unk_18.s * 0x10;
-            angle = held_angle - angle_offset;
+            angle = held_angle - (((S_80025E48_0 *)effect)->unk_18.s * 0x10);
+            points->unk_02 = ((S_80025E48_0 *)effect)->unk_5C +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
+            points->unk_06 = ((S_80025E48_0 *)effect)->unk_5E +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
+            points->unk_0E = ((S_80025E48_0 *)effect)->unk_5C +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
+            points->unk_12 = ((S_80025E48_0 *)effect)->unk_5E +
+                ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
         }
-        points->unk_02 = ((S_80025E48_0 *)effect)->unk_5C +
-            ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
-        points->unk_06 = ((S_80025E48_0 *)effect)->unk_5E +
-            ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
-        points->unk_0E = ((S_80025E48_0 *)effect)->unk_5C +
-            ((((S_80025E48_0 *)effect)->unk_66.s * func_80064584(angle)) >> 10);
-        points->unk_12 = ((S_80025E48_0 *)effect)->unk_5E +
-            ((((S_80025E48_0 *)effect)->unk_66.s * func_800644B8(angle)) >> 10);
     }
 
     state = ((S_80025E48_0 *)effect)->unk_0A.s;

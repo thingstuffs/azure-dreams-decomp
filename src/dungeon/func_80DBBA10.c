@@ -65,7 +65,6 @@ void func_80173210(State *action, Motion *motion, Actor *actor, Entity *entity)
 {
     s32 direction_work[2];
     s32 facing_index;
-    register u32 facing_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 phase;
     u32 entity_flags;
 
@@ -75,10 +74,9 @@ void func_80173210(State *action, Motion *motion, Actor *actor, Entity *entity)
         if ((actor->flags14 & 0x6000) == 0) {
             goto end_state;
         }
-        facing_table = (u32)D_801753D4;
-        *(u32 * volatile)((u8 *)actor + 0x2C) = facing_table;
+        *(u32 * volatile)((u8 *)actor + 0x2C) = (u32)D_801753D4;
         facing_index = (D_80083228 + entity->direction2A + 0x100) >> 9;
-        func_80047784(actor, *(u8 *)((facing_index & 7) + facing_table), 0);
+        func_80047784(actor, D_801753D4[facing_index & 7], 0);
         action->flags98 |= 8;
         entity->flags1C &= 0xF7FFFFFF;
         action->timer9E = 5;
@@ -123,10 +121,9 @@ state_two:
         motion->dy10 = 0;
         motion->dxC = 0;
         func_800A2B04(motion, actor->x24, actor->y25);
-        facing_table = (u32)D_801753DC;
-        *(u32 * volatile)((u8 *)actor + 0x2C) = facing_table;
+        *(u32 * volatile)((u8 *)actor + 0x2C) = (u32)D_801753DC;
         facing_index = (D_80083228 + entity->direction2A + 0x100) >> 9;
-        func_80047784(actor, *(u8 *)((facing_index & 7) + facing_table), 0);
+        func_80047784(actor, D_801753DC[facing_index & 7], 0);
         action->state9B = 3;
         break;
     default:

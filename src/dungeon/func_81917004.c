@@ -61,7 +61,6 @@ typedef struct S_80024804_3 {
 /* Creates an effect with scaled parts and offsets it from the origin using the source orientation. */
 void *func_80024804(void *source, Copy24 *origin, s16 size_step)
 {
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *source_data = source;
     Copy24 *base_position = origin;
     register s16 saved_step ASM_REG("$16") = size_step;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -131,12 +130,9 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
 
     position->word[2] -=
         ((func_80064584(((S_80024804_3 *)effect_state)->unk_0E.s) >> 4) * scale_step) << 11;
-    result = effect;
-    goto return_result;
+    return effect;
 
 null_result:
-    result = NULL;
 
-return_result:
-    return result;
+    return NULL;
 }

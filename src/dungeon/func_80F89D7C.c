@@ -66,8 +66,6 @@ extern u8 D_80174B04[];
 void func_8017357C(void *controller, void *motion, void *sprite, void *actor)
 {
     s32 actor_flags;
-    s32 counter_value;
-    register u8 *counter_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *global_base;
     s32 state;
 
@@ -94,9 +92,9 @@ state_zero:
     func_80047784(sprite,
         D_80174AFC[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
         0);
-    counter_base = (u8 *)&D_80083460;
-    counter_value = ((S_8017357C_3 *)counter_base)->unk_0A - 1;
-    goto store_counter;
+    ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A = ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A - 1;
+    ((S_8017357C_0 *)controller)->unk_9B++;
+    goto done;
 
 state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
@@ -181,13 +179,9 @@ state_one:
     }
 
 increment_state:
-    counter_value = 3;
-    counter_base = (u8 *)&D_80083460;
-    ((S_8017357C_0 *)controller)->unk_96.s = counter_value;
-    counter_value = ((S_8017357C_3 *)counter_base)->unk_0A + 1;
+    ((S_8017357C_0 *)controller)->unk_96.s = 3;
 
-store_counter:
-    ((S_8017357C_3 *)counter_base)->unk_0A = counter_value;
+    ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A = ((S_8017357C_3 *)(u8 *)&D_80083460)->unk_0A + 1;
     ((S_8017357C_0 *)controller)->unk_9B++;
     goto done;
 
