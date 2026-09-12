@@ -132,9 +132,7 @@ check_gate:
         }
 
         effect_index = 0;
-        coord = 0x800D0000;
-        ASM_KEEP_NV(coord);
-        update_callback = (void *)(coord - 0x2B8C);
+        update_callback = (void *)D_800CD474;
         effect_counts = D_80083460;
         x_offsets = D_8006CCD8;
         do {

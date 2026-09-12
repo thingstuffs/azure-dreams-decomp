@@ -31,7 +31,6 @@ s32 func_8002714C(s32 context, s32 scroll_y, s32 entry_count, M2C_UNK list_type)
         }
         if (cursor == 0) {
             slot = 0;
-            ASM_KEEP_NV(slot);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             dest = slot;
             cursor = buffer;
             do {

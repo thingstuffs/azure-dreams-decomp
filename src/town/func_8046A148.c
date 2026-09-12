@@ -24,9 +24,7 @@ s32 func_8001B148(s32 unused_arg0, s32 unused_arg1, s32 selector)
     if (selector == one) {
         u8 *selected_state;
         s32 *table_page;
-        selected_state = (u8 *)0x80020000;
-        ASM_KEEP(selected_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        selected_state = *(u8 **)(selected_state - 0x16B0);
+        selected_state = *(u8 **)&D_8001E950;
         ASM_KEEP(selected_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         table_page = (s32 *)0x80010000;
         ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

@@ -15,7 +15,7 @@ void func_800C9DB8(Rec_func_800C9B44_arg0 *actor, Rec_D_800E3D7C *motion, M2C_UN
     s32 lower_y_radius;
     s32 current_y;
     s32 direction;
-    register s32 action ASM_REG("$17");
+    s32 action;
     register s32 attempts ASM_REG("$18");
     s32 heading;
 
@@ -88,10 +88,9 @@ store_heading:
     }
 dispatch:
     {
-        register void *dispatch_actor ASM_REG("$4") = actor;
+        void *dispatch_actor = actor;
         void (**handlers)(void *, void *, M2C_UNK) = D_800D65D8;
 
-        ASM_KEEP(handlers);
         handlers[action](dispatch_actor, motion, context);
         ASM_KEEP(action);
     }

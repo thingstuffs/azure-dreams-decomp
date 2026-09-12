@@ -248,18 +248,16 @@ flags_done:
             do {
                 void *item;
                 s32 direction_index;
-                register s32 color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 s32 part_value;
                 s32 call_zero;
                 void *outer_child;
                 register void *root_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                color = 0x00808080;
                 item = (u8 *)entry + item_offset;
                 ((S_8015E8DC_6 *)entry)->unk_04 |= 0x8000;
                 part_value = ((S_8015E8DC_3 *)part)->unk_28;
                 ((S_8015E8DC_7 *)item)->unk_10 = 0x20;
-                ((S_8015E8DC_7 *)item)->unk_0C = color;
+                ((S_8015E8DC_7 *)item)->unk_0C = 0x00808080;
                 ((S_8015E8DC_7 *)item)->unk_28 = part_value;
                 outer_child = ((S_8015E8DC_8 *)outer_base)->unk_A4;
                 do {

@@ -79,7 +79,6 @@ s32 func_800BD45C(void *entity, s32 item, s16 action) {
     func_80042B68(entity, 5);
     func_80098B38(item);
     item_counts = D_80083460;
-    ASM_KEEP(item_counts);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_800BD45C_1 *)item_counts)->unk_0A = (u16) (((S_800BD45C_1 *)item_counts)->unk_0A - 1);
     return 1;
 }

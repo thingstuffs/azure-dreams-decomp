@@ -185,23 +185,50 @@ def rewrite_var(text, v):
     pin_spans = [(s[3], s[4]) for s in pins]
     def inside(pos, spans):
         return any(a <= pos < b for a, b in spans)
-    skip = [(a, b) for a, b, _ in marks] + pin_spans + dspans
+    fixed = [(a, b) for a, b, _ in marks] + pin_spans + dspans
+    # statements that change V: `V +/-= K` and `V++` fold while the literal is known; anything else
+    # (`V = load`, `V += x`) ends the literal's range and stays - V keeps its other role (CONFINED)
+    chg_rx = re.compile(r"^[ \t]*\(?%s\)?\s*(?P<op>[-+*/|&^]?=(?!=)|\+\+|--)\s*(?P<rhs>[^;]*);[^\n]*\n" % V, re.M)
+    changes = [m for m in chg_rx.finditer(masked) if not inside(m.start(), fixed)]
+    lhs = [(m.start(), m.start("op")) for m in changes]
     use_rx = re.compile(
         r"(?P<c1>\(\s*(?P<t1>[A-Za-z_][\w ]*\*)\s*\)\s*\(\s*%s\s*(?P<o1>[-+])\s*(?P<k1>%s)\s*\))"   # (T *)(V + K)
         r"|(?P<c2>\(\s*(?P<t2>[A-Za-z_][\w ]*\*)\s*\)\s*%s\s*(?P<o2>[-+])\s*(?P<k2>%s))"            # (T *)V + K
         r"|(?P<c3>\b%s\s*(?P<o3>[-+])\s*(?P<k3>%s))"                                               # V + K
         r"|(?P<c4>\(\s*(?P<t4>[A-Za-z_][\w ]*\*)\s*\)\s*%s\b)"                                     # (T *)V
-        r"|(?P<c5>\b%s\b)" % (V, NUM, V, NUM, V, NUM, V, V))
-    uses = [m for m in use_rx.finditer(masked) if not inside(m.start(), skip)]
-    if not uses:
-        return None, "no-uses"
-    externs = set()
-    edits = []
-    for m in uses:
-        before = [val for a, b, val in marks if b <= m.start() and val is not None]
-        if not before:
-            return None, "use-before-def"
-        val = before[-1]
+        r"|(?P<c6>\(\s*(?P<t6>(?:unsigned\s+|signed\s+)?(?:u32|s32|int|long))\s*\)\s*%s\b)"          # (u32)V
+        r"|(?P<c5>\b%s\b)" % (V, NUM, V, NUM, V, NUM, V, V, V))
+    uses = [m for m in use_rx.finditer(masked) if not inside(m.start(), fixed + lhs)]
+    events = sorted([(a, 0, "def", val) for a, b, val in marks if val is not None]
+                    + [(m.end(), 1, "chg", m) for m in changes]      # a change takes effect after its RHS
+                    + [(m.start(), 2, "use", m) for m in uses], key=lambda e: (e[0], e[1]))
+    externs, edits, drops, known = set(), [], [], []
+    cur = start = None; confined = False
+    for pos, _, kind, x in events:
+        if kind == "def":
+            if cur is not None:
+                known.append((start, pos))
+            cur, start = x, pos
+            continue
+        if kind == "chg":
+            op, rhs = x.group("op"), x.group("rhs").strip()
+            step = scale if op in ("++", "--") and not rhs else \
+                int(rhs.replace(" ", ""), 0) * scale if op in ("+=", "-=") and re.fullmatch(r"-?\s*%s" % NUM, rhs) else None
+            if cur is not None and step is not None:
+                cur = cur + step if op in ("+=", "++") else cur - step
+                drops.append((x.start(), x.end()))
+                continue
+            if cur is not None and op != "=":
+                return None, "modified"                 # reads the literal in a way that does not fold
+            if cur is not None:
+                known.append((start, x.end()))
+            cur = start = None; confined = True
+            continue
+        m = x
+        if cur is None:
+            confined = True                             # V's other role (or a read before any literal): left alone
+            continue
+        val = cur
         after = masked[m.end():].lstrip()
         tail = after[:1]
         deref = after.startswith(("->", "["))
@@ -226,8 +253,10 @@ def rewrite_var(text, v):
             rep = sym_expr(t, a, (ty + " *") if ptr else None, externs)
         elif m.group("c4"):
             rep = sym_expr(t, val, m.group("t4"), externs)
-            if deref:
-                rep = "(" + rep + ")"
+            if deref and not re.fullmatch(r"D_[0-9A-F]{8}", rep):
+                rep = "(" + rep + ")"                  # a bare array symbol indexes as it stands
+        elif m.group("c6"):
+            rep = "(%s)%s" % (m.group("t6"), sym_expr(t, val, None, externs))
         else:
             if re.match(r"(\+\+|--|[-+*/|&^]?=(?!=))", after) or masked[:m.start()].rstrip().endswith(("++", "--")):
                 return None, "modified"
@@ -237,18 +266,31 @@ def rewrite_var(text, v):
                 return None, "not-operand"
             rep = sym_expr(t, val, (ty + " *") if ptr else None, externs)
         edits.append((m.start(), m.end(), rep))
-    # apply the use edits (last first), then delete definitions and declarations, then V's pins
-    for a, b, rep in sorted(edits, reverse=True):
+    if cur is not None:
+        known.append((start, len(t)))
+    if not edits:
+        return None, "no-uses"
+    if confined and any("=" in mask_comments(text[a:b]) for a, b in dspans):
+        return None, "decl-init-confined"
+    # one pass, last first: use edits; definitions and folded steps cut; the declarations too
+    # unless V keeps another role
+    cuts = set(edits) | {(a, b, "") for a, b, _ in marks} | {(a, b, "") for a, b in drops}
+    if not confined:
+        cuts |= {(a, b, "") for a, b in dspans}
+    gone = [(a, b) for a, b, _ in marks] + drops + ([] if confined else dspans)
+    kept_pins = [s for s in pins if not inside(s[3], gone)]
+    # full elimination: every pin of V goes; confined: statement pins inside a literal's range go,
+    # the declaration's register pin and pins on V's other role stay
+    kill_pin = [not confined or (s[0] == "stmt" and inside(s[3], known)) for s in kept_pins]
+    for a, b, rep in sorted(cuts, key=lambda c: c[0], reverse=True):
         t = t[:a] + rep + t[b:]
-        shift = len(rep) - (b - a)
-        marks = [(x + (shift if x > a else 0), y + (shift if y > a else 0), val) for x, y, val in marks]
-        dspans = [(x + (shift if x > a else 0), y + (shift if y > a else 0)) for x, y in dspans]
-    for a, b in sorted(set([(a, b) for a, b, _ in marks] + dspans), reverse=True):
-        t = t[:a] + t[b:]
     left = [s for s in sites_of(t) if re.search(r"\b%s\b" % V, t[s[3]:s[4]])]
-    if left:
-        t = erase_many(t, left, clean_notes=True)
-    if re.search(r"\b%s\b" % V, mask_comments(t)):
+    if len(left) != len(kept_pins):
+        return None, "pin-drift"
+    chosen = [s for s, k in zip(left, kill_pin) if k]
+    if chosen:
+        t = erase_many(t, chosen, clean_notes=True)
+    if not confined and re.search(r"\b%s\b" % V, mask_comments(t)):
         return None, "still-mentioned"
     # pin notes the edit left standing alone on their own line go too (the original's stay)
     orig_notes = collections.Counter(m.group(0).strip() for m in NOTE_RE.finditer(text))

@@ -33,8 +33,8 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     u8 actor_flags;
     s32 saved_motion_param;
     register void *sprite ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u32 status_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 *status ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 status_page;
+    u16 *status;
     volatile s32 frame_pad[2];
 
     actor_flags = ((Rec_D_800E3D7C *)actor)->unk_71.as_u8;
@@ -46,7 +46,6 @@ s32 func_80171DA0(Rec_func_800A9E70_arg0 *action_state, s32 motion_param, void *
     } while (0);
     ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     status = (u16 *)(status_page + 0x3460);
-    ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (status[1] & 0x2000) {
         goto abort_transition;
     }

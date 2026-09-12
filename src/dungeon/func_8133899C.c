@@ -85,9 +85,7 @@ case_4:
     if (((S_8016F99C_0 *)transition)->unk_1C == 0) {
         goto clear_58;
     }
-    next_state = 0x80170000;
-    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    *(void **)(next_state + 0x5D5C) = 0;
+    *(void **)D_80175D5C = 0;
     goto finish;
 
 case_10:
@@ -110,14 +108,10 @@ case_11:
         goto clear_5C;
     }
 clear_58:
-    next_state = 0x80170000;
-    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    *(void **)(next_state + 0x5D58) = 0;
+    *(void **)D_80175D58 = 0;
     goto finish;
 clear_5C:
-    next_state = 0x80170000;
-    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    *(void **)(next_state + 0x5D5C) = 0;
+    *(void **)D_80175D5C = 0;
 finish:
     ((S_8016F99C_0_pre *)transition)[-1].unk_00 |= 0x8000;
     next_timer = 0x80080000;

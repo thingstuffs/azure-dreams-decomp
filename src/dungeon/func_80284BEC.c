@@ -168,9 +168,9 @@ scan_neighbors:
             goto success;
         }
         {
-            register s16 *out_x ASM_REG("$5");
-            register s16 *out_y ASM_REG("$6");
-            register s32 retry_mode ASM_REG("$7");
+            s16 *out_x;
+            s16 *out_y;
+            s32 retry_mode;
             s32 retry_region;
 
             lookup_base = (u8 *)(u32)(u16)cursor.sp18;

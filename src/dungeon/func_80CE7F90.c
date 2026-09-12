@@ -78,7 +78,7 @@ void func_80171790(void *source, void *position) {
     s32 obj_or_angle;
     s32 data_or_speed;
     S_80171790_0 *effect_state;
-    register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *init_obj;
     S_80171790_3 *effect_pos;
     u8 random_byte_1;
     u8 random_byte_2;
@@ -89,7 +89,6 @@ void func_80171790(void *source, void *position) {
     if (obj_or_angle != 0) {
         init_obj = (void *) obj_or_angle;
         effect_state = (void *) obj_or_angle + 0x20;
-        ASM_KEEP(effect_state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         effect_state->unk_18 = 6;
         effect_state->unk_1A = 6;
         ((S_80171790_1 *)((void *) obj_or_angle))->unk_10 = &D_80170E2C;

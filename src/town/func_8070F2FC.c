@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80016000[];
 
 typedef s32 (*Callback)(s32, s32);
 
@@ -58,8 +59,7 @@ dispatch:
         void *ptr;
         s32 first_arg;
 
-        ptr = (void *)0x80010000;
-        ptr = *(void **)((s8 *)ptr + 0x6000);
+        ptr = *(void **)((s8 *)D_80016000);
         ptr = *(void **)((s8 *)ptr + 0x20);
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_arg = 0xF;

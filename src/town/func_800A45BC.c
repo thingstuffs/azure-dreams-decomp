@@ -84,7 +84,6 @@ void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
     if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
         ((S_800A1D1C_0_pre *)object)[-1].unk_00 = (u16) (((S_800A1D1C_0_pre *)object)[-1].unk_00 | 0x8000);
         global_page = (u8 *)0x80080000;
-        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
         return;
     }

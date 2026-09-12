@@ -165,8 +165,7 @@ increment_state:
 
 mode_three:
     {
-        register u32 globals_base ASM_REG("$3") = 0x80080000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(globals_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        u32 globals_base = 0x80080000;
         ((S_80024B20_2_pre *)effect)[-1].unk_00 |= 0x8000;
         ((S_80024B20_5 *)globals_base)->unk_14A0 |= 0x8000;
     }

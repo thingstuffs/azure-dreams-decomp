@@ -29,7 +29,7 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     register s32 call_y ASM_REG("$5");
     register s32 distance_z ASM_REG("$6");
     register s32 probe_dir ASM_REG("$6");
-    register u16 *flags_ptr ASM_REG("$7");
+    u16 *flags_ptr;
     s32 inner_offset;
     s32 outer_offset;
     register u32 addr ASM_REG("$8");

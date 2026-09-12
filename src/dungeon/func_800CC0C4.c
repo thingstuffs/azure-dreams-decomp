@@ -104,7 +104,6 @@ void func_800D1824(u8 *tiles)
 
     ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (*tile != 0) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         vertex_0 = scratch + 0x70;
         ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_z = tiles + 2;

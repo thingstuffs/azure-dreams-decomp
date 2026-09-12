@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80080000[];
 
 typedef struct {
     s16 x;
@@ -571,8 +572,7 @@ finish_effect:
         ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         S32(table_value, 0x346C) = 0;
         U16(effect, -2) |= 0x8000;
-        offset_value = (void *)0x80080000;
-        U32(offset_value, 0x14A0) |= 0x8000;
+        U32((void *)D_80080000, 0x14A0) |= 0x8000;
         goto end;
     }
     goto clear_busy;

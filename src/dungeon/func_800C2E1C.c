@@ -52,7 +52,7 @@ u32 func_800C857C(void *arg0, void *arg1) {
                 }
                 {
                     s32 ret = func_800990FC();
-                    register void *p ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    void *p;
                     register s32 a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     p = &D_800E1987;
                     ASM_KEEP_NV(p);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

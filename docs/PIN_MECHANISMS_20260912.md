@@ -317,3 +317,23 @@ functions pin-free.** 33 windows MATCH, SLUS SHA-1 MATCH. Census: 9,959 pins in 
 `tools/xform/cdkcell.py` wraps any transform to run at the CDK cell (bindings
 `t31_cdk_t2_pins`, `t31_cdk_t26_alloc`, `t31_cdk_t20_fencefree`), under the same rules 1–2.
 246 of the 548 scanned rows admit a CDK cell without being recorded there.
+
+Third round (one gate):
+- **`t29` confined mode.** A page variable reused for another value keeps that role; only the
+  uses while the address is known become symbols. Constant steps (`V += K`, `V++`) fold, and
+  integer-cast uses are accepted. A forced sweep landed 16 more functions.
+- **`tools/xform/t33_argconst.py`.** Pinned locals that only ever hold constants are written back
+  as the constants. RAM and scratchpad addresses are excluded (those belong to `t29`), and a read
+  outside the assigning block is refused. 15 functions / 17 pins at the recorded cell, then 6
+  more at CDK through `t31_cdk_t33_argconst`.
+- **The admissible-cell scan.** Now `tools/pin_cells_scan.py`, with ledger
+  `ledger/pins_cells_admissible.jsonl`. It supplied 33 functions whose pin is dead at a CDK cell.
+- **T2 on all 65 changed rows.**
+
+**Net 99 pins this round**; 59 windows MATCH, SLUS SHA-1 MATCH. Census: 9,860 pins in 1,601 rows.
+
+The argmove luna lane (`work/native_lane/argmove/`: 10 rows where erasing one pin moves one
+argument copy `move $aN,$sM` by a slot) solved 0/10. Its account: call expansion makes the copy,
+CSE folds the unpinned alias into its source, and the scheduler then puts the ready copy in a
+later legal slot. That is recorded as a hypothesis, not a verdict (owner rule); the rows are
+escalated to sol with the measured dead ends (`work/native_lane/argmove_sol/`).

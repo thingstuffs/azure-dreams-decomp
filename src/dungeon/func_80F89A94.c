@@ -58,7 +58,7 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     register s32 direction_x ASM_REG("$4");
     register u8 *direction_y_table ASM_REG("$2");
     s32 direction_y;
-    register s32 motion_step ASM_REG("$5");
+    s32 motion_step;
     s32 state;
     s32 motion_value;
     s32 is_low_state;

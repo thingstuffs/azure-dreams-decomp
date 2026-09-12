@@ -120,7 +120,6 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
         state->unk_12 = extent;
         func_8004491C(effect, D_800249F4);
         work_value = *(volatile s32 *)&initial_value;
-        ASM_KEEP(work_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         state->unk_00 = work_value;
     }
 }

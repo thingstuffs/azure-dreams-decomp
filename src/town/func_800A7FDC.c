@@ -25,19 +25,15 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
     input_state = D_80083160;
     func_80095544(transform_arg);
     {
-        u8 *player_type;
         void *entity_type;
 
-        player_type = (u8 *)0x800A0000;
-        ASM_KEEP_NV(player_type);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         entity_type = *(void **)entity;
-        player_type += 0x5A98;
-        if (entity_type == player_type && (*(s32 *)(input_state + 8) & 0x2000)) {
+        if (entity_type == (u8 *)&D_800A5A98 && (*(s32 *)(input_state + 8) & 0x2000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle -= 0x200;
             turn_step = 0x200;
-        } else if (entity_type == player_type && (*(s32 *)(input_state + 8) & 0x8000)) {
+        } else if (entity_type == (u8 *)&D_800A5A98 && (*(s32 *)(input_state + 8) & 0x8000)) {
             target_angle = *(s16 *)((u8 *)entity + 0x10);
             current_angle = *(s16 *)((u8 *)entity + 0x18);
             target_angle += 0x200;

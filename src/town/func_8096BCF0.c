@@ -67,11 +67,9 @@ void func_80124188(TownObject *menu)
     if (obj->digit == 3) {
         sprite_slot = 33;
         entry_index = 0;
-        digit_base = 0x80120000;
-        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        selected_digits = (void **)(digit_base + 0x69A8);
+        selected_digits = (void **)D_801269A8;
         digit_base = *(volatile u8 *)&obj->digit;
-        normal_digits = (void **)(D_801269D0);
+        normal_digits = (void **)D_801269D0;
         digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;
@@ -112,11 +110,9 @@ void func_80124188(TownObject *menu)
     } else {
         sprite_slot = 33;
         entry_index = 0;
-        digit_base = 0x80120000;
-        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        selected_digits = (void **)(digit_base + 0x69A8);
+        selected_digits = (void **)D_801269A8;
         digit_base = *(volatile u8 *)&obj->digit;
-        normal_digits = (void **)(D_801269D0);
+        normal_digits = (void **)D_801269D0;
         digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;

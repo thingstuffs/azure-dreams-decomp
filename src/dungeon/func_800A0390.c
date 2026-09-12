@@ -92,5 +92,4 @@ void func_800A5AF0(void *transition, S_800A5AF0_1 *output, S_800A5AF0_2 *appeara
         }
     }
 end:
-    ASM_SCHED_BARRIER(); /* MATCH: Keep one shared return reached by the state-store jump. */
 }

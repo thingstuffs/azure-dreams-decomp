@@ -118,7 +118,7 @@ void *func_8014C8DC(s32 kind, s32 part_x, s32 part_y, s32 init_value)
     register void *part ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *allocated;
     register uptr address_or_count ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 allocation_size ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 allocation_size;
     void *allocation_pool;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     saved_kind = kind;
@@ -247,18 +247,16 @@ flags_done:
             do {
                 void *item;
                 s32 direction_index;
-                register s32 color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 s32 part_value;
                 s32 call_zero;
                 void *outer_child;
                 register void *new_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                color = 0x00808080;
                 item = (u8 *)entry + item_offset;
                 ((S_8014C8DC_6 *)entry)->unk_04 |= 0x8000;
                 part_value = ((S_8014C8DC_3 *)part)->unk_28;
                 ((S_8014C8DC_7 *)item)->unk_10 = 0x20;
-                ((S_8014C8DC_7 *)item)->unk_0C = color;
+                ((S_8014C8DC_7 *)item)->unk_0C = 0x00808080;
                 ((S_8014C8DC_7 *)item)->unk_28 = part_value;
                 outer_child = ((S_8014C8DC_8 *)outer_base)->unk_A4;
                 ASM_KEEP(outer_child);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

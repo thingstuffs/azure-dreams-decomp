@@ -108,7 +108,6 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
     void *render_state = ((Rec_D_80083160 *)(&D_80083160))->unk_00.as_pv;
     register u32 length_mask ASM_REG("$20") = 0xFF000000U;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *scratch = (u8 *)0x1F800000;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     ASM_KEEP(render_state_ptr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(length_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -192,8 +191,6 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
     final_state = *render_state_ptr;
     final_cursor = SPAD_U32(0x1C);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    result = 0;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     final_state->unk_8D0 = final_cursor;
-    return result;
+    return 0;
 }

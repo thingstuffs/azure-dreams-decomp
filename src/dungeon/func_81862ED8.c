@@ -120,11 +120,9 @@ s32 func_800246D8(void *line)
 #ifdef __mips__
     s32 depth_or_tag;
     s32 depth_sum;
-    s32 result;
 #else
     s32 depth_or_tag;
     s32 depth_sum;
-    s32 result;
 #endif
     u32 *ordering_table;
     u8 *render_ctx = *(u8 **)D_80083160;
@@ -355,11 +353,9 @@ shared:
             ((u32)packet & mask_or_phase);
     }
 
-    result = 0;
 #ifdef __mips__
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #endif
-    return result;
+    return 0;
 }
 
 /* MECHANISM: The 0x28 frame holds s3=scratchpad, s2=packet, and s1/s0 call bases.

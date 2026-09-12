@@ -130,9 +130,6 @@ s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
         }
     }
     {
-        register s32 zero_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        zero_v0 = 0;
-        ASM_KEEP(zero_v0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return zero_v0;
+        return 0;
     }
 }

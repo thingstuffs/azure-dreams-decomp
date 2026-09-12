@@ -46,7 +46,6 @@ extern s16 D_8008346A;
 void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
     M2C_UNK *var_v0;
     M2C_UNK var_a2;
-    register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 temp_a1;
     s16 temp_v0_2;
     s32 temp_dim;
@@ -62,7 +61,6 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
 
     temp_v1 = ((S_800D34CC_0 *)arg0)->unk_9B;
     if (temp_v1 != 0) {
-        temp_a0 = 0x20;
         if (temp_v1 == 1) {
             goto block_6;
         }
@@ -72,17 +70,15 @@ void func_800D34CC(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_800D34CC_2 *)arg2)->unk_0C.at00.v = 0x808080;
         ((S_800D34CC_0 *)arg0)->unk_96 = 0x10;
         ((S_800D34CC_0 *)arg0)->unk_9B = (u8) (((S_800D34CC_0 *)arg0)->unk_9B + 1);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_a0 = 0x20;
 block_6:
         temp_v1_2 = (u8) ((S_800D34CC_2 *)arg2)->unk_0C.at00.v;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at00u.v = (u8) (temp_v1_2 + ((temp_a0 - temp_v1_2) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
+        ((S_800D34CC_2 *)arg2)->unk_0C.at00u.v = (u8) (temp_v1_2 + ((0x20 - temp_v1_2) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_v1_3 = ((S_800D34CC_2 *)arg2)->unk_0C.at01.v;
         temp_a1 = ((S_800D34CC_0 *)arg0)->unk_96;
-        temp_green = temp_v1_3 + ((temp_a0 - temp_v1_3) / temp_a1);
+        temp_green = temp_v1_3 + ((0x20 - temp_v1_3) / temp_a1);
         temp_v0 = ((S_800D34CC_2 *)arg2)->unk_0C.at02.v;
         ((S_800D34CC_2 *)arg2)->unk_0C.at01.v = (u8) temp_green;
-        ((S_800D34CC_2 *)arg2)->unk_0C.at02u.v = (u8) (temp_v0 + ((temp_a0 - temp_v0) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
+        ((S_800D34CC_2 *)arg2)->unk_0C.at02u.v = (u8) (temp_v0 + ((0x20 - temp_v0) / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_dim = ((S_800D34CC_2 *)arg2)->unk_1C;
         ((S_800D34CC_2 *)arg2)->unk_1C = (u16) (temp_dim - (temp_dim / (s16) ((S_800D34CC_0 *)arg0)->unk_96));
         temp_dim2 = ((S_800D34CC_2 *)arg2)->unk_1E;

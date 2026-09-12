@@ -89,7 +89,7 @@ void func_800BD688(void *pair_in) {
     register s32 x_gap ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x_speed;
     u16 tick;
-    register s32 *flag_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 *flag_page;
     void **member_slot;
     S_800BD688_6 *second_depth;
     S_800BD688_8 *second_motion;
@@ -178,7 +178,6 @@ state_zero:
 
 state_one:
     flag_page = (s32 *)0x80080000;
-    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_800BD688_0_pre *)pair)[-1].unk_00 = (u16) (((S_800BD688_0_pre *)pair)[-1].unk_00 | 0x8000);
     flag_page[0x14A0 / 4] |= 0x8000;
 

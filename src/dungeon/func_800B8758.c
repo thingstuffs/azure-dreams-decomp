@@ -60,7 +60,7 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
     void *current_entity = D_800E3D7C;
     void *entity = target;
     s32 action_id = action;
-    register s32 special_case ASM_REG("$19") = 0;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 special_case = 0;
     register s32 original_id;
     register s32 message_handle ASM_REG("$17"); /* MATCH: Keep the shared-tail value in s1 after merging the two call paths. */
     register s32 saved_id ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */

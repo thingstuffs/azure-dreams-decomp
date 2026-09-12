@@ -283,12 +283,10 @@ L_BD00: {
     register s32 final_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     tail = 0xFF;
-    mod = 0x80070000;
-    ASM_KEEP_NV(mod);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     p3[0x27] = tail;
     final_a2 = *(u16 *)(p4 + 0x88);
     tail = *(s16 *)(p4 + 0x2A);
-    mod = *(s16 *)(mod - 0x32FE);
+    mod = *D_8006CD02;
     final_a2 = (s16)(final_a2 - 0x20);
     tail -= mod;
     tail >>= 9;

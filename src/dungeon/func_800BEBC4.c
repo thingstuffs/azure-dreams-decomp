@@ -72,7 +72,6 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
     func_80042B68(entity, 3);
     func_80098B38(amount);
     counter_base = D_80083460;
-    ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     *(u16 *)(counter_base + 0xA) = *(u16 *)(counter_base + 0xA) - 1;
     return 1;
 }

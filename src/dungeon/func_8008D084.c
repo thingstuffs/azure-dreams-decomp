@@ -206,11 +206,8 @@ state_one:
         effect_obj = func_800A8608(
             owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
         if (effect_obj != 0) {
-            u8 *handler = (u8 *)0x80090000;
 
-            ASM_KEEP(handler);   /* Pin: removal rematerialises a constant retail keeps in a register. */
-            handler -= 0x2B90;
-            ((S_800927E4_7 *)effect_obj)->unk_10 = handler;
+            ((S_800927E4_7 *)effect_obj)->unk_10 = D_8008D470;
             effect_prim = ((S_800927E4_7 *)effect_obj)->unk_08;
             effect_prim->unk_02 = (sprite->unk_24 << 6) + 0x20;
             effect_prim->unk_06 = (sprite->unk_25 << 6) + 0x20;

@@ -10,7 +10,7 @@ void func_80171594(u8 x, u8 y, s32 z) {
     void *object, *state ASM_REG("$19"), *position ASM_REG("$17"), *sprite ASM_REG("$16");
     s32 tile_mask;
     u8 tile_x, tile_y;
-    register void *call_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call_object;
 
     ASM_KEEP4_NV(z, saved_x, saved_y, z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object = func_8003FD64(0x112, &D_80083498);
