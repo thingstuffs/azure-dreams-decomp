@@ -380,6 +380,20 @@ variable's pin dropped): 31 rows carry a candidate, 16 a pin-deleting one, **3 l
 `FAKE`-style replacements are deliberately NOT mechanised yet: census cannot see a plain copy, so a
 bulk trade would hide debt; if adopted they must carry a `FAKE` note that census counts.
 
+**The scratchpad class, reasoned out** (a native lane, 2026-09-12, `work/native_lane/scratchpad/REPORT.md`;
+42 rows pin a variable set from `0x1F80xxxx`). combine.c:3787 rewrites an addition as an OR when the
+operands share no set bits, and it knows a variable set once from `0x1F800000` is exactly that
+constant — so every scratch field address copied into an argument register or an `ASM_REG` local
+becomes `ori` where retail has `addu`; `ASM_KEEP_NV(scratch)` hides the constant. Retail's `addu`
+comes from **a real loop**: in a loop containing a call, loop.c substitutes a single-use invariant
+temporary into its one use before combine, leaving nothing to merge — and gcc calls m2c's goto loop
+"phony" and does none of it. `dungeon/func_800942BC` matched with no pin as `do { … if (!c) break;
+… } while (1);` (`gotoloop` (d) and `realloop` now generate that, the latter with the loop's pins
+erased). Two corollaries worth keeping: only VOLATILE asm with operands (`ASM_KEEP`, `ASM_SET`)
+blocks a combine merge — `ASM_KEEP_NV`, `ASM_SCHED_BARRIER()` and volatile memory do not; and
+flow.c adds the loop depth to every reference count, so making a loop real re-ranks local-alloc
+for every other pin inside it (why it lands cleanly only where no other pin sits in the loop).
+
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences
 remain. `ret2break`, `postinc` and `gotoloop` closed nothing outside their own test rows, and

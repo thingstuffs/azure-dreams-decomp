@@ -941,6 +941,110 @@ def gotoloop_candidates(text):
         body = _reindent(t.lines[t0 + 1:i0], ind, ind + "    ")
         new = [ind + "do {"] + body + [ind + "} while (%s);" % _real_cond(t, i0, E)]
         out.append(("gotoloop:do:%s" % top, _replace_block(t, t0, g[0], new)))
+    # (d) top: BODY; if (C) { X; goto top; }  ->  do { BODY; if (!C) { break; } X; } while (1);
+    out.extend((lab, cand) for lab, cand, _ in _loop_d(t, labels, gotos))
+    return out
+
+
+def _loop_d(t, labels, gotos):
+    """m2c's loop whose back edge sits at the end of an if-block, as the real loop it was.
+
+    A native lane on the scratchpad class (dungeon/func_800942BC, 2026-09-12): gcc's loop pass calls
+    m2c's goto loop "phony" and does nothing with it, so the loop-invariant substitution loop.c
+    performs in a real loop with a call (a single-use invariant temporary folded into its one use,
+    before combine) never happens - and combine then turns `addu base,K` into `ori` on a constant
+    base, which is what the pin was hiding.  Written as the real `do { ... } while (1);` the row
+    matched with no pin.  Yields (label, text, (first line, last line) of the new loop)."""
+    ml, out = t.m, []
+    for top, t0 in labels.items():
+        g = gotos.get(top, [])
+        if not g or max(g) <= t0:
+            continue
+        gl = max(g)
+        if not GOTO_LINE_RE.match(ml[gl]):
+            continue
+        close = _next_nb(ml, gl)
+        if close is None or ml[close].strip() != "}":
+            continue
+        d, opener = 0, None
+        for k in range(close, t0, -1):
+            d += ml[k].count("}") - ml[k].count("{")
+            if d == 0:
+                opener = k
+                break
+        if opener is None or opener <= t0:
+            continue
+        cond, end = _cond_of(ml[opener])
+        if cond is None or ml[opener][end:].strip() != "{":
+            continue
+        nxt = _next_nb(ml, close)
+        if nxt is not None and re.match(r"^[ \t]*else\b", ml[nxt]):
+            continue
+        others = [k for k in g if k != gl]
+        if any(not (t0 < k < opener) for k in others):
+            continue                          # a jump to the top from outside the body
+        region = range(t0 + 1, gl)
+        if any(LABEL_RE.match(ml[k]) for k in region):
+            continue                          # another entry into the loop
+        if any(re.search(r"\b(?:break|continue)\b", ml[k]) for k in region):
+            continue                          # would re-bind to the new loop
+        if others and any(re.match(r"^[ \t]*(?:do|while|for)\b", ml[k]) for k in range(t0 + 1, opener)):
+            continue                          # a `continue` inside a nested loop would bind there
+        dd = 0
+        for k in range(t0 + 1, opener):
+            dd += ml[k].count("{") - ml[k].count("}")
+            if dd < 0:
+                break
+        if dd != 0:
+            continue
+        first = _next_nb(ml, t0)
+        ind = _ind(t.lines[first]) if first is not None and first < opener else _ind(t.lines[opener])
+        in1, in2 = ind + "    ", ind + "        "
+        body = [re.sub(r"\bgoto[ \t]+%s[ \t]*;" % re.escape(top), "continue;", x)
+                for x in _reindent(t.lines[t0 + 1:opener], ind, in1)]
+        xin = _ind(t.lines[opener + 1]) if opener + 1 < gl else in1
+        x = _reindent(t.lines[opener + 1:gl], xin, in1)
+        C = _real_cond(t, opener, cond)
+        new = [ind + "do {"] + body + [in1 + "if (%s) {" % _negate(C), in2 + "break;", in1 + "}"] + x + [ind + "} while (1);"]
+        out.append(("gotoloop:loop:%s" % top, _replace_block(t, t0, close, new), (t0, t0 + len(new) - 1)))
+    return out
+
+
+def realloop_candidates(text):
+    """`gotoloop` (d) together with the pins inside the new loop erased - all of them, then each alone.
+
+    The real loop is what makes those pins unnecessary (loop.c's invariant handling and the
+    loop-depth weighting of every reference inside it), so a pin pass needs the pair, not the
+    restructure on its own (which removes no pin)."""
+    try:
+        from pin_sites import erase_many
+        from pin_census import sites_of
+    except ImportError:                   # pragma: no cover
+        return []
+    t = _T(text)
+    labels, gotos = _labels_gotos(t.m)
+    out = []
+    for label, cand, (lo, hi) in _loop_d(t, labels, gotos):
+        # a pin inside the new loop, or one that names a variable the loop uses: 800942BC's pin is
+        # `ASM_KEEP(scratch);` just ABOVE the label - it hides the loop's constant base
+        cm = mask(cand).splitlines()
+        used = set(re.findall(ID, "\n".join(cm[lo:hi + 1])))
+        inside = []
+        for s in sites_of(cand):
+            if lo + 1 <= s[5] <= hi + 1:
+                inside.append(s)
+            elif s[0] == "stmt" and set(re.findall(ID, s[2])) & used:
+                inside.append(s)
+            elif s[0] == "reg":
+                m = re.search(r"(%s)\s*$" % ID, cand[s[3]:s[4]].split("ASM_REG")[0])
+                if m and m.group(1) in used:
+                    inside.append(s)
+        if not inside:
+            continue
+        out.append((label.replace("gotoloop:loop", "realloop") + "+all", erase_many(cand, inside, clean_notes=True)))
+        if len(inside) > 1:
+            for s in inside[:6]:
+                out.append((label.replace("gotoloop:loop", "realloop") + "+" + s[1], erase_many(cand, [s], clean_notes=True)))
     return out
 
 
@@ -1322,7 +1426,7 @@ def splitcursor_candidates(text):
 # ------------------------------------------------------------------------------ the menu
 
 GENERATORS = (dropcopy_candidates, armstore_candidates, ret2break_candidates, ptr2index_candidates,
-              postinc_candidates, gotoloop_candidates, splitcursor_candidates)
+              postinc_candidates, gotoloop_candidates, splitcursor_candidates, realloop_candidates)
 
 
 def candidates(text, basesym=True):
