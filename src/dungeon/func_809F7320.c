@@ -154,7 +154,7 @@ extern s32 D_80175220;
 /* Advances the actor replacement sequence, including its visual effects and cleanup. */
 void func_80174B20(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity, void *actor) {
     static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8 };
-    register s32 tint ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 tint;
     S_80174B20_7 *globals_base;
     S_80174B20_12 *effect_pool;
     s32 global_flags;

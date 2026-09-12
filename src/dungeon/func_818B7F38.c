@@ -388,7 +388,6 @@ use_path_endpoint:
     destination = &frame.out_x;
 build_path_endpoint:
     index = 1;
-    ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     world_x = last_tile_x << 0x10;
     x_offsets = (s16 *)D_8006CCD8;
     ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

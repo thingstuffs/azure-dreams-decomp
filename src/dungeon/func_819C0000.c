@@ -216,7 +216,6 @@ state_two:
 
             column = 0;
             do {
-                ASM_SCHED_BARRIER();
                 row = 0;
                 do {
                     s32 point_offset;

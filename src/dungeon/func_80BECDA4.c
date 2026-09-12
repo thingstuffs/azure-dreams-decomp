@@ -75,9 +75,9 @@ void func_801725A4(void *owner_arg, void *motion_arg, void *actor_arg, void *obj
         &&L_tail_b0, &&L_tail_b8, &&L_tail_c0, &&L_after_jt
     };
     register void *owner ASM_REG("$21") = owner_arg;
-    register void *motion ASM_REG("$19") = motion_arg;
+    void *motion = motion_arg;
     register void *actor ASM_REG("$18") = actor_arg;
-    register void *object ASM_REG("$16") = object_arg;
+    void *object = object_arg;
     register s32 is_special;
     u8 *action_data;
     register s32 x ASM_REG("$2");

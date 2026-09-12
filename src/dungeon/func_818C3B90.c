@@ -297,7 +297,6 @@ jt_c1:
             destination = &stack.local;
             ASM_KEEP_NV(destination);
             index = 1;
-            ASM_KEEP_NV(index);
             x_work = (u32)saved_x << 16;
             table = D_8006CCD8;
             x_work = (s32)x_work >> 10;

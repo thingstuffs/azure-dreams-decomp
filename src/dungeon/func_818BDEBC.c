@@ -287,7 +287,6 @@ case_0:
     target_pos = (Position16 *)&work.destination;
     ASM_KEEP_NV(target_pos);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     index = 1;
-    ASM_KEEP_NV(index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_distance = (u32)end_tile_x << 16;
     direction_steps = D_8006CCD8;
     x_distance = (s32)x_distance >> 10;

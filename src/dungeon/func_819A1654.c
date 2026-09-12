@@ -655,7 +655,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
 
                                     if (entity->timer == saved_timer) {
                                         register s32 trail_index ASM_REG("$20");
-                                        register s32 trail_fraction ASM_REG("$6");
+                                        s32 trail_fraction;
                                         s32 interp_x;
                                         register s32 interp_y ASM_REG("$5");
                                         s32 interp_z;
@@ -666,7 +666,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                         do {
                                             interp_base = entity->path[18];
                                             interp_work = entity->path[6] - interp_base;
-                                            trail_fraction = trail_index * 2;
+                                            trail_fraction = trail_index << 1;
                                             interp_x = interp_work * trail_fraction;
                                             if (interp_x < 0) {
                                                 interp_x += 15;

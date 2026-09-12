@@ -168,7 +168,7 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     vert3_ref_y = vert3_ref_y + (u32)vertices;
                     ASM_USE2_NV(vert3_ref_y, vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     ASM_USE_NV(vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    vert0_ref = vert0_ref << 3;
+                    vert0_ref = vert0_ref * 8;
                     vert0_ref = vert0_ref + (u32)vertices;
                     xy1 = xy1 + cell_x;
                     xy1 = xy1 & 0xFFFF;
@@ -179,7 +179,6 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     xy2 = U16((u8 *)vert2_ref, 0);
                     vert2_y = S16((u8 *)vert2_ref, 2);
                     xy3 = U16((u8 *)vert3_ref_y, 0);
-                    ASM_KEEP_NV(vert0_ref);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     height0 = U16((u8 *)vert0_ref, 4);
                     height_bias = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
                     height0 = height0 - height_bias;

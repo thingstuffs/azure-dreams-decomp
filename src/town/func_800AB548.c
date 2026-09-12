@@ -56,7 +56,7 @@ void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *ext
     register S_800A8CA8_1 *source ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 phase_bits;
     s32 offset_phase;
-    register s32 double_phase ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 double_phase;
     s32 y_offset;
     s32 x_offset;
     void *start_point;
@@ -71,7 +71,7 @@ void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *ext
     phase_bits = (u32) phase + 0x800;
     phase_bits <<= 16;
     offset_phase = (s32) phase_bits >> 16;
-    double_phase = offset_phase * 2;
+    double_phase = offset_phase << 1;
     ((S_800A8CA8_0 *)object)->unk_114 = (s8) ((func_800644B8(source->unk_0E + double_phase) + 0x1000) / 128);
     ((S_800A8CA8_0 *)object)->unk_115 = (s8) ((func_800644B8(source->unk_12 + double_phase) + 0x1000) / 128);
     ((S_800A8CA8_0 *)object)->unk_116 = (s8) ((func_800644B8(source->unk_16 + double_phase) + 0x1000) / 128);

@@ -283,7 +283,7 @@ state_case3:
     }
     if (((Rec_D_80082E80 *)actor)->unk_43 < 0x40U) {
         s32 event_index;
-        register s32 event_mode ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        s32 event_mode;
         register void *script_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         event_index = func_800429E4(actor);
