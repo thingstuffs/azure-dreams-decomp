@@ -76,7 +76,7 @@ void func_80046E38(s16 entry_id, u8 *stream)
 
     func_80046D64(stream_start, entry_id);
     {
-        register s32 mode ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        s32 mode;
         u32 state_page;
 
         state_page = 0x80080000;
@@ -87,11 +87,10 @@ void func_80046E38(s16 entry_id, u8 *stream)
 
             mode_mask = 2;
             if (mode != mode_mask) {
-                mode_mask = 0x8000;
+                D_80080A7C = 0x8000;
             } else {
-                mode_mask = 0x4000;
+                D_80080A7C = 0x4000;
             }
-            D_80080A7C = mode_mask;
         }
     }
     D_80081480 = (u8 *)((buffer_start + 3) & ~3);

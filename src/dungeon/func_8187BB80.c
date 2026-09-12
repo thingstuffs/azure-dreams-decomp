@@ -94,8 +94,6 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
         u32 start_x = ((S_8187BB80_0 *)effect_data)->unk_1E.u;
         u32 start_y = ((S_8187BB80_0 *)effect_data)->unk_2A.u;
 
-        ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(start_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_8187BB80_0 *)effect_data)->unk_5E = start_x;
         ((S_8187BB80_0 *)effect_data)->unk_5A = start_x;
         ((S_8187BB80_0 *)effect_data)->unk_66 = start_y;
