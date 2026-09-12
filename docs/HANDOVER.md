@@ -244,6 +244,16 @@ the SLUS SHA-1 gate MATCH after each phase.
   constants, try the swapped arm order). Acceptance 7/7; **102 rows landed, 107 pins off**, then t2 over
   them freed more in 20 rows; 98 touched windows MATCH, SLUS MATCH. Misses worth a lane: a 17-row
   family (one function, 17 overlays) 2 words off where the erased variable serves a second use.
+- **Parked, with evidence: the `$0` pins as an assembler setting.** 59 `register s32 zero
+  ASM_REG("$0")` pins in 46 overlay rows exist only for ASPSX's `ori $rx,$zero,imm` spelling of `li`
+  (agy's earlier finding). maspsx expands `li` itself only for `--aspsx-version` below 2.50
+  (`config_for_aspsx_version`), and rows already carry a per-row `--aspsx-version=2.34`/`2.60`
+  override - so the honest fix may be the file's real ASPSX version as a row flag, not C at all.
+  Two obstacles, why it waits: overlay rows' assembler flags reach maspsx through the gate root's
+  own row tables (`row_asflags` is not in the scorer's `cfg`; testing one version means a row-DB
+  edit and re-export), and 37 of the 46 rows carry a `NON_MATCHING` arm (`zero = 0;`) whose removal
+  changes what the port build compiles, which `landing_refusal` rejects. Test one row first before
+  any tooling.
 - **The scratchpad class (native lane, `work/native_lane/scratchpad/REPORT.md`):** mechanism found
   (combine folds `addu base,K` into `ori` on a constant base; a REAL loop, not m2c's phony goto loop,
   lets loop.c substitute first). One row closed, `dungeon/func_800942BC` - its landing waits for the
