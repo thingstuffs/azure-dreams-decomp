@@ -13,7 +13,6 @@ extern u16 D_80174718;
 
 /* Advance the repeated command stream and apply its direction and action to the actor. */
 s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
-    u8 *saved_sprite = sprite;
     u8 *saved_actor;
     u8 *entry;
     register s32 command ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -27,8 +26,7 @@ s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
 
     entry = D_80174714;
     command = entry[1];
-    command_byte = command & 0xFF;
-    ASM_KEEP_NV(command_byte);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    command_byte = (u8) command;
     if (command_byte == 0) {
         saved_actor = actor;
         ASM_KEEP(saved_actor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -62,19 +60,19 @@ s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
     func_80173E6C();
 
 type_8:
-    func_80171BE0(saved_actor, action_context, saved_sprite, saved_actor);
+    func_80171BE0(saved_actor, action_context, sprite, saved_actor);
     tail_zero = 0;
     ASM_TAILSLOT_PIN_TIED(tail_zero);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80173E78();
 
 type_10:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (*(u8 **)(saved_sprite + 0x2C) != D_80173E94) {
-        *(u8 **)(saved_sprite + 0x2C) = D_80173E94;
-        func_80047784(saved_sprite,
+    if (*(u8 **)(sprite + 0x2C) != D_80173E94) {
+        *(u8 **)(sprite + 0x2C) = D_80173E94;
+        func_80047784(sprite,
                       D_80173E94[((D_80083228 +
                                    *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
-                      *(s8 *)(saved_sprite + 4), command);
+                      *(s8 *)(sprite + 4), command);
     }
     dispatch_actor = saved_actor;
     ASM_KEEP(dispatch_actor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
