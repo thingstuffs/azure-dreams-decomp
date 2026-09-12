@@ -846,8 +846,9 @@ class T:
         a third of the fences the first passes landed stood for one of them, and census.py counts
         a fence like a pin, so a shape that frees a pin without one must be tried before any fence
         (`basesym` never on a SLUS row - that scorer compares object identity)."""
-        real = (natural.candidates(cur, basesym=not slus) + loop_counter_merge_candidates(cur)
-                + dup_after_if_candidates(cur) + dowhile2for_candidates(cur) + narrow_candidates(cur))
+        real = (natural.candidates(cur, basesym=not slus, host=False) + loop_counter_merge_candidates(cur)
+                + dup_after_if_candidates(cur) + dowhile2for_candidates(cur) + narrow_candidates(cur)
+                + natural.host_candidates(cur))    # many per row: after the proven shapes, never ahead of them
         if WIDE:
             real += (fold_load_candidates(cur) + depinject_candidates(cur) + deadstore_candidates(cur)
                      + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)

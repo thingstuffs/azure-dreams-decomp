@@ -1423,16 +1423,118 @@ def splitcursor_candidates(text):
     return out
 
 
+# ------------------------------------------------------------------------------ 9. host (register renames)
+
+HOST_WIDE = __import__("os").environ.get("NATURAL_HOST_WIDE") == "1"   # every register pin, not just the lane's precondition
+REGDECL_RE = re.compile(r"^(?P<i>[ \t]*)register[ \t]+(?P<t>[^;=]*?)\b(?P<v>%s)[ \t]+ASM_REG[ \t]*\([^)]*\)[ \t]*;[ \t]*$" % ID)
+WORDDECL_RE = re.compile(r"^[ \t]*(?:register[ \t]+)?(?P<t>(?:(?:const|volatile|signed|unsigned)[ \t]+)*"
+                         r"(?:s32|u32|int|unsigned|long|M2C_UNK)|[A-Za-z_]\w*[ \t]*\*+)[ \t]*(?P<n>%s)[ \t]*(?:=[^;]*)?;" % ID)
+
+
+def host_candidates(text):
+    """A register-pinned variable renamed onto an existing word-sized variable of its function.
+
+    A native lane on the register-rename class (2026-09-12, work/native_lane/regrename/REPORT.md; the
+    largest cheap class, ~965 `ASM_REG` sites): the pinned variable is usually a short-lived copy or
+    temporary that cse merges away (`make_regs_eqv` heads a class only with a register whose life
+    reaches outside the cse block) or that inherits a pinned neighbour's register as a suggestion
+    (local-alloc.c:1891, global.c's `set_preference`).  Hosting it in a variable the function already
+    uses elsewhere - lazy reuse of a local, very 1997 - gives it a life the allocators treat
+    differently; a fresh block-local never works.  The declaration goes (and with it the pin); `v` is
+    renamed to the host inside its block; a rewrite that would change another pin's text is refused.
+    Hosts: word-sized locals and parameters, those assigned later in `v`'s block first, then
+    declaration order, at most six.  12 rows / 22 pins in the lane; the scorer decides every one.
+    """
+    from pin_census import sites_of
+    t = _T(text)
+    sites = sites_of(text)
+    pinned = set()
+    for s in sites:
+        if s[0] == "reg":
+            m = re.search(r"(%s)\s*$" % ID, text[s[3]:s[4]].split("ASM_REG")[0])
+            if m:
+                pinned.add(m.group(1))
+        elif re.fullmatch(r"\s*%s\s*" % ID, s[2] or ""):
+            pinned.add(s[2].strip())
+    out = []
+    for si, s in enumerate(sites):
+        if s[0] != "reg":
+            continue
+        i = s[5] - 1
+        m = REGDECL_RE.match(t.m[i]) if 0 <= i < len(t.m) else None
+        if not m:
+            continue
+        v = m.group("v")
+        sp = t.span(i)
+        if not sp:
+            continue
+        a, b = sp
+        d, j = 0, b
+        for k in range(i + 1, b + 1):
+            d += t.m[k].count("{") - t.m[k].count("}")
+            if d < 0:
+                j = k
+                break
+        if not HOST_WIDE:
+            # the lane's precondition (its reach: 22 hits on 130 such sites): v meets another pinned
+            # variable - `v = PIN;` (mechanism 1) or `PIN = ... v ...` (mechanism 3).  Without it the
+            # generator fires on ~1,100 rows / ~19,000 candidates and swamps every menu it joins.
+            others = pinned - {v}
+            meets = False
+            for k in range(i + 1, j):
+                am = re.match(r"^[ \t]*(%s)[ \t]*(?:[-+*/%%&|^]|<<|>>)?=(?!=)(.*)$" % ID, t.m[k])
+                if not am:
+                    continue
+                lhs, rhs = am.group(1), am.group(2)
+                if (lhs == v and set(re.findall(ID, rhs)) & others) or (lhs in others and _occ(v).search(rhs)):
+                    meets = True
+                    break
+            if not meets:
+                continue
+        head = "\n".join(t.m[max(0, a - 8):a + 1])
+        hosts = [n for n in _params(t.m, a)
+                 if n not in pinned and n != v
+                 and re.search(r"(?:s32|u32|int|unsigned|long|M2C_UNK|\*)\s*%s\b" % re.escape(n), head)]
+        for k in range(a, b + 1):
+            dm = WORDDECL_RE.match(t.m[k])
+            if dm and dm.group("n") not in pinned and dm.group("n") != v and dm.group("n") not in hosts \
+                    and "ASM_REG" not in t.m[k]:
+                hosts.append(dm.group("n"))
+        later = [h for h in hosts if any(re.match(r"^[ \t]*%s[ \t]*=(?!=)" % re.escape(h), t.m[k]) for k in range(i + 1, j))]
+        hosts = later + [h for h in hosts if h not in later]
+        want = [(x[1], x[2]) for n, x in enumerate(sites) if n != si]
+        for h in hosts[:6 if HOST_WIDE else 4]:
+            rx = _occ(v)
+            edits = {}
+            for k in range(i + 1, j):
+                hits = list(rx.finditer(t.m[k]))
+                if hits:
+                    ln = _nl(t.lines[k])
+                    for hh in reversed(hits):
+                        ln = ln[:hh.start()] + h + ln[hh.end():]
+                    edits[k] = ln
+            cand = t.build(edits, {i})
+            if [(x[1], x[2]) for x in sites_of(cand)] != want:
+                continue            # a kept pin named v: its text would change
+            out.append(("host:%s->%s" % (v, h), cand))
+    return out
+
+
 # ------------------------------------------------------------------------------ the menu
 
 GENERATORS = (dropcopy_candidates, armstore_candidates, ret2break_candidates, ptr2index_candidates,
-              postinc_candidates, gotoloop_candidates, splitcursor_candidates, realloop_candidates)
+              postinc_candidates, gotoloop_candidates, splitcursor_candidates, realloop_candidates,
+              host_candidates)
 
 
-def candidates(text, basesym=True):
-    """Every natural-shape candidate for a text, deduplicated, the input itself excluded."""
+def candidates(text, basesym=True, host=True):
+    """Every natural-shape candidate for a text, deduplicated, the input itself excluded.
+
+    host=False leaves out `host_candidates` (~11 per row on 525 rows): a budgeted menu that puts
+    the natural shapes first (t15/t18) appends them itself, after its own proven shapes."""
     out, seen = [], {text}
-    for gen in GENERATORS + ((basesym_candidates,) if basesym else ()):
+    gens = GENERATORS if host else tuple(g for g in GENERATORS if g is not host_candidates)
+    for gen in gens + ((basesym_candidates,) if basesym else ()):
         try:
             got = gen(text)
         except Exception:                  # a generator bug must cost its own candidates only
