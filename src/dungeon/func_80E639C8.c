@@ -103,7 +103,7 @@ void func_801731C8(void *action, void *motion, void *sprite, void *actor)
         &&kind_7, &&kind_6, &&kind_5
     };
     u8 *item_slot;
-    s32 is_special;
+    s16 is_special;
     s32 next_state;
     s32 state;
     void *target;
@@ -191,7 +191,6 @@ selection_ready:
         s32 special_flag;
 
         special_flag = is_special;
-        ASM_KEEP(special_flag);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_flag != 0) {
             target = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = target;

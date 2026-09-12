@@ -97,7 +97,7 @@ void func_8016ECE4(void) {
     s32 rounded_y;
     u32 mode;
     u32 mode_page;
-    u32 one;
+    u16 one;
     register S_8016ECE4_3 *sprite;
     S_8016ECE4_1 *effect_state;
     S_8016ECE4_5 *source_pos;
@@ -110,7 +110,6 @@ void func_8016ECE4(void) {
     mode_page = 0x80010000;
     ASM_KEEP_NV(mode_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     one = 1;
-    ASM_KEEP_DEP_NV(one, source);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     mode = mode_page;
     mode = *(u8 *)(mode + 0x3611);
     source_pos = ((S_8016ECE4_0 *)source)->unk_08;

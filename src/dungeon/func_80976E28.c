@@ -20,12 +20,10 @@ typedef struct S_80172628_0 {
 s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK secondary_context_arg, s32 force_state_arg) {
     s16 state_type;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    M2C_UNK primary_context = primary_context_arg;
-    M2C_UNK secondary_context = secondary_context_arg;
-    register s32 force_state ASM_REG("$19") = force_state_arg;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 force_state = force_state_arg;
     void *entity = entity_arg;
 
-    result = func_800ADDA0(primary_context, secondary_context, entity, 3, 6, entity + 0x9C);
+    result = func_800ADDA0(primary_context_arg, secondary_context_arg, entity, 3, 6, entity + 0x9C);
     result <<= 0x10;
     state_type = result >> 0x10;
     {
@@ -36,7 +34,6 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
         if ((force_state << 0x10) != 0) {
             goto call_state;
         }
-        ASM_KEEP(force_state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         if (state_type == 1) {
             goto type_one;
         }
@@ -61,9 +58,9 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
         goto done;
 
     call_state:
-        func_80171C34(entity, primary_context, secondary_context, entity);
-        ASM_KEEP(primary_context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(secondary_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
+        ASM_KEEP(primary_context_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(secondary_context_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result = 0;
         goto done;
 

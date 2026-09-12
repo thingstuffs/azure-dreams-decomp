@@ -61,7 +61,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     s32 candidate_angle;
     s32 call_result;
     s32 tile_mask;
-    s32 direction_offset;
+    s16 direction_offset;
     s32 direction;
     s32 tile_type;
     register s32 work_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -285,7 +285,7 @@ loop_head:
         }
 
         {
-            register s32 position_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            s8 position_x;
 
             direction_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
             position_x = U8_AT(position, 0x24);

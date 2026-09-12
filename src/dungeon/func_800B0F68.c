@@ -29,7 +29,7 @@ void func_800B66C8(void *source)
     register s32 tile_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 tile_y;
     s32 angle;
-    s32 effect_count;
+    s16 effect_count;
     s32 angle_step;
     register s32 emitted ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 object_field_a;
@@ -53,7 +53,6 @@ void func_800B66C8(void *source)
 
     emitted = 0;
     effect_count = (rand() & 7) | 4;
-    ASM_KEEP(effect_count);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     angle_step = 0x1000 / effect_count;
     angle = rand();
     object_field_a = *(u16 *)((u8 *)object + 0xA);

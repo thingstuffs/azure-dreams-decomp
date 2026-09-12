@@ -53,7 +53,6 @@ void func_80046E38(s16 entry_id, u8 *stream)
     DrawSync(0);
 
     shifted_id = entry_id << 16;
-    ASM_KEEP_NV(shifted_id);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     table_base = (u8 *)D_8006E7F0;
     table_offset = shifted_id >> 14;
     entry_slot = (Info80046E38 **)(table_offset + (u32)table_base);
@@ -76,17 +75,16 @@ void func_80046E38(s16 entry_id, u8 *stream)
 
     func_80046D64(stream_start, entry_id);
     {
-        s32 mode;
         u32 state_page;
 
         state_page = 0x80080000;
         ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-        mode = *(u8 *)(state_page + 0x2E6A);
+        shifted_id = *(u8 *)(state_page + 0x2E6A);
         {
             s32 mode_mask;
 
             mode_mask = 2;
-            if (mode != mode_mask) {
+            if (shifted_id != mode_mask) {
                 D_80080A7C = 0x8000;
             } else {
                 D_80080A7C = 0x4000;

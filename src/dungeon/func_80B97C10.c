@@ -50,7 +50,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   u8 *state = (u8 *) (&D_80083460);
   s32 actor_flags;
   s32 random_turn;
-  s32 limit_turn;
+  s16 limit_turn;
   s32 angle;
   u16 state_flags;
   void *target_record;
@@ -271,7 +271,6 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     if (turn_index >= 3)
     {
       s32 turn_limited = limit_turn;
-      ASM_KEEP_NV(turn_limited);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       if (turn_limited)
       {
         goto strip_path;

@@ -27,15 +27,13 @@ extern u8 D_80175EA8[];
 
 /* Select and start an actor action based on the target delta. */
 s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *visual_data, void *actor) {
-    register s32 saved_action_param ASM_REG("$22") = action_param;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 target_delta;
-    s32 action_mode;
+    s16 action_mode;
     u16 pending_amount;
     register u16 action_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 status;
     u16 stored_amount;
 
-    ASM_KEEP(saved_action_param);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     status = *(volatile u8 *)((u8 *)actor + 0x71);
     {
         S_80171F9C_0 *visual = visual_data;
@@ -83,13 +81,13 @@ check_ready:
         if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
-        func_800C7930((u8 *)actor - 0x20, saved_action_param, 8, 0x300);
+        func_800C7930((u8 *)actor - 0x20, action_param, 8, 0x300);
         if ((func_800A2B5C(actor) << 16) != 0) {
             return -1;
         }
 
         {
-            register s32 selected_mode ASM_REG("$3") = action_mode;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 selected_mode = action_mode;
             action_state->unk_9B.as_s8 = 0;
             if (selected_mode == 1) {
                 action_state->unk_8C = 0;

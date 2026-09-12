@@ -97,58 +97,49 @@ extern u8 D_80174560[];
 /* Update actor actions, facing, and animation according to dungeon state. */
 void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *status_in)
 {
-    void *actor;
-    void *context;
-    register void *sprite ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *status;
     u8 *anim_table;
     s32 tile_record;
     s32 direction_aux;
     u32 initial_flags = D_80083462;
 
-    actor = actor_in;
-    context = context_in;
-    sprite = sprite_in;
     status = status_in;
 
     if (initial_flags & 0x1000) {
-        ((S_80170E5C_0 *)actor)->unk_9A = 0xE;
-        func_80171B68(actor, context, sprite, status);
+        ((S_80170E5C_0 *)actor_in)->unk_9A = 0xE;
+        func_80171B68(actor_in, context_in, sprite_in, status);
         return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((S_80170E5C_1 *)status)->unk_25 == 0) {
-        func_800AA79C(actor, context, sprite, status);
-        if (((S_80170E5C_2 *)sprite)->unk_2C == D_80174538) {
+        func_800AA79C(actor_in, context_in, sprite_in, status);
+        if (((S_80170E5C_2 *)sprite_in)->unk_2C == D_80174538) {
             return;
         }
-        (*(void * *)((u8 *)sprite + 0x2C)) = D_80174530;
-        func_80047784(sprite,
+        (*(void * *)((u8 *)sprite_in + 0x2C)) = D_80174530;
+        func_80047784(sprite_in,
             D_80174530[((D_80083228 + ((S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
             0);
         return;
     }
 
     if (((S_80170E5C_1 *)status)->unk_1C & 0x200) {
-        if (((S_80170E5C_2 *)sprite)->unk_2C == D_80174538) {
-            ((S_80170E5C_0 *)actor)->unk_9A = 0xD;
-            ((S_80170E5C_0 *)actor)->unk_9B = 1;
-            ((S_80170E5C_0 *)actor)->unk_8C = 0;
+        if (((S_80170E5C_2 *)sprite_in)->unk_2C == D_80174538) {
+            ((S_80170E5C_0 *)actor_in)->unk_9A = 0xD;
+            ((S_80170E5C_0 *)actor_in)->unk_9B = 1;
+            ((S_80170E5C_0 *)actor_in)->unk_8C = 0;
             ((S_80170E5C_1 *)status)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor, context, sprite, D_80174530)) {
+        if (func_800AA924(actor_in, context_in, sprite_in, D_80174530)) {
             return;
         }
     }
 
     if (!(D_80083462 & 0x2000)) {
         if (((S_80170E5C_1 *)status)->unk_1C & 0x100) {
-            func_800AA258(actor, context, sprite, status);
+            func_800AA258(actor_in, context_in, sprite_in, status);
             return;
         }
 
@@ -156,47 +147,47 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
             s32 next_state;
             s32 actor_state;
 
-            actor_state = ((S_80170E5C_0 *)actor)->unk_9A;
+            actor_state = ((S_80170E5C_0 *)actor_in)->unk_9A;
             next_state = 0xE;
 
             if (actor_state != next_state) {
                 anim_table = D_80174520;
-                if (((S_80170E5C_2 *)sprite)->unk_2C != anim_table) {
-                    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-                    func_80047784(sprite,
+                if (((S_80170E5C_2 *)sprite_in)->unk_2C != anim_table) {
+                    (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
+                    func_80047784(sprite_in,
                         anim_table[((D_80083228 + ((S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7],
                         0);
                 }
-                ((S_80170E5C_0 *)actor)->unk_9A = next_state;
+                ((S_80170E5C_0 *)actor_in)->unk_9A = next_state;
             }
         }
 
-        ((S_80170E5C_0 *)actor)->unk_98 &= 0xFFF3;
+        ((S_80170E5C_0 *)actor_in)->unk_98 &= 0xFFF3;
         if (((S_80170E5C_1 *)status)->unk_64 != 0) {
-            if (func_800AA6B4(actor, context, sprite, D_80174548)) {
+            if (func_800AA6B4(actor_in, context_in, sprite_in, D_80174548)) {
                 return;
             }
         }
 
         if (((S_80170E5C_1 *)status)->unk_1C & 0x80000) {
-            func_800AA888(actor, context, sprite, status);
-            func_801737DC(actor, context, sprite, status);
+            func_800AA888(actor_in, context_in, sprite_in, status);
+            func_801737DC(actor_in, context_in, sprite_in, status);
             return;
         }
 
         if ((s16)func_800A1C58(status) != 0) {
-            func_800AAB10(actor, context, sprite, status);
+            func_800AAB10(actor_in, context_in, sprite_in, status);
         }
     }
 
-    tile_record = func_8009FB34(((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v);
-    ((S_80170E5C_2 *)sprite)->unk_26 = tile_record;
+    tile_record = func_8009FB34(((S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v);
+    ((S_80170E5C_2 *)sprite_in)->unk_26 = tile_record;
 
     if (((S_80170E5C_1 *)status)->unk_6D > 0) {
         if (((S_80170E5C_1 *)status)->unk_1C & 0x20) {
             goto special_cleanup;
         }
-        if (((S_80170E5C_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170E5C_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto ordinary_cleanup;
         }
         if (!(((S_80170E5C_1 *)status)->unk_46 & 0x8000)) {
@@ -206,7 +197,7 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
                     return;
                 }
             }
-            if ((s16)func_80173E48(actor, context, sprite, 0) == 0) {
+            if ((s16)func_80173E48(actor_in, context_in, sprite_in, 0) == 0) {
                 return;
             }
             ((S_80170E5C_1 *)status)->unk_46 |= 0x4000;
@@ -234,8 +225,8 @@ void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *stat
         }
 
 handler_case:
-        if ((s16)func_80171E10(actor, context, sprite, status) == 0) {
-            func_80171FD4(actor, context, sprite, status);
+        if ((s16)func_80171E10(actor_in, context_in, sprite_in, status) == 0) {
+            func_80171FD4(actor_in, context_in, sprite_in, status);
         }
         return;
 
@@ -247,13 +238,13 @@ movement_case:
 
             if (movement_flags >= 0) {
                 ((S_80170E5C_1 *)status)->unk_14 = movement_flags | 0x80000000;
-                ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30(actor) & 7) << 9;
+                ((S_80170E5C_1 *)status)->unk_2A.u += (func_800A6D30(actor_in) & 7) << 9;
             }
         }
-        if ((s16)func_801720EC(actor, context, sprite, status) != 0) {
+        if ((s16)func_801720EC(actor_in, context_in, sprite_in, status) != 0) {
             return;
         }
-        func_8017236C(actor, context, sprite, status);
+        func_8017236C(actor_in, context_in, sprite_in, status);
         return;
 
 coords_case:
@@ -263,7 +254,7 @@ coords_case:
             s32 direction;
 
             direction = func_800A0818(
-                ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
+                ((S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v,
                 ((S_80170E5C_4 *)origin)->unk_24, ((S_80170E5C_4 *)origin)->unk_25,
                 &direction_aux);
             active_actor = D_800814A8;
@@ -278,11 +269,11 @@ special_cleanup:
         return;
 
 aaf_cleanup:
-        func_800AAF00(actor, context, sprite, D_80174560, func_80170E5C);
+        func_800AAF00(actor_in, context_in, sprite_in, D_80174560, func_80170E5C);
         return;
 
 ordinary_cleanup:
-        func_80171420(actor, context, sprite, status);
+        func_80171420(actor_in, context_in, sprite_in, status);
         return;
     } else if (!(((S_80170E5C_1 *)status)->unk_1C & 0x2000)) {
         s32 record_index = (s8)tile_record;
@@ -291,11 +282,11 @@ ordinary_cleanup:
             if (!(((S_80170E5C_1 *)status)->unk_1C & 0x430)) {
                 u8 *origin = D_80082E80;
 
-                if ((s16)func_8009FD7C(((S_80170E5C_2 *)sprite)->unk_24.at00.v,
-                        ((S_80170E5C_2 *)sprite)->unk_24.at01.v, ((S_80170E5C_4 *)origin)->unk_24,
+                if ((s16)func_8009FD7C(((S_80170E5C_2 *)sprite_in)->unk_24.at00.v,
+                        ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v, ((S_80170E5C_4 *)origin)->unk_24,
                         ((S_80170E5C_4 *)origin)->unk_25) != 0) {
                     ((S_80170E5C_1 *)status)->unk_2A.s = func_800A0818(
-                        ((S_80170E5C_2 *)sprite)->unk_24.at00.v, ((S_80170E5C_2 *)sprite)->unk_24.at01.v,
+                        ((S_80170E5C_2 *)sprite_in)->unk_24.at00.v, ((S_80170E5C_2 *)sprite_in)->unk_24.at01.v,
                         ((S_80170E5C_4 *)origin)->unk_24, ((S_80170E5C_4 *)origin)->unk_25,
                         &direction_aux);
                 }
@@ -306,17 +297,17 @@ ordinary_cleanup:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if (((S_80170E5C_2 *)sprite)->unk_14 & 0x40) {
+    if (((S_80170E5C_2 *)sprite_in)->unk_14 & 0x40) {
         return;
     }
     anim_table = D_80174520;
-    if (((S_80170E5C_2 *)sprite)->unk_2C == anim_table) {
+    if (((S_80170E5C_2 *)sprite_in)->unk_2C == anim_table) {
         return;
     }
 
 update_table:
-    (*(void * *)((u8 *)sprite + 0x2C)) = anim_table;
-    func_80047784(sprite,
+    (*(void * *)((u8 *)sprite_in + 0x2C)) = anim_table;
+    func_80047784(sprite_in,
         *(u8 *)((u32)(((D_80083228 + ((S_80170E5C_1 *)status)->unk_2A.s + 0x100) >> 9) & 7) +
             (u32)anim_table),
         0);

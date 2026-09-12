@@ -85,7 +85,7 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     u32 index1;
     u32 index2;
     u32 index3;
-    s32 height0;
+    s16 height0;
     s32 height1;
     s32 height2;
     s32 height3;
@@ -183,7 +183,6 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     height0 = U16((u8 *)vert0_ref, 4);
                     height_bias = ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
                     height0 = height0 - height_bias;
-                    ASM_USE2_NV(height0, height0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     ASM_USE2_NV(height0, height0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     vert3_ref_y = S16((u8 *)vert3_ref_y, 2);
                     xy2 = xy2 + cell_x;

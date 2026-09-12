@@ -54,7 +54,7 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   s32 flag;
   u8 *saved;
   u8 *text;
-  s32 code;
+  s16 code;
   s32 delta;
   s16 amount;
   s16 range;
@@ -68,7 +68,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   flag = total < 1;
   ASM_KEEP_NV(flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   blocked = flag;
-  ASM_KEEP_NV(blocked);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   if (code == 0)
   {
     goto common;

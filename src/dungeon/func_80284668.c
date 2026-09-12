@@ -10,15 +10,15 @@ extern u8 D_800EA000[];
 
 /* Fill the third field of each grid cell in a rectangle with the given value. */
 void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
-    s32 rows_left;
-    register u16 cell_value ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 span_left ASM_REG("$7") = height;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 width_shifted ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 rows_left;
+    u16 cell_value;
+    s32 span_left = height;
+    s32 width_shifted;
     s32 start_x_shifted;
     s32 x;
     register s32 row_y;
     s16 *grid_settings;
-    s32 next_rows_left;
+    s16 next_rows_left;
     s32 cell_index;
     u16 *cell;
 
@@ -43,8 +43,10 @@ void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
                     cell = (u16 *)(D_800EA000 + cell_index * 6);
                     cell[2] = cell_value;
                 } while (span_left > 0);
+                next_rows_left = rows_left - 1;
+            } else {
+                next_rows_left = rows_left - 1;
             }
-            next_rows_left = rows_left - 1;
             rows_left = next_rows_left;
             ASM_KEEP(next_rows_left);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             y++;

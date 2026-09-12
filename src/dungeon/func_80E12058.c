@@ -68,9 +68,6 @@ void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src)
     Copy24 *data_src = initial_data;
     void *render_ref = render_src;
 
-    ASM_KEEP_NV(direction_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(data_src);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(render_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     object = func_8003FC64(0x312);
     if (object != NULL) {
         goto allocated;

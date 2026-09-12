@@ -24,12 +24,12 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
     s32 search_radius;
     s32 facing_high;
     s32 facing_offset;
-    register u16 tile_index_u16 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 tile_index_u16;
     s32 initial_x_steps;
     s32 x;
     s32 y;
     s32 failures;
-    register s32 tile_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 tile_index;
     s8 tile;
     s32 forward_steps;
     s32 sides_left;

@@ -116,7 +116,7 @@ void func_80172C18(State *state, Position *pos, Actor *actor, Entity *ent)
     };
     u8 *item_slot;
     s32 state_index;
-    s32 use_main_link;
+    s16 use_main_link;
     u8 *actor_parts;
     SubActor *sub_actor;
     ActorBase *actor_base;
@@ -208,7 +208,6 @@ have_slot:
         state_flags &= 0xFF7F;
         state->flags98 = state_flags;
         main_link_test = use_main_link;
-        ASM_KEEP(main_link_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (main_link_test) {
             link_base = (u8 *)D_800814A8;
             ent->f60 = link_base;

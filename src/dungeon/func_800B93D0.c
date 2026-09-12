@@ -49,13 +49,12 @@ extern u8 *D_800E3D7C[];
 
 /* Applies an action to a target or held item and updates the action counter. */
 s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
-    register u8 *action_record = action;
     u8 *state;
     u8 *item;
-    register s32 action_value ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 action_value;
     register s32 value;
     u32 choice_index;
-    register s32 call_context ASM_REG("$5") = context;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 call_context = context;
     s32 value_arg;
     register u8 *data_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
@@ -63,21 +62,21 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     u8 item_type;
 
     if (action_kind == 0xD) {
-        return func_80098864(action_record, call_context);
+        return func_80098864(action, call_context);
     }
 
     state = D_800E3D7C[0];
     if (target == (u32)state) {
-        ((S_800BEB30_0 *)state)->unk_110 = action_record;
+        ((S_800BEB30_0 *)state)->unk_110 = action;
         func_8008D344(state, D_80083780, D_80082E80, state);
-        action_record[3] &= (u8)~0x20;
+        action[3] &= (u8)~0x20;
         return 0;
     }
 
     if (target <= 0x9FFFFFFF) {
-        func_800A6480(target, action_record, action_kind);
+        func_800A6480(target, action, action_kind);
         if (func_800AD6FC(target, D_800DDE84[((Rec_D_800E3D7C *)target)->unk_10.at03_u8.v] & 3, 0) == 0) {
-            func_800A5F38(target, action_record);
+            func_800A5F38(target, action);
             return 1;
         }
         goto decrement;
@@ -85,10 +84,10 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
 
     item = ((S_800BEB30_0 *)state)->unk_4C;
     if (item != 0) {
-        if (!(action_record[3] & 0x20)) {
+        if (!(action[3] & 0x20)) {
             ((S_800BEB30_0 *)state)->unk_114 = 0x202080;
             func_8008D368(state, D_80083780, D_80082E80, D_800DD148, 2);
-            action_record[3] |= 0x20;
+            action[3] |= 0x20;
             return 0;
         }
 
@@ -145,6 +144,6 @@ message:
 decrement:
     counter_base = (u8 *)&D_80083460;
     ((S_800BEB30_2 *)counter_base)->unk_0A--;
-    func_80098B38(action_record);
+    func_80098B38(action);
     return 1;
 }

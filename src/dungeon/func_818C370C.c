@@ -75,7 +75,7 @@ s32 func_818C370C(S_818C370C_2 *owner, void *source_data) {
     S_818C370C_1 *state;
     void *object;
     void *object_data;
-    register s32 object_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 object_addr;
 
     object = func_8003FC64(0x212);
     if (object != 0) {

@@ -84,7 +84,7 @@ void func_801729D4(void *action, void *motion, void *sprite, void *actor)
     };
     u16 position[3];
     u8 *animation;
-    s32 reuse_target;
+    s16 reuse_target;
     s32 reuse_test;
     s32 state;
     s32 anim_kind;
@@ -172,7 +172,6 @@ selected:
     }
     ((S_801729D4_0 *)action)->unk_98 &= 0xFF7F;
     reuse_test = reuse_target;
-    ASM_KEEP(reuse_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (reuse_test != 0) {
         target_root = D_800814A8;
         ((S_801729D4_1 *)actor)->unk_60 = target_root;

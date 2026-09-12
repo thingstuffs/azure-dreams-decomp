@@ -65,7 +65,7 @@ extern u8 D_80045C34[9];
 /* Creates an object with the supplied identifier, data, and visual template. */
 s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
     S_818C32F4_3 *template_visual = visual_template;
-    register s32 object_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s16 object_result;
     s32 copy_word_0;
     s32 copy_word_1;
     s32 copy_word_2;

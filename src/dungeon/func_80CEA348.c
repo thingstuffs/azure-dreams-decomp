@@ -63,7 +63,6 @@ extern u16 D_800DCEBC[];
 /* Resolves action targets, updates the actor position, and sets the follow-up state. */
 void func_80173B48(void *action_input, s32 x_offset_input, void *position_input, void *actor_input)
 {
-    register void *position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *actor = actor_input;
     s32 remaining_steps;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 next_x;
@@ -75,7 +74,6 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
 
 
     ((S_80173B48_0 *)actor)->unk_71 &= 0x7F;
-    position = position_input;
     if (D_80083462 & 0x2000) {
         goto done;
     }
@@ -96,8 +94,8 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
 
     if (((S_80173B48_0 *)actor)->unk_48 == 15) {
         ((S_80173B48_0 *)actor)->unk_60 =
-            func_800A05A4(actor, ((S_80173B48_2 *)position)->unk_24,
-                          ((S_80173B48_2 *)position)->unk_25, ((S_80173B48_0 *)actor)->unk_2A, 10);
+            func_800A05A4(actor, ((S_80173B48_2 *)position_input)->unk_24,
+                          ((S_80173B48_2 *)position_input)->unk_25, ((S_80173B48_0 *)actor)->unk_2A, 10);
         ((S_80173B48_1 *)action_input)->unk_AC = 0;
         if (((S_80173B48_0 *)actor)->unk_60 == 0) {
             goto initial_null;
@@ -105,44 +103,44 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
 
         {
             s16 travel_steps = func_8009FD40(
-                ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position);
+                ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
             ((S_80173B48_1 *)action_input)->unk_AA = travel_steps;
-            func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
+            func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
                           ((S_80173B48_0 *)actor)->unk_60);
         }
 
         if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
             remaining_steps = 10;
-            saved_x = ((S_80173B48_2 *)position)->unk_24;
-            saved_y = ((S_80173B48_2 *)position)->unk_25;
+            saved_x = ((S_80173B48_2 *)position_input)->unk_24;
+            saved_y = ((S_80173B48_2 *)position_input)->unk_25;
 
 loop:
             next_x = ((S_80173B48_0 *)actor)->unk_72;
             next_y = ((S_80173B48_0 *)actor)->unk_73;
-            func_8009C12C(actor, position, ((S_80173B48_0 *)actor)->unk_2A,
+            func_8009C12C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A,
                           ((S_80173B48_1 *)action_input)->unk_AA);
             remaining_steps -= ((S_80173B48_1 *)action_input)->unk_AA;
             if (remaining_steps == 0) {
                 goto restore_coords;
             }
 
-            ((S_80173B48_2 *)position)->unk_24 = next_x;
-            ((S_80173B48_2 *)position)->unk_25 = next_y;
+            ((S_80173B48_2 *)position_input)->unk_24 = next_x;
+            ((S_80173B48_2 *)position_input)->unk_25 = next_y;
             ((S_80173B48_0 *)actor)->unk_60 =
-                func_800A05A4(actor, ((S_80173B48_2 *)position)->unk_24,
-                              ((S_80173B48_2 *)position)->unk_25,
+                func_800A05A4(actor, ((S_80173B48_2 *)position_input)->unk_24,
+                              ((S_80173B48_2 *)position_input)->unk_25,
                               ((S_80173B48_0 *)actor)->unk_2A, (s16)remaining_steps);
             if (((S_80173B48_0 *)actor)->unk_60 == 0) {
                 goto loop_null;
             }
 
-            ((S_80173B48_2 *)position)->unk_24 = saved_x;
-            ((S_80173B48_2 *)position)->unk_25 = saved_y;
+            ((S_80173B48_2 *)position_input)->unk_24 = saved_x;
+            ((S_80173B48_2 *)position_input)->unk_25 = saved_y;
             {
                 s16 travel_steps = func_8009FD40(
-                    ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position);
+                    ((S_80173B48_3_pre *)(((S_80173B48_0 *)actor)->unk_60))[-1].unk_00, position_input);
                 ((S_80173B48_1 *)action_input)->unk_AA = travel_steps;
-                func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
+                func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, travel_steps,
                               ((S_80173B48_0 *)actor)->unk_60);
             }
             if (((S_80173B48_0 *)actor)->unk_14 & 0x04000000) {
@@ -153,16 +151,16 @@ loop:
         goto render;
 
 loop_null:
-        func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+        func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
         ((S_80173B48_1 *)action_input)->unk_AA = 1;
 
 restore_coords:
-        ((S_80173B48_2 *)position)->unk_24 = saved_x;
-        ((S_80173B48_2 *)position)->unk_25 = saved_y;
+        ((S_80173B48_2 *)position_input)->unk_24 = saved_x;
+        ((S_80173B48_2 *)position_input)->unk_25 = saved_y;
         goto render;
 
 initial_null:
-        func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+        func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
         ((S_80173B48_1 *)action_input)->unk_AA = 1;
 
 render:
@@ -170,16 +168,16 @@ render:
             u32 direction_offset = (((S_80173B48_0 *)actor)->unk_6A >> 8) & 0xE;
             func_800C78A0(
                 (u8 *)actor - 0x20,
-                (((S_80173B48_2 *)position)->unk_24 << 6) +
+                (((S_80173B48_2 *)position_input)->unk_24 << 6) +
                     ((s16)*(u16 *)((u8 *)D_800DCEAC + direction_offset) >> 1) + 0x20,
-                (((S_80173B48_2 *)position)->unk_25 << 6) +
+                (((S_80173B48_2 *)position_input)->unk_25 << 6) +
                     ((s16)*(u16 *)((u8 *)D_800DCEBC + direction_offset) >> 1) + 0x20,
                 ((S_80173B48_0 *)actor)->unk_88, 8, 0x300);
         }
         goto final_state;
     }
 
-    func_8009C93C(actor, position, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
+    func_8009C93C(actor, position_input, ((S_80173B48_0 *)actor)->unk_2A, 1, 0);
     ((S_80173B48_1 *)action_input)->unk_AA = 1;
 
 final_state:

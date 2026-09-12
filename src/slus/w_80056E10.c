@@ -215,7 +215,7 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
     Voice *voice;
     u8 *program_data;
     u16 *sample_sizes;
-    s32 start_note;
+    s16 start_note;
     s16 voice_idx;
     s32 entry_idx;
     s32 sample_offset;
@@ -307,7 +307,6 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                 }
                 if (channel->f50 != 0) {
                     glide_note = channel->f5C & 0x7F;
-                    ASM_KEEP_NV(glide_note);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     start_note = (u8) glide_note;
                     prev_note = channel->f5C;
                     channel->f52 = 0;
@@ -330,7 +329,6 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                 if (channel->f50 != 0) {
                     u32 prev_note;
                     glide_note = channel->f5C & 0x7F;
-                    ASM_KEEP_NV(glide_note);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     start_note = (u8) glide_note;
                     prev_note = channel->f5C;
                     channel->f52 = 0;

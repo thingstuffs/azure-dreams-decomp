@@ -109,7 +109,7 @@ void func_801728B4(void *actor, void *motion, void *sprite, void *action) {
     s32 action_id;
     s32 action_value;
     s32 effect_anim;
-    s32 use_player;
+    s16 use_player;
     s32 target_x;
     s32 target_y;
     u16 saved_pos[4];
@@ -199,7 +199,6 @@ block_21:
     {
         s32 player_target = use_player;
 
-        ASM_KEEP(player_target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (player_target == 0) {
             goto block_24;
         }

@@ -197,10 +197,9 @@ selection_ready:
         }
         actor->unk_98 &= 0xFF7F;
         {
-            s32 player_target;
+            s16 player_target;
 
             player_target = use_player;
-            ASM_KEEP(player_target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (player_target != 0) {
                 target = D_800814A8;
                 actor_data->unk_60 = target;

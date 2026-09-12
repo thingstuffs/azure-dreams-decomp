@@ -23,6 +23,7 @@ extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern void func_800B8D64(s16, s16, s16);
 extern void func_800B8EA8(void *, s16, s16, s16, ShortVec *, s32, s32, s32, s32);
+extern u8 D_80080000[];
 
 
 typedef struct S_800B8830_0_pre {
@@ -85,7 +86,7 @@ typedef struct S_800B8830_5 {
 typedef struct S_800B8830_6 {
     u8 pad_00[0x3228];
     s16 unk_3228;
-} S_800B8830_6;   /* page_base in func_800B8830 */
+} S_800B8830_6;   /* D_80080000 in func_800B8830 */
 
 
 typedef struct S_800B8830_8 {
@@ -121,7 +122,6 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
     s16 state;
     s16 one;
     void *source;
-    register void *page_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_800B8830_4 *pos_record;
     s32 curve;
     u16 render_flags;
@@ -136,7 +136,6 @@ void func_800B8830(void *motion, S_800B8830_3 *coords, S_800B8830_1 *render) {
             }
             goto done;
         }
-        page_base = (void *)0x80080000;
         if (state == 2) {
             goto state_two;
         }
@@ -197,7 +196,7 @@ state_two:
     target_pos[1] = ((S_800B8830_5 *)pos_record)->unk_04;
     target_pos[2] = (((S_800B8830_0 *)motion)->unk_32 - 0x50) << 16;
 
-    entry_addr = ((((S_800B8830_6 *)page_base)->unk_3228 +
+    entry_addr = ((((S_800B8830_6 *)D_80080000)->unk_3228 +
               ((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_s16 + 0x100) >> 7) & 0x1C;
     entry_addr += (s32)D_800E3D18;
     entry = ((S_800B8830_8 *)((void *)entry_addr))->unk_00;

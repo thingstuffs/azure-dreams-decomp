@@ -67,7 +67,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     u8 *order_table;
     void *draw_page;
     S_80024A5C_3 *packet_page;
-    register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 offset_y;
     void *call_pos;
     s32 call_data;
     void *call_order_table;

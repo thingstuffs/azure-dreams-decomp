@@ -52,15 +52,14 @@ typedef struct S_801740DC_6 {
 /* Updates actor state, directional animation, and the shared transition counter. */
 void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *entity_in)
 {
-    register void *actor ASM_REG("$18") = actor_in;
     register s32 actor_index ASM_REG("$19") = actor_index_in;
     register void *target ASM_REG("$17") = target_in;
-    register void *entity ASM_REG("$16") = entity_in;
+    void *entity = entity_in;
     s32 state;
     s32 entity_flags;
     s32 direction;
     u8 *shared_state;
-    state = ((S_801740DC_0 *)actor)->unk_9B;
+    state = ((S_801740DC_0 *)actor_in)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -106,11 +105,10 @@ state_one:
     if (((S_801740DC_4 *)shared_state)->unk_02 & 0x1000) {
         goto done;
     }
-    ASM_CLOBBER("$4");
     ASM_CLOBBER("$5");
     ASM_CLOBBER("$6");
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
-        if (func_800AA6B4(actor, actor_index, target, 0) != 0) {
+        if (func_800AA6B4(actor_in, actor_index, target, 0) != 0) {
             goto done;
         }
     }
@@ -119,12 +117,12 @@ state_one:
     }
     entity_flags = ((Rec_D_800E3D7C *)entity)->unk_1C.as_s32;
     if (entity_flags & 0x100) {
-        func_800AA258(actor, actor_index, target, entity);
+        func_800AA258(actor_in, actor_index, target, entity);
         goto done;
     }
     if (entity_flags & 0x80000) {
-        func_800AA888(actor, actor_index, target, entity);
-        func_801743E8(actor, actor_index, target, entity);
+        func_800AA888(actor_in, actor_index, target, entity);
+        func_801743E8(actor_in, actor_index, target, entity);
         goto done;
     }
     if (((Rec_D_800E3D7C *)entity)->unk_6D.as_s8 == 0) {
@@ -135,8 +133,10 @@ state_one:
                 (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) << 16) != 0) {
             goto done;
         }
+        func_800A9A0C(entity);
+    } else {
+        func_800A9A0C(entity);
     }
-    func_800A9A0C(entity);
     func_800A9A04(entity);
     if (((Rec_D_800E3D7C *)entity)->unk_24.at01_u8.v == 0) {
         goto done;
@@ -147,7 +147,7 @@ state_one:
     ((S_801740DC_4 *)shared_state)->unk_0A++;
 
 increment_state:
-    ((S_801740DC_0 *)actor)->unk_9B++;
+    ((S_801740DC_0 *)actor_in)->unk_9B++;
     goto done;
 
 state_two:
@@ -160,7 +160,7 @@ state_two:
         shared_counter = (u8 *)&D_80083460;
         ((S_801740DC_6 *)shared_counter)->unk_0A--;
     }
-    ((S_801740DC_0 *)actor)->unk_8C = &D_80171728;
+    ((S_801740DC_0 *)actor_in)->unk_8C = &D_80171728;
 
 done:
     return;

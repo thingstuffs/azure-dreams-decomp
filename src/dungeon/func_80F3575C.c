@@ -88,7 +88,7 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
 {
     u16 saved_pos[3];
     register u8 *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 use_player;
+    s16 use_player;
     void *target;
     s32 target_x;
     s32 target_y;
@@ -143,7 +143,6 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
             {
                 s32 is_player_target = use_player;
 
-                ASM_KEEP(is_player_target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 if (is_player_target != 0) {
                     target = D_800814A8;
                     ((S_80172F5C_1 *)actor)->unk_60 = target;

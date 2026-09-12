@@ -41,11 +41,10 @@ extern u8 D_80083160[];
 /* Apply tile type flags to a map rectangle and mark adjacent tiles where required. */
 void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
 {
-    register s16 held_width ASM_REG("$16") = width;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 tile_y;
     s32 tile_x;
     s32 tiles_base;
-    s32 row_width;
+    s16 row_width;
     s32 col;
     s32 row;
     u32 tile_id;
@@ -71,7 +70,7 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
                 col = 0;
                 if (width > 0) {
                     tile_y = start_y + row;
-                    row_width = held_width;
+                    row_width = width;
                     do {
                         tile = (void *)(tiles_base + (((tile_y << map->unk_14) + start_x + col) * 6));
                         tile_id = ((S_80016BF0_2 *)tile)->unk_00;
@@ -119,7 +118,6 @@ void func_80016BF0(s16 start_x, s16 start_y, s16 width, s16 height)
             } while (row < height);
         }
     }
-    ASM_KEEP(held_width);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 8-byte leaf frame preserves width in pinned s0; the body

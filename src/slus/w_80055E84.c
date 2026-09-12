@@ -79,8 +79,8 @@ void func_80055E84(S_80055E84 *voice)
       phase = voice->unk43;
       if (phase < 0)
       {
-        register s32 double_phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        s32 wave;
+        s8 double_phase;
+        s8 wave;
         s32 phase_mag = -phase;
         double_phase = phase_mag << 1;
         wave = double_phase;
@@ -96,8 +96,8 @@ void func_80055E84(S_80055E84 *voice)
       }
       else
       {
-        register s32 double_phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-        s32 wave;
+        s8 double_phase;
+        s8 wave;
         s32 phase_mag = phase;
         double_phase = phase_mag << 1;
         wave = double_phase;

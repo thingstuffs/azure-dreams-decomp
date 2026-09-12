@@ -7,20 +7,20 @@ typedef struct {
 } DungeonInfo;
 
 extern u8 D_800E9FFA[];
+extern u8 D_8008333C;
 
 /* Writes the corners and edges of a rectangular border in the dungeon tile grid. */
 void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_value_base) {
     s16 *tile;
     s16 *opposite_tile;
-    register u8 *info_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register DungeonInfo *info ASM_REG("$25");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *info_page;
+    DungeonInfo *info;
     register s32 tile_value ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 bottom_row;
     s16 x;
     s16 y;
     info_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(info_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    info = (DungeonInfo *)(info_page + 0x333c);
+    info = (DungeonInfo *)((u8 *)&D_8008333C);
     bottom_row = bottom_y;
     tile = (s16 *)(D_800E9FFA + (((((s16)top_y - 1) << info->shift) + left_x) * 6));
     tile[0] = 0xE;

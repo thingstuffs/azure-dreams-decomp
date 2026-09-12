@@ -58,7 +58,7 @@ void func_8001E18C(void)
     u8 item_subtype;
     register s32 count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 crystal_pending;
-    s32 category18_pending;
+    s16 category18_pending;
     s32 slot_limit;
     s32 spawn_index;
     s32 special_flag;
@@ -174,7 +174,6 @@ main_loop:
                 }
 
                 special_flag = category18_pending;
-                ASM_KEEP_NV(special_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 if (special_flag != 0) {
                     u32 item_flags;
 

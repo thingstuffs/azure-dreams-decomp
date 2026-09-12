@@ -27,7 +27,7 @@ s32 func_800CCC20(void *arg0, s16 arg1)
     s32 index;
     s32 scaled_index;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 field;
-    register s32 count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s8 count;
     s32 flags;
     u8 *map_base;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *item_base;

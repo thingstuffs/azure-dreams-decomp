@@ -89,7 +89,7 @@ void func_80172A40(void *owner_input, void *motion_input, void *actor_input, voi
     register void *motion ASM_REG("$21") = motion_input;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$18") = actor_input;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *object = object_input;
-    s32 special;
+    s16 special;
     register u8 *item_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 slot_kind;
@@ -178,7 +178,6 @@ selected:
         ((S_80172A40_0 *)owner_input)->unk_98 &= 0xFF7F;
 
         special_copy = special;
-        ASM_KEEP(special_copy);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_copy) {
             target = D_800814A8;
             ((S_80172A40_1 *)object)->unk_60 = target;

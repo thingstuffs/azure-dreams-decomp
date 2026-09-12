@@ -213,9 +213,9 @@ void func_800165B8(void) {
     u8 *display_state;
     u8 *map_state;
     register u8 *bind_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-    register s32 bind_count ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 bind_count;
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register u8 *bind_angle ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *bind_angle;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *defaults_page;
     register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -403,7 +403,6 @@ load_entries:
     ASM_KEEP(bind_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     init_value = -1;
     (*(s16 *)((u8 *)obj + 0x94)) = init_value;
-    entry_index = 0;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
     ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)D_80083228 + 0x100) & 0xE00);
     func_800BC26C(bind_base, bind_count, bind_state, bind_angle);
@@ -419,14 +418,13 @@ load_entries:
     func_80096088(call_target, entity);
     ((S_800165B8_3 *)state)->unk_14 |= 0x8000;
     defaults_page = (u8 *)0x80010000;
-    do {
+    for (entry_index = 0; entry_index < 2; entry_index++) {
         tile = defaults_page[entry_index + 0x2D6C];
         ((S_800165B8_6 *)(obj + entry_index))->unk_FA = tile;
         if (tile == 2) {
             ((S_800165B8_6 *)(obj + entry_index))->unk_FA = 1;
         }
-        entry_index++;
-    } while (entry_index < 2);
+    }
 
     neutral_color = 0x2C808080;
     settings_page = (u8 *)0x80010000;

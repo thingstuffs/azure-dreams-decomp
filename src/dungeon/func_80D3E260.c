@@ -121,7 +121,7 @@ void func_80173A60(void *actor_state, void *motion, void *sprite, void *actor)
         &&L_kind1, &&L_kind2, &&L_kind3, &&L_kind4,
         &&L_kind5, &&L_kind6, &&L_kind7
     };
-    register s32 use_player ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 use_player;
     u8 *item_id;
 
     use_player = 0;
@@ -172,9 +172,7 @@ L_kind4:
             void *linked_actor;
 
             ((S_80173A60_0 *)actor_state)->unk_98 &= 0xFF7F;
-            ASM_KEEP(use_player);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             use_player_test = use_player;
-            ASM_KEEP(use_player_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (use_player_test != 0) {
                 linked_actor = D_800814A8;
                 (*(void * *)((u8 *)actor + 0x60)) = linked_actor;

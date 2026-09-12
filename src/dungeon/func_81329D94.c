@@ -5,7 +5,6 @@ extern void *func_8003FD64(); extern void func_8004491C(); extern void func_8004
 
 /* Create and initialize an object at the supplied coordinates and store it globally. */
 void func_80171594(u8 x, u8 y, s32 z) {
-    register s32 saved_z ASM_REG("$16") = z;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u8 saved_x ASM_REG("$20") = x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register u8 saved_y ASM_REG("$21") = y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *object, *state ASM_REG("$19"), *position ASM_REG("$17"), *sprite ASM_REG("$16");
@@ -13,18 +12,18 @@ void func_80171594(u8 x, u8 y, s32 z) {
     u8 tile_x, tile_y;
     register void *call_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP4_NV(saved_z, saved_x, saved_y, saved_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP4_NV(z, saved_x, saved_y, z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object = func_8003FD64(0x112, &D_80083498);
     call_object = object;
     if (object != 0) {
-        register s32 z_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 z_offset;
 
         state = object + 0x20;
         F(state, s8*, 0x13) = 0x15;
         F(object, s32**, 0x10) = &D_801714B0;
         func_8004491C(call_object, &D_80045340);
         call_object = object;
-        z_offset = saved_z - 0x18;
+        z_offset = z - 0x18;
         position = F(object, void**, 8);
         F(position, s16*, 0xA) = z_offset;
         sprite = F(object, void**, 0xC);

@@ -61,13 +61,12 @@ void func_818D4B94(Rec_D_800E3D7C *source, s16 setting_14, s32 setting_08, s32 d
     s32 saved_setting_08 = setting_08;
     s32 saved_duration = duration;
     register s32 saved_offset_x ASM_REG("$18") = offset_x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 saved_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_offset_y = offset_y;
+    s32 saved_offset_z = offset_z;
     s32 signed_duration;
     s32 biased_duration;
     s32 step_count;
     s32 return_delta_x;
-    s32 velocity_x;
     s32 velocity_y;
     s32 velocity_z;
     S_818D4B94_1 *state;
@@ -90,17 +89,19 @@ void func_818D4B94(Rec_D_800E3D7C *source, s16 setting_14, s32 setting_08, s32 d
             biased_duration = signed_duration + 7;
         }
         step_count = biased_duration >> 3;
-        velocity_x = return_delta_x / step_count;
-        if (velocity_x < 0) {
-            velocity_x += 0xF;
+        velocity_y = return_delta_x / step_count;
+        if (velocity_y < 0) {
+            velocity_y += 0xF;
         }
-        state->unk_48 = velocity_x >> 4;
+        state->unk_48 = velocity_y >> 4;
         ASM_KEEP(saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         velocity_y = (s32) (0 - (saved_offset_y << 0x10)) / step_count;
         if (velocity_y < 0) {
             velocity_y += 0xF;
+            state->unk_4C = velocity_y >> 4;
+        } else {
+            state->unk_4C = velocity_y >> 4;
         }
-        state->unk_4C = velocity_y >> 4;
         ASM_KEEP(saved_offset_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_setting_14);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_duration);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

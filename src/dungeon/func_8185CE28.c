@@ -121,7 +121,7 @@ s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
             __asm__ __volatile__("" : : : "$2");
 #endif
             {
-                register s32 v0pin ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s16 v0pin;
                 v0pin = (s32)effect;
                 ASM_KEEP(v0pin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 component->unk_0A = final_z - 8;

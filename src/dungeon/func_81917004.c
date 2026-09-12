@@ -61,9 +61,7 @@ typedef struct S_80024804_3 {
 /* Creates an effect with scaled parts and offsets it from the origin using the source orientation. */
 void *func_80024804(void *source, Copy24 *origin, s16 size_step)
 {
-    void *source_data = source;
-    Copy24 *base_position = origin;
-    register s16 saved_step ASM_REG("$16") = size_step;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 saved_step = size_step;
     void *effect;
     S_80024804_2 *part;
     Copy24 *position;
@@ -78,17 +76,15 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
     register s32 step_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     alloc_kind = 0x212;
-    alloc_source = (u8 *)source_data - 0x20;
-    ASM_KEEP_NV(alloc_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(source_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(base_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    alloc_source = (u8 *)source - 0x20;
+       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     effect = func_8003FD64(alloc_kind, alloc_source);
     if (effect == NULL) {
         goto null_result;
     }
 
     ((S_80024804_0 *)effect)->unk_10 = &D_80024710;
-    ((S_80024804_0 *)effect)->unk_20 = ((S_80024804_1 *)source_data)->unk_00;
+    ((S_80024804_0 *)effect)->unk_20 = ((S_80024804_1 *)source)->unk_00;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     step_word = (s32)saved_step << 16;
@@ -114,10 +110,10 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
     func_8004491C(effect, &D_80045340);
 
     position = ((S_80024804_0 *)effect)->unk_08;
-    *position = *base_position;
+    *position = *origin;
 
-    ((S_80024804_3 *)effect_state)->unk_0E.u = ((S_80024804_1 *)source_data)->unk_0E;
-    ((S_80024804_3 *)effect_state)->unk_10.u = ((S_80024804_1 *)source_data)->unk_10;
+    ((S_80024804_3 *)effect_state)->unk_0E.u = ((S_80024804_1 *)source)->unk_0E;
+    ((S_80024804_3 *)effect_state)->unk_10.u = ((S_80024804_1 *)source)->unk_10;
 
     direction_factor = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
     scale_step += 2;

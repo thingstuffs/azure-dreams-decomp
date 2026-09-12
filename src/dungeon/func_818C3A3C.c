@@ -79,7 +79,7 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
     s32 scale;
     s32 random_value;
     s32 biased_random;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s16 result;
     S_818C3A3C_3 *sprite;
     void *effect_state;
     void *effect;

@@ -83,13 +83,13 @@ void func_80172970(void *action, void *position, void *sprite, void *actor)
         &&special_1, &&special_2, &&special_3
     };
     s32 phase;
-    s32 is_special;
+    s16 is_special;
     s32 special_check;
     s32 move_kind;
     u8 *move_data;
     void *target;
-    s32 target_x;
-    s32 target_y;
+    s8 target_x;
+    s8 target_y;
     u16 recovery_ticks;
 
     phase = ((S_80172970_0 *)action)->unk_9B;
@@ -160,7 +160,6 @@ have_choice:
     if (*move_data != 0) {
         ((S_80172970_0 *)action)->unk_98 &= 0xFF7F;
         special_check = is_special;
-        ASM_KEEP(special_check);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_check != 0) {
             target = D_800814A8;
             ((S_80172970_1 *)actor)->unk_60 = target;
@@ -184,7 +183,6 @@ copy_existing:
                           ((S_80172970_4 *)sprite)->unk_24,
                           ((S_80172970_4 *)sprite)->unk_25,
                           ((S_80172970_1 *)actor)->unk_2A, 0x10);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         target_x = ((S_80172970_1 *)actor)->unk_72.u;
         target_y = ((S_80172970_1 *)actor)->unk_73.u;
         target_x = abs(target_x);

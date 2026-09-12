@@ -88,7 +88,7 @@ void func_80172A48(void *action_in, void *motion_in, void *actor_in, void *item_
         &&kind_7, &&kind_6, &&kind_5
     };
     register u8 *effect_slot;
-    s32 is_special;
+    s16 is_special;
     s32 effect_special;
     s32 next_state;
     u8 state;
@@ -169,7 +169,6 @@ selection_ready:
         s32 special_target;
 
         special_target = is_special;
-        ASM_KEEP(special_target);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (special_target != 0) {
             target = D_800814A8;
             (*(void * *)((u8 *)item + 0x60)) = target;
@@ -216,7 +215,6 @@ copy_active_coords:
 
 invoke_item:
     effect_special = is_special;
-    ASM_KEEP_NV(effect_special);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     if (func_800A94A0(item, effect_slot, effect_special, (u8 *)action + 0x98) == 0) {
         goto end;
     }

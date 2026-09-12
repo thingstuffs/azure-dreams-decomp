@@ -98,8 +98,6 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
         &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12
     };
-    void *actor = actor_in;
-    void *actor_data = actor_data_in;
     void *sprite = sprite_in;
     register void *status ASM_REG("$18") = status_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 initial_flags = D_80083462;
@@ -114,18 +112,16 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
     void *player;
 
     if (initial_flags & 0x1000) {
-        ((S_80171E20_0 *)actor)->unk_9A = 14;
+        ((S_80171E20_0 *)actor_in)->unk_9A = 14;
         func_80172384(actor_in, actor_data_in, sprite_in, status_in);
         return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80171E20_1 *)status)->unk_25 == 0) {
-        func_800AA79C(actor, actor_data, sprite, status);
+        func_800AA79C(actor_in, actor_data_in, sprite, status);
         if (((S_80171E20_2 *)sprite)->unk_2C == D_80175404) {
             return;
         }
@@ -142,25 +138,25 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
 
     if (((S_80171E20_1 *)status)->unk_1C & 0x200) {
         if (((S_80171E20_2 *)sprite)->unk_2C == D_80175404) {
-            ((S_80171E20_0 *)actor)->unk_9A = 13;
-            ((S_80171E20_0 *)actor)->unk_9B = 1;
-            ((S_80171E20_0 *)actor)->unk_8C = 0;
+            ((S_80171E20_0 *)actor_in)->unk_9A = 13;
+            ((S_80171E20_0 *)actor_in)->unk_9B = 1;
+            ((S_80171E20_0 *)actor_in)->unk_8C = 0;
             ((S_80171E20_1 *)status)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor, actor_data, sprite, D_801753FC) != 0) {
+        if (func_800AA924(actor_in, actor_data_in, sprite, D_801753FC) != 0) {
             return;
         }
     }
 
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80171E20_1 *)status)->unk_1C & 0x100) {
-            func_800AA258(actor, actor_data, sprite, status);
+            func_800AA258(actor_in, actor_data_in, sprite, status);
             return;
         }
 
         {
-            u8 current_state = ((S_80171E20_0 *)actor)->unk_9A;
+            u8 current_state = ((S_80171E20_0 *)actor_in)->unk_9A;
             u32 next_state = 14;
 
             if (current_state != next_state) {
@@ -172,26 +168,26 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
                         anim_table[((D_80083228 + ((S_80171E20_1 *)status)->unk_2A + 0x100) >> 9) & 7],
                         0);
                 }
-                ((S_80171E20_0 *)actor)->unk_9A = next_state;
+                ((S_80171E20_0 *)actor_in)->unk_9A = next_state;
             }
         }
 
-        ((S_80171E20_0 *)actor)->unk_98 &= 0xFFF3;
+        ((S_80171E20_0 *)actor_in)->unk_98 &= 0xFFF3;
 
         if (((S_80171E20_1 *)status)->unk_64 != 0) {
-            if (func_800AA6B4(actor, actor_data, sprite, D_801753C4) != 0) {
+            if (func_800AA6B4(actor_in, actor_data_in, sprite, D_801753C4) != 0) {
                 return;
             }
         }
 
         if (((S_80171E20_1 *)status)->unk_1C & 0x80000) {
-            func_800AA888(actor, actor_data, sprite, status);
-            func_80174890(actor, actor_data, sprite, status);
+            func_800AA888(actor_in, actor_data_in, sprite, status);
+            func_80174890(actor_in, actor_data_in, sprite, status);
             return;
         }
 
         if ((s16)func_800A1C58(status) != 0) {
-            func_800AAB10(actor, actor_data, sprite, status);
+            func_800AAB10(actor_in, actor_data_in, sprite, status);
         }
     }
 
@@ -213,7 +209,7 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
                     return;
                 }
             }
-            if ((s16)func_80173050(actor, actor_data, sprite, 0) == 0) {
+            if ((s16)func_80173050(actor_in, actor_data_in, sprite, 0) == 0) {
                 return;
             }
             action_flags = ((S_80171E20_1 *)status)->unk_46 | 0x4000;
@@ -231,14 +227,14 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
         goto *D_80170808[action_index];
 
 jt_c9:
-        if ((s16)func_80172D74(actor, actor_data, sprite, status) != 0) {
+        if ((s16)func_80172D74(actor_in, actor_data_in, sprite, status) != 0) {
             return;
         }
-        func_80172F38(actor, actor_data, sprite, status);
+        func_80172F38(actor_in, actor_data_in, sprite, status);
         return;
 
 jt_c8:
-        func_80174A9C(actor, actor_data, sprite, status);
+        func_80174A9C(actor_in, actor_data_in, sprite, status);
         return;
 
 jt_c5:
@@ -261,14 +257,14 @@ jt_c1:
 jt_c2:
 jt_c3:
 jt_call:
-        func_800AAF00(actor, actor_data, sprite, D_801753F4, func_80171E20);
+        func_800AAF00(actor_in, actor_data_in, sprite, D_801753F4, func_80171E20);
         return;
 
 jt_c4:
 jt_c10:
 jt_c11:
 jt_default:
-        func_801725C8(actor, actor_data, sprite, status);
+        func_801725C8(actor_in, actor_data_in, sprite, status);
         return;
     }
 

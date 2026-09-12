@@ -34,14 +34,13 @@ typedef struct S_800C4D78_1 {
 void func_800C4D78(s32 payload, s32 trigger_event) {
     S_800C4D78_0 *object;
     u8 *counter_base;
-    s32 held_payload = payload;
-    register s32 held_event ASM_REG("$16") = trigger_event;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 held_event = trigger_event;
 
     object = func_8003FD64(0x200, &D_80083498);
     if (object != NULL) {
         object->unk_26 = 0x20;
         object->unk_10 = &D_800C4C00;
-        object->unk_20 = held_payload;
+        object->unk_20 = payload;
         if ((held_event << 0x10) != 0) {
             func_800A56E0(0x501);
         }

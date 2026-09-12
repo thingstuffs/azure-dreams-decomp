@@ -185,9 +185,10 @@ fade:
             func_800F692C(D_80083780, early_x, early_y,
                 (s16)(-(rand() & 0x3F) - 0x10));
         } while (early_count > 0);
+        particle_page = (u8 *)0x80080000;
+    } else {
+        particle_page = (u8 *)0x80080000;
     }
-    particle_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(particle_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     particle = (Particle *)(particle_page + 0x2E80);
     if (particle->c >= 0x81) {
         shade = particle->e - 3;

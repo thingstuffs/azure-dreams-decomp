@@ -48,13 +48,12 @@ void *func_8009B5AC(Source *source, s32 target_x, s32 target_y) {
     Source **active_source;
     Spawned *spawned;
     u8 *entry;
-    s32 x;
+    s16 x;
     s32 y;
-    s32 entry_index;
     s32 state_code;
     s32 probe_result;
     s32 direction;
-    register s32 flags34 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 flags34;
     s32 flags3c;
     s32 entry_value;
     register u8 *result_bytes ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -99,15 +98,15 @@ void *func_8009B5AC(Source *source, s32 target_x, s32 target_y) {
 
     x = (s16)target_x;
     y = (s16)target_y;
-    entry_index = (s16)func_800A70E4(x, y, source->height);
-    if (entry_index < 0) {
+    flags3c = (s16)func_800A70E4(x, y, source->height);
+    if (flags3c < 0) {
         goto return_null;
     }
-    entry = &D_800E3548[entry_index * 4];
+    entry = &D_800E3548[flags3c * 4];
     spawned = func_800A8E74(source,
                            ((Context *)((u8 *)source - 0x20))->x,
                            ((Context *)((u8 *)source - 0x20))->y,
-                           source, entry, entry_index);
+                           source, entry, flags3c);
     if (spawned == (void *)0) {
         return (void *)1;
     }
