@@ -1043,3 +1043,14 @@ python3 tools/registry.py && python3 tools/levels.py && python3 tools/status.py
 `docs/*.md`. Not in git: `bin/` (the disc), `toolchain/`, `.venv/`, `baserom/`, `work/disc/`, the
 build roots — `tools/setup.sh` recreates all of them from the lock and the disc.
 Background work is journalled and resumable; nothing depends on a running process.
+
+### Pending atlas parser repair (2026-09-12, after the frozen run)
+
+Do not edit `pin_census.py` or atlas recipe/code until `pins_atlas_20260912` finishes.
+Its first checkpoint exposed suffix matching inside `LOCAL_ASM_KEEP` and
+`LEGACY_ASM_KEEP`: ten sites in six rows produce malformed erasures. Five further
+alias sites are absent from the reported 10,206-pin census; all seven affected
+functions are already eligible for the atlas. These sites predate this work. Correct full-token
+recognition/alias coverage, test it, replay the seven affected rows, and record the
+inventory correction separately from removals. Evidence and concrete steps are in
+`docs/evidence/pin_alias_audit_20260912.json` and `docs/PIN_ATLAS_20260912.md`.

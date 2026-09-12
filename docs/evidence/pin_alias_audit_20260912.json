@@ -1,0 +1,292 @@
+{
+  "scope": "all current row pin spans and LOCAL_/LEGACY_ calls inspected; scored arms only",
+  "problems": [
+    {
+      "id": "town/func_800B3470",
+      "site": 0,
+      "macro": "ASM_KEEP",
+      "line": 63,
+      "prefix": "ot < 5;\ncheck_slot:\n    LOCAL_",
+      "source_sha": "52687348f3dd6b0828d940d6543b330b7f9da4e47e9f879ed9d843bf2db4f1f1"
+    },
+    {
+      "id": "town/func_8069761C",
+      "site": 0,
+      "macro": "ASM_KEEP",
+      "line": 35,
+      "prefix": "E8);\n\n    zero = 0;\n    LOCAL_",
+      "source_sha": "5db62c0c2476c782eba6beabc5fcdaf2337002172878cfe49b3f3c874a62d386"
+    },
+    {
+      "id": "dungeon/func_80E8F3F8",
+      "site": 0,
+      "macro": "ASM_KEEP",
+      "line": 74,
+      "prefix": "tity_arg = entity;\n    LEGACY_",
+      "source_sha": "300ac9b0c02bacbb99dbf3feeafe721864ac756580c99782c94d34e19356c2ee"
+    },
+    {
+      "id": "dungeon/func_80E8F3F8",
+      "site": 1,
+      "macro": "ASM_KEEP",
+      "line": 76,
+      "prefix": "ount = D_80083460;\n    LEGACY_",
+      "source_sha": "300ac9b0c02bacbb99dbf3feeafe721864ac756580c99782c94d34e19356c2ee"
+    },
+    {
+      "id": "dungeon/func_81811F54",
+      "site": 1,
+      "macro": "ASM_KEEP",
+      "line": 21,
+      "prefix": "   occurrence = 0;\n    LEGACY_",
+      "source_sha": "b2fba17e02f6ec481fb10f8b3e4ee451749c510bc884f74ce79c5983e80b0abd"
+    },
+    {
+      "id": "slus/w_80047FF4",
+      "site": 0,
+      "macro": "ASM_KEEP",
+      "line": 43,
+      "prefix": "esources[0]);\n    }\n    LOCAL_",
+      "source_sha": "fd459a647c84a88510ea6b52db95586b05d81cc16df9cd5b0fa07d841d9cc966"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "site": 1,
+      "macro": "ASM_KEEP",
+      "line": 38,
+      "prefix": ";\n  u32 *firstSlot;\n\n  LEGACY_",
+      "source_sha": "cd3b275b38e1db5b4cc55cba1c61ca5df4988a72363e2b88742fc72357ff5add"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "site": 2,
+      "macro": "ASM_KEEP",
+      "line": 42,
+      "prefix": "();\n  slotIndex = 0;\n  LEGACY_",
+      "source_sha": "cd3b275b38e1db5b4cc55cba1c61ca5df4988a72363e2b88742fc72357ff5add"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "site": 3,
+      "macro": "ASM_KEEP",
+      "line": 44,
+      "prefix": "yteOffset &= 0xFFFF;\n  LEGACY_",
+      "source_sha": "cd3b275b38e1db5b4cc55cba1c61ca5df4988a72363e2b88742fc72357ff5add"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "site": 4,
+      "macro": "ASM_KEEP",
+      "line": 46,
+      "prefix": " = (u8 *)D_80084878;\n  LEGACY_",
+      "source_sha": "cd3b275b38e1db5b4cc55cba1c61ca5df4988a72363e2b88742fc72357ff5add"
+    }
+  ],
+  "aliases": [
+    {
+      "id": "town/func_800B3470",
+      "name": "LOCAL_ASM_REG",
+      "line": 30,
+      "stmt": "register s32 slot_work LOCAL_ASM_REG(\"$2\");"
+    },
+    {
+      "id": "town/func_800B3470",
+      "name": "LOCAL_ASM_KEEP",
+      "line": 63,
+      "stmt": "LOCAL_ASM_KEEP(slot_work);"
+    },
+    {
+      "id": "town/func_8069761C",
+      "name": "LOCAL_ASM_REG",
+      "line": 30,
+      "stmt": "register s32 zero LOCAL_ASM_REG(\"$4\");"
+    },
+    {
+      "id": "town/func_8069761C",
+      "name": "LOCAL_ASM_KEEP",
+      "line": 35,
+      "stmt": "LOCAL_ASM_KEEP(zero);"
+    },
+    {
+      "id": "dungeon/func_80E8F3F8",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 74,
+      "stmt": "LEGACY_ASM_KEEP(entity_arg);"
+    },
+    {
+      "id": "dungeon/func_80E8F3F8",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 76,
+      "stmt": "LEGACY_ASM_KEEP(active_count);"
+    },
+    {
+      "id": "dungeon/func_81811F54",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 21,
+      "stmt": "LEGACY_ASM_KEEP(occurrence);"
+    },
+    {
+      "id": "slus/w_800477F4",
+      "name": "LEGACY_KEEP",
+      "line": 63,
+      "stmt": "LEGACY_KEEP(step);"
+    },
+    {
+      "id": "slus/w_80047FF4",
+      "name": "LOCAL_ASM_REG",
+      "line": 30,
+      "stmt": "register s32 special_type LOCAL_ASM_REG(\"$2\") = 0x38;"
+    },
+    {
+      "id": "slus/w_80047FF4",
+      "name": "LOCAL_ASM_KEEP",
+      "line": 43,
+      "stmt": "LOCAL_ASM_KEEP(special_type);"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 38,
+      "stmt": "LEGACY_ASM_KEEP(recordOffset);"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "name": "LEGACY_MEMORY_BARRIER",
+      "line": 40,
+      "stmt": "LEGACY_MEMORY_BARRIER();"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 42,
+      "stmt": "LEGACY_ASM_KEEP(tableByteOffset);"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 44,
+      "stmt": "LEGACY_ASM_KEEP(tableByteOffset);"
+    },
+    {
+      "id": "slus/w_80055ADC",
+      "name": "LEGACY_ASM_KEEP",
+      "line": 46,
+      "stmt": "LEGACY_ASM_KEEP(tableBase);"
+    }
+  ],
+  "corrected_span_probes": [
+    {
+      "name": "legacy_keep_only",
+      "sites": [
+        [
+          "stmt",
+          "ASM_KEEP",
+          "occurrence",
+          642,
+          670,
+          21,
+          ""
+        ]
+      ],
+      "source_sha": "b2fba17e02f6ec481fb10f8b3e4ee451749c510bc884f74ce79c5983e80b0abd",
+      "candidate_sha": "bdf9b2308ca0173758c51494da49b4f975f1118a057ef512cb328df13fe54768",
+      "verification": {
+        "status": "ok",
+        "exact": false,
+        "total": 1,
+        "class": "reg-rename",
+        "regions": [
+          {
+            "op": "r",
+            "g": [
+              1,
+              2
+            ],
+            "t": [
+              1,
+              2
+            ],
+            "got": [
+              "move $a3, $zero"
+            ],
+            "tgt": [
+              "move $a3, $t0"
+            ]
+          }
+        ],
+        "secs": 0.8
+      }
+    },
+    {
+      "name": "counter_and_legacy_keep",
+      "sites": [
+        [
+          "reg",
+          "ASM_REG",
+          "8",
+          399,
+          436,
+          16,
+          "s32 occurrence"
+        ],
+        [
+          "stmt",
+          "ASM_KEEP",
+          "occurrence",
+          642,
+          670,
+          21,
+          ""
+        ]
+      ],
+      "source_sha": "b2fba17e02f6ec481fb10f8b3e4ee451749c510bc884f74ce79c5983e80b0abd",
+      "candidate_sha": "104efec74921f8b9c42bc31ce8d862da409ee4b23524ebce35782d9069c16528",
+      "verification": {
+        "status": "ok",
+        "exact": false,
+        "total": 1,
+        "class": "reg-rename",
+        "regions": [
+          {
+            "op": "r",
+            "g": [
+              1,
+              2
+            ],
+            "t": [
+              1,
+              2
+            ],
+            "got": [
+              "move $a3, $zero"
+            ],
+            "tgt": [
+              "move $a3, $t0"
+            ]
+          }
+        ],
+        "secs": 0.84
+      }
+    }
+  ],
+  "current_pin_counts": {
+    "dungeon/func_80E8F3F8": 2,
+    "dungeon/func_81811F54": 2,
+    "slus/w_800477F4": 2,
+    "slus/w_80047FF4": 1,
+    "slus/w_80055ADC": 5,
+    "town/func_800B3470": 1,
+    "town/func_8069761C": 1
+  },
+  "pending_repair": {
+    "timing": "after pins_atlas_20260912 finishes; do not mutate its parser or recipe mid-run",
+    "steps": [
+      "Require identifier boundaries for ordinary ASM macro matching.",
+      "Recognize reviewed LOCAL_/LEGACY_ macro aliases by full token spans and actual empty-asm definition; preserve input-only versus read/write semantics.",
+      "Include three LOCAL_ASM_REG declarations, one LEGACY_KEEP and one LEGACY_MEMORY_BARRIER site currently missed by the census.",
+      "Test full-token erasure, statement and declaration aliases, macro definitions, NON_MATCHING arms, and unrelated identifiers containing ASM_KEEP.",
+      "Replay the seven affected functions with current full scoring and separate repair receipts; retain original atlas errors as failed probes.",
+      "Record added census coverage separately from pin-removal yield; the five missed sites were already present."
+    ]
+  }
+}
