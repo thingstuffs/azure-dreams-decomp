@@ -102,6 +102,20 @@ def _dowhile0(text):
     return n
 
 
+_DEPINJ = re.compile(r"^[ \t]*(\w+)[ \t]*=[ \t]*\(.*\)[ \t]*\+[ \t]*(\w+)[ \t]*;[ \t]*\n[ \t]*\1[ \t]*-=[ \t]*\2[ \t]*;", re.M)
+_LIVETIE = re.compile(r"\b(\w+)[ \t]*\+[ \t]*(\w+)[ \t]*-[ \t]*\2\b")
+
+
+def _fakedep(text):
+    """Fake dependencies in C clothing, counted like pins: t15's `depinject` (`x = (e) + a; x -= a;`)
+    and `livetie` (`arg + v - v`).  Both emit nothing and exist only to steer the scheduler or keep
+    a value live - scaffolding census could not see, so a sweep could trade a pin for one and look
+    like progress (the 2026-09-12 deep pass did, 35 rows, reverted).  Counted over code only
+    (comments and strings blanked); dead stores (t15 `deadstore`) are not detectable this way."""
+    code = re.sub(r"/\*.*?\*/|//[^\n]*|\"(?:\\.|[^\"\\])*\"", lambda m: re.sub(r"[^\n]", " ", m.group(0)), text, flags=re.S)
+    return len(_DEPINJ.findall(code)) + len(_LIVETIE.findall(code))
+
+
 def census_one(row, audit):
     p = raw_path(row)
     if not p.exists():
@@ -149,6 +163,7 @@ def census_one(row, audit):
         # counted 14 legitimate `#define` macro bodies as debt - `do { ... } while (0)` inside a
         # macro is ordinary C hygiene, not scaffolding, so those lines are excluded.
         "dowhile0": _dowhile0(text),
+        "fakedep": _fakedep(text),
         "volatile": text.count("volatile"), "switch": len(re.findall(r"\bswitch\s*\(", text)),
         "audit": live, "audit_pin": dict(aud), "ndefs": len(defs),
     }
@@ -166,12 +181,12 @@ def main():
         sz = by[c["id"]]["size"]
         for k, cond in (("boiler", c["boiler"]), ("m2c_field", c["m2c_field"] > 0), ("pins", c["pin_total"] > 0),
                         ("gotos", c["gotos"] > 0), ("computed_goto", c["computed_goto"] > 0), ("m2c_locals", c["m2c_locals"] > 0),
-                        ("local_structs", c["n_local_structs"] > 0), ("nonmatching", c["nonmatching"]), ("inline_asm", c["inline_asm"] > 0), ("dowhile0", c.get("dowhile0", 0) > 0),
+                        ("local_structs", c["n_local_structs"] > 0), ("nonmatching", c["nonmatching"]), ("inline_asm", c["inline_asm"] > 0), ("dowhile0", c.get("dowhile0", 0) > 0), ("fakedep", c.get("fakedep", 0) > 0),
                         ("audit_blocking", any(k2 in ("LABEL_AS_CALL", "PASSTHRU_NO_ARGS") for k2 in c["audit"])),
                         ("audit_any", bool(c["audit"])), ("clean_shape", not c["boiler"] and c["m2c_field"] == 0 and c["pin_total"] == 0 and c["gotos"] == 0 and c["m2c_locals"] == 0)):
             if cond: tot[k] += 1; B[k] += sz
     print(f"{'defect':16} {'files':>6} {'bytes':>9}")
-    for k in ("boiler", "m2c_field", "m2c_locals", "pins", "gotos", "computed_goto", "local_structs", "nonmatching", "inline_asm", "dowhile0", "audit_blocking", "audit_any", "clean_shape"):
+    for k in ("boiler", "m2c_field", "m2c_locals", "pins", "gotos", "computed_goto", "local_structs", "nonmatching", "inline_asm", "dowhile0", "fakedep", "audit_blocking", "audit_any", "clean_shape"):
         print(f"{k:16} {tot[k]:6d} {B[k]:9d}")
 
 if __name__ == "__main__":

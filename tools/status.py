@@ -3,6 +3,7 @@
 import collections, json, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
 from pin_census import sites_of
+from census import _fakedep
 
 def main():
     rs = rows(); by = {r["id"]: r for r in rs}
@@ -44,6 +45,7 @@ def main():
                 "audit": cen.get(r["id"], {}).get("audit", {}),   # live: sites still spelled in the current text
                 "tail_idiom": len(_re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", t)) + len(_re.findall(r"\basm\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)|__asm__\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", t)),
                 "dowhile0": len(_re.findall(r"\bdo\s*\{[^{}]*\}\s*while\s*\(\s*0\s*\)", t, _re.S)),
+                "fakedep": _fakedep(t),
                 "markers": sum(1 for _s in sites_of(t) if _s[1] in (
                     "ASM_TAILSLOT_PIN", "ASM_TAILSLOT_PIN_TIED", "ASM_PAGEBASE_PIN", "ASM_JALDELAY_PIN",
                     "ASM_LIVE_SIBCALL_PIN", "ASM_SHAPE_D_SIBCALL_PIN", "ASM_BRANCH_LABEL_SPLIT"))}
@@ -54,6 +56,7 @@ def main():
             ("any fidelity site", lambda c: bool(c["audit"])),
             ("noreturn tail-call spelling (scaffolding, docs/FIDELITY.md)", lambda c: c.get("tail_idiom", 0) > 0), ("maspsx marker pins (scaffolding)", lambda c: c.get("markers", 0) > 0),
             ("do{}while(0) scheduling barrier (scaffolding, pure C)", lambda c: c.get("dowhile0", 0) > 0),
+            ("fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C)", lambda c: c.get("fakedep", 0) > 0),
             ("local address-named struct", lambda c: c["n_local_structs"] > 0),
             ("clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names)", lambda c: not c["boiler"] and c["m2c_field"] == 0 and c["pin_total"] == 0 and c["gotos"] == 0 and c["m2c_locals"] == 0)]
     for name, f in defs:
