@@ -12,32 +12,19 @@ void func_800A020C(s32 flags) {
     if (!(flags & 0x10000000)) {
         void *koyaw_data;
         if (flags & 8) {
-            u32 data_page = 0x800E0000;
-            ASM_KEEP(data_page);
-            koyaw_data = (void *)(data_page - 0x27BC);
+            koyaw_data = (void *)D_800DD844;
         } else if (flags & 0x20) {
-            u32 data_page = 0x800E0000;
-            ASM_KEEP(data_page);
-            koyaw_data = (void *)(data_page - 0x27B0);
+            koyaw_data = (void *)D_800DD850;
         } else if (flags & 0x40) {
-            u32 data_page = 0x800E0000;
-            ASM_KEEP(data_page);
-            koyaw_data = (void *)(data_page - 0x27B8);
+            koyaw_data = (void *)D_800DD848;
         } else if (flags & 0x400) {
-            u32 data_page = 0x800E0000;
-            ASM_KEEP(data_page);
-            koyaw_data = (void *)(data_page - 0x27C0);
+            koyaw_data = (void *)D_800DD840;
         } else if (flags & 0x10) {
-            u32 data_page = 0x800E0000;
-            ASM_KEEP(data_page);
-            koyaw_data = (void *)(data_page - 0x27B4);
+            koyaw_data = (void *)D_800DD84C;
         } else {
-            ASM_CLOBBER("$2");
             {
-                u32 data_page = 0x800E0000;
 
-                ASM_KEEP(data_page);
-                koyaw_data = (void *)(data_page - 0x27C4);
+                koyaw_data = (void *)D_800DD83C;
             }
         }
         if (koyaw_data != 0) {

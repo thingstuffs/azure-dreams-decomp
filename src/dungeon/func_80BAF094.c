@@ -65,7 +65,6 @@ void *func_80158894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 saved_arg0;
     register s32 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 original_arg0 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    u32 callback_page;
     register s32 create_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *create_data;
     s32 kind;
@@ -126,10 +125,8 @@ void *func_80158894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 #ifdef NON_MATCHING
     ((S_80158894_4 *)((void *)actor_or_arg2))->unk_8C = D_80158E9C;
 #else
-    callback_page = 0x80160000;
-    ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_80158894_4 *)((void *)actor_or_arg2))->unk_8C =
-        (void *)(callback_page - 0x7164);
+        (void *)D_80158E9C;
 #endif
     goto set_part;
 
@@ -137,9 +134,7 @@ set_actor:
 #ifdef NON_MATCHING
     ((S_80158894_0 *)result)->unk_8C = D_80158E9C;
 #else
-    callback_page = 0x80160000;
-    ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    ((S_80158894_0 *)result)->unk_8C = (void *)(callback_page - 0x7164);
+    ((S_80158894_0 *)result)->unk_8C = (void *)D_80158E9C;
 #endif
 
 set_part:

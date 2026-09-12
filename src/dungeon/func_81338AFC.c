@@ -20,6 +20,7 @@ extern u8 D_80173B1C[];
 extern u8 D_80173B28[];
 extern void *D_80175D58[];
 extern void *D_80175D5C[];
+extern u8 D_80170000[];
 
 
 typedef struct S_8016FAFC_0 {
@@ -62,11 +63,10 @@ void func_8016FAFC(s32 variant)
 {
     u8 *obj;
     u8 *part;
-    register u8 *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *call_obj;
     register u8 *sprite ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *store_page;
     u8 *sprite_vector;
     u8 *coords;
 
@@ -74,7 +74,6 @@ void func_8016FAFC(s32 variant)
     if (obj != NULL) {
         call_obj = obj;
         part = obj + 0x20;
-        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_8016FAFC_0 *)part)->unk_18 = 0;
         ((S_8016FAFC_0 *)part)->unk_1C = variant;
         (*(void * *)((u8 *)obj + 0x10)) = D_8016F99C;
@@ -103,9 +102,7 @@ void func_8016FAFC(s32 variant)
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
             ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            store_page = (u8 *)0x80170000;
-            ASM_KEEP(store_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_8016FAFC_3 *)store_page)->unk_5D58 = obj;
+            ((S_8016FAFC_3 *)D_80170000)->unk_5D58 = obj;
         } else {
             copy_page = (u8 *)0x80170000;
             ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -114,9 +111,7 @@ void func_8016FAFC(s32 variant)
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
             ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            store_page = (u8 *)0x80170000;
-            ASM_KEEP(store_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_8016FAFC_3 *)store_page)->unk_5D5C = obj;
+            ((S_8016FAFC_3 *)D_80170000)->unk_5D5C = obj;
         }
         sprite_vector = part + 0x28;
         ((S_8016FAFC_1 *)sprite)->unk_08 = sprite_vector;

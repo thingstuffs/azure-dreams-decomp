@@ -90,22 +90,15 @@ after_control:
 
         if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x100000) {
 #ifndef NON_MATCHING
-            u8 *table_page;
 
-            table_page = (u8 *)0x800E0000;
-            ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            direction_table = table_page - 0x2F48;
+            direction_table = (u8 *)&D_800DD0B8;
 #else
             direction_table = (u8 *)&D_800DD0B8;
 #endif
         } else {
 #ifndef NON_MATCHING
-            u8 *table_page;
 
-            ASM_SET(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            table_page = (u8 *)0x800E0000;
-            ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            direction_table = table_page - 0x3050;
+            direction_table = &D_800DCFB0;
 #else
             direction_table = &D_800DCFB0;
 #endif

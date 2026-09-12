@@ -21,6 +21,7 @@ extern s32 D_8008346C[];
 extern u8 D_80171FA4[];
 extern u8 D_80175C78[];
 extern u8 D_80175CA8[];
+extern u8 D_80080000[];
 
 /* Updates action movement and directional animation through three states. */
 void func_80173DD4(void *action, void *motion, void *object, void *actor)
@@ -165,7 +166,6 @@ advance_state:
 
 state_two:
 {
-    u8 *global_page;
     void *actor_arg;
 
     if ((U16(object, 0x14) & 0xE000) == 0) {
@@ -173,12 +173,8 @@ state_two:
     }
     func_800AD594(actor, 0x100);
     actor_arg = actor;
-    ASM_KEEP(actor_arg);
     PTR(action, 0x8C) = D_80171FA4;
-    ASM_SCHED_BARRIER();
-    global_page = (u8 *)0x80080000;
-    ASM_KEEP(global_page);
-    S32(global_page, 0x346C) = 0;
+    S32(D_80080000, 0x346C) = 0;
     func_800A4ACC(actor_arg);
     U16(actor, 0x46) &= 0x7FFF;
 }

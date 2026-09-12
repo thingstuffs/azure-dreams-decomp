@@ -14,13 +14,10 @@ void func_800F6544(void *data)
     s16 state;
     s32 slot_index;
     u16 *flags;
-    u32 flags_page;
 
     if (*(s32 *)0x80013718 == 3) {
-        flags_page = 0x80080000;
-        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         slot_index = 1;
-        flags = (u16 *)(flags_page + 0x3460);
+        flags = D_80083460;
         state_table = D_800F8A44;
         state_slot = state_table + 1;
         do {

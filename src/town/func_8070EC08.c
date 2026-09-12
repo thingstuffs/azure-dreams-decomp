@@ -17,14 +17,13 @@ extern char *func_80016E48(s32, s32, s32, s32);
 /* Selects a response from the selector and status flags, updating flags for special cases. */
 char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
 {
-    register s32 selector ASM_REG("$4") = selection;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 selector = selection;
     /* MATCH: Keep the pass-through arguments in their incoming registers across computed-goto labels. */
-    register s32 forward_value ASM_REG("$5") = value;
+    s32 forward_value = value;
     register s32 forward_selection ASM_REG("$6") = selection;
-    register s32 forward_extra ASM_REG("$7") = extra;
+    s32 forward_extra = extra;
     u32 table_index;
     void **jump_table;
-    u32 data_page;
     void *handler;
     static void *const handlers[] = {
         &&L0, &&L1, &&L2, &&L12, &&Ldefault
@@ -35,19 +34,14 @@ char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
         goto Ldefault;
     }
     jump_table = D_80016650;
-    ASM_KEEP(jump_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     handler = jump_table[table_index];
     goto *handler;
 
 L0:
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    return (char *)(data_page - 0x3FE8);
+    return D_8001C018;
 
 L1:
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    return (char *)(data_page + 0x2694);
+    return D_80022694;
 
 L2:
     if (func_8001A8EC(6) != 0) {
@@ -95,9 +89,7 @@ L10:
 
 L6:
     func_8001A554(0x948);
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    return (char *)(data_page - 0x3000);
+    return D_8001D000;
 
 L7:
     if (func_8001A64C(0x93A) == 0) {
@@ -110,20 +102,14 @@ L7:
 L7tail:
     func_8001A554(0x94A);
     func_8001A554(0x12C7);
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    return (char *)(data_page - 0x2C34);
+    return D_8001D3CC;
 
 L8:
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    return (char *)(data_page - 0x3930);
+    return D_8001C6D0;
 
 L12:
     return func_80016E48(selector, forward_value, forward_selection, forward_extra);
 
 Ldefault:
-    data_page = 0x80020000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    return (char *)(data_page - 0x4EB4);
+    return D_8001B14C;
 }

@@ -38,7 +38,6 @@ void func_80170F68(void *effect) {
     u16 blit_data[8];
     u8 *burst_context;
     u8 *render_state;
-    u8 *particle_page;
     Particle *particle;
     register s32 timer_snapshot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor;
@@ -116,9 +115,7 @@ brighten:
         }
     }
     flag_mask = 0x10000000;
-    particle_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(particle_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    particle = (Particle *)(particle_page + 0x2E80);
+    particle = &D_80082E80;
     particle_level = particle->c;
     U32_AT(render_state, 0x1C) |= flag_mask;
     if (particle_level < 0xFC) {
@@ -185,11 +182,9 @@ fade:
             func_800F692C(D_80083780, early_x, early_y,
                 (s16)(-(rand() & 0x3F) - 0x10));
         } while (early_count > 0);
-        particle_page = (u8 *)0x80080000;
     } else {
-        particle_page = (u8 *)0x80080000;
     }
-    particle = (Particle *)(particle_page + 0x2E80);
+    particle = &D_80082E80;
     if (particle->c >= 0x81) {
         shade = particle->e - 3;
         particle->e = shade;

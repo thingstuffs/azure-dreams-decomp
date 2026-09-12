@@ -61,7 +61,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     void *obj;
     void *entity;
     register s32 result;
-    u32 anim_page;
     void *old_anim;
     u8 *anim;
     u8 audio_x;
@@ -165,16 +164,12 @@ block_C8:
 
 block_10:
     old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim_page = 0x80170000;
-    ASM_KEEP(anim_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    anim = (u8 *)(anim_page + 0x4A2C);
+    anim = D_80174A2C;
     goto block_anim;
 
 block_F8:
-    anim_page = 0x80170000;
-    ASM_KEEP_NV(anim_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     old_anim = ((S_80174320_0 *)entity)->unk_2C.s;
-    anim = (u8 *)(anim_page + 0x4AA4);
+    anim = D_80174AA4;
     goto block_anim;
 
 block_F0:

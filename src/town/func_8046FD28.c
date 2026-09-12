@@ -16,20 +16,14 @@ s32 func_80016D28(s32 speaker, M2C_UNK interaction, M2C_UNK dialogue_id) {
     s32 dialogue;
 
     if (func_80017E98(speaker, interaction) != 0) {
-        s32 text_page;
 
-        text_page = (s32) 0x80020000;
-        ASM_KEEP(text_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return text_page - 0x49C4;
+        return &D_8001B63C;
     }
     dialogue = func_80019ABC(&D_8001A97C, &D_8001B1FC, speaker, dialogue_id);
     if (func_80019A04(&D_8001A97C, speaker, dialogue_id) != 0) {
         if (func_8001A510(0x799) != 0) {
-            s32 text_page;
 
-            text_page = (s32) 0x80020000;
-            ASM_KEEP(text_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            dialogue = text_page - 0x320E;
+            dialogue = &D_8001CDF2;
         } else {
             dialogue = func_8001628C(speaker, interaction, dialogue_id);
         }

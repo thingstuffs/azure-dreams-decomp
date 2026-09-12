@@ -24,6 +24,8 @@ extern u8 D_8008D470[12];
 extern u8 D_800DD0B8[8];
 extern u8 D_800E06EE[9];
 extern u8 D_800E06F7[9];
+extern u8 D_80080000[];
+extern u8 D_80083160[];
 
 
 typedef struct S_800927E4_0 {
@@ -121,7 +123,6 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, S_800927E
     s32 text_root;
     s32 state_or_text;
     u16 timer;
-    u8 *angle_hi;
     s16 *angle_page;
     s32 tail_value; /* MATCH: keep the shared-tail store value in retail's v0. */
     u8 *flags_base;
@@ -131,7 +132,7 @@ void func_800927E4(void *action, s32 actor_id, Rec_D_80082E80 *sprite, S_800927E
         goto state_one;
     }
     if (state_or_text < 2) {
-        ASM_CLOBBER("$2");   /* Pin: removal changes a delay-slot fill. */
+           /* Pin: removal changes a delay-slot fill. */
         if (state_or_text == 0) {
             goto state_zero;
         }
@@ -144,17 +145,14 @@ done:
 
 state_zero:
     if (((S_800927E4_0 *)action)->unk_9A == 0x2C) {
-        register void *anim_sprite ASM_REG("$4") = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
+        void *anim_sprite = sprite;   /* Pin: removal reorders the instructions (same instructions, different order). */
         u8 *anim_table = D_800DD0B8;
-        u8 *angle_base;
 
-        ASM_CLOBBER("$2");   /* Pin: removal changes a delay-slot fill. */
-        angle_base = (u8 *)0x80080000;
-        ASM_KEEP(angle_base);   /* Pin: removal reorders the instructions (same instructions, different order). */
+           /* Pin: removal changes a delay-slot fill. */
         ((S_800927E4_1 *)anim_sprite)->unk_2C = anim_table;
         func_80048A44(
             anim_sprite,
-            anim_table[((((S_800927E4_2 *)angle_base)->unk_3228 +
+            anim_table[((((S_800927E4_2 *)D_80080000)->unk_3228 +
                     actor->unk_2A.s + 0x100) >> 9) & 7],
             0,
             1);
@@ -162,22 +160,20 @@ state_zero:
         return;
     }
 
-    angle_hi = (u8 *)0x80080000;
-    ASM_KEEP(angle_hi);   /* Pin: removal changes the whole function shape. */
-    angle_page = (s16 *)(angle_hi + 0x3160);
-    ASM_KEEP(angle_page);   /* Pin: removal changes a delay-slot fill. */
+    angle_page = (s16 *)D_80083160;
+       /* Pin: removal changes a delay-slot fill. */
     {
         s32 base_angle = ((S_800927E4_4 *)angle_page)->unk_C8;
         s32 signed_angle = actor->unk_2A.s;
         s32 angle_or_sprite;
         s32 next_angle;
 
-        ASM_MEM_BARRIER();   /* Pin: removal changes the callee-saved set / frame layout. */
+           /* Pin: removal changes the callee-saved set / frame layout. */
         angle_or_sprite = actor->unk_2A.u;
         if ((((base_angle + signed_angle + 0x100) >> 9) & 7) == 2) {
             angle_or_sprite = (s32)sprite;
             {
-                register u8 *anim_table ASM_REG("$3") = D_800DD0B8;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
+                u8 *anim_table = D_800DD0B8;   /* Pin: removal changes the instruction count (a copy retail keeps is dropped or added). */
 
                 ((S_800927E4_5 *)((void *)angle_or_sprite))->unk_2C = anim_table;
                 func_80048A44(
@@ -204,9 +200,9 @@ state_one:
 
     if (!(actor->unk_1C & 0x100000)) {
         void *owner_obj = (u8 *)action - 0x20;
-        register s32 zero ASM_REG("$6") = 0;   /* Pin: removal changes the whole function shape. */
-        ASM_KEEP_NV(owner_obj);   /* Pin: removal reorders the instructions (same instructions, different order). */
-        ASM_KEEP_NV(zero);   /* Pin: removal changes the register colouring. */
+        s32 zero = 0;   /* Pin: removal changes the whole function shape. */
+           /* Pin: removal reorders the instructions (same instructions, different order). */
+           /* Pin: removal changes the register colouring. */
         effect_obj = func_800A8608(
             owner_obj, ((S_800927E4_0 *)action)->unk_110, zero, zero, 0);
         if (effect_obj != 0) {
@@ -274,7 +270,7 @@ state_two:
         func_80099F70(actor->unk_5C);
         func_80099F04(actor->unk_5C);
         flags_base = D_80083460;
-        ASM_KEEP(flags_base);   /* Pin: removal changes the whole function shape. */
+           /* Pin: removal changes the whole function shape. */
         ((S_800927E4_11 *)flags_base)->unk_02 |= 0x812;
         ((S_800927E4_0 *)action)->unk_8C = D_8008ACDC;
     }

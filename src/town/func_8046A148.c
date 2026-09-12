@@ -15,16 +15,10 @@ s32 func_8001B148(s32 unused_arg0, s32 unused_arg1, s32 selector)
     s32 one;
 
     if (selector == 5) {
-        s32 address_base;
-        address_base = (s32)0x80010000;
-        ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return address_base + 0x7774;
+        return D_80017774;
     }
     if (selector == 4) {
-        s32 address_base;
-        address_base = (s32)0x80010000;
-        ASM_KEEP(address_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        return address_base + 0x601C;
+        return &D_8001601C;
     }
     one = 1;
     if (selector == one) {
@@ -43,7 +37,6 @@ s32 func_8001B148(s32 unused_arg0, s32 unused_arg1, s32 selector)
         u8 **address_page;
         u8 *current_state;
         address_page = (u8 **)0x80020000;
-        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         current_state = *(u8 **)((u8 *)address_page - 0x16B0);
         if (current_state[6] != 0) {
             address_page = (u8 **)0x80010000;

@@ -2,36 +2,27 @@
 
 extern s32 func_80042900(void *arg0, s32 arg1);
 extern s32 D_8008ACDC;
+extern u8 D_8008EAC8[];
+extern u8 D_80096384[];
 
 /* Selects the target dispatch pointer from the source type and flags. */
 void func_80096088(void *target, void *source) {
-    u8 *dispatch_result;
 
 #ifndef NON_MATCHING
     {
         s32 type_match;
         type_match = func_80042900(source, 10) << 16;
         if (type_match != 0) {
-            dispatch_result = (u8 *)0x80090000;
-            ASM_KEEP(dispatch_result);
-            dispatch_result += 0x6384;
-            *(void **)((u8 *)target + 0x8C) = dispatch_result;
+            *(void **)((u8 *)target + 0x8C) = D_80096384;
         } else {
-            dispatch_result = (u8 *)0x80090000;
-            ASM_KEEP(dispatch_result);
 
             {
                 s32 source_flags;
                 source_flags = *(s32 *)((u8 *)source + 0x1C);
                 source_flags &= 0x100000;
                 if (source_flags != 0) {
-                    dispatch_result = (u8 *)0x80090000;
-                    ASM_KEEP(dispatch_result);
-                    dispatch_result -= 5432;
-                    *(void **)((u8 *)target + 0x8C) = dispatch_result;
+                    *(void **)((u8 *)target + 0x8C) = D_8008EAC8;
                 } else {
-                    dispatch_result = (u8 *)0x80090000;
-                    ASM_KEEP(dispatch_result);
 
                     {
                         u8 *default_dispatch;

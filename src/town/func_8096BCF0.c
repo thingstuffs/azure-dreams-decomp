@@ -54,7 +54,6 @@ void func_80124188(TownObject *menu)
     void **normal_digits;
     void **selected_digits;
     register s32 digit_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 table_page;
     s32 blank_count;
     SpriteFields *display_sprite;
 
@@ -72,9 +71,7 @@ void func_80124188(TownObject *menu)
         ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         selected_digits = (void **)(digit_base + 0x69A8);
         digit_base = *(volatile u8 *)&obj->digit;
-        table_page = 0x80120000;
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        normal_digits = (void **)(table_page + 0x69D0);
+        normal_digits = (void **)(D_801269D0);
         digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;
@@ -119,9 +116,7 @@ void func_80124188(TownObject *menu)
         ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         selected_digits = (void **)(digit_base + 0x69A8);
         digit_base = *(volatile u8 *)&obj->digit;
-        table_page = 0x80120000;
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        normal_digits = (void **)(table_page + 0x69D0);
+        normal_digits = (void **)(D_801269D0);
         digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;

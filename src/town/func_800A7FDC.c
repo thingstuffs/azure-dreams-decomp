@@ -15,19 +15,15 @@ extern void func_800A48B0(void *, void *);
 /* Turn the entity toward its target angle and update its directional sprite. */
 void func_800A573C(void *entity, void *transform, void *sprite) {
     u8 *input_state;
-    u8 *input_page;
-    register void *transform_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *transform_arg;
     s32 direction;
     s32 current_angle;
     s32 target_angle;
     s32 turn_step;
 
     transform_arg = transform;
-    input_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(input_page);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    input_state = input_page + 0x3160;
+    input_state = D_80083160;
     func_80095544(transform_arg);
-    ASM_KEEP_NV(input_state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
         u8 *player_type;
         void *entity_type;
@@ -71,7 +67,6 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
         s16 *flip_table = D_800D01F8;
         u16 sprite_flags;
 
-        ASM_USE(flip_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (flip_table[direction] != 0) {
             *(u16 *)((u8 *)sprite + 0x14) |= 1;
         } else {
@@ -82,7 +77,6 @@ void func_800A573C(void *entity, void *transform, void *sprite) {
     {
         u8 *render_state = D_80100D98;
 
-        ASM_KEEP(render_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_800A48B0(render_state, transform);
         *(s32 *)(render_state + 8) = 0;
     }

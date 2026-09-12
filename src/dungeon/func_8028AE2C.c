@@ -20,7 +20,6 @@ extern u8 D_800EA000[];
 /* Update tiles in active dungeon areas, alternating variants in the first tile range. */
 void func_8001DE2C(void) {
     DungeonArea *area;
-    u32 area_addr_hi;
     register u32 map_config_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 *tile_id;
     s32 area_index;
@@ -37,9 +36,7 @@ void func_8001DE2C(void) {
     area_index = 0;
     amount_small = 0x20;
     amount_large = 0x100;
-    area_addr_hi = 0x800E0000;
-    ASM_KEEP_NV(area_addr_hi);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    area = (DungeonArea *)(area_addr_hi + 0x2970);
+    area = (DungeonArea *)D_800E2970;
 
 outer_loop:
     if (area->active != 0) {

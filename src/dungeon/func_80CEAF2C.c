@@ -99,7 +99,6 @@ void func_8017472C(void *action, void *transform, void *sprite, void *actor)
     s32 step;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *anim_table;
     void *current_anim;
-    u32 address_page;
     s32 delay_slot;
     u8 *control;
 
@@ -290,9 +289,7 @@ state_3:
             goto state3_kind_d;
         }
         {
-            address_page = 0x80080000;
-            ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            current_anim = (u8 *)address_page + 0x3460;
+            current_anim = (u8 *)&D_80083460;
             control = current_anim;
             goto control_ready;
         }
@@ -301,30 +298,22 @@ state_3:
         goto state3_kind_f;
     }
     {
-        address_page = 0x80080000;
-        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        current_anim = (u8 *)address_page + 0x3460;
+        current_anim = (u8 *)&D_80083460;
         control = current_anim;
         goto control_ready;
     }
 
 state3_kind_d:
         current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
-        address_page = 0x80170000;
-        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        anim_table = (u8 *)address_page + 0x5E24;
+        anim_table = D_80175E24;
         goto table_ready;
 state3_kind_e:
         current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
-        address_page = 0x80170000;
-        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        anim_table = (u8 *)address_page + 0x5E2C;
+        anim_table = D_80175E2C;
         goto table_ready;
 state3_kind_f:
         current_anim = ((S_8017472C_4 *)sprite)->unk_2C;
-        address_page = 0x80170000;
-        ASM_KEEP(address_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        anim_table = (u8 *)address_page + 0x5E34;
+        anim_table = D_80175E34;
 
 table_ready:
     if (current_anim != anim_table) {

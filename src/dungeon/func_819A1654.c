@@ -368,7 +368,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                         register Entity *path_entity ASM_REG("$5");
                         register s32 path_half ASM_REG("$4");
                         register s32 path_saved_base ASM_REG("$3");
-                        u8 *origin_path_page;
                         path_point = path_pair * 2;
                         path_entity = (Entity *)((u8 *)entity + (path_point + path_pair) * 4);
                         path_point++;
@@ -380,10 +379,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                             path_half = (s32)path_bits >> 16;
                             path_half += path_bits >> 31;
                         }
-                        ASM_SCHED_BARRIER();
-                        origin_path_page = (u8 *)0x80080000;
-                        ASM_KEEP(origin_path_page);
-                        origin_path = (Coord *)(origin_path_page + 0x3780);
+                        origin_path = D_80083780;
                         path_half >>= 1;
                         path_entity->path[0] = path_half + (origin_path->x - path_saved_base) / 2;
                         path_entity->path[1] = entity->y / 2 + (origin_path->y - entity->base[1]) / 2;

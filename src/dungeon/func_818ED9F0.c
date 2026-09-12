@@ -24,6 +24,7 @@ typedef struct S_800251F0_1 {
 
 extern void *D_80024028[8];
 extern s32 D_800814A0;
+extern u8 D_80020000[];
 
 /* Advance object counters and animation values, and flag expiration. */
 void func_800251F0(void *object_ptr)
@@ -32,16 +33,13 @@ void func_800251F0(void *object_ptr)
         &&case_0, &&case_1, &&case_2, &&case_2,
         &&case_2, &&case_2, &&case_2, &&case_2
     };
-    register u8 *page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *object_bytes;
     u16 remaining_ticks;
     s32 value_index;
 
     object_bytes = object_ptr;
-    page = (u8 *)0x80020000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     remaining_ticks = ((S_800251F0_0 *)object_bytes)->unk_02.s;
-    ((S_800251F0_1 *)page)->unk_6428 = 1;
+    ((S_800251F0_1 *)D_80020000)->unk_6428 = 1;
     ((S_800251F0_0 *)object_bytes)->unk_02.s = remaining_ticks - 1;
     ((S_800251F0_0 *)object_bytes)->unk_8C += 200;
     ((S_800251F0_0 *)object_bytes)->unk_0A++;

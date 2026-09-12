@@ -13,7 +13,6 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     s32 entry_index;
     s32 match_first;
     s32 match_second;
-    u8 *data_page;
     register s32 zero ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     zero = 0;
@@ -26,13 +25,8 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     key_entry = &D_800E36C8;
     status_entry = &D_800E3548;
 #else
-    ASM_USE(match_second);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    data_page = (u8 *)0x800E0000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    key_entry = (M2C_UNK *)(data_page + 0x36C8);
-    data_page = (u8 *)0x800E0000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    status_entry = (M2C_UNK *)(data_page + 0x3548);
+    key_entry = &D_800E36C8;
+    status_entry = &D_800E3548;
 #endif
     do {
         if ((*((u8 *) status_entry + 1) != 0) && (*((u8 *) key_entry) == match_first) && (*((u8 *) key_entry + 1) == match_second)) {

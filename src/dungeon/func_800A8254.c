@@ -42,7 +42,6 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
     u8 *player;
     u8 *dungeon_state;
     DungeonEntry *entries;
-    register u8 *data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 entry_index;
     s32 result;
     s8 adjustment;
@@ -50,10 +49,7 @@ s32 func_800AD9B4(Rec_D_80082E80 *actor, void *target)
     if (((S_800AD9B4_0_pre *)target)[-1].unk_00 & 0x8000) {
         goto skip;
     }
-    data_page = (u8 *)0x80080000;
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    player = data_page + 0x2E80;
-    ASM_KEEP(player);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    player = D_80082E80;
     if (((S_800AD9B4_1 *)player)->unk_26 == actor->unk_26.as_s8) {
         goto process_entry;
     }
@@ -76,15 +72,11 @@ process_entry:
     result = 1;
     if (entry_index >= 0) {
         entries = D_800E3648;
-        ASM_KEEP(entries);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (!(entries[entry_index].flags & 0x80)) {
             goto skip;
         }
 
-        data_page = (u8 *)0x80080000;
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        dungeon_state = data_page + 0x3460;
-        ASM_KEEP(dungeon_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        dungeon_state = (u8 *)&D_80083460;
         if (((S_800AD9B4_3 *)dungeon_state)->unk_02 & 0x1000) {
             adjustment = ((Rec_D_800E3D7C *)target)->unk_71.as_s8;
             if (adjustment > 0) {

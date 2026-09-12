@@ -3,12 +3,12 @@
 extern s16 func_80042900(void *, s32);
 extern s32 D_800835E8[];
 extern u8 *D_800E3D7C[];
+extern u8 D_800E0000[];
 /* Checks whether an entity can level up with its current experience. */
 s32 func_800A1C58(void *entity) {
     s16 can_level_up = 0;
     s32 *exp_table;
     u8 *exp_entry;
-    u8 *global_page;
     u8 level;
     u32 table_offset;
 
@@ -19,16 +19,14 @@ s32 func_800A1C58(void *entity) {
         return 0;
     }
     if ((func_80042900(entity,  10) << 16) != 0) {
-        ASM_SCHED_BARRIER(); /* MATCH: retain the shared early-zero return block. */
         return 0;
     }
     if (F(entity, u32, 0x1C) & 0x80000) {
         return can_level_up;
     }
     if (F(entity, u8, 0x13) == 0) {
-        global_page = (u8 *)0x800E0000;
-        ASM_KEEP(global_page); /* Required for byte-exact code generation. */
-        if (F(F(global_page, u8 *, 0x3D7C), u8, 0x9A) == 0x22) {
+         /* Required for byte-exact code generation. */
+        if (F(F(D_800E0000, u8 *, 0x3D7C), u8, 0x9A) == 0x22) {
             return can_level_up;
         }
     }

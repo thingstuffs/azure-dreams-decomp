@@ -842,13 +842,9 @@ advance_row:
     }
 finish_draw:
     ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     {
-        u8 *scene_page;
         S_func_800AED64_17 *scene_state;
-        scene_page = (u8 *)0x80070000;
-        ASM_KEEP_NV(scene_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        scene_state = scene_page - 0x5244;
+        scene_state = D_8006ADBC;
         if ((scene_state->unk_18 == 0xC) && ((u32) (scene_state->unk_1A - 0x25) >= 5U) && ((s16) scene_state->unk_1A != 0x34)) {
             func_800AD138(scratch->unk_164);
         }

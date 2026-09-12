@@ -106,7 +106,6 @@ void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
 #ifndef NON_MATCHING
     register s32 saved_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 action_result;
-    u8 *table_base;
     register u8 *final_anim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u32 mask_or_base;
     u32 object_or_base;
@@ -331,20 +330,14 @@ state_3:
     func_80099F04(((S_8008FA7C_2 *)entity)->unk_5C);
     if (((S_8008FA7C_2 *)entity)->unk_1C & 0x100000) {
 #ifndef NON_MATCHING
-        table_base = (u8 *)0x80090000;
-        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        ((S_8008FA7C_3 *)actor)->unk_8C.p = table_base - 0x1538;
-        table_base = (u8 *)0x800E0000;
-        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        table_base -= 0x2F48;
-        anim_table = table_base;
+        ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
+        anim_table = D_800DD0B8;
 #else
         ((S_8008FA7C_3 *)actor)->unk_8C.p = D_8008EAC8;
         anim_table = D_800DD0B8;
 #endif
     } else {
 #ifndef NON_MATCHING
-        table_base = (u8 *)0x80090000;
 #endif
         ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
         anim_table = D_800DCFB0;
