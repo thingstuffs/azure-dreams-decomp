@@ -30,7 +30,7 @@ restore (a copy's `register ... ASM_REG` declaration, an `ASM_KEEP` on a page ba
 liberal on purpose - the verdict is byte equality against retail, so a rewrite that changed
 behaviour cannot survive the gate; every precondition here only saves verifies.
 """
-import re, sys
+import bisect, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -1520,20 +1520,783 @@ def host_candidates(text):
     return out
 
 
+# ------------------------------------------------------------------------------ 10. the fakedep levers
+#
+# work/native_lane/fakedep/REPORT.md (2026-09-12): on eight rows whose pin could only come off in
+# exchange for a refused fake dependency (`x = (e) + a; x -= a;`), the fake never forced an order -
+# it moved register allocation through stale reference counts and an inserted `(use x)`, and the
+# natural C that reproduces it changes which value is a local-alloc quantity and which is global,
+# and their order.  Three levers closed five rows and one pin of a sixth; each generator below is
+# one lever.  They work on the text the sweep hands them - the pin already erased, so the site is
+# not in the text - and rank their own candidates, at most ALLOC_CAP per generator (t18 re-sorts
+# the whole menu by distance to the erased group; t15 takes it in order).  None deletes or edits a
+# pin: a candidate whose kept pins' lines differ from the input's is refused.
+
+_ENV = __import__("os").environ
+ALLOC_WIDE = _ENV.get("NATURAL_ALLOC_WIDE") == "1"      # every candidate (and every decl pair), uncapped
+ALLOC_CAP = int(_ENV.get("NATURAL_ALLOC_CAP", "12"))    # per generator per text
+CASE_RE = re.compile(r"^[ \t]*(?:case\b[^:]*|default[ \t]*):")
+VDECL_RE = re.compile(
+    r"^(?P<i>[ \t]*)(?P<spell>(?P<q>(?:(?:register|const|volatile|static|unsigned|signed|struct|union|enum)[ \t]+)*)"
+    r"(?P<base>%s)(?P<ptr>(?:[ \t]*\*)*)[ \t]*(?P<n>%s))[ \t]*(?P<arr>\[[^\]]*\][ \t]*)?"
+    r"(?P<asm>ASM_REG[ \t]*\([^)]*\)[ \t]*)?(?:=[ \t]*(?P<init>[^;]*?))?[ \t]*;[ \t]*$" % (ID, ID))
+PDECL_RE = re.compile(r"^[ \t]*(?P<q>(?:(?:register|const|volatile|unsigned|signed|struct|union|enum)[ \t]+)*)"
+                      r"(?P<base>%s)(?P<ptr>(?:[ \t]*\*)*)[ \t]*(?P<n>%s)[ \t]*$" % (ID, ID))
+WORD_S = {"s32", "int", "signed", "signed int", "long", "long int", "signed long", "M2C_UNK", "M2C_UNK32"}
+WORD_U = {"u32", "unsigned", "unsigned int", "unsigned long", "unsigned long int"}
+SMALL = {"s16", "u16", "s8", "u8", "short", "char", "signed char", "unsigned char", "unsigned short",
+         "M2C_UNK16", "M2C_UNK8"}
+NOSHARE = {"static", "volatile", "const", "extern"}
+TWIN_SETS = ({"x", "y", "z"}, {"lo", "hi"}, {"min", "max"}, {"src", "dst"}, {"left", "right"},
+             {"top", "bottom"}, {"w", "h"}, {"width", "height"}, {"row", "col"}, {"r", "g", "b"},
+             {"u", "v"}, {"start", "end"})
+CALL_RE = re.compile(r"(?<![\w.])(?<!->)(?P<f>%s)[ \t]*\(" % ID)
+CHAIN_RE = re.compile(r"(?P<b>\((?:[^()]|\([^()]*\))*\)|%s)[ \t]*->[ \t]*(?P<m>%s)" % (ID, ID))
+
+
+def _ptype(q, base, ptr):
+    return " ".join([x for x in q if x != "register"] + [base]) + "*" * ptr.count("*")
+
+
+def _tclass(ty):
+    return "s" if ty in WORD_S else "u" if ty in WORD_U else "p" if ty.endswith("*") else ty
+
+
+def _twin_names(a, b):
+    """`next_x`/`next_y`, `saved_x`/`saved_y`, `dx`/`dy`, `arg0`/`arg1`: one component apart."""
+    if a == b:
+        return False
+    ta, tb = a.split("_"), b.split("_")
+    if len(ta) == len(tb) > 1:
+        diff = [(p.lower(), q.lower()) for p, q in zip(ta, tb) if p != q]
+        if len(diff) == 1 and (any(diff[0][0] in s and diff[0][1] in s for s in TWIN_SETS)
+                               or (diff[0][0].isdigit() and diff[0][1].isdigit())):
+            return True
+    if len(a) == len(b):
+        d = [(p, q) for p, q in zip(a, b) if p != q]
+        if len(d) == 1 and ({d[0][0].lower(), d[0][1].lower()} <= {"x", "y", "z"}
+                            or (d[0][0].isdigit() and d[0][1].isdigit())):
+            return True
+    return False
+
+
+def _decl_names(stmt):
+    body = stmt.strip().rstrip(";")
+    m = re.match(r"^(?:(?:register|const|volatile|static|unsigned|signed|struct|union|enum)\s+)*%s" % ID, body)
+    rest = body[m.end():] if m else body
+    parts, d, cur = [], 0, ""
+    for ch in rest:
+        d += ch in "([{"
+        d -= ch in ")]}"
+        if ch == "," and d == 0:
+            parts.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    parts.append(cur)
+    out = []
+    for p in parts:
+        p = re.sub(r"ASM_REG\s*\([^)]*\)", "", p.split("=")[0])
+        ids = re.findall(ID, re.sub(r"\[[^\]]*\]", "", p))
+        if ids:
+            out.append(ids[-1])
+    return out
+
+
+def _stmt_end(ml, k, c):
+    """Line of the `;` that ends the statement starting on line k (None past a brace)."""
+    d = 0
+    for j in range(k, min(c, k + 12)):
+        for ch in ml[j]:
+            if ch in "([":
+                d += 1
+            elif ch in ")]":
+                d -= 1
+            elif ch == ";" and d == 0:
+                return j
+            elif ch in "{}":
+                return None
+    return None
+
+
+def _is_fn(ml, a):
+    head = "\n".join(ml[max(0, a - 8):a + 1])
+    tail = re.split(r"[;}]", head[:head.rfind("{")])[-1].strip()     # the last declaration only
+    return tail.endswith(")") and not tail.startswith(("typedef", "struct", "union", "enum"))
+
+
+def _postfix(e):
+    """True when `e` can stand in for a variable without parentheses: a primary followed by
+    `->m` / `.m` / `[i]` chains (`((S *)p)->unk_10.n`)."""
+    e = e.strip()
+    if _term(e):
+        return True
+    if e.startswith("("):
+        j = _match_paren(e, 0)
+        if j is None:
+            return False
+        rest = e[j + 1:]
+    else:
+        m = re.match(ID, e)
+        if not m:
+            return False
+        rest = e[m.end():]
+    while rest.strip():
+        rest = rest.lstrip()
+        m = re.match(r"(?:->|\.)[ \t]*%s" % ID, rest)
+        if m:
+            rest = rest[m.end():]
+            continue
+        if rest.startswith("["):
+            d = 0
+            for k, ch in enumerate(rest):
+                d += ch == "["
+                d -= ch == "]"
+                if d == 0:
+                    rest = rest[k + 1:]
+                    break
+            else:
+                return False
+            continue
+        return False
+    return True
+
+
+def _pin_sig(text):
+    """Every live pin with its whole line's text: a lever may move a pin's line, never change it."""
+    lines = text.splitlines()
+    from pin_census import sites_of
+    return [(s[0], s[1], s[2], lines[s[5] - 1].strip() if s[5] - 1 < len(lines) else "") for s in sites_of(text)]
+
+
+class _Var:
+    """One declaration's reads, writes and live intervals inside its scope (see `_Fn`)."""
+
+    def __init__(self, F, d):
+        self.d = d
+        name, ml = d["name"], F.ml
+        rx = _occ(name)
+        callrx = re.compile(r"(?<![\w.])(?<!->)%s[ \t]*\(" % re.escape(name))
+        c = d["block"][1]
+        start = (F.a + 1) if d.get("param") else d["end"] + 1
+        self.lines, self.reads, self.wlines, self.iv = [], [], [], []
+        self.uncovered, self.addr, self.odd, self.cast_ok = 0, False, False, True
+        writes = []                                   # (effective line, plain)
+        if d.get("init") is not None:
+            writes.append((d["end"], True))
+            self.wlines.append(d["end"])
+        for k in range(start, c):
+            s = ml[k]
+            hits = list(rx.finditer(s))
+            called = callrx.search(s)
+            if not hits and not called:
+                continue
+            if F.resolve(name, k) is not d:
+                continue
+            if called or LABEL_RE.match(s) or re.search(r"\bgoto[ \t]+%s\b" % re.escape(name), s):
+                self.odd = True                       # a call through it, or a label of that name
+            if not hits:
+                continue
+            self.lines.append(k)
+            nread, wkind, first = 0, None, None
+            for m in hits:
+                before, after = s[:m.start()], s[m.end():]
+                if re.search(r"(?:^|[^&\w)\]])&[ \t]*$", before):
+                    self.addr = True
+                if re.match(r"[ \t]*(?:(?:<<|>>|[-+*/%&|^])=|\+\+|--)", after) or re.search(r"(?:\+\+|--)[ \t]*$", before):
+                    kind = "rw"
+                elif re.match(r"[ \t]*=(?!=)", after):
+                    kind = "w"
+                else:
+                    kind = "r"
+                    bs = before.rstrip()
+                    cast = re.search(r"\([^()]*\*[ \t]*\)[ \t]*$", before)
+                    whole = re.match(r"[ \t]*(?:[,);]|[=!]=)", after) and (
+                        bs.endswith(("(", ",")) or re.search(r"(?:(?:^|[^-+*/%&|^<>=!])=|[=!]=|\breturn)$", bs))
+                    self.cast_ok = self.cast_ok and bool(cast or whole)
+                first = first or kind
+                nread += kind in ("r", "rw")
+                if kind != "r":
+                    wkind = kind
+            plain = False
+            if wkind and first != "r" and not s[:hits[0].start()].strip():
+                p = _prev_nb(ml, k)
+                ps = ml[p].rstrip() if p is not None else "{"
+                plain = ps.endswith(("{", "}", ";", ":"))   # not the body of a braceless if/else/loop
+            for _ in range(nread):                    # the statement's reads come before its write
+                w = F.cover(writes, k)
+                if w is None:
+                    self.uncovered += 1
+                else:
+                    self.iv.append((w, k))
+                self.reads.append(k)
+            if wkind:
+                e = (_stmt_end(ml, k, c) if plain else None)
+                if e is None:
+                    plain, e = False, k
+                writes.append((e, plain))
+                self.wlines.append(e)
+        self.ok = not (self.uncovered or self.addr or self.odd)
+        webs = []
+        for w, r in sorted(self.iv):
+            if webs and w <= webs[-1][1]:
+                webs[-1][1] = max(webs[-1][1], r)
+            else:
+                webs.append([w, r])
+        self.webs = webs
+        self.glob = bool(self.uncovered) or len(webs) > 1 or any(F.crosses(w, r) for w, r in self.iv)
+
+
+class _Fn:
+    """One function body read from the text alone: brace blocks, declarations, and each local's
+    reads, writes and live intervals.  A read is COVERED when a plain `v = ...;` / `v op= ...;`
+    statement precedes it in the same or an enclosing block with no label, `case` or loop head in
+    between (a label is a way in, a loop head a back edge); a local whose every read is covered is
+    LOCALLY DEFINED and live only on its intervals (covering write, read]."""
+
+    def __init__(self, t, a, b):
+        self.t, self.a, self.b, self.ml = t, a, b, t.m
+        ml = t.m
+        self.blocks, stack = [], []
+        for k in range(a, b + 1):
+            if ml[k].lstrip().startswith("#"):
+                continue
+            for ch in ml[k]:
+                if ch == "{":
+                    stack.append(k)
+                elif ch == "}" and stack:
+                    self.blocks.append((stack.pop(), k))
+        self.body = max(self.blocks, key=lambda oc: oc[1] - oc[0])
+        self.inner = {}
+        for o, c in sorted(self.blocks, key=lambda oc: oc[0] - oc[1]):     # largest first, nested win
+            for k in range(o + 1, c):
+                self.inner[k] = (o, c)
+        self.loops = [(o, c) for o, c in self.blocks if LOOP_RE.match(ml[o])]
+        self.labels = [k for k in range(a + 1, b) if LABEL_RE.match(ml[k]) or CASE_RE.match(ml[k])]
+        self.decls = {blk: self._block_decls(blk) for blk in self.blocks}
+        self.params = self._params()
+        self.byname = {}
+        for d in [x for ds in self.decls.values() for x in ds] + self.params:
+            self.byname.setdefault(d["name"], []).append(d)
+        self._vars = {}
+        self.pinned = set()                          # (name, decl line) of every pinned variable
+        from pin_census import sites_of
+        for s in sites_of(t.text):
+            k = s[5] - 1
+            if not (a < k < b):
+                continue
+            for n in (re.findall(ID, s[2] or "") if s[0] == "stmt" else []):
+                d = self.resolve(n, k)
+                if d is not None:
+                    self.pinned.add((d["name"], d["line"]))
+        for ds in self.decls.values():
+            for d in ds:
+                if d["pinned"]:
+                    self.pinned.add((d["name"], d["line"]))
+
+    def _block_decls(self, blk):
+        o, c = blk
+        ml, out, k = self.ml, [], o + 1
+        while k < c:
+            s = ml[k]
+            if not s.strip() or s.lstrip().startswith("#"):
+                k += 1
+                continue
+            first = re.match(ID, s.strip())
+            if not first or first.group(0) in CTRL or not _DECL_START_RE.match(s):
+                break
+            end = k
+            while end < c and not ml[end].rstrip().endswith(";"):
+                end += 1
+            m = VDECL_RE.match(s) if end == k else None
+            if m and m.group("base") not in CTRL:
+                q = m.group("q").split()
+                out.append(dict(line=k, end=end, name=m.group("n"), block=blk, single=True,
+                                ty=_ptype(q, m.group("base"), m.group("ptr")), quals=set(q),
+                                init=m.group("init"), arr=bool(m.group("arr")), pinned=bool(m.group("asm")),
+                                spell=m.group("spell").strip(), ind=m.group("i")))
+            else:
+                for n in _decl_names(" ".join(ml[k:end + 1])):
+                    out.append(dict(line=k, end=end, name=n, block=blk, single=False, ty=None, quals=set(),
+                                    init=None, arr=False, pinned="ASM_REG" in s, spell=None, ind=_ind(s)))
+            k = end + 1
+        return out
+
+    def _params(self):
+        ml, a = self.ml, self.a
+        head = "\n".join(ml[max(0, a - 8):a + 1])
+        head = head[:head.rfind("{")]
+        r = head.rfind(")")
+        d, left = 0, None
+        for k in range(r, -1, -1):
+            d += head[k] == ")"
+            d -= head[k] == "("
+            if d == 0:
+                left = k
+                break
+        out = []
+        for p in (head[left + 1:r].split(",") if left is not None else []):
+            m = PDECL_RE.match(p.replace("\n", " "))
+            if m:
+                q = m.group("q").split()
+                out.append(dict(line=a, end=a, name=m.group("n"), block=self.body, single=True, param=True,
+                                ty=_ptype(q, m.group("base"), m.group("ptr")), quals=set(q), init=None,
+                                arr=False, pinned=False, spell=None, ind=""))
+        return out
+
+    def resolve(self, name, k):
+        """The declaration a mention of `name` on line k refers to (None: a global)."""
+        best = None
+        for d in self.byname.get(name, ()):
+            if d.get("param"):
+                best = best or d
+                continue
+            o, c = d["block"]
+            if o < k < c and d["line"] < k and (best is None or best.get("param") or o > best["block"][0]):
+                best = d
+        return best
+
+    def var(self, d):
+        key = (d["name"], d["line"], bool(d.get("param")))
+        if key not in self._vars:
+            self._vars[key] = _Var(self, d)
+        return self._vars[key]
+
+    def parent(self, blk):
+        return self.inner.get(blk[0], None) if blk != self.body else None
+
+    def encl(self, lo, hi):
+        """Innermost block that strictly contains lines lo..hi."""
+        blk = self.inner.get(lo, self.body)
+        while blk is not None and not (blk[0] < hi < blk[1]):
+            blk = self.parent(blk)
+        return blk or self.body
+
+    def barrier(self, w, k):
+        i = bisect.bisect_right(self.labels, w)
+        if i < len(self.labels) and self.labels[i] < k:
+            return True
+        return any(w < o <= k <= c for o, c in self.loops)
+
+    def cover(self, writes, k):
+        for w, plain in reversed(writes):
+            if w >= k or not plain:
+                continue
+            blk = self.inner.get(w, self.body)
+            if not (blk[0] < k < blk[1]):
+                continue                              # a write in an arm that does not dominate k
+            return None if self.barrier(w, k) else w
+        return None
+
+    def crosses(self, w, r):
+        """A basic-block boundary between line w and line r (a jump, a label, a brace)."""
+        if self.inner.get(w) != self.inner.get(r):
+            return True
+        return any(CONTROL_RE.match(self.ml[j]) or LABEL_RE.match(self.ml[j]) or "{" in self.ml[j]
+                   or "}" in self.ml[j] for j in range(w + 1, r))
+
+    def usable(self, d, init_ok=False):
+        """A plain scalar local no pin names: something a lever may rename, move or split."""
+        return (d["single"] and d["ty"] and not d["arr"] and not (d["quals"] & NOSHARE)
+                and (init_ok or d["init"] is None) and (d["name"], d["line"]) not in self.pinned
+                and not d["pinned"] and (_tclass(d["ty"]) in ("s", "u", "p") or d["ty"] in SMALL))
+
+
+def _functions(t):
+    for a, b in t.spans:
+        if _is_fn(t.m, a):
+            try:
+                yield _Fn(t, a, b)
+            except Exception:             # an unreadable function costs its own candidates only
+                continue
+
+
+def _interferes(v, h):
+    """Would v and h, as one variable, ever hold two live values at once?"""
+    for w1, r1 in v.iv:
+        for w2, r2 in h.iv:
+            if w1 < r2 and w2 < r1:
+                return True
+        if any(w1 < k < r1 for k in h.wlines):
+            return True
+    for w2, r2 in h.iv:
+        if any(w2 < k < r2 for k in v.wlines):
+            return True
+    return False
+
+
+def _rename(t, lines, old, new, edits=None):
+    edits = dict(edits or {})
+    rx = _occ(old)
+    for k in sorted(set(lines)):
+        ln = edits.get(k, _nl(t.lines[k]))
+        for m in reversed(list(rx.finditer(t.m[k]))):
+            ln = ln[:m.start()] + new + ln[m.end():]
+        edits[k] = ln
+    return edits
+
+
+def _capped(scored):
+    scored.sort(key=lambda x: x[0])
+    out, seen = [], set()
+    for _, label, cand in scored:
+        if cand not in seen:
+            seen.add(cand)
+            out.append((label, cand))
+    return out if ALLOC_WIDE else out[:ALLOC_CAP]
+
+
+def hostwide_candidates(text):
+    """HOST, widened: a local V renamed onto an existing variable H, V's declaration deleted.
+
+    REPORT.md "HOST": the variable to host is often not the pinned one but whichever nearby local
+    lost or gained the register retail gives the winner (a local qty in base; in the fake it leaves
+    the qty list or changes `phys=`).  Merging it into H changes which value is a local-alloc
+    quantity and which is global.  Hosts, most likely first:
+      twin  the twin of a sibling block computing the same quantity (`y_sum` -> the sibling's
+            `coord_value`, same right-hand side), promoted to function scope - dungeon/func_80AC9228,
+            both pins off;
+      same  a same-block variable first assigned after V's last use (the merge makes it set and die
+            twice, so local-alloc refuses it) - dungeon/func_80DBD3EC `position_x` -> `position_z`,
+            dungeon/func_809A1A8C `step_y` -> `signed_frame` (one of two pins);
+      func  a function-scope variable whose uses all lie in other blocks - dungeon/func_800B30D0
+            `target_node` -> `source_pos`.
+    Ranked: a renamed sibling twin; a same-block host with a twin name (`position_x` ->
+    `position_z`); a same-name sibling twin (the two blocks' `position_x` as one function-scope
+    variable - also exact on 80DBD3EC); any other same-block host, nearest first; a function-scope
+    host, nearest first.  On the four HOST rows the lane's edit ranks 2-5.  Guards:
+    V and H both locally defined (see `_Fn`) and never live at once; same signedness for words, the
+    same type for anything narrower, a `void *` V onto a typed pointer only when every read of V is
+    cast or passed whole; neither pinned; every renamed mention resolves to H; no pin line changes.
+    Unlike `host_candidates` (the pinned variable itself, its pin deleted) nothing here touches a pin.
+    """
+    try:
+        return _hostwide(text)
+    except Exception:
+        return []
+
+
+def _hostwide(text):
+    t = _T(text)
+    want = _pin_sig(text)
+    scored = []
+    for F in _functions(t):
+        locs = [d for ds in F.decls.values() for d in ds if F.usable(d, init_ok=True)]
+        params = [d for d in F.params if F.usable(d)]
+        top = F.decls.get(F.body, [])
+        for V in locs:
+            if V["init"] is not None:
+                continue
+            v = F.var(V)
+            if not v.ok or not v.reads or len(v.webs) != 1:
+                continue
+            vlo, vhi = min(v.lines), max(v.lines)
+            region = F.encl(vlo, vhi)
+            for H in locs + params:
+                if H is V or H["name"] == V["name"] and H["block"] == V["block"]:
+                    continue
+                tv, th = V["ty"], H["ty"]
+                if not (tv == th or (_tclass(tv) in ("s", "u") and _tclass(tv) == _tclass(th))
+                        or (tv == "void*" and th.endswith("*") and v.cast_ok)):
+                    continue
+                h = F.var(H)
+                if not h.ok or not h.lines:
+                    continue
+                if H["block"] == V["block"] and not H.get("param"):
+                    if min(h.lines + [H["end"] + 1 if H["init"] is not None else 10 ** 9]) <= vhi:
+                        continue
+                    kind, gap = "same", min(h.lines) - vhi
+                elif H["block"] == F.body or H.get("param"):
+                    if any(region[0] < k < region[1] for k in h.lines):
+                        continue
+                    kind, gap = "func", min(abs(k - vlo) for k in h.lines)
+                else:
+                    continue
+                if _interferes(v, h) or any(F.resolve(H["name"], k) is not H for k in v.lines):
+                    continue
+                cand = t.build(_rename(t, v.lines, V["name"], H["name"]), {V["line"]})
+                if _pin_sig(cand) != want:
+                    continue
+                # tiers: 0 a renamed sibling twin, 1 a same-block host with a twin name, 2 a
+                # same-name sibling twin, 3 any other same-block host, 4 a function-scope host
+                tier = 1 if kind == "same" and _twin_names(V["name"], H["name"]) else 3 if kind == "same" else 4
+                scored.append(((tier, gap, V["line"]),
+                               "hostwide:%s@%d->%s/%s" % (V["name"], vlo + 1, H["name"], kind), cand))
+        # the sibling block's twin, promoted to function scope
+        for V in locs:
+            v = F.var(V)
+            if V["init"] is not None or not v.ok or not v.reads or len(v.webs) != 1:
+                continue
+            wm = re.match(r"^[ \t]*%s[ \t]*=(?!=)[ \t]*(?P<e>[^;]+?)[ \t]*;[ \t]*$" % re.escape(V["name"]),
+                          F.ml[min(v.wlines)]) if v.wlines else None
+            if not wm or re.fullmatch(r"[ \t]*(?:%s|%s)[ \t]*" % (ID, NUM), wm.group("e")):
+                continue
+            rhs = _sq(wm.group("e"))
+            vb = V["block"]
+            for H in locs:
+                hb = H["block"]
+                if H is V or H["init"] is not None or H["ty"] != V["ty"] or hb == vb or hb == F.body:
+                    continue
+                if (hb[0] <= vb[0] and vb[1] <= hb[1]) or (vb[0] <= hb[0] and hb[1] <= vb[1]):
+                    continue                          # nested: not siblings
+                h = F.var(H)
+                if not h.ok or not any(
+                        (m := re.match(r"^[ \t]*%s[ \t]*=(?!=)[ \t]*(?P<e>[^;]+?)[ \t]*;[ \t]*$" % re.escape(H["name"]),
+                                       F.ml[k])) and _sq(m.group("e")) == rhs for k in h.wlines):
+                    continue
+                n = H["name"]
+                if any(d["name"] == n for d in top + F.params):
+                    continue
+                # every mention of n in the function must be V's, H's or another block's own local,
+                # and no block between the body and V's / H's block may declare n
+                bad = False
+                for k in range(F.a + 1, F.b):
+                    if _occ(n).search(F.ml[k]) and not any(dd["line"] <= k <= dd["end"] for dd in F.byname.get(n, ())):
+                        d = F.resolve(n, k)
+                        if d is None or (d is not H and d is not V and d["block"] != vb and d["block"] != hb
+                                         and ((d["block"][0] < vb[0] and vb[1] < d["block"][1])
+                                              or (d["block"][0] < hb[0] and hb[1] < d["block"][1]))):
+                            bad = True
+                            break
+                for blk in (vb, hb):
+                    p = F.parent(blk)
+                    while p is not None and p != F.body:
+                        if any(d["name"] == n for d in F.decls.get(p, [])):
+                            bad = True
+                        p = F.parent(p)
+                if bad or (n != V["name"] and any(_occ(n).search(F.ml[k]) for k in range(vb[0] + 1, vb[1]))):
+                    continue
+                if _interferes(v, h):
+                    continue
+                edits = _rename(t, v.lines, V["name"], n) if n != V["name"] else {}
+                at = max((d["end"] for d in top), default=F.a)
+                ind = top[-1]["ind"] if top else _ind(F.ml[_next_nb(F.ml, F.a)] if _next_nb(F.ml, F.a) else "    ")
+                cand = t.build(edits, {V["line"], H["line"]}, {at: [ind + H["spell"] + ";"]})
+                if _pin_sig(cand) != want:
+                    continue
+                scored.append(((2 if n == V["name"] else 0, 0, V["line"]),
+                               "hostwide:%s@%d->%s/twin" % (V["name"], min(v.lines) + 1, n), cand))
+    return _capped(scored)
+
+
+def unhost_candidates(text):
+    """UNHOST: a local used in two blocks keeps only one of them.
+
+    REPORT.md "UNHOST" (dungeon/func_81839358, `vel_z ASM_REG("$5")` off): `vel_y` is used in two
+    blocks, so it is a global allocno and global-alloc hands it `$5` after local-alloc gave `vel_z`
+    `$4` - retail is the other way round.  In state_1 the lane dropped the temporary,
+    `unk_10.n = unk_10.n * 5;` like its two sibling lines: `vel_y` leaves greg's list and block 0's
+    value becomes a local quantity.  (A fresh block-local there also matched.)  So, for a locally
+    defined variable with two or more webs (a web: a write and the reads it covers), in each web
+    but the first (every web under NATURAL_ALLOC_WIDE): inline the defining expression when the
+    web is one write and one read and nothing between them can change it (no call, no pin, no write
+    to a variable it reads, stores only to other members of the same base), else redeclare the
+    variable at the top of the innermost block that holds that web and nothing else of it.
+    """
+    try:
+        return _unhost(text)
+    except Exception:
+        return []
+
+
+def _stores(s):
+    """(kind, lhs) of a statement line: ('var', name), ('mem', lhs text), ('unknown', ...) or None."""
+    d = 0
+    for k, ch in enumerate(s):
+        if ch in "([":
+            d += 1
+        elif ch in ")]":
+            d -= 1
+        elif ch == "=" and d == 0 and s[k + 1:k + 2] != "=" and s[k - 1:k] not in ("=", "!", "<", ">") \
+                or ch == "=" and d == 0 and s[k - 2:k] in ("<<", ">>"):
+            lhs = re.sub(r"(?:<<|>>|[-+*/%&|^])$", "", s[:k].rstrip()).strip()
+            return ("var", lhs) if re.fullmatch(ID, lhs) else ("mem", lhs)
+    if re.search(r"\+\+|--", s):
+        m = re.search(r"(%s)[ \t]*(?:\+\+|--)|(?:\+\+|--)[ \t]*(%s)" % (ID, ID), s)
+        whole = m and re.fullmatch(r"[ \t]*(?:%s[ \t]*(?:\+\+|--)|(?:\+\+|--)[ \t]*%s)[ \t]*;[ \t]*" % (ID, ID), s)
+        return ("var", m.group(1) or m.group(2)) if whole else ("unknown", s)
+    return None
+
+
+def _disjoint(e_chains, lhs):
+    """True when a store to `lhs` cannot touch any `base->member` the moved expression reads:
+    the same base, a different first member."""
+    m = CHAIN_RE.match(lhs.strip())
+    if not m or not e_chains:
+        return False
+    return all(_sq(b) == _sq(m.group("b")) and mm != m.group("m") for b, mm in e_chains)
+
+
+def _unhost(text):
+    t = _T(text)
+    want = _pin_sig(text)
+    scored = []
+    for F in _functions(t):
+        for ds in F.decls.values():
+            for V in ds:
+                if not F.usable(V, init_ok=True):
+                    continue
+                v = F.var(V)
+                if not v.ok or len(v.webs) < 2:
+                    continue
+                for wi, (lo, hi) in enumerate(v.webs):
+                    if wi == 0 and not ALLOC_WIDE:
+                        continue
+                    reads = [k for w, k in v.iv if lo <= w and k <= hi]
+                    wl = [k for k in v.wlines if lo <= k <= hi]
+                    occ = [k for k in v.lines if lo <= k <= hi]
+                    if not reads:
+                        continue
+                    rank = (len(v.webs) != 2, lo)
+                    # (a) inline: one write, one read
+                    got = _inline(t, F, V, v, lo, reads, wl, want)
+                    if got:
+                        scored.append(((rank, 0), "unhost:%s@%d/inline" % (V["name"], reads[0] + 1), got))
+                    # (b) a block-local for this web
+                    blk = F.encl(min(occ + wl), max(occ + wl))
+                    if blk == V["block"] or blk == F.body or SWITCH_RE.match(F.ml[blk[0]]):
+                        continue
+                    if any(blk[0] < k < blk[1] and not (lo <= k <= hi) for k in v.lines + v.wlines):
+                        continue
+                    if any(d["name"] == V["name"] for d in F.decls.get(blk, [])):
+                        continue
+                    at = max((d["end"] for d in F.decls.get(blk, [])), default=blk[0])
+                    nb = _next_nb(F.ml, blk[0])
+                    ind = _ind(F.ml[nb]) if nb is not None and nb < blk[1] else _ind(F.ml[blk[0]]) + "    "
+                    spell = re.sub(r"^register[ \t]+", "", V["spell"])
+                    cand = t.build({}, (), {at: [ind + spell + ";"]})
+                    if _pin_sig(cand) != want:
+                        continue
+                    scored.append(((rank, 1), "unhost:%s@%d/local" % (V["name"], lo + 1), cand))
+    return _capped(scored)
+
+
+def _inline(t, F, V, v, lo, reads, wl, want):
+    """The web's one write `V = E;` folded into its one read, or None."""
+    if len(reads) != 1 or wl != [lo] or v.reads.count(reads[0]) != 1:
+        return None
+    if _tclass(V["ty"]) not in ("s", "u", "p"):
+        return None                                   # a narrow V truncates: inlining would not
+    r = reads[0]
+    m = re.match(r"^(?P<i>[ \t]*)%s[ \t]*=(?!=)[ \t]*(?P<e>[^;]+?)[ \t]*;[ \t]*$" % re.escape(V["name"]), F.ml[lo])
+    if not m or _occ(V["name"]).search(m.group("e")):
+        return None
+    e_m = m.group("e")
+    if re.search(r"(?<![=!<>])=(?!=)|\+\+|--", e_m):
+        return None
+    calls = [c.group("f") for c in CALL_RE.finditer(e_m) if c.group("f") not in CTRL]
+    if any(not f.isupper() for f in calls):
+        return None                                   # a call in E: never moved
+    e_real = t.lines[lo][m.start("e"):m.end("e")]
+    mem = bool(re.search(r"->|\[|\.[ \t]*[A-Za-z_]|(?:^|[^\w)\]])\*", e_m) or calls)
+    chains = [(c.group("b"), c.group("m")) for c in CHAIN_RE.finditer(e_m)]
+    if mem and (calls or re.search(r"\[|(?:^|[^\w)\]])\*[ \t]*[A-Za-z_(]", re.sub(r"\([^()]*\*[ \t]*\)", "", e_m))):
+        chains = []                                   # a memory read CHAIN_RE cannot name: no store may pass
+    evars = {x for x in re.findall(ID, re.sub(r"(?:->|\.)[ \t]*%s" % ID, "", e_m)) if x not in CTRL}
+    hit = list(_occ(V["name"]).finditer(F.ml[r]))
+    if len(hit) != 1:
+        return None
+    between = [F.ml[j] for j in range(lo + 1, r)] + [F.ml[r][:hit[0].start()]]
+    for j, s in enumerate(between):
+        if "ASM_" in s or any(c.group("f") not in CTRL and not c.group("f").isupper() for c in CALL_RE.finditer(s)):
+            return None
+        if any(_writes(s, x) for x in evars):
+            return None
+        if j == len(between) - 1:
+            break                                     # the read's own statement stores after it reads
+        st = _stores(s) if s.strip() else None
+        if st and st[0] != "var" and mem and not _disjoint(chains, st[1]):
+            return None
+        if st and st[0] == "unknown":
+            return None
+    bs, af = F.ml[r][:hit[0].start()].rstrip(), F.ml[r][hit[0].end():].lstrip()
+    top_comma = re.search(r",", re.sub(r"\((?:[^()]|\([^()]*\))*\)|\[[^\]]*\]", "", e_m))
+    bare = ((bs.endswith("[") and af.startswith("]"))                       # a whole subscript
+            or (bs.endswith(("(", ",")) and af.startswith((")", ",")) and not top_comma)   # a whole argument
+            or (re.search(r"(?:(?:^|[^-+*/%&|^<>=!])=|\breturn)$", bs) and af.startswith(";")))  # a whole rhs
+    ins = e_real if (_postfix(e_m) or bare) else "(%s)" % e_real
+    ln = _nl(t.lines[r])
+    ln = ln[:hit[0].start()] + ins + ln[hit[0].end():]
+    cand = t.build({r: ln}, {lo})
+    return cand if _pin_sig(cand) == want else None
+
+
+def declorder_candidates(text):
+    """DECL ORDER: one local's declaration moved directly before another's.
+
+    REPORT.md "DECL ORDER" (dungeon/func_80CEA348, `next_y ASM_REG("$19")` off): `next_x` declared
+    directly before `next_y`.  Both are global allocnos with equal priority, so global-alloc's
+    `allocno_compare` falls to its tie-break, the allocno number - declaration order - and the
+    oracle trace of the candidate is the base's with only greg's order flipped.  Ties need twins,
+    so the pairs are two plain locals of one declaration list, both live across a basic-block
+    boundary, with twin names (`next_x`/`next_y`) or parallel uses (the same statement shape on
+    neighbouring lines) - every pair of such globals under NATURAL_ALLOC_WIDE.  The later one moves
+    directly before the earlier one (their only other relative order); it must have no initialiser
+    (nothing is evaluated in a different order), and a pinned declaration never moves.
+    """
+    try:
+        return _declorder(text)
+    except Exception:
+        return []
+
+
+def _shape(s, name):
+    s = re.sub(r"(->|\.)[ \t]*%s" % ID, r"\1M", s.strip())
+    s = re.sub(r"\b%s\b" % NUM, "N", s)
+    return re.sub(r"\b%s\b" % re.escape(name), "@", _sq(s))
+
+
+def _parallel(F, x, vx, y, vy):
+    sx = {k: _shape(F.ml[k], x["name"]) for k in set(vx.lines)}
+    sy = {k: _shape(F.ml[k], y["name"]) for k in set(vy.lines)}
+    pairs = sum(1 for kx, a in sx.items() for ky, b in sy.items() if kx != ky and abs(kx - ky) <= 3 and a == b)
+    return pairs >= 2
+
+
+def _declorder(text):
+    t = _T(text)
+    want = _pin_sig(text)
+    scored = []
+    for F in _functions(t):
+        for blk, ds in F.decls.items():
+            ok = [d for d in ds if F.usable(d, init_ok=True)]
+            for i, x in enumerate(ok):
+                for y in ok[i + 1:]:                  # y declared after x: y moves before x
+                    if y["init"] is not None or y["line"] == x["line"]:
+                        continue
+                    vx, vy = F.var(x), F.var(y)
+                    if not vx.lines or not vy.lines or not (vx.glob and vy.glob):
+                        continue
+                    tier = 0 if _twin_names(x["name"], y["name"]) else \
+                        1 if x["ty"] == y["ty"] and _parallel(F, x, vx, y, vy) else 2
+                    if tier == 2 and not ALLOC_WIDE:
+                        continue
+                    edits = {x["line"]: _nl(t.lines[y["line"]]) + "\n" + _nl(t.lines[x["line"]])}
+                    cand = t.build(edits, {y["line"]})
+                    if _pin_sig(cand) != want:
+                        continue
+                    scored.append(((tier, x["line"], y["line"]),
+                                   "declorder:%s<%s@%d" % (y["name"], x["name"], x["line"] + 1), cand))
+    return _capped(scored)
+
+
 # ------------------------------------------------------------------------------ the menu
 
 GENERATORS = (dropcopy_candidates, armstore_candidates, ret2break_candidates, ptr2index_candidates,
               postinc_candidates, gotoloop_candidates, splitcursor_candidates, realloop_candidates,
-              host_candidates)
+              host_candidates, hostwide_candidates, unhost_candidates, declorder_candidates)
+# the register-allocation levers: many per row, so a budgeted menu appends them after its own shapes
+ALLOC_LEVERS = (host_candidates, hostwide_candidates, unhost_candidates, declorder_candidates)
 
 
 def candidates(text, basesym=True, host=True):
     """Every natural-shape candidate for a text, deduplicated, the input itself excluded.
 
-    host=False leaves out `host_candidates` (~11 per row on 525 rows): a budgeted menu that puts
-    the natural shapes first (t15/t18) appends them itself, after its own proven shapes."""
+    host=False leaves out `host_candidates` (~11 per row on 525 rows) and the three fakedep levers
+    (`ALLOC_LEVERS`, at most ALLOC_CAP each): a budgeted menu that puts the natural shapes first
+    (t15/t18) appends them itself, after its own proven shapes."""
     out, seen = [], {text}
-    gens = GENERATORS if host else tuple(g for g in GENERATORS if g is not host_candidates)
+    gens = GENERATORS if host else tuple(g for g in GENERATORS if g not in ALLOC_LEVERS)
     for gen in gens + ((basesym_candidates,) if basesym else ()):
         try:
             got = gen(text)

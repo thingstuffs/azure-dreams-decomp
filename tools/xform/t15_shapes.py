@@ -853,7 +853,10 @@ class T:
         (`basesym` never on a SLUS row - that scorer compares object identity)."""
         real = (natural.candidates(cur, basesym=not slus, host=False) + loop_counter_merge_candidates(cur)
                 + dup_after_if_candidates(cur) + dowhile2for_candidates(cur) + narrow_candidates(cur)
-                + natural.host_candidates(cur))    # many per row: after the proven shapes, never ahead of them
+                + natural.host_candidates(cur)     # many per row: after the proven shapes, never ahead of them
+                # the fakedep levers (work/native_lane/fakedep/REPORT.md), <= natural.ALLOC_CAP each
+                + natural.hostwide_candidates(cur) + natural.unhost_candidates(cur)
+                + natural.declorder_candidates(cur))
         if WIDE:
             real += (fold_load_candidates(cur)
                      + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
