@@ -407,6 +407,22 @@ and inherits the suggestion, 3–23 words); a `u16`/`s16` host loses too (combin
 HImode write-back). All 17 exact, 17 pins; the lever is generic to any register pin whose job is a
 temporary's suggestion, and the t21 generator is gaining it as a "host" step.
 
+**The register-rename class** (a native lane, 2026-09-12, `work/native_lane/regrename/REPORT.md`; the
+largest cheap class: ~965 `ASM_REG` sites whose erasure alone leaves only a register rename). Three
+mechanisms, each read in the dumps: (1) **cse class head** — `make_regs_eqv` makes a new register
+the head of its equivalence class only if its life reaches outside the cse block, so a short-lived
+copy is merged away and the load temp crosses the call in the wrong register; hosting the value in
+an existing variable whose life does reach out keeps the copy. (2) **the commutative swap at
+expand** — when the target is the second operand's own pseudo, optabs swaps them; the sum under
+another name (`entry_y += y; y = entry_y;`) keeps retail's order. (3) **a pinned OUTPUT hands its
+register to the input as a suggestion** (local-alloc.c:1891), and a plain global host fails because
+global.c's `set_preference` then prefers that register — hosting in the variable the next statement
+assigns from the product works, because that register is live there and the preference is dropped.
+The mechanical form is **HOST**: rename the pinned variable to an existing word-sized variable in its
+scope (lazy reuse, very 1997), never a fresh block-local. 12 rows / 22 pins closed; pin PAIRS
+(`PIN = v;`, a cse cost tie) and same-register groups of three or more stay group problems, and 31
+sites are not C at all (a hand-written epilogue, an assembler marker).
+
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences
 remain. `ret2break`, `postinc` and `gotoloop` closed nothing outside their own test rows, and

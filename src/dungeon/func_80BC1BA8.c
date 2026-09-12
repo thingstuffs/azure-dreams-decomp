@@ -62,7 +62,7 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
     u16 initial_flags;
     u16 sprite_flags;
     s32 height_accum;
-    register u16 motion_flags ASM_REG("$4");
+    u16 motion_flags;
 
     if (D_80083462 & 0x2000) {
         void *entry_entity = entity;
@@ -198,7 +198,22 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
             (*(s16 *)((u8 *)entity + 0xB8)) = 0;
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
             height_accum += height_work;
-            goto store_height;
+            (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
+            height_offset = motion_flags & 8;
+            if (height_offset == 0) {
+                ground_height = func_800BCB04(motion->unk_00.at02.v,
+                                      motion->unk_04.at02.v,
+                                      (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
+                        ((S_801713A8_2 *)entity_base)->unk_88;
+                if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->unk_14 = 0;
+                    ((S_801713A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                    goto finish_motion;
+                }
+            }
+            goto finish_motion;
         }
     }
 
@@ -217,9 +232,9 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
         (*(s16 *)((u8 *)entity + 0xB8)) = 0;
         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
         height_accum -= height_work;
-store_height:
         (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
-        if (!(motion_flags & 8)) {
+        height_offset = motion_flags & 8;
+        if (height_offset == 0) {
             ground_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -

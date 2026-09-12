@@ -20,7 +20,6 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     s32 inner_x;
     s32 inner_y;
     s32 outer_x;
-    register s32 outer_y ASM_REG("$20");
     s32 inner_count;
     s32 inner_dir;
     register s32 outer_count ASM_REG("$19");
@@ -136,7 +135,7 @@ next_inner:
     ASM_KEEP(outer_x);
     dir_seed = D_8008347E[0];
     shifted_y = base_y << 0x10;
-    outer_y = shifted_y >> 0x10;
+    probe_x = shifted_y >> 0x10;
     outer_dir = dir_seed & 0xF;
 scan_outer:
     probe_dir = zero;
@@ -161,7 +160,7 @@ scan_outer:
     call_x = (s16)*dx;
     call_y = (s16)*dy;
     call_x = (((outer_x + call_x) << 6) + 0x20) & 0xFFE0;
-    call_y = (((outer_y + call_y) << 6) + 0x20) & 0xFFE0;
+    call_y = (((probe_x + call_y) << 6) + 0x20) & 0xFFE0;
     distance = func_800BCB04(call_x, call_y, (s16)(base_z - 0x20));
     if ((s16)distance < 0x200) {
         goto found;

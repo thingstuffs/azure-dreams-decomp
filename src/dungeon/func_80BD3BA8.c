@@ -79,7 +79,6 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     void *call_motion;
     void *call_sprite;
     s32 height_offset;
-    register u32 height_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 direction;
     s16 ground_height;
     s32 flags;
@@ -199,9 +198,9 @@ clear_8000000:
             height_step = (*(u16 *)((u8 *)entity + 0x98)) & 8;
             if (height_step == 0) {
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
-                height_bits = (*(u16 *)((u8 *)entity + 0x92));
+                flags = (*(u16 *)((u8 *)entity + 0x92));
                 if (height_step < height_offset) {
-                    height_step = height_bits - 8;
+                    height_step = flags - 8;
                     (*(s16 *)((u8 *)entity + 0x92)) = height_step;
                     func_80171910();
                     return;
@@ -277,15 +276,15 @@ clear_8000000:
     height_step = (*(u16 *)((u8 *)entity + 0x98)) & 8;
     if (height_step == 0) {
         height_offset = (*(s16 *)((u8 *)entity + 0x92));
-        height_bits = (*(u16 *)((u8 *)entity + 0x92));
+        flags = (*(u16 *)((u8 *)entity + 0x92));
         if (height_step < height_offset) {
-            height_step = height_bits - 8;
+            height_step = flags - 8;
             goto store_adjustment;
         }
 adjust_positive:
         height_step = height_offset < -8;
         if (height_step != 0) {
-            height_step = height_bits + 8;
+            height_step = flags + 8;
         } else {
             goto finish_motion;
         }

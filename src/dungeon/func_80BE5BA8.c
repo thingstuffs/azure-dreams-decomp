@@ -62,7 +62,7 @@ void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
     u16 initial_sprite_flags;
     u16 sprite_flags;
     s32 adjusted_height;
-    register u16 height_flags ASM_REG("$4");
+    u16 height_flags;
 
     if (D_80083462 & 0x2000) {
         void *entry_self = entity;
@@ -195,7 +195,22 @@ clear_ground_flag:
             (*(s16 *)((u8 *)entity + 0xB8)) = 0;
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
             adjusted_height += adjustment;
-            goto check_ground;
+            height_offset = height_flags & 8;
+            (*(s32 *)((u8 *)entity + 0x90)) = adjusted_height;
+            if (height_offset == 0) {
+                ground_height = func_800BCB04(motion->unk_00.at02.v,
+                                      motion->unk_04.at02.v,
+                                      (s16)(((S_8014D3A8_2 *)entity_base)->unk_88 - 0x20)) -
+                        ((S_8014D3A8_2 *)entity_base)->unk_88;
+                if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->unk_14 = 0;
+                    ((S_8014D3A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                    goto finish_motion;
+                }
+            }
+            goto finish_motion;
         }
     }
 
@@ -214,10 +229,9 @@ clear_ground_flag:
         (*(s16 *)((u8 *)entity + 0xB8)) = 0;
         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
         adjusted_height -= adjustment;
-check_ground:
-        height_flags &= 8;
+        height_offset = height_flags & 8;
         (*(s32 *)((u8 *)entity + 0x90)) = adjusted_height;
-        if (!height_flags) {
+        if (height_offset == 0) {
             ground_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_8014D3A8_2 *)entity_base)->unk_88 - 0x20)) -

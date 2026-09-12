@@ -166,29 +166,29 @@ void *func_801708DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
     ((S_801708DC_3 *)part)->unk_25 = saved_part_y;
 
     {
-        register s32 primary_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 primary_flags;
         s32 secondary_flags;
 
         if ((saved_kind & 3) == 1) {
             primary_flags = ((S_801708DC_1 *)object)->unk_14 | 0x6000;
             secondary_flags = ((S_801708DC_1 *)object)->unk_1C | 0x6000;
-            goto store_flags;
+            ((S_801708DC_1 *)object)->unk_14 = primary_flags;
+            ((S_801708DC_1 *)object)->unk_1C = secondary_flags;
+            goto flags_done;
         }
         if ((saved_kind & 3) >= 2) {
             primary_flags = ((S_801708DC_1 *)object)->unk_14 | 0x2000;
             secondary_flags = ((S_801708DC_1 *)object)->unk_1C | 0x2000;
-            goto store_flags;
+            ((S_801708DC_1 *)object)->unk_14 = primary_flags;
+            ((S_801708DC_1 *)object)->unk_1C = secondary_flags;
+            goto flags_done;
         }
         goto update_kind;
 
-store_flags:
-        ((S_801708DC_1 *)object)->unk_14 = primary_flags;
-        ((S_801708DC_1 *)object)->unk_1C = secondary_flags;
-        goto flags_done;
 
 update_kind:
-        primary_flags = (saved_kind & -4) << 16;
-        if (primary_flags == 0) {
+        primary_flags = saved_kind & ~3;
+        if ((s16)primary_flags == 0) {
             if ((((S_801708DC_1 *)object)->unk_14 & 0x200) == 0) {
                 if (func_800A6D30() & 1) {
                     ((S_801708DC_1 *)object)->unk_1C |= 0x200;

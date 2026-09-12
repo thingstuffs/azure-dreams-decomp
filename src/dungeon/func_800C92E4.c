@@ -56,7 +56,7 @@ void func_800CEA44(void *den_event) {
     s16 state;
     u16 next_state;
     s32 tail_value;
-    register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 y;
     s32 spawn_x;
     s32 area_x;
     register s32 entry_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -132,7 +132,8 @@ retry_position:
             area_x = area[0];
             entry_y = area[2];
             spawn_x += area_x;
-            y = entry_y + y;
+            entry_y += y;
+            y = entry_y;
             if (((s16)func_8009A350((u8)spawn_x - 1, (u8)y, 0,
                                     &scratch.flags) == 0) ||
                 ((scratch.flags & 0xB700) != 0)) {

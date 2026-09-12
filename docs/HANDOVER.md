@@ -244,6 +244,14 @@ the SLUS SHA-1 gate MATCH after each phase.
   constants, try the swapped arm order). Acceptance 7/7; **102 rows landed, 107 pins off**, then t2 over
   them freed more in 20 rows; 98 touched windows MATCH, SLUS MATCH. Misses worth a lane: a 17-row
   family (one function, 17 overlays) 2 words off where the erased variable serves a second use.
+- **Two more native lanes landed:** the 17-row cross-jump family (`work/native_lane/family17/REPORT.md`
+  - hosting, the opposite of splitting; t21 now reproduces it with its "host" step) and the
+  register-rename class (`work/native_lane/regrename/REPORT.md` - cse class head, the commutative
+  swap at expand, a pinned output's suggestion; mechanical form HOST = rename the pinned variable to
+  an existing word-sized one). 25 of their 29 candidates landed (16 family under `t21_crossjump`, 9
+  under the new `t23_host` journal), t2 freed pins in 2 more, 55 windows MATCH. The other 4 (1 family,
+  3 register-rename) land after the deep pass. **Next:** make HOST a real generator (the lane's
+  `scratch/reach.py` implements it) so later sweeps re-apply it.
 - **Parked, with evidence: the `$0` pins as an assembler setting.** 59 `register s32 zero
   ASM_REG("$0")` pins in 46 overlay rows exist only for ASPSX's `ori $rx,$zero,imm` spelling of `li`
   (agy's earlier finding). maspsx expands `li` itself only for `--aspsx-version` below 2.50
