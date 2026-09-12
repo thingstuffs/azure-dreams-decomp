@@ -121,3 +121,28 @@ The dedicated mode has exhaustive enumeration through eight pins, explicit limit
 saved near misses, with the established recovery/publication path. Its value will be
 judged on verified removals per CPU time, not number of tested variants. Audit:
 [joint_erase_audit_20260912.json](evidence/joint_erase_audit_20260912.json).
+
+### First joint-erasure result: 18 pins staged, gates pending
+
+All 100 rows completed without errors or budget stops: six candidates / 18 pins,
+20,585 compiler calls, 125 full verifies and 443 CPU seconds. This is about 146 pins
+per CPU hour before publication/follow-up, versus 17 in the prior extended beam batch.
+The populations differ. The 117 near-screen fallback checks produced no additional
+wins; lowering this allowance is worth a measured trial, but assembly equality alone
+must never become the acceptance proof.
+
+The six candidates are `town/func_800B8934`, `town/func_8032F060`,
+`dungeon/func_8009A288`, `dungeon/func_81977230`, `dungeon/func_80976434`, and
+`dungeon/func_80E3BD94`. A current independent three-probe check on the first row shows:
+removing the entry pointer's register pin alone costs four aligned differences;
+removing its distant `ASM_KEEP` alone costs 27; removing both is exact. The source
+already has the right natural lifetime, while the two remaining constraints interact.
+The five-pin win on `func_8009A288` removes interacting constant keep markers together.
+These are removal-group mechanisms, requiring no speculative C rewrite.
+
+Next steps after gates: harvest and evaluate bounded T2/T20; expand erasure-only
+coverage to the other current 2–8-pin rows. For larger functions, prioritize groups
+sharing a variable before enumerating all distant pairs, using the verified register
+plus keep example as the control. Avoid applying an exponential search to large pin
+sets. Preserve results and exact source hashes to avoid repeating completed work.
+Evidence: [joint_erase_batch_20260912.json](evidence/joint_erase_batch_20260912.json).

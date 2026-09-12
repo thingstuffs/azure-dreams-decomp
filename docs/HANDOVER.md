@@ -33,14 +33,19 @@ but found no removals (425 full verifies, 406 CPU seconds). Sixteen rows hit the
 attempt limit. No source harvest was needed. Keep its evidence, but do not broaden
 the same search without a new mechanism. See [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
 
-**Next experiment:** `pins_joint_erase_20260912`, an erasure-only pass over 100 selected
-functions / 763 pins with incomplete current-source joint-subset coverage. Prepare
-with mode `erasures`, 512 screens, 12 full verifies and 20 CPU seconds per row; run
-four detached workers. Status and restart commands are in [PIN_SEARCH.md](PIN_SEARCH.md).
-Use the actual manifest/state/process to determine whether it has started or finished;
-search stages candidates and makes no model calls. No new candidates are harvested yet.
-The initial audit bins and coverage definition were corrected before selection: 336
-single-pin rows are separate, and complete subset coverage means all sizes through n.
+**Joint-erasure result:** `pins_joint_erase_20260912` completed 100 selected functions
+without errors: six byte-verified candidates removing 18 pins, 443 CPU seconds. All
+rows completed within limits. A distant register/keep pair was independently verified:
+either erasure alone fails, the pair matches. See [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
+
+**Harvest in progress:** detached `work/pin_search/pins_joint_erase_20260912/harvest.py`
+(PID 4187794 at launch) runs publication gates, bounded T2/T20, any required follow-up
+gates, then census/levels/status. Inspect `harvest_state.json`, the live process and
+`harvest.log`; `publication.json` and `followup/transaction.json` must both complete
+before source is committed. The 18 pins are staged, not yet claimed as landed here.
+Afterward record the follow-up receipt, final census and gates, commit the six source
+rows plus generated ledgers/status, and expand erasure-only coverage. The next cheap
+mechanism for large pin sets is grouping pins by variable across distant source lines.
 The old sharded launcher and its partial journal remain historical.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
