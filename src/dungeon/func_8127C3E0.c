@@ -297,9 +297,7 @@ init_loop:
 
     do {
         turn_flags = ((S_8127C3E0_5 *)move_state_arg)->unk_98;
-        ASM_KEEP(turn_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         current_angle = ((S_8127C3E0_1 *)actor)->unk_2A.s;
-        ASM_KEEP_NV(current_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (turn_flags & 2) {
             trial_angle = current_angle - turn_table[turn_index];
         } else {

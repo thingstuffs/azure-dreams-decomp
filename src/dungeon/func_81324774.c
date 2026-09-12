@@ -154,8 +154,8 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 next_x;
     s32 current_x;
     s16 next_path_index;
-    register s32 current_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *y_offsets ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 current_y;
+    u8 *y_offsets;
     u8 *y_offset_ptr;
     u8 *world_position;
 

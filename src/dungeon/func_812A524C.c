@@ -407,7 +407,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     s32 scan_group;
     s32 clear_flags;
     s32 motion_x;
-    register s32 motion_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 motion_y;
     s32 distance_x;
     s32 distance_y;
     s32 scaled_x;
@@ -849,7 +849,6 @@ inactive:
         }
         motion_x = ((S_812A524C_37 *)motion)->unk_00.at00.v;
         velocity_x = ((S_812A524C_37 *)motion)->unk_0C;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         motion_y = ((S_812A524C_37 *)motion)->unk_04.at00.v;
         velocity_y = ((S_812A524C_37 *)motion)->unk_10;
         ((S_812A524C_37 *)motion)->unk_00.at00.v = motion_x + velocity_x;

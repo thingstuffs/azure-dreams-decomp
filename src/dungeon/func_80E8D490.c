@@ -230,10 +230,9 @@ OwnerLinked:
             ((S_80172C90_0 *)actor)->unk_73.u = delta_y;
 OwnerDone:
             {
-                register void *linked_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                void *linked_actor;
 
                 linked_actor = actor;
-                ASM_USE_NV(linked_actor);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             }
         }
 
@@ -241,7 +240,6 @@ OwnerDone:
             void *move_actor;
 
             move_actor = actor;
-            ASM_UNDEF(move_actor);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             position[0] = motion->unk_02.s;
             position[1] = motion->unk_06.s;
             position[2] = motion->unk_0A.s;

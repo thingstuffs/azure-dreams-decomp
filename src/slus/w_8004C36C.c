@@ -203,10 +203,10 @@ command:
         }
         {
             register u8 tex_u ASM_REG("$3") = U8_AT(work, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            register u8 tex_width ASM_REG("$2") = U8_AT(work, 0xA);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            u8 tex_width = U8_AT(work, 0xA);
             u8 tex_v = U8_AT(work, 9);
             s32 screen_y0 = S16_AT(packet, 0xA);
-            register u8 tex_right ASM_REG("$3") = tex_u + tex_width;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            u8 tex_right = tex_u + tex_width;
             U8_AT(packet, 0x24) = tex_right;
             U8_AT(packet, 0x14) = tex_right;
             U8_AT(packet, 0x15) = tex_v;
@@ -224,8 +224,8 @@ command:
         }
         {
             register u8 tex_v ASM_REG("$3") = U8_AT(work, 9);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            register u8 tex_height ASM_REG("$2") = U8_AT(work, 0xB);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            register u8 tex_bottom ASM_REG("$3") = tex_v + tex_height;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            u8 tex_height = U8_AT(work, 0xB);
+            u8 tex_bottom = tex_v + tex_height;
             U8_AT(packet, 0x25) = tex_bottom;
             U8_AT(packet, 0x1D) = tex_bottom;
         }

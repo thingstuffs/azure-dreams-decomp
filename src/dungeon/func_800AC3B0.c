@@ -102,7 +102,7 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
     s32 arg2_s1 = arg2;
     register s32 arg3_s4 ASM_REG("$20") = arg3;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 raw_arg4 ASM_REG("$23") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u16 arg5_t0 ASM_REG("$8") = arg5;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u16 arg5_t0 = arg5;
     register s32 temp_s8;
     M2C_UNK var_a1;
     M2C_UNK temp_s2;
@@ -110,7 +110,7 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
     s32 geom_v1;
     register s32 call3_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 call69_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *call_a1;
     s32 copy_v0;
     s32 copy_v1;
     u32 byte_v0;
@@ -127,15 +127,11 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
 #ifdef NON_MATCHING
     call_a1 = D_80083498;
 #else
-    call_a1 = (u8 *) 0x80080000;
 #endif
-    ASM_KEEP_DEP_NV(call_a1, call3_a0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(arg5_t0, raw_arg4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     subroutine_arg4 = arg5_t0;
 #ifndef NON_MATCHING
-    call_a1 += 0x3498;
+    call_a1 = (u8 *)&D_80083498;
 #endif
-    ASM_KEEP_DEP_NV(call_a1, arg5_t0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     temp_s2 = (M2C_UNK) func_8003FD64(call3_a0, call_a1);
     temp_s8 = raw_arg4;
     if (temp_s2 != NULL) {
@@ -258,7 +254,6 @@ block_shared:
 block_8:
         ((S_800B1B10_2 *)temp_s3)->unk_22 = 4;
         arg5_t0 = subroutine_arg4;
-        ASM_KEEP_NV(arg5_t0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_800B1B10_2 *)temp_s3)->unk_26 = arg5_t0;
     }
 }
