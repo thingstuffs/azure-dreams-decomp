@@ -207,8 +207,8 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     void **object_slot4;
     S_800AB778_12 *actor_entry16;
     S_800AB778_6 *actor_entry4;
-    register s32 template_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register u32 template_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 template_index;
+    u32 template_base;
     void *event_actor;
     S_800AB778_8 *globals_page4;
     S_800AB778_14 *globals_page16;

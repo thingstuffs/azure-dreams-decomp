@@ -56,7 +56,7 @@ typedef struct S_80158878_4 {
 } S_80158878_4;   /* temp_s5 in func_80158878 */
 
 /* Allocates an object and initializes its state and attached data. */
-void *func_80158878(s16 init_flags, s8 pos_x, s8 pos_y, s16 init_value)
+void *func_80158878(s16 init_flags, s16 pos_x, s16 pos_y, s16 init_value)
 {
     s32 init_mode;
     s32 state_flags;
@@ -66,9 +66,9 @@ void *func_80158878(s16 init_flags, s8 pos_x, s8 pos_y, s16 init_value)
     void *object;
     S_80158878_4 *extended_state;
     S_80158878_1 *state;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     register s16 saved_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
 
     state = 0;
     saved_x = pos_x;

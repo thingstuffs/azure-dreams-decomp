@@ -28,7 +28,7 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
     void *draw_context;
     void *ordering_table;
     Packet *area_packet;
-    register s32 saved_clear_bg ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u16 saved_clear_bg;
     s16 shift_y;
     s32 saved_draw_flags;
     s32 y;
@@ -74,7 +74,6 @@ void func_800B8FC8(s32 sprite, Position *clip_rect, Position *screen_pos, s32 cl
             clear_packet->data = *(u32 *)((u8 *)clip_rect + 4);
             func_8006658C(ordering_table, clear_packet);
         }
-        ASM_KEEP(saved_clear_bg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         context = *context_slot;
         area_packet = *(Packet **)(context + 0x8D0);

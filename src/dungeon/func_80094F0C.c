@@ -36,9 +36,9 @@ extern FuncMonster D_800E2970[];
 
 /* Checks movement clearance and classifies the destination height relative to the actor. */
 s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 height_offset) {
-    register s32 offset_or_height ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 call_direction ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 *x_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s16 offset_or_height ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 call_direction;
+    s16 *x_table;
     u16 flags;
     u16 *flags_out;
     s32 direction;
@@ -66,7 +66,6 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
 
         call_direction = direction;
         flags_out = &flags;
-        ASM_KEEP(flags_out);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         x_table = D_800DCEAC;
         offset_or_height = call_direction << 1;
         x_pos = *(u16 *)((u8 *)x_table + offset_or_height) + x_base;
@@ -87,7 +86,6 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
                 return 0;
             }
         }
-        ASM_KEEP(offset_or_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         if (flags & 0x8402) {
             return 0;

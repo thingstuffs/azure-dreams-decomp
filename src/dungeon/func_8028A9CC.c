@@ -15,7 +15,7 @@ void func_8001D9CC(s16 left_x, s16 top_y, s16 right_x, s16 bottom_y, s32 tile_va
     s16 *opposite_tile;
     u8 *info_page;
     DungeonInfo *info;
-    register s32 tile_value ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 tile_value;
     register s16 bottom_row;
     s16 x;
     s16 y;

@@ -37,7 +37,7 @@ extern M2C_UNK D_80170854;
 extern u8 D_80174B0C[];
 
 void func_801740F4(void *arg0, void *arg1, void *arg2, void *arg3) {
-    register s32 temp_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 temp_v0;
     void *call_arg;
     register s32 pass_result ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 raw_result;
@@ -52,8 +52,9 @@ void func_801740F4(void *arg0, void *arg1, void *arg2, void *arg3) {
         ((S_801740F4_1 *)arg0)->unk_9B = 0;
         if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x400) {
             temp_v0 = ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32;
-            if (temp_v0 >= 0) {
-                ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32 = (s32)(temp_v0 | 0x80000000);
+            if (!(temp_v0 & 0x80000000)) {
+                temp_v0 |= 0x80000000;
+                ((Rec_D_800E3D7C *)arg3)->unk_14.as_s32 = (s32)temp_v0;
                 ((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 = (u16)(((Rec_D_800E3D7C *)arg3)->unk_2A.as_u16 + ((func_800A6D30() & 7) << 9));
             }
         }

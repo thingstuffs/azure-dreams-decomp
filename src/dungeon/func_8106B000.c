@@ -83,7 +83,7 @@ __asm__(".globl func_8015E800\n"
 #define BODY_NAME func_8015E800
 #endif
 
-void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
+void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     S_8106B000_1 *var_s0;
     s32 temp_v1;
     u16 flags98;
@@ -91,9 +91,9 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3) {
     S_8106B000_2 *temp_s4;
     S_8106B000_4 *temp_s5;
     void *temp_v0;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg1;
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg2;
     void *call_a0;
     void *call_a1;
 

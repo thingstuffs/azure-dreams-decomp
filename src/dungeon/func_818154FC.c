@@ -238,7 +238,7 @@ update_position:
   {
     u16 position_z;
     register u16 final_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u16 delta_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 delta_z;
 
     parent_sprite = parent_node->unk_0C;
     if ((func_8003DF74(parent_sprite->unk_08, parent_sprite, &offset, 0) != 0) || (((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {

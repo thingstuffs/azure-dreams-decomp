@@ -52,7 +52,7 @@ extern void func_800AA36C(Body *, ChildA *, ChildB *, Body *);
 
 Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 saved_arg0 = arg0;
-    register s32 saved_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 saved_arg1 = arg1;
     s32 saved_arg3 = arg3;
     register s32 saved_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register Body *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

@@ -167,7 +167,6 @@ loop:
         ((S_800255B8_2 *)sprite)->unk_20 = 0x1000;
         ((S_800255B8_2 *)sprite)->unk_1E = 0x1000;
         ((S_800255B8_2 *)sprite)->unk_1C = 0x1000;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         {
             u8 *sprite_table;
 
@@ -176,8 +175,7 @@ loop:
 #else
             sprite_table = (u8 *)&D_800274C0;
 #endif
-            component_data = (u8 *)((u32)component_data + (u32)sprite_table);
-            ((S_800255B8_2 *)sprite)->unk_08 = component_data;
+            ((S_800255B8_2 *)sprite)->unk_08 = (u8 *)((u32)component_data + (u32)sprite_table);
         }
         sprite_flags = ((S_800255B8_2 *)sprite)->unk_14;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

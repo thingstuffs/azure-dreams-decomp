@@ -157,8 +157,6 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             x_offset = 0x20;
             render->unk_10 = x_offset;
             render->unk_0C = color;
-#ifndef NON_MATCHING
-#endif
             render_flags |= 0xC;
             render->unk_14 = render_flags;
 #ifndef NON_MATCHING

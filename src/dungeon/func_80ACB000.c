@@ -139,9 +139,8 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
         {
             u32 red = ((S_80ACB000_5 *)tile)->unk_04.at00u.v;
             register u32 green ASM_REG("$6") = ((S_80ACB000_5 *)tile)->unk_04.at01.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u32 blue ASM_REG("$7") = ((S_80ACB000_5 *)tile)->unk_04.at02.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register u8 blue ASM_REG("$7") = ((S_80ACB000_5 *)tile)->unk_04.at02.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(blue);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
         ((S_80ACB000_5 *)tile)->unk_04.at03.v = packet_code;
         ((S_80ACB000_5 *)tile)->unk_00.at00.v =

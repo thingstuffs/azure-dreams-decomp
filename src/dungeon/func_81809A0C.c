@@ -336,14 +336,13 @@ handle_input:
             compare_x = x_value & 0xFFFF;
             if (compare_x == 1) {
                 if ((y_value & 0xFFFF) == compare_x) {
-                    register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    s32 next_y;
                     s32 x_step;
 
                     x_step = *x_step_ptr;
                     next_y = *(u16 *) step_or_cell;
                     x_value = x_step + base_x;
-                    next_y = y_value + next_y;
-                    target_y = (u16) next_y;
+                    target_y = (u16)(y_value + next_y);
                     goto check_other_side;
                 }
                 first_slot = menu + 0xC;
@@ -398,7 +397,7 @@ check_other_side:
             }
         }
         if (((S_8002520C_4 *)state_base)->unk_10 & 0x40) {
-            register s32 direction ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s16 direction;
 
             func_800A56E0(0x503);
             {
@@ -424,7 +423,6 @@ check_other_side:
                 u8 *direction_entry;
 
                 turned_dir = direction - 2;
-                ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 side_index = ((S_8002520C_0 *)menu)->unk_26;
                 direction_page = (u8 *)0x80010000;
                 direction_entry = (side_index * 2) + direction_page;

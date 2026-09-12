@@ -220,11 +220,9 @@ emit_trail:
             {
                 register void *anim_sprite ASM_REG("$4") = sprite;
                 if (particle_index != 0) {
-                    register void *animation ASM_REG("$5") = D_800DED28;
-                    register void *anim_context ASM_REG("$6") = 0;
-                    ASM_USE2(animation, anim_context);
-                    bits = 0x20;
-                    F(sprite, u16, 0x10) = (u16)bits;
+                    void *animation = D_800DED28;
+                    void *anim_context = 0;
+                    F(sprite, u16, 0x10) = (u16)0x20;
                     F(sprite, u16, 0x1E) = 0x1000;
                     F(sprite, u16, 0x1C) = 0x1000;
                     return func_80024FC4(anim_sprite, animation, anim_context);
@@ -315,11 +313,9 @@ emit_trail:
                 {
                     register void *anim_sprite ASM_REG("$4") = sprite;
                     if (particle_index != 0) {
-                        register void *animation ASM_REG("$5") = D_800DED28;
-                        register void *anim_context ASM_REG("$6") = 0;
-                        ASM_USE2(animation, anim_context);
-                        bits = 0x20;
-                        F(anim_sprite, u16, 0x10) = (u16)bits;
+                        void *animation = D_800DED28;
+                        void *anim_context = 0;
+                        F(anim_sprite, u16, 0x10) = (u16)0x20;
                         F(anim_sprite, u16, 0x1E) = 0x1000;
                         F(anim_sprite, u16, 0x1C) = 0x1000;
                         return func_80025228(anim_sprite, animation, anim_context);

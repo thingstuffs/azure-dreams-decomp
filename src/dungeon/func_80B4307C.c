@@ -51,7 +51,7 @@ extern M2C_UNK D_80170E70;
 extern u8 D_80175A54[];
 extern u8 D_80175A9C[];
 
-void *func_8017087C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_8017087C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     Work *work;
@@ -62,9 +62,9 @@ void *func_8017087C(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     Work *actor;
     s32 left;
     s32 right;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg1;
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg2;
     void *call_a0;
     void *call_a1;
 

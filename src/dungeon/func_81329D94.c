@@ -4,15 +4,14 @@ extern s16 D_80083228; extern s32 D_80045340, D_80083498, D_801714B0, D_80174C5C
 extern void *func_8003FD64(); extern void func_8004491C(); extern void func_80047784(); extern void func_8009A028(); extern void func_8009A3D0(); extern void func_800A9C18();
 
 /* Create and initialize an object at the supplied coordinates and store it globally. */
-void func_80171594(u8 x, u8 y, s32 z) {
-    register u8 saved_x ASM_REG("$20") = x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 saved_y ASM_REG("$21") = y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+void func_80171594(u16 x, u16 y, s32 z) {
+    u8 saved_x = x;
+    u8 saved_y = y;
     void *object, *state ASM_REG("$19"), *position ASM_REG("$17"), *sprite ASM_REG("$16");
     s32 tile_mask;
     u8 tile_x, tile_y;
     void *call_object;
 
-    ASM_KEEP4_NV(z, saved_x, saved_y, z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object = func_8003FD64(0x112, &D_80083498);
     call_object = object;
     if (object != 0) {

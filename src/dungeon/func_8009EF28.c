@@ -11,12 +11,12 @@ s32 func_800A4688(s32 world_x, s32 world_y, s32 world_z, u32 direction, s32 disa
     u16 x_offset;
     u16 y_offset;
     register u32 tile_x ASM_REG("$19");
-    register u32 tile_y ASM_REG("$18");
+    register s32 tile_y ASM_REG("$18");
     u32 shifted_sector;
     s32 sector_arg;
     s32 call_x;
-    s32 call_y;
-    s32 sector;
+    u32 call_y;
+    u16 sector;
     s32 height;
     s32 sample_z;
     s32 neighbor_x;
@@ -31,14 +31,9 @@ s32 func_800A4688(s32 world_x, s32 world_y, s32 world_z, u32 direction, s32 disa
     if (disabled != 0) {
         return 0;
     }
-    ASM_KEEP(tile_x);
-    ASM_KEEP(tile_y);
     call_x = tile_x;
     call_y = tile_y;
-    ASM_KEEP(call_x);
-    ASM_KEEP(call_y);
     sector = sector_arg;
-    ASM_KEEP(sector);
     if ((func_8009A350(call_x, call_y, sector_arg, &tile_value) << 16) == 0) {
         return 0;
     }

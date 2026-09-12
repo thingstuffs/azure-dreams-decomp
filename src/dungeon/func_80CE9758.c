@@ -190,13 +190,14 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                 goto end;
             }
             {
-                register s32 object_status ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 object_status;
 
                 s32 random_turn;
 
                 object_status = ((S_80172F58_1 *)actor)->unk_14;
-                if (object_status >= 0) {
-                    ((S_80172F58_1 *)actor)->unk_14 = object_status | 0x80000000;
+                if (!(object_status & 0x80000000)) {
+                    object_status |= 0x80000000;
+                    ((S_80172F58_1 *)actor)->unk_14 = object_status;
                     random_turn = func_800A6D30();
                     ((S_80172F58_1 *)actor)->unk_2A.u += (random_turn & 7) << 9;
                 }

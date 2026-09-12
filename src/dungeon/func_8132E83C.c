@@ -66,11 +66,11 @@ typedef struct S_8016583C_4 {
 } S_8016583C_4;   /* ((S_8016583C_0 *)arg0)->unk_08 in func_8016583C */
 
 /* Spawn an effect at an offset from the source with randomized horizontal velocity. */
-void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s32 offset_x, s32 offset_y, s32 offset_z, s32 velocity_z) {
+void func_8016583C(S_8016583C_0 *source, s32 duration, s32 scale, s32 offset_x, s32 offset_y, s32 offset_z, s32 velocity_z) {
     S_8016583C_2 *sprite;
     S_8016583C_1 *effect_state;
     void *effect;
-    register s16 held_duration ASM_REG("$22") = duration;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 held_duration = duration;
     register s32 held_scale ASM_REG("$21") = scale;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 held_offset_y = offset_y;
     register s32 held_offset_x ASM_REG("$16") = offset_x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -105,7 +105,6 @@ void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s32 offset_x, 
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)D_80173B34 + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
-        ASM_KEEP(held_duration);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_scale);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(held_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */

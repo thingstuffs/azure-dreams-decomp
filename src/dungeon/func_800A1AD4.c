@@ -24,7 +24,7 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     s32 inner_dir;
     register s32 outer_count ASM_REG("$19");
     register s32 outer_dir ASM_REG("$17");
-    s32 call_dir;
+    s16 call_dir;
     register s32 call_x ASM_REG("$4");
     register s32 call_y ASM_REG("$5");
     register s32 distance_z ASM_REG("$6");
@@ -106,7 +106,6 @@ scan_inner:
     call_x = inner_x;
     call_y = inner_y;
     call_dir = inner_dir;
-    ASM_KEEP_NV(call_dir);
     if (((func_8009A350(call_x, call_y, call_dir, &tile_flags) << 0x10) == 0) || (tile_flags & 0x8820)) {
         goto next_inner;
     }

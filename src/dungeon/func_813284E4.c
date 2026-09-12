@@ -102,7 +102,7 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
     register s32 step_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 tile_y;
     s32 heading_state;
-    register s32 move_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 move_result;
     s32 move_flags;
     register s32 heading ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
@@ -134,8 +134,9 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                     return;
                 }
                 move_result = ((S_8016FCE4_0 *)actor)->unk_14;
-                if (move_result >= 0) {
-                    ((S_8016FCE4_0 *)actor)->unk_14 = (s32) (move_result | 0x80000000);
+                if (!(move_result & 0x80000000)) {
+                    move_result |= 0x80000000;
+                    ((S_8016FCE4_0 *)actor)->unk_14 = (s32)move_result;
                     ((S_8016FCE4_0 *)actor)->unk_2A.u += (func_800A6D30() & 7) << 9;
                     goto reset_turn_index;
                 }

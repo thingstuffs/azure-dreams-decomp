@@ -42,7 +42,6 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             checked_y = (s16)y;
             query_x = checked_x;
-            ASM_KEEP(query_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if ((s16)func_800A6E10(query_x, checked_y) >= 2) {
                 goto done;
             }
@@ -64,7 +63,7 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
         register s32 remainder ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 flag_cell_index;
         register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u16 old_flags ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 old_flags;
 
         cell_x = (s16)x;
         cell_y = (s16)y;

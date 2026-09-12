@@ -87,7 +87,7 @@ s32 func_80158884(u8 *item, u16 *coords)
             u32 packed_color;
             u32 color_r;
             register u32 color_g ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u32 color_b ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            register u8 color_b ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             register u32 header_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             packed_color = *(u32 *)(item + 8);
@@ -99,7 +99,6 @@ s32 func_80158884(u8 *item, u16 *coords)
             color_g = packet->data.color.g;
             color_b = packet->data.color.b;
             ASM_KEEP(color_g);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(color_b);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             packet->data.color.command = header_byte;
 
             *(u32 *)packet = (*(u32 *)packet & length_mask) |

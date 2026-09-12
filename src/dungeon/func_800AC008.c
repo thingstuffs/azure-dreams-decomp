@@ -87,12 +87,12 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
     register u8 *arg2_reg ASM_REG("$21") = (u8 *)arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 temp_s6 = arg3;
     s32 count = 0;
-    register s32 arg3_ff ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 arg3_ff;
     AcObject *obj;
     AcHeader *header;
     AcMeta *meta;
     AcSub *sub;
-    register s32 *table_entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 *table_entry;
     u8 *base;
     void *new_buf;
     void *buf;
@@ -123,7 +123,6 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
         obj->field10 = D_800B14FC;
         func_8004491C(obj, D_800B06F0, meta);
         arg3_ff = temp_s6 & 0xFF;
-        ASM_KEEP_NV(arg3_ff);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         base = (u8 *)&sub->field38;
         ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         arg2_reg = base;
@@ -148,7 +147,6 @@ shared_setup:
             call_arg = buf;
             base = (u8 *)D_800DF03C;
             table_entry = (s32 *)((arg3_ff * 4) + (s32)base);
-            ASM_KEEP_NV(table_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
             hard_zero = 0;
 #endif

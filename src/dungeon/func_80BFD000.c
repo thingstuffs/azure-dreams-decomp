@@ -76,7 +76,7 @@ extern M2C_UNK D_8016225C;
 
 /* Create a dungeon actor and initialize its placement, flags, and behavior. */
 __attribute__((section(".text.func_8015E800")))
-void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 spawn_value) {
+void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
     s32 unused_byte_neg_ba0;
     s32 unused_byte_21d8;
     s32 kind_or_bits;
@@ -85,9 +85,9 @@ void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 spawn_value) {
     S_80BFD000_3 *placement;
     S_80BFD000_2 *attributes;
     S_80BFD000_4 *actor;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     s32 flags_14;
     s32 flags_1c;
     register void *query_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */

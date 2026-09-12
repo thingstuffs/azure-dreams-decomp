@@ -30,7 +30,7 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     register s32 cumulative_weight ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 result_index;
     u32 rng_result;
-    register u32 random_weight ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 random_weight;
     unsigned long table_base_or_mode;
     register u8 *item_category_table ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *category_entry ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

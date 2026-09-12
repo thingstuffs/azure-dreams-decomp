@@ -88,7 +88,7 @@ void func_80174E78(Source *source, Vec3i *center)
         s32 initial_count;
         s32 trig_angle;
         register s32 trig_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register u8 intensity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 intensity;
         u8 held_intensity;
 
         entity = func_8003FC64(18);

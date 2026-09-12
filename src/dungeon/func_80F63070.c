@@ -57,7 +57,7 @@ extern u8 D_8016E194[];
 extern u8 D_8016E1DC[];
 
 /* Allocate an actor object and initialize its parts and flags for the requested kind. */
-void *func_8016A870(s16 spawn_flags, s8 part_b_value_24, s8 part_b_value_25, s16 part_a_value)
+void *func_8016A870(s16 spawn_flags, s16 part_b_value_24, s16 part_b_value_25, s16 part_a_value)
 {
     s32 kind;
     void *obj;
@@ -67,9 +67,9 @@ void *func_8016A870(s16 spawn_flags, s8 part_b_value_24, s8 part_b_value_25, s16
     S_8016A870_4 *actor;
     register s32 flags_14;
     register s32 flags_1c;
-    register s8 saved_value_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_value_24;
     register s16 saved_part_value;
-    register s8 saved_value_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_value_25;
     register void *init_obj;
     register void *query_part;
 

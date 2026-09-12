@@ -37,12 +37,12 @@ typedef struct S_8016A898_2 {
     u16 unk_14;
 } S_8016A898_2;   /* tail_entity in func_8016A898 */
 
-void *func_8016A898(s32 arg0, s8 arg1, s32 arg2, s32 arg3)
+void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
 {
     register void *result;
     void *object;
     S_8016A898_1 *motion;
-    register s8 held_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 held_arg1;
     register s32 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s32 saved_arg3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s16 final_arg;

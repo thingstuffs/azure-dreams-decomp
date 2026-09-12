@@ -57,7 +57,7 @@ extern u8 D_8015BD0C[];
 extern u8 D_8015BD4C[];
 
 /* Allocates a dungeon object and initializes its flags, parts, and actor state. */
-void *func_80B85054(s16 spawn_flags, s8 part_byte_24, s8 part_byte_25, s16 part_value)
+void *func_80B85054(s16 spawn_flags, s16 part_byte_24, s16 part_byte_25, s16 part_value)
 {
     s32 kind;
     S_80B85054_1 *work = 0;
@@ -67,9 +67,9 @@ void *func_80B85054(s16 spawn_flags, s8 part_byte_24, s8 part_byte_25, s16 part_
     S_80B85054_4 *actor;
     s32 flags_or_roll;
     s32 secondary_flags;
-    register s8 saved_byte_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_byte_24;
     s16 saved_part_value;
-    register s8 saved_byte_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_byte_25;
     void *object_arg;
     void *part_arg;
 

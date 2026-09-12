@@ -120,7 +120,7 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     u8 *angle_addr;
     s32 angle;
     s32 axis_offset;
-    u8 texture_v;
+    s16 texture_v;
     s32 vertex_coord;
     Poly818C29D4 *poly;
     register u8 *draw_mode ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -168,7 +168,6 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     poly->g3 = sprite->unk_0A;
     poly->b3 = sprite->unk_0A;
     texture_v = (sprite->unk_04 % 4) << 3;
-    ASM_KEEP(texture_v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     poly->u0 = 0; poly->v0 = texture_v;
     poly->u1 = 0x3F; poly->v1 = texture_v;
     poly->u2 = 0x3F; poly->v2 = texture_v + 0x3F;

@@ -58,7 +58,7 @@ extern u8 D_80174860[];
 extern M2C_UNK D_80170E84;
 
 extern void *func_80170800(s32, s8, s8, s16);
-extern void *func_80170884(s16, s8, s8, s16);
+extern void *func_80170884(s16, s16, s16, s16);
 extern void *func_8016B24C(void);
 extern void *func_8016B278(void);
 extern void *func_8016B1F8(void);
@@ -111,7 +111,7 @@ static const u32 func_80170800_prefix[33] __asm__("func_80170800")
 __asm__(".globl func_80170800\n"
         ".size func_80170800, 600");
 
-void *func_80170884(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_80170884(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     void *obj;
@@ -121,9 +121,9 @@ void *func_80170884(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_80170884_4 *actor;
     s32 left;
     s32 right;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg1;
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg2;
     void *call_a0;
     void *call_a1;
 

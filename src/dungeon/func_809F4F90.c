@@ -140,7 +140,7 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     s32 x_step;
     s32 y_step;
     s32 particle_y;
-    u16 heading_raw;
+    s32 heading_raw;
     void *particle;
     void *particle_motion;
     void *sprite;
@@ -162,7 +162,6 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     ASM_KEEP(x_step_entry);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
-    ASM_KEEP(heading_raw);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     x_step_entry -= 0x3328;
     heading_byte = heading_raw >> 8;
     direction_offset = heading_byte & 0xE;

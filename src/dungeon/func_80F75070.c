@@ -57,7 +57,7 @@ extern u8 D_8015C194[];
 extern u8 D_8015C1DC[];
 
 /* Allocate an actor and initialize its parts and behavior from the kind flags. */
-void *func_80158870(s16 kind_flags, s8 part_value_24, s8 part_value_25, s16 part_value_0a)
+void *func_80158870(s16 kind_flags, s16 part_value_24, s16 part_value_25, s16 part_value_0a)
 {
     s32 kind;
     void *obj;
@@ -77,8 +77,6 @@ void *func_80158870(s16 kind_flags, s8 part_value_24, s8 part_value_25, s16 part
     saved_value_24 = part_value_24;
     saved_value_0a = part_value_0a;
     saved_value_25 = part_value_25;
-    ASM_KEEP_NV(saved_value_25);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(saved_value_24);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;

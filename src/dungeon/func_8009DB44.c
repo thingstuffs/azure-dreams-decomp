@@ -64,7 +64,7 @@ extern M2C_UNK func_800A31D0();
 
 /* Detach a record from its slot, preserve its data, and update its count and state. */
 s32 func_800A32A4(void *record) {
-    register M2C_UNK update_mode ASM_REG("$17");
+    s16 update_mode;
     s32 *counter_base;
     s32 slot_offset;
     s32 record_index;
@@ -88,7 +88,6 @@ s32 func_800A32A4(void *record) {
     void *copy_end;
 
     update_mode = 0;
-    ASM_KEEP_NV(update_mode);
     entry = 0;
     func_80042B68(record, 0x1A);
     func_80042B68(record, 0x1C);

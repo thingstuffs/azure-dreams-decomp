@@ -204,7 +204,7 @@ typedef struct S_func_800CDFD8_9 {
 void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_bias_in) {
     s32 screen_y3;
     s32 left_x;
-    register s32 half_left_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 half_left_x;
     s32 first_three_visible;
     s32 edge_y;
     s16 bottom_left_x;

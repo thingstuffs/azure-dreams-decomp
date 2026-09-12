@@ -59,7 +59,7 @@ extern u8 D_800DE870[16];
 /* Creates and initializes an effect at a random offset from the given position. */
 void func_80024D34(void *unused, Rec_func_800247B8_arg1 *origin)
 {
-    u16 flags;
+    s32 flags;
     S_80024D34_2 *render_control;
     S_80024D34_5 *render_style;
     S_80024D34_3 *position;
@@ -79,7 +79,6 @@ void func_80024D34(void *unused, Rec_func_800247B8_arg1 *origin)
         render_control->unk_10 = 0x60;
         flags = render_control->unk_14 | 0xC;
         VFIELD(render_control, u16, 0x14) = flags;
-        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         render_control->unk_14 = flags | 2;
 
         position = ((S_80024D34_1 *)effect)->unk_08;

@@ -326,7 +326,7 @@ state_2:
             {
                 void *particle_part;
                 s32 color_roll;
-                register s32 color_choice ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                s16 color_choice;
 
                 ((S_801731C8_5 *)particle)->unk_22 = 8;
                 ((S_801731C8_5 *)particle)->unk_10 = particle_script;

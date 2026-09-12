@@ -260,7 +260,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 owner_ref;
     s32 boost_speed_y;
     s32 fade_speed_y;
-    s32 height_frames;
+    s16 height_frames;
     register s32 height_numerator ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 history_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 travel_turn_gap;
@@ -414,7 +414,6 @@ jt_c0:
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     height_numerator = (effect->unk_2C.s16 - motion->unk_08.half.unk_0A.s16) << 0x10;
     height_frames = 16;
-    ASM_KEEP(height_frames);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     motion->unk_14.word = height_numerator / height_frames;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
 jt_c1:
@@ -922,7 +921,6 @@ block_120:
     state6_target_base += 0x40;
     height_numerator = (coord_value - state6_target_base) << 0x10;
     height_frames = 16;
-    ASM_KEEP(height_frames);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     motion->unk_14.word = height_numerator / height_frames;
     effect->unk_9A = 0x3CU;
     goto block_122;

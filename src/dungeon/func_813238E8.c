@@ -159,8 +159,8 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register M2C_UNK (*paused_callback)(void *, void *, void *, void *);
     register s16 base_height;
     register s32 view_direction;
-    s32 direction_index;
-    register s32 prior_direction;
+    s16 direction_index;
+    register s16 prior_direction;
     s16 floor_height;
     s16 height_delta;
     register s32 linked_actor;
@@ -315,9 +315,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         if (!mode_bits) {
             view_direction = ((s32) (D_80083228[0] + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
             prior_direction = ((S_8016B0E8_0 *)entity)->unk_94;
-            ASM_USE_NV(prior_direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             direction_index = view_direction;
-            ASM_KEEP_NV(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             lookup_offset = view_direction;
             if (prior_direction != direction_index) {
                 direction_animations = ((S_8016B0E8_14 *)sprite)->unk_2C;

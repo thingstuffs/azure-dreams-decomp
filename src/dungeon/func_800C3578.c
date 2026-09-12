@@ -11,7 +11,7 @@ extern u8 D_800E1A55[];
 /* Apply an entity effect when a random roll passes its threshold. */
 s32 func_800C8CD8(void *entity_arg, s32 threshold_arg, s32 kind_arg, s32 rng_arg) {
     void *entity = entity_arg;
-    register s32 threshold ASM_REG("$17") = threshold_arg;
+    u16 threshold = threshold_arg;
     register s32 kind ASM_REG("$18") = kind_arg;
     s32 random_value;
     s32 roll_range;

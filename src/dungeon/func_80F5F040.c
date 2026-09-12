@@ -219,7 +219,7 @@ state_0:
 {
     s32 move_kind;
     void *move_object;
-    register s32 special_flag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 special_flag;
 
     if (((S_80172840_0 *)actor)->unk_1C & 0x2000) {
         u32 kind_index = (((S_80172840_0 *)actor)->unk_46 & 0x3FFF) - 1;
@@ -276,7 +276,6 @@ kind_none:
 have_selector:
     if (*move_slot != 0) {
         ((S_80172840_1 *)action)->unk_98 &= 0xFF7F;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         special_flag = is_special;
         if (special_flag != 0) {
             move_object = D_800814A8[0];

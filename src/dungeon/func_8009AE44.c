@@ -158,13 +158,12 @@ start:
             y_step_or_count++;
             {
                 s32 x_delta;
-                register s32 y_delta ASM_REG("$3");
+                register u16 y_delta ASM_REG("$3");
 
                 x_delta = *(volatile u16 *)(u32)offset_or_x_step;
                 y_delta = *(volatile u16 *)(u32)limit_or_y_step;
                 loop_limit = *(volatile u16 *)&frame_slots[8];
                 ASM_KEEP_NV(x_delta);
-                ASM_KEEP_NV(y_delta);
                 ASM_KEEP_NV(loop_limit);
                 x += x_delta;
                 y += y_delta;

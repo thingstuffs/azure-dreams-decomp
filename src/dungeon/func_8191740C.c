@@ -35,7 +35,7 @@ void func_80024C0C(void *motion, void *position, void *effect) {
     s32 current_x;
     s32 next_x;
     s32 next_distance;
-    register s32 past_target ASM_REG("$2");   /* MATCH: keep the merged comparison in retail's result register. */
+    s16 past_target;
     u16 size;
     u8 intensity;
     void *object;

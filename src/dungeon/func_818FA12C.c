@@ -284,7 +284,7 @@ void func_818FA12C(void *effect, void *motion, void *volatile render_data)
             s32 origin_z;
             register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register s32 frames_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s16 frames_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 target_height;
             s32 tile_distance;
             register s32 frames_squared ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -369,7 +369,6 @@ void func_818FA12C(void *effect, void *motion, void *volatile render_data)
             ASM_KEEP_NV(step_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             frames = step_result >> 24;
             frames_copy = frames;
-            ASM_KEEP_NV(frames_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             frames_squared = frames * frames_copy;
             (*(s16 *)((u8 *)self + 0x8A)) = frames_squared;
             func_80026634();

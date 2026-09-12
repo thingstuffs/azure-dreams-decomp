@@ -7,7 +7,7 @@ extern u8 D_800E1CD5[9];
 
 /* Conditionally applies D_800E1CD5 using a check indexed by the supplied value's low byte. */
 void func_80025760(s32 target, s32 packedValue) {
-    register s32 savedPackedValue ASM_REG("$16") = packedValue;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 savedPackedValue = packedValue;
     if (func_8009D218(target, 1) == 0) {
         register s32 valueGroupIndex ASM_REG("$6") = (u32)(savedPackedValue & 0xFF) >> 2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if ((func_800A48F0(target, 0x15, valueGroupIndex + 2) << 16) != 0) {

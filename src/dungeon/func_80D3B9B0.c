@@ -57,13 +57,13 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *part ASM_REG("$20") = part_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *base = obj;
-    register s32 state_or_dir ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 state_or_dir;
     s32 direction;
     register s32 update_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register void *check_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *check_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *check_part ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *check_context ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *check_context;
     u16 part_flags;
     Callback paused_callback;
     Callback callback;
@@ -97,7 +97,6 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     check_motion = motion;
     check_part = part;
     update_value = (*(u8 *)((u8 *)obj + (0x6D)));
-    ASM_KEEP(update_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     check_context = obj;
     state_or_dir = (s8)update_value;
     if (func_800A9E70(check_obj, check_motion, check_part, check_context) != 0) {
@@ -146,7 +145,6 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
             update_value = ((S_801711B0_1 *)part)->unk_14;
             update_value |= 1;
         } else {
-            ASM_KEEP(state_or_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             update_value = ((S_801711B0_1 *)part)->unk_14 & 0xFFFE;
         }
         ((S_801711B0_1 *)part)->unk_14 = update_value;

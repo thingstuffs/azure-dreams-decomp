@@ -81,7 +81,7 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
     s16 slot_or_distance;
     u16 direction;
     s16 action_or_flags;
-    s32 default_action;
+    u16 default_action;
     s32 action_result;
     s32 step_limit;
     s32 pending_action;
@@ -93,7 +93,7 @@ s32 func_800ADE74(s32 unused, u8 *position_arg, u8 *creature_arg, s32 lower_limi
     s32 assist_ally_dist;
     s32 ranged_distance;
     s32 distance;
-    s32 delta_or_result;
+    u32 delta_or_result;
     s32 idle_player_range;
     s32 idle_ally_range;
     s32 follow_player_range;
@@ -493,7 +493,6 @@ Lcase4:
     if (move_target == NULL) {
         goto check_default_action;
     }
-    ASM_KEEP(default_action);
     {
         s32 action_code;
         u16 move_direction;
@@ -1215,6 +1214,5 @@ aim_at_target:
 
 return_default:
     delta_or_result = default_action << 16;
-    ASM_KEEP(delta_or_result);
     return (u32)delta_or_result >> 16;
 }

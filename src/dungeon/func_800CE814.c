@@ -70,13 +70,13 @@ extern u8 D_800D4494;
 extern u8 D_800DEEC0;
 
 /* Creates an object at the given tile and height, initializing its sprite and tile flags. */
-void *func_800D3F74(s16 variant, u8 tile_x, u8 tile_y, s16 spawn_height)
+void *func_800D3F74(s16 variant, u16 tile_x, u16 tile_y, s16 spawn_height)
 {
     s8 *position;
     s8 *entity = NULL;
     s8 *object;
-    register u8 saved_tile_y ASM_REG("$20") = tile_y;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 saved_tile_x ASM_REG("$21") = tile_x;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 saved_tile_y = tile_y;
+    u8 saved_tile_x = tile_x;
     s8 *sprite;
     s16 ground_height;
     s32 tile_flags;

@@ -16,7 +16,7 @@ extern u8 *D_800E3D7C[];
 s32 func_800CDC18(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     register s32 temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 divisor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s16 divisor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 var_s0;
     u8 temp_v1;
@@ -28,7 +28,6 @@ s32 func_800CDC18(void *arg0, s32 arg1, s32 arg2, s32 arg3)
             temp_v1 = *(u8 *)((u8 *)arg0 + 3);
             if (temp_v1 != 0) {
                 divisor = (s32)temp_v1;
-                ASM_USE(divisor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 remainder = temp_a0 % divisor;
                 var_s0 = remainder;
             }

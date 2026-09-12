@@ -7,7 +7,7 @@ s32 func_800A3B1C(void *initial_state) {
     u8 *state = initial_state;
     register u8 *carrier2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 carrier1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 result;
 
        /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     for (;;) {
@@ -18,7 +18,6 @@ s32 func_800A3B1C(void *initial_state) {
 
         carrier2 = *(u8 **)(state - 8);
         if (carrier2 == 0) {
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             return (s16)result;
         }
 

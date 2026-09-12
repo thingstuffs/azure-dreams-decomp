@@ -70,7 +70,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   volatile u16 camera_yaw;
   volatile u16 camera_roll;
   register u16 initial_pitch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  register u16 initial_yaw ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  s32 initial_yaw;
   s32 shadow_scale[3];
   u8 *entry_table;
   s32 world_x;

@@ -55,7 +55,7 @@ extern u8 D_8016DC7C[];
 extern u8 D_8016DCDC[];
 
 /* Allocates an actor object and initializes its parts and flags for the requested kind. */
-void *func_8016A854(s16 kind_flags, s8 byte_24, s8 byte_25, s16 value_0a)
+void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
 {
     s32 kind;
     void *obj;
@@ -65,9 +65,9 @@ void *func_8016A854(s16 kind_flags, s8 byte_24, s8 byte_25, s16 value_0a)
     S_8016A854_4 *actor;
     s32 primary_bits;
     s32 secondary_flags;
-    register s8 saved_byte_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_byte_24;
     s16 saved_value_0a;
-    register s8 saved_byte_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_byte_25;
     void *call_obj;
     register void *call_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's

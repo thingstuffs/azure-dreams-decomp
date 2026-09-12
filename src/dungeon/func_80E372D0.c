@@ -56,7 +56,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
     register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *monster ASM_REG("$20") = monster_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor = entity_arg;
-    register s32 direction_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 direction_index;
     register s32 direction;
     u32 old_direction_raw;
     Callback callback;
@@ -190,5 +190,4 @@ finish:
         ((S_80170AD0_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
     ((S_80170AD0_1 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(direction_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

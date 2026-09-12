@@ -90,7 +90,7 @@ typedef struct S_801708B4_4 {
 } S_801708B4_4;   /* result in func_801708B4 */
 
 /* Create an entity at the given grid position and initialize its behavior and spawn flags. */
-void *func_801708B4(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 height)
+void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
 {
     void *entity;
     S_801708B4_2 *position;
@@ -99,9 +99,9 @@ void *func_801708B4(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 height)
     s32 spawn_mode;
     s16 saved_flags;
     u8 *entity_data;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     register s16 saved_height;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
 
     saved_flags = spawn_flags;
     entity_data = 0;

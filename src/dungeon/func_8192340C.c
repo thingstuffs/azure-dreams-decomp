@@ -31,8 +31,6 @@ void func_80024C0C(void *entity_data, s32 unused, DungeonEffect *effect_data) {
     u16 updated_value;
     s32 fade_level;
 
-#ifndef NON_MATCHING
-#endif
     ticks_left = *(u16 *)(entity_data + 0x5A);
 #ifdef NON_MATCHING
     do { D_80025B60.value = 1; } while (0);

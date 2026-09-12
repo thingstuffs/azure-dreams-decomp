@@ -57,7 +57,7 @@ void func_8001D5D8(DungeonRect *rect) {
     s32 patch_count;
     s16 swap_styles;
     s16 patch_style;
-    register s16 fill_value ASM_REG("$8");
+    s32 fill_value;
     register s32 style_value_hi ASM_REG("$18");
     DungeonCell *cell;
     register s32 patch_row ASM_REG("$23");

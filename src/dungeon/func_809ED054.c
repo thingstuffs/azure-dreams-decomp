@@ -55,7 +55,7 @@ extern u8 D_8014FC7C[];
 extern u8 D_8014FCDC[];
 
 /* Create an actor and initialize its parts, placement, and kind flags. */
-void *func_8014C854(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_id)
+void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
 {
     s32 kind;
     void *obj;
@@ -65,9 +65,9 @@ void *func_8014C854(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_id)
     S_8014C854_4 *actor;
     s32 flags;
     s32 extra_flags;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_id;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *call_obj;
     register void *call_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's

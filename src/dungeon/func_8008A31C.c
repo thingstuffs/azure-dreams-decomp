@@ -204,13 +204,9 @@ state_1:
         ASM_KEEP(linked_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #endif
         set_mask = 0x200000;
-#ifndef NON_MATCHING
-#endif
         do {
             linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
         } while (0);
-#ifndef NON_MATCHING
-#endif
 #ifndef NON_MATCHING
         mask_or_base |= 0xFFFF;
 #else
@@ -336,8 +332,6 @@ state_3:
         anim_table = D_800DD0B8;
 #endif
     } else {
-#ifndef NON_MATCHING
-#endif
         ((S_8008FA7C_3 *)actor)->unk_8C.p2 = &D_8008ACDC;
         anim_table = D_800DCFB0;
     }

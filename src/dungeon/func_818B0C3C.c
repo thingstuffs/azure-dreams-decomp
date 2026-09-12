@@ -65,7 +65,7 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
     u8 *position = (u8 *)origin;
     register s16 motion_value ASM_REG("$16") = motion;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *node;
-    s32 frame_index = frame;
+    s16 frame_index = frame;
     s32 sprite_mode;
 
     node = func_8003FC64(0x212);
@@ -94,7 +94,6 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
         sprite->unk_10 = (u16) (sprite->unk_10 | 0x20);
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
         func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index);
-        ASM_USE(frame_index);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         func_8004491C(node, &D_80045340);
@@ -103,7 +102,6 @@ s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
         ((S_8002443C_2 *)position)->unk_02.u = (s16) (((S_8002443C_1 *)state)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
         ((S_8002443C_2 *)position)->unk_06.u = (s16) (((S_8002443C_1 *)state)->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
         position_z = ((S_8002443C_1 *)state)->unk_0C;
-        ASM_USE(position_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         result = (s32)node;
         ((S_8002443C_2 *)position)->unk_0A.u = (s16)position_z;
         return result;

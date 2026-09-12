@@ -57,7 +57,7 @@ extern u8 D_8016DD0C[];
 extern u8 D_8016DD4C[];
 
 /* Creates a dungeon actor and initializes its parts and state from the spawn flags. */
-void *func_80B73054(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
+void *func_80B73054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     s32 kind;
     void *obj;
@@ -67,9 +67,9 @@ void *func_80B73054(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
     S_80B73054_4 *actor;
     s32 state_bits;
     s32 next_state_bits;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *init_obj;
     void *saved_part;
 

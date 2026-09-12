@@ -9,8 +9,8 @@ extern s16 func_800BCB04();
 void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s32 lower_bound) {
     s32 x = raw_x;
     s32 y = raw_y;
-    register s32 call_x ASM_REG("$3") = x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 call_y ASM_REG("$5") = y;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 call_x = x;
+    u16 call_y = y;
     s32 object_data = object + 0x20;
     s32 upper = (s16)raw_upper;
     register s32 shifted_lower ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

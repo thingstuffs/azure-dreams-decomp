@@ -156,9 +156,10 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
                 return;
             }
             {
-                register s32 turn_flags ASM_REG("$2") = ((S_8017405C_0 *)movement)->unk_14;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                if (turn_flags >= 0) {
-                    ((S_8017405C_0 *)movement)->unk_14 = turn_flags | 0x80000000;
+                s32 turn_flags = ((S_8017405C_0 *)movement)->unk_14;
+                if (!(turn_flags & 0x80000000)) {
+                    turn_flags |= 0x80000000;
+                    ((S_8017405C_0 *)movement)->unk_14 = turn_flags;
                     ((S_8017405C_0 *)movement)->unk_2A.u += (func_800A6D30() & 7) << 9;
                 }
             }

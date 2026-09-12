@@ -65,7 +65,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     u32 scaled_y;
     register u32 scaled_x ASM_REG("$3");
     register s32 result ASM_REG("$2");
-    register u16 call_height_offset ASM_REG("$8");
+    register s32 call_height_offset ASM_REG("$8");
     register S_800CA1E0_0 *coords ASM_REG("$18");
     register S_800CA1E0_2 *object_data ASM_REG("$8");
     register u8 *bounds ASM_REG("$6");
@@ -185,7 +185,6 @@ check_entity:
     lookup_arg = target_x & 0xFFFF;
 check_clearance:
     call_height_offset = saved_height_offset;
-    ASM_KEEP_NV(call_height_offset);
     clearance = (s16)func_800BCB04(lookup_arg, target_coord & 0xFFFF, (s16) (height - call_height_offset));
     result = -1;
     if (clearance < 0x201) {

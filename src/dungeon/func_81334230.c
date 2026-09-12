@@ -193,11 +193,12 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
                 goto end;
             }
             {
-                register s32 object_status ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 object_status;
 
                 object_status = ((S_8016B230_1 *)actor)->unk_14;
-                if (object_status >= 0) {
-                    ((S_8016B230_1 *)actor)->unk_14 = object_status | 0x80000000;
+                if (!(object_status & 0x80000000)) {
+                    object_status |= 0x80000000;
+                    ((S_8016B230_1 *)actor)->unk_14 = object_status;
                     random_bits = func_800A6D30();
                     ((S_8016B230_1 *)actor)->unk_2A.u += (random_bits & 7) << 9;
                 }
