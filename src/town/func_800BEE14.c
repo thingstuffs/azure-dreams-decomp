@@ -76,10 +76,11 @@ s32 func_800BC574(void *position, s32 angle) {
     S_800BC574_2 *source_pos = position;
     u8 *world_state = (u8 *) &D_80083160;
     S_800BC574_1 *data_ptr;
-    register s32 saved_angle ASM_REG("$19") = angle;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 saved_angle ASM_REG("$19");
 
     effect = func_8003FD64(0x312, &D_80083498);
     if (effect != NULL) {
+        saved_angle = angle;
         effect->unk_10 = &D_800BC6CC;
         func_8004491C(effect, &D_80045340);
         sprite = effect->unk_0C;
@@ -92,7 +93,6 @@ s32 func_800BC574(void *position, s32 angle) {
         {
             register s32 angle_short ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(saved_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             angle_short = (s16) saved_angle;
             data_ptr->unk_08 = position_z;
             ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_0C = (s32) (func_80064584(angle_short + ((S_800BC574_3 *)world_state)->unk_C8) * 0x30);

@@ -154,7 +154,7 @@ s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_b
     u32 bucket_index;
     register u8 *uv_end ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *far_vertex;
-    register u8 *texture_info ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *texture_info;
 
     (void)unused;
     packet = packet_buffer;
@@ -302,7 +302,7 @@ next_strip:
             coord_bits <<= 2;
             texture_entry = (TwelveByteEntry *)((u8 *)vertex_value + coord_bits);
             texture_info = (u8 *)texture_entry + 4;
-            do {
+            loop_0: {
                 func_8006671C(packet);
                 ((S_800AFFB4_1 *)render_data_in)->unk_08.s32 = ((S_800AFFB4_3 *)texture_info)->unk_04;
                 shade_u = ((S_800AFFB4_1 *)render_data_in)->unk_08.s32;
@@ -368,7 +368,7 @@ next_strip:
                 func_8006658C(((S_800AFFB4_1 *)render_data_in)->unk_20 + (bucket_index * 4),
                     (void *)shade_u, texture_height);
                 packet += 0x34;
-            } while (quad_index < 2);
+            } if (quad_index < 2) goto loop_0;
             visible_strips += 1;
         }
     }

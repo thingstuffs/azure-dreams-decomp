@@ -34,8 +34,7 @@ void func_800A9024(s32 group_bit) {
     ram_base = 0x80010000;
     bit_mask = 1;
     group = D_80073414;
-    do {
-        ASM_KEEP(group);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    loop_0: {
         if (((s32)*((u8 *)group + 1) >> group_bit) & 1) {
             item_index = 0;
             if (group->count != 0) {
@@ -60,5 +59,5 @@ void func_800A9024(s32 group_bit) {
         }
         group_index += 1;
         group += 1;
-    } while (group_index < 0x13);
+    } if (group_index < 0x13) goto loop_0;
 }

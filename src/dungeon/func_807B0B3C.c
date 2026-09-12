@@ -325,8 +325,7 @@ build_x_pairs:
         coord_work = product_hi >> 1;
         coord_work -= frame_remainder >> 31;
         frame_remainder -= coord_work * 5;
-        height = height + frame_remainder - 0x36;
-        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_04 = height;
+        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_04 = height + frame_remainder - 0x36;
         pair_addr += 0x10;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         depth = 0;
@@ -338,10 +337,10 @@ build_x_pairs:
     vertex_index = depth;
     screen_vertex = verts;
     world_vertex = scratch;
-    do {
-        register void *world_arg ASM_REG("$4") = world_vertex;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register void *screen_arg ASM_REG("$5") = screen_vertex;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register void *projection_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    loop_0: {
+        void *world_arg = world_vertex;
+        void *screen_arg = screen_vertex;
+        void *projection_arg;
         void *flag_arg;
         register s32 depth_sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 vertex_depth;
@@ -354,7 +353,7 @@ build_x_pairs:
         screen_vertex += 4;
         vertex_index++;
         world_vertex += 8;
-    } while (vertex_index < 4);
+    } if (vertex_index < 4) goto loop_0;
 
     {
         s32 rounded_depth;
@@ -456,13 +455,13 @@ build_x_pairs:
     }
 
     {
-        register u8 *vertex_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u8 *color_ptr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u8 *vertex_ptr;
+        u8 *color_ptr;
 
         vertex_index = 3;
         color_ptr = colors + 0xC;
         vertex_ptr = scratch + 0x18;
-        do {
+        loop_0_: {
             coord = ((S_807B0B3C_1 *)effect)->unk_00.s;
             if (vertex_index < 2) {
                 ((S_807B0B3C_3 *)vertex_ptr)->unk_00.n = coord - 0x20;
@@ -483,7 +482,7 @@ build_x_pairs:
             ((S_807B0B3C_11 *)color_ptr)->unk_01 = tex_coord;
             ((S_807B0B3C_11 *)color_ptr)->unk_00 = tex_coord;
             color_ptr -= 4;
-        } while (vertex_index >= 0);
+        } if (vertex_index >= 0) goto loop_0_;
     }
 
     coord = ((S_807B0B3C_1 *)effect)->unk_06;
@@ -573,10 +572,10 @@ angle_c00:
     vertex_index = 3;
     screen_vertex = verts + 0xC;
     world_vertex = scratch + 0x18;
-    do {
-        register void *world_arg ASM_REG("$4") = world_vertex;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register void *screen_arg ASM_REG("$5") = screen_vertex;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register void *projection_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    loop_0__: {
+        void *world_arg = world_vertex;
+        void *screen_arg = screen_vertex;
+        void *projection_arg;
         void *flag_arg;
 
         projection_arg = &stack.sp18;
@@ -585,7 +584,7 @@ angle_c00:
         screen_vertex -= 4;
         vertex_index--;
         world_vertex -= 8;
-    } while (vertex_index >= 0);
+    } if (vertex_index >= 0) goto loop_0__;
 
     if ((u32)depth < 0x1E0U) {
         s32 blend_mode;

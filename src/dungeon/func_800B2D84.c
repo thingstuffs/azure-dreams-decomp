@@ -67,8 +67,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
     blend_setting = blend_mode & 0xFFFF;
     packet_code = cursor + 7;
     angle_step = segment;
-    do
-    {
+    loop_0: {
       *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x70)) = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x78));
       center_u = ((*((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10))) >> 1) + (*((volatile u8 *) (((volatile u8 *) scratchpad) + 8)));
       *((volatile u8 *) (((volatile u8 *) packet_code) + 17)) = center_u;
@@ -149,7 +148,6 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       }
       *((volatile u16 *) (((volatile u8 *) packet_code) + 7)) = parameters->texture;
       texture_page = parameters->flags;
-      ASM_KEEP(packet_code);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
       *((u16 *) (((u8 *) packet_code) + 19)) = texture_page;
       if (blend_setting != 0)
       {
@@ -171,8 +169,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       func_8006658C(packet_order, cursor);
       packet_code += 52;
       cursor += 52;
-    }
-    while (segment < parameters->count);
+    } if (segment < parameters->count) goto loop_0;
   }
   {
     register u8 *state_slot ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

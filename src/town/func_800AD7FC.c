@@ -22,8 +22,7 @@ void func_800AAF5C(void)
 
     record_index = 7;
     records = (u8 *)&D_80100E40;
-    do {
-        ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    loop_0: {
         destination_offset = record_index * 8;
         record_index--;
         source = (TownRecord *)((record_index * 8) + (u32)records);
@@ -32,7 +31,7 @@ void func_800AAF5C(void)
         destination->field_2 = source->field_2;
         destination->field_4 = source->field_4;
         ((TownRecord *)destination)->field_6 = source->field_6;
-    } while (record_index > 0);
+    } if (record_index > 0) goto loop_0;
 
     {
         u16 *current_values;

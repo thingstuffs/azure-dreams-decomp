@@ -138,13 +138,13 @@ s32 func_8080C324(void) {
     offset_entry = (s16 *)offset_addr;
     clear_addr = (s32)&D_80530666;
     clear_entry = (s16 *)clear_addr;
-    do {
+    loop_0: {
         *clear_entry = 0;
         *offset_entry = initial_offset;
         offset_entry--;
         remaining--;
         clear_entry--;
-    } while (remaining >= 0);
+    } if (remaining >= 0) goto loop_0;
 
     color_or_flags = 0x00404040;
     panel_template = D_805267E0;
@@ -225,9 +225,9 @@ s32 func_8080C324(void) {
         func_80526BFC(content_template, content_args);
 
         content_record.f16 = 0xA4;
-        do {
-            register void *entry_template ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register void *entry_record ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        loop_2: {
+            void *entry_template;
+            void *entry_record;
 
             entry_template = D_80526970;
             content = *content_ptr;
@@ -240,7 +240,7 @@ s32 func_8080C324(void) {
             content_remaining--;
             content_record.f4 = content;
             func_80526BFC(entry_template, entry_record);
-        } while (content_remaining >= 0);
+        } if (content_remaining >= 0) goto loop_2;
 
         content_record.f14 = 0xF4;
         content_record.f16 = 0xB6;

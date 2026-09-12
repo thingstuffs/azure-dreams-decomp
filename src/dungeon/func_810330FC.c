@@ -30,10 +30,10 @@ void *func_801748FC(void *list_head, s32 wanted_24, s32 wanted_25, s32 height_ce
     u8 *current;
     u8 *entry;
     s32 target_height;
-    register u8 *sentinel ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *sentinel;
     s32 min_height;
     s32 filter_25;
-    register s32 filter_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 filter_24;
     s32 scratch;
     u8 *object;
     s16 height;
@@ -41,7 +41,6 @@ void *func_801748FC(void *list_head, s32 wanted_24, s32 wanted_25, s32 height_ce
     current = list_head;
     sentinel = current;
     ASM_KEEP_NV(sentinel);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    filter_24 = wanted_24;
     scratch = ((S_801748FC_0 *)current)->unk_5C;
     current = (u8 *)scratch + 0x20;
     if (current != sentinel) {
@@ -50,6 +49,7 @@ void *func_801748FC(void *list_head, s32 wanted_24, s32 wanted_25, s32 height_ce
         target_height = scratch >> 0x10;
         min_height = target_height - 0x20;
         do {
+            filter_24 = wanted_24;
             object = ((S_801748FC_0_pre *)current)[-1].unk_00;
             entry = current - 0x20;
             if ((((S_801748FC_1 *)object)->unk_24 == (filter_24 & 0xFFFF)) &&

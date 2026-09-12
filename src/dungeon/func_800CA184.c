@@ -434,7 +434,7 @@ L_CFB98:
         }
         if (*(u16 *)(ram_base + 0x174) != 0) {
             s32 address_mask;
-            register s32 one ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 one;
             s32 max_height;
             register s32 tag_mask ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
@@ -445,8 +445,7 @@ L_CFB98:
 loop_9:
             render_arg = 3;
             edge_start = (s32 *)(ram_base + 0x78);
-            do {
-                ASM_KEEP(edge_start);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            loop_0: {
                 if (((S_800CF8E4_4 *)edge_start)->unk_38 == 0) {
                     s32 edge_start_y;
                     s32 current_y;
@@ -459,7 +458,7 @@ loop_9:
                 }
                 render_arg -= 1;
                 edge_start -= 0x28;
-            } while (render_arg >= 0);
+            } if (render_arg >= 0) goto loop_0;
             render_arg = 3;
             edge = (s32 *)(ram_base + 0x78);
             *(s32 *)(ram_base + 0x014) = max_height;
@@ -884,8 +883,7 @@ block_100:
                 minus_one = -1;
                 edge_end = (s32 *)(ram_base + 0x78);
                 *(s32 *)(ram_base + 0x00C) += 0x40;
-                do {
-                    ASM_KEEP(edge_end);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                loop_0_: {
                     if (((S_800CF8E4_11 *)edge_end)->unk_38 > 0) {
                         edge_remaining = ((S_800CF8E4_11 *)edge_end)->unk_28 - 0x40;
                         ((S_800CF8E4_11 *)edge_end)->unk_28 = edge_remaining;
@@ -896,7 +894,7 @@ block_100:
                     }
                     render_arg -= 1;
                     edge_end -= 0x28;
-                } while (render_arg >= 0);
+                } if (render_arg >= 0) goto loop_0_;
                 if (*(u16 *)(ram_base + 0x174) == 0) {
                     goto block_106;
                 }

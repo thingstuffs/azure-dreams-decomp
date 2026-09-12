@@ -25,7 +25,7 @@ extern u8 D_00000FE4[];
 
 /* Sets up town data and resolves record indices through the lookup table. */
 void func_808BB5EC(void) {
-    register u8 *record_tag ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *record_tag;
     u8 *data;
 
     if (D_00001020[0] != 0) {
@@ -40,9 +40,9 @@ void func_808BB5EC(void) {
         s32 end_tag;
         end_tag = 0x80;
         record_tag = data + 1;
-        do {
+        loop_0: {
             *(s32 *)(record_tag + 0xB) = D_0000103C[0][*(s32 *)(record_tag + 0xB)];
             record_tag += 0x14;
-        } while (*record_tag != end_tag);
+        } if (*record_tag != end_tag) goto loop_0;
     }
 }

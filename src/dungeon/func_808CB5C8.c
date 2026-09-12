@@ -21,7 +21,7 @@ void func_80123A60(S_80123A60_0 *state) {
     s32 *entry;
     register s32 *entry_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 entry_id;
-    register s32 slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 slot;
     u8 group;
 
     draw_rect[0] = 0x180;
@@ -53,13 +53,13 @@ void func_80123A60(S_80123A60_0 *state) {
     entry_id = group * 0x10;
     entry_table = &D_80126E98;
     entry = ((group * 0x20) + entry_id) + entry_table;
-    do {
+    loop_0: {
         if (func_80123200(entry_id & 0xFF) & 0xFF) {
             func_80123928(*entry, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));
         }
         slot += 1;
         entry += 3;
         entry_id += 1;
-    } while (slot < 0x10);
+    } if (slot < 0x10) goto loop_0;
     func_80067014(0);
 }

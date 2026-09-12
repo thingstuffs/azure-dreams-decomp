@@ -26,12 +26,12 @@ typedef struct S_800B15B8_1 {
 
 /* Resets five slots and clears their associated resource handles. */
 void func_800B15B8(Rec_func_800B15B8_arg0 *owner) {
-    register void *slot_cursor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *slot_cursor;
     s32 slot_index;
 
     slot_index = 0;
     slot_cursor = owner->unk_CC;
-    do {
+    loop_0: {
         *((S_800B15B8_1 *)slot_cursor)->unk_10 = 0;
         slot_index += 1;
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_38);
@@ -41,5 +41,5 @@ void func_800B15B8(Rec_func_800B15B8_arg0 *owner) {
         func_8004E99C(*((S_800B15B8_1 *)slot_cursor)->unk_60);
         *((S_800B15B8_1 *)slot_cursor)->unk_60 = 0;
         slot_cursor += 4;
-    } while (slot_index < 5);
+    } if (slot_index < 5) goto loop_0;
 }

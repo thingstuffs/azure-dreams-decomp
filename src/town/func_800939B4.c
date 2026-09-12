@@ -21,7 +21,7 @@ typedef struct S_80091114_1 {
 extern void func_80091000(s32 *, S_80091114_1 *, s32);
 /* Updates the value and dispatches follow-up handling if it remains unchanged. */
 void func_80091114(s32 *value, S_80091114_1 *context, s32 update_arg) {
-    register s32 saved_update_arg ASM_REG("$19") = update_arg;   /* Required for the retail saved-register set and frame layout. */
+    s32 saved_update_arg ;   /* Required for the retail saved-register set and frame layout. */
     s32 previous_value;
     register u8 *state = D_80083160;
 
@@ -29,6 +29,7 @@ void func_80091114(s32 *value, S_80091114_1 *context, s32 update_arg) {
     func_80091000(value, context, update_arg);
 
     if (previous_value == *value) {
+        saved_update_arg = update_arg;
         if (!(((S_80091114_0 *)state)->unk_08 & 0x20)) {
             func_80093D48(value, context, saved_update_arg);
             return;

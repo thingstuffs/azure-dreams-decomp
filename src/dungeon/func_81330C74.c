@@ -233,7 +233,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     u8 *object_table_base;
     u8 *object_base;
     S_80167C74_16 *object_origin;
-    register u8 *vertex_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *vertex_color;
     register u8 *object_pair_data ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 object_offset;
     register s32 object_copy_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -442,7 +442,7 @@ copy_axes:
                 object_render->unk_0E = 0x80;
                 object_render->unk_0D = 0x80;
                 object_render->unk_0C = 0x80;
-                do {
+                loop_4: {
                     scaled_red = (u8) color->unk_0C.at00.v * color_weight;
                     if (scaled_red < 0) scaled_red += 7;
                     ((S_80167C74_18 *)vertex_color)->unk_00 = (s8) (scaled_red >> 3);
@@ -454,7 +454,7 @@ copy_axes:
                     ((S_80167C74_18 *)vertex_color)->unk_02 = (s8) (scaled_blue >> 3);
                     color_index += 1;
                     vertex_color += 4;
-                } while (color_index < 4);
+                } if (color_index < 4) goto loop_4;
                 object_render->unk_06 = 0;
                 func_8003DB94(object_render, &D_800DEAE0, 0);
                 object_pair = 0;

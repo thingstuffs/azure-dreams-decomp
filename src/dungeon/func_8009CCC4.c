@@ -260,14 +260,14 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         {
             register u8 *spell_flags ASM_REG("$7");
             u8 *spell_table;
-            register u8 *spell_cursor ASM_REG("$5");
+            u8 *spell_cursor;
             register s16 spell_id ASM_REG("$4");
             u8 *lowered_flag;
             spell_flags = spell_lowered;
             spell_table = D_8006DE24;
             level_term = 1;
             spell_cursor = entity + 6;
-            do {
+            loop_0: {
                 lowered_flag = spell_flags + spell_index;
                 *lowered_flag = 0;
                 spell_id = spell_cursor[8];
@@ -280,7 +280,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
                 }
                 spell_index -= 1;
                 spell_cursor -= 3;
-            } while (spell_index >= 0);
+            } if (spell_index >= 0) goto loop_0;
         }
     }
 

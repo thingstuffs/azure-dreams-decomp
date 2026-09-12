@@ -91,7 +91,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
     void *effect_object;
     S_80172B00_5 *effect_pos;
     s8 *view_state;
-    register CopyBlock *copy_dst ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    CopyBlock *copy_dst;
     CopyBlock *copy_src;
     CopyBlock *copy_end;
     s32 word0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -116,7 +116,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         sprite = ((S_80172B00_1 *)effect_object)->unk_0C;
         copy_end = (CopyBlock *) (sprite_template + 0x30);
         copy_dst = (CopyBlock *) sprite;
-        do {
+        loop_0: {
             word0 = copy_src->words[0];
             word1 = copy_src->words[1];
             word2 = copy_src->words[2];
@@ -130,7 +130,7 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
             ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             copy_src++;
             copy_dst++;
-        } while (copy_src != copy_end);
+        } if (copy_src != copy_end) goto loop_0;
         func_8004491C(effect_object, &D_80045340, copy_dst, copy_src);
         ((S_80172B00_3 *)sprite)->unk_2C = D_80174C74;
         view_state = D_80083160;

@@ -43,10 +43,9 @@ void func_80878974(s32 *p) {
     dst = (Block *)(D_807030AC - 0xC);
     src = (Block *)p;
     end = (Block *)((u8 *)p + 0x30);
-    ASM_USE(dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    do {
+    loop_0: {
         *dst++ = *src++;
-    } while (src != end);
+    } if (src != end) goto loop_0;
     dst->w[0] = src->w[0];
     ASM_USE(dst);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 

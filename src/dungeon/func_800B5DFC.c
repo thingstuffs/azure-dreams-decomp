@@ -102,7 +102,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     base_angle = -0x400;
     point_index = 0;
     slot_or_angle = (s32) effect;
-    do {
+    loop_0: {
         packet_or_angle = (s16)base_angle;
         start_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
         start_xy[1] = (func_800644B8(packet_or_angle) >> 7) + 0x122;
@@ -118,10 +118,9 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
         func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
         point_index += 1;
         slot_or_angle += 2;
-    } while (point_index < 5);
+    } if (point_index < 5) goto loop_0;
     base_angle = -0x400;
     ASM_KEEP_NV(base_angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     arc_or_count = effect;
     packet_or_angle = base_angle << 0x10;
     do {

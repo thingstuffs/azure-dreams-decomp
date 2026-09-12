@@ -242,7 +242,7 @@ void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
     };
     u32 state;
     void *effect = effect_arg;
-    register void *owner ASM_REG("$19") = owner_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *owner = owner_arg;
     register void *context ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 light_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 dark_color;
@@ -724,10 +724,10 @@ case_4:
             goto case_4_global;
         }
         angle_base = angle_table;
-        do {
+        loop_3: {
             func_80024F60(effect, owner, context, 0, 0, (s16)angle);
             angle -= 15;
-        } while (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle);
+        } if (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle) goto loop_3;
     }
 case_4_global:
     status_page = (u8 *)0x80080000;

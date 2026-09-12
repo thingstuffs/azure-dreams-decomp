@@ -97,14 +97,12 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
         ((S_800BBA40_3 *)setup_cursor)->unk_5C = setup_word_5c;
         angle_index = 0;
         ((S_800BBA40_3 *)setup_cursor)->unk_60 = setup_word_60;
-        do {
+        loop_0: {
             ((S_800BBA40_3 *)setup_cursor)->unk_3C = angle;
             angle += 0x999;
             angle_index += 1;
-            ASM_KEEP(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             setup_cursor += 2;
-        } while (angle_index < 5);
-        ASM_KEEP(setup_cursor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        } if (angle_index < 5) goto loop_0;
         func_800C77D0(&D_80083498, &D_80083780, 8, 0x300);
     }
     return effect;

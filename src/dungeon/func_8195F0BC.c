@@ -60,7 +60,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
     s32 grid_x_fixed;
     register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *height_ptr;
-    register u16 *height_row ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 *height_row;
     void *tile;
     s32 height;
     u16 timer;
@@ -138,7 +138,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
             do {
                 grid_y_fixed = grid_y << 16;
                 grid_x_fixed = grid_x;
-                do {
+                loop_3: {
                     scratch = grid_x - 3;
                     lookup_x = (u16)origin->x;
                     page = *(void **)((u8 *)page_base + 0x3D7C);
@@ -161,7 +161,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
                     func_80026BA8(grid_x_fixed >> 16, grid_y_fixed >> 16, origin);
                     grid_x_fixed += 0x10000;
                     grid_x++;
-                } while (grid_x < 7);
+                } if (grid_x < 7) goto loop_3;
                 grid_y++;
                 grid_x = 0;
             } while (grid_y < 7);

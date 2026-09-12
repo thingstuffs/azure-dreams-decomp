@@ -49,8 +49,7 @@ void func_808B3620(s8 *overlay_state) {
     s32 word_1;
     s32 word_3;
 
-    do {
-        ASM_KEEP_NV(dst_words);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    loop_0: {
         word_0 = ((S_808B3620_0 *)src_words)->unk_00;
            /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         word_1 = ((S_808B3620_0 *)src_words)->unk_04;
@@ -63,9 +62,8 @@ void func_808B3620(s8 *overlay_state) {
         do {
             src_words += 4;
         } while (0);
-        ASM_KEEP(src_words);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         dst_words += 4;
-    } while (src_words != chunk_end);
+    } if (src_words != chunk_end) goto loop_0;
     do {
         ((S_808B3620_1 *)dst_words)->unk_00 = ((S_808B3620_0 *)src_words)->unk_00;
     } while (0);

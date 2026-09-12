@@ -280,7 +280,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 gained_flag;
             u8 *ability_table;
             s32 levels_left;
-            register u8 *ability_slot ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u8 *ability_slot;
             u8 *gained;
             s32 ability_value;
 
@@ -290,7 +290,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             gained_flag = 1;
             levels_left = 100 - level;
             ability_slot = entity + 6;
-            do {
+            loop_0: {
                 gained = gained_base + slot;
                 *gained = 0;
                 ability_value = ability_slot[8];
@@ -317,7 +317,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 }
                 slot -= 1;
                 ability_slot -= 3;
-            } while (slot >= 0);
+            } if (slot >= 0) goto loop_0;
         }
 
         func_80041E70(entity);

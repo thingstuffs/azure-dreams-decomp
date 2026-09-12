@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-12T21:17:01Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-12T22:14:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -24,8 +24,8 @@ Baseline NOT exact: 0 rows
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 10 | 7,368 | 0.3% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2874 | 1,360,504 | 53.2% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1580 | 1,228,296 | 48.0% |
-| goto | 1545 | 1,318,412 | 51.5% | 1550 | 1,326,852 | 51.9% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1568 | 1,225,912 | 47.9% |
+| goto | 1545 | 1,318,412 | 51.5% | 1580 | 1,345,880 | 52.6% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 317 | 437,288 | 17.1% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 335 | 246,252 | 9.6% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
@@ -37,7 +37,7 @@ Baseline NOT exact: 0 rows
 | local address-named struct | 633 | 346,988 | 13.6% | 3179 | 1,620,468 | 63.3% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2814 | 473,980 | 18.5% |
 
-Pin sites now: 9,432 in 1,577 rows; REG 4,607, KEEP 2,312, KEEP_NV 917, SCHED_BARRIER 557, TAILSLOT_PIN 163, USE_NV 140, KEEP_DEP_NV 123, TAILSLOT_PIN_TIED 93.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 9,347 in 1,565 rows; REG 4,554, KEEP 2,287, KEEP_NV 911, SCHED_BARRIER 557, TAILSLOT_PIN 163, USE_NV 140, KEEP_DEP_NV 123, TAILSLOT_PIN_TIED 93.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 ## Cleanliness levels (bytes at or above each level)
 

@@ -143,7 +143,7 @@ s32 func_80174228(u8 *item_data)
     register s32 left_x;
     u32 addr_mask;
     register u32 tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register S_func_80174228_1 *init_vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    S_func_80174228_1 *init_vertex;
     u8 *vertex;
     S_func_80174228_5 *prim;
     u8 shade;
@@ -183,7 +183,7 @@ s32 func_80174228(u8 *item_data)
         half_width = ((S_func_80174228_0 *)storage)->unk_7C.u16;
         init_vertex = (S_func_80174228_1 *)(vertex_base + 0x18);
         left_x = -half_width;
-        do {
+        loop_0: {
             init_vertex->unk_00 = half_width;
             if (i < 2) {
                 init_vertex->unk_00 = left_x;
@@ -196,7 +196,7 @@ s32 func_80174228(u8 *item_data)
             }
             i--;
             init_vertex--;
-        } while (i >= 0);
+        } if (i >= 0) goto loop_0;
 
         transform = storage + 0x28;
         ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
