@@ -337,6 +337,27 @@ the SLUS SHA-1 gate MATCH after each phase.
   `signed_value`. A pass over every HOST landing, `t25_hostname`, renames a host that had NO use of its
   own before (for example an `unused` parameter that now carries the tick count) to the hosted value's
   name. Hosts that had a real job of their own keep their name: that is the lazy reuse itself.
+- **The lane's levers are generators now (9b0e8c90), and sweeps have a free screen.** An Opus agent
+  built `natural.hostwide`, `unhost` and `declorder` (grouped as `ALLOC_LEVERS` with `host`) from the
+  REPORT's spec. All six lane closes reproduce from their pin-erased bases, and the existing
+  generators' output is unchanged (`work/native_lane/fakedep/gen/RESULT.md`).
+  `tools/xform/screen.py` compiles a candidate with cc1 alone and compares its normalised assembly
+  with the row's byte-exact text's, in about 0.01 s against about 1.3 s for the scorer. A different
+  listing cannot be exact; only an identical one is scored. `t26_alloc` walks every pin: erase it,
+  try the erased text and every ALLOC_LEVERS candidate through the screen, keep the first exact one.
+  Five test rows gave 7 pins for 1-2 scorer runs a row. Full run over every pinned row: log
+  `work/t26_chain.log` (t2, gate, SLUS gate and STATUS chained). **Next for the tooling:** give t18 and
+  t20 the same screen (their `verify_fn` could screen first), which would let the menus grow without
+  the scorer's price.
+- **`t27_beam`: the combination search the screen makes affordable.** For each pin group (the
+  census's groups where the census is current, then every pin alone, then pins within 4 lines of
+  each other), it erases the group and runs a beam over t15's whole menu (`T15_WIDE=1 T15_NOFENCE=1`:
+  the natural shapes, ALLOC_LEVERS and t15's own). Each round expands the 4 lowest-diff texts; it
+  runs 3 rounds, which stacks up to 3 shapes on one erasure. The screen's changed-line count steers
+  the beam, and only a listing identical to the pinned text's is scored. Dry run on 8 random pinned
+  rows: 4 gained a pin (`erase+narrow` twice, `erase+maskfold`, one dead pin), all with a single
+  scorer run. Rows of 20+ pins hit the 6,000-compile cap, taking 225-305 s. Full run after t26,
+  `T27_SCREEN=12000` (`work/t27_chain.log`).
 
 ### Rules learned today
 
