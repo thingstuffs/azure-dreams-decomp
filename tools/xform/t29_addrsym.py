@@ -260,6 +260,8 @@ def rewrite_var(text, v):
     t = NOTE_RE.sub(drop_new_orphans, t)
     # `(T *)((u8 *)D_X)` is `(T *)D_X`: the byte view was only there for the offset that is gone
     t = re.sub(r"\((\s*[A-Za-z_][\w ]*\*+\s*)\)\s*\(\s*\(u8 \*\)(&?D_[0-9A-F]{8})\s*\)", r"(\1)\2", t)
+    # and a cast of a parenthesised lone symbol drops the parentheses: `(void **)(D_X)` -> `(void **)D_X`
+    t = re.sub(r"\((\s*[A-Za-z_][\w ]*\*+\s*)\)\s*\(\s*(&?D_[0-9A-F]{8})\s*\)", r"(\1)\2", t)
     for e in sorted(externs):
         if e.strip() in t:
             continue

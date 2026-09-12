@@ -18,8 +18,6 @@ s32 func_80018A54(void) {
     } else {
         statusCode = 0x13;
     }
-    do {
-        *statusCodePtr = statusCode;
-    } while (0);
+    *statusCodePtr = statusCode;
     return 1;
 }
