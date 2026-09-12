@@ -228,9 +228,14 @@ the SLUS SHA-1 gate MATCH after each phase.
 - **The permuter is wired to this tree:** `tools/permute_pins.py` (strip a close row's pins, build
   `target.o` from its own pinned byte-exact text with `tools/permute_cc.sh`, run the old
   decomp-permuter (the old checkout's patched copy and venv; `$PERMUTER_DIR` / `$PERMUTER_PY`), judge score-0 outputs with
-  `verify.py`, transplant the function back into the file). A 12-row trial on the 1-4-word strip
-  population (`work/permute_trial/`) is the evidence for whether it becomes a long CPU job; its first
-  finding was a generator gap (`((u8 *)v) + K` - `basesym` now takes it).
+  `verify.py`, transplant the function back into the file). **Trial: 0 of 12** close rows (1-4-word
+  strip residue, 10 min x 3 threads each, `work/permute_trial/`): best scores 5 on three rows, but
+  one needs a behaviour-changing `u8` truncation and two are the known ASPSX `ori $rx,$zero,imm`
+  dialect (an assembler dial, not C). Not scaled into a long job; kept for targeted use - its real
+  yield was a generator gap (`((u8 *)v) + K`, `basesym` now takes it).
+- **The long CPU job instead:** t18 deep and fence-free - `T15_WIDE=1 T15_NOFENCE=1` (t15's whole
+  generator set, the natural shapes first, no barrier at all) with raised budgets, over every row with
+  a pin group in band.
 - **Controversial-in-waiting, not done:** sotn's `FAKE` convention (plain-C stand-ins for allocator
   ties). Not mechanised - census cannot see it; adopting it needs a counted `FAKE` note first.
 

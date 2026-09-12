@@ -46,6 +46,7 @@ BAND = int(os.environ.get("T15_BAND", "12"))       # strip damage a row must be 
 BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BUDGET to raise)
 ROUNDS = int(os.environ.get("T15_ROUNDS", "3"))    # greedy hill-climb rounds
 WIDE = os.environ.get("T15_WIDE") == "1"          # include the generators with no measured win yet
+NOFENCE = os.environ.get("T15_NOFENCE") == "1"    # drop the fence family: a search that may not add barrier debt
 PARTIAL = os.environ.get("T15_PARTIAL", "1") == "1"   # accept a partial removal (10 pins -> 1) as a result
 NARROW = {"s32": ["s16", "s8"], "u32": ["u16", "u8"], "int": ["s16", "s8"],
           "unsigned": ["u16", "u8"], "s16": ["s8"], "u16": ["u8"]}
@@ -853,6 +854,8 @@ class T:
                      + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                      + maskfold_candidates(cur) + mask2cast_candidates(cur)
                      + litsym_candidates(cur) + livetie_candidates(cur) + commute_candidates(cur))
+        if NOFENCE:
+            return real
         fences = (fence_store_before_call_candidates(cur) + fence_candidates(cur) + fence_pair_candidates(cur)
                   + (empty_fence_candidates(cur) if WIDE else []))
         return real + fences
