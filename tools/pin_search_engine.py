@@ -2,6 +2,7 @@
 import collections
 import difflib
 import json
+import itertools
 import re
 import resource
 import sqlite3
@@ -91,6 +92,20 @@ def diverse(items, count):
             if len(chosen) == count: return chosen
     chosen.extend(x for x in ordered if x not in chosen)
     return chosen[:count]
+
+def erasure_groups(live):
+    """Largest subsets first; exhaustive through eight sites, bounded families above that."""
+    n = len(live)
+    if n <= 8:
+        for size in range(n, 0, -1):
+            yield from itertools.combinations(range(n), size)
+        return
+    yield tuple(range(n))
+    for macro in sorted({site[1] for site in live}):
+        group = tuple(i for i, site in enumerate(live) if site[1] == macro)
+        if 1 < len(group) < n: yield group
+    yield from itertools.combinations(range(n), 2)
+    yield from ((i,) for i in range(n))
 
 class Limit(Exception):
     pass
@@ -304,6 +319,43 @@ class Session:
             if not won: break
         return dict(steps=steps, groups=group_log[:40])
 
+    def erasures(self):
+        ref = self.compile(self.row, self.original)
+        if ref is None:
+            self.stop = "reference-build-error"
+            return {}
+        steps = []
+        while sites_of(self.best):
+            cur = self.best
+            live = sites_of(cur)
+            near = []
+            for group in erasure_groups(live):
+                self.check()
+                candidate = old.erase_many(cur, [live[i] for i in group], clean_notes=True)
+                asm = self.compile(self.row, candidate)
+                distance = sdiff(ref, asm)
+                self.stats["groups_visited"] += 1
+                if distance is None: continue
+                if distance == 0 and self.verify(candidate).get("exact"):
+                    steps.append("erase:" + "+".join(map(str, group)))
+                    break
+                if 0 < distance <= 2:
+                    kind = mechanism(ref, asm)
+                    near.append((distance, group, candidate))
+                    self.remember(kind, group, distance, "joint-erase", candidate)
+            else:
+                # The assembly screen can miss assembler convergence. Reserve a small
+                # byte-verifier allowance for very near erasures; never publish by screen.
+                for distance, group, candidate in sorted(near, key=lambda x: (x[0], -len(x[1]))):
+                    if self.stats["fallback_tried"] >= self.options["fallback"]: break
+                    self.stats["fallback_tried"] += 1
+                    if self.verify(candidate).get("exact"):
+                        self.stats["fallback_wins"] += 1
+                        steps.append("erase-near:" + "+".join(map(str, group)))
+                        break
+            if self.best == cur: break
+        return dict(steps=steps, exhaustive_subset_max=8)
+
     def fences(self):
         from xform import t20_fencefree as t20
         from xform.loop_test_increment import loop_test_increment_candidates
@@ -332,7 +384,8 @@ class Session:
     def run(self, mode):
         info = {}
         try:
-            info = self.baseline() if mode == "baseline" else self.fences() if mode == "fences" else self.targeted()
+            info = {"baseline": self.baseline, "targeted": self.targeted,
+                    "fences": self.fences, "erasures": self.erasures}[mode]()
         except Limit as exc:
             self.stop = str(exc)
             info = {"groups": self.group_log[:40]}

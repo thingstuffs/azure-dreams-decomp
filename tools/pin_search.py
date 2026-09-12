@@ -118,8 +118,8 @@ def prepare(a):
     from pin_census import sites_of, asm_blocker
     from xform.natural import fences
     from pin_search_engine import DEFAULTS
-    if a.pilot and a.mode == "fences":
-        raise ValueError("fence mode cannot be combined with the pin comparison pilot")
+    if a.pilot and a.mode not in ("baseline", "targeted"):
+        raise ValueError("this mode cannot be combined with the pin comparison pilot")
     d = safe_tag(a.tag)
     if (d / "manifest.json").exists(): raise RuntimeError("tag already prepared; use run to resume or a new tag")
     rs = [r for r in rows() if r.get("stock") and r.get("exists") and r["container"] not in PARKED_CONTAINERS]
@@ -497,7 +497,7 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument("action",choices=["prepare","run","start","status","packets","gate-pilot","publish"])
     ap.add_argument("--tag",required=True);ap.add_argument("--workers",type=int,default=4)
     ap.add_argument("--sample",type=int,default=0);ap.add_argument("--seed",type=int,default=20260912)
-    ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline","fences"],default="baseline")
+    ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline","fences","erasures"],default="baseline")
     ap.add_argument("--screens",type=int,default=1200);ap.add_argument("--verifies",type=int,default=12);ap.add_argument("--cpu-seconds",type=float,default=40)
     ap.add_argument("--replay-commit",default="c35efafb")
     ap.add_argument("--defer",action="append",default=[],metavar="ROW_ID",

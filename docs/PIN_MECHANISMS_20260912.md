@@ -96,3 +96,28 @@ publication, recording parent and derived hashes, then run the combined gates on
 Current follow-up is correct but rebuilding the large dungeon window after both
 publication and follow-up adds unnecessary work. Preserve transactional rollback,
 source-policy checks and independent final verification when making this change.
+
+## Fence batch evaluation and joint-erasure coverage
+
+`pins_fences_20260912` finished all 19 rows without errors or removals: 425 actual
+full-verifier calls and 406 CPU seconds. Sixteen rows reached the attempt limit; three
+finished their available menu. Most shape searches did not improve the unwrap residue.
+`dungeon/func_8180DE3C` narrowed an intensity temporary to cut its residue from eight to
+four, but did not match. `dungeon/func_800AA49C` remains a one-instruction unwrap lead.
+This result does not support broadening the unchanged fence pass. No source publication
+or gate rebuild was needed. Evidence: [fence_batch_20260912.json](evidence/fence_batch_20260912.json).
+
+A current-source audit found 405 functions with 2–8 pins whose successful historical
+subset records do not cover every joint erasure. They contain 2,137 pins. This count
+excludes single-pin rows, stale source hashes and unsuccessful compile records; historical
+records still lack current recipe fingerprints. T27's fallback group list includes
+singles and nearby pairs, and its per-group shape search can consume the budget before
+larger combinations. T2 cannot remove a group that only becomes dead together.
+
+The next experiment removes pin subsets without any shape mutations, using the cheap
+assembly screen and mandatory full verification of possible wins. The first 100 rows
+contain 763 pins and favor more pins and smaller functions; this is not a random sample.
+The dedicated mode has exhaustive enumeration through eight pins, explicit limits and
+saved near misses, with the established recovery/publication path. Its value will be
+judged on verified removals per CPU time, not number of tested variants. Audit:
+[joint_erase_audit_20260912.json](evidence/joint_erase_audit_20260912.json).

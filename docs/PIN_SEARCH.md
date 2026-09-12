@@ -63,6 +63,28 @@ are not persisted as negative assembly cache entries. Production tags share cach
 pilot tag has separate cold caches for its two arms. Distinct C states are retained even if
 they currently emit the same assembly, because later transformations can behave differently.
 
+## Joint pin erasures
+
+`--mode erasures` tests pin removal without generating C-shape mutations. Through eight
+live pins it enumerates all nonempty subsets, largest first. Above eight, it tries the full
+set, each macro family, every pair and singles, subject to the same row budgets. Successful
+byte verification restarts the walk from the smaller source. The assembly screen filters
+costly verification; up to two very near nonzero erasures also receive full verification.
+No screen result can publish source. Existing checkpoint, identity and transactional gates
+apply. Near misses are saved for mechanism research.
+
+```sh
+python3 tools/pin_search.py prepare --tag erase_next --mode erasures --ids selected_ids.txt --screens 512 --verifies 12 --cpu-seconds 20
+python3 tools/pin_search.py start --tag erase_next --workers 4
+python3 tools/pin_search.py publish --tag erase_next --mode erasures --workers 4
+```
+
+This is an experiment in joint-removal coverage, not a replacement for baseline search.
+T2 tests singles; baseline T27 can exhaust its budget in shape search before reaching
+larger subsets or distant pairs. Read the manifest and stopping reason before calling a
+row exhaustive. The first batch selects small functions with 2–8 pins and incomplete
+current-source subset records; historical records are scheduling evidence, not new proof.
+
 ## Fence search
 
 Use `--mode fences` for scored scheduling fences, including functions with no ASM pins:

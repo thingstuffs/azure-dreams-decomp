@@ -1,0 +1,1031 @@
+{
+  "summary": {
+    "pinned_rows": 1634,
+    "pins": 10282,
+    "groups": {
+      "1": {
+        "rows": 336,
+        "pins": 336
+      },
+      "2-5": {
+        "rows": 720,
+        "pins": 2229
+      },
+      "6-10": {
+        "rows": 321,
+        "pins": 2456
+      },
+      "11+": {
+        "rows": 257,
+        "pins": 5261
+      }
+    },
+    "incomplete_2_8_rows": 405,
+    "incomplete_2_8_pins": 2137,
+    "selected_rows": 100,
+    "selected_pins": 763,
+    "note": "Successful recorded subsets at current source hash; no claim of current recipe-bound proof. Full 2..n coverage, not only 2..min(5,n)."
+  },
+  "selected": [
+    {
+      "id": "slus/w_8004F330",
+      "sha": "fe15037f3f4370430deb0cc0186cf6e26bc640cf38e636558d1acd8f9a3b3bb9",
+      "n": 8,
+      "size": 160,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800D74DC",
+      "sha": "a90b81cc9f33477712f3248941cf0221ce6259dbf8b8cf5daea0e642dcd78fef",
+      "n": 8,
+      "size": 184,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_819BFE48",
+      "sha": "69de53b7c9e43fdf932bc79f839f417d107df2bc17ec8ce34b857b7cbaf3c7f2",
+      "n": 8,
+      "size": 200,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800B7B94",
+      "sha": "0faa44b67aa01c09a15f7ba749c64ee2301551476b3d4e0f1ab1552eaace9585",
+      "n": 8,
+      "size": 200,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8046F730",
+      "sha": "18663b2dff03a172e2b1781a7c80f9a3113c129a673f67cd60e2cd03c87339fa",
+      "n": 8,
+      "size": 208,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8009EF28",
+      "sha": "b770af902ffbba4103f5a5dbd3aff5146211bba9b2ce75322b2e25ba5c47f94b",
+      "n": 8,
+      "size": 240,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818D4A94",
+      "sha": "182067f2bd5c9c5ca0bce462cd268458d4d464bf84386cadca9fc735a11bdeca",
+      "n": 8,
+      "size": 256,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8088124C",
+      "sha": "5f69e442a964fdc1730ddc871f4ae6e860da26f41f4a47984940b0e3abd3c7db",
+      "n": 8,
+      "size": 256,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800B7CEC",
+      "sha": "07b72ec2e21670df03e2da8b62222031b0bf412813928a911ddcce9d1c545f3d",
+      "n": 8,
+      "size": 272,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800B8934",
+      "sha": "956902a4ec0408f03174c694066e50f2e97452dea2e88fa5fc7898920c5b4c83",
+      "n": 8,
+      "size": 300,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800A7FDC",
+      "sha": "c3e890ff9bcead0a85d2918ae64b9353bfab80d47b27a3b4c3be816182e3234e",
+      "n": 8,
+      "size": 344,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800BEBC4",
+      "sha": "999bc2835c211d67adf12821db44a2962079e1bb0ac0dbbd6c331410425091e0",
+      "n": 8,
+      "size": 364,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80CE83EC",
+      "sha": "efd314e9b4f8b71bf45149be4162f8f40a10d9033fa8ddcbb344773c63dd653d",
+      "n": 8,
+      "size": 376,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80097F94",
+      "sha": "b5b03a0c3e93671cffda408959c5b6cd45c9340b03cc9a61b3b6984302ce87b3",
+      "n": 8,
+      "size": 432,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8028BAA4",
+      "sha": "8891424500e49c91b5c4639da7b5002fc02d232ec213a76f19f947b57ab6ff32",
+      "n": 8,
+      "size": 432,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800900F4",
+      "sha": "807dc65577a985bf822df898b7de9470b02538edd304cd6e201af2b5766c0d02",
+      "n": 8,
+      "size": 444,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_7FFEE0B8",
+      "sha": "4f165929b4c7950523855f904b886646a2460150d8ab1c2ed5223ef54867395b",
+      "n": 8,
+      "size": 448,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_809CA5A0",
+      "sha": "ad87e7f6f69401ca4a73bfb78dfe31f5c5cc645956e2c3fbebb136665ffce378",
+      "n": 8,
+      "size": 452,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8132E83C",
+      "sha": "08136ea6a1ca4867236fb42ccb371431148e4daa08ec7a2d48bf8581cdb0d7b8",
+      "n": 8,
+      "size": 464,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800BA82C",
+      "sha": "f53bc8d58a389ab8b53087c3ddbcb9c04511320416b40af82942f98b36995e9b",
+      "n": 8,
+      "size": 484,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80A4B678",
+      "sha": "b10e60b8b068a0ceaa4c3a81d4420ce8ce991efe877df91fc9156dd552bcf398",
+      "n": 8,
+      "size": 496,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81988C1C",
+      "sha": "6f3c67ffddaa56cb6e26a62b82521af2066c5ff8a9d7ce783829ef5029e422be",
+      "n": 8,
+      "size": 556,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_808135E0",
+      "sha": "0e9968d3b098e0593ef8e325661c48b2c33ce3a3acf8116e99c01adb51703bac",
+      "n": 8,
+      "size": 556,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800C7F80",
+      "sha": "b13857487479e8cbf8038bca894b9e453f3e0d26d2b316c5f4ba42a019cad829",
+      "n": 8,
+      "size": 560,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81339D2C",
+      "sha": "2540a7427c2aa76e543d6e02e44c8bb3c8283579a2b22033696257799bff3623",
+      "n": 8,
+      "size": 572,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818F30EC",
+      "sha": "692f17dd7fb8377a6e15233420a91fbdbb6840f328fe4e0b30335b9aeccc7ee8",
+      "n": 8,
+      "size": 592,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80F89A94",
+      "sha": "f8e7765c56d49fe6f9e304360ac4eba44b0e7add1c602f6b6ea5d4a71f29698e",
+      "n": 8,
+      "size": 624,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80CBD000",
+      "sha": "54ffb229db4778da3e101e135caa701f93636180fed1099a727a91c7dd33fa7e",
+      "n": 8,
+      "size": 736,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8187BB80",
+      "sha": "e9ca62a54687d1fca54a7e2052c322ecb0d6a229bdcea1af0c49713e44d5816e",
+      "n": 8,
+      "size": 796,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80FC3000",
+      "sha": "fe419629787e66b1449baf5ba77ebc68ea806f4edd1d5324a8234e6d01e100a0",
+      "n": 8,
+      "size": 832,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80FC9000",
+      "sha": "cf3f3fec3dfda5ce02666c79e02e86074f0a4fbbdffcc030a06556ce9d934f61",
+      "n": 8,
+      "size": 832,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81251000",
+      "sha": "346ecd5ef8abd2db662a951571b1ab897f086398180dc3c725ee1341b70565d5",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81257000",
+      "sha": "2e0668057bb8c71f73f08b45878e8252c5edc4b11339c6aac4506afb4ece6d7b",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81263000",
+      "sha": "4c9bf5e1dbb0c97c1932e5b8124364c1b19f14bd79a5f4ae51b1d61152217577",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81269000",
+      "sha": "781b16eb33d0102dc150f65e7808c80fb5bd8f292002101a164c4b52c6bbd16c",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81275000",
+      "sha": "83346fa15408d4502aac6979538bf94189c1d85dfd900ff39a181134b1d36f2a",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8127B000",
+      "sha": "bb9e23d3c9016bdca10d5d1759fb0e9f5b28609062dc5f223ba11ebee101f265",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8128D000",
+      "sha": "f5b5e77aac27d423523eab7985b9c49f3726c82fb123ad0e206abe1167cfeb16",
+      "n": 8,
+      "size": 848,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81977230",
+      "sha": "95625cb1777a7230f5ebe8ab9f2dc67e48eb59d4fd5c147bf48a4e15d39ced74",
+      "n": 8,
+      "size": 852,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800B50B0",
+      "sha": "d76945101c35175b8cb40dbff51725db3101f8f5bc8501f884bad1e77c95feb4",
+      "n": 8,
+      "size": 920,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800BD0C4",
+      "sha": "88a4ca9df2d740ff647b8d35c22ed0f1493ea27d4a2725d117425e229607da13",
+      "n": 8,
+      "size": 1112,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_819A6800",
+      "sha": "6c2db866e29f07b1b8c0030f7f4edba34c5f4e0c4dd8b7dc18fff8b7365f3301",
+      "n": 8,
+      "size": 1212,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80F89240",
+      "sha": "b1a76d422b33d5519012706794c2f87a2fdff4b6970b29ef615984195784a676",
+      "n": 8,
+      "size": 1216,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_809A10A8",
+      "sha": "c15ebe3504d4e2f21881b6be4c366366f57809185692b1261d65528669978a0d",
+      "n": 8,
+      "size": 1332,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81989558",
+      "sha": "84d5d5650c97db3607bc0cbed35cb6796baa1af4a595dfb443c603f558b63aec",
+      "n": 8,
+      "size": 1356,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80E8EC28",
+      "sha": "277c3dee10598126d01af57e9028405c12be774fb2686bc46c12a44c53aa085e",
+      "n": 8,
+      "size": 1360,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818B7264",
+      "sha": "97731cd95d2136a1acb46c778522bb0ef0dd89384d0236ef31c1c1825bafbc04",
+      "n": 8,
+      "size": 1392,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80AF1A80",
+      "sha": "50692872edc5375d3e2e550f93c75950a69cf8f18ec67ab588ea82c01cc1bcae",
+      "n": 8,
+      "size": 1420,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8096BCF0",
+      "sha": "d69cee99294f09d3e660916105ef04cd0660a054c2bc39a2c12b8ccab4778676",
+      "n": 8,
+      "size": 1440,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800A6A78",
+      "sha": "8068b1f741dc953a7610654d843c9801fd8372d9729f5a7ff04c92939fb8175f",
+      "n": 8,
+      "size": 1488,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "slus/w_80042710",
+      "sha": "ad44b07a6fc2e4cc5e89b8693c3b706c49fd1b340d6bf86927b1a1a00b7f843c",
+      "n": 8,
+      "size": 1576,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80EB5364",
+      "sha": "8b179e872a0a97ca48341f1fea654bb0ce41a0058267115727fa5012f434e122",
+      "n": 8,
+      "size": 1600,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80E3BD94",
+      "sha": "ce29b1558fcc99baf7c4b6a27422d744e397236d68422def6e17f26a2f3d2396",
+      "n": 8,
+      "size": 1740,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "slus/w_80041588",
+      "sha": "075ee364fc30890b96de96239ec1a56c7453b2a5f7ef97e5792a8a150bf7bf6c",
+      "n": 8,
+      "size": 1740,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80F03000",
+      "sha": "f4c64e09c3652a5000ba0b9f19e1976d315bdc05092794812437fc180f07419b",
+      "n": 8,
+      "size": 1752,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_80953900",
+      "sha": "f2f5ed3819c6b72693f54bd74dd74190a35b0cc06c58e9404d457dd134345473",
+      "n": 8,
+      "size": 1832,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80976434",
+      "sha": "bae1c00c4ddec436b2029825a5c31c0f1b08f7b91ba2e9866f891f87f8122489",
+      "n": 8,
+      "size": 1864,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80BC3AC4",
+      "sha": "32f88ed6f092fd7c70801fffe1b7315a6e3804d5efca5aa132a2df4ffc39ec83",
+      "n": 8,
+      "size": 1872,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80D3CBF8",
+      "sha": "56cd930fc76259f033b5b93c783b2cb04e651dc7c455da4d0e2e0287991607ec",
+      "n": 8,
+      "size": 1876,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80C153B8",
+      "sha": "f3fb3300cac8234e6c437ae17d43867d1310ce7f63530377813cfbc3e03ac1a0",
+      "n": 8,
+      "size": 2032,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_809F33F8",
+      "sha": "a5d93ae7eed2d175699097b7d20318eaf207218370d70eddd15368ae975efffe",
+      "n": 8,
+      "size": 2056,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_81033FE0",
+      "sha": "f80b000f6ba761c9dfd86e0abda97a3ec633624beefd2ea5344917d1b5a779fa",
+      "n": 8,
+      "size": 2116,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "slus/w_8005BBFC",
+      "sha": "6e8fa5738c1964cbb2770c9b73c7422540a0bec7345c7bea531189a0ceeacbda",
+      "n": 8,
+      "size": 2168,
+      "blocked": false,
+      "subset_observed": 28,
+      "subset_expected": 247,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8032FF04",
+      "sha": "e0fd3308b11e5c6ae8dd7f32b1ab01fed93e43ddbe796a0b5418420060d20f67",
+      "n": 7,
+      "size": 92,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800A2988",
+      "sha": "474efd20ddd9d5c964862747ca3408f8005578b72e0b542fcd445cb8207ee9eb",
+      "n": 7,
+      "size": 104,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8032F060",
+      "sha": "5601850ea0c220b463b5c8c6f63d4bb7e28faa780bc0a33fd5a7f39ab0aa018e",
+      "n": 7,
+      "size": 148,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80094A20",
+      "sha": "5b79bb1c96216f62b2f40ea481f501ff6cd181b34740067c12ab55d6ee7aa13a",
+      "n": 7,
+      "size": 156,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8009AAAC",
+      "sha": "2ad6187804ba28ba2275057df448aa90acefcdf441321acbeb3f6bd80ddd11de",
+      "n": 7,
+      "size": 160,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8067F5C4",
+      "sha": "980a95a040cfca7b797a2252d12b38fe69342fe967d694046b92b25a0a97a66a",
+      "n": 7,
+      "size": 176,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800AB37C",
+      "sha": "8a20ccbd54212b560f465add7c004a2f82b66d3b458b009ee8c923ca566ad5e6",
+      "n": 7,
+      "size": 188,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8009A288",
+      "sha": "8bd14b16bd5fc6f8f9468fc80b64e18b7fed27695e6ee54a773fe9636ae0b04a",
+      "n": 7,
+      "size": 196,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "slus/w_80049F68",
+      "sha": "dc8e18cf283d51b5b9ff646915af20b0f89becaf3cc7eb9dc0c6de7549320803",
+      "n": 7,
+      "size": 200,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_800980E0",
+      "sha": "29c56dcf7fc32ad7362fadd05b60c27cb72451addc185742e9b4fc2e044cb2fb",
+      "n": 7,
+      "size": 208,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800C3578",
+      "sha": "efe6d3f3ec011694cb441f762e59cb960e4b185f7b9d24cecf82fcfe8413ae4a",
+      "n": 7,
+      "size": 216,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8032EF6C",
+      "sha": "4d8898c818c23ba99ce9050eb7ba0f117e66bc3e49d453cb977cf4c31479d962",
+      "n": 7,
+      "size": 244,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_80087054",
+      "sha": "2a04b6ff61829ce7bcf71b0aab88cd3e27dcb5152601f9960580811fdd9e9ed5",
+      "n": 7,
+      "size": 264,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800C21D0",
+      "sha": "5774bec956e31995c4e34a9aa1dec75a74d679b078988b7d50eec64f2c7aaafc",
+      "n": 7,
+      "size": 268,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818B7E14",
+      "sha": "5b032aa1dd051cfaa7a7f1440c1606263d76193d98b6bcd086e0f4b56db54f03",
+      "n": 7,
+      "size": 292,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800A8254",
+      "sha": "822fd68cb421ad3300d36acd6bc895b2d817925d8f41f10c434b62144e0e1a20",
+      "n": 7,
+      "size": 304,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818BDD8C",
+      "sha": "add85a4e11ff34631e107dc6a1a9e14840e520c2db175654700677332d0c24c2",
+      "n": 7,
+      "size": 304,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_80874E18",
+      "sha": "85749f488e9c103c19f20da3f8c363fbf1c7ee42b943b15ba32b3bfe99d9acf4",
+      "n": 7,
+      "size": 308,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_7FFED850",
+      "sha": "ae03f632070f7d0c495f479980a085c0bbce84de0a9eb4f85e3bb38ef11e1948",
+      "n": 7,
+      "size": 312,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800C379C",
+      "sha": "582d9ae09f6fada3293f1efd13ce0d1dc21b99fe2565a922e068b9447351122d",
+      "n": 7,
+      "size": 312,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8009A734",
+      "sha": "9841974052b6116988778958514c98c2efc8a22d09f35bc45bb5d89f0ca7c662",
+      "n": 7,
+      "size": 320,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_8046C048",
+      "sha": "40241b291d3a6ba86e7dd2c6c311638c533c14af238d6caed29c5672f6e7e834",
+      "n": 7,
+      "size": 320,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800ACC98",
+      "sha": "49230a3548705185f8148b29be7bca8d20a3a7362e5e77a0d892cbed093e2d3a",
+      "n": 7,
+      "size": 324,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818BC888",
+      "sha": "8e300d2cbfe897b9590956957f6064ddaf3c07de04c37c1afa7b718cb953a83c",
+      "n": 7,
+      "size": 324,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8191CA88",
+      "sha": "d6241e718d11f14fefe49ddef3cfa3cef20cf688e8030619df7f57346403c9e3",
+      "n": 7,
+      "size": 324,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "slus/w_80046C20",
+      "sha": "8356b0cd745c9363268f58838d322d28fc37b658550ada73cf7fe12c699bee38",
+      "n": 7,
+      "size": 324,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818FF5B8",
+      "sha": "b64ff9b8b9a6af7058d82e361ba470c5c73b391aa674cc374e28302b60d60c15",
+      "n": 7,
+      "size": 344,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "town/func_80470F3C",
+      "sha": "400f483921dbf8059cffe8dffe4bd6cf057e8e3f786db8d78682f3f52fde2f8d",
+      "n": 7,
+      "size": 352,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818B7BD0",
+      "sha": "df46dd863d057bf53e7493794550bd2c0613e7db4d79ea10c9c60341df609404",
+      "n": 7,
+      "size": 364,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_819715D4",
+      "sha": "5d72de46edd30bbd0eb1821fd54bc2a0c9530d8ca47f30061fad4a8d9b58a7a8",
+      "n": 7,
+      "size": 396,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800D2E30",
+      "sha": "0f60ee1c5db1e39559dc2f12eae002a43a878709fab88fc8af07e21e5b316125",
+      "n": 7,
+      "size": 408,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800B62E0",
+      "sha": "254ccf56f7fef6bbfb8a94b797e4ec3ca33ac49a6b90df0ebcb0097aaa562f14",
+      "n": 7,
+      "size": 416,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_800C5028",
+      "sha": "5a06a0ea11a0931d2ecdcf34656b59960e2b6596b5060962fbe0b1e0619468b9",
+      "n": 7,
+      "size": 436,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818D4B94",
+      "sha": "d9fccc3558a095e53a130b2dd54f55a0331826a0df0f67e1ce32969bf57a0a99",
+      "n": 7,
+      "size": 436,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_8008E714",
+      "sha": "8444f858cb504412b3064e3101445515772687b56d11812ef68749cfb95d99a6",
+      "n": 7,
+      "size": 440,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_813296A0",
+      "sha": "a5115d93e2858ecb6f69737124102da92f0037976f6d09e85b1409d2e94e55ac",
+      "n": 7,
+      "size": 444,
+      "blocked": false,
+      "subset_observed": 21,
+      "subset_expected": 120,
+      "subset_complete": false
+    },
+    {
+      "id": "dungeon/func_818B0C3C",
+      "sha": "ca33e0d392c43810766ea120a7c8c7a7544927f5005992559245577408d20b80",
+      "n": 7,
+      "size": 468,
+      "blocked": false,
+      "subset_observed": 0,
+      "subset_expected": 120,
+      "subset_complete": false
+    }
+  ]
+}

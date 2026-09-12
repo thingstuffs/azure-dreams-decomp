@@ -1,0 +1,353 @@
+{
+  "summary": {
+    "tag": "pins_fences_20260912",
+    "run_key": "977b4d5ded44247a2f98ce6d91763dd48fd717a5952a36723264363f044c9a1b",
+    "at": "2026-09-12T11:58:03Z",
+    "modes": {
+      "fences": {
+        "records": 19,
+        "outcomes": {
+          "noop": 19
+        },
+        "stops": {
+          "verify-budget": 16,
+          "complete": 3
+        },
+        "pins_removed": 0,
+        "fences_removed": 0,
+        "totals": {
+          "compiled": 0,
+          "screened": 0,
+          "cache_hits": 0,
+          "tried": 425,
+          "seconds": 390.916059371084,
+          "cpu_seconds": 406.033343,
+          "generation_seconds": 0,
+          "fallback_tried": 0,
+          "fallback_wins": 0,
+          "compile_timeouts": 0
+        }
+      }
+    }
+  },
+  "options": {
+    "screens": 1200,
+    "verifies": 24,
+    "cpu_seconds": 40.0,
+    "group_screens": 240,
+    "depth": 3,
+    "beam": 4,
+    "fallback": 2,
+    "band": 30,
+    "objective": "fences",
+    "cache_namespace": "production"
+  },
+  "finished": "2026-09-12T11:57:41Z",
+  "decision": "No candidates to publish. Do not broaden unchanged fence mode; investigate near residues and evaluate erasure-only coverage first.",
+  "rows": [
+    {
+      "id": "dungeon/func_80097C50",
+      "source_sha": "f7d12c144df9253e8bfabf7dca278f0b499e23ecae73e2ffec8984b9b4549510",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 6,
+          "climb": null,
+          "fence": 92,
+          "unwrap": 6
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_80089368",
+      "source_sha": "3d3c99ce575ee181ea0f4688679b7b7657246c014790c09cb600c18a3f165cda",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 23,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 4,
+          "climb": null,
+          "fence": 190,
+          "unwrap": 4
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_8008EE88",
+      "source_sha": "1fb78cfae7b714856e0072c2c7905ab2536679d087738969dd520f3fb0833bed",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 21,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 2,
+          "climb": null,
+          "fence": 80,
+          "unwrap": 2
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_819A1654",
+      "source_sha": "1e0ae02acea921eb1e1504308fbcd8b899b7c16e25156a17bcab0ef98d7a71cd",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 23,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 7,
+          "climb": null,
+          "fence": 308,
+          "unwrap": 7
+        }
+      ]
+    },
+    {
+      "id": "town/func_8095563C",
+      "source_sha": "178e9517bcde2756fc06d724590e0dacdcc684f842400b26f859d62c38862e71",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 23,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 2,
+          "climb": null,
+          "fence": 108,
+          "unwrap": 2
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_809A1A8C",
+      "source_sha": "5010302efdff3d3b8d81340ee214f959b4a90a6225500ca83368114b2927f083",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 22,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 6,
+          "climb": null,
+          "fence": 184,
+          "unwrap": 6
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_800AA49C",
+      "source_sha": "2d7548fed04b6913d446e57c6c4b95cad07c2695e65379ca3e61e103f4594d74",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 1,
+          "climb": null,
+          "fence": 98,
+          "unwrap": 1
+        }
+      ]
+    },
+    {
+      "id": "town/func_800A61B8",
+      "source_sha": "8cc86da5650a41b4ad0544ae69ffe7afead048c52dfef3941851006689c85677",
+      "outcome": "noop",
+      "stop_reason": "complete",
+      "tried": 15,
+      "fences": [
+        {
+          "menu": 14,
+          "best": 6,
+          "climb": null,
+          "fence": 60,
+          "unwrap": 6
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_809A22D8",
+      "source_sha": "7c8eb28d988593b6f2a379e018c143f5f236b1b6af9cddd1059aafc471d198ee",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 3,
+          "climb": null,
+          "fence": 113,
+          "unwrap": 3
+        }
+      ]
+    },
+    {
+      "id": "town/func_808B3620",
+      "source_sha": "f334662a2cb647f8310bdf460344daf00ec49afc1fe0467b2e871ae96e25f2a9",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 2,
+          "climb": null,
+          "fence": 63,
+          "unwrap": 2
+        }
+      ]
+    },
+    {
+      "id": "town/func_8080EEC4",
+      "source_sha": "263fd64092b577c5f8957bfd1ab12ab6e8bdc4df0f767ae5e1bac12d4549dc66",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 2,
+          "climb": null,
+          "fence": 276,
+          "unwrap": 2
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_8099F294",
+      "source_sha": "569c0c0886c6437af82cde75e997ab1fbf9f9c4fd506867b534e8033a4c1fdee",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 23,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 16,
+          "climb": null,
+          "fence": 169,
+          "unwrap": 16
+        }
+      ]
+    },
+    {
+      "id": "town/func_800993F0",
+      "source_sha": "f7c056c8b0f82e91708f11593d52fd8dd9bcb625be203f3c61923cbf9ac75b32",
+      "outcome": "noop",
+      "stop_reason": "complete",
+      "tried": 15,
+      "fences": [
+        {
+          "menu": 14,
+          "best": 2,
+          "climb": null,
+          "fence": 30,
+          "unwrap": 2
+        }
+      ]
+    },
+    {
+      "id": "town/func_8081DD70",
+      "source_sha": "d313d7a4fab7701e717acf292e421b5ae055a1c7dc3eb67159f5361573c74fd2",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 23,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 4,
+          "climb": null,
+          "fence": 116,
+          "unwrap": 4
+        }
+      ]
+    },
+    {
+      "id": "town/func_800B1DC0",
+      "source_sha": "f3336c75ea72f15c313949b21c73f75a0af7a934fe3e45b3c154c73b22920b6e",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 17,
+          "climb": null,
+          "fence": 70,
+          "unwrap": 17
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_800D1A48",
+      "source_sha": "5309e557587e60b011f17d678569e7523a7fa8ba782c6832ca534f6d4d73c294",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 7,
+          "climb": null,
+          "fence": 301,
+          "unwrap": 7
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_8180DE3C",
+      "source_sha": "0467d6ed096047b90046e3caf99ceb134d5d80249f1c5b23b29d5fb55b21e76c",
+      "outcome": "noop",
+      "stop_reason": "complete",
+      "tried": 21,
+      "fences": [
+        {
+          "menu": 20,
+          "best": 4,
+          "climb": "narrow:intensity u16->u8",
+          "fence": 48,
+          "unwrap": 8
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_800C627C",
+      "source_sha": "2fce8b9d6c5316bb56d5bf2411bd7cebbd7b7466ecd68a1ab8ff2a795df944eb",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 8,
+          "climb": null,
+          "fence": 162,
+          "unwrap": 8
+        }
+      ]
+    },
+    {
+      "id": "dungeon/func_800A1AD4",
+      "source_sha": "e20b73419162292bca6b43b4fa073f204209154c296f7835535a374affcda1cb",
+      "outcome": "noop",
+      "stop_reason": "verify-budget",
+      "tried": 24,
+      "fences": [
+        {
+          "menu": 23,
+          "best": 2,
+          "climb": null,
+          "fence": 114,
+          "unwrap": 2
+        }
+      ]
+    }
+  ]
+}
