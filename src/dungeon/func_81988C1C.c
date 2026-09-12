@@ -132,7 +132,7 @@ s32 func_81988C1C(void *first_item) {
             u8 tex_u;
             register u8 tex_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u16 screen_coord;
-            register u32 ot_slot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u32 ot_slot;
             u32 addr_mask;
             register u32 color_or_tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -169,7 +169,7 @@ s32 func_81988C1C(void *first_item) {
             ((S_81988C1C_4 *)packet)->unk_24 = tex_u;
             ((S_81988C1C_4 *)packet)->unk_1C = tex_u;
             tex_v = ((S_81988C1C_0 *)item)->unk_42;
-            ot_slot = depth_index * 4;
+            ot_slot = depth_index << 2;
             ((S_81988C1C_4 *)packet)->unk_1D = tex_v;
             ((S_81988C1C_4 *)packet)->unk_0D = tex_v;
             tex_v += ((S_81988C1C_0 *)item)->unk_46;

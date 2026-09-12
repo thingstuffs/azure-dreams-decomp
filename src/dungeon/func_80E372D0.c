@@ -58,7 +58,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
     void *actor = entity_arg;
     register s32 direction_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 direction;
-    register u32 old_direction_raw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u32 old_direction_raw;
     Callback callback;
     u16 monster_flags;
     s16 floor_height;

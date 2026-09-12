@@ -163,7 +163,7 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     static void *const state_labels[] = { &&state_aim, &&state_move, &&state_trail, &&state_hit, &&state_wait, &&state_finish };
     S_func_81820800_1 *state_obj;
     S_func_81820800_4 *owner;
-    register S_func_81820800_5 *source ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    S_func_81820800_5 *source;
     register S_func_81820800_3 *actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_func_81820800_3 *target;
     S_func_81820800_5 *target_data;

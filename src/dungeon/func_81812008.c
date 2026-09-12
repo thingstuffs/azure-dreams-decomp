@@ -27,8 +27,7 @@ s32 func_80027008(s32 entry_set, s32 position, s32 entry_count) {
     if (buffer == 0) {
         goto end;
     }
-    start_entry = entry_index * 8;
-    ASM_KEEP(start_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    start_entry = entry_index << 3;
     copy_count -= start_entry;
     if (copy_count >= 9) {
         copy_count = 8;

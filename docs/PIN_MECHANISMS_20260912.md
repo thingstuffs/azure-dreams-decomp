@@ -337,3 +337,19 @@ argument copy `move $aN,$sM` by a slot) solved 0/10. Its account: call expansion
 CSE folds the unpinned alias into its source, and the scheduler then puts the ready copy in a
 later legal slot. That is recorded as a hypothesis, not a verdict (owner rule); the rows are
 escalated to sol with the measured dead ends (`work/native_lane/argmove_sol/`).
+
+Fourth round (one gate): 28 pins; 24 windows MATCH, SLUS SHA-1 MATCH; census 9,832 pins in 1,600 rows.
+- **Fake-dependency lane (luna, `work/native_lane/fakedep2/`), 2 of 12.** A power-of-two scale
+  spelled the other way reproduced the lifetime a fake dead store had faked:
+  `start_entry = entry_index << 3` (`ASM_KEEP` off) and `double_phase = offset_phase << 1` (`$16`
+  pin off). gcc expands `y * 2^k` through `synth_mult` and `y << k` through `expand_shift`, which
+  leave different pseudos before allocation. Two rows no longer matched their evidence records.
+- **`tools/xform/t35_shiftspell.py`** flips one site and erases the assigned variable's or the
+  operand's pins: 812 candidates in 212 functions, **3 exact**. The effect is real but narrow.
+- **Argument-move sol lane: 0 real wins.** Its one "exact" candidate removed the `$4` pin but added
+  an `ASM_SCHED_BARRIER`, so it was not landed. The family stays at total 2 after luna and sol; astra
+  is the owner's last resort and is held back for it.
+- `t29` dereference uses (`((T *)D_X)->f`) landed 1; the scan's CDK hits landed 15; T2 landed 3.
+
+Lesson: count a lane's result only after scoring it and diffing it for added scaffolding. Two of
+three lane claims this session (luna's drafts, sol's candidate) did not hold up.

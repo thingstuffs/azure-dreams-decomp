@@ -1,4 +1,6 @@
 #include "common.h"
+extern u8 D_8001D7A0[];
+extern u8 D_8001D6B0[];
 extern u8 D_80016000[];
 
 typedef s32 (*Callback)(s32, s32);
@@ -20,31 +22,19 @@ s32 func_800182FC(s32 arg0, void *arg1)
 
     if (func_8001A64C(0x949) == 0) {
         if (func_8001A64C(0x94A) != 0) {
-            s8 *page;
-            register void *ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            void *ptr;
 
             func_8001A554(0x949);
-            page = (s8 *)0x80010000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ptr = *(void **)(page + 0x6000);
-            page = (s8 *)0x80020000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ptr = *(void **)D_80016000;
             ptr = *(void **)((s8 *)ptr + 0x1C);
-            page -= 0x2950;
-            *(void **)((s8 *)ptr + 0x40) = page;
+            *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D6B0;
         } else {
-            s8 *page;
-            register void *ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            void *ptr;
 
             func_8001A554(0x949);
-            page = (s8 *)0x80010000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ptr = *(void **)(page + 0x6000);
-            page = (s8 *)0x80020000;
-            ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+            ptr = *(void **)D_80016000;
             ptr = *(void **)((s8 *)ptr + 0x1C);
-            page -= 0x2860;
-            *(void **)((s8 *)ptr + 0x40) = page;
+            *(void **)((s8 *)ptr + 0x40) = (s8 *)D_8001D7A0;
         }
         goto dispatch;
     }
@@ -59,7 +49,7 @@ dispatch:
         void *ptr;
         s32 first_arg;
 
-        ptr = *(void **)((s8 *)D_80016000);
+        ptr = *(void **)D_80016000;
         ptr = *(void **)((s8 *)ptr + 0x20);
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_arg = 0xF;

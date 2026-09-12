@@ -11,7 +11,8 @@ runs any transform at the CDK cell (`sweep.py t31_cdk_t26_alloc`, `…t20_fencef
 A third round (t29 confined mode, the new `t33_argconst`, 33 scan hits, T2) removed 99:
 **9,860 pins in 1,601 rows**. The scan is now `tools/pin_cells_scan.py scan` (resumable; ledger
 `ledger/pins_cells_admissible.jsonl`); `… build <dir>` + `apply_candidates.py --cells` lands its
-CDK hits. The argmove sol lane is running in `work/native_lane/argmove_sol/` (luna: 0/10).
+CDK hits. Fourth round: **9,832 pins in 1,600 rows**. New `t35_shiftspell` (from the fakedep2 luna
+lane). Argmove family: luna 0/10, sol 0 real; parked with evidence, astra not yet spent.
 Never gate while a codex lane scores. Stock-ASPSX tail-slot check (parked): `tools/maspsx/aspsx/`
 has the harness; it needs `download.sh` (PsyQ 3.3–4.6 from GitHub) and dosemu/wine.
 

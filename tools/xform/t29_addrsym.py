@@ -260,8 +260,17 @@ def rewrite_var(text, v):
         else:
             if re.match(r"(\+\+|--|[-+*/|&^]?=(?!=))", after) or masked[:m.start()].rstrip().endswith(("++", "--")):
                 return None, "modified"
-            if after.startswith(("->", "[", ".")):
+            if after.startswith("."):
                 return None, "deref"
+            if after.startswith(("->", "[")):
+                if not ptr:
+                    return None, "deref"
+                # a view of the symbol with V's own pointer type: `((T *)D_X)->f`, `D_X[i]`
+                rep = sym_expr(t, val, ty + " " + "*" * ptr, externs)
+                if not re.fullmatch(r"D_[0-9A-F]{8}", rep):
+                    rep = "(" + rep + ")"
+                edits.append((m.start(), m.end(), rep))
+                continue
             if not operand_lead(masked, m.start()):
                 return None, "not-operand"
             rep = sym_expr(t, val, (ty + " *") if ptr else None, externs)
@@ -301,7 +310,8 @@ def rewrite_var(text, v):
         return ""
     t = NOTE_RE.sub(drop_new_orphans, t)
     # `(T *)((u8 *)D_X)` is `(T *)D_X`: the byte view was only there for the offset that is gone
-    t = re.sub(r"\((\s*[A-Za-z_][\w ]*\*+\s*)\)\s*\(\s*\(u8 \*\)(&?D_[0-9A-F]{8})\s*\)", r"(\1)\2", t)
+    t = re.sub(r"\((\s*[A-Za-z_][\w ]*\*+\s*)\)\s*\(\s*\((?:u8|s8|char|unsigned char|signed char) \*\)(&?D_[0-9A-F]{8})\s*\)",
+               r"(\1)\2", t)
     # and a cast of a parenthesised lone symbol drops the parentheses: `(void **)(D_X)` -> `(void **)D_X`
     t = re.sub(r"\((\s*[A-Za-z_][\w ]*\*+\s*)\)\s*\(\s*(&?D_[0-9A-F]{8})\s*\)", r"(\1)\2", t)
     for e in sorted(externs):

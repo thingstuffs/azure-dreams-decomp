@@ -477,7 +477,6 @@ state_9:
     case 9:
 #endif
     func_800AD594(entity, 0x800);
-    ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_801757E0_0 *)actor)->unk_8C = &D_801714B8;
     D_8008346C = 0;
     (*(u16 *)((u8 *)entity + 0x46)) &= 0x7FFF;

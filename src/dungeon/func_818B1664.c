@@ -410,7 +410,6 @@ case_0:
     target = &work.target;
     ASM_KEEP_NV(target);
     index = 1;
-    ASM_KEEP_NV(index);
     target_x = (u32)final_x << 16;
     direction_table = D_8006CCD8;
     target_x = (s32)target_x >> 10;
