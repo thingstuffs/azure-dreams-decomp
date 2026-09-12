@@ -33,19 +33,22 @@ but found no removals (425 full verifies, 406 CPU seconds). Sixteen rows hit the
 attempt limit. No source harvest was needed. Keep its evidence, but do not broaden
 the same search without a new mechanism. See [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
 
-**Joint-erasure result:** `pins_joint_erase_20260912` completed 100 selected functions
-without errors: six byte-verified candidates removing 18 pins, 443 CPU seconds. All
-rows completed within limits. A distant register/keep pair was independently verified:
-either erasure alone fails, the pair matches. See [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
+**Joint-erasure harvest:** `pins_joint_erase_20260912` completed 100 selected functions
+without errors: six candidates removing 18 pins, 443 CPU seconds. All six publication
+windows and SLUS passed. One additional T20 win was rejected during source review
+because it hosted integer angle arithmetic in a pointer variable. The extra change
+was restored and freshly gated; the legacy host generator now checks compatible types.
+Final total: **18 pins removed**, leaving **10,264 pins in 1,634 pinned rows**.
+Receipts: `ledger/pin_runs/pins_joint_erase_20260912*.json`; measured joint-pair proof
+and evaluation: [PIN_MECHANISMS_20260912.md](PIN_MECHANISMS_20260912.md).
 
-**Harvest in progress:** detached `work/pin_search/pins_joint_erase_20260912/harvest.py`
-(PID 4187794 at launch) runs publication gates, bounded T2/T20, any required follow-up
-gates, then census/levels/status. Inspect `harvest_state.json`, the live process and
-`harvest.log`; `publication.json` and `followup/transaction.json` must both complete
-before source is committed. The 18 pins are staged, not yet claimed as landed here.
-Afterward record the follow-up receipt, final census and gates, commit the six source
-rows plus generated ledgers/status, and expand erasure-only coverage. The next cheap
-mechanism for large pin sets is grouping pins by variable across distant source lines.
+**Next expansion:** `pins_joint_expand_20260912`: 305 remaining small functions plus
+60 larger functions containing register/keep groups on the same variable. The large-row
+menu now prioritizes these distant groups before scanning all pairs; all 41 tests pass.
+Selection: `work/pin_search/joint_expand_audit_20260912/ids.txt`. Use mode `erasures`,
+512 screens, 12 full verifies, 20 CPU seconds and four workers. Check the actual manifest
+and live process with `pin_search.py status`; source is only harvested after independent
+verification and the checked publication/follow-up workflow.
 The old sharded launcher and its partial journal remain historical.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on

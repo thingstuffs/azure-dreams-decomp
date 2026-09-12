@@ -122,7 +122,7 @@ saved near misses, with the established recovery/publication path. Its value wil
 judged on verified removals per CPU time, not number of tested variants. Audit:
 [joint_erase_audit_20260912.json](evidence/joint_erase_audit_20260912.json).
 
-### First joint-erasure result: 18 pins staged, gates pending
+### First joint-erasure harvest: 18 pins landed
 
 All 100 rows completed without errors or budget stops: six candidates / 18 pins,
 20,585 compiler calls, 125 full verifies and 443 CPU seconds. This is about 146 pins
@@ -140,8 +140,17 @@ already has the right natural lifetime, while the two remaining constraints inte
 The five-pin win on `func_8009A288` removes interacting constant keep markers together.
 These are removal-group mechanisms, requiring no speculative C rewrite.
 
-Next steps after gates: harvest and evaluate bounded T2/T20; expand erasure-only
-coverage to the other current 2–8-pin rows. For larger functions, prioritize groups
+All six publication windows and SLUS passed. T2/T20 initially removed one further pin
+in `dungeon/func_80976434`, but source review rejected it: legacy `host_candidates`
+reused a `void *target` for integer angle arithmetic. Byte equality did not establish
+honest types. That extra change was restored, and fresh window/SLUS gates passed.
+Three compatible integer-host alternatives failed (aligned distances 65, eight, three).
+The legacy generator now resolves types at each rename site and rejects incompatible
+pointer/integer, signed/unsigned, and qualified reuse. No casts were added to force it.
+Final accepted total: 18 pins removed across six functions, leaving 10,264 pins in
+1,634 pinned rows. Preserve the rejected-source and probe evidence in the run directory.
+
+Next steps: expand erasure-only coverage to the other current 2–8-pin rows. For larger functions, prioritize groups
 sharing a variable before enumerating all distant pairs, using the verified register
 plus keep example as the control. Avoid applying an exponential search to large pin
 sets. Preserve results and exact source hashes to avoid repeating completed work.

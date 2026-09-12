@@ -1,0 +1,20 @@
+{
+  "phase": "complete",
+  "parent_run": "pins_joint_erase_20260912",
+  "pins_removed": 0,
+  "accepted_changes": [],
+  "rejected_pins_removed": 1,
+  "review": {
+    "phase": "complete",
+    "at": "2026-09-12T12:12:08Z",
+    "id": "dungeon/func_80976434",
+    "rejected_sha": "73c5b2345238faa85ef25ecff9140c79d9bbf108224ff7a46d946869f894ed21",
+    "restored_sha": "cbe11f9cf0834f380d150a89c50091a14db54fd38dcd0c7e58bcadf6c6bb410c",
+    "reason": "Integer angle hosted in void pointer variable; reject despite byte equality",
+    "finished": "2026-09-12T12:13:01Z",
+    "overlay": "MATCH",
+    "slus": "MATCH"
+  },
+  "overlay": "MATCH",
+  "slus": "MATCH"
+}

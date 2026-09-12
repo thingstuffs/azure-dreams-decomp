@@ -17,10 +17,7 @@ void func_80019860(s16 checked_id, s16 first_id, s16 second_id)
     saved_second_id = second_id;
     saved_checked_id = checked_id;
     first_id_copy = saved_first_id;
-    ASM_KEEP(saved_first_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(first_id_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_second_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_checked_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     if (func_8001ADE0(checked_id) != 0) {
         func_8001ACE8(saved_first_id);

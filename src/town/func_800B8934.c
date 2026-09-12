@@ -59,7 +59,7 @@ typedef struct S_800B6094_3 {
 
 /* Populate a display row with entry text and a positioned icon. */
 void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
-    register S_800B6094_0 *entry ASM_REG("$19") = entry_data;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    S_800B6094_0 *entry = entry_data;
     s32 row_base = display_base;
     s32 row = row_index;
     register s32 first_zero ASM_REG("$6") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -79,7 +79,6 @@ void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
     row_display = (void *) ((s8 *)row_display + (s32)row_base);
     func_800B5264(((S_800B6094_1 *)row_display)->unk_20, entry_info->unk_00, first_zero, 0x58, text_y);
     func_800B53BC(((S_800B6094_1 *)row_display)->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
-    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     icon_id = func_80049944(entry_info->unk_10);
     icon_slot = ((S_800B6094_1 *)row_display)->unk_38;
     if (func_800439BC(entry->unk_00) != 0) {

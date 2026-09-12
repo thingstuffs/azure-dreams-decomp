@@ -294,9 +294,7 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
                 register s32 bottom_scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                 bottom_y = ((S_80175594_1 *)scratch)->unk_72.u;
-                ASM_KEEP(bottom_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 screen_0 = scratch + 0xF0;
-                ASM_KEEP_DEP_NV(bottom_y, screen_0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 bottom_y = (s16)bottom_y +
                                 ((S_80175594_1 *)scratch)->unk_14.s32;
                 ASM_KEEP(bottom_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

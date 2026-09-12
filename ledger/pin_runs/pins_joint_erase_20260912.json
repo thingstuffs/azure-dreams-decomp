@@ -1,0 +1,59 @@
+{
+  "run_key": "251be2f8184c6876860488faa9c16d96cf2c709a042f6569a65c8fa0a1794141",
+  "finished": "2026-09-12T12:08:29Z",
+  "options": {
+    "screens": 512,
+    "verifies": 12,
+    "cpu_seconds": 20.0,
+    "group_screens": 240,
+    "depth": 3,
+    "beam": 4,
+    "fallback": 2,
+    "band": 30,
+    "objective": "pins",
+    "cache_namespace": "production"
+  },
+  "recipe": "dcceda6f8ed64335dc2ae99d05305467a27d60e0caa7325d1a57cd22db1dd5e6",
+  "search": "55a655a009f59c15d4d3a122470c1c601039810e9042d674283a765ba4926ecb",
+  "files": [
+    {
+      "id": "dungeon/func_8009A288",
+      "path": "src/dungeon/func_8009A288.c",
+      "before_sha": "8bd14b16bd5fc6f8f9468fc80b64e18b7fed27695e6ee54a773fe9636ae0b04a",
+      "after_sha": "919e581c4c3d3f8fc0facca08849f217c69372dd284494470327bd24b523f7bc"
+    },
+    {
+      "id": "town/func_800B8934",
+      "path": "src/town/func_800B8934.c",
+      "before_sha": "956902a4ec0408f03174c694066e50f2e97452dea2e88fa5fc7898920c5b4c83",
+      "after_sha": "3bf93aa3966de3a2493118821a57020608c33e005df7a7fd365bbf203b3393cd"
+    },
+    {
+      "id": "town/func_8032F060",
+      "path": "src/town/func_8032F060.c",
+      "before_sha": "5601850ea0c220b463b5c8c6f63d4bb7e28faa780bc0a33fd5a7f39ab0aa018e",
+      "after_sha": "a7804001adf3ad5e4bc0827e8f76a4bfe1923c3c72fc432c3179e0d9206c94da"
+    },
+    {
+      "id": "dungeon/func_80976434",
+      "path": "src/dungeon/func_80976434.c",
+      "before_sha": "bae1c00c4ddec436b2029825a5c31c0f1b08f7b91ba2e9866f891f87f8122489",
+      "after_sha": "cbe11f9cf0834f380d150a89c50091a14db54fd38dcd0c7e58bcadf6c6bb410c"
+    },
+    {
+      "id": "dungeon/func_81977230",
+      "path": "src/dungeon/func_81977230.c",
+      "before_sha": "95625cb1777a7230f5ebe8ab9f2dc67e48eb59d4fd5c147bf48a4e15d39ced74",
+      "after_sha": "d2694200f31d71f12819b6bcedff87105ff031ec801a21b2dd7ea5e854779b53"
+    },
+    {
+      "id": "dungeon/func_80E3BD94",
+      "path": "src/dungeon/func_80E3BD94.c",
+      "before_sha": "ce29b1558fcc99baf7c4b6a27422d744e397236d68422def6e17f26a2f3d2396",
+      "after_sha": "e0f96e273c2b308184863d0a9c7439fbba3475f95eb646b95f7d25c28f5531fc"
+    }
+  ],
+  "deferred": [],
+  "overlay": "MATCH",
+  "slus": "MATCH"
+}
