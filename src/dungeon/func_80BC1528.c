@@ -76,7 +76,6 @@ void func_80BC1528(
     register s32 duration_s16;
     register s32 duration_eighth ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 return_delta_x;
-    register s32 return_delta_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 step_x;
     register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 step_z;
@@ -111,8 +110,8 @@ void func_80BC1528(
         step_x = return_delta_x / duration_eighth;
         effect_data->unk_40 = step_x / 2;
         ASM_KEEP(step_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        return_delta_y = -(saved_offset_y << 16);
-        step_y = return_delta_y / duration_eighth;
+        initial_value = -(saved_offset_y << 16);
+        step_y = initial_value / duration_eighth;
         effect_data->unk_44 = step_y / 2;
         ASM_KEEP(step_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         step_z = -(saved_offset_z << 16) / duration_eighth;

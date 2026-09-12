@@ -43,13 +43,12 @@ void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 set
     random_bits = func_800A6D30(region, setup_arg1, setup_arg2, setup_arg3);
     {
         register s32 height ASM_REG("$4");
-        register s32 width ASM_REG("$3");
         register s32 area ASM_REG("$8");
         register s32 index_sum ASM_REG("$3");
 
         height = region->unk_06;
-        width = region->unk_04;
-        area = height * width;
+        coord = region->unk_04;
+        area = height * coord;
         random_bits &= 7;
         index_sum = (area >> 6) + random_bits + 4;
         last_index = index_sum;

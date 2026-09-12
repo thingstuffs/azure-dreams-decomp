@@ -112,24 +112,22 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 stat;
             s32 old_value;
             register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register s32 growth_product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             {
-                register s32 growth_rate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 base_stat;
-                growth_rate = stat_growth[4];
+                old_scaled = stat_growth[4];
                 base_stat = initial_stats[4];
-                growth_product = growth_rate * base_stat;
-                old_scaled = growth_product * prev_level;
+                slot = old_scaled * base_stat;
+                old_scaled = slot * prev_level;
             }
             if (old_scaled < 0) {
                 old_scaled += 0x3FF;
             }
-            new_scaled = growth_product * level;
+            new_scaled = slot * level;
             old_stat = initial_stats[4] + (old_scaled >> 0xA);
             if (new_scaled < 0) {
                 new_scaled += 0x3FF;
             }
-            ASM_KEEP_NV(old_stat);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             new_stat = initial_stats[4] + (new_scaled >> 0xA);
             stat = entity[4];
             old_value = stat;
@@ -143,25 +141,23 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
         }
 
         {
-            register s32 growth_rate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 base_stat;
-            register s32 growth_product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 old_scaled;
-            register s32 new_scaled ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register s32 new_stat ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 new_scaled;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 new_stat;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 stat;
             s32 old_value;
             register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            growth_rate = stat_growth[0];
+            old_scaled = stat_growth[0];
             base_stat = initial_stats[0];
-            growth_product = growth_rate * base_stat;
-            old_scaled = growth_product * prev_level;
+            slot = old_scaled * base_stat;
+            old_scaled = slot * prev_level;
             stat = entity[0];
             old_value = stat;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
-            new_scaled = growth_product * level;
+            new_scaled = slot * level;
             old_stat = initial_stats[0] + (old_scaled >> 6);
             if (new_scaled < 0) {
                 new_scaled += 0x3F;
@@ -178,9 +174,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
 
         {
             s32 prev_step;
-            register s32 growth_rate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 base_stat;
-            register s32 growth_product ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 old_scaled;
             register s32 new_scaled ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             register s32 new_stat ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -189,16 +183,16 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             prev_step = level - 1;
 
-            growth_rate = stat_growth[1];
+            old_scaled = stat_growth[1];
             base_stat = initial_stats[1];
-            growth_product = growth_rate * base_stat;
-            old_scaled = growth_product * prev_step;
+            slot = old_scaled * base_stat;
+            old_scaled = slot * prev_step;
             stat = entity[1];
             old_value = stat;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
-            new_scaled = growth_product * level;
+            new_scaled = slot * level;
             old_stat = base_stat + (old_scaled >> 6);
             if (new_scaled < 0) {
                 new_scaled += 0x3F;
@@ -212,20 +206,20 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             entity[1] = stat;
             entity[0x27] += stat_gain;
 
-            growth_rate = stat_growth[2];
+            old_scaled = stat_growth[2];
             base_stat = initial_stats[2];
-            growth_product = growth_rate * base_stat;
-            old_scaled = growth_product * prev_step;
+            slot = old_scaled * base_stat;
+            old_scaled = slot * prev_step;
             stat = entity[2];
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
-            new_scaled = growth_product * level;
+            new_scaled = slot * level;
             old_stat = base_stat + (old_scaled >> 6);
             if (new_scaled < 0) {
                 new_scaled += 0x3F;
             }
-            ASM_KEEP_NV(old_stat);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             new_stat = base_stat + (new_scaled >> 6);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
@@ -233,20 +227,20 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             }
             entity[2] = stat;
 
-            growth_rate = stat_growth[3];
+            old_scaled = stat_growth[3];
             base_stat = initial_stats[3];
-            growth_product = growth_rate * base_stat;
-            old_scaled = growth_product * prev_step;
+            slot = old_scaled * base_stat;
+            old_scaled = slot * prev_step;
             stat = entity[3];
             if (old_scaled < 0) {
                 old_scaled += 0x3FF;
             }
-            new_scaled = growth_product * level;
+            new_scaled = slot * level;
             old_stat = base_stat + (old_scaled >> 0xA);
             if (new_scaled < 0) {
                 new_scaled += 0x3FF;
             }
-            ASM_KEEP_NV(old_stat);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+               /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             new_stat = base_stat + (new_scaled >> 0xA);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {

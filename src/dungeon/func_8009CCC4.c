@@ -112,11 +112,10 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         s32 stat_value;
         register s32 growth_product ASM_REG("$16");
         {
-            register s32 growth_rate ASM_REG("$2");
             s32 base_stat;
-            growth_rate = stat_growth[4];
+            lower_growth = stat_growth[4];
             base_stat = initial_stats[4];
-            growth_product = growth_rate * base_stat;
+            growth_product = lower_growth * base_stat;
             lower_growth = growth_product * level_offset;
         }
         if (lower_growth < 0) {
@@ -137,22 +136,20 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     }
 
     {
-        register s32 growth_rate ASM_REG("$2");
         s32 base_stat;
-        register s32 growth_product ASM_REG("$16");
         s32 lower_growth;
-        register s32 upper_growth ASM_REG("$4");
-        register s32 upper_stat ASM_REG("$2");
+        s32 upper_growth;
+        s32 upper_stat;
         s32 stat_value;
-        growth_rate = stat_growth[0];
+        lower_growth = stat_growth[0];
         base_stat = initial_stats[0];
-        growth_product = growth_rate * base_stat;
-        lower_growth = growth_product * level_offset;
+        spell_index = lower_growth * base_stat;
+        lower_growth = spell_index * level_offset;
         stat_value = entity[0];
         if (lower_growth < 0) {
             lower_growth += 0x3F;
         }
-        upper_growth = growth_product * level;
+        upper_growth = spell_index * level;
         lower_stat = initial_stats[0] + (lower_growth >> 6);
         if (upper_growth < 0) {
             upper_growth += 0x3F;
@@ -167,23 +164,21 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
 
     {
         s32 stat_level_offset;
-        register s32 growth_rate ASM_REG("$2");
         s32 base_stat;
-        register s32 growth_product ASM_REG("$16");
         s32 lower_growth;
         register s32 upper_growth ASM_REG("$4");
         register s32 upper_stat ASM_REG("$2");
         s32 stat_value;
         stat_level_offset = level - 1;
-        growth_rate = stat_growth[1];
+        lower_growth = stat_growth[1];
         base_stat = initial_stats[1];
-        growth_product = growth_rate * base_stat;
-        lower_growth = growth_product * stat_level_offset;
+        spell_index = lower_growth * base_stat;
+        lower_growth = spell_index * stat_level_offset;
         stat_value = entity[1];
         if (lower_growth < 0) {
             lower_growth += 0x3F;
         }
-        upper_growth = growth_product * level;
+        upper_growth = spell_index * level;
         lower_stat = base_stat + (lower_growth >> 6);
         if (upper_growth < 0) {
             upper_growth += 0x3F;
@@ -196,15 +191,15 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         }
         entity[1] = stat_value;
 
-        growth_rate = stat_growth[2];
+        lower_growth = stat_growth[2];
         base_stat = initial_stats[2];
-        growth_product = growth_rate * base_stat;
-        lower_growth = growth_product * stat_level_offset;
+        spell_index = lower_growth * base_stat;
+        lower_growth = spell_index * stat_level_offset;
         stat_value = entity[2];
         if (lower_growth < 0) {
             lower_growth += 0x3F;
         }
-        upper_growth = growth_product * level;
+        upper_growth = spell_index * level;
         lower_stat = base_stat + (lower_growth >> 6);
         if (upper_growth < 0) {
             upper_growth += 0x3F;
@@ -217,15 +212,15 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         }
         entity[2] = stat_value;
 
-        growth_rate = stat_growth[3];
+        lower_growth = stat_growth[3];
         base_stat = initial_stats[3];
-        growth_product = growth_rate * base_stat;
-        lower_growth = growth_product * stat_level_offset;
+        spell_index = lower_growth * base_stat;
+        lower_growth = spell_index * stat_level_offset;
         stat_value = entity[3];
         if (lower_growth < 0) {
             lower_growth += 0x3FF;
         }
-        upper_growth = growth_product * level;
+        upper_growth = spell_index * level;
         lower_stat = base_stat + (lower_growth >> 0xA);
         if (upper_growth < 0) {
             upper_growth += 0x3FF;
