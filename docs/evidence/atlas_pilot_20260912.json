@@ -1,0 +1,1482 @@
+{
+  "state": {
+    "pid": 192754,
+    "identity": "884881564",
+    "phase": "complete",
+    "started": "2026-09-12T12:53:08Z",
+    "key": "31e6dd0f9af82d0e6823f6a39da0dd1aac125fb8d2e0e5dcc5340d03e4140bd0",
+    "rows": 12,
+    "completed": 12,
+    "last": "dungeon/func_80E8F548",
+    "updated": "2026-09-12T12:54:30Z",
+    "finished": "2026-09-12T12:54:31Z"
+  },
+  "report": {
+    "tag": "pins_atlas_pilot_20260912",
+    "at": "2026-09-12T12:54:31Z",
+    "rows_expected": 12,
+    "rows_done": 12,
+    "pins_expected": 87,
+    "sites_measured": 87,
+    "row_statuses": {
+      "complete": 12
+    },
+    "probes": 289,
+    "cpu_seconds": 215.419185235,
+    "exact_single_sites": 0,
+    "candidate_rows": [],
+    "staged_pins_upper_bound": 0,
+    "pair_arms": {
+      "uniform": {
+        "tested": 99,
+        "exact": 0,
+        "below_both_singles": 1
+      },
+      "overlap": {
+        "tested": 85,
+        "exact": 0,
+        "below_both_singles": 1
+      }
+    },
+    "clusters": [
+      {
+        "key": [
+          "BARRIER",
+          "length-drift",
+          null,
+          []
+        ],
+        "sites": 4,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 6,
+            "total": 3,
+            "signature": "+nop move:addiu rename"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 10,
+            "total": 3,
+            "signature": "+nop move:addiu rename"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 12,
+            "total": 7,
+            "signature": "+nop move:addiu move:sh rename*"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 15,
+            "total": 12,
+            "signature": "+nop* move:andi move:lhu move:move move:sh rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "reg-rename",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 4,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 1,
+            "total": 1,
+            "signature": "rename"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 4,
+            "total": 1,
+            "signature": "rename"
+          },
+          {
+            "id": "town/func_8080EEC4",
+            "site": 7,
+            "total": 1,
+            "signature": "rename"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 7,
+            "total": 4,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "BARRIER",
+          "broad",
+          null,
+          []
+        ],
+        "sites": 3,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 13,
+            "total": 8,
+            "signature": "+nop move:addiu move:sh rename*"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 16,
+            "total": 9,
+            "signature": "+nop move:addiu move:sh rename*"
+          },
+          {
+            "id": "town/func_8080C324",
+            "site": 1,
+            "total": 10,
+            "signature": "move:addiu move:lhu move:sh move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "BARRIER",
+          "reorder-only",
+          null,
+          []
+        ],
+        "sites": 3,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 3,
+            "total": 2,
+            "signature": "move:lui"
+          },
+          {
+            "id": "town/func_80875060",
+            "site": 2,
+            "total": 2,
+            "signature": "move:sw"
+          },
+          {
+            "id": "town/func_80875060",
+            "site": 4,
+            "total": 6,
+            "signature": "move:lw move:sw*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "ptr",
+          [
+            "copy"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 9,
+            "total": 5,
+            "signature": "move:move move:nop rename*"
+          },
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 2,
+            "total": 6,
+            "signature": "move:beqz move:move move:nop rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "reorder-only",
+          "s32",
+          [
+            "load"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 10,
+            "total": 3,
+            "signature": "move:move rename"
+          },
+          {
+            "id": "town/func_8080E59C",
+            "site": 2,
+            "total": 6,
+            "signature": "move:jal move:sw*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "slus-diff",
+          "u32",
+          [
+            "addrlit"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 5,
+            "total": 1,
+            "signature": "operand"
+          },
+          {
+            "id": "slus/w_80046E38",
+            "site": 2,
+            "total": 3,
+            "signature": "operand"
+          }
+        ]
+      },
+      {
+        "key": [
+          "MARKER",
+          "broad",
+          "u32",
+          [
+            "arith",
+            "load",
+            "update"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 9,
+            "total": 4,
+            "signature": "+addiu +lhu -nop rename*"
+          },
+          {
+            "id": "town/func_8080E994",
+            "site": 14,
+            "total": 7,
+            "signature": "+lhu +ori -nop rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "MARKER",
+          "delay-slot",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 5,
+            "total": 1,
+            "signature": "+addiu -nop"
+          },
+          {
+            "id": "town/func_8080EEC4",
+            "site": 12,
+            "total": 1,
+            "signature": "+lui -nop"
+          }
+        ]
+      },
+      {
+        "key": [
+          "MARKER",
+          "slot-rotation",
+          "s32",
+          [
+            "global",
+            "update"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 14,
+            "total": 4,
+            "signature": "+addu +lui -nop rename*"
+          },
+          {
+            "id": "town/func_8080EEC4",
+            "site": 13,
+            "total": 5,
+            "signature": "+addu +lui -nop rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "USE",
+          "reorder-only",
+          "ptr",
+          [
+            "global"
+          ]
+        ],
+        "sites": 2,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 0,
+            "total": 6,
+            "signature": "move:addiu* move:lui"
+          },
+          {
+            "id": "town/func_8080C324",
+            "site": 3,
+            "total": 6,
+            "signature": "move:addiu* move:lui"
+          }
+        ]
+      },
+      {
+        "key": [
+          "BARRIER",
+          "code-motion",
+          null,
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 5,
+            "total": 4,
+            "signature": "move:lui move:ori move:sw"
+          }
+        ]
+      },
+      {
+        "key": [
+          "BARRIER",
+          "dead-code-retention",
+          null,
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "main/func_800120E8",
+            "site": 0,
+            "total": 5,
+            "signature": "+nop move:addiu move:bnez rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "BARRIER",
+          "slot-rotation",
+          null,
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 11,
+            "total": 5,
+            "signature": "+addiu move:bne move:move move:sh rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "addressing",
+          "ptr",
+          [
+            "arith",
+            "const"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80C69880",
+            "site": 0,
+            "total": 43,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "block-order",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 3,
+            "total": 2,
+            "signature": "+addiu move:beqz"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "block-order",
+          "s32",
+          [
+            "global",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 11,
+            "total": 6,
+            "signature": "+lui +lw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "ptr",
+          [
+            "addrlit",
+            "arith",
+            "call"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 7,
+            "total": 2,
+            "signature": "+addiu -ori rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "ptr",
+          [
+            "addrlit"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80C69880",
+            "site": 1,
+            "total": 1,
+            "signature": "+addiu -ori"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "ptr",
+          [
+            "load+arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E59C",
+            "site": 0,
+            "total": 10,
+            "signature": "move:lw* rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "ptr",
+          [
+            "param"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 2,
+            "total": 9,
+            "signature": "move:move move:sw rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 11,
+            "total": 7,
+            "signature": "move:move* move:nop rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "s32",
+          [
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 8,
+            "total": 5,
+            "signature": "move:move move:nop rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "broad",
+          "u32",
+          [
+            "addrlit",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 4,
+            "total": 1,
+            "signature": "+addiu -ori"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "const-remat",
+          "ptr",
+          [
+            "arith",
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_80875060",
+            "site": 3,
+            "total": 6,
+            "signature": "+jr +nop -lui* move:lw*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "delay-slot",
+          "s32",
+          [
+            "other"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 9,
+            "total": 1,
+            "signature": "+slti -nop"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "hold-set",
+          "ptr",
+          [
+            "global"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E59C",
+            "site": 5,
+            "total": 18,
+            "signature": "+jr +nop -lw -sw move:addiu move:lui* move:lw move:move move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "hold-set",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E59C",
+            "site": 3,
+            "total": 19,
+            "signature": "+jr +nop -lw -sw move:lui* move:lw move:move move:ori move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "reg-rename",
+          "s32",
+          [
+            "incr"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_81811FA8",
+            "site": 1,
+            "total": 1,
+            "signature": "rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "reorder-only",
+          "ptr",
+          [
+            "arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E59C",
+            "site": 4,
+            "total": 2,
+            "signature": "move:addiu"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "reorder-only",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 6,
+            "total": 2,
+            "signature": "move:addiu"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP",
+          "slus-diff",
+          "s32",
+          [
+            "load",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 7,
+            "total": 4,
+            "signature": "operand"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "length-drift",
+          "ptr",
+          [
+            "call",
+            "param"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80046E38",
+            "site": 1,
+            "total": 98,
+            "signature": "+100: +10: +24: +94: +c: +dc: -1c: -28: -8c: -d8: -fc: move:90:"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "length-drift",
+          "ptr",
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 5,
+            "total": 165,
+            "signature": "+110: +12c: +14c: +168: +170: +188: +1ac: +1bc: +1ec: +204: +220: +234: +258: +268: +5c: +78: +7c: +a4: +e0: +f8: -114: -130: -150: -16c: -174: -18c: -1b0: -1c0: -1f0: -208: -224: -238: -25c: -26c: -60: -64: -68: -8c: -a8: -e4: -fc: move:80: move:84: move:88: operand"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "length-drift",
+          "s32",
+          [
+            "const"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 2,
+            "total": 3,
+            "signature": "+addiu move:sh"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "length-drift",
+          "s32",
+          [
+            "other"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 6,
+            "total": 152,
+            "signature": "+110: +12c: +14c: +168: +170: +188: +1ac: +1bc: +1ec: +204: +220: +234: +258: +268: +88: +a4: +e0: +f8: -10c: -128: -148: -164: -16c: -184: -1a8: -1b8: -1e8: -200: -21c: -230: -254: -264: -a0: -dc: -f4: operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "reg-rename",
+          "s32",
+          [
+            "const",
+            "incr"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 4,
+            "total": 10,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "KEEP_NV",
+          "reorder-only",
+          "ptr",
+          [
+            "addr"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 8,
+            "total": 2,
+            "signature": "move:addiu"
+          }
+        ]
+      },
+      {
+        "key": [
+          "MARKER",
+          "slot-rotation",
+          "u32",
+          [
+            "arith",
+            "load",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 8,
+            "total": 4,
+            "signature": "+andi +lhu -nop rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "addressing",
+          "ptr",
+          [
+            "arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 1,
+            "total": 13,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "addressing",
+          "ptr",
+          [
+            "copy",
+            "param"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_80E8F548",
+            "site": 0,
+            "total": 19,
+            "signature": "+nop -move rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "addressing",
+          "ptr",
+          [
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 0,
+            "total": 18,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "broad",
+          "s32",
+          [
+            "arith",
+            "copy",
+            "load+arith",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_80875060",
+            "site": 0,
+            "total": 19,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "broad",
+          "s32",
+          [
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E59C",
+            "site": 1,
+            "total": 17,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "code-motion",
+          "s32",
+          [
+            "const",
+            "incr"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 5,
+            "total": 22,
+            "signature": "move:beqz move:lui* move:lw* move:nop move:ori move:slt move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "hold-set",
+          "ptr",
+          [
+            "addr"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 6,
+            "total": 18,
+            "signature": "+addiu* +jr +nop -lw -move* -sw move:lw move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "hold-set",
+          "ptr",
+          [
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080E994",
+            "site": 0,
+            "total": 9,
+            "signature": "+jr +nop -lw -sw move:lw move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "hold-set",
+          "s32",
+          [
+            "arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 2,
+            "total": 16,
+            "signature": "+jr +move -lw -sw move:addiu move:lw move:nop move:sw rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "hold-set",
+          "s32",
+          [
+            "call"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 1,
+            "total": 29,
+            "signature": "+addiu +jr -lw -sw move:beqz move:lui* move:lw* move:move move:nop move:ori move:slt move:slti move:sw* rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "length-drift",
+          "ptr",
+          [
+            "copy"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 0,
+            "total": 187,
+            "signature": "+108: +110: +124: +12c: +138: +140: +14c: +168: +170: +17c: +184: +1ac: +1bc: +1c: +1ec: +1f4: +200: +20c: +21c: +228: +234: +240: +258: +268: +270: +4c: +64: +6c: +74: +84: +90: +a4: +b0: +c4: +d0: +dc: +e8: +f4: -10c: -118: -128: -134: -13c: -144: -14: -150: -16c: -174: -180: -18c: -1b0: -1c0: -1f0: -1fc: -208: -20: -218: -224: -22c: -23c: -244: -25c: -26c: -274: -278: -50: -68: -70: -78: -8c: -94: -ac: -b4: -cc: -d4: -e4: -ec: -fc: move:10: move:114: move:130: move:188: move:1f8: move:204: move:210: move:214: move:220: move:238: move:88: move:a8: move:c8: move:e0: move:f8:"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "length-drift",
+          "s32",
+          [
+            "load+arith",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 3,
+            "total": 27,
+            "signature": "+nop* move:addiu* move:addu* move:andi move:beqz move:bnez move:lhu move:sh* move:sll move:slti move:sra rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "length-drift",
+          "s32",
+          [
+            "load+arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 1,
+            "total": 98,
+            "signature": "+12c: +154: +178: +184: +24: +48: +a8: -124: -150: -174: -44: -a4: move:128: move:17c: move:20: operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "length-drift",
+          "s32",
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 2,
+            "total": 98,
+            "signature": "+154: +180: +184: +28: +48: +a8: -150: -174: -44: -a4: move:178: move:17c: move:20: move:24: operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "li-expansion",
+          "s32",
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_80875060",
+            "site": 1,
+            "total": 1,
+            "signature": "rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "reg-rename",
+          "s32",
+          [
+            "arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 10,
+            "total": 1,
+            "signature": "rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "reg-rename",
+          "s32",
+          [
+            "cond"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 4,
+            "total": 4,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "reg-rename",
+          "s32",
+          [
+            "global",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 6,
+            "total": 10,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "reg-rename",
+          "s32",
+          [
+            "incr"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "dungeon/func_81811FA8",
+            "site": 0,
+            "total": 7,
+            "signature": "rename*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "reorder-only",
+          "ptr",
+          [
+            "global"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 5,
+            "total": 4,
+            "signature": "move:addiu move:lui"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slot-rotation",
+          "s32",
+          [
+            "other"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080EEC4",
+            "site": 8,
+            "total": 5,
+            "signature": "move:bnez move:nop move:slti rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "ptr",
+          [
+            "arith",
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 3,
+            "total": 4,
+            "signature": "operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "ptr",
+          [
+            "arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 3,
+            "total": 6,
+            "signature": "operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "ptr",
+          [
+            "global"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80046E38",
+            "site": 0,
+            "total": 13,
+            "signature": "operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "ptr",
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 4,
+            "total": 7,
+            "signature": "operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "s32",
+          [
+            "copy",
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 1,
+            "total": 4,
+            "signature": "operand"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "s32",
+          [
+            "load",
+            "update"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_80041588",
+            "site": 2,
+            "total": 7,
+            "signature": "operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "REG",
+          "slus-diff",
+          "s32",
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 0,
+            "total": 8,
+            "signature": "+28: -1c: move:18: operand*"
+          }
+        ]
+      },
+      {
+        "key": [
+          "USE",
+          "block-order",
+          "s32",
+          [
+            "load"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "town/func_8080C324",
+            "site": 7,
+            "total": 7,
+            "signature": "move:addiu move:lui move:lw rename"
+          }
+        ]
+      },
+      {
+        "key": [
+          "USE",
+          "length-drift",
+          "ptr",
+          [
+            "arith"
+          ]
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 6,
+            "total": 96,
+            "signature": "+154: +1c: +38: +48: +a8: -150: -30: -44: -a4: move:34:"
+          }
+        ]
+      },
+      {
+        "key": [
+          "USE",
+          "length-drift",
+          "s32",
+          []
+        ],
+        "sites": 1,
+        "examples": [
+          {
+            "id": "slus/w_8004E6F4",
+            "site": 4,
+            "total": 98,
+            "signature": "+154: +180: +184: +28: +48: +a8: -150: -174: -44: -a4: move:178: move:17c: move:20: move:24: operand*"
+          }
+        ]
+      }
+    ],
+    "caveats": [
+      "Candidates require source review and publication gates; overlapping exact subsets cannot be unioned without rechecking.",
+      "Pair arms overlap and sample within rows; counts are descriptive, not independent trials or population causal estimates.",
+      "Source-fact heuristics and LCS range overlap suggest hypotheses, not compiler ownership.",
+      "SLUS distances use the existing pinned-object metric, overlay distances use aligned LCS; compare within a row only."
+    ]
+  }
+}

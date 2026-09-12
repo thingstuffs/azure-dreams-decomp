@@ -82,7 +82,9 @@ python3 tools/pin_search.py publish --tag erase_next --mode erasures --workers 4
 ```
 
 For larger functions, `--families-only` limits the plan to the full set, groups sharing a
-variable, and macro families. It skips exhaustive subsets and the quadratic pair walk;
+variable, connected groups sharing multi-operand pins, and macro families. Named operands
+are recognized only when every argument is a plain identifier. It skips exhaustive subsets
+and the quadratic pair walk;
 results name this limited plan explicitly. `--fallback 0` disables extra full verification
 of nonzero assembly screens for a measured throughput experiment (default remains two).
 Zero-screen candidates still require full byte verification, source checks and final gates.
@@ -173,3 +175,15 @@ nice -n 10 python3 tools/tests/replay_pin_screen.py
 
 Recovery results are in [PIN_RECOVERY_20260912.md](PIN_RECOVERY_20260912.md); the original
 review and rationale are in [PIN_CLEANUP_REVIEW_20260912.md](PIN_CLEANUP_REVIEW_20260912.md).
+
+Known cache limitation (2026-09-12): the recipe fingerprint includes the selected batch's
+compiler binaries and SLUS reference listings. Changing that selection can change the
+aggregate cache key even when a particular row's compilation inputs are unchanged.
+This is conservative invalidation, not an acceptance weakness. A future fix should use
+stable per-row compilation identities, or a stable full tool/reference inventory, while
+retaining historical manifest validation and publication compatibility. Add a cross-batch,
+different-compiler/SLUS regression before changing this key.
+
+For a current, recipe-bound map of single-pin damage and controlled interaction probes,
+use [the pin atlas](PIN_ATLAS_20260912.md). It is a detached read-only experiment; exact
+subsets are staged separately and still require publication review and gates.
