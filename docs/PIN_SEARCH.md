@@ -67,7 +67,9 @@ they currently emit the same assembly, because later transformations can behave 
 
 `--mode erasures` tests pin removal without generating C-shape mutations. Through eight
 live pins it enumerates all nonempty subsets, largest first. Above eight, it tries the full
-set, each macro family, every pair and singles, subject to the same row budgets. Successful
+set, groups sharing a variable, each macro family, every pair and singles, subject to
+the same row budgets. Variable groups include distant register/keep pairs that a
+near-line pair scan misses. Successful
 byte verification restarts the walk from the smaller source. The assembly screen filters
 costly verification; up to two very near nonzero erasures also receive full verification.
 No screen result can publish source. Existing checkpoint, identity and transactional gates

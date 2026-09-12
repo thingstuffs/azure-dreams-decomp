@@ -101,6 +101,18 @@ def erasure_groups(live):
             yield from itertools.combinations(range(n), size)
         return
     yield tuple(range(n))
+    # A hard-register declaration and distant keep of the same variable can only
+    # become dead together. Prioritize these groups before quadratic pair scans.
+    variables = collections.defaultdict(list)
+    for i, site in enumerate(live):
+        if site[0] == "reg":
+            match = re.search(r"([A-Za-z_]\w*)$", site[6])
+            name = match[1] if match else None
+        else:
+            name = site[2] if re.fullmatch(r"[A-Za-z_]\w*", site[2]) else None
+        if name: variables[name].append(i)
+    for group in variables.values():
+        if 1 < len(group) < n: yield tuple(group)
     for macro in sorted({site[1] for site in live}):
         group = tuple(i for i, site in enumerate(live) if site[1] == macro)
         if 1 < len(group) < n: yield group

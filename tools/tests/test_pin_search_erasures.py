@@ -23,6 +23,14 @@ class ErasureTests(unittest.TestCase):
         self.assertEqual(groups[-1],(7,))
         self.assertIn((0,7),groups)
 
+    def test_large_rows_prioritize_distant_same_variable_group(self):
+        source='void f(void) {\n register int *entry ASM_REG("$19");\n'
+        source+=''.join(' ASM_KEEP(v%d);\n' % i for i in range(8))
+        source+=' ASM_KEEP(entry);\n}\n'
+        live=sites_of(source);groups=engine.erasure_groups(live)
+        self.assertEqual(next(groups),tuple(range(10)))
+        self.assertEqual(next(groups),(0,9))
+
     def test_joint_removal_without_single_or_near_pair_win(self):
         def cc(row,text):return ['same'] if len(sites_of(text)) in (0,3) else ['different']
         with tempfile.TemporaryDirectory() as tmp,patch.object(engine,'compile_s',side_effect=cc):
