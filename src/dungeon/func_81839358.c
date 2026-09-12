@@ -65,7 +65,7 @@ void func_81839358(void *effect, void *motion, void *sprite) {
     s32 rounded_x;
     s32 rounded_y;
     s32 vel_y;
-    register s32 vel_z ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 vel_z;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 pos_x;
     s32 vel_x;
     s32 sprite_word;
@@ -140,9 +140,8 @@ state_1:
         red_level = ((S_81839358_3 *)sprite)->unk_0C.at00.v;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (((S_81839358_1 *)effect)->unk_4A >= (s32) red_level) {
-            vel_y = ((S_81839358_0 *)motion)->unk_10.n;
             ((S_81839358_0 *)motion)->unk_0C.n = (s32) (((S_81839358_0 *)motion)->unk_0C.n * 5);
-            ((S_81839358_0 *)motion)->unk_10.n = (s32) (vel_y * 5);
+            ((S_81839358_0 *)motion)->unk_10.n = (s32) (((S_81839358_0 *)motion)->unk_10.n * 5);
             ((S_81839358_0 *)motion)->unk_14.n = (s32) (((S_81839358_0 *)motion)->unk_14.n * 8);
             ((S_81839358_3 *)sprite)->unk_1E = 0xC00U;
             ((S_81839358_3 *)sprite)->unk_1C = 0xC00U;

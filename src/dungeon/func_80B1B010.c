@@ -91,7 +91,6 @@ void func_80172810(void *action_state, void *position, void *sprite, void *actor
     u8 *motion;
     register s32 use_player ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *target;
-    register void *target_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 offset_x;
     s32 offset_y;
     s32 wait_ticks;
@@ -159,9 +158,9 @@ void func_80172810(void *action_state, void *position, void *sprite, void *actor
                     goto apply_motion;
                 }
             have_target:
-                target_record = ((S_80172810_2_pre *)target)[-1].unk_00;
-                ((S_80172810_1 *)actor)->unk_72.s = ((S_80172810_3 *)target_record)->unk_24;
-                ((S_80172810_1 *)actor)->unk_73.s = ((S_80172810_3 *)target_record)->unk_25;
+                offset_y = ((S_80172810_2_pre *)target)[-1].unk_00;
+                ((S_80172810_1 *)actor)->unk_72.s = ((S_80172810_3 *)offset_y)->unk_24;
+                ((S_80172810_1 *)actor)->unk_73.s = ((S_80172810_3 *)offset_y)->unk_25;
                 goto apply_motion;
             }
             ((S_80172810_1 *)actor)->unk_60 =

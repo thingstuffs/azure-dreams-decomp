@@ -79,7 +79,6 @@ s32 func_818BDB44(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
     s32 random_value;
     s32 flags_10;
     s32 scale;
-    register s32 flags_14 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     object = func_8003FC64(0x212);
     if (object != 0) {
@@ -103,13 +102,13 @@ s32 func_818BDB44(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         part->unk_0C = 0x80;
         part->unk_12 = 0x7E01;
         part->unk_08 = D_80025DF8;
-        flags_14 = part->unk_14 | 0xC;
+        random_value = part->unk_14 | 0xC;
         flags_10 = part->unk_10 | 0x20;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        part->unk_14 = flags_14;
-        flags_14 |= 0x100;
+        part->unk_14 = random_value;
+        random_value |= 0x100;
         part->unk_10 = flags_10;
-        part->unk_14 = flags_14;
+        part->unk_14 = random_value;
 
         random_value = rand();
         {

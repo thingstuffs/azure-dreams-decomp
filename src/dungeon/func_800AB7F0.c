@@ -34,7 +34,6 @@ void *func_800B0F50(void *owner)
   s32 prim_index;
   s32 prim_flags;
   s32 count_or_color;
-  register s32 green_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   register s32 blue_color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 color_or_addr;
   register s32 vertex_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -142,7 +141,7 @@ void *func_800B0F50(void *owner)
       *((u8 *) (((s8 *) prim) + 0)) = prim_flags;
       count_or_color = 0x202020;
       blue_color = 0x402020;
-      green_color = 0x204020;
+      owner_pos = 0x204020;
       red_color = 0x200000;
       *((s32 *) (((s8 *) panel_data) + 0x18)) = count_or_color;
       ASM_KEEP_NV(count_or_color);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -151,7 +150,7 @@ void *func_800B0F50(void *owner)
       ASM_KEEP_NV(red_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       red_color |= 0x2040;
       *((s32 *) (((s8 *) panel_data) + 0x1C)) = blue_color;
-      *((s32 *) (((s8 *) panel_data) + 0x20)) = green_color;
+      *((s32 *) (((s8 *) panel_data) + 0x20)) = owner_pos;
       *((s32 *) (((s8 *) panel_data) + 0x24)) = red_color;
       *((s32 *) (((s8 *) prim) + 4)) = vertex_color;
       vertex_color = *((s32 *) (((s8 *) panel_data) + 0x1C));

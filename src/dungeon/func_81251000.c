@@ -143,16 +143,15 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
     register void *output_pos ASM_REG("$17") = position_out;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_81251000_3 *output_part = part_out;
     S_81251000_1 *owner;
-    register void *source_part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_81251000_5 *transform;
     S_81251000_6 *motion_part;
     s8 phase;
 
     owner = ((S_81251000_0 *)root)->unk_AC;
-    source_part = owner->unk_0C;
+    part_out = owner->unk_0C;
     transform = owner->unk_08;
 
-    if (!(((S_81251000_2 *)source_part)->unk_14 & 0x80)) {
+    if (!(((S_81251000_2 *)part_out)->unk_14 & 0x80)) {
         output_part->unk_14 &= 0xFF7F;
     }
 
@@ -175,13 +174,13 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
     }
 
     transform = output_part->unk_08;
-    output_part->unk_1C = ((S_81251000_2 *)source_part)->unk_1C;
-    output_part->unk_1E = ((S_81251000_2 *)source_part)->unk_1E;
-    output_part->unk_14 = ((S_81251000_2 *)source_part)->unk_14;
+    output_part->unk_1C = ((S_81251000_2 *)part_out)->unk_1C;
+    output_part->unk_1E = ((S_81251000_2 *)part_out)->unk_1E;
+    output_part->unk_14 = ((S_81251000_2 *)part_out)->unk_14;
     transform->unk_01 &= 0xFE;
 
     if (((S_81251000_0 *)root)->unk_B6 == 1) {
-        phase = ((S_81251000_2 *)source_part)->unk_04.s8;
+        phase = ((S_81251000_2 *)part_out)->unk_04.s8;
         if (phase < 8) {
             s32 scaled_phase = phase * 7;
 
@@ -198,14 +197,14 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
             output_part->unk_0D = brightness;
             output_part->unk_0C = brightness;
         }
-        if (!(((S_81251000_2 *)source_part)->unk_14 & 0x8000) &&
-            ((S_81251000_2 *)source_part)->unk_04.u16 == 0x10C) {
+        if (!(((S_81251000_2 *)part_out)->unk_14 & 0x8000) &&
+            ((S_81251000_2 *)part_out)->unk_04.u16 == 0x10C) {
             func_800A56E0(0x709);
         }
     }
 
     if (((S_81251000_0 *)root)->unk_B6 == 2) {
-        phase = ((S_81251000_2 *)source_part)->unk_04.s8;
+        phase = ((S_81251000_2 *)part_out)->unk_04.s8;
         if (phase < 8) {
             register s32 reverse_phase ASM_REG("$3") = 7 - phase;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
@@ -222,8 +221,8 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
             output_part->unk_0D = brightness;
             output_part->unk_0C = brightness;
         }
-        if (!(((S_81251000_2 *)source_part)->unk_14 & 0x8000) &&
-            ((S_81251000_2 *)source_part)->unk_04.u16 == 0x104) {
+        if (!(((S_81251000_2 *)part_out)->unk_14 & 0x8000) &&
+            ((S_81251000_2 *)part_out)->unk_04.u16 == 0x104) {
             func_800A56E0(0x709);
         }
     }

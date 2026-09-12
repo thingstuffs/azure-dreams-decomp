@@ -199,12 +199,11 @@ kind_chosen:
     if (D_8006DE24[*action_entry * 20 + 0x12] == 2) {
         target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
         if (target_link != 0) {
-            register u8 *target_sprite ASM_REG("$3");
 state0_linked:
-            target_sprite = ((S_8017256C_2_pre *)target_link)[-1].unk_00;
+            motion_data = ((S_8017256C_2_pre *)target_link)[-1].unk_00;
 
-            ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)target_sprite)->unk_24;
-            ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)target_sprite)->unk_25;
+            ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)motion_data)->unk_24;
+            ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)motion_data)->unk_25;
             goto state0_copy;
         }
     } else {

@@ -90,7 +90,6 @@ state_one:
 {
     register u8 *direction_base ASM_REG("$2");
     s32 motion_x;
-    register s32 motion_y ASM_REG("$3");
     s32 signed_tick;
     s32 direction_y;
 
@@ -117,16 +116,16 @@ state_one:
     delta_y = direction_y << 16;
     if (tick_phase) {
         motion_x = S32(motion, 0xC) - delta_x;
-        motion_y = S32(motion, 0x10) - delta_y;
+        direction_off = S32(motion, 0x10) - delta_y;
         goto store_movement;
     }
     signed_tick = (s16)next_tick;
     if (signed_tick < 0x12) {
         motion_x = S32(motion, 0xC) + delta_x;
-        motion_y = S32(motion, 0x10) + delta_y;
+        direction_off = S32(motion, 0x10) + delta_y;
 store_movement:
         S32(motion, 0xC) = motion_x;
-        S32(motion, 0x10) = motion_y;
+        S32(motion, 0x10) = direction_off;
     } else {
         ASM_CLOBBER("$5");
         S32(motion, 0x14) = 0;

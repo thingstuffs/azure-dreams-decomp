@@ -16,7 +16,6 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
     s32 shifted_mode;
     s32 base_flags;
     register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 extra_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 third_kind;
     u8 *kind_ptr;
     s32 kind;
@@ -31,11 +30,11 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
             if (detail->unk_01 == 15) {
                 kind = detail->unk_00;
                 if (kind == 5) {
-                    extra_flags = mask & 1;
+                    third_kind = mask & 1;
                     goto merge_flags;
                 }
                 if (kind == 6) {
-                    extra_flags = mask & 2;
+                    third_kind = mask & 2;
                     goto merge_flags;
                 }
                 third_kind = 7;
@@ -43,11 +42,11 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
             }
             kind = detail->unk_00;
             if (kind == 6) {
-                extra_flags = mask & 1;
+                third_kind = mask & 1;
                 goto merge_flags;
             }
             if (kind == 7) {
-                extra_flags = mask & 2;
+                third_kind = mask & 2;
                 goto merge_flags;
             }
             third_kind = 8;
@@ -59,11 +58,11 @@ s32 func_8009CD58(Rec_D_800E3D7C *record, s32 mask, s32 mode) {
     if (kind_ptr != NULL) {
         kind = *kind_ptr;
         if (kind == 8) {
-            extra_flags = mask & 1;
+            third_kind = mask & 1;
             goto merge_flags;
         }
         if (kind == 9) {
-            extra_flags = mask & 2;
+            third_kind = mask & 2;
             goto merge_flags;
         }
         third_kind = 10;
@@ -71,9 +70,9 @@ check_third_kind:
         if (kind != third_kind) {
             return flags;
         }
-        extra_flags = mask & 4;
+        third_kind = mask & 4;
 merge_flags:
-        flags = base_flags | extra_flags;
+        flags = base_flags | third_kind;
     }
     return flags;
 }

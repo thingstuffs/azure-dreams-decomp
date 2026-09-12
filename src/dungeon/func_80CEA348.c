@@ -66,12 +66,12 @@ void func_80173B48(void *action_input, s32 x_offset_input, void *position_input,
     register void *position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *actor = actor_input;
     s32 remaining_steps;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 next_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 next_x;
+    s32 next_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 saved_x;
     u32 saved_y;
     s32 action_state;
     u8 state_param;
-    s32 next_x;
 
 
     ((S_80173B48_0 *)actor)->unk_71 &= 0x7F;

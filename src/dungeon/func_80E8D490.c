@@ -189,7 +189,6 @@ I4:
 IEnd:
     if (*selector != 0) {
         void *owner;
-        register void *owner_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 use_owner;
         s32 move_result;
 
@@ -205,9 +204,9 @@ IEnd:
             owner = ((S_80172C90_0 *)actor)->unk_60;
             if (owner != 0) {
 OwnerLinked:
-                owner_sprite = ((S_80172C90_3_pre *)owner)[-1].unk_00;
-                ((S_80172C90_0 *)actor)->unk_72.s = ((S_80172C90_4 *)owner_sprite)->unk_24;
-                ((S_80172C90_0 *)actor)->unk_73.s = ((S_80172C90_4 *)owner_sprite)->unk_25;
+                move_result = ((S_80172C90_3_pre *)owner)[-1].unk_00;
+                ((S_80172C90_0 *)actor)->unk_72.s = ((S_80172C90_4 *)move_result)->unk_24;
+                ((S_80172C90_0 *)actor)->unk_73.s = ((S_80172C90_4 *)move_result)->unk_25;
                 goto OwnerDone;
             }
         } else {

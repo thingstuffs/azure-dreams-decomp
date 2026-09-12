@@ -30,7 +30,6 @@ void func_80026680(void *effect, void *transform, void *render_data)
     void *history_dst;
     void *related;
     void *parent;
-    register void *parent_render ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     history_index = 6;
     do {
@@ -121,8 +120,8 @@ attached:
     U16_AT(transform, 0xA) = U16_AT(related, 0x38);
 
     parent = PTR_AT(effect, 8);
-    parent_render = PTR_AT(parent, 0xC);
-    source_brightness = U8_AT(parent_render, 0xC);
+    related = PTR_AT(parent, 0xC);
+    source_brightness = U8_AT(related, 0xC);
     brightness_offset = U16_AT(effect, 0x6E);
     brightness_delta = source_brightness - brightness_offset;
     brightness = brightness_delta;

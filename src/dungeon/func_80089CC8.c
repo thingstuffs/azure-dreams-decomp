@@ -80,7 +80,7 @@ typedef struct S_8008F428_6 {
 } S_8008F428_6;   /* ((S_8008F428_0 *)arg0)->unk_124 in func_8008F428 */
 
 /* Updates the timed effect state, entity flags, and directional animation. */
-void func_8008F428(void *effect_state, void *unused, void *animation, void *owner) {
+void func_8008F428(void *effect_state, void *saved_effect_id, void *animation, void *owner) {
     s32 effect_result;
     u16 ticks_left;
     u8 state;
@@ -192,10 +192,10 @@ start_wait:
         effect_result = func_800990FC();
         target = ((S_8008F428_0 *)effect_state)->unk_11C;
         effect_id = effect_result;
-        unused = effect_id;
+        saved_effect_id = effect_id;
         func_80099290(func_80099194(D_800E0683,
             func_80099734(target, effect_id)));
-        func_800A5720(unused);
+        func_800A5720(saved_effect_id);
         target = animation;
 reset_effect:
         ((S_8008F428_0 *)effect_state)->unk_8C = (u8 *)&D_8008ACDC;

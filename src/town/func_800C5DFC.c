@@ -36,8 +36,6 @@ typedef struct S_800C355C_1 {
 void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
 {
     s32 pos_x;
-    register s32 step_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 pos_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 step_y;
     s32 angle;
     s32 quadrant;
@@ -51,14 +49,14 @@ void func_800C355C(S_800C355C_1 *entity, void *motion, void *context)
 
     motion_words = (s32 *)motion;
     pos_x = motion_words[0];
-    step_x = motion_words[3];
-    pos_x += step_x;
-    pos_y = *(volatile s32 *)((u8 *)motion + 4);
+    max_speed = motion_words[3];
+    pos_x += max_speed;
+    speed = *(volatile s32 *)((u8 *)motion + 4);
     step_y = motion_words[4];
-    pos_y += step_y;
+    speed += step_y;
     ((S_800C355C_0 *)motion)->unk_00.at00.v = pos_x;
-    ((S_800C355C_0 *)motion)->unk_04.at00.v = pos_y;
-    ((S_800C355C_0 *)motion)->unk_0A = func_800C2B38(motion, step_x, step_y);
+    ((S_800C355C_0 *)motion)->unk_04.at00.v = speed;
+    ((S_800C355C_0 *)motion)->unk_0A = func_800C2B38(motion, max_speed, step_y);
 
     angle = 0x400 - entity->unk_72;
     quadrant = (angle / 0x400) & 3;

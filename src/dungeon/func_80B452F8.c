@@ -91,7 +91,6 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
     u8 *motion;
     register s32 special_motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *target;
-    register void *target_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     s32 wait_ticks;
@@ -159,9 +158,9 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
                     goto step_motion;
                 }
             have_target:
-                target_data = ((S_80172AF8_2_pre *)target)[-1].unk_00;
-                ((S_80172AF8_1 *)actor)->unk_72.s = ((S_80172AF8_3 *)target_data)->unk_24;
-                ((S_80172AF8_1 *)actor)->unk_73.s = ((S_80172AF8_3 *)target_data)->unk_25;
+                target_y = ((S_80172AF8_2_pre *)target)[-1].unk_00;
+                ((S_80172AF8_1 *)actor)->unk_72.s = ((S_80172AF8_3 *)target_y)->unk_24;
+                ((S_80172AF8_1 *)actor)->unk_73.s = ((S_80172AF8_3 *)target_y)->unk_25;
                 goto step_motion;
             }
             ((S_80172AF8_1 *)actor)->unk_60 =

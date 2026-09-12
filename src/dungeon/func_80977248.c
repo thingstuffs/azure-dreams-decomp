@@ -184,12 +184,11 @@ selection_ready:
         if (D_8006DE24[effect_id * 20 + 0x12] == 2) {
             target = (*(void * *)((u8 *)item + 0x60));
             if (target != 0) {
-                register u8 *target_actor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
 copy_active_coords:
-                target_actor = ((S_80172A48_1_pre *)target)[-1].unk_00;
-                (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)target_actor)->unk_24;
-                (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)target_actor)->unk_25;
+                action_in = ((S_80172A48_1_pre *)target)[-1].unk_00;
+                (*(u8 *)((u8 *)item + 0x72)) = ((S_80172A48_2 *)action_in)->unk_24;
+                (*(u8 *)((u8 *)item + 0x73)) = ((S_80172A48_2 *)action_in)->unk_25;
                 goto invoke_item;
             }
         } else {

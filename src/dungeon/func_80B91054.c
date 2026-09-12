@@ -69,7 +69,6 @@ void *func_8014C854(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
 #else
     void *initial_callback;
 #endif
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 left;
     s32 right;
     s8 saved_arg1;
@@ -123,11 +122,11 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        call_a0 = obj;
+        obj = obj;
         if (((arg0 & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 left = func_800A6D30();
-                call_a0 = obj;
+                obj = obj;
                 if (!(left & 1)) {
                     goto call_a1_setup;
                 }
@@ -141,9 +140,9 @@ normal_kind:
         goto call_a1_setup;
 
 post_kind:
-        call_a0 = obj;
+        obj = obj;
 call_a1_setup:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        func_800A9C18(obj, part_a, part_b, arg0);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CE5C;

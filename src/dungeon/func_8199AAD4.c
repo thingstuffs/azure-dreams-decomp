@@ -139,7 +139,6 @@ void func_8199AAD4(void *self, void *coords)
     register u32 tail_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *global_flags;
     void *delta_out;
-    register s32 delay_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     D_80024A70++;
 
     state = ((S_8199AAD4_0 *)self)->unk_28.s;
@@ -188,8 +187,8 @@ fixed_position:
         if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {
             ((S_8199AAD4_0 *)self)->unk_2E.s = 8;
             tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
-            delay_frames = 9;
-            ((S_8199AAD4_0 *)self)->unk_30.s = delay_frames;
+            target_node = 9;
+            ((S_8199AAD4_0 *)self)->unk_30.s = target_node;
             func_80024464();
         }
         goto done;

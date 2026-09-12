@@ -61,7 +61,6 @@ void func_8016D0FC(void *context, s32 callback_arg, void *object_arg, void *acto
 {
     register void *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
-    register u16 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor = actor_arg;
     u8 *expected_table;
     u8 *current_table;
@@ -90,9 +89,9 @@ state_0:
         goto done;
     }
     counter_base = D_80083460;
-    count = ((S_8016D0FC_2 *)counter_base)->unk_0A;
-    count--;
-    ((S_8016D0FC_2 *)counter_base)->unk_0A = count;
+    current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
+    current_table--;
+    ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
     kind = ((S_8016D0FC_0 *)context)->unk_AC;
     if (kind == 0xE) {
         goto set_ac8_pre;
@@ -204,9 +203,9 @@ set_ad0:
 increment_counter_pre:
     counter_base = D_80083460;
 increment_counter:
-    count = ((S_8016D0FC_2 *)counter_base)->unk_0A;
-    count++;
-    ((S_8016D0FC_2 *)counter_base)->unk_0A = count;
+    current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
+    current_table++;
+    ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
 increment_state:
     ((S_8016D0FC_0 *)context)->unk_9B++;
     goto done;
@@ -214,9 +213,9 @@ increment_state:
 state_2:
     if (((S_8016D0FC_1 *)object)->unk_14 & 0xE000) {
         counter_base = D_80083460;
-        count = ((S_8016D0FC_2 *)counter_base)->unk_0A;
-        count--;
-        ((S_8016D0FC_2 *)counter_base)->unk_0A = count;
+        current_table = ((S_8016D0FC_2 *)counter_base)->unk_0A;
+        current_table--;
+        ((S_8016D0FC_2 *)counter_base)->unk_0A = current_table;
         ((S_8016D0FC_0 *)context)->unk_8C = D_8016A36C;
     }
 done:

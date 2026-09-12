@@ -457,14 +457,13 @@ process_queue:
                 if (status & 0x20) {
                     u8 *status_ptr = &D_800814D2_P[0];
                     register S_80083968 *stream_queue ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                    register int idle_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     S_80083968 *stream_command;
                     int stream_head;
-                    idle_state = 0xFF;
+                    stream_command = 0xFF;
                     stream_queue = D_80083968;
                     ASM_KEEP_NV(status_ptr);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                     D_800814D2[0] = 0;
-                    D_800814D3[0] = idle_state;
+                    D_800814D3[0] = stream_command;
                     stream_head = status_ptr[-2];
                     stream_command = &stream_queue[stream_head];
                     ASM_SET(stream_queue);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

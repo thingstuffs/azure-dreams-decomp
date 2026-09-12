@@ -113,7 +113,6 @@ void func_800A6F48(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2
     s32 z_component;
     u32 offset_sum;
     S_800A6F48_4 *first_object;
-    register S_800A6F48_8 *second_object ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800A6F48_5 *first_y_data;
     S_800A6F48_6 *first_z_data;
     S_800A6F48_9 *second_y_data;
@@ -142,12 +141,12 @@ void func_800A6F48(S_800A6F48_10 *owner, S_800A6F48_0 *spawn_state, S_800A6F48_2
     func_800ABD74(position, first_object);
     second_offset_data = spawn_state->unk_0C;
     position[0] = origin->unk_00 - ((((S_800A6F48_7 *)second_offset_data)->unk_04 + ((S_800A6F48_7 *)second_offset_data)->unk_10) / 3);
-    second_object = func_800A75B8(position);
-    ((S_800A6F48_15 *)(((S_800A6F48_13 *)second_object)->unk_08))->unk_0C = -0x8000;
-    second_y_data = second_object->unk_08;
+    first_object = func_800A75B8(position);
+    ((S_800A6F48_15 *)(((S_800A6F48_13 *)first_object)->unk_08))->unk_0C = -0x8000;
+    second_y_data = first_object->unk_08;
     second_y_data->unk_10 = (s32) (second_y_data->unk_10 / 3);
-    second_object->unk_B0 = 0;
-    func_800ABD74(position, second_object);
+    first_object->unk_B0 = 0;
+    func_800ABD74(position, first_object);
     owner->unk_50 = &D_800A70EC;
     owner->unk_6C = 0xA;
     color->unk_0E = 0x80;

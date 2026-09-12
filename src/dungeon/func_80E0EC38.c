@@ -82,7 +82,6 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
         s32 try_y = (s16)tile_y;
         s32 floor_x;
         s32 floor_y;
-        register s16 *y_steps ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
         ((S_80172438_2 *)action_state)->unk_B2++;
         if ((func_800A44E0((try_x << 6) & 0xFFC0,
@@ -93,9 +92,9 @@ s32 func_80172438(void *action_state, void *action_context, void *sprite, void *
             return 2;
         }
 
-        y_steps = (s16 *)&D_8006CCE8;
+        floor_y = (s16 *)&D_8006CCE8;
         floor_x = (((try_x + *x_step) << 6) + 0x20) & 0xFFE0;
-        y_step = (s16 *)(step_offset + (u8 *)y_steps);
+        y_step = (s16 *)(step_offset + (u8 *)floor_y);
         floor_y = (((try_y + *y_step) << 6) + 0x20) & 0xFFE0;
         floor_height = func_800BCB04(floor_x,
                               floor_y,

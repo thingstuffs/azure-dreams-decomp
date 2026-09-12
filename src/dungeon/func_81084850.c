@@ -58,7 +58,6 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     void *call_actor;
     u16 *global_state;
     u8 *direction_table;
-    register s32 target_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 computed_angle;
     s32 result;
     s32 action_code;
@@ -78,8 +77,8 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
     computed_angle = func_800A04F0(actor, ((S_80172050_1 *)info)->unk_24,
         ((S_80172050_1 *)info)->unk_25, ((S_80172050_0 *)actor)->unk_2A);
     call_actor = actor;
-    target_angle = computed_angle;
-    if ((func_800A2CB8(call_actor, target_angle) << 16) == 0) {
+    action_param = computed_angle;
+    if ((func_800A2CB8(call_actor, action_param) << 16) == 0) {
         result = 0;
         goto done;
     }
@@ -96,7 +95,7 @@ s32 func_80172050(void *action_out, s32 action_param, void *actor_info, void *ac
         }
     }
 
-    if ((u16)(-func_800A0134(target_angle, actor) + 0x3F) >= 0x7F) {
+    if ((u16)(-func_800A0134(action_param, actor) + 0x3F) >= 0x7F) {
         result = 0;
         goto done;
     }

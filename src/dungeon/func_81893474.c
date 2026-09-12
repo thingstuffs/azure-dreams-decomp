@@ -114,16 +114,15 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             register s32 start_x ASM_REG("$4") = U8_AT(lookup_addr, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             register s32 start_y ASM_REG("$5") = U8_AT(lookup_addr, 0x25);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u32 origin_x;
-            register u32 x_offsets ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             u32 step_x;
             u32 step_y;
 
-            x_offsets = (u32)D_8006CCD8_early;
+            step_x = (u32)D_8006CCD8_early;
             lookup_addr = (u32)D_800814A8_early[0];
             step_y = U16_AT(lookup_addr, 0x2A);
             origin_x = origin[0x24];
             step_y = (step_y >> 8) & 0xE;
-            step_x = step_y + x_offsets;
+            step_x = step_y + step_x;
             lookup_addr = (u32)D_8006CCE8_early;
             step_y += lookup_addr;
             step_x = U16_AT(step_x, 0);

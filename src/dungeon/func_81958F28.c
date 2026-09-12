@@ -136,13 +136,12 @@ main_phase:
     }
 
     {
-        register s32 colorValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 currentValue;
         s32 isClose;
 
-        colorValue = color.x;
+        diff = color.x;
         currentValue = S16(arg0, 0xC);
-        diff = colorValue - currentValue;
+        diff = diff - currentValue;
         diff = abs(diff);
         isClose = diff < 0x801;
         currentValue = (u16)color.x;
@@ -152,13 +151,12 @@ main_phase:
     }
 
     {
-        register s32 colorValue ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 currentValue;
         s32 isClose;
 
-        colorValue = color.y;
+        diff = color.y;
         currentValue = S16(arg0, 0xE);
-        diff = colorValue - currentValue;
+        diff = diff - currentValue;
         diff = abs(diff);
         isClose = diff < 0x801;
         currentValue = (u16)color.y;

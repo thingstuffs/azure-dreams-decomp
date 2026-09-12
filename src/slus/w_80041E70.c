@@ -34,14 +34,13 @@ void func_80041E70(void *entity)
     }
 
     {
-        register s32 scale_adjustment ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
-        scale_adjustment = func_80042900(entity, 7);
-        scale_adjustment = (s16)scale_adjustment;
-        if (scale_adjustment > 0) {
+        boosted_stat = func_80042900(entity, 7);
+        boosted_stat = (s16)boosted_stat;
+        if (boosted_stat > 0) {
             U16(0x6E, entity) = U16(0x6E, entity) * 2;
             U8(0x87, entity) = U8(0x87, entity) * 2;
-        } else if (scale_adjustment < 0) {
+        } else if (boosted_stat < 0) {
             U16(0x6E, entity) = (s32)(U16(0x6E, entity) << 16) >> 17;
             U8(0x87, entity) = U8(0x87, entity) >> 1;
         }

@@ -35,7 +35,6 @@ void func_800CDF40(s16 x, s16 y, s16 value) {
     SecondEntry *second_entry;
     ActiveEntry *second_status;
     s32 first_index;
-    register s32 second_index ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 first_x;
     s32 first_y;
     s32 second_x;
@@ -55,7 +54,7 @@ void func_800CDF40(s16 x, s16 y, s16 value) {
         first_status++;
     } while (first_index < 64);
 
-    second_index = 0;
+    first_index = 0;
     second_x = x;
     second_y = y;
     second_entry = D_800E39C8;
@@ -65,9 +64,9 @@ void func_800CDF40(s16 x, s16 y, s16 value) {
             second_entry->value = value;
         }
         second_entry++;
-        second_index++;
+        first_index++;
         second_status++;
-    } while (second_index < 32);
+    } while (first_index < 32);
 }
 
 /* MECHANISM: Frameless leaf with exact 12-byte/24-byte record strides and narrow stores.

@@ -165,11 +165,10 @@ have_choice:
             }
 copy_existing:
             {
-                register void *target_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                target_record = ((S_80172834_2_pre *)target)[-1].unk_00;
-                ((S_80172834_1 *)actor)->unk_72.s = ((S_80172834_3 *)target_record)->unk_24;
-                ((S_80172834_1 *)actor)->unk_73.s = ((S_80172834_3 *)target_record)->unk_25;
+                phase = ((S_80172834_2_pre *)target)[-1].unk_00;
+                ((S_80172834_1 *)actor)->unk_72.s = ((S_80172834_3 *)phase)->unk_24;
+                ((S_80172834_1 *)actor)->unk_73.s = ((S_80172834_3 *)phase)->unk_25;
             }
             goto apply_move;
         }
