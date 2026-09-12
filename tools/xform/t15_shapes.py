@@ -47,6 +47,11 @@ BUDGET = int(os.environ.get("T15_BUDGET", "45"))   # verify runs per row (T15_BU
 ROUNDS = int(os.environ.get("T15_ROUNDS", "3"))    # greedy hill-climb rounds
 WIDE = os.environ.get("T15_WIDE") == "1"          # include the generators with no measured win yet
 NOFENCE = os.environ.get("T15_NOFENCE") == "1"    # drop the fence family: a search that may not add barrier debt
+# depinject (`x = (e) + a; x -= a;`), livetie (`f(arg + v - v)`) and deadstore (a dead `x = 0;`) are
+# fake dependencies in C clothing: census cannot see them, so each one HIDES a pin's debt rather
+# than paying it.  The 2026-09-12 deep fence-free pass ran them under WIDE and 35 of its 60 rows
+# were such trades (reverted).  Off unless asked for by name.
+FAKE = os.environ.get("T15_FAKE") == "1"
 PARTIAL = os.environ.get("T15_PARTIAL", "1") == "1"   # accept a partial removal (10 pins -> 1) as a result
 NARROW = {"s32": ["s16", "s8"], "u32": ["u16", "u8"], "int": ["s16", "s8"],
           "unsigned": ["u16", "u8"], "s16": ["s8"], "u16": ["u8"]}
@@ -850,11 +855,13 @@ class T:
                 + dup_after_if_candidates(cur) + dowhile2for_candidates(cur) + narrow_candidates(cur)
                 + natural.host_candidates(cur))    # many per row: after the proven shapes, never ahead of them
         if WIDE:
-            real += (fold_load_candidates(cur) + depinject_candidates(cur) + deadstore_candidates(cur)
+            real += (fold_load_candidates(cur)
                      + inplace_update_candidates(cur) + hoist_from_goto_arm_candidates(cur)
                      + fold_temp_candidates(cur) + collapse_selfassign_candidates(cur)
                      + maskfold_candidates(cur) + mask2cast_candidates(cur)
-                     + litsym_candidates(cur) + livetie_candidates(cur) + commute_candidates(cur))
+                     + litsym_candidates(cur) + commute_candidates(cur))
+            if FAKE:
+                real += depinject_candidates(cur) + deadstore_candidates(cur) + livetie_candidates(cur)
         if NOFENCE:
             return real
         fences = (fence_store_before_call_candidates(cur) + fence_candidates(cur) + fence_pair_candidates(cur)

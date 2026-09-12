@@ -244,6 +244,17 @@ the SLUS SHA-1 gate MATCH after each phase.
   constants, try the swapped arm order). Acceptance 7/7; **102 rows landed, 107 pins off**, then t2 over
   them freed more in 20 rows; 98 touched windows MATCH, SLUS MATCH. Misses worth a lane: a 17-row
   family (one function, 17 overlays) 2 words off where the erased variable serves a second use.
+- **Decision (documented because it moves the headline backwards): fake-dependency trades are
+  reverted, and census now counts them.** The deep fence-free t18 pass (`T15_WIDE=1 T15_NOFENCE=1`,
+  1,602 rows, 3.7 h) landed 60 rows / 124 pins - but 35 of those rows / 80 pins were t15 `WIDE`'s
+  `depinject` (`x = (e) + a; x -= a;`), `livetie` (`f(arg + v - v)`) and `deadstore` (a dead
+  `x = 0;`): zero-byte fake dependencies that census could not see, i.e. debt hidden, not paid. Those
+  35 rows go back to their pinned text; the 25 rows / 44 pins of real shapes (`dup_after_if`,
+  `dropcopy`, `litsym`, `armstore`, `basesym`, `collapse`, `narrow`, group erasure) stay. t15 no
+  longer runs those three generators unless `T15_FAKE=1`. `census.py` / `status.py` count
+  `depinject` and `livetie` constructs as scaffolding (`fakedep`), which makes 12 older rows' hidden
+  debt (10 + 2 sites from earlier WIDE runs) visible; dead stores cannot be detected by pattern and
+  remain a known gap (four older `deadstore` landings in the t15 journal to review by hand).
 - **Two more native lanes landed:** the 17-row cross-jump family (`work/native_lane/family17/REPORT.md`
   - hosting, the opposite of splitting; t21 now reproduces it with its "host" step) and the
   register-rename class (`work/native_lane/regrename/REPORT.md` - cse class head, the commutative
