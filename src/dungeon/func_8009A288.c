@@ -42,14 +42,9 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     group_78 = 0x78;
     group_80 = 0x80;
     group_90 = 0x90;
-    ASM_KEEP(group_70);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(group_78);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(group_80);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(group_90);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     wanted_kind &= 0xFF;
     wanted_flag &= 0xFF;
     count_page = 0x80010000;
-    ASM_KEEP(count_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     kind_group = entry_index * 2;
     entry = (void *)((u32)kind_group + (u32)entries);
     do {

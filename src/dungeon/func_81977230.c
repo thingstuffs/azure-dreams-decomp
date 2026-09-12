@@ -52,7 +52,7 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     u16 *screen0;
     u16 *screen1;
     u16 *screen2;
-    register u16 *screen3 ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u16 *screen3;
     void *depth_cue;
     void *transform_flags;
     void *vertex0;
@@ -83,12 +83,9 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     screen3 = (u16 *)((u32)screen3 | 0x7CU);
     quad->halfwords[0x1A / 2] = texture_page;
     tex_or_link = 0x7DCF;
-    ASM_KEEP(tex_or_link);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u_or_addr_mask = 0xC0;
-    ASM_KEEP(u_or_addr_mask);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     quad->halfwords[0xE / 2] = tex_or_link;
     tex_or_link = 0x40;
-    ASM_KEEP(tex_or_link);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u_right = 0xFF;
     ASM_KEEP(u_right);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     quad->bytes[0xD] = tex_or_link;

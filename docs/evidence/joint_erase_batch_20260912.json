@@ -399,5 +399,974 @@
       }
     ]
   },
-  "publication": "Pending; inspect publication.json and followup/transaction.json before claiming landed"
+  "publication": {
+    "phase": "complete",
+    "finished": "2026-09-12T12:08:29Z",
+    "windows": 6,
+    "overlay": "MATCH",
+    "slus": "MATCH"
+  },
+  "followup": {
+    "phase": "complete",
+    "pins_removed": 0,
+    "rejected_pins_removed": 1,
+    "review": {
+      "phase": "complete",
+      "at": "2026-09-12T12:12:08Z",
+      "id": "dungeon/func_80976434",
+      "rejected_sha": "73c5b2345238faa85ef25ecff9140c79d9bbf108224ff7a46d946869f894ed21",
+      "restored_sha": "cbe11f9cf0834f380d150a89c50091a14db54fd38dcd0c7e58bcadf6c6bb410c",
+      "reason": "Integer angle hosted in void pointer variable; reject despite byte equality",
+      "finished": "2026-09-12T12:13:01Z",
+      "overlay": "MATCH",
+      "slus": "MATCH"
+    },
+    "windows": 1,
+    "overlay": "MATCH",
+    "slus": "MATCH",
+    "safe_host_probes": [
+      {
+        "label": "host:current_angle->limit_detour",
+        "result": {
+          "status": "ok",
+          "exact": false,
+          "total": 65,
+          "class": "const-remat",
+          "regions": [
+            {
+              "op": "r",
+              "g": [
+                1,
+                3
+              ],
+              "t": [
+                1,
+                3
+              ],
+              "got": [
+                "sw $s6, 0x30($sp)",
+                "move $s6, $a0"
+              ],
+              "tgt": [
+                "sw $s5, 0x2c($sp)",
+                "move $s5, $a0"
+              ]
+            },
+            {
+              "op": "i",
+              "g": [
+                5,
+                5
+              ],
+              "t": [
+                5,
+                7
+              ],
+              "got": [],
+              "tgt": [
+                "sw $s2, 0x20($sp)",
+                "move $s2, $a3"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                9,
+                10
+              ],
+              "t": [
+                11,
+                12
+              ],
+              "got": [
+                "sw $s5, 0x2c($sp)"
+              ],
+              "tgt": [
+                "sw $s6, 0x30($sp)"
+              ]
+            },
+            {
+              "op": "d",
+              "g": [
+                11,
+                12
+              ],
+              "t": [
+                13,
+                13
+              ],
+              "got": [
+                "sw $s2, 0x20($sp)"
+              ],
+              "tgt": []
+            },
+            {
+              "op": "r",
+              "g": [
+                17,
+                18
+              ],
+              "t": [
+                18,
+                19
+              ],
+              "got": [
+                "move $s2, $a3"
+              ],
+              "tgt": [
+                "move $s6, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                26,
+                27
+              ],
+              "t": [
+                27,
+                28
+              ],
+              "got": [
+                "move $a0, $s6"
+              ],
+              "tgt": [
+                "move $a0, $s5"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                39,
+                40
+              ],
+              "t": [
+                40,
+                41
+              ],
+              "got": [
+                "bne $v0, $s2, 0x670"
+              ],
+              "tgt": [
+                "bne $v0, $s2, 0x67c"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                43,
+                44
+              ],
+              "t": [
+                44,
+                45
+              ],
+              "got": [
+                "beqz $v0, 0x660"
+              ],
+              "tgt": [
+                "beqz $v0, 0x66c"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                48,
+                49
+              ],
+              "t": [
+                49,
+                50
+              ],
+              "got": [
+                "addiu $v0, $s6, 0x9c"
+              ],
+              "tgt": [
+                "addiu $v0, $s5, 0x9c"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                70,
+                71
+              ],
+              "t": [
+                71,
+                72
+              ],
+              "got": [
+                "addiu $v0, $s6, 0x98"
+              ],
+              "tgt": [
+                "addiu $v0, $s5, 0x98"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                80,
+                81
+              ],
+              "t": [
+                81,
+                82
+              ],
+              "got": [
+                "bltz $v0, 0x338"
+              ],
+              "tgt": [
+                "bltz $v0, 0x344"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                96,
+                98
+              ],
+              "t": [
+                97,
+                99
+              ],
+              "got": [
+                "beqz $v0, 0x2fc",
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "beqz $v0, 0x308",
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                101,
+                102
+              ],
+              "t": [
+                102,
+                103
+              ],
+              "got": [
+                "beqz $v0, 0x13c"
+              ],
+              "tgt": [
+                "beqz $v0, 0x148"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                106,
+                108
+              ],
+              "t": [
+                107,
+                109
+              ],
+              "got": [
+                "bnez $v0, 0x2d4",
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "bnez $v0, 0x2e0",
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                110,
+                111
+              ],
+              "t": [
+                111,
+                112
+              ],
+              "got": [
+                "beqz $v0, 0x2ac"
+              ],
+              "tgt": [
+                "beqz $v0, 0x2b8"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                140,
+                141
+              ],
+              "t": [
+                141,
+                142
+              ],
+              "got": [
+                "beq $v1, $v0, 0x480"
+              ],
+              "tgt": [
+                "beq $v1, $v0, 0x48c"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                148,
+                149
+              ],
+              "t": [
+                149,
+                150
+              ],
+              "got": [
+                "addiu $s0, $s6, 0x98"
+              ],
+              "tgt": [
+                "addiu $s0, $s5, 0x98"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                177,
+                178
+              ],
+              "t": [
+                178,
+                182
+              ],
+              "got": [
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "nop",
+                "sll $v0, $v0, 0x10",
+                "beqz $v0, 0x1bc",
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                179,
+                180
+              ],
+              "t": [
+                183,
+                184
+              ],
+              "got": [
+                "lui $v0, 0x8007"
+              ],
+              "tgt": [
+                "addiu $s6, $zero, 1"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                198,
+                199
+              ],
+              "t": [
+                202,
+                203
+              ],
+              "got": [
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                237,
+                238
+              ],
+              "t": [
+                241,
+                242
+              ],
+              "got": [
+                "addiu $v0, $s6, 0x98"
+              ],
+              "tgt": [
+                "addiu $v0, $s5, 0x98"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                264,
+                265
+              ],
+              "t": [
+                268,
+                269
+              ],
+              "got": [
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                278,
+                279
+              ],
+              "t": [
+                282,
+                283
+              ],
+              "got": [
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                282,
+                283
+              ],
+              "t": [
+                286,
+                287
+              ],
+              "got": [
+                "lb $a1, 0x9c($s6)"
+              ],
+              "tgt": [
+                "lb $a1, 0x9c($s5)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                285,
+                287
+              ],
+              "t": [
+                289,
+                291
+              ],
+              "got": [
+                "addiu $a3, $s6, 0x98",
+                "move $s4, $zero"
+              ],
+              "tgt": [
+                "addiu $a3, $s5, 0x98",
+                "move $s1, $zero"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                288,
+                291
+              ],
+              "t": [
+                292,
+                295
+              ],
+              "got": [
+                "addiu $s5, $v0, -0x3300",
+                "lhu $v0, 0x98($s6)",
+                "lh $s1, 0x2a($s2)"
+              ],
+              "tgt": [
+                "addiu $s4, $v0, -0x3300",
+                "lhu $v0, 0x98($s5)",
+                "lh $v1, 0x2a($s2)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                293,
+                294
+              ],
+              "t": [
+                297,
+                298
+              ],
+              "got": [
+                "sll $v0, $s4, 0x10"
+              ],
+              "tgt": [
+                "sll $v0, $s1, 0x10"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                295,
+                296
+              ],
+              "t": [
+                299,
+                300
+              ],
+              "got": [
+                "addu $v0, $v0, $s5"
+              ],
+              "tgt": [
+                "addu $v0, $v0, $s4"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                298,
+                299
+              ],
+              "t": [
+                302,
+                303
+              ],
+              "got": [
+                "subu $s0, $s1, $v0"
+              ],
+              "tgt": [
+                "subu $s0, $v1, $v0"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                300,
+                301
+              ],
+              "t": [
+                304,
+                305
+              ],
+              "got": [
+                "addu $v0, $v0, $s5"
+              ],
+              "tgt": [
+                "addu $v0, $v0, $s4"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                303,
+                304
+              ],
+              "t": [
+                307,
+                308
+              ],
+              "got": [
+                "addu $s0, $s1, $v0"
+              ],
+              "tgt": [
+                "addu $s0, $v1, $v0"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                312,
+                313
+              ],
+              "t": [
+                316,
+                317
+              ],
+              "got": [
+                "sll $v0, $s4, 0x10"
+              ],
+              "tgt": [
+                "sll $v0, $s1, 0x10"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                316,
+                318
+              ],
+              "t": [
+                320,
+                322
+              ],
+              "got": [
+                "nop",
+                "bnez $s1, 0x1bc"
+              ],
+              "tgt": [
+                "move $v0, $s6",
+                "bnez $v0, 0x1bc"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                370,
+                371
+              ],
+              "t": [
+                374,
+                375
+              ],
+              "got": [
+                "sll $v0, $s4, 0x10"
+              ],
+              "tgt": [
+                "sll $v0, $s1, 0x10"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                372,
+                373
+              ],
+              "t": [
+                376,
+                377
+              ],
+              "got": [
+                "addiu $v0, $s4, 1"
+              ],
+              "tgt": [
+                "addiu $v0, $s1, 1"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                378,
+                379
+              ],
+              "t": [
+                382,
+                383
+              ],
+              "got": [
+                "addiu $v0, $s4, 1"
+              ],
+              "tgt": [
+                "addiu $v0, $s1, 1"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                388,
+                390
+              ],
+              "t": [
+                392,
+                394
+              ],
+              "got": [
+                "addiu $v0, $s4, 1",
+                "move $s4, $v0"
+              ],
+              "tgt": [
+                "addiu $v0, $s1, 1",
+                "move $s1, $v0"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                394,
+                395
+              ],
+              "t": [
+                398,
+                399
+              ],
+              "got": [
+                "sll $v0, $s4, 0x10"
+              ],
+              "tgt": [
+                "sll $v0, $s1, 0x10"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                415,
+                416
+              ],
+              "t": [
+                419,
+                420
+              ],
+              "got": [
+                "sb $v0, 0x9c($s6)"
+              ],
+              "tgt": [
+                "sb $v0, 0x9c($s5)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                444,
+                446
+              ],
+              "t": [
+                448,
+                450
+              ],
+              "got": [
+                "move $s4, $v0",
+                "sll $v0, $s4, 0x10"
+              ],
+              "tgt": [
+                "move $s1, $v0",
+                "sll $v0, $s1, 0x10"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                450,
+                451
+              ],
+              "t": [
+                454,
+                455
+              ],
+              "got": [
+                "sh $s4, 0x88($s2)"
+              ],
+              "tgt": [
+                "sh $s1, 0x88($s2)"
+              ]
+            }
+          ],
+          "secs": 1.08
+        }
+      },
+      {
+        "label": "host:current_angle->actor_flags",
+        "result": {
+          "status": "ok",
+          "exact": false,
+          "total": 8,
+          "class": "reg-rename",
+          "regions": [
+            {
+              "op": "r",
+              "g": [
+                52,
+                53
+              ],
+              "t": [
+                52,
+                53
+              ],
+              "got": [
+                "lw $a0, 0x1c($s2)"
+              ],
+              "tgt": [
+                "lw $v1, 0x1c($s2)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                54,
+                55
+              ],
+              "t": [
+                54,
+                55
+              ],
+              "got": [
+                "andi $v0, $a0, 0x410"
+              ],
+              "tgt": [
+                "andi $v0, $v1, 0x410"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                56,
+                57
+              ],
+              "t": [
+                56,
+                57
+              ],
+              "got": [
+                "andi $v0, $a0, 0x400"
+              ],
+              "tgt": [
+                "andi $v0, $v1, 0x400"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                101,
+                102
+              ],
+              "t": [
+                101,
+                102
+              ],
+              "got": [
+                "andi $v0, $a0, 0x2000"
+              ],
+              "tgt": [
+                "andi $v0, $v1, 0x2000"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                110,
+                111
+              ],
+              "t": [
+                110,
+                111
+              ],
+              "got": [
+                "and $v0, $a0, $v0"
+              ],
+              "tgt": [
+                "and $v0, $v1, $v0"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                294,
+                295
+              ],
+              "t": [
+                294,
+                295
+              ],
+              "got": [
+                "lh $a0, 0x2a($s2)"
+              ],
+              "tgt": [
+                "lh $v1, 0x2a($s2)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                302,
+                303
+              ],
+              "t": [
+                302,
+                303
+              ],
+              "got": [
+                "subu $s0, $a0, $v0"
+              ],
+              "tgt": [
+                "subu $s0, $v1, $v0"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                307,
+                308
+              ],
+              "t": [
+                307,
+                308
+              ],
+              "got": [
+                "addu $s0, $a0, $v0"
+              ],
+              "tgt": [
+                "addu $s0, $v1, $v0"
+              ]
+            }
+          ],
+          "secs": 0.98
+        }
+      },
+      {
+        "label": "host:current_angle->trial_angle",
+        "result": {
+          "status": "ok",
+          "exact": false,
+          "total": 3,
+          "class": "broad",
+          "regions": [
+            {
+              "op": "r",
+              "g": [
+                294,
+                295
+              ],
+              "t": [
+                294,
+                295
+              ],
+              "got": [
+                "lh $s0, 0x2a($s2)"
+              ],
+              "tgt": [
+                "lh $v1, 0x2a($s2)"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                302,
+                303
+              ],
+              "t": [
+                302,
+                303
+              ],
+              "got": [
+                "subu $s0, $s0, $v0"
+              ],
+              "tgt": [
+                "subu $s0, $v1, $v0"
+              ]
+            },
+            {
+              "op": "r",
+              "g": [
+                307,
+                308
+              ],
+              "t": [
+                307,
+                308
+              ],
+              "got": [
+                "addu $s0, $s0, $v0"
+              ],
+              "tgt": [
+                "addu $s0, $v1, $v0"
+              ]
+            }
+          ],
+          "secs": 1.01
+        }
+      }
+    ]
+  },
+  "final_census": {
+    "pins": 10264,
+    "pinned_rows": 1634
+  }
 }
