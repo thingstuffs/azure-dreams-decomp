@@ -1,0 +1,78 @@
+{
+  "at": "2026-09-12T13:58:45Z",
+  "rows_done": 570,
+  "rows_expected": 1633,
+  "sites_measured": 4573,
+  "probes": 13487,
+  "cpu_seconds": 12418.85310599,
+  "row_statuses": {
+    "complete": 567,
+    "complete-with-errors": 3
+  },
+  "candidate_rows": [
+    {
+      "id": "slus/w_8004C36C",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_812A524C",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_8132CB20",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_81084D04",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_818571BC",
+      "pins": 3
+    },
+    {
+      "id": "dungeon/func_80E37EA4",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_80F33E3C",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_800A3C30",
+      "pins": 4
+    },
+    {
+      "id": "dungeon/func_80E8D490",
+      "pins": 2
+    },
+    {
+      "id": "dungeon/func_819C0000",
+      "pins": 2
+    }
+  ],
+  "staged_pins_upper_bound": 23,
+  "pair_arms": {
+    "uniform": {
+      "tested": 4243,
+      "exact": 2,
+      "below_both_singles": 54
+    },
+    "overlap": {
+      "tested": 3423,
+      "exact": 11,
+      "below_both_singles": 151
+    }
+  },
+  "counter_issue": {
+    "row": "dungeon/func_807B0B3C",
+    "pins": 100,
+    "filename_bytes": 294,
+    "filesystem_component_limit": 255,
+    "saved_probes": 125,
+    "cause": "as_completed future exception leaves the ThreadPoolExecutor context waiting for all submitted jobs; result files continue while state counter stops",
+    "recovery": "work/pin_search/pins_atlas_20260912/recover_long_name.py",
+    "supervisor_pid": 599575,
+    "policy": "pidfd wait for original controller; require expected filename error and exactly the diagnosed unfinished row; reuse probes, shorten numeric artifact basenames, validate frozen recipe and all result identities, preserve original error state"
+  }
+}
