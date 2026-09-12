@@ -1065,3 +1065,15 @@ then completes that single row using bounded artifact names and saved probes,
 validates all identities and writes the final report. Check the actual processes,
 `work/pin_search/pins_atlas_20260912/recovery_state.json`, and the retained recovery
 script/log. Full explanation and post-run tool fixes are in `docs/PIN_ATLAS_20260912.md`.
+
+### Ready-to-absorb repair commit
+
+`1829aa76` is committed in the detached sparse worktree
+`work/pin_search/atlas_tool_fixes_20260912`. After the atlas plus recovery finish and
+its frozen recipe has been checked, cherry-pick it into the primary worktree and
+replay the seven alias rows. It fixes alias spans/census, overlong group filenames,
+future-exception progress collection and stale status counters. All 64 targeted tests
+pass. The repaired census of the frozen population is 10,211 sites in the same 1,633
+functions (+5 previously omitted sites). No source changes or pin removals are part
+of this tool commit. Preserve/use saved atlas candidate files by their hashes; old
+site indices must not be reinterpreted with the expanded alias parser.
