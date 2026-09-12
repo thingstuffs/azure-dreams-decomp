@@ -12,6 +12,13 @@ functions**, leaving **10,588 pins in 1,647 rows**. See
 [PIN_SEARCH.md](PIN_SEARCH.md) for restart/publication commands and
 [PIN_SEARCH_PILOT_20260912.md](PIN_SEARCH_PILOT_20260912.md) for measured results.
 
+**Active restart:** `pins_restart_20260912`, baseline search, 1,646 eligible pinned rows,
+four low-priority processes, 1,200 screens / 12 full verifies / 40 CPU seconds per row.
+It runs detached and stages candidates. Inspect with
+`python3 tools/pin_search.py status --tag pins_restart_20260912` and publish only through
+the controller's checked `publish` command after search completes. The old sharded launcher
+and its partial journal are retained as historical evidence, not used as completion claims.
+
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.
 Dashboard: served on the LAN by `tools/dashboard_serve.sh` (port 8002; restart it if the box rebooted).
