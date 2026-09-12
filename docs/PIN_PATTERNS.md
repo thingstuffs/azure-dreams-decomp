@@ -394,6 +394,19 @@ blocks a combine merge — `ASM_KEEP_NV`, `ASM_SCHED_BARRIER()` and volatile mem
 flow.c adds the loop depth to every reference count, so making a loop real re-ranks local-alloc
 for every other pin inside it (why it lands cleanly only where no other pin sits in the loop).
 
+**Hosting, the opposite of splitting** (a native lane, 2026-09-12, `work/native_lane/family17/REPORT.md`;
+17 rows t21 left 2 words off). The misplaced register belonged to a compiler TEMPORARY, not to the
+erased variable: local-alloc's `combine_regs` (local-alloc.c 1866-1888) gives a temporary that
+reads a dying hard register (a kept pin) a `qty_phys_sugg` for that register, and `find_free_reg`
+honours it in numeric order — the pin on the OUTPUT had only been adding a lower-numbered second
+suggestion. The fix puts the intermediate value in a word-sized function-scope variable that is
+ALREADY GLOBAL (assigned elsewhere, dead at the site): local-alloc then declines it and global-alloc
+places it with no inherited suggestion (`primary_flags = saved_kind & ~3; if ((s16)primary_flags ==
+0)`; `height_offset = P & 8`; reusing `arc_sample`). A fresh block-local is worse (it becomes local
+and inherits the suggestion, 3–23 words); a `u16`/`s16` host loses too (combine folds the
+HImode write-back). All 17 exact, 17 pins; the lever is generic to any register pin whose job is a
+temporary's suggestion, and the t21 generator is gaining it as a "host" step.
+
 **What it says.** Section 9's "natural shapes perhaps a third" does not carry to the corpus with
 these generators: at fences they took 28 of 692 (4 %); dead fences were 18 %; 78 % of the fences
 remain. `ret2break`, `postinc` and `gotoloop` closed nothing outside their own test rows, and
