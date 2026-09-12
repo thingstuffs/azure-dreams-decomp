@@ -4,8 +4,13 @@
 including three unjournalled writes, were recovered and independently checked. T2/T20
 follow-up brings the recovery to 49 pins removed; all changed overlay windows and SLUS
 passed. See [PIN_RECOVERY_20260912.md](PIN_RECOVERY_20260912.md). Preserve useful unjournalled
-source and verify it before deciding to revert. The older sharded launcher is historical;
-the replacement staged controller is being validated in a frozen 60-row comparison.
+source and verify it before deciding to revert. The older sharded launcher is historical.
+Two frozen 60-row comparisons are complete; keep the baseline T27 search inside the new
+durable controller. Targeted mode used fewer compiler calls but did not improve CPU yield.
+The experiments supplied four further removals, all gated: **53 pins removed across 30
+functions**, leaving **10,588 pins in 1,647 rows**. See
+[PIN_SEARCH.md](PIN_SEARCH.md) for restart/publication commands and
+[PIN_SEARCH_PILOT_20260912.md](PIN_SEARCH_PILOT_20260912.md) for measured results.
 
 Repo: https://github.com/thingstuffs/azure-dreams-decomp (private; renamed from azure-clean on
 2026-09-08, the old URL redirects), local `~/azure-clean`, branch `master`.
@@ -391,8 +396,9 @@ the SLUS SHA-1 gate MATCH after each phase.
   menu) does not. Shard it into processes over interleaved id lists, as
   `t27_shards.sh` does with 12 processes of 2 threads each. `sweep.py` skips a row whose current text
   is already journalled. It also WRITES a row's file before its (submission-order) journal record, so
-  a killed sweep can leave landed-but-unjournalled files: reconcile and put them back to HEAD before
-  relaunching.
+  a killed sweep can leave unjournalled source writes. Reconcile and verify them before deciding
+  whether to retain or revert them. New work uses `tools/pin_search.py`, whose staged candidates
+  and atomic result records avoid this publication gap; this sharding note describes history.
 - **The harvest proves the scorer, never the window.** Pack 2 batch 1 (owner-launched): the lane
   claimed 1 of 8 and the harvest accepted it (`dungeon/func_8185CE28`, 4 pins and an asm clobber
   gone), but its window gate failed — the lane had respelled a `noreturn` jump to the row's own

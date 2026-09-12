@@ -1,8 +1,8 @@
 """A free pre-screen for sweep candidates: cc1's assembly, compared with the pinned text's.
 
-The pinned text is byte-exact, so a candidate whose normalised cc1 `.s` differs from the pinned
-text's cannot be exact either (every stage after cc1 - maspsx, as, the link - is deterministic in its
-input), and needs no scorer run.  Equal assembly is not proof: the candidate is still scored.  From
+Different cc1 listings CAN converge after assembly/scheduling. This is a ranking heuristic,
+not a sound rejection proof (the historical replay retains a moved-sw false negative).
+Equal assembly is not proof either: the candidate is still scored. From
 the fakedep generator lane (work/native_lane/fakedep/gen/hz.py), which screened 712 candidates for 12
 scorer runs.
 
@@ -21,7 +21,7 @@ Assembler-side pins are invisible here: erasing `ASM_SCHED_BARRIER`, `ASM_JALDEL
 `ASM_TAILSLOT_PIN` and the like can leave cc1's listing identical while maspsx's output changes (29
 such sites in t26), which costs one scorer run and nothing else.
 """
-import difflib, re, subprocess, sys, tempfile
+import difflib, os, re, subprocess, sys, tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -29,6 +29,10 @@ sys.path.insert(0, str(ROOT / "tools"))
 from common import parse_cfg
 
 INCLUDE = ROOT / "include"
+
+def _run(args, **kwargs):
+    # TimeoutExpired propagates: callers must record a retryable failure, not a negative cache.
+    return subprocess.run(args, timeout=float(os.environ.get("PIN_CC_TIMEOUT", "30")), **kwargs)
 
 
 def compile_s(row, text):
@@ -39,11 +43,11 @@ def compile_s(row, text):
         d = Path(td)
         f = d / (Path(row["c_path"]).name)
         f.write_text(text)
-        r = subprocess.run([str(D / "gcc"), "-B" + str(D) + "/", "-E", "-O2", *flags, "-I" + str(INCLUDE), "-w",
+        r = _run([str(D / "gcc"), "-B" + str(D) + "/", "-E", "-O2", *flags, "-I" + str(INCLUDE), "-w",
                             f.name, "-o", "f.i"], cwd=d, capture_output=True, text=True)
         if r.returncode:
             return None
-        r = subprocess.run([str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-o", "f.s"], cwd=d,
+        r = _run([str(D / "cc1"), "f.i", "-quiet", "-O2", *flags, "-w", "-o", "f.s"], cwd=d,
                            capture_output=True, text=True)
         if r.returncode:
             return None

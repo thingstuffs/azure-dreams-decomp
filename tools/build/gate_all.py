@@ -9,7 +9,7 @@ skip windows whose inputs did not change (--retry re-runs non-MATCH windows rega
 Run tools/build/mk_slus_root.sh + `splat split` and tools/build/mk_ovl_root.sh first.
 """
 import argparse, hashlib, json, re, subprocess, sys, time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 B = ROOT / "build_ovl"; JOURNAL = ROOT / "ledger/gate.jsonl"
@@ -124,7 +124,8 @@ def main():
     print(f"{len(todo)} windows to gate ({len(yamls) - len(todo)} up to date), {a.workers} workers", flush=True)
     t0 = time.time(); n = 0; tally = {}
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        for rec in ex.map(run_window, todo):
+        for future in as_completed([ex.submit(run_window, y) for y in todo]):
+            rec = future.result()
             append_jsonl(JOURNAL, rec); n += 1; tally[rec["result"]] = tally.get(rec["result"], 0) + 1
             if n % 50 == 0: print(f"{n}/{len(todo)} {time.time()-t0:.0f}s {tally}", flush=True)
     # a parallel run can leave transient failures (shared extract reads); retry those serially
@@ -133,6 +134,16 @@ def main():
     for y in retry:
         rec = run_window(y); rec["retry"] = True; append_jsonl(JOURNAL, rec); tally[rec["result"] + " (retry)"] = tally.get(rec["result"] + " (retry)", 0) + 1
     print(f"done {n} (+{len(retry)} serial retries) in {time.time()-t0:.0f}s: {tally}")
+    # A completed subprocess is not a successful gate. Include cached failures, too.
+    last = {j["window"]: j for j in read_jsonl(JOURNAL)}
+    scope = todo if a.limit else yamls
+    bad = [y.name for y in scope if not gate_current(last.get(y.stem.replace(".overlay", "")), inputs_sha(y))]
+    if bad:
+        print(f"FAILED: {len(bad)} windows lack a current MATCH: {bad[:8]}", file=sys.stderr)
+        raise SystemExit(1)
+
+def gate_current(record, expected_sha):
+    return bool(record and record.get("result") == "MATCH" and record.get("inputs_sha") == expected_sha)
 
 if __name__ == "__main__":
     main()
