@@ -173,10 +173,9 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         transfer_base = (s32 *)0x80150000;
         ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         item_word = *(s32 *)((u8 *)target + 0x48);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         transfer_slot = transfer_base + 1017;
-        ASM_KEEP(transfer_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         transfer_base[1017] = item_word;
+        ASM_KEEP(transfer_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         *(s32 *)((u8 *)target + 0x48) = 0;
         func_8014CADC(item_word, target);
         __builtin_unreachable();

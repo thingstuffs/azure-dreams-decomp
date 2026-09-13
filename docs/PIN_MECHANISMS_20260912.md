@@ -1342,3 +1342,37 @@ start), 80 memory. The round: 46 pins, 15 fences.
     shell that had just run a sweep.
   - Next: re-lane the earlier fence-lane misses with the round-19 packs (158 of 183 rows still fenced),
     each row quoting its previous lane's verdict.
+
+## Round 20 (2026-09-13): fence re-lanes, `t57_keepafterstore`, the polarity flip by hand
+
+Gated (8 windows MATCH and SLUS SHA-1 MATCH): **8,466 pins in 1,492 rows**, 9 pins removed, all
+scheduling fences; 466 live scheduling fences, 80 memory. By source: t57 4, the re-lanes 3, the polarity
+flip by hand 2 (one row).
+
+- **`t57_keepafterstore` (new):** the fences19 wins' shape (a fenced `slot = base ± N; ASM_KEEP(slot);
+  base[±N] = v;` with the keep moved after the store and the fence dropped). Each of the four transfer
+  copies held a second fenced slot of the same shape: 4 applied, one fence each. The shape occurs nowhere
+  else in the tree.
+- **Fence re-lanes fences21-24 (luna, 44 rows):** rows an earlier fence lane (fences2-17) failed on, each
+  quoting that lane's verdict, with the round-19 row facts. **4 of 44 exact (9%)**, against 28% on
+  never-laned rows in round 19: fences21 0/12, fences22 0/12, fences23 2/12, fences24 2/8. A second look
+  at a failed row pays about a third as well as a fresh row.
+  - Landed: a reused variable split into two locals (`dungeon/func_8008C504`); a fenced dispatch test's
+    polarity flipped so the other target falls through (`dungeon/func_8180A214`, `town/func_800C217C`).
+  - Refused: `town/func_80092AB0`, exact only with a NEW branch whose two arms hold the same stores,
+    placed before the existing `if (callback != NULL)`; the stores in both arms of the existing `if` miss
+    by 12. A branch that exists only to shape code is scaffolding, like a fake dependency: recorded in
+    `ledger/refused_trades.jsonl` (`identical-arm-branch`).
+- **The polarity flip by hand:** a census found 5 fenced `if (c) { FENCE; goto A; } goto B;` sites in 4
+  rows, two of them the lanes' own. `dungeon/func_80090C24`, both sites flipped (`if (!c) goto B; goto
+  A;`): exact, 2 fences. `dungeon/func_800C289C`: not exact. Hand-verifying two rows was cheaper than a
+  generator.
+- **Shapes too rare for generators:** a fence above an update feeding both arms of the next `if` (4 sites
+  in 4 rows); a fence above a constant staged into a shared store tail by `goto` (3 sites). Left to the
+  lanes; the pack builder's brief now lists every round-19/20 winning shape and the two refused forms.
+- **An artifact of normalised assembly:** three rows (`dungeon/func_8008D730`, `func_800C5368`,
+  `func_81323F78`) have a lone fence whose erasure compiles to the same normalised assembly, yet T2's
+  verify at the current text said not exact. The normalisation hides the difference.
+- **Evaluation.** Worked: generators and hand passes built from lane wins (t57 4 fences, the flip 2).
+  Did not: re-lanes (9%), so they stop. Next: the 63 never-laned fence rows with more than 15 pins,
+  with the round-19 packs (fences25-28 first, the 48 smallest).

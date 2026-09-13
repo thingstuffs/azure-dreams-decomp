@@ -93,19 +93,19 @@ void func_80025A14(void *state_arg, void *buffer_arg, void *obj_arg)
     }
     if (phase < 2) {
         unit_scale = 0x1000;
-        if (phase != 0) {
-            ASM_SCHED_BARRIER(); /* MATCH: preserve dispatch layout and jump to the shared epilogue. */
-            goto end;
+        if (phase == 0) {
+            goto init;
         }
-        goto init;
+        goto end;
+    } else {
+        if (phase == 2) {
+            goto check_stop;
+        }
+        if (phase == 3) {
+            goto fade_out;
+        }
+        goto end;
     }
-    if (phase == 2) {
-        goto check_stop;
-    }
-    if (phase == 3) {
-        goto fade_out;
-    }
-    goto end;
 
 init:
     ((S_80025A14_1 *)buffer)->unk_02 = 0;

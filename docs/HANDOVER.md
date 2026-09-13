@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twentieth round, gated (8 windows MATCH and SLUS SHA-1 MATCH): **8,466 pins in 1,492 rows**, 9 scheduling
+fences removed (466 live, 80 memory). Details: PIN_MECHANISMS, "Round 20".
+- **Worked:** building from lane wins at once: `t57_keepafterstore` (the fences19 slot-keep move) took a
+  second site in each of four transfer copies (4 fences); the fenced dispatch test's polarity flip, by hand
+  on the one other row with the shape (2 fences).
+- **Did not:** re-laning rows an earlier fence lane failed on, 4 of 44 (9%) against 28% on fresh rows;
+  stopped. One of the four was refused (`identical-arm-branch`, `ledger/refused_trades.jsonl`).
+- **Next:** fresh fence rows with more than 15 pins (63 never laned): fences25-28 on the 48 smallest, with
+  the round-19 packs (`build_fence_lanes19.py` in the session scratchpad, `POOL=fence_pool21.txt`), whose
+  brief now lists every round-19/20 winning shape and the refused forms.
+
 Nineteenth round, part 2, gated (19 windows MATCH and SLUS SHA-1 MATCH): **8,475 pins in 1,492 rows**, 16
 pins removed (15 of them fences), 46 in the round; 475 live scheduling fences (488 at the round's start) and
 80 memory fences. Details: PIN_MECHANISMS, "Round 19", part 2.
