@@ -167,7 +167,6 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     u8 *var_s2;
     S_80094988_12 *temp_s1_2;
     S_80094988_13 *temp_v0_2;
-    void *var_a0;
     void *var_v1;
     register u8 *page ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 idx0;
@@ -192,7 +191,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     register s32 scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register u8 *var_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register u32 dispatch_probe ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register u8 *dispatch_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *dispatch_page;
     u32 dispatch_idx;
     s32 sign_temp;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 signed_index;
@@ -262,18 +261,18 @@ loop_1:
     var_a3 = page2;
     ff2 = 0xFF;
     table2 = (void **)(page2 + 0x248);
-    var_a0 = arg0;
+    dispatch_page = arg0;
     loop_0: {
         var_v1_2 = (u8 *)(var_t1 + (u32)var_a3);
         idx0 = ((S_80094988_5 *)var_v1_2)->unk_2D52;
         if (idx0 != ff2) {
-            ((S_80094988_6 *)var_a0)->unk_D0 =
+            ((S_80094988_6 *)dispatch_page)->unk_D0 =
                 (s32)((idx0 * 4) + (u32)table2);
         } else {
-            ((S_80094988_6 *)var_a0)->unk_D0 = 0;
+            ((S_80094988_6 *)dispatch_page)->unk_D0 = 0;
         }
         var_t1 += 1;
-        var_a0 += 4;
+        dispatch_page += 4;
     } if (var_t1 < 2) goto loop_0;
 
     dispatch_probe = 0x80010000;

@@ -113,7 +113,7 @@ void func_80024C88(Controller *controller, Motion *motion_arg, void *render_arg)
     s32 origin_coord;
     s32 floor_height;
     s32 cell_x;
-    s32 cell_y;
+    s16 cell_y;
     u16 origin_z;
     s32 state;
     u32 elapsed;
@@ -268,7 +268,7 @@ void func_80024C88(Controller *controller, Motion *motion_arg, void *render_arg)
 
             {
                 register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                s16 next_y;
                 s16 *x_step;
                 s16 *y_step;
                 s32 direction;

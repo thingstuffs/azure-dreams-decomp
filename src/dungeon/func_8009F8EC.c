@@ -137,7 +137,7 @@ typedef struct S_800A504C_6 {
 typedef struct S_800A504C_7_pre {
     s16 unk_00;
     u8 pad_02[0x30A0];
-} S_800A504C_7_pre;   /* the 0x30A2 bytes before mode_page in func_800A504C, addressed as mode_page[-1] */
+} S_800A504C_7_pre;   /* the 0x30A2 bytes before D_800E0000 in func_800A504C, addressed as D_800E0000[-1] */
 
 
 extern s32 func_8003E188();
@@ -175,6 +175,7 @@ extern u8 D_800DCF5E_page[0x30A3] __asm__("D_800DCF5E");
 extern u8 D_800E3DF0[];
 extern u8 D_800E3E40[];
 extern u8 D_8014A000[];
+extern u8 D_800E0000[];
 
 /* Advances staged entity loading and replaces the entity while transferring its state. */
 s32 func_800A504C(s32 unused, void *source_entity)
@@ -193,9 +194,8 @@ s32 func_800A504C(s32 unused, void *source_entity)
     u16 remaining_count;
     register s32 flags_mask ASM_REG("$7");
     register s32 update_flags ASM_REG("$3");
-    register s32 flags_result ASM_REG("$2");
+    s32 flags_result;
     u8 *global_page;
-    u8 *mode_page;
     register u8 *copy_call_entity ASM_REG("$4");
     s32 copy_call_zero;
     s32 scale;
@@ -333,12 +333,10 @@ spawn_copy:
     global_page = (u8 *)0x80080000;
     ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
     update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
-    mode_page = (u8 *)0x800E0000;
     ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
     update_flags = ((S_800A504C_6 *)global_page)->unk_14A0;
-    ASM_SET(flags_result);
     flags_result = 0;
-    ((S_800A504C_7_pre *)mode_page)[-1].unk_00 = 0;
+    ((S_800A504C_7_pre *)D_800E0000)[-1].unk_00 = 0;
     ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags | 0x8000;
     return flags_result;
 

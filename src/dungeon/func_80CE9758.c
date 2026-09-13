@@ -131,7 +131,6 @@ extern s8 D_800E2970[];
 
 /* Select a movement direction, move the actor, and update its path history and height. */
 void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 *actor_input) {
-    u8 *move_state = move_input;
     register u8 *position ASM_REG("$20") = position_input;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *actor ASM_REG("$18") = actor_input;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 near_target ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -160,7 +159,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
 
     if ((state_flags & 0x4000) || (((S_80172F58_1 *)actor)->unk_71.s >= 0)) {
         if ((((S_80172F58_1 *)actor)->unk_12 >= 2) ||
-            ((func_80173734(move_state, action_context, position, actor) << 16) == 0)) {
+            ((func_80173734(move_input, action_context, position, actor) << 16) == 0)) {
             func_800A9A0C(actor);
             goto end;
         }
@@ -174,7 +173,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
         goto end;
     }
 
-    func_800A19E4(position, actor, 3, 6, move_state + 0x9C);
+    func_800A19E4(position, actor, 3, 6, move_input + 0x9C);
     actor_flags = ((S_80172F58_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -183,7 +182,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                 object = ((S_80172F58_3_pre *)found_target)[-1].unk_00;
                 ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
                     ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                    ((S_80172F58_4 *)object)->unk_24, ((S_80172F58_4 *)object)->unk_25, move_state + 0x98);
+                    ((S_80172F58_4 *)object)->unk_24, ((S_80172F58_4 *)object)->unk_25, move_input + 0x98);
                 ((S_80172F58_1 *)actor)->unk_71.u &= 0x7F;
                 goto end;
             }
@@ -235,7 +234,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                 goto clear_history;
             }
             new_angle = func_800A0818(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-                                      target_x, (s16)target_y, move_state + 0x98);
+                                      target_x, (s16)target_y, move_input + 0x98);
             ((S_80172F58_1 *)actor)->unk_2A.u = new_angle;
             if ((func_8009A66C(new_angle, position, actor, 0x20) << 16) <= 0) {
                 u8 *retry_target = D_80082E80;
@@ -243,7 +242,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
                 ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
                     ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
                     ((S_80172F58_7 *)retry_target)->unk_24, ((S_80172F58_7 *)retry_target)->unk_25,
-                    move_state + 0x98);
+                    move_input + 0x98);
             }
             {
                 u8 *check_target = D_80082E80;
@@ -289,7 +288,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
         u8 *target = D_80082E80;
         ((S_80172F58_1 *)actor)->unk_2A.u = func_800A0818(
             ((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
-            ((S_80172F58_6 *)target)->unk_24, ((S_80172F58_6 *)target)->unk_25, move_state + 0x98);
+            ((S_80172F58_6 *)target)->unk_24, ((S_80172F58_6 *)target)->unk_25, move_input + 0x98);
         if ((func_8009FD7C(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
                            ((S_80172F58_6 *)target)->unk_24, ((S_80172F58_6 *)target)->unk_25) << 16) != 0) {
             if (func_800A0134(D_800814A8, actor) < 0x81) {
@@ -310,7 +309,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
     }
 
 use_target:
-    func_800A0E6C(position, ((S_80172F58_10 *)move_state)->unk_9C.s, actor, move_state + 0x98);
+    func_800A0E6C(position, ((S_80172F58_10 *)move_input)->unk_9C.s, actor, move_input + 0x98);
 init_loop:
     attempt = 0;
 setup_loop:
@@ -319,7 +318,7 @@ setup_loop:
 
 loop:
     base_angle = (s32)((S_80172F58_1 *)actor)->unk_2A.s;
-    if (((S_80172F58_10 *)move_state)->unk_98 & 2) {
+    if (((S_80172F58_10 *)move_input)->unk_98 & 2) {
         {
             s32 angle_delta = (s32)*angle_offset;
 
@@ -385,7 +384,7 @@ after_loop:
     }
     turn_state = (u8 *)&D_80083460;
     ((S_80172F58_1 *)actor)->unk_46 &= 0x7FFF;
-    ((S_80172F58_10 *)move_state)->unk_9C.u = ((S_80172F58_2 *)position)->unk_26.u;
+    ((S_80172F58_10 *)move_input)->unk_9C.u = ((S_80172F58_2 *)position)->unk_26.u;
     ((S_80172F58_1 *)actor)->unk_6D.u--;
     ((S_80172F58_12 *)turn_state)->unk_08++;
     if (((S_80172F58_1 *)actor)->unk_6D.s != 0) {
@@ -406,6 +405,5 @@ update_height:
     goto end;
 
 end:
-    ASM_KEEP(move_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return;
 }

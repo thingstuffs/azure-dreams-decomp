@@ -180,11 +180,15 @@ adjust_normal:
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
                 if (height_adjust < height_offset) {
                     height_adjust = height_bits - 8;
-                    ASM_SCHED_BARRIER();
                     (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
                     goto finish_motion;
                 }
-                goto adjust_positive;
+                height_adjust = height_offset < -8;
+                if (height_adjust != 0) {
+                    height_adjust = height_bits + 8;
+                    (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
+                }
+                goto finish_motion;
             }
             goto finish_motion;
         }
@@ -275,17 +279,15 @@ adjust_special:
         height_bits = (*(u16 *)((u8 *)entity + 0x92));
         if (height_adjust < height_offset) {
             height_adjust = height_bits - 8;
-            goto store_adjustment;
+            (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
+            goto finish_motion;
         }
-adjust_positive:
         height_adjust = height_offset < -8;
         if (height_adjust != 0) {
             height_adjust = height_bits + 8;
-        } else {
-            goto finish_motion;
+            (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
         }
-store_adjustment:
-        (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
+        goto finish_motion;
     }
 finish_motion:
     entity_flags = ((S_801653A8_2 *)entity_base)->unk_1C;

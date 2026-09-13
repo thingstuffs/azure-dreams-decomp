@@ -106,7 +106,7 @@ loop:
 
     if (depth_index < 0x1E0) {
         s32 shade_or_page;
-        register s32 pixel_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 pixel_mode;
         register s32 blend_mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 page_x;
         s32 tile_code;
@@ -127,8 +127,10 @@ loop:
         shade_or_page = ((S_80173E94_3 *)packet)->unk_04.at02.v * ((S_80173E94_4 *)node)->unk_32;
         if (shade_or_page < 0) {
             shade_or_page += 0xFF;
+            pixel_mode = 0;
+        } else {
+            pixel_mode = 0;
         }
-        pixel_mode = 0;
         blend_mode = 1;
         ((S_80173E94_3 *)packet)->unk_04.at02.v = shade_or_page >> 8;
         ((S_80173E94_3 *)packet)->unk_00.at03.v = 2;

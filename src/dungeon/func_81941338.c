@@ -307,9 +307,10 @@ emit_trail:
                     component -= 0x10;
                     component += bits;
                     F(position, u16, 0xA) = (u16)component;
+                    sprite = F(particle, void *, 0xC);
+                } else {
+                    sprite = F(particle, void *, 0xC);
                 }
-                sprite = F(particle, void *, 0xC);
-                ASM_KEEP_NV(sprite);
                 {
                     register void *anim_sprite ASM_REG("$4") = sprite;
                     if (particle_index != 0) {

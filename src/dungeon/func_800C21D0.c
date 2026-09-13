@@ -56,11 +56,8 @@ s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg)
     register s32 object ASM_REG("$10") = object_addr;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     S_800C7930_1 *source = source_pos;
 
-    ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     camera = &D_80083780;
     ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(camera);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     delta = ((S_800C7930_0 *)camera)->unk_02;
     source_coord = source->unk_02.s;
     source_x = source->unk_02.u;
@@ -74,8 +71,10 @@ s32 func_800C7930(s32 object_addr, void *source_pos, s32 helper_arg)
         delta -= source_coord;
         if (delta < 0) {
             delta = -delta;
+            work = (u8 *)object + 0x20;
+        } else {
+            work = (u8 *)object + 0x20;
         }
-        work = (u8 *)object + 0x20;
         if (delta < 0xC1) {
             destination = &D_800E58F8;
             x_offsets = (u8 *)&D_800DCEAC;

@@ -194,11 +194,10 @@ void func_80057D20(u8 channel, u8 control, u32 value)
   L_case_2:
     if (((u32) settings->f48) < 0x40)
     {
-      settings->f44 = control_value & 0xFF;
+      settings->f44 = (u8) control_value;
     }
     else
     {
-      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
       settings->f40 = (control_value & 0xFF) << 1;
     }
     goto after_switch;

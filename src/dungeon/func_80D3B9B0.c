@@ -206,12 +206,10 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     } else {
         new_part_flags = part_flags & 0x800;
         if (new_part_flags) {
-            new_part_flags = part_flags & 0x8FFF;
+            ((S_801711B0_1 *)part)->unk_14 = part_flags & 0x8FFF;
         } else {
-            new_part_flags = part_flags | 0x7000;
+            ((S_801711B0_1 *)part)->unk_14 = part_flags | 0x7000;
         }
-        ((S_801711B0_1 *)part)->unk_14 = new_part_flags;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
         special_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
         ((S_801711B0_2 *)base)->unk_1C = special_flags;

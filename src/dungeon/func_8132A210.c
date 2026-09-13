@@ -14,7 +14,6 @@ extern M2C_UNK D_801718E4;
 /* Creates an effect with direction-based position offsets and randomized velocity. */
 void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volatile s32 spread_mode)
 {
-  register void *source_obj ASM_REG("$17") = source;
   register u32 direction ASM_REG("$18") = angle;
   register s32 data_value ASM_REG("$22") = initial_value;
   s32 spread;
@@ -41,7 +40,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     spread = spread_mode;
     ASM_KEEP(spread);
     saved_angle = direction;
-    effect = func_8003FD64(effect_type, source_obj);
+    effect = func_8003FD64(effect_type, source);
   }
   ASM_UNDEF(frame_ptr);
   if (effect != 0)
@@ -53,13 +52,13 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     ASM_KEEP_DEP_NV(direction, handler);
     entry_addr = direction >> 7;
     *((M2C_UNK **) (((s8 *) effect) + 0x10)) = handler;
-    *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 2)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source_obj) + 8)))) + 2)));
+    *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 2)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));
     entry_addr &= 0x1C;
-    *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 6)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source_obj) + 8)))) + 6)));
+    *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 6)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 6)));
     entry_addr = (u32) table_base + entry_addr;
     ASM_KEEP(direction);
-    *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xA)) = (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source_obj) + 8)))) + 0xA))) - 0x14);
-    ASM_KEEP(source_obj);
+    *((s16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 0xA)) = (s16) ((*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 0xA))) - 0x14);
+    ASM_KEEP(source);
     x_position = *((void **) (((s8 *) effect) + 8));
     *((u16 *) (((s8 *) x_position) + 2)) = (u16) ((*((u16 *) (((s8 *) x_position) + 2))) + ((*((s16 *) (((s8 *) ((void *) entry_addr)) + 0))) * 0x10));
     y_position = *((void **) (((s8 *) effect) + 8));

@@ -73,14 +73,13 @@ extern u8 D_80174F50[];
 /* Advances an actor's action state, updating directional animations and status transitions. */
 void func_80173880(void *in_action, void *in_context, void *in_sprite, void *in_actor)
 {
-    void *action = in_action;
     void *context = in_context;
     void *sprite = in_sprite;
     void *actor = in_actor;
     u8 *input_state;
     s32 state;
 
-    state = ((S_80173880_0 *)action)->unk_9B;
+    state = ((S_80173880_0 *)in_action)->unk_9B;
     if (state == 1) {
         goto state_one;
     }
@@ -165,7 +164,7 @@ state_one_long:
         }
 
         if (((S_80173880_2 *)actor)->unk_64 != 0) {
-            if (func_800AA6B4(action, context, sprite, 0) != 0) {
+            if (func_800AA6B4(in_action, context, sprite, 0) != 0) {
                 goto done;
             }
         }
@@ -174,7 +173,7 @@ state_one_long:
             if (((S_80173880_4 *)input_state)->unk_02 & 0x2008) {
                 goto done;
             }
-            func_800AA79C(action, context, sprite, actor);
+            func_800AA79C(in_action, context, sprite, actor);
             goto done;
         }
 
@@ -184,13 +183,13 @@ state_one_long:
 
         actor_flags = ((S_80173880_2 *)actor)->unk_1C.s;
         if (actor_flags & 0x100) {
-            func_800AA258(action, context, sprite, actor);
+            func_800AA258(in_action, context, sprite, actor);
             goto done;
         }
 
         if (actor_flags & 0x80000) {
-            func_800AA888(action, context, sprite, actor);
-            func_80174060(action, context, sprite, actor);
+            func_800AA888(in_action, context, sprite, actor);
+            func_80174060(in_action, context, sprite, actor);
             goto done;
         }
 
@@ -266,7 +265,7 @@ state_two:
     goto done;
 
 increment_state:
-    ((S_80173880_0 *)action)->unk_9B++;
+    ((S_80173880_0 *)in_action)->unk_9B++;
     goto done;
 
 state_three:
@@ -282,11 +281,10 @@ state_three:
 
 finish:
     ((S_80173880_2 *)actor)->unk_1C.u &= ~0x200;
-    ((S_80173880_0 *)action)->unk_8C = D_801710F4;
+    ((S_80173880_0 *)in_action)->unk_8C = D_801710F4;
 
 done:
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(in_action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     return;
 }

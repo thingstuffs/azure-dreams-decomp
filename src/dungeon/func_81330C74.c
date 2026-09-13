@@ -182,7 +182,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 object_axis;
     s32 phase_threshold;
     s32 clamp_pair_offset;
-    register s32 copy_pair_offset ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 copy_pair_offset;
     s32 clamp_pair_stride;
     s32 copy_pair_stride;
     s32 particle_count;
@@ -355,17 +355,17 @@ clamp_axes:
 copy_pairs:
         copy_axis = 0;
         copy_pair_offset = copy_pair_stride;
-copy_axes:
-        copy_axis_offset = copy_axis * 2;
-        copy_axis += 1;
-        copy_row = (u8 *)(copy_row_offset + ((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_base));
-        copy_dst = (u8 *)(copy_pair_offset + (s32)copy_row);
-        copy_row -= 0xC;
-        copy_src = (u8 *)(copy_pair_offset + (s32)copy_row);
-        copy_value = *(u16 *)(copy_axis_offset + (s32)copy_src);
-        copy_axis_offset += (s32)copy_dst;
-        *(u16 *)copy_axis_offset = copy_value;
-        if (copy_axis < 3) goto copy_axes;
+        do {
+            copy_axis_offset = copy_axis * 2;
+            copy_axis += 1;
+            copy_row = (u8 *)(copy_row_offset + ((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_base));
+            copy_dst = (u8 *)(copy_pair_offset + (s32)copy_row);
+            copy_row -= 0xC;
+            copy_src = (u8 *)(copy_pair_offset + (s32)copy_row);
+            copy_value = *(u16 *)(copy_axis_offset + (s32)copy_src);
+            copy_axis_offset += (s32)copy_dst;
+            *(u16 *)copy_axis_offset = copy_value;
+        } while (copy_axis < 3);
         copy_pair += 1;
         copy_pair_stride += 6;
         if (copy_pair < 2) goto copy_pairs;

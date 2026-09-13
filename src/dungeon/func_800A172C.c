@@ -38,7 +38,7 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     register s32 distance_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 distance_x;
     register s32 distance ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 best_distance ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 best_distance;
     u8 entry_x;
     u8 entry_y;
     u8 *base;
@@ -84,8 +84,10 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
                 distance = distance_x;
                 if (y_is_larger != 0) {
                     distance = distance_y;
+                    scaled_left = best_distance << 0x10;
+                } else {
+                    scaled_left = best_distance << 0x10;
                 }
-                scaled_left = best_distance << 0x10;
                 scaled_right = distance << 0x10;
                 if (scaled_right < scaled_left) {
                     best_distance = distance_x;

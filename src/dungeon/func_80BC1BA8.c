@@ -182,11 +182,15 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
                 if (height_work < height_offset) {
                     height_work = height_bits - 8;
-                    ASM_SCHED_BARRIER();
                     (*(s16 *)((u8 *)entity + 0x92)) = height_work;
                     goto finish_motion;
                 }
-                goto adjust_positive;
+                height_work = height_offset < -8;
+                if (height_work != 0) {
+                    height_work = height_bits + 8;
+                    (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+                }
+                goto finish_motion;
             }
             goto finish_motion;
         }
@@ -275,17 +279,15 @@ clear_height:
         height_bits = (*(u16 *)((u8 *)entity + 0x92));
         if (height_work < height_offset) {
             height_work = height_bits - 8;
-            goto store_adjustment;
+            (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+            goto finish_motion;
         }
-adjust_positive:
         height_work = height_offset < -8;
         if (height_work != 0) {
             height_work = height_bits + 8;
-        } else {
-            goto finish_motion;
+            (*(s16 *)((u8 *)entity + 0x92)) = height_work;
         }
-store_adjustment:
-        (*(s16 *)((u8 *)entity + 0x92)) = height_work;
+        goto finish_motion;
     }
 finish_motion:
     entity_flags = ((S_801713A8_2 *)entity_base)->unk_1C;

@@ -154,7 +154,7 @@ void func_81978428(State81978428 *state, s32 *position_out)
     register void *spawned_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 timer;
     s32 state_index;
-    s32 direction_offset;
+    s16 direction_offset;
     register s32 tile_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
@@ -317,7 +317,6 @@ loop:
         direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
         tile_step = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
         ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step << 6;
-        ASM_KEEP(map_or_y_steps);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
         ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
         if (((S_81978428_6 *)target_pos)->unk_0A.u < 0x201) {

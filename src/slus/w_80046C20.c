@@ -4,7 +4,6 @@
 
 /* Initialize four polygon edges for rasterization and return the aligned minimum y. */
 s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
-    s16 *vertex_base; /* t4 */
     register s32 min_y ASM_REG("$11"); /* t3 */
     s32 edge_index;      /* t1 */
     s32 grid_mask;  /* t5 */
@@ -18,14 +17,12 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
     s32 height;
     s32 signed_dx;
 
-    vertex_base = vertices;
-    ASM_USE(vertex_base);
     min_y = 0x7FFF;
     edge_index = 0;
     grid_mask = -0x40;
     edge_x = edges;
     edge_state = (s32 *)((char *)edges + 0x1C);
-    vertex = vertex_base;
+    vertex = vertices;
 
     loop_0: {
         top_vertex = vertex[1];
@@ -43,7 +40,7 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
                 bottom_vertex = edge_index;
             }
 
-            top_vertex = (top_vertex << 3) + (s32)vertex_base;
+            top_vertex = (top_vertex << 3) + (s32)vertices;
             *edge_x = ((s16 *)top_vertex)[0];
             edge_value = *(u16 *)(top_vertex + 2) & grid_mask;
             top_y = (edge_value << 16) >> 16;
@@ -52,7 +49,7 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
                 min_y = top_y;
             }
 
-            bottom_vertex = (bottom_vertex << 3) + (s32)vertex_base;
+            bottom_vertex = (bottom_vertex << 3) + (s32)vertices;
             height = ((s16 *)bottom_vertex)[1] - top_y;
             edge_state[-4] = height;
             ASM_MEM_BARRIER();

@@ -44,13 +44,8 @@ s32 func_800C4324(void *entity_arg, s32 amount_arg, s16 effect_arg)
 
         func_800A63B8(entity, amount, effect_arg);
         lookup_entity = entity;
-        ASM_KEEP(lookup_entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        type_table = (u16 *)0x800E0000;
-        ASM_KEEP(type_table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         entity_type = *((u8 *)entity + 0x13);
-        ASM_KEEP(entity_type);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        type_table = (u16 *)((u8 *)type_table - 0x217C);
-        ASM_KEEP(type_table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        type_table = (u16 *)&D_800DDE84;
         if (func_800AD6FC(lookup_entity,
                          (type_table[entity_type] >> 6) & 3,
                          0) == 0) {
