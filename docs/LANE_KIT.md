@@ -13,7 +13,9 @@ Lane tooling (`tools/lanes/`, since round 24; it used to live in a session scrat
 nearest pin, its deciding pass or class, the lone erasure's residue), with the briefs `fence_lane_brief.md`
 and `keep_lane_brief.md`; `launch_lane.sh <lane> luna|sol|astra` starts a lane (its PID in the lane
 directory); `land_lanes.sh <tag> <lane>...` is the landing transaction (the lane filter, the cascade, tidy,
-T2, one gate); `freeze_heldouts.py` freezes a blocker lane's held-out sets (item 6 below).
+T2, one gate); `freeze_heldouts.py` freezes a blocker lane's held-out sets (item 6 below). A pool is a
+file of row ids with no builder of its own: round 19's fence pools were the never-laned fence rows (a live
+fence and no copy under `work/native_lane/fences*/base/`) ordered by pin count, and that pool is spent.
 `tools/site_shapes.py` ranks every live pin site by the shape of its neighbourhood: where a recurring shape
 (the source of every generator built from a lane win) still is.
 
@@ -56,8 +58,11 @@ T2, one gate); `freeze_heldouts.py` freezes a blocker lane's held-out sets (item
    single keep erasure was within 3 instructions of retail and made 2 exact (4%): the few instructions were
    equivalences CSE is entitled to use (a shared constant, a coalesced copy, a folded offset). Pick a lane's
    pool by CLASS as well as distance: for fences the deciding pass (sched1, dbr, jump2); for any family,
-   not `wiring` first differing at cse. For register pins the first difference is at `rtl` on almost every
-   row (the hard-register declaration changes expansion), so read their first difference at or after cse.
+   not `wiring` first differing at cse. Register pins are the exception to the wiring rule: the declared hard
+   register changes the first-appearance numbering the renamed stream uses, so `abs` differs from `rtl` on
+   (and at cse) in almost every row, even where combine is identical. Read register pins in the
+   register-anonymised tables (`ms`, `seq`): operations and order identical through the first scheduler
+   mean the pin only chooses registers (206 of 300 in round 24's census).
 4. **Exemplars.** The source diffs of the wins already landed for the mechanism. Write them into the
    lane's `evidence/` yourself: a lane may not run git.
 5. **The contracts.** The generator contract (`class T`, `eligible`, `apply_verified(text, row,

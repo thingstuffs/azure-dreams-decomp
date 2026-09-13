@@ -1509,14 +1509,13 @@ Gated (2 windows MATCH and SLUS SHA-1 MATCH): **8,422 pins in 1,489 rows**, 3 pi
   register pin: `t44_doloop_greedy` wrote its `goto state_two_check` loop as a `do`-`while` (8 to 6 pins).
 - **The register census, re-read (`phase_census.py`, 300 register sites, seed 20260915).** Round 23 read
   "the first wiring difference is at `rtl` on 388 of 443 near-miss rows" as allocation choices. The wiring
-  table is the wrong one for register pins. A hard register shares its renamed name with every other use of
-  that register (arguments, the return value), so the renamed stream differs from expansion on even where
-  nothing else does. In one `late` row the rtl and cse differences are that register's name alone, and
-  combine is identical. The register-anonymised tables (operations and their order) cannot see a name:
+  table is the wrong one for register pins. The declared hard register changes the first-appearance numbering
+  that stream is renamed by, so it differs from expansion on even where nothing else does: in one `late`
+  row the rtl and cse differences are register numbers alone, and combine is identical. The register-anonymised tables (operations and their order) cannot see a name:
   - **206 of 300 (69%): operations and order identical through the first scheduler.** The pin only
     chooses registers. By class at combine: wiring 120, late 86. By first difference after allocation:
     greg for every wiring site; greg 46 and sched2 36 for late.
-  - **77 (26%) change operations before combine** (rtl 31, cse 18, loop 12, combine 12): the hard register
+  - **77 (26%) change operations before combine** (rtl 31, jump 3, cse 18, loop 13, combine 12): the hard register
     hides a value from CSE, the keeps' class.
   - So round 23's conclusion holds, measured the right way: two thirds of the 4,146 register pins are
     allocation choices. reg_astra (round 18) proved no class unreachable and named the lever: whether a
@@ -1540,7 +1539,7 @@ Gated (2 windows MATCH and SLUS SHA-1 MATCH): **8,422 pins in 1,489 rows**, 3 pi
   - keeps: the CSE hide, by kind of value;
   - fences: five deciding passes.
 
-  Wrong at the level of source: each mechanism appears in thousands of different source shapes, so the
-  generators built from recurring shapes have taken what recurs. What remains needs a search per mechanism
+  Wrong at the level of source: at one line of context 4,640 of the 8,435 sites have a shape of their
+  own, so the generators built from recurring shapes have taken what recurs. What remains needs a search per mechanism
   (t51, t53 and t53k have that form), or a lane that finds a new move for the largest class: register
   allocation choices.
