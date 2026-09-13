@@ -1227,3 +1227,55 @@ Gated (the cascade's gate: 55 windows MATCH and SLUS SHA-1 MATCH): **8,521 pins 
     profile its Python time. Run Python-bound tools with `--processes`.
   - Next census targets: the KEEP family beyond page bases (most of its erasures change operations at
     cse), and the fences (488, unchanged this round).
+
+## Round 19 (2026-09-13): the keep and fence census, `t53k_keep`, the keep lane
+
+Part 1 gated (the search's publication gate, 15 windows MATCH and SLUS SHA-1 MATCH, then the cascade's
+gate, 5 windows MATCH and SLUS SHA-1 MATCH): **8,491 pins in 1,492 rows**, 30 pins removed in 19 rows, 1
+newly pin-free (`dungeon/func_80FDD7E4`); 488 live fences, unchanged. By source: `t53k_keep` 18 rows
+(16 in its sweep, 2 in the cascade), `t53_reg_state` 4 (1 held-out page row, 3 in the cascade), the search
+2, the cascade's width and T2 steps 6 pins.
+
+- **Census 19** (`tools/phase_census.py`, seed 20260914, one pin per row, page-base rows excluded):
+  250 keeps and 150 fences. Read the register-renamed (`abs`) table for the deciding pass, not the
+  operations (`ms`) table: `ms` drops registers, so allocation effects fall through to the last pass,
+  and dbr patterns carry insn UIDs that shift whenever an insn is erased (`ms` put 121 keeps at dbr,
+  `abs` 5).
+  - **Keeps**, class at combine: ops 104, wiring 61, late 73 (54 first differ at sched1), order 12. The
+    first pass whose wiring differs is cse for 93. Two thirds are decided at or before combine: the
+    keep hides an equivalence that CSE (or combine) uses once it is gone, folding the value into its
+    uses (ops) or substituting the source register for a copy (wiring). Volatility does not separate
+    the classes: `ASM_KEEP` and `ASM_KEEP_NV` split alike. The kept value is spread across kinds: in
+    the ops class arithmetic 33 (13 on a load), constants 18, copies 15, loads 10, compound updates 5,
+    calls 4; in the wiring class copies of another local or a parameter hold 33 of 61.
+  - **Fences**: ops 26 (combine), late 124: the first scheduler 71, delay-slot filling 31, cross-
+    jumping (jump2) 12, the second scheduler 9, greg 1. Five classes, not one mechanism.
+  - Source (2.7.2 `cse.c`): an `ASM_OPERANDS` costs 1000, so CSE never substitutes it (line 720); a
+    volatile one is `do_not_record` (line 1970). After a keep, the variable is an asm output CSE knows
+    nothing about.
+- **The t51 journal's scheduler inversions** (free: no compiles). For fence erasures the reordered
+  pairs are memory against register work (load | arith 13, load | const 10, store | move 6, store |
+  const 5), with no same-base memory pairs. Before the erasure the pair is never co-ready (64); after
+  it, dynamic priority (38) or an equal rank (43) orders it. A fence is a dependency cut, not a
+  tie-breaker, which is why t51's statement orders (a LUID tool) removed no scheduling fence.
+- **`t53k_keep` (new):** t53_reg_state's search seeded from keep erasures. t53 gains a `sites()` hook,
+  and its old seed list is reproduced on all 6,767 rows. **16 of 1,003 keep rows, 16 pins (1.6%)**,
+  41 minutes on 8 processes. Its journal is the largest keep census so far: 2,958 one-keep erasures,
+  ops 1,434 / late 846 / wiring 518 / order 160, first wiring difference at cse for 1,217. Allocation
+  and order levers do not reach a value hidden from CSE.
+- **t53 on the page lane's unswept held-out rows:** 1 of 19 (`dungeon/func_8194D354`).
+- **pin_search baseline on the 62 pinned rows round 18 changed** (`pins_changed_r18`): 2 pins, 1,641
+  CPU-s, published through its own gate after a drift check (both rows are t53k rows; t53k left them).
+- **The cascade** over the 19 changed rows: 10 records in two passes (t37 3, t53 3, t53k 2, t37b 1,
+  T2 1); a third pass applied nothing.
+- **The keep lane** (`work/native_lane/keep_astra/`, astra): the biggest single mechanism in the census
+  is the CSE hide, about two thirds of 1,889 non-page keep pins, and the page lane cracked one kind of
+  it (page constants) in under an hour. The fences' biggest class (sched1) is where the last astra tool,
+  sixteen luna lanes and three generators all sit near 1%. The brief carries the census per class and
+  per kind, the page lane's mechanism and unreachable classes as the worked example, the cse.c lines,
+  454 landed keep-removal diffs, t53k's per-site journal, and the harness helpers pre-copied.
+- **Fence lanes (luna) fences18-20:** 164 fence rows were never given to a fence lane (63 with more than
+  15 pins, 37 with 7 to 15, 29 MEM_BARRIER-only, 21 in other lanes, 14 slus/ovmovie). The 36 usable
+  rows of the 7-to-15 pool go to three lanes. Each row names the fence whose lone erasure is nearest
+  retail and the pass that decides it (sched1 21, dbr 6, combine 5, jump2 3, sched2 1), with the
+  reordered pairs when a scheduler decides; eleven are within two instructions of retail.

@@ -215,13 +215,12 @@ draw_object:
     ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     view_angle = ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_D0;
     base = points;
-    ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     side = 1;
     rotation_y = 0;
     rotation_x = 0;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    transform_input = (M2C_UNK *) base;
     transform_output = (M2C_UNK *) base;
+    transform_input = (M2C_UNK *) base;
     base = (s8 *) saved_object;
     rotation_z = 0 - view_angle;
     position_xy = ((PackedWord *) (base + 0xC))->value;

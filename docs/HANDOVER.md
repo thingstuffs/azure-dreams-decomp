@@ -23,6 +23,22 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Nineteenth round, part 1, gated (the search's publication gate, then 5 windows MATCH and SLUS SHA-1
+MATCH): **8,491 pins in 1,492 rows**, 30 pins removed, 1 row newly pin-free; 488 live fences, unchanged.
+Details: PIN_MECHANISMS, "Round 19".
+- **The census, read the right way.** `phase_census.py` over 250 keeps and 150 fences (page-base rows
+  excluded). Read the register-renamed (`abs`) table for the deciding pass; the multiset table's dbr
+  column is allocation plus insn-UID noise. Keeps: 165 of 250 change operations or wiring at combine (cse
+  first for 93): the keep hides a value from CSE. Fences: five classes (sched1 71, dbr 31, combine 26,
+  jump2 12, sched2 9).
+- **CPU levers:** `t53k_keep` (t53's search seeded at keep sites) 16 of 1,003 rows; t53 on the page
+  lane's held-out rows 1 of 19; the search on the 62 rows round 18 changed 2 pins; the cascade 10
+  records (t37 3, t53 3, t53k 2, t37b 1, T2 1).
+- **Next:** the keep lane (`work/native_lane/keep_astra/`, astra): the CSE hide across kinds of value,
+  briefed with the census per class and kind, the page lane as the worked example, t53k's 2,958-site
+  journal and 454 landed keep-removal diffs. Three luna fence lanes (fences18-20) on the 36 usable
+  never-laned fence rows with 7-15 pins, each row naming its deciding pass. Harvest both, then one gate.
+
 Eighteenth round, gated (55 windows MATCH and SLUS SHA-1 MATCH): **8,521 pins in 1,493 rows**, 107 pins
 removed (9 in part 1 at be10db9f), 12 rows newly pin-free; 488 live fences, unchanged. Details: PIN_MECHANISMS,
 "Round 18".

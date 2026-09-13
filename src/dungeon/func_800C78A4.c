@@ -98,7 +98,7 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
     void *texture;
     s32 color;
     s32 variant;
-    register s32 height_offset ASM_REG("$3");
+    u32 height_offset;
     s32 height_delta;
     u8 *counter;
     register void *init_effect ASM_REG("$4");
@@ -153,9 +153,8 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
         sprite->unk_10 = 0x20;
 
         height_offset = D_800DDC40[((S_800CD004_0 *)source)->unk_13];
-        height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
         effect_state = (u8 *)effect + 0x20;
-        ASM_KEEP(effect_state);
+        height_delta = ((S_800CD004_0 *)source)->unk_88 - height_offset;
         effect_state->unk_0A = height_delta;
         ((S_800CD004_1 *)effect)->unk_20 = source;
         effect_state->unk_06 = 0xC;

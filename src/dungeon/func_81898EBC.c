@@ -368,7 +368,7 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             void *effect = func_800D24A8(state->status, state->x, state->y,
                                         state->z);
             register s32 intensity ASM_REG("$4");
-            s32 clamped_intensity;
+            s16 clamped_intensity;
             s32 effect_id;
             s32 random_bits;
 
@@ -380,7 +380,6 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             intensity += random_bits & 3;
             intensity += 16;
             clamped_intensity = intensity;
-            ASM_KEEP(intensity);
             if (intensity >= 256) {
                 clamped_intensity = 255;
             }

@@ -680,10 +680,8 @@ show_result:
                     x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
                     ((S_800253C0_9 *)prim)->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
-                    ASM_KEEP(effect_size);
                     y_table = (u8 *)&D_8006CCE8;
-                    index = index + (s32)y_table;
-                    y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)index;
+                    y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
                     ((S_800253C0_9 *)prim)->unk_06.s = (y << 6) + 0x20;
                     z = ((S_800253C0_10 *)position)->unk_0A.u;
                     ((S_800253C0_9 *)prim)->unk_0A.u = z;

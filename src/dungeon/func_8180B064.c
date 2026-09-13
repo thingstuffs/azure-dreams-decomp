@@ -79,6 +79,9 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     u8 *sprite;
     u32 xy0;
     u32 xy1;
+    u32 xy12;
+    s32 xy13;
+    u32 xy14;
     u32 xy2;
     u32 xy3;
     u32 vert0_ref;
@@ -170,12 +173,11 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     ASM_USE_NV(vert3_ref_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     vert0_ref = vert0_ref * 8;
                     vert0_ref = vert0_ref + (u32)vertices;
-                    xy1 = xy1 + cell_x;
-                    xy1 = xy1 & 0xFFFF;
-                    ASM_USE2_NV(xy1, xy1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    ASM_USE2_NV(xy1, xy1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    xy12 = xy1 + cell_x;
+                    xy13 = xy12 & 0xFFFF;
+                    ASM_USE2_NV(xy13, xy13);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     y1_high = (cell_y + vert1_ref_y) << 0x10;
-                    xy1 = xy1 | y1_high;
+                    xy14 = xy13 | y1_high;
                     xy2 = U16((u8 *)vert2_ref, 0);
                     vert2_y = S16((u8 *)vert2_ref, 2);
                     xy3 = U16((u8 *)vert3_ref_y, 0);
@@ -195,10 +197,9 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     S16(scratch, 0x74) = height0;
                     index1 = U16((u8 *)face, 2);
                     vert1_addr = index1 * 8 + (u32)vertices;
-                    ASM_KEEP_DEP_NV(vert1_addr, y1_high);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     y3_high = (cell_y + vert3_ref_y) << 0x10;
                     height1 = U16((u8 *)vert1_addr, 4);
-                    S32(scratch, 0x78) = xy1;
+                    S32(scratch, 0x78) = xy14;
                     height1 = height1 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
                     S16(scratch, 0x7C) = height1;
                     index2 = U16((u8 *)face, 4);

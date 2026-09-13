@@ -163,16 +163,22 @@ class T:
         return asm_blocker(text) or (None if row.get('cfg') else 'missing compiler recipe')
 
     @staticmethod
-    def apply_verified(text,row,census,vf):
-        new, log = T._search(text,row,census,vf)
+    def sites(pins):
+        """The pin sites whose single erasures seed the search, as (index, variable): every ASM_REG
+        (its declared variable). t53k_keep overrides this with the ASM_KEEP / ASM_KEEP_NV sites."""
+        return [(i, s[6].split()[-1].lstrip('*')) for i, s in enumerate(pins) if s[1] == 'ASM_REG']
+
+    @classmethod
+    def apply_verified(cls,text,row,census,vf):
+        new, log = cls._search(text,row,census,vf)
         # A row observes up to 384 candidates: the journal keeps the 12 nearest by assembly distance
         cands = log.get('candidates') or []
         log['candidates_n'] = len(cands)
         log['candidates'] = sorted(cands, key=lambda r: (r['asm'], r['tag']))[:12]
         return new, log
 
-    @staticmethod
-    def _search(text,row,census,vf):
+    @classmethod
+    def _search(cls,text,row,census,vf):
         budget = max(1,int(os.getenv('T53_COMPILERS','384')))
         vbudget = max(1,int(os.getenv('T53_VERIFY','3')))
         pins, usig = sites_of(text), unscored_text(text)
@@ -201,8 +207,9 @@ class T:
         if target is None or target['assembly'] is None:
             return None,dict(log,error='baseline compiler failure')
         bases, pool, seen = [], [], {sha_text(text)}
-        # Observe all up to 16 REG sites, then keep six nearest with class diversity.
-        for i,s in [(i,s) for i,s in enumerate(pins) if s[1]=='ASM_REG'][:16]:
+        # Observe up to 16 seed sites (cls.sites), then keep six nearest with class diversity.
+        for i,var in cls.sites(pins)[:16]:
+            s = pins[i]
             c = erase_many(text,[s],clean_notes=True)
             if not valid(c): continue
             a = ob(c)
@@ -210,7 +217,6 @@ class T:
             diag = comparison(target,a)
             phase = diag['first']['abs'] or 'greg'
             m = metrics(target,a,phase)
-            var = s[6].split()[-1].lstrip('*')
             rec = dict(site=i,tag='erase',cls=diag['cls'],first=diag['first'],**m)
             log['sites'].append(rec)
             bases.append(dict(c=c,site=i,line=s[5]-1,var=var,cls=diag['cls'],phase=phase,m=m))
@@ -220,8 +226,8 @@ class T:
                 return c,dict(log,pins_out=len(sites_of(c)))
         ordered = sorted(bases,key=lambda b:(b['m']['asm'],b['site']))
         chosen=[]
-        for cls in ('ops','wiring','late','order'):
-            hit=next((b for b in ordered if b['cls']==cls),None)
+        for klass in ('ops','wiring','late','order'):
+            hit=next((b for b in ordered if b['cls']==klass),None)
             if hit is not None: chosen.append(hit)
         chosen += [b for b in ordered if b not in chosen][:max(0,6-len(chosen))]
         chosen.sort(key=lambda b:(b['m']['asm'],b['site']))

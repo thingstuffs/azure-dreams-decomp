@@ -70,12 +70,11 @@ void func_80172FE4(S_80172FE4_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
             *(s16 *)((u8 *)&D_8006CCD8 +
                      ((((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE)) << 14;
         {
-            s32 table_offset;
+            s16 table_offset;
             u8 *y_table;
 
-            y_table = (u8 *)&D_8006CCE8;
             table_offset = (((Rec_D_800E3D7C *)source)->unk_6A.as_u16 >> 8) & 0xE;
-            ASM_KEEP(table_offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            y_table = (u8 *)&D_8006CCE8;
             motion->unk_10.at00_s32.v +=
                 *(s16 *)(y_table + table_offset) << 14;
         }

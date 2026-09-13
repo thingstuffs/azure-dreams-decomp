@@ -42,6 +42,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
     s32 effect_id;
     s32 old_stat;
     s32 level_product;
+    s32 level_product_2;
 
     entity = (u8 *)entity_data;
     if (entity[0x11] < 99U) {
@@ -251,7 +252,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
 
         {
             s16 base_xp;
-            register s32 linear_word ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            u32 linear_word;
             s32 word_growth;
             s32 xp_sum;
             s32 growth_product;
@@ -260,10 +261,9 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             base_xp = *(s16 *)(initial_stats + 6);
             linear_word = level * base_xp;
             word_growth = stat_growth[6] * level;
-            ASM_KEEP(word_growth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            level_product = level * level;
+            level_product_2 = level * level;
             xp_sum = base_xp + word_growth;
-            growth_product = level_product * xp_sum;
+            growth_product = level_product_2 * xp_sum;
             xp_given = base_xp + linear_word;
             if (growth_product < 0) {
                 growth_product += 0x1FF;

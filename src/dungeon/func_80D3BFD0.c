@@ -167,9 +167,7 @@ process:
         ASM_KEEP(frame_table);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 
-    counter_base = (u8 *)&D_80083460;
-    ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    ((S_801717D0_2 *)counter_base)->unk_0A++;
+    ((S_801717D0_2 *)((u8 *)&D_80083460))->unk_0A++;
 
 done:
     return;
