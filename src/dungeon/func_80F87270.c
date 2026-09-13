@@ -198,14 +198,10 @@ phase_update_a:
         goto reset_bob;
     }
 
-    {
-        if (sprite_flags & 0x800) {
-            visibility_flags = sprite_flags & 0x8FFF;
-        } else {
-            visibility_flags = sprite_flags | 0x7000;
-        }
-        ((S_80170A70_1 *)sprite)->unk_14 = visibility_flags;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    if (sprite_flags & 0x800) {
+        ((S_80170A70_1 *)sprite)->unk_14 = sprite_flags & 0x8FFF;
+    } else {
+        ((S_80170A70_1 *)sprite)->unk_14 = sprite_flags | 0x7000;
     }
     object->unk_1C &= 0xF7FFFFFF;
 

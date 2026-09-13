@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_818CF0E8_0_pre {
     u16 unk_00;
@@ -192,23 +193,19 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
             }
             {
             s32 d;
-            register s32 aw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 aw;
             d = arg1->unk_00.at02u.v;
             d -= ((S_818CF0E8_2 *)star)->unk_02.s;
             aw = d;
-            if (d < 0) {
-                aw = 0 - aw;
-            }
+            aw = abs(aw);
             if (aw < 8) {
                 s32 v;
-                register s32 a ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 lim ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 a;
+                s32 lim;
                 lim = 0x40000;
                 v = ((S_818CF0E8_0 *)arg0)->unk_4C;
                 a = v;
-                if (v < 0) {
-                    a = 0 - a;
-                }
+                a = abs(a);
                 if (a > lim) {
                     s32 t;
                     t = v / 2;
@@ -232,14 +229,12 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
                 s32 v;
-                register s32 a ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register s32 lim ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 a;
+                s32 lim;
                 lim = 0x40000;
                 v = ((S_818CF0E8_0 *)arg0)->unk_50;
                 a = v;
-                if (v < 0) {
-                    a = 0 - a;
-                }
+                a = abs(a);
                 if (a > lim) {
                     s32 t;
                     t = v / 2;
@@ -379,17 +374,14 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
                 register u16 a2v ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 register u16 a1v ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 aw;
-                register s32 d ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 d;
                 s32 st;
                 a2v = arg1->unk_04.at02.v;
                 a1v = ((S_818CF0E8_2 *)star)->unk_06.u;
                 d = (s16)a2v;
                 st = (s16)a1v;
                 d -= st;
-                aw = d;
-                if (d < 0) {
-                    aw = 0 - aw;
-                }
+                aw = abs(d);
                 if (aw >= 0xC1) {
                     s32 t;
                     ASM_USE2(a2v, a1v);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

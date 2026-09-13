@@ -875,3 +875,43 @@ Gated (the search's publication gate, then 21 windows MATCH and SLUS SHA-1 MATCH
   - What did not: the cell and stacking scans are nearly dry (6 hits between them).
   - Next: fence lanes over rows with more pins, since every row with at most three pins is now done
     or assigned; and hold the pin search back until enough rows have changed again.
+
+## Round 14 (2026-09-13): six more fence lanes, joint erasures on changed rows
+
+Gated (the erasure search's publication gate, then 18 windows MATCH and SLUS SHA-1 MATCH): **8,817 pins in 1,523 rows**, 56 pins and 9 fences removed. By source: `t16` 26 (11 rows), the joint
+erasures 17 (4 rows), the lanes 10 (7 rows), the cascade 3.
+
+- **Six luna fence lanes (`work/native_lane/fences7`–`fences12`):** 71 rows with 4 to 6 pins, the
+  last of the fenced rows below 7 pins. 7 of 71 exact, 10 pins. The rate falls with pin count: the
+  rows with at most 3 pins went 11 of 48. The winning shapes:
+  - condition polarity, so the success arm falls through (`func_800ABD9C`);
+  - direct returns in place of a shared zero-return label (`func_800BB728`);
+  - direct stores in both arms, so cross-jumping cannot merge them (`func_80F87270`);
+  - a `for` induction edge in place of a `do` loop (`func_80DBBFC8`);
+  - a page literal written as the symbol array it indexes, `D_800DDE84[type_id]`, which removed 4
+    pins (`func_800B7CFC`);
+  - `abs()` for a manual conditional negate, twice (`town/func_800C2BFC`, `dungeon/func_8192365C`).
+    `t16_absidiom` had missed both, because m2c spells the negate `d = 0 - d`. `t16` now accepts that
+    spelling, which lifts it from 108 to 128 eligible rows (measured on the current tree).
+  - The briefs now make every compiler call `cd` into the lane directory first. In round 13 a lane
+    left `cc1 -da` dumps at the repo root; those were moved to `fences3/root_dumps/`.
+- **Joint erasures (`pin_search.py --mode erasures`, tag `erase_changed_20260913`):** 245 rows with 2
+  to 8 pins that changed since `b13b4cf2`, lane rows excluded, budgets 512 / 12 / 20 CPU-s. 17 pins,
+  published through its own gate, for 401 CPU-s: 4 rows, each losing several pins together. These
+  are subsets that no single erasure (T2) and no shape search reached. A row whose cell, flags or
+  neighbouring code changed can open new joint removals.
+- **The same over larger rows came back empty.** `--families-only` (the full set, variable groups,
+  macro families) over 138 changed rows with 9 to 40 pins: 0 of 138, 55 CPU-s. Joint erasure pays
+  only where the exhaustive subset walk runs, at 8 pins or fewer.
+- **The cascade:** 3 records over 21 changed rows (`t37`, `t44`, T2 1 each); pass 2 applied nothing.
+- **`t16_absidiom` with the `0 - x` spelling:** swept over 134 eligible rows, forced. 11 rows and 26 pins,
+  the best return of any lever this round, and it came from one lane observation.
+- **Evaluation.**
+  - Worked: the lanes as auditors of the existing generators. One lane row showed that `t16`'s
+    detector missed m2c's `0 - x`; a one-line fix then took 11 rows mechanically. Joint erasures on
+    small changed rows paid 17 pins for 401 CPU-s.
+  - Did not: the fence lanes' rate falls with pin count, 11 of 48 at up to 3 pins and 7 of 71 at 4 to
+    6. `--families-only` erasures on larger rows found nothing.
+  - Next: audit the other generators' detectors against m2c's spellings. A static check per
+    generator costs no model time: which pinned rows hold the idiom's operators but are refused as
+    ineligible. Fence lanes on the rows with 7 or more pins only if the audit runs dry.

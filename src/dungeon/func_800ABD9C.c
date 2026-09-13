@@ -60,11 +60,10 @@ void func_800B14FC(void *effect, s32 unused, void *render_arg)
     }
 
     if (state < 2) {
-        if (state != 0) {
-            ASM_SCHED_BARRIER(); /* MATCH: retain the separate jump to the shared epilogue. */
-            return;
+        if (state == 0) {
+            goto fade_in;
         }
-        goto fade_in;
+        return;
     }
 
     if (state != 2) {

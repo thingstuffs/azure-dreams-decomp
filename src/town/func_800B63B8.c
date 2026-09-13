@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 /* Move three channel values a quarter of the way toward 0x80, snapping when within four. */
 void func_800B3B18(u8 *channels)
@@ -31,10 +32,7 @@ void func_800B3B18(u8 *channels)
     value = channels[1];
     delta = 0x80 - value;
     magnitude = delta;
-    if (delta < 0) {
-        ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        magnitude = 0 - magnitude;
-    }
+    magnitude = abs(magnitude);
     if (magnitude >= 5) {
         adjusted_delta = delta;
         if (adjusted_delta < 0) {
@@ -48,10 +46,7 @@ void func_800B3B18(u8 *channels)
     value = channels[2];
     delta = 0x80 - value;
     magnitude = delta;
-    if (delta < 0) {
-        ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        magnitude = 0 - magnitude;
-    }
+    magnitude = abs(magnitude);
     if (magnitude >= 5) {
         adjusted_delta = delta;
         if (adjusted_delta < 0) {

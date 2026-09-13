@@ -181,10 +181,7 @@ check_pos_xy_corner:
                     x_offset = position->unk_00.at02.v;
                     axis_test = (s16) position->unk_04.at02.v;
                     x_offset &= 0x3F;
-                    ASM_KEEP_NV(x_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    if (axis_test < 0) {
-                        axis_test = 0 - axis_test;
-                    }
+                    axis_test = abs(axis_test);
                     axis_test &= 0x3F;
                     x_offset = x_offset < axis_test;
                     if (x_offset != 0) {
@@ -255,9 +252,7 @@ check_neg_x:
                         s32 y_offset;
                         axis_test = (s16) position->unk_00.at02.v;
                         y_offset = position->unk_04.at02.v;
-                        if (axis_test < 0) {
-                            axis_test = 0 - axis_test;
-                        }
+                        axis_test = abs(axis_test);
                         axis_test &= 0x3F;
                         y_offset &= 0x3F;
                         if (axis_test < y_offset) {
@@ -315,9 +310,7 @@ check_neg_x_pos_y_corner:
                         s32 y_offset;
                         axis_test = (s16) position->unk_00.at02.v;
                         y_offset = (s16) position->unk_04.at02.v;
-                        if (axis_test < 0) {
-                            axis_test = 0 - axis_test;
-                        }
+                        axis_test = abs(axis_test);
                         axis_test &= 0x3F;
                         y_offset = abs(y_offset);
                         y_offset &= 0x3F;

@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Fourteenth round, gated (the erasure search's publication gate, then 18 windows MATCH and SLUS SHA-1
+MATCH): **8,817 pins in 1,523 rows**, 56 pins and 9 fences removed. By source: `t16` 26, joint
+erasures 17, fence lanes 10, cascade 3. Details: PIN_MECHANISMS, "Round 14".
+- **Worked:** `t16_absidiom` now reads m2c's `0 - x` negate (11 rows, 26 pins, from one lane
+  observation). Joint erasures on changed rows with 2 to 8 pins paid 17 pins for 401 CPU-s.
+- **Did not:** the fence lanes fall with pin count (7 of 71 at 4 to 6 pins). `--families-only`
+  erasures on rows with 9 to 40 pins went 0 of 138.
+- **Next:** audit each generator's detector against m2c's spellings: pinned rows that hold the
+  idiom's operators but are refused as ineligible. It is static and cheap. The fence lanes on rows
+  with 7 or more pins (157 rows) come after.
+
 Thirteenth round, gated (the pin search's publication gate, then 21 windows MATCH and SLUS SHA-1 MATCH):
 **8,873 pins in 1,529 rows**, 81 pins and 13 fences removed. By source: pin search 53, fence lanes 11,
 cells 4, `t49` 2, stacking 1, cascade 10. Live fences now: 516. Details: PIN_MECHANISMS, "Round 13".
@@ -30,9 +41,18 @@ cells 4, `t49` 2, stacking 1, cascade 10. Live fences now: 516. Details: PIN_MEC
   the 515 changed rows (53 pins, CPU only).
 - **Did not:** `t49_looptest`, built from two lane wins, landed 2 of 168 rows. The cell and stacking
   scans are nearly dry, 5 hits between them.
-- **Next:** six more luna fence lanes over the unassigned fenced rows with at most 6 pins
-  (`MAXPINS=6 scratchpad build_fence_lanes.py fences7 ... fences12`). After that, the rows with
-  7 or more pins (157 rows, 331 fences).
+- **Running after the commit (`8b512a8e`):** six luna fence lanes, `work/native_lane/fences7`–`fences12`,
+  over 71 rows with 4 to 6 pins. PID files are in the scratchpad. The briefs now make every compiler call
+  `cd` into the lane directory first.
+- **Also running:** `pin_search.py` joint erasures, tag `erase_changed_20260913`: 245 changed rows with
+  2 to 8 pins, lane rows excluded, budgets 512 / 12 / 20 CPU-s.
+- **Harvest order:**
+  1. wait for the lanes to stop scoring;
+  2. `pin_search.py publish --tag erase_changed_20260913 --mode erasures --workers 4` (it gates;
+     4 candidates, 17 pins). `erase_big_20260913` (`--families-only` over 138 changed rows with 9 to
+     40 pins) found nothing: 0 of 138, 55 CPU-s. There is nothing to publish from it;
+  3. `scratchpad land15.sh`: fences7–12 wins through the lane filter, the cascade, T2, one gate.
+- **After them:** the rows with 7 or more pins, 157 rows holding 331 fences.
 
 Twelfth round, gated (100 windows MATCH, SLUS SHA-1 MATCH): **8,954 pins in 1,542 rows**. The count
 now includes 86 pins that were always there but hidden. Net of that, 168 came out: flag switches

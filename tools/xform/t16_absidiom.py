@@ -36,7 +36,8 @@ BUDGET = 60
 # `if (t < 0) { pins; d = -x; }` or the braceless `if (t < 0) d = -x;` - over the MASKED text
 IF_RE = re.compile(r"\bif\s*\(\s*(?P<t>[A-Za-z_]\w*)\s*<\s*0\s*\)\s*"
                    r"(?:\{(?P<inner>[^{}]*)\}|(?P<bare>[A-Za-z_]\w*\s*=\s*-\s*[A-Za-z_]\w*\s*;))")
-NEG_RE = re.compile(r"^(?P<d>[A-Za-z_]\w*)\s*=\s*-\s*(?P<x>[A-Za-z_]\w*)$")
+# `d = -x`, and m2c's `d = 0 - x` / `d = -(x)` (2026-09-13: the fences12 lane closed two such rows with abs())
+NEG_RE = re.compile(r"^(?P<d>[A-Za-z_]\w*)\s*=\s*(?:0\s*-\s*|-\s*)\(?\s*(?P<x>[A-Za-z_]\w*)\s*\)?$")
 PIN_STMT_RE = re.compile(r"^ASM_[A-Z0-9_]+\([^;]*\)$")
 ELSE_RE = re.compile(r"\s*else\b")
 # the statement right above the if (pins between allowed): `d = <ident>;`
