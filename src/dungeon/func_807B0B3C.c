@@ -327,11 +327,10 @@ build_x_pairs:
         frame_remainder -= coord_work * 5;
         ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_04 = height + frame_remainder - 0x36;
         pair_addr += 0x10;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        depth = 0;
         if (pair_addr < pairs_end) {
             goto build_x_pairs;
         }
+        depth = 0;
     }
 
     vertex_index = depth;

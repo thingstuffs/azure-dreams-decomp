@@ -132,15 +132,14 @@ s32 func_818E6F98(void *sprite_data, void *position)
     ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     node = *(s32 *)((u8 *)sprite_data - 8);
+    sprite_data = (u8 *)node + 0x20;
     if (node != 0) {
         s32 callback_state;
 
-        sprite_data = (u8 *)node + 0x20;
         callback_state = *(s32 *)(node + 8);
         ASM_USE2(sprite_data, callback_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800247D4();
     }
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 

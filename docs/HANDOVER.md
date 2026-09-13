@@ -23,6 +23,16 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-second round, gated (10 windows MATCH and SLUS SHA-1 MATCH): **8,432 pins in 1,491 rows**, 8 pins
+removed (7 fences); 449 live scheduling fences, 70 memory. Details: PIN_MECHANISMS, "Round 22".
+- **Worked:** fence lanes on the memory-barrier-only rows, 6 of 27 (22%), with a brief paragraph on what a
+  memory clobber does.
+- **Did not:** the 14 largest fence rows, 1 of 14; `t58_nmsymbol`, 0 of 14 (a NON_MATCHING arm is evidence,
+  not a lever alone; a generator must never edit a NON_MATCHING arm, sweep.py refuses it).
+- **Next:** luna keep lanes (keeps1-4) on rows whose nearest single keep erasure is within 3 instructions
+  of retail (`build_keep_lanes.py` and `keep_lane_brief.md` in the session scratchpad, pool from the t53k
+  journal), and one slus fence lane (fences33, the 13 slus fence rows no lane has had).
+
 Twenty-first round, gated (9 windows MATCH and SLUS SHA-1 MATCH): **8,440 pins in 1,492 rows**, 26 pins
 removed (20 fences); 450 live scheduling fences, 76 memory. Details: PIN_MECHANISMS, "Round 21".
 - **Worked:** fence lanes on fresh rows with more than 15 pins (fences25-28, luna): 7 of 48 (15%);

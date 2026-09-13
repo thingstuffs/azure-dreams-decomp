@@ -152,15 +152,11 @@ state_2:
         func_8009A028(actor);
         (*(u16 *)((u8 *)actor + (-2))) |= 0x8000;
         D_800814A0 |= 0x8000;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
             u8 *actor_slot;
-            s32 slot_index;
 
-            actor_slot = D_800E3D7C;
-            slot_index = owner[0xA9];
-            actor_slot += slot_index;
-            actor_slot[0xFA] = state;
+            actor_slot = D_800E3D7C + 0xFA;
+            actor_slot[owner[0xA9]] = state;
         }
         owner[0xA8] = owner[0xA9] + 1;
         owner[0x9B]++;

@@ -1407,3 +1407,36 @@ first change: the lanes' 7 rows 15 pins (with their cascade follow-ups), t57b's 
   still the best model-time lever for fences. Keep relocation (t57, t57b and seven lane rows) is now the
   most frequent fence win: the fence sits between a kept value and the next statement, and the keep placed
   after that statement holds the same order without a barrier.
+
+## Round 22 (2026-09-13): the largest fence rows and the memory barriers; `t58_nmsymbol` measured
+
+Gated (10 windows MATCH and SLUS SHA-1 MATCH): **8,432 pins in 1,491 rows**, 8 pins removed (6 memory
+barriers, 1 scheduling fence, 1 `ASM_USE`), `town/func_800B6514` pin-free; 449 live scheduling fences, 70
+memory.
+
+- **`t58_nmsymbol` (built in round 21, from the fences25 win): 0 of 14.** The first version deleted the
+  NON_MATCHING arm, and every candidate died on sweep.py's unscored-arm check (`unscored-arm-edit`): a
+  generator must never touch a NON_MATCHING arm. Kept and copied into the matching arm, still none is exact
+  alone. A NON_MATCHING arm is evidence, not a lever by itself; the fences25 win also needed the fence above
+  removed and a temporary inlined.
+- **Fence lanes fences29-32 (luna): 7 of 41 exact (17%).**
+  - The 14 largest never-laned fence rows (32-89 pins, fences29-30): 1 of 14. A statement moved past the
+    loop-back test (`dungeon/func_807B0B3C`).
+  - The 27 never-laned rows whose only fences are memory barriers (fences31-32; the pack builder now picks
+    either fence macro and names it, and those briefs explain a memory clobber): 6 of 27 (22%).
+    - Staged field values written as direct `|=` read-modify-writes (`dungeon/func_800BB400`,
+      `func_80E07054`): the barrier had stopped CSE merging the reloads the original made.
+    - A slot pointer built as `D_X + 0xFA` indexed by the slot (`dungeon/func_80CC2828`).
+    - A pure computation hoisted above the branch that used it (`town/func_800B6514`,
+      `dungeon/func_818E6F98`).
+    - A staged tile store written as one indexed store, and a shared `row + 1` merged out of both arms
+      (`town/func_800B9CC8`).
+  - Two outputs carried a lane comment (`/* memory barrier erased for this candidate */`), stripped before
+    landing (comments do not reach the bytes).
+- **The cascade** over the 7 changed rows: 1 record in one pass.
+- **Evaluation.** The fence-lane rate by row size, fresh rows with the round-19 packs: 7-15 pins 28%, 16-29
+  pins 15%, 32-89 pins 7%; memory-barrier rows 22%. Every never-laned fence row has now been laned except
+  13 slus rows and one ovmovie row. Next: the fence-lane recipe applied to keeps. The t53k journal names
+  622 keep rows, unchanged since it measured them, whose nearest single keep erasure is within 3
+  instructions of retail (258 with fewer than 5 pins); luna keep lanes on those, each row naming the keep,
+  its class, its deciding pass and what it holds, with the refused forms listed verbatim.
