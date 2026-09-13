@@ -133,7 +133,7 @@ extern s8 D_800E2970[];
 
 /* Select a movement direction, record the previous tile, and update the actor position and height. */
 void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor_in) {
-    register u8 *movement ASM_REG("$21") = movement_in;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *movement = movement_in;
     register u8 *position ASM_REG("$20") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 near_target ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -158,9 +158,7 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
 
     dungeon_state = (u8 *)&D_80083460;
     dungeon_flags = ((S_8016B230_0 *)dungeon_state)->unk_02;
-    ASM_KEEP(movement);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     near_target = 0;
 
     if ((dungeon_flags & 0x4000) || (((S_8016B230_1 *)actor)->unk_71.s >= 0)) {

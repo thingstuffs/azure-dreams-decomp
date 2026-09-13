@@ -60,7 +60,7 @@ void func_818D4B94(Rec_D_800E3D7C *source, s16 setting_14, s32 setting_08, s32 d
     s16 saved_setting_14 = setting_14;
     s32 saved_setting_08 = setting_08;
     s32 saved_duration = duration;
-    register s32 saved_offset_x ASM_REG("$18") = offset_x;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
     s32 signed_duration;

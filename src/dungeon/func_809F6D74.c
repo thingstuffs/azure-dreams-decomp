@@ -31,7 +31,6 @@ s32 func_80174574(void *initial_payload, s32 entry_data, Entry *entry, s32 unuse
         (GlobalPage *)0x80170000;
     Entry *next_entry;
 
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     for (;;) {

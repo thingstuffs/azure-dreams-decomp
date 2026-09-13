@@ -108,7 +108,6 @@ void func_81875B38(
         z_jitter = rand();
         effect_obj = effect_ptr;
         effect_config = &D_80025028;
-        ASM_USE2(effect_obj, effect_config);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         z_jitter &= 0x1F;
         effect_z = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_0A;
         effect_ptr = (S_func_81875B38_2 *)((u8 *)effect_obj + 0x20);

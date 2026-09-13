@@ -69,7 +69,7 @@ extern s32 D_800814A0;
 /* Update the effect quad, copy its position and color, and flag completion based on owner state. */
 void func_81876014(void *effect, void *position_out, void *color_out) {
     s16 vertex_coord;
-    register s16 y_third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 y_third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 y_fourth ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 x_edge;
     register u16 x_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -94,9 +94,7 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         ((S_81876014_0 *)effect)->unk_60 = 0;
         vertex_coord = (*(volatile u16 *)((u8 *)effect + 0x60));
         x_edge = ((S_81876014_0 *)effect)->unk_50;
-        ASM_KEEP(x_edge);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_81876014_0 *)effect)->unk_62 = vertex_coord;
-        ASM_KEEP(x_edge);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         x_base = x_edge;
         x_edge += 0x10;
         ASM_KEEP(x_edge);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -118,7 +116,6 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         vertex_coord = y_offset;
         ASM_KEEP(vertex_coord);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         y_third = y_offset;
-        ASM_KEEP(y_third);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         y_fourth = y_offset;
         ASM_KEEP(y_fourth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         z_fourth = ((S_81876014_0 *)effect)->unk_60;

@@ -45,7 +45,6 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     u8 *entry_filter;
     u8 *entry_position;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (entity->kind < 0) {
         return 0;
     }

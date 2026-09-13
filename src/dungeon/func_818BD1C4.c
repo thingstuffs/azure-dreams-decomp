@@ -61,7 +61,7 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
     S_818BD1C4_2 *visual;
     void *object;
     S_818BD1C4_1 *state;
-    register s32 saved_y_offset ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 saved_y_offset;
 
     saved_y_offset = y_offset;
     object = func_8003FC64(0x212);

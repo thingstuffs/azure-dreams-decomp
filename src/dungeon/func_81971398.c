@@ -32,7 +32,7 @@ void func_81971398(void *fade_data)
 {
     void *fade;
     s32 vertex_index;
-    register u8 *vertex ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *vertex;
     u8 *global_page;
     u16 ticks_left;
 

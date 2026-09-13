@@ -52,7 +52,7 @@ void *func_818928F8(void *context, Copy24 *src_data, s16 state_value)
     s32 copy_word;
     s32 random_rotation;
     Object *saved_obj;
-    register Object *sprite_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    Object *sprite_obj;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {

@@ -205,7 +205,6 @@ type_3:
         s32 last_scaled_coord;
         s32 prev_z;
 
-        ASM_KEEP_NV(sample);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         vertices[12] = vertices[16];
         scaled_coord = (func_800644B8(sample[42] + record->add) >> 4) * sample[12];
         vertices[20] = vertices[24];

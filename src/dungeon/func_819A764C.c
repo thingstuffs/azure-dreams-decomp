@@ -61,7 +61,7 @@ void func_819A764C(void *effect_data)
     s16 point_step[3];
     s32 state;
     s32 point_index;
-    register void *point_slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *point_slot;
     void *object_base;
     S_819A764C_1 *linked_object;
     register u32 page_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

@@ -119,7 +119,7 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     s16 raw_s1;
     s32 temp_v0_4;
     s16 temp_v1;
-    register s32 var_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 var_a0;
     s32 temp_a0;
     s32 temp_a0_2;
     s32 temp_a1;

@@ -246,7 +246,6 @@ inner_loop:
                     end_flags = *(u16 *)cell_flags & 0x80FF;
                     if (end_flags != 0x8001) {
                         cell_flags += 0x18;
-                        ASM_KEEP(cell_flags);
                         cell = (Cell_80090854 *)((u8 *)cell + 0x18);
                     } else {
                         break;

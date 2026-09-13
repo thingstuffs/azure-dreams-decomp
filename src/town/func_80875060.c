@@ -17,7 +17,6 @@ void func_80875060(s32 unused_0, s32 unused_1, s16 *input_ids, s32 input_flags_b
     void *flag_id;
     s32 *flag_word;
     s32 bit_one;
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flag_id = (void *)(D_80700000 + 0xBC8);
@@ -35,7 +34,7 @@ void func_80875060(s32 unused_0, s32 unused_1, s16 *input_ids, s32 input_flags_b
     matched_count = 0;
     if (*(s16 *)flag_word != 0) {
         flags_base = D_80701968[0];
-        bit_one = zero | 1;
+        bit_one = 1;
         flag_cursor = (s16 *)flag_word;
 check_flag:
         flag_id = (void *) *flag_cursor;

@@ -13,7 +13,7 @@ extern u8 D_800DD0E8;
 
 void func_80090200(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     /* MATCH: Keep the shared data pointer in a0 after the first call. */
-    register u8 *data ASM_REG("$4");
+    u8 *data;
     s32 mask;
 
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_9A.as_s8 = 0xD;

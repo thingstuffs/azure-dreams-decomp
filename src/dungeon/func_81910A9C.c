@@ -109,5 +109,4 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     ray_index++;
   }
   while (ray_index < 5);
-  ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

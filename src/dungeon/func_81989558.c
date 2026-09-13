@@ -159,7 +159,6 @@ next_object:
     span_base = 0xE;
     frame.p.f52A = 0;
     ring_params = (u8 *)object + 0x2A;
-    ASM_KEEP_NV(ring_params);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ring_x = grid_origin + 672;
     do {
         s32 point_offset = ring * 8;

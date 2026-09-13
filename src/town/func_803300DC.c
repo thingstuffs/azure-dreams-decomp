@@ -22,7 +22,7 @@ typedef struct S_8001A8DC_2 {
 s32 func_8001A8DC(void *base_point, void *other_point, s32 blend_weight, s32 other_weight, void *result_point)
 {
     s32 scaled_y_delta;
-    s32 other_x;
+    s16 other_x;
     s32 other_y;
     s32 abs_other_weight;
     s32 base_x;
@@ -37,23 +37,18 @@ s32 func_8001A8DC(void *base_point, void *other_point, s32 blend_weight, s32 oth
     other = other_point;
     weight = blend_weight;
     out = result_point;
-    ASM_KEEP(out);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     abs_other_weight = other_weight;
     total_weight = weight;
     total_weight = abs(total_weight);
     abs_other_weight = abs(abs_other_weight);
     total_weight += abs_other_weight;
     other_x = ((S_8001A8DC_0 *)other)->unk_00;
-    ASM_KEEP(other_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     base_x = ((S_8001A8DC_1 *)base)->unk_00;
-    ASM_KEEP(base_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8001A8DC_2 *)out)->unk_00 =
         base_x
         + ((other_x - (s16)((S_8001A8DC_1 *)base)->unk_00) * weight) / total_weight;
     other_y = ((S_8001A8DC_0 *)other)->unk_02;
-    ASM_KEEP(other_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     base_y = ((S_8001A8DC_1 *)base)->unk_02;
-    ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     scaled_y_delta =
         (other_y - (s16)((S_8001A8DC_1 *)base)->unk_02) * weight;
     ((S_8001A8DC_2 *)out)->unk_02 =

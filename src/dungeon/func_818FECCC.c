@@ -59,7 +59,7 @@ extern u8 D_80024400[];
 /* Creates an effect at randomized offsets from the source object's position. */
 void func_818FECCC(
     void *source_obj,
-    s16 param_34,
+    s32 param_34,
     s32 param_28,
     s16 param_52,
     s32 x_offset,
@@ -67,8 +67,8 @@ void func_818FECCC(
     s32 z_offset)
 {
     void *source = source_obj;
-    register s16 saved_param_34 ASM_REG("$21") = param_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 saved_param_28 ASM_REG("$23") = param_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_param_34 = param_34;
+    register u32 saved_param_28 ASM_REG("$23") = param_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 saved_param_52 ASM_REG("$22") = param_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
@@ -113,7 +113,6 @@ void func_818FECCC(
         z_random = func_80069EF8();
         effect = effect_cursor;
         effect_data = &D_800241B0;
-        ASM_USE2(effect, effect_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         z_random &= 0x1F;
         z_pos = ((S_818FECCC_6 *)(((S_818FECCC_1 *)source)->unk_08))->unk_0A;
         effect_cursor = (u8 *)effect + 0x20;
@@ -124,11 +123,8 @@ void func_818FECCC(
         z_dest->unk_0A = (s16)z_pos;
         ASM_KEEP(effect_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_818FECCC_0 *)effect_cursor)->unk_14 = saved_param_34;
-        ASM_KEEP(saved_param_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_818FECCC_0 *)effect_cursor)->unk_32 = saved_param_52;
         func_8004491C(effect, effect_data, z_dest);
-        ASM_KEEP(saved_param_52);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_818FECCC_0 *)effect_cursor)->unk_08.u = saved_param_28;
-        ASM_KEEP(saved_param_28);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

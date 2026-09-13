@@ -124,6 +124,5 @@ s32 func_8182121C(void *first_item)
         list_item = (void *)(next_node + 0x20);
     } while (next_node != 0);
 
-    ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

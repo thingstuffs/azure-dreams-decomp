@@ -125,7 +125,7 @@ void func_8081DD70(void *source_data, void *record_data) {
         } while (0);
 
         {
-            register void *call_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            void *call_object;
             void *call_data;
             register void *copy_packet ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 record_word_0;

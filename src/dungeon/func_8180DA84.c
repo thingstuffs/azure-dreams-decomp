@@ -107,7 +107,7 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     S_80026A84_3 *effect_pos;
     S_80026A84_5 *effect_data;
     void *effect;
-    register void *point_cursor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *point_cursor;
     void *chain_head;
 
     chain_head = NULL;

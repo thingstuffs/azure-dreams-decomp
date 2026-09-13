@@ -18,15 +18,10 @@ s32 func_80874D84(void)
     u8 byte_table[4];
     s32 callback_value;
     s32 index;
-#ifdef NON_MATCHING
-    s32 zero = 0;
-#else
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-#endif
     s32 result;
 
     *(UnalignedWord *)byte_table = D_80700BC4[0];
-    callback_value = D_80701984[0]->callback(zero | 11);
+    callback_value = D_80701984[0]->callback(11);
     index = 0;
     while (byte_table[index] != 0) {
         if (byte_table[index] == callback_value) {

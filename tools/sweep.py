@@ -85,7 +85,7 @@ def one(args):
     rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs"), "err": _scrub(v.get("err"))})
     if v.get("exact"):
         cp = clean_path(row)
-        bad = landing_refusal(new, text, str(cp.relative_to(ROOT)))
+        bad = landing_refusal(new, text, str(cp.relative_to(ROOT)), row=row)
         if bad:
             return dict(rec, outcome="refused", reason=_scrub(bad))
         cp.parent.mkdir(parents=True, exist_ok=True); cp.write_text(new)

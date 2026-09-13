@@ -86,7 +86,7 @@ void *func_80026C88(u16 x, u16 y, s32 z, void *source)
     register S_80026C88_4 *render_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_80026C88_3 *coords;
     void *object;
-    register void *point_cursor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *point_cursor;
     S_80026C88_0 *source_object;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *offset_ptr;
     s16 saved_z;

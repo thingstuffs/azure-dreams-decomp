@@ -18,7 +18,6 @@ s32 func_8001AB30(s32 card_index) {
     s32 result;
 
     count = 0;
-    ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     func_80408654(0);
     func_80408654(1);
     func_80401578();

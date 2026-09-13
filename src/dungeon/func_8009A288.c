@@ -26,7 +26,7 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     s32 group_80;
     s32 group_90;
     void *entries;
-    register void *entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *entry;
 
     entries = (void *)0x80010000;
     ASM_KEEP(entries);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */

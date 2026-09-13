@@ -68,7 +68,6 @@ loop_1:
         item_category_table = (u8 *)table_base_or_mode;
         table_base_or_mode = 2;
         category_entry = table_cursor_or_item_offset;
-        ASM_KEEP_NV(category_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result_index = scan_value >> 16;
         table_cursor_or_item_offset = (u8 *)0x14;
 loop_6:

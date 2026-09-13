@@ -154,3 +154,43 @@ def set_row_cfg(row_id: str, cfg: str, note: str = ""):
     for root in (ROOT / "build_ovl", ROOT / "build_ovl_raw"):
         if (root / "overlays").exists():
             subprocess.run([_sys.executable, str(ROOT / "tools/row_db.py"), "export", str(root)], check=True, stdout=subprocess.DEVNULL)
+
+def set_row_cfgs(changes):
+    """set_row_cfg for many rows at once, [(row_id, cfg, note)]: every row checked before anything is
+    written, each ledger table read and written once, the build roots exported once.  Per-row calls
+    re-export the roots while other verifies read them, which is why cell switches had to land with
+    one worker; apply_candidates --cells now verifies in parallel and lands the switches together
+    through this."""
+    import subprocess, sys as _sys
+    tables = {}
+    for row_id, cfg, note in changes:
+        if not is_stock_cfg(cfg):
+            raise ValueError(f"{cfg!r} is not a stock config")
+        container, func = row_id.split("/", 1)
+        tables.setdefault(container, {})[func] = (cfg, note)
+    staged = []
+    for container, want in tables.items():
+        p = LEDGER / "splits" / f"{container}.jsonl"
+        recs = read_jsonl(p); hits = {}
+        for r in recs:
+            w = want.get(r.get("func_vram"))
+            if w:
+                r["config_was"] = r.get("config"); r["config"] = w[0]
+                if w[1]: r["config_note"] = w[1]
+                hits[r["func_vram"]] = hits.get(r["func_vram"], 0) + 1
+        bad = [(f, hits.get(f, 0)) for f in want if hits.get(f, 0) != 1]
+        if bad:
+            raise ValueError(f"{container}: split records per row {bad}")
+        staged.append((p, recs))
+    for p, recs in staged:
+        write_jsonl(p, recs)
+    want = {row_id: cfg for row_id, cfg, _ in changes}
+    rs = read_jsonl(LEDGER / "rows.jsonl")
+    for r in rs:
+        if r["id"] in want:
+            cell, flags = parse_cfg(want[r["id"]])
+            r["cfg"] = want[r["id"]]; r["cell"] = cell; r["flags"] = " ".join(flags); r["stock"] = True; r["cfg_corrected"] = True
+    write_jsonl(LEDGER / "rows.jsonl", rs)
+    for root in (ROOT / "build_ovl", ROOT / "build_ovl_raw"):
+        if (root / "overlays").exists():
+            subprocess.run([_sys.executable, str(ROOT / "tools/row_db.py"), "export", str(root)], check=True, stdout=subprocess.DEVNULL)

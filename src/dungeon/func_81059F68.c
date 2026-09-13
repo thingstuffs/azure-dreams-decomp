@@ -52,8 +52,6 @@ void func_80171768(u8 *move_work_in, void *entry_context, u8 *position_in, u8 *a
     state = (u8 *)&D_80083460;
     state_flags = U16_AT(state, 2);
     ASM_KEEP(move_work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     limit_turn = 0;
 
     if (state_flags & 0x4000) {

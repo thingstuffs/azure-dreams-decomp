@@ -48,7 +48,6 @@ void func_80017668(s16 start_x, s16 y, s16 width, s32 height, u16 fill_value) {
                 next_rows_left = rows_left - 1;
             }
             rows_left = next_rows_left;
-            ASM_KEEP(next_rows_left);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             y++;
         } while ((next_rows_left << 16) > 0);
     }

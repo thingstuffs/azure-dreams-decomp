@@ -76,7 +76,6 @@ void func_80AC5470(void *effect, void *position) {
         accel_y_or_red += 0xFF;
     }
     motion_or_color = ((S_80AC5470_1 *)effect)->unk_01;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     motion_or_shade = ((S_80AC5470_1 *)effect)->unk_32;
     green_product = motion_or_color * motion_or_shade;
     motion_or_shade = accel_y_or_red >> 8;

@@ -23,12 +23,12 @@ typedef struct DataRecord {
 /* Populate records from entries, pack their flags and tag, and invoke entry callbacks. */
 void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
 {
-    register DataRecord *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u8 *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    DataRecord *record;
+    u8 *entry;
     s32 record_flags;
     u32 tag_bits;
     u32 flag_bits;
-    u32 header_word;
+    s32 header_word;
     register u32 packed_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 half_bits;
     u32 header_or_addr;
@@ -46,7 +46,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     flag_bits = half_bits << 24;
     tag_bits = (tag & 0xFF) << 16;
     header_or_addr = (u32)record;
-    do {
+    loop_0: {
         func_8001941C((void *)header_or_addr, entry, 5);
         packed_word = 0xC0000000;
         if (record_flags != 0) {
@@ -58,8 +58,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
         packed_word = flag_bits | packed_word;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         half_bits = record->unkC.half.lo;
-        packed_word = packed_word | half_bits;
-        record->unkC.word = packed_word;
+        record->unkC.word = packed_word | half_bits;
         if (*entry != 0) {
             (*(EntryCallback *)(entry + 8))(record);
             entry += 0x14;
@@ -68,10 +67,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
             entry += 0x14;
         }
         header_or_addr = (u32)record;
-    } while (*(entry - 0x13) != 0x80);
-    ASM_KEEP(record_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(flag_bits);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(header_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    } if (*(entry - 0x13) != 0x80) goto loop_0;
     return record;
 }
 

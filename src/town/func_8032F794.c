@@ -28,7 +28,6 @@ s32 func_80019F94(void *context) {
     s32 entry_offset;
     s32 entry_index;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scan = context;
     func_80019EA8(scan->unk_14, scan->unk_1A);
     flag_page = (M2C_UNK *)0x80020000;

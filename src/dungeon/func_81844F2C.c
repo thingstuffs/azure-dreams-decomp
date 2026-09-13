@@ -65,7 +65,6 @@ void func_81844F2C(void *effect_data) {
     tick_or_index = ((S_81844F2C_0 *)effect)->unk_2A.s;
     position += step;
     ((S_81844F2C_0 *)effect)->unk_04 = (u16)position;
-    ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     position = ((S_81844F2C_0 *)effect)->unk_06.s;
     step = ((S_81844F2C_0 *)effect)->unk_0E;
     saved_state = ((S_81844F2C_0 *)effect)->unk_2C.s;

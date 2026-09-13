@@ -152,7 +152,6 @@ void func_800BA00C(void *parent, void *position_data)
             do {
                 entity = obj + 0x20;
             } while (0);
-            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
             (*(s16 *)((u8 *)entity + 0x66)) = 0;
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
@@ -199,7 +198,6 @@ void func_800BA00C(void *parent, void *position_data)
             do {
                 entity = obj + 0x20;
             } while (0);
-            ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             (*(void * *)((u8 *)entity + 0x9C)) = parent;
             (*(s8 *)((u8 *)entity + 0x97)) = part_index;
             (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
@@ -242,7 +240,6 @@ void func_800BA00C(void *parent, void *position_data)
         do {
             entity = obj + 0x20;
         } while (0);
-        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(void * volatile *)((u8 *)entity + 0x9C)) = parent;
         (*(volatile s32 *)((u8 *)entity + 0x98)) = parent_value;
         page = 0x80100000;
@@ -282,7 +279,6 @@ void func_800BA00C(void *parent, void *position_data)
         do {
             entity = obj + 0x20;
         } while (0);
-        ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         (*(void * *)((u8 *)entity + 0x9C)) = parent;
         (*(s32 *)((u8 *)entity + 0x98)) = parent_value;
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;

@@ -226,7 +226,7 @@ jt_c2: {
 
 jt_c3: {
         register u8 *settings ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        register u8 *entry_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u8 *entry_ptr;
         s32 entry_index;
 
         if (0) {

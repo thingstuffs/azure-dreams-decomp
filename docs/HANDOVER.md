@@ -23,6 +23,36 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Eleventh round, gated (114 windows MATCH, SLUS SHA-1 MATCH): **9,036 pins in 1,527 rows**, 279 pins and
+36 functions pin-free since round 9. Details: PIN_MECHANISMS, "Round 11".
+- **Flag scan harvested.** 150 rows took a per-row optimization flag (150 pins), and the cascade
+  took 91 more. The switches are weak evidence, like the cell switches; each is undone from the
+  `t30_cellpins` journal (`cell_from`). The `-O1` cluster in town was tested as one TU and refuted.
+- **`t45_orzero_aspsx`** (20 rows, 38 pins) is build evidence. Town islands were assembled by an
+  ASPSX older than 2.50: it expands `li` to `ori rX,$zero,K`, which no C reaches. It lands as the
+  per-function as-flag `--aspsx-version=2.40` (proof records in `config/overlays/town.as_flags.jsonl`)
+  plus `tools/orzero_aspsx.py`. A static census of retail bytes says the family is complete.
+- **Lint:** `landing_refusal(row=...)` accepts port-arm edits whose `-DNON_MATCHING` codegen is
+  identical (`.c.port_ref` names a commit when the current port build does not compile).
+  `apply_candidates --cells` verifies in parallel and lands the switches together
+  (`common.set_row_cfgs`), so `--workers 6` is fine now.
+- **Tenth round (no landing):** the code-motion luna lane went 0 of 10 (coalescing), and the
+  hold-set residues are the callee-saved set.
+- **Running after this gate:**
+  - `pin_cells_scan.py scan --flags2` (the second flag set; unstacked rows only; ledger
+    `ledger/pins_flags2_admissible.jsonl`, resumable);
+  - the fold pilot (`scratchpad fold_pilot.py`: pinned single-use temps folded into their use).
+- **To land a flag scan:**
+  1. `pin_cells_scan.py build --flags2 <dir>`
+  2. `apply_candidates.py <dir> --transform t30_cellpins --workers 6 --cells <dir>/cells.jsonl`
+  3. the cascade and T2 over the changed rows
+  4. one gate
+
+  Stop the scans first.
+- **Owner questions:**
+  - Stack a second flag on a row that already carries one?
+  - 40 local `__asm__` wrappers (34 call sites) are still invisible to `sites_of`: expose them?
+
 Ninth round, gated (15 windows MATCH, SLUS SHA-1 MATCH): **9,315 pins in 1,563 rows** (32 pins).
 - **`t44_doloop_greedy`**: m2c's backward-goto loops written as do-whiles (the mirror of `t41`). 15
   rows.

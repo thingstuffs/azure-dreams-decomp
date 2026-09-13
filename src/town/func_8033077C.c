@@ -22,7 +22,6 @@ s32 func_8001AF7C(void) {
     total_weight = 0;
     ASM_KEEP(total_weight);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     type_table = **(u8 ***)((u8 *)D_80016000 + 0x30);
-    ASM_KEEP(type_table);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     data_page = (u8 *)0x80010000;
     ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     weight_source = (ByteBlock8 *)(data_page + 0x6164);
@@ -30,16 +29,15 @@ s32 func_8001AF7C(void) {
     weights = *weight_source;
     ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     record_index = total_weight;
-    ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     record_data = *(u8 **)((u8 *)D_80016000 + 0x38);
-    do {
+    loop_0: {
         record = record_data + (record_index * 2);
         flags = type_table[(record[0x33A4] << 5) + 2];
         if (flags & 1) {
             total_weight += weights.bytes[(flags >> 3) & 7];
         }
         record_index++;
-    } while (record_index < 0x22);
+    } if (record_index < 0x22) goto loop_0;
     return total_weight;
 }
 

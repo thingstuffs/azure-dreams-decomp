@@ -71,7 +71,6 @@ void func_80170AE0(void *entity_arg, void *motion_arg, void *monster_arg)
     if (D_80083462 & 0x2000) {
         Callback special_callback;
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         special_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (special_callback == (Callback)&D_80170F20 ||
             special_callback == (Callback)&D_80173B98) {

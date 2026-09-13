@@ -74,7 +74,7 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
     SVECTOR world_point;
     s16 screen[4];
     GlobalState *render_state = &D_80083160;
-    register s16 *screen_base ASM_REG("$23") = screen;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 *screen_base = screen;
     s32 half_width;
     register s32 *projection_out ASM_REG("$20") = &half_width;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     RenderRecord *frame_record;

@@ -33,7 +33,6 @@ void func_8002570C(void *state) {
         entry_ptr += 0x5584;
     } else {
         owner = (u8 *)state - 0x20;
-        ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         entry_ptr = (u8 *)0x80020000;
         __asm__ __volatile__("" : "=r"(entry_ptr) : "0"(entry_ptr));
         entry_ptr += 0x593C;

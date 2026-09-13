@@ -131,7 +131,7 @@ s32 func_800249BC(void *shape_data)
                     u8 tex_span;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     u32 *ordering_entry;
                     DungeonDrawState *ordering_state;
-                    register u32 primitive_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                    u32 primitive_tag;
                     u32 ordering_tag;
                     u32 saved_ordering_tag;
 

@@ -38,7 +38,7 @@ typedef struct S_80173730_0 {
 /* Updates staged movement toward a target tile and finalizes the action. */
 void func_80173730(void *action_arg, void *motion_arg, void *target_arg, void *actor_arg)
 {
-    register void *action ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *action;
     register void *motion ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *actor;

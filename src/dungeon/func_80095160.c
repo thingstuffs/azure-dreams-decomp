@@ -159,7 +159,6 @@ collision_clear:
                                     body_addr = (u32)body;
                                     target_height = (s16)((FuncArg2 *)body_addr)->height;
                                 }
-                                ASM_KEEP_NV(floor_height);
                                 result = func_8009B25C(body, tile_coord, y_or_direction, target_height);
                                 if (result == 0) {
                                     coord_or_height = floor_height << 0x10;

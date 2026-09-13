@@ -683,3 +683,70 @@ Lanes launched after this gate:
 - **astra on three argmove rows** (`work/native_lane/argmove_astra/`), the owner's last escalation
   after luna and sol. Its brief states that sol's fence-for-pin trade was refused.
 - **luna on 12 more fake-evidence rows** (`work/native_lane/fakedep4/`). 21 such rows remain.
+
+## Round 11 (2026-09-13): per-row flags, and an assembler version the C cannot express
+
+Gated (114 windows MATCH, SLUS SHA-1 MATCH): **9,036 pins in 1,527 rows**, 279 pins and 36 functions
+pin-free since round 9. By source: `t45` 38, the flag switches 150 (one pin per row), the cascade 91.
+
+- **The flag scan (`pin_cells_scan.py scan --flags`), harvested.** 1,465 pinned rows were each
+  scored at the recorded cell plus one of eight optimization flags. 212 single pins were dead at a
+  flag variant, in 150 rows. `build --flags` chose one cell per row: 196 hit pins. All 150 landed
+  under `pin_cells_land.py` rules 1–2 (the fewer-pin text exact at the flag cell and not at the
+  recorded one, the pinned text exact at both). The cascade and T2 then took 91 pins in 69 records: T2 33, `t37` 15, `t37b` 8, `t41c` 6, `t36`, `t38` and `t44` 2 each, `t41` 1 more.
+  - By flag: `-fno-cse-skip-blocks` 36 rows, `-fno-schedule-insns` 26, `-fno-strength-reduce` 26,
+    `-fno-expensive-optimizations` 24, `-fno-rerun-cse-after-loop` 14, `-O1` 10,
+    `-fno-schedule-insns2` 8, the rest 6.
+  - By pin: `ASM_KEEP` 86, `ASM_REG` 51, `ASM_KEEP_NV` 25, `ASM_SCHED_BARRIER` 17, others 18.
+  - **The switches are weak evidence, like the cell switches.** A translation-unit test failed.
+    The town window 0x8032EEE4–0x803305E0 holds 15 of town's 43 hit rows (8 at `-O1`), but
+    every row there was scored at four `-O1` cells, and seven unpinned rows are exact at none of
+    them. Only 4 rows go pin-free at `-O1`. The hits are per-row underdetermination, as the CDK
+    hits were. Each switch can be undone from the `t30_cellpins` journal (`cell_from`).
+- **`t45_orzero_aspsx`: 20 rows, 38 pins, and the hidden `READ_ZERO`/`ASM_UNDEF` wrappers.**
+  - The single-pin rows included `register s32 zero ASM_REG("$0")` carriers, written as `zero | 9`
+    to get `ori v0,$zero,9` where gcc's `li v0,9` assembles to `addiu`. That is the `li` expansion
+    of ASPSX before 2.50 (maspsx `expand_li`); no C spelling reaches it through gcc.
+  - A static census of retail bytes classified every row. `ori rX,$zero,K` (0 < K < 0x8000)
+    occurs only in town: 22 pinned rows and 1 clean. No row anywhere mixes it with
+    `addiu rX,$zero,K`.
+  - The `ori` rows form address islands: 0x80874C9C–0x808757A0, 0x80877FEC–0x80878110,
+    0x80878924–0x80878A78 and 0x8087FD58–0x808816D8. Every row inside them stays exact under
+    `--aspsx-version=2.40`. Eleven rows between 0x80878180 and 0x80878714, and `func_80880298`,
+    break under it: those are `addiu` TUs.
+  - This is build evidence, not underdetermination: object files assembled by an older ASPSX.
+  - Each row carries a proof record in `config/overlays/town.as_flags.jsonl`
+    (`--aspsx-version=2.40`, the per-function as-flag route), and `tools/orzero_aspsx.py` does the
+    rewrite. Every candidate was exact under the dial and not without it.
+  - The dungeon `$0` pins are a different mechanism: a hard zero for `move $sN,$zero` or
+    `return zero`, and the dial breaks them.
+- **The landing lint learned port codegen identity.** 18 of the 20 `t45` rows were first refused:
+  "edits a NON_MATCHING arm". Removing a pin removes its port fallback too (`#define zero 0`,
+  `s32 zero = 0;`), and `port_view` compares text. Given the row, `pin_census.landing_refusal` now
+  also accepts a port-arm edit when the `-DNON_MATCHING` build, at the row's own cell and compiler,
+  generates identical assembly. `#if 0` text must still be unchanged.
+  - Seven rows still had the nameless `#define ({...}) (value)` arms that 548963e9 left behind,
+    and their port build does not compile. For those, `<name>.c.port_ref` names a commit whose text
+    stands in (548963e9^).
+  - Four rows whose current port build reads an uninitialized `zero` failed the identity, as they
+    should. They landed in two steps. First a scored-only candidate (`rewrite(scored_only=True)`,
+    no port arm touched). Then the full rewrite of the landed text as a tidy, which passes the
+    identity because the leftovers are unused.
+  - The eighth corrupted arm (`dungeon/func_809F33F8`, dead, preprocessor-only) was deleted.
+- **`apply_candidates --cells` verifies in parallel.** It holds the cell switches until every verify
+  has finished, then lands them with `common.set_row_cfgs`: one read and write per ledger table,
+  one root export. Per-row `set_row_cfg` calls re-exported the roots under running verifies, which
+  is why cell switches had to land with one worker.
+- **Census notes:**
+  - Pins by macro: `ASM_REG` 49%, `ASM_KEEP`/`_NV` 34%, fences 553.
+  - `ASM_REG` by register: v0/v1/a0–a3 2,822, s0–s7 1,319.
+  - 40 local `__asm__` wrapper defines are still invisible to `sites_of`: 34 call sites in 19
+    files, mostly SLUS (`PIN_KEEP`, `LEGACY_ASM_KEEP`, `SCHED_KEEP`, …).
+  - The single-pin rows' notes are the generic `UNRESOLVED … changes the X` text; binning them
+    gave no new mechanism.
+- **Launched after this gate:**
+  - `scan --flags2`: the scheduling pair for the fences, `-mno-split-addresses` (it exists from
+    2.8.0 and changes 2.8.x codegen) for 2.8.x address-split pins, and five flags that change
+    2.6.3/2.7.2 codegen on a probe TU. Rows already carrying a flag are skipped.
+  - A fold pilot: pinned single-use temporaries folded into their one use, 581 candidates in
+    185 rows; `t38_unstage` is the staged-store special case.

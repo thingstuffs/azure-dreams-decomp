@@ -106,7 +106,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     register s32 *scratch_words ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     register s32 saved_y_offset ASM_REG("$21") = y_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *texture_config;
-    u16 corner_uv;
+    s32 corner_uv;
     s32 neutral_color;
     s32 shade;
     register s32 coord_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -146,9 +146,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         record->f1C.h[0] = quad_input->value12;
         neutral_color = 0x808080;
         corner_uv = quad_input->value14;
-        ASM_KEEP_DEP_NV(record, corner_uv);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         quad_packet = record;
-        ASM_KEEP_NV(record);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         record->f4.w = neutral_color;
         record->f24.h[0] = corner_uv;
         func_8002638C(quad_packet);

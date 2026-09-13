@@ -20,7 +20,6 @@ void func_808B2D90(s32 unused_count, s32 unused_flag, s16 *input_ids, u8 *input_
 
     flag_bits = input_bits;
     flag_cursor = input_ids;
-    ASM_KEEP(flag_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flag_id = (u32)(D_A0700000 + 0x104);
     ASM_KEEP(flag_id);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     callback_0 = ((Callback *)flag_id)[0];
@@ -29,7 +28,6 @@ void func_808B2D90(s32 unused_count, s32 unused_flag, s16 *input_ids, u8 *input_
     callbacks[0] = callback_0;
     callbacks[1] = callback_1;
     callbacks[2] = callback_2;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flag_ids = (s16 *)(D_A0700000 + 0xF34);
     ASM_KEEP(flag_ids);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     set_count = 0;

@@ -5,14 +5,12 @@ extern u8 D_80700000[];
 
 /* Clears six indexed bits in the shared bitmap. */
 void func_8087514C(void) {
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 slot;
     s32 one_bit;
     s16 *bit_index_ptr;
 
-    slot = zero | 1;
-    ASM_UNDEF(zero);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    one_bit = zero | 1;
+    slot = 1;
+    one_bit = 1;
     bit_index_ptr = (s16 *)(D_80700000 + 0xBAE);
     do {
         register s32 bit_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

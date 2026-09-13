@@ -8,7 +8,6 @@ s32 func_80019CD8(s16 *values) {
     s32 firstValue;
     u16 currentValue;
 
-    ASM_SCHED_BARRIER();
     valueCursor = values;
     firstValue = *(u16 *)valueCursor;
 

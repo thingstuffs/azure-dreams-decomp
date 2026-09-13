@@ -29,7 +29,6 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
     flags = flag_mask;
     cells = D_80083160.cells;
     config = (s8 *)&D_80083160.cells;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     matched_flags = flags & 0x8832;
     if (matched_flags) {
@@ -87,7 +86,6 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
     }
 
 done:
-    ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: Recover the true-space internal joins as one CFG, not phantom calls.

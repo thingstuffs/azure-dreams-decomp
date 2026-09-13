@@ -19,7 +19,7 @@ void func_800DC650(u8 *object_data) {
     s32 current;
     s32 target;
     s32 delta;
-    register u32 mode ASM_REG("$5");
+    u32 mode;
     void *handle;
     s32 result;
 

@@ -13,7 +13,7 @@ extern u8 D_800DCFF0[8];
 void func_8008D94C(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     u16 flags;
     s32 idx;
-    register u8 *table ASM_REG("$4"); /* MATCH: retail keeps the table base in a0 until the final call. */
+    u8 *table;
 
     flags = *(u16 *)(arg0 + 0xA2);
     *(s8 *)(arg0 + 0x9A) = 0x24;

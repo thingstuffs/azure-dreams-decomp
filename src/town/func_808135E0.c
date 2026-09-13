@@ -16,7 +16,7 @@ s32 func_808135E0(void *first_item)
     u8 *line_pool;
     u8 *pool_or_endpoint;
     u8 *line_table;
-    register u8 *work_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *work_ptr;
     u8 *state_pool;
     u8 *state_table;
     u8 *line_packet;
@@ -46,7 +46,7 @@ s32 func_808135E0(void *first_item)
     address_mask = 0x00FFFFFF;
     length_mask = 0xFF000000;
 
-    do {
+    loop_0: {
         if ((*(u16 *)(item + 0x24) & 1) == 0) {
             after_line = 0;
             line_pool = *render_context;
@@ -91,7 +91,7 @@ s32 func_808135E0(void *first_item)
                 state_packet = *(u8 **)(state_pool + 0x8D0);
                 work_ptr = state_pool;
                 if (state_packet != 0) {
-                    register u32 state_pool_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                    u32 state_pool_limit;
                     state_pool_limit = 0x108D4;
                     after_state = state_packet + 0xC;
                     after_state = (u8 *)((u32)after_state & -(u32)(after_state <= work_ptr + state_pool_limit));
@@ -113,9 +113,8 @@ s32 func_808135E0(void *first_item)
 
         work_ptr = *(u8 **)(item - 8);
         item = work_ptr + 0x20;
-    } while (work_ptr != 0);
+    } if (work_ptr != 0) goto loop_0;
 
-    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }
 

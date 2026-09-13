@@ -33,7 +33,6 @@ s32 func_800CBF88(s32 entity)
                 effect_id = 0x10;
                 ASM_KEEP(effect_id);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 *(void **)((u8 *)effect + 0x10) = &D_800CBDB4;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 effect_id_half = effect_id;
                 ASM_KEEP(effect_id_half);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 *(s16 *)((u8 *)effect + 0x24) = effect_id_half;

@@ -165,7 +165,7 @@ jt_c1:
             register s32 x_delta ASM_REG("$4");
             s32 axis_delta;
             s32 coord;
-            register u8 *delta_iter ASM_REG("$5");
+            u8 *delta_iter;
 
             target = *(Motion **)((u8 *)owner->target - 24);
             axis_delta = motion->x.h.hi;
@@ -219,7 +219,7 @@ jt_c1:
             s32 coord_aux;
             register s32 x_work ASM_REG("$5");
             register s16 *table ASM_REG("$3");
-            register u8 *delta_iter ASM_REG("$6");
+            u8 *delta_iter;
             register s32 table_work ASM_REG("$8");
             s16 *table_x_entry;
             s16 *table_y_entry;

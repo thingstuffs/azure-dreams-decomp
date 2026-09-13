@@ -81,7 +81,6 @@ void func_800A9358(s32 shape, s32 source)
             angle = angle / *(s32 *)(count_base + 0xE30);
             angle = angle_sum + angle;
             angle_sum = angle;
-            ASM_KEEP_NV(angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800A8CA8((void *)scratch, (s16)angle,
                           source, shape);
             if (scratch[0xC4 / 4] < 0x1E0U) {

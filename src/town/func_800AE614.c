@@ -44,7 +44,6 @@ void func_800ABD74(void *source) {
         effects_spawned = 0;
     } while (0);
     angle = rand();
-    ASM_KEEP(effect_count);
     effect.z = origin->unk_0A;
     effect.c = -4;
     if (effect_count != 0) {

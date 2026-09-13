@@ -241,7 +241,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
 next_part:
     half = 0;
     if (!(((S_BODY_2 *)part)->unk_00 & 0x20)) {
-        register u8 *cache_cursor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        u8 *cache_cursor;
         u8 *first_part;
         s32 start_x;
 

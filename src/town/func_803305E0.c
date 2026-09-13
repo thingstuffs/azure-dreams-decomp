@@ -32,7 +32,6 @@ s32 func_8001ADE0(s32 flagIndex) {
             wordOffsetOrBitIndex = flagIndex - wordOffsetOrBitIndex;
             addressOrMask = 1;
             addressOrMask <<= wordOffsetOrBitIndex;
-            ASM_KEEP(flagWord);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             result = addressOrMask & *flagWord;
         } else {
             result = 1;

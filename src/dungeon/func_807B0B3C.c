@@ -631,9 +631,7 @@ angle_c00:
             bucket_offset = depth * 4;
             ((S_807B0B3C_7 *)prim)->unk_10 = vertex;
             vertex = ((S_807B0B3C_8 *)verts)->unk_08;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             draw_value = 0;
-            ASM_KEEP_NV(draw_value);
             ((S_807B0B3C_7 *)prim)->unk_18.at00u.v = vertex;
             vertex = ((S_807B0B3C_8 *)verts)->unk_0C;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

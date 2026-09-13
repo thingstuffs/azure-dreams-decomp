@@ -66,7 +66,6 @@ state_zero:
     goto finish;
 
 state_one:
-    ASM_KEEP_NV(global_base);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     offset = ((S_800A3918_2 *)global_base)->unk_D8A.s;
     offset_bits = ((S_800A3918_2 *)global_base)->unk_D8A.u;
     if (offset < -0x1FFF) {

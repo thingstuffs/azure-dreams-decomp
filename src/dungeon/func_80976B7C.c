@@ -78,7 +78,7 @@ s32 func_8017237C(void *action_data, void *effect_data, void *target_data, void 
             ((S_8017237C_0 *)actor)->unk_2A);
         {
             register void *check_actor ASM_REG("$4") = actor;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 result ASM_REG("$17") = target_code;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            s32 result = target_code;
 
             if (func_800A2CB8(check_actor, result) == 0) {
                 return action_ready;
@@ -134,7 +134,6 @@ s32 func_8017237C(void *action_data, void *effect_data, void *target_data, void 
             ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             return result;
         }
     }

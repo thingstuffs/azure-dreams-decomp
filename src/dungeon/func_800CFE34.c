@@ -47,8 +47,6 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     u16 effect_angle_bits;
 
     ASM_KEEP(owner);
-    ASM_KEEP(position);
-    ASM_KEEP(entity);
     record = PTR(owner, 0xAC);
     effect = record + 0x20;
     ASM_KEEP(effect);

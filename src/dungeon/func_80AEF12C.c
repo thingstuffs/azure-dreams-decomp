@@ -144,7 +144,6 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
 #ifdef NON_MATCHING
                 scratch_addr = (u32)scratch;
 #endif
-                ASM_KEEP_NV(scratch_addr);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 position_addr = scratch_addr + 4;
                 ASM_TAILSLOT_PIN_TIED(position_addr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             }

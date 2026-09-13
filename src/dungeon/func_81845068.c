@@ -205,6 +205,5 @@ s32 func_81845068(u8 *first_node)
         node = next_link + 0x20;
     } while (next_link != 0);
 
-    ASM_SET(next_link);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

@@ -204,7 +204,6 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
     func_80064840(saved_matrix, scratch + 0x50, scratch + 0xD0);
     func_80064D80(scratch + 0xD0);
     func_80064CF0(scratch + 0xD0);
-    ASM_KEEP(scratch);
 
     render_state = ((S_800C55F4_4 *)packet_code)->unk_3160;
     face_end = face + 0xB;

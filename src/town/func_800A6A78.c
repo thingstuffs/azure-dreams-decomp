@@ -144,8 +144,8 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     void *draw_mode;
     void *right_colors;
     void *buffer_end;
-    register void *packet_cursor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *entry_cursor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *packet_cursor;
+    void *entry_cursor;
     register void *next_prim ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 half_index;
     s32 texture_entry;

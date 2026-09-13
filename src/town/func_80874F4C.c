@@ -36,7 +36,6 @@ s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 value;
     s32 index;
     s32 old_value;
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
     s16 value;
     s32 index;
@@ -68,12 +67,12 @@ s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     word = (s32 *)(offset + (s32)D_80701968[0]);
     shift = value - (index << 5);
     old_value = *word;
-    *word = ((zero | 1) << shift) | old_value;
+    *word = ((1) << shift) | old_value;
     func_80701060(word, old_value);
     func_80701028();
 
 callback_path:
-    callback = D_80701984[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                    zero | (2);                                                      }));
+    callback = D_80701984[0]->callback(2);
     tail_arg = 0x40000000;
     if (callback == 0) {
         goto clear_flags;

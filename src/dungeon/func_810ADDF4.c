@@ -220,7 +220,6 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
                 goto clear_history;
             }
 
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
                 ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v, target_x, target_y,
                 angle_context = (u8 *)move_state + 0x98);

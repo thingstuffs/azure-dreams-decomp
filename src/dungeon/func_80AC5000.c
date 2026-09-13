@@ -151,7 +151,6 @@ s32 func_80AC50A4(void *render_state, void *coord_data)
     SPAD_U32(0x1C) = initial_cursor;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     position = scratch + 4;
-    ASM_KEEP_NV(position);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     projection_out = scratch + 0xD0;
     pos_x = input->unk_02;
     tile_packet = (void *)((S_80AC50A4_2 *)scratch)->unk_1C;

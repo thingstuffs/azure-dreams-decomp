@@ -120,7 +120,6 @@ loop_1:
             func_80024A94();
             return (void *)0x200;
         }
-        ASM_KEEP(temp_s2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         do { temp_a1->unk_1E = 0x800U; } while (0);
         arithmetic_v0 = (temp_s2 - var_s1) * 4;
         arithmetic_v1 = -0x80 - arithmetic_v0;

@@ -137,7 +137,7 @@ s32 func_80024C14(void *effect_data) {
                         register s32 row_offset = row << 6;
                         s32 row_word_offset = row << 2;
                         s32 column_limit;
-                        register u8 *color_column ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                        u8 *color_column;
 
                         {
                             s32 last_vertex = 15;

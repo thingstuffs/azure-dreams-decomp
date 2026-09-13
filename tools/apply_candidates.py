@@ -9,7 +9,7 @@ every verdict in ledger/sweeps/<transform>.jsonl (in_sha/out_sha/outcome, resuma
 is 'noop'; one that is not exact is 'mismatch' (nothing written); an exact one replaces src/ and
 is 'applied'.  Touched windows still need the window gate afterwards (tools/build/gate_all.py).
 """
-import argparse, json, sys, time
+import argparse, json, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -28,7 +28,7 @@ def main():
                     "cell, the current text exact at `to` too); written through common.set_row_cfg")
     a = ap.parse_args()
     import tempfile, threading
-    from common import set_row_cfg
+    from common import set_row_cfgs
     cells = {}
     if a.cells:
         for line in Path(a.cells).read_text().splitlines():
@@ -62,7 +62,14 @@ def main():
         v = verify(rv, p.resolve(), include_root=INCLUDE)   # the scorer runs in the gate root: absolute paths only
         rec.update({"exact": v.get("exact"), "status": v.get("status"), "class": v.get("class"), "total": v.get("total"), "secs": v.get("secs")})
         if v.get("exact"):
-            bad = landing_refusal(new, cur, str(clean_path(r).relative_to(ROOT)))
+            # <name>.c.port_ref names a commit whose text of the row stands in for the current port
+            # build when that no longer compiles (pin_census.landing_refusal, port codegen identity)
+            ref = p.with_name(p.name + ".port_ref"); port_ref = None
+            if ref.exists():
+                rev = ref.read_text().strip(); rel = str(clean_path(r).relative_to(ROOT))
+                port_ref = subprocess.run(["git", "show", f"{rev}:{rel}"], cwd=ROOT, capture_output=True, text=True).stdout or None
+                rec["port_ref"] = rev
+            bad = landing_refusal(new, cur, str(clean_path(r).relative_to(ROOT)), row=r, port_ref=port_ref)
             if bad:
                 return dict(rec, outcome="refused", reason=bad.replace(str(ROOT), "<repo>"))
             if cell:
@@ -73,23 +80,31 @@ def main():
                     if not verify(rv, q.resolve(), include_root=INCLUDE).get("exact"):
                         return dict(rec, outcome="refused", reason=f"current text not exact at {cell}")
                 rec.update(cell_from=r["cfg"], cell_to=cell)
+            done = dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - cur.count("\n"))
             if not a.dry_run:
                 if cell:
-                    with cell_lock:
-                        set_row_cfg(r["id"], cell, note=f"fewer-pin text is exact at {cell} and not at {r['cfg']}; "
-                                                        f"the pinned text is exact at both ({a.transform})")
-                        clean_path(r).write_text(new)
+                    # held until every verify has finished: the switch re-exports the build roots the
+                    # scorer reads, so all of them land together through set_row_cfgs below
+                    done["_cell"] = (r, new, cell, f"fewer-pin text is exact at {cell} and not at {r['cfg']}; "
+                                                   f"the pinned text is exact at both ({a.transform})")
                 else:
                     clean_path(r).write_text(new)
-            return dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - cur.count("\n"))
+            return done
         return dict(rec, outcome="mismatch" if v.get("status") == "ok" else "build-failed", err=(v.get("err") or "")[:200].replace(str(ROOT), "<repo>"))
-    tally = {}; t0 = time.time()
+    tally = {}; t0 = time.time(); held = []
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         for rec in ex.map(one, cands):
             rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            if not a.dry_run: append_jsonl(journal, rec)
+            if "_cell" in rec: held.append(rec)
+            elif not a.dry_run: append_jsonl(journal, rec)
             tally[rec["outcome"]] = tally.get(rec["outcome"], 0) + 1
             print(f"{rec.get('id', rec.get('candidate')):32} {rec['outcome']:12} {rec.get('class') or ''} {rec.get('total') if rec.get('total') is not None else ''}")
+    if held:
+        set_row_cfgs([(h["_cell"][0]["id"], h["_cell"][2], h["_cell"][3]) for h in held])
+        for h in held:
+            r, new, _, _ = h.pop("_cell")
+            clean_path(r).write_text(new); append_jsonl(journal, h)
+        print(f"{len(held)} cell switches landed together")
     print(f"done {len(cands)} in {time.time()-t0:.0f}s: {tally}" + (" (dry run: nothing written)" if a.dry_run else ""))
 
 if __name__ == "__main__":

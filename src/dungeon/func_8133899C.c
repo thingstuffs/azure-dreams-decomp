@@ -93,7 +93,6 @@ case_10:
     next_timer = 0x14;
 advance_state:
     ((S_8016F99C_0 *)transition)->unk_18 = next_timer;
-    ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     ((S_8016F99C_0 *)transition)->unk_12.u = next_state + 1;
     goto done;
 

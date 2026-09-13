@@ -24,7 +24,6 @@ Func8032EEE4Record *func_800196E4(void *context, Func8032EEE4Record *source) {
         s32 data_offset;
         register s32 address ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         offset_slot = source->unk8;
-        ASM_KEEP(offset_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         data_offset = (s32) source->unkC;
         address = D_8001DCCC;
         data_offset = data_offset - address;

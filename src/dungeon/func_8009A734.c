@@ -21,7 +21,6 @@ s32 func_8009FE94(s32 x0, s32 y0, s32 check_param, s32 x1, volatile s32 y1) {
     s32 target_value;
     s32 query_aux;
 
-    ASM_KEEP_NV(raw_x0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(raw_y0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     held_x1 = x1;
     ASM_KEEP_NV(held_x1);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

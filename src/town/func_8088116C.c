@@ -4,7 +4,7 @@ extern void func_80700CD0(s32);
 extern u8 D_80700670[];
 
 #ifdef NON_MATCHING
-#define ({                                                                       register s32 zero ASM_REG("$0");                                     zero | (value);                                                      }) (value)
+#define value (value)
 #else
 #endif
 
@@ -13,6 +13,6 @@ void func_8088116C(s32 row, s32 column) {
     s32 offset = (column * 8) + (row * 16);
 
     if (*(s32 *)(D_80700670 + offset) & 1) {
-        func_80700CD0(({                                                                       register s32 zero ASM_REG("$0");                                     zero | (0x278);                                                      }));
+        func_80700CD0(0x278);
     }
 }

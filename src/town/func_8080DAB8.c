@@ -140,6 +140,5 @@ s32 func_8080DAB8(void *first_record) {
         next_record = ((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
         record = next_record + 0x20;
     } while (next_record != 0);
-    ASM_KEEP_NV(next_record);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return 0;
 }

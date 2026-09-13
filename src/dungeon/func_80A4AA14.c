@@ -68,7 +68,7 @@ void func_80174214(
 {
     S_80174214_1 *source_obj = source;
     register s16 saved_value_34 ASM_REG("$21") = value_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 saved_value_28 ASM_REG("$23") = value_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register u32 saved_value_28 ASM_REG("$23") = value_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 saved_value_52 ASM_REG("$22") = value_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
@@ -124,12 +124,9 @@ void func_80174214(
         z_dest->unk_0A = (s16)z_pos;
         ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         object_fields->unk_14 = saved_value_34;
-        ASM_KEEP(saved_value_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_fields->unk_32 = saved_value_52;
         func_8004491C(new_object, init_data, z_dest);
-        ASM_KEEP(saved_value_52);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         object_fields->unk_08.u = saved_value_28;
-        ASM_KEEP(saved_value_28);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 

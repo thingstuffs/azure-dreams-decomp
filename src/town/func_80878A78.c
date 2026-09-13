@@ -25,23 +25,19 @@ extern void func_80702B34(void) __attribute__((noreturn));
 
 void func_80878A78(s32 arg0, s32 arg1)
 {
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 sentinel;
     u8 *ptr;
     s32 first;
 
-#ifdef NON_MATCHING
-    zero = 0;
-#endif
     if (D_8070309C != 0) {
-        D_807030B8->func68(D_807028F4, D_8070291C, zero | 0xE2);
-        D_807030B8->func74(zero | 1);
+        D_807030B8->func68(D_807028F4, D_8070291C, 0xE2);
+        D_807030B8->func74(1);
     }
 
-    D_8070309C = zero | 1;
+    D_8070309C = 1;
     func_80702A54();
 
-    if (arg1 == (zero | 2)) {
+    if (arg1 == (2)) {
         D_807030AC->data = D_80702FB8;
         func_80702B34();
     }
@@ -49,17 +45,16 @@ void func_80878A78(s32 arg0, s32 arg1)
     D_807030AC->data = D_8070306C[arg0];
     do { ptr = D_807030AC->data; } while (0);
     first = ptr[1];
-    sentinel = zero | 0x80;
-    ASM_CLOBBER("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    sentinel = 0x80;
     if (first != sentinel) {
         s32 terminator;
-        terminator = zero | 0x80;
+        terminator = 0x80;
         ptr++;
-        do {
+        loop_0: {
             u32 index = *(volatile u32 *)(ptr + 11);
             u8 **table = D_807030B4;
             *(volatile u32 *)(ptr + 11) = (u32)table[index];
             ptr += 20;
-        } while (*ptr != terminator);
+        } if (*ptr != terminator) goto loop_0;
     }
 }

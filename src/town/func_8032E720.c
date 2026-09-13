@@ -50,7 +50,6 @@ s32 func_80018F20(s32 *slot_list)
     u8 *initial_root;
     u8 *loaded_base;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     slot_cursor = slot_list;
     initial_page = (u8 *)0x80010000;
     do {

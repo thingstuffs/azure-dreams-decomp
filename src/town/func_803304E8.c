@@ -11,7 +11,7 @@ void func_8001ACE8(s32 bit_index)
     s32 *src_word;
     s32 byte_offset;
     s32 biased_index;
-    s32 bit_mask;
+    u32 bit_mask;
 
     if (bit_index != 0) {
         value = D_80016000[0];
@@ -26,14 +26,12 @@ void func_8001ACE8(s32 bit_index)
 
         value = D_80016000_reload[0];
         src_word = (s32 *)(byte_offset + *(s32 *)(value + 0x18));
-        ASM_KEEP(src_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         value = bit_index;
         if (bit_index < 0) {
             value = bit_index + 31;
         }
         bit_mask = 1 << (bit_index - ((value >> 5) << 5));
-        ASM_KEEP(bit_mask);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         *dst_word = bit_mask | *src_word;
     }
 }

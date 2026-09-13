@@ -76,8 +76,8 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
     u8 effect_x;
     u8 effect_y;
     s32 record_index;
-    register s32 record_slot_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 saved_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 record_slot_addr;
+    s16 saved_index;
     void **record_table;
     void **record_slot;
     S_80093E74_3 *stored_record;
@@ -92,8 +92,8 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
 
     {
         s32 cleared_flags;
-        register s32 flags_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        register S_80093E74_1 *slot_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 flags_index;
+        S_80093E74_1 *slot_entry;
         void **source_table;
         u8 index_byte;
 
@@ -101,11 +101,9 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
         flags_index = slot_entry->unk_03;
         cleared_flags = flags_index & 0xDF;
         flags_index &= 0x1F;
-        ASM_KEEP(flags_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         index_byte = (u8)flags_index;
         saved_index = index_byte;
         record_index = saved_index;
-        ASM_KEEP(record_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         source_table = D_800E3DF0;
         slot_entry->unk_03 = (u8) cleared_flags;
         record_slot = source_table + record_index;

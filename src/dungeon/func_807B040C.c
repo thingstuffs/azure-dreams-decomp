@@ -184,7 +184,7 @@ begin_move:
                 room_distance_y = -room_distance_y;
             }
             if (room_distance_y < 3) {
-                register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 result;
                 register s32 next_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 result = 1;
@@ -373,7 +373,7 @@ finish_move:
     func_8009A21C(tile_x, tile_y, tile_flags);
     ((S_807B040C_1 *)entity)->unk_B8 = state;
     {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 result;
 
         result = 1;
         ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

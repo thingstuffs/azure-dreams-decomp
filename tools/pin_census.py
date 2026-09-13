@@ -124,7 +124,23 @@ def port_view(text):
     return " ".join(s.split())
 
 
-def landing_refusal(new, cur, relpath):
+def port_asm(text, row):
+    """What the -DNON_MATCHING port build generates for `text` at the row's own cell (gcc -S, the
+    .file/.ident lines dropped), or None when it does not compile."""
+    import subprocess, tempfile
+    cc = ROOT / "toolchain/compilers" / f"gcc-{row['cell']}"
+    with tempfile.TemporaryDirectory() as td:
+        c = Path(td) / Path(row["c_path"]).name
+        c.write_text(text)
+        r = subprocess.run([str(cc / "gcc"), f"-B{cc}/", "-S", "-O2", *row["flags"].split(), "-DNON_MATCHING",
+                            f"-I{ROOT / 'include'}", "-w", c.name, "-o", "a.s"], cwd=td, capture_output=True, text=True)
+        s = Path(td) / "a.s"
+        if r.returncode or not s.exists():
+            return None
+        return "\n".join(l for l in s.read_text().splitlines() if not l.lstrip().startswith((".file", ".ident")))
+
+
+def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     """Why a byte-exact candidate must still not land, or None.
 
     Byte equality proves only the code the matching build compiles.  So a candidate is refused
@@ -137,11 +153,26 @@ def landing_refusal(new, cur, relpath):
     port arm's `D_80017618 = func_80017560;` was retail's source all along).  Its port arm text
     changes, but what the port build compiles does not - so it lands when `port_view` is identical
     (barriers and no-op pins aside) and no `#if 0` text changed; the matching side is proven by the
-    byte gate, the port side by that identity plus the port front end below."""
+    byte gate, the port side by that identity plus the port front end below.
+
+    Given the `row`, a PORT CODEGEN IDENTITY stands in for the textual one (2026-09-13, t45: a pin
+    removed with its port fallback, `zero | 9` under `#define zero 0` -> `9`): the port build of the
+    candidate, compiled by the row's own compiler at its own cell with -DNON_MATCHING, generates
+    exactly the assembly the current text's port build does.  When the current port build does not
+    compile at all (548963e9 left nameless `#define ({...})` arms behind), `port_ref` - the row's
+    text at a named commit - stands in for it.  `#if 0` text must still be unchanged."""
     global _LINT
     if unscored_text(new) != unscored_text(cur):
-        if port_view(new) != port_view(cur) or _arm_view(new, ("dead",)).split() != _arm_view(cur, ("dead",)).split():
-            return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
+        dead_same = _arm_view(new, ("dead",)).split() == _arm_view(cur, ("dead",)).split()
+        if not dead_same or port_view(new) != port_view(cur):
+            same = False
+            if dead_same and row is not None:
+                a, b = port_asm(new, row), port_asm(cur, row)
+                if b is None and port_ref is not None:
+                    b = port_asm(port_ref, row)
+                same = a is not None and a == b
+            if not same:
+                return "edits a NON_MATCHING/#if 0 arm that no byte gate compiles"
     if _LINT is None:
         import importlib.util
         spec = importlib.util.spec_from_file_location("portability_lint", ROOT / "tools/gate/portability_lint.py")

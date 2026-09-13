@@ -93,7 +93,6 @@ void *func_800C542C(void *owner, s16 effect_value, s32 direction, s16 effect_mod
         call_object = object;
         ASM_KEEP(call_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         callback = D_800C4F20;
-        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800C542C_0 *)object)->unk_10 = callback;
         func_8004491C(call_object, D_800C55A0);
 
