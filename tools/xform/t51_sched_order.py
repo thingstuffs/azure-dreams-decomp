@@ -212,7 +212,8 @@ def candidates(text, focus_line, focus_var=None):
                 # After the declaration's whole line: its trailing comment (often a pin note) stays on it
                 eol = new.find("\n", dp["end"])
                 eol = len(new) if eol < 0 else eol + 1
-                new = new[:eol] + dp["indent"] + dp["type"] + " " + name + ";\n" + new[eol:]
+                sep = "" if dp["type"].endswith("*") else " "      # `u8 *x_2`, not `u8 * x_2`
+                new = new[:eol] + dp["indent"] + dp["type"] + sep + name + ";\n" + new[eol:]
                 yield "single-set:%s:%d" % (var, i + 1), new
 
     # Move complete statements over up to six meaningful siblings. Comments

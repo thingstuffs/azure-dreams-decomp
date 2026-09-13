@@ -299,9 +299,10 @@ mode2:
                 }
                 if (tile_distance < 0) {
                     tile_distance = -tile_distance;
+                    effect->unk_02.s16 = tile_distance * 2;
+                } else {
+                    effect->unk_02.s16 = tile_distance * 2;
                 }
-                effect->unk_02.s16 = tile_distance * 2;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                 target_pos = ((S_func_818C8FD0_3 *)((u8 *)object->unk_60.ptr - 0x20))->unk_08;
                 duration = effect->unk_02.s16;

@@ -563,9 +563,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
                 state_value = ((S_800218E4_0 *)game)->unk_2C.u;
             }
              /* MATCH: the state load precedes timer materialization. */
-            transition_timer = 0x10;
-            ASM_SCHED_BARRIER(); /* MATCH: keep the timer setup local to each state transition. */
-            ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;
+            ((S_800218E4_0 *)game)->unk_2E.s = 0x10;
             goto store_next_state;
         }
         goto update_objects;

@@ -1039,3 +1039,36 @@ its analysis before building anything, froze two held-out sets, then built and m
   codegen; the regate matched. The tool now inserts after the whole line, and its fuse rewrite no longer
   wraps an rhs that is already the local's own cast of one operand.
 - **Evaluation.** What paid: t51, the lane's tool, is the best single generator since the goto-loop family (79 pins direct, 87 with follow-ups, CPU only), and its full-sweep rate matched the frozen held-out rate. The lane itself cost one astra session and replaced a wrong model of the scheduler with the right one. The 16x search paid 7 pins on 2 of 18 rows. What did not: fences. t51 removed 3 of 494, and the lane showed why: a fence is a full dependency cut, so only a changed dependency graph (the fence lanes' CFG and data rewrites) can replace one; the prologue cluster is created after sched1 (0 of 20). What to do better: put t51 in the cascade for changed rows (about 43 s a row); widen it with the directions the lane did not test (pin pairs, multiline statements, wider CFG); for fences, generate real dependencies, such as the direct field read-modify-write the lanes found three times; and run the 4x search on the 49 budget-stopped rows the round-15 lanes held.
+
+## Round 17 (2026-09-13): larger budgets for t51 and the search, and t52 for staged stores across a fence
+
+Gated (the lane-row search's publication gate, then 2 windows and the SLUS build MATCH): **8,628 pins in 1,507 rows**, 17 pins and 3 fences removed.
+
+- **t51 at four times its budget** (1,024 compiles, 96 verifies per row) on the 223 rows where the
+  first sweep used up its budget without a win (3,431 pins; the other 1,013 had run out of candidates
+  instead): **6 rows, 10 pins**, 39 min at 10 workers. `dungeon/func_818B0E10` lost 5 pins (15 to 10).
+  At the larger budget the producer fusion led (4 of the 6) over the lifetime split (2). The rate on
+  these leftovers (2.7%) is about half the first sweep's (4.7%). The 44 of astra's 225 held-out rows
+  that also ran out of t51's budget: 1 row, 1 pin (`dungeon/func_80FB176C`, 3 to 2, a lifetime split),
+  6 min. Together 7 of 267 budget-limited rows (2.6%), 11 pins: a larger t51 budget is past its
+  diminishing return.
+- **pin_search at four times the budget on the 48 fence-lane rows** held out of round 15's searches
+  (`budget4x_d_20260913`): 5 rows, 5 pins (10%), published through its own gate.
+- **t52_fencestage (new).** The sched_astra lane showed that a fence is a full dependency cut, and three
+  fence lanes had replaced one the same way: a value staged through temporaries, written instead as each
+  store's own expression, e.g. a direct read-modify-write (`p->f = p->f | 0xC; ... p->f = p->f | 0x100;`),
+  so the second store's read depends on the first store. t52 carries the temporaries' values
+  symbolically through the straight-line run around a fence and rewrites every store that reads one. It
+  tries every window that contains the fence, because the full run also holds unrelated locals that are
+  read later. On the three lanes' base texts it reproduces two lane outputs exactly and goes one pin
+  further on the third. Over the rows: 50 fenced rows eligible; the first 17 went 0 of 17 (each had 1 to
+  10 exact-checked rewrites, none exact); the other 33 (held until the searches published): 1,
+  `town/func_809548E4` (19 to 18 pins). **1 of 50 overall (2%)**: the rewrite compiles on most rows
+  but is exact on few. The three lane rows shared a mechanism the rest of the fenced population mostly
+  does not, so this is the usual single-shape rate, not an unlock.
+- **t51 integration fixes found while landing round 16:** a declaration's trailing comment moved onto
+  the new `<var>_2` line (20 comment edits), a doubled cast in the fusion rewrite, a lane-directory
+  dependency, and `u8 * x_2` spacing. A first fix for the cast was wrong (`(s32) a * 2` casts only `a`)
+  and a unit test caught it.
+- **The cascade** (t51 now in the list): over the 13 changed rows, nothing. By each row's first change: t51 at 4x 11, the lane-row search 5, t52 1, with one fence each.
+- **Evaluation.** What paid: only the budget escalations, and they have reached their diminishing return (t51 at 4x 2.6% of rows, the search on the held lane rows 10%). t52 confirmed that a single-shape generator built from lane wins pays about 1-2%, even for a shape the lanes found three times. At 17 pins this is the smallest round in many: the CPU levers are used up on rows that have not changed. What to do better: when the levers plateau, the owner-approved mode is one astra lane on the biggest blocker. The largest block is REG (4,207 pins). The sched_astra dumps place most register pins before sched1, in which producer survives CSE and combine, so that is the next lane's question if the owner agrees to spend astra again. Fences (488) are the alternative, as a dependency-graph question.

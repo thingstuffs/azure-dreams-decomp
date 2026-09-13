@@ -125,9 +125,8 @@ void func_8187BFE0(void *state_data, void *source_data) {
     u16 end_coord;
 
     source_position = source_data;
-    ASM_KEEP(source_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode = ((S_8187BFE0_0 *)state_data)->unk_00.s;
-    *(s16 *)(globals_page + 0x694C) = 1;
+    *(s16 *)((u8 *)&D_8002694C) = 1;
 
     switch (mode) {
     default:

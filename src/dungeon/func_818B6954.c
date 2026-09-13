@@ -50,7 +50,8 @@ extern u8 D_800DEC70[];
 /* Create an object with randomized rotation and a radial position offset. */
 s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
     s16 offset_angle;
-    register s32 coord_work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 coord_work;
+    s32 coord_work_2;
     s32 state_word_3;
     s64_local position_xy;
     s32 state_word_4;
@@ -112,9 +113,9 @@ s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
         object_result = (s32)object;
         ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         offset_y = coord_work * 0x1200;
-        coord_work = (*(s32 *)((u8 *)object_state + 4)) + offset_y;
-        (*(s32 *)((u8 *)object_state + 4)) = coord_work;
-        func_800242DC(coord_work);
+        coord_work_2 = (*(s32 *)((u8 *)object_state + 4)) + offset_y;
+        (*(s32 *)((u8 *)object_state + 4)) = coord_work_2;
+        func_800242DC(coord_work_2);
     }
     return 0;
 }

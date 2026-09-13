@@ -23,6 +23,20 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Seventeenth round, gated (the lane-row search's publication gate, then 2 windows MATCH and SLUS SHA-1
+MATCH): **8,628 pins in 1,507 rows**, 17 pins and 3 fences removed; 488 live fences. By each row's first
+change: `t51` at four times its budget 11, the 4x search on the 48 held fence-lane rows 5, the new
+`t52_fencestage` 1. The cascade (t51 now in it) found nothing more. Details: PIN_MECHANISMS, "Round 17".
+- **Worked, but at the diminishing return:** t51 at 1,024 compiles / 96 verifies on the 267 rows that
+  had used up its budget, 7 rows (2.6%); the search at 4x on the held lane rows, 10%.
+- **Did not:** `t52_fencestage`, the staged-store rewrite the fence lanes found three times. It
+  reproduces all three lane outputs from their bases but lands 1 of 50 fenced rows.
+- **Next:** the CPU levers are used up on rows that have not changed, and single-shape generators pay
+  1-2%. The owner-approved mode for a plateau (memory `feedback-astra-blocker-lane`) is ONE astra lane
+  on the biggest blocker: REG pins (4,207), where the sched_astra dumps put the difference before sched1
+  (which producer survives CSE and combine). Ask before spending astra again; the fence
+  dependency-graph question is the alternative.
+
 Sixteenth round, gated (the 16x search's publication gate, then 70 windows MATCH and SLUS SHA-1 MATCH,
 then a comment-only regate): **8,645 pins in 1,507 rows**, 110 pins and 3 fences removed; 491 live
 fences; 16 rows became pin-free. By each row's first change: `t51_sched_order` 87, the astra lane's own
