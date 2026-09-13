@@ -55,7 +55,7 @@ void func_80054B08(s32 message)
   {
     case 0:
     {
-      register S_800847D0 *status ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      S_800847D0 *status;
       register u32 offset_mask ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
       u16 record_value;
       u32 first_offset;
@@ -92,8 +92,7 @@ void func_80054B08(s32 message)
       second_offset = second_offset + 0x20;
       status->field33 = second_tag;
       flags = D_800847D0.flags1;
-      second_offset = second_offset + offset_base;
-      *(u32 *) &status->field14 = second_offset;
+      *(u32 *) &status->field14 = ((u32)(second_offset + offset_base));
       if (flags & 0x400)
       {
         D_800847D0.flags1 = flags | 0x4000;

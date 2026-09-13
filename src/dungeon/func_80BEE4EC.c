@@ -109,7 +109,8 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, Rec_D_800E3D7C *position, Rec_
     s32 direction;
     s32 color;
     s32 variant_index;
-    register s32 effect_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 effect_value;
+    s32 effect_value_2;
     u16 fade_left;
     u16 elapsed;
     u16 fade_timer;
@@ -118,7 +119,7 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, Rec_D_800E3D7C *position, Rec_
     void *effect_model;
     S_80173CEC_4 *target_color;
     register S_80173CEC_7 *effect_globals ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register S_80173CEC_8 *effect_position ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    S_80173CEC_8 *effect_position;
     S_80173CEC_9 *effect_sprite;
     S_80173CEC_3 *scene_color;
     S_80173CEC_5 *effect;
@@ -197,17 +198,16 @@ jt_c4:
     ASM_KEEP(effect_model);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
     effect_position = effect->unk_08;
-    effect_value = position->unk_08.at00_s32.v;
+    effect_value_2 = position->unk_08.at00_s32.v;
     effect_globals = (void *) 0x80170000;
     effect_globals->unk_42E0 = -8;
-    effect_position->unk_08 = effect_value;
+    effect_position->unk_08 = effect_value_2;
     effect_sprite = effect->unk_0C;
     effect_sprite->unk_1E = 0x1000;
     effect_sprite->unk_1C = 0x1000;
     effect_sprite->unk_0C.s = color;
     variant_index = func_800498A0(effect_model, effect_globals, effect_position, color) - 1;
     effect_value = variant_index;
-    ASM_KEEP(variant_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((variant_index << 0x10) >= 0) {
         goto set_animation;
     }
@@ -218,14 +218,14 @@ set_animation:
     spawn_count = 0;
     state->unk_96 = 0U;
     state->unk_9B = (u8) (state->unk_9B + 1);
-spawn_particles:
+do {
     func_80173904(state, position, actor, model, func_80069EF8() & 0xFFF, 0);
     next_spawn = spawn_count + 1;
     spawn_count = next_spawn;
     if (next_spawn >= 8) {
         goto done;
     }
-    goto spawn_particles;
+    } while (1);
 jt_c5:
     elapsed = state->unk_96;
     state->unk_96 = (u16) (elapsed + 1);

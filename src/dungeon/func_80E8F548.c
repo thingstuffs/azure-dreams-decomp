@@ -67,7 +67,8 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
     s32 zero;
     s32 sprite_size;
     S_80174D48_3 *sprite;
-    register void *data_base ASM_REG("$18");
+    void *data_base;
+    void * data_base_2;
     void *object_data;
     void *texture;
     void *object;
@@ -77,21 +78,19 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         (object = func_8003FC64(0x12), object != NULL)) {
         init_object = object;
         transform = ((S_80174D48_0 *)object)->unk_08;
-        data_base = source;
-        coord_value = ((S_80174D48_1 *)data_base)->unk_00;
+        data_base_2 = source;
+        coord_value = ((S_80174D48_1 *)data_base_2)->unk_00;
         sprite = ((S_80174D48_0 *)object)->unk_0C;
         transform->unk_00 = coord_value;
-        transform->unk_04 = ((S_80174D48_1 *)data_base)->unk_04;
-        coord_z = ((S_80174D48_1 *)data_base)->unk_08;
+        transform->unk_04 = ((S_80174D48_1 *)data_base_2)->unk_04;
+        coord_z = ((S_80174D48_1 *)data_base_2)->unk_08;
         transform->unk_10 = 0;
         transform->unk_0C = 0;
         transform->unk_14 = 0xFFEE0000;
         transform->unk_08 = coord_z;
         func_8004491C(init_object, (void *)D_80045340, coord_z);
         sprite->unk_0C = 0x808080;
-        ASM_SCHED_BARRIER();
         sprite_size = 0xC90;
-        ASM_KEEP(sprite_size);
         object_data = (u8 *)object + 0x20;
         sprite->unk_1E = sprite_size;
         sprite->unk_1C = sprite_size;

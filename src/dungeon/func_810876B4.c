@@ -89,7 +89,8 @@ s32 func_80174EB4(s32 priority, Rec_D_800E3D7C *source_state, Rec_func_800AA258_
             S_80174EB4_6 *query_data = render_data;
             u16 *offset_out;
             s32 copy_word_0;
-            register s32 copy_word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 copy_word_1;
+            s32 copy_word_1_2;
             s32 copy_word_2;
             s32 copy_word_3;
 
@@ -100,11 +101,11 @@ s32 func_80174EB4(s32 priority, Rec_D_800E3D7C *source_state, Rec_func_800AA258_
             ASM_KEEP(offset_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             copy_word_0 = source_state->unk_00.at00_s32.v;
-            copy_word_1 = source_state->unk_04.at00_s32.v;
+            copy_word_1_2 = source_state->unk_04.at00_s32.v;
             copy_word_2 = source_state->unk_08.at00_s32.v;
             copy_word_3 = source_state->unk_0C.as_s32;
             state->unk_00.at00.v = copy_word_0;
-            state->unk_04.at00.v = copy_word_1;
+            state->unk_04.at00.v = copy_word_1_2;
             state->unk_08.at00.v = copy_word_2;
             state->unk_0C = copy_word_3;
             copy_word_1 = source_state->unk_14.as_s32;

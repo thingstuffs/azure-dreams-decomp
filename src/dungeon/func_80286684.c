@@ -36,11 +36,12 @@ s32 func_80019684(s16 object_index, s16 mode, s32 activate) {
     Object **buffers = D_80080AF4;
     u16 buffer_index;
     Object *requested_object;
-    register Object *header_object ASM_REG("$4");
+    Object *header_object;
     Object *load_object;
     u32 header;
     register u32 buffer_addr ASM_REG("$2");
     register u32 mask ASM_REG("$3");
+    u32 mask_2;
     if (*slot == buffers[D_80080AFC]) {
         return 1;
     }
@@ -65,8 +66,8 @@ s32 func_80019684(s16 object_index, s16 mode, s32 activate) {
         }
 
         header_object = *slot;
-        mask = 0xFF800000;
-        header_object->field_0 &= mask;
+        mask_2 = 0xFF800000;
+        header_object->field_0 &= mask_2;
         load_object = *slot;
         header = load_object->field_0;
         {

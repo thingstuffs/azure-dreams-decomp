@@ -13,6 +13,7 @@ void func_80025F0C(s32 record, s32 index) {
     s32 number_text[4];
     s32 *text_parts;
     s32 output_text;
+    s32 output_text_2;
     s32 append_text;
     s32 saved_index;
     s32 state_text;
@@ -34,12 +35,11 @@ void func_80025F0C(s32 record, s32 index) {
     } else {
         state_text = text_parts[2];
     }
-    ASM_KEEP(saved_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     strcat(append_text, state_text);
 
-    output_text = record + 4;
-    strcat(output_text, D_800282A0);
+    output_text_2 = record + 4;
+    strcat(output_text_2, D_800282A0);
     suffix_value = *(s32 *)0x8001022C;
     func_8003AD08(suffix_value, number_text);
-    strcat(output_text, (s32)number_text);
+    strcat(output_text_2, (s32)number_text);
 }

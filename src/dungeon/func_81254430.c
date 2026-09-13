@@ -11,14 +11,14 @@ extern S_80173F90 D_80173F90;
 /* Resets global state fields and flags and loads the configured value. */
 void func_81254430(void) {
     u8 *page = (u8 *)0x80010000;
-    register u16 flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 flags;
+    s32 value;
 
     flags = *(u16 *)(page + 0x3714);
     *(s16 *)(page + 0x371A) = 0;
     *(s16 *)(page + 0x3718) = 0;
     *(s16 *)(page + 0x3716) = 0;
-    value = D_80173F90.value;
     *(s16 *)(page + 0x3714) = (flags | 9) & 0xFFEF;
+    value = D_80173F90.value;
     *(s32 *)(page + 0x371C) = value;
 }

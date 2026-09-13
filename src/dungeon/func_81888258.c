@@ -115,11 +115,10 @@ void func_80025A58(void *effect, void *motion_data, void *rotation_data)
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     green_b = U8_AT(effect, 0x55);
     green_b_step = green_b / S16_AT(effect, 0x1A);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    blue_b = U8_AT(effect, 0x56);
-    blue_b_step = blue_b / S16_AT(effect, 0x1A);
-
     U16_AT(effect, 0x3C) = scratch[0xA4 / 2] + U16_AT(motion, 0xA);
+    blue_b = U8_AT(effect, 0x56);
+
+    blue_b_step = blue_b / S16_AT(effect, 0x1A);
     U16_AT(effect, 0x44) = scratch[0xAC / 2] + U16_AT(motion, 0xA);
     U16_AT(effect, 0x4C) = scratch[0xB4 / 2] + U16_AT(motion, 0xA);
     ticks_left = (u16)S16_AT(effect, 0x1A) - 1;

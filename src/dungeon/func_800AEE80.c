@@ -76,7 +76,8 @@ void func_800B45E0(void *effect, S_800B45E0_2 *motion, S_800B45E0_4 *sprite) {
     u16 hold_ticks;
     u16 fade_out_ticks;
     u16 frame;
-    register u8 brightness ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    u8 brightness;
+    u8 brightness_2;
     u8 next_brightness;
     S_800B45E0_1 *owner;
     S_800B45E0_3 *anchor;
@@ -122,8 +123,8 @@ jt_c1:
     if ((s16) fade_in_ticks <= 0) {
         goto finish_fade_in;
     }
-    brightness = sprite->unk_0C.at02.v;
-    next_brightness = brightness + ((s32) (0x80 - brightness) / (s16) fade_in_ticks);
+    brightness_2 = sprite->unk_0C.at02.v;
+    next_brightness = brightness_2 + ((s32) (0x80 - brightness_2) / (s16) fade_in_ticks);
     sprite->unk_0C.at02.v = next_brightness;
     sprite->unk_0C.at01.v = next_brightness;
     sprite->unk_0C.at00.v = next_brightness;

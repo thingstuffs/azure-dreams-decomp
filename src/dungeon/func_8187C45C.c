@@ -201,13 +201,9 @@ await_launch:
         object = PTR(table_value, -0x18);
         U16(effect, 0x74) = U16(object, 2);
         U16(effect, 0x76) = U16(object, 6);
-           /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         offset_value = PTR(owner, 0x60);
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         offset_value = (void *)(u32)U8(offset_value, 0x13);
-        table_value = (void **)&D_800DDC40;
-        offset_value = (u8 *)offset_value + (u32)table_value;
-        ASM_KEEP_DEP_NV(offset_value, table_value);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        offset_value = (u8 *)offset_value + (u32)((void **)((void **)&D_800DDC40));
         table_value = (void **)(u32)U8(offset_value, 0);
         offset_value = (void *)(u32)U16(object, 0xA);
         table_value = (void **)((u32)table_value + 0x20);
@@ -286,7 +282,7 @@ await_launch:
 
 move_projectile:
     trail_color = 0x60;
-trail_loop:
+do {
     object = func_8003FC64(0x12);
     object_data = (u8 *)object + 0x20;
     if (object != 0) {
@@ -367,7 +363,7 @@ trail_loop:
     offset_value = (void *)((s32)offset_value + (s32)z_step);
     S32(motion, 4) = (s32)table_value;
     S32(motion, 8) = (s32)offset_value;
-    goto trail_loop;
+    } while (1);
 
 spawn_impact:
     if (S16(effect, 0x96) == 0) {
@@ -586,7 +582,6 @@ set_render_flag:
     goto end;
 
 reach_target:
-    ASM_SCHED_BARRIER();
     U16(effect, 0xA) = 3;
     U16(effect, 0x82) = 0;
     table_value = PTR(owner, 0x60);

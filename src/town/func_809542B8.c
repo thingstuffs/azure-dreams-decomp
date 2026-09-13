@@ -256,9 +256,8 @@ s32 func_800212B8(void) {
         child_slot = owner + 8;
         do {
             new_obj = func_8003FD64(0x136, D_80083498);
-            child_obj = new_obj;
-            ASM_KEEP(child_obj);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             AT(void *, child_slot, 0x20) = new_obj;
+            child_obj = new_obj;
             if (child_obj != 0) {
                 obj = child_obj;
                 AT(void *, obj, 0x10) = D_80023260;

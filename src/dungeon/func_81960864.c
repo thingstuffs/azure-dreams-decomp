@@ -13,7 +13,7 @@ void func_81960864(void *draw_data, s32 draw_mode)
     s32 start_packet;
     s32 end_packet;
     s16 buffer_shift;
-    register void *ordering_table ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *ordering_table;
     s32 mode_offset;
     s32 base_offset;
     void **draw_contexts;
@@ -22,10 +22,10 @@ void func_81960864(void *draw_data, s32 draw_mode)
 
     draw_context = D_80083160[0];
     draw_contexts = D_80083160;
+    buffer_shift = draw_context != (void *)D_801C9E40;
     start_packet = *(s32 *)((u8 *)draw_context + 0x8D0);
     ordering_table = (u8 *)draw_context + 0x8B0;
     *(s32 *)((u8 *)draw_context + 0x8D0) = start_packet + 0xC;
-    buffer_shift = draw_context != (void *)D_801C9E40;
     func_80067E2C(start_packet, D_80083160[0], draw_context);
     {
         void *packet_table;
@@ -51,7 +51,6 @@ void func_81960864(void *draw_data, s32 draw_mode)
         s32 needs_shift;
 
         needs_shift = buffer_shift;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         base_offset = 0;
         if (needs_shift != 0) {
             base_offset = -0xE0;

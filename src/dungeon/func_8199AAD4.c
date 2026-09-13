@@ -224,9 +224,8 @@ state_two:
     entry = (void *)0x80020000;
     ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     table_end = (u8 *)entry + 0x4AE0;
-    ASM_KEEP(table_end);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    table_start = table_end - 0x54;
     entry = ((S_8199AAD4_0 *)self)->unk_04;
+    table_start = table_end - 0x54;
     start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
     start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
     target_node = ((S_8199AAD4_5 *)entry)->unk_08;

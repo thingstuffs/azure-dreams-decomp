@@ -69,6 +69,7 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
     u8 *player;
     u8 *action_slot;
     u8 *counter_base;
+    u8 * counter_base_2;
     u8 *action_table;
     u8 *action_entry;
     volatile u16 *action_flags;
@@ -89,11 +90,10 @@ void func_801717D0(u8 *entity, s32 action_param, u8 *sprite, u8 *direction_frame
         if ((((S_801717D0_0 *)self)->unk_46 & 0x3FFF) >= 5) {
             special_action = 1;
             if (((Rec_D_800E3D7C *)D_800E3D7C)->unk_A4.at02_u16.v == 2) {
-                counter_base = (u8 *)&D_80083460;
-                ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                counter = ((S_801717D0_2 *)counter_base)->unk_0A;
+                counter_base_2 = (u8 *)&D_80083460;
+                counter = ((S_801717D0_2 *)counter_base_2)->unk_0A;
                 counter--;
-                ((S_801717D0_2 *)counter_base)->unk_0A = counter;
+                ((S_801717D0_2 *)counter_base_2)->unk_0A = counter;
             }
 
             player = D_800E3D7C;

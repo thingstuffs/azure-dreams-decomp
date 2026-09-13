@@ -77,7 +77,7 @@ void func_80170AD0(void *state, void *position, void *effect_arg)
     s16 ticks_left;
     s16 next_ticks;
     s32 brightness;
-    register s32 scaled_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 scaled_offset;
     s32 position_value;
     s32 reference_value;
     s32 effect_size;
@@ -128,8 +128,7 @@ set_amount:
         scaled_offset += 0xFFF;
     }
     scaled_offset >>= 12;
-    scaled_offset = -scaled_offset;
-    ((S_80170AD0_1 *)effect)->unk_22 = scaled_offset / 2;
+    ((S_80170AD0_1 *)effect)->unk_22 = ((s32)(-scaled_offset)) / 2;
 
     if (((S_80170AD0_0 *)state)->unk_A2 == 0) {
         coord_work.xyz[0] = ((S_80170AD0_3 *)effect_coords)->unk_02;

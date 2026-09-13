@@ -59,11 +59,12 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
     register void *entity ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 state_direction;
     s32 direction_index;
-    register void *call_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *call_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *call_part ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *call_self;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 previous_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *call_entity;
+    void *call_motion;
+    void *call_part;
+    void *call_self;
+    s32 previous_state;
+    s32 previous_state_2;
     register s32 floor_height ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
     s32 view_angle;
@@ -83,7 +84,7 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
         if (callback == (EntityCallback)&D_80170F68) {
             call_self = entity_input;
             callback(call_self, motion_input, part_input, call_self);
-            goto done;
+            return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
         goto done;
@@ -92,9 +93,9 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
     call_entity = actor;
     call_motion = motion;
     call_part = part;
-    previous_state = (*(u8 *)((u8 *)actor + 0x6D));
+    previous_state_2 = (*(u8 *)((u8 *)actor + 0x6D));
     call_self = actor;
-    state_direction = (s8)previous_state;
+    state_direction = (s8)previous_state_2;
     if (func_800A9E70(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }

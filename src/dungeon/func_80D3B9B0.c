@@ -60,9 +60,10 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     s16 state_or_dir;
     s32 direction;
     register s32 update_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *check_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *check_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *check_part ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 update_value_2;
+    void *check_obj;
+    void *check_motion;
+    void *check_part;
     void *check_context;
     u16 part_flags;
     Callback paused_callback;
@@ -96,9 +97,9 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     check_obj = obj;
     check_motion = motion;
     check_part = part;
-    update_value = (*(u8 *)((u8 *)obj + (0x6D)));
+    update_value_2 = (*(u8 *)((u8 *)obj + (0x6D)));
     check_context = obj;
-    state_or_dir = (s8)update_value;
+    state_or_dir = (s8)update_value_2;
     if (func_800A9E70(check_obj, check_motion, check_part, check_context) != 0) {
         return;
     }

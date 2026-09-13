@@ -15,7 +15,7 @@ extern s32 *D_800DD6B8[];
 void func_80091A38(void *object, void *unused_1, void *unused_2, void *context) {
     u8 *callback_data;
     u8 state;
-    register s32 **callback_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 **callback_table;
     s32 *callback_row;
     u32 row_index;
     u32 entry_index;
@@ -27,10 +27,10 @@ void func_80091A38(void *object, void *unused_1, void *unused_2, void *context) 
     state = *((u8 *)object + 0x9B);
     if (state == 0 || state == 16) {
         callback_data = *(u8 **)((u8 *)object + 0x110);
-        callback_table = D_800DD6B8;
         address_mask = 0xFFFFFF;
         row_index = callback_data[1] - 1;
         entry_index = callback_data[0] - 1;
+        callback_table = D_800DD6B8;
         callback_row = callback_table[row_index];
         callback_entry = (u32)callback_row[entry_index];
         bank = callback_entry >> 0x18;

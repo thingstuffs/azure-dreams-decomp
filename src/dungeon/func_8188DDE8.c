@@ -115,11 +115,10 @@ void func_800255E8(void *effect, void *motion, void *rotation)
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     green_b = U8_AT(effect, 0x59);
     green_step_b = green_b / S16_AT(effect, 0x1A);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    blue_b = U8_AT(effect, 0x5A);
-    blue_step_b = blue_b / S16_AT(effect, 0x1A);
-
     U16_AT(effect, 0x40) = scratch[0xA4 / 2] + U16_AT(motion_state, 0xA);
+    blue_b = U8_AT(effect, 0x5A);
+
+    blue_step_b = blue_b / S16_AT(effect, 0x1A);
     U16_AT(effect, 0x48) = scratch[0xAC / 2] + U16_AT(motion_state, 0xA);
     U16_AT(effect, 0x50) = scratch[0xB4 / 2] + U16_AT(motion_state, 0xA);
     frames_left = (u16)S16_AT(effect, 0x1A) - 1;

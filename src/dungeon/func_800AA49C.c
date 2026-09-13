@@ -41,7 +41,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     register s32 angle ASM_REG("$16");
     register s32 next_angle ASM_REG("$17");
     register s32 angle_step ASM_REG("$22");
-    s32 start_x;
+    s16 start_x;
     s32 end_y;
     register s16 *scratch ASM_REG("$18") = (s16 *)0x1F800000;
     register void *view ASM_REG("$8");
@@ -99,14 +99,14 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         angle = (s16)angle;
     } while (0);
     {
-        s32 coord;
+        s16 coord;
         s32 raw_x;
         s32 raw_y;
-        register s32 call_value ASM_REG("$4");
+        s32 call_value;
         void *call_segment;
         s16 *call_scratch;
         s32 scaled_coord;
-        register s32 end_x ASM_REG("$16");
+        s32 end_x;
         start_x = func_80064584(angle) * 6 - offset_x;
         scaled_coord = func_800644B8(angle) * 6;
         coord = scaled_coord - offset_y;
@@ -120,8 +120,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x72 / 2] = coord;
             raw_x = func_80064584(angle);
             call_value = angle;
-            scaled_coord = raw_x * 6;
-            coord = scaled_coord - offset_x;
+            coord = (raw_x * 6) - offset_x;
             raw_y = func_800644B8(call_value);
             call_scratch = scratch;
             last_result = last_result;
@@ -162,10 +161,10 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
 
     {
         register u16 saved_angle ASM_REG("$8");
-        s32 coord;
+        s16 coord;
         s32 raw_x;
         s32 raw_y;
-        register s32 call_value ASM_REG("$4");
+        s32 call_value;
         void *call_segment;
         s16 *call_scratch;
         s32 call_previous;
@@ -214,10 +213,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             scratch[0x7a / 2] = end_y;
             end_x = func_80064584(next_angle) * 6 - offset_x;
             start_x = end_x;
-            ASM_KEEP(start_x);
             scaled_coord = func_800644B8(next_angle) * 6 - offset_y;
             coord = scaled_coord;
-            ASM_KEEP(coord);
             call_scratch = scratch;
             call_value = (s32)shape;
             call_segment = segment;

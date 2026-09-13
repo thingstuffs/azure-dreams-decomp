@@ -30,7 +30,7 @@ void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
     s32 center_y;
     s32 segment_count;
     s32 radius_y;
-    register u8 *template ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u8 *template;
     u8 *flat_tri;
     u8 *shaded_tri;
     register u8 *field_ptr ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -39,11 +39,11 @@ void *func_8004B954(void *tint_a, void *tint_b, void *primitives,
 
     first_segment = 1;
     template = (u8 *)primitives;
+    shaded_tri = template;
     flat_tri = template;
     radius_x = S16_AT(flat_tri, 0x10) - S16_AT(flat_tri, 0x08);
     radius_y = S16_AT(flat_tri, 0x22) - S16_AT(flat_tri, 0x0A);
     flags = U8_AT(style, 0);
-    shaded_tri = template;
     if (!(flags & 0x20)) {
         segment_count = 0x10;
         if (flags & 0x10) {

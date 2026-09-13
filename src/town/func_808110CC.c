@@ -144,12 +144,12 @@ case_1: {
 }
 
 case_2: {
-            register u16 phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            u16 phase;
             if (FIELD(arg0, s16 *, 0xA2) <= 0) {
                 phase = FIELD(arg0, u16 *, 0xA6);
+                FIELD(arg0, u16 *, 0xA2) = phase;
                 mode = FIELD(arg0, u16 *, 0xA0);
                 value = (s32)0xFFC00000 / (s16)phase;
-                FIELD(arg0, u16 *, 0xA2) = phase;
                 if (mode & 1) {
                     if ((s16)mode == 1)
                         a0 = value;

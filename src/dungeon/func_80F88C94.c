@@ -123,6 +123,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
     s32 velocity_x;
     s32 velocity_z;
     register s32 operand ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 operand_2;
     s32 index;
     s32 state;
     void *particle_motion;
@@ -242,10 +243,9 @@ store_next_state:
         result -= operand;
         result = (result << 15) >> 1;
         ((S_80172494_3 *)motion)->unk_0C = result;
-        ASM_USE(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result = ((Rec_D_80082E80 *)map_actor)->unk_25 << 6;
-        operand = ((S_80172494_3 *)motion)->unk_06.s - 0x20;
-        result -= operand;
+        operand_2 = ((S_80172494_3 *)motion)->unk_06.s - 0x20;
+        result -= operand_2;
         result = (result << 15) >> 1;
         ((S_80172494_3 *)motion)->unk_10 = result;
         if (!(((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000) &&

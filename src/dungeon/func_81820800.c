@@ -201,8 +201,6 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)(direction_offset + x_steps);
     step_y = *(s16 *)(direction_offset + (s8 *)&D_8006CCE8);
-    ASM_KEEP_NV(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(state_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (state_obj->unk_0A != 1) {
         goto dispatch;
     }
@@ -241,10 +239,11 @@ state_aim:
 scan_tiles:
     {
         S_func_81820800_5 *tile_data = actor_data;
-        register s32 tile_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        s32 tile_left;
+        s32 tile_left_2;
         s32 tile_top;
-        tile_left = (tile_data->unk_24 + offset_x) << 6;
-        coord_x = tile_left + 0x20;
+        tile_left_2 = (tile_data->unk_24 + offset_x) << 6;
+        coord_x = tile_left_2 + 0x20;
         tile_top = (tile_data->unk_25 + offset_y) << 6;
         coord_y = tile_top + 0x20;
         ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

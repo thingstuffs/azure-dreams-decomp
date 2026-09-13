@@ -99,9 +99,8 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         x_edge += 0x10;
         ASM_KEEP(x_edge);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_81876014_0 *)effect)->unk_52 = x_edge;
-        x_edge = x_base;
         ((S_81876014_0 *)effect)->unk_54 = x_base;
-        ASM_KEEP(x_base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        x_edge = x_base;
         z_third = vertex_coord;
         ASM_KEEP(z_third);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         z_third += 0x10;

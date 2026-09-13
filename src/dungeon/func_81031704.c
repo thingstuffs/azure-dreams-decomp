@@ -49,15 +49,15 @@ extern u8 D_801760CC[];
 /* Advances a timed actor animation sequence and resets its action on completion. */
 void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *animation, void *actor_ptr)
 {
-    register void *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *actor;
     s32 state;
     u8 current_state;
     u16 timer;
     u32 work;
     void *call_actor;
 
-    actor = actor_ptr;
     state = action->unk_9B;
+    actor = actor_ptr;
     if (state == 1) {
         goto state_1;
     }

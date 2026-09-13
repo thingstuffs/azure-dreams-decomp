@@ -32,7 +32,6 @@ void func_80043458(void) {
     ASM_USE(primary_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     primary_flags = (WordPage *)0x80010000;
     entry_bytes = (BytePage *)primary_flags;
-    ASM_KEEP(entry_bytes);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     state_base = (u8 *)entry_bytes;
     ASM_KEEP(state_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     *(volatile s32 *)(state_base + 0x208C) = 0;
@@ -45,8 +44,8 @@ void func_80043458(void) {
         entry_count += 1;
         entry_bytes->value &= 0x5F;
         primary_flags->flags &= primary_mask;
-        entry_bytes = (BytePage *)((u8 *)entry_bytes + 4);
         primary_flags = (WordPage *)((u8 *)primary_flags + 0x54);
+        entry_bytes = (BytePage *)((u8 *)entry_bytes + 4);
     } while (entry_count < 0x14);
 
     entry_count = 0;

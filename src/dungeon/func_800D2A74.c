@@ -76,14 +76,16 @@ jt_c0:
     effect->unk_4C.s = (s16) ((u16) effect->unk_4C.s + 1);
 jt_c1: {
     s32 motion_value;
+    s32 motion_value_2;
     s32 motion_step;
-    register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 motion_step_2;
+    s32 color_step;
 
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
-    motion_value = effect->unk_1C.at00.v;
-    motion_step = effect->unk_28;
+    motion_value_2 = effect->unk_1C.at00.v;
+    motion_step_2 = effect->unk_28;
     color_step = 0x40000;
-    effect->unk_1C.at00.v = motion_value + motion_step;
+    effect->unk_1C.at00.v = motion_value_2 + motion_step_2;
     color_step |= 0x404;
     primitive->unk_0C = primitive->unk_0C + color_step;
     motion_step = effect->unk_48.u;

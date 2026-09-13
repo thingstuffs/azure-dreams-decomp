@@ -363,9 +363,8 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
                     texture_v += v_step;
                     left_y += left_y_step;
                     saved_right_y = next_right_y;
-                    ASM_KEEP_NV(saved_right_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                    right_y = saved_right_y;
                     next_right_y += right_y_step;
+                    right_y = saved_right_y;
                 } while (row < 4);
             } else {
                 draw_callback = (s32 (*)(s32, void *, void *, void *, s32))((S_800C6B40_1 *)part)->unk_08.at00u.v;

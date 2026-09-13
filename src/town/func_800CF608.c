@@ -13,7 +13,8 @@ typedef struct S_800CCD68_0 {
 /* Steps a timed four-phase value sequence and counts completed cycles. */
 void func_800CCD68(S_800CCD68_0 *sequence)
 {
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 value;
+    s32 value_2;
     s32 state;
 
     state = sequence->unk_6A.s;
@@ -65,10 +66,10 @@ state_2:
 set_value:
     sequence->unk_72 = value;
 advance_state:
-    value = sequence->unk_6A.u;
+    value_2 = sequence->unk_6A.u;
     sequence->unk_6C = 3;
-    value++;
-    sequence->unk_6A.u = value;
+    value_2++;
+    sequence->unk_6A.u = value_2;
     goto done;
 
 state_3:

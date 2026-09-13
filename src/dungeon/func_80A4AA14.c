@@ -113,9 +113,8 @@ void func_80174214(
         z_jitter = rand();
         new_object = object_fields;
         init_data = &D_80173E94;
-        ASM_USE2(new_object, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        z_jitter &= 0x1F;
         z_pos = ((S_80174214_6 *)(source_obj->unk_08))->unk_0A;
+        z_jitter &= 0x1F;
         object_fields = (u8 *)new_object + 0x20;
         z_dest = ((S_80174214_4 *)new_object)->unk_08;
         z_pos += z_jitter;

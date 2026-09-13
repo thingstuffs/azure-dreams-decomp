@@ -36,6 +36,7 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
     S0 *object = self;
     s32 y_limit;
     s32 next_value;
+    s32 next_value_2;
     s32 base_y;
     static void *const state_labels[4] = {&&L_CHECK_DISTANCE, &&L_MOVE, &&L_CHECK_STATE, &&L_RAISE_TARGET};
 
@@ -47,10 +48,9 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
         state = object->f68;
         countdown--;
         object->f6C = countdown;
-        ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     }
-    next_value = 0x800000;
-    y_limit = base_y + next_value;
+    next_value_2 = 0x800000;
+    y_limit = base_y + next_value_2;
     ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((u32)state < 6) {
         goto *D_80089900[state];

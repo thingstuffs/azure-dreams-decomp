@@ -86,9 +86,8 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     coord_value = coords->unk_24.s;
     coord_offset = *step_x;
     ASM_KEEP_NV(direction);
-    ASM_CLOBBER("$4");
-    lookup_arg = direction;
     saved_height_offset = entry_height_offset;
+    lookup_arg = direction;
     target_x = coord_value + coord_offset;
     bounds_page = 0x80080000;
     ASM_KEEP_DEP_NV(bounds_page, target_x);

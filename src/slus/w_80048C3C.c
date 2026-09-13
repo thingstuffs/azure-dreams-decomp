@@ -30,7 +30,7 @@ extern s8 D_80080A89[9];
 /* Loads and initializes a resource, registers its payload in two VRAM cache slots, and returns its table slot. */
 void *func_80048C3C(s32 resource_id) {
     void *payload;
-    void *entry;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *entry;
     void *entry2;
     void *entry3;
     void *resource;
@@ -53,9 +53,8 @@ void *func_80048C3C(s32 resource_id) {
     func_80047200(payload_arg, enabled, enabled);
     func_8003F80C(payload, 0x7980, ((S_80048C3C_1 *)resource)->unk_20, 2);
     func_80046F88(resource);
-    func_80048B8C(resource);
     entry3 = (u8 *)entry2 + 4;
-    ASM_KEEP(entry3);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_80048B8C(resource);
     D_80080A89[0] = 0;
     return entry3;
 }
