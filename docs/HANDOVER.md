@@ -23,6 +23,29 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fourth round, gated (2 windows MATCH and SLUS SHA-1 MATCH): **8,422 pins in 1,489 rows**, 3 pins removed (2 register pins, 1 keep); fences unchanged (448 scheduling, 70 memory). Details: PIN_MECHANISMS, "Round 24". The
+session's last round: rounds 19 to 24 took the tree from 8,521 to 8,422 pins, scheduling fences from 488 to
+448 and memory fences from 82 to 70.
+- **Tooling:** the lane builders, briefs, launcher, landing transaction and held-out freeze now live in
+  `tools/lanes/` (they were in a session scratchpad); LANE_KIT lists them. `tools/site_shapes.py` ranks pin
+  sites by the shape of their neighbourhood. This round's landing ran through `tools/lanes/land_lanes.sh`.
+- **Landed:** two lane outputs exact since their lanes ran, which the port build had refused, fixed by
+  hand. In one the symbol was declared only under `#ifdef __mips__`; in the other the lane had renamed a
+  declaration in the NON_MATCHING arm. The cascade took a third pin (`t44_doloop_greedy`).
+- **Measured:**
+  - Register pins, read with the register-anonymised tables: 69% only choose registers (operations and
+    order identical through the first scheduler), 26% change operations before combine.
+  - Site shapes: 5,664 shapes for 8,435 sites, and the top 30 cover 7%.
+  - Transfer copies are already harmonised: one group of 294 still differs.
+- **Next (the owner's call):**
+  - The largest class left is register allocation choices: about 2,800 of the 4,146 register pins.
+    reg_astra found the lever (whether a value is local or global to the allocator, its suggestions, its
+    priorities), and t53 searches it. A second astra lane on allocation alone is the one lane likely to
+    unlock a large piece. Brief it with local-alloc.c and global.c, this census, t53's per-site journal and
+    the scaffolding list, and give it everything first (LANE_KIT).
+  - CPU: the searches per mechanism (t51, t53, t53k) on rows changed since their last pass.
+  - Still parked: TAILSLOT pins and the one ovmovie fence row.
+
 Twenty-third round, gated (4 windows MATCH and SLUS SHA-1 MATCH): **8,425 pins in 1,489 rows**, 7 pins
 removed (5 keeps); 448 live scheduling fences, 70 memory. Details: PIN_MECHANISMS, "Round 23".
 - **Did not:** keep lanes with the fence-lane recipe, 2 of 48 (4%). Their near misses are equivalences CSE is
@@ -41,7 +64,7 @@ removed (7 fences); 449 live scheduling fences, 70 memory. Details: PIN_MECHANIS
 - **Did not:** the 14 largest fence rows, 1 of 14; `t58_nmsymbol`, 0 of 14 (a NON_MATCHING arm is evidence,
   not a lever alone; a generator must never edit a NON_MATCHING arm, sweep.py refuses it).
 - **Next:** luna keep lanes (keeps1-4) on rows whose nearest single keep erasure is within 3 instructions
-  of retail (`build_keep_lanes.py` and `keep_lane_brief.md` in the session scratchpad, pool from the t53k
+  of retail (`build_keep_lanes.py` and `keep_lane_brief.md`, in `tools/lanes/` since round 24, pool from the t53k
   journal), and one slus fence lane (fences33, the 13 slus fence rows no lane has had).
 
 Twenty-first round, gated (9 windows MATCH and SLUS SHA-1 MATCH): **8,440 pins in 1,492 rows**, 26 pins
@@ -61,7 +84,7 @@ fences removed (466 live, 80 memory). Details: PIN_MECHANISMS, "Round 20".
 - **Did not:** re-laning rows an earlier fence lane failed on, 4 of 44 (9%) against 28% on fresh rows;
   stopped. One of the four was refused (`identical-arm-branch`, `ledger/refused_trades.jsonl`).
 - **Next:** fresh fence rows with more than 15 pins (63 never laned): fences25-28 on the 48 smallest, with
-  the round-19 packs (`build_fence_lanes19.py` in the session scratchpad, `POOL=fence_pool21.txt`), whose
+  the round-19 packs (now `tools/lanes/build_fence_lanes.py --pool <rows>`), whose
   brief now lists every round-19/20 winning shape and the refused forms.
 
 Nineteenth round, part 2, gated (19 windows MATCH and SLUS SHA-1 MATCH): **8,475 pins in 1,492 rows**, 16
@@ -78,8 +101,8 @@ pins removed (15 of them fences), 46 in the round; 475 live scheduling fences (4
   trades, all refused, recorded in `ledger/refused_trades.jsonl` and shown by `pin_evidence.py`. The brief
   omitted the scaffolding list; LANE_KIT now carries it verbatim. Joint erasures on 82 changed rows: 0.
 - **Next:** re-lane the earlier fence-lane misses with the round-19 packs: 158 of the 183 rows given to
-  fences2-17 still hold a fence. The builder (`build_fence_lanes20.py` in the session scratchpad; copy
-  it into tools/ if it pays) quotes each row's previous lane verdict. Four luna lanes (fences21-24, 48
+  fences2-17 still hold a fence. The builder (now `tools/lanes/build_fence_lanes.py
+  --relane`) quotes each row's previous lane verdict. Four luna lanes (fences21-24, 48
   rows) measure the rate first. Then keep_astra's leads: real joins and sub-word producer types.
 
 Nineteenth round, part 1, gated (the search's publication gate, then 5 windows MATCH and SLUS SHA-1

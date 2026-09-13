@@ -19,11 +19,11 @@ extern u8 D_8006CCE8[];
 extern u8 D_800DDC40[];
 extern u8 D_8008346C[];
 extern u8 D_800814A0[];
+extern u8 D_80080000[];
 
 #ifdef __mips__
 extern u8 D_80020000[];
 __asm__(".set D_80020000, 0x80020000");
-extern u8 D_80080000[];
 __asm__(".set D_80080000, 0x80080000");
 #endif
 
@@ -596,8 +596,7 @@ case_5_tail:
         goto done;
     }
 case_5_tail_prepare:
-    tail_page0 = (u8 *)0x80080000;
-    ASM_KEEP(tail_page0);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    tail_page0 = (u8 *)(D_80080000);
 case_5_tail_effect:
     ((S_FUNC_8188C800_BODY_19 *)tail_page0)->unk_346C = 0;
     ((S_FUNC_8188C800_BODY_0_pre *)self)[-1].unk_00 |= 0x8000;

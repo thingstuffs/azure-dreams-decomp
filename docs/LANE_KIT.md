@@ -8,6 +8,15 @@ scheduler, which produced `t51_sched_order`), `work/native_lane/reg_astra` (roun
 `t53_reg_state`), `work/native_lane/page_astra` (round 18, page-base pins: `t54_pagebase`) and
 `work/native_lane/keep_astra` (round 19, keeps outside page bases: the CSE hide).
 
+Lane tooling (`tools/lanes/`, since round 24; it used to live in a session scratchpad):
+`build_fence_lanes.py` and `build_keep_lanes.py` build luna row packs from a pool of row ids (each row's
+nearest pin, its deciding pass or class, the lone erasure's residue), with the briefs `fence_lane_brief.md`
+and `keep_lane_brief.md`; `launch_lane.sh <lane> luna|sol|astra` starts a lane (its PID in the lane
+directory); `land_lanes.sh <tag> <lane>...` is the landing transaction (the lane filter, the cascade, tidy,
+T2, one gate); `freeze_heldouts.py` freezes a blocker lane's held-out sets (item 6 below).
+`tools/site_shapes.py` ranks every live pin site by the shape of its neighbourhood: where a recurring shape
+(the source of every generator built from a lane win) still is.
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`
@@ -43,6 +52,12 @@ scheduler, which produced `t51_sched_order`), `work/native_lane/reg_astra` (roun
    of 250 keeps at dbr, the wiring table 5. Cross-tabulate the class at combine against the first
    wiring difference at or after combine, per family and per macro. A sweep journal that records
    per-site erasures (t53's `sites[]`) is a larger census for free: t53k's covered 2,958 keeps.
+   **A near miss by assembly distance is not a near miss in C.** Round 23's keep lanes took 48 rows whose
+   single keep erasure was within 3 instructions of retail and made 2 exact (4%): the few instructions were
+   equivalences CSE is entitled to use (a shared constant, a coalesced copy, a folded offset). Pick a lane's
+   pool by CLASS as well as distance: for fences the deciding pass (sched1, dbr, jump2); for any family,
+   not `wiring` first differing at cse. For register pins the first difference is at `rtl` on almost every
+   row (the hard-register declaration changes expansion), so read their first difference at or after cse.
 4. **Exemplars.** The source diffs of the wins already landed for the mechanism. Write them into the
    lane's `evidence/` yourself: a lane may not run git.
 5. **The contracts.** The generator contract (`class T`, `eligible`, `apply_verified(text, row,

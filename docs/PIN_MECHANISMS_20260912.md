@@ -1452,7 +1452,7 @@ scheduling fences, 70 memory. By source: the lanes 3, t59 3, the cascade 1 (t41c
   within 3 instructions of retail (the t53k journal names 622 such rows; these are the 48 with the fewest
   pins). Each row named that keep, its class at combine, the pass whose wiring first differs, what the kept
   variable holds and the erasure's residue; the brief carried keep_astra's mechanism by value kind and the
-  refused forms verbatim (`build_keep_lanes.py`, `keep_lane_brief.md`, session scratchpad).
+  refused forms verbatim (`build_keep_lanes.py`, `keep_lane_brief.md`, in `tools/lanes/` since round 24).
   - keeps4 (2 of 12): the loop decrement moved after the two calls that read the value
     (`dungeon/func_800C72B4`); a kept page plus an offset written as the symbol the file already names
     (`town/func_8096B16C`, `(volatile SourceEntry *)D_80126A18`).
@@ -1484,3 +1484,63 @@ scheduling fences, 70 memory. By source: the lanes 3, t59 3, the cascade 1 (t41c
 - **Evaluation.** Worked: generators from lane wins (t59). Did not: keep lanes (4%), the changed-rows search
   (0). Fence lanes have run through their pool. The next lever needs a new idea rather than the recipe
   applied to another family.
+
+## Round 24 (2026-09-13): lane tooling into the repo, the register census re-read, site shapes, wrap-up
+
+Gated (2 windows MATCH and SLUS SHA-1 MATCH): **8,422 pins in 1,489 rows**, 3 pins removed (2 register pins, 1 keep); fences unchanged (448 scheduling, 70 memory).
+
+- **Lane tooling moved into `tools/lanes/`** (it lived in a session scratchpad, where a new session could not
+  find it): `build_fence_lanes.py` (fresh packs and `--relane`, the round-19 and round-20 builders merged; the
+  brief is now the template `fence_lane_brief.md`, listing every fence-lane win from fences2-33 and the
+  refused forms verbatim), `build_keep_lanes.py` (`--classes` picks by class, per the census rule) with
+  `keep_lane_brief.md`, `launch_lane.sh` (luna by default, the PID in the lane directory), `land_lanes.sh`
+  (the landing transaction: the lane filter, the cascade with t16b, t57, t57b and t59, tidy, T2, one gate;
+  this round's landing ran through it) and `freeze_heldouts.py` (keep_astra's held-out freeze, generalised).
+  LANE_KIT gains the rule round 23 taught: a near miss by assembly distance is not a near miss in C, so pick
+  a lane's pool by class as well as residue.
+- **Two leftover lane outputs landed.** Both had been exact since their lanes ran, and the port build
+  (`-DNON_MATCHING`) refused both; the refusals are in `ledger/sweeps/lane_page_astra.jsonl` and
+  `lane_regrename.jsonl`. `dungeon/func_8188C800` (page_astra): the page literal and its keep written as
+  `D_80080000`, whose declaration sat inside the file's `#ifdef __mips__` block with its `.set`; the
+  declaration moved out beside the other externs (as 30 other files declare it), the `.set` stays.
+  `dungeon/func_80F03000` (regrename): the register pin's variable merged into `start_tile_y`, which the
+  function has already finished with; the lane had also renamed the NON_MATCHING arm's own declaration,
+  a redeclaration in the port build, and that line is restored. The cascade then took the row's second
+  register pin: `t44_doloop_greedy` wrote its `goto state_two_check` loop as a `do`-`while` (8 to 6 pins).
+- **The register census, re-read (`phase_census.py`, 300 register sites, seed 20260915).** Round 23 read
+  "the first wiring difference is at `rtl` on 388 of 443 near-miss rows" as allocation choices. The wiring
+  table is the wrong one for register pins. A hard register shares its renamed name with every other use of
+  that register (arguments, the return value), so the renamed stream differs from expansion on even where
+  nothing else does. In one `late` row the rtl and cse differences are that register's name alone, and
+  combine is identical. The register-anonymised tables (operations and their order) cannot see a name:
+  - **206 of 300 (69%): operations and order identical through the first scheduler.** The pin only
+    chooses registers. By class at combine: wiring 120, late 86. By first difference after allocation:
+    greg for every wiring site; greg 46 and sched2 36 for late.
+  - **77 (26%) change operations before combine** (rtl 31, cse 18, loop 12, combine 12): the hard register
+    hides a value from CSE, the keeps' class.
+  - So round 23's conclusion holds, measured the right way: two thirds of the 4,146 register pins are
+    allocation choices. reg_astra (round 18) proved no class unreachable and named the lever: whether a
+    value is local or global to the allocator, the allocator's suggestions, and its priorities.
+    `t53_reg_state` searches that lever at 16 sites a row.
+- **Site-shape census (`tools/site_shapes.py`, CPU only).** Every live pin site is keyed by its macro and
+  its line with one non-blank line either side: comments and casts dropped, the pinned variable spelled V,
+  identifiers I, numbers N. The t53/t53k per-site facts are joined in.
+  - **8,435 sites fall into 5,664 shapes; 4,640 of them occur once, and the top 30 cover 7%.**
+  - The pin line alone concentrates (the top 30 cover 80%), but that is the macro's own spelling
+    (`ASM_KEEP(V);`) and carries no mechanism.
+  - The shapes that recur with context: kept page constants used with an offset
+    (`V = 0x800E0000; ASM_KEEP(V); p = V + N;`, about 110 sites, class ops), which is the page family
+    t29, t54 and t59 have worked; keeps next to keeps; and one function repeated across overlays.
+- **Transfer copies are already harmonised.** 294 groups of functions identical up to names and numbers
+  (pins and register declarations dropped) cover 1,030 rows. Only one group has members with different pin
+  counts: 2 rows with 1 pin each, whose pin-free copy compiles at another cell. Earlier rounds carried each
+  win to the copies, so an erasure guided by a copy has nothing left to take.
+- **Evaluation: the owner's 20-30 patterns.** Right at the level of mechanism:
+  - register pins: allocation 69%, operation changes 26%;
+  - keeps: the CSE hide, by kind of value;
+  - fences: five deciding passes.
+
+  Wrong at the level of source: each mechanism appears in thousands of different source shapes, so the
+  generators built from recurring shapes have taken what recurs. What remains needs a search per mechanism
+  (t51, t53 and t53k have that form), or a lane that finds a new move for the largest class: register
+  allocation choices.
