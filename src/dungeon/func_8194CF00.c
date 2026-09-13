@@ -99,12 +99,10 @@ void func_80024700(void *source_object)
 
         value = 0x2000;
         object_arg = (s32)object;
-        resource = (u8 *)0x80040000;
-        ASM_KEEP(resource);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_80024700_1 *)primitive)->unk_1E = value;
         ((S_80024700_1 *)primitive)->unk_1C = value;
         scale_component = data->unk_24;
-        resource += 0x5340;
+        resource = (u8 *)&D_80045340;
         ((S_80024700_1 *)primitive)->unk_14.at02.v = scale_component >> 12;
         scale_component = data->unk_26;
         flags_14 = ((S_80024700_1 *)primitive)->unk_14.at00.v;

@@ -89,7 +89,8 @@ state_zero:
 
 state_one:
 {
-    register u8 *direction_base ASM_REG("$2");
+    u8 *direction_base;
+    u8 *direction_base_2;
     s32 next_x;
     s32 next_y;
     s32 signed_value;
@@ -102,13 +103,9 @@ state_one:
     direction_offset = (U16(actor, 0x2A) >> 8) & 0xE;
     frame = (u32)frame < 8U;
     direction_base = (u8 *)(direction_offset + (s32)direction_base);
-    ASM_KEEP_NV(direction_base);
     delta_x = *(s16 *)direction_base;
-    direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);
-    direction_base -= 0x3318;
-    direction_offset = direction_offset + (s32)direction_base;
-    signed_value = *(s16 *)direction_offset;
+    direction_base_2 = (u8 *)&D_8006CCE8;
+    signed_value = *(s16 *)((s32)(direction_offset + (s32)direction_base_2));
     delta_x = -delta_x;
     delta_x <<= 16;
     signed_value = -signed_value;

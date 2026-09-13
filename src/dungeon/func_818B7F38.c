@@ -363,9 +363,8 @@ do {
         goto build_path_endpoint;
     }
     LOAD_TABLE_X_BASE(table_base);
-    ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    index += 1;
     step_dir_offset = (s16) ((S_80025738_0 *)state)->unk_0E;
+    index += 1;
     step_dir_offset *= 2;
     update_x_entry = (u16 *)((s32)step_dir_offset + table_base);
     LOAD_TABLE_Y_BASE(table_base);

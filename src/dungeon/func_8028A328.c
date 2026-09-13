@@ -51,9 +51,8 @@ void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 set
         area = height * coord;
         random_bits &= 7;
         index_sum = (area >> 6) + random_bits + 4;
-        last_index = index_sum;
-        ASM_KEEP(last_index);
         limit_test = index_sum;
+        last_index = index_sum;
     }
     limit_test = limit_test < 0x3D;
     if (!limit_test) {

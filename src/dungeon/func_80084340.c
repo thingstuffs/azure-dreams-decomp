@@ -875,9 +875,8 @@ apply_pending_points:
             if (actor == ((S_80089AA0_26 *)actor_root_page)->unk_3D7C) {
                 s32 clear_mask;
                 clear_mask = (s32)0xFFEF0000;
-                ASM_KEEP_NV(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                page_or_repeat = (s32)0x800E0000;
                 clear_mask |= 0xFFFF;
+                page_or_repeat = (s32)0x800E0000;
                 ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C =
                     ((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & clear_mask;
                 goto begin_linked_pass;

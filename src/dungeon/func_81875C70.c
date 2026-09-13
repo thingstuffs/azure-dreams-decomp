@@ -18,7 +18,7 @@ extern s32 D_800814A0;
 void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
 {
     u8 *p = arg0;
-    u8 old;
+    s16 old;
     u16 temp;
     u16 h0;
     u16 timer0;
@@ -54,7 +54,6 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
 
 jt_c0:
         h0 = *(u16 *)(p + 0x1A);
-        ASM_KEEP(h0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         old = p[0x34];
         *(u16 *)(p + 0x68) = 0;
         *(u16 *)(p + 0x6A) = h0;

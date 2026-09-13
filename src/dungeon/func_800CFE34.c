@@ -34,25 +34,21 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     register u8 *record ASM_REG("$21");
     u8 *effect;
     u8 *appearance;
-    register u8 *coords ASM_REG("$20");
+    u8 *coords;
     void *effect_data;
     u8 *angle_table;
     register s32 facing_index ASM_REG("$16");
-    register s32 facing_check ASM_REG("$3");
+    s32 facing_check;
     u8 *saved_effect;
     void *appearance_type;
     s32 direction_index;
     register s32 angle_sector ASM_REG("$2");
     s16 effect_angle;
-    u16 effect_angle_bits;
 
-    ASM_KEEP(owner);
     record = PTR(owner, 0xAC);
     effect = record + 0x20;
-    ASM_KEEP(effect);
     effect_data = PTR(effect, 0x1C);
     appearance = PTR(record, 0xC);
-    ASM_KEEP(appearance);
     coords = PTR(record, 8);
 
     func_800A020C(effect_data, entity + 0xC);
@@ -68,9 +64,9 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     }
 
     effect_angle = S16(effect, 0x2A);
-    effect_angle_bits = U16(effect, 0x2A);
+    facing_check = U16(effect, 0x2A);
     if (S16(owner, 0x2A) != effect_angle) {
-        U16(owner, 0x2A) = effect_angle_bits;
+        U16(owner, 0x2A) = facing_check;
         func_80047784(
             entity,
             PTR(entity, 0x2C)[(D_80083228 + effect_angle + 0x100) >> 9 & 7],

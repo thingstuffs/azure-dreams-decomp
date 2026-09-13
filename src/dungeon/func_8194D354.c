@@ -192,7 +192,8 @@ void func_80024B54(void *effect, void *position) {
     void *effect_data;
     s32 offset_mode;
     void *target;
-    register void *actor_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *actor_value;
+    void *actor_value_2;
 
     source_pos = position;
     state_or_heading = ((S_80024B54_0 *)effect)->unk_0A.s;
@@ -412,9 +413,9 @@ block_39:
     func_8009CE1C(((S_80024B54_0 *)effect)->unk_14, 0xA, ((S_80024B54_0 *)effect)->unk_09, 9, (s32)(s16)((((S_80024B54_0 *)effect)->unk_0E << 9) + 0x800), ((S_80024B54_0 *)effect)->unk_00, 1);
     clear_tint_mask = 0xEFFFFFFF;
     neutral_color = 0x00808080;
-    actor_value = ((S_80024B54_0 *)effect)->unk_14;
-    ((S_80024B54_1 *)actor_value)->unk_1C = (s32)(((S_80024B54_1 *)actor_value)->unk_1C & clear_tint_mask);
-    effect_data = ((S_80024B54_1_pre *)actor_value)[-1].unk_00;
+    actor_value_2 = ((S_80024B54_0 *)effect)->unk_14;
+    ((S_80024B54_1 *)actor_value_2)->unk_1C = (s32)(((S_80024B54_1 *)actor_value_2)->unk_1C & clear_tint_mask);
+    effect_data = ((S_80024B54_1_pre *)actor_value_2)[-1].unk_00;
     (*(s32 *)((u8 *)effect_data + 0xC)) = neutral_color;
 block_41:
     effect_pool = (M2C_UNK *)0x80080000;
