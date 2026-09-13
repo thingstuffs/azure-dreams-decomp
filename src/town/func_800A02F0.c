@@ -29,13 +29,6 @@ typedef struct S_8009DA50_2 {
 } S_8009DA50_2;   /* var_s0 in func_8009DA50 */
 
 
-#ifdef NON_MATCHING
-#define KEEP_PAIR(a, b) ((void)0)
-#define KEEP_VALUE(v) ((void)0)
-#else
-#define KEEP_PAIR(a, b) __asm__("" : : "r"(a), "r"(b))
-#define KEEP_VALUE(v) __asm__("" : : "r"(v))
-#endif
 
 extern s32 func_80033B2C();
 extern s32 func_8008CC90();
@@ -46,9 +39,9 @@ extern s16 D_8006ADD4;
 void func_8009DA50(u8 *entries, void *bounds, s32 origin_x, s32 origin_y)
 {
     s32 test_x;
-    register s32 test_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 test_y;
     s16 entry_x;
-    register s32 entry_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 entry_y;
     u8 *entry_data;
     register u8 *entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *quad ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -107,12 +100,11 @@ process_entry:
                             entry) != 0) {
                         *entry = 1;
                     }
-                    KEEP_PAIR(entry_x, entry_y);
                     if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0)) {
-                        do {
+                        loop_0: {
                             entry_data += 0x14;
                             entry += 0x14;
-                        } while (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0));
+                        } if (!(((S_8009DA50_2 *)entry_data)->unk_00 & 0xC0)) goto loop_0;
                     }
                 }
             }

@@ -108,7 +108,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     u8 *animation_entry;
     register u32 angle_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 animation_angle;
-    register s32 zero_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 zero_arg;
     PackedRecord *record_base;
     s32 record_offset;
     u16 saved_y;

@@ -99,7 +99,6 @@ void *BODY_NAME(s32 init_flags, s8 pos_x, s8 pos_y, s16 init_value) {
     S_80FF3000_4 *extended_state;
 
     object_state = NULL;
-    ASM_KEEP_NV(object_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     saved_x = pos_x;
     saved_value = init_value;
     saved_y = pos_y;

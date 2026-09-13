@@ -51,7 +51,7 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
     s32 y;
     register s32 offset_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 rect_offset_y;
-    register s32 line_offset_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 line_offset_y;
     register s32 apply_offset_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *line_table;
     s32 primitive_flag;
@@ -89,7 +89,6 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
         ((S_800BB2E4_0 *)state)->unk_8D0 = packet + 0x10;
         ((S_800BB2E4_2 *)packet)->unk_08.at00.v = *line_start;
         ((S_800BB2E4_2 *)packet)->unk_0C.at00.v = *line_end;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         line_offset_y = offset_y;
         ASM_KEEP_NV(line_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         line_table = ordering_table;

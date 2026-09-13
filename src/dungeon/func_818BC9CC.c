@@ -140,7 +140,7 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
     u32 tag_mask;
     u32 window_tag_mask;
     s32 page_depth;
-    register s32 page_blend ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 page_blend;
     s32 page_x;
     u32 x_extent;
     register u32 y_extent ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -352,11 +352,8 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
             func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0x280, 0x100), full_window);
             page_depth = 0;
             tag_mask = 0xFF000000;
-            ASM_USE(tag_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             page_blend = 1;
             page_x = 0x280;
-            ASM_KEEP(page_depth);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(page_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             {
                 u32 *ot;
@@ -386,12 +383,9 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
             }
             {
                 u32 *ot;
-                register u32 packet_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 ot = OT_ADDR(scratch);
-                ASM_KEEP(ot);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                packet_addr = (u32)packet & addr_mask;
-                *ot = (*ot & tag_mask) | packet_addr;
+                *ot = (*ot & tag_mask) | ((u32)packet & addr_mask);
             }
 
             tile_window[0] = 0;

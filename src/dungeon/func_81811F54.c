@@ -1,11 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define LEGACY_ASM_KEEP(value) ((void)0)
-#else
-#define LEGACY_ASM_KEEP(value) \
-    __asm__ __volatile__("" : "=r"(value) : "0"(value))
-#endif
 
 extern u8 D_800157D2[9];
 
@@ -18,7 +12,7 @@ s32 func_80026F54(s32 target_value, s32 prefix_value, s32 target_occurrence)
     s32 result;
 
     occurrence = 0;
-    LEGACY_ASM_KEEP(occurrence);
+    ASM_KEEP(occurrence);
     index = occurrence;
     entry = D_800157D2;
 

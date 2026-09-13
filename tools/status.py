@@ -2,7 +2,7 @@
 """Generate STATUS.md from the ledger (rows, baseline, census, levels)."""
 import collections, json, time
 from common import LEDGER, ROOT, rows, read_jsonl, PARKED_CONTAINERS
-from pin_census import sites_of
+from pin_census import sites_of, hidden_asm
 from census import _fakedep
 
 def main():
@@ -37,7 +37,7 @@ def main():
                 # through the pin machinery, not the raw text: PIN_RE also matches a pin note in a
                 # comment and a local wrapper #define, so a row the campaign had freed kept
                 # being counted and this column drifted from pin_watch and the sweep
-                "pin_total": len(sites_of(t)), "pins_by": collections.Counter(s[1][4:] for s in sites_of(t)),
+                "pin_total": len(sites_of(t)), "pins_by": collections.Counter(s[1][4:] for s in sites_of(t)), "hidden": hidden_asm(t),
                 "gotos": len(_re.findall(r"\bgoto\s+[A-Za-z_]", t)),
                 "computed_goto": len(_re.findall(r"\bgoto\s*\*", t)), "inline_asm": len(_re.findall(r"__asm__|\basm\s*\(", t)),
                 "m2c_locals": len(set(_re.findall(r"\b(temp_[a-z0-9_]+|arg[0-9]|sp[0-9A-F]{2,}|var_[a-z0-9_]+|phi_[a-z0-9_]+)\b", t))),
@@ -83,6 +83,16 @@ def main():
     out.append(f"\nPin sites now: {sum(now.values()):,} in {sum(1 for c in live.values() if c['pin_total']):,} rows; "
                + ", ".join(f"{k} {v:,}" for k, v in now.most_common(8))
                + f".  At the pin: {sum(pins.values()):,}; " + ", ".join(f"{k} {v:,}" for k, v in pins.most_common(8)) + ".\n")
+    hid = collections.Counter()
+    for c in live.values(): hid.update(c["hidden"])
+    out.append(f"Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements {hid['raw-pin']:,}, "
+               f"calls of local asm wrappers {hid['wrapper-call']:,}, hand-written asm in function bodies {hid['asm-code']:,} "
+               f"(C that is missing); symbol aliases {hid['symbol-alias']:,} (a second typed name for one symbol: a missing type); "
+               f"file-scope asm directives {hid['file-asm']:,}.\n")
+    nfl = collections.Counter(min(2, len([x for x in r["cfg"].replace("+", " ").split()[1:] if x.startswith(("-f", "-O", "-m"))]))
+                          for r in rs if r["id"].split("/")[0] not in PARKED_CONTAINERS)
+    out.append(f"Per-row optimization flags (weak evidence about the real build; each switch is undone from the "
+               f"`t30_cellpins` journal's `cell_from`): {nfl[1]:,} rows carry one flag, {nfl[2]:,} carry two or more.\n")
     lv = LEDGER / "levels.jsonl"
     out.append("## Cleanliness levels (bytes at or above each level)\n")
     if lv.exists():

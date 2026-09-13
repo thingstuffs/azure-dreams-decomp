@@ -88,7 +88,7 @@ extern Copy24 D_80083780;
 /* Spawns a timed particle effect, processes its midpoint target, and marks completion. */
 void func_81934928(void *effect, void *output)
 {
-    register void *self ASM_REG("$18") = effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *self = effect;
     register void *output_data ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *search_origin;
@@ -119,9 +119,8 @@ void func_81934928(void *effect, void *output)
             }
             func_80024434();
         }
-        ASM_KEEP(output_data);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if ((((S_81934928_6 *)(((S_81934928_0 *)self)->unk_04))->unk_00 & 0x80) == 0) {
-            goto done;
+            return;
         }
         {
             u8 *copy_page;

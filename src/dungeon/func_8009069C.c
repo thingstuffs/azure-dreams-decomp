@@ -38,7 +38,7 @@ extern s16 func_800B627C(s32, s32, s16, s32);
 
 /* Advance the actor's entry action and clear pending state when it finishes. */
 void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
-    register u8 *entry ASM_REG("$3");
+    u8 *entry;
     int state = actor->state;
     s32 target = target_arg;
     if (state != 1) {

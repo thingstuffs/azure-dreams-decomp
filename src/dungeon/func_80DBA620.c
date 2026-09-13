@@ -117,8 +117,6 @@ void func_80171E20(void *actor_in, void *actor_data_in, void *sprite_in, void *s
         return;
     }
 
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(status);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80171E20_1 *)status)->unk_25 == 0) {
         func_800AA79C(actor_in, actor_data_in, sprite, status);

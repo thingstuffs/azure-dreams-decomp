@@ -15,10 +15,8 @@ typedef struct S_800B0BD0_1 {
 
 #ifdef NON_MATCHING
 #define LOCAL_ASM_REG(reg)
-#define LOCAL_ASM_KEEP(var) ((void)0)
 #else
 #define LOCAL_ASM_REG(reg) asm(reg)
-#define LOCAL_ASM_KEEP(var) ASM_KEEP(var)
 #endif
 
 extern void func_800B09EC(void *arg0, s32 arg1);
@@ -60,7 +58,7 @@ clear_slot:
     *(s32 *)slot_work = 0;
     slot_work = slot < 5;
 check_slot:
-    LOCAL_ASM_KEEP(slot_work);
+    ASM_KEEP(slot_work);
     if (slot_work != 0) {
         slot_work = slot * 4;
         goto clear_slot;

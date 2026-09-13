@@ -120,7 +120,6 @@ void func_81988E48(MainObject *obj)
         goto state_1;
     }
     if (state < 2) {
-        ASM_KEEP_NV(state_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state == 0) {
             goto state_0;
         }

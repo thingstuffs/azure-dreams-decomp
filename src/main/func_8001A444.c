@@ -12,7 +12,6 @@ extern s32 D_8040927C[];
 #define ASM_KEEP(value) \
     __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
-#define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
 #endif
 
 s32 func_8001A444(void) {

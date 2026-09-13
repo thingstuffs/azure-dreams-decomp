@@ -68,7 +68,7 @@ void func_80024700(void *source_object)
     S_80024700_0 *data;
     register void *primitive ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 object_arg ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 *resource ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *resource;
     s32 angle_or_zero;
     u32 link_page;
 

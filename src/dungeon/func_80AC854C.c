@@ -74,7 +74,7 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
 {
     void *action;
     register void *context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *sprite ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *sprite;
     void *actor;
     s32 state;
     register void *actor_to_check ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */

@@ -271,7 +271,7 @@ jt_7:
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
                     goto check_mix_delay;
                 } else {
-                    register void *temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                    void *temp_a2;
 
                     temp_a2 = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
                     if (temp_a2 != NULL) {

@@ -61,7 +61,6 @@ void func_8087514C(void) {
             word_ptr = (s32 *)word_addr;
         }
         second_word = *word_ptr;
-        ASM_KEEP(second_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         bit_value = ~bit_value;
         bit_value = bit_value & second_word;
         *word_ptr = bit_value;

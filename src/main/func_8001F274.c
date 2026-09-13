@@ -15,7 +15,7 @@ void func_8001F274(u8 *arg0) {
         void *a1 = arg0 + 0x38;
         void *fn = (void *)func_804061C4;
         /* Keep fn live so la schedules before a1 and store fills the jal delay slot. */
-        __asm__ __volatile__("" : "=r"(fn) : "0"(fn));
+        ASM_KEEP(fn);
         *(void **)(arg0 + 0x34) = fn;
         func_8040339C(temp_a0, a1);
         func_804062D4();

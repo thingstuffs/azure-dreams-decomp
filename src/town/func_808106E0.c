@@ -115,7 +115,6 @@ s32 func_808106E0(void)
                     if (i == 2) {
                         selected = anchor + 10;
                     } else {
-                        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                         ((S_808106E0_1 *)part)->unk_0C = anchor;
                         func_8052B4E8();
                     }

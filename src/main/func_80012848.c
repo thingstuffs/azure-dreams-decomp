@@ -19,7 +19,7 @@ void func_80025848(void *state) {
     s32 table_entry;
 
     data_ptr = (u8 *)0x80080000;
-    __asm__ __volatile__("" : "=r"(data_ptr) : "0"(data_ptr));
+    ASM_KEEP(data_ptr);
     table_entry = *(s32 *)((u8 *)state + 0x28);
     data_ptr += 0x3E98;
     table_entry <<= 7;
@@ -31,16 +31,16 @@ void func_80025848(void *state) {
         void *update_data;
 
         data_ptr = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(data_ptr) : "0"(data_ptr));
+        ASM_KEEP(data_ptr);
         data_ptr += 0x5788;
         update_data = (u8 *)state + 0x38;
-        __asm__ __volatile__("" ::: "memory");
+        ASM_MEM_BARRIER();
         *(u8 **)((u8 *)state + 0x34) = data_ptr;
         func_80023144(object, update_data);
         data_ptr = (u8 *)0x80020000;
     } else {
         data_ptr = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(data_ptr) : "0"(data_ptr));
+        ASM_KEEP(data_ptr);
         data_ptr += 0x593C;
         *(u8 **)((u8 *)state + 0x34) = data_ptr;
         func_800230A4(object);

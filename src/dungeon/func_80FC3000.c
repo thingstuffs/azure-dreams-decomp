@@ -84,7 +84,7 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
 
 void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
 {
-    register void *work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *work;
     void *obj;
     register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

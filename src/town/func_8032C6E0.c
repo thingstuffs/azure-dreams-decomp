@@ -2,11 +2,6 @@
 
 extern void func_8001ACA0(s16 *result);
 
-#ifdef NON_MATCHING
-#define EMPTY_BARRIER() ((void)0)
-#else
-#define EMPTY_BARRIER() __asm__ __volatile__("")
-#endif
 
 /* Return zero when result[0] is below 0xF45 and result[1] is at least 0x1127. */
 s32 func_80016EE0(void) {
@@ -17,7 +12,7 @@ s32 func_80016EE0(void) {
     if (result[0] < 0xF45) {
         second = result[1];
         if (second >= 0x1127) {
-            EMPTY_BARRIER();
+            ASM_SCHED_BARRIER();
             return 0;
         }
         return 1;

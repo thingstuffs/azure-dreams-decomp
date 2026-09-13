@@ -65,7 +65,6 @@ void func_80018D14(u8 *object_ref)
         updated_callbacks = ((S_80018D14_2 *)updated_context)->unk_20;
         callback_174 = (*(TownCall1 *)((u8 *)updated_callbacks + 0x174));
         callback_174(1);
-        ASM_KEEP(slot);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 
     object_offset = slot * 4;

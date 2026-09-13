@@ -6,10 +6,10 @@
 s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
     s16 *vertex_base; /* t4 */
     register s32 min_y ASM_REG("$11"); /* t3 */
-    register s32 edge_index ASM_REG("$9");      /* t1 */
+    s32 edge_index;      /* t1 */
     s32 grid_mask;  /* t5 */
-    register s32 *edge_state ASM_REG("$8");    /* t0 */
-    register s16 *vertex ASM_REG("$10"); /* t2 */
+    s32 *edge_state;    /* t0 */
+    s16 *vertex; /* t2 */
     register s32 top_vertex ASM_REG("$3");     /* v1 */
     register s32 bottom_vertex ASM_REG("$4");     /* a0 */
     s32 top_y;     /* a3 */
@@ -19,7 +19,7 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
     s32 signed_dx;
 
     vertex_base = vertices;
-    __asm__ __volatile__("" :: "r"(vertex_base));
+    ASM_USE(vertex_base);
     min_y = 0x7FFF;
     edge_index = 0;
     grid_mask = -0x40;
@@ -27,7 +27,7 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
     edge_state = (s32 *)((char *)edges + 0x1C);
     vertex = vertex_base;
 
-    do {
+    loop_0: {
         top_vertex = vertex[1];
         top_vertex = top_vertex - vertex[5];
 
@@ -55,9 +55,9 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
             bottom_vertex = (bottom_vertex << 3) + (s32)vertex_base;
             height = ((s16 *)bottom_vertex)[1] - top_y;
             edge_state[-4] = height;
-            __asm__ __volatile__("" ::: "memory");
+            ASM_MEM_BARRIER();
             edge_value = height;
-            __asm__ __volatile__("" :: "r"(edge_value));
+            ASM_USE(edge_value);
             edge_value <<= 7;
             edge_state[-3] = height;
             edge_state[-6] = edge_value;
@@ -86,7 +86,7 @@ s32 func_80046C20(s16 *vertices, s32 *edges, u16 *edge_count) {
         edge_index += 1;
         edge_state = (s32 *)((char *)edge_state + 0x28);
         edge_x = (s32 *)((char *)edge_x + 0x28);
-    } while (edge_index < 4);
+    } if (edge_index < 4) goto loop_0;
 
     return min_y & -0x40;
 }

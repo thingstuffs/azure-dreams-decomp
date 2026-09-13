@@ -102,7 +102,6 @@ animate:
         } while (point_index < 5);
         point_index = 1;
     } else {
-        ASM_KEEP(point_index);
         point_index++;
         while (point_index < 5) {
             point_index++;

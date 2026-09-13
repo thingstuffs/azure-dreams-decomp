@@ -19,6 +19,6 @@ s32 func_800231E4(s32 flagLinkedRecord) {
     func_80023194(record);
     *(u16 *)((u8 *) record - 2) |= 0x8000;
     D_800814A0.val |= 0x8000;
-    __asm__ __volatile__("" ::: "memory");
+    ASM_MEM_BARRIER();
     return D_80028808[0];
 }

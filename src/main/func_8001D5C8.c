@@ -21,7 +21,7 @@ void func_8001D5C8(void *arg0, s32 arg1) {
             /* Empty barrier: (1) blocks gcc from filling the preceding beqz-a1 delay
              * with `li v0,0x60` (retail leaves nop); (2) keeps `sw zero` before the
              * subsequent lw/li/sh schedule. */
-            __asm__("");
+            ASM_SCHED_BARRIER();
             *(s16 *)((s8 *)(*(void **)((s8 *)temp_a0 + 4)) + 8) = 0x60;
             *(s16 *)((s8 *)(*(void **)((s8 *)temp_a0 + 4)) + 0xA) = 0x18;
         }

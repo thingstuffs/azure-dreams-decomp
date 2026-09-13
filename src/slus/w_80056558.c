@@ -23,12 +23,11 @@ void func_80056558(void) {
     s32 entry_index;
     S_80056558_85458 *entry;
     s32 offset;
-    s32 reference_offset;
+    u32 reference_offset;
 
     for (entry_index = 0; entry_index < D_80073734[0]; entry_index++) {
         entry = &D_80085458[entry_index];
         reference_offset = entry->f6c;
-        __asm__ volatile("" : : "r"(reference_offset));
         offset = entry->f58;
         if (reference_offset != offset) {
             func_800563B0(entry_index, entry->f10 + offset, entry->f12 + offset);

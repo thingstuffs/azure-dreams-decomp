@@ -47,13 +47,11 @@ void func_80123604(void) {
     Record *record;
     s32 slot_index;
     s32 default_6;
-    s32 default_8;
+    s16 default_8;
 
     slot_index = 0;
     default_6 = 0x10;
     default_8 = 0xE0;
-    ASM_KEEP(default_6);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(default_8);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     slot_base = &D_80129728;
     ASM_KEEP(slot_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     slot = slot_base->slots;

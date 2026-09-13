@@ -2,10 +2,8 @@
 
 #ifdef NON_MATCHING
 #define LOCAL_ASM_REG(reg)
-#define LOCAL_ASM_KEEP(var) ((void)0)
 #else
 #define LOCAL_ASM_REG(reg) asm(reg)
-#define LOCAL_ASM_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
 typedef struct {
@@ -40,6 +38,6 @@ void *func_80047FF4(s32 object_type, void *object)
                              ((slot * 3) + 0x1D2) << 6,
                              0xD, resources[0]);
     }
-    LOCAL_ASM_KEEP(special_type);
+    ASM_KEEP(special_type);
     return func_80047EEC(special_type, object);
 }

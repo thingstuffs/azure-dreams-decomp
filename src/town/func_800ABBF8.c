@@ -57,7 +57,6 @@ void func_800A9358(s32 shape, s32 source)
     ot_addr = D_80083160;
     ASM_KEEP_NV(ot_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch = call_scratch;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ot_addr += 0xB0;
     scratch[0x24 / 4] = ot_addr;
     func_800A8CA8((void *)call_scratch, angle, call_source, call_shape);

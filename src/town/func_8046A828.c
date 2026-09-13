@@ -30,8 +30,8 @@ extern u8 *D_8001E950;
 
 /* Dispatches requests by mode, refreshing the state code before selecting a response. */
 void *func_8001B828(s32 request, void *data, s32 mode) {
-    register s32 call_request ASM_REG("$4") = request;
-    register void *call_data ASM_REG("$5") = data;
+    s32 call_request = request;
+    void *call_data = data;
     register s32 state_code ASM_REG("$2");
     u8 new_code;
     s32 status;

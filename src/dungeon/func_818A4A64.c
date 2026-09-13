@@ -105,7 +105,7 @@ void *func_818A4A64(s32 context_value, S_818A4A64_2 *initial_position) {
     func_8004491C(object, D_80045340);
     position = object->unk_08;
 #ifndef NON_MATCHING
-    __asm__ __volatile__("" : : "r"(initial_position));
+    ASM_USE(initial_position);
 #endif
     match_v0 = initial_position->unk_02;
     position->unk_02 = (u16) match_v0;

@@ -203,7 +203,7 @@ jt_c3:
     created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
     ((Rec_D_800E3D7C *)state)->unk_C8 = created_object;
     if (created_object == NULL) {
-        goto block_27;
+        return;
     }
     ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
 jt_c4:
@@ -231,9 +231,9 @@ block_23:
     func_800948BC();
     {
         s32 command;
-        register s32 zero_arg_1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        register s32 zero_arg_2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register s32 zero_arg_3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 zero_arg_1;
+        s32 zero_arg_2;
+        u32 zero_arg_3;
         u8 *flags_base;
         u16 flags;
 
@@ -269,6 +269,5 @@ block_26:
     ((S_800930F0_10 *)control_state)->unk_CC = 0;
     ((S_800930F0_10 *)control_state)->unk_154 = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x40000);
-block_27:
     return;
 }

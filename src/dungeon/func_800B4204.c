@@ -92,7 +92,7 @@ void *func_800B9964(EntityHdr **entity_ref) {
             sprite->f1C = 256;
             sprite->f10 = 32;
             flags = sprite->f14;
-            __asm__ __volatile__("" : : "r"(flags));
+            ASM_USE(flags);
             init_mode = 8;
             ASM_KEEP(init_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             sprite->fC = color;
@@ -103,7 +103,7 @@ void *func_800B9964(EntityHdr **entity_ref) {
             {
                 u8 *owner_data = (u8 *)object + 0x20;
                 *(s16 *)(owner_data + 0xE) = 4;
-                __asm__ __volatile__("" : : "r"(owner_data));
+                ASM_USE(owner_data);
             }
             object->owner = entity_ref;
 

@@ -14,7 +14,7 @@ void func_8001D6C8(void *arg0) {
             *(void **)((u8 *)arg0 + 0x284) = p;
             func_80404700();
         }
-        __asm__("");
+        ASM_SCHED_BARRIER();
         *(void **)((u8 *)arg0 + 0x274) = (void *)((u8 *)arg0 + 0x80);
         *(void **)((u8 *)arg0 + 0x284) = NULL;
     }

@@ -30,6 +30,9 @@ scan found 212 pins dead at a flag variant in 150 rows (landed in round 11).
 `scan --flags2` / `build --flags2`: the second set, FLAGS2 (the scheduling pair for the fences,
 -mno-split-addresses for 2.8.x rows, flags that change 2.6.3/2.7.2 codegen), ledger
 pins_flags2_admissible.jsonl; rows already carrying an optimization flag are skipped (no stacking).
+`scan --stack` / `build --stack` (owner, 2026-09-13: stacking yes, capped): a row that carries exactly
+one optimization flag may take one more from either set (at most two); ledger
+pins_flags_stack_admissible.jsonl; STATUS counts the rows with two.
 """
 import argparse, collections, json, sys, tempfile, threading, time
 from concurrent.futures import ThreadPoolExecutor
@@ -59,12 +62,30 @@ FLAGS2_OUT = LEDGER / "pins_flags2_admissible.jsonl"
 SPLIT_ADDRESSES = ("2.8.0", "2.8.1", "2.91.66", "2.95.2")
 
 
+STACK_OUT = LEDGER / "pins_flags_stack_admissible.jsonl"
+# measured inert (2026-09-13, the --flags2 ledger's first 834 rows, 5.1 CPU-h): admissible on 232-834 rows
+# and not one hit.  Each admissible cell is compiled in every stage-2 erasure call, so they only cost.
+INERT = {"-fno-peephole", "-fno-function-cse", "-fno-thread-jumps", "-fno-force-mem", "-mmips-as"}
+
+
+def opt_flags(row):
+    return [t for t in row["cfg"].replace("+", " ").split()[1:] if t.startswith(("-f", "-O", "-m"))]
+
+
 def flag_pool(row, flags):
     if flags == 1:
         return [f"{row['cfg']} {F}" for F in FLAGS if F not in row["cfg"].split()]
+    if flags == 3:
+        # stacking (owner, 2026-09-13: yes, capped): a row carrying exactly one optimization flag may
+        # take one more from either set, never a flag it already has, never -O1 on top of a flag
+        have = set(opt_flags(row))
+        head = row["cfg"].split()[0].replace("-G0", "")
+        return [f"{row['cfg']} {F}" for F in dict.fromkeys(FLAGS + FLAGS2)
+                if F not in INERT and not set(F.split()) & have and F != "-O1" and "-O1" not in have
+                and not (F == "-mno-split-addresses" and not head.startswith(SPLIT_ADDRESSES))]
     head = row["cfg"].split()[0].replace("-G0", "")
     return [f"{row['cfg']} {F}" for F in FLAGS2
-            if not (F == "-mno-split-addresses" and not head.startswith(SPLIT_ADDRESSES))]
+            if F not in INERT and not (F == "-mno-split-addresses" and not head.startswith(SPLIT_ADDRESSES))]
 
 
 def stacked(row):
@@ -107,8 +128,8 @@ def latest(path=OUT):
 
 
 def cmd_scan(a):
-    fl = 2 if a.flags2 else 1 if a.flags else 0
-    path = {0: OUT, 1: FLAGS_OUT, 2: FLAGS2_OUT}[fl]
+    fl = 3 if a.stack else 2 if a.flags2 else 1 if a.flags else 0
+    path = {0: OUT, 1: FLAGS_OUT, 2: FLAGS2_OUT, 3: STACK_OUT}[fl]
     done = latest(path)
     keep = set(a.only.split(",")) if a.only else None
     todo = []
@@ -117,6 +138,8 @@ def cmd_scan(a):
             continue
         if fl == 2 and stacked(r):
             continue
+        if fl == 3 and len(opt_flags(r)) != 1:
+            continue                         # stacking: exactly one flag already, at most two after
         p = clean_path(r)
         if not p.exists():
             continue
@@ -182,10 +205,10 @@ def cmd_build(a):
     by = {r["id"]: r for r in rows()}
     d = Path(a.dir); d.mkdir(parents=True, exist_ok=True)
     cells, stale, other = [], 0, 0
-    fl = a.flags or a.flags2
+    fl = a.flags or a.flags2 or a.stack
     allowed = (lambda c: True) if fl else (lambda c: not c.startswith(LATE)) if a.plausible else (lambda c: c in CDK)
     strips = {r["id"]: r for r in read_jsonl(STRIP)} if STRIP.exists() and not fl else {}
-    for rid, rec in sorted(latest(FLAGS2_OUT if a.flags2 else FLAGS_OUT if a.flags else OUT).items()):
+    for rid, rec in sorted(latest(STACK_OUT if a.stack else FLAGS2_OUT if a.flags2 else FLAGS_OUT if a.flags else OUT).items()):
         s = strips.get(rid)
         if s and s["cell"] and allowed(s["cell"]) and rid in by and s["in_sha"] == rec["in_sha"]:
             row = by[rid]; text = clean_path(row).read_text(errors="replace")
@@ -220,9 +243,11 @@ def main():
     s = sub.add_parser("scan"); s.add_argument("--workers", type=int, default=8); s.add_argument("--only")
     s.add_argument("--flags", action="store_true", help="flag variants of the recorded cell (ledger pins_flags_admissible.jsonl)")
     s.add_argument("--flags2", action="store_true", help="the second flag set, FLAGS2 (ledger pins_flags2_admissible.jsonl)")
+    s.add_argument("--stack", action="store_true", help="a second flag on rows carrying exactly one (ledger pins_flags_stack_admissible.jsonl)")
     b = sub.add_parser("build"); b.add_argument("dir")
     b.add_argument("--flags", action="store_true", help="build the flag scan's hits (the compiler never changes)")
     b.add_argument("--flags2", action="store_true", help="build the second flag scan's hits")
+    b.add_argument("--stack", action="store_true", help="build the stacking scan's hits")
     b.add_argument("--plausible", action="store_true",
                    help="also build hits at FSF 2.6.3/2.7.2/2.8.0/2.8.1 cells, not only CDK (never 2.91.66/2.95.2)")
     st = sub.add_parser("strip"); st.add_argument("--workers", type=int, default=8)

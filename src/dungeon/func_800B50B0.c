@@ -55,14 +55,14 @@ extern u16 D_800DF37A;
 extern u8 D_800DF380[];
 
 /* Updates marked dungeon tiles for the selected entity, mode, and facing. */
-void func_800BA810(S_800B50B0_Entity *entity, s16 selection) {
+void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
     s32 height;
     s16 forward_height;
     s16 adjacent_height;
     s16 range_height;
     register s32 *tile_list ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 direction;
-    register s32 mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 mode;
     register s32 entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 mode_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 forward_steps;
@@ -83,7 +83,6 @@ void func_800BA810(S_800B50B0_Entity *entity, s16 selection) {
         return;
     }
     if (D_800DF374 == entity) {
-        ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         if (D_800DF37A == (s16) entity->angle2a) {
             tile_list = &D_800BA6B8;
             if (D_800DF378 != (selection & 0xFFFF)) {
@@ -99,9 +98,7 @@ prepare_update:
 update_tiles:
         angle = entity->angle2a;
         do { D_800DF374 = entity; } while (0);
-        ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         D_800DF378 = selection;
-        ASM_KEEP_NV(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         D_800DF37A = angle;
         func_800403BC(tile_list);
         mode = selection & 0x3FFF;

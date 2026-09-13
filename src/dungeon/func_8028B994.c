@@ -43,7 +43,6 @@ void func_8001E994(void)
     ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     group = table_base + 0x14;
     do {
-        ASM_KEEP(group);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         item_index = 1;
         if (item_index < (s32)*(u8 *)(group + 2)) {
             group_copy = group;

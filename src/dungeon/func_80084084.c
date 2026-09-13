@@ -65,7 +65,6 @@ first_scan:
                     }
                 }
             } else {
-                ASM_CLOBBER("$17");
                 *callback_slot = 0;
             }
         }
@@ -84,7 +83,7 @@ first_advance:
         register Callback *special_start;
         register u8 *D_800E0000;
         Callback *special_scan;
-        register Callback callback ASM_REG("$7");
+        Callback callback;
         register Entry **entry_slot;
         register Entry *entry;
         void *callback_data;
@@ -125,15 +124,12 @@ loop_second:
                         goto second_next;
                     }
                     goto second_next;
-second_scan_equal:
-                    ASM_KEEP(callback);
+do {
                     callback(entry->data, entry->arg1, entry->arg2);
                     callback_slot++;
                     goto second_advance;
-second_scan_check:
-                    if (*special_scan == callback) {
-                        goto second_scan_equal;
-                    }
+second_scan_check: ;
+} while (*special_scan == callback);
                     if (*special_scan == 0) {
                         goto second_next;
                     }
@@ -188,7 +184,6 @@ loop_third:
                     goto third_done;
                 }
             } else {
-                ASM_CLOBBER("$17");
                 *callback_slot = 0;
             }
         }

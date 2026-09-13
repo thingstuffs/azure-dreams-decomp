@@ -94,7 +94,7 @@ void func_818FEF80(void *state, void *position, void *visual) {
         return;
     }
 
-    __asm__ __volatile__("" ::: "memory");
+    ASM_MEM_BARRIER();
     ((S_818FEF80_3 *)visual)->unk_0E = (((ticks_left - 0x3C) << 6) / 60) + 0x40;
     ((S_818FEF80_3 *)visual)->unk_0D = (((((S_818FEF80_0 *)state)->unk_02.u - 0x3C) << 6) / 60) + 0x40;
     ((S_818FEF80_3 *)visual)->unk_0C = (((((S_818FEF80_0 *)state)->unk_02.u - 0x3C) << 6) / 60) + 0x40;

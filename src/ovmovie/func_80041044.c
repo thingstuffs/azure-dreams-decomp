@@ -12,7 +12,7 @@ void func_80041044(s32 *command, s32 flags)
 
     if (flags & 1) {
         bit_mask = 0xF7FF0000;
-        __asm__ volatile("" : "=r"(bit_mask) : "0"(bit_mask));
+        ASM_KEEP(bit_mask);
         command_word = *command;
         bit_mask |= 0xFFFF;
         __asm__ volatile(
@@ -27,7 +27,7 @@ void func_80041044(s32 *command, s32 flags)
     }
 
     *command |= 0x08000000;
-    __asm__ volatile("" ::: "memory");
+    ASM_MEM_BARRIER();
 
     if (flags & 2) {
         bit_mask = 0x02000000;

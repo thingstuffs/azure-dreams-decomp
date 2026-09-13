@@ -55,13 +55,13 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
     point_index = 0;
     point = obj;
     phase_offset = 0;
-    do {
+    loop_0: {
         point->x[0] = origin[0] + (((func_800644B8(phase_offset + obj->angle) >> 4) * obj->scale) << 8);
         point->y[0] = origin[1] + (((func_80064584(phase_offset + obj->angle) >> 4) * obj->scale) << 8);
         point_index++;
         phase_offset += 0x333;
         point = (volatile Obj81911BF4 *)((u8 *)point + 4);
-    } while (point_index < 5);
+    } if (point_index < 5) goto loop_0;
 
     state = obj->state;
     if ((u32)state >= 7U) {
@@ -88,7 +88,7 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             state_value = *(volatile u16 *)&obj->state;
             obj->timer = 0;
             obj->duration = next_duration;
-            goto increment;
+            obj->state = state_value + 1; return;
         }
         return;
 
@@ -104,9 +104,8 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             state_value = *(volatile u16 *)&obj->state;
             effect = 0x10;
             obj->timer = 0;
-            ASM_SCHED_BARRIER();
             obj->duration = effect;
-            goto increment;
+            obj->state = state_value + 1; return;
         }
         return;
 
@@ -150,9 +149,8 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
             state_value = *(volatile u16 *)&obj->state;
             effect = 0x20;
             obj->timer = 0;
-            ASM_SCHED_BARRIER();
             obj->duration = effect;
-            goto increment;
+            obj->state = state_value + 1; return;
         }
         return;
 
@@ -197,7 +195,6 @@ void func_800253F4(Obj81911BF4 *effect, s32 *position)
 advance:
         state_value = obj->state;
         obj->timer = 0;
-increment:
         obj->state = state_value + 1;
         return;
 

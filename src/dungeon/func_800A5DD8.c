@@ -56,8 +56,8 @@ s32 func_800AB538(void *animation_data, void *motion_data, void *scale_data, voi
     u8 *animation = animation_data;
     u8 *motion = motion_data;
 
-    register u8 *scale ASM_REG("$19") = scale_data;
-    register u8 *render ASM_REG("$18") = render_data;
+    u8 *scale = scale_data;
+    u8 *render = render_data;
     s32 move_frames;
     s16 frames_left;
     s32 height_offset;
@@ -89,7 +89,7 @@ state_0:
     (*(u16 *)((u8 *)animation + 0x98)) |= 8;
     if (D_80013714 & 2) {
         ((S_800AB538_0 *)animation)->unk_9B = 2;
-        goto return_zero;
+        return 0;
     }
     ((S_800AB538_1 *)render)->unk_8A = 0x800 / ((S_800AB538_0 *)animation)->unk_96.s;
     next_state = ((S_800AB538_0 *)animation)->unk_9B + 1;

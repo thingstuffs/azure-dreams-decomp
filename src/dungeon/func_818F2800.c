@@ -363,7 +363,6 @@ next_half:
             DM_S16(0x88) = (s16)edge_x;
             DM_S16(0x78) = (s16)edge_x;
         }
-        ASM_KEEP_NV(half);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
             s32 part_flags;
             register s32 state_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

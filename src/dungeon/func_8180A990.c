@@ -176,7 +176,7 @@ extern u8 *D_800E3D7C;
 /* Initializes child objects and copies source entities, or requests their shutdown. */
 void func_80026190(void *owner_arg)
 {
-    s32 state;
+    u32 state;
     s32 stop_state;
     s32 source_slot;
     s32 object_or_kind;
@@ -226,9 +226,7 @@ void func_80026190(void *owner_arg)
     ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     state = ((S_80026190_0 *)owner)->unk_1C.s;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     stop_state = 2;
-    ASM_KEEP_NV(stop_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == stop_state) {
         if (D_8002715C == 0) {
             (*(u16 *)((u8 *)owner + -2)) |= 0x8000;

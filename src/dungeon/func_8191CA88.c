@@ -47,10 +47,10 @@ extern void func_800243C4() __attribute__((noreturn));
 void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     void *object = object_data;
     S_8191CA88_3 *motion;
-    register s32 state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 state;
     register s32 state_unsigned ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 timer;
-    register s32 old_timer ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u16 old_timer;
     s32 move_timer;
     s32 move_duration;
     s32 moving;
@@ -75,7 +75,6 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     state = ((S_8191CA88_0 *)object)->unk_0E.s;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_unsigned = ((S_8191CA88_0 *)object)->unk_0E.u;
-    ASM_USE(old_timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     timer = old_timer + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = timer;
 

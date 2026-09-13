@@ -172,7 +172,6 @@ follow_source:
     goto update_visual;
 
 move_to_target:
-    ASM_KEEP(collision);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     collision += 0x2E80;
     brightness = ((S_81976850_4 *)visual)->unk_0E + 8;
     ((S_81976850_4 *)visual)->unk_0E = brightness;

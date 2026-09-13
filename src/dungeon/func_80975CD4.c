@@ -103,8 +103,6 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         return;
     }
 
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(stats);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((Rec_D_800E3D7C *)stats)->unk_24.at01_u8.v == 0) {
         func_800AA79C(actor_arg, context_arg, sprite, stats);

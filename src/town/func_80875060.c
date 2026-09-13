@@ -18,7 +18,6 @@ void func_80875060(s32 unused_0, s32 unused_1, s16 *input_ids, s32 input_flags_b
     s32 *flag_word;
     s32 bit_one;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flag_id = (void *)(D_80700000 + 0xBC8);
     ASM_KEEP(flag_id);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     flag_bits = ((s32 *)flag_id)[0];
@@ -27,7 +26,6 @@ void func_80875060(s32 unused_0, s32 unused_1, s16 *input_ids, s32 input_flags_b
     callbacks[0] = (TownCallback)flag_bits;
     callbacks[1] = (TownCallback)flag_word;
     callbacks[2] = (TownCallback)matched_count;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     flag_cursor = input_ids;
     flags_base = input_flags_base;
     flag_word = (s32 *)(D_80700BB4 + 8);

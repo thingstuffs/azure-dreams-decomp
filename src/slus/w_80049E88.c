@@ -27,7 +27,7 @@ u8 func_80049E88(void *object) {
     } while (query_index > 0);
 
     query_id = *(u8 *) (query_index + query_base);
-    __asm__ volatile("" : "=r"(query_base) : "0"(query_base));
+    ASM_KEEP(query_base);
     if ((query_id == 7) && ((func_80042900(query_object, (s8) query_id) << 0x10) > 0)) {
         query_index--;
     }

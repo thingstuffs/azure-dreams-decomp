@@ -62,8 +62,6 @@ void func_819715D4(u16 *source, s32 unused_1, s32 unused_2, s32 base_x, s32 base
     u8 *object_data;
 
     object = func_8003FC64(0x212);
-#ifdef NON_MATCHING
-#endif
     if (object != NULL) {
         object_data = (u8 *)object + 0x20;
         ((S_819715D4_0 *)object_data)->unk_38 = 0x14;

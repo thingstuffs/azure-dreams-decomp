@@ -23,6 +23,22 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twelfth round, gated (100 windows MATCH, SLUS SHA-1 MATCH): **8,954 pins in 1,542 rows**. The count
+now includes 86 pins that were always there but hidden. Net of that, 168 came out: flag switches
+87 (one per row), lanes 4, `t48` 3, fold 2, cascade 72. Details: PIN_MECHANISMS, "Round 12".
+- **The owner's decisions are applied.** Stacking is capped at two flags per row. The hidden asm is
+  exposed, and STATUS tracks both.
+- **What worked:** the CPU scans, the second flag set (71 rows) and stacking (16), and the luna fence
+  lane, 3 of 12 exact, the best lane rate so far.
+- **What did not:** generators built from one lane win (`t48` 3 of 290, the fold 2 of 181). Five flags
+  proved inert and cost about 4 CPU-h before they were dropped (`INERT`); pilot a flag set first.
+- **Next:**
+  - luna fence lanes over the remaining fence rows with at most 3 pins
+    (`scratchpad build_fence_lanes.py`);
+  - `pin_cells_scan.py scan --stack` resumed.
+- **Waiter trap:** a `pgrep` pattern must not appear anywhere in the waiter's own command line. A
+  `tail` of a path containing the pattern made two waiters wait forever.
+
 Eleventh round, gated (114 windows MATCH, SLUS SHA-1 MATCH): **9,036 pins in 1,527 rows**, 279 pins and
 36 functions pin-free since round 9. Details: PIN_MECHANISMS, "Round 11".
 - **Flag scan harvested.** 150 rows took a per-row optimization flag (150 pins), and the cascade
@@ -49,9 +65,15 @@ Eleventh round, gated (114 windows MATCH, SLUS SHA-1 MATCH): **9,036 pins in 1,5
   4. one gate
 
   Stop the scans first.
-- **Owner questions:**
-  - Stack a second flag on a row that already carries one?
-  - 40 local `__asm__` wrappers (34 call sites) are still invisible to `sites_of`: expose them?
+- **Owner decisions (2026-09-13):**
+  - **Flag stacking: yes, capped at two flags per row.** It lands under rules 1–2, every switch is
+    undoable, and STATUS counts rows with one flag and with two (`pin_cells_scan.py scan --stack`).
+  - **Hidden asm: exposed where it hides pins, tracked where it doesn't.**
+    - `tools/expose_asm.py` rewrote 98 raw `__asm__` statements and wrapper calls in 66 rows to the
+      `ASM_*` macro each spells. That made 86 pins visible that were always there, so the count rose.
+    - STATUS now counts the rest by kind (`pin_census.hidden_asm`): leftover raw pins and wrapper
+      calls, hand-written asm in bodies (C that is missing), symbol aliases (a missing type), and
+      file-scope directives.
 
 Ninth round, gated (15 windows MATCH, SLUS SHA-1 MATCH): **9,315 pins in 1,563 rows** (32 pins).
 - **`t44_doloop_greedy`**: m2c's backward-goto loops written as do-whiles (the mirror of `t41`). 15

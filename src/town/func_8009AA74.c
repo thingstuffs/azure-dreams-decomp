@@ -21,23 +21,24 @@ s32 func_800981D4(s32 arg0, S_800981D4_0 *arg1, s32 arg2)
         current = raw + 4;
         arg1->unk_06.s = current;
         if (current < 0x300) {
-            result = 0x300;
+            goto done_return;
         } else {
-            ASM_SCHED_BARRIER(); /* MATCH: keep this arm as the fall-through jump to the shared clamp. */
-            result = 0x300;
             goto clamp;
         }
     } else {
         current = raw - 4;
         arg1->unk_06.s = current;
         if (current < 0x301) {
-            result = 0x300;
-clamp:
-            arg1->unk_06.s = result;
-            result = func_80098DC0(arg0, arg1, arg2);
-        } else {
-            result = 0x300;
+            goto clamp;
         }
     }
+done_return:
+    result = 0x300;
+    return result;
+
+clamp:
+    result = 0x300;
+    arg1->unk_06.s = result;
+    result = func_80098DC0(arg0, arg1, arg2);
     return result;
 }

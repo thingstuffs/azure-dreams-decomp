@@ -28,7 +28,7 @@ void func_80048B8C(S_80048B8C *entries) {
     S_80048B8C_entry *entry;
     volatile u16 *value_ptr;
     register int value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register int masked_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register u32 masked_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     signed char value_mask;
 
     entry_pos = entries->list + (entries->index << 2);
@@ -43,11 +43,10 @@ void func_80048B8C(S_80048B8C *entries) {
                     value_ptr = &node->val;
                     do {
                         value = *value_ptr;
-                        __asm__("" : "=r"(value) : "0"(value));
+                        ASM_KEEP_NV(value);
                         masked_value = value & value_mask;
-                        __asm__("" : "=r"(masked_value) : "0"(masked_value));
                         *value_ptr = masked_value;
-                        __asm__("" : "=r"(masked_value) : "0"(masked_value));
+                        ASM_KEEP_NV(masked_value);
                         value = masked_value + 0xE;
                         *value_ptr = value;
                         value_ptr = (volatile u16 *)((u8 *)value_ptr + 0xC);

@@ -2,11 +2,6 @@
 
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define LEGACY_KEEP(var) ((void)0)
-#else
-#define LEGACY_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
-#endif
 
 typedef struct S_800477F4_Sub {
     u16 f0;
@@ -60,7 +55,7 @@ void func_800477F4(S_800477F4_Actor *actor)
     if (node->typeA == 0) {
         goto store_flags;
     }
-    LEGACY_KEEP(step);
+    ASM_KEEP(step);
 
     {
         s16 step_type = *(s16 *)((char *)step + 2);

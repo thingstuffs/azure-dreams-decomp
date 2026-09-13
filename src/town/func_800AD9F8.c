@@ -6,13 +6,6 @@ extern u8 D_80083780[];
 extern u8 D_800AB1E0[];
 extern u8 D_800AB708[];
 
-#ifdef NON_MATCHING
-#define TF14_BARRIER() ((void)0)
-#define TF14_KEEP(var) ((void)0)
-#else
-#define TF14_BARRIER() __asm__ __volatile__("" : : : "memory")
-#define TF14_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
-#endif
 
 /* Initialize state and copy default values, adjusting the final output value. */
 void func_800AB158(void *state, void *output) {
@@ -24,9 +17,9 @@ void func_800AB158(void *state, void *output) {
 
     {
         u16 *defaults;
-        TF14_BARRIER();
+        ASM_MEM_BARRIER();
         defaults = (u16 *)D_80083780;
-        TF14_KEEP(defaults);
+        ASM_KEEP(defaults);
         *(u16 *)((s8 *)output + 2) = defaults[1];
         *(u16 *)((s8 *)output + 6) = defaults[3];
         *(s16 *)((s8 *)output + 0xA) = defaults[5] - func_800AAE98(output);

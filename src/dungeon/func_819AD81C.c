@@ -163,7 +163,7 @@ void func_819AD81C(void *arg0_in, void *arg1_in, void *arg2_in) {
     void *list_root;
     void *temp_v1_9;
     void *arg0 = arg0_in;
-    register void *arg1 ASM_REG("$19") = arg1_in;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *arg1 = arg1_in;
     void *arg2 = arg2_in;
 
     temp_v1_9 = ((S_819AD81C_0 *)arg0)->unk_20;

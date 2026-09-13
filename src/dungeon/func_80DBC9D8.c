@@ -71,7 +71,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
 {
     void *controller = controller_in;
     register void *context ASM_REG("$19") = context_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *sprite ASM_REG("$17") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *sprite = sprite_in;
     void *actor;
     u8 state;
     u8 *global_state;

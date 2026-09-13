@@ -750,3 +750,90 @@ pin-free since round 9. By source: `t45` 38, the flag switches 150 (one pin per 
     2.6.3/2.7.2 codegen on a probe TU. Rows already carrying a flag are skipped.
   - A fold pilot: pinned single-use temporaries folded into their one use, 581 candidates in
     185 rows; `t38_unstage` is the staged-store special case.
+
+## Round 12 (2026-09-13): the second flag set, stacking, hidden asm exposed, two lanes
+
+Gated (100 windows MATCH, SLUS SHA-1 MATCH): **8,954 pins in 1,542 rows**. The count now includes 86 pins that were always there but
+hidden. Net of that exposure, 168 pins came out:
+
+- the flag switches, 87 (71 from the second set and 16 from stacking, one pin per row);
+- the lanes, 4;
+- `t48`, 3;
+- the fold, 2;
+- the cascade and T2, 72.
+
+- **The owner's two decisions.**
+  - Flag stacking: yes, capped at two flags per row, under rules 1–2, each switch undoable.
+  - Hidden asm: expose it where it hides pins, and track the rest in STATUS.
+
+  Both are recorded in HANDOVER, and STATUS carries two new lines.
+- **Hidden asm, counted and exposed.** `pin_census.hidden_asm` classifies every `__asm__` the
+  pin census could not see:
+  - 59 raw empty-template statements in function bodies;
+  - 52 calls of local wrapper macros;
+  - 7 hand-written asm statements in bodies: C that is missing, including an
+    `__asm__(".end func_…\n.if 0")` that hides the rest of `dungeon/func_804FE77C` from the
+    assembler;
+  - 113 symbol aliases (`T x __asm__("sym")`, a second typed name for one symbol: a missing type);
+  - 448 file-scope directives, mostly `.set` absolute symbols.
+
+  `tools/expose_asm.py` (journal `t47_expose_asm`) rewrote 98 statements in 66 rows to the `ASM_*`
+  macro each spells exactly (`"=r"(x) : "0"(x)` → `ASM_KEEP`, `: : "r"(x)` → `ASM_USE`,
+  `::: "memory"` → `ASM_MEM_BARRIER`, `""` → `ASM_SCHED_BARRIER`, a copy through an asm →
+  `dst = src; ASM_KEEP(dst)`). It also expanded multi-statement wrappers verbatim and deleted their
+  definitions. Every file was scored and passed the port-codegen lint. Two were refused: their
+  wrappers' port definitions set a value (`zero = 0`), which `ASM_UNDEF`'s port form does not.
+  Left hidden: 3 raw statements, 10 wrapper calls, 7 hand-written asm.
+- **The second flag set (`scan --flags2`), 1,280 rows, 7.3 CPU-h: 94 pins in 71 rows.**
+  - By flag: `-fno-cse-follow-jumps` 68, `-fforce-addr` 16, the scheduling pair 6,
+    `-mno-split-addresses` 4. About 19 of the 94 are fences or barriers.
+  - **Measured inert:** `-fno-peephole`, `-fno-function-cse`, `-fno-thread-jumps`,
+    `-fno-force-mem` and `-mmips-as` were admissible on 232 to 834 of the first 834 rows, with not
+    one hit. Every admissible cell is compiled in every stage-2 erasure call, so these five cost most
+    of the scan's first 5.1 CPU-h. They are now excluded (`INERT`), and the rest ran roughly three
+    times faster.
+  - Lesson: pilot a new flag set on about 100 rows and drop flags that never hit, before the full
+    scan.
+- **Stacking (`scan --stack`), 158 of the 173 rows that carry exactly one flag: 20 pins in 16 rows.**
+  The 15 largest rows are left for the next round. STATUS now counts rows with one flag and with
+  two or more.
+- **`apply_candidates --cells` in parallel, first production run:** 71 rows in 32 s, and 61 switches
+  written by one `set_row_cfgs` call.
+- **Two luna lanes.**
+  - **`loadkeep`** (keeps on loaded values, the largest keep class): 1 of 12. `dungeon/func_800BF6A0`
+    went to typed record indexing, a 0x14-byte `Entry` array in place of manual scaled addressing.
+    Other lessons from the lane:
+    - some keeps hold a load whose value is dead, which gcc's CSE deletes and retail kept;
+    - some hold a page constant live across a call, where gcc would rematerialize it;
+    - some fix the order of two independent loads.
+
+    None of the three is a spelling.
+  - **`fences2`** (live `ASM_SCHED_BARRIER`): 3 of 12. In `town/func_800B3834` and `town/func_8009AA74`,
+    gotos into a shared return tail became direct returns. In `main/func_8001FAA8`, a store through a
+    temporary became a direct store.
+- **`t48_gotoreturn`** (the fence lane's CFG wins as a generator): a goto into a return tail is
+  written as its own return, paired with one pin erased, fences first. It landed 3 of 290 rows.
+  Most rows needed more than that one change.
+- **Pilots and hand studies that did not pay:**
+  - `t46_foldtemp` (a pinned single-use temporary folded into its use): 2 of 181.
+  - A struct assignment for the 16-byte copy loop of `town/func_800B0994`: TOTAL 17. That copy is
+    not a block move.
+  - The symbol form of `dungeon/func_80093898`: not exact at any cell.
+- **Census notes:**
+  - Keeps by what the variable holds: loads 20%, arithmetic 17%, page literals 12%, constants 9%,
+    parameter copies 6%.
+  - The retail split-address signature (`lui $at` versus `lui $rN`) matches each row's cell family;
+    the FSF rows with split loads are literal integer addresses. There is no mismatched family to
+    harvest.
+  - The live fences' neighbourhoods are mixed. The largest shape is a store followed by register
+    work (81).
+- **The cascade:** 47 records over 146 changed rows. T2 19, `t37` 8, `t48` 6, `t37b` 5, `t41c` 5, `t36` 2,
+  `t44` 2; pass 2 applied nothing.
+- **Evaluation.**
+  - What worked: the CPU scans (87 switched rows) and the fence lane. At 3 of 12 its rate is the best
+    of any lane so far, and luna is the cheap tier.
+  - What did not: generators distilled from single lane wins (`t48` 1%, the fold 1%). The fence wins
+    needed the surrounding branch structure rewritten too, not one lever. The five inert flags cost
+    about 4 CPU-h.
+  - Next: more fence lanes (56 fence rows with at most 3 pins remain), and the stacking scan resumed
+    over its 15 largest rows and the 87 rows that just took a flag.

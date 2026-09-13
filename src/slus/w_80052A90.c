@@ -36,7 +36,7 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
   cursor = text;
   pen_x = start_x;
   draw_enabled = 1;
-  __asm__ __volatile__("" : : "r"(draw_enabled));
+  ASM_USE(draw_enabled);
   if ((*cursor) != 0)
   {
     dest_y = start_y;
@@ -44,9 +44,9 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
     glyph_h = 0x10;
     do
     {
-      __asm__ __volatile__("" : : : "memory");
+      ASM_MEM_BARRIER();
       lead_byte = cursor[0];
-      __asm__ __volatile__("" : : "r"(lead_byte));
+      ASM_USE(lead_byte);
       glyph_code = cursor[1];
       glyph_code |= lead_byte << 8;
       tile_index = glyph_code;
@@ -91,15 +91,14 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
       tile_index = 0xD;
       do_blit:
       draw_tile = draw_enabled;
-      __asm__ __volatile__("" : : "r"(draw_tile));
+      ASM_USE(draw_tile);
       if (draw_tile != 0)
       {
         register void *tile_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         register RECT *tile_rect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         tile_data = tile_buf;
-        __asm__ __volatile__("" : : "r"(tile_data));
         tile_rect = &rect;
-        __asm__ __volatile__("" : : "r"(tile_rect));
+        ASM_USE(tile_rect);
         tile_index = tile_index & 0xFFFF;
         tile_col = tile_index & 7;
         tile_x = tile_col << 1;

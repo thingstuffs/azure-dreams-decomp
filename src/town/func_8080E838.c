@@ -89,7 +89,7 @@ void func_8080E838(void *source_data, void *initial_data) {
     s32 copy_or_obj;
     register s32 copy_or_entry ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 field_value;
-    register s32 field_or_table ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 field_or_table;
     register s32 init_word_2 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 init_word_3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *setup_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -177,7 +177,6 @@ void func_8080E838(void *source_data, void *initial_data) {
             setup_data = ((S_8080E838_2 *)obj)->unk_08;
         } while (0);
         field_or_table = (s32)D_805300F4;
-        ASM_KEEP(field_or_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_8023FA58(payload + 8, setup_data, (void *)field_or_table);
     }
 }

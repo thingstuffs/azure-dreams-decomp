@@ -33,7 +33,7 @@ void *func_8004CD28(u32 *ot, u8 *source, u8 **anchor, u8 *entry) {
         address_mask = 0x00FFFFFF;
         length_mask = 0xFF000000;
         /* Keep empty_count live so stop_count = empty_count is move a2,v1 (not rematerialized li a2,-1). */
-        __asm__ __volatile__("" : "=r"(empty_count) : "0"(empty_count));
+        ASM_KEEP(empty_count);
         stop_count = empty_count;
         do {
             *(u32 *)entry = (*(u32 *)entry & length_mask) | (*ot & address_mask);
