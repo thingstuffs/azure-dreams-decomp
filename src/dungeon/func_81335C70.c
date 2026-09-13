@@ -157,9 +157,7 @@ call_check:
     goto high_kind;
 
 action_body:
-    counter_base = (u8 *)0x80080000;
-    ASM_KEEP(counter_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    held_base = counter_base + 0x3460;
+    held_base = &D_80083460;
     if (((S_8016CC70_4 *)held_base)->unk_02 & 0x1000) {
         goto done;
     }

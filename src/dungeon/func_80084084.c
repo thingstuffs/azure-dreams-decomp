@@ -124,12 +124,12 @@ loop_second:
                         goto second_next;
                     }
                     goto second_next;
-do {
+loop_0: {
                     callback(entry->data, entry->arg1, entry->arg2);
                     callback_slot++;
                     goto second_advance;
 second_scan_check: ;
-} while (*special_scan == callback);
+} if (*special_scan == callback) goto loop_0;
                     if (*special_scan == 0) {
                         goto second_next;
                     }
@@ -156,16 +156,12 @@ second_advance:
         register Entry **entry_slot;
         register Entry *entry ASM_REG("$17");
         register s32 slot_index ASM_REG("$19");
-        register u8 *D_800E0000 ASM_REG("$2");
+        u8 *D_800E0000;
         s32 stop_dispatch;
 
         slot_index = 0;
-        D_800E0000 = (u8 *)0x80080000;
-        ASM_KEEP(D_800E0000);
-        callback_slot = (Callback *)(D_800E0000 + 0x3360);
-        D_800E0000 = (u8 *)0x80080000;
-        ASM_KEEP(D_800E0000);
-        entry_slot = (Entry **)(D_800E0000 + 0x33E0);
+        callback_slot = (Callback *)D_80083360;
+        entry_slot = (Entry **)D_800833E0;
 loop_third:
         callback = *callback_slot;
         if (callback != 0) {
