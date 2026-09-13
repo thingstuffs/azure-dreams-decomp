@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_800CFCB4[];
 
 #ifndef NULL
 #define NULL 0
@@ -16,16 +17,14 @@ typedef struct List {
 
 /* Insert a non-null node before the global list sentinel. */
 s32 func_8008EFE0(Node *node) {
-    register u32 page ASM_REG("$3") = 0x800D0000;
-    register Node *head ASM_REG("$4");
+    Node *head;
 
     if (node != NULL) {
-        ASM_KEEP(page);
-        head = ((List *)(page - 0x34C))->head;
-        node->next = (Node *)(page - 0x34C);
+        head = ((List *)D_800CFCB4)->head;
+        node->next = (Node *)D_800CFCB4;
         node->prev = head;
-        ((List *)(page - 0x34C))->head->next = node;
-        ((List *)(page - 0x34C))->head = node;
+        ((List *)D_800CFCB4)->head->next = node;
+        ((List *)D_800CFCB4)->head = node;
         return 1;
     }
     return 0;

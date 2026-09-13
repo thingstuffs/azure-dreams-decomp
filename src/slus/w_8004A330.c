@@ -38,7 +38,7 @@ __asm__(".set D_800814A0_load, 0x800814A0");
 S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 target_x,
                                   s32 target_y, s32 width, s32 flags, s32 content_id) {
     S_8004A330_Entity *entity;
-    register S_8004A330_Sub20 *state ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    S_8004A330_Sub20 *state;
     s32 buffer_addr;
     s32 saved_style_flags = style_flags;
     register s32 saved_start_y ASM_REG("$20") = start_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
@@ -53,8 +53,8 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 
 
     entity = func_8003FC64(0);
     if (entity != 0) {
-        buffer_addr = func_8004B404(0);
         state = &entity->sub20;
+        buffer_addr = func_8004B404(0);
         state->field8 = (void *)buffer_addr;
         if (buffer_addr != 0) {
             state->field0 = (u16)flags;

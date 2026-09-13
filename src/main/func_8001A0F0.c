@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_800A0000[];
 
 extern s32 D_804094E8;
 extern s32 D_804094EC;
@@ -56,10 +57,8 @@ state_one:
 
 state_three:
         selected_slot = D_804094EC;
-        completion_flag = (s32 *)0x800A0000;
-        ASM_KEEP_NV(completion_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        completion_flag = (s32 *)D_800A0000;
         completion_flag = (s32 *)((u8 *)completion_flag - 0x1C70);
-        ASM_KEEP_NV(completion_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (selected_slot != 0) {
             completion_flag++;
             status = 2;

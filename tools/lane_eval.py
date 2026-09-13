@@ -31,7 +31,7 @@ import traceback
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
-from common import rows, clean_path, sha_text
+from common import rows, clean_path, sha_text, parse_cfg, is_stock_cfg
 from pin_census import sites_of, unscored_text
 import verify as verifier
 
@@ -97,16 +97,21 @@ def main():
             scores, cache = [], {}
             signature = unscored_text(text)
 
-            def vf(cand):
+            def at(cfg):                    # the row at another STOCK cell/flags, as sweep.py's vf takes it
+                return row if not cfg else dict(row, cfg=cfg, cell=parse_cfg(cfg)[0], flags=" ".join(parse_cfg(cfg)[1]))
+
+            def vf(cand, cfg=None):
                 if unscored_text(cand) != signature:
                     return {"exact": False, "status": "unscored-arm-edit"}
-                h = sha_text(cand)
+                if cfg and not is_stock_cfg(cfg):
+                    return {"exact": False, "status": "non-stock cfg"}
+                h = (sha_text(cand), cfg)
                 if h not in cache:
                     with tempfile.TemporaryDirectory(prefix="vf_") as td:
                         p = Path(td) / Path(row["c_path"]).name
                         p.write_text(cand)
-                        cache[h] = verifier.verify(row, p, include_root=ROOT / "include")
-                    scores.append({"sha": h, **cache[h]})
+                        cache[h] = verifier.verify(at(cfg), p, include_root=ROOT / "include")
+                    scores.append({"sha": h[0], "cfg": cfg, **cache[h]})
                 return cache[h]
 
             rec["baseline"] = baseline = vf(text)
@@ -121,13 +126,20 @@ def main():
                 if new is None:
                     rec.update(outcome="miss", exact=False)
                 else:
+                    cfg = (info or {}).get("cfg")       # a cell switch lands only under pin_cells_land.py rules 1-2
+                    if cfg and cfg != row["cfg"]:
+                        rec["cfg"] = cfg
+                        rec["cell_rules"] = {"pinned_exact_at_new": bool(vf(text, cfg).get("exact")),
+                                             "candidate_exact_at_old": bool(vf(new).get("exact"))}
                     with tempfile.TemporaryDirectory(prefix="final_") as td:   # outside the vf cache
                         p = Path(td) / Path(row["c_path"]).name
                         p.write_text(new)
-                        rec["final"] = final = verifier.verify(row, p, include_root=ROOT / "include")
+                        rec["final"] = final = verifier.verify(at(cfg), p, include_root=ROOT / "include")
                     np = sites_of(new)
                     if not final.get("exact") or len(np) >= len(pins) or unscored_text(new) != signature:
                         raise RuntimeError("candidate failed the final exact / fewer-pin / arm guard")
+                    if cfg and cfg != row["cfg"] and (not rec["cell_rules"]["pinned_exact_at_new"] or rec["cell_rules"]["candidate_exact_at_old"]):
+                        raise RuntimeError("cell switch fails pin_cells_land.py rules 1-2")
                     output = lane / "out" / row["container"] / Path(row["c_path"]).name
                     output.parent.mkdir(parents=True, exist_ok=True)
                     output.write_text(new)

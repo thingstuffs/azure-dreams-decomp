@@ -329,7 +329,8 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
         {
             void *angles;
             void *local_matrix;
-            register u16 screen_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u16 screen_offset;
+            u16 screen_offset_2;
             angles = scratch;
             ASM_KEEP_NV(angles);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             screen_offset = scratch->unk_B8;
@@ -337,12 +338,12 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
             ASM_KEEP_NV(angles);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             screen_offset -= 0xA0;
             scratch->unk_B8 = screen_offset;
-            screen_offset = scratch->unk_BA;
+            screen_offset_2 = scratch->unk_BA;
             camera_rot_x = render_state->unk_C4;
             camera_rot_y = render_state->unk_C6;
             camera_rot_z = render_state->unk_C8;
-            screen_offset -= 0x78;
-            scratch->unk_BA = screen_offset;
+            screen_offset_2 -= 0x78;
+            scratch->unk_BA = screen_offset_2;
             scratch->unk_30 = (u32) camera_rot_x;
             scratch->unk_34.unk_34_u32 = (u32) camera_rot_y;
             scratch->unk_38 = (u32) camera_rot_z;

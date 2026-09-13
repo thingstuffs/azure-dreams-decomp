@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern u8 D_80080000[];
 
 typedef s32 M2C_UNK;
 
@@ -97,8 +98,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
                             tail_result = 0;
                         }
                         ASM_KEEP(tail_result);
-                        tail_page = 0x80080000;
-                        ASM_KEEP(tail_page);
+                        tail_page = (u32)D_80080000;
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
                         tail_page = (u32)&D_8008ACDC;
                         action->unk_124 = 0;

@@ -151,7 +151,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
                 (((S_8002403C_3 *)packet)->unk_00.at00.v & length_mask) |
                 ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & addr_mask);
             {
-                register u32 *ot_entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u32 *ot_entry;
                 u32 ot_tag;
                 u32 packet_addr;
 
@@ -159,8 +159,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
                 ot_entry = (u32 *)((u32)ot_entry +
                                 (u32)((S_8002403C_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
-                ot_tag = (ot_tag & length_mask) | ((u32)((u32)packet & addr_mask));
-                *ot_entry = ot_tag;
+                *ot_entry = ((u32)((ot_tag & length_mask) | ((u32)((u32)packet & addr_mask))));
             }
 
             packet = *(u8 * volatile *)(scratch + 0x18);

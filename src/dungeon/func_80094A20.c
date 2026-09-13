@@ -20,7 +20,8 @@ extern void func_8009A028(void *arg0);
 
 /* Marks an entry, relinking newly marked entries beside a distinct anchor. */
 s32 func_8009A180(void *entry, S_8009A180_0 *anchor) {
-    register u32 link_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u32 link_bits;
+    u32 link_bits_2;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 anchor_flags;
     s32 prev_link;
@@ -41,8 +42,8 @@ s32 func_8009A180(void *entry, S_8009A180_0 *anchor) {
     if (result >= 0) {
         result |= marked_bit;
         ((Rec_D_800E3D7C *)entry)->unk_1C.as_s32 = result;
-        link_bits = (u32)entry;
-        func_8009A028((void *)link_bits);
+        link_bits_2 = (u32)entry;
+        func_8009A028((void *)link_bits_2);
 
         prev_link = anchor->unk_5C.s;
         ((Rec_D_800E3D7C *)entry)->unk_5C = prev_link;

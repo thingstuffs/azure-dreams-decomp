@@ -75,8 +75,7 @@ state_zero:
     }
     ASM_KEEP_NV(anim_table);
     anim_table += 0x5C78;
-    facing_ptr = (u8 *)0x80080000;
-    ASM_KEEP(facing_ptr);
+    facing_ptr = (u8 *)D_80080000;
     PTR(object, 0x2C) = anim_table;
     facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
     facing_idx &= 7;
@@ -142,8 +141,7 @@ store_movement:
         }
         ASM_KEEP_NV(anim_table);
         anim_table += 0x5CA8;
-        facing_ptr = (u8 *)0x80080000;
-        ASM_KEEP(facing_ptr);
+        facing_ptr = (u8 *)D_80080000;
         PTR(object, 0x2C) = anim_table;
         facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
         facing_idx &= 7;

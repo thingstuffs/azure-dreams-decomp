@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+extern u8 D_80080000[];
 
 
 typedef struct S_80AC5820_0 {
@@ -71,8 +72,7 @@ void func_80AC5820(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
     work.xyz[1] = reference_pos->unk_06;
     work.xyz[2] = reference_pos->unk_0A;
     reference_value = func_80065420(work.xyz, &work.out18, &work.out20, &work.out24);
-    angle_page = 0x80080000;
-    ASM_KEEP(angle_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    angle_page = (u32)D_80080000;
     angle_bias = &D_800DCECC[
         ((*(s16 *)(angle_page + 0x3228) +
           ((S_80AC5820_1 *)state)->unk_94 + 0x100) >> 9) & 7];
@@ -82,11 +82,10 @@ void func_80AC5820(void *state, S_80AC5820_0 *position, Rec_D_80082E80 *result)
     ticks_left = ((S_80AC5820_1 *)state)->unk_96 - 1;
     ((S_80AC5820_1 *)state)->unk_96 = ticks_left;
     if ((ticks_left << 16) <= 0) {
-        register u32 flags_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        flags_page = 0x80080000;
+        angle_page = 0x80080000;
         ((S_80AC5820_1_pre *)state)[-1].unk_00 |= 0x8000;
-        *(s32 *)(flags_page + 0x14A0) |= 0x8000;
+        *(s32 *)(angle_page + 0x14A0) |= 0x8000;
     }
 }
 

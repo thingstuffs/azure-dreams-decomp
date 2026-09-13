@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_800E0000[];
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 typedef struct {
@@ -103,8 +104,7 @@ check_tile:
                 register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 S_8009AF18_1 *world;
 
-                page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                page = (u8 *)D_800E0000;
                 world = *(void **)(page + 0x3D7C);
                 occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
             }
@@ -114,8 +114,7 @@ check_tile:
                         {
                             register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                            page = (u8 *)0x800E0000;
-                            ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                            page = (u8 *)((u8 *)&D_800E3D7C - 15740);
                             if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124))->unk_13 < 0) {
                                 D_800DD7DC = 1;
                                 occupant->unk_14 |= 0x800000;

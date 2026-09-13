@@ -22,9 +22,10 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     u8 code;
     u8 uv_size;
     u16 vertex_z;
+    u16 vertex_z_2;
     u16 last_z;
     u32 depth_bucket;
-    register u32 last_xy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 last_xy;
     register void *vertex0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *vertex1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *vertex3;
@@ -48,11 +49,11 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     *((u32 *) (scratch + 0x78)) = *((u32 *) (((u8 *) quad) + 0x18));
     *((u32 *) (scratch + 0x80)) = *((u32 *) (((u8 *) quad) + 0x20));
     vertex0 = scratch + 0x70;
-    vertex_z = *((u16 *) (((u8 *) quad) + 0x14));
+    vertex_z_2 = *((u16 *) (((u8 *) quad) + 0x14));
     texture = *((u8 **) (((u8 *) quad_material) + 8));
     last_xy = *((u32 *) (((u8 *) quad) + 0x28));
     vertex1 = scratch + 0x78;
-    *((u16 *) (scratch + 0x74)) = vertex_z;
+    *((u16 *) (scratch + 0x74)) = vertex_z_2;
     vertex_z = *((u16 *) (((u8 *) quad) + 0x1C));
     vertex_or_link = scratch + 0x80;
     *((u16 *) (scratch + 0x7C)) = vertex_z;

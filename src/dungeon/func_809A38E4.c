@@ -82,7 +82,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     register u8 *vertex_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     GraphicsState **graphics_ptr;
     register GraphicsState *graphics ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u16 next_segment ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 next_segment;
     s32 color_b;
     s32 color_a;
     register s32 first_segment ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -159,8 +159,8 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             func_8006658C(draw_bucket, submit_prim);
             prim += sizeof(Block);
             next_segment = segment + 1;
-            segment = next_segment;
             vertex_data += sizeof(Block);
+            segment = next_segment;
         } while (((s32)(u32)next_segment << 16) < ((s32)(u32)segment_limit << 16));
     }
     (*graphics_ptr)->next_prim = prim;

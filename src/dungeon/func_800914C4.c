@@ -49,11 +49,11 @@ void func_80096C24(void *obj, s32 move_mode, void *actor, void *map)
         U8(obj, 0x9B) = 0;
         func_8009A3D0(U8(actor, 0x24), U8(actor, 0x25), 0x300);
         {
-            register u8 *x_offsets ASM_REG("$3");
-            s32 step_index;
+            u8 *x_offsets;
+            s16 step_index;
 
-            x_offsets = D_8006CCD8;
             step_index = (U16(map, 0x2A) >> 8) & 0xE;
+            x_offsets = D_8006CCD8;
             U8(actor, 0x24) = U8(actor, 0x24) + x_offsets[step_index];
             U8(actor, 0x25) = U8(actor, 0x25) + D_8006CCE8[step_index];
         }

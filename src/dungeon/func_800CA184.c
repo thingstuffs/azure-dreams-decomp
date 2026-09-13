@@ -215,7 +215,7 @@ void func_800CF8E4(void) {
     void *edge_end;
     void *render_input;
     register void *render_output ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 render_arg ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 render_arg;
     s32 minus_one;
 
     scene = (u8 *)D_80083160;
@@ -388,7 +388,7 @@ L_CFB98:
             render_input = view + 8;
             render_output = ram_base + 0x01C;
             setup_value = ((S_800CF8E4_2 *)view)->unk_90;
-            render_arg = (s32)(ram_base + 0x174);
+            render_arg = (s32)((u8 *)((u32)ram_base | 0x174));
             *(s32 *)(ram_base + 0x000) = setup_value;
             setup_value = (s32)0x80010000;
             setup_base = (s32)((S_800CF8E4_0 *)scene)->unk_00;

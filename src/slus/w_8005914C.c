@@ -50,7 +50,7 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
   u32 track_index;
   s32 track_count;
   S_80085FA8 *track_iter;
-  register s32 event_data ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  u8 event_data;
   channel = status & 0xF;
   event_data = first_data;
   switch (status & 0xF0)

@@ -261,7 +261,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 boost_speed_y;
     s32 fade_speed_y;
     s16 height_frames;
-    register s32 height_numerator ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 height_numerator;
+    s32 height_numerator_2;
     register s32 history_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 travel_turn_gap;
     s32 travel_gap_x;
@@ -412,9 +413,9 @@ jt_c0:
     step_y += coord_delta;
     effect->unk_2C.u16 = (u16) step_y;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    height_numerator = (effect->unk_2C.s16 - motion->unk_08.half.unk_0A.s16) << 0x10;
+    height_numerator_2 = (effect->unk_2C.s16 - motion->unk_08.half.unk_0A.s16) << 0x10;
     height_frames = 16;
-    motion->unk_14.word = height_numerator / height_frames;
+    motion->unk_14.word = height_numerator_2 / height_frames;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
 jt_c1:
     aim_angle = func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16, (s16) effect->unk_28.u16, (s16) effect->unk_2A.u16);

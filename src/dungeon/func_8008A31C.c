@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_800E0000[];
 
 
 typedef struct {
@@ -246,8 +247,7 @@ state_1:
         active_entry = D_80083228[0];
         entity_angle = ((S_8008FA7C_2 *)entity)->unk_2A;
         do {
-            object_or_base = 0x800E0000;
-            ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            object_or_base = (u32)D_800E0000;
         } while (0);
         ((S_8008FA7C_6 *)((u8 *)object_or_base))->unk_3540 = saved_value;
         active_entry += entity_angle;

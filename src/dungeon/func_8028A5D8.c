@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80080000[];
 
 typedef struct {
     u16 x;
@@ -115,9 +116,8 @@ void func_8001D5D8(DungeonRect *rect) {
     }
     patch_count = size_sum >> 2;
     {
-        DungeonPage *level_page = (DungeonPage *)0x80080000;
+        DungeonPage *level_page = (DungeonPage *)D_80080000;
 
-        ASM_KEEP_NV(level_page);
         if (level_page->level < 5) {
             patch_count = size_sum >> 4;
         }

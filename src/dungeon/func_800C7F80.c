@@ -103,8 +103,9 @@ s32 func_800CD6E0(void *source, s32 passthrough_1, s32 passthrough_2, s32 passth
     register s32 color ASM_REG("$7");
     register s32 roll_value ASM_REG("$3");
     s32 owner_coord;
+    s32 owner_coord_2;
     s32 coord;
-    register s32 y_entry ASM_REG("$5");
+    s32 y_entry;
     void *update_callback;
 
     if (D_800E3D40 == 0) {
@@ -143,15 +144,15 @@ check_gate:
             ASM_KEEP_NV(random_or_effect_id);
             y_entry = effect_index << 2;
 
-            owner_coord = owner->unk_24;
+            owner_coord_2 = owner->unk_24;
             coord = *x_offsets;
             position = ((S_800CD6E0_3 *)effect)->unk_08;
-            owner_coord <<= 6;
+            owner_coord_2 <<= 6;
             coord = (coord << 5) + 0x20;
-            owner_coord += coord;
+            owner_coord_2 += coord;
             coord = (u32)D_8006CCE8;
             y_entry += coord;
-            position->unk_02 = owner_coord;
+            position->unk_02 = owner_coord_2;
             owner_coord = owner->unk_25;
             coord = ((S_800CD6E0_5 *)((void *)y_entry))->unk_00;
             owner_coord <<= 6;

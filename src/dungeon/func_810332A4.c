@@ -119,6 +119,7 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 step_x;
     s32 cleanup_mask;
     s32 next_tile;
+    s32 next_tile_2;
     s32 collision_coord;
     register s32 coord_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register S_func_810332A4_7 *object_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -137,7 +138,7 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 floor_x;
     s32 floor_y;
     register s32 target_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 object_tile ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 object_tile;
     s32 fade_value;
     s32 delay_pending;
     u16 timer;
@@ -207,12 +208,12 @@ state_2:
     coord_base = (s32)D_8017610C;
     step_x = effect->unk_1C;
     ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    next_tile = effect->unk_4C.u;
+    next_tile_2 = effect->unk_4C.u;
     step_x <<= 2;
     step_x += (s32)coord_base;
     step_x = ((S_func_810332A4_8 *)step_x)->unk_00;
-    next_tile += step_x;
-    effect->unk_4C.u = next_tile;
+    next_tile_2 += step_x;
+    effect->unk_4C.u = next_tile_2;
     collision_coord = effect->unk_1C;
     collision_coord <<= 2;
     collision_coord += (s32)coord_base;

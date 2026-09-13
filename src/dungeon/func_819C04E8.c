@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80030000[];
 
 
 typedef unsigned long uptr;
@@ -90,7 +91,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     register Copy32 *offset_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 object_index;
     Object **slot;
-    register Object *new_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    Object *new_object;
     Object *cleanup_object;
     Object *current_object;
     S_80025CE8_1 *position;
@@ -98,6 +99,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     s32 x_offset;
     u16 y_offset;
     register u8 *data_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *data_entry_2;
     register s32 previous_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 slot_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 asset_offset;
@@ -134,11 +136,11 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             color = 0x800000;
             new_object->part10 = D_80025800;
             color |= 0x8080;
-            data_entry = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
-            x_offset = ((S_80025CE8_0 *)data_entry)->unk_00;
+            data_entry_2 = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
+            x_offset = ((S_80025CE8_0 *)data_entry_2)->unk_00;
             position = (*slot)->part8;
             position->unk_02 = x + (x_offset << 7);
-            y_offset = ((S_80025CE8_0 *)data_entry)->unk_02;
+            y_offset = ((S_80025CE8_0 *)data_entry_2)->unk_02;
             position->unk_0A = z - 0x90;
             position->unk_06 = y + (((s32)y_offset << 16) >> 9);
 
@@ -169,8 +171,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
                 goto shared_tail;
             }
             data_entry = (u8 *)current_object + 0x20;
-            alloc_page = (u8 *)0x80030000;
-            ASM_KEEP(alloc_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            alloc_page = (u8 *)D_80030000;
             ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
         shared_tail:
             render->unk_1E = 0;

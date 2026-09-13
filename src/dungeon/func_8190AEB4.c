@@ -59,9 +59,10 @@ void func_8190AEB4(void *effect, s32 *position, void *transform)
     s16 timer;
     u16 next_x;
     u16 next_y;
-    register s32 entry ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 entry;
     u8 *shuffle_order;
     u8 *slot;
+    u8 *slot_2;
     u8 saved_entry;
     s32 order_index;
     s32 state;
@@ -163,10 +164,10 @@ void func_8190AEB4(void *effect, s32 *position, void *transform)
 
         for (entry = 0; entry < 0x30; entry++) {
             shuffle_order = D_80025648;
-            slot = shuffle_order + entry;
-            saved_entry = *slot;
+            slot_2 = shuffle_order + entry;
+            saved_entry = *slot_2;
             order_index = func_80024590(0x30);
-            *slot = shuffle_order[order_index];
+            *slot_2 = shuffle_order[order_index];
             shuffle_order[order_index] = saved_entry;
         }
         for (entry = 0; entry < 0x2C; entry++) {

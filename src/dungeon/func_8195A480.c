@@ -168,7 +168,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     s32 transform_result;
     s32 tile_object;
     u16 steps_left;
-    register u16 update_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u16 update_x;
     u16 update_y;
     u8 frame;
     u8 brightness;
@@ -293,8 +293,7 @@ advance_tile:
     update_base = D_8006CCD8;
     update_ptr = &update_base[((S_80025C80_0 *)effect)->unk_40.s];
     update_x = (u16) ((S_80025C80_0 *)effect)->unk_3C;
-    x_step = (u16) *update_ptr;
-    update_x += x_step;
+    update_x += ((u16) *update_ptr);
     ((S_80025C80_0 *)effect)->unk_3C = update_x;
     update_y_base = (s16 *)D_8006CCE8;
     update_y_offset = ((S_80025C80_0 *)effect)->unk_40.s << 1;

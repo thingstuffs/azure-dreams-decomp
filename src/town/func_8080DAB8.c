@@ -65,7 +65,7 @@ s32 func_8080DAB8(void *first_record) {
     s32 depth0;
     s32 depth1;
     u32 packet_addr;
-    register S_8080DAB8_3 *ot_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_8080DAB8_3 *ot_entry;
     void *unused_ptr;
     void *record;
     u8 **render_root;
@@ -131,8 +131,7 @@ s32 func_8080DAB8(void *first_record) {
         ot_slot = (s32)(depth0_shifted << 0x10) >> 0xE;
         ((S_8080DAB8_1 *)primitive)->unk_00 = (s32)((((S_8080DAB8_1 *)primitive)->unk_00 & tag_mask) | (((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0 & addr_mask));
         ot_entry = (void *)((u32)ot_slot + (u32)*render_root);
-        packet_addr = primitive & addr_mask;
-        ot_entry->unk_B0 = (s32)((ot_entry->unk_B0 & tag_mask) | packet_addr);
+        ot_entry->unk_B0 = (s32)((ot_entry->unk_B0 & tag_mask) | ((u32)(primitive & addr_mask)));
         *draw_mode = (s32)((*draw_mode & tag_mask) | (((S_8080DAB8_5 *)((u8 *)((u32)ot_slot + (u32)*render_root)))->unk_B0 & addr_mask));
         ot_slot = ot_slot + (u8 *)*render_root;
         packet_addr = (u32)draw_mode & addr_mask;

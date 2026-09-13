@@ -99,7 +99,8 @@ s32 func_80023258(S_80023258_0 *state)
     register s32 frame;
     s32 end_frame;
     s32 entry_index;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 result;
+    s32 result_2;
     register u8 *offset_slot ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 old_offset;
     s32 next_offset;
@@ -132,12 +133,12 @@ loop:
 
         active_offset = old_offset;
         offset_left = 8;
-        result = state->unk_80;
+        result_2 = state->unk_80;
         frame = state->unk_84;
         offset_left -= active_offset;
-        result -= frame;
-        result++;
-        offset_step = offset_left / result;
+        result_2 -= frame;
+        result_2++;
+        offset_step = offset_left / result_2;
         next_offset = active_offset + offset_step;
     } else {
         next_offset = old_offset;

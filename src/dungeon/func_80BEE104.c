@@ -82,7 +82,8 @@ void func_80173904(
     void *object;
     register void *transform ASM_REG("$20");
     void *texture;
-    register void *target ASM_REG("$4");
+    void *target;
+    void *target_2;
     void *object_data;
     s32 texture_flags;
 
@@ -98,14 +99,14 @@ void func_80173904(
     object = func_8003FC64((s32)target);
     if (object != NULL) {
         angle_work = angle;
-        target = object;
+        target_2 = object;
         object_data = &D_80045340;
         state = (u8 *)object + 0x20;
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;
         state->unk_1E = (s16)angle;
         ((S_80173904_1 *)object)->unk_10 = &D_80173738;
-        func_8004491C(target, object_data);
+        func_8004491C(target_2, object_data);
 
         display = ((S_80173904_1 *)object)->unk_0C;
         display->unk_10 = 0x60;

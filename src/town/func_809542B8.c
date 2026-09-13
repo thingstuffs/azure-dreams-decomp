@@ -168,7 +168,7 @@ s32 func_800212B8(void) {
     AT(u16, owner, 0x38) = *(u16 *)timer;
     {
         s32 value_index = 4;
-        register s32 template_page ASM_REG("$20") = (s32)0x80020000;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        s32 template_page = (s32)0x80020000;
         register s32 value_offset ASM_REG("$19") = 0x38;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s16 value_y = 0x44;
         Packed8 *text_buffers = D_80024310;
@@ -182,8 +182,8 @@ s32 func_800212B8(void) {
             AT(s8, text_buffer, 7) = 0;
             widget_init.h16 = value_y;
             widget_init.p4 = text_buffer;
-            widget_init.p8 = owner + value_offset;
             handler_page = (s32)0x80020000;
+            widget_init.p8 = owner + value_offset;
             ASM_KEEP_DEP_NV(handler_page, template_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_8002108C((u8 *)(handler_page + 0x2FD8), &widget_init);
             value_offset -= 2;
@@ -202,7 +202,7 @@ s32 func_800212B8(void) {
         ASM_KEEP(handler_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         sprite_handler = (u8 *)(handler_page + 0x3158);
         sprite_scale = 0x1000;
-        do {
+        loop_3: {
             obj = func_8003FC64(0x136);
             if (obj != 0) {
                 func_8004491C(obj, D_80046398);
@@ -219,7 +219,7 @@ s32 func_800212B8(void) {
                 AT(void *, obj, 0x20) = owner;
             }
             sprite_index--;
-        } while (sprite_index >= 0);
+        } if (sprite_index >= 0) goto loop_3;
     }
 
     index = 3;
@@ -248,7 +248,7 @@ s32 func_800212B8(void) {
         register s32 child_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *sprite_state;
         s16 frame_offset;
-        register u8 *child_slot ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        u8 *child_slot;
         sprite_state = D_80082E80;
         child_index = 2;
         ASM_KEEP_DEP_NV(child_index, sprite_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */

@@ -20,10 +20,10 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     s32 query_dst_y;
     s32 delta_x;
     register s32 y_work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 signed_dst_y;
     s32 signed_src_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 signed_src_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 signed_dst_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 signed_dst_y ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 relation_flags;
     s32 distance_x;
     s32 allowed;

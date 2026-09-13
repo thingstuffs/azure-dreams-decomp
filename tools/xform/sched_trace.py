@@ -20,6 +20,13 @@ from common import parse_cfg
 from xform.screen import _addr
 
 
+_WS = re.compile(r"\s+")
+_LABEL = re.compile(r"\$L\d+")
+_LREF = re.compile(r"\(label_ref(?::\w+)? \d+\)")
+_REG = re.compile(r"\(reg(?:/\w+)?:([A-Z0-9]+) (\d+)(?: [^)]+)?\)")
+_PAREN = re.compile(r'[()"\\]')
+
+
 def normalize(src):
     out, labels, inside = [], {}, False
     for line in src.splitlines():
@@ -32,8 +39,8 @@ def normalize(src):
             inside = False
         if not inside or not s or s.startswith((".ent", ".loc", ".file", ".frame", ".mask", ".fmask", ".set")):
             continue
-        s = re.sub(r"\s+", " ", s)
-        s = re.sub(r"\$L\d+", lambda m: labels.setdefault(m[0], "L%d" % len(labels)), s)
+        s = _WS.sub(" ", s)
+        s = _LABEL.sub(lambda m: labels.setdefault(m[0], "L%d" % len(labels)), s)
         out.append(_addr(s))
     return out
 
@@ -76,14 +83,17 @@ def compile_text(row, text, dumps=False, debug=False):
 
 
 def close_paren(s, i):
-    depth, quoted, escaped = 0, False, False
-    for k in range(i, len(s)):
+    # Jumps between ( ) " and backslash (the only characters that change state); same result as a
+    # character-by-character walk: inside a string a backslash escapes the next character.
+    depth, quoted, skip = 0, False, -1
+    for m in _PAREN.finditer(s, i):
+        k = m.start()
+        if k == skip:
+            continue
         c = s[k]
         if quoted:
-            if escaped:
-                escaped = False
-            elif c == "\\":
-                escaped = True
+            if c == "\\":
+                skip = k + 1
             elif c == '"':
                 quoted = False
         elif c == '"':
@@ -112,13 +122,13 @@ def instructions(src, abstract=False):
         end = close_paren(src, m.start())
         if b is None or end is None:
             continue
-        pat = re.sub(r"\s+", " ", src[a:b])
-        pat = re.sub(r"\(label_ref(?::\w+)? \d+\)", "(label_ref LABEL)", pat)
+        pat = _WS.sub(" ", src[a:b])
+        pat = _LREF.sub("(label_ref LABEL)", pat)
         if abstract:
             def reg(mm):
                 key = mm[2]
                 return "(reg:" + mm[1] + " " + regs.setdefault(key, "R%d" % len(regs)) + ")"
-            pat = re.sub(r"\(reg(?:/\w+)?:([A-Z0-9]+) (\d+)(?: [^)]+)?\)", reg, pat)
+            pat = _REG.sub(reg, pat)
         out.append({"uid": int(m[2]), "kind": m[1], "pattern": pat,
                     "links": [(int(k), t or "true") for t, k in
                               re.findall(r"\(insn_list(?::(\w+))?\s+(\d+)", src[b:end])],

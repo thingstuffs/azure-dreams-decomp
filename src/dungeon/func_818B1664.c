@@ -563,7 +563,7 @@ case_6: {
     EffectInner *inner;
     Effect *cleanup_effect;
     register void *cleanup_base ASM_REG("$6");
-    register u16 cleanup_flags ASM_REG("$2");
+    s32 cleanup_flags;
     s32 global_flags;
     s32 effect_delta;
 

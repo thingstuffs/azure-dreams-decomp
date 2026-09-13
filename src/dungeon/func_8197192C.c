@@ -260,7 +260,8 @@ void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
 
 case_0:
 {
-    register void *player ASM_REG("$3") = D_800814A8_case0[0];   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *player = D_800814A8_case0[0];
+    void *player_2;
     u16 coord_z;
     u16 heading;
     ((S_8197192C_1 *)player)->unk_F4 = 0;
@@ -277,10 +278,10 @@ case_0:
     if ((((S_8197192C_14 *)(((S_8197192C_0 *)effect)->unk_04))->unk_00 & 0x80) == 0) {
         goto done;
     }
-    player = D_800814A8[0];
+    player_2 = D_800814A8[0];
     ((S_8197192C_0 *)effect)->unk_2C.s = 33;
-    ((S_8197192C_1 *)player)->unk_A6 = ((S_8197192C_1 *)player)->unk_A6 - 1;
-    ((S_8197192C_1 *)player)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
+    ((S_8197192C_1 *)player_2)->unk_A6 = ((S_8197192C_1 *)player_2)->unk_A6 - 1;
+    ((S_8197192C_1 *)player_2)->unk_A8 = ((S_8197192C_0 *)effect)->unk_08;
     player = D_800814A8[0];
     heading = ((S_8197192C_1 *)player)->unk_2A;
     ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;

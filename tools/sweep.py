@@ -9,7 +9,8 @@ nothing.  Journal: ledger/sweeps/<transform>.jsonl (resumable: a row whose input
 journalled is skipped).
 """
 import argparse, json, random, sys, tempfile, time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+import multiprocessing
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, rows, read_jsonl, append_jsonl, sha_text, raw_path, parse_cfg, is_stock_cfg, set_row_cfg
@@ -42,7 +43,8 @@ def current_text(row):
     return (p if p.exists() else raw_path(row)).read_text(errors="replace"), p.exists()
 
 def one(args):
-    T, row, cen = args
+    T, row, cen, *mode = args
+    processes = bool(mode and mode[0])
     text, from_clean = current_text(row)
     rec = {"id": row["id"], "transform": T.name, "in_sha": sha_text(text), "from_clean": from_clean, "size": row["size"]}
     why = T.eligible(text, row, cen)
@@ -71,6 +73,8 @@ def one(args):
         return dict(rec, outcome="refused", reason=f"apply error: {e!r}"[:200])
     rec.update(info)
     if new is not None and info.get("cfg") and info["cfg"] != row["cfg"]:
+        if processes:   # set_row_cfg's lock is a thread lock: a cell switch waits for a threaded rerun
+            return dict(rec, outcome="deferred", reason="cell switch under --processes; rerun threaded")
         if not is_stock_cfg(info["cfg"]):
             return dict(rec, outcome="refused", reason=f"non-stock cfg {info['cfg']}")
         row = dict(row, cfg=info["cfg"], cell=parse_cfg(info["cfg"])[0], flags=" ".join(parse_cfg(info["cfg"])[1]))
@@ -101,6 +105,7 @@ def main():
     ap.add_argument("transform"); ap.add_argument("--container"); ap.add_argument("--sample", type=int); ap.add_argument("--limit", type=int)
     ap.add_argument("--workers", type=int, default=6); ap.add_argument("--seed", type=int, default=1); ap.add_argument("--only")
     ap.add_argument("--force", action="store_true", help="re-run even when the row's current text is already journalled (a row whose src was reverted to a pre-transform text)")
+    ap.add_argument("--processes", action="store_true", help="worker processes instead of threads, for plugins whose per-row work is Python-bound (t53 parses compiler dumps); a cell switch is journalled 'deferred' for a threaded rerun")
     a = ap.parse_args()
     T = xform.load(a.transform)
     cen = {c["id"]: c for c in read_jsonl(LEDGER / "census.jsonl")}
@@ -118,10 +123,12 @@ def main():
     jobs = []
     for r in rs:
         text, _ = current_text(r)
-        if a.force or (r["id"], sha_text(text)) not in done: jobs.append((T, r, cen.get(r["id"], {})))
+        if a.force or (r["id"], sha_text(text)) not in done: jobs.append((T, r, cen.get(r["id"], {}), a.processes))
     print(f"{T.name}: {len(jobs)} rows to process ({len(rs) - len(jobs)} already journalled)", flush=True)
     t0 = time.time(); n = 0; tally = {}
-    with ThreadPoolExecutor(max_workers=a.workers) as ex:
+    pool = (lambda: ProcessPoolExecutor(max_workers=a.workers, mp_context=multiprocessing.get_context("fork"))) if a.processes \
+        else (lambda: ThreadPoolExecutor(max_workers=a.workers))
+    with pool() as ex:              # either way the journal has one writer: this process
         for rec in ex.map(one, jobs):
             rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()); append_jsonl(journal, rec); n += 1
             tally[rec["outcome"]] = tally.get(rec["outcome"], 0) + 1

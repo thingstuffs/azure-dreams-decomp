@@ -23,22 +23,27 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
-Eighteenth round, IN PROGRESS (2026-09-13, ~13:50 UTC): **8,619 pins**. The search on the 180 rows no
-search had seen at their current text: 6 rows, 9 pins, published through its own gate (MATCH); its
-erasures mode on the 2-8-pin ones 0/115. `t51b_pairs` (t51 seeded from pairs of erased pins) 0/787.
-A random-sample phase census (`tools/phase_census.py`) put 320 register pins at combine into ops 94,
-wiring 133, late 82, order 11: only a third change which instructions exist.
-- **Running: the reg_astra lane** (astra, `work/native_lane/reg_astra/`, launched ~13:12; check with
-  `pgrep -fa "[c]odex exec"`, done when `last_message.txt` exists). Register pins, two held-out sets
-  frozen before it started. **No gate or publish until it ends; sweeps must skip its held-out rows.**
-- **When it ends:** harvest per `docs/LANE_KIT.md` (review its `t53` tool before `tools/xform`, land
-  `out/` with `apply_candidates.py`), then measure t53 on the page-base rows: 739 pins in 274 rows on
-  variables assigned an address literal. t29 refuses all of them, and the luirename luna lane put its
-  misses on the page pseudo's allocation. Then the cascade and one gate.
-- **New lane kit:** `tools/fetch_gcc_src.sh` (GNU sources of every cell in `toolchain/gcc-src/`),
-  `tools/lane_eval.py` (any generator over a frozen row list), `tools/phase_census.py`,
-  `docs/LANE_KIT.md`. Owner rule now: astra when the other avenues struggle or when it is likely to
-  unlock a larger piece of work; use it sparingly and get the most out of each run.
+Eighteenth round, gated (55 windows MATCH and SLUS SHA-1 MATCH): **8,521 pins in 1,493 rows**, 107 pins
+removed (9 in part 1 at be10db9f), 12 rows newly pin-free; 488 live fences, unchanged. Details: PIN_MECHANISMS,
+"Round 18".
+- **Worked: two astra lanes briefed from a census.** `reg_astra` produced `t53_reg_state` (register
+  pins; 6.7% of held-out rows; its sweep 40 rows): 47 rows, 55 pins. `page_astra` produced
+  `t54_pagebase` (page-base pins: keep the local and rewrite only its definition as the page symbol;
+  16.7% of the other page-base held-out rows): 27 rows, 43 pins. A random-sample phase census
+  (`tools/phase_census.py`) and a focused page-base census framed both briefs.
+- **Did not pay:** `t51b_pairs` 0/787, erasures on the unseen rows 0/115, and the search on unseen
+  text only 9 pins.
+- **Tooling:**
+  - The lane kit: `tools/fetch_gcc_src.sh` (GNU sources into `toolchain/gcc-src/`),
+    `tools/lane_eval.py` (with cell switches under rules 1-2), `tools/phase_census.py` and
+    `docs/LANE_KIT.md`.
+  - `sweep.py --processes` for Python-bound tools: t53 went from 3 to 18 rows a minute. A cell switch
+    under `--processes` is journaled `deferred` for a threaded rerun.
+  - Speedups in `sched_trace` and `reg_state`, verified to leave results unchanged.
+- **Next:** census the KEEP family beyond page bases (most of its erasures change operations at cse)
+  and the fences (488, untouched this round), and brief an astra lane on whichever census shows one
+  mechanism. The owner's rule: astra when the other avenues struggle or when it is likely to unlock a
+  larger piece of work; use it sparingly and get the most out of each run.
 
 Seventeenth round, gated (the lane-row search's publication gate, then 2 windows MATCH and SLUS SHA-1
 MATCH): **8,628 pins in 1,507 rows**, 17 pins and 3 fences removed; 488 live fences. By each row's first

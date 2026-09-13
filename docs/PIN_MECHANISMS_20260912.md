@@ -1072,3 +1072,158 @@ Gated (the lane-row search's publication gate, then 2 windows and the SLUS build
   and a unit test caught it.
 - **The cascade** (t51 now in the list): over the 13 changed rows, nothing. By each row's first change: t51 at 4x 11, the lane-row search 5, t52 1, with one fence each.
 - **Evaluation.** What paid: only the budget escalations, and they have reached their diminishing return (t51 at 4x 2.6% of rows, the search on the held lane rows 10%). t52 confirmed that a single-shape generator built from lane wins pays about 1-2%, even for a shape the lanes found three times. At 17 pins this is the smallest round in many: the CPU levers are used up on rows that have not changed. What to do better: when the levers plateau, the owner-approved mode is one astra lane on the biggest blocker. The largest block is REG (4,207 pins). The sched_astra dumps place most register pins before sched1, in which producer survives CSE and combine, so that is the next lane's question if the owner agrees to spend astra again. Fences (488) are the alternative, as a dependency-graph question.
+
+## Round 18 (2026-09-13): phase censuses, two astra lanes (t53_reg_state, t54_pagebase), the lane kit and `sweep.py --processes`
+
+Gated (the cascade's gate: 55 windows MATCH and SLUS SHA-1 MATCH): **8,521 pins in 1,493 rows**, 107 pins removed this round (9 in part 1 at be10db9f, 98 after it), 12 rows newly pin-free. Fences are unchanged: 488 live `ASM_SCHED_BARRIER`, 81 `ASM_MEM_BARRIER`. By each row's first change after part 1: `t53_reg_state` 47 rows, 55 pins (the lane's 7, the sweep's 40, and the cascade's follow-ups on them); `t54_pagebase` 27 rows, 43 pins (the lane's outputs and its sweep).
+
+- **pin_search on the rows no search had seen at their current text** (`pins_unseen_20260913`): the
+  181 pinned rows whose current sha256 matched no baseline result (10 never searched), 960 pins.
+  **6 rows, 9 pins**, 0 fences, for 2,992 CPU-seconds (127 complete, 29 screen budget, 23 CPU budget).
+  Published through its own gate (MATCH). The erasures mode on the 115 of them with 2 to 8 pins:
+  **0** for 154 CPU-seconds. The rows the rewrites changed in rounds 14 to 17 hold nothing a plain
+  search finds.
+- **A random-sample phase census** (`work/native_lane/reg_astra/evidence/phase_census.py`, records
+  and tables beside it). One pin erased at a time, one site per row, seed 20260913: 320 `ASM_REG`,
+  150 `ASM_KEEP*`, 80 fences, 60 others. Both builds were compiled with `-da`, and every pass (rtl
+  through dbr) was compared three ways: the operations (registers anonymised, copies and asm
+  dropped) as a multiset, the same operations in order, and the stream with registers renamed
+  (wiring). The register pins fall into four classes at combine:
+
+  | class | sites | what differs |
+  |---|---:|---|
+  | ops | 94 (29%) | different operations at combine (the first operation difference anywhere: rtl 39, cse 24, combine 19, loop 12) |
+  | wiring | 133 (42%) | same operations in the same order, different data flow (copies, lifetimes) |
+  | late | 82 (26%) | identical at combine; the pin acts in allocation or later (35 of them differ earlier and reconverge) |
+  | order | 11 (3%) | same operations, another order |
+
+  This corrects the sched_astra reading ("204 of 255 register sites differ before sched1, which
+  producer survives"): that measure included wiring. Only about a third of register pins change
+  which instructions exist. `ASM_KEEP` erasures change operations mostly at cse (35 of 150) and loop
+  (13): a keep pin hides a value from CSE. Fence erasures change the order mostly at sched (34 of 80).
+- **t51 groups hook and t51b_pairs (new).** `t51_sched_order.T.groups(pins)` now names the erasure
+  groups that seed the search (single sites, then the joint fence set), and `apply_verified` is a
+  classmethod. On three rows with a stub scorer the old and new t51 journal identically. t51b
+  overrides the groups with pairs (all pairs up to 8 pins, nearby pairs above), because joint
+  erasures paid where single ones did not and t51 erased one pin per base.
+  Result: **0 of 787** rows with 2 to 8 pins (reg_astra's held-out rows skipped), for 90,439 compiles
+  and 8,817 verifies. Joint erasures that need no rewrite are pin_search's; a pair base under t51's
+  one-site menu does not pay.
+- **Page bases, the next blocker candidate.** Three of the first four `ASM_KEEP` sites whose erasure
+  changes operations at cse are one shape: a constant page (`base = (u8 *)0x800D0000;
+  ASM_KEEP(base); *(s16 *)(base + 0x1054)`) that CSE folds with its offset into one constant address
+  once the pin goes; retail loads the page once into a named register. Pins on variables assigned an
+  address literal: **739 in 274 rows** (365 KEEP, 202 REG, 139 KEEP_NV), 117 of the rows already at
+  2.7.2-cdk. t29_addrsym has seen all 274: 169 current records, all refused, 121 with "no candidate
+  exact at the recorded cell or at a CDK cell that admits the pinned text", about 25 detector gaps
+  (port arms, no declaration, non-operand uses). The round-9 luirename luna lane (0/10) put the misses
+  on the page pseudo's allocation (rematerialised into the allocator's preferred register, a
+  short-lived base's live-range split lost). t53 could not settle the family, because it only erases
+  `ASM_REG` sites and 537 of the 739 pins are keeps. So a second lane, page_astra, was briefed on this
+  corpus, below.
+- **page_astra lane (astra, 28 min) and t54_pagebase (new).** A focused census of the page-variable
+  pins themselves (one per row, 273 sites) made the family one mechanism. 137 of the 189 KEEP page
+  pins first differ at cse. The lane's findings:
+  - A keep is an unknown register definition: its tied input keeps the value but its output hides
+    the constant. Without it, `fold_rtx` folds page plus offset into one constant address. FSF
+    2.7.2's `find_best_addr` accepts the fold before comparing address costs; 2.8.1 compares them.
+  - At CDK and 2.8.x, combine proves a page and a positive disjoint offset share no bits and turns
+    the PLUS into an IOR. MIPS rejects that as an address, so a signed load stays `lhu; sll; sra`.
+  - The repair keeps the local and rewrites only its definition as the page symbol (`DungeonPage
+    *level_page = (DungeonPage *)D_80080000;`), erasing one keep or the group. t29 deleted the whole
+    variable and substituted every use, which changes allocation; it also refused typed views and
+    complex operands, and tried only bare CDK cells.
+  - Bounded unreachable cases: pure respelling of a closed constant (no zero-cost opacity), an
+    otherwise dead page load, and a runtime-unknown base with no runtime producer.
+  - Hypotheses that failed: address cost alone, integer or pointer type, literal-based views, a
+    const or register local, a static const pointer, an external pointer object, OR spelling,
+    64-bit intermediates, masking an aligned symbol, and negative-offset rebasing.
+
+  Held out: H1 (t29's "no candidate exact" rows) 1 of 40, H2 (the other page-base rows) **5 of 30**;
+  development 17 of 204 rows, 25 pins. Its 24 outputs: 21 landed (then 18 re-spelled without
+  redundant casts, each verified), one refused by the port-build lint (the file declares the symbol
+  only under `#ifdef __mips__` with a hidden `.set`), and two need a cell switch the sweep can make.
+  t54 now tidies its own wins the same way, keeping a tidied spelling only if vf still says exact.
+  Sweep over the 274 page-base rows (threaded, so cell switches land; 7 minutes): **8 more rows**. Two
+  took a cell switch that keeps the row's flags (`town/func_8032F3C0` to `2.7.2-cdk -O1`,
+  `dungeon/func_8194CF00` to `2.7.2-cdk -G0 -fno-schedule-insns -fforce-addr`), under rules 1-2. These
+  are the two lane outputs `apply_candidates.py` could not land at the recorded cell. 10 rows refused
+  because no page variable is left. With the lane's outputs, t54 changed 29 rows.
+- **Lane kit (owner: set astra up for its best chance, harvest everything).** `tools/fetch_gcc_src.sh`
+  puts the GNU sources of every cell in `toolchain/gcc-src/<version>/` (2.6.3 exists only as bz2; two
+  lanes had fetched single files from GitHub). `tools/lane_eval.py` is sched_astra's `run_t51.py`
+  made generator-agnostic (any module, any lane directory). `tools/phase_census.py` is this round's
+  census, with the class taken at combine (reg_astra pointed out that an any-pass class counts
+  differences that reconverge: 94/133/82/11 at combine against 99/132/81/8). `docs/LANE_KIT.md` lists
+  what a lane gets before launch and what to harvest after.
+- **reg_astra lane (astra).** On the owner's rule (astra when other avenues struggle), one lane with
+  analysis and tool freedom on register pins, briefed with the census classes, the pinned build as
+  an oracle for every intermediate pass, the 40 t51 register wins as exemplars, and two held-out
+  sets frozen before it started (H1: 50 census rows stratified by class; H2: 60 population rows).
+  It finished in 55 minutes (327K tokens). Its tool is `t53_reg_state` (`tools/xform/t53_reg_state.py`
+  with `reg_state.py`). Held out: H1 2 of 50 (both in the ops class), H2 **4 of 60 (6.7%)**, six
+  register pins, plus one development row, all independently verified. The integrated copy reproduced
+  all seven through `tools/lane_eval.py` before they landed (`apply_candidates.py`); two spellings were
+  then tidied and verified. Findings:
+  - Agreement with the pinned build's pass streams is neither necessary nor sufficient for exactness.
+    On 40 verified positives and 40 negatives, the combine stream agreed for 2 positives and 13
+    negatives; normalised assembly for all 40 positives and no negative. Screen on assembly; use
+    stream distance only to seed searches.
+  - Combinations pay where single rewrites do not. At `80C96F24`, a local width change that worsened
+    assembly distance (2 to 5) but improved stream distance seeded a producer fusion. Each alone was
+    non-exact, by 5 and by 2 words.
+  - A new producer spelling for page bases: a known byte page plus disjoint bits, written as OR
+    (`(u8 *)((u32)ram_base | 0x174)`, `800CA184`, 932 words).
+  - 35 of the 82 combine-equal sites differ at an earlier pass and reconverge. local-alloc needs a
+    pseudo to live in one block with exactly one death before its priority matters (local-alloc.c
+    470ff), so a lifetime split moves a pseudo between the allocators rather than changing its
+    priority (`810876B4`).
+  - Bounded unreachable finding: six ordinary-local spellings of a two-input fixture allocate the same
+    register (2, not the pinned 16) at all five stock cells.
+  - The existing menus emit candidates on most census sites (t51's move on 88 of 94 ops sites), so the
+    misses are selection and combination, not missing shapes. t53 adds class-aware fairness and a
+    two-rewrite beam.
+
+  **Integration lesson: the verify budget was the bottleneck.** The first sweep pass used the lane's
+  defaults (384 compiles, 24 verifies) and ran at 2.3 rows a minute with a load of 5.6 on 14 workers.
+  Every one of the first 13 wins (the lane's 7, the sweep's first 6) was accepted on its first verify,
+  an assembly-identical candidate. The closing round that scores non-identical candidates never won,
+  but spent all 24 verifies on 86% of misses, and verifies serialise on the per-window lock in
+  `build_ovl`. The sweep was stopped and resumed at 3 verifies (now t53's default). Check where a
+  lane's wins spend their budget before sweeping its tool.
+
+  **Then the GIL was the bottleneck.** At 3 verifies the sweep still ran at about 3 rows a minute on
+  8 threads. t53 is Python-bound: on a 119-line row it takes 17 s, of which 5 s waits on gcc and 12 s
+  is pure Python parsing dumps, and `sweep.py`'s worker threads share one GIL. Three fixes, each
+  checked to leave results unchanged:
+  - candidates parse only the passes `metrics()` reads (the seven lane outputs came back
+    byte-identical, in 127 s against 253 s);
+  - precompiled patterns and a `close_paren` that jumps between `( ) "` and backslash (0 differences
+    over 39 dumps and 15,600 starts);
+  - `sweep.py --processes`: worker processes, with the journal still written by one process. A cell
+    switch is journaled `deferred` for a threaded rerun, because the row database's lock is a thread
+    lock.
+
+  On the page-base rows (the 172 outside page_astra's held-out sets, searched first): 8 rows, 8
+  pins (4.7%), all by t53's generic levers (moves, lifetime splits, widths). It only erases `ASM_REG`
+  sites, so it cannot reach the family's KEEP three-quarters.
+
+  Sweep over every row with `ASM_REG` (1,159 searched, page_astra's held-out rows skipped, 8 processes,
+  about 40 minutes): **40 rows, 40 pins (3.5%)**, no fences, 3 rows pin-free. Levers: lifetime split
+  16, statement move 7, width 7, fusion 6, allocation host/unhost 3, declaration order 1. Together
+  with the lane's 7 rows, t53 changed 47.
+- **The cascade** (t53 with `--processes`, and t54, now in it): 10 rows over the 74 changed ones (t53 4, `t37_localwidth` 3, `t49_looptest` 2, `t41c_gotoloop_greedy` 1); a second pass found nothing, and neither did T2.
+- **Evaluation.**
+  - What paid: two astra lanes briefed from a census, each with the gcc sources, the exemplars,
+    frozen held-out sets and `tools/lane_eval.py`. Each delivered a working tool in under an hour: t53
+    at 3.5% of register rows, and t54 at 16.7% of the page-base held-out rows (29 rows in all).
+  - The page-base census was what made the second brief sharp: one mechanism (CSE folding the page)
+    instead of a family of anecdotes.
+  - The harvest discipline held: reproduce the lane's outputs before landing, and verify every tidy.
+  - What did not: `t51b_pairs` (0 of 787) and erasures on the unseen rows (0 of 115).
+  - Integration cost: the lane's budgets and the thread-based sweep made the first t53 sweep six times
+    slower than it needed to be.
+  - What to do better: before sweeping a lane tool, check where its wins spend their budget and
+    profile its Python time. Run Python-bound tools with `--processes`.
+  - Next census targets: the KEEP family beyond page bases (most of its erasures change operations at
+    cse), and the fences (488, unchanged this round).

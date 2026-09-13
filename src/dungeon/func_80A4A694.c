@@ -140,15 +140,14 @@ s32 func_80173E94(void *node_arg, void *vertex_arg)
                 ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
             {
                 u32 *ot_entry;
-                register u32 ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                u32 ot_tag;
                 u32 packet_addr;
 
                 ot_entry = (u32 *)(((S_80173E94_1 *)scratch)->unk_C0 << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
                                 (u32)((S_80173E94_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
-                ot_tag = (ot_tag & tag_mask) | ((u32)((u32)packet & addr_mask));
-                *ot_entry = ot_tag;
+                *ot_entry = ((u32)((ot_tag & tag_mask) | ((u32)((u32)packet & addr_mask))));
             }
 
             packet = *(u8 * volatile *)(scratch + 0x18);

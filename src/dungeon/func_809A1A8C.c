@@ -76,8 +76,7 @@ state_zero:
     }
     ASM_KEEP_NV(anim_table);
     anim_table += 0x5E88;
-    facing_ptr = (u8 *)0x80080000;
-    ASM_KEEP(facing_ptr);
+    facing_ptr = (u8 *)D_80080000;
     PTR(sprite, 0x2C) = anim_table;
     facing_index = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
     facing_index &= 7;
@@ -153,8 +152,7 @@ after_c12c:
         }
         ASM_KEEP_NV(anim_table);
         anim_table += 0x5EB8;
-        facing_ptr = (u8 *)0x80080000;
-        ASM_KEEP(facing_ptr);
+        facing_ptr = (u8 *)D_80080000;
         PTR(sprite, 0x2C) = anim_table;
         facing_index = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
         facing_index &= 7;

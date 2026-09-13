@@ -46,7 +46,7 @@ s32 func_80017BEC(s16 region_id) {
     s16 *x_step;
     s16 *y_step;
     s32 next_y;
-    register s16 next_x ASM_REG("$6");
+    s32 next_x;
     s32 direction;
     s16 next_direction;
     register s16 tile_id ASM_REG("$20");

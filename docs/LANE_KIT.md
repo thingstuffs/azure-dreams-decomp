@@ -59,6 +59,9 @@ pins).
    - a clause that an unreachable class is a finding;
    - the deliverables: a REPORT written before building and refreshed hourly, the tool in the
      contract, measured held-out rates, and a closing summary.
+   A lane may also confine its own Python-launched compilers: reg_astra put a `sitecustomize.py`
+   guard on its `PYTHONPATH` (`work/native_lane/reg_astra/tools/`) that runs every gcc/cc1 inside the
+   lane, verify's included. The cd rule still has to cover its shell commands.
 9. **While it scores:** no gate and no publish, because `verify.py` scores inside `build_ovl` and
    `mk_ovl_root.sh` replaces the tools copy there. Sweeps may run, but must skip its held-out rows. Wait
    on its PID with `kill -0`, never on `pgrep -f` of your own pattern.
@@ -73,7 +76,10 @@ pins).
    as before (as t51's `groups` refactor was checked).
 3. **Its outputs.** `python3 tools/apply_candidates.py <lane>/out --transform <name>` (guarded by base
    sha), then the cascade and one gate.
-4. **Its temporary tooling.** Evaluators, fixtures, audit scripts and fetched sources: generalise
+4. **Its temporary tooling.** A technique both astra lanes used, worth asking for by name: a
+   five-cell microcompile fixture. Compile one minimal C shape in every stock cell and compare the
+   pass dumps, which bounds an "unreachable" claim to a tested family (see sched_astra's
+   `tools/audit_t51.py --mode invariance` and page_astra's `tools/value_probes.py`). Evaluators, fixtures, audit scripts and fetched sources: generalise
    whatever is reusable into `tools/`, and add anything it had to fetch to this kit.
 5. **Its advice**, including what it would do next or better, goes into the next brief and
    `docs/HANDOVER.md`.

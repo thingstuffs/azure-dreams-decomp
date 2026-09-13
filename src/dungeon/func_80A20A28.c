@@ -140,7 +140,7 @@ s32 func_80174228(u8 *item_data)
     register s32 half_width;
     register s32 left_x;
     u32 addr_mask;
-    register u32 tag_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u32 tag_mask;
     S_func_80174228_1 *init_vertex;
     u8 *vertex;
     S_func_80174228_5 *prim;
@@ -362,8 +362,8 @@ s32 func_80174228(u8 *item_data)
                 prim->unk_12 = bottom_y;
 
                 ot_offset = depth * 4;
-                tag_mask = 0xFF000000;
                 addr_mask = 0x00FFFFFF;
+                tag_mask = 0xFF000000;
                 context = render_state->unk_00;
                 prim->unk_00 = (prim->unk_00 & tag_mask) |
                     (((S_func_80174228_10 *)((u8 *)context + (0xB0 + ot_offset)))->unk_00 & addr_mask);
