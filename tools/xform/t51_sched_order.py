@@ -266,8 +266,16 @@ class T:
             return "missing compiler recipe"
         return None
 
-    @staticmethod
-    def apply_verified(text, row, census, vf):
+    @classmethod
+    def groups(cls, pins):
+        """The erasure groups that seed the search, as lists of site indices: every single site
+        (fences first, at most 40), then the joint set of the scheduling fences. t51b_pairs overrides it."""
+        order = sorted(range(len(pins)), key=lambda i: (pins[i][1] != "ASM_SCHED_BARRIER", i))
+        fences = [i for i, s in enumerate(pins) if s[1] == "ASM_SCHED_BARRIER"]
+        return [[i] for i in order[:40]] + ([fences] if len(fences) > 1 else [])
+
+    @classmethod
+    def apply_verified(cls, text, row, census, vf):
         pins = sites_of(text)
         usig = unscored_text(text)
         observations, scores, seen = {}, {}, set()
@@ -304,41 +312,39 @@ class T:
         if target is None or target["assembly"] is None:
             return None, dict(log, error="baseline compiler failure", compiles=nc, tried=nv)
         baselines = []
-        # All single-site erasures in a fixed budget, plus the joint fence set.
-        order = sorted(enumerate(pins), key=lambda z: (z[1][1] != "ASM_SCHED_BARRIER", z[0]))
-        for index, site in order[:40]:
-            cand = erase_many(text, [site], clean_notes=True)
+        # Every erasure group (cls.groups) in a fixed budget. A group is focused on its first
+        # register site, else its first site; a single site is journaled under its index, a
+        # group under its joined indices (t51's joint fence set is not journaled).
+        for g in cls.groups(pins):
+            sites = [pins[i] for i in g]
+            cand = erase_many(text, sites, clean_notes=True)
             if not allowed(cand):
                 continue
             ob = observe(cand)
             if ob is None or ob["assembly"] is None:
                 continue
             dist = distance(target["assembly"], ob["assembly"])
-            var = site[6].split()[-1].lstrip("*") if site[0] == "reg" and site[6] else None
-            log["erasures"].append({"site": index, "macro": site[1], "asm_distance": dist})
-            baselines.append((dist, index, cand, site[5] - 1, var))
-        fences = [s for s in pins if s[1] == "ASM_SCHED_BARRIER"]
-        if len(fences) > 1:
-            cand = erase_many(text, fences, clean_notes=True)
-            if allowed(cand):
-                ob = observe(cand)
-                if ob and ob["assembly"] is not None:
-                    baselines.append((distance(target["assembly"], ob["assembly"]), -1, cand, fences[0][5] - 1, None))
+            focus = next((s for s in sites if s[0] == "reg" and s[6]), sites[0])
+            var = focus[6].split()[-1].lstrip("*") if focus[0] == "reg" and focus[6] else None
+            label = g[0] if len(g) == 1 else ",".join(map(str, g))
+            if len(g) == 1 or any(s[1] != "ASM_SCHED_BARRIER" for s in sites):
+                log["erasures"].append({"site": label, "macro": "+".join(s[1] for s in sites), "asm_distance": dist})
+            baselines.append((dist, g[0] if len(g) == 1 else -1, cand, focus[5] - 1, var, label))
         baselines.sort(key=lambda x: (x[0], x[1]))
         best = None
-        for dist, index, cand, line, var in baselines:
+        for dist, index, cand, line, var, label in baselines:
             if dist == 0 and score(cand).get("exact"):
                 best = cand
-                log["steps"].append("erase:%d" % index)
+                log["steps"].append("erase:%s" % label)
                 break
 
         # Retain four nearest erasures, prioritizing their own source region.
         # Within each base a one-step strict assembly improvement may seed a
         # second pass. Assembly equality is scored immediately, never accepted.
-        for dist, index, base, line, var in baselines[:BASES] if best is None else []:
+        for dist, index, base, line, var, label in baselines[:BASES] if best is None else []:
             trace = observe(base, True)
             if trace:
-                log["diagnostics"].append({"site": index, **diagnose(target, trace)})
+                log["diagnostics"].append({"site": label, **diagnose(target, trace)})
             shortlist = []
             per_base = max(8, (COMPILER_BUDGET - nc) // max(1, BASES - len(log["diagnostics"]) + 1))
             start = nc
@@ -375,7 +381,7 @@ class T:
                             improved = (d, tag, cand)
                         if d == 0 and score(cand).get("exact"):
                             best = cand
-                            log["steps"].append("erase:%d+%s" % (index, tag))
+                            log["steps"].append("erase:%s+%s" % (label, tag))
                             break
                     if nc - start >= per_base or nv >= VERIFY_BUDGET:
                         break
@@ -388,7 +394,7 @@ class T:
             for d, tag, cand in sorted(shortlist, key=lambda z: (z[0], z[1]))[:4] if best is None else []:
                 if score(cand).get("exact"):
                     best = cand
-                    log["steps"].append("erase:%d+%s:assembler-convergence" % (index, tag))
+                    log["steps"].append("erase:%s+%s:assembler-convergence" % (label, tag))
                     break
             if best is not None:
                 break

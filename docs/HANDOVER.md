@@ -23,6 +23,23 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Eighteenth round, IN PROGRESS (2026-09-13, ~13:50 UTC): **8,619 pins**. The search on the 180 rows no
+search had seen at their current text: 6 rows, 9 pins, published through its own gate (MATCH); its
+erasures mode on the 2-8-pin ones 0/115. `t51b_pairs` (t51 seeded from pairs of erased pins) 0/787.
+A random-sample phase census (`tools/phase_census.py`) put 320 register pins at combine into ops 94,
+wiring 133, late 82, order 11: only a third change which instructions exist.
+- **Running: the reg_astra lane** (astra, `work/native_lane/reg_astra/`, launched ~13:12; check with
+  `pgrep -fa "[c]odex exec"`, done when `last_message.txt` exists). Register pins, two held-out sets
+  frozen before it started. **No gate or publish until it ends; sweeps must skip its held-out rows.**
+- **When it ends:** harvest per `docs/LANE_KIT.md` (review its `t53` tool before `tools/xform`, land
+  `out/` with `apply_candidates.py`), then measure t53 on the page-base rows: 739 pins in 274 rows on
+  variables assigned an address literal. t29 refuses all of them, and the luirename luna lane put its
+  misses on the page pseudo's allocation. Then the cascade and one gate.
+- **New lane kit:** `tools/fetch_gcc_src.sh` (GNU sources of every cell in `toolchain/gcc-src/`),
+  `tools/lane_eval.py` (any generator over a frozen row list), `tools/phase_census.py`,
+  `docs/LANE_KIT.md`. Owner rule now: astra when the other avenues struggle or when it is likely to
+  unlock a larger piece of work; use it sparingly and get the most out of each run.
+
 Seventeenth round, gated (the lane-row search's publication gate, then 2 windows MATCH and SLUS SHA-1
 MATCH): **8,628 pins in 1,507 rows**, 17 pins and 3 fences removed; 488 live fences. By each row's first
 change: `t51` at four times its budget 11, the 4x search on the 48 held fence-lane rows 5, the new

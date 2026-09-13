@@ -104,9 +104,7 @@ state_one:
     direction_base = (u8 *)(direction_off + (s32)direction_base);
     ASM_KEEP_NV(direction_base);
     delta_x = *(s16 *)direction_base;
-    direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);
-    direction_base -= 0x3318;
+    direction_base = (u8 *)&D_8006CCE8;
     direction_off = direction_off + (s32)direction_base;
     direction_y = *(s16 *)direction_off;
     delta_x = -delta_x;

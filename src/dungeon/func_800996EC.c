@@ -16,8 +16,7 @@ s32 func_8009EE4C(s16 x, s16 y) {
 
 #ifndef NON_MATCHING
     shift_page = (s16 *)0x80080000;
-    ASM_KEEP(shift_page);
-    row_shift = shift_page[0x19A8];
+    row_shift = *(s16 *)&D_80083350;
 #else
     row_shift = D_80083350[0];
 #endif
