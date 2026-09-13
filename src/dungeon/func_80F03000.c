@@ -121,8 +121,7 @@ void BODY_NAME(void *actor, void *position, void *effect)
     s32 tile_x;
     register s16 tile_step_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 next_tile_y;
-    register s32 world_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 tile_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tile_y;
     s32 update_index;
     u8 *direction_x;
     u8 *direction_y;
@@ -265,7 +264,7 @@ state_one_end:
         goto state_one;
     }
 
-state_two_check:
+state_two_check: do {
     if (((S_80F03000_0 *)actor)->unk_2C != 2) {
         goto state_zero_check;
     }
@@ -289,9 +288,7 @@ state_two_finish:
         D_800814A0[0] |= 0x8000;
         goto done;
     }
-    if (((S_80F03000_2 *)effect)->unk_14 & 0x8000) {
-        goto state_two_check;
-    }
+    } while (((S_80F03000_2 *)effect)->unk_14 & 0x8000);
 
 state_zero_check:
     if (((S_80F03000_0 *)actor)->unk_2C != 0) {
@@ -321,13 +318,13 @@ state_zero_check:
         goto state_zero_z;
     }
     tile_step_y = direction[1];
-    world_y = ((S_80F03000_1 *)position)->unk_04.at02.v;
+    start_tile_y = ((S_80F03000_1 *)position)->unk_04.at02.v;
     next_tile_y = ((S_80F03000_0 *)actor)->unk_5D;
     next_tile_y += tile_step_y;
-    if (world_y < 0) {
-        world_y += 63;
+    if (start_tile_y < 0) {
+        start_tile_y += 63;
     }
-    tile_y = world_y >> 6;
+    tile_y = start_tile_y >> 6;
     if (next_tile_y != tile_y) {
         goto state_zero_z;
     }
