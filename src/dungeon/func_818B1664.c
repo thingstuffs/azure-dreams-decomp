@@ -129,9 +129,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
 {
     WorkFrame work;
     volatile s16 saved_y;
-    State *state = state_arg;
-    Motion *motion = motion_arg;
-    register DrawInfo *draw ASM_REG("$17") = draw_info;
+    DrawInfo *draw = draw_info;
     Entity *entity;
     register EntityHeader *header ASM_REG("$17");
     s32 dispatch_state;
@@ -183,7 +181,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s32 next_y;
     u32 table_page;
     register s32 tile_x ASM_REG("$20");
-    register s32 tile_y ASM_REG("$21");
+    s32 tile_y;
     s16 grid_x;
     s16 grid_y;
     s32 final_x;
@@ -194,12 +192,10 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     };
 
     index = 7;
-    angle_update = (u8 *)state + 14;
-    ASM_KEEP(state);
-    ASM_KEEP(motion);
-    entity = state->entity;
+    angle_update = (u8 *)state_arg + 14;
+    entity = state_arg->entity;
     loop_0: {
-        angle_raw = *(u16 *)(angle_update + 26) + (u16)state->angleStep;
+        angle_raw = *(u16 *)(angle_update + 26) + (u16)state_arg->angleStep;
         angle_signed = (s16)angle_raw;
         angle_adjusted = angle_signed;
         *(u16 *)(angle_update + 26) = angle_raw;
@@ -211,13 +207,13 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     {
         register u16 timer_value ASM_REG("$2");
 
-        timer_value = (u16)state->timer;
+        timer_value = (u16)state_arg->timer;
         timer_value++;
-        state->timer = timer_value;
-        timer_value = (u16)state->timer2;
-        dispatch_state = state->state;
+        state_arg->timer = timer_value;
+        timer_value = (u16)state_arg->timer2;
+        dispatch_state = state_arg->state;
         timer_value++;
-        state->timer2 = timer_value;
+        state_arg->timer2 = timer_value;
     }
 
     if ((u32)dispatch_state >= 10) {
@@ -226,19 +222,19 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     goto *D_80024028[dispatch_state];
 
 case_0:
-    state->timer = 0;
-    state->timer2 = 0;
-    state->angleStep = 4;
-    state->state++;
+    state_arg->timer = 0;
+    state_arg->timer2 = 0;
+    state_arg->angleStep = 4;
+    state_arg->state++;
     index = 7;
-    angle_clear = (u8 *)state + 14;
-    do {
+    angle_clear = (u8 *)state_arg + 14;
+    loop_0_: {
         *(s16 *)(angle_clear + 26) = 0;
         index--;
         angle_clear -= 2;
-    } while (index >= 0);
+    } if (index >= 0) goto loop_0_;
     index = 9;
-    effect_clear = (u8 *)state + 36;
+    effect_clear = (u8 *)state_arg + 36;
     do {
         *(Effect **)(effect_clear + 44) = 0;
         index--;
@@ -247,7 +243,7 @@ case_0:
     func_800240EC(angle_clear, angle_update, draw_info);
     color = 0x00808080;
     direction = (entity->flags2A >> 9) & 7;
-    state->direction = direction;
+    state_arg->direction = direction;
     draw->color = color;
 
     header = (EntityHeader *)((u8 *)entity - 0x20);
@@ -259,24 +255,24 @@ case_0:
     }
 
     source = header->position;
-    motion->x.half.hi = source->x.half.hi;
-    motion->y.half.hi = source->y.half.hi;
+    motion_arg->x.half.hi = source->x.half.hi;
+    motion_arg->y.half.hi = source->y.half.hi;
     source_z = source->z.half.hi;
-    motion->z.half.hi = source_z;
+    motion_arg->z.half.hi = source_z;
     if (!(header->info->flags & 0x8000)) {
-        motion->x.half.hi += work.distance[0];
-        motion->y.half.hi += work.distance[1];
-        motion->z.half.hi += work.distance[2];
+        motion_arg->x.half.hi += work.distance[0];
+        motion_arg->y.half.hi += work.distance[1];
+        motion_arg->z.half.hi += work.distance[2];
     } else {
         lowered_z = source_z - 64;
-        motion->z.half.hi = lowered_z;
+        motion_arg->z.half.hi = lowered_z;
     }
 
-    if (!(state->flags & 1)) {
-        func_8004491C((u8 *)state - 0x20, func_80024DF4);
-        state->flags |= 1;
+    if (!(state_arg->flags & 1)) {
+        func_8004491C((u8 *)state_arg - 0x20, func_80024DF4);
+        state_arg->flags |= 1;
     }
-    if (!(state->resource->flags & 0x80)) {
+    if (!(state_arg->resource->flags & 0x80)) {
         goto end;
     }
 
@@ -284,25 +280,25 @@ case_0:
     if (entity->child != 0) {
         child_motion = *(Motion **)((u8 *)entity->child - 0x18);
 
-        motion_coord = motion->x.half.hi;
+        motion_coord = motion_arg->x.half.hi;
         child_delta = child_motion->x.half.hi;
         child_delta -= motion_coord;
         child_delta = abs(child_delta);
         work.distance[0] = child_delta;
 
         child_delta = child_motion->y.half.hi;
-        motion_coord = motion->y.half.hi;
+        motion_coord = motion_arg->y.half.hi;
         child_delta -= motion_coord;
         child_delta = abs(child_delta);
         work.distance[1] = child_delta;
 
         if (entity->child->flags & 0x40000) {
-            motion_coord = motion->z.half.hi - 16;
+            motion_coord = motion_arg->z.half.hi - 16;
             child_delta = child_motion->z.half.hi;
             child_delta -= motion_coord;
         } else {
             child_delta = child_motion->z.half.hi;
-            motion_coord = motion->z.half.hi;
+            motion_coord = motion_arg->z.half.hi;
             child_delta -= motion_coord;
         }
         child_delta = abs(child_delta);
@@ -310,37 +306,37 @@ case_0:
         ASM_SCHED_BARRIER();
         index = 1;
 
-        state->duration = work.distance[0];
+        state_arg->duration = work.distance[0];
         distance_cursor = &work.target.x.half.hi;
         do {
-            if (distance_cursor[12] > state->duration) {
-                state->duration = (u16)distance_cursor[12];
+            if (distance_cursor[12] > state_arg->duration) {
+                state_arg->duration = (u16)distance_cursor[12];
             }
             index++;
             distance_cursor++;
         } while (index < 3);
-        state->duration >>= 5;
-        if (state->duration == 0) {
-            state->duration = 1;
+        state_arg->duration >>= 5;
+        if (state_arg->duration == 0) {
+            state_arg->duration = 1;
         }
 
-        motion->dx.half.hi =
-            (child_motion->x.half.hi - motion->x.half.hi) / state->duration;
-        motion->dy.half.hi =
-            (child_motion->y.half.hi - motion->y.half.hi) / state->duration;
+        motion_arg->dx.half.hi =
+            (child_motion->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
+        motion_arg->dy.half.hi =
+            (child_motion->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
         if (entity->child->flags & 0x40000) {
             s32 child_delta;
-            motion_coord = motion->z.half.hi;
+            motion_coord = motion_arg->z.half.hi;
             child_delta = child_motion->z.half.hi;
             motion_coord -= 16;
             child_delta -= motion_coord;
-            motion->dz.half.hi = child_delta / state->duration;
+            motion_arg->dz.half.hi = child_delta / state_arg->duration;
         } else {
-            motion->dz.half.hi =
-                (child_motion->z.half.hi - motion->z.half.hi) /
-                state->duration;
+            motion_arg->dz.half.hi =
+                (child_motion->z.half.hi - motion_arg->z.half.hi) /
+                state_arg->duration;
         }
-        next_state = (u16)state->state + 1;
+        next_state = (u16)state_arg->state + 1;
         goto reset_state;
     }
 
@@ -365,13 +361,13 @@ case_0:
             (grid_x << 6) & 0xFFC0,
             (grid_y << 6) & 0xFFC0,
             entity->height,
-            (s16)(state->direction << 9));
+            (s16)(state_arg->direction << 9));
         if ((s16)collision_result != 0) {
             break;
         }
 
         (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328;
-        table_offset = (s16)state->direction;
+        table_offset = (s16)state_arg->direction;
         probe_height = (u16)entity->height;
         table_offset *= 2;
         step_x = (s16 *)(table_offset + table_addr);
@@ -391,7 +387,7 @@ case_0:
         }
 
         (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328;
-        update_offset = (s16)state->direction;
+        update_offset = (s16)state_arg->direction;
         index++;
         update_offset *= 2;
         update_x = (u16 *)(update_offset + table_addr);
@@ -413,7 +409,7 @@ case_0:
     target_x = (u32)final_x << 16;
     direction_table = D_8006CCD8;
     target_x = (s32)target_x >> 10;
-    direction_index = (s16)state->direction;
+    direction_index = (s16)state_arg->direction;
     ASM_KEEP(direction_index);
     target_cursor = &work.target.x.half.hi;
     axis_step = direction_table[direction_index];
@@ -422,7 +418,7 @@ case_0:
     target->x.half.hi = target_x;
     target_x = (s16)target_x;
     table_addr = (u16)saved_y;
-    direction_index = (s16)state->direction;
+    direction_index = (s16)state_arg->direction;
     ASM_KEEP_DEP_NV(table_addr, direction_index);
     target_y = (u32)(u16)table_addr << 16;
     axis_step = direction_table[direction_index];
@@ -430,13 +426,13 @@ case_0:
     target_y += (axis_step + 1) << 5;
     target->y.half.hi = target_y;
     target_y = (u32)target_y << 16;
-    target_z = (u16)motion->z.half.hi + 32;
+    target_z = (u16)motion_arg->z.half.hi + 32;
     target->z.half.hi = target_z;
 
     {
         s32 source_coord;
 
-        source_coord = motion->x.half.hi;
+        source_coord = motion_arg->x.half.hi;
         ASM_SCHED_BARRIER();
         target_y = (s32)target_y >> 16;
         ASM_SCHED_BARRIER();
@@ -446,89 +442,89 @@ case_0:
         }
         work.distance[0] = target_x;
 
-        source_coord = motion->y.half.hi;
+        source_coord = motion_arg->y.half.hi;
         target_z = (u32)target_z << 16;
         target_y -= source_coord;
         target_y = abs(target_y);
         work.distance[1] = target_y;
 
-        source_coord = motion->z.half.hi;
+        source_coord = motion_arg->z.half.hi;
         target_z = (s32)target_z >> 16;
         target_z -= source_coord;
         target_z = abs(target_z);
         work.distance[2] = target_z;
     }
 
-    state->duration = work.distance[0];
+    state_arg->duration = work.distance[0];
     do {
-        if (target_cursor[12] > state->duration) {
-            state->duration = (u16)target_cursor[12];
+        if (target_cursor[12] > state_arg->duration) {
+            state_arg->duration = (u16)target_cursor[12];
         }
         index++;
         target_cursor++;
     } while (index < 3);
-    state->duration >>= 5;
-    if (state->duration == 0) {
-        state->duration = 1;
+    state_arg->duration >>= 5;
+    if (state_arg->duration == 0) {
+        state_arg->duration = 1;
     }
-    motion->dx.word = (target->x.word - motion->x.word) / state->duration;
-    motion->dy.word = (target->y.word - motion->y.word) / state->duration;
-    motion->dz.word = (target->z.word - motion->z.word) / state->duration;
+    motion_arg->dx.word = (target->x.word - motion_arg->x.word) / state_arg->duration;
+    motion_arg->dy.word = (target->y.word - motion_arg->y.word) / state_arg->duration;
+    motion_arg->dz.word = (target->z.word - motion_arg->z.word) / state_arg->duration;
     ASM_SCHED_BARRIER();
     next_state = 8;
     goto reset_state;
 
 case_2:
-    motion->x.half.hi += motion->dx.half.hi;
-    motion->y.half.hi += motion->dy.half.hi;
-    motion->z.half.hi += motion->dz.half.hi;
-    func_800241F8(state, motion);
-    if (state->timer < state->duration) {
+    motion_arg->x.half.hi += motion_arg->dx.half.hi;
+    motion_arg->y.half.hi += motion_arg->dy.half.hi;
+    motion_arg->z.half.hi += motion_arg->dz.half.hi;
+    func_800241F8(state_arg, motion_arg);
+    if (state_arg->timer < state_arg->duration) {
         goto end;
     }
     func_800A56E0(0x300);
     goto increment_reset;
 
 case_3:
-    if (state->timer < 8) {
+    if (state_arg->timer < 8) {
         goto end;
     }
-    state->timer = 0;
-    state->timer2 = 0;
-    state->state++;
+    state_arg->timer = 0;
+    state_arg->timer2 = 0;
+    state_arg->state++;
     child_motion = *(Motion **)((u8 *)entity->child - 0x18);
-    motion->x.half.hi = child_motion->x.half.hi;
-    motion->y.half.hi = child_motion->y.half.hi;
+    motion_arg->x.half.hi = child_motion->x.half.hi;
+    motion_arg->y.half.hi = child_motion->y.half.hi;
     if (entity->child->flags & 0x40000) {
-        motion->z.half.hi = child_motion->z.half.hi + 16;
+        motion_arg->z.half.hi = child_motion->z.half.hi + 16;
     } else {
-        motion->z.half.hi = child_motion->z.half.hi;
+        motion_arg->z.half.hi = child_motion->z.half.hi;
     }
 
     index = 7;
     angle = 16;
-    angle_build = (u8 *)state + 14;
+    angle_build = (u8 *)state_arg + 14;
     do {
         *(s16 *)(angle_build + 26) = angle;
         angle += 16;
         index--;
         angle_build -= 2;
     } while (index > 0);
-    state->angles[0] = 0;
+    state_arg->angles[0] = 0;
 
     index = 9;
-    effect_create = (Effect **)((u8 *)state + 36);
+    effect_create = (Effect **)((u8 *)state_arg + 36);
     effect_angle = (s32)0xFF1F0000;
     do {
         effect_create[11] =
-            func_8002443C(state, motion, effect_angle >> 16, index);
+            func_8002443C(state_arg, motion_arg, effect_angle >> 16, index);
         effect_create--;
         effect_step = 0x190000;
         ASM_KEEP(effect_step);
         index--;
         effect_angle += effect_step;
     } while (index >= 0);
-    state->field14 = 0;
+    state_arg->field14 = 0;
     goto epilogue;
 
 case_4: {
@@ -538,7 +534,7 @@ case_4: {
 
     index = 9;
     effect_delta = 0x40404;
-    effect_grow = (Effect **)((u8 *)state + 36);
+    effect_grow = (Effect **)((u8 *)state_arg + 36);
     do {
         effect = effect_grow[11];
         inner = effect->inner;
@@ -546,20 +542,20 @@ case_4: {
         effect_grow--;
         index--;
     } while (index >= 0);
-    if (state->timer2 < 32) {
+    if (state_arg->timer2 < 32) {
         goto end;
     }
-    next_state = (u16)state->state;
-    state->timer2 = 0;
+    next_state = (u16)state_arg->state;
+    state_arg->timer2 = 0;
     goto increment_state;
 }
 
 case_5:
-    if (state->timer2 < 32) {
+    if (state_arg->timer2 < 32) {
         goto end;
     }
-    next_state = (u16)state->state;
-    state->timer2 = 0;
+    next_state = (u16)state_arg->state;
+    state_arg->timer2 = 0;
     goto increment_state;
 
 case_6: {
@@ -573,7 +569,7 @@ case_6: {
 
     index = 9;
     effect_delta = -0x40404;
-    effect_shrink = (Effect **)((u8 *)state + 36);
+    effect_shrink = (Effect **)((u8 *)state_arg + 36);
     do {
         effect = effect_shrink[11];
         inner = effect->inner;
@@ -581,19 +577,19 @@ case_6: {
         effect_shrink--;
         index--;
     } while (index >= 0);
-    if (state->timer2 < 32) {
+    if (state_arg->timer2 < 32) {
         goto end;
     }
     cleanup_base = entity;
     ASM_KEEP(cleanup_base);
-    func_80024050(((Entity *)cleanup_base)->child, state->id);
+    func_80024050(((Entity *)cleanup_base)->child, state_arg->id);
     index = 9;
     cleanup_base = (void *)0x80080000;
-    next_state = (u16)state->state;
-    effect_cleanup = (Effect **)((u8 *)state + 36);
-    state->timer2 = 0;
+    next_state = (u16)state_arg->state;
+    effect_cleanup = (Effect **)((u8 *)state_arg + 36);
+    state_arg->timer2 = 0;
     next_state++;
-    state->state = next_state;
+    state_arg->state = next_state;
     do {
         cleanup_effect = effect_cleanup[11];
         if (cleanup_effect != 0) {
@@ -608,51 +604,51 @@ case_6: {
         effect_cleanup--;
         index--;
     } while (index >= 0);
-    state->field14 = 0;
+    state_arg->field14 = 0;
     goto epilogue;
 }
 
 case_7:
-    if (state->field14 != 0) {
+    if (state_arg->field14 != 0) {
         goto end;
     }
     D_8008346C[0] = 0;
-    *(u16 *)((u8 *)state - 2) |= 0x8000;
+    *(u16 *)((u8 *)state_arg - 2) |= 0x8000;
     D_800814A0.value |= 0x8000;
     goto end;
 
 case_8:
-    motion->x.half.hi += motion->dx.half.hi;
-    motion->y.half.hi += motion->dy.half.hi;
-    motion->z.half.hi += motion->dz.half.hi;
-    func_800241F8(state, motion);
-    if (state->timer < state->duration) {
+    motion_arg->x.half.hi += motion_arg->dx.half.hi;
+    motion_arg->y.half.hi += motion_arg->dy.half.hi;
+    motion_arg->z.half.hi += motion_arg->dz.half.hi;
+    func_800241F8(state_arg, motion_arg);
+    if (state_arg->timer < state_arg->duration) {
         goto end;
     }
 
 increment_reset:
-    next_state = (u16)state->state;
-    state->timer = 0;
-    state->timer2 = 0;
+    next_state = (u16)state_arg->state;
+    state_arg->timer = 0;
+    state_arg->timer2 = 0;
 increment_state:
     next_state++;
-    state->state = next_state;
+    state_arg->state = next_state;
     goto end;
 
 case_9:
-    if (state->timer < 8) {
+    if (state_arg->timer < 8) {
         goto end;
     }
     next_state = 7;
     goto reset_state;
 
 reset_state:
-    state->state = next_state;
-    state->timer = 0;
-    state->timer2 = 0;
+    state_arg->state = next_state;
+    state_arg->timer = 0;
+    state_arg->timer2 = 0;
 
 end:
-    state->field14 = 0;
+    state_arg->field14 = 0;
 epilogue:
     return;
 }

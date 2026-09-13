@@ -106,18 +106,14 @@ void func_80123604(void) {
 
     {
         u8 *source_table;
-        register u8 *object_table ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *object_table;
 
 #ifdef NON_MATCHING
         object_table = (void **)D_80129728;
         source_table = D_80126A18;
 #else
-        object_table = (u8 *)0x80130000;
-        ASM_KEEP(object_table);
-        object_table -= 0x68D8;
-        source_table = (u8 *)0x80120000;
-        ASM_KEEP(source_table);
-        source_table += 0x6A18;
+        object_table = (u8 *)&D_80129728;
+        source_table = (u8 *)&D_80126A18;
 #endif
         ((S_80123604_7 *)(((S_80123604_5 *)(((S_80123604_1 *)object_table)->unk_68))->unk_08))->unk_06 =
             ((S_80123604_2 *)source_table)->unk_64;

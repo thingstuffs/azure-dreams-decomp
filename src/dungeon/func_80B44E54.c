@@ -103,11 +103,7 @@ void func_80172654(void *action, void *motion, void *entity, void *actor) {
     if (state == 2) goto state_2;
     if (state < 3) {
         if (state == 0) goto state_0;
-        if (state == 1) {
-            shifted_timer = timer << 16;
-            goto state_1;
-        }
-        ASM_SCHED_BARRIER(); /* MATCH: preserve the state-1 branch and shared epilogue jump. */
+        if (state == 1) goto state_1;
         goto done;
     }
     if (state == 4) goto state_4;
@@ -136,6 +132,7 @@ state_0:
     goto store_next_state;
 
 state_1:
+    shifted_timer = timer << 16;
     if (shifted_timer > 0) goto done;
     ((S_80172654_4 *)motion)->unk_10 = 0;
     ((S_80172654_4 *)motion)->unk_0C = 0;

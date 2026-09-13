@@ -57,12 +57,10 @@ void func_8187B8B0(
     s32 y_offset,
     s32 z_offset)
 {
-    s32 saved_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_func_8187B8B0_0 *source_obj = source;
     s16 saved_field_04 = field_04_value;
     u32 saved_field_00 = field_00_value;
-    register s16 saved_pair ASM_REG("$20") ;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    s32 saved_y_offset = y_offset;
+    s16 saved_pair ;
     s32 saved_z_offset = z_offset;
     S_func_8187B8B0_0 *spawned_obj;
     S_func_8187B8B0_3 *actor_data;
@@ -89,7 +87,7 @@ void func_8187B8B0(
         x_pos = ((S_func_8187B8B0_1 *)source_obj->unk_08)->unk_02;
         x_dest = spawned_obj->unk_08;
         x_pos += x_jitter;
-        x_bias = saved_x_offset - 0x10;
+        x_bias = x_offset - 0x10;
         x_pos += x_bias;
         x_dest->unk_02 = (s16)x_pos;
 
@@ -97,7 +95,7 @@ void func_8187B8B0(
         y_pos = ((S_func_8187B8B0_1 *)source_obj->unk_08)->unk_06;
         y_dest = spawned_obj->unk_08;
         y_pos += y_jitter;
-        y_bias = saved_y_offset - 0x10;
+        y_bias = y_offset - 0x10;
         y_pos += y_bias;
         y_dest->unk_06 = (s16)y_pos;
 
@@ -113,8 +111,8 @@ void func_8187B8B0(
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
         z_dest->unk_0A = (s16)z_pos;
-        ASM_KEEP(saved_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         actor_data->unk_04 = saved_field_04;
         actor_data->unk_10 = saved_pair;

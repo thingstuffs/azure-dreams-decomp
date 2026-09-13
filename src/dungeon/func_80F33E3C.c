@@ -110,7 +110,6 @@ extern s8 D_800E2970[];
 /* Updates an actor's movement path, trying alternate directions around obstacles. */
 void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void *actor_in)
 {
-    register void *move_ctx ASM_REG("$21") = move_ctx_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *position ASM_REG("$19") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *dungeon_state = (u8 *)&D_80083460;
@@ -139,7 +138,7 @@ process_state:
     if (((S_8017163C_1 *)actor)->unk_12 >= 2) {
         goto reject_state;
     }
-    if ((s16)func_80171DFC(move_ctx, action_ctx, position, actor) != 0) {
+    if ((s16)func_80171DFC(move_ctx_in, action_ctx, position, actor) != 0) {
         goto accept_state;
     }
 
@@ -159,7 +158,7 @@ check_active:
     }
 
 active:
-    func_800A19E4(position, actor, 3, 6, (u8 *)move_ctx + 0x9C);
+    func_800A19E4(position, actor, 3, 6, (u8 *)move_ctx_in + 0x9C);
     actor_flags = ((S_8017163C_1 *)actor)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
@@ -170,8 +169,7 @@ active:
                     ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
                     ((S_8017163C_7 *)(((S_8017163C_3_pre *)target)[-1].unk_00))->unk_24,
                     ((S_8017163C_7 *)(((S_8017163C_3_pre *)target)[-1].unk_00))->unk_25,
-                    (u8 *)move_ctx + 0x98);
-                ASM_KEEP(move_ctx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                    (u8 *)move_ctx_in + 0x98);
                 ((S_8017163C_1 *)actor)->unk_2A.s = target_angle;
                 ((S_8017163C_1 *)actor)->unk_71.u &= 0x7F;
                 return;
@@ -218,7 +216,7 @@ active:
                 goto success;
             }
 
-            move_flags = (u8 *)move_ctx + 0x98;
+            move_flags = (u8 *)move_ctx_in + 0x98;
             target_angle = func_800A0818(
                 ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
                 (s16)target_x, (s16)target_y, move_flags);
@@ -247,7 +245,7 @@ active:
     if (((S_8017163C_1 *)actor)->unk_46 & 0x8000) {
         goto init_loop;
     }
-    if (((S_8017163C_5 *)move_ctx)->unk_98 & 0x8000) {
+    if (((S_8017163C_5 *)move_ctx_in)->unk_98 & 0x8000) {
         goto init_loop;
     }
 
@@ -269,7 +267,7 @@ active:
         u8 *target_position = D_80082E80;
         ((S_8017163C_1 *)actor)->unk_2A.s = func_800A0818(
             ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
-            target_position[0x24], target_position[0x25], (u8 *)move_ctx + 0x98);
+            target_position[0x24], target_position[0x25], (u8 *)move_ctx_in + 0x98);
         if (func_8009FD7C(
                 ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
                 target_position[0x24], target_position[0x25]) == 0) {
@@ -288,73 +286,74 @@ active:
     }
 
 direct_move:
-    func_800A0E6C(position, ((S_8017163C_5 *)move_ctx)->unk_9C.s, actor,
-                  (u8 *)move_ctx + 0x98);
+    func_800A0E6C(position, ((S_8017163C_5 *)move_ctx_in)->unk_9C.s, actor,
+                  (u8 *)move_ctx_in + 0x98);
 
 init_loop:
     turn_index = 0;
     turn_table = D_8006CD00;
 
-loop_body:
-    turn_flags = ((S_8017163C_5 *)move_ctx)->unk_98;
-    current_angle = ((S_8017163C_1 *)actor)->unk_2A.s;
-    if (turn_flags & 2) {
-        trial_angle = current_angle - turn_table[turn_index];
-    } else {
-        trial_angle = current_angle + turn_table[turn_index];
-    }
+    do {
+        turn_flags = ((S_8017163C_5 *)move_ctx_in)->unk_98;
+        current_angle = ((S_8017163C_1 *)actor)->unk_2A.s;
+        if (turn_flags & 2) {
+            trial_angle = current_angle - turn_table[turn_index];
+        } else {
+            trial_angle = current_angle + turn_table[turn_index];
+        }
 
-    if (func_8009A66C(trial_angle, position, actor, 0x20) > 0) {
-        if (turn_index >= 3) {
-            stop_turning = near_target;
-            if (stop_turning != 0) {
-                goto success;
+        if (func_8009A66C(trial_angle, position, actor, 0x20) > 0) {
+            if (turn_index >= 3) {
+                stop_turning = near_target;
+                if (stop_turning != 0) {
+                    goto success;
+                }
+            }
+
+            ((S_8017163C_1 *)actor)->unk_2A.s = trial_angle;
+            ((S_8017163C_8 *)((u8 *)actor + (((S_8017163C_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
+                ((S_8017163C_2 *)position)->unk_24.at00.v;
+            ((S_8017163C_8 *)((u8 *)actor + (((S_8017163C_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
+                ((S_8017163C_2 *)position)->unk_24.at01.v;
+            ((S_8017163C_1 *)actor)->unk_71.u++;
+
+            func_8009A3D0(
+                ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
+                (((S_8017163C_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+
+            {
+                register u8 old_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                u8 old_y;
+
+                old_x = ((S_8017163C_2 *)position)->unk_24.at00.v;
+                direction_offset = (((S_8017163C_1 *)actor)->unk_2A.u >> 8) & 0xE;
+                ((S_8017163C_2 *)position)->unk_24.at00.v = old_x +
+                    *((u8 *)&D_8006CCD8 + direction_offset);
+                old_y = ((S_8017163C_2 *)position)->unk_24.at01.v;
+                ((S_8017163C_2 *)position)->unk_24.at01.v = old_y +
+                    *((u8 *)&D_8006CCE8 + direction_offset);
+            }
+
+            func_8009A21C(
+                ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
+                (((S_8017163C_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
+            goto loop_test;
+        }
+
+        if (turn_index == 0 &&
+            *(u16 *)&D_80082EA4 != ((S_8017163C_2 *)position)->unk_24.at00u.v) {
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            if (func_8009A180(actor,
+                    (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
+                return;
             }
         }
 
-        ((S_8017163C_1 *)actor)->unk_2A.s = trial_angle;
-        ((S_8017163C_8 *)((u8 *)actor + (((S_8017163C_1 *)actor)->unk_71.u & 0x7F)))->unk_74 =
-            ((S_8017163C_2 *)position)->unk_24.at00.v;
-        ((S_8017163C_8 *)((u8 *)actor + (((S_8017163C_1 *)actor)->unk_71.u & 0x7F)))->unk_7C =
-            ((S_8017163C_2 *)position)->unk_24.at01.v;
-        ((S_8017163C_1 *)actor)->unk_71.u++;
-
-        func_8009A3D0(
-            ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
-            (((S_8017163C_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-
-        {
-            register u8 old_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            u8 old_y;
-
-            old_x = ((S_8017163C_2 *)position)->unk_24.at00.v;
-            direction_offset = (((S_8017163C_1 *)actor)->unk_2A.u >> 8) & 0xE;
-            ((S_8017163C_2 *)position)->unk_24.at00.v = old_x +
-                *((u8 *)&D_8006CCD8 + direction_offset);
-            old_y = ((S_8017163C_2 *)position)->unk_24.at01.v;
-            ((S_8017163C_2 *)position)->unk_24.at01.v = old_y +
-                *((u8 *)&D_8006CCE8 + direction_offset);
+        turn_index++;
+        if (turn_index >= 8) {
+            break;
         }
-
-        func_8009A21C(
-            ((S_8017163C_2 *)position)->unk_24.at00.v, ((S_8017163C_2 *)position)->unk_24.at01.v,
-            (((S_8017163C_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        goto loop_test;
-    }
-
-    if (turn_index == 0 &&
-        *(u16 *)&D_80082EA4 != ((S_8017163C_2 *)position)->unk_24.at00u.v) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        if (func_8009A180(actor,
-                (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
-            return;
-        }
-    }
-
-    turn_index++;
-    if (turn_index < 8) {
-        goto loop_body;
-    }
+    } while (1);
 
 loop_test:
     if (turn_index >= 8) {
@@ -367,7 +366,7 @@ loop_test:
     {
         u8 *dungeon_counters = (u8 *)&D_80083460;
         ((S_8017163C_1 *)actor)->unk_46 &= 0x7FFF;
-        ((S_8017163C_5 *)move_ctx)->unk_9C.u = ((S_8017163C_2 *)position)->unk_26.u;
+        ((S_8017163C_5 *)move_ctx_in)->unk_9C.u = ((S_8017163C_2 *)position)->unk_26.u;
         ((S_8017163C_1 *)actor)->unk_6D.u--;
         ((S_8017163C_6 *)dungeon_counters)->unk_08++;
     }

@@ -96,8 +96,10 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
         goto update_selection;
     }
     if (phase < 2) {
-        if (phase != 0) {
-            ASM_SCHED_BARRIER(); /* MATCH: preserve the dispatch jump to the shared epilogue. */
+        if (phase == 0) {
+            goto begin_selection;
+        }
+        {
             goto done;
         }
     } else {
@@ -109,6 +111,7 @@ void func_80091430(void *state, M2C_UNK context_a, M2C_UNK context_b, void *acto
         }
         goto done;
     }
+begin_selection:
     {
         selection_ready = func_800B9964(state + 0x104);
         (*(s32 *)((u8 *)state + 0xC8)) = selection_ready;

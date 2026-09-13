@@ -95,10 +95,8 @@ state_one:
     s32 next_y;
     s32 signed_value;
 
-    direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);
     frame = U16(action, 0x96);
-    direction_base -= 0x3328;
+    direction_base = (u8 *)&D_8006CCD8;
     next_frame = frame + 1;
     frame -= 3;
     U16(action, 0x96) = next_frame;

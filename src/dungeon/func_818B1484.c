@@ -62,10 +62,8 @@ s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, M2C_UNK context) {
         sample_angle = (sample_index - ((index_rounded >> 4) * 0x10)) << 8;
         ((S_818B1484_0 *)sample_ptr)->unk_00 = (u32) (func_800644B8(sample_angle) >> 4);
         ((S_818B1484_0 *)sample_ptr)->unk_44 = (s32) (func_80064584(sample_angle) >> 4);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        sample_index -= 1;
         sample_ptr--;
-    } while (sample_index >= 0);
+    } while (--sample_index >= 0);
     entry_index = ((s32) (effect->unk_16 << 0x10) >> 0x12) + 1;
     if (entry_index < 8) {
         entry_ptr = (void *) ((entry_index << 1) + (u32) effect);

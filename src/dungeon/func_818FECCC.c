@@ -67,8 +67,7 @@ void func_818FECCC(
     s32 z_offset)
 {
     void *source = source_obj;
-    s16 saved_param_34 = param_34;
-    register u32 saved_param_28 ASM_REG("$23") = param_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 saved_param_28 = param_28;
     register s16 saved_param_52 ASM_REG("$22") = param_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_y_offset = y_offset;
     s32 saved_z_offset = z_offset;
@@ -122,7 +121,7 @@ void func_818FECCC(
         z_pos += z_bias;
         z_dest->unk_0A = (s16)z_pos;
         ASM_KEEP(effect_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_818FECCC_0 *)effect_cursor)->unk_14 = saved_param_34;
+        ((S_818FECCC_0 *)effect_cursor)->unk_14 = param_34;
         ((S_818FECCC_0 *)effect_cursor)->unk_32 = saved_param_52;
         func_8004491C(effect, effect_data, z_dest);
         ((S_818FECCC_0 *)effect_cursor)->unk_08.u = saved_param_28;

@@ -132,8 +132,6 @@ s32 func_80174228(u8 *item_data)
     s32 screen_width;
     s32 strip_offset;
     s32 tex_coord;
-    register s32 far_z ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 near_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *next_node;
     register s32 left_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 right_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -162,7 +160,7 @@ s32 func_80174228(u8 *item_data)
     u32 coord_bits;
     u16 profile_peak;
     s32 half_height;
-    register S_func_80174228_3 *item ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_func_80174228_3 *item;
     register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_func_80174228_2 *render_state;
     register S_func_80174228_0 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -177,8 +175,8 @@ s32 func_80174228(u8 *item_data)
         item = (S_func_80174228_3 *)item_data;
         vertex_base = vertices;
         i = 3;
-        far_z = -0xA0;
-        near_z = 0x10;
+        vertex_depth = -0xA0;
+        prev_depth = 0x10;
         ((S_func_80174228_0 *)storage)->unk_7C.s32 = 0x40;
         half_width = ((S_func_80174228_0 *)storage)->unk_7C.u16;
         init_vertex = (S_func_80174228_1 *)(vertex_base + 0x18);
@@ -187,12 +185,14 @@ s32 func_80174228(u8 *item_data)
             init_vertex->unk_00 = half_width;
             if (i < 2) {
                 init_vertex->unk_00 = left_x;
-            }
-            init_vertex->unk_02 = 0;
-            if (i & 1) {
-                init_vertex->unk_04 = far_z;
+                init_vertex->unk_02 = 0;
             } else {
-                init_vertex->unk_04 = near_z;
+                init_vertex->unk_02 = 0;
+            }
+            if (i & 1) {
+                init_vertex->unk_04 = vertex_depth;
+            } else {
+                init_vertex->unk_04 = prev_depth;
             }
             i--;
             init_vertex--;
@@ -217,7 +217,7 @@ s32 func_80174228(u8 *item_data)
         __builtin_memcpy(storage + 0x38, item, 8);
         ((S_func_80174228_0 *)storage)->unk_40 = 4;
         ((S_func_80174228_0 *)storage)->unk_42 = 0;
-        func_800DBA90(transform, left_x, near_z, far_z);
+        func_800DBA90(transform, left_x, prev_depth, vertex_depth);
 
         min_xy |= 0x75300000;
         min_xy &= 0xFFFF0000;

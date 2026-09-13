@@ -67,8 +67,7 @@ void func_818CEB58(
     s32 offset_z)
 {
     void *source_obj = source;
-    s16 saved_field_34 = field_34;
-    register u32 saved_field_28 ASM_REG("$23") = field_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u32 saved_field_28 = field_28;
     register s16 saved_field_52 ASM_REG("$22") = field_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
@@ -122,7 +121,7 @@ void func_818CEB58(
         position_z += bias_z;
         dest_z->unk_0A = (s16)position_z;
         ASM_KEEP(object_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_818CEB58_0 *)object_cursor)->unk_14 = saved_field_34;
+        ((S_818CEB58_0 *)object_cursor)->unk_14 = field_34;
         ((S_818CEB58_0 *)object_cursor)->unk_32 = saved_field_52;
         func_8004491C(new_object, init_data, dest_z);
         ((S_818CEB58_0 *)object_cursor)->unk_08.u = saved_field_28;

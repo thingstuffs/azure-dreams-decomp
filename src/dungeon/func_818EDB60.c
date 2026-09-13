@@ -66,11 +66,10 @@ void func_80025360(void *effect_arg, void *unused, void *sprite_arg)
     D_80026428 = 1;
     state = ((S_80025360_0 *)effect_arg)->unk_00;
     if (state != 0) {
-        if (state != 1) {
-            ASM_SCHED_BARRIER();
-            return;
+        if (state == 1) {
+            goto draw_effect;
         }
-        goto draw_effect;
+        return;
     }
     ((S_80025360_0 *)effect_arg)->unk_00 = (s16)((u16)((S_80025360_0 *)effect_arg)->unk_00 + 1);
     flags = ((S_80025360_1 *)sprite)->unk_14;

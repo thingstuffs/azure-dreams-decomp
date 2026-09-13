@@ -54,7 +54,7 @@ void func_80172F04(S_80172F04_0 *action, S_80172F04_3 *motion, Rec_D_80082E80 *a
     u8 current_state;
     u16 timer;
     u32 work;
-    register void *call_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call_actor;
 
     actor = actor_ptr;
     state = action->unk_9B;
@@ -122,8 +122,7 @@ state_3:
     if (animation->unk_14.at00_u16.v & 0xE000) {
         func_800AD594(actor, 0x140);
         call_actor = actor;
-        work = (u32)D_801714B8;
-        action->unk_8C = (u8 *)work;
+        action->unk_8C = (u8 *)((u32)D_801714B8);
         ((S_80172F04_4 *)D_80080000)->unk_346C = 0;
         func_800A4ACC(call_actor);
         ((S_80172F04_2 *)actor)->unk_46 &= 0x7FFF;

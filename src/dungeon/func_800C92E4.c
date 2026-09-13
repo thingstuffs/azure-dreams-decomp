@@ -51,7 +51,6 @@ extern s32 func_800A6DA4(s32, s32);
 
 /* Spawns and levels monster den monsters, then advances the event delays and cleanup. */
 void func_800CEA44(void *den_event) {
-    register u8 *ctx ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     LocalScratch scratch;
     s16 state;
     u16 next_state;
@@ -73,8 +72,7 @@ void func_800CEA44(void *den_event) {
     u16 delay_timer;
     s32 random_value;
 
-    ctx = den_event;
-    state = *(s16 *)(ctx + 6);
+    state = *(s16 *)(den_event + 6);
     if (state == 0) {
         {
             u32 area_byte;
@@ -88,7 +86,7 @@ void func_800CEA44(void *den_event) {
             }
         }
 
-        count = ((DungeonSlot *)D_800E3648)[*(s16 *)(ctx + 0xC)].count;
+        count = ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count;
         if (count < 0) {
             goto initial_done;
         }
@@ -184,48 +182,48 @@ retry_position:
         } while (count >= 0);
 
 initial_done:
-        next_state = *(u16 *)(ctx + 6);
+        next_state = *(u16 *)(den_event + 6);
         tail_value = 10;
     } else {
         if (state != 1) {
             goto other_state;
         }
-        delay_timer = *(u16 *)(ctx + 4) - 1;
-        *(u16 *)(ctx + 4) = delay_timer;
+        delay_timer = *(u16 *)(den_event + 4) - 1;
+        *(u16 *)(den_event + 4) = delay_timer;
         if ((s16)delay_timer >= 0) {
             return;
         }
         func_800997FC(&D_800E1C3A);
         func_800419EC(0xC, 0x18);
         func_800A56E0(0x602);
-        next_state = *(u16 *)(ctx + 6);
+        next_state = *(u16 *)(den_event + 6);
         tail_value = 0x10;
     }
     do {
-        *(u16 *)(ctx + 4) = tail_value;
+        *(u16 *)(den_event + 4) = tail_value;
     } while (0);
      /* MATCH: keep the timer store before the state increment. */
-    *(u16 *)(ctx + 6) = next_state + 1;
+    *(u16 *)(den_event + 6) = next_state + 1;
     return;
 
 
 spawn_failed:
-    ((DungeonSlot *)D_800E3648)[*(s16 *)(ctx + 0xC)].count -= count;
+    ((DungeonSlot *)D_800E3648)[*(s16 *)(den_event + 0xC)].count -= count;
     return;
 
 other_state:
-    delay_timer = *(u16 *)(ctx + 4) - 1;
-    *(u16 *)(ctx + 4) = delay_timer;
+    delay_timer = *(u16 *)(den_event + 4) - 1;
+    *(u16 *)(den_event + 4) = delay_timer;
     if ((s16)delay_timer < 0) {
         func_8004437C(0, 1);
         SD_Call(0x200);
-        *(s32 *)(D_800E3648 + *(s16 *)(ctx + 0xC) * 4) = 0;
+        *(s32 *)(D_800E3648 + *(s16 *)(den_event + 0xC) * 4) = 0;
         {
             u8 *global_base = (u8 *)&D_80083460;
 
             *(u16 *)(global_base + 0xA) -= 1;
         }
-        *(u16 *)(ctx - 2) |= 0x8000;
+        *(u16 *)(den_event - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

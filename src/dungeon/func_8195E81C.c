@@ -72,7 +72,7 @@ void func_8002401C(void *object)
     s32 *clear_cell;
     s32 *cell;
     s16 rect[4];
-    register s32 row_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 row_index;
     s32 col_index;
     s32 x;
     s32 y;
@@ -118,19 +118,20 @@ jt_c0:
         ((Rec_D_800814A8 *)D_800814A8)->unk_A8 = ((S_8002401C_0 *)object_bytes)->unk_08;
 
         clear_row = D_800274DC;
-jt_zero_outer:
-        col_index = 6;
-        clear_cell = clear_row + 6;
-do {
-        *clear_cell = 0;
-        clear_cell--;
-        col_index--;
-        } while (col_index >= 0);
-        row_index++;
-        if (row_index < 7) {
+        do {
+            col_index = 6;
+            clear_cell = clear_row + 6;
+            do {
+            *clear_cell = 0;
+            clear_cell--;
+            col_index--;
+            } while (col_index >= 0);
+            row_index++;
+            if (row_index >= 7) {
+                break;
+            }
             clear_row += 8;
-            goto jt_zero_outer;
-        }
+        } while (1);
 
         D_800273A8 = 0;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

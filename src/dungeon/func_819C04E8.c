@@ -100,8 +100,8 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     register u8 *data_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 previous_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 slot_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 asset_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u16 render_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 asset_offset;
+    u16 render_flags;
     u16 cleanup_flags;
     s32 color;
     Object *alloc_parent;
@@ -150,12 +150,9 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             render->unk_20 = 0x1000;
             render->unk_1E = 0x1000;
             render->unk_1C = 0x1000;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            data_entry = D_80028664 + asset_offset;
-            render->unk_08 = data_entry;
+            render->unk_08 = D_80028664 + asset_offset;
             render_flags = render->unk_14;
-            x_offset = 0x20;
-            render->unk_10 = x_offset;
+            render->unk_10 = 0x20;
             render->unk_0C = color;
             render_flags |= 0xC;
             render->unk_14 = render_flags;

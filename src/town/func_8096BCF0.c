@@ -50,10 +50,10 @@ void func_80124188(TownObject *menu)
     TownObject *obj = menu;
     s16 entry_number;
     s32 entry_index;
-    s32 entry_id;
+    s16 entry_id;
     void **normal_digits;
     void **selected_digits;
-    register s32 digit_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 digit_base;
     s32 blank_count;
     SpriteFields *display_sprite;
 
@@ -73,7 +73,6 @@ void func_80124188(TownObject *menu)
         digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;
-        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         do {
             if (func_80123200((u8)entry_id) != 0) {
                 *obj->town->slots[sprite_slot++] = D_80127B64;
@@ -116,7 +115,6 @@ void func_80124188(TownObject *menu)
         digit_base <<= 4;
         entry_id = digit_base;
         entry_number = digit_base | 1;
-        ASM_KEEP(digit_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         do {
             if (func_80123200((u8)entry_id) != 0) {
                 *obj->town->slots[sprite_slot++] = D_80127B64;

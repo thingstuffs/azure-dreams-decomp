@@ -53,10 +53,8 @@ s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, s32 segment_pa
         table_angle = (table_index - ((biased_index >> 4) * 0x10)) << 8;
         trig_cursor[0] = func_800644B8(table_angle) >> 4;
         trig_cursor[17] = func_80064584(table_angle) >> 4;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        table_index--;
         trig_cursor--;
-    } while (table_index >= 0);
+    } while (--table_index >= 0);
 
     segment_count = (s32)(source->unk_16 << 0x10) >> 0x12;
     segment_limit = 8;

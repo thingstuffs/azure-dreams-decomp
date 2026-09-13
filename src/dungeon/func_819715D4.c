@@ -95,8 +95,8 @@ void func_819715D4(u16 *source, s32 unused_1, s32 unused_2, s32 base_x, s32 base
             position[3] = (u16)y;
         }
         {
-            s32 z;
-            register s32 offset ASM_REG("$3") = source[64];   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s16 z;
+            s32 offset = source[64];
             ASM_KEEP(offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             z = base_z;
             ASM_KEEP(z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

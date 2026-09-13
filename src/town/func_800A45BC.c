@@ -72,14 +72,12 @@ void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
     s32 green_scaled;
     s32 blue_scaled;
     u8 *global_page;
-    register void *saved_primitive ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *scratch;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *position;
     void *matrix;
     void *render_state;
 
     render_state = ((S_800A1D1C_0 *)object)->unk_10;
-    saved_primitive = primitive;
     scratch = (u8 *)0x1F800000;
     if (((S_800A1D1C_1 *)render_state)->unk_0A != 0) {
         ((S_800A1D1C_0_pre *)object)[-1].unk_00 = (u16) (((S_800A1D1C_0_pre *)object)[-1].unk_00 | 0x8000);
@@ -87,34 +85,33 @@ void func_800A1D1C(void *object, S_800A1D1C_5 *coords, void *primitive) {
         ((S_800A1D1C_2 *)global_page)->unk_14A0 |= 0x8000;
         return;
     }
-    ASM_KEEP(saved_primitive);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    ((S_800A1D1C_0 *)object)->unk_00(object, coords, saved_primitive);
+    ((S_800A1D1C_0 *)object)->unk_00(object, coords, primitive);
     if (((S_800A1D1C_0 *)object)->unk_3C != 0) {
-        ((S_800A1D1C_3 *)saved_primitive)->unk_0C.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        ((S_800A1D1C_3 *)primitive)->unk_0C.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         red_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
         if (red_scaled < 0) {
             red_scaled += 3;
         }
-        ((S_800A1D1C_3 *)saved_primitive)->unk_0C.s = (s8) (red_scaled >> 2);
+        ((S_800A1D1C_3 *)primitive)->unk_0C.s = (s8) (red_scaled >> 2);
     }
     if (((S_800A1D1C_0 *)object)->unk_3D != 0) {
-        ((S_800A1D1C_3 *)saved_primitive)->unk_0D.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        ((S_800A1D1C_3 *)primitive)->unk_0D.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         green_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
         if (green_scaled < 0) {
             green_scaled += 3;
         }
-        ((S_800A1D1C_3 *)saved_primitive)->unk_0D.s = (s8) (green_scaled >> 2);
+        ((S_800A1D1C_3 *)primitive)->unk_0D.s = (s8) (green_scaled >> 2);
     }
     if (((S_800A1D1C_0 *)object)->unk_3E != 0) {
-        ((S_800A1D1C_3 *)saved_primitive)->unk_0E.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
+        ((S_800A1D1C_3 *)primitive)->unk_0E.u = ((S_800A1D1C_1 *)render_state)->unk_10.u8;
     } else {
         blue_scaled = ((S_800A1D1C_1 *)render_state)->unk_10.s16 * 3;
         if (blue_scaled < 0) {
             blue_scaled += 3;
         }
-        ((S_800A1D1C_3 *)saved_primitive)->unk_0E.s = (s8) (blue_scaled >> 2);
+        ((S_800A1D1C_3 *)primitive)->unk_0E.s = (s8) (blue_scaled >> 2);
     }
     ((S_800A1D1C_4 *)scratch)->unk_2C = ((S_800A1D1C_0 *)object)->unk_24;
     ((S_800A1D1C_4 *)scratch)->unk_2E = ((S_800A1D1C_0 *)object)->unk_28;

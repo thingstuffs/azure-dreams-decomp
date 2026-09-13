@@ -97,14 +97,14 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
     register s16 *turn_offsets;
     s32 target_y;
     s32 target_x;
-    s32 trial_heading;
+    s16 trial_heading;
     s16 target_heading;
     register s32 step_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 tile_y;
     s32 heading_state;
     s32 move_result;
     s32 move_flags;
-    register s32 heading ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 heading;
     u8 *counter_base;
     register s32 turn_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 limit_turns;

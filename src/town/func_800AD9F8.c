@@ -17,9 +17,7 @@ void func_800AB158(void *state, void *output) {
 
     {
         u16 *defaults;
-        ASM_MEM_BARRIER();
         defaults = (u16 *)D_80083780;
-        ASM_KEEP(defaults);
         *(u16 *)((s8 *)output + 2) = defaults[1];
         *(u16 *)((s8 *)output + 6) = defaults[3];
         *(s16 *)((s8 *)output + 0xA) = defaults[5] - func_800AAE98(output);

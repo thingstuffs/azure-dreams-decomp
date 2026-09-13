@@ -373,10 +373,8 @@ loop:
     do {
         clear_cursor[0x2C] = 0;
         clear_cursor[0x2D] = 0;
-        ASM_KEEP(clear_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        clear_pairs_left--;
         clear_cursor -= 2;
-    } while (clear_pairs_left >= 0);
+    } while (--clear_pairs_left >= 0);
 
     clear_mask = 0xBFFFFFFF;
     ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

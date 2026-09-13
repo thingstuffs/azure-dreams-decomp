@@ -13,7 +13,6 @@ void func_8009FAAC(void) {
     u16 counter;
 
     page_base = (u8 *)0x80010000;
-    ASM_KEEP(page_base);
     counter = *(u16 *)(page_base + 0x371A);
     *(s16 *)(page_base + 0x3718) = 0;
     *(s16 *)(page_base + 0x371A) = (s16)(counter + 1);
