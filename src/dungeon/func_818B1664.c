@@ -148,7 +148,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     register Effect **effect_create ASM_REG("$18");
     Effect **effect_grow;
     Effect **effect_shrink;
-    register Effect **effect_cleanup ASM_REG("$5");
+    Effect **effect_cleanup;
     s32 index;
     s32 child_delta;
     register s32 motion_coord ASM_REG("$3");

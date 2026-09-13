@@ -83,7 +83,7 @@ void func_800D1824(u8 *tiles)
     u8 *style;
     register u8 *prim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *tile_z;
-    register u8 *packet_len ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *packet_len;
     u8 *vertex_0;
     u8 *render_state;
     u8 *draw_prim;

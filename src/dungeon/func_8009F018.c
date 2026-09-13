@@ -12,7 +12,7 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
     register s32 center_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 x_distance;
     s32 y_distance;
-    register s32 center_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register u32 center_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 probe_coord;
     s16 source_z;
     s32 center_y;
@@ -38,7 +38,6 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
         center_y = probe_y;
         if ((func_8009A350(probe_x, probe_y, probe_z, &probe_result) << 0x10) != 0) {
             coord_work = center_x << 6;
-            ASM_KEEP(coord_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             center_x = coord_work + 0x20;
             probe_x = center_x & 0xFFE0;
             coord_work = center_y << 6;
@@ -51,7 +50,6 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
             probe_result = center_result;
             if (center_result >= 0x201) {
                 probe_coord = center_x;
-                ASM_KEEP_NV(center_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 coord_work = center_x - source_x;
                 center_delta = (s16) coord_work;
                 x_distance = center_delta;

@@ -129,7 +129,7 @@ void func_800C6B40(s32 context, void *position, void *sprite, s16 depth_bias) {
     u32 sort_depth;
     u32 bottom_clip_y;
     u8 uv_inset;
-    register void *quad ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *quad;
     void *part;
 
     render_globals = D_80083160;

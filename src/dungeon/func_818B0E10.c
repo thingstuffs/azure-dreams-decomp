@@ -33,15 +33,15 @@ extern GlobalState D_80083160;
 s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32 plane_z, s32 points_addr, u8 intensity, u16 color_phase)
 {
   register u8 *globals_page ASM_REG("$4") = D_80080000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  register s32 segment ASM_REG("$22") = 15;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  register s32 coord_scale ASM_REG("$21") = (s16) point_scale;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  s32 segment = 15;
+  u32 coord_scale = (s16) point_scale;
   register s32 point_base ASM_REG("$2") = points_addr;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   register s32 initial_z ASM_REG("$3") = plane_z;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   s16 phase = (s16) color_phase;
   void *projection_aux = (void *) 0x1F800084;
   register s32 green ASM_REG("$23") = intensity;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   register s32 addr_mask ASM_REG("$20") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-  s32 tag_mask = 0xFF000000;
+  u32 tag_mask = 0xFF000000;
   register s32 *point ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *line_prim;
@@ -51,8 +51,6 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
   point = (s32 *) (((u8 *) point_base) + 0x3C);
   initial_ctx = *((RenderState **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;
-  ASM_KEEP(tag_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   ASM_KEEP(coord_scale);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   *((u16 *) (scratch + 0x70)) = (u16) initial_z;
@@ -159,7 +157,7 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
       u8 *draw_mode_prim;
       *((s32 *) line_prim) = ((*((s32 *) line_prim)) & tag_mask) | (((s32 *) (*((void **) (scratch + 0x18))))[depth] & addr_mask);
       {
-        register u32 ot_slot ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u32 ot_slot;
         register u32 *ordering_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         u32 old_tag;
         register u32 prim_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */

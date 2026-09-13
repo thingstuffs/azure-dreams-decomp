@@ -112,7 +112,6 @@ s32 func_800A3B80(S_800A3B80_3 *object, s32 unused, void *context)
     angle_or_coord = start_angle;
     reverse_angle = angle_or_coord;
     forward_angle = angle_or_coord;
-    ASM_KEEP(angle_or_coord);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     angle_or_coord = (s16)angle_or_coord;
     coord_value = func_80064584(angle_or_coord) * 6;
     coord_y = coord_value - origin_y;
@@ -135,7 +134,6 @@ forward_segment:
     }
     result = forward_angle + 0x80;
     forward_angle = result;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     next_angle = (s16)result;
     scratch->data82 = coord_value;
     scratch->data72 = coord_value;
@@ -179,7 +177,6 @@ forward_segment:
     }
     result = forward_angle + 0x80;
     forward_angle = result;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     next_angle = (s16)result;
     scratch->data82 = coord_value;
     scratch->data72 = coord_value;

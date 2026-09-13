@@ -16,7 +16,6 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     register s32 zero ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     zero = 0;
-    ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     entry_index = zero;
     match_count = zero;
     match_first = first_key;

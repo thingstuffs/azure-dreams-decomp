@@ -127,7 +127,6 @@ void func_800D92C0(void *move_state, void *context, S_800D92C0_2 *position, void
                         target_y = coord_base[0x25] + D_8006CCE8[target_direction];
                     }
                     if ((position->unk_24.at00.v != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
-                        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         turn_flags = move_state + 0x98;
                         target_heading = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16)target_x, (s16)target_y, turn_flags);
                         ((S_800D92C0_0 *)actor)->unk_2A.u = (u16) target_heading;
@@ -194,7 +193,7 @@ try_heading:
                     direction_or_x = ((u16) ((S_800D92C0_0 *)actor)->unk_2A.u >> 8) & 0xE;
                     {
                         u8 *x_table_base = D_8006CCD8_bytes;
-                        register s32 next_x ASM_REG("$2") = position->unk_24.at00.v;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        u8 next_x = position->unk_24.at00.v;
                         next_x += x_table_base[direction_or_x];
                         position->unk_24.at00.v = (u8) next_x;
                     }

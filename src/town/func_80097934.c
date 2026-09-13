@@ -29,7 +29,6 @@ void func_80095094(Rec_D_800E3D7C *record) {
     initial_x = record->unk_0C.as_s32;
     if ((initial_x != 0) || (record->unk_10.at00_s32.v != 0)) {
         min_component = 0x80000001;
-        ASM_KEEP(min_component);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         clamped_x = 0x80000001;
         if (min_component < initial_x) {
             clamped_x = initial_x;

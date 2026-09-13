@@ -48,7 +48,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   s32 outer_color3;
   register u8 *state_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   u8 *quad_packet;
-  register s32 packet_order ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  s32 packet_order;
   state_base = D_80083160 - 0x3160;
   cursor = (*((DungeonState **) (state_base + 0x3160)))->cursor;
   scratchpad = (volatile u8 *) 0x1F800000;

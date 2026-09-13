@@ -195,7 +195,6 @@ state_1:
 
 #ifndef NON_MATCHING
         mask_or_base = 0xFFEF0000;
-        ASM_KEEP(mask_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 #else
         clear_mask = 0xFFEF0000;
 #endif
@@ -215,13 +214,7 @@ state_1:
         linked_flags |= set_mask;
         ((S_8008FA7C_4 *)linked_object)->unk_1C = linked_flags;
         linked_result = ((S_8008FA7C_3 *)actor)->unk_124.p;
-#ifndef NON_MATCHING
-        ASM_KEEP(linked_result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#endif
         active_anim = animation;
-#ifndef NON_MATCHING
-        ASM_KEEP(active_anim);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-#endif
         ((S_8008FA7C_5 *)linked_result)->unk_8A = action_result;
 #ifndef NON_MATCHING
         effect_duration = 0x78;

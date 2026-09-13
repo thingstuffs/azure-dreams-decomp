@@ -27,7 +27,6 @@ s32 func_80019DFC(Entry *entries, s32 object, void *context, s32 selection)
     s32 entry_index;
     Position *position;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_entries = entries;
     saved_object = object;
     saved_context = context;

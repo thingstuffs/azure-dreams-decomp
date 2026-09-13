@@ -22,8 +22,7 @@ s32 func_8009FBF0(s32 pos_x, s32 pos_y) {
         record = D_800E2970;
         do {
             {
-                register u8 *record_reg ASM_REG("$6") = record;
-                ASM_KEEP(record_reg);
+                u8 *record_reg = record;
                 record = record_reg;
             }
             if (*(s16 *)(record + 10) != 0) {

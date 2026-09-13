@@ -26,7 +26,6 @@ void func_8001AD60(s32 bit_index) {
 
         value = D_80016000_reload[0];
         src_word = (s32 *)(word_offset + *(s32 *)(value + 0x18));
-        ASM_KEEP(src_word);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         value = bit_index;
         if (bit_index < 0) {

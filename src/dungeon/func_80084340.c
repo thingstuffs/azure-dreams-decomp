@@ -338,13 +338,13 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     s32 actor_points;
     s32 companion_points;
     S_80089AA0_11 *companion;
-    register void *next_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *next_link;
     S_80089AA0_20 *linked_sprite;
     S_80089AA0_14 *reset_actor;
     void *companion_slot;
     void *linked_actor;
     register s32 page_or_repeat ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *actor;
     S_80089AA0_2 *world_object;
     void *companion_counters;
     S_80089AA0_3 *status_base;
@@ -759,11 +759,11 @@ clear_linked_flags:
     linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
     sprite_or_root = actor;
     if (linked_actor != actor) {
-        do {
+        loop_4: {
             linked_sprite = ((S_80089AA0_19_pre *)linked_actor)[-1].unk_00.p;
             linked_sprite->unk_14 = (u16) (linked_sprite->unk_14 & 0xFFBF);
             linked_actor = ((S_80089AA0_19 *)linked_actor)->unk_5C.i + 0x20;
-        } while (linked_actor != sprite_or_root);
+        } if (linked_actor != sprite_or_root) goto loop_4;
     }
     early_status = &D_80083460;
     if (((S_80089AA0_21 *)early_status)->unk_02 & 0x800) {

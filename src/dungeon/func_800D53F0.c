@@ -105,7 +105,7 @@ void func_800DAB50(void *effect_data) {
 
     index = 3;
     {
-        register s16 *vertex ASM_REG("$4") = (s16 *)((s8 *)effect + 0x18);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s16 *vertex = (s16 *)((s8 *)effect + 0x18);
         do {
             ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28 + ((S_800DAB50_0 *)effect)->unk_20);
             ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A + ((S_800DAB50_0 *)effect)->unk_22);

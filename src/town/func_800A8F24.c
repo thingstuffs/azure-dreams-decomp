@@ -39,7 +39,7 @@ void func_800A6684(void *entity, Rec_D_800E3D7C *position, S_800A6684_0 *sprite)
 {
     StackRecord effect_pos;
     s32 frame_index;
-    register s32 above_height ASM_REG("$3"); /* MATCH: keep the shared height predicate in retail's v1 across both guards. */
+    s32 above_height;
     register s32 height_or_shade;
 
     (*(EntityCallback *)((u8 *)entity + 0x50))(entity, entity, position, sprite);

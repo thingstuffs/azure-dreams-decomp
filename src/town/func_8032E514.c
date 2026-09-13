@@ -46,7 +46,6 @@ void func_80018D14(u8 *object_ref)
     s32 object_offset;
     s32 link_offset;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     global_page = (void **)0x80010000;
     context = ((S_80018D14_0 *)global_page)->unk_6000;
     callbacks = ((S_80018D14_1 *)context)->unk_38;

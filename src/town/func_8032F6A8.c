@@ -24,7 +24,6 @@ void func_80019EA8(s32 records_addr, s32 record_count)
         do {
             record = (TownRecord *)((record_index * 8) + records_addr);
             func_8001AD60(record->unk2);
-            ASM_KEEP(record_index);
             if (func_8001ADE0(condition_ids[1]) == 0) {
                 func_8001AD60(record->unk4);
             } else {

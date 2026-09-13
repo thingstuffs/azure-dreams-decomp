@@ -56,7 +56,6 @@ state_one:
 
 state_three:
         selected_slot = D_804094EC;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         completion_flag = (s32 *)0x800A0000;
         ASM_KEEP_NV(completion_flag);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         completion_flag = (s32 *)((u8 *)completion_flag - 0x1C70);
@@ -68,7 +67,7 @@ state_three:
             status = 2;
         }
         {
-            register s32 flag_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s16 flag_value;
             flag_value = 1;
             *completion_flag = flag_value;
         }

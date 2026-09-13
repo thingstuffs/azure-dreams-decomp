@@ -13,8 +13,8 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     s32 direction;
     register s32 lookup_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 config_or_dir;
-    register u32 dir_or_tiles ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u32 y_offsets;
+    u32 dir_or_tiles;
+    s32 y_offsets;
     u32 x_offsets;
     s16 origin_y;
     s32 origin_x;
@@ -39,7 +39,6 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     x_offsets = lookup_value - 0x3328;
 #endif
-    ASM_KEEP_NV(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     row_work = (s32)dir_or_tiles * 2;
     tiles_or_shift = row_work + x_offsets;
 #ifdef NON_MATCHING
@@ -49,7 +48,6 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     y_offsets = lookup_value - 0x3318;
 #endif
-    ASM_KEEP_NV(y_offsets);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     row_work += y_offsets;
     lookup_value = *(u16 *)tiles_or_shift;
     row_work = *(u16 *)row_work;
@@ -72,7 +70,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
         config_or_dir = dir_or_tiles;
         dir_or_tiles = tiles_or_shift;
         tiles_or_shift = row_work;
-        do {
+        loop_0: {
             lookup_value = ((s32)config_or_dir + tile_or_turn) & 6;
             lookup_value *= 2;
             neighbor_x = *(u16 *)(lookup_value + x_offsets);
@@ -86,7 +84,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
                 return (direction + tile_or_turn) & 6;
             }
             tile_or_turn += 4;
-        } while (tile_or_turn < 7);
+        } if (tile_or_turn < 7) goto loop_0;
     }
     return (s16)direction;
 }

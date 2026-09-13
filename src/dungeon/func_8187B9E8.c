@@ -73,7 +73,7 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
     S_8187B9E8_4 *state;
     S_8187B9E8_2 *position;
     S_8187B9E8_3 *scale;
-    register u8 *point ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *point;
 
     work_value = position_y.value;
     position_xyz[1] = work_value;

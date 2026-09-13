@@ -27,7 +27,6 @@ void func_80027BF4(void) {
         D_80080A88[0] = 0;
     }
     state_value = (s32)0x80080000;
-    ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     state_value += 0x2E60;
     ((u8 *)state_value)[0xF] &= 0x7F;
 #else

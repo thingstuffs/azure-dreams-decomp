@@ -124,7 +124,6 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
 
     depth = func_80065420(scratch + 4, (u8 *)tile + 8,
                             scratch + 0xD0, scratch + 0xD4);
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     SPAD_U32(0x100) = depth;
     if (depth < 0x1E0U) {
         register s32 call_zero ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

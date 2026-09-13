@@ -125,7 +125,6 @@ void func_80173904(
         while (value >= 0x1001) {
             value = angle_work - 0x1000;
             angle_work = value;
-            ASM_KEEP_NV(value);
             value = (s16)value;
         }
 

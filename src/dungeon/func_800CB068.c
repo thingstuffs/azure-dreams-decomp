@@ -180,7 +180,6 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
     part_uv = part + 8;
     ((S_800D07C8_0 *)scratch)->unk_24 = ((S_800D07C8_3 *)sprite)->unk_14;
     for (;;) {
-        ASM_KEEP_NV(part_uv);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         if (!(((S_800D07C8_4 *)part)->unk_00.u & 0x20)) {
             ((S_800D07C8_0 *)scratch)->unk_08.s32 = (*(u8 *)((u8 *)part_uv + 0));
             ((S_800D07C8_0 *)scratch)->unk_0C.s32 = (*(u8 *)((u8 *)part_uv + 1));
@@ -315,7 +314,6 @@ void func_800D07C8(s32 context, u8 *position, u8 *sprite, s16 depth_bias) {
                         packet += 0x34;
                         func_8006658C(((S_800D07C8_0 *)scratch)->unk_20.p2 + (((S_800D07C8_0 *)scratch)->unk_C0 * 4), draw_packet);
                     }
-                    ASM_KEEP(packet_code);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 }
             }
         } else {

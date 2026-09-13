@@ -392,7 +392,6 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
             void *local_matrix;
             void *combined_matrix;
             view_matrix = matrix_or_part;
-            ASM_KEEP_NV(view_matrix);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             do {
                 local_matrix = scratch;
             } while (0);

@@ -96,7 +96,6 @@ wait_frames:
 
 fade_in:
     result = fade_colors[0xA8];
-    ASM_KEEP_NV(result);
     if ((u32)(result & 0xFF) < 0x80) {
         fade_colors[0xA8] = result + 4;
         fade_green = fade_colors[0xA9] + 4;

@@ -124,11 +124,9 @@ check_step:
     scaled_y = coords->unk_25.u;
     object_data = object;
     scaled_x <<= 6;
-    ASM_KEEP_NV(scaled_x);
     query_arg = scaled_x >> 6;
     ASM_KEEP_NV(query_arg);
     scaled_y <<= 6;
-    ASM_KEEP_NV(scaled_y);
     direction_arg = scaled_y >> 6;
     ASM_KEEP_NV(direction_arg);
     target_coord = scaled_x + 0x20;

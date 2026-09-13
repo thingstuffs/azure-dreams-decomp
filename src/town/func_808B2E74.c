@@ -15,7 +15,7 @@ void func_808B2E74(void)
     s32 slot = 1;
     s32 bit_one = 1;
     s16 *first_id_ptr = (s16 *)(D_A0700000 + 0xF26);
-    register s32 slot_offset ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 slot_offset;
 
     do {
         s32 first_id;

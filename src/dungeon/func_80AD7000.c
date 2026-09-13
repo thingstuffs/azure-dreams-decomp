@@ -157,7 +157,6 @@ s32 BODY_NAME(void *object_ptr, void *position_ptr) {
         position = ((S_80AD7000_5 *)linked_node)->unk_08;
         ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         scratch_position = scratch + 4;
         ASM_TAILSLOT_PIN(scratch_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_8015E8FC();

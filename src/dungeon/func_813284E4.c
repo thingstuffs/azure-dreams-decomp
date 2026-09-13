@@ -165,7 +165,6 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                 target_x = position_base[0x24] + *(u16 *)(x_table_base + dir_index);
                 target_y = D_80082E80[0x25] + *(u16 *)(D_8006CCE8 + dir_index);
                 if ((((S_8016FCE4_1 *)position)->unk_24.at00.v != (target_x & 0xFFFF)) || (((S_8016FCE4_1 *)position)->unk_24.at01.v != (target_y & 0xFFFF))) {
-                    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     heading_state = move_state + 0x98;
                     target_heading = func_800A0818(((S_8016FCE4_1 *)position)->unk_24.at00.v, ((S_8016FCE4_1 *)position)->unk_24.at01.v, (s16) target_x, (s16) target_y, heading_state);
                     ((S_8016FCE4_0 *)actor)->unk_2A.u = (u16) target_heading;

@@ -69,9 +69,7 @@ s32 func_80095840(void *destination, void *source)
         selection = ((S_80095840_1 *)candidates)->unk_1C;
         ((S_80095840_1 *)candidates)->unk_18 = 0;
         ((S_80095840_1 *)candidates)->unk_10 = selection;
-        ASM_SCHED_BARRIER();
         entry = (void *)selection;
-        ASM_KEEP(entry);
         entry_kind = ((S_80095840_2 *)((void *)selection))->unk_14;
         if ((entry_kind == 1) || (entry_kind == 3)) {
             goto none;
@@ -90,7 +88,6 @@ s32 func_80095840(void *destination, void *source)
         selection = ((S_80095840_2 *)((void *)selection))->unk_1C;
         ((S_80095840_1 *)candidates)->unk_18 = offset;
         ((S_80095840_1 *)candidates)->unk_10 = selection;
-        ASM_SCHED_BARRIER();
         entry = (void *)selection;
         entry_kind = ((S_80095840_3 *)entry)->unk_14;
         if ((entry_kind != 1) && (entry_kind != 3)) {

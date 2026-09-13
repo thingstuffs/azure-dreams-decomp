@@ -27,8 +27,8 @@ extern u8 D_8009B014[];
 void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
     Entity *entity = input_entity;
     GlobalState *state = (GlobalState *)D_80083160;
-    register s32 state_or_handler ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 adjustment ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 state_or_handler;
+    s32 adjustment;
 
     if (state->flags & 0x40) {
         Entity *call_entity = entity;
@@ -54,8 +54,7 @@ void func_8009AE88(Entity *input_entity, s32 unused_1, s32 unused_2) {
 
             adjustment--;
             D_800D0620 = adjustment;
-            adjustment = 0x800;
-            entity->unk10 = adjustment;
+            entity->unk10 = 0x800;
             state_or_handler = 4;
         } else if ((state->flags & 0x4000) && ((adjustment = D_800D0620) <= 0)) {
             tail_data = D_800D0088;

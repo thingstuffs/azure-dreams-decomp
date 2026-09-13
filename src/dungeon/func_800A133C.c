@@ -49,7 +49,6 @@ void func_800A6A9C(void)
     ram_page = (RamPage *)0x80010000;
     group = (u8 *)D_80073414;
     do {
-        ASM_KEEP(group);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         item_index = 0;
         if (((S_800A6A9C_0 *)group)->unk_02 != 0) {
             bitmap_offset = group_index * 8;

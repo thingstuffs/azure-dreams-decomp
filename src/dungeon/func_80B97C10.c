@@ -57,7 +57,6 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   u8 *target_tile;
   state_flags = *(u16 *)(state + 2);
   ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-  ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
   limit_turn = 0;
   if (state_flags & 0x4000)
   {

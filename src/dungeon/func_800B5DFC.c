@@ -89,7 +89,7 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     u8 blue;
     u8 *effect_globals;
     S_800BB55C_3 *color;
-    register DungeonWork *arc_or_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    DungeonWork *arc_or_count;
     DungeonWork *arc_state;
 
     draw_params[0] = 0x01000340;

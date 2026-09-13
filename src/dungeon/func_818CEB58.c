@@ -59,7 +59,7 @@ extern u8 D_8002428C[];
 /* Creates an object at a randomized offset from the source and initializes its fields. */
 void func_818CEB58(
     void *source,
-    s16 field_34,
+    s32 field_34,
     s32 field_28,
     s16 field_52,
     s32 offset_x,
@@ -67,8 +67,8 @@ void func_818CEB58(
     s32 offset_z)
 {
     void *source_obj = source;
-    register s16 saved_field_34 ASM_REG("$21") = field_34;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 saved_field_28 ASM_REG("$23") = field_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_field_34 = field_34;
+    register u32 saved_field_28 ASM_REG("$23") = field_28;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 saved_field_52 ASM_REG("$22") = field_52;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
@@ -113,7 +113,6 @@ void func_818CEB58(
         jitter_z = rand();
         new_object = object_cursor;
         init_data = &D_8002403C;
-        ASM_USE2(new_object, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         jitter_z &= 0x1F;
         position_z = ((S_818CEB58_6 *)(((S_818CEB58_1 *)source_obj)->unk_08))->unk_0A;
         object_cursor = (u8 *)new_object + 0x20;
@@ -124,12 +123,9 @@ void func_818CEB58(
         dest_z->unk_0A = (s16)position_z;
         ASM_KEEP(object_cursor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_818CEB58_0 *)object_cursor)->unk_14 = saved_field_34;
-        ASM_KEEP(saved_field_34);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_818CEB58_0 *)object_cursor)->unk_32 = saved_field_52;
         func_8004491C(new_object, init_data, dest_z);
-        ASM_KEEP(saved_field_52);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_818CEB58_0 *)object_cursor)->unk_08.u = saved_field_28;
-        ASM_KEEP(saved_field_28);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }
 

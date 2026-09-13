@@ -52,7 +52,6 @@ s32 func_80874E18(s32 arg0) {
         s32 *word;
         s32 old_value;
 #ifndef NON_MATCHING
-        register s32 zero_nf ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 #else
         s32 zero_nf = 0;
 #endif
@@ -62,13 +61,13 @@ s32 func_80874E18(s32 arg0) {
         index = value / 32;
         word = (s32 *)(index * 4 + (s32)STATE_ROOT);
         old_value = *word;
-        *word = ((zero_nf | 1) << (value - (index << 5))) | old_value;
+        *word = ((1) << (value - (index << 5))) | old_value;
         func_80701060(word, old_value);
         func_80700F38();
     }
 
 callback_path:
-    callback = D_80701984[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                                                                         zero | (2);                                                      }));
+    callback = D_80701984[0]->callback(2);
     tail_arg = 0x40000000;
     if (callback != 0) {
         {
@@ -108,7 +107,7 @@ callback_path:
         goto zero_return;
     }
 
-    callback = D_80701984_ALT[0]->callback(({                                                                       register s32 zero ASM_REG("$0");                                   ASM_KEEP(zero);                                                      zero | (2);                                                      }));
+    callback = D_80701984_ALT[0]->callback(2);
     if (callback == 0) {
         goto return_arg;
     }

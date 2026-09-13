@@ -179,7 +179,6 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
                     flags_ptr = (u8 *)record + 0x16;
 
                     for (;;) {
-                        ASM_KEEP(flags_ptr);   /* MATCH: keep one flags_ptr pointer through the record loop, preventing an extra induction pointer. */
                         if ((scratch->planes[*(u16 *)(flags_ptr - 6)].y < 0) && !(*(flags_ptr + 1) & 1)) {
                             s32 height;
                             u32 vertex_index;

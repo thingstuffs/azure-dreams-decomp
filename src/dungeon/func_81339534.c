@@ -122,9 +122,7 @@ state_4:
     {
         u8 *flags_page;
         u16 flags = ((S_80170534_0_pre *)state_data)[-1].unk_00;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         flags_page = (u8 *) 0x80080000;
-        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         flags = (u16) (flags | 0x8000);
         ((S_80170534_0_pre *)state_data)[-1].unk_00 = flags;
 #ifdef NON_MATCHING

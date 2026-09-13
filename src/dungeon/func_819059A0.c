@@ -27,7 +27,7 @@ void func_800251A0(void *anim_state)
 {
     s16 next_phase;
     s32 slot_index;
-    register s32 active_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 active_value;
     register u16 ticks_left ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *active_flag;
     u16 phase;
@@ -40,10 +40,8 @@ void func_800251A0(void *anim_state)
     setup_slot = (DungeonAnimSlot *)((u8 *)anim_state + 2);
     ticks_left = ((S_800251A0_0 *)anim_state)->unk_02;
     active_flag = &D_800267B8;
-    ASM_KEEP(ticks_left);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     active_value = slot_index;
     *active_flag = (s16)active_value;
-    ASM_KEEP(active_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_800251A0_0 *)anim_state)->unk_02 = (u16)(ticks_left - 1);
     do {
         setup_slot->field_62 = (s16)(slot_index * 0x10);

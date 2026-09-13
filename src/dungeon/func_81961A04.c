@@ -76,7 +76,7 @@ void *func_81961A04(void *position)
     s32 slot;
     M2C_UNK *object_handler;
     M2C_UNK *control_handler;
-    register s32 last_slot ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 last_slot;
     void *object;
     s32 slot_offset;
     register s32 control_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -93,7 +93,7 @@ void *func_81961A04(void *position)
     object_handler = &D_80026DE4;
     control_handler = &D_800273B0;
     last_slot = 8;
-allocate_slot:
+do {
     object = func_8003FC64(2);
     if (object != NULL) {
         ((S_81961A04_0 *)object)->unk_10 = object_handler;
@@ -120,7 +120,6 @@ allocate_slot:
             func_800272BC();
             return (void *)0x200;
         }
-        ASM_KEEP(last_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         do { control->unk_1E = 0x800U; } while (0);
         slot_offset = (last_slot - slot) * 4;
         control_value = -0x80 - slot_offset;
@@ -136,8 +135,6 @@ allocate_slot:
     }
 next_slot:
     slot += 1;
-    if (slot < 9) {
-        goto allocate_slot;
-    }
+    } while (slot < 9);
     return object;
 }

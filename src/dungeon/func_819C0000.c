@@ -220,7 +220,7 @@ state_two:
                     s32 point_offset;
                     s32 offset_x;
                     register u32 tile_x ASM_REG("$5");
-                    register u16 tile_y ASM_REG("$6");
+                    u16 tile_y;
                     point_offset = column * sizeof(LocalPoint) +
                                    row * 3 * sizeof(LocalPoint);
                     point = (LocalPoint *)((u8 *)&offsets + point_offset);

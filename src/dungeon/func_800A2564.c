@@ -40,7 +40,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     u8 *prim;
     u8 *prim_code;
     u8 *sprite;
-    register u8 *tex_info ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *tex_info;
     s32 world_z, depth, angle_y_offset, sort_depth;
     s32 tex_u, tex_width, tex_v, tex_height;
     register s32 tex_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -243,7 +243,6 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                             func_800666F4(prim);
                             matrix_or_prim = prim;
                             prim_code += 40;
-                            ASM_KEEP(prim_code);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                             func_8006658C(U32(scratch, 0x20) + U32(scratch, 0xC0) * 4, matrix_or_prim);
                             prim += 40;
                             func_800649A0();

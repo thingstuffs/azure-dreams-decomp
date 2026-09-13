@@ -25,7 +25,6 @@ s32 func_8094D708(Func8094D708Object *arg0) {
     i = 0;
     ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     call_arg = arg0;
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     base = arg0->callbacks;
     address = (u8 *)(i << 4);
     address = (u8 *)((s32)address + (s32)base);

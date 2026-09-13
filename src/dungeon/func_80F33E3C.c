@@ -134,7 +134,6 @@ void func_8017163C(void *move_ctx_in, void *action_ctx, void *position_in, void 
     }
 
 process_state:
-    ASM_KEEP(move_ctx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     if (((S_8017163C_1 *)actor)->unk_12 >= 2) {

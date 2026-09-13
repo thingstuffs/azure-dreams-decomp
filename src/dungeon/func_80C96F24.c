@@ -103,7 +103,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
     do {
         s32 band_index;
-        register s32 segment ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        s32 segment;
 
         {
             register s16 band_raw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

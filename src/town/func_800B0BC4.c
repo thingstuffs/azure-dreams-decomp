@@ -52,7 +52,6 @@ s32 func_800AE324(s32 selector) {
             state->unk_1C = func_800B0718();
         } while (0);
         count = state->unk_1C;
-        ASM_KEEP(count);
         state->unk_74 = object_selector;
         if (count != 0) {
             state->unk_14 = (count - 1) / 10;

@@ -687,7 +687,6 @@ after_coords:
                   (((S_8197192C_0 *)effect)->unk_66.u - ((S_8197192C_0 *)effect)->unk_72.u) * step / 2) << 1);
         {
             void *spawn_effect = effect;
-            ASM_KEEP_NV(spawn_effect);
             spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_74.s +
                       (((S_8197192C_0 *)effect)->unk_68.u - ((S_8197192C_0 *)effect)->unk_74.u) * step / 2) << 1);
             func_80024DD4(spawn_effect, owner, context,

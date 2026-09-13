@@ -2,7 +2,7 @@
 #include "m2c_compat.h"
 
 #ifdef NON_MATCHING
-#define ({                                                                       register s32 zero ASM_REG("$0");                                     zero | (value);                                                      }) (value)
+#define value (value)
 #else
 #endif
 
@@ -10,7 +10,7 @@ M2C_UNK func_80700C08();                     /* extern */
 M2C_UNK func_80701060();                            /* extern */
 
 void func_80875124(void) {
-    func_80700C08(({                                                                       register s32 zero ASM_REG("$0");                                     zero | (3);                                                      }));
+    func_80700C08(3);
     func_80701060();
 }
 

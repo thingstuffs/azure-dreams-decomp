@@ -421,7 +421,6 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
                 *ot = (*ot & window_tag_mask) | ((u32)draw_mode & addr_mask);
             }
         }
-        ASM_KEEP_NV(quad_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         quad_index++;
     } while (quad_index < 4);
 

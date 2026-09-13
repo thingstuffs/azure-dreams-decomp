@@ -77,7 +77,6 @@ void func_8001D188(s32 entry_index, s32 lookup_arg1, s32 lookup_arg2, s32 lookup
     if (count >= *(s16 *)((u8 *)limits + (((group_id * 3) + variant) * 8))) {
         group_state->unk_3700.s = 0U;
     }
-    ASM_KEEP_NV(group_id);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     history = (u8 *)(group_id * 0xC) + state_base + 0x3640;
     do {
         slot = history + slot_index;

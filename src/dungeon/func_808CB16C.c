@@ -42,9 +42,9 @@ __asm__(".set D_80120000, 0x80120000");
 /* Initialize 14 slots from records, applying part_8 defaults except for the last two slots. */
 void func_80123604(void) {
     SlotTable *slot_base;
-    register u8 *record_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *record_base;
     Slot **slot;
-    register Record *record ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    Record *record;
     s32 slot_index;
     s32 default_6;
     s32 default_8;

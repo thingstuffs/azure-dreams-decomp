@@ -110,8 +110,8 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
         if (actor == D_800E3D7C) {
             s16 *trap_counts;
             u8 transition_id;
-            register u8 *transition_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s32 floors_ascended ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            u8 *transition_page;
+            u32 floors_ascended;
             u16 go_up_trap_count;
             S_800CB9DC_2 *motion_state;
 

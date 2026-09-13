@@ -58,7 +58,7 @@ void *func_800D8590(void *entity)
     register u8 map_index ASM_REG("$3");
     register u16 flags ASM_REG("$2");
     register void *result ASM_REG("$2");
-    register void *entity_arg ASM_REG("$4");
+    void *entity_arg;
     u8 *root;
     s32 *object_state;
     u8 *parent;

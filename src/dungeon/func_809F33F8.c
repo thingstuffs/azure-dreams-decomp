@@ -6,11 +6,6 @@
  * argument: a block-scoped $a0-pinned temp with the empty "=r"/"0" tie
  * (expression form of ASM_REG+ASM_KEEP_NV). Port build folds to the plain
  * value. */
-#ifdef NON_MATCHING
-#define ({ register void *actor_value ASM_REG("$4") = (v); ASM_KEEP_NV(actor_value); actor_value; }) (v)
-#else
-#endif
-
 void func_80047738(void *, u8, s8);              /* extern */
 void func_80047784(void *, u8, s32);             /* extern */
 void func_800478B8(void *);                       /* extern */

@@ -31,7 +31,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     u8 *screen_xy0;
     u8 *draw_packet;
     void *vertex_or_link;
-    register void *quad ASM_REG("$19") = quad_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *quad = quad_data;
     void *quad_material = material;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

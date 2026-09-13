@@ -480,7 +480,6 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
             texture_data += 0xC;
             if ((s8)texture[0] >= 0) {
 
-                ASM_KEEP(texture_data);
                 texture += 0xC;
                 continue;
             }

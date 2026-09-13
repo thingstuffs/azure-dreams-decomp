@@ -97,7 +97,6 @@ s32 func_8009B88C(u8 *entry, s32 target_x, s32 target_y, s16 *out_x, s16 *out_y)
     next_entry:
         entry = *(u8 **)(entry + 92) + 32;
     } while (entry != actor || (wrap_check = wrap_pending) != 0);
-    ASM_KEEP_NV(entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (occupied[0] != 0) {
         goto search_nearby;
@@ -199,6 +198,5 @@ search_nearby:
         attempts++;
         slot = (slot + 1) & 15;
     } while (attempts < 16);
-    ASM_USE_NV(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     return 0;
 }

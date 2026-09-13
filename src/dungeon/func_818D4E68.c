@@ -528,7 +528,6 @@ state2:
             actor->timer82 = 0;
             actor->state++;
         }
-        ASM_KEEP(particle_count);
         particle_count++;
         color = func_80069EF8();
         color &= 0xFF;
