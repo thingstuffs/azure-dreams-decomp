@@ -55,7 +55,6 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
         }
         *(s32 *)(entity + 0x14) &= -8;
         *(s32 *)(entity + 0x1C) &= -8;
-        ASM_MEM_BARRIER();
         {
             u8 *effect_target;
             s32 color_mask;
@@ -72,8 +71,8 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
                     effect_target = entity - 32;
                     color_mask = 0xF0;
                     effect_code = 0x81C;
-                    entity_flags = *(s32 *)(entity + 0x14) | 1;
-                    base_flags = *(s32 *)(entity + 0x1C) | 1;
+                    *(s32 *)(entity + 0x14) |= 1;
+                    *(s32 *)(entity + 0x1C) |= 1;
                 }
             } else if (event_type == 6) {
                 {
@@ -83,8 +82,8 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
                     effect_target = entity - 32;
                     color_mask = 0xF00000;
                     effect_code = 0x81C;
-                    entity_flags = *(s32 *)(entity + 0x14) | 2;
-                    base_flags = *(s32 *)(entity + 0x1C) | 2;
+                    *(s32 *)(entity + 0x14) |= 2;
+                    *(s32 *)(entity + 0x1C) |= 2;
                 }
             } else {
                 {
@@ -93,11 +92,9 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
                 effect_target = entity - 32;
                 color_mask = 0xF000;
                 effect_code = 0x81C;
-                entity_flags = *(s32 *)(entity + 0x14) | 4;
-                base_flags = *(s32 *)(entity + 0x1C) | 4;
+                *(s32 *)(entity + 0x14) |= 4;
+                *(s32 *)(entity + 0x1C) |= 4;
             }
-            *(s32 *)(entity + 0x14) = entity_flags;
-            *(s32 *)(entity + 0x1C) = base_flags;
             func_800D4FC8(effect_target, color_mask, effect_code);
         }
         func_80042984(entity);

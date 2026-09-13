@@ -175,12 +175,8 @@ do {
                 }
 
             default:
-                scratch = (s16)x;
-                scratch *= 2;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                tile = *src_tiles;
-                scratch += (s32)tilemap;
-                dst_tile = (u16 *)scratch;
+                tilemap[(s16)x] = *src_tiles;
+                break;
 store:
                 *dst_tile = tile;
                 break;
@@ -191,10 +187,8 @@ store:
             scratch <<= 16;
             scratch >>= 16;
             } while (scratch < signed_width);
-            scratch = row + 1;
-        } else {
-            scratch = row + 1;
         }
+        scratch = row + 1;
         row = scratch;
         ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scratch <<= 16;

@@ -58,13 +58,8 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     if ((v_s2 & 3) == 1) {
         *(Callback *)(v_s0 + 0x8C) = func_8014CE5C;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        flags0 = *(u32 *)(v_s0 + 0x14);
-        flags1 = *(u32 *)(v_s0 + 0x1C);
-        flags0 |= 0x6000;
-        flags1 |= 0x6000;
-        *(u32 *)(v_s0 + 0x14) = flags0;
-        *(u32 *)(v_s0 + 0x1C) = flags1;
+        *(u32 *)(v_s0 + 0x14) |= 0x6000;
+        *(u32 *)(v_s0 + 0x1C) |= 0x6000;
         *(Callback *)((u8 *)v_s1 + 0x2C) = func_80150510;
     } else if ((v_s2 & 3) >= 2) {
         *(Callback *)(v_s0 + 0x8C) = func_8014CE5C;
