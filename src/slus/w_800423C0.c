@@ -2,11 +2,6 @@
 
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define PIN_KEEP(v) ((void)0)
-#else
-#define PIN_KEEP(v) __asm__ __volatile__("" : "=r"(v) : "0"(v))
-#endif
 typedef struct S_800E3E48
 {
   u8 pad00[0x14];
@@ -48,7 +43,7 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
     template_entry = &D_800E3E48[source->unk3 & 0x1F];
     func_80042710(obj, template_entry);
     pinned_obj = obj;
-    PIN_KEEP(pinned_obj);
+    ASM_KEEP(pinned_obj);
     upper_bits_mask = -8;
     obj->unk14 &= upper_bits_mask;
     obj->unk1C &= upper_bits_mask;
@@ -63,7 +58,6 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 
       direction_page = (u8 *)0x80010000;
       slot_offset = direction * 2;
-      PIN_KEEP(direction_page);
       direction_page = (u8 *)((unsigned long)slot_offset + (unsigned long)direction_page);
       if (direction == 0)
       {

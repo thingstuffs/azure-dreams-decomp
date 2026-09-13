@@ -54,7 +54,6 @@ void func_8008B818(s32 initial_mode, s32 *value_list, u8 *init_context, u8 *targ
         *(u8 **)(record + 8) = &D_80037714;
         func_800375C0(record);
     } else {
-        ASM_SET(mode_entry);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         *(u8 **)(record + 8) = 0;
     }
     *(u16 *)(record + 0x60) = 0;

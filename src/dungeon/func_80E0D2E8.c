@@ -102,7 +102,6 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
         goto function_end;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_type = (s8)actor->type;
     if (func_800A9E70(actor, motion, entity, actor) != 0) {

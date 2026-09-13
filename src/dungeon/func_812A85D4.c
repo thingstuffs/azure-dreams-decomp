@@ -128,7 +128,6 @@ store_movement:
         S32(motion, 0xC) = motion_x;
         S32(motion, 0x10) = direction_off;
     } else {
-        ASM_CLOBBER("$5");
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;

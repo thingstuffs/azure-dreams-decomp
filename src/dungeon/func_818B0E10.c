@@ -42,7 +42,7 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
   register s32 green ASM_REG("$23") = intensity;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   register s32 addr_mask ASM_REG("$20") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   u32 tag_mask = 0xFF000000;
-  register s32 *point ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  s32 *point;
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *line_prim;
   RenderState *initial_ctx;

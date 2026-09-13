@@ -32,7 +32,6 @@ s32 func_801761AC(S_801761AC_0 *arg0) {
         ASM_KEEP_DEP_NV(r, d);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         slot = r;
     } else {
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         slot = 0;
     }
     if (slot >= 16) {

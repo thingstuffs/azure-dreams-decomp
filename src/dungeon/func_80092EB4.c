@@ -95,7 +95,6 @@ void func_80098614(S_80098614_0 *actor, u8 *requested_item)
 
         item[3] |= 0x20;
     } else {
-        ASM_KEEP(had_equipped);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         item_id = 0;
         if (had_equipped != 0) {
             state = func_800990FC();

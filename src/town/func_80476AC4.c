@@ -19,16 +19,14 @@ s32 func_80017AC4(void) {
         goto return_one;
     }
     result = func_800198D0(0x3FF);
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ret = 0;
     if (result == 0) {
-        goto done;
+        return ret;
     }
 
 return_one:
     ret = 1;
 
-done:
     return ret;
 }
 

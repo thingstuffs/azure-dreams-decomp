@@ -34,7 +34,6 @@ void func_800A4B94(UnkStruct_800A7434 *state) {
         func_800A4C10(state);
         return;
     }
-    __asm__ __volatile__("" ::: "memory");
     current_values = state->unk00;
     state->unk08 = values[0];
     value = current_values[1];

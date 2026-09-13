@@ -18,7 +18,6 @@ void func_8002570C(void *state) {
     void *owner;
 
     entry_ptr = (u8 *)0x80080000;
-    __asm__ __volatile__("" : "=r"(entry_ptr) : "0"(entry_ptr));
     entry_id = *(s32 *)((u8 *)state + 0x28);
     entry_ptr += 0x3E98;
     entry_addr = entry_id << 7;
@@ -29,17 +28,15 @@ void func_8002570C(void *state) {
         *(s32 *)((u8 *)state + 0x2C) = entry_id;
         func_800250E8(state, entry_id);
         entry_ptr = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(entry_ptr) : "0"(entry_ptr));
         entry_ptr += 0x5584;
     } else {
         owner = (u8 *)state - 0x20;
         entry_ptr = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(entry_ptr) : "0"(entry_ptr));
+        ASM_KEEP(entry_ptr);
         entry_ptr += 0x593C;
         *(u8 **)((u8 *)state + 0x34) = entry_ptr;
         func_800230A4(owner, entry_id);
         entry_ptr = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(entry_ptr) : "0"(entry_ptr));
         entry_ptr += 0x4FAC;
     }
     *(u8 **)((u8 *)state - 0x10) = entry_ptr;

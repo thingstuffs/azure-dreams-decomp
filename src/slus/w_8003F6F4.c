@@ -1,12 +1,5 @@
 #include "common.h"
 
-#if defined(__mips__) && !defined(NON_MATCHING)
-#define SCHED_KEEP(v) __asm__ __volatile__("" : : "r"(v))
-#define SPLIT_BASE(v) __asm__("" : "=r"(v) : "0"(v))
-#else
-#define SCHED_KEEP(v) ((void)0)
-#define SPLIT_BASE(v) ((void)0)
-#endif
 typedef struct S_80083120
 {
   s16 field_0;
@@ -30,9 +23,9 @@ void func_8003F6F4(void)
   entry_index = 7;
   last_index = 7;
   entries = D_80083120;
-  SPLIT_BASE(entries);
+  ASM_KEEP_NV(entries);
   entry = &entries[last_index];
-loop:
+do {
   signed_type = entry->field_0;
   type = (signed_type < 0) ? -signed_type : signed_type;
   if (type == 5)
@@ -57,14 +50,9 @@ case6:
     entry->field_0 = 0;
   }
 handled:
-  SCHED_KEEP(entry);
   entry--;
 next:
-  SCHED_KEEP(entry);
-  SCHED_KEEP(entry_index);
+  ASM_USE(entry_index);
   entry_index--;
-  if (entry_index >= 0)
-  {
-    goto loop;
-  }
+  } while (entry_index >= 0);
 }

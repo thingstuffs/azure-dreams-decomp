@@ -89,7 +89,6 @@ void func_80170AA4(void *entity_input, void *motion_input, void *part_input)
         goto done;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     call_entity = actor;
     call_motion = motion;
     call_part = part;

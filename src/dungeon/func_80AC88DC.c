@@ -53,7 +53,7 @@ typedef struct S_801740DC_6 {
 void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *entity_in)
 {
     register s32 actor_index ASM_REG("$19") = actor_index_in;
-    register void *target ASM_REG("$17") = target_in;
+    void *target = target_in;
     void *entity = entity_in;
     s32 state;
     s32 entity_flags;
@@ -67,7 +67,7 @@ void func_801740DC(void *actor_in, s32 actor_index_in, void *target_in, void *en
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
@@ -105,8 +105,6 @@ state_one:
     if (((S_801740DC_4 *)shared_state)->unk_02 & 0x1000) {
         goto done;
     }
-    ASM_CLOBBER("$5");
-    ASM_CLOBBER("$6");
     if (((Rec_D_800E3D7C *)entity)->unk_64.as_s16 != 0) {
         if (func_800AA6B4(actor_in, actor_index, target, 0) != 0) {
             goto done;

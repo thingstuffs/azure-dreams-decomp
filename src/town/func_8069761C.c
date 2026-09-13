@@ -14,10 +14,8 @@ typedef struct S_8069761C_1 {
 
 #ifdef NON_MATCHING
 #define LOCAL_ASM_REG(reg)
-#define LOCAL_ASM_KEEP(var) ((void)0)
 #else
 #define LOCAL_ASM_REG(reg) asm(reg)
-#define LOCAL_ASM_KEEP(var) __asm__ __volatile__("" : "=r"(var) : "0"(var))
 #endif
 
 M2C_UNK func_800165C4();
@@ -32,6 +30,5 @@ void func_8069761C(void) {
     func_800165C4(&D_80018AE8);
 
     zero = 0;
-    LOCAL_ASM_KEEP(zero);
     D_80018BE8 = ((S_8069761C_1 *)(D_80016000->unk_20))->unk_68(zero, zero, 2, &D_80018AE8);
 }

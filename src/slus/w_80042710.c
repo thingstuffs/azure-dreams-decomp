@@ -1,14 +1,5 @@
 #include "common.h"
 
-#ifdef __mips__
-#define PIN_KEEP(v) __asm__ __volatile__("" : "=r"(v) : "0"(v))
-#define PIN_BARRIER(v) __asm__ __volatile__("" : : "r"(v))
-#define PIN_BARRIER2(a, b) __asm__ __volatile__("" : : "r"(a), "r"(b))
-#else
-#define PIN_KEEP(v) ((void)0)
-#define PIN_BARRIER(v) ((void)0)
-#define PIN_BARRIER2(a, b) ((void)0)
-#endif
 typedef struct
 {
   u8 a;
@@ -73,10 +64,10 @@ void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
   register s32 index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
   u8 field_00;
   field_00 = src->f00;
-  PIN_BARRIER(field_00);
+  ASM_USE(field_00);
   {
     register S_80042710 *dst ASM_REG("$9") = dst_record;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-    PIN_KEEP(dst);
+    ASM_KEEP(dst);
     dst->f00 = field_00;
     dst->f01 = src->f01;
     dst->f02 = src->f02;
@@ -86,17 +77,15 @@ void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
     dst->f06 = src->f06;
     index = 2;
     {
-      register u8 *src_slot1 ASM_REG("$4") = (u8 *)src + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-      register u8 *dst_slot1 ASM_REG("$3") = (u8 *)dst + 6;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-      do
-      {
+      u8 *src_slot1 = (u8 *)src + 6;
+      u8 *dst_slot1 = (u8 *)dst + 6;
+      loop_0: {
         dst_slot1[8] = src_slot1[8];
         dst_slot1[10] = src_slot1[10];
         src_slot1 -= 3;
         dst_slot1 -= 3;
         index--;
-      }
-      while (index >= 0);
+      } if (index >= 0) goto loop_0;
     }
     dst->f11 = src->f11;
     dst->f12 = src->f12;
@@ -123,7 +112,7 @@ void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
         slot_b = src_slot2[45];
         dst_slot2[44] = slot_a;
         dst_slot2[45] = slot_b;
-        PIN_BARRIER2(slot_a, slot_b);
+        ASM_USE2(slot_a, slot_b);
         src_slot2 -= 2;
         index--;
         dst_slot2 -= 2;
@@ -154,10 +143,8 @@ void func_80042710(S_80042710 *dst_record, S_80042710 *src_record)
     dst->f45 = src->f45;
     {
       u32 field_54 = src->f54;
-      PIN_BARRIER(field_54);
       {
         S_80042710 *refresh_dst = dst;
-        PIN_KEEP(refresh_dst);
         dst->f54 = field_54;
         func_80041E70(refresh_dst);
       }

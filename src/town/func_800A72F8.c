@@ -46,7 +46,7 @@ case_1:
 case_2:
     channels[0xA8] = 0x40;
     channels[0xA9] = 0x40;
-    __asm__ __volatile__("" ::: "memory");
+    ASM_MEM_BARRIER();
     channels[0xAA] = 0x40;
     goto clear_state;
 

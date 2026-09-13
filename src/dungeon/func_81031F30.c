@@ -8,9 +8,6 @@
  * gcc 2.8.1 sched2's prologue entry-group ordering (the s3 save/copy pair
  * hoists to the front) — proven on this function (v10 vs v11). Candidate for
  * promotion into common.h as ASM_USE. */
-#ifdef NON_MATCHING
-#else
-#endif
 
 extern void func_800A2B04();
 extern void func_800AAA54();

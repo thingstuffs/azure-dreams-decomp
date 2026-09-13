@@ -200,7 +200,7 @@ s32 func_800A504C(s32 unused, void *source_entity)
     s32 copy_call_zero;
     s32 scale;
     register u8 *replace_call_entity ASM_REG("$4");
-    register s32 replace_call_zero ASM_REG("$6");
+    s32 replace_call_zero;
     s32 load_kind;
     u8 *spawned;
     u8 *entity_data;

@@ -73,7 +73,7 @@ s32 func_80018F20(s32 *slot_list)
                 u8 *root;
                 u8 *call_table;
                 TownCall3 report_error;
-                register u8 *name_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u8 *name_page;
 
                 root = ((S_80018F20_2 *)page)->unk_6000.p;
                 call_table = ((S_80018F20_3 *)root)->unk_20;

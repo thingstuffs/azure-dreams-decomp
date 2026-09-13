@@ -75,7 +75,7 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     };
     s32 y_step;
     s32 x_step;
-    register s16 *x_step_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 *x_step_ptr;
     u32 direction_offset;
     register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 height;

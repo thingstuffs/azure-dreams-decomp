@@ -57,7 +57,7 @@ void func_8186298C(Arg0Ent *state, void *unused, Arg2Ent *effect)
             func_80024244();
             return;
         } else {
-            __asm__ __volatile__("");
+            ASM_SCHED_BARRIER();
             func_8003DB94(effect, D_800DEDB0, 4);
             state->unk04 = 1;
         }

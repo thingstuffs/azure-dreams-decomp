@@ -38,8 +38,8 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     register s32 *sequence;
     register s32 state;
     register s32 wait_state;
-    register s32 glide_state ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 settle_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 glide_state;
+    u32 settle_state;
 
     sequence = 0;
     if ((func_800352FC(actor, motion, sprite, update_mode) != 0) && (func_800C2AB4(actor) != 0)) {

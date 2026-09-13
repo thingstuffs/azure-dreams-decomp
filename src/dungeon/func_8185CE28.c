@@ -118,7 +118,7 @@ s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
         {
             u16 final_z = state->unk_0E;
 #ifndef NON_MATCHING
-            __asm__ __volatile__("" : : : "$2");
+            ASM_CLOBBER("$2");
 #endif
             {
                 s16 v0pin;

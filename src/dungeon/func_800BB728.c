@@ -116,7 +116,6 @@ s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
 
     object = object_arg;
     data = data_arg;
-    ASM_KEEP_NV(data);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     data_arg = context;
     ASM_KEEP_NV(data_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 

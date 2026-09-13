@@ -125,7 +125,6 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         return;
     }
 
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     if (((S_80171094_1 *)stats)->unk_25 == 0) {
         func_800AA79C(actor_arg, context_arg, sprite, stats);

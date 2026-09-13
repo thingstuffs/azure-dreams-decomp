@@ -100,8 +100,6 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity_in)
         return;
     }
 
-    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     if (((S_80171400_1 *)entity)->unk_25 == 0) {
         u8 *anim_table;
 

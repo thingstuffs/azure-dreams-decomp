@@ -300,7 +300,6 @@ create_spawn:
             ((SpawnData *)data_base)->state34 = state;
             ((SpawnData *)data_base)->ownerIndex15 = state->index9;
             ((SpawnData *)data_base)->variant16 = state->variant7E;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             room = (RoomData *)((EntityHeader *)((u8 *)entity - 0x20))->componentC;
             table = D_8006CCD8;

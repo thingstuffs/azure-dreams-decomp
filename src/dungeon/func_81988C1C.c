@@ -193,9 +193,7 @@ s32 func_81988C1C(void *first_item) {
 
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        register s32 return_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         READ_ZERO(zero);
-        return_value = zero;
-        return return_value;
+        return zero;
     }
 }

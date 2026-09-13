@@ -1,10 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define KEEP_VALUE(v) ((void)0)
-#else
-#define KEEP_VALUE(v) __asm__("" : : "r"(v))
-#endif
 
 extern void func_800241D4(void *arg0, s32 arg1);
 extern void func_80024274(void *arg0);
@@ -25,7 +20,6 @@ loop:
         func_80024274(*(void **)((u8 *)entry_cursor + 0xC));
         entry_cursor = (u8 *)entry_cursor + 4;
     }
-    KEEP_VALUE(entry_cursor);
     entry_index++;
     if (entry_index >= 5) {
         func_80024F3C(*(void **)((u8 *)state + 4), *(s32 *)((u8 *)state + 0x2C), 3);

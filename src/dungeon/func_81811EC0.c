@@ -3,7 +3,6 @@
 #if !defined(NON_MATCHING) && __GNUC__ < 3
 #define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
-#define KEEP_VALUE(value) ASM_KEEP(value)
 #endif
 
 extern u8 D_800157D2;

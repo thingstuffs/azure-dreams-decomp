@@ -67,9 +67,9 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
     {
         /* MATCH: Preserve retail argument saves while exposing the pass-through call. */
         register void *arg0 ASM_REG("$18") = call_arg0;
-        register void *arg1 ASM_REG("$20") = call_arg1;
+        void *arg1 = call_arg1;
         register void *arg2 ASM_REG("$19") = call_arg2;
-        register void *arg3 ASM_REG("$16") = call_arg3;
+        void *arg3 = call_arg3;
         s32 state;
         s32 saved;
         s32 value;
@@ -84,7 +84,7 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
             if (state == 0) {
                 goto state_zero;
             }
-            goto end;
+            return;
         }
         if (state == 2) {
             goto state_two;
@@ -181,7 +181,6 @@ void func_80173C20(void *arg0, void *arg1, void *arg2, void *arg3)
         }
         D_800E3DE8 = (u8 *)arg3 - 0x20;
         /* MATCH: Form the adjusted pointer in a temporary register. */
-        ASM_USE_NV(arg3);
 
     end:
         return;

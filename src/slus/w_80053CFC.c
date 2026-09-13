@@ -41,7 +41,7 @@ void func_80053CFC(S_80053CFC *source, s32 packed_value)
     low_bits = saved_value & 0x7FFFFF;
     command = &D_80081568_hi;
     D_80081568 = ((((u32)D_80081568 + 0x7FF) >> 11) << 23) | low_bits;
-    __asm__ volatile("" : : "r"(command));
+    ASM_USE(command);
     Control_CD(6, command, saved_value);
     func_8003F320();
 }

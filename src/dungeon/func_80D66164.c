@@ -79,7 +79,6 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
         return;
     }
 
-    ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     {
         s16 old_state = (s8)(*(u8 *)((u8 *)object_arg + (0x6D)));

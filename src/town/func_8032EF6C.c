@@ -56,7 +56,6 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
             packed_word = tag_bits | packed_word;
         }
         packed_word = flag_bits | packed_word;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         half_bits = record->unkC.half.lo;
         record->unkC.word = packed_word | half_bits;
         if (*entry != 0) {

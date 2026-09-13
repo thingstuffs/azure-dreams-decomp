@@ -86,7 +86,7 @@ s32 func_818A4ED0(s32 object_param, S_818A4ED0_3 *spawn_position) {
         {
             u16 final_z = spawn_position->unk_0A;
 #ifndef NON_MATCHING
-            __asm__ __volatile__("" : : : "$2");
+            ASM_CLOBBER("$2");
 #endif
             {
                 s16 object_result;

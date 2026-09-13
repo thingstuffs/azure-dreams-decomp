@@ -21,7 +21,6 @@ void *func_80016CAC(s32 check_input_a, s32 check_input_b, s32 check_input_c) {
 #ifndef NON_MATCHING
     if (func_800162F8(check_input_a, check_input_b, check_input_c) == 0) {
         dispatch_result = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
         dispatch_result -= 0x3897;
         return;
     }

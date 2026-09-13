@@ -132,7 +132,6 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
             ASM_KEEP(prev_object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025FD4();
         }
-        ASM_KEEP(allocation_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         allocation_data = allocation_page + 0x3498;
         ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         *object_slot = func_8003FD64(2, allocation_data);

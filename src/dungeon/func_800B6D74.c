@@ -106,8 +106,6 @@ typedef struct S_800BC4D4_7 {
     u8 * unk_8D0;
 } S_800BC4D4_7;   /* *global in func_800BC4D4 */
 
-#define KEEP_NV_EXPR(v) ({ ASM_KEEP_NV(v); 0; })
-#define KEEP_DEP_NV_EXPR(v, d) ({ ASM_KEEP_DEP_NV(v, d); 0; })
 
 typedef struct ScratchGeom {
     u8 pad70[0x70];
@@ -358,9 +356,9 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 {
                     s16 *top_left = (s16 *)(scratch + 0x70);
                     s16 *top_right = (s16 *)(scratch + 0x78);
-                    register s16 *bottom_left ASM_REG("$6") = (s16 *)(scratch + 0x80);
-                    register s16 *bottom_right ASM_REG("$7") = (s16 *)(scratch + 0x88);
-                    u16 left_vertex_x;
+                    s16 *bottom_left = (s16 *)(scratch + 0x80);
+                    s16 *bottom_right = (s16 *)(scratch + 0x88);
+                    s32 left_vertex_x;
                     u16 right_vertex_x;
 
                     ASM_KEEP4_NV(top_left, top_right, bottom_left, bottom_right);
@@ -370,11 +368,11 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                                   (GeomTailArgs){(s16 *)(scratch + 0x90),
                                                  (s16 *)(scratch + 0x94)},
                                   (left_vertex_x = ((S_800BC4D4_1 *)scratch)->unk_70.u,
-                                   KEEP_NV_EXPR(left_vertex_x),
+                                   ({  0; }),
                                    right_vertex_x = ((S_800BC4D4_1 *)scratch)->unk_78.u,
                                    left_vertex_x += 6,
                                    right_vertex_x += 6,
-                                   KEEP_DEP_NV_EXPR(left_vertex_x, right_vertex_x),
+                                   ({  0; }),
                                    ((S_800BC4D4_1 *)scratch)->unk_70.u = left_vertex_x,
                                    ((S_800BC4D4_1 *)scratch)->unk_78.u = right_vertex_x,
                                    (GeomSideEffects){}));

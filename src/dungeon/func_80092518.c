@@ -26,8 +26,6 @@ void func_80097C78(void *controller, s32 move_state, void *entity_arg, void *act
         return;
     }
 
-    ASM_CLOBBER("$6");
-    ASM_CLOBBER("$7");
     if (pending_delta > 0) {
         func_8008CBA0(controller, move_state, entity, actor);
     }

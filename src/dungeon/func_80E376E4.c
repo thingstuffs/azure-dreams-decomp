@@ -120,7 +120,6 @@ void func_80170EE4(void *actor_state_in, void *update_context_in, void *map_obje
         return;
     }
 
-    ASM_KEEP(actor_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80170EE4_1 *)actor_data)->unk_25 == 0) {
         func_800AA79C(actor_state_in, update_context_in, map_object, actor_data);
@@ -295,7 +294,6 @@ jt_default:
     if (((S_80170EE4_2 *)map_object)->unk_2C == animation_table) {
         return;
     }
-    ASM_KEEP(map_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(u8 * *)((u8 *)map_object + (0x2C))) = animation_table;
     func_80047784(
         map_object,

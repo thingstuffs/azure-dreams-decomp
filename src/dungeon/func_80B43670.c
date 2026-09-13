@@ -128,8 +128,6 @@ void func_80170E70(void *entity_in, void *context_in, void *sprite_in, void *act
         return;
     }
 
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     if (((S_80170E70_1 *)actor)->unk_25 == 0) {
         func_800AA79C(entity, context, sprite, actor);
@@ -315,7 +313,6 @@ jt_default:
     if (((S_80170E70_2 *)sprite)->unk_2C == effect_table) {
         return;
     }
-    ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     {
         u8 *effects = effect_table;
         (*(void * *)((u8 *)sprite + (0x2C))) = effects;

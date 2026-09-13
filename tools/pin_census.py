@@ -183,6 +183,62 @@ def landing_refusal(new, cur, relpath, row=None, port_ref=None):
     return errs[0][:300] if errs else None
 
 
+RAW_ASM_RE = re.compile(r"__asm__(?:\s*(?:__volatile__|volatile))?\s*\((?:[^()]|\([^()]*\))*\)")
+ALIAS_ASM_RE = re.compile(r"__asm__\s*\(\s*\"[A-Za-z_][\w.$]*\"\s*\)\s*[;,=)]")
+WRAPPER_DEF_RE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)\(([^)]*)\)((?:[^\n]*\\\n)*[^\n]*)", re.M)
+
+
+def hidden_asm(text):
+    """Scaffolding the pin count does not see, by kind (2026-09-13; surfaced in STATUS):
+
+      raw-pin       an empty-template `__asm__` statement in a function body: a pin written without
+                    its ASM_* name (tools/expose_asm.py rewrites the ones that match a macro exactly)
+      wrapper-call  a call of the file's own macro whose body is `__asm__` or ASM_*: pins renamed out
+                    of every tool's sight (548963e9 inlined 127; these are what is left)
+      asm-code      an `__asm__` in a body carrying instructions or directives: C that is missing
+      symbol-alias  `T x __asm__("sym")`: a second typed name for one symbol, i.e. a missing type
+      file-asm      file-scope asm directives (`.set` absolute symbols, `.globl`, ...)
+
+    Port and dead arms are skipped, as sites_of skips them."""
+    code = CMT_RE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+    lines = code.split("\n")
+    labs = arm_labels(text) if HAS_PP_RE.search(text) else ["both"] * len(lines)
+    skip = {i for i, lab in enumerate(labs) if lab in ("port", "dead")}
+    starts, pos = [], 0
+    for l in lines:
+        starts.append(pos); pos += len(l) + 1
+    def line_of(off):
+        lo, hi = 0, len(starts) - 1
+        while lo < hi:
+            mid = (lo + hi + 1) // 2
+            if starts[mid] <= off: lo = mid
+            else: hi = mid - 1
+        return lo
+    flat = re.sub(r'"(?:[^"\\\n]|\\.)*"|\'(?:[^\'\\\n]|\\.)*\'', lambda m: " " * len(m.group(0)), code)
+    out = collections.Counter()
+    for m in RAW_ASM_RE.finditer(code):
+        i = line_of(m.start())
+        if i in skip or re.match(r"[ \t]*#", lines[i]):
+            continue
+        if ALIAS_ASM_RE.match(code, m.start()):
+            out["symbol-alias"] += 1
+        elif flat[:m.start()].count("{") - flat[:m.start()].count("}") <= 0:
+            out["file-asm"] += 1
+        elif re.match(r"__asm__(?:\s*(?:__volatile__|volatile))?\s*\(\s*\"\"", m.group(0)):
+            out["raw-pin"] += 1
+        else:
+            out["asm-code"] += 1
+    for m in WRAPPER_DEF_RE.finditer(code):
+        name, body = m.group(1), m.group(3)
+        if name.startswith("ASM_") or not re.search(r"__asm__|\bASM_[A-Z0-9_]+\s*\(", body):
+            continue
+        for c in re.finditer(r"\b%s\s*\(" % re.escape(name), code):
+            i = line_of(c.start())
+            if i not in skip and not re.match(r"[ \t]*#", lines[i]):
+                out["wrapper-call"] += 1
+    return out
+
+
 def sites_of(text):
     """Return [(kind, macro, arg, start, end, line_no, replacement_text)] for every LIVE pin: a pin in
     a 'port'/'dead' arm compiles to nothing in either build and scaffolds nothing."""

@@ -16,18 +16,17 @@ void func_80027684(void *object) {
     guard_value = (u8 *)(u32)*(s32 *)((s8 *)object + 0x3C);
     if (guard_value != 0) {
         dispatch_result = (u8 *)0x80020000;
-        __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
+        ASM_KEEP(dispatch_result);
         dispatch_result += 0x789C;
         func_800276d0();
     }
     dispatch_result = (u8 *)0x80020000;
-    __asm__ __volatile__("" : "=r"(dispatch_result) : "0"(dispatch_result));
 #else
     if (*(s32 *)((s8 *)object + 0x3C) != 0) {
         func_800276d0();
     }
 #endif
-    __asm__ __volatile__("" ::: "memory");
+    ASM_MEM_BARRIER();
     *(s32 *)((s8 *)object + 0x40) = 1;
     func_80022F14((s8 *)object - 0x20, (s8 *)object + 0x38);
     *(s32 *)((s8 *)object + 0x38) = 1;

@@ -195,7 +195,7 @@ draw_object:
     left_offset = 0 - half_width;
     ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     endpoint = (WorkCell *) (base + 8);
-    do {
+    loop_0: {
         endpoint->value = half_width;
         if (side != 0) {
             endpoint->value = left_offset;
@@ -206,7 +206,7 @@ draw_object:
         endpoint->zero2 = 0;
         side -= 1;
         endpoint -= 1;
-    } while (side >= 0);
+    } if (side >= 0) goto loop_0;
     transform = &transform_input;
     ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     min_xy &= 0xFFFF;
@@ -341,7 +341,6 @@ setup_quad:
         ((S_80F90E88_1 *)quad)->unk_22 = (s16) bottom_y;
         ((S_80F90E88_1 *)quad)->unk_12 = (s16) bottom_y;
         base = (s8 *) &D_80083160_link;
-        ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         quad_ot_link = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
         quad_tag = ((S_80F90E88_1 *)quad)->unk_00;
         quad_ot_link = ((S_80F90E88_2 *)(ot_offset + quad_ot_link))->unk_B0;
@@ -357,7 +356,6 @@ setup_quad:
             ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0 = (s32 *) ((s8 *) draw_mode + 0xC);
             func_80067F20(draw_mode, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
             base = (s8 *) &D_80083160_final;
-            ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             mode_ot_offset = depth * 4;
             mode_tag_mask = 0xFF000000;
             mode_ot_link = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;

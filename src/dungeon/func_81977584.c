@@ -67,7 +67,6 @@ type_ge_2:
     if (record->type == 3) {
         goto type_3;
     }
-    ASM_KEEP(shade_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     shade_step &= 0xffff;
     ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_80024E38();

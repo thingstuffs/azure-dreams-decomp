@@ -243,7 +243,6 @@ void func_8002466C(void *effect)
                 ((S_8002466C_7 *)sprite)->unk_0C = 0x808080;
                 ((S_8002466C_7 *)sprite)->unk_08 = display_link;
                 ((S_8002466C_6 *)particle)->unk_20 = ((S_8002466C_0 *)effect)->unk_00;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 particle_state = (u8 *)particle + 0x20;
                 ASM_KEEP(particle_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 ((S_8002466C_9 *)particle_state)->unk_4C = 0;

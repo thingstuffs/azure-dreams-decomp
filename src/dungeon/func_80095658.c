@@ -40,7 +40,7 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile
     register MapCell *map ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *map_state;
     s16 height;
-    register s32 next_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 next_height;
     s32 height_hint;
     s32 direction;
     s32 next_x;
@@ -79,11 +79,10 @@ s32 func_8009ADB8(S_8009ADB8_0 *facing_state, S_8009ADB8_1 *attributes, s32 tile
         height) << 16;
     next_height >>= 16;
     if (next_height < 0x200) {
-        goto ret_one;
+        return 1;
     }
 
 ret_zero:
     return 0;
-ret_one:
     return 1;
 }

@@ -97,7 +97,7 @@ void *func_818A4948(s32 user_data, S_func_818A4948_2 *source_coords) {
     }
     coords = obj->unk_08;
 #ifndef NON_MATCHING
-    __asm__ __volatile__("" : : "r"(source_coords));
+    ASM_USE(source_coords);
 #endif
     match_v0 = source_coords->unk_02;
     coords->unk_02 = (u16)match_v0;

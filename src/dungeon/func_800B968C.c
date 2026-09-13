@@ -37,7 +37,7 @@ extern u8 *D_800E3D7C[];
 /* Applies an item effect to its target and prepares the resulting message. */
 s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_value) {
     register u8 *actor ASM_REG("$4");
-    register u32 target ASM_REG("$16") = target_addr;
+    u32 target = target_addr;
     register s32 text_cursor;
     u8 *linked_item;
     register s32 text_start;

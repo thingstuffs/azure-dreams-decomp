@@ -30,7 +30,7 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
     void *anim_script;
     s16 *x_steps;
     s16 *y_steps;
-    register s16 *step_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 *step_y;
     register s16 *step_x;
     s16 *probe_x;
     s32 state;

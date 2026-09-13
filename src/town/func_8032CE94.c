@@ -13,7 +13,7 @@ u8 *func_80017694(s32 dispatch_arg, s32 unused, s32 dispatch_option) {
     register s32 first_arg ASM_REG("$2") = dispatch_arg;
     register s32 fourth_arg ASM_REG("$7") = dispatch_option;
 
-    __asm__("" : "=r"(fourth_arg) : "0"(fourth_arg));
+    ASM_KEEP_NV(fourth_arg);
 
     result = func_80019DFC(&D_8001BB6C, &D_8001C354, first_arg, fourth_arg);
     if (func_8001ADE0(0x1390) != 0) {

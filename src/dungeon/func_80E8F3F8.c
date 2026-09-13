@@ -3,12 +3,6 @@
 #include "records/Rec_func_800AD058_arg2.h"
 
 
-#ifdef NON_MATCHING
-#define LEGACY_ASM_KEEP(value) ((void)0)
-#else
-#define LEGACY_ASM_KEEP(value) \
-    __asm__ __volatile__("" : "=r"(value) : "0"(value))
-#endif
 
 extern void func_80047784(void *, s32, s32);
 extern void func_800A4ACC(void *);
@@ -71,9 +65,9 @@ active:
     }
 
     entity_arg = entity;
-    LEGACY_ASM_KEEP(entity_arg);
+    ASM_KEEP(entity_arg);
     active_count = D_80083460;
-    LEGACY_ASM_KEEP(active_count);
+    ASM_KEEP(active_count);
     ((S_80174BF8_3 *)active_count)->unk_0A--;
     animation->unk_2C = D_80174F00;
     func_800AD594(entity_arg, 0x200);

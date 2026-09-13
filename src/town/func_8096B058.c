@@ -59,7 +59,6 @@ typedef struct S_801234F0_8 {
 #ifdef NON_MATCHING
 #define ASM_KEEP(value) ((void)0)
 #else
-#define TIE_LOCAL(value) ASM_KEEP(value)
 #endif
 
 extern u8 D_80126A18[0x70];

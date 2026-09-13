@@ -9,7 +9,6 @@ typedef struct S_func_80026F04_0 {
 #if !defined(NON_MATCHING) && __GNUC__ < 3
 #define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 #else
-#define KEEP_INDEX(value) ASM_KEEP(value)
 #endif
 
 /* Find the first matching entry at or after the starting index, or return -1. */

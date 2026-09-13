@@ -2,13 +2,6 @@
 
 #include "common.h"
 
-#ifdef NON_MATCHING
-#define LEGACY_ASM_KEEP(var) ((void)0)
-#define LEGACY_MEMORY_BARRIER() ((void)0)
-#else
-#define LEGACY_ASM_KEEP(var) __asm__ __volatile__("" : : "r"(var))
-#define LEGACY_MEMORY_BARRIER() __asm__ __volatile__("" : : : "memory")
-#endif
 
 typedef struct S_80055ADC_hdr
 {
@@ -27,7 +20,7 @@ extern u32 D_80084878[];
 void func_80055ADC(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
 {
   int recordHeaderSize;
-  register u32 tableByteOffset ASM_REG("$5") = tableIndex;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  s32 tableByteOffset = tableIndex;
   u8 *tableBase;
   u32 recordOffset = 0x14;
   s32 recordCount;
@@ -35,15 +28,12 @@ void func_80055ADC(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
   u32 *outputSlot;
   u32 *firstSlot;
 
-  LEGACY_ASM_KEEP(recordOffset);
   recordCount = recordBlock->count;
-  LEGACY_MEMORY_BARRIER();
+  ASM_MEM_BARRIER();
   slotIndex = 0;
-  LEGACY_ASM_KEEP(tableByteOffset);
   tableByteOffset &= 0xFFFF;
-  LEGACY_ASM_KEEP(tableByteOffset);
   tableBase = (u8 *)D_80084878;
-  LEGACY_ASM_KEEP(tableBase);
+  ASM_USE(tableBase);
   tableByteOffset <<= 6;
   outputSlot = (u32 *)(tableBase + tableByteOffset);
   firstSlot = outputSlot;

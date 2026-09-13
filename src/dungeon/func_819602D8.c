@@ -124,7 +124,7 @@ bounds_fail:
 bounds_ok:
     {
         s32 *output_base;
-        register u32 output_row ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        u32 output_row;
         s32 output_value;
         sample_x <<= 6;
         sample_x += 0x20;

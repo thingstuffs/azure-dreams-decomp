@@ -62,7 +62,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
         } else {
             U8_AT(state, 0x71) &= 0x7F;
         }
-        goto done;
+        return;
     }
 
     {
@@ -72,13 +72,11 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
         u8 direction_enabled;
 
         {
-            register void *call_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register void *call_motion ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            register void *call_part ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            void *call_state;
+            void *call_motion;
+            void *call_part;
             void *call_context;
 
-            ASM_KEEP(call_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(call_part);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             call_state = state;
             call_motion = motion;
             call_part = part;

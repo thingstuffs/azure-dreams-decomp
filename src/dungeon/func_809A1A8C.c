@@ -129,7 +129,6 @@ store_motion:
         S32(motion, 0xC) = next_x;
         S32(motion, 0x10) = next_y;
     } else {
-        ASM_CLOBBER("$5");
         S32(motion, 0x14) = 0;
         S32(motion, 0x10) = 0;
         S32(motion, 0xC) = 0;

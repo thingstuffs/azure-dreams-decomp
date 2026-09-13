@@ -63,7 +63,6 @@ void func_80170A94(void *actor_input, void *motion_input, void *sprite_input)
       return;
     }
   }
-  ASM_CLOBBER("$4");
   old_state = (s8) (*((u8 *) (((u8 *) actor) + 0x6D)));
   if (func_800A9E70(actor, motion, sprite, actor) != 0)
   {

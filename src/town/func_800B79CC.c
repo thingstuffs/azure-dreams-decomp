@@ -7,7 +7,6 @@ static volatile s32 hidden_v1;
 #define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
 register s32 hidden_v1 ASM_REG("$3");
 #else
-#define LEGACY_ASM_KEEP(value) ASM_KEEP(value)
 s32 hidden_v1;
 #endif
 

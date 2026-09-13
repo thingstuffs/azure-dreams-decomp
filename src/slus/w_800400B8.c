@@ -53,7 +53,7 @@ void func_800400B8(void)
   {
     func_800401FC();
   }
-  __asm__ __volatile__("");
+  ASM_SCHED_BARRIER();
   mode = D_80080A86.val;
   D_800814A0_store = 0;
   if (mode == 0)

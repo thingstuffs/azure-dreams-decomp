@@ -38,7 +38,7 @@ s16 func_8009FB34();
 s16 func_800BCB04();
 
 /* Checks whether a directional step is in bounds and clear of obstacles. */
-s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 height_offset) {
+s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 height_offset) {
     u16 tile_flags;
     u16 saved_height_offset;
     s32 lookup_arg;
@@ -52,7 +52,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     s32 query_arg;
     s32 direction_arg;
     void *tile_flags_out;
-    register u16 entry_height_offset ASM_REG("$7");
+    u16 entry_height_offset;
     s32 entity_addr;
     register u16 *lookup_base ASM_REG("$2");
     register u16 *step_x;
@@ -76,7 +76,6 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     coords = position_copy;
     ASM_KEEP_NV(coords);
     entry_height_offset = height_offset;
-    ASM_KEEP_NV(entry_height_offset);
     lookup_arg = (action_flags >> 9) & 7;
     direction = lookup_arg;
     ASM_KEEP_NV(direction);
@@ -89,7 +88,6 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u16 h
     ASM_KEEP_NV(direction);
     ASM_CLOBBER("$4");
     lookup_arg = direction;
-    ASM_KEEP_NV(lookup_arg);
     saved_height_offset = entry_height_offset;
     target_x = coord_value + coord_offset;
     bounds_page = 0x80080000;
