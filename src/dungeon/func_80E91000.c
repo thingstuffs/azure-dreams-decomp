@@ -143,10 +143,9 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
 #endif
                 item_slot = (u8 *)(item_offset + 0x80010248);
                 item_data = *(s32 *)item_slot;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 transfer_base = (s32 *)0x80170000;
-                ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 transfer_base[-1031] = item_data;
+                ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 transfer_base -= 1031;
                 func_80098B38(item_slot, inventory_base);
                 transfer_addr = (s32)transfer_base;

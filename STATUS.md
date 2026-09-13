@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-13T20:09:09Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-13T21:26:20Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -37,7 +37,7 @@ Baseline NOT exact: 0 rows
 | local address-named struct | 633 | 346,988 | 13.6% | 3178 | 1,620,288 | 63.3% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2837 | 475,600 | 18.6% |
 
-Pin sites now: 8,466 in 1,492 rows; REG 4,142, KEEP 2,022, KEEP_NV 833, SCHED_BARRIER 466, TAILSLOT_PIN 163, USE_NV 135, KEEP_DEP_NV 117, USE 101.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 8,440 in 1,492 rows; REG 4,140, KEEP 2,018, KEEP_NV 833, SCHED_BARRIER 450, TAILSLOT_PIN 163, USE_NV 135, KEEP_DEP_NV 117, USE 101.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 10, hand-written asm in function bodies 5 (C that is missing); symbol aliases 113 (a second typed name for one symbol: a missing type); file-scope asm directives 444.
 

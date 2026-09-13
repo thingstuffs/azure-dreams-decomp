@@ -433,10 +433,9 @@ case_three:
                 color = 0x00600000u;
                 ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 sprite_template = (void *)0x800E0000;
-                ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 ((S_FUNC_8197C800_BODY_14 *)position)->unk_0A = height;
+                ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 sprite->unk_1C = 0x1800;
                 sprite->unk_1E = 0x2000;
                 sprite->unk_10 = 0x60;

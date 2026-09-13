@@ -23,6 +23,15 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-first round, gated (9 windows MATCH and SLUS SHA-1 MATCH): **8,440 pins in 1,492 rows**, 26 pins
+removed (20 fences); 450 live scheduling fences, 76 memory. Details: PIN_MECHANISMS, "Round 21".
+- **Worked:** fence lanes on fresh rows with more than 15 pins (fences25-28, luna): 7 of 48 (15%);
+  `t57b_keepafternext` from the fences27 wins (a keep moved past the next statement, the fence dropped):
+  7 rows by sweep, 1 in the cascade.
+- **Next:** sweep `t58_nmsymbol` (14 rows; the fences25 win generalised), gate, commit. Then the last 15
+  never-laned fence rows with more than 15 pins (32-89 pins), the 29 MEM_BARRIER-only rows (the pack
+  builder handles scheduling fences only) and the 14 slus/ovmovie fence rows.
+
 Twentieth round, gated (8 windows MATCH and SLUS SHA-1 MATCH): **8,466 pins in 1,492 rows**, 9 scheduling
 fences removed (466 live, 80 memory). Details: PIN_MECHANISMS, "Round 20".
 - **Worked:** building from lane wins at once: `t57_keepafterstore` (the fences19 slot-keep move) took a

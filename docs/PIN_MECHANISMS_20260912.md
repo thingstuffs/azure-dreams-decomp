@@ -1376,3 +1376,34 @@ flip by hand 2 (one row).
 - **Evaluation.** Worked: generators and hand passes built from lane wins (t57 4 fences, the flip 2).
   Did not: re-lanes (9%), so they stop. Next: the 63 never-laned fence rows with more than 15 pins,
   with the round-19 packs (fences25-28 first, the 48 smallest).
+
+## Round 21 (2026-09-13): fence lanes on rows with more than 15 pins, `t57b_keepafternext`
+
+Gated (9 windows MATCH and SLUS SHA-1 MATCH): **8,440 pins in 1,492 rows**, 26 pins removed: 20 fences
+(16 scheduling, 4 memory), 4 keeps, 2 register pins; 450 live scheduling fences, 76 memory. By each row's
+first change: the lanes' 7 rows 15 pins (with their cascade follow-ups), t57b's 7 rows 11.
+
+- **Fence lanes fences25-28 (luna, the 48 smallest of the 63 never-laned fence rows with more than 15
+  pins, 16-29 pins each): 7 of 48 exact (15%)**, against 28% at 7-15 pins in round 19; every output
+  admissible (no identical-arm branch, no one-trip block).
+  - fences25 (1): a page literal and its keep replaced by the symbol the NON_MATCHING arm already named,
+    and a staged temporary inlined (`dungeon/func_8132B8AC`).
+  - fences26 (1): the inner collision test inverted into an early return (`dungeon/func_80095160`).
+  - fences27 (3): an existing keep moved after the statement that follows it, the fence above dropped
+    (`dungeon/func_818BDEBC`, `func_818C3B90`, `func_8197C800`): t57's slot case in general form.
+  - fences28 (2): a staged field update written as direct arm-local read-modify-writes
+    (`dungeon/func_8186F0C4`); a pointer setup moved after its scalar producer (`dungeon/func_818B7F38`).
+- **`t57b_keepafternext` (new, from the fences27 wins):** t57 generalised - a fence over `v = e;
+  ASM_KEEP(v);` and one ordinary statement; the keep moves past that statement and the fence goes. t57
+  gains a `find_sites` class hook that t57b overrides (no module patching under the sweep's threads). It
+  reproduces all three fences27 outputs (identical assembly). Swept over its 34 eligible rows outside the
+  lane rows: 7 applied, one fence each (a third fenced site in each of the four transfer copies, and
+  `dungeon/func_818B1664`, `func_81978428`, `func_819835AC`); 1 more in the cascade.
+- **The cascade** over the 14 changed rows: 10 records in one pass (t41c 2, t37, t38, t41b, t44, t49, t53,
+  t57b, T2 1 each).
+- **`t58_nmsymbol` (new, from the fences25 win, swept after this gate):** a pinned matching arm replaced
+  by the NON_MATCHING arm that already names the symbol; 14 eligible rows.
+- **Evaluation:** the fence-lane rate holds at 15% on rows with more than 15 pins, half the 7-15 rate and
+  still the best model-time lever for fences. Keep relocation (t57, t57b and seven lane rows) is now the
+  most frequent fence win: the fence sits between a kept value and the next statement, and the keep placed
+  after that statement holds the same order without a barrier.

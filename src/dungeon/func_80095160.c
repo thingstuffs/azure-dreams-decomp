@@ -124,11 +124,12 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
                         target_x = coord_or_height + coord_work;
                         coord_work = offset_work + center_y;
                         func_8009A350(direction_or_x, tile_coord, y_or_direction, (u16 *)collision_out);
-                        if ((collision.value & 0x8002) == 0) {
-                            goto collision_clear;
+                        if ((collision.value & 0x8002) != 0) {
+                            result = 0;
+                            return 0;
                         }
+                        goto collision_clear;
                     }
-                    ASM_SCHED_BARRIER();
                     result = 0;
                     return 0;
 collision_clear:

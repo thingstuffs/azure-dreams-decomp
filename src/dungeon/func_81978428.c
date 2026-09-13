@@ -277,10 +277,9 @@ case1:
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         x_steps = (s16 *)(data_page - 0x3328);
         tile_x = map_or_y_steps[0x24];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         data_page = (u8 *)0x80070000;
-        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_81978428_6 *)target_pos)->unk_02.s = (tile_x << 6) + 0x20;
+        ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_y = map_or_y_steps[0x25];
         map_or_y_steps = data_page - 0x3318;
         ((S_81978428_6 *)target_pos)->unk_06.s = (tile_y << 6) + 0x20;

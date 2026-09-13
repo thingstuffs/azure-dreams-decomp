@@ -60,13 +60,15 @@ class T:
             return why
         return None if find(text) else "no fenced keep-then-store slot"
 
-    @staticmethod
-    def apply_verified(text, row, census, vf):
-        pins_in, sites, tried = len(sites_of(text)), find(text), 0
+    find_sites = staticmethod(find)        # t57b_keepafternext overrides the site finder
+
+    @classmethod
+    def apply_verified(cls, text, row, census, vf):
+        pins_in, sites, tried = len(sites_of(text)), cls.find_sites(text), 0
         trials = ([("all", sites)] if len(sites) > 1 else []) + [("site%d" % i, [s]) for i, s in reversed(list(enumerate(sites)))]
         cur, steps = text, []
         for label, chosen in trials:
-            live = [s for s in find(cur) if any(s[3] == c[3] for c in chosen)]
+            live = [s for s in cls.find_sites(cur) if any(s[3] == c[3] for c in chosen)]
             if not live:
                 continue
             cand = rewrite(cur, live)

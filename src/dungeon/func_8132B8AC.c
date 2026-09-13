@@ -133,13 +133,12 @@ void func_801730AC(void *actor_input, void *motion_input, void *sprite_input) {
     u16 bob_phase;
     u16 previous_angle;
     u8 state;
-    u8 *current_animation;
     u8 *path_step;
     u8 *path_start;
     u8 *path_table;
     S_func_8132B8AC_3 *beldo;
     s32 tail_test;
-    register s32 tail_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 tail_state;
     u8 *tail_sprite;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register void *particle_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 particle_color;
@@ -335,19 +334,13 @@ block_37:
         goto block_98;
     }
     actor->unk_96 = 0x2EU;
-    actor->unk_9A = (u8) (actor->unk_9A + 1);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-#ifndef NON_MATCHING
-    tail_state = 0x80170000;
-#endif
-    current_animation = sprite->unk_2C;
+    actor->unk_9A++;
 #ifdef NON_MATCHING
     tail_sprite = D_80174C64;
 #else
-    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    tail_sprite = (u8 *)tail_state + 0x4C64;
+    tail_sprite = D_80174C64;
 #endif
-    if (current_animation == tail_sprite) {
+    if (sprite->unk_2C == tail_sprite) {
         goto block_97;
     }
 #ifndef NON_MATCHING
