@@ -23,6 +23,9 @@ rechecks tools/pin_cells_land.py rules 1-2; T2 at the new cell then does the gre
 (2026-09-12) found most leftover hits at 2.8.0, from rows recorded at 2.8.1-G0 and even 2.7.2-cdk-G0 -
 a row's pinned text is exact at several cells and the pins had picked one. Hits at 2.95.2 / 2.91.66
 (1999 compilers, after the game shipped) are recorded, never built.
+`scan --flags` / `build --flags` (2026-09-13): the same two stages over the recorded cell plus one of
+FLAGS (the compiler never changes), ledger pins_flags_admissible.jsonl. The tree already records
+about 200 rows with such flags. A flag pilot on 32 lane dead ends found 1 admissible hit.
 """
 import argparse, collections, json, sys, tempfile, threading, time
 from concurrent.futures import ThreadPoolExecutor
@@ -38,6 +41,9 @@ OUT = LEDGER / "pins_cells_admissible.jsonl"
 INC = f"-I{(ROOT / 'include').resolve()}"
 CELLS = sorted(STOCK_CELLS) + [c + "-G0" for c in sorted(STOCK_CELLS)]
 CDK = ("2.7.2-cdk", "2.7.2-cdk-G0")
+FLAGS = ["-O1", "-fno-schedule-insns", "-fno-schedule-insns2", "-fno-strength-reduce", "-fno-cse-skip-blocks",
+         "-fno-rerun-cse-after-loop", "-fno-expensive-optimizations", "-fno-caller-saves"]
+FLAGS_OUT = LEDGER / "pins_flags_admissible.jsonl"
 
 
 def score(row, cfg, text):
@@ -47,10 +53,12 @@ def score(row, cfg, text):
         return verify(dict(row, cfg=cfg), f)
 
 
-def scan_row(row):
+def scan_row(row, flags=False):
     t0 = time.time()
     text = clean_path(row).read_text(errors="replace")
-    cells = [c for c in CELLS if c != row["cfg"] and score(row, f"{c} {INC}", text).get("exact")]
+    pool = ([f"{row['cfg']} {F}" for F in FLAGS if F not in row["cfg"].split()] if flags
+            else [c for c in CELLS if c != row["cfg"]])
+    cells = [c for c in pool if score(row, f"{c} {INC}", text).get("exact")]
     hits, sites = [], sites_of(text)
     if cells:
         multi = ",".join(f"{c} {INC}" for c in cells)
@@ -66,16 +74,17 @@ def scan_row(row):
             "cells": cells, "hits": hits, "secs": round(time.time() - t0, 1)}
 
 
-def latest():
+def latest(path=OUT):
     out = {}
-    if OUT.exists():
-        for r in read_jsonl(OUT):
+    if path.exists():
+        for r in read_jsonl(path):
             out[r["id"]] = r
     return out
 
 
 def cmd_scan(a):
-    done = latest()
+    path = FLAGS_OUT if a.flags else OUT
+    done = latest(path)
     keep = set(a.only.split(",")) if a.only else None
     todo = []
     for r in rows():
@@ -92,8 +101,8 @@ def cmd_scan(a):
     print(f"{len(todo)} rows to scan", flush=True)
     lock, n, nh, t0 = threading.Lock(), 0, 0, time.time()
     with ThreadPoolExecutor(a.workers) as ex:
-        for rec in ex.map(scan_row, todo):
-            with lock, OUT.open("a") as f:
+        for rec in ex.map(lambda r: scan_row(r, a.flags), todo):
+            with lock, path.open("a") as f:
                 f.write(json.dumps(rec) + "\n")
             n += 1; nh += len(rec["hits"])
             if n % 50 == 0:
@@ -146,9 +155,9 @@ def cmd_build(a):
     by = {r["id"]: r for r in rows()}
     d = Path(a.dir); d.mkdir(parents=True, exist_ok=True)
     cells, stale, other = [], 0, 0
-    allowed = (lambda c: not c.startswith(LATE)) if a.plausible else (lambda c: c in CDK)
-    strips = {r["id"]: r for r in read_jsonl(STRIP)} if STRIP.exists() else {}
-    for rid, rec in sorted(latest().items()):
+    allowed = (lambda c: True) if a.flags else (lambda c: not c.startswith(LATE)) if a.plausible else (lambda c: c in CDK)
+    strips = {r["id"]: r for r in read_jsonl(STRIP)} if STRIP.exists() and not a.flags else {}
+    for rid, rec in sorted(latest(FLAGS_OUT if a.flags else OUT).items()):
         s = strips.get(rid)
         if s and s["cell"] and allowed(s["cell"]) and rid in by and s["in_sha"] == rec["in_sha"]:
             row = by[rid]; text = clean_path(row).read_text(errors="replace")
@@ -181,7 +190,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("scan"); s.add_argument("--workers", type=int, default=8); s.add_argument("--only")
+    s.add_argument("--flags", action="store_true", help="flag variants of the recorded cell (ledger pins_flags_admissible.jsonl)")
     b = sub.add_parser("build"); b.add_argument("dir")
+    b.add_argument("--flags", action="store_true", help="build the flag scan's hits (the compiler never changes)")
     b.add_argument("--plausible", action="store_true",
                    help="also build hits at FSF 2.6.3/2.7.2/2.8.0/2.8.1 cells, not only CDK (never 2.91.66/2.95.2)")
     st = sub.add_parser("strip"); st.add_argument("--workers", type=int, default=8)

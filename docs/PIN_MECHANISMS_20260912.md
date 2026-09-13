@@ -504,6 +504,13 @@ RTL, so the base stays exact but no pin becomes dead. The one hit is an arm swap
 switch an optimizer pass on or off. The next levers to try are other switches of that kind, not
 spellings.
 
+**Scope idea, dropped before a generator: hold-set residues are not frame layout.** Of 349 current
+hold-set pins, 336 pin a plain scalar or pointer, 11 an address-taken local, and none an array or a
+struct held by value. The residues are dominated by `sw`/`lw`/`move`, which are prologue and
+epilogue saves. These pins decide which callee-saved registers the function uses, so this is the
+register allocator, not stack-slot sharing between scopes. Declaration scope could only change
+stack-allocated locals, and there are almost none.
+
 **Pilot, dropped: the `register` keyword.** Erasing `ASM_REG("$N")` but keeping the `register`
 keyword went 0 of 30; gcc 2.x ignores the keyword for allocation at -O2. The next lever is the
 mirror of `t41`. m2c's own labels form 165 backward-goto loops holding 756 pins in 113 rows. Where
@@ -513,7 +520,43 @@ First sweep over 1,466 rows (179 loops in 119 rows): **15 rows, 26 pins**, with 
 lint is clean. A braced final goto `if (C) { goto L; }` becomes `} while (C);`, and an
 unconditional one becomes `while (1)`. The label is kept only if another goto uses it. So the
 loop-note lever works in both directions: `t41` drops notes the original never had, and `t44`
-restores notes that m2c's goto spelling lost.
+restores notes that m2c's goto spelling lost. The third spelling, gcc's non-rotated while
+(`goto T; L: BODY T: if (C) goto L;`), holds pins in only 1 loop (2 pins), so it gets no generator.
+
+**Code-motion lane (luna, `work/native_lane/codemotion/`): 0 of 10.** It was rebuilt without the
+page-family rows, which belong to the lui-rename dead end. The pins hold branch-sense, load,
+argument-move and stack-reload motion. The lane's accounts again come back to register coalescing
+and its side effects on scheduling and delay-slot filling. The best candidates reached TOTAL 2
+(`dungeon/func_800D7198`, a loop-carried update sunk to its consumer; `dungeon/func_80921B2C`).
+
+**Since round 6** the yield went 288 → 28 → 85 → 32 → 0, and three luna lanes went 2/10, 0/10 and
+0/10 on scheduling and allocator residues. The next hypothesis is per-file compiler flags, which
+the earlier cell scan never tried (it covered only the stock compilers). The tree already has rows
+built with `-fno-schedule-insns`, `-fno-strength-reduce` or `-fno-cse-skip-blocks`. Astra's argmove
+account showed the FIRST scheduler decides those orders, and `-fno-schedule-insns` turns it off.
+
+**Flags in the tree today.** 343 rows carry extra flags. 143 of those are only the `-G0` spelling;
+about 200 use real optimization flags (`-fno-schedule-insns` 45, `-fno-strength-reduce` 39,
+`-fno-schedule-insns2` 22, `-O1` 19, and a long tail). They are scattered: most modules have 1–3
+flagged rows, and flags differ within one module (`scene_runtime.c` mixes `2.6.3 -G0`, `-O1` and
+`-fno-schedule-insns`). A real build gives each file one flag set, so these are per-row choices made
+by earlier matching work: the same cell underdetermination the compiler scan showed. Flags are
+therefore an accepted lever here, and a flag switch lands under `pin_cells_land.py` rules 1–2 like a
+compiler switch. Module agreement is weak evidence for them.
+
+The scorer honours extra flags in a cfg string. `dungeon/func_80D150D0`, recorded at `2.7.2-G0
+-fno-schedule-insns`, scores exact with the flag and TOTAL 134 without it.
+
+**Flag pilot on the lane dead ends: 1 admissible hit in 32.** The pilot covered 32 rows from the
+argmove, argconst, code-motion and lui-rename packs, each still at its lane base. It erased each
+row's named pin under 8 flag variants of the recorded cell (`-O1`, `-fno-schedule-insns`,
+`-fno-schedule-insns2`, `-fno-strength-reduce`, `-fno-cse-skip-blocks`, `-fno-rerun-cse-after-loop`,
+`-fno-expensive-optimizations`, `-fno-caller-saves`). In `town/func_8081DD70` (2.95.2-G0) the
+erasure is exact at `-fno-expensive-optimizations`, and so is the pinned text. That is about 3% on
+the hardest rows in the tree, at no model cost. `pin_cells_scan.py scan --flags` now runs the same
+two stages over every pinned row (ledger `ledger/pins_flags_admissible.jsonl`), and `build --flags`
+lands its hits under rules 1–2. The compiler never changes, and each switch can be undone from the
+journal.
 
 **Lui register-rename lane (luna, `work/native_lane/luirename/`): 0 of 10.**
 - **The family.** It is the largest coherent reg-rename sub-cluster: erasing the pin changes only the

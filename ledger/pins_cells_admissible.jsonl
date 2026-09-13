@@ -1905,3 +1905,8 @@
 {"id": "dungeon/func_800C92E4", "cfg": "2.7.2-cdk-G0", "in_sha": "8e292fd5880c299ae94f8ee840e8b8fca5a79dd694c2b35a95841c2bf9807401", "pins": 10, "cells": [], "hits": [], "secs": 13.3}
 {"id": "town/func_800B9CC8", "cfg": "2.95.2-G0", "in_sha": "1a79d8f9dda055d1f994a7fe7da8071b290563fe6aa27628ffab2b0ee42ca089", "pins": 13, "cells": ["2.95.2"], "hits": [], "secs": 24.9}
 {"id": "dungeon/func_80EE1FB0", "cfg": "2.8.1-G0", "in_sha": "2dcbdf67ce1b17fbf210738373c607c3651707d54adae46975d8c1af82a8d6be", "pins": 6, "cells": ["2.8.0-G0"], "hits": [], "secs": 19.7}
+{"id": "dungeon/func_818AAE60", "cfg": "2.8.1-G0", "in_sha": "831470d46b174610d0be21b33d1a515ed2348a6f4fbe2994f741f26ff24dd639", "pins": 24, "cells": ["2.8.0-G0"], "hits": [], "secs": 38.0}
+{"id": "dungeon/func_818B7F38", "cfg": "2.7.2-cdk-G0", "in_sha": "193ae449ac29c8c83656b10e5a31a8660c18c7e73fb18245cfd0ddc1ecd549d7", "pins": 33, "cells": [], "hits": [], "secs": 14.4}
+{"id": "dungeon/func_80BC3AC4", "cfg": "2.7.2-cdk-G0", "in_sha": "7b217327bf593b2d4831b1a388de5f436756db2ac684fbc057738e1c335f1b15", "pins": 5, "cells": [], "hits": [], "secs": 13.5}
+{"id": "dungeon/func_81008664", "cfg": "2.7.2-cdk-G0", "in_sha": "8b762aac43be1a288b50316ed22f9a1a1d1321f72de178625cbdfbcaeab1bbcb", "pins": 68, "cells": [], "hits": [], "secs": 15.7}
+{"id": "town/func_800AED64", "cfg": "2.7.2-cdk -fno-strength-reduce", "in_sha": "e232a72f7a182e835bbc7f92141fab31ef7739fc7a09a6d9b6222b789dbc564a", "pins": 15, "cells": [], "hits": [], "secs": 15.3}
