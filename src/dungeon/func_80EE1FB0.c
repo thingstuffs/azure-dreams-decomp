@@ -66,7 +66,7 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
         &&kind_5, &&kind_6, &&kind_7
     };
     s32 use_player_target;
-    register s32 particle_count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 particle_count;
     s32 facing_x;
     s32 offset_z;
     s32 direction;
@@ -256,7 +256,7 @@ state_2:
     }
 
     particle_count = 0;
-particle_loop:
+do {
     particle_count++;
     offset_x = func_80069EF8() & 0x3F;
     offset_x -= 0x20;
@@ -280,7 +280,7 @@ particle_loop:
     if ((u32)(particle_count & 0xFFFF) >= 3U) {
         goto done;
     }
-    goto particle_loop;
+    } while (1);
 
 state_3:
     ((S_801737B0_0 *)action)->unk_96.s = 0x14;

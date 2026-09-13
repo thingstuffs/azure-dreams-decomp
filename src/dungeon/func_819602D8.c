@@ -25,7 +25,7 @@ void func_819602D8(s16 center_x, s32 center_y) {
         u16 h;
         u8 b;
     } saved_center_x;
-    register s32 tile_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 tile_x;
     register s32 signed_y ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 tile_y;
     u8 *sample_row;
@@ -68,8 +68,7 @@ row_loop:
         tile_x = row_center_x - 3;
     }
     ASM_USE2_NV(world_y, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_USE_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-col_loop:
+do {
     tile_sample = func_800BCA68((tile_x << 6) & 0xFFC0, world_y);
     map = *D_800E3D7C;
     *sample_ptr = 0 - tile_sample;
@@ -150,5 +149,5 @@ bounds_ok:
         }
         goto row_loop;
     }
-    goto col_loop;
+    } while (1);
 }

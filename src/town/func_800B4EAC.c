@@ -101,14 +101,11 @@ update:
         }
     } else {
         repeat_ticks = ((S_800B260C_1 *)menu)->unk_10.s;
-        if (repeat_ticks < 5) {
-            ((S_800B260C_1 *)menu)->unk_10.s = repeat_ticks + 1;
-        } else {
+        if (repeat_ticks >= 5) {
             if (held_buttons & 0x8000) {
                 cursor_step = -5;
                 goto decrement;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (held_buttons & 0x2000) {
                 cursor_step = 5;
                 goto decrement;
@@ -118,12 +115,13 @@ update:
                 cursor_step = -1;
                 goto decrement;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             if (held_directions & 0x4000) {
                 cursor_step = 1;
             }
 decrement:
             ((S_800B260C_1 *)menu)->unk_10.u--;
+        } else {
+            ((S_800B260C_1 *)menu)->unk_10.s = repeat_ticks + 1;
         }
     }
 

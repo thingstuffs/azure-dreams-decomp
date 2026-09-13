@@ -95,7 +95,7 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     }
     return -1;
 
-success:
+do {
     ((S_80172504_1 *)state)->unk_AE = 2;
     ((S_80172504_1 *)state)->unk_AC = step_count + 1;
     ((S_80172504_0 *)entity)->unk_60 = check_result;
@@ -152,9 +152,7 @@ loop:
         }
         check_result = func_8009B4B0(entity, step_x, step_y);
     }
-    if (check_result != 0) {
-        goto success;
-    }
+    } while (check_result != 0);
     {
         register s32 next_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -174,7 +172,6 @@ loop:
     }
 
 finish_pinned:
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 finish:
     ((S_80172504_1 *)state)->unk_9A = 0x1A;
     ((S_80172504_1 *)state)->unk_9B = 0;

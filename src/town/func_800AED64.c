@@ -277,7 +277,7 @@ void func_800AC4C4(void) {
     u16 normal_index;
     M2C_UNK * packet;
     void *view_bounds;
-    register S_func_800AED64_2 *map_data ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_800AED64_2 *map_data;
     S_func_800AED64_10 *tile_uvs;
     S_func_800AED64_7 *start_edge;
     S_func_800AED64_7 *span_edge;
@@ -370,7 +370,7 @@ void func_800AC4C4(void) {
         tile_uvs = D_800D1548;
         tag_low_mask = 0xFFFFFF;
         tag_high_mask = 0xFF000000;
-scan_row:
+do {
         edge_index = 3;
         start_edge = (s32 *)((u8 *)scratch + 0x78);
         do {
@@ -838,7 +838,7 @@ advance_row:
         if (scratch->unk_174 == 0) {
             goto finish_draw;
         }
-        goto scan_row;
+        } while (1);
     }
 finish_draw:
     ((S_func_800AED64_6 *)(render_state->unk_00))->unk_8D0 = packet;

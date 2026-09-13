@@ -116,7 +116,7 @@ void *func_800BA074(u8 *selection_data) {
     layout = &D_80083780;
     global_page = (u8 *)0x800E0000;
     object_slot = objects;
-loop:
+do {
     *object_slot = func_8003FC64(0x12);
     if (*object_slot != 0) {
         SubA *transform;
@@ -165,7 +165,6 @@ loop:
             part_state->f12 = part_index;
             part_state->f16 = transform->f2;
             part_state->f1A = transform->f6;
-            ASM_USE_G_NV(transform);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (part_index != 0) {
                 part_state->f28 = objects[0];
             } else {
@@ -192,9 +191,7 @@ loop:
 next:
     part_index++;
     object_slot++;
-    if (part_index < 3) {
-        goto loop;
-    }
+    } while (part_index < 3);
 
     {
         u8 *counter_base = (u8 *)&D_80083460;

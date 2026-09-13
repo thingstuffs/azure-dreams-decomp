@@ -174,7 +174,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s16 *table_y_entry;
     u16 *update_x_entry;
     register u16 *update_y_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 probe_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 probe_y;
     register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 end_z_signed;
     register s32 current_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -191,9 +191,9 @@ void func_80025738(void *state, void *motion_in, void *render) {
     register s32 last_tile_x;
     u32 table_page;
     register s32 tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 tile_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 tile_x_signed ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 tile_y_signed ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 tile_y;
+    s32 tile_x_signed;
+    s32 tile_y_signed;
     register s32 tile_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *source_data;
     register void *destination ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -206,7 +206,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     phase = (s32) ((S_80025738_0 *)state)->unk_0A;
     owner = ((S_80025738_0 *)state)->unk_00;
     ((S_80025738_0 *)state)->unk_10 = (u16) (((S_80025738_0 *)state)->unk_10 + 1);
-    if ((u32) phase >= 7U) {
+    if (7U <= (u32) phase) {
         goto clear_update_flag;
     }
     (void)state_labels; goto *D_80024008[(u32)(phase)];
@@ -297,16 +297,14 @@ store_target_dy:
 store_target_dz:
     frame.delta[2] = (u16) target_dz;
     ((S_80025738_0 *)state)->unk_12 = target_dx;
-max_target_delta:
+do {
     if (((S_80025738_9 *)target_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
         ((S_80025738_0 *)state)->unk_12 = ((S_80025738_9 *)target_delta_cursor)->unk_18.u;
     }
 next_target_axis:
     index += 1;
     target_delta_cursor += 1;
-    if (index < 3) {
-        goto max_target_delta;
-    }
+    } while (index < 3);
     target_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
     ((S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
     if (target_ticks != 0) {
@@ -331,7 +329,7 @@ scan_path:
     tile_y = ((S_80025738_10 *)tile_data)->unk_25;
     last_tile_x = tile_x;
     frame.raw_y = (u16) tile_y;
-probe_tile:
+do {
     tile_shifted = tile_x << 0x10;
     tile_x_signed = tile_shifted >> 0x10;
     probe_x = (tile_x_signed << 6) & 0xFFC0;
@@ -380,11 +378,8 @@ probe_tile:
     frame.raw_y = (u16) next_tile_y;
     ASM_KEEP4_NV(probe_x, next_tile_y, tile_x, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     last_tile_x = probe_x;
-    if (index < 8) {
-        goto probe_tile;
-    }
+    } while (index < 8);
 use_path_endpoint:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     destination = &frame.out_x;
 build_path_endpoint:
     index = 1;

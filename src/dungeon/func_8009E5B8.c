@@ -60,8 +60,8 @@ void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
     register void *owner ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *candidate;
     S_800A3D18_4 *base;
-    register void *best ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *special ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *best;
+    void *special;
     s16 special_score;
     s16 best_score;
     u8 *global_page;
@@ -104,7 +104,7 @@ initial:
     }
     global_page = (u8 *)0x800e0000;
 
-loop:
+do {
     if ((s16)func_800A2CB8(base, candidate) == 0) {
         goto advance;
     }
@@ -147,9 +147,7 @@ advance:
     next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
     ASM_KEEP(candidate);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     candidate = (u8 *)next_link + 0x20;
-    if (candidate != base) {
-        goto loop;
-    }
+    } while (candidate != base);
 
 done:
     if (special == 0) {

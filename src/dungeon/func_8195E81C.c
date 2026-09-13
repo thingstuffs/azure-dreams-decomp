@@ -73,7 +73,7 @@ void func_8002401C(void *object)
     s32 *cell;
     s16 rect[4];
     register s32 row_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 col_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 col_index;
     s32 x;
     s32 y;
     s32 cell_value;
@@ -121,13 +121,11 @@ jt_c0:
 jt_zero_outer:
         col_index = 6;
         clear_cell = clear_row + 6;
-jt_zero_inner:
+do {
         *clear_cell = 0;
         clear_cell--;
         col_index--;
-        if (col_index >= 0) {
-            goto jt_zero_inner;
-        }
+        } while (col_index >= 0);
         row_index++;
         if (row_index < 7) {
             clear_row += 8;
@@ -203,7 +201,6 @@ dispatch_done:
             rect[3] = cell_size;
             cell_value = *cell++;
             x += 0x10;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             func_80026064(rect_arg, cell_value);
             col_index++;
         }

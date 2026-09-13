@@ -41,7 +41,7 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
     s32 has_columns;
     register s32 origin_x_s16 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 origin_y_s16;
-    register s32 origin_x ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 origin_x;
     register s32 origin_y ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 *dst_tile;
     register u16 *tilemap ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -73,7 +73,7 @@ outer:
             scratch = (s32)TOWN_TILE_PAGE;
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             tilemap = (u16 *)(scratch + 0x2004);
-inner:
+do {
             ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             scratch = row + origin_y;
             scratch <<= 7;
@@ -190,9 +190,7 @@ store:
             src_tiles++;
             scratch <<= 16;
             scratch >>= 16;
-            if (scratch < signed_width) {
-                goto inner;
-            }
+            } while (scratch < signed_width);
             scratch = row + 1;
         } else {
             scratch = row + 1;

@@ -112,8 +112,8 @@ void func_801732C4(void *action, void *motion, void *sprite, void *actor)
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_7, &&kind_6, &&kind_5
     };
-    register u8 *item_slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 special ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *item_slot;
+    s32 special;
     u8 state;
     u8 next_state;
     void *target;
@@ -186,7 +186,6 @@ selection_ready:
         goto empty_selection;
     }
     ((S_801732C4_0 *)action)->unk_98 &= 0xFF7F;
-    ASM_KEEP(item_slot);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     {
         s32 special_test;
 
@@ -375,7 +374,7 @@ state_3:
         ((S_801732C4_0 *)action)->unk_98 |= 0x80;
         ((S_801732C4_0 *)action)->unk_9B++;
         special = 0;
-state_3_particles:
+do {
         {
             s32 brightness;
 
@@ -387,7 +386,7 @@ state_3_particles:
         if ((u16)special >= 20) {
             goto end;
         }
-        goto state_3_particles;
+        } while (1);
     }
     goto end;
 

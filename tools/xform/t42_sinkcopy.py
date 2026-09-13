@@ -103,7 +103,7 @@ def moved(text, c):
     v, p, cast, (da, db), is_decl, _, ins, ind = c
     line = "%s%s = %s%s;\n" % (ind, v, cast, p)
     t = text[:ins] + line + text[ins:]                            # ins lies after the definition
-    return t[:da] + ("" if is_decl else "") + t[db:] if not is_decl else t[:da] + t[db:]
+    return (t[:da].rstrip(" \t") if is_decl else t[:da]) + t[db:]  # no stray space before a stripped `;`
 
 
 def candidates(text):

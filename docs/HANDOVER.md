@@ -23,6 +23,16 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Ninth round, gated (15 windows MATCH, SLUS SHA-1 MATCH): **9,315 pins in 1,563 rows** (32 pins).
+- **`t44_doloop_greedy`**: m2c's backward-goto loops written as do-whiles (the mirror of `t41`). 15
+  rows.
+- **`t43_rewrite_greedy`**: arm swap, `&&` nesting, `?:`, operand order. 1 of 1,467; gcc
+  canonicalizes these shapes.
+- **Dead ends:** the `register`-keyword pilot went 0 of 30, and the lui register-rename luna lane
+  0 of 10 (coalescing).
+- **The cascade** now covers `t36`–`t44`. Next lever to pilot: local variable scope, for the
+  hold-set residues (frame size and epilogue).
+
 Eighth round, gated (56 windows MATCH, SLUS SHA-1 MATCH): **9,347 pins in 1,565 rows** (85 pins, 12
 more functions pin-free).
 - **The goto-loop family, from astra's result on the 42-pin row.** gcc's `loop.c` optimizes only

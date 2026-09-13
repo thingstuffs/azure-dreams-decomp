@@ -496,6 +496,38 @@ First sweep: **9 rows**, each with the copy assigned exactly once. The first run
 machine ran briefly low on memory, with other sessions on the box. It had applied nothing and
 written nothing, and it was resumed at 4 workers.
 
+**`tools/xform/t43_rewrite_greedy.py` (statement-shape rewrites as greedy bases): 1 of 1,467 rows.**
+The menu was an if/else arm swap, `&&` against nested ifs, `?:` against if/else, and swapping a
+comparison's operands. It is a clean negative. gcc canonicalizes these shapes to nearly the same
+RTL, so the base stays exact but no pin becomes dead. The one hit is an arm swap in
+`town/func_800B4EAC` that freed a fence and a keep. Loop notes worked (`t41c`, 38 rows) because they
+switch an optimizer pass on or off. The next levers to try are other switches of that kind, not
+spellings.
+
+**Pilot, dropped: the `register` keyword.** Erasing `ASM_REG("$N")` but keeping the `register`
+keyword went 0 of 30; gcc 2.x ignores the keyword for allocation at -O2. The next lever is the
+mirror of `t41`. m2c's own labels form 165 backward-goto loops holding 756 pins in 113 rows. Where
+the original was a structured loop, `loop.c` ran on it and m2c's goto spelling lost that.
+`tools/xform/t44_doloop_greedy.py` writes those loops as do-whiles and runs `t41c`'s greedy walk.
+First sweep over 1,466 rows (179 loops in 119 rows): **15 rows, 26 pins**, with no errors. The
+lint is clean. A braced final goto `if (C) { goto L; }` becomes `} while (C);`, and an
+unconditional one becomes `while (1)`. The label is kept only if another goto uses it. So the
+loop-note lever works in both directions: `t41` drops notes the original never had, and `t44`
+restores notes that m2c's goto spelling lost.
+
+**Lui register-rename lane (luna, `work/native_lane/luirename/`): 0 of 10.**
+- **The family.** It is the largest coherent reg-rename sub-cluster: erasing the pin changes only the
+  register a symbol's high half (`lui`) is loaded into. Most of the rows are `t29`'s integer-page
+  family, which `t29` had refused.
+- **The lane's account.** Retail keeps the high half and the low half in separate registers
+  (`lui $v0; addiu $a3,$v0,…`). The pin prevents the two pseudos coalescing, and without it they
+  coalesce.
+- **What it measured.** Symbol, array-decay, typed-pointer, alias, declaration-order, page-type and
+  per-use rewrites. All kept the rename (TOTAL 1–3).
+- **Status.** A measured dead end at luna; sol was not spent on it. The lever is unknown: something
+  in the original must keep the high-half pseudo live (for example a second address sharing the
+  page), and no natural form found it.
+
 **`tools/xform/t41c_gotoloop_greedy.py`: 38 rows, about 50 pins.** It builds an exact base (the goto
 form alone, or with the body's pins erased), then erases the function's remaining pins one at a
 time, body first and then nearest outside. It is the largest of the three goto-loop generators:

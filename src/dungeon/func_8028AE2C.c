@@ -25,13 +25,13 @@ void func_8001DE2C(void) {
     s32 area_index;
     s32 x;
     s32 y;
-    register s32 start_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 x_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 y_end ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 amount_small ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 amount_large ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 start_x;
+    s32 width;
+    s32 height;
+    s32 x_end;
+    s32 y_end;
+    s32 amount_small;
+    s32 amount_large;
 
     area_index = 0;
     amount_small = 0x20;
@@ -47,7 +47,7 @@ outer_loop:
         x_end = start_x + width;
         y_end = y + height;
         if (y < y_end) {
-y_loop:
+do {
             x = area->x;
             if (x < x_end) {
 x_loop:
@@ -116,7 +116,7 @@ next_y:
             if (y >= y_end) {
                 goto next_area;
             }
-            goto y_loop;
+            } while (1);
         }
     }
 next_area:
