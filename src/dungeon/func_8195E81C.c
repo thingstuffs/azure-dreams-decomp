@@ -84,8 +84,8 @@ void func_8002401C(void *object)
     u8 config_byte;
     void *created_obj;
     void *display;
-    register void *source_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 dependency_scratch ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *source_obj;
+    s32 dependency_scratch;
     s32 state;
     static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4
@@ -104,11 +104,7 @@ jt_c0:
         D_800273BC = 1;
         config_byte = ((S_8002401C_0 *)object_bytes)->unk_09;
         D_80027328 = 0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_MEM_NV(config_byte, D_800273BE);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         source_obj = ((S_8002401C_0 *)object_bytes)->unk_00.s;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_MEMDEP(config_byte, dependency_scratch, D_800814A8);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         D_800273BE = config_byte;
         D_800273C0 = ((S_8002401C_0 *)object_bytes)->unk_00.s;
         D_8002732C = source_obj;

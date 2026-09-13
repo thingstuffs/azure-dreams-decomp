@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 M2C_UNK func_800247B8();      /* extern */
 M2C_UNK func_80024AEC();      /* extern */
@@ -90,7 +91,7 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
     register s32 delta_or_divisor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 reduced_scale;
     u8 *height_table;
-    register s32 travel_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 travel_distance;
     s16 travel_frames;
     s16 next_burst;
     s16 next_pair;
@@ -168,20 +169,14 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                 if (((S_80024E5C_0 *)effect)->unk_5A.s == 0) {
                     delta_or_divisor = ((S_80024E5C_3 *)target_position)->unk_00.at02.v;
                     delta_or_divisor -= ((S_80024E5C_2 *)motion)->unk_00.at02u.v;
-                    distance_x = delta_or_divisor;
-                    if (delta_or_divisor < 0) {
-                        distance_x = 0 - distance_x;
-                    }
+                    distance_x = abs(delta_or_divisor);
                     if (distance_x < 0) {
                         distance_x += 0x3F;
                     }
                     delta_or_divisor = ((S_80024E5C_3 *)target_position)->unk_04.at02.v;
                     delta_or_divisor -= ((S_80024E5C_2 *)motion)->unk_04.at02u.v;
                     travel_distance = delta_or_divisor;
-                    if (delta_or_divisor < 0) {
-                        travel_distance = 0 - travel_distance;
-                    }
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    travel_distance = abs(travel_distance);
                     if (travel_distance < 0) {
                         travel_distance += 0x3F;
                     }

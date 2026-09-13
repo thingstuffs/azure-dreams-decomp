@@ -94,10 +94,7 @@ middle_range:
         abs_dx = dx;
         abs_dx = abs(abs_dx);
         abs_dy = dy;
-        if (abs_dy < 0) {
-            ASM_KEEP(abs_dy);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            abs_dy = -abs_dy;
-        }
+        abs_dy = abs(abs_dy);
         if (abs_dx > abs_dy) {
             goto x_axis;
         }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 typedef struct S_800BD688_9 {
     void * unk_00;
@@ -86,7 +87,7 @@ void func_800BD688(void *pair_in) {
     s32 speed_limit;
     s32 speed_bias;
     s32 member_index;
-    register s32 x_gap ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 x_gap;
     s32 x_speed;
     u16 tick;
     s32 *flag_page;
@@ -121,10 +122,7 @@ state_zero:
             x_gap = first_position->unk_00;
             x_gap -= second_position->unk_00;
         }
-        if (x_gap < 0) {
-            x_gap = 0 - x_gap;
-        }
-        ASM_KEEP(x_gap);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        x_gap = abs(x_gap);
         {
 
             random_value = x_gap + 0xFFE00000;

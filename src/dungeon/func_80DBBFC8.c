@@ -263,7 +263,7 @@ state_2:
 
         effect_count = 0;
         dim_channel = 0x20;
-        do {
+        for (; effect_count < 1; effect_count++) {
             object = func_8003FC64(0x212);
             if (object != 0) {
                 u8 *effect_data;
@@ -273,7 +273,6 @@ state_2:
                 s32 dy;
                 s32 color_bits;
 
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 effect_data = (u8 *)object + 0x20;
                 (*(u16 *)((u8 *)effect_data + 0x24)) = 0x13;
                 (*(u16 *)((u8 *)object + 0x20)) = 0;
@@ -321,8 +320,7 @@ state_2:
                 (*(u16 *)((u8 *)effect_data + 0x50)) = 8;
                 (*(u16 *)((u8 *)effect_data + 0x4E)) = 4;
             }
-            effect_count++;
-        } while (effect_count < 1);
+        }
     }
 
     if ((((Rec_D_80082E80 *)actor)->unk_04.as_s8 == 6 &&

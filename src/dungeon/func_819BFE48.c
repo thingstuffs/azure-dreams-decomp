@@ -9,27 +9,24 @@ extern s16 func_800BCB04();
 void func_80025648(s32 object, s32 raw_x, s32 raw_y, s32 raw_upper, s32 lower_bound) {
     s32 x = raw_x;
     s32 y = raw_y;
-    s16 call_x = x;
+    u16 call_x = x;
     u16 call_y = y;
     s32 object_data = object + 0x20;
     s32 upper = (s16)raw_upper;
-    register s32 shifted_lower ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 lower ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 shifted_lower;
+    s32 lower;
     s32 query_x;
     s32 query_y;
     s16 query_value;
 
     if (upper < 0x200) {
-        ASM_KEEP(call_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         query_x = call_x & 0xFFFF;
         query_y = call_y & 0xFFFF;
-        ASM_KEEP(lower_bound);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         shifted_lower = lower_bound << 16;
         lower = shifted_lower >> 16;
         query_value = func_800BCB04(query_x, query_y, lower, raw_upper << 16);
         if (query_value < upper && query_value >= lower) {
             func_800251F4(object_data, (s16)x, (s16)y, upper);
-            ASM_KEEP(lower);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             func_800419EC(6, 12);
             func_800A56E0(0x50B);
         }

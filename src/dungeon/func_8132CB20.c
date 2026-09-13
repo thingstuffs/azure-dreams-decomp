@@ -51,10 +51,10 @@ extern s16 D_80174AB8;
 s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     s32 audio_param;
     s16 elapsed_ticks;
-    register s32 command ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 command;
     s32 opcode;
     u16 entity_flag;
-    register u8 command_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 command_byte;
     u8 duration;
     u8 *stream;
     void *call_obj;
@@ -65,7 +65,7 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     u8 *anim;
     u8 audio_x;
     u8 audio_y;
-    register s32 angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 angle;
     u16 obj_flags;
     s32 clear_opcode;
 
@@ -83,7 +83,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     }
 
     command_byte = stream[1];
-    ASM_KEEP_NV(command_byte);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     command = command_byte & 0xFF;
     if (command == 0) {
         ((S_80174320_1 *)obj)->unk_B2 = 0;
@@ -107,7 +106,6 @@ s32 func_80174320(void *object_arg, void *context_arg, void *entity_arg) {
     obj_flags |= 0x8000;
     ((S_80174320_1 *)obj)->unk_46 = obj_flags;
     opcode = command & 0xF8;
-    ASM_KEEP(command);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     if (opcode == clear_opcode) {
         goto block_D0;

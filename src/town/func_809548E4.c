@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 typedef struct S_800218E4_0 {
     M2C_UNK * unk_00;
@@ -326,7 +327,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     void *moving_slot;
     void *object_slot;
     S_800218E4_16 *position_slot;
-    register S_800218E4_22 *motion_slot ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    S_800218E4_22 *motion_slot;
     void *clear_slot;
     void *fall_slot;
     void *launch_slot;
@@ -704,40 +705,29 @@ object_pairs:
                 position_slot = object_slot;
                 motion_slot = object_slot;
                 partner_slot = (void *)(state_value + (s32) game);
-check_partner:
+do {
                 object_position = position_slot->unk_00;
                 partner_position = ((S_800218E4_17 *)partner_slot)->unk_00;
                 state_value = object_position->unk_0A;
                 pair_value = partner_position->unk_0A;
                 state_value -= pair_value;
-                if (state_value < 0) {
-                    state_value = 0 - state_value;
-                }
+                state_value = abs(state_value);
                 if (state_value < 0x40) {
                     pair_value = object_position->unk_02;
                     state_value = partner_position->unk_02;
                     collision_value = partner_position->unk_06;
                     pair_value -= state_value;
                     state_value = object_position->unk_06;
-                    if (pair_value < 0) {
-                        pair_value = 0 - pair_value;
-                    }
+                    pair_value = abs(pair_value);
                     state_value -= collision_value;
-                    if (state_value < 0) {
-                        state_value = 0 - state_value;
-                    }
+                    state_value = abs(state_value);
                     pair_value += state_value;
                     if (pair_value < 0x38) {
                         state_value = 0x3FFFF;
-                        ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         pair_value = object_position->unk_0C;
                         collision_value = object_position->unk_10;
-                        if (pair_value < 0) {
-                            pair_value = 0 - pair_value;
-                        }
-                        if (collision_value < 0) {
-                            collision_value = 0 - collision_value;
-                        }
+                        pair_value = abs(pair_value);
+                        collision_value = abs(collision_value);
                         pair_value += collision_value;
                         if (pair_value <= state_value) {
                             ((S_800218E4_28 *)(position_slot->unk_00))->unk_0C = (s32) (func_80064584(*position_slot->unk_10, object_position) << 6);
@@ -752,25 +742,14 @@ check_partner:
                         y_step = object_velocity->unk_0C.at02.v;
                         other_y = partner_xy->unk_06;
                         collision_value = (x_or_distance + x_step) - other_x;
-                        if (collision_value < 0) {
-                            collision_value = 0 - collision_value;
-                        }
-                        ASM_KEEP(collision_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                        collision_value = abs(collision_value);
                         forward_y_gap = (pair_value - y_step) - other_y;
-                        if (forward_y_gap < 0) {
-                            forward_y_gap = 0 - forward_y_gap;
-                        }
-                        ASM_KEEP(forward_y_gap);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        forward_y_gap = abs(forward_y_gap);
                         bounce_x = collision_value + forward_y_gap;
-                        ASM_KEEP(bounce_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         reverse_x_gap = (x_or_distance - x_step) - other_x;
-                        if (reverse_x_gap < 0) {
-                            reverse_x_gap = 0 - reverse_x_gap;
-                        }
+                        reverse_x_gap = abs(reverse_x_gap);
                         reverse_y_gap = (pair_value + y_step) - other_y;
-                        if (reverse_y_gap < 0) {
-                            reverse_y_gap = 0 - reverse_y_gap;
-                        }
+                        reverse_y_gap = abs(reverse_y_gap);
                         x_or_distance = reverse_x_gap + reverse_y_gap;
                         state_value = x_or_distance < bounce_x;
                         if (state_value) {
@@ -800,9 +779,7 @@ check_partner:
                         if (other_speed_y < 0) {
                             other_speed_y = 0 - other_speed_y;
                         }
-                        if (other_speed_x < 0) {
-                            other_speed_x = 0 - other_speed_x;
-                        }
+                        other_speed_x = abs(other_speed_x);
                         if ((other_speed_y + other_speed_x) <= collision_value) {
                             ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_0C = (s32) (func_80064584(*((S_800218E4_17 *)partner_slot)->unk_10, (void *) bounce_y, y_step, other_y) << 6);
                             ((S_800218E4_29 *)(((S_800218E4_17 *)partner_slot)->unk_00))->unk_10 = (s32) (func_800644B8(*((S_800218E4_17 *)partner_slot)->unk_10) << 6);
@@ -816,25 +793,14 @@ check_partner:
                         y_step = partner_velocity->unk_0C.at02.v;
                         other_y = object_xy->unk_06;
                         collision_value = (x_or_distance + x_step) - other_x;
-                        if (collision_value < 0) {
-                            collision_value = 0 - collision_value;
-                        }
-                        ASM_KEEP(collision_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                        collision_value = abs(collision_value);
                         other_forward_y_gap = (pair_value - y_step) - other_y;
-                        if (other_forward_y_gap < 0) {
-                            other_forward_y_gap = 0 - other_forward_y_gap;
-                        }
-                        ASM_KEEP(other_forward_y_gap);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        other_forward_y_gap = abs(other_forward_y_gap);
                         bounce_x = collision_value + other_forward_y_gap;
-                        ASM_KEEP(bounce_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         other_reverse_x_gap = (x_or_distance - x_step) - other_x;
-                        if (other_reverse_x_gap < 0) {
-                            other_reverse_x_gap = 0 - other_reverse_x_gap;
-                        }
+                        other_reverse_x_gap = abs(other_reverse_x_gap);
                         other_reverse_y_gap = (pair_value + y_step) - other_y;
-                        if (other_reverse_y_gap < 0) {
-                            other_reverse_y_gap = 0 - other_reverse_y_gap;
-                        }
+                        other_reverse_y_gap = abs(other_reverse_y_gap);
                         x_or_distance = other_reverse_x_gap + other_reverse_y_gap;
                         state_value = x_or_distance < bounce_x;
                         if (state_value) {
@@ -868,7 +834,7 @@ next_partner:
                 if (partner_index >= 4) {
                     goto next_object;
                 }
-                goto check_partner;
+                } while (1);
             }
 next_object:
             object_index += 1;

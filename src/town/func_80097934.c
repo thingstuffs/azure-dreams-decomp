@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 s32 func_800644B8();                             /* extern */
 s32 func_80064584();                             /* extern */
@@ -13,7 +14,7 @@ void func_80095094(Rec_D_800E3D7C *record) {
     s32 clamped_x;
     s32 clamped_y;
     s32 min_component;
-    register s32 signed_x_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 signed_x_step;
     register s32 signed_y_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 reduced_x;
     s32 raised_x;
@@ -43,16 +44,11 @@ void func_80095094(Rec_D_800E3D7C *record) {
         y_step = x_step;
         signed_x_step = signed_x_step << 5;
         x_step = signed_x_step;
-        if (signed_x_step < 0) {
-            x_step = 0 - x_step;
-        }
+        x_step = abs(x_step);
         signed_y_step = func_80064584(y_step);
         current_x = record->unk_0C.as_s32;
         signed_y_step = signed_y_step << 5;
-        y_step = signed_y_step;
-        if (signed_y_step < 0) {
-            y_step = 0 - y_step;
-        }
+        y_step = abs(signed_y_step);
         reduced_x = current_x - x_step;
         if (current_x < 0) {
             raised_x = current_x + x_step;

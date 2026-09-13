@@ -130,8 +130,6 @@ s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
         active_object = D_800E3D7C[0];
         ((S_800C0E88_0 *)active_object)->unk_110 = data;
         func_8008D344(active_object, callback, D_80082E80, active_object);
-return_zero:
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         return 0;
     }
 
@@ -241,7 +239,7 @@ decrement_status:
     if (data[3] & 0x20) {
         if (func_800A94A0(object, object + 8, 0,
                           D_800E3D7C[0] + 0x98) == 0) {
-            goto return_zero;
+            return 0;
         }
         D_800DF4B0[0] = 16;
         data[3] &= 0xDF;

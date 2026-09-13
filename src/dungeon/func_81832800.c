@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u16 D_8006CCD8[];
@@ -169,7 +170,7 @@ BODY_STORAGE void BODY_NAME(void *effect_in, void *position_in, void *effect_spr
     s32 source_y;
     s32 jitter_base;
     s32 scale_random;
-    register s32 state_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 state_value;
     s32 delta_x;
     s32 random_x;
     s32 random_y;
@@ -356,10 +357,7 @@ state_0:
                 count = 0 - count;
             }
             state_value -= source_y;
-            jitter_count = state_value;
-            if (state_value < 0) {
-                jitter_count = 0 - jitter_count;
-            }
+            jitter_count = abs(state_value);
             if (count < jitter_count) {
                 count = jitter_count;
             }

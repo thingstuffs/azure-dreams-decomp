@@ -48,7 +48,6 @@ void func_8001E994(void)
             group_copy = group;
             item_offset = 0x14;
             do {
-                ASM_KEEP(item_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 item_flags =
                     *(u16 *)(item_offset + *(volatile s32 *)(group + 0xC));
                 if (item_flags & 0x10) {
@@ -96,7 +95,6 @@ add_item:
 next_item:
                 item_offset += 0x14;
             } while (++item_index < (s32)*(u8 *)(group + 2));
-            ASM_KEEP(item_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
         *category_total = total_weight;
         category_total++;

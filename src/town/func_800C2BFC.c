@@ -223,10 +223,7 @@ wrap_angle_delta:
     motion_adjustment = 0x30000;
     heading_or_speed = ((S_800C035C_0 *)actor)->unk_48;
     motion_adjustment |= 0xFFFF;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (heading_or_speed < 0) {
-        heading_or_speed = 0 - heading_or_speed;
-    }
+    heading_or_speed = abs(heading_or_speed);
     motion_adjustment = motion_adjustment < heading_or_speed;
     if (motion_adjustment && (controls->unk_08 & 0xA000)) {
         if (angle_delta < -0x180) {

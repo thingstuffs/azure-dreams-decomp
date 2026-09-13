@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
+extern int abs(int);
 
 
 typedef struct S_80172F14_1 {
@@ -81,10 +82,7 @@ void func_80172F14(S_80172F14_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
             s32 velocity = motion->unk_0C.as_s32;
             s32 magnitude = velocity;
 
-            if (magnitude < 0) {
-                ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                magnitude = 0 - magnitude;
-            }
+            magnitude = abs(magnitude);
             if (speed_limit < magnitude) {
                 motion->unk_0C.as_s32 = velocity -
                     (*(s16 *)((u8 *)&D_8006CCD8 + direction * 2) << 15);
@@ -94,16 +92,12 @@ void func_80172F14(S_80172F14_1 *controller, Rec_D_800E3D7C *motion, Rec_D_80082
             s32 velocity = motion->unk_10.at00_s32.v;
             s32 magnitude = velocity;
 
-            if (magnitude < 0) {
-                ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                magnitude = 0 - magnitude;
-            }
+            magnitude = abs(magnitude);
             if (speed_limit < magnitude) {
                 motion->unk_10.at00_s32.v = velocity -
                     (*(s16 *)((u8 *)&D_8006CCE8 + direction * 2) << 15);
             }
         }
-        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
         if (controller->unk_96.s > 0) {
             controller->unk_96.s = controller->unk_96.u - 1;
