@@ -219,7 +219,7 @@ void func_81008664(void *actor_arg, void *motion_arg, void *sprite_arg, void *vo
     S_func_81008664_4 *partner_sprite;
     register S_func_81008664_2 *partner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register S_func_81008664_11 *partner_actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register S_func_81008664_1 *actor ASM_REG("$18") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_81008664_1 *actor = actor_arg;
     S_func_81008664_5 *motion = motion_arg;
     register S_func_81008664_4 *sprite = sprite_arg;
 
@@ -433,7 +433,7 @@ prepare_tile_search:
     ASM_SCHED_BARRIER();
 search_tile:
     attempts -= 1;
-check_attempts:
+check_attempts: do {
     tile_x_ptr = &partner_sprite->unk_24;
     if (attempts <= 0) {
         goto restore_tile;
@@ -500,9 +500,7 @@ check_tile_path:
     ASM_KEEP(attempts);
     attempts -= 1;
     height_entity = entity;
-    if (height_entity->unk_88 != (s16) partner_height) {
-        goto check_attempts;
-    }
+    } while (height_entity->unk_88 != (s16) partner_height);
 place_actors:
     world_coord = partner_sprite->unk_24;
     partner_motion = locals.sp10;

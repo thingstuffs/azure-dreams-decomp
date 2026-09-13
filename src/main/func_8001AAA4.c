@@ -11,7 +11,7 @@ s32 func_80401AA4(s32 count, u8 *text)
     u8 *record;
     register u8 *record_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u8 *text_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *record_end ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *record_end;
     u8 text_byte;
     s32 stack_pad;
 
@@ -20,7 +20,7 @@ s32 func_80401AA4(s32 count, u8 *text)
     matched = 0;
     if (count > 0) {
         record = D_80409290;
-outer:
+do {
         mismatch = 0;
         record_pos = record;
         text_pos = text;
@@ -50,9 +50,7 @@ mismatch_found:
 next_record:
         record_index++;
         record += 40;
-        if (record_index < count) {
-            goto outer;
-        }
+        } while (record_index < count);
     }
 done:
     return matched;

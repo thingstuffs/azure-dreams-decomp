@@ -60,7 +60,7 @@ void func_800CEA44(void *den_event) {
     s32 spawn_x;
     s32 area_x;
     register s32 entry_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 count;
     s16 retries_left;
     s32 monster_level;
     s32 monster_type;
@@ -93,7 +93,7 @@ void func_800CEA44(void *den_event) {
             goto initial_done;
         }
 
-spawn_loop:
+do {
         if (func_8003FA44(3) == 0) {
             goto spawn_failed;
         }
@@ -181,9 +181,7 @@ retry_position:
         }
 
         count--;
-        if (count >= 0) {
-            goto spawn_loop;
-        }
+        } while (count >= 0);
 
 initial_done:
         next_state = *(u16 *)(ctx + 6);

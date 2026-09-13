@@ -220,7 +220,7 @@ target_y_ready:
 target_z_ready:
         scratch.dist[2] = (u16) axis_dist;
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
-scan_target_dist:
+do {
         if (target_dist_cursor[12] <= ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16) {
             goto next_target_axis;
         }
@@ -228,9 +228,7 @@ scan_target_dist:
 next_target_axis:
         index += 1;
         target_dist_cursor += 1;
-        if (index < 3) {
-            goto scan_target_dist;
-        }
+        } while (index < 3);
         target_dist_fixed = (u16) ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 << 0x10;
         target_frames = (target_dist_fixed >> 0x14) + (target_dist_fixed >> 0x15);
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_frames;
@@ -277,7 +275,6 @@ set_target_velocity:
             probe_z = (u16) ((S_80024660_1 *)source)->unk_88;
             ASM_KEEP_DEP_NV(probe_z, x_step_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             probe_z = (s16) (probe_z - 32);
-            ASM_KEEP(probe_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             step_table = D_8006CCE8;
             probe_x_dest_y = *x_step_ptr;
             probe_y_dest_x = step_table[direction];
