@@ -1279,3 +1279,66 @@ newly pin-free (`dungeon/func_80FDD7E4`); 488 live fences, unchanged. By source:
   rows of the 7-to-15 pool go to three lanes. Each row names the fence whose lone erasure is nearest
   retail and the pass that decides it (sched1 21, dbr 6, combine 5, jump2 3, sched2 1), with the
   reordered pairs when a scheduler decides; eleven are within two instructions of retail.
+
+### Part 2: the keep lane, three fence lanes, `t16b_fieldabs`
+
+Part 2 gated (19 windows MATCH and SLUS SHA-1 MATCH): **8,475 pins in 1,492 rows**, 16 pins removed in 15
+rows: 15 fences (13 scheduling, 2 memory) and one keep. Live fences: 475 scheduling (488 at the round's
+start), 80 memory. The round: 46 pins, 15 fences.
+
+- **keep_astra (gpt-6-astra, about 35 minutes of work):** its analysis holds; its tool does not land.
+  - Mechanism by value kind, from five-cell controls and paired row dumps: a keep's tied output is a fresh
+    unknown definition, and erasing it restores constant, register, memory and known-bit equivalences. A
+    closed constant is substituted at the first CSE (`func_80B46E18`: CONST_INT(0) into three call
+    arguments); a copy pseudo is replaced by its source (`canon_reg`, the oldest equivalent register); two
+    equal loads fold into one; a dead load or arithmetic loses its consumer at jump and vanishes; known
+    bits make an OR result and a truncated copy interchangeable; combine merges a call result's copy.
+  - Its productive construct was a one-trip `do { v = e; } while (0)` around the kept value's producer.
+    The loop notes stop the first CSE (`cse_end_of_basic_block`) and make the scheduler add dependencies
+    (FSF 2.7.2 `sched.c:2053-2080`). Plain braces and `if (1)` fail on the same rows (0 of 8 each), so the
+    notes are causal. Held out: H1 4 of 40, H2 7 of 40, every hit a keep traded for a one-trip block.
+    census.py counts a one-trip block like a pin, so none land. The brief did not list the scaffolding
+    (the fence briefs do); LANE_KIT now carries the list verbatim. The 40 exact trades are refused
+    evidence in `ledger/refused_trades.jsonl`, which `tools/pin_evidence.py` now reads as a third source
+    (`one-trip-block` records): at those keeps a block boundary at the producer reproduces retail, so the
+    original likely had a real block, loop or macro boundary there.
+  - Bounded unreachable (same state, no extra runtime work): a zero-instruction unknown definition of a
+    closed constant or an unchanged same-mode copy; keeping an otherwise dead nonvolatile producer; a
+    runtime-unknown producer when retail has no load, call or store for it; repeated identical loads with
+    no aliasing event between them. Unresolved: KEEP4/MEMDEP early-clobber, hard registers, most
+    arithmetic and known-bit cases. Its advice: real joins (a true phi between different values kept a
+    separate register in its control), sub-word producer types, and the census tool's label
+    normalisation.
+- **Fence lanes fences18-20 (luna, 36 never-laned rows with 7-15 pins): 10 of 36 exact (28%)**, the best
+  fence-lane rate so far; each row named its nearest fence and its deciding pass.
+  - fences18 (3): a counted `for` in place of a do-while (`dungeon/func_8028A5D8`); `abs()` for two
+    staged negates with a fence above them (`dungeon/func_80E0F7C0`); an initialisation moved after the
+    record setup, which also freed a keep (`town/func_8080C324`).
+  - fences19 (5): one temporary reused for two halfword copies (`dungeon/func_8196096C`); four copies of one
+    transfer function where the slot keep moves after the direct store and the fence goes
+    (`func_80E91000`, `80E9D000`, `80EA3000`, `80EAF000`). Those four remove a fence and relocate a keep:
+    a weaker kind of win, accepted because nothing is added.
+  - fences20 (2): a counter update duplicated into both arms of the dispatch test
+    (`dungeon/func_80084084`); direct 0x80 stores in the zero-state arm, so cross-jumping cannot merge
+    the tails (`dungeon/func_8102F83C`).
+  - The misses read as before: independent pairs ordered by priority or a tie (sched1), delay-slot
+    ownership (dbr), tail merging (jump2).
+- **`t16b_fieldabs` (new, from the fences18 win):** a field's absolute value staged through a temporary
+  (`x = F; ... if (x < 0) { x = -x; } ... F = x;`, usually two fields with a fence above the loads),
+  written as `F = abs(F);`, with the run's fences and the temporaries' pins erased and unused declarations
+  dropped. t16 was eligible on the lane's row but offers only `x = abs(x);`, keeping the staging the fence
+  ordered. It reproduces the lane's output (identical assembly) and landed the other 5 census rows, one
+  fence each; its detector's 3 further rows came back noop.
+- **Joint erasures on 82 rows changed since round 14 (2-8 pins):** 0. **The cascade** over the 15 changed
+  rows: nothing.
+- **Evaluation.**
+  - Worked: fence lanes briefed with each row's deciding pass and nearest fence (10 of 36, against 8 of 52
+    and 7 of 71 before); a generator from a lane win in the same hour (t16b, 5 rows); t53k (18 rows);
+    reading the census by its wiring table.
+  - Did not: the keep lane's tool (all trades), because its brief omitted the scaffolding list; joint
+    erasures (0 of 82).
+  - Better: every brief carries the scaffolding list verbatim. A refused trade is still a measurement.
+    Run a guarded landing script from its own command line: `pgrep -f "[s]weep.py "` matched a wrapper
+    shell that had just run a sweep.
+  - Next: re-lane the earlier fence-lane misses with the round-19 packs (158 of 183 rows still fenced),
+    each row quoting its previous lane's verdict.

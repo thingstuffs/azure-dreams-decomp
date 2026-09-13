@@ -134,6 +134,12 @@ def _derive(by):
                                "pins restored" % (len(rv["removed_sites"]), rv.get("step")),
                     "hint": FAKE[op].format(**{k: (v or "?") for k, v in {"x": det.get("x"), "a": det.get("a"), "v": det.get("v")}.items()}),
                     "step": rv.get("step")})
+    # Trades refused at landing, recorded already in this form (ledger/refused_trades.jsonl): a lane's
+    # byte-exact output that removed a pin only by adding scaffolding census counts, such as keep_astra's
+    # one-trip `do { v = e; } while (0)` blocks (round 19).
+    extra = LEDGER / "refused_trades.jsonl"
+    if extra.exists():
+        out += [json.loads(l) for l in extra.read_text().splitlines() if l.strip() and json.loads(l)["id"] in by]
     return out
 
 

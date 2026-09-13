@@ -78,14 +78,13 @@ void func_8001D5D8(DungeonRect *rect) {
     bottom = top + height;
 
     if ((s16)top < (s16)bottom) {
-        do {
+        for (; (s16)scan_y < (s16)bottom; scan_y++) {
             scan_x = left;
             if (((s32)(s16)left << 16) <
                 (right_hi = (s32)(s16)right << 16)) {
                 s32 fill_row;
                 s32 fill_right;
 
-                ASM_SCHED_BARRIER();
                 fill_row = (s16)scan_y;
                 fill_right = right_hi >> 16;
 
@@ -103,8 +102,7 @@ void func_8001D5D8(DungeonRect *rect) {
                     cell->flags = 6;
                 } while ((s16)scan_x < fill_right);
             }
-            scan_y++;
-        } while ((s16)scan_y < (s16)bottom);
+        }
     }
     swap_styles = func_800A6D30() & 1;
     signed_width = (s16)width;

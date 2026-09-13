@@ -23,6 +23,24 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Nineteenth round, part 2, gated (19 windows MATCH and SLUS SHA-1 MATCH): **8,475 pins in 1,492 rows**, 16
+pins removed (15 of them fences), 46 in the round; 475 live scheduling fences (488 at the round's start) and
+80 memory fences. Details: PIN_MECHANISMS, "Round 19", part 2.
+- **Worked:**
+  - Fence lanes briefed with each row's deciding pass and its nearest fence: fences18-20 went 10 of 36
+    (28%), against 8 of 52 and 7 of 71 in the rounds before.
+  - `t16b_fieldabs`, written the same hour from one fences18 win (a field's abs staged through a
+    temporary, written as `F = abs(F);`): it reproduces the lane's bytes and took 5 more rows.
+- **Did not:** the keep lane's tool. keep_astra's analysis is sound (a keep is an unknown definition;
+  erasing it restores constant, copy, load and known-bit equivalences, each at a named pass), but its only
+  productive construct was a one-trip `do { } while (0)` block, which census counts like a pin: 40 exact
+  trades, all refused, recorded in `ledger/refused_trades.jsonl` and shown by `pin_evidence.py`. The brief
+  omitted the scaffolding list; LANE_KIT now carries it verbatim. Joint erasures on 82 changed rows: 0.
+- **Next:** re-lane the earlier fence-lane misses with the round-19 packs: 158 of the 183 rows given to
+  fences2-17 still hold a fence. The builder (`build_fence_lanes20.py` in the session scratchpad; copy
+  it into tools/ if it pays) quotes each row's previous lane verdict. Four luna lanes (fences21-24, 48
+  rows) measure the rate first. Then keep_astra's leads: real joins and sub-word producer types.
+
 Nineteenth round, part 1, gated (the search's publication gate, then 5 windows MATCH and SLUS SHA-1
 MATCH): **8,491 pins in 1,492 rows**, 30 pins removed, 1 row newly pin-free; 488 live fences, unchanged.
 Details: PIN_MECHANISMS, "Round 19".

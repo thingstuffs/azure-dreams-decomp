@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 
 typedef __SIZE_TYPE__ uptr;
@@ -183,8 +184,6 @@ CopyFacing:
 
 MakeSource:
     {
-        s32 target_x;
-        s32 target_z;
 
         ((S_801728E4_1 *)actor)->unk_60 =
             func_800A05A4(actor,
@@ -192,17 +191,8 @@ MakeSource:
                           ((S_801728E4_4 *)sprite)->unk_25,
                           ((S_801728E4_1 *)actor)->unk_2A,
                           0x10);
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        target_x = ((S_801728E4_1 *)actor)->unk_72.u;
-        target_z = ((S_801728E4_1 *)actor)->unk_73.u;
-        if (target_x < 0) {
-            target_x = -target_x;
-        }
-        if (target_z < 0) {
-            target_z = -target_z;
-        }
-        ((S_801728E4_1 *)actor)->unk_72.u = target_x;
-        ((S_801728E4_1 *)actor)->unk_73.u = target_z;
+        ((S_801728E4_1 *)actor)->unk_72.u = abs(((S_801728E4_1 *)actor)->unk_72.u);
+        ((S_801728E4_1 *)actor)->unk_73.u = abs(((S_801728E4_1 *)actor)->unk_73.u);
     }
 
 Update:

@@ -60,6 +60,11 @@ scheduler, which produced `t51_sched_order`), `work/native_lane/reg_astra` (roun
    - write only inside the lane directory, with bulk dumps under `scratch/` behind a `.ignore`;
    - never `src/`, git, gates, sweeps, `pin_search.py` or `apply_candidates.py`;
    - the IO discipline, and at most 8 compiles at a time;
+   - **the scaffolding list, verbatim: no new `ASM_*`, `__asm__`, `volatile`, fake dependencies, and no
+     `do { } while (0)`, `while (0) { }`, `for (;0;)` or any other one-trip block.** census.py counts a
+     one-trip block like a pin, so a keep traded for one removes nothing. keep_astra (round 19) was not
+     told this and built its whole tool on one-trip blocks around the kept value's producer (their loop
+     notes stop the first CSE and the scheduler): 40 exact outputs, every one a keep traded for a block;
    - freedom of approach;
    - the question, with the census numbers;
    - hypotheses to TEST, not assume;

@@ -106,6 +106,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     register s32 *scratch_words ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     register s32 saved_y_offset ASM_REG("$21") = y_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *texture_config;
+    u16 texture_word;
     s32 corner_uv;
     s32 neutral_color;
     s32 shade;
@@ -158,9 +159,10 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     scratch->w88 = 0x400040;
     texture_config = D_80027374;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    record->f14.h[1] = *(u16 *)(texture_config + 4);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    record->fC.h[1] = *(u16 *)(texture_config + 6);
+    texture_word = *(u16 *)(texture_config + 4);
+    record->f14.h[1] = texture_word;
+    texture_word = *(u16 *)(texture_config + 6);
+    record->fC.h[1] = texture_word;
     record->f1C.b[0] = texture_config[8];
     record->fC.b[0] = record->f1C.b[0];
     record->f24.b[0] = texture_config[8] + texture_config[10];

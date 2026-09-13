@@ -81,10 +81,9 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
         transfer_base = (s32 *)0x80170000;
         ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         item_data = D_800E3548[ground_index];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         transfer_slot = transfer_base - 1031;
-        ASM_KEEP(transfer_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         transfer_base[-1031] = item_data;
+        ASM_KEEP(transfer_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         D_800E3548[ground_index] = 0;
         func_8016AADC(item_data, transfer_base);
         __builtin_unreachable();
