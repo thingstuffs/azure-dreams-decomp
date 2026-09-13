@@ -371,9 +371,7 @@ case_32: {
                 }
                 floor = func_800C2AE8(motion);
                 floor_fixed = (s32)floor << 16;
-                height = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
-                ASM_KEEP(height);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                height = height + 0x100000;
+                height = ((S_800BCE78_1 *)motion)->unk_08.at00.v + 0x100000;
                 ((S_800BCE78_1 *)motion)->unk_14 =
                     (floor_fixed - height) /
                     (s16)((Rec_D_80082D58 *)actor)->unk_6C.as_u16;

@@ -39,7 +39,7 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   register void *setup_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   register s32 motion_component ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 base_shift;
-  int index_step;
+  s16 index_step;
   register s32 angle_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   s32 trig_result;
   register void *render_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -130,9 +130,8 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
         render_state = *((void **) (((s8 *) effect) + 0xC));
         *((s16 *) (((s8 *) render_state) + 0x1E)) = 0x400;
         *((s16 *) (((s8 *) render_state) + 0x1C)) = 0x400;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-          register void *render_asset ASM_REG("$2") = D_80028880;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+          void *render_asset = D_80028880;
           *((M2C_UNK **) (((s8 *) render_state) + 8)) = render_asset;
         }
         *((s16 *) (((s8 *) render_state) + 0x10)) = 0x20;

@@ -75,7 +75,6 @@ void func_80173904(
     register s32 factor ASM_REG("$3");
     register s32 wrapped_angle ASM_REG("$16");
     register s32 angle_work ASM_REG("$19");
-    s32 initial_angle;
     register void *source;
     s32 depth_delta;
     S_80173904_2 *display;
@@ -90,23 +89,21 @@ void func_80173904(
     (void)unused_0;
     (void)unused_2;
     (void)unused_3;
-    initial_angle = angle;
     source = origin;
     target = (void *)0x212;
     depth_delta = depth_offset;
-    ASM_KEEP_NV(initial_angle);
+    ASM_KEEP_NV(angle);
     ASM_KEEP_NV(source);
     ASM_KEEP_NV(source);
     object = func_8003FC64((s32)target);
     if (object != NULL) {
-        angle_work = initial_angle;
-        ASM_KEEP(angle_work);
+        angle_work = angle;
         target = object;
         object_data = &D_80045340;
         state = (u8 *)object + 0x20;
         state->unk_1A = 0x14;
         state->unk_20 = 0x14;
-        state->unk_1E = (s16)initial_angle;
+        state->unk_1E = (s16)angle;
         ((S_80173904_1 *)object)->unk_10 = &D_80173738;
         func_8004491C(target, object_data);
 
@@ -121,7 +118,7 @@ void func_80173904(
         state->unk_40 = ((S_80173904_3 *)source)->unk_00;
         value = ((S_80173904_3 *)source)->unk_04;
         state->unk_44 = value;
-        value = (s16)initial_angle;
+        value = (s16)angle;
         while (value >= 0x1001) {
             value = angle_work - 0x1000;
             angle_work = value;

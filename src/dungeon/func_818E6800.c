@@ -146,13 +146,12 @@ state_other:
 
                 {
                     s32 init_word = 0x101010;
-                    s32 flags;
+                    s16 flags;
                     register u8 *template ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     s32 template_word;
                     S16(render_data, 30) = 4096;
                     S16(render_data, 28) = 4096;
                     S16(render_data, 16) = 32;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     flags = U16(render_data, 20);
                     ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     template = D_800DECF8;

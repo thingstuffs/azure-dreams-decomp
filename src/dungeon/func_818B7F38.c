@@ -183,7 +183,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 step_x_or_z;
     s16 *x_offsets;
     s16 *y_offsets;
-    register s32 index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 index;
     register s32 target_dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 target_dz;
     u16 source_z;
@@ -192,11 +192,11 @@ void func_80025738(void *state, void *motion_in, void *render) {
     u32 table_page;
     register s32 tile_x ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 tile_y;
-    s32 tile_x_signed;
+    s16 tile_x_signed;
     s32 tile_y_signed;
-    register s32 tile_shifted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 tile_shifted;
     void *source_data;
-    register void *destination ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *destination;
     void *source_header;
     void *owner;
     void *target;
@@ -442,16 +442,14 @@ store_path_dy:
 store_path_dz:
     frame.delta[2] = path_dz;
     ((S_80025738_0 *)state)->unk_12 = path_dx;
-max_path_delta:
+do {
     if (((S_80025738_11 *)path_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
         ((S_80025738_0 *)state)->unk_12 = ((S_80025738_11 *)path_delta_cursor)->unk_18.u;
     }
 next_path_axis:
     index += 1;
     path_delta_cursor += 1;
-    if (index < 3) {
-        goto max_path_delta;
-    }
+    } while (index < 3);
     path_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
     ((S_80025738_0 *)state)->unk_12 = (s16) path_ticks;
     if (path_ticks != 0) {

@@ -24,7 +24,7 @@ s32 func_800A70E4(s32 input_x, s32 input_y, s32 input_z) {
     s32 held_z;
     s32 held_y;
     s32 result;
-    register s32 entry_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 entry_index;
     s32 y;
     u16 tile_flags;
     ActiveEntry *active_entry;
@@ -41,10 +41,10 @@ s32 func_800A70E4(s32 input_x, s32 input_y, s32 input_z) {
         goto scan;
     }
     result = -1;
-    goto done;
+    return result;
 success:
     result = (s16)entry_index;
-    goto done;
+    return result;
 scan:
     x = (s16)held_x;
     y = held_y;
@@ -55,7 +55,7 @@ scan:
     result = 0x800E0000;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     active_entry = (ActiveEntry *)(result + 0x3548);
-check_entry:
+do {
     if ((active_entry->active != 0) && (position->x == x) && (position->y == y)) {
         height_delta = z - position->value;
         if (height_delta < 0) {
@@ -72,11 +72,9 @@ next_entry:
     active_entry++;
     if (entry_index >= 0x40) {
         result = -1;
-        goto done;
+        return result;
     }
-    goto check_entry;
-done:
-    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    } while (1);
     return result;
 }
 

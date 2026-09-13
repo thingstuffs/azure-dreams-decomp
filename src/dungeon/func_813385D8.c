@@ -34,7 +34,7 @@ void func_8016F5D8(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *comm
     s32 command_table;
     register s32 phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 fast_count;
-    s32 fast_wide_count;
+    s16 fast_wide_count;
     s32 slow_count;
     s16 signed_count;
 
@@ -79,10 +79,8 @@ void func_8016F5D8(S_8016F5D8_1 *state, S_8016F5D8_2 *output, S_8016F5D8_0 *comm
             goto finish;
         }
         fast_wide_count = state->unk_9E;
-        ASM_KEEP(fast_wide_count);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        signed_count = fast_wide_count;
+        signed_count = fast_wide_count++;
         phase = signed_count * 0x155;
-        fast_wide_count++;
         state->unk_9E = fast_wide_count;
         state->unk_A0.at00.v += func_800644B8(phase) << 6;
     }

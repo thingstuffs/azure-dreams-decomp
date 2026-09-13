@@ -23,6 +23,24 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Fifteenth round, gated (three search publication gates, then 15 windows MATCH and SLUS SHA-1 MATCH):
+**8,755 pins in 1,523 rows**, 62 pins and 13 fences removed; 494 live fences. By source: pin search
+at four times the budget 46, fence lanes 8, cascade 6, `t48` 2. Details: PIN_MECHANISMS, "Round 15".
+- **Worked:** `pin_search` baseline at 4800 screens / 24 verifies / 160 CPU-s over the rows whose
+  LATEST search stopped on a budget: 46 pins in 33 of 514 rows, CPU only. Fence lanes on rows with 7
+  to 15 pins: 8 of 52 (fences13 to fences17).
+- **Did not:** `t50_dofor` (m2c's counted do-while as `for`/`while`), 0 of 120: the spelling
+  compiles exact with every pin in place. The generator audit found one real detector gap (`t48`
+  stopped at a pin after a label), worth 1 row. Porting wins between copies of a function: too few
+  structural copies (111 pinned rows).
+- **Next (round 16, the owner's request):** one astra lane with freedom of analysis and tooling on
+  the biggest blocker. The fence lanes diagnose an instruction ORDER in 84 of 116 misses, and the
+  three largest atlas clusters are orders. The lane is `work/native_lane/sched_astra/`: is gcc 2.x's
+  first-scheduler tie-break (LUID, i.e. statement order) computable from dumps, and can an oracle
+  plus a `t51` generator restore retail's order without pins? Launch with scratchpad
+  `launch_sched_astra.sh`; no gate or publish while it scores. A 16x search on the 18 rows that
+  found a candidate and ran out of CPU again can search meanwhile and publish after.
+
 Fourteenth round, gated (the erasure search's publication gate, then 18 windows MATCH and SLUS SHA-1
 MATCH): **8,817 pins in 1,523 rows**, 56 pins and 9 fences removed. By source: `t16` 26, joint
 erasures 17, fence lanes 10, cascade 3. Details: PIN_MECHANISMS, "Round 14".

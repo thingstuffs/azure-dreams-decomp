@@ -123,8 +123,6 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
         work_value = (s32)func_800A04F0(actor, U8_AT(position, 0x24),
                                     U8_AT(position, 0x25),
                                     S16_AT(actor, 0x2A));
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        attempt = 0;
         if (work_value == 0) {
             goto loop_ready;
         }
@@ -171,7 +169,6 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
                 U8_AT(position, 0x24), U8_AT(position, 0x25),
                 D_80082E80_center[0].x,
                 D_80082E80_center[0].y);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             attempt = 0;
             if ((work_value << 16) != 0) {
                 limit_turn = 1;
@@ -242,6 +239,7 @@ loop_setup:
     attempt = 0;
 
 loop_ready:
+    attempt = 0;
     work_value = (s32)0x80070000;
     ASM_KEEP(work_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     angle_step = (s16 *)(work_value - 0x3300);
@@ -360,4 +358,3 @@ update_height:
     }
     return;
 }
-

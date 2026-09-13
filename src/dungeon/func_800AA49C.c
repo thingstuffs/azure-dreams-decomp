@@ -104,8 +104,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         s32 raw_y;
         register s32 call_value ASM_REG("$4");
         void *call_segment;
-        register s16 *call_scratch ASM_REG("$6");
-        register s32 call_previous ASM_REG("$7");
+        s16 *call_scratch;
         s32 scaled_coord;
         register s32 end_x ASM_REG("$16");
         start_x = func_80064584(angle) * 6 - offset_x;
@@ -125,16 +124,15 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             coord = scaled_coord - offset_x;
             raw_y = func_800644B8(call_value);
             call_scratch = scratch;
-            call_previous = last_result;
-            scaled_coord = raw_y * 6;
+            last_result = last_result;
             call_value = (s32)shape;
             call_segment = segment;
-            end_y = scaled_coord - offset_y;
+            end_y = (raw_y * 6) - offset_y;
             scratch[0x88 / 2] = coord;
             scratch[0x78 / 2] = coord;
             scratch[0x8a / 2] = end_y;
             scratch[0x7a / 2] = end_y;
-            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, call_previous, 0);
+            result = func_800AFFB4((void *)call_value, call_segment, call_scratch, last_result, 0);
             next_angle += 0x80;
             if (result == 0)
                 break;

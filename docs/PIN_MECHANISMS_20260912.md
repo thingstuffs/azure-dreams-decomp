@@ -915,3 +915,62 @@ erasures 17 (4 rows), the lanes 10 (7 rows), the cascade 3.
   - Next: audit the other generators' detectors against m2c's spellings. A static check per
     generator costs no model time: which pinned rows hold the idiom's operators but are refused as
     ineligible. Fence lanes on the rows with 7 or more pins only if the audit runs dry.
+
+## Round 15 (2026-09-13): the generator audit, t50_dofor, the search at four times the budget
+
+Gated (15 overlay windows and the SLUS build MATCH): **8,755 pins in 1,523 rows**, 62 pins and 13 fences removed.
+
+- **Auditing the generators against the lane wins.** Every generator was run on the base text of the
+  33 lane wins that have one. The detectors mostly fired: t43 or t48 was eligible on five of the
+  rows whose mechanism it claims. What failed was the candidate space. For each lane win, recording
+  every candidate the claimed generator offered (no compile) and measuring its distance to the lane's
+  exact output showed the closest candidate was never the lane's answer.
+- **t48_gotoreturn:** its return-tail reader stopped at a pin line right after the label
+  (`return_zero: ASM_SCHED_BARRIER(); return 0;`), so that tail was never a sink target. It now
+  skips pin lines. On the lane bases it reproduces two lane results (`dungeon/func_800BB728` 5 to 4
+  pins, `town/func_800B3834` 2 to 1). 16 more rows became eligible; the re-sweep of the 18 rows whose
+  candidates changed landed 1 (`dungeon/func_800A1984`). A related check showed that an unused label
+  left behind does not change the output.
+- **t50_dofor (new):** m2c writes a constant-trip `for` as `v = 0; do { ...; v++; } while (v < N);`.
+  t50 offers `for (; C; step)`, `for (v = C0; C; step)` and `while (C)`, then t41c's greedy erasure. It
+  reproduces the fences12 lane's `dungeon/func_80DBBFC8`, but the sweep over 120 rows landed 0. In 34
+  of the first 47 refusals a spelling was exact with every pin in place and freed nothing: gcc 2.x
+  folds the entry test and emits the same code. A spelling that changes no pass does not free pins,
+  which is the round 9 lesson again.
+- **The shape census.** Counted over the pinned rows: fenced exit arms 5 rows, fenced label tails 4,
+  stores into both arms after a join 64, staging across a fence 36, counted do-whiles 127. The
+  single-lever generators for these were not built: t50's null result and the ~1% rate of every
+  earlier single-lever generator (t48, t49, fold) say the lanes are the cheaper way to find the rare
+  rows.
+- **pin_search at four times the budget (`budget4x_20260913`, `budget4x_b_20260913`, `budget4x_c_20260913`):** in the changed-rows run
+  (`pins_changed_20260913`), 249 of 515 rows stopped on a budget (151 on screens, 93 on CPU, 5 on
+  verifies). Those rows hold 3,540 of the run's 4,182 pins and still found candidates at 5 to 7%. The
+  233 without a candidate were searched again at 4800 screens / 24 verifies / 160 CPU-s. The first 197
+  (`budget4x_20260913`, 31 min wall at 10 workers, CPU only): 16 rows with a candidate, 21 pins, about
+  the rate the same rows showed at 1x (8%). 11 of the 16 came from rows that ran out of CPU budget
+  AGAIN, so the search is still budget-limited there. The other 34 (`budget4x_b_20260913`, held back
+  while t50 swept them): 1 row, 1 pin (`dungeon/func_81941338`). Then the 283 rows whose most recent search, anywhere, stopped on
+  a budget (`budget4x_c_20260913`, 2,734 pins; the full-corpus 1x run `pins_restart_20260912` had 716
+  such rows): 16 rows, 24 pins (7 of them from rows that ran out of CPU budget again). **The three
+  runs together: 46 pins in 33 of 514 rows (6.4%), CPU only, no model.** Each published through its
+  own gate.
+- **Fence lanes fences13 to fences17:** 52 rows with 7 to 15 pins, rows in the search excluded. The
+  brief now lists every fence-lane shape so far and tells the lane to expect to combine two changes.
+  **8 of 52 exact** (fences13 1, fences14 0, fences15 6, fences16 1, fences17 0 of 4), one pin each:
+  - direct field read-modify-writes in place of staged flags (`dungeon/func_818BDD8C`) or staged
+    shift/add chains (`dungeon/func_80C16F00`), the shape fences4 found on `func_818BDB44`;
+  - the branch after a call inverted (`dungeon/func_813284E4`);
+  - the positive-height adjustment arm duplicated with explicit stores, on four copies of one
+    function (`dungeon/func_80BC1BA8`, `80BC7BA8`, `80BCDBA8`, `80BD9BA8`);
+  - `attempt = 0` moved into the shared `loop_ready:` block (`dungeon/func_80D3CBF8`).
+
+  Five distinct fixes in 52 rows (10%), the rate the 4-to-6-pin rows showed. The misses were
+  diagnosed as instruction order: 84 of the 116 fence misses so far read that way.
+  fences16 left 62 `cc1 -da` dump files at the repo root despite the brief (moved to its
+  `root_strays/`); the rule is now the first line of the lane prompt.
+- **Copies of a function are not a lever.** Grouping the rows by token shape (identifiers and
+  numbers folded) finds only 35 groups with a pinned member (111 rows, 615 pins), and the four copies
+  above are not even structurally identical. Porting a win between copies would need fuzzy
+  alignment for a small population.
+- **The cascade:** the first pass over the 42 changed rows applied 6 (t37 2, t44 2, T2 2); the second applied nothing. The round's 62 pins: searches 46, lanes 8, cascade 6, t48 2.
+- **Evaluation.** What paid: the search at four times the budget on rows whose last search stopped on a budget (46 pins, CPU only, the cheapest lever this round); fence lanes on 7-to-15-pin rows (8 of 52, five distinct fixes, about the 4-to-6-pin rate); the cascade (6). What did not: t50_dofor (0 of 120) and the t48 detector fix (1 row). Detector gaps are real but small once a lane's shape is rare, and a spelling that changes no pass frees nothing. What to do better: the lanes diagnose an ordering mechanism in 84 of 116 misses, and every single-lever generator lands about 1%, so the next step is an oracle rather than another generator. Round 16 gives one astra lane the first scheduler's ordering, with freedom of analysis and tooling (the owner's request). The 4x search still stopped on a budget in 95 rows; 18 of its candidate rows ran out of CPU again, and a 16x run there is the next CPU-only job. It can search while astra works, but publishes only after astra stops.

@@ -181,11 +181,15 @@ void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
                 if (adjustment < height_offset) {
                     adjustment = height_bits - 8;
-                    ASM_SCHED_BARRIER();
                     (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
                     goto finish_height;
                 }
-                goto raise_height;
+                adjustment = height_offset < -8;
+                if (adjustment != 0) {
+                    adjustment = height_bits + 8;
+                    (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+                }
+                goto finish_height;
             }
             goto finish_height;
         }
@@ -272,17 +276,15 @@ clear_height:
         height_bits = (*(u16 *)((u8 *)entity + 0x92));
         if (adjustment < height_offset) {
             adjustment = height_bits - 8;
-            goto store_height;
+            (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+            goto finish_height;
         }
-raise_height:
         adjustment = height_offset < -8;
         if (adjustment != 0) {
             adjustment = height_bits + 8;
-        } else {
-            goto finish_height;
+            (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
         }
-store_height:
-        (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+        goto finish_height;
     }
 finish_height:
     flags = ((S_801593A8_2 *)entity_base)->unk_1C;

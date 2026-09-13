@@ -144,11 +144,10 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
             }
             move_result = func_800A04F0(actor, ((S_8016FCE4_1 *)position)->unk_24.at00.v, ((S_8016FCE4_1 *)position)->unk_24.at01.v, (s16) ((S_8016FCE4_0 *)actor)->unk_2A.u);
             turn_index = 0;
-            if (move_result != 0) {
-                ASM_SCHED_BARRIER(); /* MATCH: retain the forward jump to shared cleanup. */
-                goto finish_move;
+            if (move_result == 0) {
+                goto start_turn_search;
             }
-            goto start_turn_search;
+            goto finish_move;
         }
         turn_index = 0;
         if (!(((S_8016FCE4_0 *)actor)->unk_46 & 0x8000)) {

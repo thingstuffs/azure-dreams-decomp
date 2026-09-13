@@ -286,9 +286,9 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
                     sprite->unk_2C;
             ((S_80175594_1 *)scratch)->unk_82 = scaled_coord >> 12;
             {
-                register void *vertex_1 ASM_REG("$5") = scratch + 0x78;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                register void *vertex_2 ASM_REG("$6") = scratch + 0x80;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                register void *vertex_3 ASM_REG("$7") = scratch + 0x88;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                void *vertex_1 = scratch + 0x78;
+                void *vertex_2 = scratch + 0x80;
+                void *vertex_3 = scratch + 0x88;
                 register void *screen_0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                 s32 bottom_y;
                 register s32 bottom_scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -297,10 +297,8 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
                 screen_0 = scratch + 0xF0;
                 bottom_y = (s16)bottom_y +
                                 ((S_80175594_1 *)scratch)->unk_14.s32;
-                ASM_KEEP(bottom_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 bottom_scale = sprite->unk_30;
-                scaled_coord = bottom_y * bottom_scale;
-                ((S_80175594_1 *)scratch)->unk_8A = scaled_coord >> 12;
+                ((S_80175594_1 *)scratch)->unk_8A = (bottom_y * bottom_scale) >> 12;
 
                 func_800654B0(scratch + 0x70, vertex_1,
                               vertex_2, vertex_3,

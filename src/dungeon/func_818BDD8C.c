@@ -82,7 +82,7 @@ void *func_818BDD8C(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
     s32 copy_word_2;
     s32 copy_word_3;
     s32 draw_flags;
-    register s32 render_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 render_flags;
     S_818BDD8C_3 *render;
     void *object;
     S_818BDD8C_1 *state;
@@ -101,13 +101,9 @@ void *func_818BDD8C(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
         render->unk_0C = 0x80;
         render->unk_12 = 0x7E01;
         render->unk_08 = &D_80025DF8;
-        render_flags = render->unk_14 | 0xC;
-        draw_flags = render->unk_10 | 0x20;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        render->unk_14 = render_flags;
-        render_flags |= 0x100;
-        render->unk_10 = draw_flags;
-        render->unk_14 = render_flags;
+        render->unk_14 |= 0xC;
+        render->unk_10 |= 0x20;
+        render->unk_14 |= 0x100;
         {
             register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 scale;

@@ -187,11 +187,15 @@ airborne_motion:
                 height_bits = (*(u16 *)((u8 *)self + 0x92));
                 if (adjustment < height_offset) {
                     adjustment = height_bits - 8;
-                    ASM_SCHED_BARRIER(); /* MATCH: keep the first motion arm separate from the later adjustment tail. */
                     (*(s16 *)((u8 *)self + 0x92)) = adjustment;
                     goto finish_motion;
                 }
-                goto adjust_positive;
+                adjustment = height_offset < -8;
+                if (adjustment != 0) {
+                    adjustment = height_bits + 8;
+                    (*(s16 *)((u8 *)self + 0x92)) = adjustment;
+                }
+                goto finish_motion;
             }
             goto finish_motion;
         }
@@ -280,17 +284,15 @@ grounded_motion:
         height_bits = (*(u16 *)((u8 *)self + 0x92));
         if (adjustment < height_offset) {
             adjustment = height_bits - 8;
-            goto store_adjustment;
+            (*(s16 *)((u8 *)self + 0x92)) = adjustment;
+            goto finish_motion;
         }
-adjust_positive:
         adjustment = height_offset < -8;
         if (adjustment != 0) {
             adjustment = height_bits + 8;
-        } else {
-            goto finish_motion;
+            (*(s16 *)((u8 *)self + 0x92)) = adjustment;
         }
-store_adjustment:
-        (*(s16 *)((u8 *)self + 0x92)) = adjustment;
+        goto finish_motion;
     }
 finish_motion:
     actor_flags = ((S_8016B3A8_2 *)actor_base)->unk_1C;

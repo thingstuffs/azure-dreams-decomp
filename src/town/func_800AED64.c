@@ -286,8 +286,8 @@ void func_800AC4C4(void) {
     void *packet_xy3;
     S_func_800AED64_7 *end_edge;
     S_func_800AED64_7 *step_edge;
-    register s32 x_step ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 error_step ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 x_step;
+    u32 error_step;
     s32 row_limit;
     register void *work_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     void *coord_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -430,8 +430,10 @@ step_span:
                 if (scratch->unk_18 < span_end_x) {
                     scratch->unk_18 = span_end_x;
                 }
+                span_edge_index -= 1;
+            } else {
+                span_edge_index -= 1;
             }
-            span_edge_index -= 1;
             span_edge = (S_func_800AED64_7 *)((u8 *)span_edge - 0x28);
         } while (span_edge_index >= 0);
         scratch->unk_14.s32 = (scratch->unk_14.s32 - 0x20) & ~0x3F;

@@ -106,7 +106,6 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     Callback active_callback;
     s16 floor_height;
     s32 target_height;
-    register s32 height_bits ASM_REG("$4");
     s32 height;
     s32 height_gap;
     u16 global_flags;
@@ -203,13 +202,13 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 1) {
         target_height = ((S_8017112C_4 *)motion)->unk_14.at02.v;
         height = ((S_8017112C_4 *)motion)->unk_08.at02.v;
-        height_bits = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
+        height_fixed = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
         if (target_height > height) {
             height_gap = target_height - height;
             height_gap = abs(height_gap);
             divisor_magic = 0x66660000;
             if (height_gap >= 0x65) {
-                height_gap = height_bits + 8;
+                height_gap = height_fixed + 8;
                 ((S_8017112C_4 *)motion)->unk_08.at02.v = height_gap;
             } else {
                 height_delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;

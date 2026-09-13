@@ -30,6 +30,7 @@ except ImportError:
 MAX_CANDS = int(os.environ.get("T48_MAX", "40"))
 NEAR = int(os.environ.get("T48_NEAR", "6"))
 SIMPLE = re.compile(r"[ \t]*[A-Za-z_][\w.\->\[\]]*[ \t]*=[^=;][^;]*;[ \t]*\n")
+PINLINE = re.compile(r"[ \t]*ASM_[A-Z0-9_]+\([^;\n]*\)[ \t]*;[^\n]*\n")
 
 
 def tails(m, b0, b1):
@@ -40,6 +41,8 @@ def tails(m, b0, b1):
         if name in ("default",):
             continue
         p = b0 + lm.end(); stmts = []
+        while PINLINE.match(m, p):          # `L: ASM_SCHED_BARRIER(); return 0;` - the pins stay at the label
+            p = PINLINE.match(m, p).end()
         while True:
             sm = SIMPLE.match(m, p)
             if sm and not re.match(r"[ \t]*(?:case\b|default\b)", m[p:]):

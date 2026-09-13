@@ -122,14 +122,8 @@ state_2:
     if (FS16(action, 0x96) > 0) goto done;
     if (!(F16(sprite, 0x14) & 0xE000)) goto done;
     F16(action, 0x96) = phase_ticks;
-    result = step_x << 18;
-    adjustment = step_x << 17;
-    F32(motion, 0xC) = result + adjustment;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    result = step_y << 18;
-    adjustment = step_y << 17;
-    result += adjustment;
-    F32(motion, 0x10) = result;
+    F32(motion, 0xC) = (step_x << 18) + (step_x << 17);
+    F32(motion, 0x10) = (step_y << 18) + (step_y << 17);
     FPTR(sprite, 0x2C) = D_801744C4;
     result = (D_80083228 + FS16(actor, 0x2A) + 0x100) >> 9;
     func_80047784(sprite, D_801744C4[result & 7], 0);

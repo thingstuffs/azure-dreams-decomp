@@ -57,7 +57,6 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
         &&phase_update_b,
     };
     S_80170A70_2 *object = entity;
-    register void *sprite ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Callback paused_callback;
     Callback update_callback;
     s16 state_or_facing;
@@ -68,7 +67,6 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     u16 sprite_flags;
     u16 visibility_flags;
 
-    sprite = sprite_arg;
     bob_offset = 0;
     if (D_80083462 & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + (0x8C)));
@@ -80,19 +78,18 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
         return;
     }
 
-    ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     state_or_facing = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
-    if (func_800A9E70(entity, motion_arg, sprite, entity) != 0) {
+    if (func_800A9E70(entity, motion_arg, sprite_arg, entity) != 0) {
         return;
     }
 
     update_callback = (*(Callback *)((u8 *)entity + (0x8C)));
     if (update_callback != 0) {
-        update_callback(entity, motion_arg, sprite, entity);
+        update_callback(entity, motion_arg, sprite_arg, entity);
     }
-    D_80174B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite, entity);
+    D_80174B1C[(*(u8 *)((u8 *)entity + (0x9A)))](entity, motion_arg, sprite_arg, entity);
     if ((s16)state_or_facing != (*(s8 *)((u8 *)entity + (0x6D)))) {
-        func_800AA36C(entity, motion_arg, sprite, entity);
+        func_800AA36C(entity, motion_arg, sprite_arg, entity);
     }
 
     ((S_80170A70_0 *)motion_arg)->unk_00.at00.v += ((S_80170A70_0 *)motion_arg)->unk_0C;
@@ -106,47 +103,45 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
         (*(u8 *)((u8 *)entity + (0x9D))) = 0;
     }
     (*(s32 *)((u8 *)entity + (0x90))) += ((S_80170A70_0 *)motion_arg)->unk_14;
-    sprite_flags = ((S_80170A70_1 *)sprite)->unk_14;
+    sprite_flags = ((S_80170A70_1 *)sprite_arg)->unk_14;
 
     if (!(sprite_flags & 0x8000)) {
         facing = ((D_80083228 + object->unk_2A + 0x100) >> 9) & 7;
         state_or_facing = facing;
         if ((*(s16 *)((u8 *)entity + (0x94))) != state_or_facing) {
-            func_80047738(sprite,
-                ((u8 *)((S_80170A70_1 *)sprite)->unk_2C)[state_or_facing],
-                ((S_80170A70_1 *)sprite)->unk_04);
+            func_80047738(sprite_arg,
+                ((u8 *)((S_80170A70_1 *)sprite_arg)->unk_2C)[state_or_facing],
+                ((S_80170A70_1 *)sprite_arg)->unk_04);
             (*(s16 *)((u8 *)entity + (0x94))) = facing;
         }
 
         {
-            u16 facing_flags;
 
             if (D_8006CCF8[state_or_facing] != 0) {
-                facing_flags = ((S_80170A70_1 *)sprite)->unk_14 | 1;
+                ((S_80170A70_1 *)sprite_arg)->unk_14 |= 1;
             } else {
-                facing_flags = ((S_80170A70_1 *)sprite)->unk_14 & 0xFFFE;
+                ((S_80170A70_1 *)sprite_arg)->unk_14 &= 0xFFFE;
             }
-            ((S_80170A70_1 *)sprite)->unk_14 = facing_flags;
         }
 
         if ((*(u8 *)((u8 *)entity + (0x9A))) != 8) {
-            func_800A020C(object->unk_1C, (u8 *)sprite + 0xC);
+            func_800A020C(object->unk_1C, (u8 *)sprite_arg + 0xC);
         }
 
         if (!(object->unk_1C & 0x20)) {
-            if (!(((S_80170A70_1 *)sprite)->unk_14 & 0x40)) {
-                func_800478B8(sprite);
+            if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
+                func_800478B8(sprite_arg);
             }
             goto clear_motion_flag;
         }
 
-        ((S_80170A70_1 *)sprite)->unk_14 |= 0x7000;
+        ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x7000;
         object->unk_1C &= 0xFFFBFFFF;
 
 clear_motion_flag:
         object->unk_1C &= 0xF7FFFFFF;
         if (object->unk_1C & 0x40000) {
-            if (!(((S_80170A70_1 *)sprite)->unk_14 & 0x40)) {
+            if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
                 {
                     s32 bob_wave = func_800644B8(
                         ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
@@ -199,9 +194,9 @@ phase_update_a:
     }
 
     if (sprite_flags & 0x800) {
-        ((S_80170A70_1 *)sprite)->unk_14 = sprite_flags & 0x8FFF;
+        ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
     } else {
-        ((S_80170A70_1 *)sprite)->unk_14 = sprite_flags | 0x7000;
+        ((S_80170A70_1 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
     }
     object->unk_1C &= 0xF7FFFFFF;
 
@@ -228,7 +223,7 @@ phase_update_a:
         goto finish_height;
     }
 
-    if (!(((S_80170A70_1 *)sprite)->unk_14 & 0x40)) {
+    if (!(((S_80170A70_1 *)sprite_arg)->unk_14 & 0x40)) {
         {
             s32 bob_wave = func_800644B8(
                 ((*(s16 *)((u8 *)entity + (0xA0))) << 12) / 40);
@@ -264,8 +259,8 @@ reset_bob:
     if (object->unk_1C & 0x40000000) {
         object->unk_1C &= 0xBFFFFFFF;
         ground_height = func_800BCB04(
-            (((S_80170A70_1 *)sprite)->unk_24 << 6) | 0x20,
-            (((S_80170A70_1 *)sprite)->unk_25 << 6) | 0x20,
+            (((S_80170A70_1 *)sprite_arg)->unk_24 << 6) | 0x20,
+            (((S_80170A70_1 *)sprite_arg)->unk_25 << 6) | 0x20,
             (s16)(object->unk_88.u - 0x20));
         if (ground_height < 0x200) {
             (*(s16 *)((u8 *)entity + (0x92))) =
@@ -277,5 +272,5 @@ reset_bob:
 
     ((S_80170A70_0 *)motion_arg)->unk_0A =
         object->unk_88.u + (u16)(*(s16 *)((u8 *)entity + (0x92))) + bob_offset;
-    ((S_80170A70_1 *)sprite)->unk_14 |= 0x40;
+    ((S_80170A70_1 *)sprite_arg)->unk_14 |= 0x40;
 }

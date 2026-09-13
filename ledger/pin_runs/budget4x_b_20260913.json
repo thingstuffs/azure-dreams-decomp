@@ -1,0 +1,30 @@
+{
+  "run_key": "5776195401efc95b247d3e95c7c2d8a407bd0d885b466bced56b48854a8cbe65",
+  "finished": "2026-09-13T09:31:04Z",
+  "options": {
+    "screens": 4800,
+    "verifies": 24,
+    "cpu_seconds": 160.0,
+    "group_screens": 240,
+    "depth": 3,
+    "beam": 4,
+    "fallback": 2,
+    "band": 30,
+    "objective": "pins",
+    "families_only": false,
+    "cache_namespace": "production"
+  },
+  "recipe": "0be7e8c82a83346c2c45f8328b8cf5c000a422b9bd8955c369394d285b182b29",
+  "search": "a0ce703b5461913ffe4e57c51a7a4da9eef93a125fedc4deb22ca167738bdbef",
+  "files": [
+    {
+      "id": "dungeon/func_81941338",
+      "path": "src/dungeon/func_81941338.c",
+      "before_sha": "035bb7f8e4f9e058eaf5eb8a3543092b50fe2d98904df4e29517cfe0b5db4ace",
+      "after_sha": "294828ef57b33b64f6433ce428fa56a1cef246b1789a9c6ba613bcd27f9b761f"
+    }
+  ],
+  "deferred": [],
+  "overlay": "MATCH",
+  "slus": "MATCH"
+}
