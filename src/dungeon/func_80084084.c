@@ -175,12 +175,12 @@ loop_third:
                     callback(entry->data, entry->arg1, entry->arg2);
                     stop_dispatch = func_80045310(
                         *(s32 *)((u8 *)D_80083160[0] + 0x8D0));
-                    ASM_SCHED_BARRIER();
-                    callback_slot++;
                     if (stop_dispatch == 0) {
+                        callback_slot++;
                         slot_index++;
                         goto third_advance;
                     }
+                    callback_slot++;
                     goto third_done;
                 }
             } else {

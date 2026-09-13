@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
+extern int abs(int);
 
 typedef struct S_80172C90_0 {
     u8 pad_00[0x1C];
@@ -210,24 +211,13 @@ OwnerLinked:
                 goto OwnerDone;
             }
         } else {
-            s32 delta_x;
-            s32 delta_y;
 
             ((S_80172C90_0 *)actor)->unk_60 = func_800A05A4(actor,
                 sprite->unk_24,
                 sprite->unk_25,
                 ((S_80172C90_0 *)actor)->unk_2A.u, 16);
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            delta_x = ((S_80172C90_0 *)actor)->unk_72.u;
-            delta_y = ((S_80172C90_0 *)actor)->unk_73.u;
-            if (delta_x < 0) {
-                delta_x = -delta_x;
-            }
-            if (delta_y < 0) {
-                delta_y = -delta_y;
-            }
-            ((S_80172C90_0 *)actor)->unk_72.u = delta_x;
-            ((S_80172C90_0 *)actor)->unk_73.u = delta_y;
+            ((S_80172C90_0 *)actor)->unk_72.u = abs(((S_80172C90_0 *)actor)->unk_72.u);
+            ((S_80172C90_0 *)actor)->unk_73.u = abs(((S_80172C90_0 *)actor)->unk_73.u);
 OwnerDone:
             {
                 void *linked_actor;

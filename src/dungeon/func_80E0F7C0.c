@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 #include "records/Rec_D_800E3D7C.h"
 
 typedef struct S_80172FC0_0 {
@@ -210,26 +211,16 @@ copy_effect:
                 ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = ((S_80172FC0_3 *)owner)->unk_25;
             }
         } else {
-            s32 x;
-            s32 y;
-
             (*(void *volatile *)((u8 *)actor + 0x60)) = func_800A05A4(
                 actor,
                 ((S_80172FC0_4 *)sprite)->unk_24,
                 ((S_80172FC0_4 *)sprite)->unk_25,
                 ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16,
                 0x10);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            x = ((Rec_D_800E3D7C *)actor)->unk_72.as_s8;
-            y = ((Rec_D_800E3D7C *)actor)->unk_73.as_s8;
-            if (x < 0) {
-                x = -x;
-            }
-            if (y < 0) {
-                y = -y;
-            }
-            ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = x;
-            ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = y;
+            ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 =
+                abs(((Rec_D_800E3D7C *)actor)->unk_72.as_s8);
+            ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 =
+                abs(((Rec_D_800E3D7C *)actor)->unk_73.as_s8);
         }
         if (func_800A94A0(actor, effect_id, is_special, (u8 *)anim + 0x98) == 0) {
             return;

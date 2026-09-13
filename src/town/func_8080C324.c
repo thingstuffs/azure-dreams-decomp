@@ -151,7 +151,6 @@ s32 func_8080C324(void) {
     panel_record = &rect_record;
     ASM_USE2(panel_template, panel_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     remaining = 8;
-    line_x = 0xE0;
     rect_record.f8 = color_or_flags;
     color_or_flags = rect_record.f16;
     initial_state = 0x3020;
@@ -159,15 +158,14 @@ s32 func_8080C324(void) {
     *(s32 *)(state_page + 0x6D8) = initial_state;
     rect_record.fC = 0x30;
     rect_record.fE = 0xA0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     panel_width = 0xE0;
-    ASM_KEEP_NV(panel_width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rect_record.f10 = panel_width;
     rect_record.f12 = 0x22;
     rect_record.f14 = 2;
     rect_record.f0 = 0;
     rect_record.f2 = 0x10;
     rect_record.f4 = root;
+    line_x = 0xE0;
     color_or_flags |= 3;
     rect_record.f16 = color_or_flags;
     func_80526C90(panel_template, panel_record);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 typedef struct S_80172D74_0 {
     u8 pad_00[0x1C];
@@ -219,24 +220,13 @@ have_entity:
             }
         } else {
             void *spawned_entity;
-            s32 x;
-            s32 z;
 
             spawned_entity = func_800A05A4(actor,
                 ((S_80172D74_4 *)sprite)->unk_24, ((S_80172D74_4 *)sprite)->unk_25,
                 ((S_80172D74_0 *)actor)->unk_2A, 0x10);
             ((S_80172D74_0 *)actor)->unk_60 = spawned_entity;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            x = ((S_80172D74_0 *)actor)->unk_72.u;
-            z = ((S_80172D74_0 *)actor)->unk_73.u;
-            if (x < 0) {
-                x = -x;
-            }
-            if (z < 0) {
-                z = -z;
-            }
-            ((S_80172D74_0 *)actor)->unk_72.u = x;
-            ((S_80172D74_0 *)actor)->unk_73.u = z;
+            ((S_80172D74_0 *)actor)->unk_72.u = abs(((S_80172D74_0 *)actor)->unk_72.u);
+            ((S_80172D74_0 *)actor)->unk_73.u = abs(((S_80172D74_0 *)actor)->unk_73.u);
         }
     }
 

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
+extern int abs(int);
 
 
 typedef s32 Any;
@@ -67,7 +68,6 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     };
     s32 use_player_target;
     s32 particle_count;
-    s32 facing_x;
     s32 offset_z;
     s32 direction;
     s32 action_kind;
@@ -173,7 +173,6 @@ copy_facing:
             }
         }
     } else {
-        s32 facing_y;
 
         ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = func_800A05A4(
             actor,
@@ -181,18 +180,9 @@ copy_facing:
             ((Rec_D_80082E80 *)sprite)->unk_25,
             ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16,
             0x10);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-        facing_x = ((Rec_D_800E3D7C *)actor)->unk_72.as_s8;
-        facing_y = ((Rec_D_800E3D7C *)actor)->unk_73.as_s8;
-        if (facing_x < 0) {
-            facing_x = -facing_x;
-        }
-        if (facing_y < 0) {
-            facing_y = -facing_y;
-        }
-        ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = facing_x;
-        ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = facing_y;
+        ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = abs(((Rec_D_800E3D7C *)actor)->unk_72.as_s8);
+        ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = abs(((Rec_D_800E3D7C *)actor)->unk_73.as_s8);
     }
 
     if (func_800A94A0(actor, action_data, use_player_target, (u8 *)action + 0x98) == 0) {

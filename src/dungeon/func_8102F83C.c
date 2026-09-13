@@ -152,9 +152,10 @@ void func_8017103C(void *entity_arg, void *motion_arg, void *monster_arg)
                 if (monster_state != 0) {
                     goto nonzero_state;
                 }
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-                shade = 0x80;
-                goto set_state_bytes;
+                ((S_8017103C_0 *)monster)->unk_0E = 0x80;
+                ((S_8017103C_0 *)monster)->unk_0D = 0x80;
+                ((S_8017103C_0 *)monster)->unk_0C = 0x80;
+                goto flags_done;
 nonzero_state:
                 if (monster_state == 1) {
                     goto state_value_64;

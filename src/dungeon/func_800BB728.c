@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_800C0E88_0 {
     u8 pad_00[0x110];
@@ -109,8 +110,6 @@ s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
     s32 scan_slot;
     s32 slot_count;
     s32 message_end;
-    s32 x_magnitude;
-    s32 y_magnitude;
     s16 delay_timer;
     u32 flags;
 
@@ -223,18 +222,9 @@ decrement_status:
     object = (u8 *)((u32)object & 0xDFFFFFFF);
     ((S_800C0E88_2 *)object)->unk_60 = func_800A05A4(
         object, object_record[0x24], object_record[0x25], ((S_800C0E88_2 *)object)->unk_2A, 16);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
-    x_magnitude = ((S_800C0E88_2 *)object)->unk_72;
-    y_magnitude = ((S_800C0E88_2 *)object)->unk_73;
-    if (x_magnitude < 0) {
-        x_magnitude = -x_magnitude;
-    }
-    if (y_magnitude < 0) {
-        y_magnitude = -y_magnitude;
-    }
-    ((S_800C0E88_2 *)object)->unk_72 = x_magnitude;
-    ((S_800C0E88_2 *)object)->unk_73 = y_magnitude;
+    ((S_800C0E88_2 *)object)->unk_72 = abs(((S_800C0E88_2 *)object)->unk_72);
+    ((S_800C0E88_2 *)object)->unk_73 = abs(((S_800C0E88_2 *)object)->unk_73);
 
     if (data[3] & 0x20) {
         if (func_800A94A0(object, object + 8, 0,
