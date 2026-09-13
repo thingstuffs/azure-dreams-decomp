@@ -13,6 +13,10 @@ RESOLVES    the fences25 lane (round 21, `dungeon/func_8132B8AC`): with the fenc
             A NON_MATCHING arm was written as the natural C and set aside when it missed; other changes
             since (a fence removed, a cell switched, a neighbour rewritten) can make it exact.
 POPULATION  2026-09-13: 21 NON_MATCHING arms naming a symbol over a pinned matching arm, in 15 rows.
+RESULT      2026-09-13: 0 of 14 eligible rows. The first version deleted the NON_MATCHING arm and every
+            candidate died on the sweep's unscored-arm check; the arm is now kept and copied into the
+            matching arm, and still none is exact alone. The fences25 win also needed the fence above
+            removed and a temporary inlined: a NON_MATCHING arm is evidence, not a lever by itself.
 Each block collapsed to its NON_MATCHING arm alone, then all jointly; then the pins naming a local the
 collapse left unused (a page and its keep), then every pin still standing once on its own. Only `vf`
 accepts; the unscored-arm check is the sweep's own.
@@ -29,13 +33,15 @@ SYM = re.compile(r"\b\w+\s*=\s*(?:\([^)]*\)\s*)?&?\s*D_[0-9A-Fa-f]{8}\b")
 
 
 def find(text):
-    """[(start, end, nm_text)] for each NON_MATCHING/else block whose NON_MATCHING arm assigns a symbol
-    and whose matching arm holds a pin."""
-    return [(m.start(), m.end(), m.group("nm")) for m in BLOCK.finditer(text)
+    """[(m_start, m_end, nm_text)] for each NON_MATCHING/else block whose NON_MATCHING arm assigns a symbol
+    and whose matching arm holds a pin: the span is the MATCHING arm's body."""
+    return [(m.start("m"), m.end("m"), m.group("nm")) for m in BLOCK.finditer(text)
             if SYM.search(m.group("nm")) and "ASM_" in m.group("m")]
 
 
 def collapse(text, blocks):
+    """The matching arm's body becomes a copy of the NON_MATCHING arm's; the NON_MATCHING arm itself is left
+    as it is (the sweep refuses any change to an unscored arm), as the fences25 lane wrote it."""
     for s, e, nm in sorted(blocks, reverse=True):
         text = text[:s] + nm + text[e:]
     return text
