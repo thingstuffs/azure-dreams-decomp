@@ -135,9 +135,10 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     void *sprite;
     s32 x_step;
     register s32 y_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 end_frame ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 end_frame;
     void *resident_sprite;
     void *source_data;
+    void * source_data_2;
     register s16 *update_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *update_ptr;
     s16 *update_y_base;
@@ -219,13 +220,12 @@ rise:
     ((S_80025C80_0 *)effect)->unk_32 = frame_toggle;
     if (((rise_ticks << 0x10) <= 0) && (((S_80025C80_1 *)sprite)->unk_14 & 0x4000)) {
         end_frame = 8;
-        ASM_KEEP(end_frame);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        source_data = D_800E3D7C;
+        source_data_2 = D_800E3D7C;
         ((S_80025C80_0 *)effect)->unk_38 = end_frame;
         ((S_80025C80_0 *)effect)->unk_36 = 0xF;
         ((S_80025C80_0 *)effect)->unk_32 = 1;
-        ((S_80025C80_0 *)effect)->unk_3A = (u16) ((S_80025C80_3 *)source_data)->unk_88;
-        ((S_80025C80_0 *)effect)->unk_40.u = (u16) (((u16) ((S_80025C80_3 *)source_data)->unk_2A >> 9) & 7);
+        ((S_80025C80_0 *)effect)->unk_3A = (u16) ((S_80025C80_3 *)source_data_2)->unk_88;
+        ((S_80025C80_0 *)effect)->unk_40.u = (u16) (((u16) ((S_80025C80_3 *)source_data_2)->unk_2A >> 9) & 7);
         resident_sprite = &D_80082E80;
         ((S_80025C80_0 *)effect)->unk_3C = ((S_80025C80_4 *)resident_sprite)->unk_24;
         start_tile_y = ((S_80025C80_4 *)resident_sprite)->unk_25;

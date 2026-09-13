@@ -255,9 +255,8 @@ invoke_item:
             void *new_effect;
 
             new_effect = func_8003FD64(0x112, D_80083498);
-            effect = new_effect;
-            ASM_KEEP(new_effect);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             actor->unk_A8 = new_effect;
+            effect = new_effect;
             if (effect != 0) {
                 VecData *effect_motion;
 

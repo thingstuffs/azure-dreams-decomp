@@ -84,7 +84,7 @@ void func_8081DD70(void *source_data, void *record_data) {
     void *packet;
     u8 *src_start;
     u8 *dst_start;
-    register u8 *src_limit ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *src_limit;
     u8 *src;
     u8 *dst;
     u8 *src_end;
@@ -100,9 +100,9 @@ void func_8081DD70(void *source_data, void *record_data) {
     if (object != 0) {
         dst_start = copy_dst;
         src_start = source_data;
-        src_limit = (u8 *)source_data + 0x50;
         dst = dst_start;
         src = src_start;
+        src_limit = (u8 *)source_data + 0x50;
         src_end = src_limit;
         do {
             word_0 = ((S_8081DD70_0 *)src)->unk_00;

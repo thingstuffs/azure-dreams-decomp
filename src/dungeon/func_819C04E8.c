@@ -132,10 +132,9 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         *slot = new_object;
         if (new_object != 0) {
             color = 0x800000;
-            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             new_object->part10 = D_80025800;
-            data_entry = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
             color |= 0x8080;
+            data_entry = (u8 *)&direction_offsets + ((angle >> 7) & 0x1C);
             x_offset = ((S_80025CE8_0 *)data_entry)->unk_00;
             position = (*slot)->part8;
             position->unk_02 = x + (x_offset << 7);

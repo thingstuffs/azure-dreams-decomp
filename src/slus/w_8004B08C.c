@@ -25,16 +25,17 @@ void func_8004B08C(S_8004AFE8 **entries) {
     s32 entry_category;
     s32 group_category;
     S_8004AFE8 **group;
-    register u8 *work_buf ASM_REG("$17"); /* s1: copy then loop work */
+    u8 *work_buf; /* s1: copy then loop work */
+    u8 * work_buf_2;
     u8 *rank_table;
 
     rank_table = discovery_ranks;
     D_80081540 = rank_table;
     group = entries;
     count = func_8004AE3C((void **)entries);
-    work_buf = (u8 *)original_entries;
-    memcpy(work_buf, group, count * 4);
-    ((S_8004AFE8 **)work_buf)[count] = 0;
+    work_buf_2 = (u8 *)original_entries;
+    memcpy(work_buf_2, group, count * 4);
+    ((S_8004AFE8 **)work_buf_2)[count] = 0;
     func_8004AFC8(group, count, 4, func_8004AE68);
     group_category = 0;
     if (*group != 0) {

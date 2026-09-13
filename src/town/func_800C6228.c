@@ -22,7 +22,7 @@ void func_800C3988(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK
     s32 handler_addr;
     u8 handler_id;
     u8 *handler_slot;
-    register M2C_UNK (*handler)(void *, M2C_UNK, M2C_UNK) ASM_REG("$2"); /* MATCH: merge the dispatch target in v0. */
+    M2C_UNK (*handler)(void *, M2C_UNK, M2C_UNK);
     Rec_func_80094268_arg0 *dispatch_record;
     M2C_UNK saved_arg;
 
@@ -40,8 +40,8 @@ void func_800C3988(Rec_func_80094268_arg0 *record, M2C_UNK dispatch_arg, M2C_UNK
         handler_slot = &D_80082660[slot_offset];
         handler_id = *handler_slot;
         if ((u32) (handler_id - 2) < 0x14U) {
-            dispatch_record = record;
             handler_addr = D_800D5084[(s8) handler_id];
+            dispatch_record = record;
             handler = (M2C_UNK (*)(void *, M2C_UNK, M2C_UNK)) handler_addr;
             saved_arg = dispatch_arg;
             goto dispatch;

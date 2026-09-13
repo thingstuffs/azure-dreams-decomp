@@ -116,8 +116,8 @@ s32 func_8002403C(void *start_node, void *start_coords)
         if (depth_index < 0x1E0) {
             register s32 color_or_tpage;
             s32 texture_depth;
-            register s32 blend_mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 page_x;
+            s32 blend_mode;
+            register u32 page_x;
             s32 opcode;
 
             ((S_8002403C_3 *)packet)->unk_04.at00.v = ((S_8002403C_4 *)node)->unk_08;
@@ -144,9 +144,7 @@ s32 func_8002403C(void *start_node, void *start_coords)
             ((S_8002403C_3 *)packet)->unk_04.at02.v = color_or_tpage >> 8;
             ((S_8002403C_3 *)packet)->unk_00.at03.v = 2;
             opcode = 0x6A;
-            ASM_SET(page_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_x = texture_depth;
-            ASM_KEEP_DEP_NV(page_x, opcode);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_8002403C_3 *)packet)->unk_04.at03.v = opcode;
 
             ((S_8002403C_3 *)packet)->unk_00.at00.v =
@@ -154,15 +152,14 @@ s32 func_8002403C(void *start_node, void *start_coords)
                 ((*(u32 *)((u8 *)(((S_8002403C_1 *)scratch)->unk_20.p2) + (((S_8002403C_1 *)scratch)->unk_C0 * 4))) & addr_mask);
             {
                 register u32 *ot_entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register u32 ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                u32 ot_tag;
                 u32 packet_addr;
 
                 ot_entry = (u32 *)(((S_8002403C_1 *)scratch)->unk_C0 << 2);
                 ot_entry = (u32 *)((u32)ot_entry +
                                 (u32)((S_8002403C_1 *)scratch)->unk_20.p2);
                 ot_tag = *ot_entry;
-                packet_addr = (u32)packet & addr_mask;
-                ot_tag = (ot_tag & length_mask) | packet_addr;
+                ot_tag = (ot_tag & length_mask) | ((u32)((u32)packet & addr_mask));
                 *ot_entry = ot_tag;
             }
 

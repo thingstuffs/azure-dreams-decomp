@@ -97,14 +97,14 @@ s32 func_800BC574(void *position, s32 angle) {
             data_ptr->unk_08 = position_z;
             ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_0C = (s32) (func_80064584(angle_short + ((S_800BC574_3 *)world_state)->unk_C8) * 0x30);
             ((S_800BC574_7 *)(((S_800BC574_6 *)effect)->unk_08))->unk_10 = (s32) (func_800644B8(angle_short + ((S_800BC574_3 *)world_state)->unk_C8) * 0x30);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         }
         {
             register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 init_value_2;
 
-            init_value = 0x1000;
-            sprite->unk_1E = init_value;
-            sprite->unk_1C = init_value;
+            init_value_2 = 0x1000;
+            sprite->unk_1E = init_value_2;
+            sprite->unk_1C = init_value_2;
             init_value = (s32) effect->unk_08;
             init_value = ((S_800BC574_5 *)((void *) init_value))->unk_0C;
             if (init_value > 0) {

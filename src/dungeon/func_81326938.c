@@ -36,7 +36,6 @@ void func_8016E138(s32 offset_index) {
     s32 y;
 
     state = D_80174704;
-    ASM_KEEP_NV(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     offset_page = (u8 *)D_8016A858 + 0x57A8;
 #else
@@ -47,9 +46,9 @@ void func_8016E138(s32 offset_index) {
     ASM_KEEP_NV(offset_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     offsets = *offset_src;
     ASM_KEEP_DEP_NV(offset_src, offset_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    object = *(u8 **)(state + 0xC);
     old_tile_mask = 0x3000;
     status = (Status *)state + 1;
-    object = *(u8 **)(state + 0xC);
     object_handle = *(s32 *)(state + 8);
     *(u16 *)(object + 0x14) &= 0xFF7F;
     x = object[0x24];

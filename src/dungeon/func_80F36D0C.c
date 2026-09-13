@@ -116,6 +116,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     void *spawn_parent;
     register unsigned long step_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 *step_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 * step_table_2;
     register s32 velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 scaled_velocity;
     register u32 angle_bits ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -191,9 +192,8 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         animation = (u8 *)0x80170000;
         ASM_KEEP_NV(animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         scaled_velocity = (velocity << 16) + (velocity << 15);
-        step_table = D_8006CCE8;
-        step_addr += (unsigned long)step_table;
-        ASM_KEEP_NV(step_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        step_table_2 = D_8006CCE8;
+        step_addr += (unsigned long)step_table_2;
         motion->velocity_x = scaled_velocity;
         velocity = *(s16 *)step_addr;
         ASM_KEEP_NV(velocity);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

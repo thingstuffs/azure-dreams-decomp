@@ -122,15 +122,16 @@ oscillate:
 
 withdraw:
 {
-    register s32 position_or_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 position_or_flags;
+    s32 position_or_flags_2;
     s32 exit_check;
 
-    position_or_flags = ((S_800220A8_1 *)motion)->unk_08;
+    position_or_flags_2 = ((S_800220A8_1 *)motion)->unk_08;
     exit_check = (s32)0xFFF00000;
-    position_or_flags += exit_check;
+    position_or_flags_2 += exit_check;
     exit_check = (s32)0xFE000000;
-    exit_check = exit_check < position_or_flags;
-    ((S_800220A8_1 *)motion)->unk_08 = position_or_flags;
+    exit_check = exit_check < position_or_flags_2;
+    ((S_800220A8_1 *)motion)->unk_08 = position_or_flags_2;
     if (exit_check != 0) {
         return;
     }

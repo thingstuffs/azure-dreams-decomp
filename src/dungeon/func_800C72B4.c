@@ -84,9 +84,8 @@ void func_800CCA14(u16 x, u16 y, u16 z) {
     } while (part_index >= 0);
     base_angle = (part_index << 0x1A) >> 0x10;
     first_base_angle = base_angle;
-    ASM_KEEP(first_base_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    part_index = 3;
     func_800CC88C((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, first_base_angle, 0);
+    part_index = 3;
     func_800CC88C((s16) effect->unk_20, (s16) effect->unk_22, (s16) effect->unk_24, base_angle, 1);
     do {
         angle = (part_index << 0x1A) >> 0x10;

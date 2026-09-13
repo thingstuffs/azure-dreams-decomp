@@ -128,15 +128,14 @@ phase3:
 
             func_8016AD00();
             effect = D_800F93AA;
-            ASM_USE_NV(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            entry_index = 0;
             state->unk8c = D_8016B778;
             D_80083460.zero = 0;
             D_80083460.count = D_80083460.count + 1;
             ((volatile Arg3 *)actor)->flags46 = ((volatile Arg3 *)actor)->flags46 & 0x7FFF;
             *(u16 *)&D_80013714 = D_80013714 | 8;
-            resource_flag = 0x80000000;
             func_800353F4(effect);
+            entry_index = 0;
+            resource_flag = 0x80000000;
             actor->unk6d = 0;
             state->unk9b = 0;
             for (;;) {

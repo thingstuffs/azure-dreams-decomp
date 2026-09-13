@@ -150,8 +150,8 @@ extern PositionTableEntry D_80175DD8[];
 void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
     void *self = effect_data;
     u8 *motion_table;
-    register u8 *table_join ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register u8 *clamp_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *table_join;
+    u8 *clamp_base;
     s16 *clamp_coord;
     s16 life_left;
     s16 phase;
@@ -320,28 +320,28 @@ update_positions:
     do {
         clamp_axis = 0;
         clamp_pair_offset = clamp_pair_stride;
-clamp_axes:
-        clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
-        clamp_axis_offset = clamp_axis * 2;
-        clamp_index = clamp_row * 0x60;
-        clamp_index = clamp_index + (s32)clamp_base;
-        clamp_index = clamp_pair_offset + clamp_index;
-        clamp_index = clamp_axis_offset + clamp_index;
-        clamp_coord = (s16 *)clamp_index;
-        if (*clamp_coord >= 0x191) *clamp_coord = limit_or_offset;
-        clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
-        clamp_index = clamp_row * 0x60;
-        clamp_index = clamp_index + (s32)clamp_base;
-        clamp_index = clamp_pair_offset + clamp_index;
-        clamp_index = clamp_axis_offset + clamp_index;
-        clamp_coord = (s16 *)clamp_index;
-        if (*clamp_coord < -0x190) {
-            clamp_min = -0x190;
-            ASM_KEEP(clamp_min);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            *clamp_coord = clamp_min;
-        }
-        clamp_axis += 1;
-        if (clamp_axis < 3) goto clamp_axes;
+        do {
+            clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
+            clamp_axis_offset = clamp_axis * 2;
+            clamp_index = clamp_row * 0x60;
+            clamp_index = clamp_index + (s32)clamp_base;
+            clamp_index = clamp_pair_offset + clamp_index;
+            clamp_index = clamp_axis_offset + clamp_index;
+            clamp_coord = (s16 *)clamp_index;
+            if (*clamp_coord >= 0x191) *clamp_coord = limit_or_offset;
+            clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
+            clamp_index = clamp_row * 0x60;
+            clamp_index = clamp_index + (s32)clamp_base;
+            clamp_index = clamp_pair_offset + clamp_index;
+            clamp_index = clamp_axis_offset + clamp_index;
+            clamp_coord = (s16 *)clamp_index;
+            if (*clamp_coord < -0x190) {
+                clamp_min = -0x190;
+                ASM_KEEP(clamp_min);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                *clamp_coord = clamp_min;
+            }
+            clamp_axis += 1;
+        } while (clamp_axis < 3);
         clamp_pair += 1;
         clamp_pair_stride += 6;
     } while (clamp_pair < 2);

@@ -21,6 +21,7 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     u32 *draw_mode;
     register s32 color_factor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 depth_or_tpage;
+    s32 depth_or_tpage_2;
     u32 low_mask = 0x00FFFFFF;
     u32 length_mask;
     register s32 texture_depth ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -47,11 +48,11 @@ void func_800A2AF8(s32 end_point, s32 start_point)
         scratch + 0x7C, scratch + 0xEC, scratch + 0x94, scratch + 0x98);
 
     {
-        register u16 start_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        depth_or_tpage = *(s32 *)(scratch + 0xC4);
+        u16 start_x;
+        depth_or_tpage_2 = *(s32 *)(scratch + 0xC4);
         start_x = *(u16 *)(scratch + 0xE8);
-        depth_or_tpage -= 0x30;
-        *(s32 *)(scratch + 0xC4) = depth_or_tpage;
+        depth_or_tpage_2 -= 0x30;
+        *(s32 *)(scratch + 0xC4) = depth_or_tpage_2;
         *(u16 *)((u8 *)line + 8) = start_x;
     }
     *(u16 *)((u8 *)line + 0xA) = *(u16 *)(scratch + 0xEA);

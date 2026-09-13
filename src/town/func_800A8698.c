@@ -64,13 +64,13 @@ void func_800A5DF8(void *state_arg, void *actor_arg, M2C_UNK context_arg) {
     register u8 *scene_state;
     register u8 *effect_data;
 
-    state = state_arg;
     actor = actor_arg;
     context = context_arg;
     scene_state = D_80083160;
     func_80095C80(actor);
     effect_data = D_800FE488;
     threshold = func_80095978(actor, effect_data);
+    state = state_arg;
     if (actor->unk_0A >= threshold) {
         func_80095A94(actor, threshold, effect_data);
     } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {
@@ -121,6 +121,5 @@ void func_800A5DF8(void *state_arg, void *actor_arg, M2C_UNK context_arg) {
 
     ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

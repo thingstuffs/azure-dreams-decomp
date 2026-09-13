@@ -23,6 +23,25 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Sixteenth round, gated (the 16x search's publication gate, then 70 windows MATCH and SLUS SHA-1 MATCH,
+then a comment-only regate): **8,645 pins in 1,507 rows**, 110 pins and 3 fences removed; 491 live
+fences; 16 rows became pin-free. By each row's first change: `t51_sched_order` 87, the astra lane's own
+rows 16, the 16x search 7 (cascade follow-ups included). Details: PIN_MECHANISMS, "Round 16".
+- **Worked, the owner's one-astra-lane experiment:** `work/native_lane/sched_astra/` analysed gcc 2.x's
+  first scheduler from the GNU sources and fresh dumps, then built `tools/xform/t51_sched_order.py` (with
+  `sched_trace.py`). Frozen held-out rate 10 of 225 rows; the full sweep 61 of 1,297 rows, 79 pins, CPU
+  only, 55 minutes. The best single generator since round 8.
+- **Learned:** a fence is a full register-and-memory dependency cut, not a tie-breaker, so t51 removed only
+  3 of 494. Prologue saves are created after sched1 (0 of 20). Most register pins already differ before
+  sched1 (which producer survives), and t51's lifetime split, an allocation lever, pays as often as its
+  statement moves.
+- **Fixed:** t51's first version moved a declaration's trailing comment onto the new `<var>_2` line; 20
+  comment edits corrected it. It now inserts after the whole line and does not double a cast.
+- **Next:** t51 in the cascade for changed rows (about 43 s a row); widen t51 with the lane's untested
+  directions (pin pairs, multiline statements, wider CFG); for fences, generate real dependencies (the
+  direct field read-modify-write the lanes found three times); the 4x search on the 49 budget-stopped
+  rows the round-15 lanes held.
+
 Fifteenth round, gated (three search publication gates, then 15 windows MATCH and SLUS SHA-1 MATCH):
 **8,755 pins in 1,523 rows**, 62 pins and 13 fences removed; 494 live fences. By source: pin search
 at four times the budget 46, fence lanes 8, cascade 6, `t48` 2. Details: PIN_MECHANISMS, "Round 15".

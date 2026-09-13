@@ -42,8 +42,8 @@ void func_80172700(void *action_arg, void *motion_arg, void *sprite_arg, void *a
     register s32 adjustment ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *turn_actor;
     u16 flags;
-    register u8 *dir_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 *dir_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *dir_x;
+    u8 *dir_y;
 
     action = action_arg;
     motion = motion_arg;
@@ -51,9 +51,9 @@ void func_80172700(void *action_arg, void *motion_arg, void *sprite_arg, void *a
     actor = actor_arg;
     ASM_KEEP4_NV(action, motion, sprite, actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     dir_x = D_8006CCD8;
-    dir_y = D_8006CCE8;
     dir_offset = (F16(actor, 0x2A) >> 8) & 0xE;
     step_x = *(s16 *)(dir_x + dir_offset);
+    dir_y = D_8006CCE8;
     step_y = *(s16 *)(dir_y + dir_offset);
     state = F8(action, 0x9B);
     F16(action, 0x96)--;

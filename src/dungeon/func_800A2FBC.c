@@ -238,9 +238,8 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     s32 dungeon_flags;
     s32 height;
 
-    ASM_KEEP4_NV(object, motion, tile, tile_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    object_data = object;
     tile = tile_arg;
+    object_data = object;
     payload = (*(s32 **)((u8 *)object_data + (0x9C)));
     if ((payload == &D_80081484) && (((S_800A871C_0 *)payload)->unk_01 == 0)) {
         (*(s32 **)((u8 *)object_data + (0x9C))) = &D_800E3540;

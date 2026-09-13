@@ -36,15 +36,16 @@ void func_8001A760(s32 unused, s32 x_offset, s32 y_offset) {
     S_8001A760_2 *x_dest;
     S_8001A760_3 *y_dest;
     register s32 scaled_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 tile_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 tile_coord;
+    s32 tile_coord_2;
 
     ctx = *(void **)D_80016000;
     tile = (u8 *)*ctx->unk_30 + (ctx->unk_08 << 5);
     x_dest = ctx->unk_1C;
     scaled_offset = (x_offset << 6) / 10;
-    tile_coord = tile->unk_0C;
-    tile_coord += 0x20;
-    scaled_offset += tile_coord;
+    tile_coord_2 = tile->unk_0C;
+    tile_coord_2 += 0x20;
+    scaled_offset += tile_coord_2;
     x_dest->unk_04 = scaled_offset;
 
     y_dest = ctx->unk_1C;

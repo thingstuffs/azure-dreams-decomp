@@ -974,3 +974,68 @@ Gated (15 overlay windows and the SLUS build MATCH): **8,755 pins in 1,523 rows*
   alignment for a small population.
 - **The cascade:** the first pass over the 42 changed rows applied 6 (t37 2, t44 2, T2 2); the second applied nothing. The round's 62 pins: searches 46, lanes 8, cascade 6, t48 2.
 - **Evaluation.** What paid: the search at four times the budget on rows whose last search stopped on a budget (46 pins, CPU only, the cheapest lever this round); fence lanes on 7-to-15-pin rows (8 of 52, five distinct fixes, about the 4-to-6-pin rate); the cascade (6). What did not: t50_dofor (0 of 120) and the t48 detector fix (1 row). Detector gaps are real but small once a lane's shape is rare, and a spelling that changes no pass frees nothing. What to do better: the lanes diagnose an ordering mechanism in 84 of 116 misses, and every single-lever generator lands about 1%, so the next step is an oracle rather than another generator. Round 16 gives one astra lane the first scheduler's ordering, with freedom of analysis and tooling (the owner's request). The 4x search still stopped on a budget in 95 rows; 18 of its candidate rows ran out of CPU again, and a 16x run there is the next CPU-only job. It can search while astra works, but publishes only after astra stops.
+
+## Round 16 (2026-09-13): one astra lane on the first scheduler's order, and its tool `t51_sched_order`
+
+Gated (the 16x search's publication gate, then 70 overlay windows and the SLUS build MATCH, then a comment-only regate): **8,645 pins in 1,507 rows**, 110 pins and 3 fences removed.
+
+The owner asked for one round spent differently: pick the biggest blocker and give one astra lane
+freedom of analysis, tooling and approach. The fence lanes had diagnosed an instruction ORDER in 84
+of their 116 misses, and the atlas's three largest clusters are orders, so the blocker picked was
+gcc 2.x's first scheduler (`work/native_lane/sched_astra/`, `gpt-6-astra`, about an hour). It wrote
+its analysis before building anything, froze two held-out sets, then built and measured a tool.
+
+- **The mechanism, from the GNU sched.c sources (2.7.2, 2.8.0, 2.8.1) and fresh CDK dumps.**
+  - gcc 2.x schedules each block BACKWARD. The ready list is ranked by dynamic priority, then
+    dependence class against the last scheduled insn, then LUID, and hazard selection can override
+    the rank.
+  - The priority is dynamic. When its last consumer is scheduled, a single-set live producer is
+    promoted to launch priority (0x7f000001), which shortens live ranges.
+  - LUID is recomputed over the RTL that survives CSE and combine. It is not the C line order. CSE
+    can erase an early alias and leave only the late ABI setup.
+  - An empty volatile asm is a full dependency cut: every register and all of memory, with pending
+    reads and writes flushed. **A fence is not a tie-breaker, and no permutation of side-effect-free
+    statements can stand in for one.** Only a changed dependency graph or CFG can, which is what the
+    fence lanes' wins did.
+  - Prologue saves do not exist at sched1: the backend creates them later, in saved-register-mask
+    order. So statement order cannot reach the prologue-reorder cluster directly (0 of 20 held out).
+- **Register pins are mostly not scheduler ties.** Among 255 REG sites with paired dumps, 204
+  already differ before sched1 (a producer kept or lost by the pin) and 51 keep the same abstract
+  order through sched1 but allocate differently. One repair that works there is splitting another
+  local's lifetime.
+- **The SHA-current population.** The atlas records still match the current text for 5,700 of the
+  8,765 pins. 742 of those differ from retail only in instruction order: pure reorders, including 228
+  REG and 59 fences. The three order clusters hold 143, 148 and 143 pins.
+- **The tool, `tools/xform/t51_sched_order.py`** (with `sched_trace.py`). It keeps the unrelated pins,
+  erases one pin at a time and compiles with dumps. It tries statement moves over up to six real
+  statements (blank lines and comments do not count), whole-expression commutation, fusing a producer
+  into its sole consumer, splitting a lifetime into a second local, and a `register` hint. It ranks
+  these by the scheduler decisions it observed, and only `vf` accepts. Budget per row: 256 compiles
+  and 24 verifies. Frozen held-out result: **fence-lane rows 6 of 165 (7 pins, of them 0
+  ASM_SCHED_BARRIER and 2 ASM_MEM_BARRIER); atlas order rows 4 of 60 (6 pins)**, about four times the
+  single-lever generators' rate. Its ten outputs landed (13 pins). The lane named split locals
+  `t51_<var>`; they landed as `<var>_2`, which does not change codegen, and the tool now does the same.
+- **Bounded unreachable classes (not all-C verdicts):** constant-alias setup order (60 compiles over
+  six spellings and five cells: all identical); backend-created prologue save order at a fixed frame;
+  a full asm barrier through statement permutation; a late or assembler order with its input held
+  fixed.
+- **The t51 sweep over the other 1,297 rows** (every eligible pinned row except the 225 held out and
+  astra's ten; 12 workers, 55 min, CPU only): **61 rows, 79 pins, 2 `ASM_SCHED_BARRIER`**. At 4.7% of
+  rows it matches the held-out rate (4.4%), so the held-out measurement was honest. By the rewrite that
+  freed the pin: statement move 28, lifetime split 27, producer fusion 5, commutation 1. The lifetime
+  split, which the dumps tie to allocation rather than to the scheduler, pays as often as the order
+  moves. That is the biggest single-generator result since the goto-loop family (round 8).
+- **pin_search at 16x the budget** on the 18 rows that found a candidate at 4x and ran out of CPU
+  again (`budget16x_20260913`, 19,200 screens / 48 verifies / 640 CPU-s): 2 rows, 7 pins
+  (`dungeon/func_800AA49C` 26 to 21, `dungeon/func_81330C74` 18 to 16).
+- **The cascade:** the first pass over the 73 changed rows applied 9 (t37 2, t44 2, t48 2, T2 3); the
+  second applied nothing. Counted by each row's first change this round, follow-ups included: t51's rows
+  87 pins (79 plus 8), astra's rows 16 (13 plus 3), the 16x search 7. 16 rows became pin-free. REG went
+  from 4,285 to 4,218 and KEEP from 2,094 to 2,071.
+- **Comments after the split.** t51's first version inserted the new `<var>_2` declaration before the
+  original declaration's trailing comment, so a pin note moved onto an unpinned line. Twenty comment edits
+  put it right: 5 notes moved back onto their still-pinned declarations, 7 stale notes of pins t51's
+  cleanup had erased, and 8 older orphaned pin notes in the same files dropped. Comments do not change
+  codegen; the regate matched. The tool now inserts after the whole line, and its fuse rewrite no longer
+  wraps an rhs that is already the local's own cast of one operand.
+- **Evaluation.** What paid: t51, the lane's tool, is the best single generator since the goto-loop family (79 pins direct, 87 with follow-ups, CPU only), and its full-sweep rate matched the frozen held-out rate. The lane itself cost one astra session and replaced a wrong model of the scheduler with the right one. The 16x search paid 7 pins on 2 of 18 rows. What did not: fences. t51 removed 3 of 494, and the lane showed why: a fence is a full dependency cut, so only a changed dependency graph (the fence lanes' CFG and data rewrites) can replace one; the prologue cluster is created after sched1 (0 of 20). What to do better: put t51 in the cascade for changed rows (about 43 s a row); widen it with the directions the lane did not test (pin pairs, multiline statements, wider CFG); for fences, generate real dependencies, such as the direct field read-modify-write the lanes found three times; and run the 4x search on the 49 budget-stopped rows the round-15 lanes held.

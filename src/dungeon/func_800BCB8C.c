@@ -81,14 +81,14 @@ s32 func_800C22EC(Rec_D_800E3D7C *entity, s32 action, s16 action_type, M2C_UNK c
         if (target_index < 0x14) {
             target = D_800E3DF0[target_index];
             if ((func_80042900(target, 0xE, action_type) << 0x10) != 0) {
-                register void *update_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                void *update_target;
 
                 flags_mask = 0xFBFFFFFF;
                 update_target = target;
                 target->unk_28 = (s8) (((u8) target->unk_29 >> 1) + 1);
                 target->unk_1C = (s32) (target->unk_1C & flags_mask);
-                target_updated = 1;
                 func_80041E70(update_target);
+                target_updated = 1;
                 func_80099844(target, &D_800E1580);
             }
         }

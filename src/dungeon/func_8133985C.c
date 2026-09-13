@@ -43,7 +43,8 @@ void func_8017085C(void *motion, void *position, void *effect) {
     s32 tile_z;
     s32 height_offset;
     s32 centered_z;
-    register u16 frame ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 frame;
+    u16 frame_2;
     u16 elapsed;
     u16 old_state;
 
@@ -63,9 +64,9 @@ void func_8017085C(void *motion, void *position, void *effect) {
     return;
 
 bob:
-    frame = ((S_8017085C_0 *)motion)->unk_18;
-    ((S_8017085C_0 *)motion)->unk_18 = frame + 1;
-    phase = (s32)((u32)frame << 0x10);
+    frame_2 = ((S_8017085C_0 *)motion)->unk_18;
+    ((S_8017085C_0 *)motion)->unk_18 = frame_2 + 1;
+    phase = (s32)((u32)frame_2 << 0x10);
     phase >>= 4;
     ((S_8017085C_0 *)motion)->unk_5C = (0 - func_800644B8(phase / 80)) << 7;
     height_offset = ((S_8017085C_0 *)motion)->unk_5C - 0x200000;

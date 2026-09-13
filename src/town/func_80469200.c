@@ -32,15 +32,15 @@ void func_8001A200(void *records, s32 *value_sets) {
     s32 slot_index;
     u8 *kind_table;
     u8 *status_ptr;
-    register void *record ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *record;
     u8 *table_page;
     s32 next_status;
     s16 end_mask;
 
-    record = records;
     context = ((S_8001A200_0 *)(D_80016000[0]))->unk_20;
     status_ptr = (u8 *)value_sets;
     values_base = *((((S_8001A200_1 *)context)->unk_2D4(0)) + (s32 *)status_ptr);
+    record = records;
     if ((((S_8001A200_2 *)record)->unk_01 & 0xC0) != 0x80) {
         table_page = (u8 *)0x80010000;
         kind_table = (u8 *)&D_8001791C;

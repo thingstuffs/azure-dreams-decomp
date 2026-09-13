@@ -45,7 +45,8 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
     u8 *slot_state;
     u8 *table_base;
     s32 first_arg;
-    register s32 second_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 second_arg;
+    s32 second_arg_2;
     register s32 scratch_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 saved_context;
 
@@ -62,10 +63,9 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
     if ((u32)target <= 0x9FFFFFFF) {
         result = func_800990FC();
         first_arg = action;
-        second_arg = result;
-        ASM_KEEP(second_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        saved_context = second_arg;
-        result = func_80099368(first_arg, second_arg);
+        second_arg_2 = result;
+        saved_context = second_arg_2;
+        result = func_80099368(first_arg, second_arg_2);
         result = func_80099194(D_800E187C, result);
         result = func_80099734(target, result);
         result = func_80099194(D_800893DC, result);

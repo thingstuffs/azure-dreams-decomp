@@ -46,14 +46,14 @@ extern s32 func_8009C93C();
 /* Update the actor for each eligible list entry at the target tile and height. */
 void func_80174800(void *node, s32 tile_x, s32 tile_y, s16 target_height)
 {
-    register s32 match_x ASM_REG("$22") = tile_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 match_y ASM_REG("$21") = tile_y;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 match_x = tile_x;
+    s32 match_y = tile_y;
     void *head = node;
     S_80174800_4 *actor = head;
     void *owner;
 
-    node = (u8 *)((S_80174800_0 *)head)->unk_5C + 0x20;
     owner = ((S_80174800_0_pre *)head)[-1].unk_00;
+    node = (u8 *)((S_80174800_0 *)head)->unk_5C + 0x20;
     while (node != head) {
         S_80174800_2 *tile = ((S_80174800_1_pre *)node)[-1].unk_04;
         S_80174800_3 *height_data = ((S_80174800_1_pre *)node)[-1].unk_00;

@@ -29,14 +29,14 @@ u8 *func_8004CECC(u32 hue, s32 saturation, s32 value, u8 *out)
         goto done;
     }
 
-    channel_max = value & 0xFF;
+    channel_max = (0xFF) & (value);
     sat_byte = saturation & 0xFF;
     channel_min = (channel_max * (0xFF00 - (sat_byte << 8)) + 0x7F80) / 0xFF00;
     hue = hue % 0x600;
+    sector = hue >> 8;
     hue_frac = hue & 0xFF;
     channel_fall = (channel_max * (0xFF00 - sat_byte * hue_frac) + 0x7F80) / 0xFF00;
     channel_rise = (channel_max * (0xFF00 - sat_byte * (0x100 - hue_frac)) + 0x7F80) / 0xFF00;
-    sector = hue >> 8;
 
     if (sector >= 6) {
         goto after_switch;
@@ -73,7 +73,6 @@ L_case_5:
     rgb[1] = channel_min;
     rgb[2] = channel_fall;
 after_switch:
-    ASM_KEEP(sector);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 done:
     return rgb;
 }

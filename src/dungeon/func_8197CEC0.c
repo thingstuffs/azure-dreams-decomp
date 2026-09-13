@@ -138,11 +138,12 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
             sprite->top = sprite->bottom;
         }
         if ((s16)actor->counter >= 0x1C) {
-            register u16 actor_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            u16 actor_bits;
+            u16 actor_bits_2;
             s32 global_flags;
-            actor_bits = ((u16 *)actor)[-1];
-            actor_bits |= 0x8000;
-            ((u16 *)actor)[-1] = actor_bits;
+            actor_bits_2 = ((u16 *)actor)[-1];
+            actor_bits_2 |= 0x8000;
+            ((u16 *)actor)[-1] = actor_bits_2;
             actor_bits = actor->state;
             global_flags = D_800814A0[0];
             actor_bits++;

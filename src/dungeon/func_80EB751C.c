@@ -106,7 +106,8 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
     s32 velocity_x;
     s32 velocity_y;
     s32 speed_work;
-    register s32 component_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 component_work;
+    s32 component_work_2;
     register s32 part_or_half_speed ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 anim_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s32 anim_frame ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -154,9 +155,9 @@ void func_80172D1C(void *actor, void *motion, void *sprite, void *entity) {
                 ASM_KEEP(component_work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 ((S_80172D1C_5 *)particle_sprite)->unk_28 = sprite_flags;
                 ((S_80172D1C_5 *)particle_sprite)->unk_14 = component_work;
-                component_work = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
+                component_work_2 = ((Rec_D_80082E80 *)sprite)->unk_12.at00_u16.v;
                 ((S_80172D1C_5 *)particle_sprite)->unk_10 = 0x20;
-                ((S_80172D1C_5 *)particle_sprite)->unk_12 = component_work - 0x80;
+                ((S_80172D1C_5 *)particle_sprite)->unk_12 = component_work_2 - 0x80;
                 func_80047784((void *)part_or_half_speed, anim_id, anim_frame, sprite_flags);
                 ((S_80172D1C_5 *)particle_sprite)->unk_0C = 0x808080;
             }

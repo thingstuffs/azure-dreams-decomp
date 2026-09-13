@@ -107,7 +107,7 @@ loop:
     if (depth_index < 0x1E0) {
         s32 shade_or_page;
         s32 pixel_mode;
-        register s32 blend_mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 blend_mode;
         s32 page_x;
         s32 tile_code;
 
@@ -135,7 +135,6 @@ loop:
         ((S_80173E94_3 *)packet)->unk_04.at02.v = shade_or_page >> 8;
         ((S_80173E94_3 *)packet)->unk_00.at03.v = 2;
         tile_code = 0x6A;
-        ASM_SET(page_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         page_x = pixel_mode;
         ((S_80173E94_3 *)packet)->unk_04.at03.v = tile_code;
 
@@ -143,7 +142,7 @@ loop:
             (((S_80173E94_3 *)packet)->unk_00.at00.v & tag_mask) |
             ((*(u32 *)((u8 *)(((S_80173E94_1 *)scratch)->unk_20.p2) + ((S_80173E94_1 *)scratch)->unk_C0 * 4)) & addr_mask);
         {
-            register u32 *ot_entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 *ot_entry;
             register u32 ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 packet_addr;
 
@@ -151,8 +150,7 @@ loop:
             ot_entry = (u32 *)((u32)ot_entry +
                             (u32)((S_80173E94_1 *)scratch)->unk_20.p2);
             ot_tag = *ot_entry;
-            packet_addr = (u32)packet & addr_mask;
-            ot_tag = (ot_tag & tag_mask) | packet_addr;
+            ot_tag = (ot_tag & tag_mask) | ((u32)((u32)packet & addr_mask));
             *ot_entry = ot_tag;
         }
 

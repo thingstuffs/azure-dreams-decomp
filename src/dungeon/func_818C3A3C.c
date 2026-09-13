@@ -88,10 +88,9 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
 
     effect = func_8003FC64(0x212);
     if (effect != 0) {
+        handler = D_80025098;
         effect_state = (u8 *)effect + 0x20;
         effect_name = D_80025AF0;
-        handler = D_80025098;
-        ASM_KEEP_NV(handler);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         palette_flags = 0x7DCF;
         ((S_818C3A3C_0 *)effect)->unk_10 = handler;
