@@ -65,9 +65,7 @@ active:
     }
 
     entity_arg = entity;
-    ASM_KEEP(entity_arg);
     active_count = D_80083460;
-    ASM_KEEP(active_count);
     ((S_80174BF8_3 *)active_count)->unk_0A--;
     animation->unk_2C = D_80174F00;
     func_800AD594(entity_arg, 0x200);

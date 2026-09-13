@@ -58,7 +58,7 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
     s32 alloc_code;
     register void *alloc_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
-    s32 kind_test;
+    s16 kind_test;
     s32 flags_14;
     s32 flags_1c;
     void *part_a;
@@ -87,7 +87,6 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
         part_a = ((S_800B23F8_0 *)obj)->unk_08;
         kind = saved_mode & 3;
         ((S_800B23F8_2 *)part_a)->unk_0A = (s16)value_or_part_b;
-        ASM_KEEP(kind);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         value_or_part_b = (long)((S_800B23F8_0 *)obj)->unk_0C;
         kind_test = 1;
         ((S_800B23F8_3 *)((void *)value_or_part_b))->unk_25 = (s8)byte_or_work;

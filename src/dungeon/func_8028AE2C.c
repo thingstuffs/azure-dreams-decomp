@@ -51,9 +51,7 @@ do {
             x = area->x;
             if (x < x_end) {
 x_loop:
-                map_config_addr = 0x80080000;
-                ASM_KEEP(map_config_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                map_config_addr += 0x333C;
+                map_config_addr = (u32)&D_8008333C;
                 ASM_KEEP_NV(map_config_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 tile_id = (s16 *)&D_800EA000[((y << *(s16 *)(map_config_addr + 0x14)) + x) * 6];
                 if (func_8001CE14(*tile_id, 0x13, 0x1C) != 0) {

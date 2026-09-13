@@ -230,13 +230,10 @@ state_1:
 #endif
 #ifndef NON_MATCHING
         entity_flags = ((S_8008FA7C_2 *)entity)->unk_1C;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        object_or_base = 0x80080000;
-        ASM_KEEP(object_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         entity_flags &= mask_or_base;
         mask_or_base = 0x80080000;
         saved_value = ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484;
-        object_or_base += 0x3460;
+        object_or_base = (u32)&D_80083460;
         ((S_8008FA7C_7 *)((u8 *)mask_or_base))->unk_1484 = 0;
         mask_or_base = 0x800E0000;
         ASM_KEEP(mask_or_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

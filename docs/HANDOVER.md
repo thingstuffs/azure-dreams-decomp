@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Thirteenth round, gated (the pin search's publication gate, then 21 windows MATCH and SLUS SHA-1 MATCH):
+**8,873 pins in 1,529 rows**, 81 pins and 13 fences removed. By source: pin search 53, fence lanes 11,
+cells 4, `t49` 2, stacking 1, cascade 10. Live fences now: 516. Details: PIN_MECHANISMS, "Round 13".
+- **Worked:** four luna fence lanes, 11 of 48 exact, each with a fence gone. The pin search re-run over
+  the 515 changed rows (53 pins, CPU only).
+- **Did not:** `t49_looptest`, built from two lane wins, landed 2 of 168 rows. The cell and stacking
+  scans are nearly dry, 5 hits between them.
+- **Next:** six more luna fence lanes over the unassigned fenced rows with at most 6 pins
+  (`MAXPINS=6 scratchpad build_fence_lanes.py fences7 ... fences12`). After that, the rows with
+  7 or more pins (157 rows, 331 fences).
+
 Twelfth round, gated (100 windows MATCH, SLUS SHA-1 MATCH): **8,954 pins in 1,542 rows**. The count
 now includes 86 pins that were always there but hidden. Net of that, 168 came out: flag switches
 87 (one per row), lanes 4, `t48` 3, fold 2, cascade 72. Details: PIN_MECHANISMS, "Round 12".
@@ -32,10 +43,24 @@ now includes 86 pins that were always there but hidden. Net of that, 168 came ou
   lane, 3 of 12 exact, the best lane rate so far.
 - **What did not:** generators built from one lane win (`t48` 3 of 290, the fold 2 of 181). Five flags
   proved inert and cost about 4 CPU-h before they were dropped (`INERT`); pilot a flag set first.
-- **Next:**
-  - luna fence lanes over the remaining fence rows with at most 3 pins
-    (`scratchpad build_fence_lanes.py`);
-  - `pin_cells_scan.py scan --stack` resumed.
+- **Running after this gate (commit `cee5a218`):**
+  - luna fence lanes `work/native_lane/fences3`–`fences6`, 12 rows each (`scratchpad
+    build_fence_lanes.py`; 11 fence rows unassigned);
+  - `pin_cells_scan.py scan --stack`, 56 rows;
+  - `pin_search.py` tag `pins_changed_20260913`: baseline mode over the 515 pinned rows changed
+    since `b13b4cf2`, lane rows excluded.
+- **Order for the harvest:**
+  1. wait for the lanes to stop scoring;
+  2. `pin_search.py publish --tag pins_changed_20260913 --mode baseline --workers 4` (it gates);
+  3. `scratchpad land14.sh`, one gate after these:
+     - lane wins through the scaffolding filter;
+     - stacking hits and stock-cell hits;
+     - `t49_looptest` over its eligible rows (170 on 2026-09-13);
+     - the cascade, which now includes `t48` and `t49`.
+     `tools/xform/t49_looptest.py` moves a do-while counter's tail update into the test, from the
+     fences4 lane's win on `dungeon/func_818B1484`; it reproduces that win exactly.
+
+  The search's publication refuses stale rows, so nothing may touch its rows before step 2.
 - **Waiter trap:** a `pgrep` pattern must not appear anywhere in the waiter's own command line. A
   `tail` of a path containing the pattern made two waiters wait forever.
 

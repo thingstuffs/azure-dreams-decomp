@@ -41,7 +41,6 @@ void func_80124F98(TownState *state)
 {
     u8 *input;
     u32 buttons;
-    s32 index_count;
     s32 max_scroll;
     u8 current_index;
     u8 previous_index;
@@ -89,7 +88,7 @@ redraw_transition:
     }
 
     if (buttons & 0x8000) {
-        index_count = 0x32;
+        u8 index_count = 0x32;
         state->old_index = state->index;
 decrement_loop:
         if (state->index == 0) {
@@ -150,14 +149,13 @@ decrement_loop:
         goto done;
     }
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     if (buttons & 0x2000) {
-        index_count = 0x32;
+        s32 wrap_limit = 0x32;
         state->old_index = state->index;
 increment_loop:
         next_index = state->index + 1;
         state->index = next_index;
-        if ((next_index & 0xFF) == index_count) {
+        if ((next_index & 0xFF) == wrap_limit) {
             state->index = 0;
         }
         if (!(func_80123200(state->index) & 0xFF) &&

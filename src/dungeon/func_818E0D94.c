@@ -75,13 +75,12 @@ void func_818E0D94(void *effect, S_818E0D94_3 *position, Rec_D_80082E80 *sprite)
     sprite->unk_1C.at00_u16.v = size;
 
     {
-        register s32 phase ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 phase;
         s32 height_jitter;
-        s32 height;
+        s16 height;
 
         height_jitter = rand() & 0x3F;
         phase = ((S_818E0D94_0 *)effect)->unk_48.s16 * 0x32;
-        ASM_KEEP(phase);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         height = ((S_818E0D94_0 *)effect)->unk_18;
         phase += 0xC8;
         height += 0x200;

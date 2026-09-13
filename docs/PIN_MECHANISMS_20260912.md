@@ -837,3 +837,41 @@ hidden. Net of that exposure, 168 pins came out:
     about 4 CPU-h.
   - Next: more fence lanes (56 fence rows with at most 3 pins remain), and the stacking scan resumed
     over its 15 largest rows and the 87 rows that just took a flag.
+
+## Round 13 (2026-09-13): four fence lanes, the pin search on changed rows, `t49_looptest`
+
+Gated (the search's publication gate, then 21 windows MATCH and SLUS SHA-1 MATCH): **8,873 pins in 1,529 rows**, 81 pins (the search 53, the lanes 11, cells 4,
+`t49` 2, stacking 1, the cascade 10) and 13 fences removed.
+
+- **Four luna fence lanes (`work/native_lane/fences3`–`fences6`, 12 rows each, every row with at most
+  three pins):** 11 of 48 exact, each with one fence gone. Four shapes won, as in round 12:
+  - explicit outcome blocks: `return_one` / `return_zero` labels in place of nested returns
+    (`town/func_8032C6E0`);
+  - success arms that call and return directly, so cross-jumping can no longer merge the tails
+    (`dungeon/func_80097AB8`);
+  - a do-while decrement moved into the loop test (`dungeon/func_818B1484`, `dungeon/func_818B11B4`);
+  - a store written directly.
+
+  The rows that failed all came down to the first scheduler's order between independent chains:
+  address materialization against a delay slot, and two unrelated store/load chains. Every rewrite
+  the lanes tried there kept the same dependency graph.
+- **`t49_looptest`, from the fences4 wins:** a do-while counter's tail update moves into the test
+  (`v -= 1; } while (v >= 0);` becomes `} while (--v >= 0);`), paired with one pin erased.
+  - It is safe only when the update is the body's last statement (other variables' steps may
+    follow) and the body has no `continue` or label.
+  - It reproduces the lane's candidate for `func_818B1484` byte for byte.
+  - Swept over 168 eligible rows: 2 (1%): the lane fix rarely transfers alone.
+- **The pin search (`pin_search.py` baseline, tag `pins_changed_20260913`):** 515 pinned rows that had
+  changed since the atlas harvest, lane rows excluded. 53 pins in 2.5 CPU-h. Published through its
+  own gate.
+- **The stock-cell scan resumed** over 239 changed rows: 5 hits. The 1999 compilers are no longer
+  scanned, because their hits are never built. **Stacking** finished its last 56 rows: 1 hit.
+  Both levers are thin now.
+- **The cascade:** 9 records over 50 changed rows (T2 5, `t36`, `t37`, `t38`, `t41c` 1 each); pass 2 applied nothing.
+- **Evaluation.**
+  - What worked: the fence lanes. They are the only lever still removing fences at scale, at about
+    one row in four on the cheap tier. The pin search on changed rows paid 53 for CPU alone.
+  - Live fences now: 516.
+  - What did not: the cell and stacking scans are nearly dry (6 hits between them).
+  - Next: fence lanes over rows with more pins, since every row with at most three pins is now done
+    or assigned; and hold the pin search back until enough rows have changed again.

@@ -94,10 +94,8 @@ state_one:
     s32 signed_tick;
     s32 direction_y;
 
-    direction_base = (u8 *)0x80070000;
-    ASM_KEEP_NV(direction_base);
     tick_phase = U16(action, 0x96);
-    direction_base -= 0x3328;
+    direction_base = (u8 *)&D_8006CCD8;
     next_tick = tick_phase + 1;
     tick_phase -= 3;
     U16(action, 0x96) = next_tick;

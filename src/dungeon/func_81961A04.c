@@ -78,8 +78,8 @@ void *func_81961A04(void *position)
     M2C_UNK *control_handler;
     s32 last_slot;
     void *object;
-    s32 slot_offset;
-    register s32 control_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 slot_offset;
+    s16 control_value;
     register u16 control_scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 pos_x;
     u16 pos_y;

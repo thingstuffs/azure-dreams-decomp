@@ -57,7 +57,6 @@ extern s32 func_800A41F0(void *);
 /* Selects the best eligible list candidate, resolving ties with the global candidate. */
 void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
 {
-    register void *owner ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *candidate;
     S_800A3D18_4 *base;
     void *best;
@@ -71,8 +70,6 @@ void *func_800A3D18(void *owner_arg, void *start, s32 score_limit)
     s32 special_cmp;
     s32 best_cmp;
 
-    owner = owner_arg;
-    ASM_KEEP_NV(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     candidate = start;
     best = 0;
     special = best;
@@ -92,7 +89,7 @@ set_special:
 
 nonnegative:
     best_score = 0x100;
-    if (((S_800A3D18_0 *)owner)->unk_26 < 0) {
+    if (((S_800A3D18_0 *)owner_arg)->unk_26 < 0) {
         best_score = score_limit;
     }
 
@@ -105,6 +102,7 @@ initial:
     global_page = (u8 *)0x800e0000;
 
 do {
+    void *next_link;
     if ((s16)func_800A2CB8(base, candidate) == 0) {
         goto advance;
     }
@@ -113,8 +111,8 @@ do {
     }
 
     candidate_owner = ((S_800A3D18_1_pre *)candidate)[-1].unk_00;
-    if (((S_800A3D18_0 *)owner)->unk_26 == candidate_owner->unk_26) {
-        score = func_8009FD40(candidate_owner, owner);
+    if (((S_800A3D18_0 *)owner_arg)->unk_26 == candidate_owner->unk_26) {
+        score = func_8009FD40(candidate_owner, owner_arg);
         if ((s16)score >= best_score) {
             goto advance;
         }
@@ -128,8 +126,8 @@ do {
         goto advance;
     }
 
-    if ((s16)func_8009FE94(((S_800A3D18_0 *)owner)->unk_24,
-                           ((S_800A3D18_0 *)owner)->unk_25,
+    if ((s16)func_8009FE94(((S_800A3D18_0 *)owner_arg)->unk_24,
+                           ((S_800A3D18_0 *)owner_arg)->unk_25,
                            base->unk_88,
                            candidate_owner->unk_24,
                            candidate_owner->unk_25,
@@ -145,7 +143,6 @@ do {
 
 advance:
     next_link = ((S_800A3D18_1 *)candidate)->unk_5C;
-    ASM_KEEP(candidate);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     candidate = (u8 *)next_link + 0x20;
     } while (candidate != base);
 

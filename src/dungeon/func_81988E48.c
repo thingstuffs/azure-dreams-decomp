@@ -101,7 +101,7 @@ void func_81988E48(MainObject *obj)
 {
     s16 hit[3];
     s32 state_count;
-    register s32 count ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 count;
     EffectObject *effect;
     volatile EffectTail *tail;
     ChildObject *child;
@@ -129,8 +129,6 @@ void func_81988E48(MainObject *obj)
         goto state_2;
     }
     case3 = 3;
-    ASM_USE_NV(case3);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(state_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     count = state_count;
     if (state == case3) {
         goto state_3;
@@ -242,6 +240,5 @@ state_done:
             tail = (EffectTail *)&effect->owner;
             tail->state = 0;
         }
-        count--;
-    } while (count >= 0);
+    } while (--count >= 0);
 }

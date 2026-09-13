@@ -30,17 +30,16 @@ typedef struct
 } GlobalState;
 extern GlobalState D_80083160;
 /* Draw 16 shaded line segments and link them into the ordering table by depth. */
-s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32 plane_z, s32 points_addr, u8 intensity, u16 color_phase)
+s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32 plane_z, s32 points_addr, u8 intensity, u16 color_phase)
 {
   register u8 *globals_page ASM_REG("$4") = D_80080000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   s32 segment = 15;
   u32 coord_scale = (s16) point_scale;
-  register s32 point_base ASM_REG("$2") = points_addr;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-  register s32 initial_z ASM_REG("$3") = plane_z;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  s32 point_base = points_addr;
+  s32 initial_z = plane_z;
   s16 phase = (s16) color_phase;
   void *projection_aux = (void *) 0x1F800084;
-  register s32 green ASM_REG("$23") = intensity;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-  register s32 addr_mask ASM_REG("$20") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+  u32 addr_mask = 0x00FFFFFF;
   u32 tag_mask = 0xFF000000;
   s32 *point;
   register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -51,8 +50,6 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
   point = (s32 *) (((u8 *) point_base) + 0x3C);
   initial_ctx = *((RenderState **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;
-  ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  ASM_KEEP(coord_scale);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   *((u16 *) (scratch + 0x70)) = (u16) initial_z;
   *((u16 *) (scratch + 0x68)) = (u16) initial_z;
   *((void **) (scratch + 0x18)) = ((u8 *) initial_ctx) + 0xB0;
@@ -61,19 +58,18 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
     register s32 phase_offset ASM_REG("$2") = phase;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 color_index ASM_REG("$5") = segment + phase_offset;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 biased_index = color_index;
-    s32 next_color_index;
     s32 color_scale;
     register s32 shade ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 green_fixed ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     RenderState *ctx;
     s32 line_code;
     s32 color_sign;
-    register s32 div255_multiplier ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 div255_multiplier;
     union {
       s64 both;
       struct { s32 hi; u32 lo; } word;
     } wide_product;
-    green_fixed = green << 16;
+    green_fixed = intensity << 16;
     div255_multiplier = (s32) 0x80808081U;
     wide_product.both = (s64) green_fixed * div255_multiplier;
     ctx = render_state->ctx;
@@ -97,17 +93,17 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s16 point_scale, s32
       shade_product = shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index - ((biased_index >> 4) << 4)))));
       shade = shade_product >> 18;
       shade_scale = saved_shade_scale;
-      next_color_index = color_index + 1;
-      biased_index = next_color_index;
-      line_prim[5] = green;
+      initial_z = color_index + 1;
+      biased_index = initial_z;
+      line_prim[5] = intensity;
       line_prim[4] = (s8) shade;
       line_prim[6] = (s8) shade;
-      if (next_color_index < 0)
+      if (initial_z < 0)
       {
         biased_index = color_index + 16;
       }
-      shade_product = shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (next_color_index - ((biased_index >> 4) << 4)))));
-      line_prim[0xD] = green;
+      shade_product = shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index >> 4) << 4)))));
+      line_prim[0xD] = intensity;
       shade = shade_product >> 18;
       line_prim[0xC] = (s8) shade;
       line_prim[0xE] = (s8) shade;

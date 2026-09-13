@@ -65,7 +65,7 @@ void func_801712A8(void *entity_arg, void *motion_arg, void *monster_arg)
     u16 monster_flags;
     s16 floor_height;
     s16 actor_height;
-    s32 direction_index;
+    s16 direction_index;
 
     if (D_80083462 & 0x2000) {
         Callback first_callback;
@@ -115,7 +115,6 @@ void func_801712A8(void *entity_arg, void *motion_arg, void *monster_arg)
             (D_80083228 + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
         ASM_USE(direction);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         direction = angle_sector & 7;
-        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         direction_index = direction;
         direction_copy = direction;
 

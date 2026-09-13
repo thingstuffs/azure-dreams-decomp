@@ -10,7 +10,7 @@ s32 func_800A1C58(void *entity) {
     s32 *exp_table;
     u8 *exp_entry;
     u8 level;
-    u32 table_offset;
+    u16 table_offset;
 
     if (F(entity, s8, 0x13) < 0) {
         return 0;
@@ -38,7 +38,7 @@ s32 func_800A1C58(void *entity) {
     table_offset = level << 2;
     exp_table = (s32 *)D_800835E8;
     exp_entry = (u8 *)(table_offset + (u32)exp_table);
-    ASM_KEEP(exp_entry); /* Required for byte-exact code generation. */
+     /* Required for byte-exact code generation. */
     if (*(u32 *)exp_entry <= F(entity, u32, 0x18)) {
         can_level_up++;
     }

@@ -6,7 +6,7 @@ extern s32 D_80016000_reload[3] __asm__("D_80016000");
 /* Sets the indexed bit in the global bitfield, ignoring index zero. */
 void func_8001ACE8(s32 bit_index)
 {
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 value;
     s32 *dst_word;
     s32 *src_word;
     s32 byte_offset;
@@ -24,8 +24,7 @@ void func_8001ACE8(s32 bit_index)
         value = *(s32 *)(value + 0x18);
         dst_word = (s32 *)(byte_offset + value);
 
-        value = D_80016000_reload[0];
-        src_word = (s32 *)(byte_offset + *(s32 *)(value + 0x18));
+        src_word = (s32 *)(byte_offset + *(s32 *)(D_80016000_reload[0] + 0x18));
 
         value = bit_index;
         if (bit_index < 0) {

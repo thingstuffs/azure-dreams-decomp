@@ -122,7 +122,6 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     s32 target_x;
     u32 y_table_addr;
     s32 target_y;
-    s32 effect_y;
     s16 *y_entry;
     s32 y_offset;
     s32 y_delta;
@@ -205,14 +204,13 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         y_table_addr = target->unk_2A.as_u16;
         target_y = target_coords->unk_06;
         ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        effect_y = coords->unk_06.u;
-        ASM_KEEP_NV(effect_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_z = coords->unk_06.u;
         y_table_addr = (y_table_addr >> 7) & 0x1C;
         y_table_addr += (u32)direction_table;
         y_entry = (s16 *)y_table_addr;
         y_offset = y_entry[1];
         ASM_KEEP_NV(y_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        y_delta = target_y - effect_y;
+        y_delta = target_y - effect_z;
         y_offset <<= 4;
         y_delta -= y_offset;
         ((S_8017121C_0 *)effect_state)->unk_5E = y_delta / 2;

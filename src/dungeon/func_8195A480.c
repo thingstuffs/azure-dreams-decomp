@@ -133,7 +133,7 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     void *effect;
     void *motion;
     void *sprite;
-    register s32 x_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 x_step;
     register s32 y_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 end_frame ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *resident_sprite;
@@ -307,8 +307,7 @@ advance_tile:
 move_to_tile:
     target_x = ((S_80025C80_0 *)effect)->unk_3C << 6;
     delta_x = ((S_80025C80_2 *)motion)->unk_00.at02.v - 0x20;
-    x_step = (target_x - delta_x) / ((S_80025C80_0 *)effect)->unk_30.n;
-    ((S_80025C80_2 *)motion)->unk_00.at02.v = (u16) ((S_80025C80_2 *)motion)->unk_00.at02.v + x_step;
+    ((S_80025C80_2 *)motion)->unk_00.at02.v = (u16) ((S_80025C80_2 *)motion)->unk_00.at02.v + ((target_x - delta_x) / ((S_80025C80_0 *)effect)->unk_30.n);
     target_y = ((S_80025C80_0 *)effect)->unk_3E.n << 6;
     delta_y = ((S_80025C80_2 *)motion)->unk_04.at02.v - 0x20;
     y_step = (target_y - delta_y) / ((S_80025C80_0 *)effect)->unk_30.n;

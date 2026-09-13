@@ -82,14 +82,15 @@ s32 func_8009D218(void *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
         if (arg1 & 1) {
             if (((func_80042900(arg0, 0x16) << 0x10) != 0) && (arg2->unk_13 >= 0)) {
                 ASM_MEM_BARRIER(); /* MATCH: distinct barriers keep the first two success paths from cross-jump merging. */
-                goto block_22;
+                func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+                return 1;
             }
             goto block_17;
         }
         if (arg1 & 2) {
             if ((((func_80042900(arg0, 0x16) << 0x10) != 0) || ((func_80042900(arg0, 0x17) << 0x10) != 0)) && (arg2->unk_13 >= 0)) {
-                ASM_SCHED_BARRIER(); /* MATCH: prevents merging this condition tail with the arg1 & 4 path. */
-                goto block_22;
+                func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+                return 1;
             }
             goto block_17;
         }

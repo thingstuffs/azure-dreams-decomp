@@ -102,7 +102,8 @@ def score(row, cfg, text):
 def scan_row(row, flags=0):
     t0 = time.time()
     text = clean_path(row).read_text(errors="replace")
-    pool = flag_pool(row, flags) if flags else [c for c in CELLS if c != row["cfg"]]
+    # the 1999 compilers are recorded, never built (LATE): scanning them only costs
+    pool = flag_pool(row, flags) if flags else [c for c in CELLS if c != row["cfg"] and not c.startswith(LATE)]
     cells = [c for c in pool if score(row, f"{c} {INC}", text).get("exact")]
     hits, sites = [], sites_of(text)
     if cells:

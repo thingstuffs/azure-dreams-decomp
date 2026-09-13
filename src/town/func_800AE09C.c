@@ -72,7 +72,6 @@ void func_800AB7FC(void) {
     s32 ambient_red;
     s32 ambient_green;
     s32 ambient_blue;
-    u8 *color_data;
 
     render_data = D_80083160;
     view_state = render_data + 0x18;
@@ -135,13 +134,10 @@ void func_800AB7FC(void) {
     view_state->unk_90 = 0x80;
     view_state->unk_91 = 0x80;
     view_state->unk_92 = 0x80;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    color_data = D_801C9E40;
-    color_data[0x19] = 0;
-    color_data[0x1A] = 0;
-    color_data[0x1B] = 0;
-    color_data = D_801DA714;
-    color_data[0x19] = 0;
-    color_data[0x1A] = 0;
-    color_data[0x1B] = 0;
+    D_801C9E40[0x19] = 0;
+    D_801C9E40[0x1A] = 0;
+    D_801C9E40[0x1B] = 0;
+    D_801DA714[0x19] = 0;
+    D_801DA714[0x1A] = 0;
+    D_801DA714[0x1B] = 0;
 }
