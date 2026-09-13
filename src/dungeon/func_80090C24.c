@@ -211,18 +211,16 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                     command_state = D_800E3544[0];
                     if (command_state != 0x10) {
                         if (command_state < 0x11) {
-                            if (command_state != 8) {
-                                ASM_SCHED_BARRIER(); /* MATCH: preserve the state dispatch jump layout. */
-                                goto reload_flags;
+                            if (command_state == 8) {
+                                goto move;
                             }
-                            goto move;
+                            goto reload_flags;
                         }
                         if (command_state != 0x18) {
-                            if (command_state != 0xD8) {
-                                ASM_SCHED_BARRIER(); /* MATCH: preserve the state dispatch jump layout. */
-                                goto reload_flags;
+                            if (command_state == 0xD8) {
+                                goto dispatch_command;
                             }
-                            goto dispatch_command;
+                            goto reload_flags;
                         }
                         goto use_action;
                     }

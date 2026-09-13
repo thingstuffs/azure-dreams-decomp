@@ -65,6 +65,8 @@ void func_80091C64(void *motion, void *position, void *entity, void *actor) {
     s32 target_x;
     s32 current_x;
     s32 y_work;
+    s32 y_origin;
+    s32 y_remaining;
     register s32 y_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 delay_left;
     u16 hop_frames_left;
@@ -126,13 +128,11 @@ jt_c3:
     current_x = ((S_80091C64_2 *)position)->unk_00.at02.v - 0x20;
     ((S_80091C64_2 *)position)->unk_00.at00.v = (s32) (((S_80091C64_2 *)position)->unk_00.at00.v + ((target_x - current_x) << 0x10) / frames_left);
     y_step = ((Rec_D_80082E80 *)entity)->unk_25;
-    y_work = ((S_80091C64_2 *)position)->unk_04.at02.v;
     y_step <<= 6;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    y_work -= 0x20;
-    y_step = (y_step - y_work) << 0x10;
-    y_work = ((S_80091C64_0 *)motion)->unk_96.u;
-    y_step /= y_work;
+    y_origin = ((S_80091C64_2 *)position)->unk_04.at02.v - 0x20;
+    y_step = (y_step - y_origin) << 0x10;
+    y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
+    y_step /= y_remaining;
     y_work = ((S_80091C64_2 *)position)->unk_04.at00.v + y_step;
     ((S_80091C64_2 *)position)->unk_04.at00.v = y_work;
     ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);

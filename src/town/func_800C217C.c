@@ -17,11 +17,10 @@ void func_800BF8DC(Rec_D_80082D58 *actor, s32 *position, s32 check_param, s32 ch
     state = actor->unk_68;
     if (state != 1) {
         if (state < 2) {
-            if (state != 0) {
-                ASM_SCHED_BARRIER(); /* MATCH: preserve the retail guard layout. */
-                goto end;
+            if (state == 0) {
+                goto check_distance;
             }
-            goto check_distance;
+            goto end;
         }
         if (state != 2) {
             if (state != 3) {
