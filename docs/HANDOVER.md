@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-third round, gated (4 windows MATCH and SLUS SHA-1 MATCH): **8,425 pins in 1,489 rows**, 7 pins
+removed (5 keeps); 448 live scheduling fences, 70 memory. Details: PIN_MECHANISMS, "Round 23".
+- **Did not:** keep lanes with the fence-lane recipe, 2 of 48 (4%). Their near misses are equivalences CSE is
+  entitled to use (a shared constant, a coalesced copy, a folded offset): no zero-cost C spelling without a
+  genuinely different producer. The search on the 35 changed rows: 0.
+- **Worked:** `t59_offsetsym` from a keeps4 win (a kept page plus an offset written as the symbol the file
+  names, one use at a time): 2 more rows.
+- **Where this leaves the levers:** every fence row has been laned (one ovmovie row left); re-lanes pay 9%;
+  keep lanes 4%; the register pins' near misses are allocation choices that past lanes did not crack. The
+  next round needs a new idea, not the lane recipe on another family.
+
 Twenty-second round, gated (10 windows MATCH and SLUS SHA-1 MATCH): **8,432 pins in 1,491 rows**, 8 pins
 removed (7 fences); 449 live scheduling fences, 70 memory. Details: PIN_MECHANISMS, "Round 22".
 - **Worked:** fence lanes on the memory-barrier-only rows, 6 of 27 (22%), with a brief paragraph on what a

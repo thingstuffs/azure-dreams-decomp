@@ -1440,3 +1440,47 @@ memory.
   622 keep rows, unchanged since it measured them, whose nearest single keep erasure is within 3
   instructions of retail (258 with fewer than 5 pins); luna keep lanes on those, each row naming the keep,
   its class, its deciding pass and what it holds, with the refused forms listed verbatim.
+
+## Round 23 (2026-09-13): keep lanes with the fence-lane recipe, `t59_offsetsym`
+
+Gated (4 windows MATCH and SLUS SHA-1 MATCH): **8,425 pins in 1,489 rows**, 7 pins removed (5 keeps, 1
+register pin, 1 scheduling fence), `dungeon/func_800C72B4` and `town/func_8096B16C` pin-free; 448 live
+scheduling fences, 70 memory. By source: the lanes 3, t59 3, the cascade 1 (t41c).
+
+- **Keep lanes keeps1-4 (luna, 48 rows): 2 of 48 exact (4%)**, against 15-28% for fence lanes built the
+  same way. The rows were unchanged since t53k measured them and their nearest single keep erasure was
+  within 3 instructions of retail (the t53k journal names 622 such rows; these are the 48 with the fewest
+  pins). Each row named that keep, its class at combine, the pass whose wiring first differs, what the kept
+  variable holds and the erasure's residue; the brief carried keep_astra's mechanism by value kind and the
+  refused forms verbatim (`build_keep_lanes.py`, `keep_lane_brief.md`, session scratchpad).
+  - keeps4 (2 of 12): the loop decrement moved after the two calls that read the value
+    (`dungeon/func_800C72B4`); a kept page plus an offset written as the symbol the file already names
+    (`town/func_8096B16C`, `(volatile SourceEntry *)D_80126A18`).
+  - keeps1-3 (0 of 36) missed by 1-5 instructions on nearly every row, and named the same mechanisms again
+    and again: CSE rematerialises or shares a constant, coalesces a pointer or channel copy into its
+    source, combine folds an offset or a decrement into the address. That is the class keep_astra bounded
+    in round 19: a closed constant or an unchanged same-mode copy has no zero-cost C spelling without a
+    genuinely different producer. **A near miss by assembly distance is not a near miss in C when the
+    difference is an equivalence CSE is entitled to use.** Keep lanes stop.
+- **`t59_offsetsym` (new, from the keeps4 win):** a kept page literal used with an offset whose symbol the
+  file already names (an extern or the NON_MATCHING arm's spelling), rewritten one use at a time, the page
+  and its keep dropped once nothing else reads them. t29_addrsym (every use, at a splitting cell),
+  t54_pagebase (the page's own definition) and t58 (the whole matching arm) all missed that row. It
+  reproduces the lane's output (identical assembly). 142 such uses in 74 rows; swept over the 66 eligible
+  rows outside the lane rows: 2 applied (`dungeon/func_80084084`, where m2c had named the page local
+  `D_800E0000`, two uses and both page keeps gone; `dungeon/func_81335C70`, `held_base = &D_80083460;`).
+  t29 and t54 had already taken most rows where a symbol pays.
+- **fences33 (luna): the 13 slus fence rows no lane had: 1 of 13.** `slus/w_80040CBC`: the store after an
+  `if`/`else` written in both existing arms, the fence below gone. Every fence row has now been laned except
+  one ovmovie row.
+- **pin_search baseline on the 35 pinned rows changed since round 19 part 1** (`pins_changed_r23`): 0 pins;
+  28 of 35 stopped on a screen or CPU budget. The rows these rounds changed were changed by lanes and
+  generators that had already taken what a local search finds.
+- **Sizing the register pins for the same recipe:** the t53 journal names 443 REG rows, unchanged since it
+  measured them, whose nearest single REG erasure is within 3 instructions (147 with fewer than 5 pins). But
+  for register pins the first wiring difference is at `rtl` on 388 of them (a hard-register declaration
+  changes the RTL from expansion on), and 255 are `wiring` at combine: allocation choices. The per-row facts
+  that made fence lanes pay say little there, and earlier luna lanes on allocation rows went 0 of 10 twice.
+- **Evaluation.** Worked: generators from lane wins (t59). Did not: keep lanes (4%), the changed-rows search
+  (0). Fence lanes have run through their pool. The next lever needs a new idea rather than the recipe
+  applied to another family.

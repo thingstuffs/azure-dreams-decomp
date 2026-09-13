@@ -137,15 +137,15 @@ void func_80040CBC(s16 entry_index)
     {
       buffer_size = 0x18800;
       buffer_address = (s32) (&D_800E6000);
+      D_8008148C[0] = buffer_address;
     }
     else
     {
       buffer_size = 0x38000;
       buffer_address = (s32) (&D_80126804);
+      D_8008148C[0] = buffer_address;
     }
-    D_8008148C[0] = buffer_address;
     D_80080A7C[0] = buffer_size;
   }
-  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
   D_80082E60.field_4 = D_8006CE44[resource_type].field0;
 }
