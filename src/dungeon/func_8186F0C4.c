@@ -134,7 +134,6 @@ state1:
     {
         u8 *record = PTR_AT(entity, 0x0C);
         u16 source_z;
-        u16 next_z;
         s32 has_origin;
 
         has_origin = func_8003DF74(PTR_AT(record, 0x08), record, origin_offset, 0);
@@ -150,14 +149,10 @@ state1:
         if (!(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {
             U16_AT(effect_pos, 0x02) += (u16)origin_offset[0];
             U16_AT(effect_pos, 0x06) += (u16)origin_offset[1];
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            next_z = U16_AT(effect_pos, 0x0A);
-            source_z = (u16)origin_offset[2];
-            next_z += source_z;
+            U16_AT(effect_pos, 0x0A) += (u16)origin_offset[2];
         } else {
-            next_z = (u16)(source_z - 0x40);
+            U16_AT(effect_pos, 0x0A) = (u16)(source_z - 0x40);
         }
-        U16_AT(effect_pos, 0x0A) = next_z;
 
         {
             u8 *task = effect_data - 0x20;
@@ -434,20 +429,18 @@ state4:
                 U8_AT(effect_data, 0x9C) -= 0x18;
             }
 
-            for (entity = 0; (s32)entity < 4; entity++) {
+            entity = 0; if ((s32)entity < 4) { loop_0_: {
                 s32 random = func_80069EF8();
                 u8 *task;
                 s32 particle_color;
                 s32 particle_param;
 
                 task = effect_data - 0x20;
-                ASM_KEEP(task);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 particle_color = 0x002020E0;
-                ASM_KEEP(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 random &= 0xFF;
                 particle_param = random | 0x80;
                 D_80024488(task, S16_AT(effect_data, 0x7E), particle_color, particle_param, 0, 0, 0);
-            }
+            } entity++; if ((s32)entity < 4) goto loop_0_; }
         }
 
         if (S16_AT(effect_data, 0x82) >= 50) {

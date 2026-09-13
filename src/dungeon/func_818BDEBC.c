@@ -225,11 +225,9 @@ case_0:
     {
         void *tile_node;
         tile_node = PTR_AT(owner_meta, 0xC);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         table_page = 0x80070000;
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_x = U8_AT(tile_node, 0x24);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_y = U8_AT(tile_node, 0x25);
     }
     end_tile_x = tile_x;
@@ -336,13 +334,13 @@ case_0:
 
     x_distance = dest_x;
     state->duration = x_distance;
-    do {
+    loop_0: {
         if (S16_AT(color_part, 0x18) > state->duration) {
             state->duration = (u16)S16_AT(color_part, 0x18);
         }
         index++;
         color_part += 2;
-    } while (index < 3);
+    } if (index < 3) goto loop_0;
     state->duration = (s16)state->duration >> 4;
     if (state->duration == 0) {
         state->duration = 1;

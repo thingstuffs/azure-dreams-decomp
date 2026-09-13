@@ -205,7 +205,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
         angle_update -= 2;
     } if (index >= 0) goto loop_0;
     {
-        register u16 timer_value ASM_REG("$2");
+        s32 timer_value;
 
         timer_value = (u16)state_arg->timer;
         timer_value++;
@@ -235,11 +235,11 @@ case_0:
     } if (index >= 0) goto loop_0_;
     index = 9;
     effect_clear = (u8 *)state_arg + 36;
-    do {
+    loop_0__: {
         *(Effect **)(effect_clear + 44) = 0;
         index--;
         effect_clear -= 4;
-    } while (index >= 0);
+    } if (index >= 0) goto loop_0__;
     func_800240EC(angle_clear, angle_update, draw_info);
     color = 0x00808080;
     direction = (entity->flags2A >> 9) & 7;
@@ -344,11 +344,9 @@ case_0:
         TargetInfo *tile_info;
 
         tile_info = header->info;
-        ASM_SCHED_BARRIER();
         table_page = 0x80070000;
-        ASM_KEEP(table_page);
         tile_x = tile_info->tileX;
-        ASM_SCHED_BARRIER();
+        ASM_KEEP(table_page);
         tile_y = tile_info->tileY;
     }
     final_x = tile_x;

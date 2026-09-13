@@ -286,10 +286,9 @@ store_target_dy:
     target = ((S_80025738_1 *)owner)->unk_60;
     current_z = ((S_80025738_5 *)motion)->unk_08.at02u.v;
     target_dz = ((S_80025738_8 *)target)->unk_88;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    target_dz -= current_z;
     target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
     ASM_KEEP(target_delta_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    target_dz -= current_z;
     if (target_dz >= 0) {
         goto store_target_dz;
     }
@@ -321,11 +320,9 @@ set_target_velocity:
 scan_path:
     index = 0;
     tile_data = ((S_80025738_3 *)source_header)->unk_0C;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     table_page = 0x80070000;
-    ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     tile_x = ((S_80025738_10 *)tile_data)->unk_24;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     tile_y = ((S_80025738_10 *)tile_data)->unk_25;
     last_tile_x = tile_x;
     frame.raw_y = (u16) tile_y;

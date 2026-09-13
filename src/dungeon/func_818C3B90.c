@@ -190,9 +190,8 @@ jt_c1:
                 if (signed_delta > action->duration) {
                     action->duration = delta_bits;
                 }
-                index++;
                 delta_iter += 2;
-            } while (index < 3);
+            } while (++index < 3);
             action->duration = action->duration >> 4;
             if (action->duration == 0) {
                 action->duration = 1;
@@ -232,13 +231,11 @@ jt_c1:
 
             index = 0;
             table = (s16 *)prefix->lookup;
-            ASM_SCHED_BARRIER();
             coord_aux = 0x80070000;
-            ASM_KEEP(coord_aux);
             grid_x = ((Lookup *)table)->x;
+            ASM_KEEP(coord_aux);
             grid_y = ((Lookup *)table)->y;
             saved_x = grid_x;
-            ASM_SCHED_BARRIER();
             stack.accum_y = grid_y;
 
             for (; index < 8;) {

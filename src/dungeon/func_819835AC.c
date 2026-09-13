@@ -351,7 +351,7 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     history_index = 0;
     history = (S_819835AC_4 *) effect;
     (*(s16 *)&D_800269F8) = (s16) (((S_819835AC_10 *) &D_800269F8)->unk_00 + 1);
-copy_history:
+do {
     {
         s32 history_xy;
         s32 history_z_pad;
@@ -364,9 +364,7 @@ copy_history:
     }
     history_index -= 1;
     history = (S_819835AC_4 *) ((u8 *) history - 8);
-    if (history_index >= 0) {
-        goto copy_history;
-    }
+    } while (history_index >= 0);
     owner_ref = effect->unk_20;
     effect->unk_48 = (u16) motion->unk_00.half.unk_02.u16;
     effect->unk_4A = (u16) motion->unk_04.half.unk_06.u16;
@@ -526,8 +524,7 @@ block_24:
     coord_delta -= 0x50;
     coord_value += coord_delta;
     effect->unk_2C.u16 = coord_value;
-    coord_value = state1_actor->unk_A6 - 1;
-    state1_actor->unk_A6 = coord_value;
+    state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
     goto block_128;
 jt_c2:
@@ -673,11 +670,8 @@ block_65:
     }
     tile_base = (S_819835AC_7 *) &D_80082E80;
     tile_coord = tile_base->unk_24;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     tile_call_arg = 0x300;
-    ASM_KEEP(tile_call_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     effect->unk_40 = (s16) tile_coord;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     effect->unk_98 = (u8) tile_coord;
     tile_coord = tile_base->unk_25;
     effect->unk_30 = 5;
