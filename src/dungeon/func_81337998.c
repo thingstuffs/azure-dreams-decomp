@@ -73,7 +73,7 @@ void func_8016E998(Rec_D_800E3D7C *origin) {
     s32 end_x;
     s32 start_x;
     s32 end_z;
-    s32 unit_scale;
+    s16 unit_scale;
     s32 initial_count;
     register s32 intensity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     void *init_effect;
@@ -139,7 +139,6 @@ void func_8016E998(Rec_D_800E3D7C *origin) {
             effect_data->unk_88 = (s16) unit_scale;
             effect_data->unk_7C = (s16) unit_scale;
             appearance = ((S_8016E998_1 *)effect)->unk_0C;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             unit_scale = 0x1000;
             appearance->unk_0C = (s8) color_level;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

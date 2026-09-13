@@ -54,7 +54,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     s32 vram_offset;
     s32 tile_count;
     s32 buffer_addr;
-    register void *tile_src ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    void *tile_src;
     u32 *input;
     static void *const case_labels[] = {
         &&case_1, &&case_2, &&case_3, &&case_4, &&case_5,
@@ -106,8 +106,7 @@ case_3:
     tile_count = cmd->y;
     tile_src = (void *)words[1];
     flags = cmd->flags;
-    tile_src = (void *)(base + (s32)tile_src);
-    src_addr = (s32)tile_src;
+    src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
     goto call_tile;
 
 case_4:
@@ -116,8 +115,7 @@ case_4:
     tile_count = cmd->y;
     tile_src = (void *)words[1];
     raw_flags |= 2;
-    tile_src = (void *)(base + (s32)tile_src);
-    src_addr = (s32)tile_src;
+    src_addr = (s32)((void *)((void *)(base + (s32)tile_src)));
     goto convert_flags;
 
 case_5:

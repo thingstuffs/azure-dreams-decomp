@@ -32,7 +32,7 @@ void func_80041344(s32 data_base, void *scratch)
     register u16 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u16 *color;
     void *src;
-    register void *src_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    void *src_addr;
     register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     S_80041344 *command;
     void **handlers = jtbl_8002D630;
@@ -63,8 +63,7 @@ LC:
         palette_count = entry->u.t.y;
         src_addr = (void *)command->arg0;
         flags = (s16)entry->u.t.w;
-        src_addr = (void *)(data_base + (s32)src_addr);
-        src = src_addr;
+        src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto call_tile;
 LD:
         raw_flags = entry->u.t.w;
@@ -72,8 +71,7 @@ LD:
         palette_count = entry->u.t.y;
         src_addr = (void *)command->arg0;
         raw_flags |= 2;
-        src_addr = (void *)(data_base + (s32)src_addr);
-        src = src_addr;
+        src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto sign_flags;
 LE:
         src = (void *)(data_base + command->arg0);

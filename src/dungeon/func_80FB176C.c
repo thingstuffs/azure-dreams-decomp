@@ -383,13 +383,14 @@ sw1_case4: {
                 s32 x;
                 s32 y;
                 s32 coord;
+                s32 coord_2;
                 s32 delta;
+                s32 delta_2;
                 u16 timer;
 
-                coord = ((S_80170F6C_2 *)arg2)->unk_24.at00.v << 6;
-                delta = ((S_80170F6C_3 *)arg1)->unk_00.at02.v - 0x20;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                x = coord - delta;
+                coord_2 = ((S_80170F6C_2 *)arg2)->unk_24.at00.v << 6;
+                delta_2 = ((S_80170F6C_3 *)arg1)->unk_00.at02.v - 0x20;
+                x = coord_2 - delta_2;
                 ((S_80170F6C_3 *)arg1)->unk_0C = (s32)((u32)x << 15) >> 1;
                 coord = ((S_80170F6C_2 *)arg2)->unk_24.at01.v << 6;
                 delta = ((S_80170F6C_3 *)arg1)->unk_04.at02.v - 0x20;

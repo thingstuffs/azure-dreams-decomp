@@ -46,7 +46,7 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32
   u8 *line_prim;
   RenderState *initial_ctx;
   GlobalState *render_state = &D_80083160;
-  register s32 depth ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  s32 depth;
   point = (s32 *) (((u8 *) point_base) + 0x3C);
   initial_ctx = *((RenderState **) (globals_page + 0x3160));
   scratch = (u8 *) 0x1F800000;
@@ -141,12 +141,11 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32
     *((u16 *) (line_prim + 0x10)) = *((u16 *) (scratch + 0xDC));
     *((u16 *) (line_prim + 0x12)) = *((u16 *) (scratch + 0xDE));
     {
-      register s32 depth_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+      s32 depth_sum;
       depth_sum = *((s32 *) (scratch + 0xF4));
       depth_sum += *((s32 *) (scratch + 0xF8));
       depth = depth_sum / 2;
     }
-    ASM_KEEP_NV(depth);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     *((s32 *) (scratch + 0xB4)) = depth;
     if (((u32) depth) < 0x1E0U)
     {
@@ -154,15 +153,14 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32
       *((s32 *) line_prim) = ((*((s32 *) line_prim)) & tag_mask) | (((s32 *) (*((void **) (scratch + 0x18))))[depth] & addr_mask);
       {
         u32 ot_slot;
-        register u32 *ordering_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        u32 *ordering_table;
         u32 old_tag;
-        register u32 prim_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        u32 prim_addr;
         ot_slot = *((u32 *) (scratch + 0xB4));
         ordering_table = *((u32 **) (scratch + 0x18));
         ot_slot = (ot_slot << 2) + ((u32) ordering_table);
         old_tag = *((u32 *) ot_slot);
-        prim_addr = ((u32) line_prim) & addr_mask;
-        *((u32 *) ot_slot) = (old_tag & tag_mask) | prim_addr;
+        *((u32 *) ot_slot) = (old_tag & tag_mask) | ((u32)(((u32) line_prim) & addr_mask));
       }
       draw_mode_prim = render_state->ctx->nextPrim;
       render_state->ctx->nextPrim = draw_mode_prim + 0xC;
