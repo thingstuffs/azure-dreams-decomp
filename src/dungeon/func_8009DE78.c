@@ -2,7 +2,7 @@
 
 /* Computes a signed cyclic comparison score for two three-bit masks. */
 s32 func_800A35D8(s32 left_mask, s32 right_mask) {
-    register s32 score ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 score;
     s16 left_bits;
     s16 right_bits;
     s32 masked_bit;
@@ -20,8 +20,7 @@ s32 func_800A35D8(s32 left_mask, s32 right_mask) {
             score = left_mask - 1;
         }
     }
-    masked_bit = left_bits & 2;
-    if (masked_bit) {
+    if (left_bits & 2) {
         masked_bit = right_bits & 1;
         if (masked_bit) {
             score++;

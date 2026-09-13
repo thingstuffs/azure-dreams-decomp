@@ -144,7 +144,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 register void *effect_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 void *owner_ref;
                 S_80C96F24_5 *position;
-                register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s16 init_value;
                 s16 angle_index;
                 s32 start_angle;
                 s32 end_angle;
@@ -152,8 +152,7 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 effect_arg = effect;
                 effect_data = (u8 *)effect + 0x20;
 
-                init_value = 0x42;
-                ((S_80C96F24_1 *)effect_data)->unk_24 = init_value;
+                ((S_80C96F24_1 *)effect_data)->unk_24 = 0x42;
                 init_value = 0x17;
                 ((S_80C96F24_1 *)effect_data)->unk_26 = 0;
                 ((S_80C96F24_1 *)effect_data)->unk_2A = segment;
@@ -231,14 +230,13 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     register s32 scaled_trig ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     s16 end_radius_copy;
                     void *render_data;
-                    s32 trig_angle;
+                    u32 trig_angle;
                     s32 vertex_coord;
                     s32 trig_value;
 
                     angle_index = (s16)segment;
                     end_angle = (angle_index + 1) << 9;
                     trig_angle = end_angle;
-                    ASM_KEEP_DEP_NV(effect_data, trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     render_data = effect_data + 0x7A;
                     ((S_80C96F24_4 *)render_state)->unk_08 = render_data;
 

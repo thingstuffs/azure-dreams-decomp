@@ -23,8 +23,9 @@ extern M2C_UNK D_800984AC;
 /* Advance the fixed-point coordinates toward their targets and finish when the countdown expires. */
 void func_80098544(S_80098544_0 *state, void *position_data) {
     S_80098544_1 *position;
-    s16 remaining;
-    register s32 current_coord ASM_REG("$3");
+    s32 remaining;
+    s32 current_coord;
+    s32 current_coord_2;
     u16 steps_left;
     s32 target_y;
 
@@ -34,8 +35,8 @@ void func_80098544(S_80098544_0 *state, void *position_data) {
     steps_left = state->unk_0A.s - 1;
     state->unk_0A.s = steps_left;
     if ((s16) steps_left > 0) {
-        current_coord = position->unk_00;
-        position->unk_00 = (s32) (current_coord + ((s32) ((state->unk_36 << 0x10) - current_coord) / (s16) steps_left));
+        current_coord_2 = position->unk_00;
+        position->unk_00 = (s32) (current_coord_2 + ((s32) ((state->unk_36 << 0x10) - current_coord_2) / (s16) steps_left));
         target_y = state->unk_38;
         current_coord = position->unk_04;
         remaining = state->unk_0A.u;

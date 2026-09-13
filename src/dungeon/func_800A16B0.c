@@ -13,11 +13,11 @@ s16 func_800A6E10(s16 first_key, s16 second_key) {
     s32 entry_index;
     s32 match_first;
     s32 match_second;
-    register s32 zero ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s8 zero;
 
     zero = 0;
-    entry_index = zero;
     match_count = zero;
+    entry_index = zero;
     match_first = first_key;
     match_second = second_key;
 #ifdef NON_MATCHING

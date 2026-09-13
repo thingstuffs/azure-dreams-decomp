@@ -122,7 +122,8 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     s32 idle_direction;
     register s32 heading_byte ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 return_speed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 return_speed;
+    s32 return_speed_2;
     s32 state;
     register s32 particles_left ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 random_offset;
@@ -305,12 +306,12 @@ advance:
         goto end;
 
     case 0xFF:
-        return_speed = ((S_80172790_6 *)tile)->unk_24 << 6;
+        return_speed_2 = ((S_80172790_6 *)tile)->unk_24 << 6;
         origin_x = ((S_80172790_4 *)motion)->unk_02.u - 0x20;
-        return_speed -= origin_x;
-        return_speed <<= 0xF;
-        return_speed >>= 1;
-        ((S_80172790_4 *)motion)->unk_0C = return_speed;
+        return_speed_2 -= origin_x;
+        return_speed_2 <<= 0xF;
+        return_speed_2 >>= 1;
+        ((S_80172790_4 *)motion)->unk_0C = return_speed_2;
         return_speed = ((S_80172790_6 *)tile)->unk_25 << 6;
         origin_y = ((S_80172790_4 *)motion)->unk_06.u - 0x20;
         return_speed -= origin_y;

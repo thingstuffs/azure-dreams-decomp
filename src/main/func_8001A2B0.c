@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_800A0000[];
 
 extern s32 D_804094E8;
 extern s32 D_804094EC;
@@ -40,11 +41,9 @@ case_one:
 case_three:
     selection = D_804094EC;
     do {
-        selected_slot = (s32 *)0x800A0000;
+        selected_slot = (s32 *)D_800A0000;
     } while (0);
-    ASM_KEEP(selected_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     selected_slot -= 1820;
-    ASM_KEEP(selected_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (selection != 0) {
         selected_slot++;
         return_code = 3;

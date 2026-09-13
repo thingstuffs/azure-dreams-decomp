@@ -70,13 +70,10 @@ void func_80024700(void *source_object)
     register s32 object_arg ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *resource;
     s32 angle_or_zero;
-    u32 link_page;
 
     object = func_8003FC64(object_arg);
     if (object != NULL) {
-        link_page = 0x80020000;
-        ASM_KEEP(link_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        link = (M2C_UNK *)(link_page + 0x455C);
+        link = D_8002455C;
         resource = D_800DE938;
         (*(M2C_UNK * *)((u8 *)object + 0x10)) = link;
         value = (*(s32 *)((u8 *)source + 0));

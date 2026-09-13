@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_800E3D7C.h"
+extern u8 D_80080000[];
 
 
 typedef struct S_800930F0_12 {
@@ -242,8 +243,7 @@ block_23:
         zero_arg_2 = zero_arg_1;
         zero_arg_3 = zero_arg_1;
         ASM_KEEP4_NV(command, zero_arg_1, zero_arg_2, zero_arg_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        flags_base = (u8 *)0x80080000;
-        ASM_KEEP(flags_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        flags_base = (u8 *)D_80080000;
         flags = 0x8000;
         ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
         func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);

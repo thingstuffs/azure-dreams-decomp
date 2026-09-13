@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80080000[];
 
 typedef struct {
     s32 seed;
@@ -190,17 +191,14 @@ call_common_setup:
 
 after_optional_setup:
     page8_common = (u8 *)0x80080000;
-    ASM_KEEP_NV(page8_common);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     srand(*(s32 *)(page8_common + 0x1468));
     func_800A6D98(*(s32 *)(page8_common + 0x1468));
     func_800A0E44();
     {
         u8 *v0base;
-        v0base = (u8 *)0x80080000;
-        ASM_KEEP_NV(v0base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        v0base = (u8 *)D_80080000;
         *(u16 *)(v0base + 0x2E76) = 0;
-        v0base = (u8 *)0x800E0000;
-        ASM_KEEP_NV(v0base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        v0base = (u8 *)D_800E0000;
         *(s32 *)(v0base + 0x3D6C) = 0;
         func_8001F32C();
     }

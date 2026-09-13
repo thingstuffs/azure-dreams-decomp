@@ -11,7 +11,7 @@ typedef struct {
 /* Project the line through two points to target_z, clamp x/y, and return 1 if depth or range checks fail. */
 s32 func_80046AFC(SVec3 *start, SVec3 *end, SVec3 *result, s32 target_z) {
     SVec3 *out; /* t2 */
-    register s32 output_z ASM_REG("$11");  /* t3 */
+    s16 output_z;  /* t3 */
     s32 delta_z;
     s32 z_offset;
     s32 x;

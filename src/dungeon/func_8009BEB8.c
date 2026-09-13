@@ -50,13 +50,13 @@ clear_flags:
     if (short_id == 0x39) slot_id = 2;
     if ((s16)slot_type == 3) {
         u8 *scan_base;
-        register u8 *scan_start ASM_REG("$3");
+        u8 *scan_start;
         scan_base = (u8 *)0x800E0000;
         ASM_KEEP(scan_base);
         scan_start = scan_base + 0x3DD0;
         ASM_KEEP_DEP_NV(scan_start, scan_base);
-        entry = scan_start;
         slot_index = 4;
+        entry = scan_start;
         goto scan;
     }
     if ((s16)slot_type == 2) {

@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80020000[];
 
 typedef struct S_81971398_0 {
     u8 pad_00[0x38];
@@ -42,9 +43,8 @@ void func_81971398(void *fade_data)
 #ifdef NON_MATCHING
     global_page = (u8 *)&D_80025FF4 - 0x5FF4;
 #else
-    global_page = (u8 *)0x80020000;
+    global_page = (u8 *)D_80020000;
 #endif
-    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ticks_left = ((S_81971398_0 *)fade)->unk_38.s;
     ((S_81971398_1 *)global_page)->unk_5FF4 = 1;
     ticks_left--;

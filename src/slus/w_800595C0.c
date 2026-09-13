@@ -39,7 +39,7 @@ s32 func_800595C0(Entity *entity)
     s32 command;
     s16 operand;
     s32 value;
-    register s32 saved_command ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 saved_command;
     s32 command_index;
     static void *const case_labels[] = {
         &&L_case_46, &&L_case_47, &&L_case_48, &&L_case_49,

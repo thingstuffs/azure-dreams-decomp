@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80010000[];
 
 typedef struct {
     s32 value[5];
@@ -63,9 +64,8 @@ s32 func_800B8C90(void)
     }
     expected_value = 10;
     if (D_800133A6 != expected_value) {
-        register u8 *data_base ASM_REG("$3") = (u8 *)0x80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        register u8 *data_base ASM_REG("$3") = (u8 *)D_80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         required_num = 0;
         if (data_base[0x33A7] != expected_value) {
 return_zero:

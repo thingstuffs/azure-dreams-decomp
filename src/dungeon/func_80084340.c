@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_800E0000[];
 
 typedef M2C_UNK (*Callback4)(void *, void *, void *, void *);
 extern u8 D_80096384[];
@@ -859,8 +860,7 @@ process_turns:
 store_loop_flags:
     ((S_80089AA0_24 *)loop_status)->unk_02 = next_flags;
 begin_actor_pass:
-    page_or_repeat = (s32)0x800E0000;
-    ASM_KEEP(page_or_repeat);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    page_or_repeat = (s32)D_800E0000;
     if ((((S_80089AA0_25 *)((void *)page_or_repeat))->unk_296C & 0x100000) && ((func_800A2C34(0) << 0x10) == 0)) {
         actor = ((S_80089AA0_26 *)actor_root_page)->unk_3D7C;
 apply_pending_points:

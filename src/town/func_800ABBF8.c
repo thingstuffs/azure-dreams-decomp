@@ -23,7 +23,7 @@ void func_800A9358(s32 shape, s32 source)
     register u32 first_inner_xy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u32 first_middle_xy ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u32 first_outer_xy;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u32 next_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 next_color;
     register u32 next_inner_xy ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register u32 next_middle_xy ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 next_outer_xy;
@@ -92,8 +92,8 @@ void func_800A9358(s32 shape, s32 source)
             more_segments = *(s32 *)(count_base + 0xE30);
             next_outer_xy = scratch[0x124 / 4];
             more_segments -= 1;
-            more_segments = segment < more_segments;
             scratch[0x118 / 4] = next_color;
+            more_segments = segment < more_segments;
             scratch[0xF0 / 4] = next_inner_xy;
             scratch[0xF4 / 4] = next_middle_xy;
             scratch[0x128 / 4] = next_outer_xy;

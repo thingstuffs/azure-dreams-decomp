@@ -426,7 +426,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     s16 sprite_facing;
     u16 fixed_bob_phase;
     u16 fixed_bob_phase_wide;
-    register s32 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 sprite_flags;
     u16 first_flags;
     u16 bob_phase;
     u16 bob_phase_wide;

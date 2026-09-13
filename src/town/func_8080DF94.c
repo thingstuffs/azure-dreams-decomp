@@ -37,6 +37,8 @@ void func_8080DF94(void *arg0, void *arg1, void *arg2) {
     register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_s3;
     void *temp_s6;
+    s32 vel_x;
+    s32 step_x;
 
     temp_s3 = FIELD(arg0, void **, 0);
     temp_s5 = scratch.word;
@@ -122,8 +124,6 @@ case_1:
 case_20: {
     s16 floor_y;
     register s32 pos_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 vel_x;
-    s32 step_x;
 
     FIELD(arg1, s32 *, 0x14) = (s32)(FIELD(arg1, s32 *, 0x14) + 0x40000);
     floor_y = func_8025E01C(arg1);
@@ -160,9 +160,7 @@ case_20: {
 
 case_21: {
     s16 floor_y;
-    register s32 pos_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 vel_x;
-    s32 step_x;
+    s32 pos_x;
 
     FIELD(arg1, s32 *, 0x14) = (s32)(FIELD(arg1, s32 *, 0x14) + 0x40000);
     floor_y = func_8025E01C(arg1);

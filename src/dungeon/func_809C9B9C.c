@@ -45,11 +45,11 @@ typedef struct S_8017139C_3 {
 /* Advances the entity along its stored path and updates movement state and timing. */
 void func_8017139C(void *controller, void *context, void *entity, void *path_state)
 {
-    register void *state ASM_REG("$17") = path_state;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *state = path_state;
     s32 move_flags;
     s16 direction;
     s16 move_result;
-    s32 x;
+    s16 x;
     s32 y;
     s32 control_flags;
 

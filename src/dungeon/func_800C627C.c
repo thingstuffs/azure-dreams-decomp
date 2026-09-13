@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_80080000[];
 
 typedef struct S_800CB9DC_0_pre {
     u16 unk_00;
@@ -122,8 +123,7 @@ void func_800CB9DC(void *trap_state_in, void *motion_state_in, void *animation_i
                 func_800945E8(actor, actor_data);
                 func_800948BC();
                 func_800A6780();
-                transition_page = (u8 *)0x80080000;
-                ASM_KEEP(transition_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                transition_page = (u8 *)D_80080000;
                 trap_counts = D_80081468;
                 transition_id = transition_page[0x2E6B];
                 floors_ascended = motion_state->unk_234;

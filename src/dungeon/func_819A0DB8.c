@@ -39,15 +39,13 @@ void func_800245B8(void *object_data)
     s32 phase_index;
     s32 pair_offset;
     S_func_819A0DB8_0 *object = object_data;
-    register u8 *global_page ASM_REG("$4") = (u8 *)0x80020000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     static void *const phase_labels[] = {
         &&L0, &&L1, &&L2, &&L3
     };
 
     (void)phase_labels;
-    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     phase_index = (s16)(object->unk_3A - 3);
-    ((S_func_819A0DB8_1 *)global_page)->unk_61B0 = 1;
+    ((S_func_819A0DB8_1 *)D_80020000)->unk_61B0 = 1;
     if ((u32)phase_index < 11) {
         void **phase_table = jtbl_80024008;
         goto *phase_table[phase_index];

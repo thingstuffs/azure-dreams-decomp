@@ -43,6 +43,7 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     s32 message_end;
     s32 lower_stat;
     s32 level_term;
+    s32 level_term_2;
     volatile s32 *xp_table;
 
     entity = (u8 *)entity_data;
@@ -231,8 +232,8 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
 
     {
         s16 base_xp;
-        register s32 linear_xp ASM_REG("$4");
-        s32 xp_growth;
+        s32 linear_xp;
+        u32 xp_growth;
         s32 xp_factor;
         s32 growth_product;
         u32 xp_given;
@@ -240,10 +241,9 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
         base_xp = *(s16 *)(initial_stats + 6);
         linear_xp = level * base_xp;
         xp_growth = stat_growth[6] * level;
-        ASM_KEEP(xp_growth);
-        level_term = level * level;
+        level_term_2 = level * level;
         xp_factor = base_xp + xp_growth;
-        growth_product = level_term * xp_factor;
+        growth_product = level_term_2 * xp_factor;
         xp_given = base_xp + linear_xp;
         if (growth_product < 0) {
             growth_product += 0x1FF;
@@ -258,11 +258,12 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
     if (entity[0x13] != 0) {
         spell_index = 2;
         {
-            register u8 *spell_flags ASM_REG("$7");
+            u8 *spell_flags;
             u8 *spell_table;
             u8 *spell_cursor;
             register s16 spell_id ASM_REG("$4");
             u8 *lowered_flag;
+            s32 level_term;
             spell_flags = spell_lowered;
             spell_table = D_8006DE24;
             level_term = 1;
@@ -329,9 +330,8 @@ s32 func_800A2424(void *entity_data, s32 show_message) {
                     message_end = func_80099194(&D_800E09B2, message_end);
                     message_end = func_80099194(&D_800E09BB, message_end);
                 }
-                spell_index += 1;
                 entity += 3;
-            } while (spell_index < 3);
+            } while (++spell_index < 3);
         }
 
         if (!(D_80013714[0] & 1)) {

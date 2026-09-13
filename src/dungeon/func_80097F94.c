@@ -75,7 +75,8 @@ col_loop:
                 nibble_mask = packed_input & 0xF0;
             }
             if (nibble_mask != 0) {
-                register s32 value_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s32 value_bits;
+                s32 value_bits_2;
                 s32 level;
                 s16 clamped_level;
                 s32 col;
@@ -83,9 +84,9 @@ col_loop:
 
                 col = (s16) col_index;
                 shift = ((S_8009D6F4_0 *)grid_dims)->unk_14;
-                value_bits = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
-                clamped_level = value_bits;
-                level = value_bits;
+                value_bits_2 = (s16) (((S_8009D6F4_1 *)(((((row << shift) + col) * 6) + table)))->unk_02 + 0x200) / 64;
+                clamped_level = value_bits_2;
+                level = value_bits_2;
                 if (level >= 0x10) {
                     clamped_level = 15;
                     goto clamp_value;

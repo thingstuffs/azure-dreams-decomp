@@ -484,14 +484,15 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
         u32 *ot_entry;
         u32 color_code;
         s32 packet_code;
-        register S_func_8187A9A8_5 *render_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        S_func_8187A9A8_5 *render_state;
+        S_func_8187A9A8_5 *render_state_2;
         register S_func_8187A9A8_5 **render_state_ref ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         render_state_ref = (S_func_8187A9A8_5 **)D_80083160_line;
         ASM_KEEP(render_state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        render_state = *render_state_ref;
-        packet = render_state->unk_8D0;
-        render_state->unk_8D0 = (u8 *)packet + 0x10;
+        render_state_2 = *render_state_ref;
+        packet = render_state_2->unk_8D0;
+        render_state_2->unk_8D0 = (u8 *)packet + 0x10;
 
         coord_a = mesh->unk_58.as_s16_58;
         coord_b = mesh->unk_5C.as_s16_5C;

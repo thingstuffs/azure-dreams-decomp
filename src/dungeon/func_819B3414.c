@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80080000[];
 
 extern s32 func_800644B8();
 extern s32 func_80064710();
@@ -181,8 +182,7 @@ s32 func_80024C14(void *effect_data) {
                                 ASM_KEEP_NV(screen_vertex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                 screen_vertex += 32;
                                 screen_vertex = (u8 *)(row_word_offset + (u32)screen_vertex);
-                                render_globals = (void **)0x80080000;
-                                ASM_KEEP_NV(render_globals);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                                render_globals = (void **)D_80080000;
                                 first_screen_xy = *(u32 *)(screen_vertex + 0);
                                 ASM_KEEP(first_screen_xy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                                 render_globals = (void **)((u8 *)render_globals + 0x3160);

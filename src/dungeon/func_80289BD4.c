@@ -11,7 +11,8 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     register s32 neighbor_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 tile_or_turn ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 direction;
-    register s32 lookup_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 lookup_value;
+    s32 lookup_value_2;
     u32 config_or_dir;
     u32 dir_or_tiles;
     s32 y_offsets;
@@ -71,10 +72,10 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
         dir_or_tiles = tiles_or_shift;
         tiles_or_shift = row_work;
         loop_0: {
-            lookup_value = ((s32)config_or_dir + tile_or_turn) & 6;
-            lookup_value *= 2;
-            neighbor_x = *(u16 *)(lookup_value + x_offsets);
-            row_work = *(u16 *)(lookup_value + y_offsets);
+            lookup_value_2 = ((s32)config_or_dir + tile_or_turn) & 6;
+            lookup_value_2 *= 2;
+            neighbor_x = *(u16 *)(lookup_value_2 + x_offsets);
+            row_work = *(u16 *)(lookup_value_2 + y_offsets);
             neighbor_x = origin_x + neighbor_x;
             row_work = (s16)(origin_y + row_work);
             row_work <<= tiles_or_shift;

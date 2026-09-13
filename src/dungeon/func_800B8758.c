@@ -63,7 +63,8 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
     s32 special_case = 0;
     register s32 original_id;
     register s32 message_handle ASM_REG("$17"); /* MATCH: Keep the shared-tail value in s1 after merging the two call paths. */
-    register s32 saved_id ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 saved_id;
+    s32 saved_id_2;
     register void *return_address ASM_REG("$31");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 entity_id;
     s32 result;
@@ -110,11 +111,11 @@ s32 func_800BDEB8(void *target, s32 action, s16 mode) {
         u8 *message; /* MATCH: Keep the merged message address in retail's argument register. */
         result = func_800A48F0(entity, 10, 0x20);
         if ((s16)result >= 0) {
-            saved_id = ((S_800BDEB8_0 *)entity)->unk_13;
+            saved_id_2 = ((S_800BDEB8_0 *)entity)->unk_13;
             message_handle = func_800990FC();
             ((S_800BDEB8_0 *)entity)->unk_13 = original_id;
             result = func_80099734(entity, message_handle);
-            ((S_800BDEB8_0 *)entity)->unk_13 = saved_id;
+            ((S_800BDEB8_0 *)entity)->unk_13 = saved_id_2;
             message = D_800E0FA4;
             result = func_80099194(message, result);
         } else {
@@ -140,9 +141,8 @@ check_special:
 show_special:
     result = func_800990FC();
     {
-        register u8 *message ASM_REG("$4") = D_800E0FD7;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register s32 message_arg ASM_REG("$5") = result;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(message_arg);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        u8 *message = D_800E0FD7;
+        u32 message_arg = result;
         saved_id = message_arg;
         result = func_80099194(message, message_arg);
     }

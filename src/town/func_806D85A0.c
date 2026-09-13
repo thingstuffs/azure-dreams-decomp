@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
+extern u8 D_80010000[];
 
 
 typedef struct S_806D85A0_1 {
@@ -79,8 +80,7 @@ void func_806D85A0(void) {
     initial_y = initial_x;
     initial_value = 0;
     ASM_KEEP_NV(initial_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    dispatch_ptr = (void *)0x80010000;
-    ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    dispatch_ptr = (void *)D_80010000;
     context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
     group_index = initial_value;
     dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;

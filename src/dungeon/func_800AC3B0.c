@@ -101,9 +101,9 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
     register s32 arg1_s0 ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 arg2_s1 = arg2;
     s32 arg3_s4 = arg3;
-    register s32 raw_arg4 ASM_REG("$23") = arg4;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 raw_arg4 = arg4;
     u16 arg5_t0 = arg5;
-    register s32 temp_s8;
+    register s16 temp_s8;
     M2C_UNK var_a1;
     M2C_UNK temp_s2;
     s32 arg3_v0;

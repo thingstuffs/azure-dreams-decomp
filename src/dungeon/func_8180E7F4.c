@@ -636,9 +636,8 @@ store_ability:
 #ifdef NON_MATCHING
                 u8 *slot_page = D_80080000;
 #else
-                u8 *slot_page = (u8 *) 0x80080000;
+                u8 *slot_page = (u8 *)D_80080000;
 #endif
-                ASM_KEEP_NV(slot_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 slot_base = *(u8 **) (slot_page + 0x14A8);
             }
             slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
@@ -683,11 +682,10 @@ store_ability:
 #ifdef NON_MATCHING
                 u8 *slot_page = D_80080000;
 #else
-                u8 *slot_page = (u8 *) 0x80080000;
+                u8 *slot_page = (u8 *)D_80080000;
 #endif
                 u8 *runtime_base;
                 u8 *runtime_addr;
-                ASM_KEEP_NV(slot_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 runtime_base = *(u8 **) (slot_page + 0x14A8);
                 runtime_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) runtime_base);
 

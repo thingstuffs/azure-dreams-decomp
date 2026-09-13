@@ -56,15 +56,14 @@ void func_800561D8(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
     S_800561D8_Arg0 *voice = voice_arg;
     S_800561D8_D80086A40 *channels = D_80086A40;
     S_800561D8_D80086A40 *channel;
-    register s32 pan_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 pan_value;
     s32 product;
     s32 left_volume;
     s32 right_volume;
     s32 scale;
     s32 pan_sum;
 
-    pan_value = D_80086D50[0];
-    channel = &channels[pan_value];
+    channel = &channels[((s32)(D_80086D50[0]))];
     pan_sum = channel->unk1B + voice->unk16;
     ASM_KEEP(pan_sum);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     pan_sum += voice->unk17;
@@ -108,8 +107,7 @@ void func_800561D8(S_800561D8_Arg0 *voice_arg, S_800561D8_Arg1 *sound_params)
     {
         S_800561D8_D80086C00 *channel_gains = D_80086C00;
         S_800561D8_D80086C00 *gain_entry;
-        pan_value = D_80086D50[0];
-        gain_entry = &channel_gains[pan_value];
+        gain_entry = &channel_gains[((s32)(D_80086D50[0]))];
         product = left_volume * gain_entry->unk8;
         scale = gain_entry->unkA;
         pan_value = right_volume * scale;

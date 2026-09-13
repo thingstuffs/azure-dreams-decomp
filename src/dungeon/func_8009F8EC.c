@@ -193,7 +193,8 @@ s32 func_800A504C(s32 unused, void *source_entity)
     u16 data_flags;
     u16 remaining_count;
     register s32 flags_mask ASM_REG("$7");
-    register s32 update_flags ASM_REG("$3");
+    s32 update_flags;
+    s32 update_flags_2;
     s32 flags_result;
     u8 *global_page;
     register u8 *copy_call_entity ASM_REG("$4");
@@ -334,10 +335,10 @@ spawn_copy:
     ((S_800A504C_4 *)spawned)->unk_10.at00.v = flags_result | update_flags;
     update_flags = ((S_800A504C_1_pre *)entity)[-1].unk_12;
     ((S_800A504C_1_pre *)entity)[-1].unk_12 = update_flags | 0x8000;
-    update_flags = ((S_800A504C_6 *)global_page)->unk_14A0;
+    update_flags_2 = ((S_800A504C_6 *)global_page)->unk_14A0;
     flags_result = 0;
     ((S_800A504C_7_pre *)D_800E0000)[-1].unk_00 = 0;
-    ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags | 0x8000;
+    ((S_800A504C_6 *)global_page)->unk_14A0 = update_flags_2 | 0x8000;
     return flags_result;
 
 dispatch_replace:

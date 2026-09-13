@@ -90,13 +90,12 @@ type_1_or_2:
 type_3:
     {
         s32 shade_base = record->index;
-        register s32 index_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 index_offset;
 
         ASM_KEEP_NV(shade_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         index_offset = (shade_base << 2) + shade_base;
         index_offset <<= 2;
-        shade_base = 160 - index_offset;
-        shade_step = shade_base << 16;
+        shade_step = ((s32)(160 - index_offset)) << 16;
     }
     shade_step /= 29;
 
@@ -212,7 +211,6 @@ type_3:
         vertices[13] = vertices[17];
         vertices[24] = scaled_coord << 8;
         scaled_coord = (func_80064584(sample[42] + record->add) >> 4) * sample[12];
-        ASM_KEEP_NV(scaled_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         vertices[21] = vertices[25];
         vertices[17] = scaled_coord << 8;
         last_trig_value = func_80064584(sample[36] + record->add);
@@ -233,8 +231,7 @@ type_3:
         vertices[26] = sample[66] << 16;
         func_80024A30(prev_lower_color, lower_color, saved_upper_color, upper_color);
         sample++;
-        ++segment;
-    } while (segment < 23);
+    } while (++segment < 23);
 
     vertices[12] = vertices[16];
     vertices[16] = vertices[24];

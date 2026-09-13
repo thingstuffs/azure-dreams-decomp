@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80020000[];
 
 #define U16_AT(p, off) (*(u16 *)((u8 *)(p) + (off)))
 #define S16_AT(p, off) (*(s16 *)((u8 *)(p) + (off)))
@@ -15,7 +16,7 @@ void func_81971510(void *effect, s32 unused, void *visual)
     u8 *effect_bytes;
     u16 countdown;
     s32 step_index;
-    register u8 *status_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *status_page;
     u8 *visual_bytes;
     u8 *jump_table;
     u8 *flags_page;
@@ -31,9 +32,8 @@ void func_81971510(void *effect, s32 unused, void *visual)
 #ifdef NON_MATCHING
     status_page = (u8 *)&D_80025FF4 - 0x5FF4;
 #else
-    status_page = (u8 *)0x80020000;
+    status_page = (u8 *)D_80020000;
 #endif
-    ASM_KEEP(status_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     countdown = U16_AT(effect_bytes, 0x38);
     *(s16 *)(status_page + 0x5FF4) = 1;
     countdown--;
