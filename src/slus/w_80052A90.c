@@ -30,7 +30,7 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
   s32 glyph_w;
   s32 glyph_h;
   s32 code_u16;
-  s32 lead_byte;
+  s16 lead_byte;
   s32 draw_tile;
 
   cursor = text;
@@ -44,7 +44,6 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
     glyph_h = 0x10;
     do
     {
-      ASM_MEM_BARRIER();
       lead_byte = cursor[0];
       ASM_USE(lead_byte);
       glyph_code = cursor[1];

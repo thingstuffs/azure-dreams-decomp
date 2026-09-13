@@ -52,7 +52,7 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
     direction = func_800A1BD0(pinned_obj, upper_bits_mask);
     if (direction >= 0)
     {
-      register u8 *direction_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+      u8 *direction_page;
       u16 *other_direction = (u16 *)0x80012094;
       s32 slot_offset;
 
@@ -68,8 +68,10 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
       {
         next_direction = direction + 1;
         *(u16 *)(direction_page + 0x2094) = next_direction & 7;
+          obj->unk45 = direction_page[0x2094];
+      } else {
+          obj->unk45 = direction_page[0x2094];
       }
-      obj->unk45 = direction_page[0x2094];
       obj->unk12 = direction_page[0x2098];
     }
   }
