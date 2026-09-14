@@ -46,8 +46,6 @@ extern s16 D_8002694C;
 extern s32 D_800814A0;
 extern void *D_80024038[];
 
-extern void func_80025560(void) __attribute__((noreturn));
-extern void func_800255AC(void) __attribute__((noreturn));
 
 /* Advance the effect animation, fade its colors, and mark it for removal when its lifetime ends. */
 void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
@@ -117,50 +115,38 @@ void func_8187BB80(void *effect_data, s32 unused_arg, void *color_data) {
 
 jt_c0:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 1;
-        return func_800255AC();
+        goto jt_c8;
 
-jt_c1: {
-            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
-            s32 next_phase = 2;
-            ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80025560();
-        }
+jt_c1:
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 2;
+        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        goto jt_c8;
 
-jt_c2: {
-            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
-            s32 next_phase = 3;
-            ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80025560();
-        }
+jt_c2:
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 3;
+        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        goto jt_c8;
 
-jt_c3: {
-            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
-            s32 next_phase = 4;
-            ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80025560();
-        }
+jt_c3:
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 4;
+        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        goto jt_c8;
 
 jt_c4:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 5;
         ((S_8187BB80_0 *)effect_data)->unk_4C = 0x80;
         ((S_8187BB80_0 *)effect_data)->unk_4D += 0x20;
-        return func_800255AC();
+        goto jt_c8;
 
-jt_c5: {
-            u32 phase_value = ((S_8187BB80_0 *)effect_data)->unk_4C;
-            s32 next_phase = 6;
-            ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(next_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80025560();
-        }
+jt_c5:
+        ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 6;
+        ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
+        goto jt_c8;
 
 jt_c6:
         ((S_8187BB80_0 *)effect_data)->unk_40.at02.v = 7;
         ((S_8187BB80_0 *)effect_data)->unk_4C += 0x20;
-        return func_800255AC();
+        goto jt_c8;
 
 jt_c7:
         ((S_8187BB80_0 *)effect_data)->unk_4E = 0;
@@ -172,7 +158,7 @@ jt_c7:
         ((S_8187BB80_0 *)effect_data)->unk_36 = 0xFF;
         ((S_8187BB80_0 *)effect_data)->unk_38 = 0;
         ((S_8187BB80_1 *)colors)->unk_14 |= 0xC;
-        return func_800255AC();
+        goto jt_c8;
     } else {
         ((S_8187BB80_0 *)effect_data)->unk_40.at00p.v++;
     }

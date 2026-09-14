@@ -53,9 +53,7 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
-extern void func_8016A984(void) __attribute__((noreturn));
 extern void func_8016A9FC(void) __attribute__((noreturn));
-extern void func_8016AA40(void);
 
 extern u8 D_80045340[];
 extern u8 D_80083498[];
@@ -106,11 +104,11 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
     s32 kind;
     s32 primary_flags;
     s32 secondary_flags;
-    register s32 entry_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u32 entry_index;
     s32 entry_count;
     u16 actor_value;
-    register s32 twice_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 entry_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 twice_index;
+    s32 entry_offset;
     u8 *selected_entry;
     s16 *rect_ptr;
     s16 rect[4];
@@ -147,9 +145,7 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
         if (kind == 1) {
             primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x6000;
             secondary_flags = ((S_80FB7000_1 *)work)->unk_1C | 0x6000;
-            ASM_KEEP(primary_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(secondary_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_8016A984();
+            goto write_kind;
         }
         if (kind < 2) {
             goto normal_kind;
@@ -186,7 +182,6 @@ post_kind:
         func_800A9C18(obj, pin_part_a, part_b, saved_flags);
 
         entry_index = 0;
-        ASM_USE_NV(entry_index);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         actor_value = part_b->unk_12;
         ((S_80FB7000_4 *)pin_actor)->unk_9A = 0xFF;
         ((S_80FB7000_4 *)pin_actor)->unk_9C = -1;
@@ -195,16 +190,13 @@ post_kind:
 
         entry = part_b->unk_08;
     scan_entries:
-        ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         twice_index = entry_index << 1;
         if (!(*entry & 0x20)) {
             goto scan_done;
         }
         entry += 12;
         entry_index += 1;
-        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(entry_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8016AA40();
+        goto scan_entries;
 scan_done:
 
         rect_ptr = rect;
@@ -223,10 +215,10 @@ scan_done:
         rect[2] = 0x10;
         rect[0] = 0x30;
         rect[1] -= 1;
-        do {
+        loop_0: {
             func_800673A0(rect, rect[0] - 0x30, rect[1]);
             rect[0] += 0x40;
-        } while (rect[0] < 0x100);
+        } if (rect[0] < 0x100) goto loop_0;
 
         func_800AA36C(pin_actor, pin_part_a, part_b, work);
     }

@@ -46,8 +46,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-extern void func_80158988(void) __attribute__((noreturn));
-extern void func_80158A00(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_80158A7C;
@@ -121,31 +119,20 @@ void *BODY_NAME(s32 init_flags, s8 pos_x, s8 pos_y, s16 init_value) {
         placement->unk_2C = (void *) config_value;
         placement->unk_24 = saved_x;
         if (mode_or_flags == 1) {
-            config_value = object_state->unk_14;
-            mode_or_flags = object_state->unk_1C;
-            config_value |= 0x6000;
-            mode_or_flags |= 0x6000;
-            ASM_TAILSLOT_PIN(mode_or_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(config_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_80158988();
-        }
-        config_value = mode_or_flags < 2;
-        if (!config_value) {
-            config_value = object_state->unk_14;
-            mode_or_flags = object_state->unk_1C;
-            config_value |= 0x2000;
-            mode_or_flags |= 0x2000;
-            object_state->unk_14 = config_value;
-            object_state->unk_1C = mode_or_flags;
-            func_80158A00();
-        }
-        config_value = saved_flags & ~3;
-        if ((config_value << 0x10) == 0) {
-            if (!(object_state->unk_14 & 0x200)) {
-                if (func_800A6D30() & 1) {
-                    object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
-                    func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
-                    placement->unk_2C = &D_8015C088;
+            object_state->unk_14 = (s32) (object_state->unk_14 | 0x6000);
+            object_state->unk_1C = (s32) (object_state->unk_1C | 0x6000);
+        } else if (mode_or_flags >= 2) {
+            object_state->unk_14 = (s32) (object_state->unk_14 | 0x2000);
+            object_state->unk_1C = (s32) (object_state->unk_1C | 0x2000);
+        } else {
+            config_value = saved_flags & ~3;
+            if ((config_value << 0x10) == 0) {
+                if (!(object_state->unk_14 & 0x200)) {
+                    if (func_800A6D30() & 1) {
+                        object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
+                        func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                        placement->unk_2C = &D_8015C088;
+                    }
                 }
             }
         }

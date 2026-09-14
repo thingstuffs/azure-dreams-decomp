@@ -9,7 +9,6 @@ extern void *func_800A04F0(void *, u8, u8, s16);
 extern s32 func_800A6D30(void);
 extern s16 func_800A70E4(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
-extern void func_8016AADC() __attribute__((noreturn));
 
 extern s32 D_80010248[];
 extern s32 D_8001029C[];
@@ -69,24 +68,9 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
         (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(D_8006CCE8 + direction_offset)),
         *(s16 *)(actor_bytes + 0x88));
     if (ground_index >= 0) {
-#ifdef __mips__
-        s32 *transfer_base;
-        s32 *transfer_slot;
-#else
-        s32 *transfer_base;
-        s32 *transfer_slot;
-#endif
-        s32 item_data;
-
-        transfer_base = (s32 *)0x80170000;
-        ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        item_data = D_800E3548[ground_index];
-        transfer_slot = transfer_base - 1031;
-        transfer_base[-1031] = item_data;
-        ASM_KEEP(transfer_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        D_8016EFE4[0] = D_800E3548[ground_index];
         D_800E3548[ground_index] = 0;
-        func_8016AADC(item_data, transfer_base);
-        __builtin_unreachable();
+        return (s32)D_8016EFE4;
     }
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),
@@ -135,23 +119,12 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
             }
             {
                 s32 item_data;
-                s32 *transfer_base;
-#ifdef __mips__
-                s16 transfer_addr;
-#else
-                s32 transfer_addr;
-#endif
+
                 item_slot = (u8 *)(item_offset + 0x80010248);
                 item_data = *(s32 *)item_slot;
-                transfer_base = (s32 *)0x80170000;
-                transfer_base[-1031] = item_data;
-                ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                transfer_base -= 1031;
+                D_8016EFE4[0] = item_data;
                 func_80098B38(item_slot, inventory_base);
-                transfer_addr = (s32)transfer_base;
-                ASM_TAILSLOT_PIN(transfer_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_8016AADC();
-                __builtin_unreachable();
+                return (s32)D_8016EFE4;
             }
         }
     }
@@ -162,27 +135,14 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor)
         return 0;
     }
     {
-#ifdef __mips__
-        s32 *transfer_base;
-        s32 *transfer_slot;
-#else
-        s32 *transfer_base;
-        s32 *transfer_slot;
-#endif
         s32 item_data;
 
-        transfer_base = (s32 *)0x80170000;
-        ASM_KEEP(transfer_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         item_data = *(s32 *)((u8 *)target + 0x48);
-        transfer_slot = transfer_base - 1031;
-        transfer_base[-1031] = item_data;
-        ASM_KEEP(transfer_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        D_8016EFE4[0] = item_data;
         *(s32 *)((u8 *)target + 0x48) = 0;
-        func_8016AADC(item_data, target);
-        __builtin_unreachable();
+        return (s32)D_8016EFE4;
     }
 entry_zero:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 return_zero:
     return 0;
 }

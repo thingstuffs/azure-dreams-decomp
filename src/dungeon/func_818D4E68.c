@@ -150,9 +150,6 @@ extern void func_80024394(void *, s16, s32, s32, s32, s32, s32);
 extern void func_80024548(void);
 extern void func_80045340(void);
 
-extern void func_80024898(void) __attribute__((noreturn));
-extern void func_80024948(void) __attribute__((noreturn));
-extern void func_80024D40(void) __attribute__((noreturn));
 extern void func_80024D6C(void) __attribute__((noreturn));
 extern void func_80024E18(void) __attribute__((noreturn));
 extern void func_80025064(void) __attribute__((noreturn));
@@ -261,11 +258,11 @@ state0:
             motion_z = motion->z.half.hi;
             delta_z = (u16)position_delta[2];
             motion_z += delta_z;
-            ASM_TAILSLOT_PIN_TIED(motion_z);
-            func_80024898();
+            motion->z.half.hi = motion_z;
+        } else {
+            ASM_SCHED_BARRIER();
+            motion->z.half.hi -= 0x40;
         }
-        ASM_SCHED_BARRIER();
-        motion->z.half.hi -= 0x40;
     }
     if (!(*(u16 *)actor->field04 & 0x80)) {
         return;
@@ -293,10 +290,10 @@ state0:
         link = entity->link60;
         linked_pos = *(u8 **)((u8 *)link - 0x18);
         linked_z = *(u16 *)(linked_pos + 0xA) - 0x40;
-        ASM_TAILSLOT_PIN_TIED(linked_z);
-        func_80024948();
+        actor->target_y = (s16)linked_z;
+    } else {
+        actor->target_y = (s16)(entity->height88 - 0x50);
     }
-    actor->target_y = (s16)(entity->height88 - 0x50);
     ASM_SCHED_BARRIER();
     {
         Aux *aux;
@@ -474,26 +471,14 @@ state2:
             actor->step88 = 700;
         }
         if (render->scale_x >= 0x2711) {
-            s32 step = 500;
-            ASM_TAILSLOT_PIN_TIED(step);
-            func_80024D40();
-        }
-        if (render->scale_x >= 0x2001) {
-            s32 step = 200;
-            ASM_TAILSLOT_PIN_TIED(step);
-            func_80024D40();
-        }
-        if (render->scale_x >= 0x1801) {
-            s32 step = 120;
-            ASM_TAILSLOT_PIN_TIED(step);
-            func_80024D40();
-        }
-        if (render->scale_x >= 0x1001) {
-            s32 step = 60;
-            ASM_TAILSLOT_PIN_TIED(step);
-            func_80024D40();
-        }
-        if (render->scale_x >= 0x801) {
+            actor->step88 = 500;
+        } else if (render->scale_x >= 0x2001) {
+            actor->step88 = 200;
+        } else if (render->scale_x >= 0x1801) {
+            actor->step88 = 120;
+        } else if (render->scale_x >= 0x1001) {
+            actor->step88 = 60;
+        } else if (render->scale_x >= 0x801) {
             actor->step88 = 40;
         }
         render->scale_x -= actor->step88;

@@ -67,8 +67,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-void *func_80158954(void) __attribute__((noreturn));
-void *func_801589C0(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_80158A3C;
@@ -112,27 +110,20 @@ void *BODY_NAME(s16 init_flags, s8 value_24, s8 value_25, s16 value_0a) {
         data_0c->unk_2C = &D_8015B86C;
         data_0c->unk_24 = saved_value_24;
         if (init_mode == 1) {
-            s32 state_flags;
-            s32 secondary_flags;
-
-            state_flags = state->unk_14 | 0x6000;
-            secondary_flags = state->unk_1C | 0x6000;
-            ASM_KEEP(state_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(secondary_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            return func_80158954();
-        }
-        if (init_mode >= 2) {
+            state->unk_14 = (s32) (state->unk_14 | 0x6000);
+            state->unk_1C = (s32) (state->unk_1C | 0x6000);
+        } else if (init_mode >= 2) {
             state->unk_14 = (s32) (state->unk_14 | 0x2000);
             state->unk_1C = (s32) (state->unk_1C | 0x2000);
-            func_801589C0();
-        }
-        object_arg = object;
-        if (((init_flags & ~3) << 0x10) == 0) {
-            if (!(state->unk_14 & 0x200)) {
-                data_arg = data_08;
-                if (func_800A6D30() & 1) {
-                    state->unk_1C = (s32) (state->unk_1C | 0x200);
-                    func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+        } else {
+            object_arg = object;
+            if (((init_flags & ~3) << 0x10) == 0) {
+                if (!(state->unk_14 & 0x200)) {
+                    data_arg = data_08;
+                    if (func_800A6D30() & 1) {
+                        state->unk_1C = (s32) (state->unk_1C | 0x200);
+                        func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
+                    }
                 }
             }
         }

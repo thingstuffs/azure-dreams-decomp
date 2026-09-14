@@ -83,8 +83,6 @@ extern void func_800A56E0(s32);
 extern void func_80024640(State *, Motion *);
 extern void func_80024024(void *, u8, Owner *);
 
-extern void func_800254EC(void) __attribute__((noreturn));
-extern void func_80025A50(void) __attribute__((noreturn));
 extern void func_800259BC(void) __attribute__((noreturn));
 extern void func_80025A58(void) __attribute__((noreturn));
 
@@ -111,6 +109,7 @@ void func_818C3B90(State *action, Motion *motion_arg, Motion *aux_arg)
     Owner *owner;
     s32 dispatch_state;
     s32 index;
+    s32 next_state;
     StackLocals stack;
     dispatch_state = action->state;
     owner = action->owner;
@@ -151,11 +150,10 @@ jt_c1:
             ASM_SCHED_BARRIER();
             adjusted_z = (u16)motion->z.h.hi;
             adjusted_z += (u16)stack.diffs[2];
-            ASM_TAILSLOT_PIN_TIED(adjusted_z);
-            func_800254EC();
+            motion->z.h.hi = adjusted_z;
+        } else {
+            motion->z.h.hi = position_z - 64;
         }
-        ASM_KEEP(position_z);
-        motion->z.h.hi = position_z - 64;
     }
 
     if (*(u16 *)action->field4 & 0x80) {
@@ -184,14 +182,14 @@ jt_c1:
             stack.diffs[2] = axis_delta;
 
             action->duration = x_delta;
-            do {
+            loop_0: {
                 s32 signed_delta = *(s16 *)(delta_iter + 24);
                 u32 delta_bits = *(u16 *)(delta_iter + 24);
                 if (signed_delta > action->duration) {
                     action->duration = delta_bits;
                 }
                 delta_iter += 2;
-            } while (++index < 3);
+            } if (++index < 3) goto loop_0;
             action->duration = action->duration >> 4;
             if (action->duration == 0) {
                 action->duration = 1;
@@ -203,12 +201,8 @@ jt_c1:
                 ((*(s16 *)((u8 *)owner->target + 0x88) << 16) - motion->z.val) /
                 action->duration;
             func_80024F0C(action, motion);
-            {
-                s32 next_state;
-                next_state = (u16)action->state + 1;
-                ASM_TAILSLOT_PIN_TIED(next_state);
-                func_80025A50();
-            }
+            next_state = (u16)action->state + 1;
+            goto set_state;
         } else {
             register s32 grid_x ASM_REG("$21");
             s32 grid_y;
@@ -350,12 +344,8 @@ jt_c1:
             motion->dy.val = (destination->y.val - motion->y.val) / action->duration;
             motion->dz.val = (destination->z.val - motion->z.val) / action->duration;
             func_8002523C(action, motion);
-            {
-                s32 next_state;
-                next_state = 6;
-                ASM_TAILSLOT_PIN_TIED(next_state);
-                func_80025A50();
-            }
+            next_state = 6;
+            goto set_state;
         }
     }
     goto done;
@@ -400,7 +390,9 @@ jt_c6:
     motion->y.val += motion->dy.val;
     motion->z.val += motion->dz.val;
     if (action->timer >= action->duration) {
-        action->state = 5;
+        next_state = 5;
+    set_state:
+        action->state = next_state;
         action->timer = 0;
     }
 done:

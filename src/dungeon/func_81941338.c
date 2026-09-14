@@ -42,7 +42,6 @@ extern void func_8003DB94(void *, void *, void *);
 extern void func_800256AC(void) __attribute__((noreturn));
 extern void func_80024FC4() __attribute__((noreturn));
 extern void func_80025228() __attribute__((noreturn));
-extern void func_8002555C() __attribute__((noreturn));
 extern u8 D_800248B8;
 
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
@@ -453,10 +452,7 @@ emit_burst:
             F(sprite, u8, 0xD) = 0x80;
             F(sprite, u8, 0xC) = 0x80;
             if (particle_index != 0) {
-                register void *anim_sprite ASM_REG("$4") = sprite;
-                void *animation = D_800DEB28;
-                ASM_TAILSLOT_PIN(animation);
-                return func_8002555C(anim_sprite, animation);
+                func_8003DB94(sprite, D_800DEB28, 0);
             } else {
                 func_8003DB94(sprite, D_800DE870, 0);
             }

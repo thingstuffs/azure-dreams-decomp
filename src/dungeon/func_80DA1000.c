@@ -67,7 +67,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-void *func_8015E954(void) __attribute__((noreturn));
 void *func_8015E9C0(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
@@ -81,6 +80,8 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 type_id) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;
+    s32 flags_14;
+    s32 flags_1c;
     S_80DA1000_3 *placement;
     S_80DA1000_2 *type_data;
     void *object;
@@ -112,18 +113,16 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 type_id) {
         placement->unk_2C = &D_8016186C;
         placement->unk_24 = saved_x;
         if (spawn_mode == 1) {
-            s32 flags_14;
-            s32 flags_1c;
-
             flags_14 = entity->unk_14 | 0x6000;
             flags_1c = entity->unk_1C | 0x6000;
-            ASM_KEEP(flags_14);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(flags_1c);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            return func_8015E954();
+            goto set_flags;
         }
         if (spawn_mode >= 2) {
-            entity->unk_14 = (s32) (entity->unk_14 | 0x2000);
-            entity->unk_1C = (s32) (entity->unk_1C | 0x2000);
+            flags_14 = entity->unk_14 | 0x2000;
+            flags_1c = entity->unk_1C | 0x2000;
+set_flags:
+            entity->unk_14 = (s32) flags_14;
+            entity->unk_1C = (s32) flags_1c;
             func_8015E9C0();
         }
         object_arg = object;

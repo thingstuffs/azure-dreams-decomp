@@ -23,6 +23,28 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 3, gated (30 windows MATCH and SLUS SHA-1 MATCH): **8,284 pins in 1,474 rows**, 73 pins
+removed: 23 tail-slot rows re-landed as honest `goto`/`return` C at their TRUE base (the owner approved promotion
+for proven rows). For each row the honest candidate was the discriminating byte-exact recompile
+(`build_ovl/tools/rowbase.py promote`, 20 single-row `solved` regions turned `proven`; 3 rows were in proven
+regions already), the true-space name was registered in `ledger/splits/dungeon.jsonl` and `tools/registry.py`
+regenerated `ledger/rows.jsonl`. The cascade took a few more pins on those rows.
+- **Four honest rows were rolled back** (promotion undone, registration removed, sources restored):
+  `dungeon/func_7FFEF6A8`, `func_81898EBC`, `func_818FA12C`, `func_81905FD0`. Linked at the true base inside
+  their SYNTHETIC seed window they fail to link (an R_MIPS_26 `jal` to a sibling still at a 0x7FFE synthetic
+  address crosses the 256 MB segment; jump-table `.rodata` discarded under the true-space section name). They
+  need a `_truebase_` twin window carved to the row's region (copy the seed yaml: name/basename with the
+  `_truebase_<vram>` suffix, drop `sha1`, `symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt`,
+  `window: vram_start/true_vram_start/true_link_base = the true base, base_confidence: proven-rowbase,
+  rowbase: <region>`), the row's `gate_config` repointed in the split table, then promote + register + land.
+  Their exact outputs are in `work/tailslot_honest/pack*/out/`.
+- **Five honest rows are held** (`work/tailslot_honest/held/`): their regions also hold other landed rows
+  (`jtbl_191EDEC` 4 others, `img_1954928_80024128` and `img_19baad4_800242d4` 1 each), so promotion would
+  rename those rows too; they need the whole region registered under decision B first.
+- **The 90 region-less tail-slot rows:** `solved` records staged for all 90 in `work/tailslot_honest/staged/`
+  (63 meet the two-jump standard). Applying them is scoring-only; the honest rewrite of each row is then the
+  proof that promotes it. Same recipe as above, row by row.
+
 Twenty-fifth round, part 2, gated (39 windows MATCH and SLUS SHA-1 MATCH): **8,357 pins in 1,476 rows**, 22 pins
 removed: 11 register pins from the diagnosed luna packs (alloc1 global-conflict 4/12, alloc2 preference 5/12,
 alloc3 lifetime 1/12, alloc4 coalesced-away + ties 0/16, alloc5/alloc6 on 4-8-pin rows 0/12 and 1/12: the

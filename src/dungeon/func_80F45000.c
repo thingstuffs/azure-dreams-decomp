@@ -47,8 +47,6 @@ extern s32 func_800A6D30();
 extern void func_800A48F0();
 extern void func_800A9C18();
 extern void func_800AA36C();
-extern void *func_8015E974() __attribute__((noreturn));
-extern void *func_8015E9EC() __attribute__((noreturn));
 
 extern s32 D_80045340;
 extern u8 D_80083498[];
@@ -118,34 +116,26 @@ void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
         ((S_80F45000_3 *)part_b)->unk_24 = saved_x;
 
         if (kind == 1) {
-            s32 flags_14;
-            s32 flags_1c;
-
-            flags_14 = ((S_80F45000_1 *)work)->unk_14 | 0x6000;
-            flags_1c = ((S_80F45000_1 *)work)->unk_1C | 0x6000;
-            ASM_KEEP(flags_14);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(flags_1c);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            return func_8015E974();
-        }
-        if (kind >= 2) {
+            ((S_80F45000_1 *)work)->unk_14 |= 0x6000;
+            ((S_80F45000_1 *)work)->unk_1C |= 0x6000;
+        } else if (kind >= 2) {
             ((S_80F45000_1 *)work)->unk_14 |= 0x2000;
             ((S_80F45000_1 *)work)->unk_1C |= 0x2000;
-            return func_8015E9EC();
-        }
-
-        obj_arg = obj;
-        if (((spawn_flags & ~3) << 16) == 0) {
-            if (!(((S_80F45000_1 *)work)->unk_14 & 0x200)) {
-                part_arg = part_a;
-                random_bits = func_800A6D30();
-                obj_arg = obj;
-                if (!(random_bits & 1)) {
-                    goto finish_init;
+        } else {
+            obj_arg = obj;
+            if (((spawn_flags & ~3) << 16) == 0) {
+                if (!(((S_80F45000_1 *)work)->unk_14 & 0x200)) {
+                    part_arg = part_a;
+                    random_bits = func_800A6D30();
+                    obj_arg = obj;
+                    if (!(random_bits & 1)) {
+                        goto finish_init;
+                    }
+                    ((S_80F45000_1 *)work)->unk_1C |= 0x200;
+                    func_800A48F0(work, 1,
+                                  (func_800A6D30() & 0x3F) | 0x20);
+                    ((S_80F45000_3 *)part_b)->unk_2C = D_80162AD4;
                 }
-                ((S_80F45000_1 *)work)->unk_1C |= 0x200;
-                func_800A48F0(work, 1,
-                              (func_800A6D30() & 0x3F) | 0x20);
-                ((S_80F45000_3 *)part_b)->unk_2C = D_80162AD4;
             }
         }
 

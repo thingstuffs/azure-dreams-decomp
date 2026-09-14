@@ -113,9 +113,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
                 if (inventory_scan[167] != 0) {
                     occupied_count++;
                 }
-                slot_index++;
                 inventory_scan++;
-            } while (slot_index < 20);
+            } while (++slot_index < 20);
             if (occupied_count == 0) {
                 return 0;
             }
@@ -145,10 +144,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
                 ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 item_dest -= 3079;
                 func_80098B38(item_ptr, inventory_base);
-                item_slot_addr = (s32)item_dest;
-                ASM_TAILSLOT_PIN(item_slot_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80158ADC();
-                __builtin_unreachable();
+                return (s32)item_dest;
             }
         }
     }
@@ -179,7 +175,6 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         __builtin_unreachable();
     }
 entry_zero:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 return_zero:
     return 0;
 }

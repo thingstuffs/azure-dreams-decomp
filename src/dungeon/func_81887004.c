@@ -41,8 +41,6 @@ extern u8 D_80080A87[];
 extern s32 D_800814A0;
 
 extern void func_80024A9C(void) __attribute__((noreturn));
-extern void func_80024AA0(void) __attribute__((noreturn));
-extern void func_80024C54(void) __attribute__((noreturn));
 extern void func_8002596C(s32, s32, s32);
 extern void func_80026010(void);
 extern s32 func_80069EF8(void);
@@ -91,11 +89,8 @@ jt_0:
         color->b = 0xC0;
     }
     if (D_80026328[0] != 0) {
-        s32 next_state;
-
-        next_state = ((volatile u16 *)effect)[5] + 1;
-        ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024AA0();
+        effect->state++;
+        goto end;
     }
     goto end;
 
@@ -137,7 +132,7 @@ jt_2: {
         func_80026010();
         effect->timer = 0x10;
         effect->state++;
-        func_80024C54();
+        goto end;
     }
     goto end;
 }

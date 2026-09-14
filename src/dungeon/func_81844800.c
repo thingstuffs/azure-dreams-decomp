@@ -197,12 +197,10 @@ __asm__(".set func_80024868, 0x80024868");
 __asm__(".set func_8002472C, 0x8002472c");
 
 extern void func_8002428C(void) __attribute__((noreturn));
-extern void func_80024468(void) __attribute__((noreturn));
 extern void func_800246A0(void) __attribute__((noreturn));
 extern void func_800246A4(void) __attribute__((noreturn));
 extern void func_800246F8(void) __attribute__((noreturn));
 __asm__(".set func_8002428C, 0x8002428c");
-__asm__(".set func_80024468, 0x80024468");
 __asm__(".set func_800246A0, 0x800246a0");
 __asm__(".set func_800246A4, 0x800246a4");
 __asm__(".set func_800246F8, 0x800246f8");
@@ -364,12 +362,7 @@ case0:
                     ((S_81844800_1 *)owner)->unk_2A,
                     owner,
                     2);
-                {
-                    s32 next_state = 5;
-                    ASM_TAILSLOT_PIN_TIED(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_80024468();
-                    return;
-                }
+                goto set_state_5;
             }
         }
         ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_4 *)sprite)->unk_24;
@@ -455,6 +448,7 @@ case2:
             goto case2_nonzero;
         }
         ((S_81844800_0 *)effect)->unk_50.s = 8;
+set_state_5:
         ((S_81844800_0 *)effect)->unk_0A.u = 5;
         func_800246F8();
         return;
