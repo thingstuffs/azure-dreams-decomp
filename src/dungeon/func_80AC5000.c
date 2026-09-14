@@ -6,7 +6,6 @@
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_801708FC(void) __attribute__((noreturn));
 extern void *D_80083160;
 
 typedef void (*Callback)(void);
@@ -149,7 +148,7 @@ s32 func_80AC50A4(void *render_state, void *coord_data)
     initial_cursor = ((S_80AC50A4_0 *)render_buffer)->unk_8D0;
     SPAD_U32(0x24) = (u32)render_buffer + 0xB0;
     SPAD_U32(0x1C) = initial_cursor;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+next_object:
     position = scratch + 4;
     projection_out = scratch + 0xD0;
     pos_x = input->unk_02;
@@ -206,14 +205,9 @@ s32 func_80AC50A4(void *render_state, void *coord_data)
 
     next_node = ((S_80AC50A4_3_pre *)state)[-1].unk_00;
     if (next_node != 0) {
-        register void *next_position ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         state = (u8 *)next_node + 0x20;
         input = ((S_80AC50A4_6 *)next_node)->unk_08;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        next_position = scratch + 4;
-        ASM_TAILSLOT_PIN(next_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801708FC();
+        goto next_object;
     }
     ASM_KEEP(render_buffer_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_80AC50A4_7 *)(*render_buffer_ptr))->unk_8D0 = SPAD_U32(0x1C);

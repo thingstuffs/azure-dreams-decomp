@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_807B040C_0 {
     u8 pad_00[0x8];
@@ -97,11 +98,6 @@ extern void func_800A2B04(void *, u8, u8);
 extern s32 func_800A45D8(s32, s32, s16);
 extern s16 func_800BCB04(s32, s32, s32);
 extern s32 func_800F6D28(void *);
-extern void func_800F7DA8(void) __attribute__((noreturn));
-extern void func_800F7FD0(void) __attribute__((noreturn));
-extern void func_800F80A4(void) __attribute__((noreturn));
-extern void func_800F80A8(void) __attribute__((noreturn));
-extern void func_800F80A8_returning(void) __asm__("func_800F80A8");
 
 /* Move the entity to a passable tile near the room and update tile occupancy. */
 s32 func_807B040C(void) {
@@ -139,8 +135,6 @@ s32 func_807B040C(void) {
             s32 result;
 
             result = 0;
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800F80A8();
             return result;
         }
     }
@@ -151,8 +145,6 @@ s32 func_807B040C(void) {
         s32 result;
 
         result = 0;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800F80A8();
         return result;
     }
 
@@ -180,20 +172,15 @@ begin_move:
             room_distance_y = ((S_807B040C_2 *)nearby_room)->unk_25;
             target_coord = ((S_807B040C_3 *)target)->unk_25;
             room_distance_y -= target_coord;
-            if (room_distance_y < 0) {
-                room_distance_y = -room_distance_y;
-            }
+            room_distance_y = abs(room_distance_y);
             if (room_distance_y < 3) {
                 s32 result;
-                register s32 next_state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s16 next_state;
 
                 result = 1;
-                ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                next_state = 0x63;
-                ((S_807B040C_1 *)entity)->unk_9B = next_state;
+                ((S_807B040C_1 *)entity)->unk_9B = ((s16)(0x63));
                 next_state = 2;
                 ((S_807B040C_1 *)entity)->unk_B8 = next_state;
-                func_800F80A8();
                 return result;
             }
         }
@@ -228,9 +215,7 @@ next_direction:
             goto find_direction;
         }
         direction = 0;
-        ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800F7DA8();
-        return direction;
+        goto find_direction;
     }
 
     {
@@ -308,26 +293,20 @@ move_entity:
         direction = 6;
         if (motion[4] > 0) {
             direction = 2;
-            ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800F7FD0();
-            return direction;
+            goto set_direction;
         }
         goto set_direction;
     }
     dy = motion[4];
     if (dy == 0) {
         direction = (dx < 1) << 2;
-        ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800F7FD0();
-        return direction;
+        goto set_direction;
     }
     if (dx > 0) {
         direction = 7;
         if (dy > 0) {
             direction = 1;
-            ASM_TAILSLOT_PIN(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800F7FD0();
-            return direction;
+            goto set_direction;
         }
         goto set_direction;
     }
@@ -343,11 +322,9 @@ set_direction:
         return 0;
     }
     ((S_807B040C_1 *)entity)->unk_9B++;
-    func_800F80A4();
-    return 0;
+    goto return_zero;
 
 finish_move:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_807B040C_3 *)target)->unk_24 = ((S_807B040C_1 *)entity)->unk_AA.u8;
     ((S_807B040C_3 *)target)->unk_25 = ((S_807B040C_1 *)entity)->unk_AE.u8;
     motion[0] = ((((S_807B040C_3 *)target)->unk_24 << 6) + 0x20) << 16;
@@ -372,12 +349,8 @@ finish_move:
     }
     func_8009A21C(tile_x, tile_y, tile_flags);
     ((S_807B040C_1 *)entity)->unk_B8 = state;
-    {
-        s32 result;
+    return 1;
 
-        result = 1;
-        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800F80A8_returning();
-        return 0;
-    }
+return_zero:
+    return 0;
 }

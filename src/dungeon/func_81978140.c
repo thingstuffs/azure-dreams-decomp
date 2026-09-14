@@ -30,9 +30,7 @@ extern s32 D_800814A0[3];
 
 extern void func_800257B8(void);
 extern void func_80025A40(void) __attribute__((noreturn));
-extern void func_80025A4C(void) __attribute__((noreturn));
 extern void func_80025A54(void) __attribute__((noreturn));
-extern void func_80025A88(void) __attribute__((noreturn));
 
 /* Advance the entity timers and dispatch its movement and state updates. */
 void func_81978140(S_81978140 *entity)
@@ -40,7 +38,6 @@ void func_81978140(S_81978140 *entity)
     S_81978140_inner *inner;
     u16 timer;
     s32 state;
-    s32 timer_under_four;
     static void *const retained_labels[] = {
         &&L0, &&L1, &&L2, &&L3, &&L4,
         &&L5, &&L6, &&L7, &&L8,
@@ -84,9 +81,16 @@ L5:
     func_800257B8();
     func_800257B8();
 L6:
-    timer_under_four = (s16)entity->timer < 4;
-    ASM_TAILSLOT_PIN_TIED(timer_under_four);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80025A4C();
+    if ((s16)entity->timer < 4) {
+        goto epilogue;
+    }
+    {
+        u16 next_state = entity->state;
+        entity->timer = 0;
+        next_state++;
+        entity->state = next_state;
+    }
+    goto epilogue;
 
 L7:
     if (entity->timer < 8) {
@@ -98,7 +102,7 @@ L7:
         next_state++;
         entity->state = next_state;
     }
-    func_80025A88();
+    goto epilogue;
 
 L8:
     entity[-1].timer |= 0x8000;

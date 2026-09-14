@@ -67,8 +67,6 @@ extern u8 D_80083780[];
 extern u8 D_800C9034[];
 
 extern void func_80025FD4(void) __attribute__((noreturn));
-extern void func_800260AC(void) __attribute__((noreturn));
-extern void func_8002620C(void) __attribute__((noreturn));
 extern void func_80026240(Entity *, void *);
 extern void func_800262B0(Part *, s32);
 extern s32 func_8003FA44(s32);
@@ -109,11 +107,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     spawn_y = y;
     spawn_z = z;
     if (func_8003FA44(9) == 0) {
-        register void *failure_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        failure_result = prev_entity;
-        ASM_TAILSLOT_PIN_TIED(failure_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8002620C();
-        return failure_result;
+        return prev_entity;
     }
 
     object_index = 0;
@@ -159,9 +153,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
             parent_link = *(u8 *)link_scratch;
             if (parent_link != 0) {
                 link_scratch = 0x7FFFFFFF;
-                parent_link = (u32)object_base[parent_link - 1] & link_scratch;
-                ASM_TAILSLOT_PIN_TIED(parent_link);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                func_800260AC();
+                entity->parent = (Object *)((u32)object_base[parent_link - 1] & link_scratch);
             } else {
                 entity->parent = object_slot[-1];
             }

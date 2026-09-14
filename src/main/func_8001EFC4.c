@@ -18,8 +18,6 @@ typedef struct S_8001EFC4_0 {
 
 extern void func_80063FF8(s32 code);
 extern void func_80405F24(void *arg0);
-extern void func_804060C4(void);
-extern void func_804060D8(void);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
 extern void func_80405B98(void *arg0);
 extern s32 func_804016D0(void);
@@ -38,6 +36,7 @@ void func_8001EFC4(u8 *root)
     s32 flags10;
     s32 value;
     s32 side;
+    s32 result;
 
     entry_flags = D_801379A8;
     if (entry_flags != 0) {
@@ -53,7 +52,7 @@ void func_8001EFC4(u8 *root)
         if (flags10 & 0x20) {
             func_80063FF8(0x514);
             func_80405F24(root);
-            return func_804060D8();
+            goto common;
         }
         flags5000 = D_801379A8;
         if (flags5000 & 0x5000) {
@@ -62,11 +61,13 @@ void func_8001EFC4(u8 *root)
                 (*(s32 *)((u8 *)root + 0x30)) = 0;
                 flags10 = D_801379B0;
                 if (flags10 & 0x1000) {
-                    goto negative_tail;
+                    action = -1;
+                    goto common;
                 }
-                side = flags10 & 0x4000;
-                ASM_KEEP(side);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_804060C4();
+                if (flags10 & 0x4000) {
+                    action = 1;
+                }
+                goto common;
             }
             value = ((S_8001EFC4_0 *)root)->unk_30;
             if (value < 13) {
@@ -77,17 +78,11 @@ void func_8001EFC4(u8 *root)
             (*(s32 *)((u8 *)root + 0x30)) = side;
             flags8 = D_801379A8;
             if (flags8 & 0x1000) {
-negative_tail:
-                ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 action = -1;
-                ASM_TAILSLOT_PIN_TIED(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_804060D8();
+                goto common;
             }
-            side = flags8 & 0x4000;
-            if (side) {
+            if (flags8 & 0x4000) {
                 action = 1;
-                ASM_TAILSLOT_PIN_TIED(action);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                return func_804060D8();
             }
         }
         goto common;
@@ -104,12 +99,12 @@ common:
         }
     }
 
-    action = func_804016D0();
+    result = func_804016D0();
     func_804018FC();
-    if (action == 0) {
+    if (result == 0) {
         goto exit;
     }
-    if (action == 1) {
+    if (result == 1) {
         goto exit;
     }
     func_80406720(root - 0x20);

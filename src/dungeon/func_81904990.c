@@ -212,12 +212,9 @@ typedef struct S_func_81904990_9 {
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
 void func_80024390() __attribute__((noreturn));
-void func_8002443C() __attribute__((noreturn));
 void func_800244B0() __attribute__((noreturn));
 void func_80024638() __attribute__((noreturn));
 void func_80024640() __attribute__((noreturn));
-void func_80024690() __attribute__((noreturn));
-void func_80024958() __attribute__((noreturn));
 void func_80024AA0() __attribute__((noreturn));
 M2C_UNK func_80064840();
 M2C_UNK func_800649A0();
@@ -390,17 +387,15 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
             scratch->unk_80 = tail_value;
             scratch->unk_70 = tail_value;
             tail_value = tail_value - scratch->unk_10.as_u16_10;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_8002443C((u16) scratch->unk_10.as_s32_10);
-            return;
+        } else {
+            origin_byte = ((volatile S_func_81904990_3 *)(frame_data - 8))->unk_02;
+            tail_value = (s32)(s8) origin_byte - scratch->unk_108;
+            scratch->unk_80 = tail_value;
+            scratch->unk_70 = tail_value;
+            tail_value = tail_value + (u16) scratch->unk_10.as_s32_10;
         }
-        origin_byte = ((volatile S_func_81904990_3 *)(frame_data - 8))->unk_02;
-        left_x = (s32)(s8) origin_byte - scratch->unk_108;
-        scratch->unk_80 = left_x;
-        scratch->unk_70 = left_x;
-        right_x = left_x + (u16) scratch->unk_10.as_s32_10;
-        scratch->unk_88 = right_x;
-        scratch->unk_78 = right_x;
+        scratch->unk_88 = tail_value;
+        scratch->unk_78 = tail_value;
         if ((frame_header->unk_00 ^ scratch->unk_24) & 2) {
             origin_byte = ((volatile S_func_81904990_3 *)(frame_data - 8))->unk_03;
             tail_value = (0 - (s32)(s8) origin_byte) - scratch->unk_10A;
@@ -459,29 +454,33 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         scratch->unk_14.as_s32_14 <<= 8;
         scratch->unk_0C <<= 8;
         clut_override = frame->unk_12;
-        if (clut_override != 0) {
-            if (scratch->unk_24 & 0x100) {
-                packet->unk_0E = clut_override;
-                func_80024640();
-                return;
+        {
+            if (clut_override != 0) {
+                if (scratch->unk_24 & 0x100) {
+                    packet->unk_0E = clut_override;
+                    goto clut_done;
+                }
+                tail_value = clut_override + ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
+            } else {
+                tail_value = (u16) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
             }
-            tail_value = clut_override + ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80024638();
-            return;
+            packet->unk_0E = tail_value;
         }
-        packet->unk_0E = (u16) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
+clut_done:
         packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
         packet->unk_14.as_s16_14 = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10.as_s32_10);
         tpage_offset = frame->unk_10;
-        if (tpage_offset != 0) {
-            base_tpage = ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_04 & 0xFF9F;
-            tail_value = tpage_offset + base_tpage;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80024690();
-            return;
+        {
+            u16 tpage_value;
+
+            if (tpage_offset != 0) {
+                base_tpage = ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_04 & 0xFF9F;
+                tpage_value = tpage_offset + base_tpage;
+            } else {
+                tpage_value = (u16) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_04;
+            }
+            packet->unk_16 = tpage_value;
         }
-        packet->unk_16 = (u16) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_04;
         packet->unk_1C.as_s16_1C = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_08);
         {
             register s32 packed_v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -557,26 +556,22 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
             tail_uv = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_24.as_u8_25.unk_25;
             tail_value = tail_value + row_v_offset;
             tail_uv = tail_uv + row_v_offset;
-            ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(tail_uv);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80024958();
-            return;
+        } else {
+            tail_value = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0C.as_u8_0D.unk_0D;
+            tail_uv = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_14.as_u8_15.unk_15;
+            tail_value = tail_value + wrapped_v_offset;
+            ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0C.as_u8_0D.unk_0D = (u8) tail_value;
+            tail_value = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_1C.as_u8_1D.unk_1D;
+            tail_uv = tail_uv + wrapped_v_offset;
+            ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_14.as_u8_15.unk_15 = (u8) tail_uv;
+            tail_uv = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_24.as_u8_25.unk_25;
+            tail_value = tail_value + wrapped_v_offset;
+            tail_uv = tail_uv + wrapped_v_offset;
         }
-        tail_value = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0C.as_u8_0D.unk_0D;
-        tail_uv = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_14.as_u8_15.unk_15;
-        tail_value = tail_value + wrapped_v_offset;
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0C.as_u8_0D.unk_0D = (u8) tail_value;
-        tail_value = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_1C.as_u8_1D.unk_1D;
-        tail_uv = tail_uv + wrapped_v_offset;
-        ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_14.as_u8_15.unk_15 = (u8) tail_uv;
-        tail_uv = ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_24.as_u8_25.unk_25;
-        tail_value = tail_value + wrapped_v_offset;
-        tail_uv = tail_uv + wrapped_v_offset;
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_1C.as_u8_1D.unk_1D = (u8) tail_value;
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_24.as_u8_25.unk_25 = (u8) tail_uv;
         quad_end += 40;
         row_quad = (u8 *)packet;
-        ASM_KEEP(row_quad);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         left_row_addr = (s32) packet & addr_mask;
         {
             register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */

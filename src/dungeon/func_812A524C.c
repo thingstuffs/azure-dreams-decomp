@@ -293,11 +293,6 @@ void func_80171468() __attribute__((noreturn));     /* extern */
 void func_801714E4() __attribute__((noreturn));     /* extern */
 void func_80171968() __attribute__((noreturn));     /* extern */
 void func_80171AD8() __attribute__((noreturn));     /* extern */
-void func_80171B6C() __attribute__((noreturn));     /* extern */
-void func_80171BEC() __attribute__((noreturn));     /* extern */
-void func_80171CD4() __attribute__((noreturn));     /* extern */
-void func_80171E8C() __attribute__((noreturn));     /* extern */
-void func_80171ECC() __attribute__((noreturn));     /* extern */
 void func_80171ED0() __attribute__((noreturn));     /* extern */
 void func_80171F74() __attribute__((noreturn));     /* extern */
 extern u8 D_80010248[];
@@ -871,12 +866,11 @@ inactive:
         if (D_8006CCF8[sprite_facing] != 0) {
             tail_value = ((S_812A524C_38 *)sprite)->unk_14.n;
             tail_value |= 1;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80171B6C();
-            return;
+            ((S_812A524C_38 *)sprite)->unk_14.v = tail_value;
+        } else {
+            first_flags = ((S_812A524C_38 *)sprite)->unk_14.v;
+            ((S_812A524C_38 *)sprite)->unk_14.v = first_flags & 0xFFFE;
         }
-        first_flags = ((S_812A524C_38 *)sprite)->unk_14.v;
-        ((S_812A524C_38 *)sprite)->unk_14.v = first_flags & 0xFFFE;
         sprite_flags = ((S_812A524C_38 *)sprite)->unk_14.v;
         fixed_flags = sprite_flags & 0x8000;
         if (fixed_flags == 0) {
@@ -884,10 +878,6 @@ inactive:
             if (!(((S_812A524C_4 *)entity)->unk_1C & 0x20)) {
                 if (!(((S_812A524C_38 *)sprite)->unk_14.n & 0x40)) {
                     func_800478B8(sprite);
-                    tail_value = 0xF7FF0000;
-                    ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    func_80171BEC();
-                    return;
                 }
                 goto block_201;
             }
@@ -905,30 +895,22 @@ block_201:
                     if ((u32) ((u8) ((S_812A524C_38 *)sprite)->unk_04.s8 - 1) < 4U) {
                         bob_phase = ((S_812A524C_3 *)actor)->unk_9E;
                         ((S_812A524C_3 *)actor)->unk_9E = (u16) (bob_phase + 1);
-                        tail_value = func_800644B8((s16) bob_phase * 0xAA);
-                        tail_acc = ((S_812A524C_3 *)actor)->unk_A0.at00.v;
-                        tail_value <<= 5;
-                        ASM_KEEP(tail_acc);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        func_80171CD4();
-                        return;
+                        ((S_812A524C_3 *)actor)->unk_A0.at00.v = (s32) (((S_812A524C_3 *)actor)->unk_A0.at00.v + (func_800644B8((s16) bob_phase * 0xAA) << 5));
+                    } else {
+                        bob_phase_wide = ((S_812A524C_3 *)actor)->unk_9E;
+                        ((S_812A524C_3 *)actor)->unk_9E = (u16) (bob_phase_wide + 1);
+                        ((S_812A524C_3 *)actor)->unk_A0.at00.v = (s32) (((S_812A524C_3 *)actor)->unk_A0.at00.v + (func_800644B8((s16) bob_phase_wide * 0xAA) << 6));
                     }
-                    bob_phase_wide = ((S_812A524C_3 *)actor)->unk_9E;
-                    ((S_812A524C_3 *)actor)->unk_9E = (u16) (bob_phase_wide + 1);
-                    ((S_812A524C_3 *)actor)->unk_A0.at00.v = (s32) (((S_812A524C_3 *)actor)->unk_A0.at00.v + (func_800644B8((s16) bob_phase_wide * 0xAA) << 6));
                     goto block_210;
                 }
 block_210:
                 if (!(((S_812A524C_3 *)actor)->unk_98 & 8)) {
-                    height = ((S_812A524C_3 *)actor)->unk_90.at02.v;
                     tail_acc = ((S_812A524C_3 *)actor)->unk_90.at02u.v;
+                    height = ((S_812A524C_3 *)actor)->unk_90.at02.v;
                     if (height >= -0x1F) {
-                        tail_value = height < -0x28;
-                        ASM_KEEP(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        tail_value = tail_acc - 8;
-                        ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        func_80171ECC(height);
-                        return;
+                        final_tail_value = tail_acc - 8;
+                        ((S_812A524C_3 *)actor)->unk_90.at02.v = (s16) final_tail_value;
+                        goto block_235;
                     }
                     goto block_233;
                 }
@@ -974,28 +956,22 @@ block_217:
             if ((u32) ((u8) ((S_812A524C_38 *)sprite)->unk_04.s8 - 1) < 4U) {
                 fixed_bob_phase = ((S_812A524C_3 *)actor)->unk_9E;
                 ((S_812A524C_3 *)actor)->unk_9E = (u16) (fixed_bob_phase + 1);
-                tail_value = func_800644B8((s16) fixed_bob_phase * 0xAA);
-                tail_acc = ((S_812A524C_3 *)actor)->unk_A0.at00.v;
-                tail_value <<= 5;
-                ASM_KEEP(tail_acc);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_80171E8C();
-                return;
+                ((S_812A524C_3 *)actor)->unk_A0.at00.v = (s32) (((S_812A524C_3 *)actor)->unk_A0.at00.v + (func_800644B8((s16) fixed_bob_phase * 0xAA) << 5));
+            } else {
+                fixed_bob_phase_wide = ((S_812A524C_3 *)actor)->unk_9E;
+                ((S_812A524C_3 *)actor)->unk_9E = (u16) (fixed_bob_phase_wide + 1);
+                ((S_812A524C_3 *)actor)->unk_A0.at00.v = (s32) (((S_812A524C_3 *)actor)->unk_A0.at00.v + (func_800644B8((s16) fixed_bob_phase_wide * 0xAA) << 6));
             }
-            fixed_bob_phase_wide = ((S_812A524C_3 *)actor)->unk_9E;
-            ((S_812A524C_3 *)actor)->unk_9E = (u16) (fixed_bob_phase_wide + 1);
-            ((S_812A524C_3 *)actor)->unk_A0.at00.v = (s32) (((S_812A524C_3 *)actor)->unk_A0.at00.v + (func_800644B8((s16) fixed_bob_phase_wide * 0xAA) << 6));
             goto block_229;
         }
 block_229:
         if (!(((S_812A524C_3 *)actor)->unk_98 & 8)) {
-            height = ((S_812A524C_3 *)actor)->unk_90.at02.v;
             tail_acc = ((S_812A524C_3 *)actor)->unk_90.at02u.v;
+            height = ((S_812A524C_3 *)actor)->unk_90.at02.v;
             if (height >= -0x1F) {
-                tail_value = tail_acc - 8;
-                ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_80171ECC(height);
-                return;
+                final_tail_value = tail_acc - 8;
+                ((S_812A524C_3 *)actor)->unk_90.at02.v = (s16) final_tail_value;
+                goto block_235;
             }
 block_233:
             if (height < -0x28) {

@@ -12,8 +12,6 @@ extern u8 D_800DED70[];
 extern s32 D_8008346C[];
 extern s32 D_800814A0[3];
 extern void func_80024354(void) __attribute__((noreturn));
-extern void func_80024488(void) __attribute__((noreturn));
-extern void func_80024490(void) __attribute__((noreturn));
 extern void func_800247B4(void) __attribute__((noreturn));
 void *func_8003FD64();                     /* extern */
 M2C_UNK func_8004491C();                /* extern */
@@ -366,10 +364,7 @@ state_0:
             position->unk_0C = (s32) (step_x << 0x14);
             position->unk_10 = (s32) (step_y << 0x14);
             func_800A56E0(0x300);
-            init_value = effect->unk_0A;
-            init_value += 1;
-            ASM_TAILSLOT_PIN(init_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_80024490();
+            effect->unk_0A += 1;
             return;
         }
         goto state_F0_end;
@@ -383,11 +378,9 @@ state_1:
         func_800247B4();
         return;
     }
-    state_value = effect->unk_0A;
-    ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     delta_x = 6;
-    ASM_TAILSLOT_PIN(delta_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024488();
+    effect->unk_50 = delta_x;
+    effect->unk_0A += 1;
     return;
 
 state_2:
@@ -400,7 +393,6 @@ state_2:
         target->unk_14.as_s32 = (s32) (target->unk_14.as_s32 | sprite_flags);
         effect->unk_50 = 0x14U;
         effect->unk_0A += 1;
-        func_800247B4();
         return;
     }
     return;

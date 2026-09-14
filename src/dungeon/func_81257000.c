@@ -74,7 +74,6 @@ extern s32 func_8003DE58(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
 extern void func_8016AA38() __attribute__((noreturn));
-extern void func_8016AAA8() __attribute__((noreturn));
 
 extern s32 D_800814A0[3];
 
@@ -198,23 +197,19 @@ void BODY_NAME(void *root_arg, void *out_pos_arg, void *dst_part_arg)
     }
 
     if (((S_81257000_0 *)root)->unk_B6 == 2) {
+        register s32 reverse_phase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 brightness;
+
         phase = ((S_81257000_2 *)out_pos_arg)->unk_04.s8;
         if (phase < 8) {
-            register s32 reverse_phase ASM_REG("$3") = 7 - phase;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            ASM_TAILSLOT_PIN(reverse_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8016AAA8(phase);
-            return;
+            reverse_phase = 7 - phase;
+        } else {
+            reverse_phase = phase - 8;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        {
-            register s32 brightness ASM_REG("$2") =
-                ((phase - 8) * 14) + 0x20;
-
-            dst_part->unk_0E = brightness;
-            dst_part->unk_0D = brightness;
-            dst_part->unk_0C = brightness;
-        }
+        brightness = (reverse_phase * 14) + 0x20;
+        dst_part->unk_0E = brightness;
+        dst_part->unk_0D = brightness;
+        dst_part->unk_0C = brightness;
         if (!(((S_81257000_2 *)out_pos_arg)->unk_14 & 0x8000) &&
             ((S_81257000_2 *)out_pos_arg)->unk_04.u16 == 0x104) {
             func_800A56E0(0x709);

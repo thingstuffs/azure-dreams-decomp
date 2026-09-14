@@ -11,7 +11,6 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_FIELD_V(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
-void func_80024A94(void) __attribute__((noreturn));
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_800245A0;
@@ -78,8 +77,7 @@ void *func_819AD1DC(void *arg0)
     M2C_UNK *temp_s4;
     register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *temp_v0;
-    s32 arithmetic_v0;
-    register s32 arithmetic_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 arithmetic_v1;
     u16 reload_a0;
     u16 temp_v0_2;
     u16 temp_v0_3;
@@ -115,12 +113,10 @@ loop_1:
         temp_a1 = ((S_819AD1DC_0 *)temp_v0)->unk_0C;
         temp_a1->unk_08 = temp_s4;
         if (var_s1 != temp_s2) {
-            arithmetic_v0 = 0x200;
-            ASM_TAILSLOT_PIN_TIED(arithmetic_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80024A94();
-            return (void *)0x200;
+            temp_a1->unk_1E = 0x200U;
+        } else {
+            temp_a1->unk_1E = 0x800U;
         }
-        do { temp_a1->unk_1E = 0x800U; } while (0);
         arithmetic_v1 = -0x80 - ((s32)((temp_s2 - var_s1) * 4));
         reload_a0 = M2C_FIELD_V(temp_a1, u16 *, 0x1E);
         temp_a1->unk_0D = (u8)arithmetic_v1;

@@ -3,9 +3,6 @@
 #ifdef NON_MATCHING
 extern void func_800240BC(s32, s32) __attribute__((noreturn));
 extern void func_8002416C(s32, u8 *, s32) __attribute__((noreturn));
-#else
-extern void func_800240BC(void) __attribute__((noreturn));
-extern void func_8002416C(void) __attribute__((noreturn));
 #endif
 extern s32 func_800990FC(s32, s32);
 extern s32 func_80099194(u8 *, s32);
@@ -61,9 +58,8 @@ void BODY_NAME(u8 *entity, u8 chance) {
     s32 effect_result;
     s32 chance_value;
     s32 removed_count;
-    register s32 roll_remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    register s32 passes_chance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 tail_chance ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 roll_remainder;
+    s32 passes_chance;
     u8 *effect_input;
 
     if (func_8009D218(entity, 2) != 0) {
@@ -73,19 +69,12 @@ void BODY_NAME(u8 *entity, u8 chance) {
     roll = func_800A6D30() & 0xffff;
     if (entity[3] != 0) {
         roll_remainder = roll % entity[3];
-        ASM_KEEP(roll_remainder);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         func_800240BC(roll, chance & 0xff);
-#else
-        tail_chance = chance & 0xff;
-        ASM_TAILSLOT_PIN(tail_chance);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800240BC();
 #endif
-        return;
+    } else {
+        roll_remainder = 0;
     }
-
-    roll_remainder = 0;
-    ASM_KEEP(roll_remainder);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     chance_value = chance & 0xff;
     passes_chance = roll_remainder < (chance_value << 5);
     effect_input = (u8 *)roll;
@@ -115,17 +104,8 @@ void BODY_NAME(u8 *entity, u8 chance) {
         func_800A5720(effect_result);
 #ifdef NON_MATCHING
         func_8002416C(0x53, entity, removed_count);
-#else
-        {
-            register s32 event_id ASM_REG("$4") = 0x53;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register u8 *event_entity ASM_REG("$5") = entity;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 event_count ASM_REG("$6") = removed_count;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
-            ASM_USE2(event_id, event_entity);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(event_count);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            func_8002416C();
-        }
 #endif
+        func_800B4C7C(0x53, entity, removed_count, 1);
         return;
     }
 

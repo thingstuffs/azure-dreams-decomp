@@ -31,14 +31,11 @@ typedef struct S_8181B078_2 {
 extern s16 D_80025914;
 extern s32 D_800814A0[3];
 
-extern void func_8002491C(void) __attribute__((noreturn));
-extern void func_80024920(void) __attribute__((noreturn));
 
 /* Advances the object cycle and position, flagging expiry or a flagged source. */
 void func_8181B078(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
 {
     s32 one;
-    register s32 next_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 phase;
 
     D_80025914 = 1;
@@ -58,32 +55,30 @@ void func_8181B078(void *object, S_8181B078_1 *position, S_8181B078_2 *source)
         if (phase == 0) {
             goto state_0;
         }
-        func_80024920();
+        goto advance;
 
 check_state_2:
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (phase == 2) {
             goto state_2;
         }
-        func_80024920();
+        goto advance;
 
 state_0:
         ((S_8181B078_0 *)object)->unk_1E = one;
-        next_value = ((S_8181B078_0 *)object)->unk_28 + 8;
-        ASM_TAILSLOT_PIN_TIED(next_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8002491C();
+        ((S_8181B078_0 *)object)->unk_28 += 8;
+        goto advance;
 
 state_1:
         ((S_8181B078_0 *)object)->unk_1E = 2;
-        next_value = ((S_8181B078_0 *)object)->unk_28 + 8;
-        ASM_TAILSLOT_PIN_TIED(next_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8002491C();
+        ((S_8181B078_0 *)object)->unk_28 += 8;
+        goto advance;
 
 state_2:
         ((S_8181B078_0 *)object)->unk_1E = 0;
         ((S_8181B078_0 *)object)->unk_28 -= 16;
     }
 
+advance:
     position->unk_08 += ((S_8181B078_0 *)object)->unk_60;
 
     if (((S_8181B078_0 *)object)->unk_02.u <= 0) {

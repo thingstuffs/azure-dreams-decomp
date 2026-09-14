@@ -111,7 +111,6 @@ typedef struct S_8195F43C_8 {
 
 #define VFIELD(p, type, offset) (*(volatile type *)((u8 *)(p) + (offset)))
 
-extern void func_80024FEC(void) __attribute__((noreturn));
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -241,13 +240,10 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
             ((S_8195F43C_7 *)packet)->unk_0E = ((S_8195F43C_5 *)object)->unk_12 + (*(u16 *)((u8 *)texture + 6));
             page_offset = ((S_8195F43C_5 *)object)->unk_10;
             if (page_offset != 0) {
-                u32 texture_page;
-                texture_page = page_offset + (((S_8195F43C_6 *)texture)->unk_04 & 0xFF9F);
-                ASM_TAILSLOT_PIN(texture_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80024FEC();
-                return;
+                (*(u16 *)((u8 *)packet + 0x16)) = page_offset + (((S_8195F43C_6 *)texture)->unk_04 & 0xFF9F);
+            } else {
+                (*(u16 *)((u8 *)packet + 0x16)) = ((S_8195F43C_6 *)texture)->unk_04;
             }
-            (*(u16 *)((u8 *)packet + 0x16)) = ((S_8195F43C_6 *)texture)->unk_04;
 
             {
                 s32 u;

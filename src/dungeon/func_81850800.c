@@ -4,7 +4,6 @@ extern void func_800241F0(void) __attribute__((noreturn));
 extern void func_8002426C(void) __attribute__((noreturn));
 extern void func_8002427C(void) __attribute__((noreturn));
 extern void func_800246DC(void) __attribute__((noreturn));
-extern void func_80024754(void) __attribute__((noreturn));
 extern void func_800247A8(void) __attribute__((noreturn));
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
@@ -437,10 +436,8 @@ state_0_after:
     pix_y += pixel_offset;
     motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
     func_800A56E0(0x300);
-    next_state = owner->unk_0A.unk_0A_u16 + 1;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    func_80024754();
-    return;
+    owner->unk_0A.unk_0A_u16++;
+    goto done;
 
 state_1:
     ground_height = func_800BCB04(motion->unk_00.unk_02_view_u16.unk_02_u16,
@@ -608,8 +605,7 @@ state_2:
     }
     owner->unk_50.unk_50_u16 = 0x10;
     owner->unk_0A.unk_0A_u16++;
-    func_800247A8();
-    return;
+    goto done;
 
 state_3:
     effect_flags = owner->unk_52.unk_52_s16;

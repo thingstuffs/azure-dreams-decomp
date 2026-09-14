@@ -73,8 +73,6 @@ typedef struct S_81263000_6 {
 extern s32 func_8003DE58(s32, void *, s16 *, s16);
 extern void func_800478B8(void *);
 extern void func_800A56E0(s32);
-extern void func_8015EA38() __attribute__((noreturn));
-extern void func_8015EAA8() __attribute__((noreturn));
 
 extern s32 D_800814A0[3];
 
@@ -140,6 +138,8 @@ void BODY_NAME(void *root_data, void *position_data, void *target_data)
     S_81263000_5 *pos_data;
     S_81263000_6 *motion_part;
     s8 phase;
+    s16 shade_a;
+    register s32 reverse_phase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     owner = ((S_81263000_0 *)root)->unk_AC;
     position_data = owner->unk_0C;
@@ -176,20 +176,15 @@ void BODY_NAME(void *root_data, void *position_data, void *target_data)
     if (((S_81263000_0 *)root)->unk_B6 == 1) {
         phase = ((S_81263000_2 *)position_data)->unk_04.s8;
         if (phase < 8) {
-            s32 scaled_phase = phase * 7;
-
-            ASM_TAILSLOT_PIN(scaled_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8015EA38(phase);
-            return;
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        {
-            register s32 shade ASM_REG("$2") =
-                ((15 - phase) * 14) + 0x20;
-
-            target_part->unk_0E = shade;
-            target_part->unk_0D = shade;
-            target_part->unk_0C = shade;
+            shade_a = (phase * 14) + 0x20;
+            target_part->unk_0E = shade_a;
+            target_part->unk_0D = shade_a;
+            target_part->unk_0C = shade_a;
+        } else {
+            shade_a = ((15 - phase) * 14) + 0x20;
+            target_part->unk_0E = shade_a;
+            target_part->unk_0D = shade_a;
+            target_part->unk_0C = shade_a;
         }
         if (!(((S_81263000_2 *)position_data)->unk_14 & 0x8000) &&
             ((S_81263000_2 *)position_data)->unk_04.u16 == 0x10C) {
@@ -200,16 +195,13 @@ void BODY_NAME(void *root_data, void *position_data, void *target_data)
     if (((S_81263000_0 *)root)->unk_B6 == 2) {
         phase = ((S_81263000_2 *)position_data)->unk_04.s8;
         if (phase < 8) {
-            register s32 reverse_phase ASM_REG("$3") = 7 - phase;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            ASM_TAILSLOT_PIN(reverse_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8015EAA8(phase);
-            return;
+            reverse_phase = 7 - phase;
+        } else {
+            reverse_phase = phase - 8;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         {
-            register s32 shade ASM_REG("$2") =
-                ((phase - 8) * 14) + 0x20;
+            s32 shade =
+                ((reverse_phase * 7) * 2) + 0x20;
 
             target_part->unk_0E = shade;
             target_part->unk_0D = shade;

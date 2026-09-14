@@ -8,7 +8,6 @@ extern u8 *D_800E3D7C[];
 extern u8 D_8008333C[32];
 extern s16 D_8008333C_second[16] __asm__("D_8008333C");
 extern s32 D_800274DC[7][8];
-void func_80025C14(void) __attribute__((noreturn));
 s32 func_80025D30(s32, s32, s32);
 void *func_8009B4B0(void *, u16, u16);
 s32 func_800BCA68(s32, u16);
@@ -39,6 +38,9 @@ void func_819602D8(s16 center_x, s32 center_y) {
     s32 tile_sample;
     void *map;
     S_819602D8_0 *tile;
+    s32 *output_base;
+    u32 output_row;
+    s32 output_value;
 
     tile_y = center_y - 3;
     row = 0;
@@ -116,27 +118,19 @@ do {
         }
     }
 bounds_fail:
-    {
-        register s32 zero_arg ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(zero_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80025C14();
-    }
+    output_value = 0;
+    goto store_output;
 bounds_ok:
-    {
-        s32 *output_base;
-        u32 output_row;
-        s32 output_value;
-        sample_x <<= 6;
-        sample_x += 0x20;
-        sample_x &= 0xFFE0;
-        output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
-        ASM_KEEP_NV(output_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        output_base = &D_800274DC[0][0];
-        ASM_KEEP_NV(output_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        output_row = row << 5;
-        output_row += (u32)output_base;
-        ((s32 *)output_row)[col] = output_value;
-    }
+    sample_x <<= 6;
+    sample_x += 0x20;
+    sample_x &= 0xFFE0;
+    output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
+store_output:
+    output_base = &D_800274DC[0][0];
+    ASM_KEEP_NV(output_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    output_row = row << 5;
+    output_row += (u32)output_base;
+    ((s32 *)output_row)[col] = output_value;
     sample_ptr += 1;
     col += 1;
     tile_x += 1;

@@ -30,7 +30,6 @@ typedef struct {
 } Copy24;
 
 extern void *func_8003FC64(s32 arg0);
-extern void func_800246F4() __attribute__((noreturn));
 extern void func_8004491C(void *arg0, void *arg1);
 extern u8 D_800240C0[9];
 extern u8 D_800241D4[9];
@@ -44,37 +43,29 @@ void *func_818C2E40(s32 node_value, void *initial_data)
     void *node_data;
 
     node = func_8003FC64(0x212);
-    {
-        void *dispatch_arg = node;
+    if (node != 0) {
 
-        if (node == 0) {
-            register void *dispatch_result ASM_REG("$2") = 0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        ((S_818C2E40_0 *)node)->unk_10 = D_800240C0;
+        func_8004491C(node, D_800241D4);
+        fields = (u8 *)node + 0x20;
+        ((S_818C2E40_0 *)node)->unk_20 = node_value;
+        fields->unk_04 = 0;
+        fields->unk_06 = 0;
+        fields->unk_08 = 0x7DCF;
+        fields->unk_0A = 0;
 
-            ASM_KEEP(dispatch_arg);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800246F4(dispatch_arg);
-        }
+        display = ((S_818C2E40_0 *)node)->unk_0C;
+        display->unk_1E = 0x1000;
+        display->unk_1C = 0x1000;
+
+        node_data = ((S_818C2E40_0 *)node)->unk_08;
+        *(Copy24 *)node_data = *(Copy24 *)initial_data;
+        return node;
     }
-
-    ((S_818C2E40_0 *)node)->unk_10 = D_800240C0;
-    func_8004491C(node, D_800241D4);
-    fields = (u8 *)node + 0x20;
-    ((S_818C2E40_0 *)node)->unk_20 = node_value;
-    fields->unk_04 = 0;
-    fields->unk_06 = 0;
-    fields->unk_08 = 0x7DCF;
-    fields->unk_0A = 0;
-
-    display = ((S_818C2E40_0 *)node)->unk_0C;
-    display->unk_1E = 0x1000;
-    display->unk_1C = 0x1000;
-
-    node_data = ((S_818C2E40_0 *)node)->unk_08;
-    *(Copy24 *)node_data = *(Copy24 *)initial_data;
-    return node;
+    return 0;
 }
 
 /* MECHANISM: The 0x20 frame follows from node/node_value/initial_data held in s0/s1/s2 and
    the 24-byte struct assignment emits retail's grouped six-word copy.
-   A guarded a0 lifetime defeats null-edge CSE; ASM_TAILSLOT_PIN sinks v0=0
-   into the converted noreturn j delay slot at 2.7.2-cdk-G0. */
+   The early `return 0;` on the null edge is retail's `j <epilogue>` with `move v0,zero`
+   in its delay slot (true base 0x80024640, target row+0xB4 = the `lw ra` epilogue). */

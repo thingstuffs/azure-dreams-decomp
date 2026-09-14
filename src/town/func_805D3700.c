@@ -4,7 +4,6 @@ extern u8 D_800198A4[];
 extern u8 D_80019A6C[];
 extern s32 D_80019B8C[3];
 
-extern void func_80017758(void) __attribute__((noreturn));
 extern void func_800193E0(s32);
 extern s32 func_800194D8(s32);
 
@@ -12,24 +11,18 @@ s32 func_805D3700(void) {
     s32 *indexp;
     u8 *base;
     s32 offset;
+    s32 result;
 
     indexp = D_80019B8C;
-    if (func_800194D8(*indexp + 0x147A) == 0) {
-        goto normal;
+    if (func_800194D8(*indexp + 0x147A) != 0) {
+        result = (s32)D_80019A6C;
+    } else {
+        func_800193E0(*indexp + 0x147A);
+        base = D_800198A4;
+        offset = *indexp * 0x18;
+        result = *(s32 *)(base + offset);
     }
-    {
-        u32 exit_value;
-
-        exit_value = (u32)D_80019A6C;
-        ASM_TAILSLOT_PIN(exit_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80017758();
-    }
-
-normal:
-    func_800193E0(*indexp + 0x147A);
-    base = D_800198A4;
-    offset = *indexp * 0x18;
-    return *(s32 *)(base + offset);
+    return result;
 }
 
 /* MECHANISM: A 12-byte D_80019B8C declaration holds its page in retail's sole s0 save.

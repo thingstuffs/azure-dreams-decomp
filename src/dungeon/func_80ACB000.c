@@ -58,7 +58,6 @@ typedef struct S_80ACB000_8 {
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_8016A8FC(void) __attribute__((noreturn));
 extern void *D_80083160;
 
 #ifdef __mips__
@@ -116,6 +115,7 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
     SPAD_U32(0x24) = (u32)render_state + 0xB0;
     ((S_80ACB000_2 *)scratch)->unk_1C = initial_cursor;
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+node_loop:
     SPAD_U16(4) = ((S_80ACB000_3 *)position)->unk_02;
     tile = (void *)((S_80ACB000_2 *)scratch)->unk_1C;
     SPAD_U16(6) = ((S_80ACB000_3 *)position)->unk_06;
@@ -177,18 +177,12 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
 
     next_node = ((S_80ACB000_4_pre *)render_data)[-1].unk_00;
     if (next_node != 0) {
-        register void *scratch_position ASM_REG("$4") = scratch + 4;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-
         render_data = (u8 *)next_node + 0x20;
         position = ((S_80ACB000_7 *)next_node)->unk_08;
-        ASM_KEEP(render_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(scratch_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8016A8FC();
+        goto node_loop;
     }
     final_state = *render_state_ptr;
     final_cursor = SPAD_U32(0x1C);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     final_state->unk_8D0 = final_cursor;
     return 0;
 }

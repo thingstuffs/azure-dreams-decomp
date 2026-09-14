@@ -14,9 +14,6 @@ typedef struct {
     s32 base;
 } Owner;
 
-extern void func_80026660(void) __attribute__((noreturn));
-extern void func_800266C8(void) __attribute__((noreturn));
-
 /* Refresh the entry value and handle index stepping and bounds. */
 void func_8195AE0C(Entry *entry, s16 *step, s32 lower, s32 upper)
 {
@@ -29,12 +26,8 @@ void func_8195AE0C(Entry *entry, s16 *step, s32 lower, s32 upper)
     owner = active_entry->owner;
     active_entry->value = owner->base + active_entry->index * 0x18;
     if (*step > 0) {
-        pending_update = (u8)active_entry->index + 1;
-        ASM_TAILSLOT_PIN_TIED(pending_update);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80026660();
-        return;
-    }
-    if (*step < 0) {
+        active_entry->index = (u8)active_entry->index + 1;
+    } else if (*step < 0) {
         active_entry->index = (u8)active_entry->index - 1;
     }
 
@@ -43,15 +36,13 @@ void func_8195AE0C(Entry *entry, s16 *step, s32 lower, s32 upper)
     if ((s8)index < (s16)lower) {
         pending_update = active_entry->flags | 0x4000;
         active_entry->index = lower;
-        ASM_TAILSLOT_PIN_TIED(pending_update);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800266C8();
+        active_entry->flags = pending_update;
         return;
     }
     if ((s8)index > (s16)upper) {
         pending_update = active_entry->flags | 0x4000;
         active_entry->index = upper;
-        ASM_TAILSLOT_PIN_TIED(pending_update);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800266C8();
+        active_entry->flags = pending_update;
         return;
     }
     active_entry->flags &= 0xBFFF;

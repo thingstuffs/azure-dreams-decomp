@@ -169,9 +169,7 @@ extern s32 D_8008346C[];
 extern s32 D_800814A0[3];
 extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
-void func_80024F14() __attribute__((noreturn));     /* extern */
 void func_8002512C(void) __attribute__((noreturn));     /* extern */
-void func_8002515C(void) __attribute__((noreturn));     /* extern */
 void func_80025228(void) __attribute__((noreturn));     /* extern */
 void func_800252A8(void) __attribute__((noreturn));     /* extern */
 void func_8002530C() __attribute__((noreturn));     /* extern */
@@ -237,7 +235,7 @@ initialize:
 update_position:
   {
     u16 position_z;
-    register u16 final_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 final_z;
     s32 delta_z;
 
     parent_sprite = parent_node->unk_0C;
@@ -249,24 +247,21 @@ update_position:
         if (!(((S_818154FC_14 *)(parent_node->unk_0C))->unk_14 & 0x8000)) {
             position->unk_00.at02.v = (u16) (position->unk_00.at02.v + offset.x);
             position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset.y);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             final_z = position->unk_08.at02.v;
             delta_z = offset.z;
             final_z += delta_z;
-            ASM_TAILSLOT_PIN(final_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80024F14();
-            return;
+            position->unk_08.at02.v = final_z;
+        } else {
+            final_z = position_z - 0x40;
+            position->unk_08.at02.v = final_z;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        final_z = position_z - 0x40;
-        position->unk_08.at02.v = final_z;
         {
-            register s32 coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 coord;
+            s32 coord_2;
 
-            coord = position->unk_00.at00.v;
-            ((S_818154FC_0 *)effect)->unk_B0 = coord;
-            coord = position->unk_04.at00.v;
-            ((S_818154FC_0 *)effect)->unk_B4 = coord;
+            ((S_818154FC_0 *)effect)->unk_B0 = position->unk_00.at00.v;
+            coord_2 = position->unk_04.at00.v;
+            ((S_818154FC_0 *)effect)->unk_B4 = coord_2;
             coord = position->unk_08.at00.v;
             ((S_818154FC_0 *)effect)->unk_B8 = coord;
         }
@@ -384,11 +379,10 @@ configure_effect:
 
                     end_time = ((S_818154FC_7 *)work)->unk_02.u;
                     end_time += 0x28;
-                    ASM_TAILSLOT_PIN(end_time);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_8002515C();
+                    ((S_818154FC_0 *)effect)->unk_86 = end_time;
+                } else {
+                    ((S_818154FC_0 *)effect)->unk_86 = 0x1E;
                 }
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                ((S_818154FC_0 *)effect)->unk_86 = 0x1E;
             }
             spawn_position = ((S_818154FC_10 *)node)->unk_08;
             ((S_818154FC_10 *)node)->unk_10 = &D_800246DC;

@@ -258,12 +258,7 @@ case1:
     self->object = spawned_object;
     if (spawned_object != 0) {
         target_pos = *(void **)((u8 *)spawned_object - 0x18);
-        ASM_KEEP(target_pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        {
-            register State81978428 *state_arg ASM_REG("$4") = self;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN_TIED(state_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80025F5C();
-        }
+        goto position_ready;
     }
 
     target_pos = &fallback_pos;

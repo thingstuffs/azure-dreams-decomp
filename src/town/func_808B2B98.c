@@ -11,8 +11,7 @@ extern u8 D_A0700000[0x1000];
 extern CallbackOwner *D_A0700F58[4];
 
 extern s32 func_80700304(s32, s32, s32, s32);
-extern void func_8070049C(void) __attribute__((noreturn));
-extern void func_80700590(s32, u8 *);
+extern s32 func_80700590(s32, u8 *);
 extern s32 func_80700DC0(s16);
 
 typedef struct S_808B2B98_0 {
@@ -40,8 +39,7 @@ s32 func_808B2B98(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         temp_a0 <<= 5;
         temp_a0 = temp_v0 - temp_a0;
         *temp_a1 |= 1 << temp_a0;
-        func_80700590(temp_a0, temp_a1);
-        func_8070049C();
+        return func_80700590(temp_a0, temp_a1);
     }
     D_A0700F58[0]->callback(2);
     temp_v1 = *(void **)0xA0700F40;
@@ -52,14 +50,9 @@ s32 func_808B2B98(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             var_s0 += 1;
         }
         *(s32 *)0xA0700F3C = var_s0;
-        temp_v0 = var_s0;
-        ASM_TAILSLOT_PIN_TIED(temp_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8070049C();
+    } else {
+        var_s0 = *(s32 *)0xA0700F3C;
     }
-    {
-        register s32 final_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        final_value = *(s32 *)0xA0700F3C;
-        ASM_KEEP(final_value);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        return final_value;
-    }
+    temp_v0 = var_s0;
+    return temp_v0;
 }

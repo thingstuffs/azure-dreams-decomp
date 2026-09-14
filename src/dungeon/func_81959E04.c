@@ -1,8 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800256B8(void) __attribute__((noreturn)); /* extern */
-void func_800256F0(void) __attribute__((noreturn)); /* extern */
 void *func_8003FC64(s32);                         /* extern */
 void func_8004491C(void *, void *);                /* extern */
 s32 func_800644B8(s32);                           /* extern */
@@ -84,19 +82,15 @@ loop_1:
         temp_s1->unk_06 = var_s7;
         temp_s1->unk_0A = var_fp;
         if (func_80064584(var_s0) & 0x800) {
-            s32 tail_value;
-            tail_value = func_80064584(var_s0) | var_s5;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800256B8();
+            temp_s1->unk_0C = (s32) ((func_80064584(var_s0) | var_s5) << 0xB);
+        } else {
+            temp_s1->unk_0C = (s32) ((func_80064584(var_s0) & 0x7FF) << 0xB);
         }
-        temp_s1->unk_0C = (s32) ((func_80064584(var_s0) & 0x7FF) << 0xB);
         if (func_800644B8(var_s0) & 0x800) {
-            s32 tail_value;
-            tail_value = func_800644B8(var_s0) | var_s5;
-            ASM_TAILSLOT_PIN_TIED(tail_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800256F0();
+            temp_s1->unk_10 = (s32) ((func_800644B8(var_s0) | var_s5) << 0xB);
+        } else {
+            temp_s1->unk_10 = (s32) ((func_800644B8(var_s0) & 0x7FF) << 0xB);
         }
-        temp_s1->unk_10 = (s32) ((func_800644B8(var_s0) & 0x7FF) << 0xB);
         temp_s1->unk_14 = 0xFFFE0000;
         temp_v1 = temp_v0 + 0x20;
         ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

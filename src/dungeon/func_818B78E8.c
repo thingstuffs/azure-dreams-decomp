@@ -3,8 +3,6 @@
 
 extern s32 D_800814A0[3];
 M2C_UNK func_80024FD4();
-M2C_UNK func_80025360() __attribute__((noreturn));
-M2C_UNK func_80025368() __attribute__((noreturn));
 M2C_UNK func_800253B0() __attribute__((noreturn));
 
 typedef struct {
@@ -57,7 +55,6 @@ void func_818B78E8(S818B78E8_Obj *arg0, S818B78E8_Vec *arg1, S818B78E8_State *ar
     s16 tail_v1;
     s32 var_v0;
     s32 var_v1;
-    s32 tail_cond;
     s32 field_offset;
     s32 field_value;
     s32 temp_a1_s16;
@@ -101,7 +98,6 @@ void func_818B78E8(S818B78E8_Obj *arg0, S818B78E8_Vec *arg1, S818B78E8_State *ar
         }
         goto state0;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (temp_v1_4 == 2) {
         goto state2;
     }
@@ -119,10 +115,12 @@ state0:
     vec->x8 = (s32) (vec->x8 + vec_x14);
     tail_v0 = (s16) base->field10;
     tail_v1 = base->field14;
-    tail_cond = tail_v0 < tail_v1;
-    ASM_TAILSLOT_PIN(tail_cond);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80025360();
-    return;
+    if (tail_v0 >= tail_v1) {
+        case2_state = (u16) base->state;
+        base->field10 = 0U;
+        base->state = (s16) (case2_state + 1);
+    }
+    goto done;
 
 state1:
     temp_a1_s16 = (s16) temp_s2;
@@ -148,8 +146,9 @@ state1:
     state->field1C = temp_v0;
     if ((s16) base->field10 >= 0x10) {
         func_80024FD4((void *)base, (void *)vec);
-        func_80025368();
-        return;
+        case2_state = (u16) base->state;
+        base->field10 = 0U;
+        base->state = (s16) (case2_state + 1);
     }
     goto done;
 
@@ -168,8 +167,6 @@ state2:
         case2_state = (u16) base->state;
         base->field10 = 0U;
         base->state = (s16) (case2_state + 1);
-        func_800253B0();
-        return;
     }
     goto done;
 

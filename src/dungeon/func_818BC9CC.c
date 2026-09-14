@@ -118,7 +118,6 @@ typedef struct S_func_818BC9CC_6 {
 
 extern void func_800244DC() __attribute__((noreturn));
 extern void func_80024504() __attribute__((noreturn));
-extern s32 func_80024514() __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
@@ -208,20 +207,7 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
             if (quad_index == 0) {
                 goto L_case0;
             }
-            {
-                void *vertex_arg0;
-                register void *vertex_arg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                void *vertex0;
-                void *vertex1;
-
-                vertex0 = (u8 *)scratch + 0x64;
-                vertex1 = (u8 *)scratch + 0x6C;
-                ASM_KEEP_NV(vertex0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                vertex_arg0 = vertex0;
-                vertex_arg1 = vertex1;
-                ASM_TAILSLOT_PIN(vertex_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                func_80024514(vertex_arg0, vertex_arg1);
-            }
+            goto L_common;
         } else {
             if (quad_index == 2) {
                 goto L_case2;
@@ -230,20 +216,7 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
             if (quad_index == 3) {
                 goto L_case3;
             }
-            {
-                void *vertex_arg0;
-                register void *vertex_arg1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                void *vertex0;
-                void *vertex1;
-
-                vertex0 = (u8 *)scratch + 0x64;
-                vertex1 = (u8 *)scratch + 0x6C;
-                ASM_KEEP_NV(vertex0);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                vertex_arg0 = vertex0;
-                vertex_arg1 = vertex1;
-                ASM_TAILSLOT_PIN(vertex_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                func_80024514(vertex_arg0, vertex_arg1);
-            }
+            goto L_common;
         }
     L_case0:
         coord = position->unk_02;
@@ -320,6 +293,7 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
         scratch->unk_78 = far_z;
 
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    L_common:
         {
             void *vertex0 = (u8 *)scratch + 0x64;
             void *vertex1 = (u8 *)scratch + 0x6C;

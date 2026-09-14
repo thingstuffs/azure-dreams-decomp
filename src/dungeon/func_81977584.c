@@ -26,7 +26,6 @@ typedef struct {
     s16 f72;
 } Record;
 
-extern s32 func_80024E38(void) __attribute__((noreturn));
 extern void func_80024770(s32, s32, s32);
 extern void func_80024A30(s32, s32, s32, s32);
 extern s32 func_800644B8(s32);
@@ -57,8 +56,7 @@ s32 func_81977584(Record *record) {
     }
     ASM_KEEP(shade_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     shade_step &= 0xffff;
-    ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024E38();
+    goto shade;
 
 type_ge_2:
     if (record->type == 2) {
@@ -68,8 +66,7 @@ type_ge_2:
         goto type_3;
     }
     shade_step &= 0xffff;
-    ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024E38();
+    goto shade;
 
 type_0:
     {
@@ -78,25 +75,23 @@ type_0:
 
         index_work = (index << 2) + index;
         shade_step = index_work << 18;
-        ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024E38();
+        goto shade;
     }
 
 type_1_or_2:
     shade_step = 0xA0 << 16;
-    ASM_TAILSLOT_PIN(shade_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024E38();
+    goto shade;
 
 type_3:
     {
-        s32 shade_base = record->index;
+        s16 shade_base = record->index;
         s32 index_offset;
 
-        ASM_KEEP_NV(shade_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         index_offset = (shade_base << 2) + shade_base;
         index_offset <<= 2;
         shade_step = ((s32)(160 - index_offset)) << 16;
     }
+shade:
     shade_step /= 29;
 
     {

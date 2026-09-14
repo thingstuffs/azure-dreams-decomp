@@ -66,8 +66,6 @@ extern s32 func_80065420(void *, void *, void *, void *);
 extern void func_8006658C(void *, void *);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s16 func_80069EF8(void);
-extern void func_800F6FE0(void) __attribute__((noreturn));
-extern void func_800F7148(void) __attribute__((noreturn));
 
 /* Advances particle levels and queues colored quads in the dungeon ordering table. */
 s32 func_807AF648(DungeonObject *object, u16 *origin) {
@@ -96,14 +94,9 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
             if ((s8)particle_view->level >= 48) {
                 if (object->active != 0) {
                     particle_view->level = 48;
-                    func_800F7148();
+                    goto advance;
                 }
                 particle_view->level = 0;
-                {
-                    register u32 reset_index ASM_REG("$16") =
-                        (u32)(u16)particle_index << 16;
-                    ASM_KEEP(reset_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                }
             }
         }
         {
@@ -124,13 +117,8 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
                 s16 intensity = func_80069EF8();
                 s8 level = *(s8 *)((u8 *)object + particle_offset + 0x10);
                 if (level >= 33) {
-                    s32 saved_intensity = intensity;
-                    register s32 fade_level ASM_REG("$2") = level - 32;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    ASM_KEEP(saved_intensity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    ASM_TAILSLOT_PIN(fade_level);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    func_800F6FE0();
-                }
-                if (level < 16) {
+                    intensity = intensity / (level - 32);
+                } else if (level < 16) {
                     intensity = intensity / (16 - level);
                 }
                 ((S_807AF648_0 *)quad_fields)->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
@@ -168,8 +156,8 @@ s32 func_807AF648(DungeonObject *object, u16 *origin) {
                 u8 particle_count = object->count;
                 packet_cursor += 12;
                 object->count = particle_count + 1;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             }
+        advance:
             {
                 s16 next_particle = particle_index + 1;
                 particle_index = next_particle;

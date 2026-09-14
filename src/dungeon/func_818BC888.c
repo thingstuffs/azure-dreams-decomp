@@ -11,7 +11,7 @@ typedef struct S_818BC888_0 {
     s16 unk_08;
     s16 unk_0A;
     s16 unk_0C;
-    s8 unk_0E;
+    u8 unk_0E;
 } S_818BC888_0;   /* arg0 in func_818BC888 */
 
 typedef struct S_818BC888_1 {
@@ -22,9 +22,6 @@ typedef struct S_818BC888_1 {
 
 
 extern void func_800240D8() __attribute__((noreturn));
-extern void func_8002414C() __attribute__((noreturn));
-extern void func_800241C0() __attribute__((noreturn));
-extern void func_800241C4() __attribute__((noreturn));
 extern s32 D_800814A0[3];
 
 #ifndef NON_MATCHING
@@ -69,60 +66,32 @@ void func_818BC888(void *effect) {
     if (phase >= 0x40) {
         ((S_818BC888_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800241C4(effect, (s16)tick, product);
         return;
     }
     if (phase < 0x10) {
-        s32 intensity;
-
-        intensity = ((S_818BC888_0 *)effect)->unk_04.u8 << 3;
-        ASM_TAILSLOT_PIN(intensity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8002414C();
-        return;
+        ((S_818BC888_0 *)effect)->unk_0E = ((S_818BC888_0 *)effect)->unk_04.u8 << 3;
+    } else if (phase < 0x30) {
+        ((S_818BC888_0 *)effect)->unk_0E = 0x80;
+    } else {
+        ((S_818BC888_0 *)effect)->unk_0E = -0x80 - ((phase - 0x30) * 8);
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (phase < 0x30) {
-        s32 intensity;
 
-        intensity = 0x80;
-        ASM_TAILSLOT_PIN(intensity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8002414C();
-        return;
-    }
-    ((S_818BC888_0 *)effect)->unk_0E = -0x80 - ((phase - 0x30) * 8);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     phase = ((S_818BC888_0 *)effect)->unk_04.s16 % 4;
-    if (phase == 1) {
-        goto tail_c0;
-    }
-    if (phase < 2) {
+    switch (phase) {
+    case 0:
         cycle_value = 0x7DCF;
-        if (phase != 0) {
-            func_800241C4(effect, (s16)tick, product);
-            return;
-        }
-        goto store_value;
-    }
-    if (phase == 2) {
-        goto case_2;
-    }
-    cycle_value = 3;
-    if (phase != cycle_value) {
+        break;
+    case 1:
+        cycle_value = 0x7E00;
+        break;
+    case 2:
+        cycle_value = 0x7E01;
+        break;
+    case 3:
         cycle_value = 0x7E02;
-        func_800241C4(effect, (s16)tick, product);
+        break;
+    default:
         return;
     }
-    cycle_value = 0x7E02;
-    goto store_value;
-
-tail_c0:
-    cycle_value = 0x7E00;
-    ASM_TAILSLOT_PIN(cycle_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_800241C0(effect, (s16)tick, product);
-
-case_2:
-    cycle_value = 0x7E01;
-
-store_value:
     ((S_818BC888_0 *)effect)->unk_0C = cycle_value;
 }

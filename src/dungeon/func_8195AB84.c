@@ -56,7 +56,6 @@ typedef struct S_8195AB84_4 {
 extern void func_80025B5C();
 extern void func_800263FC();
 extern void func_800264F0() __attribute__((noreturn));
-extern void func_80026514();
 extern s32 func_8003FA44(s32);
 extern void *func_8003FD64(s32, void *);
 
@@ -159,11 +158,8 @@ void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
                         ((S_8195AB84_0 *)((void *)scratch))->unk_1E = object_flags;
                     } while (object_index >= 0);
                 }
-call_26514:
-                scratch = 0;
-                ASM_TAILSLOT_PIN_TIED(scratch);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_80026514();
-                goto loop_continue;
+fail_return:
+                return NULL;
             }
 loop_continue:
             object_index++;
@@ -172,10 +168,9 @@ loop_continue:
         func_80025B5C(objects[0], saved_angle);
         return objects[0];
     } else {
-        goto call_26514;
+        goto fail_return;
     }
 }
 
 extern void func_800263FC(void) __attribute__((noreturn));
 extern void func_800264F0(void) __attribute__((noreturn));
-extern void func_80026514(void) __attribute__((noreturn));

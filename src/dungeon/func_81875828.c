@@ -33,7 +33,6 @@ typedef struct Arg1
   u16 unkA;
 } Arg1;
 extern u8 D_80083160[];
-extern void func_80025080() __attribute__((noreturn));
 extern u32 func_80065420();
 extern u32 func_80066460();
 extern void func_80067F20();
@@ -56,7 +55,6 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   u32 *out94;
   u8 *entry_arg;
   u8 *previous;
-  Scratch *tail_arg;
   ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   initial_current = *((u8 **) (state + 0x8D0));
   scratch->current = initial_current;
@@ -64,6 +62,7 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   active = scratch;
   ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+next_entry:
   call_arg = active;
      /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   out90 = &active->unk90;
@@ -111,13 +110,8 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   {
     arg0 = (Arg0 *) (previous + 0x20);
     input = *((Arg1 **) (previous + 8));
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(input);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    tail_arg = active;
-    ASM_TAILSLOT_PIN(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    func_80025080(tail_arg);
+    goto next_entry;
   }
-  ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   call_base = (Scratch *) (*state_slot);
   *((u8 **) (((u8 *) call_base) + 0x8D0)) = active->current;
   return 0;

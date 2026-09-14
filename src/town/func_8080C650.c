@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 typedef struct S_8080C650_0_pre {
     u16 unk_00;
@@ -76,11 +77,9 @@ s16 func_8025E01C();                          /* extern */
 s32 func_8052776C() __attribute__((noreturn));
 s32 func_805278B0() __attribute__((noreturn));
 s32 func_80527920() __attribute__((noreturn));
-s32 func_80527A3C() __attribute__((noreturn));
 s32 func_80527AD0() __attribute__((noreturn));
 s32 func_80527AF8() __attribute__((noreturn));
 s32 func_80527BB8() __attribute__((noreturn));
-s32 func_80527C60() __attribute__((noreturn));
 s32 func_80527CCC() __attribute__((noreturn));
 s32 func_80527CD8() __attribute__((noreturn));
 s32 func_80527D18() __attribute__((noreturn));
@@ -124,7 +123,8 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     s32 temp_a0_2;
     s32 temp_a1;
     register s32 temp_lo ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 temp_v0_6 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 temp_v0_6;
+    s32 temp_v0_6_2;
     s32 temp_v1_4;
     s32 var_s2;
     s32 var_s2_2;
@@ -471,13 +471,12 @@ block_state11:
         temp_v0_6 = 0x03A00000;
         if (temp_v1_4 > temp_v0_6) {
             temp_v0_6 = ((S_8080C650_3 *)arg2)->unk_14 & 0xFFFE;
-            ASM_TAILSLOT_PIN_TIED(temp_v0_6);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            return func_80527A3C();
+        } else {
+            temp_v0_6 = ((S_8080C650_3 *)arg2)->unk_14 | 1;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_8080C650_3 *)arg2)->unk_14 = (u16) (((S_8080C650_3 *)arg2)->unk_14 | 1);
-        temp_v0_6 = ((S_8080C650_2 *)arg1)->unk_04;
-        ((S_8080C650_2 *)arg1)->unk_04 = (s32) (((s32) (0x01E00000 - temp_v0_6) >> 1) + temp_v0_6);
+        ((S_8080C650_3 *)arg2)->unk_14 = (u16)temp_v0_6;
+        temp_v0_6_2 = ((S_8080C650_2 *)arg1)->unk_04;
+        ((S_8080C650_2 *)arg1)->unk_04 = (s32) (((s32) (0x01E00000 - temp_v0_6_2) >> 1) + temp_v0_6_2);
         temp_v0_7 = ((S_8080C650_0 *)in0)->unk_6C - 1;
         ((S_8080C650_0 *)in0)->unk_6C = temp_v0_7;
         if ((temp_v0_7 << 0x10) == 0) {
@@ -503,13 +502,9 @@ block_124:
             return func_80527AF8();
         }
         ((S_8080C650_2 *)arg1)->unk_08.at00.v = 0x200000;
-        ASM_KEEP_NV(arg1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         abs_v1 = 0xFC600000;
         abs_v0 = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
-        if (abs_v0 < 0) {
-            abs_v0 = 0 - abs_v0;
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        abs_v0 = abs(abs_v0);
         if (abs_v0 <= 0x80000) {
             abs_v0 = (s32) (s16) ((S_8080C650_0 *)in0)->unk_6C;
             if (abs_v0 < 0) {
@@ -526,12 +521,12 @@ block_highff:
         var_a0 = 0;
         var_s2 = 7;
         var_v1 = &D_80530658[7];
-        do {
+        loop_0: {
             temp_v0_4 = *var_v1;
             var_v1 -= 1;
             var_s2 -= 1;
             var_a0 += temp_v0_4;
-        } while (var_s2 >= 0);
+        } if (var_s2 >= 0) goto loop_0;
         if ((D_800133A0[0] < var_a0) || (var_a0 == 0x40)) {
             D_800133A0_store[0] = var_a0;
             func_80050BFC(0x5DA);
@@ -563,21 +558,17 @@ block_144:
 block_high104:
         var_s2 = (s32)D_80289334;
         raw_s1 = temp_v1 + 1;
-        ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN_TIED(raw_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_80527C60();
+        goto set_state68;
 block_high105:
         var_s2 = (s32)D_8028937C;
         raw_s1 = temp_v1 + 1;
-        ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN_TIED(raw_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_80527C60();
+        goto set_state68;
 block_high106:
         var_s2 = (s32)D_802893C4;
         raw_s1 = temp_v1 + 1;
-        ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+set_state68:
         ((S_8080C650_0 *)in0)->unk_68.s = raw_s1;
-        return func_80527D18();
+        goto block_160;
 block_high107:
         var_a0 = 0xC0C0C0;
         ((S_8080C650_2 *)arg1)->unk_10 = -0x80000;

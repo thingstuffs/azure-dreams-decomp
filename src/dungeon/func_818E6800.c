@@ -65,7 +65,7 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
     u8 *particle;
     u8 *render_data;
     register u8 *particle_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register u32 count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 tile_x;
     s32 tile_y;
@@ -90,24 +90,18 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
         if (state < 3) {
             if (state == 1) goto state_1;
             count = -1;
-            ASM_TAILSLOT_PIN(count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800240D0();
-            return;
+            goto set_distance;
         }
         if (state >= 242) goto state_other;
         if (state < 240) goto state_other;
         count = 8;
-        ASM_TAILSLOT_PIN(count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800240D0();
-        return;
+        goto set_distance;
 state_1: {
             register s32 frames_left ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             frames_left = (s16)count;
             state = 20;
             count = state - frames_left;
-            ASM_TAILSLOT_PIN(count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800240D0();
-            return;
+            goto set_distance;
         }
 state_2:
         count = 8;
@@ -117,7 +111,7 @@ state_2:
 state_other:
         count = -1;
 
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+set_distance:
         distance = count;
         while (distance >= 0) {
             particle = (u8 *)func_8003FD64(786, D_80083498);

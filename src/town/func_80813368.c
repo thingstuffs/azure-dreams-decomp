@@ -13,12 +13,6 @@ extern int abs(int);
 
 extern void *func_800373DC(s32);
 extern void func_8003BC18(void *, void *);
-extern void func_8052E00C(void) __attribute__((noreturn));
-extern void func_8052E034(void) __attribute__((noreturn));
-extern void func_8052E038(void) __attribute__((noreturn));
-extern void func_8052E10C(void) __attribute__((noreturn));
-extern void func_8052E1B8(void) __attribute__((noreturn));
-extern void func_8052E1BC(void) __attribute__((noreturn));
 
 extern u8 D_8003C558[16];
 extern void *D_8052676C[];
@@ -47,7 +41,7 @@ void func_80813368(void *arg0) {
     if (state == 1) {
         goto state_done;
     }
-    func_8052E1BC();
+    return;
 
 state_zero:
         S16_AT(arg0, 0xC) = 0x410;
@@ -66,24 +60,21 @@ state_zero:
 
 init_case0:
         value = -0x60;
-        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8052E00C();
+        goto init_pair;
 init_case1:
         value = -0x98;
-        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8052E00C();
+        goto init_pair;
 init_case2:
         value = -0x30;
 init_pair:
         S16_AT(arg0, 0x1E) = value;
         S16_AT(arg0, 0x1C) = value;
-        func_8052E038();
+        goto init_done;
 init_case3:
         value = -0xB0;
         S16_AT(arg0, 0x1C) = value;
         value = -0x10;
-        ASM_TAILSLOT_PIN_TIED(value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8052E034();
+        goto init_last;
 init_case4:
         value = -0x10;
         S16_AT(arg0, 0x1C) = value;
@@ -118,7 +109,6 @@ state_done:
         if ((U16_AT(PTR_AT(arg0, 0), 0x62) &
              *(u16 *)(D_8052E40C + 0x1DD8 + (table_index * 2))) != 0) {
             S32_AT(arg0, 0x14) = 0x00FFFFFF;
-            func_8052E10C();
         } else {
             S32_AT(arg0, 0x14) = 0;
         }
@@ -143,8 +133,7 @@ state_done:
         upper_flag = U16_AT(arg0, 0x24) & ~1;
         S16_AT(arg0, 8) = current_x;
         S16_AT(arg0, 0x10) = current_y;
-        ASM_TAILSLOT_PIN_TIED(upper_flag);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_8052E1B8();
+        U16_AT(arg0, 0x24) = upper_flag;
     } else {
         s32 target_const;
         s32 retreat_x;
