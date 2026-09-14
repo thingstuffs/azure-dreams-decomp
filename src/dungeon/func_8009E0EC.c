@@ -59,7 +59,6 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s16 effect_blocked;
   register s32 slot_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 slot_index;
-  register s32 ability_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   register s16 steps ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s16 next_steps;
   s16 x;
@@ -148,8 +147,8 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
     {
       goto outer_next;
     }
-    ability_offset = ability_id * 0x14;
-    ability = D_8006DE24 + ability_offset;
+    slot_offset = ability_id * 0x14;
+    ability = D_8006DE24 + slot_offset;
     effect_id = *((u8 *) (((u8 *) ability) + 0x11));
     if (((u32) effect_id) >= 0x12)
     {

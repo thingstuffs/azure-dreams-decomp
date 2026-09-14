@@ -19,7 +19,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
   s32 spread;
   void *effect_obj;
   DungeonTable direction_table = D_8016A894;
-  register u8 *frame_ptr ASM_REG("$29");
+  register u8 *frame_ptr;
   register u8 *table_base ASM_REG("$19");
   void *y_position;
   void *x_position;
@@ -46,7 +46,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
   if (effect != 0)
   {
     register u32 entry_addr ASM_REG("$4");
-    table_base = frame_ptr + 0x10;
+    table_base = (u8 *)__builtin_alloca(0);
     ASM_KEEP(table_base);
     handler = &D_801718E4;
     ASM_KEEP_DEP_NV(direction, handler);

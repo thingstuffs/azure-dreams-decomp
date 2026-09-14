@@ -64,14 +64,6 @@ extern s32 func_8009D218(void *, s32, void *);
 extern s32 func_800A6D30(void);
 extern void func_800C8A3C(void *, s32, s32);
 
-/* In-row shared tails, spelled as absolute noreturn calls (the row's own true
-   range is [0x8002592C, 0x80026668); these are words 834, 157, 247, 359 and
-   544 of this same function -- NORETURN-DECL AUDIT case (a)). */
-extern void func_80026634(void) __attribute__((noreturn));
-extern void func_800261AC(void) __attribute__((noreturn));
-extern void func_80025D08(void) __attribute__((noreturn));
-
-
 typedef struct S_818FA12C_0 {
     u8 pad_00[0x8];
     s16 * unk_08;
@@ -244,7 +236,7 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
 
     case 0:
         {
-            register u8 *packet ASM_REG("$9") = render_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u8 *packet ASM_REG("$9") = render_data;   /* retained: preserves the case-zero packet role */
             s32 packed_pos;
             s32 packed_size;
             s32 copy_flags;
@@ -343,12 +335,10 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
                     tile_distance = -tile_distance;
                 }
                 (*(u8 *)((u8 *)self + 0x7B)) = tile_distance * 2 - 1;
-                func_80025D08();
             } else {
                 (*(u16 *)((u8 *)self + 0x78)) = ((S_818FA12C_2 *)parent)->unk_88 - 0x50;
                 (*(u8 *)((u8 *)self + 0x7B)) = 0x20;
             }
-            ASM_SCHED_BARRIER();   /* block boundary the deleted join label used to give */
             ((S_818FA12C_4 *)position)->unk_0C = (s32)velocities.entries[(*(s16 *)((u8 *)self + 0x7E))].x << 16;
             ((S_818FA12C_4 *)position)->unk_10 = (u32)velocities.entries[(*(s16 *)((u8 *)self + 0x7E))].y << 16;
             ((S_818FA12C_4 *)position)->unk_14 = (((s32)(*(s16 *)((u8 *)self + 0x78)) << 16) - ((S_818FA12C_4 *)position)->unk_08.at00.v)
@@ -361,12 +351,12 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             (*(u16 *)((u8 *)self + 0x0A))++;
             (*(s16 *)((u8 *)self + 0x88)) = (s8)(*(u8 *)((u8 *)self + 0x7B));
             step_result = (*(u8 *)((u8 *)self + 0x7B)) << 24;
-            ASM_KEEP_NV(step_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(step_result);   /* retained: removing it drops the sign-extension pair */
             frames = step_result >> 24;
             frames_copy = frames;
             frames_squared = frames * frames_copy;
             (*(s16 *)((u8 *)self + 0x8A)) = frames_squared;
-            func_80026634();
+            return;
         }
 
     case 2:
@@ -411,13 +401,13 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
                 ((S_818FA12C_1 *)packet)->unk_0C.at02u.v = 0;
                 ((S_818FA12C_1 *)packet)->unk_0C.at01u.v = 0;
                 ((S_818FA12C_1 *)packet)->unk_0C.at00p.v = 0;
-                func_80026634();
+                return;
             }
             {
                 register u8 *packet ASM_REG("$9") = render_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 scale_y;
                 angle = ((S_818FA12C_1 *)packet)->unk_1A + 0x400;
-                ASM_KEEP(angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(angle);   /* retained: removing it changes the angle register */
                 if (angle >= 0x1001) {
                     angle -= 0x1000;
                 }
@@ -518,9 +508,9 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             ((S_818FA12C_8 *)impact_data)->unk_0C = 0;
             (*(Copy12 *)((u8 *)impact_state + 0x1A)) = D_80026674;
             animation = impact_state + 0x1A;
-            ASM_USE(impact_state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            ASM_USE(impact_state);   /* retained: removing it changes the saved-register set */
             ((S_818FA12C_8 *)impact_data)->unk_08 = animation;
-            func_800261AC();
+            goto cleanup_packet;
         }
 
 missing_target:
@@ -529,20 +519,20 @@ missing_target:
 
 cleanup_packet:
         {
-            register u8 *packet ASM_REG("$9") = render_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register u8 *packet ASM_REG("$9") = render_data;   /* retained: preserves the cleanup packet role */
             ((S_818FA12C_1 *)packet)->unk_0C.at02u.v = 0;
             ((S_818FA12C_1 *)packet)->unk_0C.at01u.v = 0;
             ((S_818FA12C_1 *)packet)->unk_0C.at00p.v = 0;
             ((S_818FA12C_1 *)packet)->unk_1E.n = 0;
             ((S_818FA12C_1 *)packet)->unk_1C.n = 0;
-            func_80026634();
+            return;
         }
 
 update_position:
         ((S_818FA12C_4 *)position)->unk_00.at00.v += ((S_818FA12C_4 *)position)->unk_0C;
         ((S_818FA12C_4 *)position)->unk_04.at00.v += ((S_818FA12C_4 *)position)->unk_10;
         ((S_818FA12C_4 *)position)->unk_08.at00.v += ((S_818FA12C_4 *)position)->unk_14;
-        func_80026634();
+        return;
 
     case 3:
         {
@@ -600,7 +590,7 @@ update_position:
             (*(u16 *)((u8 *)self + 0x0A)) = 4;
             (*(u16 *)((u8 *)self + 0x82)) = 0;
             (*(u16 *)((u8 *)self + 0x9C)) = 0;
-            func_80026634();
+            return;
         }
 
     case 4:
@@ -686,7 +676,7 @@ case_4_tail:
                 }
             }
             if ((s16)(*(u16 *)((u8 *)self + 0x82)) < 120) {
-                func_80026634();
+                return;
             }
             goto state_advance;
         }
@@ -701,7 +691,7 @@ case_4_tail:
 state_advance:
         (*(u16 *)((u8 *)self + 0x0A))++;
         (*(u16 *)((u8 *)self + 0x82)) = 0;
-        func_80026634();
+        return;
 
     case 6:
         {
@@ -713,7 +703,7 @@ state_advance:
             }
             (*(u16 *)((u8 *)self + 0x0A)) = 8;
             (*(u16 *)((u8 *)self + 0x82)) = 30;
-            func_80026634();
+            return;
         }
 
     case 8:
@@ -731,7 +721,7 @@ state_advance:
                 D_8008346C[0] = 0;
                 (*(u16 *)((u8 *)self + -2)) |= 0x8000;
                 D_800814A0[0] |= 0x8000;
-                func_80026634();
+                return;
             }
             D_800266BC[0] = 0;
             goto done;

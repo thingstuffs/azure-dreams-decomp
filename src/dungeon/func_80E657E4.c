@@ -18,7 +18,7 @@ extern u8 D_80175660[];
 void func_80174FE4(void *action_state, void *unused, void *animation, void *object)
 {
     register u8 *state_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *data_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 data_page;
     u8 *direction_table;
     s32 direction_index;
 
@@ -30,9 +30,9 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
     if (*(s8 *)(state_data + 0x6D) != 0) {
         *(u8 *)((u8 *)object + 0x71) &= 0x7F;
         ASM_USE(state_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        data_page = (u8 *)0x80080000;
+        data_page = 0x80080000;
         ASM_KEEP(data_page);
-        state_data = data_page + 0x3460;
+        state_data = (u8 *)(data_page + 0x3460);
         if (!(*(u16 *)(state_data + 2) & 0x2000)) {
             direction_table = D_801755B4;
             *(s8 *)((u8 *)action_state + 0x9A) = 0x17;
@@ -41,8 +41,8 @@ void func_80174FE4(void *action_state, void *unused, void *animation, void *obje
             *(s16 *)((u8 *)action_state + 0x96) = 0;
 
             *(u8 **)((u8 *)animation + 0x2C) = direction_table;
-            direction_index = (D_80083228[0] + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
-            func_80047784(animation, direction_table[direction_index & 7], 0);
+            data_page = (D_80083228[0] + *(s16 *)((u8 *)object + 0x2A) + 0x100) >> 9;
+            func_80047784(animation, direction_table[data_page & 7], 0);
             func_800A4ACC(object);
             *(u8 *)((u8 *)object + 0x6D) -= 1;
             *(u16 *)(state_data + 0xA) += 1;

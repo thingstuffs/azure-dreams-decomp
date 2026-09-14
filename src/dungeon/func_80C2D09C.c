@@ -111,9 +111,9 @@ void *func_8015889C(s32 kind, s32 part_value_24, s32 part_value_25, s32 copy_val
     register s32 saved_kind ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 saved_copy_value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_part_value;
-    register void *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *object;
     register void *outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *stable_object ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *stable_object;
     s32 kind_copy;
     register void *part ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *allocated;
@@ -227,7 +227,7 @@ flags_done:
             s32 item_offset;
             s32 item_index;
             register void *outer_base;
-            register u8 *direction_table ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u8 *direction_table;
             s32 more_items;
 
             entry = (u8 *)allocated + 0x20;
@@ -235,14 +235,7 @@ flags_done:
             ((S_8015889C_6 *)entry)->unk_02 = (s16)scratch_value;
             item_index = 0;
             outer_base = outer;
-            ASM_KEEP(outer_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            {
-                register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-                table_page = (u8 *)0x80160000;
-                ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                direction_table = table_page - 0x3B1C;
-            }
+            direction_table = D_8015C494 + 0x50;
             item_offset = 8;
             do {
                 void *item;

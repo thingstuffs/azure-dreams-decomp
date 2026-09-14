@@ -126,7 +126,7 @@ void func_800242D4(void *self, void *coords)
     S_8199AAD4_8 *call_node;
     S_8199AAD4_3 *position;
     void *entry_base;
-    register void *entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_8199AAD4_5 *object_entry;
     S_8199AAD4_9 *created;
     register u8 *table_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *table_start ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -222,15 +222,15 @@ finish:
 
 state_two:
     ASM_KEEP(iteration);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    entry = (void *)0x80020000;
-    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    table_end = (u8 *)entry + 0x4AE0;
-    entry = ((S_8199AAD4_0 *)self)->unk_04;
+    object_entry = (S_8199AAD4_5 *)0x80020000;
+    ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    table_end = (u8 *)object_entry + 0x4AE0;
+    object_entry = ((S_8199AAD4_0 *)self)->unk_04;
     table_start = table_end - 0x54;
     start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
     start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
-    target_node = ((S_8199AAD4_5 *)entry)->unk_08;
-    ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    target_node = object_entry->unk_08;
+    ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     start_z = ((S_8199AAD4_2 *)coords)->unk_08.at02u.v;
     target[0] = target_node->unk_00;
     target[1] = target_node->unk_04;
@@ -240,9 +240,8 @@ state_two:
     delta_out = delta;
     entry_base = D_800E3D18;
     entry_offset &= 0x1C;
-    entry = (void *)(entry_offset + (s32)entry_base);
     call_node = ((S_8199AAD4_0 *)self)->unk_04;
-    if (func_8003DE58(((S_8199AAD4_5 *)entry)->unk_00, call_node->unk_0C, delta_out, 0)) {
+    if (func_8003DE58(((S_8199AAD4_5 *)(entry_offset + (s32)entry_base))->unk_00, call_node->unk_0C, delta_out, 0)) {
         target[0] += (s32)(s16)delta[0] << 16;
         target[1] += (s32)(s16)delta[1] << 16;
         target[2] += (s32)(s16)delta[2] << 16;

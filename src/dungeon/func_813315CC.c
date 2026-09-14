@@ -76,7 +76,7 @@ void func_801685CC(void *source_obj, void *origin, s32 unused, s32 effect_param,
     u16 coord_value;
     u8 *vertex_base;
     u8 *out_base;
-    register s32 out_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 out_index;
 
     copy_dst = (u8 *)&positions;
     copy_src_init = (u8 *)&D_8016484C;
@@ -214,9 +214,12 @@ copy_vertex:
                 out_index =
                     (s16)S16_AT(part, 0x1C) * 0x60;
                 out_index = out_index + (s32)out_base;
-                out_index = pair_offset + out_index;
-                out_index = held_vertex_offset + out_index;
-                *(u16 *)(coord_offset + out_index) = coord_value;
+                {
+                    s32 row_index = out_index;
+                    s32 pair_indexed = pair_offset + row_index;
+                    out_index = held_vertex_offset + pair_indexed;
+                    *(u16 *)(coord_offset + out_index) = coord_value;
+                }
                 if (coord_index >= 3) {
                     break;
                 }

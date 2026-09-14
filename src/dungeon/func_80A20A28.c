@@ -133,7 +133,6 @@ s32 func_80174228(u8 *item_data)
     s32 strip_offset;
     s32 tex_coord;
     u8 *next_node;
-    register s32 left_coord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 right_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 top_y;
     register s32 bottom_y;
@@ -164,7 +163,6 @@ s32 func_80174228(u8 *item_data)
     register s32 render_term ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_func_80174228_2 *render_state;
     register S_func_80174228_0 *profile_storage ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *transform ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     render_state = (S_func_80174228_2 *)D_80083160;
     __builtin_memcpy(storage, D_8017087C, 8);
@@ -198,8 +196,8 @@ s32 func_80174228(u8 *item_data)
             init_vertex--;
         } if (i >= 0) goto loop_0;
 
-        transform = storage + 0x28;
-        ASM_KEEP_NV(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        profile_storage = (S_func_80174228_0 *)(storage + 0x28);
+        ASM_KEEP_NV(profile_storage);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         min_xy &= 0xFFFF;
         max_xy &= 0xFFFF;
         i = 3;
@@ -217,7 +215,7 @@ s32 func_80174228(u8 *item_data)
         __builtin_memcpy(storage + 0x38, item, 8);
         ((S_func_80174228_0 *)storage)->unk_40 = 4;
         ((S_func_80174228_0 *)storage)->unk_42 = 0;
-        func_800DBA90(transform, left_x, prev_depth, vertex_depth);
+        func_800DBA90(profile_storage, left_x, prev_depth, vertex_depth);
 
         min_xy |= 0x75300000;
         min_xy &= 0xFFFF0000;
@@ -310,10 +308,10 @@ s32 func_80174228(u8 *item_data)
                 prim->unk_16 = func_80066460(2, 1, 0x340, 0x100);
 
                 render_term = i * ((S_func_80174228_0 *)storage)->unk_04.s16;
-                left_coord = render_term / 23;
-                prim->unk_14 = left_coord;
-                prim->unk_0C = left_coord;
-                tex_coord = left_coord;
+                right_x = render_term / 23;
+                prim->unk_14 = right_x;
+                prim->unk_0C = right_x;
+                tex_coord = right_x;
                 tex_coord += ((((S_func_80174228_0 *)storage)->unk_04.u16 << 16) >> 16) / 23;
                 prim->unk_1D = 0;
                 prim->unk_0D = 0;
@@ -346,10 +344,10 @@ s32 func_80174228(u8 *item_data)
                     }
                 }
 
-                left_coord = (u16)TMP + min_xy;
-                prim->unk_10 = left_coord;
-                prim->unk_08 = left_coord;
-                right_x = left_coord + screen_width / 23;
+                right_x = (u16)TMP + min_xy;
+                prim->unk_10 = right_x;
+                prim->unk_08 = right_x;
+                right_x += screen_width / 23;
                 prim->unk_20 = right_x;
                 prim->unk_18 = right_x;
 

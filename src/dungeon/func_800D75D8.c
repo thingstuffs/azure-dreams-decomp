@@ -21,7 +21,7 @@ extern void *D_800E5910[];
 /* Allocate and initialize an object, marking allocation failure in the status flags. */
 void *func_800DCD38(void) {
     s32 allocation;
-    register ObjectHeader *header ASM_REG("$18");
+    register ObjectHeader *header;
     s32 *status_page;
     s32 *source_table;
     u8 *data;
@@ -31,10 +31,8 @@ void *func_800DCD38(void) {
     if (object != 0) {
         D_800E5910[0] = object;
         allocation = func_8004B404(0x100);
+        header = (ObjectHeader *)(object + 0x20);
         if (allocation != 0) {
-            do {
-                header = (ObjectHeader *)(object + 0x20);
-            } while (0);
             data = object + 0x5C;
             func_800DCCF4(data, allocation);
             source_table = (s32 *)0x800133A0;
@@ -52,4 +50,3 @@ void *func_800DCD38(void) {
     }
     return object;
 }
-

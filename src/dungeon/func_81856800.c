@@ -260,7 +260,8 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
     s32 height_limit;
     s32 timer;
     s32 in_range;
-    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 next_state;
+    s32 next_timer;
     s32 t1_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 t2_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 t3_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -321,11 +322,10 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                 part->unk_14 = flags;
                 if (index & 1) {
                     void *texture;
-                    register s32 size ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                     {
 
-                        size = 32;
+                        part->unk_10 = 32;
                         texture = D_800DEC70;
                            /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                            /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -334,7 +334,6 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
                            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         part->unk_0C = 0x00404040;
                     }
-                    part->unk_10 = size;
                     part->unk_00 = texture;
                     particle_data->unk_4A = 16;
                 } else {
@@ -455,8 +454,6 @@ case0:
 
 case1:
 {
-    s32 next_timer;
-
     motion->unk_00.s32_00 += motion->unk_0C.s32_0C;
     motion->unk_04.s32_04 += motion->unk_10.s32_10;
     motion->unk_08.s32_08 += motion->unk_14.s32_14;
@@ -510,7 +507,8 @@ case2_spawn_loop:
         goto case2_spawn_loop;
     }
     next_state = action->unk_0A.u16_0A;
-    action->unk_50.u16_50 = 8;
+    next_timer = 8;
+    action->unk_50.u16_50 = next_timer;
     goto increment_loaded;
 }
 
@@ -582,14 +580,13 @@ case3:
             MipsProduct product;
             s32 mod_value;
             s32 mod_sign;
-            register s32 mod_quotient ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 mod_quotient;
 
             mod_value = func_80069EF8();
             product.value = (long long)mod_value * modulo_magic;
             point_offset += 8;
             index++;
-            mod_sign = mod_value >> 31;
-            mod_quotient = (product.words.hi >> 4) - mod_sign;
+            mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));
             mod_sign = (mod_quotient << 2) + mod_quotient;
             mod_sign = (mod_sign << 5) - mod_quotient;
             mod_quotient = src_point->unk_06;
@@ -626,7 +623,8 @@ case3_tick:
                       object->unk_2A, object, 2);
     }
     next_state = action->unk_0A.u16_0A;
-    action->unk_50.u16_50 = 10;
+    next_timer = 10;
+    action->unk_50.u16_50 = next_timer;
     goto increment_loaded;
 
 case5:
@@ -711,5 +709,3 @@ done:
        /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     return;
 }
-
-

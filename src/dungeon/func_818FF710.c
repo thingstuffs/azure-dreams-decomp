@@ -21,8 +21,6 @@ extern void *D_80024058[];
 M2C_UNK func_8002407C();          /* extern */
 M2C_UNK func_800244CC(); /* extern */
 M2C_UNK func_80024DB8(); /* extern */
-extern void func_800252B4(void) __attribute__((noreturn));
-extern void func_80025DF4(void) __attribute__((noreturn));
 s32 func_8003DE58();     /* extern */
 void *func_8003FC64();                       /* extern */
 s32 func_8004491C();           /* extern */
@@ -488,11 +486,11 @@ check_distance_sign:
     tile_distance = 0 - tile_distance;
 set_flight_duration:
     (*(s8 *)((u8 *)effect + 0x7B)) = (s8) ((tile_distance * 2) - 1);
-    func_800252B4();
+    goto flight_setup;
 set_untargeted_flight:
     (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_2 *)parent)->unk_88 - 0x50);
     (*(s8 *)((u8 *)effect + 0x7B)) = 0x20;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+flight_setup:
     ((S_818FF710_5 *)motion)->unk_0C = (s32) (direction_steps.pair[(*(s16 *)((u8 *)effect + 0x7E))].first << 0x10);
     ((S_818FF710_5 *)motion)->unk_10.i = (s32) (direction_steps.pair[(*(s16 *)((u8 *)effect + 0x7E))].second << 0x10);
     ((S_818FF710_5 *)motion)->unk_14 = (s32) ((s32) (((*(s16 *)((u8 *)effect + 0x78)) << 0x10) - ((S_818FF710_5 *)motion)->unk_08.at00.v) / (s8) (*(s8 *)((u8 *)effect + 0x7B)));
@@ -502,8 +500,7 @@ set_untargeted_flight:
     (*(s16 *)((u8 *)effect + 0x88)) = (s16) (s8) (u8) (*(s8 *)((u8 *)effect + 0x7B));
     (*(s16 *)((u8 *)effect + 0x8A)) = (s16) ((s8) flight_ticks * (s8) flight_ticks);
     func_80024DB8(effect, motion, sprite);
-    func_80025DF4();
-    return;
+    goto done;
 jt_c2:
     launch_particle = 0;
 launch_particles:
@@ -548,8 +545,7 @@ update_flight_color:
     ((S_818FF710_1 *)sprite)->unk_0C.at02.v = 0;
     ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
     ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
-    func_80025DF4();
-    return;
+    goto done;
 advance_flight:
     remaining_ticks = (u8) (*(s8 *)((u8 *)effect + 0x7B)) - 1;
     (*(s8 *)((u8 *)effect + 0x7B)) = remaining_ticks;
@@ -576,8 +572,7 @@ snap_to_target:
     ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) ((S_818FF710_13 *)target_pos_or_step)->unk_06;
     ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (*(s16 *)((u8 *)effect + 0x78));
     func_80024DB8(effect, motion, sprite, target_pos_or_step);
-    func_80025DF4();
-    return;
+    goto done;
 finish_untargeted_flight:
     (*(s16 *)((u8 *)effect + 0xA)) = 8;
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
@@ -585,16 +580,14 @@ finish_untargeted_flight:
     ((S_818FF710_1 *)sprite)->unk_0C.at01.v = 0;
     ((S_818FF710_1 *)sprite)->unk_0C.at00u.v = 0;
     func_80024DB8(effect, motion, sprite);
-    func_80025DF4();
-    return;
+    goto done;
 move_effect:
     target_pos_or_step = ((S_818FF710_5 *)motion)->unk_10.p;
     ((S_818FF710_5 *)motion)->unk_00.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_00.at00.v + ((S_818FF710_5 *)motion)->unk_0C);
     ((S_818FF710_5 *)motion)->unk_04.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_04.at00.v + (s32) target_pos_or_step);
     ((S_818FF710_5 *)motion)->unk_08.at00.v = (s32) (((S_818FF710_5 *)motion)->unk_08.at00.v + ((S_818FF710_5 *)motion)->unk_14);
     func_80024DB8(effect, motion, sprite, target_pos_or_step);
-    func_80025DF4();
-    return;
+    goto done;
 jt_c3: {
     s32 impact_tick;
     s32 rect_value;
@@ -802,8 +795,7 @@ finish_spawn:
     (*(s16 *)((u8 *)effect + 0xA)) = spawn_tick;
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
     (*(s16 *)((u8 *)effect + 0x90)) = 0;
-    func_80025DF4();
-    return;
+    goto done;
 }
 jt_c4:
     impact_particle = 0;
@@ -848,8 +840,7 @@ check_impact_duration:
     if ((s16) (*(u16 *)((u8 *)effect + 0x82)) >= 0x64) {
         goto next_state;
     }
-    func_80025DF4();
-    return;
+    goto done;
 jt_c5:
     if ((*(s16 *)((u8 *)effect + 0x90)) == 0) {
         goto done;
@@ -864,8 +855,7 @@ apply_target_effect:
 next_state:
     (*(u16 *)((u8 *)effect + 0x82)) = 0U;
     (*(s16 *)((u8 *)effect + 0xA)) = (s16) ((u16) (*(s16 *)((u8 *)effect + 0xA)) + 1);
-    func_80025DF4();
-    return;
+    goto done;
 jt_c6:
     release_tick = (*(u16 *)((u8 *)effect + 0x82)) + 1;
     (*(u16 *)((u8 *)effect + 0x82)) = release_tick;
@@ -878,8 +868,7 @@ jt_c6:
     released_target->unk_14 = (s32) (released_target->unk_14 & 0xFFEFFFFF);
     (*(s16 *)((u8 *)effect + 0xA)) = 8;
     (*(u16 *)((u8 *)effect + 0x82)) = 0x1EU;
-    func_80025DF4();
-    return;
+    goto done;
 jt_c8:
     old_cleanup_tick = (*(u16 *)((u8 *)effect + 0x82));
     cleanup_tick = old_cleanup_tick + 1;
@@ -895,8 +884,7 @@ jt_c8:
     D_8008346C = 0;
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
     (*(s32 *)&D_800814A0) = (s32) (((S_818FF710_29 *)(&D_800814A0))->unk_00 | 0x8000);
-    func_80025DF4();
-    return;
+    goto done;
 clear_active:
     (*(s16 *)&D_80025E80) = 0;
 done:
