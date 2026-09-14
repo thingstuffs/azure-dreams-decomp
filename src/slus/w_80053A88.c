@@ -43,7 +43,7 @@ s32 func_80053A88(S_80053A88_Node *first_node)
     S_80053A88_TILE *tile;
     S_80053A88_DRTPAGE *draw_mode;
     s32 tpage;
-    register void *next_link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    void *next_link;
     u32 addr_mask;
     u32 tag_mask;
     node = first_node;
@@ -55,9 +55,7 @@ s32 func_80053A88(S_80053A88_Node *first_node)
     ASM_USE_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     ASM_USE_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     ASM_USE_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    ASM_USE_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    ASM_USE_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    do {
+    loop_0: {
         draw_base = (*draw_base_ptr);
         tile = (S_80053A88_TILE *)draw_base->unk8D0;
         draw_base->unk8D0 = (void *)(((u8 *)tile) + 0x10);
@@ -72,7 +70,8 @@ s32 func_80053A88(S_80053A88_Node *first_node)
         }
         if (!(node->unk16 & 2)) {
             tile->tag = (tile->tag & tag_mask) | ((*draw_base_ptr)->unk74 & addr_mask);
-            (*draw_base_ptr)->unk74 = ((*draw_base_ptr)->unk74 & tag_mask) | (((u32)tile) & addr_mask);
+            next_link = *draw_base_ptr;
+            ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask) | (((u32)tile) & addr_mask);
         }
         draw_base = (*draw_base_ptr);
         draw_mode = (S_80053A88_DRTPAGE *)draw_base->unk8D0;
@@ -81,11 +80,11 @@ s32 func_80053A88(S_80053A88_Node *first_node)
         SetDrawMode(draw_mode, 0, 0, tpage & 0xFFFF, 0);
         if (!(node->unk16 & 2)) {
             draw_mode->tag = (draw_mode->tag & tag_mask) | ((*draw_base_ptr)->unk74 & addr_mask);
-            (*draw_base_ptr)->unk74 = ((*draw_base_ptr)->unk74 & tag_mask) | (((u32)draw_mode) & addr_mask);
+            next_link = *draw_base_ptr;
+            ((S_80053A88_Base *)next_link)->unk74 = (((S_80053A88_Base *)next_link)->unk74 & tag_mask) | (((u32)draw_mode) & addr_mask);
         }
         next_link = *((void **)(((u8 *)node) - 8));
         node = (S_80053A88_Node *)(((u8 *)next_link) + 0x20);
-    } while (next_link != 0);
-    ASM_KEEP(next_link);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    } if (next_link != 0) goto loop_0;
     return 0;
 }

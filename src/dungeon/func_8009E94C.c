@@ -21,7 +21,6 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     s32 tripled_index;
     u8 item;
     register s32 item_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 records;
     u8 *record;
 
@@ -30,10 +29,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     result = -1;
     best_score = -4;
     best_value = 0;
-#ifdef NON_MATCHING
-    hard_zero = 0;
-#endif
-    count = hard_zero;
+    count = 0;
     tripled_index = D_8008347E;
     item_page = 0x80070000;
     ASM_KEEP_NV(item_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -79,4 +75,3 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     } while (1);
     return result;
 }
-

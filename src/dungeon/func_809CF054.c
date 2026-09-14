@@ -70,14 +70,6 @@ void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
     s8 saved_byte_25;
     void *call_obj;
     register void *call_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
-     * `jal 0x800A6D30` forwards whatever $a2/$a3 hold -- this row never writes
-     * them, so m2c had no name to forward.  These pins ARE that name
-     * (section 22); they emit no code because the values are already in their
-     * registers.  `need` is a positional SET, so the call carries 0..3
-     * (section 21). */
-    register M2C_UNK forwarded_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK forwarded_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     saved_byte_24 = byte_24;
@@ -121,7 +113,7 @@ normal_kind:
             if (!(work->unk_14 & 0x200)) {
                 call_part = part_a;
                 ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                primary_bits = func_800A6D30(call_obj, call_part, forwarded_a2, forwarded_a3);
+                primary_bits = func_800A6D30(call_obj, call_part);
                 call_obj = obj;
                 if (!(primary_bits & 1)) {
                     goto init_actor;

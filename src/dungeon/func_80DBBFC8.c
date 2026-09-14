@@ -187,20 +187,18 @@ selection_ready:
     {
         u8 *item_table;
         u8 item_id;
-        u8 *item_data;
+        u32 item_data;
 
         item_table = D_8006DE24;
         item_id = *item_slot;
-        item_data = item_table + item_id * 20;
-        if (item_data[0x12] == 2) {
+        item_data = (item_id * 20 + item_table)[0x12];
+        if (item_data == 2) {
             target = (*(void * *)((u8 *)object + 0x60));
             if (target != 0) {
-                register u8 *target_actor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
 copy_active_coords:
-                target_actor = ((S_801737C8_1_pre *)target)[-1].unk_00;
-                (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)target_actor)->unk_24;
-                (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)target_actor)->unk_25;
+                item_data = (u32)((S_801737C8_1_pre *)target)[-1].unk_00;
+                (*(u8 *)((u8 *)object + 0x72)) = ((S_801737C8_2 *)item_data)->unk_24;
+                (*(u8 *)((u8 *)object + 0x73)) = ((S_801737C8_2 *)item_data)->unk_25;
                 goto invoke_item;
             }
         } else {

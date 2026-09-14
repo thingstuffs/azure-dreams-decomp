@@ -64,10 +64,10 @@ s32 func_800B8C90(void)
     }
     expected_value = 10;
     if (D_800133A6 != expected_value) {
-        register u8 *data_base ASM_REG("$3") = (u8 *)D_80010000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        pair_base = (u8 *)D_80010000;
 
         required_num = 0;
-        if (data_base[0x33A7] != expected_value) {
+        if (pair_base[0x33A7] != expected_value) {
 return_zero:
             return 0;
         }
@@ -101,8 +101,3 @@ loop_preheader:
     } while (required_num < 4);
     return 1;
 }
-
-/* MECHANISM: sibling five-word/four-word aggregates create the frameless 0x28 copy layout.
-   A shared early zero-return label restores the backward failure edge and removes tail drift.
-   Scoped data_base pins plus t0/a3/t1/t2 role pins reproduce the retail loop live ranges.
-   Integer-domain index+data_base addition preserves the final addu operand order. */

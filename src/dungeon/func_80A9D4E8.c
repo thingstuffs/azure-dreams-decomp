@@ -147,17 +147,15 @@ item_ready:
         {
             u8 *item_defs = D_8006DE24;
             u8 item_id = *item_slot;
-            u8 *item_def = item_defs + item_id * 20;
-            if (item_def[0x12] == 2) {
+            u32 item_def = (item_id * 20 + item_defs)[0x12];
+            if (item_def == 2) {
                 node = (*(void * *)((u8 *)object + 0x60));
                 if (node != 0) {
 copy_existing:
                     {
-                        register u8 *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-                        owner = ((S_80172CE8_1_pre *)node)[-1].unk_00;
-                        (*(u8 *)((u8 *)object + 0x72)) = ((S_80172CE8_2 *)owner)->unk_24;
-                        (*(u8 *)((u8 *)object + 0x73)) = ((S_80172CE8_2 *)owner)->unk_25;
+                        item_def = (u32)((S_80172CE8_1_pre *)node)[-1].unk_00;
+                        (*(u8 *)((u8 *)object + 0x72)) = ((S_80172CE8_2 *)item_def)->unk_24;
+                        (*(u8 *)((u8 *)object + 0x73)) = ((S_80172CE8_2 *)item_def)->unk_25;
                     }
                     goto object_ready;
                 }

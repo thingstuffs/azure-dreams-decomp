@@ -69,7 +69,6 @@ void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 
     s32 fade_numerator;
     s32 wave_height;
     s32 height_offset;
-    s8 brightness;
     u16 angle_step;
     u16 amplitude;
     u16 scale;
@@ -117,8 +116,8 @@ void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 
         fade_numerator = fade_ticks << 7;
         {
             register s32 product_hi ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 divide_magic ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
-                register s32 divide_magic ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 divide_magic = 0x66666667;
                 fade_product.value = (s64) fade_numerator * divide_magic;
                 ASM_KEEP_NV(fade_product.word.hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -126,14 +125,12 @@ void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 
                 ASM_KEEP_NV(product_hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             }
             {
-                register s16 fade_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                fade_value = (product_hi >> 3) - (fade_numerator >> 31);
-                brightness = fade_value;
+                divide_magic = (product_hi >> 3) - (fade_numerator >> 31);
+                visual->unk_0E = divide_magic;
+                visual->unk_0D = divide_magic;
+                visual->unk_0C = divide_magic;
             }
         }
-        visual->unk_0E = brightness;
-        visual->unk_0D = brightness;
-        visual->unk_0C = brightness;
     }
     scale = visual->unk_1C;
     visual->unk_1A = (u16) (visual->unk_1A + 0x10);

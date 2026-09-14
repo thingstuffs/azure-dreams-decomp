@@ -59,12 +59,14 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     register void *state ASM_REG("$18") = input_obj;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 mode_or_dir ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 value_bits;
+    u32 state_mask_a;
+    u32 state_mask_b;
     Callback callback;
     s32 height_offset;
     s16 floor_delta;
     u16 part_flags;
     u16 bob_phase;
-    register s32 state_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 state_flags;
     s32 bob_offset;
     u8 direction_flag;
 
@@ -151,9 +153,8 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
             ((S_80170A78_1 *)part)->unk_14 |= 0x7000;
             ((S_80170A78_2 *)state)->unk_1C &= 0xFFFBFFFF;
         }
-        value_bits = 0xF7FFFFFF;
-        state_flags = ((S_80170A78_2 *)state)->unk_1C & value_bits;
-        ((S_80170A78_2 *)state)->unk_1C = state_flags;
+        state_mask_a = 0xF7FFFFFF;
+        state_flags = (((S_80170A78_2 *)state)->unk_1C &= state_mask_a);
         if (!(state_flags & 0x40000)) {
             goto reset_height;
         }
@@ -185,9 +186,8 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
     } else {
         ((S_80170A78_1 *)part)->unk_14 = part_flags | 0x7000;
     }
-    value_bits = 0xF7FFFFFF;
-    state_flags = ((S_80170A78_2 *)state)->unk_1C & value_bits;
-    ((S_80170A78_2 *)state)->unk_1C = state_flags;
+    state_mask_b = 0xF7FFFFFF;
+    state_flags = (((S_80170A78_2 *)state)->unk_1C &= state_mask_b);
     if (!(state_flags & 0x40000)) {
 reset_height:
         bob_offset = (*(s32 *)((u8 *)obj + 0xA4));

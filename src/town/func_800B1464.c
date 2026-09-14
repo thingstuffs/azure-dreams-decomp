@@ -74,9 +74,9 @@ void func_800AEBC4(void *vector_data, S_800AEBC4_4 *config, S_800AEBC4_1 *positi
     S_800AEBC4_6 *vectors = vector_data;
     u8 *template_base;
     u8 *data_ptr;
-    s32 value;
+    u32 value;
     s32 x;
-    register s32 y ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 y;
     s32 *stack_args = __builtin_frame_address(0);
 
     ASM_KEEP(vectors);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -92,13 +92,11 @@ void func_800AEBC4(void *vector_data, S_800AEBC4_4 *config, S_800AEBC4_1 *positi
 #else
     x = stack_args[4];
 #endif
-    ASM_UNDEF(y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     y = input_y;
 #else
     y = stack_args[5];
 #endif
-    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     template_base -= 0x1A28;
     position_data->unk_00 = value;
 
@@ -149,10 +147,11 @@ void func_800AEBC4(void *vector_data, S_800AEBC4_4 *config, S_800AEBC4_1 *positi
     vectors->unk_0C = (s16)x;
     vectors->unk_0E = (s16)y;
     vectors->unk_10 = (s16)(u32)template_base;
-    ASM_KEEP(template_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    value = -0x60;
     if (x < 0) {
+        value = -0x60;
         value = 0x30;
+    } else {
+        value = -0x60;
     }
     value -= x;
     vectors->unk_14 = (s16)value;

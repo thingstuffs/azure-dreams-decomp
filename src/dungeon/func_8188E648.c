@@ -213,7 +213,8 @@ state_3:
     {
         u8 *glow;
         s32 glow_color;
-        register s32 color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 fast_color;
+        s32 slow_color;
         s16 fade_step;
         s32 color_step;
         u16 angle_step;
@@ -247,11 +248,11 @@ state_3:
         }
 
 fade_fast:
-        color = tint->unk_0D;
-        fade_step = color /
+        fast_color = tint->unk_0D;
+        fade_step = fast_color /
             (((S_80025E48_0 *)effect)->unk_1A.s - 6);
-        color -= fade_step;
-        tint->unk_0D = color;
+        fast_color -= fade_step;
+        tint->unk_0D = fast_color;
         frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
         if ((s16)frames_left < 7) {
@@ -260,11 +261,11 @@ fade_fast:
         goto epilogue;
 
 fade_slow:
-        color = tint->unk_0D;
-        fade_step = color /
+        slow_color = tint->unk_0D;
+        fade_step = slow_color /
             ((S_80025E48_0 *)effect)->unk_1A.s;
-        color -= fade_step;
-        tint->unk_0D = color;
+        slow_color -= fade_step;
+        tint->unk_0D = slow_color;
         frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
         if ((frames_left << 16) > 0) {

@@ -78,8 +78,6 @@ extern s32 D_80083460;
 void func_80024078(State *ctx)
 {
     u8 *screen = D_80083160;
-    register s16 previous_state ASM_REG("$3");
-
     switch (ctx->state) {
     case 0: {
         s32 rect_words[2];
@@ -88,6 +86,7 @@ void func_80024078(State *ctx)
         register void *parent ASM_REG("$5");
         void *object;
         void *child;
+        s16 previous_state;
 
         rect_words[0] = 0x010003A0;
         rect_words[1] = 0x00400020;
@@ -124,7 +123,8 @@ void func_80024078(State *ctx)
         ctx->timer_1A = fade_duration;
         ctx->phase_20 = phase;
         ctx->timer_22 = fade_duration;
-        goto advance_initial_state;
+        ctx->state = previous_state + 1;
+        break;
     }
 
     case 1:
@@ -146,11 +146,9 @@ void func_80024078(State *ctx)
         if (D_8002966C[0] != 0) {
             break;
         }
-        previous_state = ctx->state;
         ctx->timer_1A = 0x20;
         ctx->phase_20 = 0;
-advance_initial_state:
-        ctx->state = previous_state + 1;
+        ctx->state++;
         break;
 
     case 3:

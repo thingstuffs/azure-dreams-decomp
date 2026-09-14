@@ -22,7 +22,6 @@ s32 func_808135E0(void *first_item)
     u8 *line_packet;
     u8 *after_line;
     u8 *after_state;
-    u8 *state_packet;
     u32 *line_head;
     u32 *line_slot;
     u32 *state_head;
@@ -34,7 +33,7 @@ s32 func_808135E0(void *first_item)
     register s32 *out_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 *out_y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 start_depth;
-    register s32 depth_sum ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 depth_sum;
     s32 end_depth;
     s32 depth_index;
     s32 table_offset;
@@ -72,7 +71,8 @@ s32 func_808135E0(void *first_item)
             ASM_USE2(out_x, out_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             depth_sum = start_depth;
             end_depth = func_8006BC50(work_ptr, pool_or_endpoint, out_x, out_y);
-            depth_sum = (s16)depth_sum;
+            depth_sum <<= 16;
+            depth_sum >>= 16;
             depth_sum += end_depth;
             depth_index = depth_sum >> 1;
             if ((u16)depth_index < 0x200) {
@@ -88,26 +88,26 @@ s32 func_808135E0(void *first_item)
 
                 state_pool = *render_context;
                 after_state = 0;
-                state_packet = *(u8 **)(state_pool + 0x8D0);
+                depth_sum = (s32)*(u8 **)(state_pool + 0x8D0);
                 work_ptr = state_pool;
-                if (state_packet != 0) {
+                if (depth_sum != 0) {
                     u32 state_pool_limit;
                     state_pool_limit = 0x108D4;
-                    after_state = state_packet + 0xC;
+                    after_state = (u8 *)depth_sum + 0xC;
                     after_state = (u8 *)((u32)after_state & -(u32)(after_state <= work_ptr + state_pool_limit));
                 }
 
                 *(u8 **)(state_pool + 0x8D0) = after_state;
                 draw_mode = func_8006D9DC(0, 0, 0, 0);
-                func_8006F49C(state_packet, 0, 0, (u16)draw_mode, 0);
+                func_8006F49C((u8 *)depth_sum, 0, 0, (u16)draw_mode, 0);
 
                 state_table = *render_context;
                 state_head = (u32 *)(table_offset + (u32)state_table + 0xB0);
-                *(u32 *)state_packet = (*(u32 *)state_packet & length_mask) | (*state_head & address_mask);
+                *(u32 *)depth_sum = (*(u32 *)depth_sum & length_mask) | (*state_head & address_mask);
 
                 work_ptr = *render_context;
                 state_slot = (u32 *)(table_offset + (u32)work_ptr + 0xB0);
-                *state_slot = (*state_slot & length_mask) | ((u32)state_packet & address_mask);
+                *state_slot = (*state_slot & length_mask) | ((u32)depth_sum & address_mask);
             }
         }
 

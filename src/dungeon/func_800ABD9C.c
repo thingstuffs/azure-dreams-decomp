@@ -39,16 +39,16 @@ void func_800B14FC(void *effect, s32 unused, void *render_arg)
     void *effect_base = effect;
     void *render;
     s32 (**dispatch_table)(void);
-    register s32 (**dispatch_entry)(void) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 dispatch_entry;
     s16 state;
 
     ASM_KEEP4_NV(effect_base, render, unused, render_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     render = render_arg;
     dispatch_table = D_800DF030;
-    dispatch_entry = &dispatch_table[((S_800B14FC_0 *)effect_base)->unk_24];
-    ASM_KEEP_DEP_NV(dispatch_entry, dispatch_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    dispatch_entry = ((S_800B14FC_0 *)effect_base)->unk_24;
+    dispatch_entry = (u32)&dispatch_table[dispatch_entry];
 
-    if ((*dispatch_entry)() != 0 &&
+    if ((*(s32 (**)(void))dispatch_entry)() != 0 &&
         ((S_800B14FC_0 *)effect_base)->unk_20.s < 2) {
         ((S_800B14FC_0 *)effect_base)->unk_22.s = 4;
         ((S_800B14FC_0 *)effect_base)->unk_20.s = 2;

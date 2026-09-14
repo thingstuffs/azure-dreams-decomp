@@ -33,7 +33,7 @@ s32 func_800C2124(TownObject *object) {
     register s32 coord_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 offset_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 check_id;
-    register void *callback ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *callback;
     s16 distance_x;
     s16 distance_z;
 
@@ -57,9 +57,9 @@ s32 func_800C2124(TownObject *object) {
             coord_value = distance_z;
             if (object->range_z >= coord_value) {
                 tw_sd_sq_ld_call(object->effect_a, object->effect_b);
+                callback = D_800C21F8;
                 coord_value = 1;
                 ASM_KEEP(coord_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                callback = D_800C21F8;
                 object->callback = callback;
                 return;
             }
@@ -68,4 +68,3 @@ s32 func_800C2124(TownObject *object) {
     }
     return 0;
 }
-

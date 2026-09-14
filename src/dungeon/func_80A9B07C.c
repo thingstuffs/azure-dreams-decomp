@@ -70,14 +70,6 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     s8 saved_tile_y;
     void *object_arg;
     register void *part_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    /* fidelity ratchet PASSTHRU_NO_ARGS fix (decomp_issues.md 20-22): retail's
-     * `jal 0x800A6D30` at 0x8017098C forwards whatever $a2/$a3 hold -- this row
-     * never writes them, so m2c had no name to forward.  These pins ARE that
-     * name (section 22); they emit no code because the values are already in
-     * their registers.  `need` is a positional SET, so the call carries 0..3
-     * (section 21). */
-    register M2C_UNK passthru_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register M2C_UNK passthru_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     saved_tile_x = tile_x;
@@ -121,7 +113,7 @@ normal_kind:
             if (!(work->unk_14 & 0x200)) {
                 part_arg = part_a;
                 ASM_KEEP(object_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                flags_or_roll = func_800A6D30(object_arg, part_arg, passthru_a2, passthru_a3);
+                flags_or_roll = func_800A6D30(object_arg, part_arg);
                 object_arg = obj;
                 if (!(flags_or_roll & 1)) {
                     goto init_actor;
