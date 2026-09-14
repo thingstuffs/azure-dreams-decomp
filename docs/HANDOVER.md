@@ -23,6 +23,21 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 10, gated (15 windows MATCH after one shared-region promotion, SLUS SHA-1 MATCH):
+**7,465 pins in 1,370 rows**. Landed: the opus fence-row packs (3 of 10 and 7 of 10) and the opus keep-themed
+packs (6 of 9 and 3 of 9 exact). One row's region held four legacy rows; promoting it meant registering all five
+under decision B, which the gate accepted (each reproduces at the true base).
+- **A genuine maspsx gap, confirmed against three ASPSX versions** (`work/maspsx_jtbl/REPORT.md`): a switch's
+  compiler-local jump-table load (`lw $2,$L32($2)`) is left by genuine ASPSX 2.56/2.67/2.79 as GNU as's 4-word `$at`
+  macro, retail's form; maspsx's `_expand_casesi_jumptable_load` rewrites it to 5 words (only the deprecated
+  `casesi_extern_dispatch_tables` opt-in and an unconditional local-`$L` admission reach it). That is why 317 files
+  spell a switch as a computed goto through an extern table with a label array and `$5`/`$6` dispatch pins
+  (1,316 pin sites in those files). The pass fires on zero landed rows today (four real-switch rows use
+  `--preserve-casesi-at`), so the drafted patch `work/maspsx_jtbl/casesi_local_label.patch` is byte-neutral for the
+  tree; it is applied in the next commit with a full re-gate as proof. 2.8.x rows also need `-mno-split-addresses`.
+- **Running after this gate:** switch-rewrite packs (`tools/lanes/build_switch_lanes.py`, being written), the last
+  keep-themed pack and two keep packs on the analysis pool's join-consumer rows (opus), fence-row register packs (sol).
+
 Twenty-fifth round, part 9, gated (29 windows MATCH, SLUS SHA-1 MATCH): **7,487 pins in 1,383 rows**. Landed: the
 second big-row batch (sol 10 of 24 rows, opus 10 of 24), register rows that also carry a fence (a pool the builder had
 excluded; sol 9 of 30 with the scan-order stratum best at 5 of 10; `--allow-fences`), and the first keep-themed packs.

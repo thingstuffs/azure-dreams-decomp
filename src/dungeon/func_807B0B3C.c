@@ -145,7 +145,6 @@ extern void func_80066640(void *, s32);
 extern void func_80066708(void *);
 extern void func_8006671C(void *, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern s32 func_800F8394() __attribute__((noreturn));
 extern u8 *D_80083160;
 
 #ifdef NON_MATCHING
@@ -213,7 +212,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     div5_magic = 0x66666667;
     addr_mask = 0xFFFFFF;
     stack.sp1C = div5_magic;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+next_object_loop:
     object_base = (u8 *)object;
     effect = object_base;
     if ((((S_807B0B3C_0 *)object_base)->unk_06 >> 10) & 1) {
@@ -690,13 +689,12 @@ loop_setup_b:
     }
 
     object_base = (u8 *)object;
-    next_object = ((S_807B0B3C_0_pre *)object_base)[-1].unk_00;
-    if (next_object != 0) {
-        next_object += 0x20;
-        object = next_object;
-        return func_800F8394(next_object);
+    draw_value = (u32) ((S_807B0B3C_0_pre *)object_base)[-1].unk_00;
+    if (draw_value != 0) {
+        draw_value += 0x20;
+        object = (u8 *)draw_value;
+        goto next_object_loop;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
         register s32 zero_result ASM_REG("$0");
 
