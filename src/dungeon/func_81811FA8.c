@@ -14,21 +14,23 @@ typedef struct S_func_81811FA8_0 {
 /* Find the first entry matching both byte values at or after the starting index. */
 s32 func_80026FA8(s32 match_byte_2, s32 match_byte_1, s32 start_index)
 {
-    register s32 index ASM_REG("$7") = start_index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 index = start_index;
+    s32 current_index;
     S_func_81811FA8_0 *entry;
 
     ASM_KEEP(index);
-    if (index < 0x40) {
+    current_index = index;
+    if (current_index < 0x40) {
         entry = (S_func_81811FA8_0 *)0x80010000;
-        entry = (S_func_81811FA8_0 *)((u8 *)entry + (((index * 4 + start_index) * 4) - start_index));
+        entry = (S_func_81811FA8_0 *)((u8 *)entry + (((current_index * 4 + start_index) * 4) - start_index));
 loop:
         if ((entry->unk_57D2 == match_byte_2) &&
             (entry->unk_57D1 == match_byte_1)) {
-            return index;
+            return current_index;
         }
-        index++;
+        current_index++;
         entry = (S_func_81811FA8_0 *)((u8 *)entry + 0x13);
-        if (index < 0x40) {
+        if (current_index < 0x40) {
             goto loop;
         }
     }

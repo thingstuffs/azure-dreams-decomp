@@ -60,6 +60,7 @@ s32 func_80017BEC(s16 region_id) {
     s32 failure;
     u16 neighbor_flags;
     s32 value_work;
+    s32 value_work_2;
     S_80017BEC_2 *neighbor;
     S_80017BEC_1 *start_tile;
     register S_80017BEC_3 *next_tile ASM_REG("$2");
@@ -101,15 +102,15 @@ scan_neighbors:
     x_step = (s16 *)(lookup_base + 0xE);
     do {
         if ((func_80018304(cursor.sp10, cursor.sp12, tile_id, (s16)direction) << 0x10) != 0) {
-            register s32 neighbor_x ASM_REG("$5");
+            s32 neighbor_x;
 
             neighbor_x = cursor.sp10;
             coord_work = *x_step;
-            value_work = *y_step;
+            value_work_2 = *y_step;
             neighbor_x += coord_work;
             coord_work = cursor.sp12;
             index_work = ((S_80017BEC_0 *)map_info)->unk_14;
-            coord_work += value_work;
+            coord_work += value_work_2;
             coord_work <<= index_work;
             index_work = neighbor_x + coord_work;
             ASM_KEEP_NV(index_work);

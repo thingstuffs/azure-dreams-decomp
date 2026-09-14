@@ -494,7 +494,7 @@ continuation_texture:
                 {
                     s32 left_x;
                     register u16 packed_uv ASM_REG("$3");
-                    register u16 right_uv ASM_REG("$4");
+                    s32 right_uv;
                     ((S_800CEFB8_8 *)quad)->unk_18.at00.v = (s16) (SP16(0x14) | SP16(0x08));
                     left_x = ((S_800CEFB8_8 *)quad)->unk_04.s;
                     packed_uv = SP16(0x14);

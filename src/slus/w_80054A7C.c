@@ -6,7 +6,7 @@ extern void func_80055B44(s32 a0);
 
 /* Dispatches an audio action by its low byte, preserving the low 16 bits for volume updates. */
 void func_80054A7C(s32 action) {
-    register s32 action_value ASM_REG("$3") = action;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u16 action_value = action;
     action = action & 0xFF;
     if (action == 3) {
         goto case3;

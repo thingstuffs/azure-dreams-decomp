@@ -105,9 +105,10 @@ extern u8 D_800E3D68;
 void func_818C8A70(void *effect, S_818C8A70_4 *position) {
     M2C_UNK effect_mode;
     s16 coord;
+    s16 coord_2;
     s16 phase;
     s32 effect_value;
-    s32 random_value;
+    u8 random_value;
     u16 remaining_ticks;
     u16 burst_ticks;
     u16 fade_ticks;
@@ -230,7 +231,7 @@ update_phase:
             particle = func_8003FC64(0x212);
             particle_state = particle + 0x20;
             if (particle != NULL) {
-                register s16 particle_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                s16 particle_z;
                 particle_state->unk_02 = 0x14;
                 ((S_818C8A70_2 *)particle)->unk_10 = &D_80024024;
                 func_8004491C(particle, D_80045340);
@@ -251,9 +252,9 @@ update_phase:
                 particle_pos->unk_06 = coord;
                 random_value = func_80069EF8();
                 random_value &= 0x3F;
-                coord = sprite->unk_0A;
+                coord_2 = sprite->unk_0A;
                 random_value += 0x20;
-                particle_z = coord - random_value;
+                particle_z = coord_2 - random_value;
                 particle_pos->unk_0A = particle_z;
                 sprite = ((S_818C8A70_2 *)particle)->unk_0C;
                 sprite->unk_1C = 0x800;

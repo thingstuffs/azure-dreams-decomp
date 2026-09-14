@@ -21,20 +21,22 @@ extern s32 D_800786E8[];
 
 /* Update status flags and state pointers from the current value and its limit. */
 void func_800B0D7C(S_func_800B361C_0 *object) {
-    register s32 flags ASM_REG("$2");
-
     if (object->unk_10 > 0) {
         S_func_800B361C_1 *state;
+        s32 branch_flags;
 
         state = object->unk_CC;
         *(void **)state->unk_74 = D_800786DC;
-        flags = object->unk_1C;
-        flags &= ~2;
+        branch_flags = object->unk_1C;
+        branch_flags &= ~2;
+        object->unk_1C = branch_flags;
     } else {
-        flags = object->unk_1C;
-        flags |= 2;
+        s32 branch_flags;
+
+        branch_flags = object->unk_1C;
+        branch_flags |= 2;
+        object->unk_1C = branch_flags;
     }
-    object->unk_1C = flags;
 
     if (object->unk_10 < object->unk_14) {
         s32 clear_mask;
@@ -44,6 +46,7 @@ void func_800B0D7C(S_func_800B361C_0 *object) {
             clear_mask = ~1;
         } while (0);
         object->unk_1C &= clear_mask;
+
         state = object->unk_CC;
         *(void **)state->unk_78 = D_800786E8;
         return;

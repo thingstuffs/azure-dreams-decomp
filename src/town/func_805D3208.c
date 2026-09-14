@@ -13,11 +13,9 @@ s32 func_805D3208(s32 arg0, s32 arg1, s32 arg2) {
     s32 result = 0;
 
     if (arg2 == 8) {
-        register s32 tail_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-
         func_800193E0(0x147A);
-        tail_result = func_80016250(D_80019770[D_8001967C[0]]);
-        ASM_TAILSLOT_PIN(tail_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+        result = func_80016250(D_80019770[D_8001967C[0]]);
+        ASM_TAILSLOT_PIN(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         func_80017284();
     } else if (arg2 == 1) {
         if (D_8001967C[0] != 3) {

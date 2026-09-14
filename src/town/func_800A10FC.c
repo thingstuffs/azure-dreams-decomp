@@ -58,7 +58,7 @@ void func_8009E85C(void *entity, S_8009E85C_1 *placement, S_8009E85C_2 *state) {
     s32 active;
     s32 init_flags;
     S_8009E85C_4 *tail_entity;
-    register M2C_UNK (*callback)(void *, void *, void *) ASM_REG("$3");
+    void (*callback)(void *, void *, void *);
     void *callback_entity;
     void *callback_placement;
     void *callback_state;

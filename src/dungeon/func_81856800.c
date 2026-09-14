@@ -565,12 +565,11 @@ case3:
             MipsProduct product;
             s32 mod_value;
             s32 mod_sign;
-            register s32 mod_quotient ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 mod_quotient;
 
             mod_value = func_80069EF8();
             product.value = (long long)mod_value * modulo_magic;
-            mod_sign = mod_value >> 31;
-            mod_quotient = (product.words.hi >> 4) - mod_sign;
+            mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));
             mod_sign = (mod_quotient << 2) + mod_quotient;
             mod_sign = (mod_sign << 5) - mod_quotient;
             mod_quotient = src_point->unk_04;

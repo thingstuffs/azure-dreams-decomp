@@ -35,7 +35,7 @@ void func_800400AC(void) {
     s32 movie_flag;
     s32 saved_movie_flag;
     u8 *resident_globals_hi = (u8 *) 0x80080000;
-    register u8 *movie_globals_hi ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u8 *movie_globals_hi;
 
     D_80082E60 &= ~1;
     if (D_80080A88 == 0) {
@@ -54,9 +54,9 @@ void func_800400AC(void) {
     func_80066F78(0);
 
     frame_buffers = D_801C9E40;
-    saved_movie_flag = *(s32 *) (movie_globals_hi - 0x7E1C);
     frame_buffers[0x6D] = 1;
     frame_buffers[0x10941] = 1;
+    saved_movie_flag = *(s32 *) (movie_globals_hi - 0x7E1C);
     func_80176AD8(saved_movie_flag);
 
     D_801781E0 = 1;
