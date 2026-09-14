@@ -67,7 +67,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-void *func_8014C9C0(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_8014CA3C;
@@ -123,7 +122,7 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 property_value) {
 set_flags:
             state->unk_14 = (s32) flags_14;
             state->unk_1C = (s32) flags_1c;
-            func_8014C9C0();
+            goto call_world;
         }
         call_object = object;
         if (((spawn_flags & ~3) << 0x10) == 0) {
@@ -135,6 +134,7 @@ set_flags:
                 }
             }
         }
+call_world:
         func_800A9C18(object, properties, placement, spawn_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;

@@ -127,7 +127,6 @@ extern void func_800A56E0();
 extern void func_800542BC();
 extern void func_800C8CD8();
 
-extern void func_80025344(void) __attribute__((noreturn));
 
 extern s16 D_80025924[5];
 extern u8 D_80024478[];
@@ -496,7 +495,6 @@ finish:
             ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)arg0)->unk_34))->unk_86 = 1;
             ((S_818CF0E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
-            func_80025344();
             return;
         }
     }

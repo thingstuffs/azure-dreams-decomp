@@ -23,23 +23,16 @@ extern u8 D_800A0884[16];
 
 /* Set the entity effect and emit it at the supplied position when the checks pass. */
 void func_800A07E8(S800A3088Arg0 *entity, s32 action, S800A3088Arg2 *position) {
-    register s32 saved_action;
-    register S800A3088Arg2 *saved_position ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
-    saved_action = action;
-    saved_position = position;
     if (entity->unk68 == 0) {
-        s32 state;
-
-        state = func_800A0668(entity);
-        if (state == 0) {
-            if (func_800A0F10(entity, saved_action) != 0) {
-                entity->unk50 = D_800A0884;
-                func_8009A674(entity->unk72, saved_position->unk2, saved_position->unk6);
-            }
+        if (func_800A0668(entity) != 0) {
+            return;
         }
-    } else if ((func_800A0668(entity) != 0) && (func_800A0F10(entity, saved_action) != 0)) {
+    } else if (func_800A0668(entity) == 0) {
+        return;
+    }
+    if (func_800A0F10(entity, action) != 0) {
         entity->unk50 = D_800A0884;
-        func_8009A674(entity->unk72, saved_position->unk2, saved_position->unk6);
+        action = position->unk2;
+        func_8009A674(entity->unk72, action, position->unk6);
     }
 }

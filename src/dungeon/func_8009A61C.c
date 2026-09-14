@@ -19,7 +19,7 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     s32 query_dst_x;
     s32 query_dst_y;
     s32 delta_x;
-    register s32 y_work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 y_work;
     s32 signed_dst_y;
     s32 signed_src_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 signed_src_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -28,27 +28,21 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     s32 distance_x;
     s32 allowed;
     s32 distance_y;
-    s32 distance;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     signed_dst_x = (s16) dst_x;
     signed_src_x = (s16) src_x;
     delta_x = signed_dst_x - signed_src_x;
     distance_x = __builtin_abs(delta_x);
     if (distance_x < 2) {
-        y_work = dst_y << 0x10;
-        signed_dst_y = y_work >> 0x10;
-        y_work = src_y << 0x10;
-        signed_src_y = y_work >> 0x10;
+        signed_dst_y = (s16)dst_y;
+        signed_src_y = (s16)src_y;
         y_work = signed_dst_y - signed_src_y;
-        distance_y = y_work;
-        if (y_work < 0) {
-            distance_y = -distance_y;
-        }
+        distance_y = __builtin_abs(y_work);
         if (distance_y < 2) {
-            distance = distance_x + distance_y;
+            y_work = distance_x + distance_y;
                /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            if (distance != 0) {
+            if (y_work != 0) {
                 query_x = src_x_bits & 0xFFFF;
                 query_y = src_y_bits & 0xFFFF;
                 src_value = func_8009FB34(query_x, query_y, dst_x << 0x10);

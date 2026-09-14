@@ -61,6 +61,10 @@ STRATA = [
     ("alloc3", ["call-clobber-exclusion", "earlier-quantity-conflict",
                 "preexisting-hard-conflict", "preexisting-hard-or-local-conflict", "earlier-global-conflict"]),
     ("alloc4", ["pseudo-eliminated-before-allocation", "target-register-already-selected"]),
+    # round 25 experiment: the allocator took the first free register; the lever is indirect (which registers are
+    # free at that point: the lifetimes of the OTHER values), so this stratum is served last and measured.
+    ("alloc5", ["global-scan-order-or-class", "hard-register-scan-order", "already-used-register-selection",
+                "lower-priority-preference-reservation"]),
 ]
 TIE_PACK = "alloc4"
 # The only confirmed unsuggested equal-priority local-conflict events in the population (REPORT.md).
@@ -110,6 +114,16 @@ REASON_TEXT = {
     "target-register-already-selected":
         "an earlier allocation already took retail's register: change which earlier value gets it (its "
         "priority, refs or lifetime)",
+    "global-scan-order-or-class":
+        "the allocator simply took the first free register of the class in numeric order (no preference, no "
+        "conflict): retail's register was NOT free at that point in retail's build, so another value must have "
+        "been holding it or the preferred one; the lever is the OTHER values' lifetimes and order (which value is "
+        "born first, which dies before this one), not this variable",
+    "hard-register-scan-order":
+        "same as global scan order but in local allocation: the first free register in numeric order; change what "
+        "is live in the block when this value is born",
+    "lower-priority-preference-reservation":
+        "a lower-priority value's preference reserved retail's register: change that other value's copy or lifetime",
     "already-used-register-selection":
         "global allocation preferred a register already in use in this function over retail's free one: change "
         "which registers the earlier real values occupy",

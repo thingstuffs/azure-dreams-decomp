@@ -83,8 +83,6 @@ extern void func_800A56E0(s32);
 extern void func_80024640(State *, Motion *);
 extern void func_80024024(void *, u8, Owner *);
 
-extern void func_800259BC(void) __attribute__((noreturn));
-extern void func_80025A58(void) __attribute__((noreturn));
 
 #ifdef NON_MATCHING
 #define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
@@ -356,23 +354,23 @@ jt_c2:
     motion->z.val += motion->dz.val;
     if (action->timer >= action->duration) {
         func_800A56E0(0x300);
-        func_800259BC();
+        goto bump_state;
     }
     goto done;
 
 jt_c3:
     if (action->timer >= 12) {
         func_80024640(action, motion);
-        func_800259BC();
+        goto bump_state;
     }
     goto done;
 
 jt_c4:
     if (action->timer >= 49) {
         func_80024024(owner->target, action->byte9, owner);
+bump_state:
         action->timer = 0;
         action->state++;
-        func_80025A58();
     }
     goto done;
 
@@ -381,7 +379,6 @@ jt_c5:
         D_8008346C[0] = 0;
         *(u16 *)((u8 *)action - 2) |= 0x8000;
         D_800814A0.value |= 0x8000;
-        func_80025A58();
     }
     goto done;
 

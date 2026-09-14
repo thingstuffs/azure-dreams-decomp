@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 6, gated (23 windows MATCH, SLUS SHA-1 MATCH): **7,620 pins in 1,402 rows**. Landed: the 13
+label-as-call rows rewritten without a pin change (pseudo-calls gone; their solved regions promoted with the landed
+text as proof), the diagnosed register packs (sol: preference 3/12, conflict 1/12 and 2/12, and the SCAN-ORDER
+stratum 6/12; luna: conflict 0/12 twice, preference 1/4; keeps on sol 0/12), the sol retry packs on the 29
+label-as-call misses (1/10, 0/10, 0/9: a row that resists one honest pack resists the next), and the cascade.
+- **The scan-order stratum pays.** The builder had never served rows whose allocator reason was "took the first
+  free register" on the theory that no C lever is named; sol found the lever in the OTHER values' lifetimes (a
+  file-scope scratch value made a plain local, a walk pointer hoisted across its sentinel guard). It is now
+  `alloc5` in `build_alloc_lanes.py` STRATA; 91 rows at 1-3 pins and 113 at 4-8 remain there.
+- **Running after this gate:** `alloc22`-`alloc27` (scan-order, sol, 72 rows).
+
 Twenty-fifth round, part 5, gated (54 windows MATCH, the town family re-gated 711/711 MATCH after the dial fix,
 SLUS SHA-1 MATCH): **7,654 pins in 1,408 rows**. Landed: 21 wave-3 label-as-call rows rewritten by opus
 packs (rows without a tail-slot pin: the pseudo-call was still holding keeps, register pins and fences), 47 rows
