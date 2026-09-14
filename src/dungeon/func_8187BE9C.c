@@ -31,8 +31,6 @@ typedef struct S_8187BE9C_1 {
 
 extern s16 D_8002694C[5];
 extern s32 D_800814A0[3];
-extern void func_800256EC(void) __attribute__((noreturn));
-extern void func_800256F0(void) __attribute__((noreturn));
 
 /* Advance the effect fade, scale primitive colors, and flag completion. */
 void func_8187BE9C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
@@ -49,24 +47,18 @@ void func_8187BE9C(void *effect, s32 unused, S_8187BE9C_1 *primitive)
     if (phase == 1) {
         goto state_1;
     }
-    func_800256F0();
+    goto tail;
 
 state_0:
-    {
-        s32 adjusted_value;
-
-        ((S_8187BE9C_0 *)effect)->unk_42 = 1;
-        adjusted_value = ((S_8187BE9C_0 *)effect)->unk_4C + 24;
-        ASM_TAILSLOT_PIN_TIED(adjusted_value);
-        func_800256EC();
-    }
+    ((S_8187BE9C_0 *)effect)->unk_42 = 1;
+    ((S_8187BE9C_0 *)effect)->unk_4C += 24;
+    goto tail;
 
 state_1:
-    do {
-        ((S_8187BE9C_0 *)effect)->unk_42 = 0;
-        ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
-    } while (0);
+    ((S_8187BE9C_0 *)effect)->unk_42 = 0;
+    ((S_8187BE9C_0 *)effect)->unk_4C -= 24;
 
+tail:
     primitive->unk_0C =
         ((S_8187BE9C_0 *)effect)->unk_36 * ((S_8187BE9C_0 *)effect)->unk_02.u /
         ((S_8187BE9C_0 *)effect)->unk_04;

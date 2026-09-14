@@ -15,7 +15,6 @@ typedef union {
 #endif
 
 
-extern void func_800248C0(void) __attribute__((noreturn));
 #ifndef NON_MATCHING
 extern void func_800248CC(void) __attribute__((noreturn));
 #else
@@ -89,10 +88,8 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
     register s32 offset_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     register uptr effect ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 render_arg_low ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    register u32 page_base_low ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 render_arg_low;
     s32 render_arg_high;
-    register u32 page_base_high ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 scaled_radius;
     s32 divisor_reciprocal;
     S_818C2FAC_1 *effect_state;
@@ -135,10 +132,7 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
         render_arg_low = (s32)render_or_radius;
         if (variant == 0) goto case0;
 #ifndef NON_MATCHING
-        ASM_KEEP(render_arg_low);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        page_base_low = 0x800E0000;
-        ASM_PAGEBASE_PIN(page_base_low);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800248CC();
+        goto render_call;
 #else
         func_800248CC((void *)render_or_radius, 0x800E0000);
 #endif
@@ -147,37 +141,23 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
         render_arg_high = (s32)render_or_radius;
         if (variant == 3) goto case3;
 #ifndef NON_MATCHING
-        ASM_KEEP(render_arg_high);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        page_base_high = 0x800E0000;
-        ASM_PAGEBASE_PIN(page_base_high);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800248CC();
+        goto render_call;
 #else
         func_800248CC((void *)render_or_radius, 0x800E0000);
 #endif
     case0:
-        {
-            s32 appearance_id;
-            appearance_id = 0x7DCF;
-            ASM_TAILSLOT_PIN(appearance_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800248C0();
-        }
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7DCF;
+        goto appearance_set;
     case1:
-        {
-            s32 appearance_id;
-            appearance_id = 0x7E00;
-            ASM_TAILSLOT_PIN(appearance_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800248C0();
-        }
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E00;
+        goto appearance_set;
     case2:
-        {
-            s32 appearance_id;
-            appearance_id = 0x7E01;
-            ASM_TAILSLOT_PIN(appearance_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800248C0();
-        }
+        ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E01;
+        goto appearance_set;
     case3:
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7E02;
-        ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    appearance_set:
+    render_call:
         {
             s32 render_arg;
             u8 *render_table;

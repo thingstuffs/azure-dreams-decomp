@@ -21,7 +21,6 @@ typedef struct S_8186EDA8_1 {
 extern u16 D_80025308[];
 extern s32 D_800814A0[];
 extern void func_80024710() __attribute__((noreturn));
-void func_80024770() __attribute__((noreturn));      /* extern */
 void func_80024874(void) __attribute__((noreturn));  /* extern */
 s32 func_800644B8(s16);                          /* extern */
 s32 func_80064584(s16);                          /* extern */
@@ -97,10 +96,7 @@ case_0:
     delay_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
     ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = delay_timer;
     if ((delay_timer << 0x10) <= 0) {
-        u16 next_state = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.s + 1;
-        ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_80024770();
-        return;
+        ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
     }
     goto check_effect_done;
 
@@ -148,8 +144,7 @@ case_1:
     }
     ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;
     ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
-    func_80024874();
-    return;
+    goto check_effect_done;
 
 case_2:
     fade_angle = (u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0E - ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_10;

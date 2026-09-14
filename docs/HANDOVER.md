@@ -23,6 +23,25 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 4, gated (48 windows MATCH, the failing windows re-gated MATCH after rollbacks, SLUS
+SHA-1 MATCH): **7,888 pins in 1,440 rows**, 396 pins removed: 81 of the 90 tail-slot rows that had no rowbase
+record re-landed as honest `goto`/`return` C at their solved-then-proven true base (eight opus packs: 87 of 90
+exact, each candidate inexact at the synthetic base, so each is its own base proof; `rowbase.py promote` on 87
+regions, 72 names registered), plus the cascade over them. Since the round started: 8,422 -> 7,888.
+- **Six wave-2 rows rolled back** (sources restored, regions back to `solved`, this wave's registrations
+  removed): `dungeon/func_8187BFE0` and `func_8190AEB4` (jump-table `.rodata` discarded under the true-space
+  section name: the source must DEFINE the true-space name, `work/tailslot_honest/TWIN_REPORT.md` section 0),
+  `town/func_80874E18` and `func_808755AC` (`ori`/`addiu` at one word: the per-row assembler dial in
+  `config/overlays/town.as_flags.jsonl` keys on the synthetic name and is not applied under the true-space
+  section name), `town/func_8080E994` and `func_8080EEC4` (the window's rowbase segment builds 36 bytes short
+  of the row extent even for the pinned text: a gate-side extent question). Their exact outputs stay in
+  `work/tailslot_honest/pack*/out/`; with the 4 wave-1 rows and the 5 held rows, 15 exact honest rows wait on
+  gate-side work, and 3 rows have no honest candidate yet.
+- **The tail-slot family is now:** 256 -> 60 pins in 30 rows (from 126 rows), every one on a row with a solved base.
+- **Harness note:** two background gates were killed by the session's memory monitor while `free` showed 62 GB
+  available and zero PSI pressure; the gate had already passed each time. Run the gate steps in the foreground
+  or in smaller pieces if it recurs.
+
 Twenty-fifth round, part 3, gated (30 windows MATCH and SLUS SHA-1 MATCH): **8,284 pins in 1,474 rows**, 73 pins
 removed: 23 tail-slot rows re-landed as honest `goto`/`return` C at their TRUE base (the owner approved promotion
 for proven rows). For each row the honest candidate was the discriminating byte-exact recompile

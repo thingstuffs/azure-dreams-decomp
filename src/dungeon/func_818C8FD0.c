@@ -121,9 +121,7 @@ extern void func_80024C74(void) __attribute__((noreturn));
 
 extern void func_80024C0C(void) __attribute__((noreturn));
 
-extern void func_800249E8(void) __attribute__((noreturn));
 
-extern void func_80024BA0(void) __attribute__((noreturn));
 
 extern void func_80024CD8(void) __attribute__((noreturn));
 
@@ -210,17 +208,14 @@ mode1:
             if (!(((S_func_818C8FD0_6 *)owner_node->unk_0C)->unk_14 & 0x8000)) {
                 output_pos->unk_00.u16.unk_02 += (u16)delta[0];
                 output_pos->unk_04.u16.unk_06 += (u16)delta[1];
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 final_z = output_pos->unk_08.u16.unk_0A;
                 delta_z = (u16)delta[2];
                 final_z += delta_z;
-                ASM_TAILSLOT_PIN(final_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_800249E8();
+                output_pos->unk_08.u16.unk_0A = final_z;
             } else {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 final_z = position_z - 0x40;
+                output_pos->unk_08.u16.unk_0A = final_z;
             }
-            output_pos->unk_08.u16.unk_0A = final_z;
 
             if (((S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
                 u16 old_mode;
@@ -313,8 +308,7 @@ mode2:
                 }
                 end_time = effect->unk_02.u16;
                 end_time += 0x3C;
-                ASM_TAILSLOT_PIN(end_time);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_80024BA0();
+                state->unk_86 = end_time;
             } else {
                 effect->unk_02.s16 = 0x20;
                 effect->unk_08 = 0;

@@ -1641,6 +1641,18 @@ diagnosed luna packs).
   - Side findings kept: for 2.8.x rows stock ASPSX passes gcc's `j $31 / addu $sp` epilogue through while
     maspsx un-fills it and retail agrees with maspsx; gcc 2.7.2 (genuine and rebuilt alike) silently drops a
     volatile asm on 7 of the 15 pinned rows' cdk/2.8.x-shaped C.
+- **Tail-slot follow-through (parts 3 and 4):** with the owner's approval of promotion for proven rows, 23 + 81 =
+  104 label-as-call rows were re-landed as honest C at their true base (475 pins: every tail-slot pin on them
+  plus the keeps, register pins and fences that had held the pseudo-call shape). The recipe: honest candidate
+  exact through the per-row scorer -> `rowbase.py promote` with that candidate as the discriminating recompile
+  -> true name registered in `ledger/splits/` -> landed through the window gate. Three shape rules from the
+  packs: normalise the thread-fill (the source label is target-4 when the word before the "callee" equals the
+  delay word); a u16 store swaps the addu operands, so keep the sum in a u32 temp; a shared `move v0,<saved>`
+  join is a `goto` to the existing return label, never a duplicated `return`. `t10_epilogue` found nothing on
+  any of these rows because its eligibility comes from `ledger/cache/audit.json`, which has no records for them
+  (re-run `decomp_audit.py` before trusting it again). Gate-side residue: jump-table rows need the true-space
+  definition name in the source; the town assembler dial keys on the synthetic name; two rows' rowbase segments
+  build 36 bytes short of their extent.
 - **Tooling:** `tools/lanes/build_exemplars.py` (landed diffs that lowered a family's count with a body
   change, an INDEX with the generators journaled for each row), `tools/alloc_trace.py` (the observer),
   `tools/lanes/build_alloc_lanes.py` with `alloc_lane_brief.md` (diagnosed register packs by allocator

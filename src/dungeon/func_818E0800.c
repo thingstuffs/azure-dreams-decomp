@@ -139,7 +139,6 @@ extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern void func_800240EC(void) __attribute__((noreturn));
 extern void func_800242C8(void) __attribute__((noreturn));
-extern void func_80024430(void) __attribute__((noreturn));
 extern void func_80024504() __attribute__((noreturn));
 extern void func_80024560(void) __attribute__((noreturn));
 extern void func_80024784(void *, s32);
@@ -334,13 +333,8 @@ dispatch_case_0:
         ((S_818E0800_2 *)motion)->unk_14.at02.v = ground_z - ((S_818E0800_2 *)motion)->unk_08.at02.v;
         ((S_818E0800_2 *)motion)->unk_14.at00.v /= ((S_818E0800_0 *)effect)->unk_50.u;
         func_800A56E0(0x300);
-        {
-            s32 next_state;
-            next_state = ((S_818E0800_0 *)effect)->unk_0A.u;
-            next_state += 1;
-            ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            return func_80024430();
-        }
+        ((S_818E0800_0 *)effect)->unk_0A.u += 1;
+        return;
 
 dispatch_case_1: {
         s32 next_timer;
@@ -357,7 +351,7 @@ dispatch_case_1: {
         }
         ((S_818E0800_0 *)effect)->unk_50.u = next_timer;
         ((S_818E0800_0 *)effect)->unk_0A.u += 1;
-        return func_80024560();
+        return;
     }
 
 dispatch_case_2: {

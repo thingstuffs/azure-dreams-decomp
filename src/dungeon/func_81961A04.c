@@ -11,7 +11,6 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 #define M2C_FIELD_V(expr, type_ptr, offset) (*(volatile type_ptr)((s8 *)(expr) + (offset)))
 
-void func_800272BC(void) __attribute__((noreturn));
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_80026DE4;
@@ -115,12 +114,10 @@ do {
         control = ((S_81961A04_0 *)object)->unk_0C;
         control->unk_08 = control_handler;
         if (slot != last_slot) {
-            slot_offset = 0x200;
-            ASM_TAILSLOT_PIN(slot_offset);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_800272BC();
-            return (void *)0x200;
+            control->unk_1E = 0x200U;
+        } else {
+            control->unk_1E = 0x800U;
         }
-        do { control->unk_1E = 0x800U; } while (0);
         slot_offset = (last_slot - slot) * 4;
         control_value = -0x80 - slot_offset;
         control_scale = M2C_FIELD_V(control, u16 *, 0x1E);

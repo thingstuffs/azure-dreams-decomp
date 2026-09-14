@@ -58,7 +58,6 @@ typedef struct {
 } TempOutput;
 
 extern s8 D_8002745C[];
-M2C_UNK func_80026D84() __attribute__((noreturn));
 TempObj *func_8003FC64();
 M2C_UNK func_8004491C();
 extern M2C_UNK D_800264D4;
@@ -92,7 +91,7 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     register s32 height_bl ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 height_br ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 origin_height ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 saved_row;
+    s32 saved_row;
     register s32 texture_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register TempObj *init_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s8 *height_row;
@@ -104,7 +103,6 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     object = func_8003FC64(0x202);
     if (object != NULL) {
         saved_row = tile_y;
-        ASM_KEEP(saved_row);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         row_offset = tile_y;
         init_object = object;
         height_row = &D_800264D4;
@@ -180,11 +178,10 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         ((TempOutput *)output)->field9 = (s8) row_offset;
         if (column == texture_value) {
             texture_value = 0xF;
-            ASM_TAILSLOT_PIN(texture_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80026D84(y_or_color, row_or_bottom_y, output, bottom_heights_addr);
-            return;
+        } else {
+            texture_value = 0x10;
         }
-        ((TempOutput *)output)->fieldA = 0x10;
+        ((TempOutput *)output)->fieldA = texture_value;
         texture_value = (s16) saved_row;
         x_or_height = 6;
         if (texture_value == x_or_height) {

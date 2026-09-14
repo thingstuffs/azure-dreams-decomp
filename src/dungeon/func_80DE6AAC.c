@@ -10,7 +10,6 @@ void *func_8003FC64();
 M2C_UNK func_8004491C();
 M2C_UNK func_800478B8();
 s32 func_800BCB04();
-void func_80174438(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern u16 D_8006CCD8[8];
 extern u16 D_8006CCE8[8];
@@ -110,12 +109,6 @@ s32 func_80DE6AAC(S_80DE6AAC_2 *source, void *initial_position, S_80DE6AAC_4 *ti
             if (height_limit < position->unk_08) {
                 position->unk_08 = height_limit;
             }
-        }
-        {
-            s16 dispatch_result = (s32)effect;
-
-            ASM_TAILSLOT_PIN(dispatch_result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80174438();
         }
         return (s32)effect;
     }

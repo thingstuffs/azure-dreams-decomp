@@ -8,7 +8,6 @@ extern void *func_800373DC(s32);
 extern void func_8003BC18();
 extern void func_8006E8B8();
 extern void func_8023FA58();
-extern void func_8052C7C0(void) __attribute__((noreturn));
 
 extern u8 D_8003D588[];
 extern u8 D_80526704[];
@@ -116,14 +115,13 @@ void func_808119EC(void) {
             goto **(void **)slot;
 case_0:
             case_value = 1;
-            ASM_TAILSLOT_PIN_TIED(case_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8052C7C0();
+            goto store_case;
 case_1_2:
             case_value = 2;
-            ASM_TAILSLOT_PIN_TIED(case_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8052C7C0();
+            goto store_case;
 case_3_4:
             case_value = 3;
+store_case:
             *(s16 *)((s8 *)object + 0x20) = (s16)case_value;
 switch_done:
 #else

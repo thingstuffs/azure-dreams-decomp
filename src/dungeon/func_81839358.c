@@ -49,9 +49,6 @@ typedef struct S_81839358_4 {
 } S_81839358_4;   /* &D_800DED28 in func_81839358 */
 
 
-void func_80024D24(void) __attribute__((noreturn));                         /* extern */
-void func_80024D90(void) __attribute__((noreturn));                         /* extern */
-void func_80024DCC(void) __attribute__((noreturn));                    /* extern */
 void func_8004491C(void *, void *);           /* extern */
 void func_800478B8(void *);                 /* extern */
 extern M2C_UNK D_80045340;
@@ -113,14 +110,12 @@ void func_81839358(void *effect, void *motion, void *sprite) {
     if (state == 0) {
         goto state_0;
     }
-    func_80024DCC();
     return;
 state_ge_2:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto update_sprite;
     }
-    func_80024DCC();
     return;
 state_0:
     if (timer_shift > 0) {
@@ -128,7 +123,6 @@ state_0:
     }
     func_8004491C(effect - 0x20, &D_80045340);
     ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
-    func_80024DCC();
     return;
 state_1:
     {
@@ -147,21 +141,21 @@ state_1:
             ((S_81839358_3 *)sprite)->unk_1C = 0xC00U;
             ((S_81839358_3 *)sprite)->unk_0C.at00u.v = ((S_81839358_3 *)sprite)->unk_0C.at00u.v * 4;
             if (((S_81839358_1 *)effect)->unk_48 & 1) {
-                u8 *dispatch_ptr;
-                dispatch_ptr = D_800DEC70;
-                ASM_TAILSLOT_PIN(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                func_80024D24();
-                return;
+                ((S_81839358_3 *)sprite)->unk_00 = D_800DEC70;
+                sprite_word = ((S_81839358_4 *)D_800DEC70)->unk_04;
+                ((S_81839358_3 *)sprite)->unk_04 = 0;
+                ((S_81839358_3 *)sprite)->unk_05 = 0;
+                ((S_81839358_3 *)sprite)->unk_08 = sprite_word;
+                ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
+                goto update_sprite;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_81839358_3 *)sprite)->unk_00 = &D_800DED28;
             sprite_word = ((S_81839358_4 *)(&D_800DED28))->unk_04;
             ((S_81839358_3 *)sprite)->unk_04 = 0;
             ((S_81839358_3 *)sprite)->unk_05 = 0;
             ((S_81839358_3 *)sprite)->unk_08 = sprite_word;
             ((S_81839358_1 *)effect)->unk_4C.u = ((S_81839358_1 *)effect)->unk_4C.u + 1;
-            func_80024D90();
-            return;
+            goto update_sprite;
         }
         sprite_scale = ((S_81839358_3 *)sprite)->unk_1E - 0x200;
         ((S_81839358_3 *)sprite)->unk_1E = sprite_scale;

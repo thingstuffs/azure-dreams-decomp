@@ -8,7 +8,6 @@ extern u8 D_80020000[];
 extern void *D_80024008[];
 extern s16 D_80025FF4;
 extern s32 D_800814A0;
-extern void func_80024D80(void) __attribute__((noreturn));
 
 /* Advances a timed visual update and sets completion flags when the countdown expires. */
 void func_81971510(void *effect, s32 unused, void *visual)
@@ -21,7 +20,6 @@ void func_81971510(void *effect, s32 unused, void *visual)
     u8 *jump_table;
     u8 *flags_page;
     u16 field_value;
-    s32 shade;
     static void *const case_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3,
         &&case_4, &&case_default
@@ -47,23 +45,20 @@ void func_81971510(void *effect, s32 unused, void *visual)
     goto *((void **)jump_table)[(u32)step_index];
 
 case_0:
-    shade = 0x20;
-    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024D80();
+    field_value = 0x20;
+    goto set_shade;
 case_1:
-    shade = 0x35;
-    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024D80();
+    field_value = 0x35;
+    goto set_shade;
 case_2:
-    shade = 0x50;
-    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024D80();
+    field_value = 0x50;
+    goto set_shade;
 case_3:
-    shade = 0x65;
-    ASM_TAILSLOT_PIN_TIED(shade);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80024D80();
+    field_value = 0x65;
+    goto set_shade;
 case_4:
     field_value = 0x80;
+set_shade:
     U8_AT(visual_bytes, 0x0E) = field_value;
     U8_AT(visual_bytes, 0x0D) = field_value;
     U8_AT(visual_bytes, 0x0C) = field_value;

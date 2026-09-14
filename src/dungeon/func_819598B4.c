@@ -46,7 +46,6 @@ typedef struct S_819598B4_3 {
 
 
 
-extern void func_8002527C(void) __attribute__((noreturn));
 extern void func_800252E8(void) __attribute__((noreturn));
 extern s32 func_80025604();
 extern s32 func_80026384();
@@ -116,13 +115,8 @@ state_0:
         ((S_819598B4_0 *)arg0)->unk_2C.s = 2;
         func_800252E8();
     }
-    {
-        u32 tailslot;
-
-        tailslot = ((S_819598B4_0 *)arg0)->unk_2C.u + 1;
-        ASM_TAILSLOT_PIN(tailslot);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_8002527C();
-    }
+    ((S_819598B4_0 *)arg0)->unk_2C.s++;
+    goto common;
 
 state_1:
     if (((S_819598B4_0 *)arg0)->unk_38 != 0) {
@@ -135,8 +129,7 @@ state_1:
 finish_state_1:
     ((S_819598B4_0 *)arg0)->unk_30 = 0x10;
     ((S_819598B4_0 *)arg0)->unk_2C.s++;
-    func_800252E8();
-    return;
+    goto common;
 
 state_2:
     temp_v1_3 = arg2->unk_0C.at00.v;

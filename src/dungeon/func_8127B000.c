@@ -73,8 +73,6 @@ typedef struct S_8127B000_6 {
 extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
 extern void func_800A4398(s32);
-extern void func_8016FA38() __attribute__((noreturn));
-extern void func_8016FAA8() __attribute__((noreturn));
 
 extern s32 D_800803D4[3];
 
@@ -134,7 +132,7 @@ void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
 {
     s16 offset[3];
     void *root = root_arg;
-    register void *transform ASM_REG("$17") = output_transform;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *transform = output_transform;
     S_8127B000_3 *render_part = target_part;
     S_8127B000_1 *owner;
     S_8127B000_5 *part_transform;
@@ -176,15 +174,14 @@ void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
     if (((S_8127B000_0 *)root)->unk_B6 == 1) {
         phase = ((S_8127B000_2 *)output_transform)->unk_04.s8;
         if (phase < 8) {
-            s32 scaled_phase = phase * 7;
+            s32 brightness =
+                (phase * 14) + 0x20;
 
-            ASM_TAILSLOT_PIN(scaled_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8016FA38(phase);
-            return;
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        {
-            register s32 brightness ASM_REG("$2") =
+            render_part->unk_0E = brightness;
+            render_part->unk_0D = brightness;
+            render_part->unk_0C = brightness;
+        } else {
+            s32 brightness =
                 ((15 - phase) * 14) + 0x20;
 
             render_part->unk_0E = brightness;
@@ -200,15 +197,14 @@ void BODY_NAME(void *root_arg, void *output_transform, void *target_part)
     if (((S_8127B000_0 *)root)->unk_B6 == 2) {
         phase = ((S_8127B000_2 *)output_transform)->unk_04.s8;
         if (phase < 8) {
-            register s32 reverse_phase ASM_REG("$3") = 7 - phase;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 brightness =
+                ((7 - phase) * 14) + 0x20;
 
-            ASM_TAILSLOT_PIN(reverse_phase);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_8016FAA8(phase);
-            return;
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        {
-            register s32 brightness ASM_REG("$2") =
+            render_part->unk_0E = brightness;
+            render_part->unk_0D = brightness;
+            render_part->unk_0C = brightness;
+        } else {
+            s32 brightness =
                 ((phase - 8) * 14) + 0x20;
 
             render_part->unk_0E = brightness;

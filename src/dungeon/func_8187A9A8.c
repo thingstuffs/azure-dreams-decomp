@@ -260,11 +260,6 @@ typedef struct S_func_8187A9A8_8 {
 } S_func_8187A9A8_8;
 
 
-extern void func_800242C8(void) __attribute__((noreturn));
-extern void func_8002458C(void) __attribute__((noreturn));
-extern void func_80024594(void) __attribute__((noreturn));
-extern void func_800245E4(void) __attribute__((noreturn));
-extern void func_80024854(void) __attribute__((noreturn));
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -338,6 +333,7 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
     scratch->unk_28 = object->unk_14;
     ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
+mesh_loop:
     if (mesh->unk_4E != 0) {
         S_func_8187A9A8_6 *packet;
         s32 ot_index;
@@ -401,20 +397,22 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
             scratch->unk_10.as_s32_10 <<= 8;
             scratch->unk_18.as_s32_18 <<= 8;
 
+            {
+            u32 palette_id;
             texture_adjust = object->unk_12;
             if (texture_adjust != 0) {
                 if (scratch->unk_28 & 0x100) {
                     packet->unk_0E = texture_adjust;
-                    func_80024594();
+                    goto after_palette;
                 }
-                {
-                    u32 palette_id;
-                    palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_06;
-                    ASM_TAILSLOT_PIN(palette_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_8002458C();
-                }
+                palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_06;
+                goto store_palette;
             }
-            packet->unk_0E = ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_06;
+            palette_id = ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_06;
+        store_palette:
+            packet->unk_0E = palette_id;
+        after_palette: ;
+            }
 
             packet->unk_0C = scratch->unk_10.as_u16_10 +
                                        scratch->unk_0C.as_u16_0C;
@@ -423,13 +421,10 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
 
             texture_adjust = object->unk_10;
             if (texture_adjust != 0) {
-                u32 texture_page;
-                texture_page = texture_adjust +
-                    (((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_04 & 0xFF9F);
-                ASM_TAILSLOT_PIN(texture_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_800245E4();
+                packet->unk_16 = texture_adjust + (((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_04 & 0xFF9F);
+            } else {
+                packet->unk_16 = ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_04;
             }
-            packet->unk_16 = ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_04;
 
             packet->unk_1C.as_u16_1C = scratch->unk_18.as_u16_18 +
                                        scratch->unk_0C.as_u16_0C;
@@ -546,12 +541,10 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
         render_flags = scratch->unk_28;
         if (render_flags & 8) {
             if (render_flags & 4) {
-                u32 draw_flags;
-                draw_flags = object->unk_0C.as_u8_0F.unk_0F | 2;
-                ASM_TAILSLOT_PIN(draw_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80024854();
+                object->unk_0C.as_u8_0F.unk_0F |= 2;
+            } else {
+                object->unk_0C.as_u8_0F.unk_0F &= 0xFD;
             }
-            object->unk_0C.as_u8_0F.unk_0F &= 0xFD;
         }
 
         tpage_zero = 0;
@@ -598,10 +591,8 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
 
     if ((s8)texture->unk_00 >= 0) {
         texture_data = (S_func_8187A9A8_7 *)((u8 *)texture_data + 0x0C);
-        ASM_KEEP(texture_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         texture = (S_func_8187A9A8_8 *)((u8 *)texture + 0x0C);
-        ASM_TAILSLOT_PIN(texture);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_800242C8();
+        goto mesh_loop;
     }
     func_80064A40();
 }

@@ -29,11 +29,6 @@ extern struct S_8003E2D8 D_80083160;
 
 #ifdef __mips__
 extern void func_80024298(void) __attribute__((noreturn));
-extern void func_80024344(void) __attribute__((noreturn));
-extern void func_800243B8(void) __attribute__((noreturn));
-extern void func_80024544(void) __attribute__((noreturn));
-extern void func_8002454C(void) __attribute__((noreturn));
-extern void func_8002459C(void) __attribute__((noreturn));
 extern void func_80024990(void) __attribute__((noreturn));
 extern void func_800255B4(void);
 extern void func_80025150(void);
@@ -247,9 +242,11 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
       *((u16 *) (((s8 *) scratch) + 0x80)) = mirrored_x;
       *((u16 *) (((s8 *) scratch) + 0x70)) = mirrored_x;
       mirrored_x = mirrored_x - (*((u16 *) (((s8 *) scratch) + 0x10)));
-      ASM_TAILSLOT_PIN_TIED(mirrored_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      func_80024344();
+      *((u16 *) (((s8 *) scratch) + 0x88)) = mirrored_x;
+      *((u16 *) (((s8 *) scratch) + 0x78)) = mirrored_x;
     }
+    else
+    {
     origin_x = *((volatile u8 *) (((s8 *) frame_data) + (-6)));
     quad_x = ((s8) origin_x) - (*((u16 *) (((s8 *) scratch) + 0x108)));
     *((u16 *) (((s8 *) scratch) + 0x80)) = quad_x;
@@ -257,6 +254,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     quad_x = quad_x + (*((u16 *) (((s8 *) scratch) + 0x10)));
     *((u16 *) (((s8 *) scratch) + 0x88)) = quad_x;
     *((u16 *) (((s8 *) scratch) + 0x78)) = quad_x;
+    }
     if (((*((u8 *) (((s8 *) frame) + 0))) ^ (*((u16 *) (((s8 *) scratch) + 0x24)))) & 2)
     {
       flipped_y = *((volatile u8 *) (((s8 *) frame_data) + (-5)));
@@ -264,9 +262,11 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
       *((u16 *) (((s8 *) scratch) + 0x7A)) = mirrored_y;
       *((u16 *) (((s8 *) scratch) + 0x72)) = mirrored_y;
       mirrored_y = mirrored_y - (*((u16 *) (((s8 *) scratch) + 0x14)));
-      ASM_TAILSLOT_PIN_TIED(mirrored_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-      func_800243B8();
+      *((u16 *) (((s8 *) scratch) + 0x8A)) = mirrored_y;
+      *((u16 *) (((s8 *) scratch) + 0x82)) = mirrored_y;
     }
+    else
+    {
     origin_y = *((volatile u8 *) (((s8 *) frame_data) + (-5)));
     quad_y = ((s8) origin_y) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
     *((u16 *) (((s8 *) scratch) + 0x7A)) = quad_y;
@@ -274,7 +274,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     quad_y = quad_y + (*((u16 *) (((s8 *) scratch) + 0x14)));
     *((u16 *) (((s8 *) scratch) + 0x8A)) = quad_y;
     *((u16 *) (((s8 *) scratch) + 0x82)) = quad_y;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    }
     func_800654B0(scratch + 0x70, scratch + 0x78, scratch + 0x80, scratch + 0x88, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, scratch + 0x90, scratch + 0x94);
     *((s16 *) (((s8 *) packet) + 8)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF0))) + (*((u16 *) (((s8 *) scratch) + 0xB8))));
     *((s16 *) (((s8 *) packet) + 0xA)) = (s16) ((*((u16 *) (((s8 *) scratch) + 0xF2))) + (*((u16 *) (((s8 *) scratch) + 0xBA))));
@@ -309,23 +309,27 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
       if ((*((u16 *) (((s8 *) scratch) + 0x24))) & 0x100)
       {
         *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
-        func_8002454C();
+        goto clut_done;
       }
       texture_word = clut_offset + (*((u16 *) (((s8 *) frame_data) + (-2))));
-      ASM_TAILSLOT_PIN_TIED(texture_word);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-      func_80024544();
+      *((u16 *) (((s8 *) packet) + 0xE)) = (u16) texture_word;
     }
-    *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-2))));
+    else
+    {
+      *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-2))));
+    }
+clut_done:
     *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
     *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
     tpage_offset = *((u16 *) (((s8 *) sprite) + 0x10));
     if (tpage_offset != 0)
     {
-      texture_word = tpage_offset + ((*((u16 *) (((s8 *) frame_data) + (-4)))) & 0xFF9F);
-      ASM_TAILSLOT_PIN_TIED(texture_word);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-      func_8002459C();
+      *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (tpage_offset + ((*((u16 *) (((s8 *) frame_data) + (-4)))) & 0xFF9F));
     }
-    *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-4))));
+    else
+    {
+      *((u16 *) (((s8 *) packet) + 0x16)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-4))));
+    }
     *((s16 *) (((s8 *) packet) + 0x1C)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x14)))) | ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
     *((s16 *) (((s8 *) packet) + 0x24)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x14)))) | ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
     left_x = *((s16 *) (((s8 *) packet) + 8));
@@ -362,11 +366,9 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     {
       Blk16 *copy_dst = (Blk16 *) (&quad_copies[10]);
       Blk16 *copy_src = (Blk16 *) quad_copies;
-      do
-      {
+      loop_0: {
         *(copy_dst++) = *(copy_src++);
-      }
-      while (((s32 *) copy_src) != copy_end);
+      } if (((s32 *) copy_src) != copy_end) goto loop_0;
       *((Blk8 *) copy_dst) = *((Blk8 *) copy_src);
     }
     row_index = 0;

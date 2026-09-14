@@ -74,6 +74,7 @@ s32 BODY_NAME(void *object_data, void *position_data)
     scratch->next = packet_start;
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
+next_object_loop:
     scratch->x = *(volatile u16 *)(position + 2);
     prim = scratch->next;
     scratch->y = *(u16 *)(position + 6);
@@ -114,25 +115,18 @@ s32 BODY_NAME(void *object_data, void *position_data)
         prim = (u8 *)((u32)prim & addr_mask);
         scratch->ot[scratch->index] =
             (scratch->ot[scratch->index] & tag_mask) | (u32)prim;
+        next_object = *(void **)(object - 8);
+    } else {
+        next_object = *(void **)(object - 8);
     }
-
-    next_object = *(void **)(object - 8);
     if (next_object == 0) {
         goto finish;
     }
 
     object = (u8 *)next_object + 0x20;
     position = *(u8 **)((u8 *)next_object + 8);
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef __mips__
-    {
-        register void *scratch_arg ASM_REG("$4") = scratch;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        void *next_object_arg = next_object;
-
-        ASM_TAILSLOT_PIN(scratch_arg);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8002409C();
-    }
+    goto next_object_loop;
 #else
     func_8002409C_args(scratch, next_object);
 #endif

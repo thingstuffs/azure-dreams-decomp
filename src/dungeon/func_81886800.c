@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_func_81886800_1 {
     void *unk_00;
@@ -274,9 +275,6 @@ extern s32 func_800A45D8(s32, s32, s32);
 extern void func_80065F90(s32, s32);
 extern void *func_80024C80(void *, void *, s32);
 extern void func_800262B8(void *, s32, void *);
-extern void func_800241E8(void) __attribute__((noreturn));
-extern void func_80024380(void) __attribute__((noreturn));
-extern void func_8002477C(void) __attribute__((noreturn));
 
 extern void *D_80024008[];
 extern u8 D_80026324[];
@@ -402,17 +400,12 @@ case_0:
     motion->unk_00.parts.unk_02.u16 = owner_motion->unk_00.parts.unk_02.u16;
     motion->unk_04.parts.unk_06.u16 = owner_motion->unk_04.parts.unk_06.u16;
     if (((S_func_81886800_10 *)(owner_base->unk_0C))->unk_14 & 0x8000) {
-        {
-            s32 start_height;
-
-            start_height = owner_motion->unk_08.parts.unk_0A - 64;
-            ASM_TAILSLOT_PIN(start_height);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800241E8();
-        }
+        motion->unk_08.parts.unk_0A = owner_motion->unk_08.parts.unk_0A - 64;
+        effect->unk_2C.parts.unk_2E.u16 = motion->unk_08.parts.unk_0A;
+    } else {
+        motion->unk_08.parts.unk_0A = owner_motion->unk_08.parts.unk_0A + surface_pos[2];
+        effect->unk_2C.parts.unk_2E.u16 = motion->unk_08.parts.unk_0A;
     }
-    motion->unk_08.parts.unk_0A = owner_motion->unk_08.parts.unk_0A + surface_pos[2];
-    effect->unk_2C.parts.unk_2E.u16 = motion->unk_08.parts.unk_0A;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     {
         S_func_81886800_12 *effect_flags = effect->unk_04;
@@ -487,21 +480,19 @@ case_0:
                 } else {
                     tile_distance = owner_tile - target_tile;
                 }
-                if (tile_distance < 0) {
-                    tile_distance = -tile_distance;
-                }
+                tile_distance = abs(tile_distance);
                 effect->unk_14 = tile_distance + 1;
             }
         }
     }
-    func_80024380();
+    goto motion_direction;
 
 case_0_no_object:
     effect->unk_14 = 8;
     effect->unk_0C = motion->unk_00.parts.unk_02.u16;
     effect->unk_0E = motion->unk_04.parts.unk_06.u16;
     effect->unk_10.u16 = owner->unk_88.u16 - 80;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+motion_direction:
     {
         u8 *x_offsets = D_8006CCD8;
         s16 direction = effect->unk_16.s16;
@@ -514,7 +505,8 @@ case_0_no_object:
                 ((S_func_81886800_14 *)(y_offsets + (s32)y_direction * 2))->unk_00 * 8;
         }
     }
-    func_8002477C();
+    effect->unk_0A.u16++;
+    goto end;
 
 case_1:
     {
@@ -621,7 +613,7 @@ case_1:
                 effect->unk_0A.u16 = next_state;
                 ((S_func_81886800_15 *)(D_80026878))->unk_00 = target_id;
             }
-            func_800247C8();
+            goto end;
         }
     }
 
@@ -643,7 +635,7 @@ case_1_continue:
             }
         }
         effect->unk_0A.u16 = 16;
-        func_800247C8();
+        goto end;
     }
 
 case_2:
@@ -672,7 +664,7 @@ case_2:
                           effect->unk_09, owner);
         }
         effect->unk_0A.u16 = 17;
-        func_800247C8();
+        goto end;
     }
 
 case_3:
@@ -695,7 +687,7 @@ case_3:
         func_80024DE8(motion, sprite);
         if (sprite->unk_0C.parts.unk_0C < 2) {
             effect->unk_0A.u16++;
-            func_800247C8();
+            goto end;
         } else {
             goto end;
         }

@@ -87,7 +87,6 @@ extern s32 D_800814A0;
 
 extern void func_80024CD4();
 extern void func_80025714() __attribute__((noreturn));
-extern void func_80025758() __attribute__((noreturn));
 extern void func_80025908() __attribute__((noreturn));
 
 /* Update a timed visual effect using its owner's appearance and position. */
@@ -131,13 +130,11 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
 
     frame_or_phase = ((S_818F9E48_0 *)state)->unk_02.s;
     if (frame_or_phase < 0x15) {
-        fade_or_phase = (frame_or_phase * 6) - 0x79;
-        ASM_TAILSLOT_PIN(fade_or_phase);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80025758();
-        return;
-    }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (frame_or_phase >= 0x50) {
+        intensity = (frame_or_phase * 6) - 0x79;
+        ((S_818F9E48_1 *)effect_arg)->unk_0E = intensity;
+        ((S_818F9E48_1 *)effect_arg)->unk_0D = intensity;
+        ((S_818F9E48_1 *)effect_arg)->unk_0C = intensity;
+    } else if (frame_or_phase >= 0x50) {
         intensity = ((0x64 - frame_or_phase) * 6) - 0x80;
         ((S_818F9E48_1 *)effect_arg)->unk_0E = intensity;
         ((S_818F9E48_1 *)effect_arg)->unk_0D = intensity;

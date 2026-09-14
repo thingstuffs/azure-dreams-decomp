@@ -89,7 +89,6 @@ extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern u8 *D_800E3D18;
 
-extern void func_80024188(void) __attribute__((noreturn));
 extern void func_80024380() __attribute__((noreturn));
 extern void func_800243A0(void) __attribute__((noreturn));
 extern s32 func_8003DE58(void *, void *, Vec16 *, s16);
@@ -107,7 +106,6 @@ void func_81976850(void *effect, void *motion, void *visual)
     void *object;
     u8 *collision;
     register void *incoming_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 adjusted_z;
     s32 z_offset;
     s32 table_entry;
     s16 state;
@@ -152,15 +150,10 @@ follow_source:
         if (!(((S_81976850_1 *)source)->unk_14 & 0x8000)) {
             ((S_81976850_2 *)motion)->unk_00.at02.v += delta.x;
             ((S_81976850_2 *)motion)->unk_04.at02.v += delta.y;
-            ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            adjusted_z = ((S_81976850_2 *)motion)->unk_08.at02.v;
-            adjusted_z += delta.z;
-            ASM_TAILSLOT_PIN(adjusted_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80024188();
-            return;
+            ((S_81976850_2 *)motion)->unk_08.at02.v += delta.z;
+        } else {
+            ((S_81976850_2 *)motion)->unk_08.at02.v = source_z - 0x20;
         }
-        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_81976850_2 *)motion)->unk_08.at02.v = source_z - 0x20;
     }
 
     if (((S_81976850_9 *)(((S_81976850_0 *)effect)->unk_08))->unk_00 & 0x80) {

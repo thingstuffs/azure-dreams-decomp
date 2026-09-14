@@ -37,7 +37,6 @@ typedef struct {
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_8014C8FC(void) __attribute__((noreturn));
 extern u8 D_80083160[];
 
 #ifdef __mips__
@@ -71,7 +70,7 @@ s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
     register u32 addr_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     Context *state = *(Context **)D_80083160;
     u32 length_mask = 0xFF000000;
-    register Scratch *scratch ASM_REG("$17") = (Scratch *)0x1F800000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    Scratch *scratch = (Scratch *)0x1F800000;
     register u8 red ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 green;
     register u32 blue ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -90,7 +89,7 @@ s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
     packet_start = state->field_8D0;
     scratch->ot = (u32 *)((u8 *)state + 0xB0);
     scratch->next = packet_start;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+next_object:
     scratch->x = *(volatile u16 *)(position_bytes + 2);
     packet = scratch->next;
     scratch->y = *(u16 *)(position_bytes + 6);
@@ -150,17 +149,13 @@ s32 FUNC_80AE9000_BODY(Input0 *render_data, Input1 *position_data) {
         render_bytes = (u8 *)linked_node + 0x20;
         position_bytes = *(u8 **)((u8 *)linked_node + 8);
         ASM_KEEP(render_bytes);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(position_bytes);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            register u32 scratch_addr ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            register u32 position_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 scratch_addr;
 #ifdef NON_MATCHING
             scratch_addr = (u32)scratch;
 #endif
-            position_addr = scratch_addr + 4;
-            ASM_TAILSLOT_PIN(position_addr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         }
-        func_8014C8FC();
+        goto next_object;
     }
     (*(Context **)context_addr)->field_8D0 = scratch->next;
     {

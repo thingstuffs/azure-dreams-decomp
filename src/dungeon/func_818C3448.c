@@ -25,8 +25,6 @@ typedef struct S_818C3448_1 {
 extern s32 D_800814A0[3];
 M2C_UNK func_800247AC();
 M2C_UNK func_80024AF4();
-M2C_UNK func_80024E9C() __attribute__((noreturn));
-void func_80024EEC(void) __attribute__((noreturn));
 s32 func_80069EF8();
 
 typedef struct {
@@ -59,7 +57,6 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
     s32 velocity_x;
     s32 opposite_bias;
     s32 random_bias;
-    s32 still_growing;
     u16 burst_phase;
     u16 wait_phase;
     S_818C3448_1 *owner;
@@ -84,26 +81,9 @@ void func_818C3448(void *effect, void *motion, Rec_D_80082E80 *visual) {
     visual->unk_0C.at02_s8.v = (s8) ((s32) ((color_bits - (half_color * 2)) << 0x10) >> 9);
     phase = ((S_818C3448_0 *)effect)->unk_0E.s;
     wait_phase = (u16) ((S_818C3448_0 *)effect)->unk_0E.s;
-    if (phase == 1) {
-        goto case_1;
-    }
-    if (phase < 2) {
-        if (phase == 0) {
-            full_scale = 0x1400;
-            goto case_0;
-        }
-        func_80024EEC();
-    }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (phase == 2) {
-        goto case_2;
-    }
-    if (phase == 3) {
-        goto case_3;
-    }
-    func_80024EEC();
-
-case_0:
+    switch (phase) {
+    case 0:
+        full_scale = 0x1400;
         scale = (full_scale / (s16) ((S_818C3448_0 *)effect)->unk_14) * (s16) ((S_818C3448_0 *)effect)->unk_10.s;
         visual->unk_1C.at02_s16.v = scale;
         visual->unk_1C.at00_s16.v = scale;
@@ -116,19 +96,21 @@ case_0:
         ((Func818C3448State *)motion)->f8 = (s32) (((Func818C3448State *)motion)->f8 + velocity_z);
         elapsed = ((S_818C3448_0 *)effect)->unk_10.u;
         duration = ((S_818C3448_0 *)effect)->unk_14;
-        still_growing = elapsed < duration;
-        ASM_TAILSLOT_PIN(still_growing);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80024E9C(velocity_y, velocity_z);
+        if (elapsed < duration) {
+            return;
+        }
+        burst_phase = ((S_818C3448_0 *)effect)->unk_0E.u;
+        ((S_818C3448_0 *)effect)->unk_10.s = 0U;
+        ((S_818C3448_0 *)effect)->unk_0E.u = (u16) (burst_phase + 1);
         return;
-case_1:
+    case 1:
         if ((s16) ((S_818C3448_0 *)effect)->unk_10.s < 0xC) {
             return;
         }
         ((S_818C3448_0 *)effect)->unk_0E.s = (s16) (wait_phase + 1);
         ((S_818C3448_0 *)effect)->unk_10.u = 0;
-        func_80024EEC();
         return;
-case_2:
+    case 2:
         func_80024AF4(effect, motion, visual);
         random_bias = func_80069EF8();
         random_value = random_bias;
@@ -149,12 +131,12 @@ case_2:
         burst_phase = ((S_818C3448_0 *)effect)->unk_0E.u;
         ((S_818C3448_0 *)effect)->unk_10.s = 0U;
         ((S_818C3448_0 *)effect)->unk_0E.u = (u16) (burst_phase + 1);
-        func_80024EEC();
         return;
-case_3:
+    case 3:
         if (visual->unk_14.at00_u16.v & 0x6000) {
             ((S_818C3448_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C3448_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] |= 0x8000;
         }
         return;
+    }
 }

@@ -15,7 +15,6 @@ extern s32 func_8003DE58();
 extern void *func_8003FC64();
 extern void func_8004491C();
 extern void func_80047784();
-extern void func_80175CDC() __attribute__((noreturn));
 
 extern s32 D_80045340;
 extern u8 D_800DDC40[];
@@ -88,7 +87,6 @@ void *func_80E122F4(S_80E122F4_0 *arg0, void *arg1, void *arg2)
     S_80E122F4_5 *reference;
     void *obj;
     S_80E122F4_2 *arg2_reg;
-    register void *ret ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     S_80E122F4_4 *coords;
     S_80E122F4_1 *child;
     S_80E122F4_3 *part;
@@ -142,9 +140,6 @@ void *func_80E122F4(S_80E122F4_0 *arg0, void *arg1, void *arg2)
                  ((s32)D_800DDC40[((S_80E122F4_6 *)(arg0->unk_60))->unk_13] << 15) -
                  part->unk_0C.at00.v) / 32;
         part->unk_18 = delta;
-        ret = obj;
-        ASM_TAILSLOT_PIN(ret);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_80175CDC();
         return obj;
     }
     return 0;
@@ -152,4 +147,4 @@ void *func_80E122F4(S_80E122F4_0 *arg0, void *arg1, void *arg2)
 
 /* MECHANISM: Reverse-order Vec3 zero stores and explicit negative-add-31/shift CFGs reproduce retail scheduling.
    Guarded $s0/$s1/$v0 roles preserve the 0x38 frame and return carrier under the noreturn tail contract.
-   ASM_TAILSLOT_PIN sinks move $v0,$s1 into the LEAD-18 tail j slot after the final store. */
+   The row's own `j` to its epilogue is spelled honestly as `return obj;`. */

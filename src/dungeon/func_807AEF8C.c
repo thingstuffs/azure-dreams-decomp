@@ -21,7 +21,6 @@ extern Packed8 D_800F8B24;
 
 extern void func_80043A68(void);
 extern void func_80094E34(void);
-extern void func_800F6820(void) __attribute__((noreturn));
 
 #define CLEAR_HIGH_BIT(ptr) \
     (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
@@ -42,7 +41,7 @@ void func_807AEF8C(void *arg0) {
     u8 *object;
     u32 copy_dest;
     u16 flags;
-    register s32 mode ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 mode;
     s32 i;
     s32 i3;
 
@@ -60,10 +59,7 @@ void func_807AEF8C(void *arg0) {
     }
     if (D_80082E80[0x24] == 0x1F) {
         mode = 2;
-        ASM_TAILSLOT_PIN_TIED(mode);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800F6820();
-    }
-    if (D_80082E80[0x24] == 0x20) {
+    } else if (D_80082E80[0x24] == 0x20) {
         mode = 1;
     }
     if (mode == 0) {
@@ -79,7 +75,6 @@ void func_807AEF8C(void *arg0) {
     *(u16 *)(mode_page + 0x3718) = 0;
     *(u16 *)(mode_page + 0x3716) = 0;
     *(u16 *)(mode_page + 0x3714) = flags | 1;
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     temp_v0 = (u8 *)(((0x23 << state->shift) * 6) + base + 0xBA);
     CLEAR_HIGH_BIT(temp_v0);

@@ -5,7 +5,6 @@
 extern u32 func_80065420(void *, void *, void *, void *);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
-extern void func_801588FC(void) __attribute__((noreturn));
 extern u8 D_80083160[];
 
 
@@ -89,17 +88,14 @@ s32 BODY_NAME(void *object_data, void *position_data) {
     void *state_prim;
     void *next_node;
 
-    ASM_KEEP_NV(object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(render_slot);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_DEP_NV(addr_mask, render_ctx);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     addr_mask |= 0xFFFF;
     length_mask = 0xFF000000;
-    ASM_KEEP_NV(length_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     scratch = (u8 *)0x1F800000;
     ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     (*(void * *)((u8 *)scratch + 0x1C)) = ((S_80ADD000_0 *)render_ctx)->unk_8D0;
     (*(void * *)((u8 *)scratch + 0x24)) = (u8 *)render_ctx + 0xB0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+next_object:
     (*(u16 *)((u8 *)scratch + 4)) = position->unk_02;
     pixel_prim = (*(void * volatile *)((u8 *)scratch + 0x1C));
     (*(u16 *)((u8 *)scratch + 6)) = position->unk_06;
@@ -151,15 +147,9 @@ s32 BODY_NAME(void *object_data, void *position_data) {
     }
     next_node = ((S_80ADD000_3_pre *)object)[-1].unk_00;
     if (next_node != NULL) {
-        register void *scratch_position ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
         object = (u8 *)next_node + 0x20;
         position = ((S_80ADD000_5 *)next_node)->unk_08;
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        scratch_position = scratch + 4;
-        ASM_TAILSLOT_PIN(scratch_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_801588FC();
+        goto next_object;
     }
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -167,7 +157,6 @@ s32 BODY_NAME(void *object_data, void *position_data) {
 #ifdef NON_MATCHING
         zero = 0;
 #else
-        ASM_SET(zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #endif
         ((S_80ADD000_6 *)(*render_slot))->unk_8D0 = (*(void * *)((u8 *)scratch + 0x1C));
         return zero;

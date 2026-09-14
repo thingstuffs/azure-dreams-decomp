@@ -115,9 +115,7 @@ typedef struct S_81874988_5 {
 
 
 extern u8 *D_80083160;
-extern void func_80024544(void) __attribute__((noreturn));
 extern void func_8002454C(void) __attribute__((noreturn));
-extern void func_8002459C(void) __attribute__((noreturn));
 extern void func_800246D0(void) __attribute__((noreturn));
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
@@ -133,9 +131,9 @@ extern void func_80065820(void *, void *);
 void func_81874988(void *quad, void *position, void *material, s16 depth_bias)
 {
     u8 *render_state = D_80083160;
-    u32 tex_attr;
     u8 *scratch = (u8 *)0x1F800000;
     u8 *packet;
+    u32 tex_attr;
     u8 *texture;
     Callback callback;
     s32 depth_index;
@@ -240,10 +238,10 @@ visible:
             func_8002454C();
         }
         tex_attr = tex_adjust + (*(u16 *)((u8 *)texture + 6));
-        ASM_TAILSLOT_PIN(tex_attr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_80024544();
+        (*(u16 *)((u8 *)packet + 0xE)) = tex_attr;
+    } else {
+        (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
     }
-    (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
 
     (*(u16 *)((u8 *)packet + 0xC)) = VFIELD(scratch, u16, 0x10) +
                               VFIELD(scratch, u16, 0xC);
@@ -252,12 +250,11 @@ visible:
 
     tex_adjust = ((S_81874988_3 *)material)->unk_10;
     if (tex_adjust) {
-        tex_attr = tex_adjust +
+        (*(u16 *)((u8 *)packet + 0x16)) = tex_adjust +
                        ((*(u16 *)((u8 *)texture + 4)) & 0xFF9F);
-        ASM_TAILSLOT_PIN(tex_attr);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        func_8002459C();
+    } else {
+        (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));
     }
-    (*(u16 *)((u8 *)packet + 0x16)) = (*(u16 *)((u8 *)texture + 4));
 
     ((S_81874988_5 *)packet)->unk_1C.at00.v = VFIELD(scratch, u16, 0x18) +
                                VFIELD(scratch, u16, 0xC);

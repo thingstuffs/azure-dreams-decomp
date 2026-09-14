@@ -146,11 +146,6 @@ extern void func_80066708(void *);
 extern void func_8006671C(void *, s32);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern s32 func_800F8394() __attribute__((noreturn));
-extern s32 func_800F83EC() __attribute__((noreturn));
-extern s32 func_800F8488() __attribute__((noreturn));
-extern s32 func_800F8500() __attribute__((noreturn));
-extern s32 func_800F87C0() __attribute__((noreturn));
-extern s32 func_800F87C8() __attribute__((noreturn));
 extern u8 *D_80083160;
 
 #ifdef NON_MATCHING
@@ -186,8 +181,8 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     u8 *verts;
     register u32 addr_mask;
     u8 *effect;
-    register s32 saved_a1 ASM_REG("$5") = caller_a1;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    register void *saved_a2 ASM_REG("$6") = caller_a2;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s16 saved_a1 = caller_a1;
+    void *saved_a2 = caller_a2;
     register s32 div5_magic ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     StackLocals stack;
     register u32 draw_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -224,9 +219,9 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     if ((((S_807B0B3C_0 *)object_base)->unk_06 >> 10) & 1) {
         u8 *vertex_pair;
         u8 *vertex_ptr;
-        register u32 pair_addr ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u32 pair_addr;
         register s32 height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 frame_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        s32 frame_remainder;
         register s32 coord_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 coord_half;
         register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -243,14 +238,12 @@ build_y_pairs:
         vertex_ptr = vertex_pair + 8;
         coord_work = ((S_807B0B3C_1 *)effect)->unk_02.s;
         if (vertex_index < 2) {
-            register s32 lower_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-            lower_coord = coord_work - 0x20;
-            ASM_TAILSLOT_PIN_TIED(lower_coord);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800F83EC(vertex_ptr, saved_a1, saved_a2, vertex_pair);
+            coord_half = coord_work - 0x20;
+            ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
+        } else {
+            coord_half = coord_work + 0x20;
+            ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
         }
-        coord_half = coord_work + 0x20;
-        ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
         pair_addr = stack.sp18;
         coord_half = ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v;
         pair_addr <<= 3;
@@ -275,9 +268,7 @@ build_y_pairs:
         if (vertex_index < 2) {
             goto build_y_pairs;
         }
-        depth = 0;
-        ASM_TAILSLOT_PIN_TIED(depth);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_800F8500(height, frame_remainder, (void *)pair_addr, vertex_pair);
+        goto set_depth;
     }
 
     {
@@ -286,7 +277,7 @@ build_y_pairs:
         register s32 height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 second_pair;
         s32 pairs_end;
-        register s32 frame_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        s32 frame_remainder;
         register s32 coord_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         SignedProduct product;
@@ -298,15 +289,12 @@ build_x_pairs:
         coord_work = ((S_807B0B3C_1 *)effect)->unk_00.s;
         vertex_ptr = (u8 *)pair_addr + 8;
         if (pair_addr < second_pair) {
-            register s32 lower_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-            lower_coord = coord_work - 0x20;
-            ASM_TAILSLOT_PIN_TIED(lower_coord);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_800F8488(vertex_ptr, saved_a1, (void *)pair_addr, (void *)pairs_end);
+            caller_a1 = coord_work - 0x20;
+            ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = caller_a1;
+        } else {
+            caller_a1 = coord_work + 0x20;
+            ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = caller_a1;
         }
-        caller_a1 = coord_work + 0x20;
-        ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = caller_a1;
-        ASM_KEEP_NV(vertex_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         caller_a1 = ((S_807B0B3C_3 *)vertex_ptr)->unk_00.v;
         ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_00 = caller_a1;
         caller_a1 = ((S_807B0B3C_1 *)effect)->unk_02.u;
@@ -330,8 +318,10 @@ build_x_pairs:
         if (pair_addr < pairs_end) {
             goto build_x_pairs;
         }
-        depth = 0;
     }
+
+set_depth:
+    depth = 0;
 
     vertex_index = depth;
     screen_vertex = verts;
@@ -494,30 +484,16 @@ build_x_pairs:
     if (coord == 0) {
         goto angle_0;
     }
-    {
-        register s32 last_vertex ASM_REG("$18");
-        register u8 *last_screen_vertex ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-
-        last_vertex = 3;
-        last_screen_vertex = verts + 0xC;
-        ASM_TAILSLOT_PIN_TIED(last_vertex);
-        ASM_TAILSLOT_PIN_TIED(last_screen_vertex);
-        return func_800F87C8();
-    }
+    vertex_index = 3;
+    goto loop_setup_b;
 
 angle_high:
     if (coord == 0x800) {
         goto angle_800;
     }
     if (coord != 0xC00) {
-        register s32 last_vertex ASM_REG("$18");
-        register u8 *last_screen_vertex ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-
-        last_vertex = 3;
-        last_screen_vertex = verts + 0xC;
-        ASM_TAILSLOT_PIN_TIED(last_vertex);
-        ASM_TAILSLOT_PIN_TIED(last_screen_vertex);
-        return func_800F87C8();
+        vertex_index = 3;
+        goto loop_setup_b;
     }
     goto angle_c00;
 
@@ -534,7 +510,7 @@ angle_0:
         ((S_807B0B3C_13 *)vertex_ptr)->unk_02 = component;
     }
     ((S_807B0B3C_14 *)scratch)->unk_02 = component;
-    return func_800F87C0();
+    goto loop_setup_a;
 
 angle_400:
     component = ((S_807B0B3C_1 *)effect)->unk_00.u;
@@ -542,7 +518,7 @@ angle_400:
     ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
     ((S_807B0B3C_14 *)scratch)->unk_18 = component;
     ((S_807B0B3C_14 *)scratch)->unk_10 = component;
-    return func_800F87C0();
+    goto loop_setup_a;
 
 angle_800:
     ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
@@ -557,18 +533,18 @@ angle_800:
         ((S_807B0B3C_13 *)vertex_ptr)->unk_02 = component;
     }
     ((S_807B0B3C_14 *)scratch)->unk_0A = component;
-    return func_800F87C0();
+    goto loop_setup_a;
 
 angle_c00:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     component = ((S_807B0B3C_1 *)effect)->unk_00.u;
     ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
     ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
     ((S_807B0B3C_14 *)scratch)->unk_08 = component;
     ((S_807B0B3C_14 *)scratch)->unk_00 = component;
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+loop_setup_a:
     vertex_index = 3;
+loop_setup_b:
     screen_vertex = verts + 0xC;
     world_vertex = scratch + 0x18;
     loop_0__: {
