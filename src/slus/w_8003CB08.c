@@ -62,8 +62,8 @@ void func_8003CB08(void)
                 D_80080AA8 = 8;
             }
 
+            layer = 63;
             {
-                register s32 remaining ASM_REG("$16") = 63;
                 s16 *y_history = D_800838D8;
                 s16 *y_dst = y_history + 63;
                 s16 *y_src = y_history + 62;
@@ -74,12 +74,12 @@ void func_8003CB08(void)
                 do {
                     *x_dst = *x_src;
                     x_src--;
-                    remaining--;
+                    layer--;
                     *y_dst = *y_src;
                     y_src--;
                     x_dst--;
                     y_dst--;
-                } while (remaining > 0);
+                } while (layer > 0);
             }
 
             layer = 3;

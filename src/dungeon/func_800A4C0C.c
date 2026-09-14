@@ -16,6 +16,7 @@ s32 func_800AA36C(void *action, void *context, void *position, void *entity) {
     s32 old_y;
     s32 sound_mode;
     u32 entity_flags;
+    u32 post_flags;
     u8 player_state;
 
     if (((func_800A2BDC(entity) << 16) == 0) &&
@@ -30,7 +31,7 @@ s32 func_800AA36C(void *action, void *context, void *position, void *entity) {
         move_result = (s16)func_8009B7E4(position, entity);
         sound_mode = 0x3000;
         if (move_result != 0) {
-            register u32 move_mask ASM_REG("$3") = 0x40000000;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u32 move_mask = 0x40000000;
             s32 sound_x = old_x;
             s32 sound_y;
             ASM_KEEP(sound_x);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -42,10 +43,10 @@ s32 func_800AA36C(void *action, void *context, void *position, void *entity) {
             sound_y = old_y;
             ASM_KEEP(sound_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             func_8009A3D0(sound_x, sound_y, sound_mode);
-            entity_flags = *(u32 *)((u8 *)entity + 0x1C);
+            post_flags = *(u32 *)((u8 *)entity + 0x1C);
             func_8009A21C(*(u8 *)((u8 *)position + 0x24),
                           *(u8 *)((u8 *)position + 0x25),
-                          (entity_flags & 0x2000) ? 0x300 : 0x3000);
+                          (post_flags & 0x2000) ? 0x300 : 0x3000);
 
             if (move_result == 1) {
                 func_800AA508(action, context, position, entity);

@@ -21,13 +21,11 @@ extern void func_80067F20(void *, s32, s32, s32, s32);
 /* Build and enqueue interpolated, depth-sorted shaded lines for a linked list. */
 s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
 {
-  register TableEntry *point_table = (TableEntry *) D_80026478;
   {
     u8 *render_data = D_80083160.value;
     void *owner = first_owner;
     void *vertex_data = first_vertices;
     void *line_data = first_line;
-    register u8 **render_state ASM_REG("$22") = (u8 **) &D_80083160; /* MATCH: keep render_state in s6 across the loop, preserving retail register allocation. */
     u8 *scratch = (u8 *) 0x1F800000;
     u8 *line_packet;
     u8 *packet;
@@ -38,7 +36,7 @@ s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
     s16 blend;
     s32 point_index;
     s32 color_word;
-    ASM_KEEP(render_state);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register u8 **render_state = (u8 **) &D_80083160;
     *(u8 **)(scratch + 0x18) = *(u8 **)(render_data + 0x8D0);
     *(u8 **)(scratch + 0x20) = render_data + 0xB0;
     for (;;)
@@ -61,6 +59,7 @@ s32 func_80025340(void *first_owner, void *first_vertices, void *first_line)
         point_index = (*(s16 *)((u8 *) owner + 0x22)) + 0x10;
         if (D_8002632A < point_index)
         {
+          register TableEntry *point_table = (TableEntry *) D_80026478;
           s32 table_index;
           u16 coord;
           point_table[point_index].x = *(u16 *)(scratch + 0);

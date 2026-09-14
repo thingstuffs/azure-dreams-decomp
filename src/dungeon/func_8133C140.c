@@ -65,20 +65,22 @@ void func_80173140(void) {
     s16 initial_offset;
     s32 cell_x;
     s32 cell_y;
-    register void *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *object;
     M2C_UNK cell_mask;
     s32 origin_x;
     s32 origin_y;
     void *object_attrs;
     void *sprite;
     void *state;
+    S_80173140_1 *st;
     u8 *environment;
 
     object = func_8003FD64(0x112, &D_80083498);
     if (object != NULL) {
         state = object + 0x20;
+        st = (S_80173140_1 *)state;
         ((S_80173140_0 *)object)->unk_10 = &D_80171D74;
-        ((S_80173140_1 *)state)->unk_13 = 2;
+        st->unk_13 = 2;
         func_8004491C(object, &D_80045340);
         environment = (u8 *)&D_80082E80;
         object_attrs = ((S_80173140_0 *)object)->unk_08;
@@ -90,22 +92,22 @@ void func_80173140(void) {
         ((S_80173140_4 *)sprite)->unk_2C.s = &D_80173DA4;
         ((S_80173140_4 *)sprite)->unk_25 = (u8) (origin_y + 7);
         func_800A9C18(object, object_attrs, sprite, 0);
-        (*(s16 *)((u8 *)state + 0x2A)) = 0xC00;
+        (*(s16 *)((u8 *)st + 0x2A)) = 0xC00;
         func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (D_80083228 + 0xD00) >> 9) & 7], 0);
         ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
         ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
-        state_flags = ((S_80173140_1 *)state)->unk_1C;
+        state_flags = st->unk_1C;
         flag_mask = 0x40000;
-        ((S_80173140_1 *)state)->unk_A0 = 0;
+        st->unk_A0 = 0;
         state_flags |= flag_mask;
-        ((S_80173140_1 *)state)->unk_1C = state_flags;
+        st->unk_1C = state_flags;
         ASM_KEEP(state_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         masked_flags = state_flags;
         ASM_KEEP(masked_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         initial_offset = -0x20;
         ASM_KEEP(initial_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         masked_flags &= 0x2000;
-        ((S_80173140_1 *)state)->unk_92 = initial_offset;
+        st->unk_92 = initial_offset;
         cell_x = ((S_80173140_4 *)sprite)->unk_24;
         cell_y = ((S_80173140_4 *)sprite)->unk_25;
         cell_mask = 0x3000;
@@ -113,7 +115,7 @@ void func_80173140(void) {
             cell_mask = 0x300;
         }
         func_8009A3D0(cell_x, cell_y, cell_mask);
-        func_8009A028(state);
+        func_8009A028(st);
         D_80175D54 = object;
         ((S_80173140_0 *)object)->unk_10 = (M2C_UNK *) ((s32) ((S_80173140_0 *)object)->unk_10 | 0x80000000);
     }

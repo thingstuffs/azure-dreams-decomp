@@ -83,9 +83,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         }
         {
 #ifdef __mips__
-            register s32 slot_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s16 item_count;
-            register s32 *inventory_scan ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 slot_index;
 #else
             s32 slot_index;
             s16 item_count;
@@ -93,23 +92,26 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 #endif
             slot_index = 0;
             item_count = slot_index;
-            inventory_scan = (s32 *)0x80010000;
-            do {
-                if (inventory_scan[167] != 0) {
+            item_ptr = (u8 *)0x80010000;
+scan_loop:
+                if (((s32 *)item_ptr)[167] != 0) {
                     item_count++;
                 }
                 slot_index++;
-                inventory_scan++;
-            } while (slot_index < 20);
+                item_ptr += sizeof(s32);
+            if (slot_index < 20) {
+                goto scan_loop;
+            }
             if (item_count == 0) {
                 return 0;
             }
             slot_offset = (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
             slot_base = (u8 *)(slot_offset + 0x80010000);
-            if (*(u8 *)(slot_base + 0x249) == 0) {
+            item_ptr = (u8 *)(u32)*(u8 *)(slot_base + 0x249);
+            if ((u32)item_ptr == 0) {
                 goto return_zero;
             }
-            if (*(u8 *)(slot_base + 0x249) == 0x13) {
+            if ((u32)item_ptr == 0x13) {
                 return 0;
             }
             if (*(u8 *)(slot_base + 0x24B) & 0x20) {
@@ -118,7 +120,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             {
                 s32 item_word;
 
-                item_ptr = (u8 *)(slot_offset + 0x80010248);
+                item_ptr = (u8 *)0x80010248;
+                item_ptr += slot_offset;
                 item_word = *(s32 *)item_ptr;
                 D_80150FE4[0] = item_word;
                 func_80098B38(item_ptr, slot_base);

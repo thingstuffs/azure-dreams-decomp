@@ -101,13 +101,9 @@ void func_80171728(void *actor_in, void *context_in, void *sprite_in, void *crea
         if (((S_80171728_2 *)sprite)->unk_2C == D_80174E4C) {
             return;
         }
-        {
-            register u8 *anim_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            anim_page = (u8 *)0x80170000;
-            ASM_KEEP(anim_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            anim_table = anim_page + 0x4E44;
-        }
+        anim_table = (u8 *)0x80170000;
+        ASM_KEEP(anim_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        anim_table += 0x4E44;
         goto set_table;
     }
 

@@ -67,7 +67,9 @@ s32 func_80024100(void)
     void *render_data;
     void *value_ptr;
     s32 column;
-    register s32 x_pos ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 x_first;
+    s32 x_second;
+    s32 x_third;
     s32 random_value;
     u16 element_flags;
 
@@ -94,7 +96,7 @@ s32 func_80024100(void)
 
     column = 2;
     update_callback = &D_80024954;
-    x_pos = 0xD0;
+    x_first = 0xD0;
     do {
         object = func_8003FD64(1, D_80083498);
         element = (u8 *)object + 0x20;
@@ -104,18 +106,18 @@ s32 func_80024100(void)
             element->unk_16.s = 0xB4;
             element->unk_18 = 3;
             element->unk_1A = 0x7C80;
-            element->unk_14 = x_pos;
+            element->unk_14 = x_first;
             element->unk_10.at00.v = 0x808080;
             element->unk_04.i = ((s32 *)&primary_values)[column];
             element->unk_0C.at00.v = parent_state;
         }
         column--;
-        x_pos -= 0x58;
+        x_first -= 0x58;
     } while (column >= 0);
 
     column = 2;
     update_callback = &D_800249A0;
-    x_pos = 0xD8;
+    x_second = 0xD8;
     do {
         object = func_8003FD64(1, D_80083498);
         element = (u8 *)object + 0x20;
@@ -125,7 +127,7 @@ s32 func_80024100(void)
             element->unk_16.s = 0xC4;
             element->unk_18 = 3;
             element->unk_1A = 0x7C80;
-            element->unk_14 = x_pos;
+            element->unk_14 = x_second;
             element->unk_10.at00.v = 0x808080;
             element->unk_04.i = ((s32 *)&secondary_values)[column];
             switch (column) {
@@ -147,17 +149,17 @@ s32 func_80024100(void)
         }
 second_continue:
         column--;
-        x_pos -= 0x58;
+        x_second -= 0x58;
     } while (column >= 0);
 
     column = 2;
     update_callback = &D_80024A30;
-    x_pos = 0xCC;
+    x_third = 0xCC;
     do {
         object = func_8003FD64(1, D_80083498);
         if (object != NULL) {
             render_data = &D_80053A88;
-            ASM_KEEP(render_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(render_data);
             element = (u8 *)object + 0x20;
             ((S_80024100_0 *)object)->unk_10 = update_callback;
             func_8004491C(object, render_data);
@@ -165,7 +167,7 @@ second_continue:
             element->unk_0C.at02.v = 0xB0;
             element->unk_10.at00u.v = 0x50;
             element->unk_10.at02.v = 0x20;
-            element->unk_0C.at00u.v = x_pos;
+            element->unk_0C.at00u.v = x_third;
             element->unk_14 = 2;
             element->unk_08.i = 0x404040;
             element->unk_04.p = parent_state;
@@ -173,7 +175,7 @@ second_continue:
             element->unk_16.u = element_flags;
         }
         column--;
-        x_pos -= 0x58;
+        x_third -= 0x58;
     } while (column >= 0);
 
     return 0;

@@ -89,9 +89,9 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
     s32 current_x;
     s32 current_y;
     s32 current_z;
-    register s32 update_result;
+    register s16 update_result;
     s32 spawn_handle;
-    register s32 position_updated ASM_REG("$19"); /* MATCH: shared-tail liveness otherwise swaps position_updated and visual registers. */
+    register s32 position_updated;
     u16 steps_left;
     u8 intensity;
     S_8008D470_1 *target;
@@ -138,10 +138,8 @@ void func_8008D470(void *effect, S_8008D470_4 *position, S_8008D470_3 *visual) {
         }
         if (((S_8008D470_0 *)effect)->unk_AA == 0) {
             ((S_8008D470_0 *)effect)->unk_AA = 1;
-            position_updated = 1;
-        } else {
-            position_updated = 1;
         }
+        position_updated = 1;
     } else {
         state = ((S_8008D470_0 *)effect)->unk_AA;
         if (state != 0) {
@@ -193,7 +191,6 @@ update_light:
                 return;
             }
             update_result = position_updated;
-            ASM_KEEP(update_result); /* MATCH: materialize the retail v0 copy before testing position_updated. */
             if (update_result != 0) {
                 return;
             }

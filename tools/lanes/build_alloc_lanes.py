@@ -239,7 +239,7 @@ def site_reasons(st):
     return out
 
 
-def collect(per_stats, max_pins=3, exclude=(), traces=TRACES):
+def collect(per_stats, max_pins=3, exclude=(), traces=TRACES, min_pins=0):
     """The pool: one record per admissible row, with its per-site traces (read from `traces`)."""
     held, pool = heldout() | set(exclude), []
     R = {r["id"]: r for r in rows()}
@@ -272,6 +272,10 @@ def collect(per_stats, max_pins=3, exclude=(), traces=TRACES):
             continue
         if len(sites) > max_pins:
             per_stats["more than %d pin sites" % max_pins] += 1
+            rec["skip"] = "pins"
+            continue
+        if len(sites) < min_pins:
+            per_stats["fewer than %d pin sites" % min_pins] += 1
             rec["skip"] = "pins"
             continue
         if not regs:
@@ -349,6 +353,7 @@ def main():
     ap.add_argument("--per", type=int, default=12)
     ap.add_argument("--no-verify", action="store_true", help="do not check each base is exact")
     ap.add_argument("--max-pins", type=int, default=3, help="admit rows with at most this many pin sites (default 3)")
+    ap.add_argument("--min-pins", type=int, default=0, help="admit rows with at least this many pin sites (big-row packs)")
     ap.add_argument("--traces", default=str(TRACES),
                     help="directory of per-row trace files to read (default: the alloc_astra lane's "
                          "scratch/trace_population)")
@@ -369,7 +374,7 @@ def main():
         exclude.add(f.parent.name + "/" + f.stem)
 
     stats = collections.Counter()
-    pool = collect(stats, a.max_pins, exclude, Path(a.traces))
+    pool = collect(stats, a.max_pins, exclude, Path(a.traces), a.min_pins)
     live = [p for p in pool if not p.get("skip")]
     tie_ids = {rid for rid, _ in TIES}
     by_id = {p["id"]: p for p in pool}

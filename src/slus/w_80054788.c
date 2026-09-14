@@ -65,14 +65,14 @@ extern void func_80054F9C(u32 a0, void *a1);
 /* Dispatches packed events by status nibble and enabled event flags. */
 void func_80054788(s32 event) {
     s32 event_bits = event;
-    register s32 packed_event ASM_REG("$17") = event_bits;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    register s16 packed_event = event_bits;
 
     switch (event_bits & 0xF0) {
     case 0x10:
-        func_8005497C(packed_event & 0xFFFF);
+        func_8005497C((u16)packed_event);
         break;
     case 0x20:
-        func_800549FC(packed_event & 0xFFFF);
+        func_800549FC((u16)packed_event);
         break;
     case 0x70:
         if (event_bits & 1) {

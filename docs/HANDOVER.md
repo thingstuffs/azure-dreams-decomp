@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 7, gated (34 windows MATCH, SLUS SHA-1 MATCH): **7,584 pins in 1,388 rows**. The scan-order
+register stratum served to exhaustion at 1-8 pins: sol 18 of 72, opus 7 of 25 (the same pack format read by an
+opus workflow agent), 26 rows landed. Opus's lever notes: split a twice-used function-scope scratch so the first
+value goes local; fold an address's high half into its single consumer (`combine_regs` refuses to tie a `high`
+pseudo to a global `lo_sum` destination); a lost call argument restores an argument-register copy suggestion
+(one win widens a callee prototype by two arguments, byte-exact, flagged for review of the callee's real arity);
+a coalesced typed alias nudges a saved-register rank by two or more, so a swap that needs one stays unsolved
+(three twin rows share it). `tools/alloc_trace.py` retraced the 124 register rows with 9-40 pins (902 sites,
+`work/alloc_retrace/summary_big.json`); `build_alloc_lanes.py --min-pins` builds big-row packs.
+- **Running after this gate:** `alloc32`-`alloc34` (big rows, sol) and `alloc35`-`alloc37` (big rows, opus).
+
 Twenty-fifth round, part 6, gated (23 windows MATCH, SLUS SHA-1 MATCH): **7,620 pins in 1,402 rows**. Landed: the 13
 label-as-call rows rewritten without a pin change (pseudo-calls gone; their solved regions promoted with the landed
 text as proof), the diagnosed register packs (sol: preference 3/12, conflict 1/12 and 2/12, and the SCAN-ORDER

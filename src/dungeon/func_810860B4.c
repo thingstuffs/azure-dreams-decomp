@@ -76,7 +76,6 @@ void func_801738B4(void *action_ctx, void *scene_object, void *entity_arg, void 
     s32 target_y;
     void *active_object;
     void *copy_object;
-    register u8 *position_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *action_status;
 
     special_mode = 0;
@@ -177,9 +176,9 @@ have_item:
     }
 
 copy_position_object:
-    position_record = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
-    (*(u8 *)((u8 *)actor + 0x72)) = position_record[0x24];
-    (*(u8 *)((u8 *)actor + 0x73)) = position_record[0x25];
+    action_status = ((S_801738B4_1_pre *)copy_object)[-1].unk_00;
+    (*(u8 *)((u8 *)actor + 0x72)) = action_status[0x24];
+    (*(u8 *)((u8 *)actor + 0x73)) = action_status[0x25];
     goto call_item;
 
 spawn_object:

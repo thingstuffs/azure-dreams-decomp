@@ -16,7 +16,7 @@ s32 func_80027008(s32 entry_set, s32 position, s32 entry_count) {
     s32 buffer;
     s32 entry_index;
     s32 copied_count;
-    register s32 write_ptr ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 write_ptr;
     s32 copy_count;
     Entry19 *entries;
 
@@ -47,7 +47,8 @@ s32 func_80027008(s32 entry_set, s32 position, s32 entry_count) {
         } while (copied_count < copy_count);
     }
 end:
-    return buffer;
+    copied_count = buffer;
+    return copied_count;
 }
 
 /* MECHANISM: The in-place /72 quotient forces the retail 0x30 frame and s0/s3/s6 argument holds.

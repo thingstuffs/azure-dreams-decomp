@@ -97,14 +97,13 @@ void func_8017360C(void *action, void *context, void *entity, void *actor)
 state_0:
     {
         u8 *dungeon_state;
-        u8 *effect_page;
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        effect_page = (u8 *)0x80170000;
-        ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_table = effect_page + 0x40F8;
+        effect_table = (u8 *)0x80170000;
+        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_table += 0x40F8;
         (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
@@ -120,24 +119,18 @@ state_1:
         if (((S_8017360C_0 *)action)->unk_92.s != 0) {
             return;
         }
-        {
-            u8 *effect_page;
-            effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect_table = effect_page + 0x4150;
-        }
+        effect_table = (u8 *)0x80170000;
+        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_table += 0x4150;
         goto effect_common;
 
 state_2:
         if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
             return;
         }
-        {
-            u8 *effect_page;
-            effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect_table = effect_page + 0x4158;
-        }
+        effect_table = (u8 *)0x80170000;
+        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_table += 0x4158;
         goto effect_common;
 
 state_3:
@@ -224,12 +217,9 @@ final_check:
             }
         }
 
-        {
-            u8 *effect_page;
-            effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect_table = effect_page + 0x4160;
-        }
+        effect_table = (u8 *)0x80170000;
+        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_table += 0x4160;
         (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
@@ -248,7 +238,6 @@ final_check:
 state_4:
         {
         u32 phase_flag = 0x40000;
-        u8 *effect_page;
         u32 phase_flags;
 
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
@@ -256,10 +245,10 @@ state_4:
         }
 
         ASM_KEEP(phase_flag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        effect_page = (u8 *)0x80170000;
-        ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_table = (u8 *)0x80170000;
+        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         phase_flags = ((S_8017360C_2 *)actor)->unk_1C.u;
-        effect_table = effect_page + 0x40F8;
+        effect_table += 0x40F8;
         phase_flags |= phase_flag;
         ((S_8017360C_2 *)actor)->unk_1C.u = phase_flags;
 effect_common:
@@ -280,12 +269,9 @@ state_5:
             return;
         }
 
-        {
-            register u8 *effect_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            effect_page = (u8 *)0x80170000;
-            ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            effect_table = effect_page + 0x40F0;
-        }
+        effect_table = (u8 *)0x80170000;
+        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        effect_table += 0x40F0;
         (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
