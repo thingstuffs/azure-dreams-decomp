@@ -9,7 +9,8 @@ extern u8 D_800E1D01[9];
 void func_800262B8(s32 target, s32 value) {
     u8 pinnedValue = value;
     if (func_8009D218(target, 2) == 0) {
-        register s32 scaledLowByte ASM_REG("$6") = (u32)(pinnedValue & 0xFF) >> 2;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        u32 scaledLowByte = pinnedValue;
+        scaledLowByte >>= 2;
         if ((func_800A48F0(target, 0x16, scaledLowByte + 4) << 16) != 0) {
             func_80099844(target, D_800E1D01);
         }

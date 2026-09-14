@@ -44,7 +44,7 @@ extern u8 D_80080A84[16];
  * pairs for this one scalar. */
 extern void *D_80080A90[4];
 
-extern void DrawSync(s32 a0);
+extern s32 DrawSync(s32 a0);
 
 /* Reserves bytes from the buffer's end, resetting its write pointer and waiting for the GPU on overlap. */
 s32 func_800405E8(s32 byte_count)
@@ -61,7 +61,7 @@ s32 func_800405E8(s32 byte_count)
         DrawSync(0);
     }
     {
-        register s32 current_base ASM_REG("$2") = ((s32 *)&D_80081480)[3];   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        s32 current_base = ((s32 *)&D_80081480)[3];
         remaining_size = *(s32 *)(D_80080A84 - 8);
         reserved_start = current_base + remaining_size;
     }

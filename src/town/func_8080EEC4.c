@@ -36,10 +36,6 @@ extern void *D_8052647C[];
 extern s32 func_8006AB90(s32);
 extern void func_8006E854(LocalRecord *, void *);
 extern void func_80058F88(s32);
-extern void func_80529C1C(void) __attribute__((noreturn));
-extern void func_80529D0C(void) __attribute__((noreturn));
-extern void func_80529EC4(void) __attribute__((noreturn));
-extern void func_8052A04C(void) __attribute__((noreturn));
 
 
 typedef struct S_8080EEC4_0 {
@@ -104,7 +100,7 @@ void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
     s32 state;
     s32 old_angle;
     s32 copied;
-    register s32 early_far ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 early_far;
     s32 case5_old;
     s32 case5_next;
 
@@ -129,8 +125,7 @@ void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
             goto close_range;
         }
         early_far = distance < 0xD1;
-        ASM_KEEP(early_far);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_80529C1C();
+        goto far_test;
     }
 
     if (distance < 0xC1) {
@@ -147,12 +142,13 @@ close_range:
     ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC;
     if (distance < 0x80) {
         ((S_8080EEC4_2 *)arg0)->unk_62 -= (0x80 - distance) >> 1;
-        return func_80529D0C();
     }
     goto copy_position;
 
 far_check:
-    if (distance >= 0xD1) {
+    early_far = distance < 0xD1;
+far_test:
+    if (!early_far) {
         goto set_far_default;
     }
 
@@ -214,7 +210,7 @@ case_0:
         ((S_8080EEC4_0 *)arg2)->unk_0D = case_x;
         ((S_8080EEC4_0 *)arg2)->unk_0C = case_x;
         ((S_8080EEC4_2 *)arg0)->unk_6C = 0x00080000;
-        return func_8052A04C();
+        goto switch_done;
 
 case_1:
         case_value = ((S_8080EEC4_2 *)arg0)->unk_72.s;
@@ -225,7 +221,7 @@ case_1:
             ((S_8080EEC4_2 *)arg0)->unk_70 = 2;
         }
         ((S_8080EEC4_0 *)arg2)->unk_1A += ((S_8080EEC4_2 *)arg0)->unk_72.u;
-        return func_8052A04C();
+        goto switch_done;
 
 case_2:
         case_value = ((S_8080EEC4_0 *)arg2)->unk_1A;
@@ -236,7 +232,7 @@ case_2:
             ((S_8080EEC4_3 *)work)->unk_18 == 5) {
             ((S_8080EEC4_2 *)arg0)->unk_72.s = step_copy;
             ((S_8080EEC4_2 *)arg0)->unk_70 = 3;
-            return func_8052A04C();
+            goto switch_done;
         }
         goto switch_done;
 
@@ -245,7 +241,6 @@ case_3:
         dy = 0x155;
         if (dx >= 0x6AB) {
             ((S_8080EEC4_3 *)work)->unk_24 = 0;
-            return func_80529EC4();
         } else {
             i = 4;
             limit = 0x554;
@@ -271,7 +266,7 @@ case_3:
         if (((S_8080EEC4_2 *)arg0)->unk_72.s < (1 << shift)) {
             ((S_8080EEC4_2 *)arg0)->unk_74.s = 0;
             ((S_8080EEC4_2 *)arg0)->unk_70 = 5;
-            return func_8052A04C();
+            goto switch_done;
         }
         goto switch_done;
 
@@ -285,7 +280,7 @@ case_4:
         }
         if (((S_8080EEC4_2 *)arg0)->unk_72.s < 4) {
             ((S_8080EEC4_2 *)arg0)->unk_70 = 0;
-            return func_8052A04C();
+            goto switch_done;
         }
         goto switch_done;
 

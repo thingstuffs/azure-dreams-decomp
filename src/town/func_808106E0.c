@@ -41,7 +41,6 @@ extern void func_8003BC18(void *, void *);
 extern void func_8003F8A8(s32);
 extern void func_80050BFC(s32, void *);
 extern u32 func_80071494(void);
-extern void func_8052B4E8(void) __attribute__((noreturn));
 
 s32 func_808106E0(void)
 {
@@ -101,26 +100,21 @@ s32 func_808106E0(void)
             ((S_808106E0_0 *)object)->unk_24.u32 = positions1.e[i];
 
             shared_part_y = (s32)object + 0x20;
-            if (i != 1) {
-                if (i < 2) {
-                    selected = anchor + 6;
-                    if (i != 0) {
-                        ASM_KEEP(shared_part_y);
-                        ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
-                        func_8052B4E8();
-                    }
-                } else {
-                    if (i == 2) {
-                        selected = anchor + 10;
-                    } else {
-                        ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
-                        func_8052B4E8();
-                    }
-                }
-            } else {
+            switch (i) {
+            case 0:
+                selected = anchor + 6;
+                break;
+            case 2:
+                selected = anchor + 10;
+                break;
+            case 1:
                 selected = anchor + 8;
+                break;
+            default:
+                goto store_anchor;
             }
             ((S_808106E0_0 *)object)->unk_28.at00.v = selected;
+        store_anchor:
             ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
         }
         i--;
@@ -151,5 +145,8 @@ s32 func_808106E0(void)
 }
 
 /* MECHANISM: Declare the held s3 anchor before two independent 12-byte stack locals to match the 0x48 prologue.
-   Spell the i == 2 arm in retail CFG order so the dying compare and selected pointer share v0.
-   Tied ASM_KEEP at each noreturn use preserves s2+0xC instead of CSE-folding it to s0+0x2C. */
+   The three-way selection is a switch: gcc 2.7.2 emits the balanced tree (beq ==1, slti 2, beq ==0,
+   beq ==2) retail shows, case 1 last so its addiu falls into the join, and the default arm's
+   `goto store_anchor` becomes the two `j 0x52b4e8` + thread-filled `sw s3,12(s2)` pairs.
+   The switch's default label also ends the fall-through extended block, so shared_part_y stays
+   s2+0xC instead of CSE-folding to s0+0x2C - no keep needed. */

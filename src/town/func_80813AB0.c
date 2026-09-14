@@ -48,7 +48,6 @@ extern u8 *func_800374FC();
 extern s32 func_8003BC18();
 extern s32 func_80071494();
 extern s32 func_8023FA58();
-extern s32 func_8052E968(void) __attribute__((noreturn));
 extern s32 func_8052FE94();
 
 extern u8 D_8003C558[];
@@ -178,15 +177,13 @@ s32 func_80813AB0(void)
             ((S_80813AB0_0 *)obj)->unk_30.at00.v = 0x00808080;
             ((S_80813AB0_0 *)obj)->unk_24 = ((void **)roots)[i + 2];
             y = (s32)(obj + 0x20);
-            if (i != 0) {
-                if (i != 1) {
-                    ASM_KEEP(y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                    ((S_80813AB0_2 *)((u8 *)y))->unk_0C = base;
-                    return func_8052E968();
-                }
-                ((S_80813AB0_0 *)obj)->unk_28.p = base + 0x14;
-            } else {
+            switch (i) {
+            case 0:
                 ((S_80813AB0_0 *)obj)->unk_28.p = base + 0x12;
+                break;
+            case 1:
+                ((S_80813AB0_0 *)obj)->unk_28.p = base + 0x14;
+                break;
             }
             ((S_80813AB0_2 *)((u8 *)y))->unk_0C = base;
         }
@@ -216,5 +213,10 @@ s32 func_80813AB0(void)
 }
 /* MECHANISM: The 0x40 frame comes from two sibling RootPair stack locals and the s0-s6 held roles.
    Reusing slot as the second y carrier and y as part preserves retail's s3/s0 lifetime handoffs.
-   Explicit copy pointers, the noreturn-edge store, and volatile final fields reproduce CFG scheduling.
+   The i-selection is a switch on i with cases 0 then 1 and no default: gcc emits the two equality
+   tests and falls through to the end-of-switch jump, which the delay-slot filler thread-fills with
+   the shared `sw s4,12(s0)` (the j at 0x2b8 is that end-of-switch edge, not a call).  Case 0 must
+   come FIRST in the source: with case 1 first its body lands after the default jump and jump.c
+   inverts the second test (bne to the join) - three words off.
+   Explicit copy pointers and volatile final fields reproduce CFG scheduling.
    A held a0 color plus a guarded short-lived v1 dimension closes the final four-word role swap. */

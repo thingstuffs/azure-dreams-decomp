@@ -52,7 +52,7 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
     u16 *base_cell;
     u16 *offset_cell;
     s32 random_offset;
-    register u8 *base_row ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *base_row;
     u8 *grid_data;
     DungeonObject *object;
     u8 *row_data;
@@ -74,8 +74,9 @@ s32 func_800CE4E8(s32 center_x, s32 center_y, s16 unused_value, void *unused_dat
             row_base = row_data;
             offset_cell = (u16 *)(row_data + 0x36);
             do {
-                origin_x = ((S_800CE4E8_0 *)grid_data)->unk_00;
-                origin_y = ((S_800CE4E8_0 *)grid_data)->unk_02;
+                base_row = grid_data;
+                origin_x = ((S_800CE4E8_0 *)base_row)->unk_00;
+                origin_y = ((S_800CE4E8_0 *)base_row)->unk_02;
                 tile_value = func_800BCA68(
                     ((col + origin_x) << 6) & 0xFFC0,
                     ((row + origin_y) << 6) & 0xFFC0);

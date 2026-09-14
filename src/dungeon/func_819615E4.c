@@ -97,12 +97,17 @@ extern void **D_800E3D18;
 extern u8 *D_800E3D7C;
 
 extern void func_80025334(s16, s16, s16);
-extern void func_8002711C(void) __attribute__((noreturn));
-extern void func_800271EC(void) __attribute__((noreturn));
 extern void func_8003DE58(void *, void *, Vec3s *, s16);
 extern void func_800B8D64(s16, s16, s16);
 
 /* Interpolate the target position, fade its color, and finish the transition. */
+/* MECHANISM: state->state selects with a switch, cases 0..3 laid out in source order so the
+   dispatch tree's last `beq ==3` is followed by case 0's body (an if-chain puts case 3's body
+   right after the default jump and jump.c inverts the test).  case 0 falls through into case 1.
+   The `j 0x271ec` sites are the switch's end-of-switch edge = `return`; the `j 0x2711c` from
+   case 1 is a goto into case 2's shared `state->state = value + 1; return` tail, entered one
+   statement deeper than the fade path.  The 0x80080000 page plus 0x2E80 is the symbol D_80082E80,
+   which is what frees the $2 pin; one u16 carrying the 5 and the 4 keeps the join value in v0. */
 void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
 {
     Vec3s position_offset;
@@ -111,33 +116,12 @@ void func_819615E4(State *state, Target *target, S_func_819615E4_0 *color)
     s32 current_coord;
     s16 smoothed_coord;
     u16 phase_value;
-    register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 const_reg;
 
     D_80027330[0]++;
 
-    if (state->state == 1) {
-        goto update;
-    }
-    if (state->state < 2) {
-        if (state->state == 0) {
-            goto init;
-        }
-        func_800271EC();
-        return;
-    }
-
-    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    if (state->state == 2) {
-        goto fade;
-    }
-    if (state->state == 3) {
-        table_page = 0x80080000;
-        goto phase;
-    }
-    func_800271EC();
-    return;
-
-init:
+    switch (state->state) {
+    case 0:
     {
         s32 transform_offset;
         S_func_819615E4_1 *spawn = (S_func_819615E4_1 *)D_80083780;
@@ -156,7 +140,7 @@ init:
         state->z = position.z;
         state->state++;
     }
-update:
+    case 1:
     {
         s32 step_offset;
 
@@ -211,16 +195,11 @@ update:
     }
     func_800B8D64(state->x, state->y, state->z);
     phase_value = state->state;
-    ASM_KEEP(phase_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    {
-        register u16 reset_timer ASM_REG("$3") = 5;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    const_reg = 5;
+    state->timer = const_reg;
+    goto bump_state;
 
-        state->timer = reset_timer;
-    }
-    func_8002711C();
-    return;
-
-fade:
+    case 2:
     color->unk_0C -= color->unk_0C / state->timer;
     phase_value = state->timer - 1;
     state->timer = phase_value;
@@ -229,19 +208,21 @@ fade:
     }
     if (state->step == 0) {
         color->unk_0C = 0;
-        state->phase = 4;
-        state->state++;
-        func_800271EC();
+        const_reg = 4;
+        state->phase = const_reg;
+        phase_value = state->state;
+    bump_state:
+        state->state = phase_value + 1;
         return;
     }
     goto finish;
 
-phase:
+    case 3:
     {
         s32 direction_offset;
         S_func_819615E4_4 *table;
 
-        table = (S_func_819615E4_4 *)(table_page + 0x2E80);
+        table = (S_func_819615E4_4 *)D_80082E80;
         func_8003DE58(table->unk_08, table, &position, 0);
         phase_value = state->phase - 1;
         state->phase = phase_value;
@@ -260,4 +241,6 @@ finish:
         D_800814A0 |= 0x8000;
         return;
     }
+    }
+    return;
 }

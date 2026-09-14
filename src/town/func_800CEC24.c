@@ -15,12 +15,13 @@ typedef struct {
 
 /* Reset the object's table entry and brighten the packet to a clamped grayscale intensity. */
 void func_800CC384(void *object, s32 draw_arg, Func800CEC24Arg2 *packet) {
-    register u32 intensity ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 intensity;
 
     func_800C2E84(object, packet, D_800D6CA8);
     D_80082660[*(s32 *)((u8 *)object + 0x60) * 8] = 0;
 
-    intensity = packet->unkC + 0x20;
+    intensity = packet->unkC;
+    intensity += 0x20;
     if (intensity >= 0x100) {
         intensity = 0xFF;
     }

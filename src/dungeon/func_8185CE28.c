@@ -10,7 +10,6 @@ typedef s32 M2C_UNK;
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_800247B4(void) __attribute__((noreturn));
 extern M2C_UNK func_8003DB94();
 extern void *func_8003FC64(s32);
 extern M2C_UNK func_8004491C();
@@ -115,21 +114,8 @@ s32 func_8185CE28(s32 effect_param, S_8185CE28_2 *position, s16 effect_index)
         component->unk_06 = state->unk_0A +
             ((func_80064584(state->unk_1C) >> 4) *
              state->unk_20 >> 8);
-        {
-            u16 final_z = state->unk_0E;
-#ifndef NON_MATCHING
-            ASM_CLOBBER("$2");
-#endif
-            {
-                s16 v0pin;
-                v0pin = (s32)effect;
-                ASM_KEEP(v0pin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                component->unk_0A = final_z - 8;
-                func_800247B4();
-            }
-        }
+        component->unk_0A = state->unk_0E - 8;
+        return (s32) effect;
     }
-    {
-        return 0;
-    }
+    return 0;
 }
