@@ -50,7 +50,6 @@ extern u8 *D_8012F130;
 
 /* Build projected primitives and draw modes for linked records and add them to the ordering table. */
 s32 func_8080DAB8(void *first_record) {
-    register s32 next_record ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 ot_slot;
     s32 primitive;
     M2C_UNK *draw_mode;
@@ -73,7 +72,7 @@ s32 func_8080DAB8(void *first_record) {
     u8 *depths;
     u8 *transform_scratch;
     register u8 *primitive_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *mode_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *mode_base;
     register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 tag_mask;
     register u32 buffer_limit ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -136,8 +135,8 @@ s32 func_8080DAB8(void *first_record) {
         ot_slot = ot_slot + (u8 *)*render_root;
         packet_addr = (u32)draw_mode & addr_mask;
         ((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 = (s32)((((S_8080DAB8_4 *)((u8 *)ot_slot))->unk_B0 & tag_mask) | packet_addr);
-        next_record = ((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
-        record = next_record + 0x20;
-    } while (next_record != 0);
+        mode_base = (u8 *)((S_8080DAB8_2 *)((u8 *)record - 0x8))->unk_00;
+        record = mode_base + 0x20;
+    } while (mode_base != 0);
     return 0;
 }

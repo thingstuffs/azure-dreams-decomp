@@ -15,7 +15,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
     s32 side_blocked;
     s32 x;
     s32 y;
-    register u16 *x_offsets ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 *x_offsets;
     u16 *x_offset_ptr;
     u16 *y_offsets;
     u32 side_dir;
@@ -24,7 +24,6 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
     s32 probe_height;
     register s32 saved_direction ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 saved_height ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     saved_direction = direction;
     saved_height = height;
@@ -35,11 +34,7 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
         side_offset = -1;
         x = (s16)tile_x;
         center_x = (x << 6) + 0x20;
-        do {
-            table_page = 0x800E0000;
-        } while (0);
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_offsets = (u16 *)(table_page - 0x3154);
+        x_offsets = D_800DCEAC;
         y = (s16)tile_y;
         center_y = (y << 6) + 0x20;
 loop:

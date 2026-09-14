@@ -119,7 +119,7 @@ s32 func_800249BC(void *shape_data)
                     u8 *primitive = draw_state->next_primitive;
                     register s32 next_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     u16 *current_point;
-                    register u16 *next_point ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    register u16 *next_point;
                     u16 texture_attr;
                     u16 start_x;
                     u16 width_u16;
@@ -148,13 +148,11 @@ s32 func_800249BC(void *shape_data)
                     ASM_KEEP_NV(next_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     PRIM_U16(primitive, 0x16) = texture_attr;
                     texture_attr = shape->unk42;
-                    next_point = (u16 *)(next_index * 4);
                     PRIM_U16(primitive, 0x0E) = texture_attr;
 
                     start_x = current_point[0];
                     width_u16 = *(u16 *)(void *)&half_width;
-                    next_point =
-                        (u16 *)((u8 *)points_base + (u32)next_point);
+                    next_point = points_base[next_index];
                     PRIM_U16(primitive, 0x08) = start_x - width_u16;
                     PRIM_U16(primitive, 0x10) = next_point[0] - width_u16;
                     PRIM_U16(primitive, 0x18) = current_point[0] + width_u16;

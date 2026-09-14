@@ -162,11 +162,9 @@ far_check:
     }
 
     {
-        register s32 dx_abs ASM_REG("$3") = dx;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 dx_abs;
         s32 dy_abs;
-        if (dx < 0) {
-            dx_abs = -dx_abs;
-        }
+        dx_abs = abs(dx);
         dy_abs = dy;
         dy_abs = abs(dy_abs);
         if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {

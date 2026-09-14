@@ -86,8 +86,9 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     register void *zero_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 *global_page;
     s32 cell_x;
-    register s32 cell_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 shifted_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 cell_index;
+    s32 cell_total;
+    s32 shifted_coord;
 
     obj = func_8003FC64(2);
     page = (u8 *)0x80080000;
@@ -112,7 +113,8 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     }
     cell_index >>= 6;
     cell_index <<= ((S_8195EF44_0 *)map)->unk_14;
-    cell_index = cell_x + cell_index;
+    cell_total = cell_index;
+    cell_index = cell_x + cell_total;
     cells = ((S_8195EF44_1 *)page)->unk_333C;
     cell = cells[cell_index * 3];
     work->unk_08 = cell;

@@ -125,7 +125,7 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
         u32 state = ((S_80175CD8_0 *)action)->unk_9B;
 
         if (state >= 0x15) {
-            goto done;
+            return;
         }
         (void)state_labels;
         goto *D_801709F0[state];
@@ -302,16 +302,15 @@ state_6:
         u8 *scene_page;
         u8 *counter_page;
         s16 *floor_stats;
-        register u8 map_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        u8 map_id;
         s32 visit_count;
         s32 floor_count;
 
         scene_page = (u8 *)0x80080000;
-        ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         counter_page = (u8 *)0x80010000;
-        ASM_KEEP(counter_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         floor_stats = D_80081468;
         map_id = scene_page[0x2E6B];
+        ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         visit_count = *(s32 *)(counter_page + 0x234);
         floor_count = *(u16 *)((u8 *)floor_stats + 4);
         visit_count++;
@@ -438,4 +437,3 @@ done:
 }
 
 #undef FIELD
-

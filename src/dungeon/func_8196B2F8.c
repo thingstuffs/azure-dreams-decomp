@@ -70,8 +70,7 @@ void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s32 offset_x, s32 o
     s32 jittered_coord;
     s32 origin_coord;
     s16 random_size;
-    u16 render_flags;
-    register u16 render_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 render_value;
     void *render_or_origin;
     S_8196B2F8_4 *render_state;
     S_8196B2F8_3 *position;
@@ -87,17 +86,16 @@ void func_8196B2F8(s32 unused_0, s32 unused_1, s32 unused_2, s32 offset_x, s32 o
         ((S_8196B2F8_1 *)effect)->unk_10 = &D_800244E4;
         func_8004491C(effect, &D_80045340);
         render_or_origin = ((S_8196B2F8_1 *)effect)->unk_0C;
-        render_value = ((S_8196B2F8_2 *)render_or_origin)->unk_14;
+        render_value = ((S_8196B2F8_2 *)render_or_origin)->unk_14 | 0xC;
         ((S_8196B2F8_2 *)render_or_origin)->unk_06.s = 0;
-        render_value |= 0xC;
         ((S_8196B2F8_2 *)render_or_origin)->unk_14 = render_value;
         ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        render_flags = render_value;
-        ASM_KEEP(render_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        render_value = 0x60;
-        render_flags |= 2;
-        ((S_8196B2F8_2 *)render_or_origin)->unk_10 = render_value;
-        ((S_8196B2F8_2 *)render_or_origin)->unk_14 = render_flags;
+        origin_coord = render_value;
+        ASM_KEEP(origin_coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        jitter = 0x60;
+        origin_coord |= 2;
+        ((S_8196B2F8_2 *)render_or_origin)->unk_10 = jitter;
+        ((S_8196B2F8_2 *)render_or_origin)->unk_14 = origin_coord;
         render_or_origin = (void *) 0x80080000;
         ASM_KEEP(render_or_origin);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         position = ((S_8196B2F8_1 *)effect)->unk_08;
