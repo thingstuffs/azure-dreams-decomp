@@ -22,15 +22,15 @@ extern void func_800A9160(u16);
 /* Snapshot records and state fields, converting stored pointers to table indices. */
 void func_800945E8(void *input_state) {
     void *state;
+    s32 slot_index;
 
     state = input_state;
     func_800422DC((void *)0x80012194, state);
 
     {
-        s32 slot_index;
         s32 record_index;
         u8 entry_flags;
-        register u8 *entry_flags_ptr ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *entry_flags_ptr;
         register u8 *record ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 *record_table;
         u8 *record_buffer;
@@ -98,7 +98,6 @@ void func_800945E8(void *input_state) {
                     *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);
                 }
             }
-            ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(entry_flags_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             slot_index -= 1;
             entry_flags_ptr += 4;
@@ -106,8 +105,7 @@ void func_800945E8(void *input_state) {
     }
 
     {
-        s32 slot_index;
-        register s32 *record_slot ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 *record_slot;
         u8 *src_cursor;
         register u8 *dst_cursor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         register u8 *index_cursor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -176,7 +174,6 @@ void func_800945E8(void *input_state) {
                 }
             }
             ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(slot_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(record_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(dst_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -198,7 +195,6 @@ void func_800945E8(void *input_state) {
     }
 
     {
-        register s32 slot_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u8 *src_cursor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *index_cursor;
         s32 lookup_ptr;

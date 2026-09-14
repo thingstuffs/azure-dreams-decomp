@@ -123,7 +123,7 @@ void func_801730E4(void *action, void *position, void *sprite, void *actor)
     u16 position_delta[3];
     s16 is_special;
     void *active;
-    register u8 *linked ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 linked;
     u8 linked_x;
     u8 linked_y;
     u8 *selection;
@@ -213,7 +213,8 @@ selection_ready:
             active = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = active;
         } else {
-            if (D_8006DE24[*selection].type != 2) {
+            linked = D_8006DE24[*selection].type;
+            if (linked != 2) {
                 goto create_active;
             }
             active = (*(void * *)((u8 *)actor + 0x60));
@@ -223,7 +224,7 @@ selection_ready:
         }
     }
 copy_active:
-    linked = ((S_801730E4_1_pre *)active)[-1].unk_00;
+    linked = (u32)((S_801730E4_1_pre *)active)[-1].unk_00;
     (*(u8 *)((u8 *)actor + 0x72)) = ((S_801730E4_2 *)linked)->unk_24;
     (*(u8 *)((u8 *)actor + 0x73)) = ((S_801730E4_2 *)linked)->unk_25;
     goto active_ready;

@@ -12,13 +12,12 @@ extern u8 D_800E1A55[];
 s32 func_800C8CD8(void *entity_arg, s32 threshold_arg, s32 kind_arg, s32 rng_arg) {
     void *entity = entity_arg;
     u16 threshold = threshold_arg;
-    register s32 kind ASM_REG("$18") = kind_arg;
+    s16 kind = kind_arg;
     s32 random_value;
     s32 roll_range;
     register s32 roll ASM_REG("$3");
     register s32 shifted_threshold ASM_REG("$2");
     register s32 signed_threshold;
-    register s32 below_threshold ASM_REG("$2");
     s32 rng_result;
 
     rng_result = func_800A6D30(entity_arg, threshold_arg, kind_arg, rng_arg);
@@ -36,8 +35,8 @@ s32 func_800C8CD8(void *entity_arg, s32 threshold_arg, s32 kind_arg, s32 rng_arg
     }
 
     signed_threshold = shifted_threshold >> 16;
-    below_threshold = roll < signed_threshold;
-    if ((below_threshold != 0) || (signed_threshold == 0xFF)) {
+    shifted_threshold = roll < signed_threshold;
+    if ((shifted_threshold != 0) || (signed_threshold == 0xFF)) {
         if ((s16)func_800A48F0(entity, 2, (s8)kind) >= 0) {
             func_80099844(entity, D_800E1A55);
             if (*(u8 *)((u8 *)entity + 0x13) == 0) {

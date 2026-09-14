@@ -46,15 +46,18 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   s32 texture_page;
   s32 center_xy;
   s32 outer_color3;
+  s32 offset;
   register u8 *state_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   u8 *quad_packet;
   s32 packet_order;
+  register s32 scratch ASM_REG("$8");
   state_base = D_80083160 - 0x3160;
   cursor = (*((DungeonState **) (state_base + 0x3160)))->cursor;
   scratchpad = (volatile u8 *) 0x1F800000;
   *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x74)) = 0;
   *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7C)) = 0;
-  *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + parameters->x2;
+  offset = parameters->x2;
+  *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + offset;
   *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7A)) = position->y;
   *((volatile s32 *) (((volatile u8 *) scratchpad) + 8)) = parameters->x0;
   *((volatile s32 *) (((volatile u8 *) scratchpad) + 0xC)) = parameters->y0;
@@ -79,47 +82,36 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       segment += 1;
       ASM_USE(segment);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       {
-        s32 u_offset;
-        register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u_offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10));
-        scaled_offset = u_offset * trig_value;
-        ASM_USE2_NV(u_offset, scaled_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u_offset = scaled_offset >> 13;
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 41)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + u_offset;
+        offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10));
+        scratch = offset * trig_value;
+        ASM_USE2_NV(offset, scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        offset = scratch >> 13;
+        *((volatile u8 *) (((volatile u8 *) packet_code) + 41)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + offset;
       }
       trig_value = func_800644B8(angle_step / parameters->count);
       do {
           angle_step += 0x1000;
       } while (0);
       {
-        s32 v_offset;
-        register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        v_offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14));
-        scaled_offset = v_offset * trig_value;
-        ASM_USE2_NV(v_offset, scaled_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        v_offset = scaled_offset >> 13;
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 42)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 6))) + v_offset;
+        offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14));
+        scratch = offset * trig_value;
+        offset = scratch >> 13;
+        *((volatile u8 *) (((volatile u8 *) packet_code) + 42)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 6))) + offset;
       }
       trig_value = func_80064584(angle_step / parameters->count);
       {
-        s32 x_offset;
-        register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_offset = parameters->x2;
-        scaled_offset = x_offset * trig_value;
-        ASM_USE2_NV(x_offset, scaled_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        x_offset = scaled_offset >> 12;
-        *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + x_offset;
+        offset = parameters->x2;
+        scratch = offset * trig_value;
+        offset = scratch >> 12;
+        *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + offset;
       }
       ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
       trig_value = func_800644B8(angle_step / parameters->count);
       {
-        s32 y_offset;
-        register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        y_offset = parameters->y2;
-        scaled_offset = y_offset * trig_value;
-        ASM_USE2_NV(y_offset, scaled_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        y_offset = scaled_offset >> 12;
-        *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7A)) = position->y + y_offset;
+        offset = parameters->y2;
+        scratch = offset * trig_value;
+        offset = scratch >> 12;
+        *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7A)) = position->y + offset;
       }
       center_xy = *((volatile s32 *) (((volatile u8 *) position) + 0));
       *((volatile s32 *) (((volatile u8 *) packet_code) + 13)) = center_xy;
@@ -128,23 +120,17 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       *((volatile s32 *) (((volatile u8 *) packet_code) + 37)) = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x70));
       trig_value = func_80064584(angle_step / parameters->count);
       {
-        s32 u_offset;
-        register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u_offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10));
-        scaled_offset = u_offset * trig_value;
-        ASM_USE2_NV(u_offset, scaled_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u_offset = scaled_offset >> 13;
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 29)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + u_offset;
+        offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10));
+        scratch = offset * trig_value;
+        offset = scratch >> 13;
+        *((volatile u8 *) (((volatile u8 *) packet_code) + 29)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 5))) + offset;
       }
       trig_value = func_800644B8(angle_step / parameters->count);
       {
-        s32 v_offset;
-        register s32 scaled_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        v_offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14));
-        scaled_offset = v_offset * trig_value;
-        ASM_USE2_NV(v_offset, scaled_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        v_offset = scaled_offset >> 13;
-        *((volatile u8 *) (((volatile u8 *) packet_code) + 30)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 6))) + v_offset;
+        offset = *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14));
+        scratch = offset * trig_value;
+        offset = scratch >> 13;
+        *((volatile u8 *) (((volatile u8 *) packet_code) + 30)) = (*((volatile u8 *) (((volatile u8 *) packet_code) + 6))) + offset;
       }
       *((volatile u16 *) (((volatile u8 *) packet_code) + 7)) = parameters->texture;
       texture_page = parameters->flags;
@@ -171,10 +157,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
       cursor += 52;
     } if (segment < parameters->count) goto loop_0;
   }
-  {
-    register u8 *state_slot ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    state_slot = D_80083160;
-    ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    (*((DungeonState **) state_slot))->cursor = cursor;
-  }
+  scratch = (s32) D_80083160;
+  ASM_KEEP(scratch);
+  (*((DungeonState **) scratch))->cursor = cursor;
 }

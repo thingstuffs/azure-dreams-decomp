@@ -24,7 +24,7 @@ extern u8 D_800E0B4C[];
 
 extern s32 func_800A2B5C(s32);
 extern void func_80096088(Actor *, s32);
-extern s32 func_800990FC(s32, s32, s32, s32);
+extern s32 func_800990FC();
 extern s32 func_80099194(void *, s32);
 extern s32 func_8009929C(s32, s32);
 extern s32 func_80099978(s32);
@@ -65,15 +65,12 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
         if (!(entry[3] & 0x40)) {
 
             s32 call_actor;
-            register s32 call_context_a ASM_REG("$5");
-            register s32 call_context_b ASM_REG("$6");
-            register s32 call_target ASM_REG("$7");
             s32 cursor;
             s32 buffer_start;
             s32 patch_pos;
             s32 entry_pos;
             ASM_SET(call_actor);
-            cursor = func_800990FC(call_actor, call_context_a, call_context_b, call_target);
+            cursor = func_800990FC(call_actor);
             buffer_start = cursor;
             cursor = func_80099978(func_80099194(D_800E0B39, func_8009929C(8, cursor)));
             patch_pos = cursor - 2;

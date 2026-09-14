@@ -301,20 +301,14 @@ state_2:
 state_2_particles:
     {
         s32 brightness;
-        register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 offset_x;
+        register s32 offset_y;
         s16 offset_z;
 
         special++;
         brightness = (func_80069EF8() & 0xFF) | 0x80;
-        offset_x = func_80069EF8();
-        offset_x &= 0x7F;
-        offset_x -= 0x40;
-        offset_x = (s16)offset_x;
-        offset_y = func_80069EF8();
-        offset_y &= 0x7F;
-        offset_y -= 0x40;
-        offset_y = (s16)offset_y;
+        offset_x = (s16)((func_80069EF8() & 0x7F) - 0x40);
+        offset_y = (s16)((func_80069EF8() & 0x7F) - 0x40);
         offset_z = (func_80069EF8() & 0x7F) - 0x40;
         func_80170D28((u8 *)action - 0x20, 0, 0x00C0C0C0,
                       brightness, offset_x, offset_y, offset_z);

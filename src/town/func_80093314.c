@@ -49,7 +49,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
     s16 height;
     s32 action_result;
     s32 interaction_result;
-    register u8 *page_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *page_base;
     register u8 *shared_data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *input_state = D_80083160;
 
@@ -106,7 +106,8 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
             func_800943B8(actor, record, context);
             return;
         }
-        if (((S_80090A74_2 *)input_state)->unk_08 & 0xF000) {
+        page_base = (u8 *)(u32)(((S_80090A74_2 *)input_state)->unk_08 & 0xF000);
+        if (page_base != 0) {
             func_80093ED8(actor, record, context);
         }
     }

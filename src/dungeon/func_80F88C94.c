@@ -118,7 +118,7 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
     s32 particle_offset_x;
     s32 direction_x;
     register s32 direction_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 setup_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 setup_value;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 velocity_x;
     s32 velocity_z;
@@ -139,7 +139,8 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
     direction_x_table += setup_value;
     direction_y_table = (u8 *)&D_8006CCE8;
     direction_x = *(s16 *)direction_x_table;
-    direction_y = *(s16 *)(direction_y_table + setup_value);
+    setup_value = (s32)(direction_y_table + setup_value);
+    direction_y = *(s16 *)setup_value;
     state = ((S_80172494_1 *)action)->unk_9B;
     ((S_80172494_1 *)action)->unk_96.s = ((S_80172494_1 *)action)->unk_96.s - 1;
 

@@ -65,11 +65,11 @@ void func_8014CDA8(void *entity_in, void *motion_in, void *sprite_in)
     s16 direction_index;
     s32 height_offset;
     s32 bob_phase;
-    register s32 bob_angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 bob_angle;
     s16 ground_height;
     s16 ground_delta;
     u16 sprite_flags;
-    register u16 bob_frame ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 bob_frame;
     u32 entity_flags;
     s32 prev_bob_offset;
     Callback paused_callback;
@@ -160,22 +160,18 @@ void func_8014CDA8(void *entity_in, void *motion_in, void *sprite_in)
                 if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x100) {
                     (*(u16 *)((u8 *)entity + 0x9E)) = 0;
                 }
-                bob_frame = (*(u16 *)((u8 *)entity + 0x9E));
+                bob_frame = (*(u16 *)((u8 *)entity + 0x9E))++;
                 bob_phase = (s32)((u32)bob_frame << 16) >> 16;
                 bob_angle = bob_phase * 0xE3;
-                bob_frame++;
-                (*(u16 *)((u8 *)entity + 0x9E)) = bob_frame;
                 (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                 if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E8;
                     func_80047784(sprite, D_801500E8[((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
                 }
             } else if (((S_8014CDA8_1 *)sprite)->unk_2C == D_801500E8) {
-                bob_frame = (*(u16 *)((u8 *)entity + 0x9E));
+                bob_frame = (*(u16 *)((u8 *)entity + 0x9E))++;
                 bob_phase = (s32)((u32)bob_frame << 16) >> 16;
                 bob_angle = bob_phase * 0xE3;
-                bob_frame++;
-                (*(u16 *)((u8 *)entity + 0x9E)) = bob_frame;
                 (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
                 if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E0;
@@ -229,22 +225,18 @@ reset_offset:
             if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x100) {
                 (*(u16 *)((u8 *)entity + 0x9E)) = 0;
             }
-            bob_frame = (*(u16 *)((u8 *)entity + 0x9E));
+            bob_frame = (*(u16 *)((u8 *)entity + 0x9E))++;
             bob_phase = (s32)((u32)bob_frame << 16) >> 16;
             bob_angle = bob_phase * 0xE3;
-            bob_frame++;
-            (*(u16 *)((u8 *)entity + 0x9E)) = bob_frame;
             (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
             if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E8;
                 func_80047784(sprite, D_801500E8[((D_80083228 + ((S_8014CDA8_2 *)entity_state)->unk_2A + 0x100) >> 9) & 7], 0);
             }
         } else if (((S_8014CDA8_1 *)sprite)->unk_2C == D_801500E8) {
-            bob_frame = (*(u16 *)((u8 *)entity + 0x9E));
+            bob_frame = (*(u16 *)((u8 *)entity + 0x9E))++;
             bob_phase = (s32)((u32)bob_frame << 16) >> 16;
             bob_angle = bob_phase * 0xE3;
-            bob_frame++;
-            (*(u16 *)((u8 *)entity + 0x9E)) = bob_frame;
             (*(s32 *)((u8 *)entity + 0xA0)) = func_800644B8(bob_angle) << 7;
             if (((S_8014CDA8_1 *)sprite)->unk_04.u16 == 0x103) {
                 (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801500E0;

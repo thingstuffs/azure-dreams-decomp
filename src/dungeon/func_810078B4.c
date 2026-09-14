@@ -227,11 +227,10 @@ state_one_active:
 increment_counter:
     {
         u8 *counter_base = (u8 *)&D_80083460;
-        register u16 counter_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        counter_value = ((S_801730B4_3 *)counter_base)->unk_0A;
-        counter_value++;
-        ((S_801730B4_3 *)counter_base)->unk_0A = counter_value;
+        state = ((S_801730B4_3 *)counter_base)->unk_0A;
+        state++;
+        ((S_801730B4_3 *)counter_base)->unk_0A = state;
     }
 
 increment_state:

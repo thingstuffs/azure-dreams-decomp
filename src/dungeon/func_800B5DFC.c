@@ -76,7 +76,8 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
     register s32 slot_or_angle ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 base_angle;
     s32 radius_decay;
-    register s32 packet_or_angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 packet_or_angle;
+    s32 packet_or_angle_2;
     s32 saved_link;
     s32 segment_index;
     s32 point_index;
@@ -94,16 +95,17 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
 
     draw_params[0] = 0x01000340;
     draw_params[1] = 0x460044;
-    packet_or_angle = effect + 0xC;
-    func_800478B8(packet_or_angle);
+    packet_or_angle_2 = effect + 0xC;
+    func_800478B8(packet_or_angle_2);
     saved_link = restore_link;
-    ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle;
+    ((S_800BB55C_0_pre *)effect)[-1].unk_00 = packet_or_angle_2;
     func_800BB2E4(NULL, NULL, draw_params, 0, effect);
     base_angle = -0x400;
     point_index = 0;
     slot_or_angle = (s32) effect;
     loop_0: {
-        packet_or_angle = (s16)base_angle;
+        packet_or_angle = base_angle << 0x10;
+        packet_or_angle >>= 0x10;
         start_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
         start_xy[1] = (func_800644B8(packet_or_angle) >> 7) + 0x122;
         packet_or_angle += 0x999;

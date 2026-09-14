@@ -68,31 +68,35 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
     {
         u8 *data_page;
         Engine *engine;
-        register u8 *dispatch_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        u8 *item_slot;
+        u8 *block_a;
+        u8 *dispatch_a;
+        u8 *engine_b;
+        u8 *block_b;
+        u8 *dispatch_b;
 
         engine = *(Engine **)D_80016000;
-        dispatch_ptr = engine->items;
-        dispatch_ptr += group;
-        head = dispatch_ptr[0x3700];
+        item_slot = engine->items + group;
+        head = item_slot[0x3700];
         do {
             ptr = lookup->entries;
         } while (0);
-        dispatch_ptr = (u8 *)engine->callbacks;
+        block_a = (u8 *)engine->callbacks;
         do {
-            dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
+            dispatch_a = (u8 *)((CallbackBlock *)block_a)->callback;
         } while (0);
         data_page = (u8 *)0x80020000;
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        ((Callback)dispatch_ptr)(data_page - 0x6E94, D_80019178, n, group);
+        ((Callback)dispatch_a)(data_page - 0x6E94, D_80019178, n, group);
         ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        dispatch_ptr = *(u8 **)D_80016000;
-        dispatch_ptr = (u8 *)((Engine *)dispatch_ptr)->callbacks;
+        engine_b = *(u8 **)D_80016000;
+        block_b = (u8 *)((Engine *)engine_b)->callbacks;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        dispatch_ptr = (u8 *)((CallbackBlock *)dispatch_ptr)->callback;
+        dispatch_b = (u8 *)((CallbackBlock *)block_b)->callback;
         do {
-            ((Callback)dispatch_ptr)(data_page - 0x6E94, &D_8001917C, head);
+            ((Callback)dispatch_b)(data_page - 0x6E94, &D_8001917C, head);
         } while (0);
     }
 

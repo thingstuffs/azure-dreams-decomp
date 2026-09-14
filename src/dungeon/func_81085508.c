@@ -147,14 +147,13 @@ state_two: {
     s16 timer;
     s16 next_timer;
     s32 next_height;
-    register s32 fall_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 fall_step;
 
     ((S_80172D08_0 *)action)->unk_90 -= ((S_80172D08_0 *)action)->unk_A0;
     timer = ((S_80172D08_0 *)action)->unk_96.s;
     if (timer >= 9) {
         if (((S_80172D08_2 *)actor)->unk_60 != 0) {
             register s32 scaled_arc ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 arc_scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 height_delta;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 arc_sample;
             void *owner;
@@ -162,9 +161,9 @@ state_two: {
             owner = ((S_80172D08_2 *)actor)->unk_60;
             owner = ((S_80172D08_4_pre *)owner)[-1].unk_00;
             arc_sample = func_800644B8(((S_80172D08_0 *)action)->unk_96.s << 7) >> 4;
-            arc_scale = D_800DDC40[
+            fall_step = D_800DDC40[
                 ((S_80172D08_5 *)(((S_80172D08_2 *)actor)->unk_60))->unk_13] + 0x20;
-            scaled_arc = arc_sample * arc_scale;
+            scaled_arc = arc_sample * fall_step;
             height_delta = (((S_80172D08_4 *)owner)->unk_0A - ((S_80172D08_2 *)actor)->unk_88.s) << 13;
             height_delta *= 0x11 - ((S_80172D08_0 *)action)->unk_96.s;
             arc_sample = scaled_arc << 8;

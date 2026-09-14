@@ -23,6 +23,15 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 12, gated (61 windows MATCH, SLUS SHA-1 MATCH): **7,334 pins in 1,368 rows**. Landed: the
+fence-carrying register rows in two sol batches (24 of 40, then 19 of 60: preference 10/10 and 8/10, conflict 8/10,
+scan-order 4/10; lifetime and coalesced 1-2/10), the last big rows (opus 4 of 25 with the misses diagnosed as rank
+pins whose live interval would have to move by tens of instructions, and fixed-register pins that are
+representation, not allocation), and a 16-pin cascade over the changed rows.
+- The fence-carrying pool (161 rows) is now served; the builder gained `--include-heldouts` for the register
+  lane's 80 held-out rows, which no pack has had.
+- **Running after this gate:** `alloc66`-`alloc71` (held-out and fence-carrying rows across the strata, sol).
+
 Twenty-fifth round, part 11, gated (10 windows MATCH, SLUS SHA-1 MATCH): **7,423 pins in 1,368 rows**. Landed: the
 last keep-themed label-as-call pack (opus 7 of 8, 29 pins: the theme's pool of rows with live pseudo-calls is now
 exhausted; its 107 remaining rows have no pseudo-call and a keep pack on them went 1 of 10), three fence-carrying

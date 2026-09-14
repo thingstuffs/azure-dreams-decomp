@@ -62,6 +62,7 @@ void func_8017293C(void *action, void *motion, void *sprite, void *actor)
     s32 is_special;
     u8 phase;
     void *target;
+    u8 *scratch_pointer;
 
     is_special = 0;
     phase = ((S_8017293C_0 *)action)->unk_9B;
@@ -152,12 +153,10 @@ selection_ready:
         if (D_8006DE24[item_id * 20 + 0x12] == 2) {
             target = (*(void * *)((u8 *)actor + 0x60));
             if (target != 0) {
-                register u8 *target_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
 copy_active_coords:
-                target_sprite = ((S_8017293C_1_pre *)target)[-1].unk_00;
-                (*(u8 *)((u8 *)actor + 0x72)) = ((S_8017293C_2 *)target_sprite)->unk_24;
-                (*(u8 *)((u8 *)actor + 0x73)) = ((S_8017293C_2 *)target_sprite)->unk_25;
+                scratch_pointer = ((S_8017293C_1_pre *)target)[-1].unk_00;
+                (*(u8 *)((u8 *)actor + 0x72)) = ((S_8017293C_2 *)scratch_pointer)->unk_24;
+                (*(u8 *)((u8 *)actor + 0x73)) = ((S_8017293C_2 *)scratch_pointer)->unk_25;
                 goto invoke_item;
             }
         } else {
@@ -249,13 +248,11 @@ state_2:
         func_80047784(sprite, direction_frames[direction], 0);
     }
     {
-        u8 *action_status;
-
-        action_status = (u8 *)&D_80083460;
-        if (((S_8017293C_5 *)action_status)->unk_0C != 0) {
+        scratch_pointer = (u8 *)&D_80083460;
+        if (((S_8017293C_5 *)scratch_pointer)->unk_0C != 0) {
             goto end;
         }
-        ((S_8017293C_5 *)action_status)->unk_0A--;
+        ((S_8017293C_5 *)scratch_pointer)->unk_0A--;
         ((S_8017293C_0 *)action)->unk_8C = D_80170E9C;
         func_800A4ACC(actor);
         (*(u8 *)((u8 *)actor + 0x73)) = 0;

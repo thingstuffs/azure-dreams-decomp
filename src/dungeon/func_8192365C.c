@@ -88,7 +88,7 @@ typedef struct S_80024E5C_5 {
 
 /* Update the effect's color cycle, movement, bursts, and destruction. */
 void func_80024E5C(void *effect, void *motion, void *sprite) {
-    register s32 delta_or_divisor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 delta_x;
     s16 reduced_scale;
     u8 *height_table;
     s32 travel_distance;
@@ -167,16 +167,14 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                 target_position = ((S_80024E5C_4_pre *)(((S_80024E5C_0 *)effect)->unk_88))[-1].unk_00;
                 ((S_80024E5C_1 *)sprite)->unk_06 = 8;
                 if (((S_80024E5C_0 *)effect)->unk_5A.s == 0) {
-                    delta_or_divisor = ((S_80024E5C_3 *)target_position)->unk_00.at02.v;
-                    delta_or_divisor -= ((S_80024E5C_2 *)motion)->unk_00.at02u.v;
-                    distance_x = abs(delta_or_divisor);
+                    delta_x = ((S_80024E5C_3 *)target_position)->unk_00.at02.v;
+                    delta_x -= ((S_80024E5C_2 *)motion)->unk_00.at02u.v;
+                    distance_x = abs(delta_x);
                     if (distance_x < 0) {
                         distance_x += 0x3F;
                     }
-                    delta_or_divisor = ((S_80024E5C_3 *)target_position)->unk_04.at02.v;
-                    delta_or_divisor -= ((S_80024E5C_2 *)motion)->unk_04.at02u.v;
-                    travel_distance = delta_or_divisor;
-                    travel_distance = abs(travel_distance);
+                    travel_distance = abs(((S_80024E5C_3 *)target_position)->unk_04.at02.v -
+                                          ((S_80024E5C_2 *)motion)->unk_04.at02u.v);
                     if (travel_distance < 0) {
                         travel_distance += 0x3F;
                     }
@@ -191,35 +189,41 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                 target_x_or_z_step = ((S_80024E5C_3 *)target_position)->unk_00.at00.v;
                 target_y = ((S_80024E5C_3 *)target_position)->unk_04.at00.v;
                 if (near_target == 0) {
+                    s32 divisor;
                     current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
                     ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 0xB));
                     ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 0xB));
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     target_x_or_z_step = ((S_80024E5C_2 *)motion)->unk_08.at00.v;
-                    delta_or_divisor = ((S_80024E5C_0 *)effect)->unk_5A.s;
+                    divisor = ((S_80024E5C_0 *)effect)->unk_5A.s;
                     target_x_or_z_step = target_z - target_x_or_z_step;
-                    delta_or_divisor -= 0xB;
-                    goto divide_z;
+                    divisor -= 0xB;
+                    target_x_or_z_step /= divisor;
+                    ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
+                    goto integrate;
                 }
                 if (travel_frames >= 0xB) {
+                    s32 divisor;
                     current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
                     ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 9));
                     ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 9));
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     target_x_or_z_step = ((S_80024E5C_2 *)motion)->unk_08.at00.v;
-                    delta_or_divisor = ((S_80024E5C_0 *)effect)->unk_5A.s;
+                    divisor = ((S_80024E5C_0 *)effect)->unk_5A.s;
                     target_x_or_z_step = target_z - target_x_or_z_step;
-                    delta_or_divisor -= 9;
-                    goto divide_z;
+                    divisor -= 9;
+                    target_x_or_z_step /= divisor;
+                    ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
+                    goto integrate;
                 }
                 if (travel_frames >= 5) {
+                    s32 divisor;
                     current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
                     ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 4));
                     ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 4));
                     target_x_or_z_step = target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v;
-                    delta_or_divisor = ((S_80024E5C_0 *)effect)->unk_5A.s - 4;
-divide_z:
-                    target_x_or_z_step /= delta_or_divisor;
+                    divisor = ((S_80024E5C_0 *)effect)->unk_5A.s - 4;
+                    target_x_or_z_step /= divisor;
                     ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
                     goto integrate;
                 }

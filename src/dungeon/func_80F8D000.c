@@ -97,7 +97,7 @@ void *BODY_NAME(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
     register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *call_a0;
     void *call_a1;
 
     saved_arg1 = arg1;
@@ -136,7 +136,6 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        call_a0 = obj;
         if (((arg0 & ~3) << 16) == 0) {
             if (!(((S_80F8D000_1 *)work)->unk_14 & 0x200)) {
                 call_a1 = part_a;
@@ -152,7 +151,7 @@ normal_kind:
                 goto post_kind;
             }
         }
-        goto call_a1_setup;
+        goto post_kind;
 
 post_kind:
         call_a0 = obj;
