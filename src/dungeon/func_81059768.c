@@ -88,117 +88,109 @@ typedef struct S_80170F68_5 {
 /* Updates a dungeon actor's behavior, facing, and animation from its current state. */
 void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, void *actor_state_arg)
 {
-    void *actor;
-    void *context;
-    void *map_object;
-    register void *actor_state ASM_REG("$18");
     u8 *anim_table;
     s32 tile_id;
     s32 distance;
     u32 initial_flags = D_80083462;
 
-    actor = actor_arg;
-    context = context_arg;
-    map_object = map_object_arg;
-    actor_state = actor_state_arg;
 
     if (initial_flags & 0x1000) {
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xE;
-        func_80171510(actor, context, map_object, actor_state);
+        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xE;
+        func_80171510(actor_arg, context_arg, map_object_arg, actor_state_arg);
         do {
             return;
         } while (0);
     }
 
 
-    if (((S_80170F68_1 *)actor_state)->unk_25 == 0) {
+    if (((S_80170F68_1 *)actor_state_arg)->unk_25 == 0) {
         u8 *inactive_anims;
 
-        func_800AA79C(actor, context, map_object, actor_state);
-        if (((S_80170F68_2 *)map_object)->unk_2C != D_80174000) {
+        func_800AA79C(actor_arg, context_arg, map_object_arg, actor_state_arg);
+        if (((S_80170F68_2 *)map_object_arg)->unk_2C != D_80174000) {
             inactive_anims = D_80173FF8;
-            (*(void * *)((u8 *)map_object + (0x2C))) = inactive_anims;
-            func_80047784(map_object,
-                inactive_anims[((D_80083228 + ((S_80170F68_1 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+            (*(void * *)((u8 *)map_object_arg + (0x2C))) = inactive_anims;
+            func_80047784(map_object_arg,
+                inactive_anims[((D_80083228 + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
                 0);
         }
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_AE = 0;
-        func_80042B68(actor_state, 0x1A);
+        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_AE = 0;
+        func_80042B68(actor_state_arg, 0x1A);
         return;
     }
 
-    if (((S_80170F68_1 *)actor_state)->unk_1C & 0x200) {
-        if (((S_80170F68_2 *)map_object)->unk_2C == D_80174000) {
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = 0xD;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9B.as_u8 = 1;
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_8C = 0;
-            ((S_80170F68_1 *)actor_state)->unk_1C &= ~0x40000;
+    if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x200) {
+        if (((S_80170F68_2 *)map_object_arg)->unk_2C == D_80174000) {
+            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = 0xD;
+            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9B.as_u8 = 1;
+            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_8C = 0;
+            ((S_80170F68_1 *)actor_state_arg)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor, context, map_object, D_80173FF8)) {
+        if (func_800AA924(actor_arg, context_arg, map_object_arg, D_80173FF8)) {
             return;
         }
     }
 
     if (!(D_80083462 & 0x2000)) {
-        if (((S_80170F68_1 *)actor_state)->unk_1C & 0x100) {
-            func_800AA258(actor, context, map_object, actor_state);
+        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x100) {
+            func_800AA258(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
 
-        if (((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 != 0xE) {
+        if (((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 != 0xE) {
             u8 next_state = 0xE;
 
             anim_table = D_80173FB8;
-            if (((S_80170F68_2 *)map_object)->unk_2C != anim_table) {
-                (*(void * *)((u8 *)map_object + (0x2C))) = anim_table;
-                func_80047784(map_object,
-                    anim_table[((D_80083228 + ((S_80170F68_1 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+            if (((S_80170F68_2 *)map_object_arg)->unk_2C != anim_table) {
+                (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
+                func_80047784(map_object_arg,
+                    anim_table[((D_80083228 + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7],
                     0);
             }
-            ((Rec_func_800A9E70_arg0 *)actor)->unk_9A.as_u8 = next_state;
+            ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_9A.as_u8 = next_state;
         }
 
-        ((Rec_func_800A9E70_arg0 *)actor)->unk_98 &= 0xFFF3;
-        if (((S_80170F68_1 *)actor_state)->unk_64 != 0) {
-            if (func_800AA6B4(actor, context, map_object, D_80173FC0)) {
+        ((Rec_func_800A9E70_arg0 *)actor_arg)->unk_98 &= 0xFFF3;
+        if (((S_80170F68_1 *)actor_state_arg)->unk_64 != 0) {
+            if (func_800AA6B4(actor_arg, context_arg, map_object_arg, D_80173FC0)) {
                 return;
             }
         }
 
-        if (((S_80170F68_1 *)actor_state)->unk_1C & 0x80000) {
-            func_800AA888(actor, context, map_object, actor_state);
-            func_80173900(actor, context, map_object, actor_state);
+        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x80000) {
+            func_800AA888(actor_arg, context_arg, map_object_arg, actor_state_arg);
+            func_80173900(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
         }
 
-        if ((s16)func_800A1C58(actor_state) != 0) {
-            func_800AAB10(actor, context, map_object, actor_state);
+        if ((s16)func_800A1C58(actor_state_arg) != 0) {
+            func_800AAB10(actor_arg, context_arg, map_object_arg, actor_state_arg);
         }
     }
 
-    tile_id = func_8009FB34(((S_80170F68_2 *)map_object)->unk_24.at00.v, ((S_80170F68_2 *)map_object)->unk_24.at01.v);
-    ((S_80170F68_2 *)map_object)->unk_26 = tile_id;
+    tile_id = func_8009FB34(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v);
+    ((S_80170F68_2 *)map_object_arg)->unk_26 = tile_id;
 
-    if (((S_80170F68_1 *)actor_state)->unk_6D > 0) {
-        if (((S_80170F68_1 *)actor_state)->unk_1C & 0x20) {
+    if (((S_80170F68_1 *)actor_state_arg)->unk_6D > 0) {
+        if (((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x20) {
             goto special_cleanup;
         }
-        if (((S_80170F68_2 *)map_object)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80170F68_2 *)map_object_arg)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto ordinary_cleanup;
         }
-        if (!(((S_80170F68_1 *)actor_state)->unk_46 & 0x8000)) {
+        if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
             if (D_80083462 & 0x2000) {
-                if ((s16)func_8009A180(actor_state,
+                if ((s16)func_8009A180(actor_state_arg,
                         (u8 *)((Rec_D_800814A8 *)D_800814A8)->unk_58.as_pv + 0x20) != 0) {
                     return;
                 }
             }
-            if ((s16)func_80172228(actor, context, map_object, 0) == 0) {
+            if ((s16)func_80172228(actor_arg, context_arg, map_object_arg, 0) == 0) {
                 return;
             }
-            ((S_80170F68_1 *)actor_state)->unk_46 |= 0x4000;
-            if (!(((S_80170F68_1 *)actor_state)->unk_46 & 0x8000)) {
+            ((S_80170F68_1 *)actor_state_arg)->unk_46 |= 0x4000;
+            if (!(((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x8000)) {
                 goto ordinary_cleanup;
             }
         }
@@ -215,7 +207,7 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
             };
             s32 dispatch_index;
 
-            dispatch_index = (((S_80170F68_1 *)actor_state)->unk_46 & 0x3FFF) - 1;
+            dispatch_index = (((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x3FFF) - 1;
             if ((u32)dispatch_index >= 12) {
                 goto ordinary_cleanup;
             }
@@ -223,12 +215,12 @@ void func_80170F68(void *actor_arg, void *context_arg, void *map_object_arg, voi
         }
 handler_case:
 #else
-        switch (((S_80170F68_1 *)actor_state)->unk_46 & 0x3FFF) {
+        switch (((S_80170F68_1 *)actor_state_arg)->unk_46 & 0x3FFF) {
         case 8:
         case 9:
 #endif
-            if ((s16)func_80171F24(actor, context, map_object, actor_state) == 0) {
-                func_80172110(actor, context, map_object, actor_state);
+            if ((s16)func_80171F24(actor_arg, context_arg, map_object_arg, actor_state_arg) == 0) {
+                func_80172110(actor_arg, context_arg, map_object_arg, actor_state_arg);
                 return;
             }
             return;
@@ -238,7 +230,7 @@ extra_cleanup:
 #else
         case 4:
 #endif
-            func_80173AD4(actor, context, map_object, actor_state);
+            func_80173AD4(actor_arg, context_arg, map_object_arg, actor_state_arg);
             return;
 
 #ifdef __mips__
@@ -254,11 +246,11 @@ coords_case:
             s32 direction;
 
             direction = func_800A0818(
-                ((S_80170F68_2 *)map_object)->unk_24.at00.v, ((S_80170F68_2 *)map_object)->unk_24.at01.v,
+                ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
                 ((S_80170F68_4 *)player_pos)->unk_24, ((S_80170F68_4 *)player_pos)->unk_25,
                 &distance);
             player = D_800814A8;
-            ((S_80170F68_1 *)actor_state)->unk_2A = direction;
+            ((S_80170F68_1 *)actor_state_arg)->unk_2A = direction;
             if (((S_80170F68_5 *)player)->unk_9A == 0x11) {
                 goto aaf_cleanup;
             }
@@ -281,28 +273,28 @@ coords_case:
 #endif
 
 special_cleanup:
-        func_800A9A0C(actor_state);
+        func_800A9A0C(actor_state_arg);
         return;
 
 aaf_cleanup:
-        func_800AAF00(actor, context, map_object, D_80173FF0, &D_80170F68);
+        func_800AAF00(actor_arg, context_arg, map_object_arg, D_80173FF0, &D_80170F68);
         return;
 
 ordinary_cleanup:
-        func_80171768(actor, context, map_object, actor_state);
+        func_80171768(actor_arg, context_arg, map_object_arg, actor_state_arg);
         return;
-    } else if (!(((S_80170F68_1 *)actor_state)->unk_1C & 0x2000)) {
+    } else if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x2000)) {
         s32 record_index = (s8)tile_id;
 
         if ((record_index < 0) || !(((DungeonRecord *)D_800E2970)[record_index].flags & 2)) {
-            if (!(((S_80170F68_1 *)actor_state)->unk_1C & 0x430)) {
+            if (!(((S_80170F68_1 *)actor_state_arg)->unk_1C & 0x430)) {
                 u8 *player_pos = D_80082E80;
 
-                if ((s16)func_8009FD7C(((S_80170F68_2 *)map_object)->unk_24.at00.v,
-                        ((S_80170F68_2 *)map_object)->unk_24.at01.v, ((S_80170F68_4 *)player_pos)->unk_24,
+                if ((s16)func_8009FD7C(((S_80170F68_2 *)map_object_arg)->unk_24.at00.v,
+                        ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v, ((S_80170F68_4 *)player_pos)->unk_24,
                         ((S_80170F68_4 *)player_pos)->unk_25) != 0) {
-                    ((S_80170F68_1 *)actor_state)->unk_2A = func_800A0818(
-                        ((S_80170F68_2 *)map_object)->unk_24.at00.v, ((S_80170F68_2 *)map_object)->unk_24.at01.v,
+                    ((S_80170F68_1 *)actor_state_arg)->unk_2A = func_800A0818(
+                        ((S_80170F68_2 *)map_object_arg)->unk_24.at00.v, ((S_80170F68_2 *)map_object_arg)->unk_24.at01.v,
                         ((S_80170F68_4 *)player_pos)->unk_24, ((S_80170F68_4 *)player_pos)->unk_25,
                         &distance);
                 }
@@ -313,15 +305,15 @@ ordinary_cleanup:
     if (D_80083462 & 0x2000) {
         return;
     }
-    if (((S_80170F68_2 *)map_object)->unk_14 & 0x40) {
+    if (((S_80170F68_2 *)map_object_arg)->unk_14 & 0x40) {
         return;
     }
     anim_table = D_80173FB8;
-    if (((S_80170F68_2 *)map_object)->unk_2C == anim_table) {
+    if (((S_80170F68_2 *)map_object_arg)->unk_2C == anim_table) {
         return;
     }
-    (*(void * *)((u8 *)map_object + (0x2C))) = anim_table;
-    func_80047784(map_object,
-        ((((D_80083228 + ((S_80170F68_1 *)actor_state)->unk_2A + 0x100) >> 9) & 7) + anim_table)[0],
+    (*(void * *)((u8 *)map_object_arg + (0x2C))) = anim_table;
+    func_80047784(map_object_arg,
+        ((((D_80083228 + ((S_80170F68_1 *)actor_state_arg)->unk_2A + 0x100) >> 9) & 7) + anim_table)[0],
         0);
 }

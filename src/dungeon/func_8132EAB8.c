@@ -83,11 +83,11 @@ case_0:
         goto check_counter;
 
 case_1: {
-        register s32 tripled_size ASM_REG("$3");
-
-        tripled_size = ((S_80165AB8_2 *)sprite)->unk_1E * 3;
-        ((S_80165AB8_2 *)sprite)->unk_1E = tripled_size;
-        ((S_80165AB8_2 *)sprite)->unk_1C = tripled_size;
+        s32 source_size = ((S_80165AB8_2 *)sprite)->unk_1E;
+        next_tick = source_size << 1;
+        next_tick += source_size;
+        ((S_80165AB8_2 *)sprite)->unk_1E = next_tick;
+        ((S_80165AB8_2 *)sprite)->unk_1C = next_tick;
         goto advance_state;
     }
 

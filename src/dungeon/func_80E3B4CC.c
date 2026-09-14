@@ -123,7 +123,7 @@ void func_80174CCC(void *motion, S_80174CCC_1 *position, Rec_D_80082E80 *record)
     S_80174CCC_7 *source;
     S_80174CCC_10 *owner;
     S_80174CCC_9 *parent;
-    register void *linked_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *linked_object;
     u8 *counter_base;
     s32 spawn_kind;
     s32 target_coord;
@@ -247,11 +247,10 @@ state_one:
     ((S_80174CCC_6 *)created)->unk_28 = (source_value_28 + 1) >> 1;
 
     source = ((S_80174CCC_0 *)motion)->unk_10;
+    linked_object = created;
     if (source->unk_14 & 0x4000) {
-        linked_object = created;
         ((S_80174CCC_6 *)created)->unk_A4 = ((S_80174CCC_0 *)motion)->unk_0C;
     } else {
-        linked_object = created;
         if (source->unk_A4 != 0) {
             ((S_80174CCC_6 *)created)->unk_A4 = source->unk_A4;
         }

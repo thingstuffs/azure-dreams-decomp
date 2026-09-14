@@ -35,7 +35,7 @@ extern void func_8005914C(Entity *, s32, s32, s32);
 /* Processes the next entity command and returns its control flag. */
 s32 func_800595C0(Entity *entity)
 {
-    register Entity *ent ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+    register Entity *ent = entity;
     s32 command;
     s16 operand;
     s32 value;
@@ -67,7 +67,8 @@ s32 func_800595C0(Entity *entity)
     if ((u32)command_index >= 0x3A) {
         goto L_default;
     }
-    goto *jtbl_8003310C[command_index];
+    command = command_index;
+    goto *jtbl_8003310C[command];
 
 L_case_46:
     func_80057948(ent->field_4C, ent->field_4A, 0);

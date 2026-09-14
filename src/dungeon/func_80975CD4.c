@@ -85,8 +85,10 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6,
         &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12
     };
-    register void *sprite ASM_REG("$17") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *stats ASM_REG("$18") = stats_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *actor_head = actor_arg;
+    register void *context = context_arg;
+    register void *sprite = sprite_arg;
+    register void *stats = stats_arg;
     s16 distance;
     s32 flags;
     s32 action_index;
@@ -95,6 +97,9 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     u16 action_flags;
     void *callback;
     void *owner;
+    void *actor_tail;
+#define actor_arg actor_head
+#define context_arg context
 
 
     if (D_80083462 & 0x1000) {
@@ -175,6 +180,9 @@ void func_801714D4(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         }
     }
 
+    actor_tail = actor_head;
+#undef actor_arg
+#define actor_arg actor_tail
     tile_index = func_8009FB34(((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v);
     ((S_801714D4_2 *)sprite)->unk_26 = tile_index;
 
@@ -276,4 +284,6 @@ jt_default:
             ((S_801714D4_2 *)sprite)->unk_24.at00.v, ((S_801714D4_2 *)sprite)->unk_24.at01.v,
             origin[0x24], origin[0x25], &distance);
     }
+#undef actor_arg
+#undef context_arg
 }

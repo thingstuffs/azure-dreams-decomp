@@ -49,12 +49,10 @@ s32 func_808106E0(void)
     Triple positions0 = D_80526670;
     Triple positions1 = D_80526688;
     u8 *object;
-    register u8 *part ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 shared_part_y;
     u8 *selected;
     s32 i;
-    s32 y_first;
     s32 y_second;
-    s32 y_third;
 
     func_80050BFC(0x552, &D_80526688);
     func_8003F8A8(7);
@@ -70,7 +68,7 @@ s32 func_808106E0(void)
         ((S_808106E0_0 *)object)->unk_2C.at00.v |= 4;
     }
 
-    y_first = 0xD0;
+    shared_part_y = 0xD0;
     do {
         object = func_800374FC(1, D_801328C8);
         if (object != 0) {
@@ -79,13 +77,13 @@ s32 func_808106E0(void)
             ((S_808106E0_0 *)object)->unk_36 = 0xB4;
             ((S_808106E0_0 *)object)->unk_38 = 3;
             ((S_808106E0_0 *)object)->unk_3A = 0x7C80;
-            ((S_808106E0_0 *)object)->unk_34.s = y_first;
+            ((S_808106E0_0 *)object)->unk_34.s = shared_part_y;
             ((S_808106E0_0 *)object)->unk_30.at00.v = 0x00808080;
             ((S_808106E0_0 *)object)->unk_24.u32 = positions0.e[i];
             ((S_808106E0_0 *)object)->unk_2C.at00u.v = anchor;
         }
         i--;
-        y_first -= 0x58;
+        shared_part_y -= 0x58;
     } while (i >= 0);
 
     i = 2;
@@ -102,20 +100,20 @@ s32 func_808106E0(void)
             ((S_808106E0_0 *)object)->unk_30.at00.v = 0x00808080;
             ((S_808106E0_0 *)object)->unk_24.u32 = positions1.e[i];
 
-            part = object + 0x20;
+            shared_part_y = (s32)object + 0x20;
             if (i != 1) {
                 if (i < 2) {
                     selected = anchor + 6;
                     if (i != 0) {
-                        ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                        ((S_808106E0_1 *)part)->unk_0C = anchor;
+                        ASM_KEEP(shared_part_y);
+                        ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
                         func_8052B4E8();
                     }
                 } else {
                     if (i == 2) {
                         selected = anchor + 10;
                     } else {
-                        ((S_808106E0_1 *)part)->unk_0C = anchor;
+                        ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
                         func_8052B4E8();
                     }
                 }
@@ -123,14 +121,14 @@ s32 func_808106E0(void)
                 selected = anchor + 8;
             }
             ((S_808106E0_0 *)object)->unk_28.at00.v = selected;
-            ((S_808106E0_1 *)part)->unk_0C = anchor;
+            ((S_808106E0_1 *)shared_part_y)->unk_0C = anchor;
         }
         i--;
         y_second -= 0x58;
     } while (i >= 0);
 
     i = 2;
-    y_third = 0xCC;
+    shared_part_y = 0xCC;
     do {
         object = func_800374FC(1, D_801328C8);
         i--;
@@ -140,13 +138,13 @@ s32 func_808106E0(void)
             ((S_808106E0_0 *)object)->unk_2C.at02.v = 0xB0;
             ((S_808106E0_0 *)object)->unk_30.at00u.v = 0x50;
             ((S_808106E0_0 *)object)->unk_30.at02.v = 0x20;
-            ((S_808106E0_0 *)object)->unk_2C.at00p.v = y_third;
+            ((S_808106E0_0 *)object)->unk_2C.at00p.v = shared_part_y;
             ((S_808106E0_0 *)object)->unk_34.u = 2;
             ((S_808106E0_0 *)object)->unk_28.at00u.v = 0x00404040;
             ((S_808106E0_0 *)object)->unk_24.p32 = anchor;
             ((S_808106E0_0 *)object)->unk_36 |= 1;
         }
-        y_third -= 0x58;
+        shared_part_y -= 0x58;
     } while (i >= 0);
 
     return 0;

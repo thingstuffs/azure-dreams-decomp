@@ -141,6 +141,7 @@ void func_80022F60(void *arg0) {
     void *obj;
     u8 *sprite;
     s32 *position;
+    u8 *image;
 
     ASM_KEEP(arg);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
@@ -283,7 +284,6 @@ void func_80022F60(void *arg0) {
 
                     obj = func_8003FC64(0x136);
                     if (obj != NULL) {
-                        register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
                         sprite = (u8 *)obj + 0x20;
 
@@ -350,7 +350,6 @@ void func_80022F60(void *arg0) {
                 obj = func_8003FC64(0x136);
 
                 if (obj != NULL) {
-                    register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                     s32 random;
                     u8 *sprite;
 
@@ -404,7 +403,6 @@ void func_80022F60(void *arg0) {
                 obj = func_8003FC64(0x136);
 
                 if (obj != NULL) {
-                    register u8 *image ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                     s32 *position;
 
                     sprite = (u8 *)obj + 0x20;

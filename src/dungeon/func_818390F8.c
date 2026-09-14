@@ -82,7 +82,6 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
     s32 endpoint;
     s32 height;
     POLY_FT4 *poly;
-    register void *next_node ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     world_point.x = position->x;
     frame_record = render_record;
@@ -136,18 +135,17 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
     }
 
     ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    next_node = *(void **)((u8 *)render_record - 8);
-    if (next_node != 0) {
-        render_record = (RenderRecord *)((u8 *)next_node + 0x20);
+    position = *(void **)((u8 *)render_record - 8);
+    if (position != 0) {
+        render_record = (RenderRecord *)((u8 *)position + 0x20);
         ASM_KEEP(render_record);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        next_node = *(void **)((u8 *)next_node + 8);
-        ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        position = *(void **)((u8 *)position + 8);
+        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_80024934();
     }
-    ASM_KEEP(next_node);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return 0;
 }
 
 /* MECHANISM: Separate stack screen/pointer bases force the retail 0x50 frame and s7/s4 roles.
-   A 40-byte FT4 plus uncached OT re-addressing restores the body length and reloads.
-   Holding next in a1 and fencing the false return preserves the retail tail-j contract. */
+   A 40-byte FT4 plus uncached OT re-addressing restores the body length and reloads. */
