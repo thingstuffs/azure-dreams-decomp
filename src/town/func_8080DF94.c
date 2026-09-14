@@ -11,8 +11,6 @@ extern s32 func_8003EA54();
 extern s32 func_80071494();
 extern s32 func_80245C10();
 extern s16 func_8025E01C();
-extern void func_80528F24() __attribute__((noreturn));
-extern void func_80529030() __attribute__((noreturn));
 extern s32 D_80084D5C;
 extern s32 D_80526430[3];
 extern u8 D_80288EE0[];
@@ -34,7 +32,6 @@ void func_8080DF94(void *arg0, void *arg1, void *arg2) {
     register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 temp_a0;
     u16 temp_v0_3;
-    register void *tail_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *temp_s3;
     void *temp_s6;
     s32 vel_x;
@@ -60,13 +57,12 @@ void func_8080DF94(void *arg0, void *arg1, void *arg2) {
             if (temp_v1 == 0) {
                 goto case_0;
             }
-            return func_80529030();
+            goto block_60;
         }
-        tail_arg = arg1;
         if (temp_v1 == 0x20) {
             goto case_20;
         }
-        func_80529030(tail_arg);
+        goto block_60;
     }
     if (temp_v1 == 0x100) {
         goto case_100;
@@ -75,7 +71,7 @@ void func_8080DF94(void *arg0, void *arg1, void *arg2) {
         if (temp_v1 == 0x22) {
             goto case_22;
         }
-        return func_80529030();
+        goto block_60;
     }
     if (temp_v1 == 0x101) {
         goto case_101;
@@ -83,7 +79,7 @@ void func_8080DF94(void *arg0, void *arg1, void *arg2) {
     if (temp_v1 == 0xFFF) {
         goto case_fff;
     }
-    return func_80529030();
+    goto block_60;
 
 case_0:
     FIELD(arg2, s32 *, 0xC) = (s32)(FIELD(arg2, s32 *, 0xC) + 0x101010);
@@ -92,7 +88,8 @@ case_0:
     }
     FIELD(arg2, s32 *, 0xC) = 0x808080;
     FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) & 0xFFF3);
-    return func_80528F24();
+    FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
+    goto block_60;
 
 case_1:
     if (FIELD(arg0, u16 *, 8) & 1) {
@@ -114,10 +111,9 @@ case_1:
         }
         {
             s32 next_state = 0x100;
-            ASM_USE(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             FIELD(arg0, s16 *, 4) = (s16)next_state;
         }
-        return func_80529030();
+        goto block_60;
     }
     goto block_60;
 
@@ -137,14 +133,13 @@ case_20: {
             FIELD(arg2, s32 *, 0xC) = 0xA0A0A0;
             FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) | 0xC);
             FIELD(arg0, s16 *, 4) = 0x22;
-            return func_80529030((void *)floor_y);
+            goto block_60;
         }
         if (func_80071494(floor_y) & 1) {
             var_s4 = (s32)D_80288F60;
         } else {
             var_s4 = (s32)D_80288F88;
         }
-        ASM_USE(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
     }
     pos_x = FIELD(arg1, s32 *, 0xC);
@@ -155,7 +150,7 @@ case_20: {
     pos_x = vel_x >> 3;
     vel_x -= pos_x;
     FIELD(arg1, s32 *, 0x10) = vel_x;
-    return func_80529030((void *)step_x);
+    goto block_60;
 }
 
 case_21: {
@@ -181,7 +176,7 @@ case_21: {
         FIELD(arg2, u16 *, 0x14) = (u16)(temp_a0 | 0xC);
         FIELD(arg2, s32 *, 0xC) = 0xA0A0A0;
         FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
-        return func_80529030((void *)temp_a0);
+        goto block_60;
     }
     goto block_60;
 }
@@ -197,7 +192,7 @@ case_22:
     }
     if ((FIELD(temp_s3, s16 *, 0x36) == 9) || (temp_v0_3 = FIELD(arg0, u16 *, 6) - 1, FIELD(arg0, u16 *, 6) = temp_v0_3, ((temp_v0_3 << 0x10) <= 0))) {
         FIELD(arg0, s16 *, 4) = 0xFFF;
-        return func_80529030();
+        goto block_60;
     }
     goto block_60;
 
@@ -210,7 +205,7 @@ case_101:
     if ((u8)FIELD(arg2, s32 *, 0xC) < 0x20U) {
         FIELD(arg2, s32 *, 0xC) = 0;
         FIELD(arg0, s16 *, 4) = 0xFFF;
-        return func_80529030();
+        goto block_60;
     }
     goto block_60;
 

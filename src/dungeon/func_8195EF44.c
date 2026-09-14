@@ -5,7 +5,6 @@
 #endif
 
 
-extern void func_8002488C() __attribute__((noreturn));
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 D_80024648;
@@ -77,6 +76,7 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     void *call_addr;
     void *call_obj;
     void *render;
+    void *render_2;
     u8 *coord;
     s32 color;
     u16 *cells;
@@ -84,7 +84,7 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     s32 obj_flags;
     s32 global_flags;
     register void *zero_return ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    register u8 *global_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *global_page;
     s32 cell_x;
     register s32 cell_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 shifted_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -122,7 +122,6 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     }
 
     zero_return = NULL;
-    ASM_KEEP(zero_return);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     global_page = (u8 *)0x80080000;
     ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     obj_flags = (*(u16 *)((u8 *)obj + 0x1E));
@@ -131,14 +130,13 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     global_flags |= 0x8000;
     (*(u16 *)((u8 *)obj + 0x1E)) = obj_flags;
     ((S_8195EF44_3 *)global_page)->unk_14A0 = global_flags;
-    func_8002488C(obj_flags, global_flags);
+    goto return_zero;
 
 nonzero:
     call_obj = obj;
-    ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    render = &D_80024648;
+    render_2 = &D_80024648;
     call_addr = &D_80046398;
-    (*(void * *)((u8 *)obj + 0x10)) = render;
+    (*(void * *)((u8 *)obj + 0x10)) = render_2;
     func_8004491C(call_obj, call_addr);
 
     color = 0x808080;
@@ -163,6 +161,8 @@ nonzero:
     ((S_8195EF44_5 *)coord)->unk_62 = saved_z;
 done:
     return obj;
+return_zero:
+    return zero_return;
 }
 
 /* MECHANISM: Pinned s2/s3/s4/s7 args, s1 obj/s0 work, and split s6/s5 map bases

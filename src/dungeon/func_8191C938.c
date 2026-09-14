@@ -8,7 +8,6 @@
 #define NULL 0
 #endif
 
-extern void func_8002426C() __attribute__((noreturn));
 extern s32 func_8003DB94(void *, void *, s16);
 extern void *func_8003FC64(u32);
 extern s32 func_8004491C(void *, void *);
@@ -100,15 +99,11 @@ void *func_8191C938(S_8191C938_3 *source)
         func_8004491C(object, D_80045340);
         object_block = ((S_8191C938_0 *)object)->unk_08;
         source_block = source->unk_20;
-        do {
-            *object_block = *source_block;
-        } while (0);
+        *object_block = *source_block;
         word_override = source->unk_16;
         result = object;
-        ASM_KEEP(result);
         ((S_8191C938_4 *)object_block)->unk_0A = word_override;
-        func_8002426C(object_block);
-        return object;
+        return result;
     }
     result = NULL;
     return result;

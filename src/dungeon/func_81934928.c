@@ -67,8 +67,6 @@ typedef struct {
 } Copy24;
 
 extern void func_80024004(void *);
-extern void func_80024344(void) __attribute__((noreturn));
-extern void func_80024434(void) __attribute__((noreturn));
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern s32 rand(void);
@@ -93,8 +91,6 @@ void func_81934928(void *effect, void *output)
     register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *search_origin;
     void *target;
-    void *saved_origin;
-    register void *tail_origin ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     void *particle;
     s32 rand_quotient;
     s16 state;
@@ -107,18 +103,16 @@ void func_81934928(void *effect, void *output)
     state = ((S_81934928_0 *)self)->unk_0A.s;
     owner = ((S_81934928_0 *)self)->unk_00;
     output_data = output;
-    if (state != 1) {
-        if (state < 2) {
-            if (state != 0) {
-                func_80024434();
-            }
-        } else {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            if (state == 0xFF) {
-                goto state_ff;
-            }
-            func_80024434();
-        }
+    if (state == 1) goto main_state;
+    if (state < 2) {
+        if (state == 0) goto state_zero;
+        return;
+    }
+
+    if (state == 0xFF) goto state_ff;
+    return;
+state_zero:
+    {
         if ((((S_81934928_6 *)(((S_81934928_0 *)self)->unk_04))->unk_00 & 0x80) == 0) {
             return;
         }
@@ -208,13 +202,10 @@ main_state:
         search_origin = D_800814A8;
         if (search_origin != NULL) {
             u8 *search_page;
-            register u8 *lookup_table ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 *lookup_table;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 lookup_key_a;
             s32 lookup_key_b;
-            void *lookup_origin;
-            void *lookup_context;
-            saved_origin = search_origin;
-            ASM_KEEP_NV(saved_origin);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            void *lookup_origin = search_origin;
 #ifdef NON_MATCHING
             search_page = D_80082E80 - 0x2E80;
 #else
@@ -222,21 +213,18 @@ main_state:
 #endif
             ASM_KEEP(search_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             lookup_table = search_page + 0x2E80;
-            ASM_KEEP(search_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            lookup_origin = saved_origin;
+            target = search_origin;
+lookup_again:
             lookup_key_a = lookup_table[0x24];
             lookup_key_b = lookup_table[0x25];
-            lookup_context = search_origin;
-            target = func_800A3F28(lookup_key_a, lookup_key_b, lookup_origin, lookup_context);
+            target = func_800A3F28(lookup_key_a, lookup_key_b, lookup_origin, target);
             if (target != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     func_8009CE1C(target, 0x20, ((S_81934928_0 *)self)->unk_09, 0xA,
                                   ((S_81934928_5 *)owner)->unk_2A, owner, 2);
                 }
                 func_80024004(target);
-                tail_origin = saved_origin;
-                ASM_TAILSLOT_PIN(tail_origin);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                func_80024344();
+                goto lookup_again;
             }
         }
     }
@@ -244,17 +232,17 @@ main_state:
     countdown = ((S_81934928_0 *)self)->unk_0C.s - 1;
     ((S_81934928_0 *)self)->unk_0C.s = countdown;
     if (countdown > 0) {
-        goto done;
+        return;
     }
     ((S_81934928_0 *)self)->unk_0C.s = 8;
     ((S_81934928_0 *)self)->unk_0A.u = 0xFF;
-    func_80024434();
+    return;
 
 state_ff:
     countdown = ((S_81934928_0 *)self)->unk_0C.s - 1;
     ((S_81934928_0 *)self)->unk_0C.s = countdown;
     if (countdown > 0) {
-        goto done;
+        return;
     }
     {
         u16 effect_flags;
@@ -263,9 +251,8 @@ state_ff:
         if ((value & 0x8000) != 0) {
             value = effect_flags & 0x7FFF;
             ((S_81934928_0 *)self)->unk_0E.u = value;
-            func_80024434();
+            return;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     }
     D_8008346C = 0;
     (*(u16 *)((u8 *)self + -2)) |= 0x8000;

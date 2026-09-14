@@ -6,18 +6,18 @@ typedef struct S_8190AEB4_0 {
     u8 pad_04[0x2C];
     union { void * s; u8 * u; } unk_30;   /* accessed as both */
     void * unk_34;
-} S_8190AEB4_0;   /* arg0 in func_8190AEB4 */
+} S_8190AEB4_0;   /* arg0 in func_800246B4 */
 
 typedef struct S_8190AEB4_1 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_8190AEB4_1;   /* arg2 in func_8190AEB4 */
+} S_8190AEB4_1;   /* arg2 in func_800246B4 */
 
 typedef struct S_8190AEB4_2 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in func_8190AEB4 */
+} S_8190AEB4_2;   /* ((S_8190AEB4_0 *)arg0)->unk_34 in func_800246B4 */
 
 
 
@@ -42,14 +42,13 @@ extern u8 D_80025678[44];
 extern s32 D_800814A0;
 
 extern s32 func_80024590(s32);
-extern void func_800248E8(void) __attribute__((noreturn));
 extern void func_800248F4(void) __attribute__((noreturn));
 extern void func_80024AAC(void) __attribute__((noreturn));
 extern void func_800672D8(Rect *, s32 *);
 extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
 /* Advances the object animation and draws rectangles in randomized order. */
-void func_8190AEB4(void *effect, s32 *position, void *transform)
+void func_800246B4(void *effect, s32 *position, void *transform)
 {
     Rect rect;
     Rect draw_rect;
@@ -113,22 +112,19 @@ void func_8190AEB4(void *effect, s32 *position, void *transform)
         position[2] -= 0x100000;
         next_y = ((S_8190AEB4_1 *)transform)->unk_1E - 0x200;
         next_x = ((S_8190AEB4_1 *)transform)->unk_1C + 0x200;
-        ASM_KEEP(next_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(next_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_800248E8();
+        goto store_xy;
 
     case 3:
         position[2] += 0x180000;
         next_y = ((S_8190AEB4_1 *)transform)->unk_1E + 0x300;
         next_x = ((S_8190AEB4_1 *)transform)->unk_1C - 0x300;
-        ASM_KEEP(next_y);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(next_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        func_800248E8();
+        goto store_xy;
 
     case 4:
         position[2] -= 0x80000;
         next_y = ((S_8190AEB4_1 *)transform)->unk_1E - 0x100;
         next_x = ((S_8190AEB4_1 *)transform)->unk_1C + 0x100;
+store_xy:
         ((S_8190AEB4_1 *)transform)->unk_1E = next_y;
         ((S_8190AEB4_1 *)transform)->unk_1C = next_x;
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;

@@ -150,10 +150,6 @@ extern void func_80024394(void *, s16, s32, s32, s32, s32, s32);
 extern void func_80024548(void);
 extern void func_80045340(void);
 
-extern void func_80024D6C(void) __attribute__((noreturn));
-extern void func_80024E18(void) __attribute__((noreturn));
-extern void func_80025064(void) __attribute__((noreturn));
-extern void func_800250D4(void) __attribute__((noreturn));
 
 /* Updates the actor effect through movement, particle emission, fading, and cleanup. */
 void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
@@ -260,7 +256,6 @@ state0:
             motion_z += delta_z;
             motion->z.half.hi = motion_z;
         } else {
-            ASM_SCHED_BARRIER();
             motion->z.half.hi -= 0x40;
         }
     }
@@ -294,7 +289,6 @@ state0:
     } else {
         actor->target_y = (s16)(entity->height88 - 0x50);
     }
-    ASM_SCHED_BARRIER();
     {
         Aux *aux;
         s32 entity_coord;
@@ -359,13 +353,9 @@ state0:
         motion->dy = offset_base->y << 16;
     }
     motion->dz = ((actor->target_y << 16) - motion->z.word) / actor->countdown;
-    {
-        u16 current_state;
-        current_state = actor->state;
-        ASM_KEEP(current_state);
-    }
     actor->timer82 = 0;
-    func_80025064();
+    actor->state++;
+    return;
 
 state1:
     if ((func_800A4778(motion->x.half.hi, motion->y.half.hi,
@@ -444,19 +434,19 @@ state1:
                 actor->state++;
                 render->field06 = 100;
                 func_800A56E0(sound_id);
-                func_800250D4();
+                return;
             }
 state1_cleanup:
             func_80044A50((u8 *)actor - 0x20);
             actor->state = 6;
             actor->timer84 = 0;
             actor->timer82 = 0;
-            func_800250D4();
+            return;
         }
         motion->x.word += motion->dx;
         motion->y.word += motion->dy;
         motion->z.word += motion->dz;
-        func_800250D4();
+        return;
     }
 
 state2:
@@ -464,9 +454,8 @@ state2:
     if (actor->timer84 < 5) {
         render->scale_y += 3000;
         render->scale_x = render->scale_y;
-        func_80024D6C();
     }
-    if (render->scale_x >= 0x1001) {
+    else if (render->scale_x >= 0x1001) {
         if (render->scale_x >= 0x2EE1) {
             actor->step88 = 700;
         }
@@ -513,6 +502,7 @@ state2:
             actor->timer82 = 0;
             actor->state++;
         }
+do {
         particle_count++;
         color = func_80069EF8();
         color &= 0xFF;
@@ -532,8 +522,8 @@ state2:
         if (!more_particles) {
             return;
         }
+        } while (1);
     }
-    func_80024E18();
 
 state3:
     {
@@ -594,7 +584,7 @@ state4:
             }
             effect_type = effect_kind;
             func_800C8B84(entity->link60, room_id, effect_type);
-            func_800250D4();
+            return;
         }
     }
     return;
@@ -615,7 +605,7 @@ state5:
         actor->timer84 = 0;
         actor->timer82 = 0;
         actor->state++;
-        func_800250D4();
+        return;
     }
     return;
 
@@ -641,7 +631,7 @@ state6:
                 flag_word_page = (s32 *)0x80080000;
                 ASM_KEEP(flag_word_page);
                 flag_word_page[0x14A0 / 4] |= 0x8000;
-                func_800250D4();
+                return;
             }
             *(volatile s16 *)((u8 *)flag_page + 0x5118) = 0;
         }

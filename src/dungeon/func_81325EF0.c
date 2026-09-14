@@ -84,7 +84,6 @@ typedef struct S_8016D6F0_9 {
 void func_8016D6F0(S_8016D6F0_0 *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *entity)
 {
     S_8016D6F0_7 *reference_pos;
-    register u8 *direction_table ASM_REG("$5");
     u8 *counter_base;
     u8 *flags_page;
     u8 *reference_base;
@@ -115,13 +114,15 @@ state_zero:
     if (!(sprite->unk_14.at00_u16.v & 0xE000)) {
         goto done;
     }
-    direction_table = D_801746A4;
-    sprite->unk_2C.as_pu8 = direction_table;
-    func_80047784(
-        sprite,
-        direction_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
-                ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
-        0);
+    {
+        u8 *dir_table = D_801746A4;
+        sprite->unk_2C.as_pu8 = dir_table;
+        func_80047784(
+            sprite,
+            dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
+                    ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            0);
+    }
     counter_base = D_80083460;
     ((S_8016D6F0_4 *)counter_base)->unk_0A--;
     goto advance_state;
@@ -200,13 +201,15 @@ second_check:
     }
 
 post_actions:
-    direction_table = D_801746AC;
-    sprite->unk_2C.as_pu8 = direction_table;
-    func_80047784(
-        sprite,
-        direction_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
-                ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
-        0);
+    {
+        u8 *dir_table = D_801746AC;
+        sprite->unk_2C.as_pu8 = dir_table;
+        func_80047784(
+            sprite,
+            dir_table[((((S_8016D6F0_2 *)D_80080000)->unk_3228 +
+                    ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            0);
+    }
     if (sprite->unk_14.at00_u16.v & 0x8000) {
         goto set_callback;
     }

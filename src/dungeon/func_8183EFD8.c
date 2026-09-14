@@ -82,7 +82,6 @@ typedef struct S_8183EFD8_9 {
 extern u8 D_80083498[];
 extern u8 D_800DECF8[];
 extern s32 D_800814A0[];
-void func_80024A5C() __attribute__((noreturn)); /* extern */
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
 extern u8 D_80024688[];
@@ -115,14 +114,13 @@ void func_8183EFD8(void *effect_arg, S_8183EFD8_3 *motion, S_8183EFD8_2 *sprite)
         if (phase == 0) {
             goto brighten;
         }
-        func_80024A5C();
+        return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     count_or_step = 0x10;
     if (phase == 2) {
         goto fade_out;
     }
-    func_80024A5C();
+    return;
 
 brighten:
     func_800478B8(sprite);
@@ -135,7 +133,7 @@ brighten:
     if ((s16) ((S_8183EFD8_0 *)effect)->unk_48 <= 0) {
         ((S_8183EFD8_0 *)effect)->unk_48 = 0x10U;
         ((S_8183EFD8_0 *)effect)->unk_4C.u = (u16) (((S_8183EFD8_0 *)effect)->unk_4C.u + 1);
-        func_80024A5C();
+        return;
     }
     goto end;
 
@@ -184,7 +182,7 @@ accelerate:
             }
             count_or_step -= 1;
         } while (count_or_step >= 0);
-        func_80024A5C();
+        return;
     }
     goto end;
 
@@ -193,7 +191,7 @@ fade_out:
         sprite->unk_0C.at00u.v = 0;
         ((S_8183EFD8_0_pre *)effect)[-1].unk_00 = (u16) (((S_8183EFD8_0_pre *)effect)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
-        func_80024A5C();
+        return;
     }
     fade_level = sprite->unk_0C.at02.v - 0x10;
     sprite->unk_0C.at02.v = fade_level;

@@ -230,8 +230,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern void func_80024DD4(void *, void *, void *, s32, s32, s32);
 extern void func_80024F60(void *, void *, void *, s32, s32, s32);
-extern void func_80025F9C(void) __attribute__((noreturn));
-extern void func_80025DAC(void) __attribute__((noreturn));
 
 /* Advance the effect sequence, spawning sprites and particles along its sampled path. */
 void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
@@ -287,7 +285,7 @@ case_0:
     ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
     ((S_8197192C_0 *)effect)->unk_38 = 0;
     ((S_8197192C_0 *)effect)->unk_34 = (heading >> 9) & 7;
-    func_80025F9C();
+    return;
 }
 
 case_1:
@@ -296,7 +294,7 @@ case_1:
     if ((s16)((S_8197192C_0 *)effect)->unk_2C.s <= 0) {
         ((S_8197192C_0 *)effect)->unk_2C.s = 16;
         ((S_8197192C_0 *)effect)->unk_0A.u = ((S_8197192C_0 *)effect)->unk_0A.u + 1;
-        func_80025F9C();
+        return;
     }
     if ((s16)((S_8197192C_0 *)effect)->unk_2C.s == 26) {
         if (func_80053EF0(4) != 2) {
@@ -677,8 +675,7 @@ after_coords:
         goto done;
     }
     step = 0;
-    ASM_KEEP_NV(step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    {
+    do {
         s32 spawn_x;
         s32 spawn_y;
         s32 spawn_z;
@@ -686,19 +683,13 @@ after_coords:
                   (((S_8197192C_0 *)effect)->unk_64.u - ((S_8197192C_0 *)effect)->unk_70.u) * step / 2) << 1);
         spawn_y = (s16)((((S_8197192C_0 *)effect)->unk_72.s +
                   (((S_8197192C_0 *)effect)->unk_66.u - ((S_8197192C_0 *)effect)->unk_72.u) * step / 2) << 1);
-        {
-            void *spawn_effect = effect;
-            spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_74.s +
-                      (((S_8197192C_0 *)effect)->unk_68.u - ((S_8197192C_0 *)effect)->unk_74.u) * step / 2) << 1);
-            func_80024DD4(spawn_effect, owner, context,
-                spawn_x, spawn_y, spawn_z);
-        }
+        spawn_z = (s16)((((S_8197192C_0 *)effect)->unk_74.s +
+                  (((S_8197192C_0 *)effect)->unk_68.u - ((S_8197192C_0 *)effect)->unk_74.u) * step / 2) << 1);
+        func_80024DD4(effect, owner, context,
+            spawn_x, spawn_y, spawn_z);
         step++;
-        if (step >= 2) {
-            goto done;
-        }
-        func_80025DAC();
-    }
+    } while (step < 2);
+    goto done;
 
 }
 
@@ -743,7 +734,7 @@ case_4_global_use:
         }
 case_4_set_state:
         ((S_8197192C_0 *)effect)->unk_0A.u = next_state;
-        func_80025F9C();
+        return;
     }
     goto done;
 }
@@ -760,7 +751,7 @@ cleanup:
         ((S_8197192C_13 *)cleanup_obj)->unk_0A = cleanup_count - 1;
         ((S_8197192C_0_pre *)effect)[-1].unk_00 = ((S_8197192C_0_pre *)effect)[-1].unk_00 | 0x8000;
         D_800814A0[0] = D_800814A0[0] | 0x8000;
-        func_80025F9C();
+        return;
     }
     D_80025FF4[0] = 0;
 

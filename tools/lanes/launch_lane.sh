@@ -7,10 +7,18 @@
 set -u
 cd "$(dirname "$0")/../.."
 N=${1:?lane name}; D=work/native_lane/$N
-case "${2:-luna}" in astra) M=gpt-6-astra;; luna) M=gpt-5.6-luna;; sol) M=gpt-5.6-sol;; *) echo "model? luna|sol|astra"; exit 1;; esac
+case "${2:-luna}" in astra) M=gpt-6-astra;; luna) M=gpt-5.6-luna;; sol) M=gpt-5.6-sol;;
+  agy) M=${AGY_MODEL:-gemini-3.8-flash-high};; *) echo "model? luna|sol|astra|agy"; exit 1;; esac
 [ -f $D/BRIEF.md ] && [ -f $D/PROMPT.txt ] || { echo "pack incomplete: $D needs BRIEF.md and PROMPT.txt"; exit 1; }
 [ -f $D/last_message.txt ] && { echo "$D already ran (last_message.txt exists)"; exit 1; }
-nohup codex exec -C "$PWD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
-    -c 'model_reasoning_effort="xhigh"' -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &
+if [ "$2" = agy ]; then
+  # Google Antigravity CLI (round 25): print mode with edit permission, the prompt on the command line, the
+  # repo as the workspace; the brief is read by the model from the lane directory as codex does.
+  nohup bash -c "agy --print \"\$(cat $D/PROMPT.txt)\" --model $M --mode accept-edits --print-timeout ${AGY_TIMEOUT:-90m} \
+      --dangerously-skip-permissions > $D/last_message.txt 2> $D/agy.log" > /dev/null 2>&1 &
+else
+  nohup codex exec -C "$PWD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
+      -c 'model_reasoning_effort="xhigh"' -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &
+fi
 echo $! > $D/lane.pid
 echo "lane $N model $M pid $(cat $D/lane.pid) started $(date -u +%H:%M)"

@@ -27,8 +27,6 @@ extern State *D_80701968[3];
 extern CallbackOwner *D_80701984[4];
 
 extern s32 func_80700D84(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern void func_80701024() __attribute__((noreturn));
-extern void func_80701028(void) __attribute__((noreturn));
 extern s32 func_80701060(s32 *word, s32 old_value);
 
 s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
@@ -68,8 +66,7 @@ s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     shift = value - (index << 5);
     old_value = *word;
     *word = ((1) << shift) | old_value;
-    func_80701060(word, old_value);
-    func_80701028();
+    return func_80701060(word, old_value);
 
 callback_path:
     callback = D_80701984[0]->callback(2);
@@ -81,25 +78,23 @@ callback_path:
     {
 #ifndef NON_MATCHING
         void *state;
-        register s32 new_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register s32 new_flags ASM_REG("$3");   /* still load-bearing after the honest return join */
 #else
         void *state;
         s32 new_flags;
 #endif
         state = (void *)D_80701968[0];
         new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-        do {
-            FIELD(state, s32 *, 0x30) = new_flags;
-        } while (0);
+        FIELD(state, s32 *, 0x30) = new_flags;
     }
-    func_80701024(tail_arg);
+    goto return_arg;
 
 clear_flags:
     {
 #ifndef NON_MATCHING
         void *state;
         s32 clear_mask;
-        register s32 clear_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        s32 clear_value;
 #else
         void *state;
         s32 clear_mask;
@@ -111,5 +106,6 @@ clear_flags:
         clear_value &= clear_mask;
         FIELD(state, s32 *, 0x30) = clear_value;
     }
+return_arg:
     return arg0;
 }

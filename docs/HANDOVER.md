@@ -23,6 +23,29 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 5, gated (54 windows MATCH, the town family re-gated 711/711 MATCH after the dial fix,
+SLUS SHA-1 MATCH): **7,654 pins in 1,408 rows**. Landed: 21 wave-3 label-as-call rows rewritten by opus
+packs (rows without a tail-slot pin: the pseudo-call was still holding keeps, register pins and fences), 47 rows
+from codex packs on the same family (sol: lac1 9/11, lac2 5/11, lac3 7/11, lac4 11/11, lac5 5/11, lac6 5/8; astra
+on the 7 hardest tail-slot rows: 5/7), the 15 honest rows that had waited on gate-side work (true-space
+definition names for the jump-table rows, the alias-symbol twin, the town assembler dial), 7 rows from the
+diagnosed register packs (luna: preference 3/8, lifetime 0/12 + 1/12, coalesced 1/12; agy Gemini on the conflict
+stratum: 2/12, 0/12 and one run that died without a report, so agy is off the register rotation), and the
+cascade. Nine label-as-call rows were also rewritten without a pin change (`work/lac_honest/pack*/out_nopin/`,
+13 rows, exact; landed separately or pending).
+- **Gate-side rules learned:** a row in a `solved` or `proven` region links at the true base ONLY when its
+  true name is registered in the split table; promote a region only after checking its other landed rows
+  (my `promote_honest.py` flow skips shared regions; three shared regions were promoted by hand after each
+  mate was shown exact at the true base). The per-row maspsx dial (`config/overlays/town.as_flags.jsonl`) is
+  keyed by the synthetic name: each dialled row needs a `true_name` field on its record (the general cure
+  `tools/gate/overlay_as_flags.py` patch from `work/lac_honest/gatefix/` is applied too). `gate_all` does not
+  re-gate a window when only a config record changed: use `--container <fam> --retry`.
+- **Register pool widened:** `tools/alloc_trace.py` retraced 567 rows the packs had excluded (coarse label or
+  no record): pool at 1-3 pins 256 rows (conflict 56, preference 16, lifetime 31, coalesced 62), at 4-8 pins 479
+  (`work/alloc_retrace/`, builder `--traces`). The strata that pay are conflict and preference on 1-3-pin rows.
+- **Running after this gate:** sol retry packs `lac_r1-3` (the 29 label-as-call rows every pack missed, briefed
+  with the prior diagnosis), `alloc15`/`alloc16` (conflict, luna), `alloc17` (preference, sol), `alloc18`.
+
 Twenty-fifth round, part 4, gated (48 windows MATCH, the failing windows re-gated MATCH after rollbacks, SLUS
 SHA-1 MATCH): **7,888 pins in 1,440 rows**, 396 pins removed: 81 of the 90 tail-slot rows that had no rowbase
 record re-landed as honest `goto`/`return` C at their solved-then-proven true base (eight opus packs: 87 of 90

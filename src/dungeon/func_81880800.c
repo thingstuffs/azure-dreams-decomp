@@ -23,10 +23,6 @@ extern s32 func_800A45D8(s32, s32, s16);
 extern void *func_80024968(void *, void *, s16);
 extern void func_80025760(void *, u8, void *);
 
-extern void func_80024344(void) __attribute__((noreturn));
-extern void func_800246A8(void) __attribute__((noreturn));
-extern void func_800246AC(void) __attribute__((noreturn));
-extern void func_800246F8(void) __attribute__((noreturn));
 
 #ifdef __mips__
 static const u32 func_81880800_prefix[] __asm__("func_81880800")
@@ -204,22 +200,22 @@ initialize:
             }
             F(self, u16, 0x18) = tile_distance + 1;
         }
-        func_80024344();
+        goto attach_done;
     }
 
     F(self, u16, 0x18) = 8;
     F(self, u16, 0x10) = F(motion, u16, 2);
     F(self, u16, 0x12) = F(motion, u16, 6);
     F(self, u16, 0x14) = F(owner, u16, 0x88) - 0x50;
-    ASM_SCHED_BARRIER();
+attach_done:
     direction_step = D_8006CCD8[F(self, s16, 0x1A)];
     F(motion, s16, 0x0E) = direction_step << 3;
     direction_step = D_8006CCE8[F(self, s16, 0x1A)];
     F(motion, s16, 0x12) = direction_step << 3;
     state_step = F(self, u16, 0xA);
-    ASM_KEEP(state_step);
     F(self, u16, 0x1C) = 0;
-    func_800246AC();
+    F(self, u16, 0x0A) = state_step + 1;
+    goto finish;
 
 track_target:
     velocity = F(motion, s32, 0x0C);
@@ -304,7 +300,8 @@ track_target:
         F(motion, u16, 2) = F(self, u16, 0x10);
         F(motion, u16, 6) = F(self, u16, 0x12);
         F(motion, u16, 0xA) = F(self, u16, 0x14);
-        func_800246A8();
+        F(self, u16, 0x0A)++;
+        goto finish;
     }
 
     tile_x = F(self, u8, 0x20);
@@ -325,7 +322,7 @@ track_target:
         }
     }
     F(self, u16, 0x0A) = 0x10;
-    func_800246F8();
+    goto finish;
 
 spawn_effect:
     spawn_target = F(owner, void *, 0x60);
@@ -346,7 +343,7 @@ spawn_effect:
         func_80025760(target, F(self, u8, 9), owner);
     }
     F(self, u16, 0x0A) = 0x11;
-    func_800246F8();
+    goto finish;
 
 fade:
     x_pos = F(motion, s32, 0);
@@ -374,7 +371,7 @@ fade:
         goto finish;
     }
     F(self, u16, 0x0A)++;
-    func_800246F8();
+    goto finish;
 
 cleanup:
     if (D_800257CE[0] != 0) {

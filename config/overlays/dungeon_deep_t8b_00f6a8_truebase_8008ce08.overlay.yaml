@@ -1,0 +1,67 @@
+# Standalone overlay-local gate: CARVED TRUE-BASE TWIN for one tail-slot row.
+# Provenance: work/tailslot_honest/TWIN_REPORT.md (2026-09-14), the round-25-part-3 rollback
+# of four tail-slot rows re-landed as honest goto/return C at their true base.
+#
+# ROW      func_7FFEF6A8  (foff 0xF6A8, 320 B, cfg 2.8.1-G0)
+# REGION   config/overlays/dungeon.rowbase.jsonl :: img_f6a8_8008ce08
+#          [0xF6A8,0xF7E8) delta 0x8007D760 -> TRUE BASE 0x8008CE08
+#          The region extent IS this row's extent, so this window is carved to it exactly.
+# TRUE NAME func_8008CE08  (register it in ledger/splits/dungeon.jsonl; see TWIN_REPORT.md S6)
+#
+# WHY A TWIN. This one SUPERSEDES its seed. The seed dungeon_deep_t8b_00f6a8 carries
+# symbol_addrs_path: config/overlays/dungeon_region7_alias.symbols.txt, which maps
+# func_80065F90 -> 0x70065F90 so a REGION-7 synthetic window can `jal` it. At the true
+# base 0x8008CE08 (region 8) that alias is 256 MB out of range and the rowbase mini-link
+# dies with "relocation truncated to fit: R_MIPS_26 against `func_80065F90'" (4 sites).
+# This twin drops the alias file: with only slus_006.14.symbols.txt +
+# dungeon_engine.symbols.txt, overlay_local_gate.symbol_addr() falls back to the
+# func_<8hex> name pattern and emits func_80065F90 = 0x80065F90 -- same region as the
+# row, and byte-identical instruction words. MEASURED 2026-09-14 (TWIN_REPORT.md S4):
+# synthetic-name + alias = R_MIPS_26; true-name + alias = R_MIPS_26; either name +
+# this symbol set = LD OK, 80/80 words byte-exact vs retail.
+# The seed holds ONLY this row, so once the row's gate_config points here
+# gate_all.superseded() drops the seed and this window is the window of record.
+# NOTE: dungeon_deep_00d54c_truebase_8008acac (0xD54C-0xF7E8, vram 0x8008ACAC) already
+# covers this row at the same true base with the same clean symbol set; it keeps
+# working and is a second, independent check of these bytes.
+#
+# BASE CONFIDENCE. proven-rowbase: by the time this window is live the region record reads
+# base_confidence "proven" (rowbase.py promote runs first). "jump-implied" is what
+# tools/dungeon_image_windows.py writes for a statically j-solved IMAGE window with no rowbase
+# record behind it; it would understate a region promoted by a discriminating byte-exact
+# recompile. The field is documentary — overlay_local_gate.py reads only file_start / file_end /
+# vram_start from the window block.
+#
+# Do NOT add to configure.py / build.ninja; run via tools/gate/overlay_local_gate.py --clean.
+name: dungeon_deep_t8b_00f6a8_truebase_8008ce08
+options:
+  basename: dungeon_deep_t8b_00f6a8_truebase_8008ce08
+  target_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  base_path: ..
+  platform: psx
+  compiler: GCC
+  subalign: 4
+  find_file_boundaries: False
+  gp_value: 0x80080994
+  symbol_addrs_path: config/overlays/dungeon_engine.symbols.txt
+standalone_build:
+  work_dir: work/s3_splat
+  extract:
+    extractor: work/overlay_recon/extract_bins.py
+    disc_path: "bin/Azure Dreams.bin"
+    out_dir: work/s3_splat/extract
+    container_path: work/s3_splat/extract/DUNGEON_DUNGEON.BIN
+  window:
+    file_start: 0xF6A8
+    file_end: 0xF7E8
+    vram_start: 0x8008CE08
+    true_vram_start: 0x8008CE08
+    true_link_base: 0x8008CE08
+    base_confidence: proven-rowbase
+    rowbase: img_f6a8_8008ce08
+  split_results: overlays/dungeon/overlay_first_pass_results.json
+  matched_sources:
+    - name: overlays/dungeon
+      results: overlays/dungeon/overlay_first_pass_results.json
+      source_dir: overlays/dungeon/first_pass_matched
+      skip_rerun: True

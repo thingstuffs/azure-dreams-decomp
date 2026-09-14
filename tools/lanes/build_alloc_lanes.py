@@ -2,13 +2,16 @@
 """Build luna allocation lanes (round 25's recipe): each row's register pins carry the allocator decision the
 alloc_astra lane observed inside the stock compiler, translated into the C lever it names.
 
-    python3 tools/lanes/build_alloc_lanes.py [--per 12] [--no-verify] alloc1 alloc2 alloc3 alloc4
+    python3 tools/lanes/build_alloc_lanes.py [--per 12] [--no-verify] [--traces DIR] alloc1 alloc2 alloc3 alloc4
 
 Source of the diagnoses: `work/native_lane/alloc_astra/` (REPORT.md "Mechanism per allocator input",
 "Population coverage and input taxonomy", "Deciding-pass evidence"). The per-row traces live in
 `scratch/trace_population/<container>_<func>.json`: per pin site, the quantity or allocno the pinned value
 becomes (refs, live interval, calls crossed, preferences, conflicts/occupied registers, priority) and the
-reason the allocator gave that site a different register without the pin.
+reason the allocator gave that site a different register without the pin. `--traces DIR` reads that same
+per-row format from another directory instead (e.g. rows re-traced with tools/alloc_trace.py, whose
+always-on find_reg reading resolves sites the lane left coarse); the held-out lists stay in the lane's
+directory either way.
 
 SITE INDEX (measured, not assumed): a trace record's `site` indexes the FULL `pin_census.sites_of(text)` list
 of the snapshot text, not the ASM_REG subset - the full-list reading agrees with the record's own `hard`
@@ -222,11 +225,11 @@ def site_reasons(st):
     return out
 
 
-def collect(per_stats, max_pins=3, exclude=()):
-    """The pool: one record per admissible row, with its per-site traces."""
+def collect(per_stats, max_pins=3, exclude=(), traces=TRACES):
+    """The pool: one record per admissible row, with its per-site traces (read from `traces`)."""
     held, pool = heldout() | set(exclude), []
     R = {r["id"]: r for r in rows()}
-    for f in sorted(TRACES.glob("*.json")):
+    for f in sorted(Path(traces).glob("*.json")):
         trace = json.loads(f.read_text())
         rid = trace.get("id")
         r = R.get(rid)
@@ -332,6 +335,9 @@ def main():
     ap.add_argument("--per", type=int, default=12)
     ap.add_argument("--no-verify", action="store_true", help="do not check each base is exact")
     ap.add_argument("--max-pins", type=int, default=3, help="admit rows with at most this many pin sites (default 3)")
+    ap.add_argument("--traces", default=str(TRACES),
+                    help="directory of per-row trace files to read (default: the alloc_astra lane's "
+                         "scratch/trace_population)")
     ap.add_argument("--exclude", help="file of row ids to leave out (rows already given to a pack); rows under "
                                       "work/native_lane/alloc*/base are always left out")
     ap.add_argument("--as", dest="alias", default="",
@@ -349,7 +355,7 @@ def main():
         exclude.add(f.parent.name + "/" + f.stem)
 
     stats = collections.Counter()
-    pool = collect(stats, a.max_pins, exclude)
+    pool = collect(stats, a.max_pins, exclude, Path(a.traces))
     live = [p for p in pool if not p.get("skip")]
     tie_ids = {rid for rid, _ in TIES}
     by_id = {p["id"]: p for p in pool}

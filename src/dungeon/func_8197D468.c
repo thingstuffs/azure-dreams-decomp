@@ -93,7 +93,6 @@ extern u8 D_80083498[];
 extern u8 D_80045340[];
 extern u8 D_800DED70[];
 extern s32 D_800814A0;
-void func_80025050(void) __attribute__((noreturn)); /* extern */
 void *func_8003FD64();                 /* extern */
 s32 func_80069EF8();                          /* extern */
 s16 func_800BCB04();                   /* extern */
@@ -135,13 +134,12 @@ void func_8197D468(void *effect, void *motion, void *sprite) {
         if (state == 0) {
             goto state_0;
         }
-        func_80025050();
+        goto done;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
-    func_80025050();
+    goto done;
 
 state_0:
     ((S_8197D468_3 *)motion)->unk_08.at00.v = (s32) (((S_8197D468_3 *)motion)->unk_08.at00.v + ((S_8197D468_3 *)motion)->unk_14);
@@ -168,7 +166,7 @@ state_0:
         ((S_8197D468_2 *)sprite)->unk_14 = (u16) (sprite_flags | 2);
         ((S_8197D468_0 *)effect)->unk_48 = (u16) ((func_80069EF8(sprite_frames) & 3) + 4);
         ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
-        func_80025050();
+        goto done;
     }
     goto done;
 
@@ -180,7 +178,7 @@ state_1:
     ((S_8197D468_0 *)effect)->unk_48 = frames_left;
     if ((frames_left << 0x10) <= 0) {
         ((S_8197D468_0 *)effect)->unk_4C.u = (u16) (((S_8197D468_0 *)effect)->unk_4C.u + 1);
-        func_80025050();
+        goto done;
     }
     goto done;
 

@@ -33,8 +33,8 @@ void func_800477F4(S_800477F4_Actor *actor)
 {
     u16 old_flags;
     s32 flags;
-    register S_800477F4_Node *node ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register S_800477F4_Sub *step ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    S_800477F4_Node *node;
+    S_800477F4_Sub *step;
 
     old_flags = actor->flags;
     flags = old_flags & 0xCFFF;
@@ -55,7 +55,7 @@ void func_800477F4(S_800477F4_Actor *actor)
     if (node->typeA == 0) {
         goto store_flags;
     }
-    ASM_KEEP(step);
+    ASM_KEEP(node);
 
     {
         s16 step_type = *(s16 *)((char *)step + 2);

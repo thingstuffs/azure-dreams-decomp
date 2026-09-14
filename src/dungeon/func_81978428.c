@@ -130,11 +130,6 @@ extern s32 func_800A45D8(u16, u16, s16);
 extern void func_80025A9C(void *, void *, void *);
 extern void func_80025508(void *, void *);
 extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
-extern void func_80025F5C(void) __attribute__((noreturn));
-extern void func_800260F8(void) __attribute__((noreturn));
-extern void func_80026040(void) __attribute__((noreturn));
-extern void func_80026150(void) __attribute__((noreturn));
-extern void func_80026154(void) __attribute__((noreturn));
 
 /* Advances the object effect through placement, animation, and cleanup states. */
 void func_81978428(State81978428 *state, s32 *position_out)
@@ -201,12 +196,10 @@ case0:
         self->state++;
         if (func_80053EF0(4) != 2) {
             func_800A56E0(0x300);
-            self->flag = 0;
-            func_80026154();
+            goto done;
         }
         func_800A56E0(0x4300);
-        self->flag = 0;
-        func_80026154();
+        goto done;
     }
 
 case1:
@@ -320,7 +313,7 @@ loop:
             u8 *height_player;
             height_player = *(u8 **)(player_page + 0x14A8);
             ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_7 *)height_player)->unk_88;
-            func_80025F5C();
+            goto position_ready;
         }
     }
     step_count++;
@@ -332,12 +325,12 @@ position_ready:
     func_80025A9C(self, position, target_pos);
     {
         u16 next_state = self->state;
-        register u16 wait_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u16 wait_frames;
         wait_frames = 0x10;
         self->timer = wait_frames;
-        func_800260F8();
+        self->state = next_state + 1;
     }
+    goto done;
 
 case2:
     timer = self->timer;
@@ -357,8 +350,6 @@ case2:
         self->state = next_state;
         if (spawned_object != 0) {
             func_80025508(self, *(void **)((u8 *)spawned_object - 0x18));
-            self->flag = 0;
-            func_80026154();
         }
     }
     goto done;
@@ -381,7 +372,6 @@ case3:
                 tint_data[0xE] = blue;
                 if (tint_data[0xC] >= 0xE1) {
                     tint_data[0xC] = 0xE0;
-                    func_80026040();
                 }
             } else {
                 u8 blue = tint_data[0xE] - 8;
@@ -432,7 +422,7 @@ case4:
     data_page = (u8 *)0x80080000;
     if (self->flag != 0) {
         self->state++;
-        func_80026150();
+        goto done;
     }
     goto cleanup;
 
@@ -450,7 +440,7 @@ cleanup:
     data_page = (u8 *)0x80080000;
     ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_81978428_11 *)data_page)->unk_14A0 |= 0x8000;
-    func_80026154();
+    return;
 
 done:
     self->flag = 0;

@@ -54,7 +54,6 @@ typedef struct S_818C32F4_5 {
 
 
 
-extern void func_80024C28() __attribute__((noreturn));
 extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();
@@ -65,11 +64,6 @@ extern u8 D_80045C34[9];
 /* Creates an object with the supplied identifier, data, and visual template. */
 s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
     S_818C32F4_3 *template_visual = visual_template;
-    s16 object_result;
-    s32 copy_word_0;
-    s32 copy_word_1;
-    s32 copy_word_2;
-    s32 copy_word_3;
     u16 angle;
     void *init_data;
     S_818C32F4_2 *visual;
@@ -106,22 +100,8 @@ s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_templa
         visual->unk_1A = angle;
         func_8004491C(object, init_data);
         object_data = ((S_818C32F4_0 *)object)->unk_08;
-        ASM_KEEP(object_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        object_result = (s32)object;
-        ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        copy_word_0 = source_data->unk_00;
-        copy_word_1 = source_data->unk_04;
-        copy_word_2 = source_data->unk_08;
-        copy_word_3 = source_data->unk_0C;
-        object_data->unk_00 = copy_word_0;
-        object_data->unk_04 = copy_word_1;
-        object_data->unk_08 = copy_word_2;
-        object_data->unk_0C = copy_word_3;
-        copy_word_0 = source_data->unk_10;
-        copy_word_1 = source_data->unk_14;
-        object_data->unk_10 = copy_word_0;
-        object_data->unk_14 = copy_word_1;
-        func_80024C28(copy_word_0, copy_word_1, copy_word_2, copy_word_3);
+        *object_data = *(S_818C32F4_5 *)source_data;
+        return (s32)object;
     }
     return 0;
 }

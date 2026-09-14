@@ -40,7 +40,8 @@ typedef struct S_8191CA88_4 {
 
 
 
-extern void func_80024388() __attribute__((noreturn));
+
+/* Partial rewrite: the remaining epilogue pseudo-call still controls register liveness. */
 extern void func_800243C4() __attribute__((noreturn));
 
 /* Updates object motion and timers through movement, waiting, falling, and completion states. */
@@ -48,7 +49,7 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     void *object = object_data;
     S_8191CA88_3 *motion;
     s32 state;
-    register s32 state_unsigned ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u16 state_unsigned;
     s32 timer;
     u16 old_timer;
     s32 move_timer;
@@ -73,7 +74,6 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     effect->unk_1A = phase + 0x300;
     old_timer = ((S_8191CA88_0 *)object)->unk_10.s;
     state = ((S_8191CA88_0 *)object)->unk_0E.s;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state_unsigned = ((S_8191CA88_0 *)object)->unk_0E.u;
     timer = old_timer + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = timer;
@@ -85,7 +85,7 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
         if (state == 0) {
             goto state_0;
         }
-        func_800243C4(state, state_unsigned, effect, object);
+        return;
     }
     if (state == 2) {
         goto state_2;
@@ -93,7 +93,7 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     if (state == 3) {
         goto state_3;
     }
-    func_800243C4(state, state_unsigned, effect, object);
+    goto done;
 
 state_0:
     x_position = motion->unk_00;
@@ -105,9 +105,11 @@ state_0:
     motion->unk_08 += z_velocity;
     move_timer = ((S_8191CA88_0 *)object)->unk_10.p;
     move_duration = ((S_8191CA88_0 *)object)->unk_14;
-    moving = move_timer < move_duration;
-    ASM_TAILSLOT_PIN_TIED(moving);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_80024388(y_velocity, z_velocity, effect, object);
+    if (move_timer < move_duration) goto done;
+    next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
+    ((S_8191CA88_0 *)object)->unk_10.u = 0;
+    ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
+    goto done;
 
 state_1:
     signed_timer = timer << 16;
@@ -129,18 +131,14 @@ state_2:
     next_state = ((S_8191CA88_0 *)object)->unk_0E.p + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
     ((S_8191CA88_0 *)object)->unk_0E.p = next_state;
-    func_800243C4(state, state_unsigned, effect, object);
+    goto done;
 
 state_3:
     ((S_8191CA88_0_pre *)object)[-1].unk_00 |= 0x8000;
     global_base = (u8 *)0x80080000;
-    ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ((S_8191CA88_4 *)global_base)->unk_14A0 |= 0x8000;
 
 done:
     return;
 }
 
-/* MECHANISM: Noreturn tails plus path-local $a0/$a1/$a3/$t0 carriers let LEAD 18/19 elide the false frame.
-   Load-order seams and a held $v1 page base preserve the retail timer/state/global access schedule.
-   Explicit sll/lh/sra staging and the tied $v0 tail-slot comparison close the final code-motion residue. */

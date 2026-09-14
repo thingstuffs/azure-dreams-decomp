@@ -1,7 +1,6 @@
 #include "common.h"
 
 
-extern void func_80025370() __attribute__((noreturn));
 extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern void func_8004491C();
@@ -68,10 +67,6 @@ typedef struct S_818C3A3C_5 {
 
 /* Creates an effect with randomized rotation, owner-dependent scale, and copied instance data. */
 s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
-    s32 copy_word_0;
-    s32 copy_word_1;
-    s32 copy_word_2;
-    s32 copy_word_3;
     s32 palette_flags;
     s32 call_zero;
     s32 setup_value;
@@ -79,7 +74,6 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
     s32 scale;
     s32 random_value;
     s32 biased_random;
-    s16 result;
     S_818C3A3C_3 *sprite;
     void *effect_state;
     void *effect;
@@ -130,22 +124,8 @@ s32 func_818C3A3C(S_818C3A3C_2 *owner, S_818C3A3C_4 *initial_data) {
         func_8004491C(effect, D_80045C34);
 
         effect_data = ((S_818C3A3C_0 *)effect)->unk_08;
-        ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        result = (u32)effect;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        copy_word_0 = initial_data->unk_00;
-        copy_word_1 = initial_data->unk_04;
-        copy_word_2 = initial_data->unk_08;
-        copy_word_3 = initial_data->unk_0C;
-        effect_data->unk_00 = copy_word_0;
-        effect_data->unk_04 = copy_word_1;
-        effect_data->unk_08 = copy_word_2;
-        effect_data->unk_0C = copy_word_3;
-        copy_word_0 = initial_data->unk_10;
-        copy_word_1 = initial_data->unk_14;
-        effect_data->unk_10 = copy_word_0;
-        effect_data->unk_14 = copy_word_1;
-        func_80025370(copy_word_0, copy_word_1, copy_word_2, copy_word_3);
+        *effect_data = *(S_818C3A3C_5 *)initial_data;
+        return (s32)effect;
     }
     return 0;
 }

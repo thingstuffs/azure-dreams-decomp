@@ -36,7 +36,6 @@ typedef struct {
     s32 word[6];
 } Copy24;
 
-extern void func_800248A0(void) __attribute__((noreturn));
 extern void *func_8003FC64();
 extern s32 func_8004491C();
 extern u8 D_80024088[];
@@ -82,17 +81,16 @@ s32 func_818BCFB0(s32 *initial_word, void *source_data, s16 offset)
             offset_numerator += 3;
         }
         {
-            s16 object_addr;
-            register s32 component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 component_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 object_addr;
+            s32 component;
+            s32 component_offset;
 
             object_addr = (s32)obj;
-            ASM_KEEP(object_addr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             component = object_data->unk_0A;
             component_offset = offset_numerator >> 2;
             component += component_offset;
             object_data->unk_0A = component;
-            func_800248A0();
+            return object_addr;
         }
     }
     return 0;

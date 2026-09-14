@@ -57,13 +57,12 @@ typedef struct S_818BDB44_5 {
 
 
 typedef struct {
-    s32 words[4];
-} Copy16;
+    s32 words[6];
+} Copy24;
 
 extern void *func_8003FC64(s32);
 extern s32 rand();
 extern void func_8004491C(void *, void *);
-extern void func_800254C0() __attribute__((noreturn));
 
 extern u8 D_80024F4C[];
 extern u8 D_80025DF8[];
@@ -117,19 +116,11 @@ s32 func_818BDB44(S_818BDB44_2 *source, S_818BDB44_4 *init_data)
         }
 
         {
-            S_818BDB44_5 *object_data = ((S_818BDB44_0 *)object)->unk_08;
+            S_818BDB44_5 *object_data;
             {
-                register s32 object_addr ASM_REG("$2") = (s32)object;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                s32 init_word_4;
-                s32 init_word_5;
-
-                *(Copy16 *)object_data = *(Copy16 *)init_data;
-                init_word_4 = init_data->unk_10;
-                init_word_5 = init_data->unk_14;
-                ASM_USE_NV(object_addr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                object_data->unk_10 = init_word_4;
-                object_data->unk_14 = init_word_5;
-                func_800254C0();
+                object_data = ((S_818BDB44_0 *)object)->unk_08;
+                *(Copy24 *)object_data = *(Copy24 *)init_data;
+                return (s32)object;
             }
         }
     }

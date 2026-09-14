@@ -271,15 +271,11 @@ extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8002405C(void *, s32, void *);
 
-extern void func_80025A14(void) __attribute__((noreturn));
 extern void func_80025B70(void) __attribute__((noreturn));
-extern void func_80025D08(void) __attribute__((noreturn));
-extern void func_80025EC4(void) __attribute__((noreturn));
-extern void func_8002652C(void) __attribute__((noreturn));
 extern void func_80026730(void) __attribute__((noreturn));
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
-void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
+void func_800257D0(void *effect_data, void *motion_data, void *render_data)
 {
     S_func_81905FD0_1 *effect = effect_data;
     register S_func_81905FD0_2 *motion ASM_REG("$18") = motion_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -334,15 +330,10 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             owner_height = owner_motion->unk_08.u16_0A.unk_0A;
             motion->unk_08.u16_0A.unk_0A = owner_height;
             if ((((S_func_81905FD0_3 *)owner_object->unk_0C)->unk_14 & 0x8000) == 0) {
-                u16 next_height;
-
                 motion->unk_00.u16_02.unk_02 += ((S_func_81905FD0_8 *)scratch)->unk_00;
                 motion->unk_04.u16_06.unk_06 += ((S_func_81905FD0_8 *)scratch)->unk_02;
-                next_height = motion->unk_08.u16_0A.unk_0A + ((S_func_81905FD0_8 *)scratch)->unk_04;
-                ASM_TAILSLOT_PIN(next_height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80025A14();
+                motion->unk_08.u16_0A.unk_0A = motion->unk_08.u16_0A.unk_0A + ((S_func_81905FD0_8 *)scratch)->unk_04;
             } else {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 motion->unk_08.u16_0A.unk_0A = owner_height - 0x40;
             }
         }
@@ -457,12 +448,8 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             }
         }
         if (effect->unk_90.s16 == 0) {
-            u16 next_scale;
-
             render->unk_1C.u16 += effect->unk_96;
-            next_scale = render->unk_1E.u16 + effect->unk_96;
-            ASM_TAILSLOT_PIN(next_scale);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80025D08();
+            render->unk_1E.u16 += effect->unk_96;
         } else {
             render->unk_1C.u16 -= effect->unk_96;
             render->unk_1E.u16 -= effect->unk_96;
@@ -528,12 +515,8 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             }
         }
         if (effect->unk_90.s16 == 0) {
-            u16 next_scale;
-
             render->unk_1C.u16 += effect->unk_96;
-            next_scale = render->unk_1E.u16 + effect->unk_96;
-            ASM_TAILSLOT_PIN(next_scale);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80025EC4();
+            render->unk_1E.u16 += effect->unk_96;
         } else {
             render->unk_1C.u16 -= effect->unk_96;
             render->unk_1E.u16 -= effect->unk_96;
@@ -731,12 +714,12 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
                     u8 *descriptor_src = D_80026784;
                     u8 *descriptor_dest = (u8 *)child_data;
 
-                    do {
+                    loop_0_: {
                         *(Copy12 *)(descriptor_dest + 0x20) = *(Copy12 *)descriptor_src;
                         descriptor_src += 12;
                         descriptor_dest += 12;
                         index++;
-                    } while (index < 2);
+                    } if (index < 2) goto loop_0_;
                 }
                 {
                     s16 *angle_slot;
@@ -833,12 +816,8 @@ void func_81905FD0(void *effect_data, void *motion_data, void *render_data)
             }
         }
         if (effect->unk_90.s16 == 0) {
-            u16 next_scale;
-
             render->unk_1C.u16 += effect->unk_96;
-            next_scale = render->unk_1E.u16 + effect->unk_96;
-            ASM_TAILSLOT_PIN(next_scale);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_8002652C();
+            render->unk_1E.u16 += effect->unk_96;
         } else {
             render->unk_1C.u16 -= effect->unk_96;
             render->unk_1E.u16 -= effect->unk_96;

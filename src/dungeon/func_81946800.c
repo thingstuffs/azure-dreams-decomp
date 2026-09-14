@@ -19,7 +19,6 @@ extern short D_80084808[8];
 __asm__(".section .text.func_81946800,\"a\",@progbits\n.globl func_81946800\n.type func_81946800,@function\nfunc_81946800:\n.size func_81946800, 884");
 static const u32 func_81946800_head[] __attribute__((section(".text.func_81946800"))) = {0x80024004};
 #endif
-extern void func_80024350(s32) __attribute__((noreturn));
 extern s32 func_8003DE58(s32, void *, s16 *, s32);
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -34,6 +33,7 @@ extern u16 D_80082E94;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80083498[];
+extern void func_80024350(s32) __attribute__((noreturn));
 #ifdef __mips__
 #define STATE3_PAGE 0x80080000U
 #define STATE3_FLAG(page) (*((u16 *) ((page) + 0x2E94)))
@@ -77,7 +77,6 @@ void func_81946800(void *action_in, void *saved_position)
   if (state == 1)
   {
     goto state_1;
-    func_80024350(timer);
   }
   if (state < 2)
   {
@@ -85,10 +84,8 @@ void func_81946800(void *action_in, void *saved_position)
     {
       goto state_0;
     }
-    func_80024350(timer);
     return;
   }
-  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   if (state == 2)
   {
     goto state_2;
@@ -205,7 +202,6 @@ void func_81946800(void *action_in, void *saved_position)
   if ((*((s16 *) (((u8 *) action) + 0x52))) & 0x8000)
   {
     *((u16 *) (((u8 *) action) + 0x52)) = action_flags & 0x7FFF;
-    func_80024350(timer);
     return;
   }
   shared_state = (u8 *) (&D_80083460);

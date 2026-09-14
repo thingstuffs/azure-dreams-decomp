@@ -19,8 +19,6 @@ extern u16 D_80082E94[];
 extern void func_800246F4(void *, void *);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
-extern void func_80024260(void) __attribute__((noreturn));
-extern void func_80024208(void) __attribute__((noreturn));
 extern void func_800B835C(void *, void *, s32, s32);
 extern void func_8002401C(void);
 extern void func_8002406C(void);
@@ -99,20 +97,16 @@ case_0:
     U8_AT(MANAGER_PTR(), 0xA8) = U8_AT(state, 8);
     U16_AT(state, 0x14) = U16_AT(MANAGER_PTR(), 0x2A);
     U16_AT(state, 0x0A)++;
-    func_80024260();
+    goto default_case;
 
 case_1:
     U16_AT(state, 0x18)--;
     if ((s16)U16_AT(state, 0x18) > 0) {
         goto default_case;
     }
-    {
-        u16 countdown = 0x10;
-        u16 saved_phase = U16_AT(state, 0x0A);
-        ASM_KEEP(saved_phase);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        U16_AT(state, 0x18) = countdown;
-    }
-    func_80024208();
+    U16_AT(state, 0x18) = 0x10;
+    U16_AT(state, 0x0A)++;
+    goto default_case;
 
 case_2:
     {
@@ -149,7 +143,7 @@ case_2:
         }
     }
     U16_AT(state, 0x0A)++;
-    func_80024260();
+    goto default_case;
 
 case_3:
     if (S16_AT(D_80024A70, 0) != 0) {

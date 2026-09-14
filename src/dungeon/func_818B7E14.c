@@ -35,7 +35,6 @@ extern void *func_8003FC64(s32);
 extern void func_8003DB94(DungeonRenderData *, void *, s32);
 extern s32 rand(void);
 extern void func_8004491C(DungeonObject *, void *);
-extern void func_8002571C(void) __attribute__((noreturn));
 
 extern u8 D_8002553C[12];
 extern u8 D_80025EE4[12];
@@ -49,11 +48,13 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
     DungeonRenderData *render;
     u8 *sub;
     DungeonSource *dst;
-    register DungeonObject *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register s32 copy0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 copy1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 copy2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 copy3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    DungeonObject *result;
+    s32 copy0;
+    s32 copy0_2;
+    s32 copy1;
+    s32 copy1_2;
+    s32 copy2;
+    s32 copy3;
 
     obj = func_8003FC64(0x212);
     if (obj != 0) {
@@ -82,19 +83,20 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
         ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = obj;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        copy0 = arg1->word[0];
-        copy1 = arg1->word[1];
+        copy0_2 = arg1->word[0];
+        copy1_2 = arg1->word[1];
         copy2 = arg1->word[2];
         copy3 = arg1->word[3];
-        dst->word[0] = copy0;
-        dst->word[1] = copy1;
+        dst->word[0] = copy0_2;
+        dst->word[1] = copy1_2;
         dst->word[2] = copy2;
         dst->word[3] = copy3;
         copy0 = arg1->word[4];
         copy1 = arg1->word[5];
         dst->word[4] = copy0;
         dst->word[5] = copy1;
-        func_8002571C();
+        return result;
     }
     return 0;
+    return result;
 }

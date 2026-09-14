@@ -131,8 +131,6 @@ extern u8 D_800DE938[];
 extern u8 D_800DE870[9];
 extern s32 D_800814A0[3];
 M2C_UNK func_800245BC();
-void func_80024B08() __attribute__((noreturn));
-void func_80024BB8() __attribute__((noreturn));
 void *func_8003FC64();
 M2C_UNK func_8004491C();
 s32 func_80069EF8();
@@ -321,12 +319,11 @@ spawn_flashes:
                         sprite->unk_1C = unit_scale;
                         sprite->unk_1E = double_scale;
                         spawn_position->unk_0A.u -= 0x14;
-                        func_80024B08();
-                        return;
+                        goto render_flash;
                     }
                     sprite->unk_1C = double_scale;
                     sprite->unk_1E = unit_scale;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+render_flash:
                     func_8003DB94(sprite, D_800DE938, 0);
                     goto next_flash;
                 }
@@ -345,8 +342,7 @@ next_flash:
                             owner_sprite->unk_0D.s = 0x30;
                             owner_sprite->unk_0C.s = 0x30;
                             ((S_81814EDC_0 *)effect)->unk_02.u = 0;
-                            func_80024BB8(owner, owner_sprite);
-                            return;
+                            goto move_effect;
                         }
                     }
                     goto finish_effect;

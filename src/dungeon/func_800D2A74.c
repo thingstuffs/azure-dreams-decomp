@@ -55,7 +55,6 @@ void func_800D81D4(S_800D81D4_0 *effect, void *motion_data, void *primitive_data
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     s32 phase_index;
     M2C_UNK height_offset;
-    register u16 phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_800D81D4_1 *motion = motion_data;
     register S_800D81D4_2 *primitive ASM_REG("$17") = primitive_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -97,17 +96,17 @@ jt_c1: {
         goto update_position;
     }
 }
-    phase = effect->unk_4C.u;
     effect->unk_48.s = 0x14U;
-    goto advance_phase;
+    effect->unk_4C.s++;
+    goto update_position;
 jt_c2:
     effect->unk_18 = (u16) (effect->unk_18 + (effect->unk_4A * 0x140));
     if ((s16) effect->unk_48.s > 0) {
         goto update_position;
     }
-    phase = effect->unk_4C.u;
     effect->unk_48.s = 0x1CU;
-    goto advance_phase;
+    effect->unk_4C.s++;
+    goto update_position;
 jt_c3:
     motion->unk_08 = (s32) (motion->unk_08 - ((s32) motion->unk_14.at00.v >> 1));
     effect->unk_1C.at00.v = (s32) (effect->unk_1C.at00.v - ((s32) effect->unk_28 >> 1));
@@ -116,9 +115,9 @@ jt_c3:
     if ((s16) effect->unk_48.s > 0) {
         goto update_position;
     }
-    phase = effect->unk_4C.u;
     effect->unk_48.s = 0U;
-    goto advance_phase;
+    effect->unk_4C.s++;
+    goto update_position;
 jt_c4:
     effect->unk_18 = (u16) (effect->unk_18 + ((((0 - (s16) effect->unk_48.s) * 0x10) + 0x1E0) * effect->unk_4A));
     primitive->unk_0C = (s32) (primitive->unk_0C + 0x40404);
@@ -127,7 +126,8 @@ jt_c4:
     }
     primitive->unk_10 = 0x60;
     motion->unk_14.at02.v = (s16) (0 - (func_80069EF8() & 3));
-    goto load_phase;
+    effect->unk_4C.s++;
+    goto update_position;
 jt_c5:
     motion->unk_08 = (s32) (motion->unk_08 + motion->unk_14.at00.v);
     motion->unk_14.at00.v = (s32) (motion->unk_14.at00.v - ((func_80069EF8() & 0xFFF) << 6));
@@ -137,10 +137,7 @@ jt_c5:
     if ((u8) primitive->unk_0C >= 0x18U) {
         goto update_position;
     }
-load_phase:
-    phase = effect->unk_4C.u;
-advance_phase:
-    effect->unk_4C.s = (s16) (phase + 1);
+    effect->unk_4C.s++;
     goto update_position;
 jt_c6:
     ((S_800D81D4_0_pre *)effect)[-1].unk_00 = (u16) (((S_800D81D4_0_pre *)effect)[-1].unk_00 | 0x8000);

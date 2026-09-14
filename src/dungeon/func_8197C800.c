@@ -218,8 +218,7 @@ extern void func_8009CE1C(void *, s32, s32, s32, s16, void *, s32);
 
 /* These are the original absolute shared-tail entry points used by this
  * copied overlay bank. */
-extern void func_800245D0(void) __attribute__((noreturn));
-extern void func_800245D8(void) __attribute__((noreturn));
+/* Partial rewrite: the remaining epilogue pseudo-call still controls register liveness. */
 extern void func_8002468C(void) __attribute__((noreturn));
 
 void FUNC_8197C800_BODY(void *input, void *output)
@@ -250,7 +249,7 @@ void FUNC_8197C800_BODY(void *input, void *output)
     register s16 *direction_offsets ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 angle;
     u16 tail_state;
-    register u16 tail_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 tail_timer;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *scene_page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *debris_scene_page;
     u8 *debris_origin;
@@ -341,8 +340,8 @@ case_one:
 
 case_one_tail:
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u + 1;
-    ASM_TAILSLOT_PIN(tail_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    func_800245D8();
+
+    goto store_state;
 
 case_two:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
@@ -355,10 +354,10 @@ case_two:
         func_800A56E0(0x4300);
     }
     tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
-    ASM_KEEP(tail_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+
     tail_timer = 16;
-    ASM_TAILSLOT_PIN(tail_timer);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_800245D0();
+
+    goto store_timer;
 
 case_three:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 3) {
@@ -556,8 +555,13 @@ two_finish:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u > 0) {
         return;
     }
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = 32;
-    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u += 1;
+    tail_timer = 32;
+    tail_state = ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u;
+store_timer:
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.s = tail_timer;
+    tail_state += 1;
+store_state:
+    ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
     func_8002468C();
 
 case_four:
@@ -566,9 +570,8 @@ case_four:
     }
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_52.s & 0x8000) {
         ((S_FUNC_8197C800_BODY_0 *)input)->unk_52.u &= 0x7FFF;
-        func_8002468C();
+        return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     func_8009CE1C(((S_FUNC_8197C800_BODY_1 *)(D_800814A8[0]))->unk_60, 8,
                   ((S_FUNC_8197C800_BODY_0 *)input)->unk_09, 10,
                   ((S_FUNC_8197C800_BODY_18 *)owner_data)->unk_2A, owner_data, 2);

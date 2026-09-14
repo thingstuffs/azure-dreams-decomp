@@ -32,12 +32,11 @@ extern CallbackOwner *D_80701984_ALT[4] __asm__("D_80701984");
 
 extern s32 func_80700D84(void);
 extern void func_80700EEC() __attribute__((noreturn));
-extern void func_80700F34() __attribute__((noreturn));
 extern void func_80700F38(void) __attribute__((noreturn));
 extern void func_80701060(s32 *word, s32 old_value);
 extern s32 func_807018AC(s16 value);
 
-s32 func_80874E18(s32 arg0) {
+s32 func_80700E18(s32 arg0) {
     s32 callback;
 #ifndef NON_MATCHING
     s32 tail_arg;
@@ -112,8 +111,7 @@ callback_path:
         goto return_arg;
     }
     arg0 += 1;
-    ASM_TAILSLOT_PIN_TIED(arg0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_80700F34();
+    goto return_arg;
 
 return_arg:
     return arg0;

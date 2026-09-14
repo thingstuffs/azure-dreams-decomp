@@ -117,13 +117,11 @@ extern void func_8003DB94(void *, void *, s32);
 extern void *func_8003DF74(void *, void *, void *, s32);
 extern void *func_8003FC64(s32);
 
-extern void func_80024C74(void) __attribute__((noreturn));
-
-extern void func_80024C0C(void) __attribute__((noreturn));
 
 
 
-extern void func_80024CD8(void) __attribute__((noreturn));
+
+
 
 extern void func_80024CD8(void) __attribute__((noreturn));
 
@@ -168,9 +166,8 @@ void func_818C8FD0(void *state_arg, void *position_arg, void *part_arg)
     if (mode < 2) {
         if (mode == 0)
             goto mode0;
-        func_80024CD8();
+        return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     if (mode == 2)
         goto mode2;
     if (mode == 3) {
@@ -218,12 +215,8 @@ mode1:
             }
 
             if (((S_func_818C8FD0_10 *)state->unk_04)->unk_00 & 0x80) {
-                u16 old_mode;
-
-                old_mode = state->unk_0A.u16;
-                ASM_KEEP(old_mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 state->unk_84.s16 = 0;
-                func_80024C0C();
+                state->unk_0A.u16++;
                 return;
             }
         }
@@ -337,7 +330,6 @@ mode2:
             }
         }
         state->unk_0A.u16++;
-        func_80024CD8();
         return;
     }
 
@@ -348,8 +340,7 @@ mode3:
 
         if (effect_node->unk_1E & 0x8000) {
             state->unk_88 = 0;
-            func_80024C74();
-            return;
+            goto finish;
         }
         output_pos->unk_00.s32 = effect_pos->unk_00.s32;
         output_pos->unk_04.s32 = effect_pos->unk_04.s32;
@@ -371,7 +362,6 @@ finish:
                 D_8008346C[0] = 0;
                 ((S_func_818C8FD0_10 *)((u8 *)state - 2))->unk_00 |= 0x8000;
                 D_800814A0[0] |= 0x8000;
-                func_80024CD8();
                 return;
             } else {
                 D_80024D04[0] = 0;

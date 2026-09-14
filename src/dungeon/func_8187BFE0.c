@@ -19,7 +19,7 @@ typedef struct S_8187BFE0_0 {
     u16 unk_2E;
     u16 unk_30;
     u16 unk_32;
-} S_8187BFE0_0;   /* state in func_8187BFE0 */
+} S_8187BFE0_0;   /* state in func_800257E0 */
 
 typedef struct S_8187BFE0_1 {
     u8 pad_00[0x8];
@@ -30,7 +30,7 @@ typedef struct S_8187BFE0_1 {
     s16 unk_1E;
     u8 pad_20[0xA];
     s16 unk_2A;
-} S_8187BFE0_1;   /* node in func_8187BFE0 */
+} S_8187BFE0_1;   /* node in func_800257E0 */
 
 typedef struct S_8187BFE0_2 {
     u8 pad_00[0x2];
@@ -58,7 +58,7 @@ typedef struct S_8187BFE0_2 {
     u16 unk_6A;
     u16 unk_6C;
     u16 unk_6E;
-} S_8187BFE0_2;   /* work in func_8187BFE0 */
+} S_8187BFE0_2;   /* work in func_800257E0 */
 
 typedef struct S_8187BFE0_3 {
     u8 pad_00[0x8];
@@ -71,7 +71,7 @@ typedef struct S_8187BFE0_3 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_8187BFE0_3;   /* sprite in func_8187BFE0 */
+} S_8187BFE0_3;   /* sprite in func_800257E0 */
 
 typedef struct S_8187BFE0_4 {
     u8 pad_00[0x2];
@@ -80,7 +80,7 @@ typedef struct S_8187BFE0_4 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8187BFE0_4;   /* dst in func_8187BFE0 */
+} S_8187BFE0_4;   /* dst in func_800257E0 */
 
 typedef struct S_8187BFE0_5 {
     u8 pad_00[0x2];
@@ -89,7 +89,7 @@ typedef struct S_8187BFE0_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8187BFE0_5;   /* source in func_8187BFE0 */
+} S_8187BFE0_5;   /* source in func_800257E0 */
 
 
 
@@ -101,7 +101,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_80025AB0(void) __attribute__((noreturn));
 extern void func_80025C38(void) __attribute__((noreturn));
 
 extern u8 D_800249A0[];
@@ -111,7 +110,7 @@ extern s16 D_8002694C;
 extern s32 D_800814A0;
 
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
-void func_8187BFE0(void *state_data, void *source_data) {
+void func_800257E0(void *state_data, void *source_data) {
     u8 *source_position;
     register u8 *node ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *edge_data;
@@ -122,7 +121,6 @@ void func_8187BFE0(void *state_data, void *source_data) {
     s32 angle_offset;
     s16 blended_coord;
     s32 mode;
-    u16 end_coord;
 
     source_position = source_data;
     mode = ((S_8187BFE0_0 *)state_data)->unk_00.s;
@@ -183,15 +181,13 @@ void func_8187BFE0(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_2A;
         {
-            u16 next_coord;
-            s32 edge_height;
-            next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            edge_height = 0x18;
-            ASM_KEEP(next_coord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(edge_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_80025AB0();
+            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2E;
+
+            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
         }
+        break;
         case 1:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_22;
@@ -200,15 +196,13 @@ void func_8187BFE0(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_2E;
         {
-            u16 next_coord;
-            s32 edge_height;
-            next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            edge_height = 0x18;
-            ASM_KEEP(next_coord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(edge_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_80025AB0();
+            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_32;
+
+            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
         }
+        break;
         case 2:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_26;
@@ -217,15 +211,13 @@ void func_8187BFE0(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_32;
         {
-            u16 next_coord;
-            s32 edge_height;
-            next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            edge_height = 0x18;
-            ASM_KEEP(next_coord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(edge_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_80025AB0();
+            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2C;
+
+            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
         }
+        break;
         case 3:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_20;
@@ -234,15 +226,13 @@ void func_8187BFE0(void *state_data, void *source_data) {
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_2C;
         {
-            u16 next_coord;
-            s32 edge_height;
-            next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            edge_height = 0x18;
-            ASM_KEEP(next_coord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(edge_height);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_80025AB0();
+            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_30;
+
+            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
         }
+        break;
         case 4:
             ((S_8187BFE0_2 *)edge_data)->unk_58.s = ((S_8187BFE0_2 *)edge_data)->unk_5C =
                 ((S_8187BFE0_0 *)state_data)->unk_24;
@@ -250,15 +240,17 @@ void func_8187BFE0(void *state_data, void *source_data) {
                 ((S_8187BFE0_0 *)state_data)->unk_1E;
             ((S_8187BFE0_2 *)edge_data)->unk_60.s = ((S_8187BFE0_2 *)edge_data)->unk_64 =
                 ((S_8187BFE0_0 *)state_data)->unk_30;
-            end_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
+        {
+            u16 next_coord = ((S_8187BFE0_0 *)state_data)->unk_2A;
+
+            ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
+            ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
+            ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = next_coord;
+        }
             break;
         default:
-            goto after_edge_setup;
+            break;
         }
-
-        ((S_8187BFE0_2 *)edge_data)->unk_68 = ((S_8187BFE0_2 *)edge_data)->unk_6A = 0;
-        ((S_8187BFE0_2 *)edge_data)->unk_6C = ((S_8187BFE0_2 *)edge_data)->unk_6E = 0x18;
-        ((S_8187BFE0_2 *)edge_data)->unk_62 = ((S_8187BFE0_2 *)edge_data)->unk_66 = end_coord;
 
 after_edge_setup:
         ((S_8187BFE0_2 *)edge_data)->unk_1E.s = ((S_8187BFE0_2 *)edge_data)->unk_5A;

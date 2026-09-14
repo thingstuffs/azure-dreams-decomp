@@ -37,9 +37,7 @@ extern s32 func_8006AB90(s32);
 extern void func_8006E854(LocalRecord *, void *);
 extern void func_80058F88(s32);
 extern void func_80529C1C(void) __attribute__((noreturn));
-extern void func_80529CC0(void) __attribute__((noreturn));
 extern void func_80529D0C(void) __attribute__((noreturn));
-extern void func_80529D08(void) __attribute__((noreturn));
 extern void func_80529EC4(void) __attribute__((noreturn));
 extern void func_8052A04C(void) __attribute__((noreturn));
 
@@ -51,12 +49,12 @@ typedef struct S_8080EEC4_0 {
     u8 unk_0E;
     u8 pad_0F[0xB];
     u16 unk_1A;
-} S_8080EEC4_0;   /* arg2 in func_8080EEC4 */
+} S_8080EEC4_0;   /* arg2 in func_80529AC4 */
 
 typedef struct S_8080EEC4_1 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8080EEC4_1;   /* arg1 in func_8080EEC4 */
+} S_8080EEC4_1;   /* arg1 in func_80529AC4 */
 
 typedef struct S_8080EEC4_2 {
     u8 pad_00[0x4];
@@ -72,7 +70,7 @@ typedef struct S_8080EEC4_2 {
     s16 unk_70;
     union { s16 s; u16 u; } unk_72;   /* accessed as both */
     union { s16 s; u16 u; } unk_74;   /* accessed as both */
-} S_8080EEC4_2;   /* arg0 in func_8080EEC4 */
+} S_8080EEC4_2;   /* arg0 in func_80529AC4 */
 
 typedef struct S_8080EEC4_3 {
     u8 pad_00[0x14];
@@ -82,9 +80,9 @@ typedef struct S_8080EEC4_3 {
     u8 pad_1C[0x6];
     s16 unk_22;
     s16 unk_24;
-} S_8080EEC4_3;   /* work in func_8080EEC4 */
+} S_8080EEC4_3;   /* work in func_80529AC4 */
 
-void func_8080EEC4(u8 **arg0, u8 *arg1, u8 *arg2)
+void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
 {
     LocalRecord local;
     register u8 *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -106,8 +104,6 @@ void func_8080EEC4(u8 **arg0, u8 *arg1, u8 *arg2)
     s32 state;
     s32 old_angle;
     s32 copied;
-    register s32 farval ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 farconst ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 early_far ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 case5_old;
     s32 case5_next;
@@ -176,26 +172,19 @@ far_check:
         if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
         ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC;
         if (dx > 0) {
-            farval = D_80132AE8;
-            ASM_KEEP(farval);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            farconst = -0x00280000;
-            ASM_TAILSLOT_PIN_TIED(farconst);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80529CC0();
+            ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8 - 0x00280000;
+            goto copy_position;
         }
         ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8 + 0x00280000;
-        return func_80529D0C();
+        goto copy_position;
     } else {
         ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8;
         if (dy > 0) {
-            farval = D_80132AEC;
-            farval -= 0x00280000;
-            ASM_TAILSLOT_PIN_TIED(farval);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            return func_80529D08();
+            ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC - 0x00280000;
+            goto copy_position;
         }
-        farval = D_80132AEC;
-        farval += 0x00280000;
-        ASM_TAILSLOT_PIN_TIED(farval);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        return func_80529D08();
+        ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC + 0x00280000;
+        goto copy_position;
         }
     }
 

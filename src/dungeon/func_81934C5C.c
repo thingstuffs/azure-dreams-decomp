@@ -8,7 +8,7 @@ typedef s32 M2C_UNK;
 
 typedef struct S_81934C5C_0_pre {
     u16 unk_00;
-} S_81934C5C_0_pre;   /* the 0x2 bytes before arg0 in func_81934C5C, addressed as arg0[-1] */
+} S_81934C5C_0_pre;   /* the 0x2 bytes before arg0 in func_8002445C, addressed as arg0[-1] */
 
 typedef struct S_81934C5C_0 {
     void * unk_00;
@@ -27,12 +27,12 @@ typedef struct S_81934C5C_0 {
     union { u16 s; s16 u; } unk_48;   /* accessed as both */
     u8 pad_4A[0x2];
     s16 unk_4C;
-} S_81934C5C_0;   /* arg0 in func_81934C5C */
+} S_81934C5C_0;   /* arg0 in func_8002445C */
 
 typedef struct S_81934C5C_1 {
     u8 pad_00[0xE];
     u16 unk_0E;
-} S_81934C5C_1;   /* temp_v1 in func_81934C5C */
+} S_81934C5C_1;   /* temp_v1 in func_8002445C */
 
 typedef struct S_81934C5C_2 {
     u8 pad_00[0x8];
@@ -41,7 +41,7 @@ typedef struct S_81934C5C_2 {
     M2C_UNK * unk_10;
     u8 pad_14[0xC];
     void * unk_20;
-} S_81934C5C_2;   /* temp_v0_3 in func_81934C5C */
+} S_81934C5C_2;   /* temp_v0_3 in func_8002445C */
 
 typedef struct S_81934C5C_3 {
     M2C_UNK * unk_00;
@@ -54,22 +54,21 @@ typedef struct S_81934C5C_3 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81934C5C_3;   /* temp_s1 in func_81934C5C */
+} S_81934C5C_3;   /* temp_s1 in func_8002445C */
 
 typedef struct S_81934C5C_4 {
     u8 pad_00[0x4];
     s32 unk_04;
-} S_81934C5C_4;   /* temp_spawn_base in func_81934C5C */
+} S_81934C5C_4;   /* temp_spawn_base in func_8002445C */
 
 typedef struct S_81934C5C_5 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_81934C5C_5;   /* ((S_81934C5C_2 *)temp_v0_3)->unk_08 in func_81934C5C */
+} S_81934C5C_5;   /* ((S_81934C5C_2 *)temp_v0_3)->unk_08 in func_8002445C */
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_80024678() __attribute__((noreturn));
 void func_8002468C() __attribute__((noreturn));
 void func_80024724() __attribute__((noreturn));
 void *func_8003FD64();
@@ -84,7 +83,7 @@ extern M2C_UNK D_800DEDB0;
 extern M2C_UNK D_800DEE38;
 
 /* Updates effect motion and spawns an impact effect on reaching the surface. */
-void func_81934C5C(void *effect) {
+void func_8002445C(void *effect) {
     s32 ticks_left;
     s32 surface_height;
     s16 state;
@@ -194,18 +193,14 @@ block_state2:
         impact_sprite->unk_1E = 0x500;
         impact_sprite->unk_1C = 0x500;
         impact_sprite->unk_14 = (u16) (impact_sprite->unk_14 | 0xC);
-        if (func_80069EF8() & 1) {
-            M2C_UNK *alt_animation = &D_800DEDB0;
-
-            ASM_TAILSLOT_PIN(alt_animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            func_80024678();
-            return;
-        }
         {
             M2C_UNK *animation;
 
-            ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            animation = &D_800DEE38;
+            if (func_80069EF8() & 1) {
+                animation = &D_800DEDB0;
+            } else {
+                animation = &D_800DEE38;
+            }
             impact_sprite->unk_00 = animation;
             impact_sprite->unk_08 = (s32) ((S_81934C5C_4 *)animation)->unk_04;
             impact_sprite->unk_04 = 0;

@@ -40,7 +40,6 @@ extern u8 D_80026474[];
 extern u8 D_80080A87[];
 extern s32 D_800814A0;
 
-extern void func_80024A9C(void) __attribute__((noreturn));
 extern void func_8002596C(s32, s32, s32);
 extern void func_80026010(void);
 extern s32 func_80069EF8(void);
@@ -95,7 +94,6 @@ jt_0:
     goto end;
 
 jt_1: {
-    register s32 next_timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *primary_rgb;
     u8 *secondary_rgb;
 
@@ -112,11 +110,10 @@ jt_1: {
     for (burst_index = 0; burst_index < 4; burst_index++) {
         func_8002596C(pos->x, pos->y, pos->z);
     }
-    next_timer = 0xA0;
     if (effect->timer >= 0x10) {
-        ((volatile u16 *)effect)[5];
-        effect->timer = next_timer;
-        func_80024A9C();
+        effect->timer = 0xA0;
+        effect->state++;
+        goto end;
     }
     goto end;
 }

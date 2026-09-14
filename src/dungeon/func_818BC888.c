@@ -21,12 +21,7 @@ typedef struct S_818BC888_1 {
 
 
 
-extern void func_800240D8() __attribute__((noreturn));
 extern s32 D_800814A0[3];
-
-#ifndef NON_MATCHING
-register s32 func_818BC888_product_lo ASM_REG("lo");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#endif
 
 /* Advances the effect timer and updates its interpolated and cycling values. */
 void func_818BC888(void *effect) {
@@ -34,6 +29,7 @@ void func_818BC888(void *effect) {
     s32 cycle_value;
     s32 scaled_step;
     u16 tick;
+    s32 ticks;
     u32 scaled_value;
     u32 product;
     S_818BC888_1 *owner;
@@ -42,20 +38,14 @@ void func_818BC888(void *effect) {
     owner->unk_14 = owner->unk_14 + 1;
     tick = ((S_818BC888_0 *)effect)->unk_04.u16 + 1;
     ((S_818BC888_0 *)effect)->unk_04.u16 = tick;
+    ticks = (s16)tick;
     scaled_step = ((S_818BC888_0 *)effect)->unk_0A << 0xB;
-    if ((s16)tick >= 0x20) {
-        s32 remaining_ticks;
-
-        remaining_ticks = 0x40 - (s16)tick;
 #ifndef NON_MATCHING
-        func_818BC888_product_lo = remaining_ticks * scaled_step;
-#endif
-        func_800240D8(effect, (s16)tick);
-        return;
+    if (ticks >= 0x20) {
+        product = (0x40 - ticks) * scaled_step;
+    } else {
+        product = ticks * scaled_step;
     }
-#ifndef NON_MATCHING
-    func_818BC888_product_lo = (s16)tick * scaled_step;
-    product = func_818BC888_product_lo;
 #else
     product = (s16)tick * scaled_step;
 #endif
