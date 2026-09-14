@@ -123,7 +123,6 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     s16 texture_v;
     s32 vertex_coord;
     Poly818C29D4 *poly;
-    register u8 *draw_mode ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Rect818C29D4 texture_window;
     u32 ot_index;
     s32 tex_depth;
@@ -186,6 +185,8 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
     ((S_818C29D4_5 *)poly)->unk_2C = ((S_818C29D4_2 *)scratch)->unk_E4;
     ((S_818C29D4_5 *)poly)->unk_2E = ((S_818C29D4_2 *)scratch)->unk_E6;
     if (((S_818C29D4_2 *)scratch)->unk_B4.n < 0x1E0U) {
+        u8 *draw_mode;
+        u8 *draw_mode_2;
         u32 addr_mask;
         u32 length_mask;
         s32 reset_depth;
@@ -220,17 +221,17 @@ s32 func_818C29D4(S_818C29D4_6 *sprite, S_818C29D4_4 *position)
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
              *ot = (*ot & length_mask) | ((u32)poly & addr_mask); }
         texture_window.y = 0x80; texture_window.x = 0; texture_window.h = 0x40; texture_window.w = 0x40;
-        draw_mode = ((S_818C29D4_7 *)(((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8))->unk_8D0.p2;
-        ((S_818C29D4_7 *)(((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8))->unk_8D0.p2 = draw_mode + 0xC;
-        func_80067F20(draw_mode, 0, 0,
+        draw_mode_2 = ((S_818C29D4_7 *)(((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8))->unk_8D0.p2;
+        ((S_818C29D4_7 *)(((Rec_D_80083160 *)D_80083160)->unk_00.as_pu8))->unk_8D0.p2 = draw_mode_2 + 0xC;
+        func_80067F20(draw_mode_2, 0, 0,
                      func_80066460(tex_depth, blend_mode, page_x, 0x100) & 0xFFFF, &texture_window);
         { u32 *ot; u32 prim_tag; u32 ot_tag;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             prim_tag = *(u32 *)draw_mode; ot_tag = *ot;
-            *(u32 *)draw_mode = (prim_tag & length_mask) | (ot_tag & addr_mask); }
+             prim_tag = *(u32 *)draw_mode_2; ot_tag = *ot;
+            *(u32 *)draw_mode_2 = (prim_tag & length_mask) | (ot_tag & addr_mask); }
         { u32 *ot;
             ot = (u32 *)((((S_818C29D4_2 *)scratch)->unk_B4.v << 2) + (u32)((S_818C29D4_2 *)scratch)->unk_18.p2);
-             *ot = (*ot & length_mask) | ((u32)draw_mode & addr_mask); }
+             *ot = (*ot & length_mask) | ((u32)draw_mode_2 & addr_mask); }
     }
     return 0;
 }

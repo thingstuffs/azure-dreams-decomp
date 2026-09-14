@@ -44,7 +44,6 @@ typedef struct State {
 } State;
 
 extern Vec3 D_80526448;
-extern void *D_80526454[];
 extern s32 D_80530130[];
 extern u8 D_805300F4[];
 extern u8 D_80290704[];
@@ -65,14 +64,10 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
     State *st = state;
     Motion *mot = motion;
     Actor *act = actor;
-    register Entity *entity ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    Entity *entity;
     register s32 dispatch_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Vec3 choices;
     s32 value;
-    static void *const reachable_arms[] __attribute__((used)) = {
-        &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5,
-        &&case_6
-    };
 
     ASM_KEEP(st);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity = st->entity;
@@ -86,12 +81,9 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
     ASM_KEEP(dispatch_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     value = st->state;
-    if ((u32)value >= 7) {
-        goto done;
-    }
-    goto *D_80526454[value];
+    switch (value) {
 
-case_0:
+    case 0:
     {
         s32 call_a0;
         register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -140,7 +132,7 @@ case_0:
         goto done;
     }
 
-case_1:
+    case 1:
     {
         u32 result_v0;
         act->handler = D_80077C64;
@@ -176,7 +168,7 @@ case_1:
         goto done;
     }
 
-case_2:
+    case 2:
     {
         s32 floor;
         s32 z;
@@ -213,7 +205,7 @@ case_2:
         goto done;
     }
 
-case_3:
+    case 3:
         if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
             s32 product;
             s32 choice;
@@ -232,7 +224,7 @@ case_3:
         st->state = 5;
         goto done;
 
-case_4:
+    case 4:
     {
         u32 result_v0;
         if ((st->timer >> 2) & 1) {
@@ -259,13 +251,15 @@ case_4:
         goto done;
     }
 
-case_5:
+    case 5:
         func_8023FB18(&st->work[0]);
         *(u16 *)((u8 *)st - 2) |= 0x8000;
         D_80084D5C |= 0x8000;
         goto done;
 
-case_6:
+    case 6:
+    default:
 done:
         return;
+    }
 }

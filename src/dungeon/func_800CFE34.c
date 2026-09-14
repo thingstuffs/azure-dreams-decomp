@@ -42,7 +42,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     u8 *saved_effect;
     void *appearance_type;
     s32 direction_index;
-    register s32 angle_sector ASM_REG("$2");
+    s32 angle_sector;
     s16 effect_angle;
 
     record = PTR(owner, 0xAC);
@@ -78,7 +78,8 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
         (S16(angle_table, 0xC8) + S16(owner, 0x2A) + 0x100) >> 9;
     facing_index = angle_sector & 7;
     facing_check = facing_index;
-    if (S16(owner, 0x94) != facing_check) {
+    angle_sector = S16(owner, 0x94);
+    if (angle_sector != facing_check) {
         func_80047784(entity, PTR(entity, 0x2C)[facing_check], 0);
         S16(owner, 0x94) = facing_index;
     }

@@ -42,8 +42,6 @@ extern u8 D_80025678[44];
 extern s32 D_800814A0;
 
 extern s32 func_80024590(s32);
-extern void func_800248F4(void) __attribute__((noreturn));
-extern void func_80024AAC(void) __attribute__((noreturn));
 extern void func_800672D8(Rect *, s32 *);
 extern void func_800B8FC8(void *, Rect *, Point *, s32, s32);
 
@@ -93,7 +91,9 @@ void func_800246B4(void *effect, s32 *position, void *transform)
         }
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
         ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
-        func_800248F4();
+        next_state++;
+        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        return;
 
     case 1:
         ((S_8190AEB4_1 *)transform)->unk_1C += 0x140;
@@ -106,7 +106,9 @@ void func_800246B4(void *effect, s32 *position, void *transform)
         }
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
         ((S_8190AEB4_0 *)effect)->unk_02.s = 0;
-        func_800248F4();
+        next_state++;
+        ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
+        return;
 
     case 2:
         position[2] -= 0x100000;
@@ -130,7 +132,7 @@ store_xy:
         next_state = ((S_8190AEB4_0 *)effect)->unk_00.u;
         next_state++;
         ((S_8190AEB4_0 *)effect)->unk_00.p = next_state;
-        func_80024AAC();
+        return;
 
     case 5:
         {
@@ -185,22 +187,19 @@ store_xy:
 
     case 6:
     {
-        register Rect *draw_rect_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 *draw_data;
 
         entry = 0;
         do {
             draw_rect.x = D_80025648[entry] * 2 + 0x340;
             order_index = entry + ((S_8190AEB4_0 *)effect)->unk_02.u;
-            draw_rect_ptr = &draw_rect;
             if (order_index >= 0x2C) {
                 order_index -= 0x2C;
             }
             draw_data = D_80025638;
-            ASM_KEEP(draw_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             draw_rect.y = D_80025678[order_index] * 2 + 0x100;
+            func_800672D8(&draw_rect, draw_data);
             entry++;
-            func_800672D8(draw_rect_ptr, draw_data);
         } while (entry < 0x30);
 
         timer = ((S_8190AEB4_0 *)effect)->unk_02.s + 1;

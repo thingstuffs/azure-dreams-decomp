@@ -23,6 +23,22 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 11, gated (10 windows MATCH, SLUS SHA-1 MATCH): **7,423 pins in 1,368 rows**. Landed: the
+last keep-themed label-as-call pack (opus 7 of 8, 29 pins: the theme's pool of rows with live pseudo-calls is now
+exhausted; its 107 remaining rows have no pseudo-call and a keep pack on them went 1 of 10), three fence-carrying
+register packs (sol 6 of 30), the sol fence re-lane experiment (2 of 20), the switch witness row, and the cascade.
+- **The switch family is closed as a pin lever.** With the maspsx fix in, the honest `switch` is byte-exact on
+  most rows (sol 4 packs, opus 6 of 10) but at EQUAL pins: the `$5`/`$6` and other pins hold allocation and
+  scheduling, not the dispatch shape, and dispatch pins retire as a set or not at all. Two corrections to the
+  builder's notes: retail at 2.8.x carries the split dispatch itself, so NO `-mno-split-addresses` cell change is
+  needed; a row whose retail jump table is a hand-written data prefix inside `.text` can never be a real switch.
+  The exact real-switch texts (computed-goto scaffold gone) are a fidelity landing for later through
+  `apply_candidates.py`, which imposes no pin condition.
+- **Harness note:** the session's memory monitor kills background commands whenever the `free` column is low
+  even with 60 GB of page cache reclaimable; long landings now run as foreground pieces (cascade, tidy, T2, gate).
+- **Running after this gate:** `alloc52`-`alloc56` (fence-carrying register rows) and `alloc57`-`alloc59` (the
+  last big rows) on sol and opus.
+
 Twenty-fifth round, part 10, gated (15 windows MATCH after one shared-region promotion, SLUS SHA-1 MATCH):
 **7,465 pins in 1,370 rows**. Landed: the opus fence-row packs (3 of 10 and 7 of 10) and the opus keep-themed
 packs (6 of 9 and 3 of 9 exact). One row's region held four legacy rows; promoting it meant registering all five
