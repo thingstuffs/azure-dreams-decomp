@@ -39,9 +39,6 @@ extern s32 func_8004491C(void *, void *);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
 extern void func_8003DB94(void *, void *, void *);
-extern void func_800256AC(void) __attribute__((noreturn));
-extern void func_80024FC4() __attribute__((noreturn));
-extern void func_80025228() __attribute__((noreturn));
 extern u8 D_800248B8;
 
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
@@ -133,7 +130,7 @@ wait_ready:
         texture_rect[5] = 0x120;
         func_800B8FC8(F(effect_base, void *, 0x64), texture_rect, &texture_rect[4], 1, 1);
     }
-    func_800256AC();
+    return;
 
 emit_trail:
     timer = (s16)((u16)F(effect_base, u16, 0x20) - 1);
@@ -160,7 +157,7 @@ emit_trail:
         }
     }
     particle_index = 0;
-    do {
+    loop_0: {
         bits = (u32)func_80069EF8();
         particle_color = 0x200000;
         ASM_KEEP_NV(particle_color);
@@ -175,12 +172,12 @@ emit_trail:
                       particle_x, F(effect_base, s16, 0xE),
                       F(effect_base, s16, 0x10));
         particle_index++;
-    } while (particle_index < 4);
+    } if (particle_index < 4) goto loop_0;
     particle_index = 0;
     spawn_data = D_8002492C;
     world_offset = D_80083780;
     effect_context = 0x80;
-    do {
+    loop_1: {
         particle = func_8003FC64(0x212);
         if (particle != 0) {
             F(particle, s16, 0x4A) = 8;
@@ -217,24 +214,20 @@ emit_trail:
             }
             sprite = F(particle, void *, 0xC);
             {
-                register void *anim_sprite ASM_REG("$4") = sprite;
+                void *anim_sprite = sprite;
                 if (particle_index != 0) {
                     void *animation = D_800DED28;
                     void *anim_context = 0;
                     F(sprite, u16, 0x10) = (u16)0x20;
                     F(sprite, u16, 0x1E) = 0x1000;
                     F(sprite, u16, 0x1C) = 0x1000;
-                    return func_80024FC4(anim_sprite, animation, anim_context);
+                    func_8003DB94(anim_sprite, animation, anim_context);
                 } else {
-                    register void *animation ASM_REG("$5") = D_800DEB28;
-                    register void *anim_context ASM_REG("$6") = 0;
-                    ASM_USE2(animation, anim_context);
+                    void *animation = D_800DEB28;
+                    void *anim_context = 0;
                     F(sprite, u16, 0x1E) = 0x2000;
                     F(sprite, u16, 0x1C) = 0x2000;
-                    ASM_SCHED_BARRIER();
-                    bits = 0x20;
-                    F(sprite, u16, 0x10) = (u16)bits;
-                    ASM_SCHED_BARRIER();
+                    F(sprite, u16, 0x10) = (u16)0x20;
                     func_8003DB94(anim_sprite, animation, anim_context);
                 }
             }
@@ -243,7 +236,7 @@ emit_trail:
             F(sprite, u8, 0xC) = (u8)effect_context;
         }
         particle_index++;
-    } while (particle_index < 4);
+    } if (particle_index < 4) goto loop_1;
     if (F(effect_base, s16, 0x20) < 6) {
         F(effect_base, s16, 0x18) =
             (F(effect_base, s16, 0xC) + F(effect_base, s16, 0x12)) / 2;
@@ -318,7 +311,10 @@ emit_trail:
                         F(anim_sprite, u16, 0x10) = (u16)0x20;
                         F(anim_sprite, u16, 0x1E) = 0x1000;
                         F(anim_sprite, u16, 0x1C) = 0x1000;
-                        return func_80025228(anim_sprite, animation, anim_context);
+                        F(anim_sprite, u8, 0xE) = (u8)effect_context;
+                        F(anim_sprite, u8, 0xD) = (u8)effect_context;
+                        F(anim_sprite, u8, 0xC) = (u8)effect_context;
+                        func_8003DB94(anim_sprite, animation, anim_context);
                     } else {
                         register void *animation ASM_REG("$5") = D_800DEB28;
                         register void *anim_context ASM_REG("$6") = 0;
@@ -390,7 +386,7 @@ emit_flash:
     F(sprite, u8, 0xC) = 0x80;
     *(Packed12 *)((u8 *)particle + 146) = *(Packed12 *)D_800256EC;
     F(sprite, void *, 8) = (u8 *)particle + 146;
-    func_800256AC();
+    return;
 
 emit_burst:
     if (F(effect_base, s16, 0x20) < 13) {
@@ -486,7 +482,7 @@ fade_model:
         }
     }
     F(effect_base, u16, 0xA) = 4;
-    func_800256AC();
+    return;
 
 finish:
     if (F(D_8002571C, s16, 0) == 0) {
@@ -511,7 +507,7 @@ finish:
         }
         F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);
         D_800814A0[0] |= 0x8000;
-        func_800256AC();
+        return;
     }
     F(D_8002571C, s16, 0) = 0;
 }

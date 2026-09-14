@@ -67,11 +67,10 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
     s32 angle_a;
     s32 angle_b;
     s32 plane_radius;
-    register s32 component ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u32 component;
     register s32 work_value ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *effect;
     S_8187B9E8_4 *state;
-    S_8187B9E8_2 *position;
     S_8187B9E8_3 *scale;
     u8 *point;
 
@@ -102,14 +101,13 @@ void func_8187B9E8(s32 radius, s32 initial_value, s16 extent, u16 position_x, U1
             ((S_8187B9E8_0 *)point)->unk_72 = component;
             point = (u8 *)point + 2;
         } while (point_count < 0x17);
-        position = ((S_8187B9E8_1 *)effect)->unk_08;
+        component = (s32)((S_8187B9E8_1 *)effect)->unk_08;
         work_value = position_xyz[0];
-        position->unk_02 = work_value;
+        ((S_8187B9E8_2 *)component)->unk_02 = work_value;
         work_value = position_xyz[1];
-        position->unk_06 = work_value;
+        ((S_8187B9E8_2 *)component)->unk_06 = work_value;
         work_value = position_xyz[2];
-        position->unk_0A = work_value;
-        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_8187B9E8_2 *)component)->unk_0A = work_value;
         scale = ((S_8187B9E8_1 *)effect)->unk_0C;
         scale->unk_1E = 0x1000;
         scale->unk_1C = 0x1000;

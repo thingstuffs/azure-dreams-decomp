@@ -255,7 +255,7 @@ extern void func_80024160(void);
 extern void func_800243C8(void);
 extern void func_80024640(void);
 extern void func_8002467C(void);
-extern void func_800247C8(void) __attribute__((noreturn));
+extern void func_800247C8(void);
 extern void func_800246F0(void);
 extern void func_80024790(void);
 extern void func_8002485C(void);

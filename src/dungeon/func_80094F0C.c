@@ -51,7 +51,7 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
     register u16 height ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 monster_index;
     s32 dest_height;
-    register s32 signed_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 signed_height;
     s32 status;
 
     direction = (move_flags >> 9) & 7;
@@ -120,15 +120,13 @@ s32 func_8009A66C(u32 move_flags, FuncArg1 *position, FuncArg2 *actor, s16 heigh
         }
         status = (u32)height << 16;
         signed_height = status >> 16;
-        status = 1;
         if (dest_height == signed_height) {
-            goto done;
+            return 1;
         }
-        status = 2;
         if (signed_height < dest_height) {
-            goto done;
+            return 2;
         }
-        status = 3;
+        return 3;
 done:
         return status;
     }

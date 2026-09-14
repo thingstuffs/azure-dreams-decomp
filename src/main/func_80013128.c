@@ -22,7 +22,7 @@ void func_80025FFC(void *arg0, s32 arg1);
  */
 /* Copies the initial word into the buffer and initializes state for the selected mode. */
 void func_80026128(UA32 *buffer, s32 config, s32 mode) {
-    register u32 source_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 source_page;
     UA32 *initial_word;
     s32 saved_mode;
     u8 *state_base;
@@ -42,7 +42,8 @@ void func_80026128(UA32 *buffer, s32 config, s32 mode) {
     is_mode_two = (saved_mode == 2);
     *(s16 *)(state_base + 0x208) = is_mode_two;
     *(s16 *)(state_base + 0x20A) = is_mode_two;
-    *(s32 *)(state_base + 0x224) = *(s32 *)(state_base + 0x2D5C);
+    source_page = *(u32 *)(state_base + 0x2D5C);
+    *(s32 *)(state_base + 0x224) = source_page;
     *(s32 *)(state_base + 0x230) = func_80025E54(buffer, config, is_mode_two, initial_word);
     *(s32 *)(state_base + 0x228) = func_80025ECC();
     func_80025F0C(buffer, config);

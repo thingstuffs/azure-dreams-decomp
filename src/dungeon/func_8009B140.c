@@ -32,7 +32,7 @@ void func_800A08A0(s32 spawn_mode) {
     s32 monster_type;
     s32 mode;
     s32 spawn_level;
-    register u8 raw_variant ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u8 raw_variant;
     s16 attempt;
     s32 distance;
     u8 *reference_object;
@@ -99,6 +99,7 @@ void func_800A08A0(s32 spawn_mode) {
                 spawn_entry = (u8 *)(signed_entry_offset + (s32)spawn_table);
             }
             raw_variant = spawn_entry[1];
+            spawn_level = raw_variant;
             D_800E2968 = raw_variant;
             monster_type = spawn_entry[0];
         }
@@ -106,7 +107,6 @@ void func_800A08A0(s32 spawn_mode) {
         if (monster_type == 0) {
             return;
         }
-        spawn_level = raw_variant;
         monster = func_800A1618(monster_type, 1);
         if (monster == 0) {
             continue;

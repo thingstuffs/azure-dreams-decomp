@@ -143,8 +143,6 @@ extern void func_80025724(void);
 extern void func_8002553C(Work *, s32, s32);
 extern void func_800A56E0(s32);
 extern void func_800542BC(void);
-extern void func_8002694C(void) __attribute__((noreturn));
-extern void func_800268B8(void) __attribute__((noreturn));
 extern void func_80024AF8(Work *, s32, s32, s32, s32, s32);
 extern void func_80024CA4(Work *, s32, s32, s32, s32, s32);
 extern void func_80024F80(Work *, s32, s32, s32, s32, s32);
@@ -222,7 +220,6 @@ state0:
     func_8002553C(work, position_arg, sprite_arg);
     func_800A56E0(0x300);
     func_800542BC();
-    func_8002694C();
     return;
 
 state1:
@@ -310,7 +307,6 @@ state1:
     }
     work->timer = 16;
     work->state++;
-    func_8002694C();
     return;
 
 state2:
@@ -397,8 +393,7 @@ state2:
                             sprite->r = 0x80;
                             *(Template12 *)&effect->motion.pad0[0x38] = D_800269A8;
                             sprite->image = &effect->motion.pad0[0x38];
-                            func_800268B8();
-                            return;
+                            goto flag_check;
                         }
                     }
                 }
@@ -441,6 +436,7 @@ state2:
         }
     }
 
+flag_check:
     if ((D_80082E94.value & 0x8000) == 0) {
         work->timer--;
         if (work->timer >= 0) {
@@ -448,7 +444,6 @@ state2:
         }
     }
     work->state = 4;
-    func_8002694C();
     return;
 
 state4:
@@ -458,7 +453,7 @@ state4:
         D_80083460.count--;
         ((u16 *)work)[-1] |= 0x8000;
         D_800814A0.value |= 0x8000;
-        func_8002694C();
+        return;
     }
     D_800269B4.value = 0;
 }

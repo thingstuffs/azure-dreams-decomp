@@ -14,7 +14,7 @@ void func_80059DAC(void)
     void *scan_entry;
     void *entry;
     void *entries;
-    register void *compare_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    void *compare_entry;
     void *sort_entry;
 
     entry_count = 0;
@@ -35,13 +35,14 @@ count_entries:
         do {
             compare_index = entry_count - 1;
             if (entry_index < compare_index) {
-                register s32 compare_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                register s32 compare_offset;
 
                 compare_offset = compare_index * 8;
                 sort_entry = entry;
                 compare_entry = (void *)(compare_offset + (s32)entries);
-                do {
-                    if (*(s32 *)sort_entry > *(s32 *)compare_entry) {
+                loop_1: {
+                    compare_offset = *(s32 *)sort_entry > *(s32 *)compare_entry;
+                    if (compare_offset != 0) {
                         saved_entry[1] = *(s32 *)((s8 *)sort_entry + 4);
                         saved_entry[0] = *(s32 *)sort_entry;
                         *(s32 *)((s8 *)sort_entry + 4) = *(s32 *)((s8 *)compare_entry + 4);
@@ -51,7 +52,7 @@ count_entries:
                     }
                     compare_index--;
                     compare_entry = (s8 *)compare_entry - 8;
-                } while (entry_index < compare_index);
+                } if (entry_index < compare_index) goto loop_1;
             }
             entry_index++;
             entry = (s8 *)entry + 8;

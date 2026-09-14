@@ -21,14 +21,6 @@ typedef struct Scratch818D4800 {
 } Scratch818D4800;
 
 extern u8 D_80083160[];
-#ifdef __mips__
-extern void func_8002409C(void) __attribute__((noreturn));
-extern void func_8002409C_args(void *arg0, void *arg1)
-    __asm__("func_8002409C") __attribute__((noreturn));
-#else
-extern void func_8002409C(void *arg0, void *arg1) __attribute__((noreturn));
-#define func_8002409C_args func_8002409C
-#endif
 extern u32 func_80065420(void *arg0, void *arg1, void *arg2, void *arg3);
 extern s32 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern void func_80067F20(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
@@ -66,15 +58,12 @@ s32 BODY_NAME(void *object_data, void *position_data)
     u8 *packet_start;
     u8 *next_prim;
 
-    ASM_KEEP(tag_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     packet_start = state->next;
     scratch->ot = (u32 *)((u8 *)state + 0xB0);
     scratch->next = packet_start;
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-next_object_loop:
+do {
     scratch->x = *(volatile u16 *)(position + 2);
     prim = scratch->next;
     scratch->y = *(u16 *)(position + 6);
@@ -97,7 +86,7 @@ next_object_loop:
         *(u32 *)prim = (*(u32 *)prim & tag_mask) |
             (scratch->ot[scratch->index] & addr_mask);
         {
-            register u32 ot_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u32 ot_word;
 
             ot_word = scratch->ot[scratch->index];
             scratch->ot[scratch->index] = (ot_word & tag_mask) |
@@ -125,11 +114,7 @@ next_object_loop:
 
     object = (u8 *)next_object + 0x20;
     position = *(u8 **)((u8 *)next_object + 8);
-#ifdef __mips__
-    goto next_object_loop;
-#else
-    func_8002409C_args(scratch, next_object);
-#endif
+    } while (1);
 
 finish:
     (*(DungeonState818D4800 **)state_slot)->next = scratch->next;

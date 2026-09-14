@@ -50,8 +50,6 @@ void func_8003F540();
 int func_800445E0();
 s32 func_80053EF0();
 M2C_UNK func_800A56E0();
-M2C_UNK func_800F62E8() __attribute__((noreturn));
-M2C_UNK func_800F635C() __attribute__((noreturn));
 extern M2C_UNK D_80010000;
 extern u16 D_8001371A;
 extern s32 D_8006CD58;
@@ -68,12 +66,12 @@ void func_807AE960(void *arg0, void *arg1, void *arg2) {
     u16 countdown_u;
     s32 actor_pos;
     u8 *state = arg0;
-    register u8 *actor ASM_REG("$20") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *actor = arg1;
     u8 *target = arg2;
     register u8 *global ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 temp_s5 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u8 *global_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u32 temp_s2;
+    s32 temp_s5;
+    u8 *global_end;
     u8 *dungeon_data;
     S_807AE960_6 *temp_v0_2;
 
@@ -88,7 +86,7 @@ void func_807AE960(void *arg0, void *arg1, void *arg2) {
 jt_c0:
 jt_c1:
     if (func_8003F270(dispatch_index) != 0) {
-        goto block_37;
+        return;
     }
     if (((S_807AE960_1 *)state)->unk_10 != 0) {
         goto block_5;
@@ -96,12 +94,12 @@ jt_c1:
     func_800A56E0(0x300);
 block_5:
     ((S_807AE960_1 *)state)->unk_00.u = 3;
-    func_800F635C();
-    return;
+    goto block_28;
 jt_c16:
     ((S_807AE960_1 *)state)->unk_0A = 0x400;
-    func_800F62E8();
-    return;
+    ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
+    ((S_807AE960_1 *)state)->unk_00.u = 0;
+    goto block_28;
 jt_c2:
     temp_a0 = ((S_807AE960_1 *)state)->unk_04.s;
     if (temp_a0 <= 0) {
@@ -122,8 +120,7 @@ block_11:
     }
 block_13:
     ((S_807AE960_1 *)state)->unk_04.s = 0;
-    func_800F635C();
-    return;
+    goto block_28;
 block_15:
     if (((S_807AE960_3 *)global)->unk_2090 != 1) {
         goto block_17;
@@ -147,8 +144,7 @@ block_17:
 block_22:
     ((S_807AE960_2 *)target)->unk_1A = (s16) (u16) ((S_807AE960_1 *)state)->unk_0A;
     ((S_807AE960_1 *)state)->unk_00.u = 0;
-    func_800F635C();
-    return;
+    goto block_28;
 jt_c3:
     if (((S_807AE960_1 *)state)->unk_10 != 0) {
         goto block_26;

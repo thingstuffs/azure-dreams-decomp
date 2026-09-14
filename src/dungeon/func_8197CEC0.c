@@ -158,22 +158,21 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
     actor->field42 = (s16)(((((s32)(actor->counter << 16) >> 18) << 5)) + 0x80);
 
     {
-        register s32 spawn_limit ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 remaining;
         s32 early_frames;
         u16 frame;
         early_frames = (s16)actor->counter < 8;
         frame = *(volatile u16 *)&actor->counter;
         if (early_frames) {
-            spawn_limit = 4;
+            sprite = (Sprite *)4;
         } else {
-            spawn_limit = 3;
+            sprite = (Sprite *)3;
             if ((u32)(frame - 8) < 5U) {
-                spawn_limit = 0xC;
+                sprite = (Sprite *)0xC;
             }
         }
 
-        remaining = spawn_limit;
+        remaining = (s32)sprite;
         if (remaining >= 0) {
             void *particle_callback = D_80024BB8;
             s32 *particle_data = D_800DEA68;

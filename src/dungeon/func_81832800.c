@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern void func_800247B4(void) __attribute__((noreturn));
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -11,8 +12,6 @@ extern u8 D_800DEA68[];
 extern u8 D_800DED70[];
 extern s32 D_8008346C[];
 extern s32 D_800814A0[3];
-extern void func_80024354(void) __attribute__((noreturn));
-extern void func_800247B4(void) __attribute__((noreturn));
 void *func_8003FD64();                     /* extern */
 M2C_UNK func_8004491C();                /* extern */
 s32 func_80069EF8();                /* extern */
@@ -241,7 +240,7 @@ first_spawn_loop:
                 particle_data = (S_func_81832800_6 *) ((u8 *) object + 0x20);
                 jitter_count = 1;
                 ((S_func_81832800_4 *) object->unk_08)->unk_04.as_s32 = (s32) position->unk_04.as_s32;
-                do {
+                loop_0: {
                     spawn_value = func_80069EF8();
                     jitter_position_x = object->unk_08;
                     init_value = jitter_position_x->unk_00.parts.unk_02.as_u16;
@@ -265,7 +264,7 @@ first_spawn_loop:
                     init_value = jitter_base + init_value;
                     jitter_count -= 1;
                     jitter_position_y->unk_04.parts.unk_06.as_u16 = (u16) init_value;
-                } while (jitter_count >= 0);
+                } if (jitter_count >= 0) goto loop_0;
                 particle_position = object->unk_08;
                 ((S_func_81832800_4 *) object->unk_08)->unk_08.parts.unk_0A.as_s16 = func_800BCB04(particle_position->unk_00.parts.unk_02.as_u16, particle_position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
                 height_position = object->unk_08;
@@ -303,7 +302,6 @@ first_spawn_loop:
         if (state < 3) {
             if (state != 0) {
                 if (state != 1) {
-                    func_800247B4();
                     return;
                 }
                 goto state_1;
@@ -319,7 +317,6 @@ first_spawn_loop:
                 goto state_3;
             }
             if (state != 0xFF) {
-                func_800247B4();
                 return;
             }
             goto state_FF;
@@ -335,13 +332,13 @@ state_0:
         if (found_target == NULL) {
             source->unk_72 = (u8) source_sprite->unk_24;
             source->unk_73 = (u8) source_sprite->unk_25;
-            func_80024354();
-            return;
+            goto after_coords;
         }
         sprite = ((S_func_81832800_3 *) ((u8 *) found_target - 0x20))->unk_0C;
         if (!(sprite->unk_14 & 0x8000) || !(((S_func_81832800_5 *) effect_sprite)->unk_14 & 0x8000)) {
             source->unk_72 = (u8) sprite->unk_24;
             source->unk_73 = (u8) sprite->unk_25;
+after_coords:
             position->unk_00.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_00.as_s32;
             position->unk_04.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_04.as_s32;
             position->unk_08.as_s32 = (s32) ((S_func_81832800_4 *) source_object->unk_08)->unk_08.as_s32;
@@ -375,7 +372,6 @@ state_1:
     if ((s16) effect->unk_50 >= 0) {
         position->unk_00.as_s32 += position->unk_0C;
         position->unk_04.as_s32 += position->unk_10;
-        func_800247B4();
         return;
     }
     delta_x = 6;
@@ -477,7 +473,6 @@ state_3:
 
 state_null:
     effect->unk_0A = 0xFF;
-    func_800247B4();
     return;
 
 state_3_continue:
@@ -486,7 +481,6 @@ state_3_continue:
 
 state_F0_end:
     effect->unk_0A = 0xF0;
-    func_800247B4();
     return;
 
 state_F0:
@@ -500,7 +494,6 @@ state_F0:
         sprite->unk_1C.as_u16 = 0x1000U;
         effect->unk_0A = 0xFFU;
         ((S_func_81832800_2 *) source->unk_60)->unk_14.as_u32 &= ~0x100000U;
-        func_800247B4();
         return;
     }
     return;
@@ -508,10 +501,8 @@ state_F0:
 state_FF:
     if (effect->unk_52.as_s16 & 0x8000) {
         effect->unk_52.as_u16 &= 0x7FFF;
-        func_800247B4();
         return;
     }
-    ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     *D_8008346C = 0;
     ((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 = (u16) (((S_func_81832800_9 *) ((u8 *) effect - 2))->unk_00 | 0x8000);
     D_800814A0[0] |= 0x8000;

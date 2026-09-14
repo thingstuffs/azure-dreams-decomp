@@ -53,7 +53,6 @@ extern void func_800A48F0(void *, s32, s32);
 extern void func_800A9C18(void *, void *, void *, s16);
 extern void func_800AA36C(void *, void *, void *, void *);
 extern void func_800673A0(s16 *, s32, s32);
-extern void func_8016A9FC(void) __attribute__((noreturn));
 
 extern u8 D_80045340[];
 extern u8 D_80083498[];
@@ -156,7 +155,7 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
 write_kind:
         ((S_80FB7000_1 *)work)->unk_14 = primary_flags;
         ((S_80FB7000_1 *)work)->unk_1C = secondary_flags;
-        func_8016A9FC();
+        goto post_kind;
 
 normal_kind:
         {
@@ -225,7 +224,6 @@ scan_done:
     return work;
 }
 
-extern void func_8016A9FC(void) __attribute__((noreturn));
 #if 0
 extern void func_8016AA40(void) __attribute__((noreturn));
 #endif
