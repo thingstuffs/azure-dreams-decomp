@@ -190,13 +190,8 @@ adjusted:
         } else {
             value = 0;
         }
-        {
-            register s32 sum ASM_REG("$2") = ent2->unk70;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            sum = value + sum;
-            if (((s16)sum >> 7) > 0) {
-                return ent2;
-            }
+        if (((s16)(s32)((u8 *)value + ent2->unk70) >> 7) > 0) {
+            return ent2;
         }
     }
     a->flags14 &= ~0x4000000;

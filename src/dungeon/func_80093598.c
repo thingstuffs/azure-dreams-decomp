@@ -168,9 +168,8 @@ print_message:
 
         state = (u8 *)result + 0x20;
         {
-            register s32 data_word ASM_REG("$5");
-            s32 item_word;
-
+            register s32 data_word;
+            u8 *sound_table;
             data_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
             ((S_80098CF8_5 *)state)->unk_AC = 1;
             ((S_80098CF8_5 *)state)->unk_90 = message;
@@ -180,19 +179,19 @@ print_message:
             data_word = 0x80080000;
             ASM_KEEP(data_word);
             ((S_80098CF8_6 *)actor)->unk_BC = item;
-            item_word = ((S_80098CF8_1 *)item)->unk_00.at00.v;
+            target_arg = (void *)((S_80098CF8_1 *)item)->unk_00.at00.v;
             ((S_80098CF8_5 *)state)->unk_9C = (u8 *)data_word + 0x1484;
             ((S_80098CF8_6 *)actor)->unk_8C = 0;
             ((S_80098CF8_6 *)actor)->unk_124 = 0;
-            ((S_80098CF8_7 *)((void *)data_word))->unk_1484 = item_word;
-            data_word = (s32)D_800DD0B8;
+            ((S_80098CF8_7 *)((void *)data_word))->unk_1484 = (s32)target_arg;
             ((S_80098CF8_6 *)actor)->unk_9A = 0x1B;
             ((S_80098CF8_6 *)actor)->unk_9B = 0;
-            (*(void * *)((u8 *)message + 0x2C)) = (void *)data_word;
+            sound_table = D_800DD0B8;
+            (*(void * *)((u8 *)message + 0x2C)) = sound_table;
 
             func_80048A44(
                 message,
-                ((u8 *)data_word)[((D_80083228 + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
+                sound_table[((D_80083228 + ((S_80098CF8_4 *)actor_state)->unk_2A + 0x100) >> 9) & 7],
                 0,
                 1);
             func_800A56E0(0x511);

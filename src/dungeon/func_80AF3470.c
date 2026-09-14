@@ -124,8 +124,8 @@ common:
 
     {
         s32 sine = func_80064584(render_or_step);
-        register s32 sine_radius ASM_REG("$3") = ((S_80174C70_0 *)effect)->unk_62;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 sine_product ASM_REG("$7") = sine_radius * sine;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 sine_radius = ((S_80174C70_0 *)effect)->unk_62;
+        s32 sine_product = sine_radius * sine;
         s32 cosine_angle = render_or_step;
 
         render_or_step = sine_product << 4;
@@ -135,37 +135,36 @@ common:
     {
         u8 *direction_ptr = (u8 *)&directions;
         s32 heading_x = ((S_80174C70_0 *)effect)->unk_18;
-        register s32 radius ASM_REG("$4") = ((S_80174C70_0 *)effect)->unk_62;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 radius = ((S_80174C70_0 *)effect)->unk_62;
 
         direction.x = (*(u16 *)((u8 *)direction_ptr + (((heading_x - 0x400) >> 7) & 0x1C)));
 
         {
-            register s32 cosine_product ASM_REG("$7") = radius * cosine;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 cosine_product = radius * cosine;
             s32 heading_y = ((S_80174C70_0 *)effect)->unk_18;
 
             direction_ptr += ((heading_y - 0x400) >> 7) & 0x1C;
             direction.y = (*(u16 *)((u8 *)direction_ptr + (2)));
 
             {
-                register s32 height_step ASM_REG("$3") = cosine_product << 4;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 height_step = cosine_product << 4;
 
                 ((S_80174C70_2 *)motion)->unk_08 += height_step;
             }
         }
     }
     {
-        register s32 axis_step ASM_REG("$2") = direction.x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 axis_product ASM_REG("$7") = axis_step * render_or_step;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 axis_step = direction.x;
+        s32 axis_product = axis_step * render_or_step;
 
         axis_step = axis_product >> 4;
         ((S_80174C70_2 *)motion)->unk_0C = axis_step;
     }
     {
-        register s32 axis_step ASM_REG("$2") = direction.y;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 axis_product ASM_REG("$7") = axis_step * render_or_step;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 axis_step = direction.y;
+        s32 axis_product = axis_step * render_or_step;
 
-        axis_step = axis_product >> 4;
-        ((S_80174C70_2 *)motion)->unk_10 = axis_step;
+        ((S_80174C70_2 *)motion)->unk_10 = axis_product >> 4;
     }
     ((S_80174C70_2 *)motion)->unk_00 += ((S_80174C70_2 *)motion)->unk_0C;
     ((S_80174C70_2 *)motion)->unk_04 += ((S_80174C70_2 *)motion)->unk_10;

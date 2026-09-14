@@ -23,6 +23,16 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 8, gated (15 windows MATCH, SLUS SHA-1 MATCH): **7,559 pins in 1,388 rows**. Big register
+rows (9-30 pins, every site diagnosed): sol improved 9 of 24 rows, opus 3 of 8 on its first pack (13 pins) with a
+new rule, FAMILY ERASURE: register pins naming the same hard register are a unit, because any sibling pin keeps
+that register occupied for the value just un-pinned (`global.c` find_reg pass 0). `tools/xform/t62_regfamily.py`
+(opus-built, unit-tested) reproduces the 10 -> 2 win but scores 0 of 40 on random same-register-family rows: the
+rule needs the per-site pre-filter "every member's lone erasure is a pure register rename with retail's register
+outside the conflict set" (`ledger/pins_site.jsonl` has residue classes) before it generalises. Two outputs were
+refused for adding scaffolding (`ASM_SET`, `ASM_KEEP_DEP_NV`), as the landing filter should.
+- **Running after this gate:** `alloc38`-`alloc40` (big rows, sol), `alloc41`-`alloc43` (big rows, opus), one t62 sweep.
+
 Twenty-fifth round, part 7, gated (34 windows MATCH, SLUS SHA-1 MATCH): **7,584 pins in 1,388 rows**. The scan-order
 register stratum served to exhaustion at 1-8 pins: sol 18 of 72, opus 7 of 25 (the same pack format read by an
 opus workflow agent), 26 rows landed. Opus's lever notes: split a twice-used function-scope scratch so the first

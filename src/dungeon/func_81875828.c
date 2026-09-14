@@ -88,13 +88,11 @@ next_entry:
     *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
     {
       register u32 table_slot ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      u32 packet_bits;
-      register u32 table_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+      register u32 table_word;
       table_slot = active->index;
       table_slot = (table_slot << 2) + (u32) active->table;
-      packet_bits = (u32) entry & low_mask;
       table_word = *((u32 *) table_slot);
-      table_word = (table_word & high_mask) | packet_bits;
+      table_word = (table_word & high_mask) | ((u32) entry & low_mask);
       ASM_KEEP_DEP_NV(table_word, entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       *((u32 *) table_slot) = table_word;
     }
