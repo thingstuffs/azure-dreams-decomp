@@ -15,13 +15,12 @@ typedef struct S_7FFEF6A8_0 {
     s32 unk_90;
     s32 unk_94;
     s32 unk_98;
-} S_7FFEF6A8_0;   /* arg0 in func_7FFEF6A8 */
+} S_7FFEF6A8_0;   /* arg0 in func_8008CE08 */
 
 
 s32 func_80065F90();                        /* extern */
-void func_8008CF34(void) __attribute__((noreturn)); /* extern */
 
-s32 func_7FFEF6A8(S_7FFEF6A8_0 *arg0) {
+s32 func_8008CE08(S_7FFEF6A8_0 *arg0) {
     s32 temp_a0;
     s32 temp_v0;
     s32 temp_v0_2;
@@ -30,6 +29,7 @@ s32 func_7FFEF6A8(S_7FFEF6A8_0 *arg0) {
     s32 temp_v0_5;
     s32 temp_v1;
     s32 temp_v1_2;
+    s32 tail_angle;
 
     if (arg0->unk_6C.at00.v == 0) {
         return 1;
@@ -63,30 +63,18 @@ s32 func_7FFEF6A8(S_7FFEF6A8_0 *arg0) {
         goto have_field70;
     }
 tail_one:
-    {
-        s32 rv;
-        rv = 1;
-        ASM_TAILSLOT_PIN(rv);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_8008CF34();
-        return rv;
-    }
+    return 1;
 have_field70:
     temp_v0_5 = func_80065F90(arg0->unk_70.at02.v, (s16) arg0->unk_70.at00.v);
     arg0->unk_80 = temp_v0_5;
     temp_a0 = (temp_v0_5 - arg0->unk_7C) & 0xFFF;
     arg0->unk_80 = temp_a0;
-    if (temp_a0 < 0x801) {
-        s32 tail_angle;
-        register s32 rv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
-        tail_angle = (arg0->unk_84 - temp_a0) & 0xFFF;
-        rv = tail_angle < 0x801;
-        ASM_KEEP(rv);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg0->unk_90 = tail_angle;
-        func_8008CF34();
-        return rv;
+    if (temp_a0 >= 0x801) {
+        return 0;
     }
-    return 0;
+    tail_angle = (arg0->unk_84 - temp_a0) & 0xFFF;
+    arg0->unk_90 = tail_angle;
+    return tail_angle < 0x801;
 }
 
 /* MECHANISM: A vars=0 24-byte frame follows from one held object base in s0.

@@ -64,7 +64,6 @@ extern void *func_8003FC64();
 extern void func_8003DB94();
 extern s32 rand();
 extern void func_8004491C();
-extern void func_80024F24() __attribute__((noreturn));
 
 extern u8 D_80024BB0[];
 extern s32 D_80045340;
@@ -86,7 +85,6 @@ void *func_818BD52C(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s
     S_818BD52C_4 *coords;
     void *node;
     s32 end_z;
-    register void *pinned_node ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     node = func_8003FC64(0x212);
     if (node != 0) {
@@ -131,11 +129,9 @@ void *func_818BD52C(S_818BD52C_1 *owner, void *source_coords, s32 phase_index, s
         coords->unk_0C = coords->unk_00;
         coords->unk_10 = coords->unk_04;
         coords->unk_14 = coords->unk_08;
-        pinned_node = node;
         end_z = coords->unk_14 + ((u32)base->unk_0A << 16);
-        ASM_USE(pinned_node);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coords->unk_14 = end_z;
-        func_80024F24(coords, end_z);
+        return node;
     }
     return node;
 }

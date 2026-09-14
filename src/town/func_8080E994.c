@@ -59,12 +59,8 @@ extern void func_8003EA54(Actor *);
 extern s32 func_80240810(void *, Motion *, void *, void *);
 extern void func_8023FB18(void *);
 extern void func_80529650(void) __attribute__((noreturn));
-extern void func_805296D8(void) __attribute__((noreturn));
-extern void func_8052974C(void) __attribute__((noreturn));
-extern void func_805299DC(void) __attribute__((noreturn));
-extern void func_80529AA4(void) __attribute__((noreturn));
 
-void func_8080E994(State *state, Motion *motion, Actor *actor)
+void func_80529594(State *state, Motion *motion, Actor *actor)
 {
     State *st = state;
     Motion *mot = motion;
@@ -129,16 +125,19 @@ case_0:
             result_v0 = quotient * 10;
             threshold = st->threshold;
             quotient = call_a0 - result_v0;
-            if (threshold < quotient) {
-                result_v0 = act->flags;
-                result_v0 &= 0xff7f;
-                ASM_TAILSLOT_PIN_TIED(result_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                return func_805296D8();
+            {
+                u16 flags;
+
+                if (threshold < quotient) {
+                    flags = act->flags & 0xff7f;
+                } else {
+                    flags = act->flags | 0x80;
+                }
+                act->flags = flags;
             }
         }
-        act->flags |= 0x80;
         st->field1D = 0;
-        return func_80529AA4();
+        goto done;
     }
 
 case_1:
@@ -152,13 +151,8 @@ case_1:
 
         value = st->kind;
         if (value == 0) {
-            result_v0 = act->height;
-            result_v0 += 5;
-            ASM_TAILSLOT_PIN_TIED(result_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            return func_8052974C();
-        }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        if (value == 1) {
+            act->height += 5;
+        } else if (value == 1) {
             act->height -= 5;
         }
         st->field1D = 0;
@@ -179,7 +173,7 @@ case_1:
         mot->dz = ((func_80071494() & 0xff) << 11) - 0x180000;
         st->timer = (func_80071494() & 0xf) + 30;
         st->state = 3;
-        return func_80529AA4();
+        goto done;
     }
 
 case_2:
@@ -216,7 +210,7 @@ case_2:
         act->mode = 0;
         act->variant = 0;
         mot->z = floor;
-        return func_80529AA4();
+        goto done;
     }
 
 case_3:
@@ -236,19 +230,17 @@ case_3:
         }
         st->timer = 31;
         st->state = 5;
-        return func_80529AA4();
+        goto done;
 
 case_4:
     {
         u32 result_v0;
         if ((st->timer >> 2) & 1) {
-            result_v0 = act->flags;
-            result_v0 |= 0x80;
-            ASM_TAILSLOT_PIN_TIED(result_v0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            return func_805299DC();
+            result_v0 = act->flags | 0x80;
+        } else {
+            result_v0 = act->flags & 0xff7f;
         }
-        act->flags &= 0xff7f;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        act->flags = result_v0;
         if (func_80240810(D_805300F4, mot, D_80290704, D_80132AE8)) {
             s32 product;
             s32 choice;
@@ -264,7 +256,7 @@ case_4:
             goto done;
         }
         st->state = 6;
-        return func_80529AA4();
+        goto done;
     }
 
 case_5:

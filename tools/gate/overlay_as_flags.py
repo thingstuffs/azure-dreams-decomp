@@ -452,6 +452,25 @@ def _overlay_hit(name: str, *, family: str, table: Table, func: str,
         return (table.by_syn[key], "row-key")
     recs = table.by_true.get(key)
     if not recs:
+        # 1b. No record CLAIMS this slot label -- but a record written BEFORE
+        #     its row was registered in a rowbase region simply carries no
+        #     ``true_name`` alias, and the landing gate only ever asks by the
+        #     TRUE name (overlay_local_gate.compile_c_segments passes
+        #     ``seg.match.func``, which load_matches() sets to the true name
+        #     for an in-region row).  The pre-2026-09-14 answer there was
+        #     ('', 'none') -- the dial silently dropped, which cost round 25
+        #     part 4 four town rows (work/lac_honest/GATEFIX_REPORT.md).
+        #     Identity is ``(family, foff)``, never the name, so resolve
+        #     through it when the caller gave a foff AND the name asked for is
+        #     exactly that row's true name.  This can never hand a row another
+        #     row's dial: ``record_identity`` derives each record's identity
+        #     from its SYNTHETIC row key, which is an identity (rule R1).
+        if foff is not None:
+            qid = identity_for(family, foff)
+            if qid is not None and qid.split("__", 1)[0] == key:
+                for rec in table.records:
+                    if record_identity(family, rec) == qid:
+                        return (rec.as_flags, "identity-no-alias")
         return None
 
     # 2. Region-qualified resolution (rule R1). Region context is either an
@@ -495,6 +514,7 @@ def resolve_as_flags(func: str, overlay: str | None = None,
 
     ``row-key``           the name is a record's SYNTHETIC key (an identity)
     ``identity``          resolved through ``(family, foff)`` / the row key
+    ``identity-no-alias`` same, for a record that carries no ``true_name``
     ``bare-unambiguous``  the bare slot label has exactly one owner in the family
     ``main-table``        ``match.DEFAULT_FUNC_AS_FLAGS`` (the main-EXE route)
     ``none``              no evidence -- ``""``, the pre-LEAD-12b answer

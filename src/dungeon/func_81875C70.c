@@ -1,10 +1,8 @@
 #include "common.h"
 
 extern s32 func_80069EF8(void);
-extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
 extern void func_800256AC(void) __attribute__((noreturn));
-extern void func_800257A8(void) __attribute__((noreturn));
-extern void func_800257F0(void) __attribute__((noreturn));
+extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
 extern void *D_80024038[];
 
 typedef struct {
@@ -25,6 +23,7 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
     u16 state0;
     u16 limit0;
     u16 timer1;
+    u16 adv;
     u16 state1;
     u16 h1;
     register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -68,9 +67,9 @@ jt_c0:
         }
         limit0 = 0x800;
         state0 = *(u16 *)p;
-        ASM_KEEP(state0);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         *(u16 *)(p + 0xE) = limit0;
-        func_800257A8();
+        *(u16 *)p = state0 + 1;
+        return;
 
 jt_c1:
         old = p[0x34];
@@ -90,7 +89,6 @@ jt_c1:
         *(s32 *)(p + 0x74) = 0;
         *(s32 *)(p + 0x80) = -0x900;
         *(u16 *)(p + 0x6A) = h1;
-        func_800257F0();
         return;
 
 jt_c2:
@@ -106,7 +104,6 @@ jt_c2:
         *(s32 *)(p + 0x68) += velocity;
         *(s32 *)(p + 0x74) = velocity;
         *(u16 *)(p + 0x1A) = *(u16 *)(p + 0x6A);
-        func_800257F0();
         return;
 
 jt_c3:
@@ -120,7 +117,6 @@ jt_c3:
         if ((s16)temp >= 31) {
             goto advance;
         }
-        func_800257F0();
         return;
 
 jt_c4:
@@ -132,7 +128,8 @@ jt_c4:
         *(s16 *)(*(u8 **)(p + 0x40) + 0x88) = 1;
 
         i = 0;
-        ASM_KEEP(i);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(i);
+   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         r0 = (func_80069EF8() & 0xFF) | 0x80;
         i++;
         r1 = (s16)((func_80069EF8() & 0x7F) - 0x40);
@@ -152,7 +149,6 @@ jt_c5:
         if ((s16)temp >= 16) {
             goto advance;
         }
-        func_800257F0();
         return;
 
 jt_c6:
@@ -167,10 +163,10 @@ jt_c6:
         return;
 
 advance:
-    temp = *(u16 *)p;
+    adv = *(u16 *)p;
     *(u16 *)(p + 2) = 0;
-    *(u16 *)p = temp + 1;
-    func_800257F0();
+    *(u16 *)p = adv + 1;
+    return;
 
 jt_c7:
         temp = *(u16 *)(p + 2) - 1;

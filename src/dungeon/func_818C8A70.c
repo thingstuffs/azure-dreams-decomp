@@ -88,7 +88,6 @@ extern u8 D_80045340[];
 extern u8 D_800DE870[9];
 extern s32 D_800814A0[3];
 extern u8 D_800DEC00[];
-void func_80024414(void) __attribute__((noreturn));                            /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();                /* extern */
 s32 func_80069EF8();                                /* extern */
@@ -114,7 +113,7 @@ void func_818C8A70(void *effect, S_818C8A70_4 *position) {
     u16 fade_ticks;
     S_818C8A70_3 *sprite;
     S_818C8A70_5 *particle_pos;
-    register S_818C8A70_1 *particle_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register S_818C8A70_1 *particle_state ASM_REG("$20");   /* retained from the base: holds the repeated particle-state role */
     S_818C8A70_6 *source;
     void *particle;
 
@@ -164,13 +163,12 @@ void func_818C8A70(void *effect, S_818C8A70_4 *position) {
                 ((S_818C8A70_0 *)effect)->unk_00 = 1;
                 ((S_818C8A70_0 *)effect)->unk_02 = 0U;
                 func_800A56E0(0x300);
-                func_80024414();
-                return;
+                goto move_effect;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] = D_800814A0[0] | 0x8000;
         }
+move_effect:
         if ((func_800A4778(position->unk_00.at02.v, position->unk_04.at02.v, (s16) position->unk_08.at02.v, ((S_818C8A70_0 *)effect)->unk_30) << 0x10) == 0) {
             position->unk_00.at00.v = (s32) (position->unk_00.at00.v + ((S_818C8A70_0 *)effect)->unk_58);
             position->unk_04.at00.v = (s32) (position->unk_04.at00.v + ((S_818C8A70_0 *)effect)->unk_5C);
@@ -188,7 +186,8 @@ update_phase:
             particle = func_8003FC64(0x212);
             particle_state = particle + 0x20;
             if (particle != NULL) {
-                register s16 particle_z ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                u32 particle_z;
+                u16 particle_z_base;
                 particle_state->unk_02 = 0x1A;
                 ((S_818C8A70_2 *)particle)->unk_10 = &D_80024124;
                 func_8004491C(particle, D_80045340);
@@ -209,9 +208,9 @@ update_phase:
                 particle_pos->unk_06 = coord;
                 random_value = func_80069EF8();
                 random_value &= 0x1F;
-                coord = sprite->unk_0A;
+                particle_z_base = sprite->unk_0A;
                 random_value += 0x10;
-                particle_z = coord - random_value;
+                particle_z = (u32)particle_z_base - random_value;
                 particle_pos->unk_0A = particle_z;
                 particle_state->unk_58 = (s32) (func_80069EF8() - 0x8000);
                 particle_state->unk_5C = (s32) (func_80069EF8() - 0x8000);

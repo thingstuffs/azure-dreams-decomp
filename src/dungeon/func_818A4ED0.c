@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_800247B8(void) __attribute__((noreturn));  /* extern -- frame-live dispatcher */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                                /* extern */
@@ -85,16 +84,8 @@ s32 func_818A4ED0(s32 object_param, S_818A4ED0_3 *spawn_position) {
         position->unk_06 = (u16) spawn_position->unk_06;
         {
             u16 final_z = spawn_position->unk_0A;
-#ifndef NON_MATCHING
-            ASM_CLOBBER("$2");
-#endif
-            {
-                s16 object_result;
-                object_result = (s32) object;
-                ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                position->unk_0A = final_z;
-                func_800247B8();
-            }
+            position->unk_0A = final_z;
+            return (s32)object;
         }
     }
     {

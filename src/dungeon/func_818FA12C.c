@@ -70,15 +70,13 @@ extern void func_800C8A3C(void *, s32, s32);
 extern void func_80026634(void) __attribute__((noreturn));
 extern void func_800261AC(void) __attribute__((noreturn));
 extern void func_80025D08(void) __attribute__((noreturn));
-extern void func_80025BA0(void) __attribute__((noreturn));
-extern void func_80025EC8(void) __attribute__((noreturn));
 
 
 typedef struct S_818FA12C_0 {
     u8 pad_00[0x8];
     s16 * unk_08;
     u8 * unk_0C;
-} S_818FA12C_0;   /* base in func_818FA12C */
+} S_818FA12C_0;   /* base in func_8002592C */
 
 typedef struct S_818FA12C_1 {
     u8 pad_00[0x8];
@@ -91,12 +89,12 @@ typedef struct S_818FA12C_1 {
     u16 unk_1A;
     union { volatile u16 v; u16 n; } unk_1C;   /* accessed as both */
     union { volatile u16 v; u16 n; } unk_1E;   /* accessed as both */
-} S_818FA12C_1;   /* packet in func_818FA12C */
+} S_818FA12C_1;   /* packet in func_8002592C */
 
 typedef struct S_818FA12C_2_pre {
     u8 * unk_00;
     u8 pad_04[0x10];
-} S_818FA12C_2_pre;   /* the 0x14 bytes before parent in func_818FA12C, addressed as parent[-1] */
+} S_818FA12C_2_pre;   /* the 0x14 bytes before parent in func_8002592C, addressed as parent[-1] */
 
 typedef struct S_818FA12C_2 {
     u8 pad_00[0x2A];
@@ -108,7 +106,7 @@ typedef struct S_818FA12C_2 {
     u8 unk_73;
     u8 pad_74[0x14];
     u16 unk_88;
-} S_818FA12C_2;   /* parent in func_818FA12C */
+} S_818FA12C_2;   /* parent in func_8002592C */
 
 typedef struct S_818FA12C_3 {
     u8 pad_00[0x10];
@@ -119,7 +117,7 @@ typedef struct S_818FA12C_3 {
     u8 unk_14;
     u8 unk_15;
     u8 unk_16;
-} S_818FA12C_3;   /* colors in func_818FA12C */
+} S_818FA12C_3;   /* colors in func_8002592C */
 
 typedef struct S_818FA12C_4 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -128,7 +126,7 @@ typedef struct S_818FA12C_4 {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} S_818FA12C_4;   /* out in func_818FA12C */
+} S_818FA12C_4;   /* out in func_8002592C */
 
 typedef struct S_818FA12C_5 {
     u8 pad_00[0x2];
@@ -137,17 +135,17 @@ typedef struct S_818FA12C_5 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818FA12C_5;   /* table_entry in func_818FA12C */
+} S_818FA12C_5;   /* table_entry in func_8002592C */
 
 typedef struct S_818FA12C_6 {
     u8 * unk_00;
-} S_818FA12C_6;   /* obj - 0x18 in func_818FA12C */
+} S_818FA12C_6;   /* obj - 0x18 in func_8002592C */
 
 typedef struct S_818FA12C_7 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_818FA12C_7;   /* src in func_818FA12C */
+} S_818FA12C_7;   /* src in func_8002592C */
 
 typedef struct S_818FA12C_8 {
     u8 pad_00[0x6];
@@ -166,7 +164,7 @@ typedef struct S_818FA12C_8 {
     u8 pad_20[0x4];
     u8 unk_24;
     u8 unk_25;
-} S_818FA12C_8;   /* obj_data in func_818FA12C */
+} S_818FA12C_8;   /* obj_data in func_8002592C */
 
 typedef struct S_818FA12C_9 {
     u8 pad_00[0x6];
@@ -182,45 +180,45 @@ typedef struct S_818FA12C_9 {
     u8 pad_16[0x6];
     u16 unk_1C;
     u16 unk_1E;
-} S_818FA12C_9;   /* obj2_data in func_818FA12C */
+} S_818FA12C_9;   /* obj2_data in func_8002592C */
 
 typedef struct S_818FA12C_10 {
     u8 pad_00[0x38];
     u8 unk_38;
-} S_818FA12C_10;   /* cursor in func_818FA12C */
+} S_818FA12C_10;   /* cursor in func_8002592C */
 
 typedef struct S_818FA12C_11 {
     u8 pad_00[0x1C];
     u16 unk_1C;
     u16 unk_1E;
-} S_818FA12C_11;   /* tmpsrc in func_818FA12C */
+} S_818FA12C_11;   /* tmpsrc in func_8002592C */
 
 typedef struct S_818FA12C_12 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_818FA12C_12;   /* ((S_818FA12C_0 *)base)->unk_0C in func_818FA12C */
+} S_818FA12C_12;   /* ((S_818FA12C_0 *)base)->unk_0C in func_8002592C */
 
 typedef struct S_818FA12C_13 {
     u16 unk_00;
-} S_818FA12C_13;   /* (*(void * *)((u8 *)self + 4)) in func_818FA12C */
+} S_818FA12C_13;   /* (*(void * *)((u8 *)self + 4)) in func_8002592C */
 
 typedef struct S_818FA12C_14 {
     u8 * unk_00;
-} S_818FA12C_14;   /* ((S_818FA12C_2 *)parent)->unk_60.p - 0x18 in func_818FA12C */
+} S_818FA12C_14;   /* ((S_818FA12C_2 *)parent)->unk_60.p - 0x18 in func_8002592C */
 
 typedef struct S_818FA12C_15 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FA12C_15;   /* ((S_818FA12C_2 *)parent)->unk_60.p in func_818FA12C */
+} S_818FA12C_15;   /* ((S_818FA12C_2 *)parent)->unk_60.p in func_8002592C */
 
 typedef struct S_818FA12C_16 {
     u8 * unk_00;
-} S_818FA12C_16;   /* ((S_818FA12C_2 *)parent)->unk_60.p - 0x14 in func_818FA12C */
+} S_818FA12C_16;   /* ((S_818FA12C_2 *)parent)->unk_60.p - 0x14 in func_8002592C */
 
 /* Update a projectile effect, spawn impact particles, and advance its cleanup state. */
-void func_818FA12C(void *effect, void *motion, void *volatile render_data)
+void func_8002592C(void *effect, void *motion, void *volatile render_data)
 {
     u8 *self = effect;
     u8 *position = motion;
@@ -302,11 +300,8 @@ void func_818FA12C(void *effect, void *motion, void *volatile render_data)
             if (!(((S_818FA12C_12 *)(((S_818FA12C_0 *)parent_base)->unk_0C))->unk_14 & 0x8000)) {
                 ((S_818FA12C_4 *)position)->unk_00.at02.v += out_pair.x;
                 ((S_818FA12C_4 *)position)->unk_04.at02.v += out_pair.y;
-                height = ((S_818FA12C_4 *)position)->unk_08.at02.v + out_pair.z;
-                ASM_TAILSLOT_PIN(height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_80025BA0();
+                ((S_818FA12C_4 *)position)->unk_08.at02.v += out_pair.z;
             } else {
-                ASM_SCHED_BARRIER();   /* reorg CALL+BARRIER flip: keep the bnez slot a nop */
                 ((S_818FA12C_4 *)position)->unk_08.at02.v = origin_z - 0x40;
             }
             if (!(((S_818FA12C_13 *)((*(void * *)((u8 *)self + 4))))->unk_00 & 0x80)) {
@@ -430,9 +425,7 @@ void func_818FA12C(void *effect, void *motion, void *volatile render_data)
                 shrinking = (*(s16 *)((u8 *)self + 0x90));
                 if (shrinking == 0) {
                     ((S_818FA12C_1 *)packet)->unk_1C.n += (*(u16 *)((u8 *)self + 0x96));
-                    scale_y = ((S_818FA12C_1 *)packet)->unk_1E.n + (*(u16 *)((u8 *)self + 0x96));
-                    ASM_TAILSLOT_PIN(scale_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction pulse_ticks (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    func_80025EC8();
+                    ((S_818FA12C_1 *)packet)->unk_1E.n += (*(u16 *)((u8 *)self + 0x96));
                 } else {
                     packet = render_data;
                     ((S_818FA12C_1 *)packet)->unk_1C.n -= (*(u16 *)((u8 *)self + 0x96));

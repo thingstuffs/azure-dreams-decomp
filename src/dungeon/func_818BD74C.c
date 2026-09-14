@@ -49,7 +49,6 @@ extern u8 D_800DDC40[];
 extern void func_800247B0(void *, void *, s16);
 extern void func_800249C4(void *, void *, s16, s32);
 extern void func_80024D2C(void *, void *, s16, s16);
-extern void func_80025328(void) __attribute__((noreturn));
 extern s32 func_80069EF8(void);
 
 /* Animate a moving effect through color cycling, shrinking, and radial emission. */
@@ -84,7 +83,7 @@ void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
     motion = motion_arg;
     state_ticks = effect->unk_10.u;
     color_ticks = effect->unk_12;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    ASM_SCHED_BARRIER();   /* retained from the base: preserves the initial argument/tick schedule */
     effect->unk_10.u = (u16)(state_ticks + 1);
     effect->unk_12 = (u16)(color_ticks + 1);
     angle = effect->unk_16.u;
@@ -115,15 +114,12 @@ void func_818BD74C(void *effect_arg, void *motion_arg, void *sprite) {
     if (state == 0) {
         goto state0;
     }
-    func_80025328();
     return;
 
 state_ge2:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     state_or_scale = 2;
     
     if (state != state_or_scale) {
-        func_80025328();
         return;
     }
     goto state2;
@@ -139,7 +135,6 @@ state0:
     motion->unk_04 = pos_y + vel_y;
     motion->unk_08 = pos_z + vel_z;
     if (effect->unk_10.s < effect->unk_14) {
-        func_80025328();
         return;
     }
     goto advance;
@@ -166,7 +161,7 @@ state1:
 advance:
     effect->unk_10.s = 0;
     effect->unk_0E.u = (u16)(effect->unk_0E.u + 1);
-    func_80025328();
+    return;
 
 state2:
     func_80024D2C(effect, motion, (s16)(func_80069EF8() % 7), effect->unk_16.s);

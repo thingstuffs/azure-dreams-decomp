@@ -74,8 +74,6 @@ extern s32 D_800814A0;
 extern void **D_800E3D18;
 extern u8 *D_800E3D7C;
 
-extern void func_800248E0(void) __attribute__((noreturn));
-extern void func_800249C4(void) __attribute__((noreturn));
 extern void func_800255B8(s16, s16, s16, s16);
 extern void func_8002614C(s16, s16, s16, s16, s32);
 extern void *func_8003DE58(void *, void *, u16 *, s32);
@@ -88,7 +86,7 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
     register Origin *origin;
     register u8 *entity;
     register u8 *source;
-    register u16 final_state;
+    u16 final_state;
     s32 index;
 
     *(u16 *)D_80027452 = *(u16 *)D_80027452 + 1;
@@ -102,17 +100,16 @@ void func_819ACDA0(Motion *motion, Position *position, u8 *color)
     if (motion->state == 0) {
         goto initialize;
     }
-    func_800249C4();
+    return;
 
 check_upper_states:
-    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     if (motion->state == 2) {
         goto fade;
     }
     if (motion->state == 3) {
         goto effect;
     }
-    func_800249C4();
+    return;
 
 initialize:
     origin = &D_80083780;
@@ -171,12 +168,13 @@ update_position:
         func_800B8D64(motion->target_x, motion->target_y, motion->target_z);
         final_state = ((S_819ACDA0_1 *)motion)->unk_2C;
         {
-            register u16 five ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 five;   /* still load-bearing after the honest shared state advance */
 
             five = 5;
             motion->timer = five;
         }
-        func_800248E0();
+        motion->state = final_state + 1;
+        return;
 
 fade:
     color[0xD] -= color[0xD] / motion->timer;
@@ -189,7 +187,7 @@ fade:
         motion->effect_timer = 4;
         D_80027450 = 0;
         motion->state++;
-        func_800249C4();
+        return;
     }
     goto finish;
 

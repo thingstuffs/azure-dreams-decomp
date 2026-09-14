@@ -1,7 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-void func_80024650(void) __attribute__((noreturn)); /* extern */
 M2C_UNK func_8003DB94(); /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
@@ -64,7 +63,7 @@ typedef struct S_818A4CA0_4 {
 
 /* Create a sprite effect at a random offset from the supplied position. */
 s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_param, s16 frame_index) {
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 result;
     s16 angle;
     u16 height;
     s32 shifted_frame;
@@ -109,11 +108,9 @@ s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_pa
         position->unk_02 = (s16) (effect_data->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
         position->unk_06 = (s16) (effect_data->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
         height = effect_data->unk_0C;
-        ASM_KEEP(height);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         result = (s32)effect;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         position->unk_0A = (s16)height;
-        func_80024650();
+        return result;
     }
     result = 0;
     return result;

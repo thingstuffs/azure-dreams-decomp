@@ -11,7 +11,6 @@ typedef s32 M2C_UNK;
 #define M2C_FIELD(expr, type_ptr, offset) \
     (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_800256A0() __attribute__((noreturn));
 extern void *func_8003FC64();
 extern M2C_UNK func_8004491C();
 extern s32 rand();
@@ -77,10 +76,10 @@ typedef struct S_818BDD8C_5 {
 /* Creates an object with its owner, rendering parameters, and supplied data. */
 void *func_818BDD8C(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
 {
-    s32 copy_word_0;
-    s32 copy_word_1;
     s32 copy_word_2;
     s32 copy_word_3;
+    s32 copy_word_0;
+    s32 copy_word_1;
     s32 draw_flags;
     s16 render_flags;
     S_818BDD8C_3 *render;
@@ -105,37 +104,19 @@ void *func_818BDD8C(S_818BDD8C_2 *owner, S_818BDD8C_4 *initial_data)
         render->unk_10 |= 0x20;
         render->unk_14 |= 0x100;
         {
-            register void *call_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *call_obj;
             s32 scale;
 
             render->unk_1A = (s16)(rand() % 0x1000);
             call_obj = object;
             scale = 0x400;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             render->unk_1E = scale;
             render->unk_1C = scale;
             func_8004491C(call_obj, &D_80045340);
         }
         object_data = ((S_818BDD8C_0 *)object)->unk_08;
-        ASM_KEEP(object_data);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        {
-            register void *pinned_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-            pinned_object = object;
-            ASM_KEEP(pinned_object);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        }
-        copy_word_0 = initial_data->unk_00;
-        copy_word_1 = initial_data->unk_04;
-        copy_word_2 = initial_data->unk_08;
-        copy_word_3 = initial_data->unk_0C;
-        object_data->unk_00 = copy_word_0;
-        object_data->unk_04 = copy_word_1;
-        object_data->unk_08 = copy_word_2;
-        object_data->unk_0C = copy_word_3;
-        copy_word_0 = initial_data->unk_10;
-        copy_word_1 = initial_data->unk_14;
-        object_data->unk_10 = copy_word_0;
-        object_data->unk_14 = copy_word_1;
-        func_800256A0(copy_word_0, copy_word_1, copy_word_2, copy_word_3);
+        *object_data = *(S_818BDD8C_5 *)initial_data;
+        return object;
     }
     return 0;
 }

@@ -37,7 +37,6 @@ typedef union WorkOutput {
 } WorkOutput;
 
 extern u8 D_80083160[];
-extern void func_800247D4(void) __attribute__((noreturn));
 extern s32 func_80065420(void *, void *, void *, void *);
 extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
@@ -52,8 +51,8 @@ s32 func_818E6F98(void *sprite_data, void *position)
     WorkOutput scratch;
     register u8 *uv_source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonState **state_address;
-    register s16 *screen_base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register WorkOutput *scratch_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 *screen_base;
+    WorkOutput *scratch_base;
     s16 *screen_cursor;
     s32 point_index;
     u32 ordering_index;
@@ -64,7 +63,7 @@ s32 func_818E6F98(void *sprite_data, void *position)
     s32 uv;
     s32 uv_low;
     s32 uv_high;
-    register s32 node ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 node;
     u16 half_width;
     u16 center_x;
     u32 table_offset;
@@ -72,6 +71,7 @@ s32 func_818E6F98(void *sprite_data, void *position)
     state_address = (DungeonState **)D_80083160;
     screen_base = screen_points;
     scratch_base = &scratch;
+loop:
     uv_source = sprite_data;
     world_pos[0] = *(u16 *)((u8 *)position + 2);
     world_pos[1] = *(u16 *)((u8 *)position + 6);
@@ -129,16 +129,12 @@ s32 func_818E6F98(void *sprite_data, void *position)
             (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) & 0xFF000000) |
             ((u32)primitive & 0x00FFFFFF);
     }
-    ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     node = *(s32 *)((u8 *)sprite_data - 8);
     sprite_data = (u8 *)node + 0x20;
     if (node != 0) {
-        s32 callback_state;
-
-        callback_state = *(s32 *)(node + 8);
-        ASM_USE2(sprite_data, callback_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800247D4();
+        position = *(void **)(node + 8);
+        goto loop;
     }
     {
         register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */

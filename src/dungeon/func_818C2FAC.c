@@ -20,7 +20,6 @@ extern void func_800248CC(void) __attribute__((noreturn));
 #else
 extern void func_800248CC() __attribute__((noreturn));
 #endif
-extern s32 func_800249E4() __attribute__((noreturn));
 extern s32 func_8003DB94();
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C();
@@ -201,15 +200,12 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
             (*(s32 *)((u8 *)((void *)data_addr) + 0)) += x_offset;
         }
         {
-            register s32 effect_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             y_factor = func_80064584(offset_angle) >> 4;
-            effect_result = (s32)effect;
             scaled_radius = y_factor * (s32)render_or_radius;
             y_offset = scaled_radius << 8;
             new_y = (*(s32 *)((u8 *)((void *)data_addr) + 4)) + y_offset;
-            ASM_KEEP(effect_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             (*(s32 *)((u8 *)((void *)data_addr) + 4)) = new_y;
-            func_800249E4(y_offset);
+            return (s32)effect;
         }
 
     }

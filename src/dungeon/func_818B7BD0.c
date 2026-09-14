@@ -61,7 +61,6 @@ typedef union {
 #define M2C_HIGH_WORD(product) ((s32) ((u64) (product).value >> 32))
 #endif
 
-void func_8002551C() __attribute__((noreturn));
 void func_8003DB94(void *, void *, s32);
 void *func_8003FC64();
 M2C_UNK func_8004491C();
@@ -71,44 +70,34 @@ extern M2C_UNK D_80025EE4;
 extern M2C_UNK D_80045C34;
 
 s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
-    s32 temp_a0;
-    s32 temp_a1;
     s32 temp_a2;
     s32 temp_a3;
-    s32 temp_div_v1;
-    register s32 temp_hi ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 temp_quot ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 temp_a0;
+    s32 temp_a1;
     s32 temp_ret;
     s32 temp_v1;
     s32 var_v0;
-    s16 result;
+    s32 result;
     void *temp_model;
     void *temp_tag;
     S_818B7BD0_1 *temp_s0;
+    S_818B7BD0_1 *temp_s0_2;
     void *temp_v0;
     S_818B7BD0_4 *temp_v1_2;
-    M2C_WIDE temp_product;
 
     temp_v0 = func_8003FC64(0x212);
     if (temp_v0 != NULL) {
         temp_tag = &D_800250E8;
-        ASM_KEEP(temp_tag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        temp_s0 = temp_v0 + 0x20;
+        temp_s0_2 = temp_v0 + 0x20;
         ((S_818B7BD0_0 *)temp_v0)->unk_10 = temp_tag;
         ((S_818B7BD0_0 *)temp_v0)->unk_20 = arg0;
-        temp_s0->unk_0E.s16 = 0;
-        temp_s0->unk_10 = 0;
+        temp_s0_2->unk_0E.s16 = 0;
+        temp_s0_2->unk_10 = 0;
         temp_ret = func_80069EF8();
-        temp_div_v1 = (s32) 0x92492493;
-        temp_product.value = (s64) temp_ret * temp_div_v1;
-        temp_div_v1 = temp_ret >> 31;
         temp_model = &D_80025EE4;
-        temp_hi = M2C_HIGH_WORD(temp_product);
-        ASM_KEEP(temp_hi);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        temp_quot = ((temp_hi + temp_ret) >> 2) - temp_div_v1;
-        temp_s0->unk_12 = (s16) (temp_ret - ((temp_quot << 3) - temp_quot));
-        temp_s0->unk_14 = (u16) arg0->unk_12;
-        temp_s0->unk_18.at00.v = (s32) arg0->unk_18;
+        temp_s0_2->unk_12 = (s16)(temp_ret % 7);
+        temp_s0_2->unk_14 = (u16) arg0->unk_12;
+        temp_s0_2->unk_18.at00.v = (s32) arg0->unk_18;
         temp_s0 = ((S_818B7BD0_0 *)temp_v0)->unk_0C;
         temp_s0->unk_0E.u8 = 0x80;
         temp_s0->unk_0D = 0x80;
@@ -129,19 +118,8 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
         ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = (s32) temp_v0;
         ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        temp_a0 = arg1->unk_00;
-        temp_a1 = arg1->unk_04;
-        temp_a2 = arg1->unk_08;
-        temp_a3 = arg1->unk_0C;
-        temp_v1_2->unk_00 = temp_a0;
-        temp_v1_2->unk_04 = temp_a1;
-        temp_v1_2->unk_08 = temp_a2;
-        temp_v1_2->unk_0C = temp_a3;
-        temp_a0 = arg1->unk_10;
-        temp_a1 = arg1->unk_14;
-        temp_v1_2->unk_10 = temp_a0;
-        temp_v1_2->unk_14 = temp_a1;
-        func_8002551C(temp_a0, temp_a1, temp_a2, temp_a3);
+        *temp_v1_2 = *(S_818B7BD0_4 *)arg1;
+        return result;
     }
     return 0;
 }

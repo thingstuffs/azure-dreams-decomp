@@ -35,7 +35,6 @@ typedef struct S_818B6954_2 {
 } S_818B6954_2;   /* temp_s0_2 in func_818B6954 */
 
 
-extern s32 func_800242DC() __attribute__((noreturn));
 extern s32 func_8003DB94();
 extern void *func_8003FC64();
 extern s32 func_8004491C();
@@ -56,8 +55,8 @@ s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
     s64_local position_xy;
     s32 state_word_4;
     s32 state_word_5;
-    register s32 object_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 offset_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 object_result;
+    s32 offset_y;
     s32 random_angle;
     s32 random_rotation;
     s32 angle_dividend;
@@ -111,11 +110,10 @@ s32 func_818B6954(s32 context_value, void *source_state, s32 render_param) {
         (*(s32 *)((u8 *)object_state + 0)) += (func_80064584(offset_angle) >> 4) * 0x1200;
         coord_work = func_800644B8(offset_angle) >> 4;
         object_result = (s32)object;
-        ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         offset_y = coord_work * 0x1200;
         coord_work_2 = (*(s32 *)((u8 *)object_state + 4)) + offset_y;
         (*(s32 *)((u8 *)object_state + 4)) = coord_work_2;
-        func_800242DC(coord_work_2);
+        return object_result;
     }
     return 0;
 }

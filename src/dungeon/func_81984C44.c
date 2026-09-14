@@ -33,7 +33,6 @@ typedef struct S_81984C44_4 {
 
 
 
-extern void func_8002652C(void) __attribute__((noreturn));
 extern s16 func_8009FD40(void *, void *);
 extern s32 func_800A2CB8(void *, void *);
 extern s32 func_800A41F0(void *);
@@ -46,12 +45,11 @@ void *func_81984C44(void *source_entity)
     u8 *initial_globals;
     s32 initial_limit;
     void *next_link;
-    register void *matched_node ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s8 entity_floor;
     S_81984C44_4 *owner;
 
     initial_globals = (u8 *)0x80080000;
-    ASM_KEEP(initial_globals);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(initial_globals);   /* retained from the base: preserves the split initial page/limit roles */
     node = ((S_81984C44_0 *)initial_globals)->unk_14A8;
     initial_limit = 0x100;
     if (((S_81984C44_1 *)source_entity)->unk_26 < 0) {
@@ -71,9 +69,7 @@ void *func_81984C44(void *source_entity)
                 owner = ((S_81984C44_2_pre *)node)[-1].unk_00;
                 if (entity_floor >= 0) {
                     if (entity_floor == owner->unk_26) {
-                        matched_node = node;
-                        ASM_KEEP(matched_node);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                        func_8002652C();
+                        return node;
                     }
                 } else {
                     if (func_8009FD40(owner, source_entity) < owner_limit) {

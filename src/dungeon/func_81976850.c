@@ -89,8 +89,6 @@ extern u8 D_80082E80[];
 extern s16 D_80083228;
 extern u8 *D_800E3D18;
 
-extern void func_80024380() __attribute__((noreturn));
-extern void func_800243A0(void) __attribute__((noreturn));
 extern s32 func_8003DE58(void *, void *, Vec16 *, s16);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
@@ -105,7 +103,6 @@ void func_81976850(void *effect, void *motion, void *visual)
     void *scene;
     void *object;
     u8 *collision;
-    register void *incoming_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 z_offset;
     s32 table_entry;
     s16 state;
@@ -120,15 +117,13 @@ void func_81976850(void *effect, void *motion, void *visual)
             if (state == 0) {
                 goto initialize;
             }
-            func_80024380(object);
-            return;
+            goto update_visual;
         }
         collision = (u8 *)0x80080000;
         if (state == 2) {
             goto move_to_target;
         }
-        func_80024380(incoming_a0, collision);
-        return;
+        goto update_visual;
     }
 
     goto follow_source;
@@ -159,8 +154,7 @@ follow_source:
     if (((S_81976850_9 *)(((S_81976850_0 *)effect)->unk_08))->unk_00 & 0x80) {
         ((S_81976850_0 *)effect)->unk_0E.s = 10;
         ((S_81976850_0 *)effect)->unk_0C.u++;
-        func_80024380();
-        return;
+        goto update_visual;
     }
     goto update_visual;
 
@@ -212,7 +206,6 @@ move_to_target:
         ((S_81976850_2 *)motion)->unk_08.at00.v = ((S_81976850_2 *)motion)->unk_14;
         (*(u16 *)((u8 *)effect + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
-        func_800243A0();
         return;
     }
 

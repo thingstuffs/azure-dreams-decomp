@@ -69,7 +69,6 @@ typedef struct GlobalState {
     u8 *next;
 } GlobalState;
 
-extern void func_80024A54() __attribute__((noreturn));
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -126,6 +125,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     tag_addr_mask = 0x00FFFFFF;
     tag_length_mask = 0xFF000000;
     ASM_KEEP(tag_length_mask);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+loop:
     VFIELD(scratch, s32, 0x88) = ((S_8187B1F4_0 *)position)->unk_02;
     VFIELD(scratch, s32, 0x8C) = ((S_8187B1F4_0 *)position)->unk_06;
     ((S_8187B1F4_1 *)scratch)->unk_90 = ((S_8187B1F4_0 *)position)->unk_0A;
@@ -216,9 +216,9 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     if (tail != 0) {
         aux_ptr = ((S_8187B1F4_6 *)tail)->unk_08;
         point_packet = ((S_8187B1F4_6 *)tail)->unk_0C;
-        ASM_USE2(points, aux_ptr);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_USE2(tail, point_packet);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_80024A54();
+        position = aux_ptr;
+        orientation = point_packet;
+        goto loop;
     }
 #ifndef __mips__
     hard_zero = 0;

@@ -72,9 +72,6 @@ typedef struct {
 } LocalPacket;
 
 extern s32 D_800814A0;
-extern void func_80024674(void) __attribute__((noreturn));
-extern void func_80024764(void) __attribute__((noreturn));
-extern void func_800249FC(void) __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80069EF8(void);
@@ -82,9 +79,8 @@ extern s32 func_800BCB04(s32, s32, s16);
 extern void func_800DBA90(LocalPacket *, s32);
 
 /* Update a dungeon effect's motion, flickering vertices, and fade state. */
-void func_81820DB4(DungeonObj *effect)
+void func_81820DB4(DungeonObj *obj)
 {
-    register DungeonObj *obj ASM_REG("$18") = effect;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 height_or_index;
     s32 old_timer;
     s32 vertex_extent;
@@ -97,8 +93,6 @@ void func_81820DB4(DungeonObj *effect)
     u8 *vertex_cursor;
     LocalPacket packet;
 
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
     obj->parent->timer |= 0x8000;
     old_timer = obj->timer--;
     if ((s16)old_timer < 0) {
@@ -109,8 +103,7 @@ void func_81820DB4(DungeonObj *effect)
         if (obj->state == 2) {
             goto state_two;
         }
-        func_80024674();
-        return;
+        goto transition_done;
 state_one:
         obj->timer = 5;
         if (obj->aux >= 0) {
@@ -129,8 +122,7 @@ transition_done:
             obj->aux = 1;
             obj->red += (0xFF - obj->red) >> 2;
             obj->green += (0x80 - obj->green) >> 2;
-            func_80024764();
-            return;
+            goto after_color;
         }
     }
 
@@ -144,6 +136,7 @@ transition_done:
         obj->blue = (((func_80069EF8() & 15) + 10) << 4) / height_or_index;
     }
 
+after_color:
     obj->angle = (obj->angle + ((func_80069EF8() & 0xFF)
                   - (*(u16 *)((u8 *)obj + 0x0E) << 2))) & 0xFFF;
 
@@ -181,7 +174,6 @@ transition_done:
         obj->vx0 = vertex_extent;
 
         size_random = func_80069EF8();
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         vertex_cursor = (u8 *)obj + 0x18;
         size_jitter = (size_random & 7) + 8;
         vertex_size += size_jitter;
@@ -194,10 +186,10 @@ transition_done:
         obj->vy0 = 0;
         obj->angle2 += 0x100;
 
-        do {
+        loop_0: {
             *(u16 *)(vertex_cursor + 0x2C) = func_80069EF8() & 15;
             vertex_cursor -= 8;
-        } while (--height_or_index >= 0);
+        } if (--height_or_index >= 0) goto loop_0;
 
         packet.p0 = &obj->vx0;
         packet.p4 = &obj->vx0;
@@ -222,7 +214,6 @@ transition_done:
             packet.pad1A = 0;
             func_800DBA90(packet_ptr, packet_height);
         }
-        func_800249FC();
         return;
     }
 

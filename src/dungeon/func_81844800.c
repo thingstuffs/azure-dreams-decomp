@@ -196,14 +196,6 @@ __asm__(".set func_80024C84, 0x80024c84");
 __asm__(".set func_80024868, 0x80024868");
 __asm__(".set func_8002472C, 0x8002472c");
 
-extern void func_8002428C(void) __attribute__((noreturn));
-extern void func_800246A0(void) __attribute__((noreturn));
-extern void func_800246A4(void) __attribute__((noreturn));
-extern void func_800246F8(void) __attribute__((noreturn));
-__asm__(".set func_8002428C, 0x8002428c");
-__asm__(".set func_800246A0, 0x800246a0");
-__asm__(".set func_800246A4, 0x800246a4");
-__asm__(".set func_800246F8, 0x800246f8");
 
 /* Retail places an 8-entry (32-byte) callee jump table immediately before this
  * function's own code, all under the func_81844800 symbol (one 1836-byte
@@ -260,6 +252,7 @@ BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_rende
     register s32 particles_left ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_81844800_5 *sprite_page;
     s16 state;
+    s16 state_2;
 
     owner = ((S_81844800_0 *)effect)->unk_00;
     {
@@ -345,8 +338,7 @@ case0:
         if (target == 0) {
             ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_7 *)owner_sprite)->unk_24;
             ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_7 *)owner_sprite)->unk_25;
-            func_8002428C();
-            return;
+            goto have_target_tile;
         }
         sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
         if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
@@ -367,6 +359,7 @@ case0:
         }
         ((S_81844800_1 *)owner)->unk_72.s = ((S_81844800_4 *)sprite)->unk_24;
         ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_4 *)sprite)->unk_25;
+    have_target_tile:
         {
             register void *owner_before ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             owner_before = owner_base;
@@ -412,7 +405,7 @@ case0:
             }
             ((S_81844800_3 *)motion)->unk_14.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
             func_800A56E0(0x300);
-            func_800246A0();
+            ((S_81844800_0 *)effect)->unk_0A.u++;
             return;
         }
     }
@@ -429,9 +422,8 @@ case1:
     {
         register u16 timer_reset ASM_REG("$3") = 12;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         state = ((S_81844800_0 *)effect)->unk_0A.u;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_81844800_0 *)effect)->unk_50.s = timer_reset;
-        func_800246A4();
+        ((S_81844800_0 *)effect)->unk_0A.u = state + 1;
         return;
     }
 
@@ -450,14 +442,12 @@ case2:
         ((S_81844800_0 *)effect)->unk_50.s = 8;
 set_state_5:
         ((S_81844800_0 *)effect)->unk_0A.u = 5;
-        func_800246F8();
         return;
 
 case2_nonzero:
         state = ((S_81844800_0 *)effect)->unk_0A.u;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_81844800_0 *)effect)->unk_50.s = target_timer;
-        func_800246A4();
+        ((S_81844800_0 *)effect)->unk_0A.u = state + 1;
         return;
     }
 
@@ -531,11 +521,10 @@ case3:
         goto done;
     }
     {
-        register u16 timer_reset ASM_REG("$3") = 8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        state = ((S_81844800_0 *)effect)->unk_0A.u;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u16 timer_reset = 8;
+        state_2 = ((S_81844800_0 *)effect)->unk_0A.u;
         ((S_81844800_0 *)effect)->unk_50.s = timer_reset;
-        func_800246A4();
+        ((S_81844800_0 *)effect)->unk_0A.u = state_2 + 1;
         return;
     }
 
@@ -546,7 +535,6 @@ case4:
         goto done;
     }
     ((S_81844800_0 *)effect)->unk_0A.u++;
-    func_800246F8();
     return;
 
 case5:
@@ -555,10 +543,8 @@ case5:
         if ((((S_81844800_0 *)effect)->unk_52.u & 0x8000) != 0) {
             effect_count = ((S_81844800_0 *)effect)->unk_52.s & 0x7FFF;
             ((S_81844800_0 *)effect)->unk_52.s = effect_count;
-            func_800246F8();
             return;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         D_8008346C[0] = 0;
         ((S_81844800_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;

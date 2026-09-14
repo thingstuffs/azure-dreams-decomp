@@ -10,12 +10,12 @@ typedef struct S_818FF19C_0 {
     void * unk_34;
     void * unk_38;
     void * unk_3C;
-} S_818FF19C_0;   /* arg0 in func_818FF19C */
+} S_818FF19C_0;   /* arg0 in func_8002499C */
 
 typedef struct S_818FF19C_1 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_818FF19C_1;   /* arg1 in func_818FF19C */
+} S_818FF19C_1;   /* arg1 in func_8002499C */
 
 typedef struct S_818FF19C_2 {
     u8 pad_00[0xC];
@@ -24,17 +24,17 @@ typedef struct S_818FF19C_2 {
     s8 unk_0E;
     u8 pad_0F[0x5];
     u16 unk_14;
-} S_818FF19C_2;   /* arg2 in func_818FF19C */
+} S_818FF19C_2;   /* arg2 in func_8002499C */
 
 typedef struct S_818FF19C_3 {
     u8 pad_00[0x90];
     s16 unk_90;
-} S_818FF19C_3;   /* ((S_818FF19C_0 *)arg0)->unk_34 in func_818FF19C */
+} S_818FF19C_3;   /* ((S_818FF19C_0 *)arg0)->unk_34 in func_8002499C */
 
 typedef struct S_818FF19C_4 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF19C_4;   /* ((S_818FF19C_0 *)arg0)->unk_30 in func_818FF19C */
+} S_818FF19C_4;   /* ((S_818FF19C_0 *)arg0)->unk_30 in func_8002499C */
 
 
 
@@ -51,16 +51,13 @@ extern s16 D_80025E80;
 extern u16 D_80025EE8[];
 extern s32 D_800814A0;
 
-extern void func_80024A54() __attribute__((noreturn));
-extern void func_80024AEC() __attribute__((noreturn));
-extern void func_80024D54() __attribute__((noreturn));
 extern s32 func_80067014(s32);
 extern void func_800672D8(Rect8 *, u16 *);
 extern void func_8006733C(Rect8 *, u16 *);
 extern void func_800B8FC8(void *, Rect8 *, s16 *, s32, s32);
 
 /* Updates the tiled texture and draws a moving, fading effect until completion. */
-void func_818FF19C(void *effect, void *offset_state, void *render_state) {
+void func_8002499C(void *effect, void *offset_state, void *render_state) {
     Rect8 *end_rect;
     Rect8 moving_rect;
     Rect8 tile_rect;
@@ -86,26 +83,19 @@ void func_818FF19C(void *effect, void *offset_state, void *render_state) {
     offset_applied = ((S_818FF19C_0 *)effect)->unk_0A;
     D_80025E80 = 1;
     if (offset_applied == 0) {
-        s32 old_offset;
-        s32 offset_step;
-
         ((S_818FF19C_0 *)effect)->unk_0A = 1;
-        old_offset = ((S_818FF19C_1 *)offset_state)->unk_08;
-        offset_step = -0x20000;
-        ASM_KEEP(old_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(offset_step);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024A54();
+        ((S_818FF19C_1 *)offset_state)->unk_08 += -0x20000;
+    } else {
+        ((S_818FF19C_0 *)effect)->unk_0A = 0;
+        ((S_818FF19C_1 *)offset_state)->unk_08 += 0x20000;
     }
-
-    ((S_818FF19C_0 *)effect)->unk_0A = 0;
-    ((S_818FF19C_1 *)offset_state)->unk_08 += 0x20000;
     stage = ((S_818FF19C_0 *)effect)->unk_00.s;
     if (stage != 0) {
-        if (stage != 1) {
-            end_rect = &tile_rect;
-            func_80024D54();
+        if (stage == 1) {
+            goto draw;
         }
-        goto draw;
+        end_rect = &tile_rect;
+        goto final_check;
     }
 
     tile_col = 0;
@@ -130,9 +120,9 @@ void func_818FF19C(void *effect, void *offset_state, void *render_state) {
             do {
                 if (*pixel == 0) {
                     *pixel = fill_pixel;
-                    func_80024AEC(pixel_index);
+                } else {
+                    *pixel = 0;
                 }
-                *pixel = 0;
                 pixel_index++;
                 pixel++;
             } while (pixel_index < 0x1F8);
@@ -189,6 +179,7 @@ draw:
         D_800814A0 |= 0x8000;
     }
 
+final_check:
     if ((u32)(((S_818FF19C_4 *)(((S_818FF19C_0 *)effect)->unk_30))->unk_13 - 0x33) < 4U) {
         ((S_818FF19C_2 *)render_state)->unk_14 |= 0x80;
     }

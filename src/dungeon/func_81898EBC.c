@@ -87,14 +87,12 @@ extern void *func_800D24A8(u8, s16, s16, s16);
 extern void func_80042640(void *, s32);
 extern s32 func_800A6D30(void);
 
-extern void func_80024888(void) __attribute__((noreturn));
 extern void func_80024980(void) __attribute__((noreturn));
-extern void func_80024AE4(void) __attribute__((noreturn));
 extern void func_80024D54(void) __attribute__((noreturn));
 extern void func_80024DE0(void) __attribute__((noreturn));
 
 /* Update the effect's launch, movement, impact, and cleanup phases. */
-void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
+void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
 {
     EffectState *state = effect_state;
     Motion *motion = effect_motion;
@@ -107,7 +105,7 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
     Scratch scratch;
     u8 *global_page;
     s32 state_id;
-    s32 source_z;
+    u32 source_z;
     s32 adjusted_z;
     s32 axis;
     u8 *delta_ptr;
@@ -174,12 +172,9 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             adjusted_z = U16_AT(motion, 0xA);
             source_z = U16_AT(probe, 4);
             adjusted_z += source_z;
-            ASM_TAILSLOT_PIN(adjusted_z);
-            func_80024888();
+        } else {
+            adjusted_z = source_z - 0x40;
         }
-
-        ASM_KEEP(source_z);
-        adjusted_z = source_z - 0x40;
         U16_AT(motion, 0xA) = adjusted_z;
         if (!(U16_AT(state->image, 0) & 0x80)) {
             goto done;
@@ -230,9 +225,8 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 fallback_value =
                     ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
                 S32_AT((u8 *)target_pos, 8) = fallback_value;
-                fallback_value = 6;
-                ASM_TAILSLOT_PIN(fallback_value);
-                func_80024AE4();
+                state->state = 6;
+                goto state_set;
             }
             {
                 register s32 target_z ASM_REG("$6") = S16_AT(target_pos, 0xA);
@@ -245,9 +239,8 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                     fallback_value =
                         ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
                     S32_AT((u8 *)target_pos, 8) = fallback_value;
-                    fallback_value = 6;
-                    ASM_TAILSLOT_PIN(fallback_value);
-                    func_80024AE4();
+                    state->state = 6;
+                    goto state_set;
                 }
             }
             if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6)) << 16) != 0) {
@@ -256,9 +249,8 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 fallback_value =
                     ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
                 S32_AT((u8 *)target_pos, 8) = fallback_value;
-                fallback_value = 6;
-                ASM_TAILSLOT_PIN(fallback_value);
-                func_80024AE4();
+                state->state = 6;
+                goto state_set;
             }
             if ((func_800A5690() << 16) == 0) {
                 s32 fallback_value;
@@ -266,9 +258,8 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 fallback_value =
                     ((s16 *)PTR_AT(global_page, 0x14A8))[0x44] << 16;
                 S32_AT((u8 *)target_pos, 8) = fallback_value;
-                fallback_value = 6;
-                ASM_TAILSLOT_PIN(fallback_value);
-                func_80024AE4();
+                state->state = 6;
+                goto state_set;
             }
             if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
                 state->status = 1;
@@ -276,7 +267,7 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 state->status = 2;
             }
             state->state++;
-            ASM_SCHED_BARRIER();
+state_set:
 
             {
                 s32 delta_x;
@@ -298,7 +289,7 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 probe[2] = delta_z;
                 state->duration = delta_x;
             }
-            do {
+            loop_0: {
                 s32 axis_delta;
 
                 axis_delta = S16_AT(delta_ptr, 24);
@@ -307,7 +298,7 @@ void func_81898EBC(EffectState *effect_state, Motion *effect_motion, ColorPart *
                 }
                 axis++;
                 delta_ptr += 2;
-            } while (axis < 3);
+            } if (axis < 3) goto loop_0;
             state->duration =
                 (state->duration >> 4) + (state->duration >> 5);
             if (state->duration == 0) {

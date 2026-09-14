@@ -33,7 +33,6 @@ typedef struct Object {
 extern Object *func_8003FC64(s32);
 extern s32 rand(void);
 extern void func_8004491C(void *, void *);
-extern void func_800241EC() __attribute__((noreturn));
 
 extern u8 D_80024028[];
 extern u8 D_80025308[];
@@ -46,12 +45,7 @@ void *func_818928F8(void *context, Copy24 *src_data, s16 state_value)
     S_818928F8_0 *state;
     Sprite *sprite;
     Copy24 *dst_data;
-    s32 next_word;
-    s32 third_word;
-    s32 fourth_word;
-    s32 copy_word;
     s32 random_rotation;
-    Object *saved_obj;
     Object *sprite_obj;
 
     obj = func_8003FC64(0x212);
@@ -74,25 +68,10 @@ void *func_818928F8(void *context, Copy24 *src_data, s16 state_value)
         sprite->scale_x = 0x800;
 
         func_8004491C(sprite_obj, D_80045340);
-        do { dst_data = obj->dst; } while (0);
-        saved_obj = obj;
-        ASM_KEEP(saved_obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        copy_word = src_data->word[0];
-        next_word = src_data->word[1];
-        third_word = src_data->word[2];
-        fourth_word = src_data->word[3];
-        dst_data->word[0] = copy_word;
-        dst_data->word[1] = next_word;
-        dst_data->word[2] = third_word;
-        dst_data->word[3] = fourth_word;
-        copy_word = src_data->word[4];
-        next_word = src_data->word[5];
-        dst_data->word[4] = copy_word;
-        *(volatile s32 *)&dst_data->word[5] = next_word;
-        ASM_USE(saved_obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        copy_word = (s32)0xFFFF0000;
-        dst_data->word[5] = copy_word;
-        func_800241EC(dst_data, next_word, third_word, fourth_word);
+        dst_data = obj->dst;
+        *dst_data = *src_data;
+        dst_data->word[5] = (s32)0xFFFF0000;
+        return obj;
     }
     return 0;
 }

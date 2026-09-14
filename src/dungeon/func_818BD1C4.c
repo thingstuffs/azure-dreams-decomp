@@ -36,10 +36,6 @@ typedef struct Copy24 {
     s32 words[6];
 } Copy24;
 
-extern void func_80024ABC(void) __attribute__((noreturn));
-extern void func_80024AC0() __attribute__((noreturn));
-extern void func_80024AC8() __attribute__((noreturn));
-extern void func_80024B8C(void) __attribute__((noreturn));
 M2C_UNK func_8003DB94();  /* extern */
 void *func_8003FC64(s32);                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
@@ -55,8 +51,7 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
     s32 phase_value;
     s32 phase_rounded;
     register void *data_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register u32 code_page ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 object_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 object_result;
     void *unused_ptr;
     S_818BD1C4_2 *visual;
     void *object;
@@ -83,39 +78,35 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
             goto case_0;
         }
         data_ptr = visual;
-        code_page = 0x80020000;
-        ASM_KEEP(data_ptr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_PAGEBASE_PIN(code_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024AC8();
+        goto after_data_ptr;
 
 check_2:
         if (color_channel == 2) {
             goto case_2;
         }
         data_ptr = visual;
-        code_page = 0x80020000;
-        ASM_PAGEBASE_PIN(code_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80024AC8();
+        goto after_data_ptr;
 
 case_0:
         visual->unk_0C = 0x80;
         visual->unk_0E = 0;
         visual->unk_0D = 0;
-        func_80024AC0();
+        goto config_data;
 
 case_1:
         visual->unk_0D = 0x80;
         visual->unk_0E = 0;
-        func_80024ABC();
+        goto zero_red;
 
 case_2:
         data_ptr = visual;
-        ASM_KEEP(data_ptr);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         visual->unk_0E = 0x80;
         visual->unk_0D = 0;
+zero_red:
         visual->unk_0C = 0;
-        ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+config_data:
         data_ptr = visual;
+after_data_ptr:
         visual->unk_12 = 0x7DCF;
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
         visual->unk_10 = (u16) (visual->unk_10 | 0x60);
@@ -136,9 +127,9 @@ case_2:
         pos_y = (*(u16 *)((u8 *)data_ptr + 0xA));
         object_result = (s32) object;
         pos_y -= saved_y_offset;
-        ASM_KEEP(object_result);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         (*(u16 *)((u8 *)data_ptr + 0xA)) = pos_y;
-        func_80024B8C();
+        return object_result;
     }
     return 0;
+    return object_result;
 }

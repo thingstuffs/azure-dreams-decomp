@@ -21,7 +21,6 @@ extern void *D_80024058[];
 M2C_UNK func_8002407C();          /* extern */
 M2C_UNK func_800244CC(); /* extern */
 M2C_UNK func_80024DB8(); /* extern */
-extern void func_80025158(void) __attribute__((noreturn));
 extern void func_800252B4(void) __attribute__((noreturn));
 extern void func_80025DF4(void) __attribute__((noreturn));
 s32 func_8003DE58();     /* extern */
@@ -57,7 +56,7 @@ typedef struct S_818FF710_0 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_818FF710_0;   /* temp_s0 in func_818FF710 */
+} S_818FF710_0;   /* temp_s0 in func_80024F10 */
 
 typedef struct S_818FF710_1 {
     u8 pad_00[0x8];
@@ -70,12 +69,12 @@ typedef struct S_818FF710_1 {
     u16 unk_1A;
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_1;   /* arg2 in func_818FF710 */
+} S_818FF710_1;   /* arg2 in func_80024F10 */
 
 typedef struct S_818FF710_2_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818FF710_2_pre;   /* the 0x14 bytes before temp_s7 in func_818FF710, addressed as temp_s7[-1] */
+} S_818FF710_2_pre;   /* the 0x14 bytes before temp_s7 in func_80024F10, addressed as temp_s7[-1] */
 
 typedef struct S_818FF710_2 {
     u8 pad_00[0x2A];
@@ -87,16 +86,16 @@ typedef struct S_818FF710_2 {
     s8 unk_73;
     u8 pad_74[0x14];
     u16 unk_88;
-} S_818FF710_2;   /* temp_s7 in func_818FF710 */
+} S_818FF710_2;   /* temp_s7 in func_80024F10 */
 
 typedef struct S_818FF710_3 {
     s16 unk_00;
-} S_818FF710_3;   /* &D_80025E80 in func_818FF710 */
+} S_818FF710_3;   /* &D_80025E80 in func_80024F10 */
 
 typedef struct S_818FF710_4 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_818FF710_4;   /* temp_a1 in func_818FF710 */
+} S_818FF710_4;   /* temp_a1 in func_80024F10 */
 
 typedef struct S_818FF710_5 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -105,7 +104,7 @@ typedef struct S_818FF710_5 {
     s32 unk_0C;
     union { s32 i; void * p; } unk_10;   /* accessed as both */
     s32 unk_14;
-} S_818FF710_5;   /* arg1 in func_818FF710 */
+} S_818FF710_5;   /* arg1 in func_80024F10 */
 
 typedef struct S_818FF710_6 {
     u8 pad_00[0x2];
@@ -114,55 +113,55 @@ typedef struct S_818FF710_6 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_818FF710_6;   /* temp_s2 in func_818FF710 */
+} S_818FF710_6;   /* temp_s2 in func_80024F10 */
 
 typedef struct S_818FF710_7_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_818FF710_7_pre;   /* the 0x18 bytes before temp_v1_3 in func_818FF710, addressed as temp_v1_3[-1] */
+} S_818FF710_7_pre;   /* the 0x18 bytes before temp_v1_3 in func_80024F10, addressed as temp_v1_3[-1] */
 
 typedef struct S_818FF710_7 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF710_7;   /* temp_v1_3 in func_818FF710 */
+} S_818FF710_7;   /* temp_v1_3 in func_80024F10 */
 
 typedef struct S_818FF710_8 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_818FF710_8;   /* temp_a3_case1 in func_818FF710 */
+} S_818FF710_8;   /* temp_a3_case1 in func_80024F10 */
 
 typedef struct S_818FF710_9 {
     u8 pad_00[0x24];
     u8 unk_24;
     u8 unk_25;
-} S_818FF710_9;   /* temp_a0 in func_818FF710 */
+} S_818FF710_9;   /* temp_a0 in func_80024F10 */
 
 typedef struct S_818FF710_10_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818FF710_10_pre;   /* the 0x14 bytes before temp_v1_9 in func_818FF710, addressed as temp_v1_9[-1] */
+} S_818FF710_10_pre;   /* the 0x14 bytes before temp_v1_9 in func_80024F10, addressed as temp_v1_9[-1] */
 
 typedef struct S_818FF710_10 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF710_10;   /* temp_v1_9 in func_818FF710 */
+} S_818FF710_10;   /* temp_v1_9 in func_80024F10 */
 
 typedef struct S_818FF710_11 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818FF710_11;   /* temp_v1_10 in func_818FF710 */
+} S_818FF710_11;   /* temp_v1_10 in func_80024F10 */
 
 typedef struct S_818FF710_12 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_818FF710_12;   /* temp_a0_2 in func_818FF710 */
+} S_818FF710_12;   /* temp_a0_2 in func_80024F10 */
 
 typedef struct S_818FF710_13 {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
     u16 unk_06;
-} S_818FF710_13;   /* temp_a3 in func_818FF710 */
+} S_818FF710_13;   /* temp_a3 in func_80024F10 */
 
 typedef struct S_818FF710_14 {
     u8 pad_00[0x2];
@@ -177,7 +176,7 @@ typedef struct S_818FF710_14 {
     void * unk_38;
     void * unk_3C;
     void * unk_40;
-} S_818FF710_14;   /* temp_s1 in func_818FF710 */
+} S_818FF710_14;   /* temp_s1 in func_80024F10 */
 
 typedef struct S_818FF710_15 {
     u8 pad_00[0x6];
@@ -195,19 +194,19 @@ typedef struct S_818FF710_15 {
     s16 unk_1E;
     u8 pad_20[0x2];
     s16 unk_22;
-} S_818FF710_15;   /* temp_s0_2 in func_818FF710 */
+} S_818FF710_15;   /* temp_s0_2 in func_80024F10 */
 
 typedef struct S_818FF710_16 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_16;   /* temp_v1_12 in func_818FF710 */
+} S_818FF710_16;   /* temp_v1_12 in func_80024F10 */
 
 typedef struct S_818FF710_17 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_17;   /* temp_a3_3 in func_818FF710 */
+} S_818FF710_17;   /* temp_a3_3 in func_80024F10 */
 
 typedef struct S_818FF710_18 {
     u8 pad_00[0x6];
@@ -223,19 +222,19 @@ typedef struct S_818FF710_18 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_18;   /* temp_s0_4 in func_818FF710 */
+} S_818FF710_18;   /* temp_s0_4 in func_80024F10 */
 
 typedef struct S_818FF710_19 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_19;   /* temp_v1_13 in func_818FF710 */
+} S_818FF710_19;   /* temp_v1_13 in func_80024F10 */
 
 typedef struct S_818FF710_20 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_20;   /* temp_a3_4 in func_818FF710 */
+} S_818FF710_20;   /* temp_a3_4 in func_80024F10 */
 
 typedef struct S_818FF710_21 {
     u8 pad_00[0x6];
@@ -251,19 +250,19 @@ typedef struct S_818FF710_21 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_21;   /* temp_s0_6 in func_818FF710 */
+} S_818FF710_21;   /* temp_s0_6 in func_80024F10 */
 
 typedef struct S_818FF710_22 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_22;   /* temp_v1_14 in func_818FF710 */
+} S_818FF710_22;   /* temp_v1_14 in func_80024F10 */
 
 typedef struct S_818FF710_23 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_23;   /* temp_a3_5 in func_818FF710 */
+} S_818FF710_23;   /* temp_a3_5 in func_80024F10 */
 
 typedef struct S_818FF710_24 {
     u8 pad_00[0x6];
@@ -279,62 +278,62 @@ typedef struct S_818FF710_24 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_818FF710_24;   /* temp_s0_8 in func_818FF710 */
+} S_818FF710_24;   /* temp_s0_8 in func_80024F10 */
 
 typedef struct S_818FF710_25 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_25;   /* temp_v1_15 in func_818FF710 */
+} S_818FF710_25;   /* temp_v1_15 in func_80024F10 */
 
 typedef struct S_818FF710_26 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_818FF710_26;   /* temp_a3_6 in func_818FF710 */
+} S_818FF710_26;   /* temp_a3_6 in func_80024F10 */
 
 typedef struct S_818FF710_27 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818FF710_27;   /* temp_v1_18 in func_818FF710 */
+} S_818FF710_27;   /* temp_v1_18 in func_80024F10 */
 
 typedef struct S_818FF710_28 {
     u8 pad_00[0x14];
     s32 unk_14;
-} S_818FF710_28;   /* temp_a0_3 in func_818FF710 */
+} S_818FF710_28;   /* temp_a0_3 in func_80024F10 */
 
 typedef struct S_818FF710_29 {
     s32 unk_00;
-} S_818FF710_29;   /* &D_800814A0 in func_818FF710 */
+} S_818FF710_29;   /* &D_800814A0 in func_80024F10 */
 
 typedef struct S_818FF710_30 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818FF710_30;   /* ((S_818FF710_0 *)temp_s0)->unk_0C in func_818FF710 */
+} S_818FF710_30;   /* ((S_818FF710_0 *)temp_s0)->unk_0C in func_80024F10 */
 
 typedef struct S_818FF710_31_pre {
     void * unk_00;
     void * unk_04;
     u8 pad_08[0x10];
-} S_818FF710_31_pre;   /* the 0x18 bytes before ((S_818FF710_2 *)temp_s7)->unk_60 in func_818FF710, addressed as ((S_818FF710_2 *)temp_s7)->unk_60[-1] */
+} S_818FF710_31_pre;   /* the 0x18 bytes before ((S_818FF710_2 *)temp_s7)->unk_60 in func_80024F10, addressed as ((S_818FF710_2 *)temp_s7)->unk_60[-1] */
 
 typedef struct S_818FF710_31 {
     u8 pad_00[0x13];
     u8 unk_13;
-} S_818FF710_31;   /* ((S_818FF710_2 *)temp_s7)->unk_60 in func_818FF710 */
+} S_818FF710_31;   /* ((S_818FF710_2 *)temp_s7)->unk_60 in func_80024F10 */
 
 typedef struct S_818FF710_32 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_818FF710_32;   /* ((S_818FF710_15 *)temp_s0_2)->unk_08 in func_818FF710 */
+} S_818FF710_32;   /* ((S_818FF710_15 *)temp_s0_2)->unk_08 in func_80024F10 */
 
 typedef struct S_818FF710_33 {
     u8 pad_00[0x4];
     s16 unk_04;
-} S_818FF710_33;   /* ((S_818FF710_18 *)temp_s0_4)->unk_08 in func_818FF710 */
+} S_818FF710_33;   /* ((S_818FF710_18 *)temp_s0_4)->unk_08 in func_80024F10 */
 
 /* Updates an effect's movement, particles, target effects, and cleanup state. */
-void func_818FF710(void *effect, void *motion, void *sprite) {
+void func_80024F10(void *effect, void *motion, void *sprite) {
     u16 offset[3];
     Local28 texture_rect;
     Local38 direction_steps;
@@ -366,7 +365,6 @@ void func_818FF710(void *effect, void *motion, void *sprite) {
     u16 parent_height;
     u16 old_flight_angle;
     u16 parent_flags;
-    u16 launch_height;
     u8 flight_ticks;
     register s32 origin_tile ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u16 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -418,7 +416,7 @@ void func_818FF710(void *effect, void *motion, void *sprite) {
     parent_object = parent - 0x20;
     parent_position = parent_object->unk_08;
     if ((u32) state >= 9U) {
-        goto done;
+        return;
     }
     (void)state_labels; goto *D_80024058[(u32)(state)];
 jt_c0:
@@ -445,13 +443,10 @@ set_launch_position:
     if (!(((S_818FF710_30 *)(parent_object->unk_0C))->unk_14 & 0x8000)) {
         ((S_818FF710_5 *)motion)->unk_00.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_00.at02.v + offset[0]);
         ((S_818FF710_5 *)motion)->unk_04.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_04.at02.v + offset[1]);
-        launch_height = (u16) (((S_818FF710_5 *)motion)->unk_08.at02.v + offset[2]);
-        ASM_TAILSLOT_PIN(launch_height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80025158();
+        ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (((S_818FF710_5 *)motion)->unk_08.at02.v + offset[2]);
+    } else {
+        ((S_818FF710_5 *)motion)->unk_08.at02.v = (u16) (parent_height - 0x40);
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    launch_height = (u16) (parent_height - 0x40);
-    ((S_818FF710_5 *)motion)->unk_08.at02.v = launch_height;
     if ((*(u8 *)((u8 *)effect + 0x7A)) & 4) {
         goto check_launch;
     }

@@ -84,7 +84,6 @@ struct OtCtxS { void *cur; };
 
 
 extern u8 D_80083160[];
-extern void func_800244AC(void) __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065530(void *, void *, void *, void *, void *, void *, void *, void *);
@@ -109,6 +108,7 @@ s32 func_81892C5C(void *effect, S_81892C5C_2 *center)
     addr_mask = 0x00FF0000;
     addr_mask |= 0xFFFF;
     ((S_81892C5C_0 *)scratch)->unk_18.s = (u8 *)initial_context + 0xB0;
+loop_effect:
     base_height = ((S_81892C5C_1 *)effect)->unk_04;
     ((S_81892C5C_0 *)scratch)->unk_68 = ((S_81892C5C_0 *)scratch)->unk_70 =
         ((S_81892C5C_0 *)scratch)->unk_78 = center->unk_0A;
@@ -242,13 +242,10 @@ loop:
         void *next_effect = ((S_81892C5C_1_pre *)effect)[-1].unk_00;
         if (next_effect != 0) {
             effect = (u8 *)next_effect + 0x20;
-            ASM_USE(effect);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             center = ((S_81892C5C_7 *)next_effect)->unk_08;
-            ASM_KEEP(center);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            func_800244AC();
+            goto loop_effect;
         }
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     {
         s32 result = 0;
         return result;

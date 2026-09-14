@@ -47,7 +47,6 @@ typedef struct S_8191CBCC_4 {
 } S_8191CBCC_4;   /* copy_dst in func_8191CBCC */
 
 
-void func_80024554(void) __attribute__((noreturn));                /* extern */
 void *func_8003FC64();                       /* extern */
 M2C_UNK func_8004491C();           /* extern */
 s32 rand();                             /* extern */
@@ -60,7 +59,6 @@ extern M2C_UNK D_80045C34;
 s32 func_8191CBCC(void *params_input, void *transform_input) {
     S_8191CBCC_2 *params = params_input;
     void *source_transform = transform_input;
-    register void *result_obj ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 depth_scale;
     s32 size_fixed;
     s32 variant_random;
@@ -109,12 +107,9 @@ s32 func_8191CBCC(void *params_input, void *transform_input) {
             depth_scale = state->unk_14.u;
             adjusted_depth = ((transform->unk_14 * depth_scale) -
                           (params->unk_10.u << 0x13)) / depth_scale;
-            result_obj = object;
-            ASM_KEEP(result_obj);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             transform->unk_14 = adjusted_depth;
-            func_80024554();
+            return (s32)object;
         }
     }
-    result_obj = NULL;
-    return (s32)result_obj;
+    return 0;
 }

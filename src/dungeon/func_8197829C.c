@@ -29,8 +29,6 @@ typedef struct Obj {
 
 extern Obj *func_8003FC64(s32);
 extern s16 func_800BCAD0(void *);
-extern void func_80025B34(void) __attribute__((noreturn));
-extern void func_80025B78(void) __attribute__((noreturn));
 extern void func_80025340(Obj *);
 extern u8 D_80025940[];
 extern void *D_80026208;
@@ -38,12 +36,13 @@ extern void *D_80026208;
 /* Creates an object with height-adjusted endpoints and movement increments for 12 steps. */
 void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
 {
-    register Obj *obj ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    Obj *obj;
     ObjSub *motion;
     s32 end_z;
     s32 start_z;
     s32 step_z;
     s32 step_y;
+    s32 z_value;
     s16 height;
 
     obj = func_8003FC64(0x212);
@@ -51,7 +50,6 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         obj->arg = object_arg;
         motion = (ObjSub *)&obj->arg;
         obj->callback = D_80025940;
-        ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         motion->unk4C = 0;
         motion->unk4E = 0;
         motion->x1 = start_pos[0];
@@ -60,22 +58,20 @@ void func_8197829C(s32 object_arg, s32 *start_pos, s32 *end_pos)
         motion->y2 = motion->y1;
         height = func_800BCAD0(start_pos);
         if (height >= 0x201) {
-            motion->z1 = start_pos[2];
-            func_80025B34();
-            return;
+            z_value = start_pos[2];
+        } else {
+            z_value = height << 16;
         }
-        motion->z1 = height << 16;
-        motion->z2 = height << 16;
+        motion->z1 = z_value;
+        motion->z2 = z_value;
         motion->x0 = end_pos[0];
         motion->y0 = end_pos[1];
         height = func_800BCAD0(end_pos);
         if (height >= 0x201) {
             motion->z0 = start_pos[2];
-            func_80025B78();
-            return;
+        } else {
+            motion->z0 = height << 16;
         }
-        motion->z0 = height << 16;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         motion->unk40 = (end_pos[0] - start_pos[0]) / 12;
         end_z = motion->z0;
         start_z = motion->z1;

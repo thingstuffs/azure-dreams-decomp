@@ -169,12 +169,9 @@ extern s32 D_8008346C[];
 extern s32 D_800814A0[3];
 extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
-void func_8002512C(void) __attribute__((noreturn));     /* extern */
-void func_80025228(void) __attribute__((noreturn));     /* extern */
-void func_800252A8(void) __attribute__((noreturn));     /* extern */
-void func_8002530C() __attribute__((noreturn));     /* extern */
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
 u8 *func_8003FC64();   /* extern */
+void func_8002530C() __attribute__((noreturn));     /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_800246DC;
 
@@ -209,10 +206,8 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
     if (state < 2) {
         if (state == 0)
             goto initialize;
-        func_8002530C();
         return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     if (state == 2)
         goto spawn_effects;
     if (state == 3) {
@@ -269,7 +264,6 @@ update_position:
             ((S_818154FC_0 *)effect)->unk_84.s = 0U;
             ((S_818154FC_0 *)effect)->unk_0A.s = (s16) ((u16) ((S_818154FC_0 *)effect)->unk_0A.s + 1);
             func_800A56E0(0x300);
-            func_8002530C();
         }
     }
     goto done;
@@ -362,12 +356,10 @@ spawn_effects:
                         z_step /= other_z;
                         ((S_818154FC_7 *)work)->unk_60 = z_step;
                         position->unk_14 = z_step;
-                        func_8002512C();
                     }
                     goto configure_effect;
                 }
                 ((S_818154FC_7 *)work)->unk_60 = position->unk_14;
-                func_8002512C();
             } else {
                 ((S_818154FC_7 *)work)->unk_02.s = 8;
                 ((S_818154FC_7 *)work)->unk_08 = 0;
@@ -412,7 +404,7 @@ follow_effect:
         tracked_position = ((S_818154FC_0 *)effect)->unk_94.u;
         if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
             ((S_818154FC_0 *)effect)->unk_88 = 0;
-            func_80025228();
+            goto finish_spawning;
         }
         position->unk_00.at00.v = ((S_818154FC_13 *)tracked_position)->unk_00;
         position->unk_04.at00.v = ((S_818154FC_13 *)tracked_position)->unk_04;
@@ -427,7 +419,6 @@ finish_spawning:
         ((S_818154FC_0 *)effect)->unk_84.s = 0;
         old_state++;
         ((S_818154FC_0 *)effect)->unk_0A.u = old_state;
-        func_8002530C();
     }
     goto done;
 
@@ -440,7 +431,7 @@ wait_effects:
         tracked_position = ((S_818154FC_0 *)effect)->unk_94.u;
         if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
             ((S_818154FC_0 *)effect)->unk_88 = 0;
-            func_800252A8();
+            goto check_timeout;
         }
         position->unk_00.at00.v = ((S_818154FC_13 *)tracked_position)->unk_00;
         position->unk_04.at00.v = ((S_818154FC_13 *)tracked_position)->unk_04;
@@ -461,7 +452,6 @@ check_timeout:
             D_8008346C[0] = 0;
             ((S_818154FC_0_pre *)effect)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
-            func_8002530C();
         } else {
             D_80025338[0] = 0;
         }

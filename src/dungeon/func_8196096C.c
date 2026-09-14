@@ -80,7 +80,6 @@ extern Root *D_80083160;
 extern u8 D_80027374[12];
 extern u8 D_800273A8;
 
-extern void func_8002638C() __attribute__((noreturn));
 extern void func_800649A0(void);
 extern void func_80064A40(void);
 extern void func_80064CF0(void *arg0);
@@ -103,8 +102,8 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     Scratch *scratch;
     register void *rotation;
     register void *matrix;
-    register s32 *scratch_words ASM_REG("$1");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 saved_y_offset ASM_REG("$21") = y_offset;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 *scratch_words;
+    s32 saved_y_offset = y_offset;
     u8 *texture_config;
     u16 texture_word;
     s32 corner_uv;
@@ -118,11 +117,8 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     scratch_words[8] = draw_depth;
     vertex_table = globals->table;
     func_800649A0();
-    ASM_KEEP_NV(globals);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     rotation = (void *)0x1F800028;
     matrix = (void *)0x1F800050;
-    ASM_KEEP_NV(rotation);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(matrix);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     scratch = (Scratch *)0x1F800000;
     scratch->w6C = 0;
     scratch->w68 = 0;
@@ -150,33 +146,32 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
         quad_packet = record;
         record->f4.w = neutral_color;
         record->f24.h[0] = corner_uv;
-        func_8002638C(quad_packet);
+        func_800666F4(record);
+    } else {
+        scratch->w78 = 0x40;
+        scratch->w70 = 0;
+        scratch->w80 = 0x400000;
+        scratch->w88 = 0x400040;
+        texture_config = D_80027374;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        texture_word = *(u16 *)(texture_config + 4);
+        record->f14.h[1] = texture_word;
+        texture_word = *(u16 *)(texture_config + 6);
+        record->fC.h[1] = texture_word;
+        record->f1C.b[0] = texture_config[8];
+        record->fC.b[0] = record->f1C.b[0];
+        record->f24.b[0] = texture_config[8] + texture_config[10];
+        record->f14.b[0] = record->f24.b[0];
+        record->f14.b[1] = texture_config[9];
+        record->fC.b[1] = record->f14.b[1];
+        record->f24.b[1] = texture_config[9] + texture_config[11];
+        record->f1C.b[1] = record->f24.b[1];
+        shade = (D_800273A8 << 7) / 240;
+        *(volatile u8 *)&record->f4.b[0] = shade;
+        *(volatile u8 *)&record->f4.b[2] = shade;
+        *(volatile u8 *)&record->f4.b[1] = shade;
+        func_800666F4(record);
     }
-
-    scratch->w78 = 0x40;
-    scratch->w70 = 0;
-    scratch->w80 = 0x400000;
-    scratch->w88 = 0x400040;
-    texture_config = D_80027374;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    texture_word = *(u16 *)(texture_config + 4);
-    record->f14.h[1] = texture_word;
-    texture_word = *(u16 *)(texture_config + 6);
-    record->fC.h[1] = texture_word;
-    record->f1C.b[0] = texture_config[8];
-    record->fC.b[0] = record->f1C.b[0];
-    record->f24.b[0] = texture_config[8] + texture_config[10];
-    record->f14.b[0] = record->f24.b[0];
-    record->f14.b[1] = texture_config[9];
-    record->fC.b[1] = record->f14.b[1];
-    record->f24.b[1] = texture_config[9] + texture_config[11];
-    record->f1C.b[1] = record->f24.b[1];
-    shade = (D_800273A8 << 7) / 240;
-    *(volatile u8 *)&record->f4.b[0] = shade;
-    *(volatile u8 *)&record->f4.b[2] = shade;
-    *(volatile u8 *)&record->f4.b[1] = shade;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    func_800666F4(record);
     func_800654B0((void *)((u32)scratch | 0x70),
                   (void *)((u32)scratch | 0x78),
                   (void *)((u32)scratch | 0x80),

@@ -132,10 +132,6 @@ extern void func_800A56E0(s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
 extern void func_8009CE1C(void *, s32, s32, s32, s32, void *, s32);
-extern void func_8002413C(void) __attribute__((noreturn));
-extern void func_80024434(void) __attribute__((noreturn));
-extern void func_80024438(void) __attribute__((noreturn));
-extern void func_8002449C(void) __attribute__((noreturn));
 
 #ifdef __mips__
 static const u32 func_819A6800_table[] __asm__("func_819A6800")
@@ -215,7 +211,6 @@ state2:
         if (new_object == 0) {
             owner->unk_72 = record->unk_24;
             owner->unk_73 = record->unk_25;
-            return func_8002413C();
         } else {
             register S_func_819A6800_2 *created_record ASM_REG("$6") =
                 ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
@@ -272,7 +267,7 @@ state2:
         record->unk_20 = self;
         effect_data->unk_4C = 0;
     }
-    return func_80024434();
+    goto advance_state;
 
 state4:
     if ((s16)self->unk_50.u > 0) {
@@ -288,13 +283,13 @@ state4:
         func_800A56E0(mode);
     }
     {
-        u16 unused_state = self->unk_0A.u;
-        register u16 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(unused_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u16 next_state = self->unk_0A.u;
+        u16 timer;
         timer = 10;
         self->unk_50.u = timer;
+        self->unk_0A.u = next_state + 1;
     }
-    return func_80024438();
+    return;
 
 state5:
     {
@@ -335,14 +330,13 @@ state5:
         goto return_done;
     }
     {
-        u16 unused_state;
-        register u16 cleanup_delay ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        unused_state = self->unk_0A.u;
-        ASM_KEEP(unused_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        u16 next_state5 = self->unk_0A.u;
+        u16 cleanup_delay;
         cleanup_delay = 20;
         self->unk_50.u = cleanup_delay;
+        self->unk_0A.u = next_state5 + 1;
     }
-    return func_80024438();
+    return;
 
 state6:
     if ((s16)self->unk_50.u > 0) {
@@ -351,7 +345,7 @@ state6:
 
 advance_state:
     self->unk_0A.u++;
-    return func_8002449C();
+    return;
 
 state7:
     {
@@ -359,7 +353,7 @@ state7:
         u16 flags = self->unk_52.u;
         if ((signed_flags & 0x8000) != 0) {
             self->unk_52.u = flags & 0x7FFF;
-            return func_8002449C();
+            return;
         }
     }
     {

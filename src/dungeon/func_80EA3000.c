@@ -81,10 +81,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         item_data = D_800E3548[ground_slot];
         item_slot = item_dest - 3079;
         item_dest[-3079] = item_data;
-        ASM_KEEP(item_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         D_800E3548[ground_slot] = 0;
-        func_80158ADC(item_data, item_dest);
-        __builtin_unreachable();
+        return (s32)item_slot;
     }
 
     target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),

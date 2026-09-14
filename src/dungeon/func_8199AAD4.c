@@ -7,7 +7,7 @@
 
 typedef struct S_8199AAD4_0_pre {
     u16 unk_00;
-} S_8199AAD4_0_pre;   /* the 0x2 bytes before self in func_8199AAD4, addressed as self[-1] */
+} S_8199AAD4_0_pre;   /* the 0x2 bytes before self in func_800242D4, addressed as self[-1] */
 
 typedef struct S_8199AAD4_0 {
     void * unk_00;
@@ -23,20 +23,20 @@ typedef struct S_8199AAD4_0 {
     union { s16 s; u16 u; } unk_30;   /* accessed as both */
     u8 pad_32[0x6];
     s16 unk_38;
-} S_8199AAD4_0;   /* self in func_8199AAD4 */
+} S_8199AAD4_0;   /* self in func_800242D4 */
 
 typedef struct S_8199AAD4_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_8199AAD4_1;   /* source in func_8199AAD4 */
+} S_8199AAD4_1;   /* source in func_800242D4 */
 
 typedef struct S_8199AAD4_2 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_08;   /* overlapping accesses */
-} S_8199AAD4_2;   /* coords in func_8199AAD4 */
+} S_8199AAD4_2;   /* coords in func_800242D4 */
 
 typedef struct S_8199AAD4_3 {
     u8 pad_00[0x2];
@@ -45,44 +45,44 @@ typedef struct S_8199AAD4_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8199AAD4_3;   /* position in func_8199AAD4 */
+} S_8199AAD4_3;   /* position in func_800242D4 */
 
 typedef struct S_8199AAD4_4 {
     u8 pad_00[0x14A0];
     s32 unk_14A0;
-} S_8199AAD4_4;   /* global_flags in func_8199AAD4 */
+} S_8199AAD4_4;   /* global_flags in func_800242D4 */
 
 typedef struct S_8199AAD4_5 {
     void * unk_00;
     u8 pad_04[0x4];
     void * unk_08;
-} S_8199AAD4_5;   /* entry in func_8199AAD4 */
+} S_8199AAD4_5;   /* entry in func_800242D4 */
 
 typedef struct S_8199AAD4_6 {
     s32 unk_00;
     s32 unk_04;
-} S_8199AAD4_6;   /* target_node in func_8199AAD4 */
+} S_8199AAD4_6;   /* target_node in func_800242D4 */
 
 
 typedef struct S_8199AAD4_8 {
     u8 pad_00[0xC];
     void * unk_0C;
-} S_8199AAD4_8;   /* call_node in func_8199AAD4 */
+} S_8199AAD4_8;   /* call_node in func_800242D4 */
 
 typedef struct S_8199AAD4_9 {
     u8 pad_00[0x8];
     s32 unk_08;
-} S_8199AAD4_9;   /* created in func_8199AAD4 */
+} S_8199AAD4_9;   /* created in func_800242D4 */
 
 typedef struct S_8199AAD4_10 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in func_8199AAD4 */
+} S_8199AAD4_10;   /* ((S_8199AAD4_0 *)self)->unk_00 in func_800242D4 */
 
 typedef struct S_8199AAD4_11 {
     u16 unk_00;
-} S_8199AAD4_11;   /* ((S_8199AAD4_0 *)self)->unk_0C in func_8199AAD4 */
+} S_8199AAD4_11;   /* ((S_8199AAD4_0 *)self)->unk_0C in func_800242D4 */
 
 
 #define source source_or_step
@@ -101,7 +101,6 @@ extern void *D_800814A8;
 extern s16 D_80083228;
 extern void *D_800E3D18;
 
-extern void func_80024410(void) __attribute__((noreturn));
 extern void func_80024464(void) __attribute__((noreturn));
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
@@ -114,7 +113,7 @@ extern void func_800B8D64(s16, s16, s16);
 
 
 /* Updates source-relative position, delays movement, and advances an arc toward the target. */
-void func_8199AAD4(void *self, void *coords)
+void func_800242D4(void *self, void *coords)
 {
     u16 delta[3];
     s32 target[3];
@@ -135,7 +134,7 @@ void func_8199AAD4(void *self, void *coords)
     s32 arc_height;
     s32 flags_value;
     u16 count;
-    u16 position_z;
+    u32 position_z;
     register u32 tail_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *global_flags;
     void *delta_out;
@@ -176,12 +175,14 @@ state_zero:
             ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             tail_z = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
             tail_z += delta[2];
-            ASM_TAILSLOT_PIN(tail_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80024410();
+            goto store_z;
 
 fixed_position:
             ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = position_z - 0x20;
+            tail_z = position_z - 0x20;
+
+store_z:
+            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z;
         }
 
         if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {

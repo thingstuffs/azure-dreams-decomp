@@ -13,9 +13,6 @@ typedef struct {
 
 extern void *jtbl_8052674C[];
 extern void func_8052D62C(s32 x, s32 y, s32 angle);
-extern void func_8052D618(void) __attribute__((noreturn));
-extern void func_8052D558(void) __attribute__((noreturn));
-extern void func_8052D604(void) __attribute__((noreturn));
 __asm__(".set jtbl_8052674C, 0x8052674C");
 
 void func_808128B8(TownAnimState *anim)
@@ -34,15 +31,14 @@ state_0:
     anim->step = anim->angle = 0;
     func_8052D62C(anim->x, anim->y, anim->angle);
     anim->state = 1;
-    func_8052D618();
+    return;
 
 state_2:
     if (anim->counter++ & 1) {
         if (anim->step < 12) {
             anim->step++;
-            func_8052D558();
+            goto state_3;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         anim->state = 3;
     }
 
@@ -53,7 +49,7 @@ state_3:
             anim->angle += 32;
             anim->y = (anim->y + 1) % 12;
         } while (anim->angle < 0);
-        func_8052D604();
+        goto update;
     }
     goto update;
 

@@ -99,9 +99,6 @@ typedef struct S_819AD81C_6 {
 
 extern int D_800814A8[4];
 extern s32 D_800814A0;
-void func_8002512C(void) __attribute__((noreturn));
-void func_80025410() __attribute__((noreturn));
-void func_80025594(void) __attribute__((noreturn));
 M2C_UNK func_800257D0();
 M2C_UNK func_80025840();
 M2C_UNK func_8002590C();
@@ -147,7 +144,7 @@ void func_819AD81C(void *arg0_in, void *arg1_in, void *arg2_in) {
     s16 temp_v1_8;
     s32 temp_a1;
     s32 temp_v1_6;
-    register s32 temp_v1_7 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 temp_v1_7 ASM_REG("$3");   /* retained from the base: preserves the two subtraction destinations */
     s32 var_v0_2;
     s8 temp_a0_2;
     s8 temp_v1_10;
@@ -180,8 +177,7 @@ void func_819AD81C(void *arg0_in, void *arg1_in, void *arg2_in) {
             if ((temp_v0_2 << 0x10) <= 0) {
                 ((S_819AD81C_1 *)arg2)->unk_0C.at00u.v = 0x808080;
                 ((S_819AD81C_0 *)arg0)->unk_2C.u = (u16) (((S_819AD81C_0 *)arg0)->unk_2C.u + 1);
-                func_8002512C();
-                return;
+                goto block_10;
             }
             goto block_10;
         }
@@ -195,8 +191,7 @@ void func_819AD81C(void *arg0_in, void *arg1_in, void *arg2_in) {
             ((S_819AD81C_0 *)arg0)->unk_30 = temp_v0_3;
             if ((temp_v0_3 << 0x10) <= 0) {
                 ((S_819AD81C_1 *)arg2)->unk_0C.at00u.v = 0;
-                func_80025410();
-                return;
+                goto remove_object;
             }
             if (((S_819AD81C_0 *)arg0)->unk_2C.s < 3) {
                 goto block_10;
@@ -231,10 +226,8 @@ block_10:
                     if ((func_800A45D8(((((S_819AD81C_0 *)arg0)->unk_3C.at00.v << 6) + 0x20) & 0xFFE0, ((temp_a1 << 6) + 0x20) & 0xFFE0, ((S_819AD81C_2 *)arg1)->unk_08.at02.v) << 0x10) != 0) {
                         ((S_819AD81C_0 *)arg0)->unk_30 = 4;
                         ((S_819AD81C_0 *)arg0)->unk_2C.s = 3;
-                        func_80025594();
                         return;
                     }
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     var_s0 = (void *) D_800814A8[0];
                     list_root = var_s0;
                     temp_v1_9 = ((S_819AD81C_3 *)var_s0)->unk_5C.p;
@@ -276,15 +269,14 @@ block_10:
 cleanup:
             func_80025FCC(((S_819AD81C_2 *)arg1)->unk_00.at02.v, ((S_819AD81C_2 *)arg1)->unk_04.at02.v, ((S_819AD81C_2 *)arg1)->unk_08.at02.v, ((S_819AD81C_0 *)arg0)->unk_34);
             func_80025B78(arg0, arg1, arg2);
-            func_80025594();
+            return;
         }
     } else {
         temp_a0 = (void *) ((s32) temp_v1_9 | 0x80000000);
         if (((S_819AD81C_5 *)temp_a0)->unk_1E & 0x8000) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+remove_object:
             (*(u16 *)((u8 *)arg0 + -2)) = (u16) (((S_819AD81C_0_pre *)arg0)[-1].unk_00 | 0x8000);
             D_800814A0 |= 0x8000;
-            func_80025594();
             return;
         }
         temp_v1_9 = ((S_819AD81C_5 *)temp_a0)->unk_08;

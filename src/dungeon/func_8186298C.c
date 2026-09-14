@@ -32,7 +32,6 @@ extern s32 D_800DEDB0[3];
 
 extern void func_800478B8(void *a0);
 extern void func_8003DB94(void *a0, void *a1, s16 a2);
-extern void func_80024244(void) __attribute__((noreturn));
 
 /* Grow and fade the effect, advancing or finishing it when its status flags are set. */
 void func_8186298C(Arg0Ent *state, void *unused, Arg2Ent *effect)
@@ -54,10 +53,8 @@ void func_8186298C(Arg0Ent *state, void *unused, Arg2Ent *effect)
         if (state->unk04 != 0) {
             *(u16 *)((u8 *)state - 2) |= 0x8000;
             D_800814A0.value |= 0x8000;
-            func_80024244();
             return;
         } else {
-            ASM_SCHED_BARRIER();
             func_8003DB94(effect, D_800DEDB0, 4);
             state->unk04 = 1;
         }

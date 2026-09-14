@@ -82,8 +82,6 @@ extern Position D_80083780;
 extern void func_80024BA0(void);
 extern void func_80025CE8(s32, s32, s32, s32);
 extern void func_8002626C(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80026898(void) __attribute__((noreturn));
-extern void func_800268A0(void) __attribute__((noreturn));
 extern void func_80026924(void) __attribute__((noreturn));
 extern void func_8003F80C(void *, s32, s32, s32);
 extern s32 func_80040490(void *, void *);
@@ -141,7 +139,8 @@ case_0:
         }
         func_800A56E0(0x300);
         func_800542BC();
-        func_80026898();
+        effect->unk_28.u = 0;
+        effect->unk_0A.u = effect->unk_0A.u + 1;
         return;
     }
 
@@ -221,7 +220,6 @@ case_1:
 case_2:
     {
         s32 reset_timer;
-        u16 current_state;
 
         effect->unk_28.u = 0;
         effect->unk_0A.u = effect->unk_0A.u + 1;
@@ -235,10 +233,8 @@ case_2:
             return;
         }
         reset_timer = 0x3C;
-        current_state = effect->unk_0A.u;
-        ASM_KEEP(current_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         effect->unk_1C.s = reset_timer;
-        func_800268A0();
+        effect->unk_0A.u = effect->unk_0A.u + 1;
         return;
     }
 
@@ -263,11 +259,9 @@ case_3:
         if (dungeon_mode == 0) {
             effect->unk_28.u = 0;
             effect->unk_0A.u = effect->unk_0A.u + 1;
-            func_80026924();
             return;
         } else {
             D_8002992E = 0;
-            func_80026924();
             return;
         }
     }
