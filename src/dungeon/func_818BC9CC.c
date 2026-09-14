@@ -116,7 +116,6 @@ typedef struct S_func_818BC9CC_6 {
 
 #define OT_ADDR(sc) ((u32 *)((((volatile S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
 
-extern void func_800244DC() __attribute__((noreturn));
 extern void func_80024504() __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
@@ -127,10 +126,8 @@ extern void func_80067F20(void *, s32, s32, u16, void *);
 extern u8 D_80083160[];
 
 /* Draw four shaded textured quads around the given position. */
-s32 func_818BC9CC(void *effect_data, void *position_data)
+s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
 {
-    S_func_818BC9CC_0 *effect = effect_data;
-    S_func_818BC9CC_1 *position = position_data;
     S_func_818BC9CC_2 *scratch;
     S_func_818BC9CC_3 *packet;
     register S_func_818BC9CC_4 *draw_mode ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -141,8 +138,8 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
     s32 page_depth;
     s32 page_blend;
     s32 page_x;
+    u32 y_extent;
     u32 x_extent;
-    register u32 y_extent ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u32 depth;
     register u32 addr_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 quad_index;
@@ -160,8 +157,6 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
     angle = render_state->unk_C8;
     ASM_USE(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)D_80083160)->unk_00 + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;
@@ -212,7 +207,6 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
             if (quad_index == 2) {
                 goto L_case2;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (quad_index == 3) {
                 goto L_case3;
             }
@@ -256,8 +250,7 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
         scratch->unk_68 = coord;
         far_z = position->unk_0A;
         far_z = far_z + effect->unk_08.as_u16;
-        ASM_TAILSLOT_PIN_TIED(far_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80024504();
+        goto store_z;
     L_case2:
         coord = position->unk_02;
         scratch->unk_74 = coord;
@@ -269,8 +262,7 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
         scratch->unk_76 = coord;
         scratch->unk_66 = coord;
         far_y = (u32)position->unk_06 - y_extent;
-        ASM_TAILSLOT_PIN_TIED(far_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_800244DC();
+        goto store_y;
     L_case3:
         coord = position->unk_02;
         scratch->unk_74 = coord;
@@ -281,18 +273,19 @@ s32 func_818BC9CC(void *effect_data, void *position_data)
         coord = position->unk_06;
         scratch->unk_76 = coord;
         scratch->unk_66 = coord;
-        coord = position->unk_06 + y_extent;
-        scratch->unk_7E = coord;
-        scratch->unk_6E = coord;
+        far_y = (u32)position->unk_06 + y_extent;
+    store_y:
+        scratch->unk_7E = far_y;
+        scratch->unk_6E = far_y;
         coord = position->unk_0A;
         scratch->unk_70 = coord;
         scratch->unk_68 = coord;
         far_z = position->unk_0A;
         far_z -= effect->unk_08.as_u16;
+    store_z:
         scratch->unk_80 = far_z;
         scratch->unk_78 = far_z;
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     L_common:
         {
             void *vertex0 = (u8 *)scratch + 0x64;

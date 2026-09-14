@@ -260,7 +260,7 @@ L_copy_linked:
                     u8 *anim_table;
                     u8 *anim_entry;
                     s8 *height_offsets;
-                    register s32 direction_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    s32 direction_index;
 
                     effect_state = effect + 0x20;
                     ((S_80173A60_4 *)effect_state)->unk_96 = 0x10;
@@ -279,9 +279,8 @@ L_copy_linked:
                     anim_table = D_800E2410;
                     ((S_80173A60_6 *)effect_sprite)->unk_2C = anim_table;
                     camera = D_80083160;
-                    direction_index = ((((S_80173A60_7 *)camera)->unk_C8 +
-                              (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
-                    anim_entry = (u8 *)((u32)direction_index + (u32)anim_table);
+                    anim_entry = (u8 *)((u32)(((((S_80173A60_7 *)camera)->unk_C8 +
+                              (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7) + (u32)anim_table);
                     func_80047784(effect_sprite, *anim_entry, 0);
                     ((S_80173A60_6 *)effect_sprite)->unk_14 &= 0xFFF3;
 

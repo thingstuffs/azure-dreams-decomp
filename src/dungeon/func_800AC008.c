@@ -99,7 +99,7 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
     void *buf;
     void *call_arg;
     void *prev_arg;
-    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 hard_zero;
     u32 color1;
     u32 color2;
     u8 tail_flags;
@@ -148,9 +148,7 @@ shared_setup:
             call_arg = buf;
             base_2 = (u8 *)D_800DF03C;
             table_entry = (s32 *)((arg3_ff * 4) + (s32)base_2);
-#ifdef NON_MATCHING
             hard_zero = 0;
-#endif
             *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)func_8004E298(call_arg, *table_entry, hard_zero);
             temp_s6 = func_80069E98(*table_entry) * 8;
             count++;

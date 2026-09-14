@@ -1,6 +1,5 @@
 #include "common.h"
 #include "m2c_compat.h"
-extern void func_800247B4(void) __attribute__((noreturn));
 extern int abs(int);
 
 /* cfail-repair: tf7-phase1-cache-v3 */
@@ -152,9 +151,9 @@ __asm__(".globl func_81832800\n"
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void BODY_NAME(void *effect_in, void *position_in, void *effect_sprite) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) BODY_ATTR;
 /* Advance the effect state, move toward its target, and animate spawned particles. */
-BODY_STORAGE void BODY_NAME(void *effect_in, void *position_in, void *effect_sprite) {
+BODY_STORAGE void BODY_NAME(S_func_81832800_1 *effect, S_func_81832800_4 *position, void *effect_sprite) {
     S_func_81832800_3 *source_object;
     s32 step_x;
     s32 step_y;
@@ -162,7 +161,7 @@ BODY_STORAGE void BODY_NAME(void *effect_in, void *position_in, void *effect_spr
     s16 state;
     s32 color;
     s32 height_delta;
-    register s32 spawn_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 spawn_value;
     s32 height_step;
     s32 source_y;
     s32 jitter_base;
@@ -198,23 +197,21 @@ BODY_STORAGE void BODY_NAME(void *effect_in, void *position_in, void *effect_spr
     S_func_81832800_4 *particle_position;
     S_func_81832800_2 *found_target;
     S_func_81832800_4 *height_position;
-    register u32 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 sprite_flags;
     register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *particle_callback;
     S_func_81832800_7 *particle_texture;
-    register S_func_81832800_1 *effect ASM_REG("$22") = effect_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register S_func_81832800_4 *position ASM_REG("$23") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     sprite_flags = (u32) D_8006CCD8;
     source = effect->unk_00;
     init_value = source->unk_2A;
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     source_sprite = ((S_func_81832800_3 *) ((u8 *) source - 0x20))->unk_0C;
     count = (u16) init_value >> 8;
     spawn_value = count & 0xE;
-    step_x = (s32) ((S_func_81832800_8 *) ((u8 *) (void *) sprite_flags + spawn_value))->unk_00;
-    step_y = (s32) ((S_func_81832800_8 *) ((u8 *) D_8006CCE8 + spawn_value))->unk_00;
+    sprite_flags += spawn_value;
+    step_x = (s32) ((S_func_81832800_8 *) (void *) sprite_flags)->unk_00;
+    spawn_value += (s32) D_8006CCE8;
+    step_y = (s32) ((S_func_81832800_8 *) (void *) spawn_value)->unk_00;
     spawn_state = effect->unk_0A;
     effect->unk_50 = (u16) (effect->unk_50 - 1);
     source_object = (S_func_81832800_3 *) ((u8 *) source - 0x20);
@@ -309,12 +306,10 @@ first_spawn_loop:
             goto state_0;
         } else if (state != 0xF0) {
             if (state < 0xF1) {
-                if (state != 3) {
-                    func_800247B4();
-                    return;
+                if (state == 3) {
+                    goto state_3;
                 }
-                count = 3;
-                goto state_3;
+                return;
             }
             if (state != 0xFF) {
                 return;
@@ -394,6 +389,7 @@ state_2:
     return;
 
 state_3:
+    count = 3;
     ground_height = (s16) func_800BCB04(position->unk_00.parts.unk_02.as_u16, position->unk_04.parts.unk_06.as_u16, (s16) (position->unk_08.parts.unk_0A.as_u16 - 0x30));
     do {
         object = func_8003FD64(0x312, D_80083498);

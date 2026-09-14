@@ -171,7 +171,6 @@ extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
 s32 func_8003DF74(s32, void *, Offset *, s32);     /* extern */
 u8 *func_8003FC64();   /* extern */
-void func_8002530C() __attribute__((noreturn));     /* extern */
 M2C_UNK func_800A56E0();                     /* extern */
 extern M2C_UNK D_800246DC;
 
@@ -181,11 +180,11 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
     LocalPoints points;
     LocalPoint *point_base;
     s32 state;
-    register s32 tracking_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 spawn_tick;
     u16 angle;
     u8 *point_table;
     S_818154FC_11 *spawn_position;
+    u8 *node;
     S_818154FC_4 *parent_sprite;
     void *parent;
     S_818154FC_1 *parent_node;
@@ -211,10 +210,8 @@ void func_818154FC(void *effect, S_818154FC_5 *position, Rec_D_80082E80 *sprite)
     if (state == 2)
         goto spawn_effects;
     if (state == 3) {
-        tracking_state = 0x63;
         goto wait_effects;
     }
-    func_8002530C();
     return;
 
 initialize:
@@ -273,7 +270,6 @@ spawn_effects:
     spawn_tick = ((S_818154FC_0 *)effect)->unk_84.s + 1;
     ((S_818154FC_0 *)effect)->unk_84.s = spawn_tick;
     if (spawn_tick & 1) {
-        u8 *node;
 
         node = func_8003FC64(0x12);
         if (node != NULL) {
@@ -397,18 +393,16 @@ configure_effect:
     }
 follow_effect:
     if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
-        register u8 *node ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u8 *tracked_position ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         node = ((S_818154FC_0 *)effect)->unk_90;
-        tracked_position = ((S_818154FC_0 *)effect)->unk_94.u;
+        spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
         if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
             ((S_818154FC_0 *)effect)->unk_88 = 0;
             goto finish_spawning;
         }
-        position->unk_00.at00.v = ((S_818154FC_13 *)tracked_position)->unk_00;
-        position->unk_04.at00.v = ((S_818154FC_13 *)tracked_position)->unk_04;
-        position->unk_08.at00.v = ((S_818154FC_13 *)tracked_position)->unk_08;
+        position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
+        position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
+        position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
         goto finish_spawning;
     }
 finish_spawning:
@@ -423,19 +417,17 @@ finish_spawning:
     goto done;
 
 wait_effects:
-    if (((S_818154FC_0 *)effect)->unk_88 == tracking_state) {
-        register u8 *node ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u8 *tracked_position ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    if (((S_818154FC_0 *)effect)->unk_88 == 0x63) {
 
         node = ((S_818154FC_0 *)effect)->unk_90;
-        tracked_position = ((S_818154FC_0 *)effect)->unk_94.u;
+        spawn_position = ((S_818154FC_0 *)effect)->unk_94.s;
         if (((S_818154FC_10 *)node)->unk_1E & 0x8000) {
             ((S_818154FC_0 *)effect)->unk_88 = 0;
             goto check_timeout;
         }
-        position->unk_00.at00.v = ((S_818154FC_13 *)tracked_position)->unk_00;
-        position->unk_04.at00.v = ((S_818154FC_13 *)tracked_position)->unk_04;
-        position->unk_08.at00.v = ((S_818154FC_13 *)tracked_position)->unk_08;
+        position->unk_00.at00.v = ((S_818154FC_13 *)spawn_position)->unk_00;
+        position->unk_04.at00.v = ((S_818154FC_13 *)spawn_position)->unk_04;
+        position->unk_08.at00.v = ((S_818154FC_13 *)spawn_position)->unk_08;
         goto check_timeout;
     }
 check_timeout:

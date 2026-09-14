@@ -31,13 +31,8 @@ extern M2C_UNK D_800E1C03;
 
 /* Checks the record and triggers the associated visual and sound effects on success. */
 s32 func_800CD294(void *record_data) {
-    /* fidelity: retail forwards $a0..$a3 into func_800A6508 untouched (it reads
-       $a3, which this row never writes).  Name them at the call site through
-       ASM_REG pins so the C says what retail does without emitting a byte. */
-    register void *fwd_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 fwd_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 fwd_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 fwd_a3 ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    /* Retail forwards the current argument registers into func_800A6508
+       untouched; this row never writes the fourth argument. */
     M2C_UNK check_mask;
     S_800CD294_1 *entity;
 
@@ -47,7 +42,7 @@ s32 func_800CD294(void *record_data) {
     }
     if (func_800C8C1C(record_data, check_mask, 0x10) == 0) {
         if (((S_800CD294_0 *)((u8 *)record_data - 0x14))->unk_27 == 0) {
-            func_800A6508(fwd_a0, fwd_a1, fwd_a2, fwd_a3);
+            func_800A6508();
             return 1;
         }
         return 1;

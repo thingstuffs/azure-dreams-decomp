@@ -63,7 +63,7 @@ typedef struct S_818C2FAC_2 {
 } S_818C2FAC_2;   /* (void *)temp in func_818C2FAC */
 
 /* Creates an effect with a selected appearance, random rotation, and a directional offset. */
-s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
+s32 func_818C2FAC(void *data_addr, void *position_addr, s32 direction)
 {
     s32 variant_seed;
     s16 variant;
@@ -81,11 +81,9 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
     s32 position_z;
     s32 position_word_3;
     s32 position_word_4;
-    uptr data_addr = (uptr)owner;
-    uptr position_addr = (uptr)source_position;
     s32 object_type;
     register s32 offset_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register uptr effect ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    uptr effect;
     register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 render_arg_low;
     s32 render_arg_high;
@@ -97,7 +95,6 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
     ASM_KEEP_NV(object_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     offset_angle = direction;
     effect = (uptr)func_8003FC64(object_type);
-    ASM_KEEP(position_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (effect != NULL) {
 
         ((S_818C2FAC_0 *)((void *)effect))->unk_10 = D_80024710;
@@ -174,7 +171,7 @@ s32 func_818C2FAC(void *owner, void *source_position, s32 direction)
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_1C = 0x1000;
         func_8004491C((void *)effect, D_80045340);
 
-        data_addr = (uptr)((S_818C2FAC_0 *)((void *)effect))->unk_08;
+        data_addr = ((S_818C2FAC_0 *)((void *)effect))->unk_08;
         position_xy = (*(s64_local *)((u8 *)((void *)position_addr) + 0));
         position_z = (*(s32 *)((u8 *)((void *)position_addr) + 8));
         position_word_3 = (*(s32 *)((u8 *)((void *)position_addr) + 0xC));

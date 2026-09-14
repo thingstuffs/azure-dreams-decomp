@@ -123,33 +123,24 @@ extern void *func_8003FC64(s32);
 
 
 
-extern void func_80024CD8(void) __attribute__((noreturn));
 
 /* Updates an effect through attachment, motion, and timed cleanup. */
-void func_818C8FD0(void *state_arg, void *position_arg, void *part_arg)
+void func_818C8FD0(S_func_818C8FD0_1 *state, S_func_818C8FD0_4 *output_pos, S_func_818C8FD0_5 *part)
 {
     s16 delta[3];
     s32 mode;
-    register s32 active_marker ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 angle;
     u16 frame_count;
     OffsetTable offsets;
-    S_func_818C8FD0_1 *state;
     S_func_818C8FD0_2 *object;
     S_func_818C8FD0_3 *owner_node;
-    register S_func_818C8FD0_4 *output_pos ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_func_818C8FD0_4 *owner_pos;
+    S_func_818C8FD0_3 *effect_node;
+    S_func_818C8FD0_4 *effect_pos;
     OffsetTable *offset_table;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 one;
-    S_func_818C8FD0_5 *part;
     OffsetTable *offset_source = &D_80024004;
 
-    state = state_arg;
-    output_pos = position_arg;
-    part = part_arg;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(output_pos);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object = state->unk_00;
     offsets = *offset_source;
     offset_table = &offsets;
@@ -171,10 +162,9 @@ void func_818C8FD0(void *state_arg, void *position_arg, void *part_arg)
     if (mode == 2)
         goto mode2;
     if (mode == 3) {
-        active_marker = 0x63;
         goto mode3;
     }
-    func_80024CD8();
+    return;
 
 mode0:
     part->unk_0C = 0x00808080;
@@ -225,7 +215,6 @@ mode1:
 
 mode2:
     {
-        S_func_818C8FD0_3 *effect_node;
 
         effect_node = func_8003FC64(0x12);
 
@@ -310,7 +299,7 @@ mode2:
 
             effect_node->unk_10 = D_80024270;
             {
-                S_func_818C8FD0_4 *effect_pos = effect_node->unk_08;
+                effect_pos = effect_node->unk_08;
 
                 effect_pos->unk_00.s32 = output_pos->unk_00.s32;
                 effect_pos->unk_04.s32 = output_pos->unk_04.s32;
@@ -334,9 +323,9 @@ mode2:
     }
 
 mode3:
-    if (state->unk_88 == active_marker) {
-        register S_func_818C8FD0_3 *effect_node ASM_REG("$6") = state->unk_A8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register S_func_818C8FD0_4 *effect_pos ASM_REG("$4") = state->unk_AC;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    if (state->unk_88 == 0x63) {
+        effect_node = state->unk_A8;
+        effect_pos = state->unk_AC;
 
         if (effect_node->unk_1E & 0x8000) {
             state->unk_88 = 0;

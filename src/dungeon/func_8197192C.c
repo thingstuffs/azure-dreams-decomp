@@ -249,11 +249,10 @@ void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
     ASM_KEEP4_NV(effect, owner, context, context);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_8197192C_0 *)effect)->unk_38 = ((S_8197192C_0 *)effect)->unk_38 + 1;
     state = ((S_8197192C_0 *)effect)->unk_0A.s;
+    context = context_arg;
     if (state >= 5) {
         goto done;
     }
-    context = context_arg;
-    ASM_KEEP_NV(context);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     goto *D_80024058[state];
 
 case_0:

@@ -31,9 +31,7 @@ extern CallbackOwner *D_80701984_ALT[4] __asm__("D_80701984");
 #define STATE_ROOT D_80701968[0]
 
 extern s32 func_80700D84(void);
-extern void func_80700EEC() __attribute__((noreturn));
-extern void func_80700F38(void) __attribute__((noreturn));
-extern void func_80701060(s32 *word, s32 old_value);
+extern s32 func_80701060(s32 *word, s32 old_value);
 extern s32 func_807018AC(s16 value);
 
 s32 func_80700E18(s32 arg0) {
@@ -61,8 +59,7 @@ s32 func_80700E18(s32 arg0) {
         word = (s32 *)(index * 4 + (s32)STATE_ROOT);
         old_value = *word;
         *word = ((1) << (value - (index << 5))) | old_value;
-        func_80701060(word, old_value);
-        func_80700F38();
+        return func_80701060(word, old_value);
     }
 
 callback_path:
@@ -79,14 +76,9 @@ callback_path:
 #endif
             state = (void *)STATE_ROOT;
             new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-            do {
-                FIELD(state, s32 *, 0x30) = new_flags;
-            } while (0);
+            FIELD(state, s32 *, 0x30) = new_flags;
         }
-        func_80700EEC(tail_arg);
-    }
-
-    {
+    } else {
 #ifndef NON_MATCHING
         void *state;
         s32 clear_mask;
@@ -113,11 +105,9 @@ callback_path:
     arg0 += 1;
     goto return_arg;
 
-return_arg:
-    return arg0;
-
 zero_return:
     arg0 = 0;
-    ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+
+return_arg:
     return arg0;
 }
