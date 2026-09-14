@@ -18,6 +18,14 @@ file of row ids with no builder of its own: round 19's fence pools were the neve
 fence and no copy under `work/native_lane/fences*/base/`) ordered by pin count, and that pool is spent.
 `tools/site_shapes.py` ranks every live pin site by the shape of its neighbourhood: where a recurring shape
 (the source of every generator built from a lane win) still is.
+Round 25 added `build_exemplars.py --family REG|KEEP|FENCE --since <commit> --out <dir>` (every landed diff
+that lowered a family's count with a body change, with the generators journaled per row: the exemplar set a
+brief cites), `build_alloc_lanes.py` with `alloc_lane_brief.md` (diagnosed register packs: each row carries the
+stock allocator's actual reason for the pinned register, from `tools/alloc_trace.py`; the conflict and
+preference strata paid 33-42% on rows with 1-3 pins, 0-8% elsewhere; `--max-pins`, `--exclude`, `--as`), and the
+observer `tools/alloc_trace.py` itself. A tool a lane builds is reviewed by an opus workflow against the
+failure list in "After it finishes" item 2 before it is copied (t61 had the lane-path import; t60 dropped a
+declaration's line remainder).
 
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
