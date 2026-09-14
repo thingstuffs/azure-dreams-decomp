@@ -4381,16 +4381,22 @@ class MaspsxProcessor:
             return i
 
         def dispatch_table(sym):
-            """A compiler-generated LOCAL table (`$L...`) or an EXTERNAL one.
+            """An EXTERNAL table opted in by name.  A compiler-generated LOCAL
+            table (`$L...`) is NOT admitted.
 
-            A `$L` label can only ever be a casesi table.  An ordinary global
-            is admitted only when it is named in `casesi_extern_dispatch_tables`
-            -- see that table for the `-mgas`/`-mmips-as` asymmetry that makes the
-            landing idiom's `extern void *jtbl_XXXX[]` reach this pass at all, and
-            for why the shape guards alone cannot decide it.
+            MEASURED 2026-09-14 (work/maspsx_jtbl/REPORT.md): genuine ASPSX 2.56,
+            2.67 and 2.79 all leave a local-label indexed load as GNU as's `$at`
+            macro -- the `sll` stays in the branch delay slot, then `lui $at,%hi`
+            / `addu $at,$at,$idx` / `lw $d,%lo($at)`.  That is exactly retail's
+            4-word form at town/func_8080E994 +0x74..+0x80; the base-materialised
+            rewrite below is one word longer and no ASPSX version produces it.
+
+            An ordinary global is admitted only when it is named in
+            `casesi_extern_dispatch_tables` -- see that table for the
+            `-mgas`/`-mmips-as` asymmetry that makes the landing idiom's
+            `extern void *jtbl_XXXX[]` reach this pass at all, and for why the
+            shape guards alone cannot decide it.
             """
-            if re.match(r"^\$L[\w.]+$", sym):
-                return True
             return sym in casesi_extern_dispatch_tables
 
         def indirect_jump_through(i, reg):
