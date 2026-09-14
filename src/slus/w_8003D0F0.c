@@ -109,6 +109,8 @@ void func_8003D0F0(void)
             S16_AT(scratch, 0x7A) = y_start;
             S16_AT(scratch, 0x72) = y_start;
             y_end = y_start - height;
+            S16_AT(scratch, 0x8A) = y_end;
+            S16_AT(scratch, 0x82) = y_end;
         } else {
             s32 y_offset_byte = U8_AT(sprite_data, -1);
             s32 y_start;
@@ -118,11 +120,10 @@ void func_8003D0F0(void)
             S16_AT(scratch, 0x7A) = y_start;
             S16_AT(scratch, 0x72) = y_start;
             y_end = y_start + height;
+            S16_AT(scratch, 0x8A) = y_end;
+            S16_AT(scratch, 0x82) = y_end;
         }
-        S16_AT(scratch, 0x8A) = y_end;
-        S16_AT(scratch, 0x82) = y_end;
 
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
         RotTransSV(scratch + 0x70, prim + 0x08, transform_flag);
         RotTransSV(scratch + 0x78, prim + 0x10, transform_flag);
         RotTransSV(scratch + 0x80, prim + 0x18, transform_flag);

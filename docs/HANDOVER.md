@@ -13,8 +13,8 @@ A third round (t29 confined mode, the new `t33_argconst`, 33 scan hits, T2) remo
 `ledger/pins_cells_admissible.jsonl`); `… build <dir>` + `apply_candidates.py --cells` lands its
 CDK hits. Fourth round: **9,832 pins in 1,600 rows**. New `t35_shiftspell` (from the fakedep2 luna
 lane). Argmove family: luna 0/10, sol 0 real; parked with evidence, astra not yet spent.
-Never gate while a codex lane scores. Stock-ASPSX tail-slot check (parked): `tools/maspsx/aspsx/`
-has the harness; it needs `download.sh` (PsyQ 3.3–4.6 from GitHub) and dosemu/wine.
+Never gate while a codex lane scores. Tail-slot pins (256): tested against stock ASPSX 2.56-2.86 and the
+genuine SN cc1 in round 25 (`work/tailslot_aspsx/`): neither performs retail's tail site; toolchain-gap pins, not C.
 Fifth round: **9,748 pins in 1,598 rows** (84 pins). The scan's hits at FSF cells landed as 54 cell
 switches. None went to CDK and 42 are alone in their module, so the CDK hypothesis is withdrawn.
 Each switch can be undone from the `t30_cellpins` journal (`cell_from`). The cell levers are used up;
@@ -23,6 +23,32 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 1, gated (30 windows MATCH and SLUS SHA-1 MATCH): **8,379 pins in 1,483 rows**, 43 pins
+removed (keeps 26 from the keep lane's tool, register pins 2 from the allocation lane, the cascade and T2 the rest).
+Details: PIN_MECHANISMS, "Round 25". The owner's rules this round: astra when it can open a large piece; agent work
+through workflows with an explicit opus/sonnet model (a Fable agent only on the owner's request); orchestrate and
+decide on the data.
+- **Two astra lanes in parallel:** `alloc_astra` (register pins that only choose a register; H1 0/40, H2 2/40;
+  its lasting artifact is the stock-allocator observer, now `tools/alloc_trace.py`, with a per-site reason for
+  2,385 allocation-only sites) and `keep2_astra` (keeps outside page rows; H1 1/40, H2 0/40, but its
+  `t61_naturalkeep` swept 20 of 707 rows: existing consumers distributed into an existing branch's arms, merged
+  back by jump2). Both tools were reviewed by an opus workflow before `tools/xform/` (t61 had the lane-path import;
+  t60 dropped a declaration's line remainder).
+- **Tail-slot pins (256 in 126 rows), owner's request:** genuine ASPSX 2.56-2.86 and the genuine SN cc1 at every
+  PsyQ level were run over all 126 rows (`work/tailslot_aspsx/REPORT.md`, `CC1_DIFFERENTIAL.md`): neither
+  performs retail's tail site. A Fable skeptic lane (`work/tailslot_skeptic/`) is checking that conclusion against
+  the 243 tail-slot pins that already fell since the pin commit and the old repo's history; read its REPORT
+  before treating the family as a toolchain gap.
+- **Running after this gate:** four luna packs of DIAGNOSED register rows (`work/native_lane/alloc1`-`alloc4`,
+  built by `tools/lanes/build_alloc_lanes.py` from the observer's reasons: global conflict, preference,
+  call-clobber/lifetime, coalesced-away plus the four equal-priority ties), and the `t60_alloc_inputs` sweep
+  over the other 1,125 register rows (`--processes`). Harvest: `tools/lanes/land_lanes.sh r25b alloc1 alloc2
+  alloc3 alloc4` after all four exit and the sweep ends; then the per-reason rate decides whether to scale the
+  packs to the 354 remaining diagnosed rows.
+- **Tooling:** `tools/lanes/build_exemplars.py`, `tools/alloc_trace.py`, `tools/lanes/build_alloc_lanes.py`
+  with `alloc_lane_brief.md`; `tools/xform/t60_alloc_inputs.py` (+ `alloc_inputs.py`), `t61_naturalkeep.py`
+  (+ `keep_shapes.py`).
+
 Twenty-fourth round, gated (2 windows MATCH and SLUS SHA-1 MATCH): **8,422 pins in 1,489 rows**, 3 pins removed (2 register pins, 1 keep); fences unchanged (448 scheduling, 70 memory). Details: PIN_MECHANISMS, "Round 24". The
 session's last round: rounds 19 to 24 took the tree from 8,521 to 8,422 pins, scheduling fences from 488 to
 448 and memory fences from 82 to 70.
@@ -44,7 +70,7 @@ session's last round: rounds 19 to 24 took the tree from 8,521 to 8,422 pins, sc
     unlock a large piece. Brief it with local-alloc.c and global.c, this census, t53's per-site journal and
     the scaffolding list, and give it everything first (LANE_KIT).
   - CPU: the searches per mechanism (t51, t53, t53k) on rows changed since their last pass.
-  - Still parked: TAILSLOT pins and the one ovmovie fence row.
+  - Still parked: the one ovmovie fence row. TAILSLOT pins are settled (round 25): a toolchain gap, not a C shape.
 
 Twenty-third round, gated (4 windows MATCH and SLUS SHA-1 MATCH): **8,425 pins in 1,489 rows**, 7 pins
 removed (5 keeps); 448 live scheduling fences, 70 memory. Details: PIN_MECHANISMS, "Round 23".

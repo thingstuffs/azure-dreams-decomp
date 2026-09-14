@@ -109,29 +109,30 @@ void func_80018464(s16 layout_number)
     MapCell *map;
     RecB *placed_record;
     u8 *data;
+    u8 *data_2;
     u16 *room_header;
     s32 entry_index;
     s16 layout_index;
     s32 x_or_marker;
-    register s32 layout_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 layout_id;
     s32 map_value;
     u16 tile_value;
     u16 shift_y;
 
     layout_index = layout_number - 1;
+    data_2 = D_8008148C;
+    D_80081480 = data_2;
     layout_id = D_8001F604[layout_index];
-    data = D_8008148C;
-    D_80081480 = data;
     cfg = &D_8008333C;
     map = cfg->cells;
     Control_CD(6, layout_id, 0);
     func_8003F320();
     entry_index = 0;
 
-    room_header = (u16 *)(data + 4);
-    cfg->shift_x = ((u16 *)data)[0];
+    room_header = (u16 *)(data_2 + 4);
+    cfg->shift_x = ((u16 *)data_2)[0];
     cfg->mask_x = (1 << cfg->shift_x) - 1;
-    shift_y = ((u16 *)data)[1];
+    shift_y = ((u16 *)data_2)[1];
     cfg->span_x = 64 << cfg->shift_x;
     cfg->shift_y = shift_y;
     cfg->mask_y = (1 << cfg->shift_y) - 1;

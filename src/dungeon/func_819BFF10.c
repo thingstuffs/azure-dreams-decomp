@@ -64,10 +64,12 @@ void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bou
                         func_80024AE8(entry, range_data, position_data);
                     }
                 }
+                next_entry = list_link->unk_5C;
+                list_link = next_entry + 0x20;
+            } else {
+                next_entry = list_link->unk_5C;
+                list_link = next_entry + 0x20;
             }
-            next_entry = list_link->unk_5C;
-            list_link = next_entry + 0x20;
-            ASM_KEEP(list_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             entry = (void *)list_link - 0x20;
         } while (list_link != head);
     }

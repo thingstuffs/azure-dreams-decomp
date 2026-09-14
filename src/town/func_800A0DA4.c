@@ -61,11 +61,11 @@ store_common:
 
     if (func_8009FF50() == 0) {
         resource = (u32)&D_8009DD40;
+        PP(object, -0x10) = (u8 *)resource;
     } else {
         resource = (u32)D_8009DEBC;
+        PP(object, -0x10) = (u8 *)resource;
     }
-    PP(object, -0x10) = (u8 *)resource;
-    ASM_KEEP(resource);
     if ((u32)(BU(object, 0x4D) - 0x12) < 2U) {
         PP(object, 0xC) = D_800D0754;
     }

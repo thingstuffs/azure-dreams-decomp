@@ -212,6 +212,7 @@ set_effect_scale:
             if (((u32)(u16)mode << 0x10) != 0) {
                 name_index = func_800A9400(((s32)effect_id << 0x10) >> 0x10);
                 name_text = D_8006DE24[name_index].unk8;
+                message = func_80099194(name_text, message);
             } else {
                 register s32 effect_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 S_8006DE24_Entry *name_table;
@@ -219,10 +220,9 @@ set_effect_scale:
                 name_table = D_8006DE24;
                 effect_index >>= 0x10;
                 name_text = name_table[effect_index].unk0;
+                message = func_80099194(name_text, message);
             }
-            message = func_80099194(name_text, message);
             func_80099290(func_80099194(&D_80089080, message));
-            ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             func_800A5720(text_context);
             goto return_effect;
         }

@@ -250,14 +250,15 @@ jt_c0:
     }
     if (partner_actor->unk_98 & 4) {
         actor->unk_98 = (u16) (actor->unk_98 | 0x2000);
+        partner_actor->unk_8C = 0;
+        partner_flags = partner->unk_1C;
+        partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
     } else {
         actor->unk_98 = (u16) (actor->unk_98 & 0xDFFF);
+        partner_actor->unk_8C = 0;
+        partner_flags = partner->unk_1C;
+        partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
     }
-    partner_actor->unk_8C = 0;
-    partner_flags = partner->unk_1C;
-    ASM_KEEP_NV(partner_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    partner_sprite = ((S_func_81008664_6 *) ((u8 *) partner - 0x18))->unk_04;
-    ASM_KEEP(partner_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     partner_flags &= 0x2000;
     partner_x = partner_sprite->unk_24;
     partner_y = partner_sprite->unk_25;

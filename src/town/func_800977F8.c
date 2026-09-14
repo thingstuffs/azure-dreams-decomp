@@ -41,10 +41,11 @@ void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
         divisor = adjusted_length >> 12;
         first_quotient =
             ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 / divisor;
-        ASM_KEEP(first_quotient);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        limit_units = max_length;
         if (max_length < 0) {
+            limit_units = max_length;
             limit_units = max_length + 0xFFF;
+        } else {
+            limit_units = max_length;
         }
         limit_units >>= 12;
         ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 =

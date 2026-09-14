@@ -163,7 +163,7 @@ void func_800C9088(void *parent_matrix, void *translation, void *model, s16 dept
     u8 *indices;
     register u8 *positions ASM_REG("$20");
     u8 *normals;
-    register u8 *packet ASM_REG("$19");
+    u8 *packet;
     u8 *base_color;
     u8 *state;
     u8 *descriptor;
@@ -364,10 +364,10 @@ check_winding:
                 if (flags & 4) {
                     ((S_800C9088_2 *)packet_code)->unk_00 |= 2;
                 }
+                queued_packet = packet;
+            } else {
+                queued_packet = packet;
             }
-
-            queued_packet = packet;
-            ASM_KEEP_DEP_NV(queued_packet, packet_code);
             packet_code += 0x34;
             func_8006658C((u8 *)((S_800C9088_1 *)scratch)->unk_20.u +
                               ((S_800C9088_1 *)scratch)->unk_C0 * 4,

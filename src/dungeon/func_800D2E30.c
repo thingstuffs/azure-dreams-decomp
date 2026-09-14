@@ -77,6 +77,9 @@ void *func_800D8590(void *entity)
     child = ((S_800D8590_0 *)parent)->unk_0C;
     if (((S_800D8590_1 *)root)->unk_13 == 0) {
         func_80094E34(entity_arg);
+        flags = ((S_800D8590_3 *)child)->unk_14;
+        ((S_800D8590_3 *)child)->unk_12 = 0;
+        flags |= 0x8000;
     } else {
         if (((S_800D8590_1 *)root)->unk_13 == 0x2B) {
             func_80042B68(root, 0x1A);
@@ -106,12 +109,10 @@ void *func_800D8590(void *entity)
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;
+        flags = ((S_800D8590_3 *)child)->unk_14;
+        ((S_800D8590_3 *)child)->unk_12 = 0;
+        flags |= 0x8000;
     }
-
-    flags = ((S_800D8590_3 *)child)->unk_14;
-    ((S_800D8590_3 *)child)->unk_12 = 0;
-    flags |= 0x8000;
-    ASM_KEEP(flags);
     ((S_800D8590_3 *)child)->unk_14 = flags;
     ASM_SCHED_BARRIER();
     masked_flags = flags;

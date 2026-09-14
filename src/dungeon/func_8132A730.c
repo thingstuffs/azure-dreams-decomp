@@ -123,6 +123,8 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
         coord = ((S_80171F30_2 *)position)->unk_06;
         jitter &= 7;
         coord -= 4;
+        coord += jitter;
+        ((S_80171F30_2 *)position)->unk_06 = coord;
     } else {
         jitter = rand();
         position = ((S_80171F30_0 *)object)->unk_08;
@@ -136,10 +138,9 @@ void func_80171F30(S_80171F30_1 *parent, s32 state_value, s16 tail_value_in, s16
         coord = ((S_80171F30_2 *)position)->unk_06;
         jitter &= 0xF;
         coord -= 0xC;
+        coord += jitter;
+        ((S_80171F30_2 *)position)->unk_06 = coord;
     }
-    coord += jitter;
-    ((S_80171F30_2 *)position)->unk_06 = coord;
-    ASM_KEEP(coord);
 
     call_object = object;
     init_data = D_80171704;

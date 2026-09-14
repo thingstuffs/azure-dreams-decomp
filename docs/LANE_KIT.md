@@ -113,6 +113,10 @@ fence and no copy under `work/native_lane/fences*/base/`) ordered by pin count, 
    five-cell microcompile fixture. Compile one minimal C shape in every stock cell and compare the
    pass dumps, which bounds an "unreachable" claim to a tested family (see sched_astra's
    `tools/audit_t51.py --mode invariance` and page_astra's `tools/value_probes.py`). Evaluators, fixtures, audit scripts and fetched sources: generalise
-   whatever is reusable into `tools/`, and add anything it had to fetch to this kit.
+   whatever is reusable into `tools/`, and add anything it had to fetch to this kit. Generalised from
+   alloc_astra: `python3 tools/alloc_trace.py <row_id> [--source cand.c] [--site N]` runs the cell's own
+   unstripped cc1 under gdb and prints, per ASM_REG site, the allocator's real reason for the pinned
+   register (local quantity refs/live/suggestions and attempt order, or global allocno
+   preferences/conflicts and the deciding `find_reg` attempt) — analysis only, ~0.4-2 s per site.
 5. **Its advice**, including what it would do next or better, goes into the next brief and
    `docs/HANDOVER.md`.

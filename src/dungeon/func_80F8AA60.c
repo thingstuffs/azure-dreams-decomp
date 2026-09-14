@@ -50,7 +50,6 @@ void func_80174260(void *state_input, void *motion_input, void *animation_input,
     s32 effect_data;
     s32 next_state;
 
-    ASM_KEEP(state_input);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     U16_AT(state_input, 0xA0)--;
     state = U8_AT(state_input, 0x9B);
 
@@ -74,8 +73,10 @@ state_zero:
         effect_data = S32_AT(actor_input, 0x60);
         if (effect_data != 0) {
             func_800C8150(effect_data, 0x10, 0x10);
+            U8_AT(state_input, 0x9B) = 2;
+        } else {
+            U8_AT(state_input, 0x9B) = 2;
         }
-        U8_AT(state_input, 0x9B) = 2;
         return;
     }
 

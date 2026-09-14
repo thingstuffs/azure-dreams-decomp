@@ -303,7 +303,7 @@ case1:
         image_base = D_80024538;
         resource_base = D_800DEAE0;
 #endif
-        do {
+        loop_0: {
             S_func_818DA800_5 *burst_obj;
 #ifdef __mips__
             register S_func_818DA800_7 *prim ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -316,7 +316,7 @@ case1:
             s32 center_coord;
             s32 corner_coord;
             s32 position_or_z_offset;
-            register s32 prim_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 prim_color;
 #else
             s32 center_coord;
             s32 corner_coord;
@@ -342,11 +342,11 @@ case1:
                 center_coord = motion->unk_04.half.unk_06.as_s16;
                 if ((actor_or_corner & 1) == 0) {
                     ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord + 16;
+                    prim_color = 0xC00000;
                 } else {
                     ((S_func_818DA800_2 *)(void *)position_or_z_offset)->unk_04.half.unk_06.as_s16 = center_coord - 16;
+                    prim_color = 0xC00000;
                 }
-                prim_color = 0xC00000;
-                ASM_KEEP(prim_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 position_or_z_offset = -0x100000;
                 ((S_func_818DA800_2 *)burst_obj->unk_08)->unk_08.as_s32 =
                     motion->unk_08.as_s32 + position_or_z_offset;
@@ -375,7 +375,7 @@ case1:
                 child_state->unk_4C = 0;
             }
             actor_or_corner--;
-        } while (actor_or_corner >= 0);
+        } if (actor_or_corner >= 0) goto loop_0;
     }
     if (actor->unk_60 != 0) {
         S_func_818DA800_5 *impact_obj;

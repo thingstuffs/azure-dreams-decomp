@@ -1543,3 +1543,86 @@ Gated (2 windows MATCH and SLUS SHA-1 MATCH): **8,422 pins in 1,489 rows**, 3 pi
   own, so the generators built from recurring shapes have taken what recurs. What remains needs a search per mechanism
   (t51, t53 and t53k have that form), or a lane that finds a new move for the largest class: register
   allocation choices.
+
+## Round 25 (2026-09-14): two astra lanes in parallel (allocation choices, keeps), the tail-slot pins tested against the real toolchain
+
+Owner's rules for the round: astra is fine when it can open a large piece; agent work runs through
+workflows with an explicitly chosen model (opus/sonnet), never Fable-inheriting subagents; orchestrate,
+decide on the data, and change approach when the data says so. Landing count: see the round's entry in
+HANDOVER (part 1 lands the lane outputs, the t61 sweep and the cascade; part 2 the t60 sweep and the
+diagnosed luna packs).
+
+- **alloc_astra (astra, 87 min) on the register pins that only choose a register** (206 of 300 in the
+  round-24 census; 2,391 allocation-only sites in the current population). Tool `t60_alloc_inputs`:
+  **H1 0/40 (0/31 allocation-only), H2 2/40**; both wins are t51/t53-family combinations (a lifetime split
+  plus a statement move; hostwide reuse), found in about 250 observations and one verify each where t53's
+  journal had 331 observations and no win on the same source. The lane's lasting artifact is an
+  **observer of the stock allocator**: `allocator_gdb.py` runs the unstripped i386 cc1 under gdb and reads
+  local-alloc's quantities (births, deaths, weighted refs, size, suggestions, attempt order, result) and
+  global.c's allocnos (preferences, conflicts), validating each trace by assembly equality with a normal
+  compile. It covered 2,385 of 2,391 allocation-only sites (`evidence/trace_sites.jsonl`, per-row traces in
+  `scratch/trace_population/`); generalised as `tools/alloc_trace.py`.
+  - Mechanisms confirmed with traces: a suggestion (a copy to or from a hard register, an arithmetic tie)
+    outranks numeric priority (`town/func_800A10FC`: the erased callback, priority 3,333, takes r2 by
+    suggestion; the address, priority 10,000, then takes r3); local/global membership follows the lifetime
+    shape (`810876B4`: four refs global to two refs local); global allocation prefers registers already in
+    use over a lower free number (`818EC800`); declaration order settles a genuine GLOBAL tie in all five
+    cells (a fixture: seven assembly lines swap) but never local birth order.
+  - Reasons for the actual allocation, per site (overlapping; journal sites): hard-register-scan-order
+    357, suggestion-selection 195, pseudo-eliminated-before-allocation 106, call-clobber-exclusion 102,
+    earlier-quantity-conflict 78, target-register-already-selected 75, global-scan-order-or-class 49,
+    preexisting-hard-conflict 40; 973 of 2,391 current sites carry only the coarse "global competition or
+    scan order" label. By register class: saved 820, argument 681, return 674, other 216.
+  - **Allocator-input agreement is not a better acceptance screen than assembly distance** (38 landed
+    controls: normalized assembly AUC 1.0, allocated-operand projection 0.913, peer allocator-input
+    projection 0.475). The pinned hard local has no allocatable pseudo to reproduce literally.
+  - Failed: "stock lreg prints the quantity internals" (it prints assignments only; gdb is needed);
+    "priority alone chooses" (no); "declarations control local order" (no); "reuse is a lever t53 lacks"
+    (`natural.hostwide` has it; a 20-row pilot 0); "the fake-dependency records are a pure allocation
+    class" (7 of 22 mapped). Bounded unreachable: six ordinary spellings of a leaf intermediate cannot
+    select a saved register in any cell. Four unsuggested equal-priority local ties are named as direct
+    targets (`town/func_8047E1C0`, `dungeon/func_8199A800`, `dungeon/func_819835AC`, `dungeon/func_800C29F0`).
+  - Read as a decision: the lane found no new lever, and a mechanism-level search on this class pays
+    about 5% on the population. The observer turns the class into DIAGNOSED rows (which register is held
+    by which value, which copy suggested the choice), which is what a row lane can act on; round 25 part 2
+    measures that per reason with four luna packs (`tools/lanes/build_alloc_lanes.py`).
+- **keep2_astra (astra, 34 min) on the 1,871 keeps outside page rows**, briefed with the scaffolding list
+  and the previous keep lane's 40 refused one-trip outputs as the map of where a boundary works. Tool
+  `t61_naturalkeep`: **H1 1/40 (ops 1/18), H2 0/40**; but its sweep over 707 rows landed **20 rows, 20
+  keeps (2.8%)**, plus its six exact outputs. The one productive family, `join-consumer`: one to three
+  existing consumer statements distributed into the arms of an EXISTING branch (an implicit else
+  synthesised where needed; the owner-accepted dup-after-if shape). The work stays separate through
+  scheduling, then jump2 cross-jumps the common tails and emits retail's single sequence; in one row it
+  also keeps a saved sub-word copy (`SET HI91`, `AND(SUBREG(HI91))`) alive through combine. Candidate and
+  pinned wiring become equal at jump2 in every win. No existing generator constructs a branch history.
+  - Full census of the population (1,871 keeps erased one at a time, label ids corrected): 669 identical
+    through combine (first difference sched1 455, sched2 75, greg 63, jump2 22, lreg 19, none 35), 1,196
+    change CSE or combine, 6 transient. Class at combine: ops 621, wiring 467, late 687, order 96.
+  - Nine natural-shape menus produced zero (prefix producer into arms 147 variants, role exchange, later
+    source update, mask as mode, sub-word producer type, field increment, real do/while/goto rewrites).
+    The five-cell fixture (100 controls) bounds four respelling families as unreachable.
+  - The reviewer (an opus workflow, LANE_KIT item 2) found the lane-path import (`from keep_shapes`
+    resolved only under lane_eval's sys.path), a dropped indentation on a sole-body erasure, a doubled
+    cast and `u8*` spacing; fixed in the lane copies, reproduced 6/6 byte-identically, then copied. The
+    swept tool therefore differs from the lane's frozen hashes by those fixes. The sweep ran with
+    `T61_VERIFY=3`: every win came on the first verify of an assembly-identical candidate.
+- **Tail-slot pins are not toolchain hints the tree can honour.** The owner asked for the parked
+  stock-ASPSX check. An opus workflow (run + skeptic, `work/tailslot_aspsx/REPORT.md`) fed the pinned and
+  the unpinned gcc output of all 126 rows, with and without the jal-to-j conversion pre-applied, to
+  genuine ASPSX 2.56, 2.67, 2.77, 2.79, 2.81 and 2.86 (the SN binaries under the sibling
+  decomp repository's `toolchain/psyq/`, run with wibo): **0 of 655 measurable records put the dead value in the tail-j delay
+  slot**; every version emits gcc's order plus a nop, one word longer than retail, and all six agree at
+  every tail site. Calibration was exact for all 756 records. The follow-up (`CC1_DIFFERENTIAL.md`) ran
+  the genuine SN CC1PSX at every PsyQ level over the 15 rows whose only pins are tail-slot pins: the
+  genuine cc1 is byte-identical to the decompals rebuild in `.ent`..`.end` on 180 of 180 legs, and no
+  level fills the slot on unpinned or pinned C. So neither the compiler nor the assembler in the tree
+  performs either half of retail's tail site (the jal-to-j sibcall conversion, or the filled slot): the
+  256 pins mark a toolchain gap, not a C shape. maspsx's marker gate must stay; its "Step 3" (fire on
+  shape alone) is refuted. Only ASPSX 2.40 (two rows' recorded dial) is unattested. Side findings: for
+  2.8.x rows stock ASPSX passes gcc's `j $31 / addu $sp` epilogue through while maspsx un-fills it and
+  retail agrees with maspsx; and gcc 2.7.2 (genuine and rebuilt alike) silently drops a volatile asm on
+  7 of the 15 pinned rows' cdk/2.8.x-shaped C.
+- **Tooling:** `tools/lanes/build_exemplars.py` (landed diffs that lowered a family's count with a body
+  change, an INDEX with the generators journaled for each row), `tools/alloc_trace.py` (the observer),
+  `tools/lanes/build_alloc_lanes.py` with `alloc_lane_brief.md` (diagnosed register packs by allocator
+  reason). All three were written by opus workflow agents from a specification.

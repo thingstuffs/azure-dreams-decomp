@@ -27,8 +27,6 @@ void func_8052BCCC(void *arg0, void *arg1, void *incoming_out) {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4,
         &&case_5, &&case_6, &&case_7, &&case_8, &&case_9
     };
-    void *self = arg0;
-    void *motion = arg1;
     void *aux;
     register void *out ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 table[14];
@@ -42,12 +40,11 @@ void func_8052BCCC(void *arg0, void *arg1, void *incoming_out) {
     u16 mode;
     s8 *ptr;
 
-#define arg0 self
-#define arg1 motion
+#define arg0 arg0
+#define arg1 arg1
 #define arg2 out
 #define s2 aux
     aux = FIELD(arg0, void **, 0xAC);
-    ASM_KEEP(aux);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     __builtin_memcpy(table, D_805266C0, 12);
     __builtin_memcpy((u8 *)table + 16, D_805266CC, 12);
 
