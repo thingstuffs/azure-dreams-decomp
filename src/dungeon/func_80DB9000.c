@@ -250,7 +250,8 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     register u32 coord_offset;
     register u32 uv_right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 uv_bottom ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 screen_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 screen_offset;
+    s16 screen_offset_2;
     register u32 coord_value;
     u32 packet_addr;
     register u8 packet_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -315,10 +316,10 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
         work_src = (u8 *)scratch_page;
         ASM_KEEP_NV(work_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         work_src = (u8 *)((u32)work_src | 0xA4);
-        screen_offset = scratch_page->unk_F8;
+        screen_offset_2 = scratch_page->unk_F8;
         work_dst = (u8 *)scratch_page;
-        screen_offset -= 0xA0;
-        scratch_page->unk_F8 = screen_offset;
+        screen_offset_2 -= 0xA0;
+        scratch_page->unk_F8 = screen_offset_2;
         screen_offset = scratch_page->unk_FA;
         view_rot_x = render_state->unk_C4;
         view_rot_y = render_state->unk_C6;

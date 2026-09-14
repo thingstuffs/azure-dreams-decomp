@@ -39,15 +39,16 @@ zero:
 
 positive:
     {
-        register s32 delta ASM_REG("$3");
-
+        s32 delta;
+        s32 positive_result;
         delta = level - 0x40;
         if (scales->unk20 == 0) {
             goto zero;
         }
-        result = scales->unk20;
-        result *= 2;
-        result *= delta;
+        positive_result = scales->unk20;
+        positive_result *= 2;
+        positive_result *= delta;
+        result = positive_result;
     }
 
 sign:

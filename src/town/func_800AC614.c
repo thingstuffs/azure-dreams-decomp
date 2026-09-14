@@ -14,7 +14,6 @@ extern void *D_80100E38[];
 /* Selects a response for the source and target, storing any associated text. */
 void *func_800A9D74(void *source, void *target) {
     s32 response_kind;
-    register void *text ASM_REG("$2"); /* MATCH: Both store paths use the return-value register. */
     void *data_base;
 
     if ((source != 0) && (target != 0)) {
@@ -30,18 +29,20 @@ void *func_800A9D74(void *source, void *target) {
                 return D_8006C9E4;
             }
             if (response_kind == 5) {
+                void *text5;
                 if (*(u16 *)((u8 *)target + 0x4C) == 0xB05) {
                     data_base = (void *)0x80100000;
-                    text = D_8006C8F7;
+                    text5 = D_8006C8F7;
                 } else {
                     data_base = (void *)0x80100000;
-                    text = D_8006C982;
+                    text5 = D_8006C982;
                 }
-                *(void **)((u8 *)data_base + 0xE38) = text;
+                *(void **)((u8 *)data_base + 0xE38) = text5;
             } else {
-                text = func_800A9B2C(response_kind, (u8 *)target + 0x4C);
-                D_80100E38[0] = text;
-                if (text == 0) {
+                void *text_call;
+                text_call = func_800A9B2C(response_kind, (u8 *)target + 0x4C);
+                D_80100E38[0] = text_call;
+                if (text_call == 0) {
                     return 0;
                 }
             }

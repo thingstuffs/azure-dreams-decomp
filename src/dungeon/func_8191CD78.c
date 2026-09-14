@@ -394,15 +394,15 @@ case_1_entry:
                     (s16)(actor->unk_88.s16 - 0x20));
                 if ((floor < 513) && ((s16)(floor - actor->unk_88.s16) >= -63)) {
                     s32 next_tile_x;
-                    register s32 next_tile_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    s32 next_tile_y;
 
                     index++;
                     next_tile_x = tile_x + ((u16 *)D_8006CCD8)[(s16)effect->unk_0E];
                     tile_x = next_tile_x;
                     ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     next_tile_y = tile_y + ((u16 *)D_8006CCE8)[(s16)effect->unk_0E];
-                    tile_y = next_tile_y;
                     last_tile_y = (u16)next_tile_y;
+                    tile_y = next_tile_y;
                     last_tile_x = next_tile_x;
                     if (index < 8) {
                         continue;

@@ -255,8 +255,8 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
             }
 
             {
+                s32 sprite_flags;
                 u8 prim_code;
-                register u16 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                 prim_code = U8_AT(part, 0);
                 sprite[0xF] = prim_code;
                 sprite_flags = U16_AT(scratch, 0x24);
@@ -267,7 +267,6 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
                     } else {
                         blend_code = prim_code & 0xFD;
                     }
-                    ASM_KEEP_DEP_NV(blend_code, sprite_flags);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     sprite[0xF] = blend_code;
                 }
             }

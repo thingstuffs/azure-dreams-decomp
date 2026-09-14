@@ -222,9 +222,9 @@ def site_reasons(st):
     return out
 
 
-def collect(per_stats):
+def collect(per_stats, max_pins=3, exclude=()):
     """The pool: one record per admissible row, with its per-site traces."""
-    held, pool = heldout(), []
+    held, pool = heldout() | set(exclude), []
     R = {r["id"]: r for r in rows()}
     for f in sorted(TRACES.glob("*.json")):
         trace = json.loads(f.read_text())
@@ -253,8 +253,8 @@ def collect(per_stats):
             per_stats["live fence site"] += 1
             rec["skip"] = "fence"
             continue
-        if len(sites) > 3:
-            per_stats["more than 3 pin sites"] += 1
+        if len(sites) > max_pins:
+            per_stats["more than %d pin sites" % max_pins] += 1
             rec["skip"] = "pins"
             continue
         if not regs:
@@ -331,13 +331,25 @@ def main():
                                              % ", ".join(n for n, _ in STRATA))
     ap.add_argument("--per", type=int, default=12)
     ap.add_argument("--no-verify", action="store_true", help="do not check each base is exact")
+    ap.add_argument("--max-pins", type=int, default=3, help="admit rows with at most this many pin sites (default 3)")
+    ap.add_argument("--exclude", help="file of row ids to leave out (rows already given to a pack); rows under "
+                                      "work/native_lane/alloc*/base are always left out")
+    ap.add_argument("--as", dest="alias", default="",
+                    help="NEW=STRATUM[,NEW=STRATUM...]: build a pack named NEW from STRATUM's rows (alloc1-4 are "
+                         "the strata); packs sharing a stratum take successive slices")
     a = ap.parse_args()
+    alias = dict(x.split("=") for x in a.alias.split(",") if x)
     for name in a.lanes:
-        if name not in dict(STRATA):
+        if alias.get(name, name) not in dict(STRATA):
             ap.error("unknown pack %s (strata are %s)" % (name, ", ".join(n for n, _ in STRATA)))
+    exclude = set()
+    if a.exclude:
+        exclude |= {l.strip() for l in open(a.exclude) if l.strip()}
+    for f in (ROOT / "work/native_lane").glob("alloc*/base/*/*.c"):
+        exclude.add(f.parent.name + "/" + f.stem)
 
     stats = collections.Counter()
-    pool = collect(stats)
+    pool = collect(stats, a.max_pins, exclude)
     live = [p for p in pool if not p.get("skip")]
     tie_ids = {rid for rid, _ in TIES}
     by_id = {p["id"]: p for p in pool}
@@ -359,9 +371,10 @@ def main():
 
     verified, failed = {}, []
     if not a.no_verify:
-        want = []
+        want, cur = [], collections.Counter()
         for name in a.lanes:
-            want += assigned[name][:a.per]
+            st = alias.get(name, name)
+            want += assigned[st][cur[st]:cur[st] + a.per]; cur[st] += a.per
         want += [by_id[rid] for rid, _ in TIES if rid in by_id and TIE_PACK in a.lanes]
         want = {p["id"]: p for p in want}
         with ThreadPoolExecutor(max_workers=3) as ex:          # the scorer is the shared-disk hog: keep it low
@@ -371,9 +384,10 @@ def main():
                     failed.append(rid)
 
     brief = (ROOT / "tools/lanes/alloc_lane_brief.md").read_text()
-    built = []
+    built, cur = [], collections.Counter()
     for name in a.lanes:
-        picked = [p for p in assigned[name][:a.per] if verified.get(p["id"], True)]
+        st = alias.get(name, name)
+        picked = [p for p in assigned[st][cur[st]:cur[st] + a.per] if verified.get(p["id"], True)]; cur[st] += a.per
         ties = []
         if name == TIE_PACK:
             for rid, site in TIES:
@@ -388,7 +402,7 @@ def main():
                "Site numbers index every `ASM_*` site of the file in source order, as `tools/pin_census.py` "
                "lists them.\n"]
         for p, site in [(p, None) for p in picked] + ties:
-            out.append(render_row(p, name, site))
+            out.append(render_row(p, st, site))
         n = len(picked) + len(ties)
         if not n:
             print(name, "no rows left")

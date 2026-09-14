@@ -1606,22 +1606,41 @@ diagnosed luna packs).
     cast and `u8*` spacing; fixed in the lane copies, reproduced 6/6 byte-identically, then copied. The
     swept tool therefore differs from the lane's frozen hashes by those fixes. The sweep ran with
     `T61_VERIFY=3`: every win came on the first verify of an assembly-identical candidate.
-- **Tail-slot pins are not toolchain hints the tree can honour.** The owner asked for the parked
-  stock-ASPSX check. An opus workflow (run + skeptic, `work/tailslot_aspsx/REPORT.md`) fed the pinned and
-  the unpinned gcc output of all 126 rows, with and without the jal-to-j conversion pre-applied, to
-  genuine ASPSX 2.56, 2.67, 2.77, 2.79, 2.81 and 2.86 (the SN binaries under the sibling
-  decomp repository's `toolchain/psyq/`, run with wibo): **0 of 655 measurable records put the dead value in the tail-j delay
-  slot**; every version emits gcc's order plus a nop, one word longer than retail, and all six agree at
-  every tail site. Calibration was exact for all 756 records. The follow-up (`CC1_DIFFERENTIAL.md`) ran
-  the genuine SN CC1PSX at every PsyQ level over the 15 rows whose only pins are tail-slot pins: the
-  genuine cc1 is byte-identical to the decompals rebuild in `.ent`..`.end` on 180 of 180 legs, and no
-  level fills the slot on unpinned or pinned C. So neither the compiler nor the assembler in the tree
-  performs either half of retail's tail site (the jal-to-j sibcall conversion, or the filled slot): the
-  256 pins mark a toolchain gap, not a C shape. maspsx's marker gate must stay; its "Step 3" (fire on
-  shape alone) is refuted. Only ASPSX 2.40 (two rows' recorded dial) is unattested. Side findings: for
-  2.8.x rows stock ASPSX passes gcc's `j $31 / addu $sp` epilogue through while maspsx un-fills it and
-  retail agrees with maspsx; and gcc 2.7.2 (genuine and rebuilt alike) silently drops a volatile asm on
-  7 of the 15 pinned rows' cdk/2.8.x-shaped C.
+- **Tail-slot pins: the toolchain hypothesis refuted twice, then the refutation itself refuted by a
+  skeptic.** The owner asked for the parked stock-ASPSX check. An opus workflow (run + skeptic,
+  `work/tailslot_aspsx/REPORT.md`) fed the pinned and the unpinned gcc output of all 126 rows to genuine
+  ASPSX 2.56-2.86 (the SN binaries under the sibling decomp repository's `toolchain/psyq/`, run with wibo):
+  **0 of 655 records put the dead value in the tail-j delay slot**; the genuine SN cc1 at every PsyQ level
+  (`CC1_DIFFERENTIAL.md`) is byte-identical to the decompals rebuild and never fills the slot either. Those
+  two results stand. Their CONCLUSION ("a toolchain gap, no C shape") was wrong, and a Fable skeptic lane
+  the owner asked for (`work/tailslot_skeptic/REPORT.md`) showed why:
+  - **254 of the 256 pins sit on an intra-function jump, not a call.** Solving each row's base from its own
+    retail `j` targets puts the "callee" inside the row for 254 sites (123 of 126 rows have every `j`
+    intra-row); at 39 sites the word before the "callee" equals the delay word, gcc's reorg.c thread fill
+    (`toolchain/gcc-src/2.7.2/reorg.c` 3118-3135), which is why m2c named a function at label+4. The
+    pseudo-call to a `noreturn` symbol is the decompiler's spelling of `goto`/`return`; maspsx converts it
+    to `j` by name list, and the "dead" value is the live join value gcc parks in its own jump's slot.
+  - **412 pins of this family already fell** (664 live sites in 365 rows at the pin commit, counted by
+    `sites_of`; STATUS's 499 counts `ASM_TAILSLOT_PIN` only): 314 + 66 + 2 in the fidelity campaign of
+    2026-09-09 (label-as-call replaced by honest `goto`/`return`), 24 by `t11_midrow`, 2 traded for fences,
+    1 dead. 220 of those rows are exact today with retail's intra-row `j` and a filled slot and no pin.
+    2,021 pin-free exact rows carry the same shape (6,450 sites). The old repo's 7 pin-removing commits
+    are all "re-land as honest all-return C, zero pins; rowbase gap filled".
+  - **Three of the 15 pin-only rows rewritten as honest C are byte-exact at the true base** through the
+    scorer's own pipeline (`town/func_808755AC` and `town/func_808B32AC` as `return arg0;`,
+    `main/func_8001A22C` as an if/else with a common `return`), zero pins; through `tools/verify.py` at the
+    synthetic link base they differ by ONE word, the `j` target. The bases were not fitted: bank neighbours
+    with 2-3 local `j`s solve the same delta.
+  - So the family is **label-as-call residue plus a missing true base**: 90 of the 126 pinned rows have no
+    `config/overlays/*.rowbase.jsonl` region, and at a synthetic base an honest `j $L` cannot be exact while
+    `j <absolute symbol>` smuggles the true address in. What settles it: rowbase records for those 90 rows
+    under the ledger's standard (at least two local `j`s solving one base plus an exact recompile;
+    `selfbase.json` lists a solved base per row), the `_truebase_` twin windows, then `t10_epilogue` /
+    `t11_midrow` and honest rewrites; the 36 rows with a region are attackable now. The maspsx marker gate
+    stays (nothing generalises), and ASPSX 2.40 remains the one untested binary.
+  - Side findings kept: for 2.8.x rows stock ASPSX passes gcc's `j $31 / addu $sp` epilogue through while
+    maspsx un-fills it and retail agrees with maspsx; gcc 2.7.2 (genuine and rebuilt alike) silently drops a
+    volatile asm on 7 of the 15 pinned rows' cdk/2.8.x-shaped C.
 - **Tooling:** `tools/lanes/build_exemplars.py` (landed diffs that lowered a family's count with a body
   change, an INDEX with the generators journaled for each row), `tools/alloc_trace.py` (the observer),
   `tools/lanes/build_alloc_lanes.py` with `alloc_lane_brief.md` (diagnosed register packs by allocator
