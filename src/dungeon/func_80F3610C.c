@@ -135,12 +135,12 @@ active:
             work_data = spawned_data;
             if (((S_8017390C_1 *)actor_data)->unk_49 == 0x12) {
                 render_asset = &D_8006E240;
+                spawned_render->unk_08 = render_asset;
             } else {
                 render_asset = (void *)func_8004A658(
                     ((S_8017390C_1 *)actor_data)->unk_49, ((S_8017390C_1 *)actor_data)->unk_48);
+                spawned_render->unk_08 = render_asset;
             }
-            spawned_render->unk_08 = render_asset;
-            ASM_KEEP(render_asset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_8017390C_3 *)work_data)->unk_A8 = render->unk_24;
             ((S_8017390C_3 *)work_data)->unk_AA = render->unk_25;
             *(Unaligned32 *)((u8 *)spawned_data + 0x48) =

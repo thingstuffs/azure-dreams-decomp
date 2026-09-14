@@ -91,17 +91,15 @@ typedef struct S_8017112C_5 {
 /* Updates actor behavior, movement, facing, and height. */
 void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 {
-    void *motion = motion_arg;
-    void *monster = monster_arg;
     void *actor = entity_arg;
-    register s16 state_direction ASM_REG("$17");
-    register u8 raw_state ASM_REG("$2");
-    register void *call_entity ASM_REG("$4");
-    register void *call_motion ASM_REG("$5");
-    register void *call_monster ASM_REG("$6");
-    register s32 saved_state ASM_REG("$2");
+    u16 state_direction;
+    u8 raw_state;
+    void *call_entity;
+    void *call_motion;
+    void *call_monster;
+    s32 saved_state;
     s32 current_state;
-    register s32 view_angle ASM_REG("$2");
+    s32 view_angle;
     Callback callback;
     Callback active_callback;
     s16 floor_height;
@@ -132,7 +130,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     if (global_flags & 8) {
         s32 slot_index = 1;
         slot = D_800E3D7C[0] + 4;
-        do {
+        loop_0: {
             node = ((S_8017112C_1 *)slot)->unk_AC;
             if (node != 0) {
                 record = ((S_8017112C_2_pre *)node)[-1].unk_00;
@@ -140,13 +138,13 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
             }
             slot_index--;
             slot -= 4;
-        } while (slot_index >= 0);
+        } if (slot_index >= 0) goto loop_0;
     }
 
     if (D_80083462 & 0x2000) {
         callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
         if (callback == (Callback)&D_80171514) {
-            callback(entity_arg, motion, monster, actor);
+            callback(entity_arg, motion_arg, monster_arg, actor);
             return;
         }
         ((S_8017112C_0 *)actor)->unk_71 &= 0x7F;
@@ -154,8 +152,8 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
     }
 
     call_entity = entity_arg;
-    call_motion = motion;
-    call_monster = monster;
+    call_motion = motion_arg;
+    call_monster = monster_arg;
     raw_state = ((S_8017112C_0 *)actor)->unk_6D.v;
     state_direction = ((s32)raw_state << 24) >> 24;
     if (func_800A9E70(call_entity, call_motion, call_monster, actor) != 0) {
@@ -164,74 +162,74 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
 
     active_callback = (*(Callback *)((u8 *)entity_arg + (0x8C)));
     if (active_callback != 0) {
-        active_callback(entity_arg, motion, monster, actor);
+        active_callback(entity_arg, motion_arg, monster_arg, actor);
     }
-    D_80173EF4[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion, monster, actor);
+    D_80173EF4[(*(u8 *)((u8 *)entity_arg + (0x9A)))](entity_arg, motion_arg, monster_arg, actor);
 
     saved_state = (s32)state_direction << 16;
     current_state = ((S_8017112C_0 *)actor)->unk_6D.n2;
     saved_state >>= 16;
     if (saved_state != current_state) {
-        func_800AA36C(entity_arg, motion, monster, actor);
+        func_800AA36C(entity_arg, motion_arg, monster_arg, actor);
     }
 
-    ((S_8017112C_4 *)motion)->unk_00 += ((S_8017112C_4 *)motion)->unk_0C;
-    (*(s32 *)((u8 *)motion + (4))) += ((S_8017112C_4 *)motion)->unk_10;
+    ((S_8017112C_4 *)motion_arg)->unk_00 += ((S_8017112C_4 *)motion_arg)->unk_0C;
+    (*(s32 *)((u8 *)motion_arg + (4))) += ((S_8017112C_4 *)motion_arg)->unk_10;
 
     view_angle = D_80083228 + ((S_8017112C_0 *)actor)->unk_2A + 0x100;
     state_direction = (view_angle >> 9) & 7;
     if ((*(s16 *)((u8 *)entity_arg + (0x94))) != state_direction) {
-        func_80047738(monster,
-                     *((u8 *)((S_8017112C_5 *)monster)->unk_2C + state_direction),
-                     ((S_8017112C_5 *)monster)->unk_04);
+        func_80047738(monster_arg,
+                     *((u8 *)((S_8017112C_5 *)monster_arg)->unk_2C + state_direction),
+                     ((S_8017112C_5 *)monster_arg)->unk_04);
         (*(s16 *)((u8 *)entity_arg + (0x94))) = state_direction;
     }
 
-    ((S_8017112C_5 *)monster)->unk_14 &= 0xFFFE;
-    func_800A020C(((S_8017112C_0 *)actor)->unk_1C, (u8 *)monster + 0xC);
+    ((S_8017112C_5 *)monster_arg)->unk_14 &= 0xFFFE;
+    func_800A020C(((S_8017112C_0 *)actor)->unk_1C, (u8 *)monster_arg + 0xC);
 
     if (!(((S_8017112C_0 *)actor)->unk_1C & 0x20)) {
-        if (!(((S_8017112C_5 *)monster)->unk_14 & 0x40)) {
-            func_800478B8(monster);
+        if (!(((S_8017112C_5 *)monster_arg)->unk_14 & 0x40)) {
+            func_800478B8(monster_arg);
         }
     } else {
-        ((S_8017112C_5 *)monster)->unk_14 |= 0x7000;
+        ((S_8017112C_5 *)monster_arg)->unk_14 |= 0x7000;
         ((S_8017112C_0 *)actor)->unk_1C &= 0xFFFBFFFF;
     }
 
     if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 1) {
-        target_height = ((S_8017112C_4 *)motion)->unk_14.at02.v;
-        height = ((S_8017112C_4 *)motion)->unk_08.at02.v;
-        height_fixed = ((S_8017112C_4 *)motion)->unk_08.at02u.v;
+        target_height = ((S_8017112C_4 *)motion_arg)->unk_14.at02.v;
+        height = ((S_8017112C_4 *)motion_arg)->unk_08.at02.v;
+        height_fixed = ((S_8017112C_4 *)motion_arg)->unk_08.at02u.v;
         if (target_height > height) {
             height_gap = target_height - height;
             height_gap = abs(height_gap);
             divisor_magic = 0x66660000;
             if (height_gap >= 0x65) {
                 height_gap = height_fixed + 8;
-                ((S_8017112C_4 *)motion)->unk_08.at02.v = height_gap;
+                ((S_8017112C_4 *)motion_arg)->unk_08.at02.v = height_gap;
             } else {
-                height_delta = ((S_8017112C_4 *)motion)->unk_14.at00.v;
-                height_fixed = ((S_8017112C_4 *)motion)->unk_08.at00.v;
+                height_delta = ((S_8017112C_4 *)motion_arg)->unk_14.at00.v;
+                height_fixed = ((S_8017112C_4 *)motion_arg)->unk_08.at00.v;
                 divisor_magic |= 0x6667;
                 height_delta -= height_fixed;
                 height_delta = abs(height_delta);
                 product.value = (long long)height_delta * divisor_magic;
                 height_step = (product.word.high >> 2) - (height_delta >> 31);
                 height_fixed += height_step;
-                ((S_8017112C_4 *)motion)->unk_08.at00.v = height_fixed;
+                ((S_8017112C_4 *)motion_arg)->unk_08.at00.v = height_fixed;
             }
         }
     }
 
-    if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 2 && ((S_8017112C_4 *)motion)->unk_08.at02.v >= -0x3EF) {
-        ((S_8017112C_4 *)motion)->unk_08.at02.v = ((S_8017112C_4 *)motion)->unk_08.at02u.v - 4;
+    if ((*(s16 *)((u8 *)entity_arg + (0xB8))) == 2 && ((S_8017112C_4 *)motion_arg)->unk_08.at02.v >= -0x3EF) {
+        ((S_8017112C_4 *)motion_arg)->unk_08.at02.v = ((S_8017112C_4 *)motion_arg)->unk_08.at02u.v - 4;
     }
 
     if (((S_8017112C_0 *)actor)->unk_1C & 0x40000000) {
         ((S_8017112C_0 *)actor)->unk_1C &= 0xBFFFFFFF;
-        floor_height = func_800BCB04((((S_8017112C_5 *)monster)->unk_24 << 6) | 0x20,
-                              (((S_8017112C_5 *)monster)->unk_25 << 6) | 0x20,
+        floor_height = func_800BCB04((((S_8017112C_5 *)monster_arg)->unk_24 << 6) | 0x20,
+                              (((S_8017112C_5 *)monster_arg)->unk_25 << 6) | 0x20,
                               (s16)(((S_8017112C_0 *)actor)->unk_88 - 0x20));
         if (floor_height < 0x200) {
             (*(u16 *)((u8 *)entity_arg + (0x92))) += ((S_8017112C_0 *)actor)->unk_88 - floor_height;
@@ -239,6 +237,5 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         }
     }
 
-    ((S_8017112C_5 *)monster)->unk_14 |= 0x40;
-    ASM_KEEP(motion);
+    ((S_8017112C_5 *)monster_arg)->unk_14 |= 0x40;
 }

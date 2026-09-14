@@ -119,10 +119,10 @@ void func_80025398(void *effect, void *unused, void *primitive)
             shade_index--;
             shade_cursor = (u8 *)shade_cursor - 1;
         } while (shade_index >= 0);
+        state = ((S_80025398_0 *)effect)->unk_00.s;
+    } else {
+        state = ((S_80025398_0 *)effect)->unk_00.s;
     }
-
-    state = ((S_80025398_0 *)effect)->unk_00.s;
-    ASM_KEEP(state);
     ((S_80025398_0 *)effect)->unk_9A = 0x64;
     next_state = ((S_80025398_0 *)effect)->unk_00.u + 1;
     if (state != 0) {

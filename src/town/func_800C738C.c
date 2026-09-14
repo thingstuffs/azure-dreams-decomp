@@ -44,7 +44,7 @@ void func_800C4AEC(void *object_arg, s32 update_arg)
     u32 frame_index;
     u16 *frame_offsets;
     u32 extra_x;
-    u32 extra_y;
+    s32 extra_y;
     s32 x_offset;
     u32 coord;
     S_800C4AEC_2 *sprite_pos;
@@ -60,15 +60,16 @@ void func_800C4AEC(void *object_arg, s32 update_arg)
             frame_index = (sprite_flags >> 24) & 0x3F;
             if (table_select == 0) {
                 frame_offsets = &D_800D2650[frame_index * 16];
+                x_offset = frame_offsets[0];
+                extra_x = frame_offsets[2];
+                sprite_flags = frame_offsets[1];
             } else {
                 frame_offsets = &D_800D2FC0[frame_index * 16];
+                x_offset = frame_offsets[0];
+                extra_x = frame_offsets[2];
+                sprite_flags = frame_offsets[1];
             }
-            x_offset = frame_offsets[0];
-            extra_x = frame_offsets[2];
-            ASM_KEEP(extra_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            sprite_flags = frame_offsets[1];
             extra_y = frame_offsets[3];
-            ASM_KEEP(extra_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             x_offset += extra_x;
             sprite_flags += extra_y;
             goto apply_offsets;

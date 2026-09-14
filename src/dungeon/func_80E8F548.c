@@ -97,13 +97,14 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         data_base = object_data;
         if ((*(u8 *)((u8 *)appearance + 0x49)) == 0x12) {
             texture = D_8006E240;
+            sprite->unk_08 = (s32)texture;
+            record_byte = record->unk_24;
         } else {
             texture = (void *)func_8004A658((*(volatile u8 *)((u8 *)appearance + 0x49)),
                           (*(u8 *)((u8 *)appearance + 0x48)));
+            sprite->unk_08 = (s32)texture;
+            record_byte = record->unk_24;
         }
-        sprite->unk_08 = (s32)texture;
-        record_byte = record->unk_24;
-        ASM_KEEP(record_byte);
         active_object = object;
         ASM_KEEP(active_object);
         ((S_80174D48_1 *)data_base)->unk_A8 = record_byte;

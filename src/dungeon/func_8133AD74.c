@@ -566,10 +566,12 @@ jt_c22:
             u16 next_frame;
             if (((S_80171D74_5 *)sprite)->unk_04 == 0) {
                 ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 | 0x800);
+                bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
+                next_frame = bounce_frame + 1;
+            } else {
+                bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
+                next_frame = bounce_frame + 1;
             }
-            bounce_frame = ((S_80171D74_1 *)state_in)->unk_96;
-            next_frame = bounce_frame + 1;
-            ASM_KEEP_NV(next_frame);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)state_in)->unk_96 = next_frame;
             if ((u32) (bounce_frame - 0xA) < 8U) {
                 ((S_80171D74_1 *)state_in)->unk_A0.at00.v = (s32) (func_800644B8(((s32) (next_frame << 0x10) >> 8) - 0xA00) << 8);

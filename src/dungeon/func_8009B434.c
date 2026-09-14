@@ -49,7 +49,6 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
         if (requested_id == 0x38) {
             data = D_80164800;
             disc_offset = 0x56B1;
-            ASM_KEEP(data);
             read_size = 0x24;
         } else if (requested_id == 0x31) {
             data = D_8016A800;
@@ -75,8 +74,10 @@ s32 func_800A0B94(s32 resource_id, u8 *resource_entry, s32 wait_for_read) {
             func_8003F320();
             if (entry[0] != 2) {
                 D_800E3DA0[entry[3]] = asset_id;
+                result = *(s32 *)data;
+            } else {
+                result = *(s32 *)data;
             }
-            result = *(s32 *)data;
             *(s32 *)(entry + 4) = result;
             goto done;
         }

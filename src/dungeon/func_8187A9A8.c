@@ -298,6 +298,7 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
     u16 object_flags;
     MATRIX matrix;
     u16 render_flags;
+    S_func_8187A9A8_5 *render_state_2;
 
     ot_base = *(u8 **)(D_80083150 + 0x10);
     ASM_KEEP_MEMDEP(ot_base, barrier_scratch, *(u8 **)(D_80083150 + 0x10));   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -342,14 +343,13 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
         s32 ot_index;
         u8 texture_flags;
         s32 texture_adjust;
-        S_func_8187A9A8_5 *render_state;
         register S_func_8187A9A8_5 **render_state_ref ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         render_state_ref = (S_func_8187A9A8_5 **)D_80083160_quad;
         ASM_KEEP(render_state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        render_state = *render_state_ref;
-        packet = render_state->unk_8D0;
-        render_state->unk_8D0 = (u8 *)packet + 0x28;
+        render_state_2 = *render_state_ref;
+        packet = render_state_2->unk_8D0;
+        render_state_2->unk_8D0 = (u8 *)packet + 0x28;
 
         scratch->unk_0C.as_s32_0C = texture_data->unk_07;
         scratch->unk_10.as_s32_10 = texture_data->unk_08;
@@ -485,8 +485,7 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
         u32 color_code;
         s32 packet_code;
         S_func_8187A9A8_5 *render_state;
-        S_func_8187A9A8_5 *render_state_2;
-        register S_func_8187A9A8_5 **render_state_ref ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        S_func_8187A9A8_5 **render_state_ref;
 
         render_state_ref = (S_func_8187A9A8_5 **)D_80083160_line;
         ASM_KEEP(render_state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */

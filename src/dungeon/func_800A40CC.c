@@ -21,13 +21,13 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
     register s32 changed;
     s32 change_result;
     u32 index_hi;
-    register u32 doubled_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 doubled_index;
     s32 *selection_entry;
     s32 *selection_table;
     s32 *resource_data;
     s32 *message_data;
     s32 message_offset;
-    register s32 entry_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 entry_offset;
     s32 state_value;
 
     resource_data = (s32 *)0x80024000;
@@ -54,13 +54,14 @@ s32 func_800A982C(s16 selection_id, s16 alternate_table) {
         if (alternate_table != 0) {
             selection_table = D_800DDAB8;
             index_hi = func_800A9400(selection_id) << 16;
+            doubled_index = index_hi >> 15;
+            state_value = D_8006CD58[0];
         } else {
             selection_table = D_800DD918;
             index_hi = selection_id << 16;
+            doubled_index = index_hi >> 15;
+            state_value = D_8006CD58[0];
         }
-        doubled_index = index_hi >> 15;
-        state_value = D_8006CD58[0];
-        ASM_KEEP(state_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         entry_offset = (s32)(doubled_index << 16) >> 14;
         selection_entry = (s32 *)(entry_offset + (u32)selection_table);
         func_8003F540(0, state_value, selection_entry[0], selection_entry[1]);

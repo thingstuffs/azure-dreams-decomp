@@ -261,12 +261,11 @@ mode_0: {
                 if (distance < 4) distance = 4;
                 delta_y = distance << 2;
                 U16(effect, 80) = (u16)delta_y;
-                ASM_KEEP_NV(delta_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                delta_y = (s16)delta_y;
                 abs_y = S8(actor, 114);
                 delta_x = S16(motion, 2);
                 abs_y <<= 6;
                 distance = abs_y + 32;
+                delta_y = (s16)delta_y;
                 delta_x = distance - delta_x;
                 delta_x /= delta_y;
                 delta_y = S8(actor, 115);

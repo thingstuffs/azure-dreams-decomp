@@ -366,17 +366,20 @@ void func_8002405C(void *screen_pos, u8 *wave, void *context, s32 *ordering_tabl
                     *((s8 *) (((s8 *) packet) + 0x3)) = 9;
                     *((Quad40 *) packet) = base_quad;
                     *((u16 *) (((s8 *) packet) + 0xA)) = (u16) ((*((u16 *) (((s8 *) packet) + 0xA))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) (column_wave = wave + wave_index)) + 0x38))))) >> 0x10));
-                    ASM_KEEP_NV(column_wave);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     ASM_USE_G_NV(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     *((u16 *) (((s8 *) packet) + 0x1A)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x1A))) + (((s32) (func_800644B8(phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
                     column_phase = phase + (*((s16 *) (((s8 *) wave) + 0x9A)));
                     if (column_phase >= 0x1001)
                     {
                         column_phase -= 0x1000;
+                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        wave_index += 1;
+                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                    } else {
+                        *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
+                        wave_index += 1;
+                        *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
                     }
-                    *((u16 *) (((s8 *) packet) + 0x12)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x12))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
-                    wave_index += 1;
-                    *((u16 *) (((s8 *) packet) + 0x22)) = (u16) ((*((u16 *) (((s8 *) packet) + 0x22))) + (((s32) (func_800644B8(column_phase) * (*((u8 *) (((s8 *) column_wave) + 0x38))))) >> 0x10));
                     if (wave_index >= 0x60)
                     {
                         wave_index = 0;

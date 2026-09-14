@@ -11,11 +11,14 @@ void func_800B3AE4(u8 *object) {
     target_delta = 0x80 - channel_value;
     if (target_delta < 0) {
         target_delta += 3;
+        blended_value = channel_value + (target_delta >> 2);
+        object[0x24] = blended_value;
+        channel_value = blended_value;
+    } else {
+        blended_value = channel_value + (target_delta >> 2);
+        object[0x24] = blended_value;
+        channel_value = blended_value;
     }
-    blended_value = channel_value + (target_delta >> 2);
-    object[0x24] = blended_value;
-    channel_value = blended_value;
-    ASM_KEEP(channel_value);
     object[0x25] = blended_value;
     object[0x26] = channel_value;
 }

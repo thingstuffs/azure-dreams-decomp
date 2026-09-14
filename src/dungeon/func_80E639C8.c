@@ -397,13 +397,11 @@ state_2:
                         break;
                 }
             }
-            next_count = particle_count + 1;
             goto assign_counter;
 null_counter:
-            next_count = particle_count + 1;
 assign_counter:
+            next_count = particle_count + 1;
             particle_count = next_count;
-            ASM_KEEP(next_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 counter_test:
             ;
         } while ((s16)next_count < 1);

@@ -64,7 +64,7 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
         /* Retail callee sets a3 = 10 at 0x80099114 before reading it; no incoming argument. */
         arg0 = func_800990FC();
         {
-            register u8 *msg3 ASM_REG("$4"); /* MATCH: materialize each shared message address directly in a0. */
+            u8 *msg3;
             if (result >= 0) {
                 u8 *msg;
                 value = func_80099194(D_800E0B18, (s32)arg0);
@@ -79,15 +79,15 @@ void func_800956B8(void *arg0, s32 arg1, void *arg2, void *arg3)
                 tail_result = func_80099194(msg, value);
                 msg3 = D_800E0B2B;
                 value = tail_result - 3;
+                value = func_80099194(msg3, value);
             } else {
                 msg3 = D_800E202D;
 
                    /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 value = (s32)arg0;
                    /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                value = func_80099194(msg3, value);
             }
-            value = func_80099194(msg3, value);
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80099290(value);
         }
         func_800A5720((s32)arg0);

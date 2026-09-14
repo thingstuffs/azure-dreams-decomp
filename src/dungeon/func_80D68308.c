@@ -79,7 +79,7 @@ void func_80173B08(void *action, void *motion, void *sprite, void *actor)
     u8 *item_slot;
     register u8 *anim_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 anim_addr;
-    s32 mode_or_angle;
+    u32 mode_or_angle;
     s16 effect_count;
     u8 state;
     void *target;
@@ -152,7 +152,6 @@ selection_ready:
         goto empty_selection;
     }
     ((S_80173B08_0 *)action)->unk_98 &= 0xFF7F;
-    ASM_KEEP(mode_or_angle);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     {
         s32 is_special;
 
@@ -319,11 +318,11 @@ state_5:
                     effect_count++;
                 } while ((s16)effect_count <= 0);
                 next_angle = mode_or_angle + 0x200;
+                mode_or_angle = next_angle;
             } else {
                 next_angle = mode_or_angle + 0x200;
+                mode_or_angle = next_angle;
             }
-            mode_or_angle = next_angle;
-            ASM_KEEP(next_angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         } while ((s16)next_angle < 0x1000);
     }
     {
