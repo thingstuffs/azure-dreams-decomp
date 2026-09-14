@@ -23,7 +23,6 @@ extern s32 func_800A45D8(s32, s32, s16);
 extern void *func_80024968(void *, void *, s16);
 extern void func_80025760(void *, u8, void *);
 
-extern void func_800241B0(void) __attribute__((noreturn));
 extern void func_80024344(void) __attribute__((noreturn));
 extern void func_800246A8(void) __attribute__((noreturn));
 extern void func_800246AC(void) __attribute__((noreturn));
@@ -99,7 +98,6 @@ void FUNC_81880800_BODY(void *effect_data, void *motion_data, void *part_data)
     u32 color;
     u32 texture_flags;
     u32 texture_size;
-    s32 start_height;
     s16 attach_offset[3];
     s32 texture_init[2];
     static void *const state_labels[] = {
@@ -140,11 +138,10 @@ initialize:
     F(motion, u16, 2) = F(owner_motion, u16, 2);
     F(motion, u16, 6) = F(owner_motion, u16, 6);
     if (F(F(owner_base, void *, 0xC), u16, 0x14) & 0x8000) {
-        start_height = F(owner_motion, u16, 0xA) - 0x40;
-        ASM_TAILSLOT_PIN(start_height);
-        func_800241B0();
+        F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) - 0x40;
+    } else {
+        F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) + attach_offset[2];
     }
-    F(motion, u16, 0xA) = F(owner_motion, u16, 0xA) + attach_offset[2];
 
     if ((F(F(self, void *, 4), u16, 0) & 0x80) == 0) {
         goto finish;

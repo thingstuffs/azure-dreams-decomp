@@ -1,13 +1,11 @@
 #include "common.h"
 
-extern s32 func_800C2AAC(s32 arg0);
 extern s32 D_800834B8;
 extern s32 D_80097D2C;
 extern void *D_800CFCC4;
 
 s32 func_800C2A60(void *arg0) {
     s32 result;
-    s32 return_value;
 
     if (D_800CFCC4 != 0) {
         result = 0;
@@ -15,9 +13,7 @@ s32 func_800C2A60(void *arg0) {
             *(s32 *)((u8 *)arg0 + 0x60)) {
             result = D_800834B8 == (s32)&D_80097D2C;
         }
-        return_value = result;
-        ASM_TAILSLOT_PIN(return_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return func_800C2AAC(result);
+        return result;
     }
     return 0;
 }

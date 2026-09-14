@@ -19,7 +19,6 @@ extern short D_80084808[8];
 __asm__(".section .text.func_81946800,\"a\",@progbits\n.globl func_81946800\n.type func_81946800,@function\nfunc_81946800:\n.size func_81946800, 884");
 static const u32 func_81946800_head[] __attribute__((section(".text.func_81946800"))) = {0x80024004};
 #endif
-extern void func_800242D8(void) __attribute__((noreturn));
 extern void func_80024350(s32) __attribute__((noreturn));
 extern s32 func_8003DE58(s32, void *, s16 *, s32);
 extern void *func_8003FD64(s32, void *);
@@ -185,12 +184,7 @@ void func_81946800(void *action_in, void *saved_position)
     }
     func_800A56E0(event_code);
   }
-  {
-    s32 next_state;
-    next_state = (*((u16 *) (((u8 *) action) + 0xA))) + 1;
-    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    func_800242D8();
-  }
+  (*((u16 *) (((u8 *) action) + 0xA)))++;
   return;
   state_2:
   if (((s32) (timer << 16)) > 0)
@@ -200,7 +194,6 @@ void func_81946800(void *action_in, void *saved_position)
 
   *((u16 *) (((u8 *) action) + 0x50)) = 8;
   (*((u16 *) (((u8 *) action) + 0xA)))++;
-  func_80024350(timer);
   return;
   state_3:
   if (((STATE3_FLAG(state3_page) & 0x8000) == 0) && (((s32) (timer << 16)) >= 0))

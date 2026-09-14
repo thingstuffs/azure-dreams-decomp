@@ -67,8 +67,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-void *func_80152954(void) __attribute__((noreturn));
-void *func_801529C0(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_80152A3C;
@@ -91,6 +89,8 @@ void *BODY_NAME(s16 spawn_flags, s8 spawn_x, s8 spawn_y, s16 initial_value) {
     s16 saved_value;
     void *object_arg;
     void *base_arg;
+    s32 flags_14;
+    s32 flags_1c;
 
     M2C_ERROR(/* Read from unset register $t0 */) | 0x4481;
     saved_x = spawn_x;
@@ -112,19 +112,17 @@ void *BODY_NAME(s16 spawn_flags, s8 spawn_x, s8 spawn_y, s16 initial_value) {
         placement->unk_2C = &D_8015586C;
         placement->unk_24 = saved_x;
         if (spawn_mode == 1) {
-            s32 flags_14;
-            s32 flags_1c;
-
             flags_14 = state->unk_14 | 0x6000;
             flags_1c = state->unk_1C | 0x6000;
-            ASM_KEEP(flags_14);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            ASM_TAILSLOT_PIN(flags_1c);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            return func_80152954();
+            goto store_flags;
         }
         if (spawn_mode >= 2) {
-            state->unk_14 = (s32) (state->unk_14 | 0x2000);
-            state->unk_1C = (s32) (state->unk_1C | 0x2000);
-            func_801529C0();
+            flags_14 = state->unk_14 | 0x2000;
+            flags_1c = state->unk_1C | 0x2000;
+        store_flags:
+            state->unk_14 = flags_14;
+            state->unk_1C = flags_1c;
+            goto spawn;
         }
         object_arg = object;
         if (((spawn_flags & ~3) << 0x10) == 0) {
@@ -136,6 +134,7 @@ void *BODY_NAME(s16 spawn_flags, s8 spawn_x, s8 spawn_y, s16 initial_value) {
                 }
             }
         }
+    spawn:
         func_800A9C18(object, base_data, placement, spawn_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;

@@ -111,9 +111,8 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
                 if (slot_scan[167] != 0) {
                     item_count++;
                 }
-                slot_index++;
                 slot_scan++;
-            } while (slot_index < 20);
+            } while (++slot_index < 20);
             if (item_count == 0) {
                 return 0;
             }
@@ -132,11 +131,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
             {
                 s32 item_data;
                 s32 *shared_base;
-#ifdef __mips__
-                s16 shared_slot_addr;
-#else
-                s32 shared_slot_addr;
-#endif
+
                 item_ptr = (u8 *)(item_offset + 0x80010248);
                 item_data = *(s32 *)item_ptr;
                 shared_base = (s32 *)0x80160000;
@@ -144,10 +139,7 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
                 ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 shared_base += 3065;
                 func_80098B38(item_ptr, item_base);
-                shared_slot_addr = (s32)shared_base;
-                ASM_TAILSLOT_PIN(shared_slot_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_8015EADC();
-                __builtin_unreachable();
+                return (s32)shared_base;
             }
         }
     }
@@ -178,7 +170,6 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         __builtin_unreachable();
     }
 entry_zero:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 return_zero:
     return 0;
 }
