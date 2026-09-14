@@ -82,7 +82,8 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     s16 direction;
     s16 ground_height;
     s32 flags;
-    register s32 height_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 height_step;
+    register s32 state_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u16 initial_flags;
     u16 sprite_flags;
 
@@ -119,8 +120,6 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     }
     D_801626A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
-        register s32 state_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
         state_check = (u32)(u16)old_state << 16;
         ASM_KEEP_NV(state_check);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         state_check >>= 16;
@@ -214,12 +213,12 @@ clear_8000000:
             s32 height_sum;
             register u16 motion_flags ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-            height_step = (*(s32 *)((u8 *)entity + 0xA4));
+            state_check = (*(s32 *)((u8 *)entity + 0xA4));
             height_sum = (*(s32 *)((u8 *)entity + 0x90));
             motion_flags = (*(u16 *)((u8 *)entity + 0x98));
             (*(s16 *)((u8 *)entity + 0xB8)) = 0;
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-            height_sum += height_step;
+            height_sum += state_check;
             ASM_USE_NV(motion_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_TAILSLOT_PIN(height_sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_801717E4();
@@ -236,10 +235,12 @@ clear_8000000:
     flags = ((S_8015F3A8_2 *)entity_base)->unk_1C;
 
     if (!(flags & 0x40000)) {
-        height_step = (*(s32 *)((u8 *)entity + 0xA4));
+        s32 landing_step;
+
+        landing_step = (*(s32 *)((u8 *)entity + 0xA4));
         (*(s16 *)((u8 *)entity + 0xB8)) = 0;
         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-        (*(s32 *)((u8 *)entity + 0x90)) -= height_step;
+        (*(s32 *)((u8 *)entity + 0x90)) -= landing_step;
         if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
             ground_height = func_800BCB04(motion->unk_00.at02.v,
                                          motion->unk_04.at02.v,

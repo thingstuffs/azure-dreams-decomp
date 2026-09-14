@@ -186,7 +186,10 @@ void func_80024B54(void *effect, void *position) {
     u16 ground_height;
     u16 near_height;
     u16 tint_delay;
-    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u16 next_state_c0;
+    u16 next_state_c1;
+    u16 next_state_c2;
+    u16 next_state_c3;
     u8 tile_y;
     void *actor_or_frame;
     void *effect_data;
@@ -206,13 +209,13 @@ void func_80024B54(void *effect, void *position) {
 jt_c0:
     effect_data = (void *)0x800E0000;
     actor_value = (void *)0x80080000;
-    next_state = ((S_80024B54_0 *)effect)->unk_0A.u;
-    ASM_KEEP_DEP_NV(actor_value, next_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    next_state_c0 = ((S_80024B54_0 *)effect)->unk_0A.u;
+    ASM_KEEP_DEP_NV(actor_value, next_state_c0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     actor_value = ((S_80024B54_1 *)actor_value)->unk_14A8;
     ASM_KEEP_DEP_NV(effect_data, actor_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     effect_data = (u8 *)effect_data - 0x1A24;
     ((S_80024B54_0 *)effect)->unk_10 = 0U;
-    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state + 1);
+    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c0 + 1);
     ((S_80024B54_1 *)actor_value)->unk_F4 = 0;
     func_80024494(((S_80024B54_0 *)effect)->unk_00 - 0x20, ((S_80024B54_0 *)effect)->unk_04, effect_data);
 jt_c1:
@@ -226,9 +229,9 @@ jt_c1:
     phase_seed = 4;
     ((S_80024B54_1 *)actor_value)->unk_A8 = (u8)((S_80024B54_0 *)effect)->unk_08;
     actor_value = ((S_80024B54_2 *)actor_page)->unk_14A8;
-    next_state = ((S_80024B54_0 *)effect)->unk_0A.u;
+    next_state_c1 = ((S_80024B54_0 *)effect)->unk_0A.u;
     actor_value = (void *)(s32)((S_80024B54_1 *)actor_value)->unk_2A.u;
-    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state + 1);
+    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c1 + 1);
     ((S_80024B54_0 *)effect)->unk_0E = (u16)(s32)actor_value;
     if (func_80053EF0(phase_seed, actor_page) == 2) {
         goto block_6;
@@ -344,9 +347,10 @@ block_21:
     func_800249E4((s32)effect, source_pos, target_pos, phase, transform[0], transform[1], direction);
     func_800249E4((s32)effect, source_pos, target_pos, (s16)(phase + 0x555), transform[0], transform[1], direction);
     func_800249E4((s32)effect, source_pos, target_pos, (s16)(phase + 0xAAA), transform[0], transform[1], direction);
-    next_state = ((S_80024B54_0 *)effect)->unk_0A.u;
+    next_state_c2 = ((S_80024B54_0 *)effect)->unk_0A.u;
     ((S_80024B54_0 *)effect)->unk_18 = 0x18U;
-    goto block_43_store;
+    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c2 + 1);
+    goto block_46;
 jt_c3:
     actor_or_frame = ((S_80024B54_0 *)effect)->unk_14;
     if (actor_or_frame == NULL) {
@@ -423,9 +427,9 @@ block_41:
         goto block_45_base;
     }
 block_43:
-    next_state = ((S_80024B54_0 *)effect)->unk_0A.u;
+    next_state_c3 = ((S_80024B54_0 *)effect)->unk_0A.u;
 block_43_store:
-    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state + 1);
+    ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c3 + 1);
     goto block_46;
 jt_c4:
     if (((S_80024B54_0 *)effect)->unk_1A != 0) {

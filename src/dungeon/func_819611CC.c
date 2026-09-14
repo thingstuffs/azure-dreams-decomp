@@ -26,8 +26,9 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     u16 last_z;
     u32 depth_bucket;
     u32 last_xy;
-    register void *vertex0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *vertex1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *vertex0;
+    void *vertex1;
+    void *vertex2;
     void *vertex3;
     u8 *screen_xy0;
     u8 *draw_packet;
@@ -55,7 +56,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     vertex1 = scratch + 0x78;
     *((u16 *) (scratch + 0x74)) = vertex_z_2;
     vertex_z = *((u16 *) (((u8 *) quad) + 0x1C));
-    vertex_or_link = scratch + 0x80;
+    vertex2 = scratch + 0x80;
     *((u16 *) (scratch + 0x7C)) = vertex_z;
     vertex_z = *((u16 *) (((u8 *) quad) + 0x24));
     vertex3 = scratch + 0x88;
@@ -66,7 +67,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     *((u16 *) (scratch + 0x8C)) = last_z;
     ASM_KEEP_NV(state_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     ASM_JALDELAY_PIN(last_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    depth_bucket = func_800654B0(vertex0, vertex1, vertex_or_link, vertex3, screen_xy0,
+    depth_bucket = func_800654B0(vertex0, vertex1, vertex2, vertex3, screen_xy0,
                             packet + 0x10, packet + 0x18, packet + 0x20,
                             (void *) (scratch + 0x90), (void *) (scratch + 0x94)) - 8;
     *((u32 *) (scratch + 0xC0)) = depth_bucket;

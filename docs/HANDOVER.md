@@ -23,6 +23,23 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-fifth round, part 9, gated (29 windows MATCH, SLUS SHA-1 MATCH): **7,487 pins in 1,383 rows**. Landed: the
+second big-row batch (sol 10 of 24 rows, opus 10 of 24), register rows that also carry a fence (a pool the builder had
+excluded; sol 9 of 30 with the scan-order stratum best at 5 of 10; `--allow-fences`), and the first keep-themed packs.
+- **Keeps, read from what fell:** an opus analysis of the 213 keeps that fell this round (`work/keeps_fell/REPORT.md`)
+  found 176 fell to a pseudo-call rewrite within about 20 lines, 25 to a join consumer written in both arms, 9 beside a
+  register-pin fix; the kept value's kind does not discriminate, the surrounding shape does (62% release rate within
+  20 lines of a live pseudo-call, about 1% elsewhere). Pack theme "finish the pseudo-calls, then sink the joins" on its
+  170-row pool: sol 3 of 18 rows, opus 6 of 9 exact (3 with fewer pins) with two new readings: a run of pseudo-calls
+  after a small `if` chain is often gcc's `switch` dispatch (write the `switch`; case ORDER decides whether jump.c
+  inverts a pair), and a switch whose table sits in the same TU's `.rdata` is spelled as a computed goto today
+  because the assembler front end expands the local-label table load one word longer than retail
+  (`work/maspsx_jtbl/`, under test against genuine ASPSX; 317 files carry a computed-goto table).
+- Opus lever notes from the fence rows: a split compound assignment or a free width-narrowing self-assignment lifts
+  a value's allocation rank by one `floor_log2(refs)` step; reusing a variable for an earlier value in the same loop
+  blocks `loop.c`'s hoist so the value dies between two calls; compute the priority gap before spending a
+  declaration-order candidate (it settles ties only).
+
 Twenty-fifth round, part 8, gated (15 windows MATCH, SLUS SHA-1 MATCH): **7,559 pins in 1,388 rows**. Big register
 rows (9-30 pins, every site diagnosed): sol improved 9 of 24 rows, opus 3 of 8 on its first pack (13 pins) with a
 new rule, FAMILY ERASURE: register pins naming the same hard register are a unit, because any sibling pin keeps

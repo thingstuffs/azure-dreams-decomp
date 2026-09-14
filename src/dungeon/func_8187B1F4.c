@@ -90,7 +90,8 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     register u8 *model_matrix_ptr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *transform_matrix;
     GlobalState **global;
-    register GlobalState *state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register GlobalState *state;
+    GlobalState *tag_state;
     u8 *ordering_table;
     u8 *point_packet;
     u8 *draw_mode_packet;
@@ -195,11 +196,11 @@ loop:
                     (((S_8187B1F4_7 *)draw_mode_packet)->unk_00 & tag_length_mask) |
                     (((S_8187B1F4_5 *)((u8 *)VFIELD(scratch, void *, 0x24) +
                            VFIELD(scratch, u32, 0x100) * 4))->unk_00 & tag_addr_mask);
-                state = (GlobalState *)(VFIELD(scratch, u32, 0x100) * 4);
-                state = (GlobalState *)((u8 *)state +
+                tag_state = (GlobalState *)(VFIELD(scratch, u32, 0x100) * 4);
+                tag_state = (GlobalState *)((u8 *)tag_state +
                                         (u32)VFIELD(scratch, void *, 0x24));
-                ((S_8187B1F4_8 *)state)->unk_00 =
-                    (((S_8187B1F4_8 *)state)->unk_00 & tag_length_mask) |
+                ((S_8187B1F4_8 *)tag_state)->unk_00 =
+                    (((S_8187B1F4_8 *)tag_state)->unk_00 & tag_length_mask) |
                     ((u32)draw_mode_packet & tag_addr_mask);
                 point_count = ((S_8187B1F4_3 *)points)->unk_14;
             } else {

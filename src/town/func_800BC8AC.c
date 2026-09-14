@@ -94,7 +94,12 @@ void func_800BA00C(void *parent, void *position_data)
     register s32 angle_sector ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 sector_multiple;
     s32 parent_value;
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 callback_page;
+    u32 palette_base_page;
+    u32 params_page;
+    u32 sprite_page;
+    u32 extra_page;
+    u32 palette_page;
     s32 scale;
     s32 angle_offset;
     s32 depth;
@@ -134,15 +139,15 @@ void func_800BA00C(void *parent, void *position_data)
     quadrant = angle_sector - sector_multiple;
 
     part_index = 0;
-    page = 0x800C0000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    part_callback = (void *)(page - 0x629C);
-    page = 0x80080000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    palette = (Palette *)(page + 0x3160);
-    page = 0x800D0000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    part_params = (void **)(page + 0x1BCC);
+    callback_page = 0x800C0000;
+    ASM_KEEP(callback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    part_callback = (void *)(callback_page - 0x629C);
+    palette_base_page = 0x80080000;
+    ASM_KEEP(palette_base_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    palette = (Palette *)(palette_base_page + 0x3160);
+    params_page = 0x800D0000;
+    ASM_KEEP(params_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    part_params = (void **)(params_page + 0x1BCC);
     do {
         obj = func_8003FD64(0x136, (u8 *)parent - 0x20);
         if (obj != 0) {
@@ -182,12 +187,12 @@ void func_800BA00C(void *parent, void *position_data)
     } while (part_index < 4);
 
     part_index = 0;
-    page = 0x800C0000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    sprite_callback = (void *)(page - 0x6124);
-    page = 0x80100000;
-    ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    sprite_texture = (void *)(page - 0x75E4);
+    sprite_page = 0x800C0000;
+    ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    sprite_callback = (void *)(sprite_page - 0x6124);
+    sprite_page = 0x80100000;
+    ASM_KEEP(sprite_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    sprite_texture = (void *)(sprite_page - 0x75E4);
     brightness = 0x80;
     do {
         obj = func_8003FD64(0x36, (u8 *)parent - 0x20);
@@ -242,11 +247,11 @@ void func_800BA00C(void *parent, void *position_data)
         } while (0);
         (*(void * volatile *)((u8 *)entity + 0x9C)) = parent;
         (*(volatile s32 *)((u8 *)entity + 0x98)) = parent_value;
-        page = 0x80100000;
-        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        extra_page = 0x80100000;
+        ASM_KEEP_NV(extra_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         sprite = ((S_800BA00C_1 *)obj)->unk_0C;
-        page -= 0x75D8;
-        ((S_800BA00C_2 *)sprite)->unk_08.p = (void *)page;
+        extra_page -= 0x75D8;
+        ((S_800BA00C_2 *)sprite)->unk_08.p = (void *)extra_page;
         ((S_800BA00C_2 *)sprite)->unk_0E.u = 0x80;
         ((S_800BA00C_2 *)sprite)->unk_0D.u = 0x80;
         ((S_800BA00C_2 *)sprite)->unk_0C.u = 0x80;
@@ -286,14 +291,14 @@ void func_800BA00C(void *parent, void *position_data)
         ((S_800BA00C_2 *)sprite)->unk_1E = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_20 = 0x1000;
         ((S_800BA00C_2 *)sprite)->unk_1A.u = ((S_800BA00C_0 *)parent)->unk_66.u;
-        page = 0x80080000;
-        ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        page += 0x3160;
-        palette_red = ((S_800BA00C_4 *)((u8 *)page))->unk_A8;
+        palette_page = 0x80080000;
+        ASM_KEEP(palette_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        palette_page += 0x3160;
+        palette_red = ((S_800BA00C_4 *)((u8 *)palette_page))->unk_A8;
         ((S_800BA00C_2 *)sprite)->unk_0C.u = palette_red;
-        palette_green = ((S_800BA00C_4 *)((u8 *)page))->unk_A9;
+        palette_green = ((S_800BA00C_4 *)((u8 *)palette_page))->unk_A9;
         ((S_800BA00C_2 *)sprite)->unk_0D.u = palette_green;
-        palette_blue = ((S_800BA00C_4 *)((u8 *)page))->unk_AA;
+        palette_blue = ((S_800BA00C_4 *)((u8 *)palette_page))->unk_AA;
         ((S_800BA00C_2 *)sprite)->unk_0E.u = palette_blue;
         obj = ((S_800BA00C_1 *)obj)->unk_08.p;
         ((S_800BA00C_2 *)sprite)->unk_08.i = 0x19;

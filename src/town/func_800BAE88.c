@@ -23,6 +23,8 @@ s32 CheckBuildBuildingLandNo(s32 entry_id, s8 *slots_out) {
     u8 *entry;
     u8 *entry_table;
     s32 slot_count;
+    register u32 selected_id ASM_REG("$4");
+    s32 entry_offset;
 
     slot_out = slots_out;
     raw_entry_id = entry_id;
@@ -61,7 +63,6 @@ case_4_8:
         u8 *filter_entry;
         u8 *slot_table_base;
         u8 *slot_row;
-        register u32 selected_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 slot;
         u32 slot_offset;
 
@@ -107,14 +108,13 @@ case_4_8:
 case_16:
     {
         u8 *selected_entry;
-        register u8 *entry_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         u32 selected_id;
         register u32 link_id ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        entry_base = D_800D2EA4 - 0x860;
+        entry_offset = (u32)(D_800D2EA4 - 0x860);
         selected_id = (u8)raw_entry_id;
         selected_entry = (u8 *)(selected_id << 5);
-        selected_entry = (u8 *)((u32)selected_entry + (u32)entry_base);
+        selected_entry = (u8 *)((u32)selected_entry + entry_offset);
         link_id = selected_entry[6];
         if (link_id == 0) {
             goto case_default;
@@ -150,10 +150,8 @@ case_1:
         u8 *slot_data;
         u8 *slot_table_base;
         u8 *slot_row;
-        register u32 selected_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 slot ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 slot_index;
-        register u32 entry_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         u32 row_offset;
         u8 primary_id;
         u32 secondary_id;

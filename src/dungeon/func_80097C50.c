@@ -62,15 +62,16 @@ void func_8009D3B0(void) {
     u8 *tile_or_map;
     u8 *grid_config;
     register s32 tile_index_or_level ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *status_or_level ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *status_base;
+    u8 *region_table;
     s8 region_index;
 
     tile_or_map = &D_80088CB0;
     map_params = *(UA64 *)tile_or_map;
     tile_index_or_level = (s32)&D_80083160;
     grid_config = (u8 *)tile_index_or_level + 0x1DC;
-    status_or_level = D_80082E80;
-    region_index = ((s8 *)status_or_level)[0x26];
+    status_base = D_80082E80;
+    region_index = ((s8 *)status_base)[0x26];
     if (region_index >= 0) {
         register u8 *region ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u8 *grid;
@@ -83,8 +84,8 @@ void func_8009D3B0(void) {
         s32 excluded_tile_type;
         register s32 packed_levels ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_index_or_level = region_index * 0x14;
-        status_or_level = (u8 *)D_800E2970;
-        region = tile_index_or_level + status_or_level;
+        region_table = (u8 *)D_800E2970;
+        region = tile_index_or_level + region_table;
         tile_index_or_level = ((S_8009D3B0_0 *)region)->unk_02 - 1;
         y = tile_index_or_level;
         x_sum = ((S_8009D3B0_0 *)region)->unk_00 + ((S_8009D3B0_0 *)region)->unk_04;
@@ -124,10 +125,10 @@ scan_tile:
                         ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                         tile_index_or_level = ((S_8009D3B0_2 *)tile_or_map)->unk_02;
                         tile_or_map = (u8 *)(map_index + (s32)map);
-                        status_or_level = (u8 *)((s16)(tile_index_or_level + 0x200) / 64);
-                        tile_value = (s32)status_or_level;
+                        packed_levels = (s16)(tile_index_or_level + 0x200) / 64;
+                        tile_value = packed_levels;
                         do {
-                            tile_index_or_level = (s32)status_or_level;
+                            tile_index_or_level = packed_levels;
                         } while (0);
                         if (tile_index_or_level >= 0x10) {
                             tile_value = 15;
@@ -178,7 +179,7 @@ advance_y:
         u8 *grid;
         u8 *map;
         x_end_or_neighbor = 7;
-        position = status_or_level;
+        position = status_base;
         x_offsets = D_8006CCD8;
         y_offsets = D_8006CCE8;
         grid = D_800EA000;
@@ -198,10 +199,10 @@ scan_neighbor:
                 ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 tile_index_or_level = ((S_8009D3B0_2 *)tile_or_map)->unk_02;
                 tile_or_map = (u8 *)(map_index + (s32)map);
-                status_or_level = (u8 *)((s16)(tile_index_or_level + 0x200) / 64);
-                neighbor_value = (s32)status_or_level;
+                neighbor_packed_levels = (s16)(tile_index_or_level + 0x200) / 64;
+                neighbor_value = neighbor_packed_levels;
                 do {
-                    tile_index_or_level = (s32)status_or_level;
+                    tile_index_or_level = neighbor_packed_levels;
                 } while (0);
                 if (tile_index_or_level >= 0x10) {
                     neighbor_value = 15;

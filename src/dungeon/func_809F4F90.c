@@ -149,7 +149,8 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     void *motion;
     void *tile;
     void *actor;
-    register u8 *x_step_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *x_step_entry;
+    u8 *x_step_base;
 
     action = action_in;
     motion = motion_in;
@@ -166,8 +167,8 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     x_step_entry -= 0x3328;
     heading_byte = heading_raw >> 8;
     direction_offset = heading_byte & 0xE;
-    ASM_KEEP(direction_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    x_step_entry = (u8 *)((az_uptr)direction_offset + (az_uptr)x_step_entry);
+    x_step_base = x_step_entry;
+    x_step_entry = (u8 *)((az_uptr)direction_offset + (az_uptr)x_step_base);
     x_step = *(s16 *)x_step_entry;
     y_step = *(s16 *)(direction_offset + (u8 *)D_8006CCE8);
     ((S_80172790_1 *)action)->unk_96.s--;

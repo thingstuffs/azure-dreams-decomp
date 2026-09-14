@@ -41,10 +41,9 @@ void func_80040C08(void)
     State *state_ptr = &D_80082E60;
     State *reset_state;
     s32 saved_data_addr;
-    register s32 buffer_size ASM_REG("$4");
+    register s32 buffer_size;
     s32 next_mode;
     u8 current_mode;
-    u8 selected_mode;
     u8 flags;
 
     saved_data_addr = D_8008148C.field_0;
@@ -70,11 +69,11 @@ void func_80040C08(void)
     }
     state_ptr->field_B = next_mode;
     reset_state = &D_80082E60;
-    selected_mode = reset_state->field_B;
+    buffer_size = reset_state->field_B;
     flags = reset_state->field_F;
     reset_state->field_D = 0;
     reset_state->field_C = 0;
     reset_state->field_18 = 0;
     reset_state->field_F = flags & 0x7E;
-    func_80040CBC(selected_mode);
+    func_80040CBC(buffer_size);
 }

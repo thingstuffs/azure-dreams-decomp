@@ -86,8 +86,7 @@ void *func_800243B8(Rec_func_800243B8_arg0 *source, S_800243B8_3 *start, S_80024
     S_800243B8_1 *data;
     S_800243B8_5 *sprite;
     S_800243B8_6 *position;
-    register void *result;
-    register s32 start_z ASM_REG("$4");   /* Register pin retained: removing it adds an instruction. */
+    register s32 start_z;
 
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
@@ -162,10 +161,8 @@ void *func_800243B8(Rec_func_800243B8_arg0 *source, S_800243B8_3 *start, S_80024
         position->unk_00 = start->unk_00;
         position->unk_04 = start->unk_04;
         start_z = start->unk_08;
-        result = obj;
         position->unk_08 = start_z;
-    } else {
-        result = NULL;
+        return obj;
     }
-    return result;
+    return NULL;
 }

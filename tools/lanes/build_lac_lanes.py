@@ -53,6 +53,8 @@ def retail_words(fam, foff, size):
 
 def sites(rid, text):
     r = R[rid]
+    if r.get("size") is None or r.get("foff") is None:
+        return None
     fam, foff, size = r["container"], int(r["foff"]), int(r["size"])
     g = region_of(fam, foff)
     if g is None:

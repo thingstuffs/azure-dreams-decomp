@@ -148,9 +148,8 @@ s32 func_8002222C(void *first_entry) {
         ((S_8002222C_2 *)line_packet)->unk_10 = packet_word;
         {
             s32 min_depth;
-            register u32 first_depth ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            first_depth = ((S_8002222C_4 *)depths)->unk_00;
-            bucket_addr = first_depth << 0x10;
+            result = ((S_8002222C_4 *)depths)->unk_00;
+            bucket_addr = result << 0x10;
             min_depth = ((S_8002222C_4 *)depths)->unk_02 << 0x10;
             if (bucket_addr < min_depth) {
                 min_depth = bucket_addr >> 0x13;
@@ -167,9 +166,10 @@ s32 func_8002222C(void *first_entry) {
         packet_word &= addr_mask;
         link_word |= packet_word;
         ((S_8002222C_2 *)line_packet)->unk_00 = link_word;
+        bucket_or_next = (s32)*arena_ptr;
         {
-            register s32 arena_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            arena_addr = (s32)*arena_ptr;
+            s32 arena_addr;
+            arena_addr = bucket_or_next;
             bucket_or_next = bucket_addr + arena_addr;
         }
         packet_word = ((S_8002222C_6 *)bucket_or_next)->unk_B0;

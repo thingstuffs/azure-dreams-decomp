@@ -33,11 +33,11 @@ extern char *D_800713F8[];
 /* Selects item text or a fallback, adjusts its special suffix, and passes it to func_8004DD2C. */
 s32 func_80049374(Item *item, StrPair *fallbacks) {
     char *item_text;
+    s32 item_id;
     s32 record_words;
     CatEnt *category;
     CatEnt *category_table;
     s32 category_id;
-    s32 item_id;
 
     if ((item == 0) || (item->unk1 == 0)) {
         item_text = fallbacks->unk4;
@@ -56,15 +56,11 @@ s32 func_80049374(Item *item, StrPair *fallbacks) {
             record_words = item_id * 2;
         }
         record_words = record_words + item_id;
-        /* Pin scale/record_addr to $v1 so final addu is addu v1,v1,v0 (not addu v0,v0,v1) */
-        {
-            register s32 record_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            record_addr = record_words;
-            record_addr = record_addr * 4;
-            record_addr = record_addr + (s32)category->records;
-            item_text = *(char **)(record_addr + 8);
-        }
-        if ((item->unk1 == 0x13) && (func_8004928C(item) != 0)) {
+        record_words = record_words * 4;
+        record_words = record_words + (s32)category->records;
+        item_text = *(char **)(record_words + 8);
+        record_words = item->unk1;
+        if ((record_words == 0x13) && (func_8004928C(item) != 0)) {
             strcpy(D_80083D38, item_text);
             strcpy(rindex(D_80083D38, 0) - 0x12, D_800713F8[0]);
             item_text = D_80083D38;

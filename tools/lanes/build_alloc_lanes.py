@@ -52,6 +52,7 @@ TRACES = ALLOC / "scratch/trace_population"
 HELDOUT = ("heldout_h1_census_rows.txt", "heldout_h2_population_rows.txt")
 UNRESOLVED = "global-competition-or-scan-unresolved"
 FENCES = ("ASM_SCHED_BARRIER", "ASM_MEM_BARRIER")
+ALLOW_FENCES = False   # --allow-fences: serve rows that also carry a fence (rows.md notes it)
 
 # One or two reasons per pack, in order; a row goes to the FIRST pack whose stratum it matches.
 STRATA = [
@@ -266,7 +267,7 @@ def collect(per_stats, max_pins=3, exclude=(), traces=TRACES, min_pins=0):
                "npins": len(sites), "size": r["size"],
                "reasons": set().union(*[site_reasons(st) for _, _, st in regs]) if regs else set()}
         pool.append(rec)
-        if any(s[1] in FENCES for s in sites):
+        if any(s[1] in FENCES for s in sites) and not ALLOW_FENCES:
             per_stats["live fence site"] += 1
             rec["skip"] = "fence"
             continue
@@ -354,6 +355,7 @@ def main():
     ap.add_argument("--no-verify", action="store_true", help="do not check each base is exact")
     ap.add_argument("--max-pins", type=int, default=3, help="admit rows with at most this many pin sites (default 3)")
     ap.add_argument("--min-pins", type=int, default=0, help="admit rows with at least this many pin sites (big-row packs)")
+    ap.add_argument("--allow-fences", action="store_true", help="admit rows that also carry a live fence site")
     ap.add_argument("--traces", default=str(TRACES),
                     help="directory of per-row trace files to read (default: the alloc_astra lane's "
                          "scratch/trace_population)")
@@ -363,6 +365,8 @@ def main():
                     help="NEW=STRATUM[,NEW=STRATUM...]: build a pack named NEW from STRATUM's rows (alloc1-4 are "
                          "the strata); packs sharing a stratum take successive slices")
     a = ap.parse_args()
+    global ALLOW_FENCES
+    ALLOW_FENCES = a.allow_fences
     alias = dict(x.split("=") for x in a.alias.split(",") if x)
     for name in a.lanes:
         if alias.get(name, name) not in dict(STRATA):

@@ -12,7 +12,7 @@ extern Callback_800128C8 D_800200A8[4];
 // Copy the callback table locally and invoke the callback selected by the object.
 void func_800258C8(Object_800128C8 *object)
 {
-    register u32 callback_table_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 callback_table_base;
     Callback_800128C8 *callback_table;
     Callback_800128C8 callbacks[4];
     register Callback_800128C8 copied_callback ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -20,7 +20,7 @@ void func_800258C8(Object_800128C8 *object)
     Callback_800128C8 third_callback;
 
     callback_table_base = 0x80020000;
-    ASM_KEEP(callback_table_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(callback_table_base);
     callback_table = (Callback_800128C8 *)(callback_table_base + 0xA8);
     ASM_KEEP(callback_table);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     copied_callback = callback_table[0];
@@ -31,5 +31,6 @@ void func_800258C8(Object_800128C8 *object)
     callbacks[2] = third_callback;
     copied_callback = callback_table[3];
     callbacks[3] = copied_callback;
-    callbacks[object->callback_index](object, second_callback, third_callback, callback_table);
+    callback_table_base = object->callback_index;
+    callbacks[callback_table_base](object, second_callback, third_callback, callback_table);
 }
