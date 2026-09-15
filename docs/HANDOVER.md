@@ -23,6 +23,44 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-ninth round (2026-09-15, afternoon), gated (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows** (6,850 at start, -377; -733 since the morning: `t64_varset`
+over the rest of the tree 82 rows / 123 pins, the `t66_sameregmerge` openings 68 + 28 rows / ~150 pins, `t67_tailform` 30
+rows, the cascades ~45, one hand port). The owner: "mechanical approaches are still viable ... keep evaluating what works
+and what doesn't to build on the good and prevent or address the bad". **Read `docs/PIN_MECHANISMS_20260912.md` "Round 29";
+the verdicts:**
+- **What worked, twice more: open the refusals of a paying generator before building a new one.** t66's two largest refusal
+  classes were spelling problems (a host name that collides, a use inside a macro argument); opened with a per-slot
+  classifier of macro parameters (a NAME slot - `M2C_FIELD`'s type, `ZONE_OF`'s member - is never renamed), they paid 68 of
+  110 rows in evaluation and 28 more in the forced tree sweep. Cheaper than any new generator this round.
+- **The band the search worked hardest paid least.** t64 over the near band 4.7%, over the rest of the tree 10.7% (82 rows /
+  123 pins). Sweep new generators over the WHOLE tree first, not the near band; and run Python-bound generators with
+  `--processes` (threads crawled at 5 rows a minute under the GIL, processes ran 35).
+- **Two clean negatives, recorded so nobody repeats them.** (1) Exhaustive depth-2 over the current menu (`T64_BEAM=64`,
+  20,000 screens a row) on eight one-line near misses: 0 of 8, three rows exhausting the whole menu - the near band's
+  last line needs moves the menu lacks, at depth 2 as at depth 1. (2) The tail forms: the control-flow inventory of the
+  lane diffs (TAILMERGE 35/30/36, TAILDUP 19/15/27 of the register/keep/fence diffs with a control-flow change) named
+  them the largest unserved class, and `t67_tailform` measured the label away: `jump.c`'s `cross_jump` canonicalises
+  92% of tail sinks and 79% of label duplications to a byte-identical listing, so the inventory counted co-occurrence, not
+  mechanism. It still pays where the arms differ above the tail (30 of 764 swept rows, 3.9%) and is kept as a small
+  generator. Lesson for the inventories: a class counted from diffs must be checked against the pass dumps before it
+  is briefed as a mechanism (`reach.py`'s delta and `sched_trace` dumps are the check; both took the implementer an hour).
+- **The pack-rule harvest is text, not evidence.** 920 "generator rule" lines from 88 packs cluster by vocabulary, not by
+  move; the one recurring move outside the menu (tail duplication) was the one that measured away. The pack diffs (what
+  `build_exemplars.py` collects) are the evidence; the sentences are not.
+- **Model usage this round:** one opus Workflow `r29_tail_samereg2.js` 6 agents / 1.59M subagent tokens / 158 min (two
+  implementers -> two adversarial reviewers -> two fixes; every reviewer found blocking defects again: name-slot macro
+  parameters, multi-line macro arguments, a braceless-if anchor, whitespace-stripped run equality, a one-sided scope
+  check); no codex lanes, no astra/luna/agy. CPU: the t64 tree sweep 45 min, the beam-64 pilot ~5 h, the forced t66 sweep
+  under a minute, the t67 sweep 8 min, three cascades, one gate. Round total across 28 + 29: three opus workflows ~5.4M
+  tokens for six tools, of which two paid 200+ pins each (t66 and its openings), one ~180 (t64), three measured a class
+  out (t65, t67 mostly, the pilot).
+- **Next, in order:** (1) the refusal tables of t64 (`work/native_lane/r28_dev/evidence/*/`) and t67 read the way t66's were:
+  which refusal has the most pins behind it and is a spelling problem; (2) t66's `interference` class - the reviewer's
+  def-over-live-out edge is real, but a split of the LATER variable (t64 `split_def`) before the merge may open it: a
+  composed move t64 -> t66 at depth 2 on the family rows (`work/native_lane/r28_samereg/rows/`); (3) the
+  assembler-side residues (`d0 == 0` at cc1: delay-slot fills, fences) need a screen that sees maspsx's output - a
+  `screen_s` through `tools/maspsx/maspsx.py` + as, then the fence family again with it; (4) packs only from `pools.py`.
+
 Twenty-eighth round (2026-09-15), gated twice (109 + 28 windows MATCH, the search's window, SLUS SHA-1 MATCH): **6,850 pins in
 1,338 rows** (7,206 at start, -356: the `t66_sameregmerge` tree sweep 127 rows / 238 pins, its cascade 44, the `t64_varset`
 lane outputs 12 rows / 21 pins and its sweep over the 513 near-band rows 24 rows / 38 pins (13 minutes with `--processes`;

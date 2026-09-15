@@ -18,3 +18,10 @@ those before reuse. Launched with `Workflow({scriptPath})` so the file in this d
 `r28_samereg.js` (the same round): one implementer, one adversarial reviewer, one fix - the single-generator template (t66_sameregmerge,
 the probe4 sol pack's move as a generator; 3 agents / 672k tokens / 89 min; its sweep removed 238 pins). Its MECHANISM block was
 written from the pack's REPORT.md and diffs within the hour: the pattern to repeat whenever a pack wins several rows by one move.
+
+Round 29 added `r29_tail_samereg2.js`: the two-item pipeline again (item A a new generator, `t67_tailform`; item B an OPENING of
+an existing one, the two largest refusal classes of `t66_sameregmerge`, with the implementer owning that file for the run).
+Usage 6 agents / 1.59M subagent tokens / 158 min. Item B paid (68 rows / 131 pins on the rows the refusals had named); item A
+measured its own mechanism away (jump.c's cross_jump canonicalises most tail moves) and is kept as a small generator with the
+finding in its docstring. The EVIDENCE blocks name `work/native_lane/r29_tail/` (row lists, the exemplar corpus, the
+control-flow inventory from `tools/lanes/ctrlmoves.py`): rebuild them before reuse.

@@ -1834,3 +1834,45 @@ nothing points at a session scratchpad.
   cascade 3, second gate 28 windows MATCH: **6,850 pins in 1,338 rows** (-356 for the round). The non-mips preprocessor arms
   of every landed row were compared before and after both landings (9 + 5 rows carry `__mips__`): none differ. `probe4`'s seven outputs were stale by the time
   the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
+
+## Round 29 (2026-09-15): the control-flow inventory, t66's openings, the tail forms, and two clean negatives
+
+Started at b17cbf57 (6,850 pins in 1,338 rows) on the owner's "keep going, keep evaluating what works and what doesn't".
+Measured first, all CPU or text:
+
+- **The pack-rule harvest** (every sol/luna pack's closing "generator rule" lines, 920 of them, 411 on exact rows): free
+  text, dominated by lifetime / reuse / split / order / pointer words; the only recurring move outside the menu was tail
+  duplication and return splitting (alloc46, 53, 67, 75). No second crisp move of t66's kind.
+- **The control-flow inventory** (`tools/lanes/ctrlmoves.py` over the lane-won diffs with a control-flow change, REG 76 /
+  KEEP 64 / FENCE ~62): TAILMERGE 35/30/36, TAILDUP 19/15/27, LOOPFORM 35/19/10 (t41/t44), RETSPLIT 17/17/6, GOTO2RET
+  9/4/8 (t48), ARMSWAP 9/4/5, EARLYRET 6/9/4, other 35/39/30. `dungeon/func_81257000` was tail-merged by one lane and
+  tail-duplicated back by a later one - both directions are real moves, and (see t67 below) mostly byte-neutral.
+- **t64_varset over the rest of the tree** (`--processes`, 45 minutes): **82 rows / 123 pins, 10.7% of the 768 eligible rows
+  outside the near band** against 4.7% on the near band itself - the band the search had worked hardest paid least, which
+  is the same fact as round 27's "menu-limited" read from the other side. The cascade added 28 (t66 7 rows, t53k 4, t63 3).
+  With `--workers` threads the sweep crawled at 5 rows a minute (reg_state parsing under the GIL); worker processes ran it
+  at ~35.
+- **The exhaustive depth-2 pilot is a clean negative.** `T64_BEAM=64 T64_SCREENS=20000` on eight near-miss rows whose
+  nearest candidate sat one line from retail: **0 of 8**, three rows exhausting t64's whole bounded menu at depth 2 before the
+  cap, the nearest candidate still at distance 1 on seven, ~5 h of CPU. Round 27's deep-beam verdict now holds at depth 2:
+  the near band's last residual line needs a move the menu lacks, not a wider expansion of it. Do not re-run wider.
+- **t66's two refusal classes opened** (opus workflow item, reviewed: 68 rows / 131 pins on the 110 rows the refusals had
+  named, the reviewer's own 20 rows 8 of 20 / 12 pins): `host-name-collision` cleared by renaming the surviving variable
+  (a local's name is byte-neutral), `in-macro-arg` cleared by renaming inside macro arguments except the pin binding
+  itself and any macro that stringifies its parameter (none in include/). The reviewer's blocking defect: a macro whose
+  parameter is a member or type name, not a value; and a multi-line macro argument invisible to the one-line matcher.
+- **t67_tailform** (dup_label, sink_tail, hoist_tail, merge_runs, split_ret on a statement CFG): **6 of 238 eligible
+  control-flow-noted rows (8 pins), 2 of 74 near-band keeps.** The mechanism finding explains the rate and re-reads the
+  inventory: under `-da`, every tail move is expressed at `.rtl` and `jump.c`'s `cross_jump` canonicalises it away at
+  `.jump` or `.jump2`, so 92% of `sink_tail`, 79% of `dup_label` and 61% of `split_ret` rewrites give a byte-identical cc1
+  listing - the TAILDUP/TAILMERGE labels in the lane diffs are mostly co-occurrence with the real move (a fusion, a
+  declaration merge), not mechanism. The moves pay only where the arms differ above the tail so the identical-tail test
+  fails after the copy (`town/func_80818C8C`, 5 -> 2). On the exemplar corpus t67 reaches 1 of 120 tail-labelled diffs
+  exactly and gets 47 closer. A second class is out of reach by policy: where the lone erasure is already cc1-identical
+  (`d0 == 0`: 11 of 685 plans, and the ten nearest misses), the residue is assembler-side (a delay-slot fill, a fence) and no
+  cc1-screened candidate can rank it - the screen is blind there and only vf could tell, at six calls a row.
+- `dungeon/func_809F90DC`: the probe4 output three-way merged onto the swept text by hand, exact at 15 pins.
+- **Landed and gated** (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows**, from 6,850 (-377: t64 tree 123, the
+  t66 openings ~150 across the evaluation outputs and the forced sweep's 28 rows, t67 30 rows, three cascades, the port).
+  The non-mips preprocessor arms of every changed row were compared before and after: none differ. Since the morning's
+  7,206: **-733 in one day**, of which one mechanism family (same-register merges and their openings) is ~520.
