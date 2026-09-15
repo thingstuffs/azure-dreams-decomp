@@ -161,6 +161,12 @@ def prepare(a):
                 objective="fences" if a.mode == "fences" else "pins",
                 fallback=getattr(a, "fallback", DEFAULTS["fallback"]),
                 families_only=getattr(a, "families_only", False))
+    # The beam's own limits (round 27): every earlier budget escalation raised the ROW budgets and left
+    # the per-group screen cap at 240, which ends each group's beam at depth ~1.7 of 3. These are part
+    # of the fingerprint (options), so a change needs a new tag, as any budget change does.
+    for key in ("group_screens", "depth", "beam", "band"):
+        v = getattr(a, key, None)
+        if v is not None: opts[key] = v
     manifest = dict(schema=1, created=utc(), tag=a.tag, rows=records, options=opts,
                     modes=["baseline", "targeted"] if a.pilot else [a.mode],
                     environment=POLICY_ENV, fingerprints=fingerprints([r for r, _ in chosen]))
@@ -504,6 +510,10 @@ def main():
     ap.add_argument("--pilot",action="store_true");ap.add_argument("--ids");ap.add_argument("--mode",choices=["targeted","baseline","fences","erasures"],default="baseline")
     ap.add_argument("--screens",type=int,default=1200);ap.add_argument("--verifies",type=int,default=12);ap.add_argument("--cpu-seconds",type=float,default=40)
     ap.add_argument("--fallback",type=int,default=2,choices=range(0,3),help="near-screen full-verifier allowance per row")
+    ap.add_argument("--group-screens",dest="group_screens",type=int,help="screens per pin group (default 240: ends the beam at depth ~1.7)")
+    ap.add_argument("--depth",type=int,help="beam depth (stacked shapes on one erasure; default 3)")
+    ap.add_argument("--beam",type=int,help="beam width (lowest-diff texts expanded per depth; default 4)")
+    ap.add_argument("--band",type=int,help="search a group only when its erased listing is within this many changed lines (default 30)")
     ap.add_argument("--families-only",action="store_true",help="erasures: full set, variable groups and macro families only")
     ap.add_argument("--replay-commit",default="c35efafb")
     ap.add_argument("--defer",action="append",default=[],metavar="ROW_ID",

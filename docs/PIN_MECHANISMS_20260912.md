@@ -1657,3 +1657,61 @@ diagnosed luna packs).
   change, an INDEX with the generators journaled for each row), `tools/alloc_trace.py` (the observer),
   `tools/lanes/build_alloc_lanes.py` with `alloc_lane_brief.md` (diagnosed register packs by allocator
   reason). All three were written by opus workflow agents from a specification.
+
+## Round 27 (2026-09-15): the search is menu-limited, the lane ledger and pool table, and the MEM_IN_STRUCT_P lever
+
+Started at d7a6d7dd: **7,253 pins in 1,354 rows** (REG 3,622 = 50%, KEEP+KEEP_NV 2,592, fences 409). The owner asked for a
+critical review of the approach, new mechanisms (long CPU jobs welcome if they pay), and less model spend, with tooling
+built by opus workflows and reviewed here. What was measured, in the order it changed the plan:
+
+- **The CPU search was never budget-limited by the beam; it is menu-limited.** Every earlier `pin_search` escalation
+  (4x, 16x: rounds 15-17) raised the ROW budgets (screens, verifies, CPU) and left the per-group cap `group_screens` at
+  240, which ends each pin group's beam at depth ~1.7 of 3 (menu mean 62 candidates, beam 4). `prepare` now takes
+  `--group-screens/--depth/--beam/--band`. The pilot `deep_pilot_r27_20260915` (39 near-band rows, beam 16, 2,400
+  screens per group, 62,492 compiles in 20 minutes): **0 pins; 37 of 39 rows exhausted their candidate space at ~1,100
+  distinct texts, and not one group came closer than under the 240 cap.** The reachable candidate set is small and
+  flat. A longer job with the current menu is pointless; only a new move kind can pay.
+- **The near band, read from the last full run (`changed_r26_20260915`, 368 rows):** 43% of single-pin erasures land
+  within 4 assembly lines of retail (482 of 1,129 groups), and in 76% of groups the beam never got closer than the bare
+  erasure. Classifying those 463 near residues by content: **66% contain no load or store at all** (an ALU instruction
+  or a copy moved, renamed or dropped), 20% mixed, 14% memory-only; by shape: pure reorder 44%, register rename 23%,
+  other 33%; keeps are 57% of the band. A `KEEP` is `asm volatile("" : "=r"(v) : "0"(v))`: it forces the value into a
+  register at that point, splits its pseudo, and is a full memory fence; a `KEEP_NV` only splits the pseudo. The
+  residues match: `move $2,$5; sw $2` becoming `sw $5` (the keep held a copy), `rem $3 -> rem $2` (a temp changed
+  register), `li $2,1` moved (the keep held an order).
+- **What the lane wins actually did** (`build_exemplars.py`, 763 REG / 501 KEEP / 177 FENCE landed diffs over the last
+  60 commits, split by the journal into lane-won and generator-won; a hunk classifier over the lane-won half): REG
+  lanes removed a declaration in 61% of diffs and added one in 46% (a lifetime split, a merge onto an existing host, a
+  rename with a new type), rewrote statements in 48%, changed control flow in 17%; a pure width change alone was 9%.
+  KEEP and FENCE lanes look the same with more control flow (29%, 35%). Median diff 5-15 changed lines. A text-only
+  replay of the engine's whole menu on 120 lane-won pre-fix texts (`scratchpad/reach_lane.py`, token distance to the
+  landed text, renames counted against it) reached the landed text at depth 1 on **1 of 120**; 29 rows had any
+  candidate reduce the distance (median reduction 0%, mean 5%), 6 had one that covered half of it (the closest
+  families: dropcopy 9, basesym 4, host 3): the menu does not contain the lanes' moves, and t53's journal says the same from the other side (it ran out of candidates on 82% of its rows and
+  its candidates improved the assembly distance on a third of sites without ever reaching zero).
+- **The lane ledger and the pool table** (`tools/lanes/ledger.py`, `tools/lanes/pools.py`; opus-built, opus-reviewed,
+  reviewed here): 184 lanes, 1,560 rows served, 716 exact, 498 landed, 510 pins by the lanes' own outputs (the cascade
+  after each landing is not in that number). By tier and family: opus LAC 73% (15 rows), astra LAC 71% (7), sol LAC 40%
+  (128), sol REG 31% (435), luna REG 19% (275), luna FENCE 16% (365), luna KEEP 5% (80), sol SWITCH 1% (80), agy REG 6%.
+  By register stratum: alloc2 conflict 39%, alloc5 scan-order 29%, alloc1 preference 24%, alloc4 coalesced 17%, alloc3
+  lifetime 15%. `--closed 0.2` names what no pack may be built on again: FAKEDEP, ARG, SWITCH, KEEP (4% over 92),
+  FENCE (15% over 385), REG alloc3 and alloc4. The pool table (every pinned row by family, stratum, band, served or
+  not, near band, and the rate measured on that stratum) shows REG unserved 132 rows / 697 pins, of which the paying
+  strata hold about 20 rows; KEEP unserved 178 rows / 489 pins on a family whose lanes pay 4%. The fresh-row pack
+  lever is measured out; the table is what says so before a pack is launched.
+- **A new lever, from the compiler source, proven by fixture (`tools/fixtures/memdep/run.sh`):** gcc 2.7.2 `sched.c`
+  815-880 (`true_dependence`, `anti_dependence`, `output_dependence`; byte-identical in 2.8.1) treat two memory
+  references that `memrefs_conflict_p` cannot separate as INDEPENDENT when one is a struct-member access through a
+  varying address (`MEM_IN_STRUCT_P`, mode not QImode) and the other a non-struct access at a fixed address (a bare
+  global scalar, a stack slot). `cse.c` (`invalidate`, 7571: a struct member or a varying sum "need not invalidate
+  scalar variables", QImode excepted) and `loop.c` (2682, the store table keyed on the flag) consult the same bit;
+  `expr.c` sets it for `COMPONENT_REF`, `ARRAY_REF` and an aggregate `INDIRECT_REF`, never for `*(T *)((u8 *)p + k)`
+  or `M2C_FIELD`. In every stock cell but 2.91.66 (haifa) the fixture's `p->a = v; return G;` emits the load FIRST
+  (the exemption fired and the scheduler hoisted it), while the same store spelled as a cast, or `G` spelled `H[0]` or
+  `GS.x`, keeps store-then-load. So the SPELLING of one access changes instruction order, surviving loads and hoisting
+  at identical address arithmetic. Twenty-six rounds never tested it and no generator flips a spelling; pinned rows
+  still carry 4,215 raw-cast accesses (577 rows / 3,835 pins). Its reach is bounded by the residue census above:
+  at most the 34% of near residues that contain a memory operation, plus the fence and CSE classes. `t63_memdep`
+  (opus, reviewed) is being built and evaluated on the near-band keep rows; two hand probes before it (an untargeted
+  flip of the nearest raw access at 26 keep sites; residue-directed flips at 40) changed the listing at one site and
+  were inconclusive because they resolved almost no struct types, which is what the generator is for.
