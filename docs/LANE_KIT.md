@@ -22,7 +22,9 @@ Round 25 added `build_exemplars.py --family REG|KEEP|FENCE --since <commit> --ou
 that lowered a family's count with a body change, with the generators journaled per row: the exemplar set a
 brief cites), `build_alloc_lanes.py` with `alloc_lane_brief.md` (diagnosed register packs: each row carries the
 stock allocator's actual reason for the pinned register, from `tools/alloc_trace.py`; the conflict and
-preference strata paid 33-42% on rows with 1-3 pins, 0-8% elsewhere; `--max-pins`, `--exclude`, `--as`), and the
+preference strata paid 33-42% on rows with 1-3 pins in round 25's luna packs; re-read from every lane directory in round 28,
+sol pays 37% on alloc1 and 56% on alloc2 rows with 4-8 pins, 37% on alloc1 rows with 9-20, and 9% on alloc1 rows with 2-3 -
+the 4-8 band pays best; `--max-pins`, `--exclude`, `--as`), and the
 observer `tools/alloc_trace.py` itself. A tool a lane builds is reviewed by an opus workflow against the
 failure list in "After it finishes" item 2 before it is copied (t61 had the lane-path import; t60 dropped a
 declaration's line remainder).
@@ -40,6 +42,16 @@ near band over every `pin_search` tag, probe knob class, and the rate measured o
 STRATUM --band 1-3 --unserved` feeds a builder; its TOTAL is asserted against the tree), and `tools/fixtures/memdep/`
 (the five-cell microcompile fixture for gcc 2.x's `MEM_IN_STRUCT_P` dependence exemption, the pattern item 4 below
 asks for). Rule since round 27: **a pack is launched from the pool table only, and never on a closed group.**
+
+Round 28 added `reach.py` (the depth-2, rename-invariant replay of the whole menu over the lane-won exemplar diffs: 13 of
+120 register texts reached where round 27's token-exact depth-1 replay reached 1 - run it with a new generator's candidates
+added BEFORE any sweep, and read its ranking audit: a two-move fix's first step sits in a valley under both the screen and
+the pass-stream distance), `declmoves.py` (the declaration-level inventory of what the lane diffs did: split, inline, merge,
+retype, control flow), and the rule the round's biggest win taught: **when a pack wins several rows by one move, write
+that move up as a generator the same day** (`probe4` 5 of 7 by a same-register merge -> `t66_sameregmerge`, 238 pins in a
+two-minute sweep over a population no pack would have finished). A generator built that way still needs the adversarial
+reviewer: t66's edited `#ifdef __mips__` arms, which `pin_census.arm_labels` cannot see (it labels only NON_MATCHING
+conditions), so every landing must compare the non-mips arms before and after (round 28 did, 0 of 142 rows differed).
 
 ## Before launch: give it everything it would otherwise fetch or rebuild
 

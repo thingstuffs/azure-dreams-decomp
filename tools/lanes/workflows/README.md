@@ -15,3 +15,6 @@ its own adversarial reviewer and fix stage, the implementers running in parallel
 module (a race). The EVIDENCE block names measurement files under `work/native_lane/r28_dev/` (the exemplar corpus from
 `build_exemplars.py`, `tools/lanes/reach.py` and `declmoves.py` outputs, frozen row lists from `pools.py --json`): rebuild
 those before reuse. Launched with `Workflow({scriptPath})` so the file in this directory IS the run's script.
+`r28_samereg.js` (the same round): one implementer, one adversarial reviewer, one fix - the single-generator template (t66_sameregmerge,
+the probe4 sol pack's move as a generator; 3 agents / 672k tokens / 89 min; its sweep removed 238 pins). Its MECHANISM block was
+written from the pack's REPORT.md and diffs within the hour: the pattern to repeat whenever a pack wins several rows by one move.
