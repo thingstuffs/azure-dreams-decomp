@@ -70,7 +70,13 @@ handover's maspsx-screen item died in 23 seconds (21 of 6,480 sites are cc1-invi
 address-materialisation pattern (231 sites) that no inventory of the lane diffs had. A refusal table is read the same way:
 `pairs_of` + `candidates_for` over every family row with a skips Counter (three lines) gave t66's table for the whole tree,
 and the largest class turned out to be a scan stopper hiding declarations, not a parser gap - read the CODE behind the
-largest count before writing the brief.
+largest count before writing the brief. And the round's largest lesson: **a program-level refusal can be a
+measurement of the wrong program** - t66's `interference` class (224 pairs, a real live-out edge at the C level) paid 37 of 43
+rows once the clashing pairs were simply offered under vf, because both variables share one hard register in a byte-exact row
+and the compiled program never holds both values; when a refusal argues from C semantics on m2c text, try it under the byte
+verdict on its whole population before composing a work-around. Landing pattern that held for rounds 29 and 30: lane outputs
+first (all fresh), then the forced tree sweep of the opened module (two passes), then `land_lanes.sh` for the cascade and the
+one gate; the arm check on every changed row before the commit.
 
 ## Before launch: give it everything it would otherwise fetch or rebuild
 

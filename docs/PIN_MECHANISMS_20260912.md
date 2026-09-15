@@ -1888,6 +1888,29 @@ Measured first (CPU, before any tool was commissioned):
   hosted in a real call-argument producer). 6 of 22 rows, 9 pins, ~50 min of sol each; the alloc3/alloc4 strata pay as the
   pool table said (15-17%) and no move repeats across the wins the way probe4's did - nothing new to write up as a
   generator. Their outputs land with the round's gate.
+- **The workflow (`r30_samereg3_addr.js`, 6 agents / 1.46M tokens / 142 min).** Item A, `t66_sameregmerge` openings v3:
+  `T66_DECL_RUN` (the declaration walk steps over an anonymous struct, a one-line label table, a multi-dimensional array),
+  `T66_ASM_OPERAND` (the bare surviving name inside an ASM_* argument), `T66_COMPOUND` (an assignment whose right side reads
+  V, a write through the pointer), `T66_INIT_PLACE` (the demoted assignment after the block's last declaration unless a
+  crossed initialiser mentions the pair, calls, or has a side effect), `T66_SHADOW` (the inner local renamed first), and
+  `T66_TRY_INTERFERENCE` (clashing pairs offered anyway; nested 452 / overlap 8 over the 138 family rows). Evaluation: 25 of
+  41 hidden-declaration rows / 53 pins, 21 of 29 form rows / 33 pins, **37 of 43 interference rows / 81 pins** (36% of the
+  nested candidates, 50% of the overlap ones, every verify exact); 20 round-29 rows with every opening off byte-identical
+  to the round-29 candidates, 110 of 110 frozen bases identical. The reviewer's three majors - a rename capturing a member
+  of an anonymous aggregate in the same declaration run, a crossed initialiser with a side effect, an ASM_* sub-expression
+  spelled bare - fixed at zero measured cost (133 of 133 row-slots identical after the fixes), 117 tests. Item B, the
+  address class: 20 of 20 sites at six cells first differ at `.cse` - `fold_rtx` folds the kept page plus its offset into one
+  CONST_INT; the `plus->ior` combine story of round 18 is not what these sites measure. 173 of the 231 addresses are named by
+  the row's own `extern`; t54 as shipped 1 of 100, t59 as shipped 0 of 100; t59 opened four ways (a self-advance `p = p + K`
+  as the symbol, a keep up to 8 lines from the definition, the `&D_X` spelling from the declaration, pointer scaling) offers
+  118 sites / 79 rows and lands **3 rows / 4 pins**; 15 more rows come back reorder-only at total <= 2, so what remains of
+  the class after respelling is the scheduling class. Three majors (braceless control flow accepted by `straight_line`, a
+  whole-line replacement span, the keep-gap loop without a structural test) fixed, 75 tests.
+- **Landed and gated** (64 windows MATCH, SLUS SHA-1 MATCH; non-mips arms identical on all 86 changed rows): **6,264 pins in
+  1,303 rows**, from 6,473 (-209): the t66 openings 148 pins / 73 evaluation outputs + 32 / 11 rows in the forced tree sweep
+  with `T66_TRY_INTERFERENCE=1` (two passes: 9 + 2 rows; the second pass paid on the `T66_VERIFY`-limited rows), t59 4 / 3
+  (its forced sweep added nothing), the packs 8 / 6, the cascade 17 (t53_reg_state 13, t53k 2, t63 2). The day, rounds 28-30:
+  7,206 -> 6,264 (-942), four opus workflows ~6.9M tokens, four sol packs.
 
 ## Round 29 (2026-09-15): the control-flow inventory, t66's openings, the tail forms, and two clean negatives
 

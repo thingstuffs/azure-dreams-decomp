@@ -23,16 +23,45 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
-Thirtieth round (2026-09-15, evening) - IN PROGRESS at the time of writing; if this paragraph is still here, the round did
-not close: check `git log`, `work/native_lane/r30_samereg3/REPORT.md`, `work/native_lane/r30_addr/REPORT.md`, probe5/probe6
-`last_message.txt`, and land what is exact (`tools/lanes/land_lanes.sh`, never while a codex lane scores). Measured first,
-recorded in `docs/PIN_MECHANISMS_20260912.md` "Round 30": the lone-erasure census (`tools/lanes/erase_census.py`, 23 s for the
-tree) closed the maspsx-screen item - 21 of 6,480 sites are cc1-invisible - and classified the 2,161 near residues (46% one
-instruction moved, 21% recoloured, 31% an operation changed, of which address materialisation 231 sites / 143 rows is the
-largest pattern); t66's refusal table over all 138 family rows named the openings (`decl-unparsed` 792 pairs is a scan stopper
-hiding declarations below an anonymous struct or a one-line label table; interference 224 pairs tried under vf); t67's skips
-are structural and t64 has no refusal table. Running: opus Workflow `tools/lanes/workflows/r30_samereg3_addr.js` (item A the
-t66 openings v3, item B the address class read against t54/t59), sol packs probe5 (12 rows) and probe6 (10 rows).
+Thirtieth round (2026-09-15, evening), gated (64 windows MATCH, SLUS SHA-1 MATCH): **6,264 pins in 1,303 rows** (6,473 at start, -209: the
+`t66_sameregmerge` openings v3 through the forced tree sweep 148 pins / 73 evaluation outputs + 32 pins / 11 rows more in the forced tree sweep with `T66_TRY_INTERFERENCE=1`, `t59_offsetsym` opened 4 pins / 3 rows (the forced sweep added none), the two sol packs 6 rows /
+9 pins, the cascades). The owner's standing instruction: continue the approach and next steps, keep evaluating what works and
+what doesn't. **Read `docs/PIN_MECHANISMS_20260912.md` "Round 30"; the verdicts:**
+- **Measure before commissioning, again - and this time in seconds.** `tools/lanes/erase_census.py` erases every live site
+  alone and screens it (23 s for the tree): the handover's maspsx-level-screen item died on the spot (21 of 6,480 sites are
+  cc1-invisible), and the near residues (2,161 sites within four lines) read as 46% one instruction MOVED (sched 276, dbr 188,
+  cse 152, sched2 132, combine 122, loop 100 by first differing pass), 21% RECOLOURED (the allocator class, bounded in rounds
+  26-28), 31% an operation changed - of which address materialisation (231 sites) was the largest pattern and became a
+  workflow item. Every brief this round carried its site list from the census.
+- **The largest refusal count is read in the CODE before it is briefed.** t66's tree-wide table put `decl-unparsed` first
+  (792 pairs / 41 rows / 797 pins); the declaration walk was stopping at an anonymous `struct {` or a one-line computed-goto
+  label table and hiding every declaration under it - a twenty-line fix, not a parser. Opened with the four spelling
+  refusals (`T66_DECL_RUN`, `T66_ASM_OPERAND`, `T66_COMPOUND`, `T66_INIT_PLACE`, `T66_SHADOW`) it paid 53 pins on the 41 hidden-declaration rows and 33 on the 29 form rows in evaluation.
+- **A program-level refusal can be a measurement of the wrong program.** t66's `interference` class (224 pairs / 43 rows /
+  899 pins) was thought real - the round-28 reviewer had shown a live-out edge. Tried under vf (`T66_TRY_INTERFERENCE`: both
+  variables share ONE hard register in a byte-exact row, so the compiled program never holds both values; the C-level clash
+  is the liveness over-approximating or an m2c artifact of one temporary per use), it paid **37 of 43 rows / 81 pins** in
+  evaluation - the largest single opening of the round (`dungeon/func_812A524C`: `event_x_1..11` on `$2`, 7 pins -> 2). The
+  byte verdict, not C semantics, decides what a refusal is worth: the composed t64->t66 split the handover proposed was never
+  needed.
+- **The address class was one mechanism and one spelling.** 20 of 20 probed sites at six cells first differ at `.cse`:
+  `fold_rtx` folds a kept page plus its offset into one CONST_INT; retail's `addiu` is what a relocatable `symbol + offset`
+  produces. The repair is "name the symbol" - the t29/t33/t54/t59 family's move - and t59 opened four ways pays 3 rows / 4 pins
+  of 100; what remains of the class after respelling is the scheduling class. A clean bound on a census-named pattern.
+- **Packs from the pool pay what the table says, and sol went to capacity.** probe5 (REG alloc3 4-8) 2 of 12, probe6 (REG
+  alloc4 2-3 / 4-8) 4 of 10 - 6 rows / 9 pins, no repeating move; both lanes died at "Selected model is at capacity" after
+  20 minutes and were relaunched (launch_lane.sh allows it: no `last_message.txt`), finishing on the second run.
+- **Model usage this round:** one opus Workflow `r30_samereg3_addr.js` 6 agents / 1.46M subagent tokens / 142 min (two
+  implementers -> two adversarial reviewers -> two fixes; every reviewer found three majors, all fixed at zero measured
+  cost); two sol packs (22 rows, ~50 min each after the relaunch); no astra/luna/agy. CPU: the erase census 23 s x 2, the
+  moved-class phase census 4 min, the t66 refusal census ~2 min, the sweeps and one gate. Day total across rounds 28-30:
+  four opus workflows ~6.9M tokens, 7,206 -> 6,264 = 942 pins.
+- **Next, in order:** (1) t51's refusal table on the 408 sched-moved sites (`scratch moved_phase.jsonl` -> a rows/sites list;
+  t51/t57/t63 do not journal refusals: add the Counter first, then read the largest count in the code, as with t66); (2)
+  the dbr class (188 sites: a fill moved into or out of a delay slot) against the pin notes' "delay-slot" rows - which C
+  shape decides reorg.c's fill, measured on 20 sites with `-da` before any brief; (3) t66's `type-mismatch-narrow`
+  (132 pairs / 46 rows / 433 pins) is the width rule, not an opening - leave it; `address-taken` (77 / 6) and
+  `loop-backedge` (24 / 5) are small; (4) packs only from `pools.py` - the alloc3/alloc4 strata are now served.
 
 Twenty-ninth round (2026-09-15, afternoon), gated (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows** (6,850 at start, -377; -733 since the morning: `t64_varset`
 over the rest of the tree 82 rows / 123 pins, the `t66_sameregmerge` openings through two tree sweeps 47 + 28 rows (the 90
