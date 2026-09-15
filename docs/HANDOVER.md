@@ -23,6 +23,18 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-sixth round, part 3, gated (38 windows MATCH, SLUS SHA-1 MATCH): **7,268 pins in 1,356 rows**, per-row flags
+391 -> 341 rows. **The flag census** (`tools/flag_census.py`, `ledger/flag_census.jsonl`; 405 flagged rows compiled from
+their current text at the same cell without the flag, 90 seconds of scorer time): 62 flags are REDUNDANT (the text is
+exact without them: `-fno-schedule-insns` 17, `-fno-cse-skip-blocks` 15 of 45, `-O2` 6, `-fno-expensive-optimizations`
+5, `-fno-cse-follow-jumps` 5, `-fno-schedule-insns2` 4 ...), 343 are needed; of the needed, 50 rows are within 3 words
+of exact without the flag (a shape stands in for the flag), 94 within 4-8, 199 further. The 51 redundant overlay flags
+landed as cell switches (`t30_cellpins` journal, `cell_from` kept); the 11 SLUS ones stay (`set_row_cfgs` has no SLUS
+split records: the SLUS TU recipe is keyed elsewhere) and 6 of those are a literal `-O2`, which is the default anyway.
+- The nine tail-slot rows named as "held" and "twin-window" in the round-25 notes had all landed in parts 5 and 10
+  (true names registered, regions proven, twin windows in place); `promote_honest.py --decision-b` confirms nothing to
+  do. `tools/lanes/promote_honest.py` has therefore still not been exercised in `--apply` mode on a live pack.
+
 Twenty-sixth round, part 2, gated (22 windows MATCH, SLUS SHA-1 MATCH): **7,268 pins in 1,356 rows**. Landed: the
 three sol packs from the observer's finer `attempt_reasons` labels (alloc72 conflict 8 of 12, alloc73 conflict 1 of 5,
 alloc74 preference 5 of 6: 14 of 23 rows, the best register rate this round), the knob-briefed retry experiment
