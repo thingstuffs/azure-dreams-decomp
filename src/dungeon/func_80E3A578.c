@@ -91,9 +91,7 @@ void func_80173D78(void *action, void *context, S_80173D78_1 *sprite, S_80173D78
     s32 direction_offset;
     s32 saved_random;
     s32 random_value;
-    void *source_actor;
-    register s32 random_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been target */
-    s32 result_chain;
+    s32 random_arg;
     s32 tile_mask;
     s32 map_flags;
     u32 sound_x;
@@ -152,16 +150,13 @@ jt_c1:
             state = target->unk_13;
             if (((u32)(state - 1) >= 0x2DU) || (state == 0x1E)) {
                 random_value = func_800990FC();
-                source_actor = actor;
-                ASM_KEEP(source_actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been target */
                 random_arg = random_value;
-                ASM_KEEP(random_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been target */
-                result_chain = func_80099734(source_actor, saved_random = random_arg);
+                random_value = func_80099734(actor, saved_random = random_arg);
                 func_80099290(
                     func_80099194(&D_80170898,
                         func_80099734(target,
                             func_8009929C(0xA,
-                                func_80099194(&D_8017086C, result_chain)))));
+                                func_80099194(&D_8017086C, random_value)))));
                 func_800A5720(saved_random);
                 func_800A56E0(0x506);
                 actor->unk_60.i = 0;

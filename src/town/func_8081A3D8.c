@@ -77,14 +77,12 @@ void func_800243D8(State8081A3D8 *controller)
 {
     u8 *object;
     register u8 *object_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *spawn_list;
     u8 *callback;
     s16 spawn_interval;
     s16 spawn_rate;
     s32 score_threshold;
     u16 best_score;
     s32 state;
-    s32 spawn_kind;
     s32 dialog_zero;
     s32 *position;
     static void *const state_labels[6] = {
@@ -161,10 +159,7 @@ tick:
     }
 
 case_1:
-    spawn_kind = 1;
-    ASM_KEEP(spawn_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    spawn_list = D_80083498;
-    object = func_8003FD64(spawn_kind, spawn_list);
+    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
@@ -177,8 +172,7 @@ case_1:
         ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
     }
 
-    spawn_kind = 1;
-    object = func_8003FD64(spawn_kind, spawn_list);
+    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024B04;
@@ -196,10 +190,7 @@ case_1:
     goto end;
 
 case_2:
-    spawn_kind = 1;
-    ASM_KEEP(spawn_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    spawn_list = D_80083498;
-    object = func_8003FD64(spawn_kind, spawn_list);
+    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024AC0;
@@ -212,8 +203,7 @@ case_2:
         ((S_800243D8_2 *)object_data)->unk_02 = 0x96;
     }
 
-    spawn_kind = 1;
-    object = func_8003FD64(spawn_kind, spawn_list);
+    object = func_8003FD64(((s32)(1)), ((u8 *)(D_80083498)));
     if (object != 0) {
         object_data = object + 0x20;
         ((S_800243D8_0 *)object)->unk_10 = D_80024B04;

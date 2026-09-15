@@ -19,7 +19,8 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     u8 *draw_ctx;
     register u32 *line ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 *draw_mode;
-    register s32 color_factor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 color_factor;
+    s32 color_factor_2;
     s32 depth_or_tpage;
     s32 depth_or_tpage_2;
     u32 low_mask = 0x00FFFFFF;
@@ -34,8 +35,8 @@ void func_800A2AF8(s32 end_point, s32 start_point)
 
     color_factor = rand();
     line[1] = (color_factor * rand()) & low_mask;
-    color_factor = rand();
-    line[3] = (color_factor * rand()) & low_mask;
+    color_factor_2 = rand();
+    line[3] = (color_factor_2 * rand()) & low_mask;
 
     func_800667D0(line);
     func_80066640(line, 1);

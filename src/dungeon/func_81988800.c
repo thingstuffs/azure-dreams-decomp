@@ -133,25 +133,23 @@ void BODY_NAME(void *state_data, void *position_data)
     s16 offset[3];
     void *object;
     u8 *work;
-    register void *state ASM_REG("$18") = state_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *source;
     register void *position_ref ASM_REG("$20") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor;
     u8 *unused_fields;
     u16 timer;
 
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    timer = ((S_81988800_0 *)state)->unk_50.u;
+    timer = ((S_81988800_0 *)state_data)->unk_50.u;
     ASM_KEEP(timer);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    source = ((S_81988800_0 *)state)->unk_00;
-    ((S_81988800_0 *)state)->unk_50.u = timer - 1;
+    source = ((S_81988800_0 *)state_data)->unk_00;
+    ((S_81988800_0 *)state_data)->unk_50.u = timer - 1;
     work = (u8 *)source - 0x20;
     if (0) {
     }
 
     (void)phase_labels;
     {
-        s32 phase = ((S_81988800_0 *)state)->unk_0A.s;
+        s32 phase = ((S_81988800_0 *)state_data)->unk_0A.s;
 
         if ((u32)phase >= 5) {
             goto done;
@@ -165,17 +163,17 @@ jt_c0:
         ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00;
         ((S_81988800_2 *)position_ref)->unk_04 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_04;
         ((S_81988800_2 *)position_ref)->unk_08.at00.v = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_08;
-        ((S_81988800_0 *)state)->unk_0A.u++;
+        ((S_81988800_0 *)state_data)->unk_0A.u++;
 jt_c1: {
         u8 *spawn_data;
 
         if (0) {
         }
-        if (((S_81988800_11 *)(((S_81988800_0 *)state)->unk_04))->unk_00 & 0x80) {
+        if (((S_81988800_11 *)(((S_81988800_0 *)state_data)->unk_04))->unk_00 & 0x80) {
             actor = D_800814A8;
-            ((S_81988800_0 *)state)->unk_50.u = 10;
+            ((S_81988800_0 *)state_data)->unk_50.u = 10;
             ((S_81988800_4 *)actor)->unk_A6--;
-            ((S_81988800_4 *)actor)->unk_A8 = ((S_81988800_0 *)state)->unk_08;
+            ((S_81988800_4 *)actor)->unk_A8 = ((S_81988800_0 *)state_data)->unk_08;
 
             object = func_8003FD64(0x302, D_80083498);
             if (object != 0) {
@@ -187,7 +185,7 @@ jt_c1: {
                 }
                 ((S_81988800_5 *)object)->unk_10 = &D_80024648;
                 func_8004491C(object, &D_8002441C);
-                ((S_81988800_5 *)object)->unk_20 = state;
+                ((S_81988800_5 *)object)->unk_20 = state_data;
                 spawn_data = (u8 *)object + 0x20;
 
                 ((S_81988800_2 *)position_ref)->unk_00 = ((S_81988800_10 *)(((S_81988800_3 *)work)->unk_08.p32))->unk_00 +
@@ -200,7 +198,7 @@ jt_c1: {
                                       ((s32)offset[2] << 16);
                 ((S_81988800_6 *)spawn_data)->unk_24 = ((S_81988800_2 *)position_ref)->unk_08.at00.v;
             }
-            ((S_81988800_0 *)state)->unk_0A.u++;
+            ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
         goto done;
     }
@@ -211,15 +209,15 @@ jt_c2: {
 
         if (0) {
         }
-        if (((S_81988800_0 *)state)->unk_50.s <= 0) {
+        if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
             variant = func_80053EF0(4);
             effect_id = 0x4300;
             if (variant != 2) {
                 effect_id = 0x300;
             }
             func_800A56E0(effect_id);
-            ((S_81988800_0 *)state)->unk_50.u = 13;
-            ((S_81988800_0 *)state)->unk_0A.u++;
+            ((S_81988800_0 *)state_data)->unk_50.u = 13;
+            ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
         goto done;
     }
@@ -231,7 +229,7 @@ jt_c3: {
 
         if (0) {
         }
-        if (((S_81988800_0 *)state)->unk_50.s <= 0) {
+        if (((S_81988800_0 *)state_data)->unk_50.s <= 0) {
             object = func_8003FD64(0x302, D_80083498);
             if (object != 0) {
                 ((S_81988800_5 *)object)->unk_10 = &D_80024B20;
@@ -248,17 +246,17 @@ jt_c3: {
                     ((S_81988800_7 *)entry_ptr)->unk_10 = 0;
                     ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 }
-                ((S_81988800_3 *)work)->unk_00 = state;
+                ((S_81988800_3 *)work)->unk_00 = state_data;
                 ((S_81988800_3 *)work)->unk_40 = 0;
             }
-            ((S_81988800_0 *)state)->unk_50.u = 0x3D;
-            ((S_81988800_0 *)state)->unk_0A.u++;
+            ((S_81988800_0 *)state_data)->unk_50.u = 0x3D;
+            ((S_81988800_0 *)state_data)->unk_0A.u++;
         }
         goto done;
     }
 
 jt_c4: {
-        if (((S_81988800_0 *)state)->unk_50.s == 8) {
+        if (((S_81988800_0 *)state_data)->unk_50.s == 8) {
             object = D_800814A8;
             if (object != 0) {
 
@@ -272,7 +270,7 @@ loop:
                 if (((S_81988800_5 *)object)->unk_1C & 0x2000) {
                     goto loop;
                 }
-                func_8009CE1C(object, 0x10, ((S_81988800_0 *)state)->unk_09, 10,
+                func_8009CE1C(object, 0x10, ((S_81988800_0 *)state_data)->unk_09, 10,
                              ((S_81988800_8 *)source)->unk_2A, source, 2);
                 goto loop;
 loop_done:
@@ -280,9 +278,9 @@ loop_done:
             }
         }
 
-        if ((D_80082E94 & 0x8000) || ((S_81988800_0 *)state)->unk_50.s < 0) {
-            if (((S_81988800_0 *)state)->unk_52.s & 0x8000) {
-                ((S_81988800_0 *)state)->unk_52.u &= 0x7FFF;
+        if ((D_80082E94 & 0x8000) || ((S_81988800_0 *)state_data)->unk_50.s < 0) {
+            if (((S_81988800_0 *)state_data)->unk_52.s & 0x8000) {
+                ((S_81988800_0 *)state_data)->unk_52.u &= 0x7FFF;
             } else {
                 u8 *cleanup_state;
 
@@ -291,7 +289,7 @@ loop_done:
                 }
                 ((S_81988800_9 *)cleanup_state)->unk_0C = 0;
                 ((S_81988800_9 *)cleanup_state)->unk_0A--;
-                (*(u16 *)((u8 *)state + -2)) |= 0x8000;
+                (*(u16 *)((u8 *)state_data + -2)) |= 0x8000;
                 D_800814A0 |= 0x8000;
             }
         }

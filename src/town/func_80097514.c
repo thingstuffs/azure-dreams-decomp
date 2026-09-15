@@ -34,10 +34,9 @@ void func_80094C74(Func97514Object *object) {
     if (angle != -1) {
         register s32 rounded_new ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 rounded_old ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 magnitude_divisor;
         s32 component;
         s32 x_quotient;
-        register s32 y_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 y_quotient;
         s32 scaled_component;
 
         delta_x = func_800644B8(angle) << 6;
@@ -55,9 +54,9 @@ void func_80094C74(Func97514Object *object) {
             if (rounded_new < 0) {
                 x_quotient = new_magnitude + 0x1FFE;
             }
-            magnitude_divisor = x_quotient >> 0xC;
             component = object->x;
-            x_quotient = component / magnitude_divisor;
+            y_quotient = x_quotient >> 0xC;
+            x_quotient = component / y_quotient;
             rounded_old = old_magnitude;
             if (old_magnitude < 0) {
                 rounded_old = old_magnitude + 0xFFF;
@@ -66,7 +65,7 @@ void func_80094C74(Func97514Object *object) {
             scaled_component = x_quotient * rounded_old;
             *(volatile s32 *)&object->x = scaled_component;
             component = *(volatile s32 *)&object->y;
-            y_quotient = component / magnitude_divisor;
+            y_quotient = component / y_quotient;
             object->y = y_quotient * rounded_old;
         }
     }

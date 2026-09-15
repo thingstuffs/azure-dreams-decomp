@@ -21,7 +21,6 @@ extern void *D_80083160[3];
 /* Transforms a flipped point using local scale, rotation, and offsets, then adjusts for view angles. */
 void func_8003DBD0(void *transform, void *point, void *result)
 {
-    register u8 *position ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u8 *render_state;
     u8 *scratch;
     s32 view_angle_x;
@@ -38,7 +37,6 @@ void func_8003DBD0(void *transform, void *point, void *result)
     s32 final_angle_z;
     s32 base_angle;
 
-    position = (u8 *)result;
     render_state = (u8 *)D_80083160;
     PushMatrix();
     scratch = (u8 *)0x1F800000;
@@ -95,19 +93,19 @@ void func_8003DBD0(void *transform, void *point, void *result)
         S16_AT(scratch, 0x74) = ((point_y << 24) >> 24) - saved_offset_y;
     }
     S16_AT(scratch, 0x72) = 0;
-    RotTransSV((void *)((u32)scratch | 0x70), position, (void *)((u32)scratch | 0x94));
+    RotTransSV((void *)((u32)scratch | 0x70), ((u8 *)result), (void *)((u32)scratch | 0x94));
 
-    transformed_x = U16_AT(position, 0);
+    transformed_x = U16_AT(((u8 *)result), 0);
     U16_AT(scratch, 0x00) = transformed_x;
     final_angle_x = S16_AT(render_state, 0xC4);
-    transformed_y = U16_AT(position, 2);
+    transformed_y = U16_AT(((u8 *)result), 2);
     U32_AT(scratch, 0x30) = -final_angle_x;
     final_angle_z = S16_AT(render_state, 0xC8);
     base_angle = S16_AT(render_state, 0xB8);
     U16_AT(scratch, 0x02) = transformed_y;
     U32_AT(scratch, 0x38) = base_angle - final_angle_z;
-    U16_AT(position, 4) += ((s32)(s16)U16_AT(scratch, 0x02) * rcos(U32_AT(scratch, 0x30))) >> 12;
-    S16_AT(position, 0) = (S16_AT(scratch, 0x00) * rcos(U32_AT(scratch, 0x38))) >> 12;
-    S16_AT(position, 2) = (S16_AT(scratch, 0x00) * rsin(U32_AT(scratch, 0x38))) >> 12;
+    U16_AT(((u8 *)result), 4) += ((s32)(s16)U16_AT(scratch, 0x02) * rcos(U32_AT(scratch, 0x30))) >> 12;
+    S16_AT(((u8 *)result), 0) = (S16_AT(scratch, 0x00) * rcos(U32_AT(scratch, 0x38))) >> 12;
+    S16_AT(((u8 *)result), 2) = (S16_AT(scratch, 0x00) * rsin(U32_AT(scratch, 0x38))) >> 12;
     PopMatrix();
 }

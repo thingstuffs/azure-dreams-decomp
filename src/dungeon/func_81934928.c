@@ -88,7 +88,6 @@ void func_81934928(void *effect, void *output)
 {
     void *self = effect;
     register void *output_data ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register void *owner ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *search_origin;
     void *target;
     void *particle;
@@ -101,7 +100,7 @@ void func_81934928(void *effect, void *output)
     s16 countdown;
 
     state = ((S_81934928_0 *)self)->unk_0A.s;
-    owner = ((S_81934928_0 *)self)->unk_00;
+    effect = ((S_81934928_0 *)self)->unk_00;
     output_data = output;
     if (state == 1) goto main_state;
     if (state < 2) {
@@ -221,7 +220,7 @@ lookup_again:
             if (target != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
                     func_8009CE1C(target, 0x20, ((S_81934928_0 *)self)->unk_09, 0xA,
-                                  ((S_81934928_5 *)owner)->unk_2A, owner, 2);
+                                  ((S_81934928_5 *)effect)->unk_2A, effect, 2);
                 }
                 func_80024004(target);
                 goto lookup_again;

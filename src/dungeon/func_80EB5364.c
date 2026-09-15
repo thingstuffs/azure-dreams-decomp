@@ -78,7 +78,6 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
 {
     register void *actor ASM_REG("$17") = actor_arg;
     register void *motion ASM_REG("$21") = motion_arg;
-    register void *sprite ASM_REG("$20") = sprite_arg;
     register void *actor_base ASM_REG("$18") = actor;
     M2C_UNK (*update_callback)(void *, void *, void *, void *);
     M2C_UNK (*pause_callback)(void *, void *, void *, void *);
@@ -100,7 +99,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
         pause_callback = ((S_80170B64_0 *)actor)->unk_8C;
         if (pause_callback == &D_801711A4) {
             ASM_KEEP(paused_actor);
-            pause_callback(paused_actor, motion, sprite, paused_actor);
+            pause_callback(paused_actor, motion, sprite_arg, paused_actor);
             return;
         }
         ((S_80170B64_0 *)actor)->unk_71 &= 0x7F;
@@ -109,18 +108,17 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
 
     ASM_KEEP(actor);
     ASM_KEEP(motion);
-    ASM_KEEP(sprite);
 
     previous_state = (s8)((S_80170B64_0 *)actor)->unk_6D;
-    if (func_800A9E70(actor, motion, sprite, actor) == 0) {
+    if (func_800A9E70(actor, motion, sprite_arg, actor) == 0) {
         update_callback = ((S_80170B64_0 *)actor)->unk_8C;
         if (update_callback != 0) {
-            update_callback(actor, motion, sprite, actor);
+            update_callback(actor, motion, sprite_arg, actor);
         }
         ((M2C_UNK (**)(void *, void *, void *, void *))&D_801741D4)
-            [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite, actor);
+            [((S_80170B64_0 *)actor)->unk_9A](actor, motion, sprite_arg, actor);
         if ((s16)previous_state != (s8)((S_80170B64_0 *)actor)->unk_6D) {
-            func_800AA36C(actor, motion, sprite, actor);
+            func_800AA36C(actor, motion, sprite_arg, actor);
         }
         ((S_80170B64_1 *)motion)->unk_00.at00.v += ((S_80170B64_1 *)motion)->unk_0C;
         ((S_80170B64_1 *)motion)->unk_04.at00.v += ((S_80170B64_1 *)motion)->unk_10;
@@ -135,42 +133,42 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
 
         ((S_80170B64_0 *)actor)->unk_90.at00.v = ((S_80170B64_0 *)actor)->unk_90.at00.v +
             ((S_80170B64_1 *)motion)->unk_14;
-        sprite_flags = ((S_80170B64_2 *)sprite)->unk_14;
+        sprite_flags = ((S_80170B64_2 *)sprite_arg)->unk_14;
         if (!(sprite_flags & 0x8000)) {
             view_direction = ((D_80083228[0] + ((S_80170B64_3 *)actor_base)->unk_2A + 0x100) >> 9) & 7;
             if (((S_80170B64_0 *)actor)->unk_94 != view_direction) {
-                func_80047738(sprite,
-                    *(((u8 *)((S_80170B64_2 *)sprite)->unk_2C.p) + view_direction),
-                    ((S_80170B64_2 *)sprite)->unk_04.s8);
+                func_80047738(sprite_arg,
+                    *(((u8 *)((S_80170B64_2 *)sprite_arg)->unk_2C.p) + view_direction),
+                    ((S_80170B64_2 *)sprite_arg)->unk_04.s8);
                 ((S_80170B64_0 *)actor)->unk_94 = view_direction;
             }
             if (D_8006CCF8[view_direction] != 0) {
-                ((S_80170B64_2 *)sprite)->unk_14 |= 1;
+                ((S_80170B64_2 *)sprite_arg)->unk_14 |= 1;
             } else {
-                ((S_80170B64_2 *)sprite)->unk_14 &= 0xFFFE;
+                ((S_80170B64_2 *)sprite_arg)->unk_14 &= 0xFFFE;
             }
-            func_800A020C(((S_80170B64_3 *)actor_base)->unk_1C.s, sprite + 0xC);
+            func_800A020C(((S_80170B64_3 *)actor_base)->unk_1C.s, sprite_arg + 0xC);
             if (!(((S_80170B64_3 *)actor_base)->unk_1C.s & 0x20)) {
-                if (!(((S_80170B64_2 *)sprite)->unk_14 & 0x40)) {
-                    func_800478B8(sprite);
+                if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+                    func_800478B8(sprite_arg);
                 }
                 goto update_animated_height;
             }
-            ((S_80170B64_2 *)sprite)->unk_14 |= 0x7000;
+            ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x7000;
             ((S_80170B64_3 *)actor_base)->unk_1C.s &= 0xFFFBFFFF;
 update_animated_height:
             animated_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
             ((S_80170B64_3 *)actor_base)->unk_1C.s = animated_flags;
             if (animated_flags & 0x40000) {
-                if (!(((S_80170B64_2 *)sprite)->unk_14 & 0x40)) {
-                    animation_table = ((S_80170B64_2 *)sprite)->unk_2C.i;
+                if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+                    animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
                     if (animation_table == (s32)&D_8017418C) {
                         ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                         goto adjust_animated_hover;
                     }
                     if (animation_table == (s32)&D_80174174) {
                         ((S_80170B64_0 *)actor)->unk_A0.u++;
-                        if (((S_80170B64_2 *)sprite)->unk_04.u16 == 0x100) {
+                        if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
                             ((S_80170B64_0 *)actor)->unk_A0.u = 0;
                             ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                         }
@@ -203,9 +201,9 @@ adjust_animated_hover:
             goto apply_floor_height;
         }
         if (sprite_flags & 0x800) {
-            ((S_80170B64_2 *)sprite)->unk_14 = sprite_flags & 0x8FFF;
+            ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags & 0x8FFF;
         } else {
-            ((S_80170B64_2 *)sprite)->unk_14 = sprite_flags | 0x7000;
+            ((S_80170B64_2 *)sprite_arg)->unk_14 = sprite_flags | 0x7000;
         }
         static_flags = ((S_80170B64_3 *)actor_base)->unk_1C.s & 0xF7FFFFFF;
         ((S_80170B64_3 *)actor_base)->unk_1C.s = static_flags;
@@ -230,15 +228,15 @@ apply_floor_height:
             }
             goto update_world_height;
         }
-        if (!(((S_80170B64_2 *)sprite)->unk_14 & 0x40)) {
-            static_animation_table = ((S_80170B64_2 *)sprite)->unk_2C.i;
+        if (!(((S_80170B64_2 *)sprite_arg)->unk_14 & 0x40)) {
+            static_animation_table = ((S_80170B64_2 *)sprite_arg)->unk_2C.i;
             if (static_animation_table == (s32)&D_8017418C) {
                 ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                 goto adjust_static_hover;
             }
             if (static_animation_table == (s32)&D_80174174) {
                 ((S_80170B64_0 *)actor)->unk_A0.u++;
-                if (((S_80170B64_2 *)sprite)->unk_04.u16 == 0x100) {
+                if (((S_80170B64_2 *)sprite_arg)->unk_04.u16 == 0x100) {
                     ((S_80170B64_0 *)actor)->unk_A0.u = 0;
                     ((S_80170B64_0 *)actor)->unk_AC.at00.v = 0;
                 }
@@ -270,8 +268,8 @@ update_world_height:
         if (actor_flags & 0x40000000) {
             ((S_80170B64_3 *)actor_base)->unk_1C.s = actor_flags & 0xBFFFFFFF;
             tile_height = func_800BCB04(
-                (((S_80170B64_2 *)sprite)->unk_24 << 6) | 0x20,
-                (((S_80170B64_2 *)sprite)->unk_25 << 6) | 0x20,
+                (((S_80170B64_2 *)sprite_arg)->unk_24 << 6) | 0x20,
+                (((S_80170B64_2 *)sprite_arg)->unk_25 << 6) | 0x20,
                 (s16)(((S_80170B64_3 *)actor_base)->unk_88 - 0x20));
             if (tile_height < 0x200) {
                 ((S_80170B64_0 *)actor)->unk_90.at02.v = (u16)((S_80170B64_0 *)actor)->unk_90.at02.v +
@@ -281,7 +279,7 @@ update_world_height:
         }
         ((S_80170B64_1 *)motion)->unk_0A = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
             (((S_80170B64_3 *)actor_base)->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
-        ((S_80170B64_2 *)sprite)->unk_14 |= 0x40;
+        ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
     }
 
 }

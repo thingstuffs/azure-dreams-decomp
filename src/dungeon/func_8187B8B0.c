@@ -64,7 +64,6 @@ void func_8187B8B0(
     s32 saved_z_offset = z_offset;
     S_func_8187B8B0_0 *spawned_obj;
     S_func_8187B8B0_3 *actor_data;
-    s32 x_jitter;
     s32 y_jitter;
     s32 z_jitter;
     s32 x_bias;
@@ -83,10 +82,10 @@ void func_8187B8B0(
     if (spawned_obj != NULL) {
         saved_pair = paired_value;
         spawned_obj->unk_10 = (s32)&D_80024FF0;
-        x_jitter = rand() & 0x1F;
+        z_offset = rand() & 0x1F;
         x_pos = ((S_func_8187B8B0_1 *)source_obj->unk_08)->unk_02;
         x_dest = spawned_obj->unk_08;
-        x_pos += x_jitter;
+        x_pos += z_offset;
         x_bias = x_offset - 0x10;
         x_pos += x_bias;
         x_dest->unk_02 = (s16)x_pos;
@@ -113,7 +112,6 @@ void func_8187B8B0(
         z_dest->unk_0A = (s16)z_pos;
         ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(saved_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         actor_data->unk_04 = saved_field_04;
         actor_data->unk_10 = saved_pair;
         actor_data->unk_12 = saved_pair;

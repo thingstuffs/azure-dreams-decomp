@@ -87,7 +87,10 @@ void func_80174E78(Source *source, Vec3i *center)
         Entity *setup_entity;
         s32 initial_count;
         s32 trig_angle;
-        register s32 trig_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 trig_value;
+        s32 trig_value_2;
+        s32 trig_value_3;
+        s32 trig_value_4;
         s32 intensity;
         u8 held_intensity;
 
@@ -134,22 +137,22 @@ void func_80174E78(Source *source, Vec3i *center)
         sub->field_70 = radial_offset;
         sub->field_64 = radial_offset;
 
-        trig_value = func_80064584(trig_angle);
+        trig_value_2 = func_80064584(trig_angle);
         trig_angle = next_angle;
         ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        radial_offset = (trig_value * 24) >> 12;
+        radial_offset = (trig_value_2 * 24) >> 12;
         sub->field_76 = radial_offset;
         sub->field_6A = radial_offset;
 
-        trig_value = func_800644B8(trig_angle);
+        trig_value_3 = func_800644B8(trig_angle);
         trig_angle = angle;
         ASM_KEEP(trig_angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        radial_offset = (trig_value * 24) >> 12;
+        radial_offset = (trig_value_3 * 24) >> 12;
         sub->field_72 = radial_offset;
         sub->field_66 = radial_offset;
 
-        trig_value = func_800644B8(trig_angle);
-        radial_offset = (trig_value * 24) >> 12;
+        trig_value_4 = func_800644B8(trig_angle);
+        radial_offset = (trig_value_4 * 24) >> 12;
         sub->field_78 = radial_offset;
         sub->field_6C = radial_offset;
 

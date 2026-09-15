@@ -73,11 +73,7 @@ extern s32 func_800BCB04(s32, s32, s16);
 /* Updates actor direction, callbacks, motion, and ground height. */
 void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entity)
 {
-    register Actor *actor ASM_REG("$17") = input_actor;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    Motion *motion = input_motion;
-    Entity *entity = input_entity;
-    register Actor *subject ASM_REG("$18") = actor;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    Actor *entry_actor = input_actor;
+    Actor *subject = input_actor;
     s16 direction;
     s16 direction_index;
     s16 old_type;
@@ -92,108 +88,107 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
     s32 correction;
 
     if (D_80083462 & 0x2000) {
-        special_callback = actor->callback;
+        special_callback = input_actor->callback;
         if (special_callback == (ActorCallback)&D_80171094) {
-            ASM_KEEP(entry_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            special_callback(entry_actor, motion, entity, entry_actor);
+            special_callback(((Actor *)(input_actor)), input_motion, input_entity, ((Actor *)(input_actor)));
             goto function_end;
         }
-        actor->status71 &= 0x7F;
+        input_actor->status71 &= 0x7F;
         goto function_end;
     }
 
 
-    old_type = (s8)actor->type;
-    if (func_800A9E70(actor, motion, entity, actor) != 0) {
+    old_type = (s8)input_actor->type;
+    if (func_800A9E70(input_actor, input_motion, input_entity, input_actor) != 0) {
         return;
     }
 
-    entity_flags = entity->flags14;
+    entity_flags = input_entity->flags14;
     if (!(entity_flags & 0x8000)) {
-        direction = ((D_80083228 + actor->angle + 0x100) >> 9) & 7;
+        direction = ((D_80083228 + input_actor->angle + 0x100) >> 9) & 7;
         direction_index = direction;
 
-        if (actor->direction94 != direction) {
-            if (entity->data != 0) {
-                func_80047738(entity, entity->data[direction], entity->kind);
+        if (input_actor->direction94 != direction) {
+            if (input_entity->data != 0) {
+                func_80047738(input_entity, input_entity->data[direction], input_entity->kind);
             }
-            actor->direction94 = direction;
+            input_actor->direction94 = direction;
         }
 
         {
             u16 updated_flags;
 
-            if (entity->data == D_80176490 && D_8006CCF8[direction_index] != 0) {
-                updated_flags = entity->flags14 | 1;
+            if (input_entity->data == D_80176490 && D_8006CCF8[direction_index] != 0) {
+                updated_flags = input_entity->flags14 | 1;
                 goto store_entity_flags;
             }
-            updated_flags = entity->flags14 & 0xFFFE;
+            updated_flags = input_entity->flags14 & 0xFFFE;
 
 store_entity_flags:
-            entity->flags14 = updated_flags;
+            input_entity->flags14 = updated_flags;
         }
-        func_800A020C(subject->flags, entity->position0C);
+        func_800A020C(subject->flags, input_entity->position0C);
         if (!(subject->flags & 0x20)) {
-            if (!(entity->flags14 & 0x40)) {
-                func_800478B8(entity);
+            if (!(input_entity->flags14 & 0x40)) {
+                func_800478B8(input_entity);
                 goto callback_dispatch;
             }
             goto callback_dispatch;
         } else {
-            entity->flags14 |= 0x7000;
+            input_entity->flags14 |= 0x7000;
             subject->flags &= 0xFFFBFFFF;
             goto callback_dispatch;
         }
     } else {
         if (entity_flags & 0x0800) {
-            entity->flags14 = entity_flags & 0x8FFF;
+            input_entity->flags14 = entity_flags & 0x8FFF;
         } else {
-            entity->flags14 = entity_flags | 0x7000;
+            input_entity->flags14 = entity_flags | 0x7000;
         }
     }
 
 callback_dispatch:
-    dispatch_callback = actor->callback;
+    dispatch_callback = input_actor->callback;
     if (dispatch_callback != 0) {
-        dispatch_callback(actor, motion, entity, subject);
+        dispatch_callback(input_actor, input_motion, input_entity, subject);
     }
-    D_801766B8[actor->dispatch9A](actor, motion, entity, subject);
+    D_801766B8[input_actor->dispatch9A](input_actor, input_motion, input_entity, subject);
 
     if (old_type != (s8)subject->type) {
-        func_800AA36C(actor, motion, entity, subject);
+        func_800AA36C(input_actor, input_motion, input_entity, subject);
     }
 
-    motion->x += motion->dx;
-    motion->y += motion->dy;
+    input_motion->x += input_motion->dx;
+    input_motion->y += input_motion->dy;
 
-    if (!(subject->flags & 0x00040000) && !(actor->state98 & 8)) {
-        motion->dz += (s8)actor->counter9D * 0x14000;
-        actor->counter9D++;
+    if (!(subject->flags & 0x00040000) && !(input_actor->state98 & 8)) {
+        input_motion->dz += (s8)input_actor->counter9D * 0x14000;
+        input_actor->counter9D++;
         goto counter_join;
     }
-    actor->counter9D = 0;
+    input_actor->counter9D = 0;
 
 counter_join:
-    actor->position90 += motion->dz;
+    input_actor->position90 += input_motion->dz;
 
-    if (!(entity->flags14 & 0x8000)) {
+    if (!(input_entity->flags14 & 0x8000)) {
         actor_flags = subject->flags;
         actor_flags &= 0xF7FFFFFF;
         subject->flags = actor_flags;
         actor_flags &= 0x00040000;
         if (actor_flags) {
-            if (!(entity->flags14 & 0x40) && entity->data == D_80176460) {
-                u16 correction_count = actor->correctionCountAC;
-                actor->correctionCountAC = correction_count + 1;
-                actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
+            if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
+                u16 correction_count = input_actor->correctionCountAC;
+                input_actor->correctionCountAC = correction_count + 1;
+                input_actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
             }
-            if (!(actor->state98 & 8)) {
+            if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
-                height_offset = *(s16 *)((u8 *)actor + 0x92);
-                raw_height = *(volatile u16 *)((u8 *)actor + 0x92);
+                height_offset = *(s16 *)((u8 *)input_actor + 0x92);
+                raw_height = *(volatile u16 *)((u8 *)input_actor + 0x92);
                 if (height_adjust < height_offset) {
                     height_adjust = raw_height - 8;
-                    *(s16 *)((u8 *)actor + 0x92) = height_adjust;
+                    *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
                     goto final_collision;
                 }
                 goto adjust_height;
@@ -209,19 +204,19 @@ counter_join:
     actor_flags &= 0x00040000;
     if (!actor_flags) {
 ground_reset:
-        correction = actor->correctionA4;
-        actor->correctionCountAC = 0;
-        actor->correctionA4 = 0;
-        actor->position90 -= correction;
-        if (!(actor->state98 & 8)) {
+        correction = input_actor->correctionA4;
+        input_actor->correctionCountAC = 0;
+        input_actor->correctionA4 = 0;
+        input_actor->position90 -= correction;
+        if (!(input_actor->state98 & 8)) {
             ground = (s16)(func_800BCB04(
-                *(u16 *)((u8 *)motion + 2),
-                *(u16 *)((u8 *)motion + 6),
+                *(u16 *)((u8 *)input_motion + 2),
+                *(u16 *)((u8 *)input_motion + 6),
                 (s16)(subject->height88 - 0x20)) - subject->height88);
-            if (ground < *(s16 *)((u8 *)actor + 0x92)) {
-                *(s16 *)((u8 *)actor + 0x92) = ground;
-                actor->counter9D = 0;
-                motion->dz = 0;
+            if (ground < *(s16 *)((u8 *)input_actor + 0x92)) {
+                *(s16 *)((u8 *)input_actor + 0x92) = ground;
+                input_actor->counter9D = 0;
+                input_motion->dz = 0;
                 subject->flags |= 0x08000000;
                 goto final_collision;
             }
@@ -229,24 +224,24 @@ ground_reset:
         goto final_collision;
     }
 
-    if (!(entity->flags14 & 0x40) && entity->data == D_80176460) {
-        u16 correction_count = actor->correctionCountAC;
-        actor->correctionCountAC = correction_count + 1;
-        actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
+    if (!(input_entity->flags14 & 0x40) && input_entity->data == D_80176460) {
+        u16 correction_count = input_actor->correctionCountAC;
+        input_actor->correctionCountAC = correction_count + 1;
+        input_actor->correctionA4 += func_800644B8((s16)correction_count * 0xAA) << 5;
     }
-    if (!(actor->state98 & 8)) {
+    if (!(input_actor->state98 & 8)) {
         height_adjust = -0x18;
-        height_offset = *(s16 *)((u8 *)actor + 0x92);
-        raw_height = *(volatile u16 *)((u8 *)actor + 0x92);
+        height_offset = *(s16 *)((u8 *)input_actor + 0x92);
+        raw_height = *(volatile u16 *)((u8 *)input_actor + 0x92);
         if (height_adjust < height_offset) {
             height_adjust = raw_height - 8;
-            *(s16 *)((u8 *)actor + 0x92) = height_adjust;
+            *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
         } else {
 adjust_height:
             height_adjust = height_offset < -0x20;
             if (height_adjust) {
                 height_adjust = raw_height + 8;
-                *(s16 *)((u8 *)actor + 0x92) = height_adjust;
+                *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
             }
         }
     }
@@ -255,19 +250,19 @@ final_collision:
     actor_flags = subject->flags;
     if (actor_flags & 0x40000000) {
         subject->flags = actor_flags & 0xBFFFFFFF;
-        ground = func_800BCB04((entity->tileX << 6) | 0x20,
-                               (entity->tileY << 6) | 0x20,
+        ground = func_800BCB04((input_entity->tileX << 6) | 0x20,
+                               (input_entity->tileY << 6) | 0x20,
                                (s16)(subject->height88 - 0x20));
         if (ground < 0x200) {
-            *(s16 *)((u8 *)actor + 0x92) += subject->height88 - ground;
+            *(s16 *)((u8 *)input_actor + 0x92) += subject->height88 - ground;
             subject->height88 = ground;
         }
     }
 
-    motion->height0A = subject->height88 +
-                       *(u16 *)((u8 *)actor + 0x92) -
-                       *(u16 *)((u8 *)actor + 0xA6);
-    entity->flags14 |= 0x40;
+    input_motion->height0A = subject->height88 +
+                       *(u16 *)((u8 *)input_actor + 0x92) -
+                       *(u16 *)((u8 *)input_actor + 0xA6);
+    input_entity->flags14 |= 0x40;
 
 function_end:
     return;
