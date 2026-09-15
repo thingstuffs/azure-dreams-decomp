@@ -226,9 +226,8 @@ s32 func_800DB660(Item *item)
             Dungeon *ordering_dungeon;
             u32 chain_tag;
             chain_tag = (primitive->tag & 0xFF000000) | (dungeon->ordering[ordering_index] & address_mask);
-            primitive->tag = chain_tag;
+            (*(u32 *)((u8 *)primitive + 0)) = chain_tag;
             dungeon_copy = *dungeon_ptr;
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             ordering_dungeon = dungeon_copy;
             ordering_dungeon->ordering[ordering_index] = (ordering_dungeon->ordering[ordering_index] & 0xFF000000) | (((u32) primitive) & address_mask);
           }

@@ -33,6 +33,14 @@ its true base in one command: promote, register, as_flags; `--decision-b` verifi
 the unpinned compile reproduce retail; a triage of register sites at 1.3 s each, `probe_rows.sh ROWS DIR` over a
 list) and `build_probe_lanes.py` + `probe_lane_brief.md` (retry packs briefed with the measured knob).
 
+Round 27 added `ledger.py` (the lane ledger: every lane's served/exact/landed/pins/rate read off the disk into
+`ledger/lanes.jsonl`; `--by tier|family|stratum`, `--closed 0.2` prints the (family, stratum) groups no pack may be
+built on again), `pools.py` (the pool table: every pinned row by family, register stratum, pin band, served or not,
+near band over every `pin_search` tag, probe knob class, and the rate measured on that stratum; `--rows FAMILY
+STRATUM --band 1-3 --unserved` feeds a builder; its TOTAL is asserted against the tree), and `tools/fixtures/memdep/`
+(the five-cell microcompile fixture for gcc 2.x's `MEM_IN_STRUCT_P` dependence exemption, the pattern item 4 below
+asks for). Rule since round 27: **a pack is launched from the pool table only, and never on a closed group.**
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`

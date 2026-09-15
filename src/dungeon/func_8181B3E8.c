@@ -643,10 +643,8 @@ state_4:
             }
 
             animation = D_800DE9D0;
-            height = ((S_80024BE8_5 *)motion)->unk_08.at00.v;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            height = (*(s32 *)((u8 *)motion + 8));
             animation_mode = 0;
-            ASM_KEEP(animation_mode);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_80024BE8_17 *)particle_position)->unk_08 = height;
             {
                 void *scaled_sprite;

@@ -30,11 +30,11 @@ s32 func_800403EC(Struct800403EC *movie, s32 frame_x, s32 frame_y, s32 next_fram
     Struct800403EC *state = movie;
     s32 x = frame_x;
     s32 y = frame_y;
-    register s32 buffer_offset ASM_REG("$4") = 0x15A40;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 buffer_offset = 0x15A40;
     s32 next_buffer_offset = 0x22AB0;
     register s32 work_offset ASM_REG("$6") = 0x10040;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u8 *buffer_base ASM_REG("$3") = D_80189390[0];   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 movie_flags = D_801781E0[0];
+    u8 *buffer_base = (*(void **)((u8 *)D_80189390 + 0));
+    s32 movie_flags = (*(s32 *)((u8 *)D_801781E0 + 0));
     void *next_buffer;
 
     state->unk08 = 0;

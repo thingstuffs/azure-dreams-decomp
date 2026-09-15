@@ -432,15 +432,14 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                     s32 left_x;
 
                     uv_left = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
-                    u_left = ((S_800BC4D4_1 *)scratch)->unk_08.u16;
+                    u_left = (*(u16 *)((u8 *)scratch + 8));
                     left_x = (*(s16 *)((u8 *)packet_field + 1));
                     uv_left += u_left;
                     (*(s16 *)((u8 *)packet_field + 0x15)) = uv_left;
-                    ASM_SCHED_BARRIER();
                     {
                         s32 uv_right;
                         s32 u_right;
-                        register s32 right_x ASM_REG("$2");
+                        s32 right_x;
 
                         uv_right = ((S_800BC4D4_1 *)scratch)->unk_14.u16;
                         u_right = ((S_800BC4D4_1 *)scratch)->unk_10.u16;

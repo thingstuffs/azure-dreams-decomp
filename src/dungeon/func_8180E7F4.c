@@ -233,7 +233,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     register s32 clear_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *ability_data;
     u8 *slot_addr;
-    register u8 *slot_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *slot_base;
     u8 matched_ability;
     u8 ability_level;
     u8 result_kind;
@@ -297,7 +297,7 @@ select_donor:
         ((S_800277F4_0 *)result)->unk_14.v = clear_shifted;
         clear_shifted |= element_mask;
         ((S_800277F4_0 *)result)->unk_14.n = clear_shifted;
-        do {
+        loop_0: {
             clear_shifted = clear_index << 0x10;
             next_clear = clear_index - 1;
             clear_index = next_clear;
@@ -308,7 +308,7 @@ select_donor:
             clear_donor_seen[clear_slot] = 0;
             clear_result_seen[clear_slot] = 0;
             ASM_KEEP_NV(next_clear);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        } while ((s16) next_clear >= 0);
+        } if ((s16) next_clear >= 0) goto loop_0;
         ability_count = 0;
         result_primary = func_8002773C(result, clear_donor_seen, clear_result_seen, clear_abilities);
         if (result_primary >= 0) {
@@ -641,14 +641,12 @@ store_ability:
                 slot_base = *(u8 **) (slot_page + 0x14A8);
             }
             slot_addr = (u8 *) (((s32) (slot_index << 0x10) >> 0xE) + (s32) slot_base);
-            ASM_KEEP_NV(slot_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            slot_flags = ((S_800277F4_8 *)donor)->unk_1C & 0x2000;
+            slot_flags = (*(s32 *)((u8 *)donor + 0x1C)) & 0x2000;
             donor_position = ((S_800277F4_8_pre *)donor)[-1].unk_00;
             donor_runtime = ((S_800277F4_17 *)slot_addr)->unk_D0;
             room_x = ((S_800277F4_18 *)donor_position)->unk_24;
             room_y = ((S_800277F4_18 *)donor_position)->unk_25;
-            ASM_KEEP(slot_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             map_mask = 0x3000;
             if (slot_flags != 0) {
                 map_mask = 0x300;

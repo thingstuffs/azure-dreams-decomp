@@ -112,10 +112,9 @@ retry:
 
             spawn_x = x;
             spawn_y = y;
-            entry->kind = 2;
-            entry->x = spawn_x;
-            entry->y = spawn_y;
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            (*(s16 *)((u8 *)entry + 0)) = 2;
+            (*(s16 *)((u8 *)entry + 2)) = spawn_x;
+            (*(s16 *)((u8 *)entry + 4)) = spawn_y;
 
             row_offset = y;
             update_row_shift = *(s16 *)(config + 0x14);
@@ -124,7 +123,7 @@ retry:
             map[cell_index].value -= 0x20;
 
             copy_row_shift = *(s16 *)(config + 0x14);
-            entry->value = map[cell_offset + (row_offset << copy_row_shift)].value;
+            (*(s16 *)((u8 *)entry + 6)) = map[cell_offset + (row_offset << copy_row_shift)].value;
 
             flags_row_shift = *(s16 *)(config + 0x14);
             ASM_KEEP(flags_row_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

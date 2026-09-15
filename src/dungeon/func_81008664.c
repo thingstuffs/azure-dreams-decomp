@@ -286,15 +286,12 @@ clear_partner_tile:
 clear_sprite_tile:
     func_8009A3D0(sprite_x, sprite_y, tile_mask);
     launch_entity = entity;
-    ASM_KEEP_NV(launch_entity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     clear_mask = 0xFFFB0000;
-    ASM_KEEP_NV(clear_mask);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     cleared_flags = launch_entity->unk_1C;
-    ASM_KEEP_NV(cleared_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     clear_mask |= 0xFFFF;
     cleared_flags &= clear_mask;
     launch_entity->unk_1C = cleared_flags;
-    actor_flags = actor->unk_98;
+    actor_flags = (*(u16 *)((u8 *)actor + 0x98));
     ASM_KEEP(actor_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     angle = launch_entity->unk_2A;
     ASM_KEEP_NV(angle);

@@ -188,8 +188,7 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
             D_80012BCC = product * 8 + D_80012BCC;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            st->state = 6;
+            (*(s16 *)((u8 *)st + 0)) = 6;
         }
         st->timer--;
         if (st->timer > 0) {
@@ -213,8 +212,7 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
             D_80012BCC = product * 8 + D_80012BCC;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            st->state = 6;
+            (*(s16 *)((u8 *)st + 0)) = 6;
         }
         st->timer--;
         if (st->timer > 0) {
@@ -240,8 +238,7 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
             choice = ((s32 *)&choices)[product];
             product = choice * 125;
             D_80012BCC = product * 8 + D_80012BCC;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            st->state = 6;
+            (*(s16 *)((u8 *)st + 0)) = 6;
         }
         st->timer--;
         if (st->timer > 0) {

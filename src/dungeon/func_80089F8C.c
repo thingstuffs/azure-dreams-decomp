@@ -18,23 +18,25 @@ extern u16 D_80083460[];
 extern u8 D_800DD0D0[];
 
 /* Updates actor state and animation when the position checks succeed. */
-void func_8008F6EC(void *state, void *target, void *sprite, void *actor) {
+void func_8008F6EC(void *state, void *target, void *sprite, u32 actor_or_can) {
+    void *actor = (void *)actor_or_can;
     s16 probe_a;
     s16 probe_b;
     s16 probe_c;
     s32 direction_offset;
-    register s32 can_animate ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    can_animate = 0;
+    actor_or_can = 0;
     if (D_80081485 == 0x13) {
-        can_animate = (func_8009A66C(((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, sprite, actor, 0x20) << 0x10) > 0;
+        s32 animate_result = func_8009A66C(((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, sprite, actor, 0x20);
+        animate_result <<= 0x10;
+        actor_or_can = animate_result > 0;
     } else if ((func_800A44E0(((Rec_D_800E3D7C *)target)->unk_00.at02_u16.v, ((Rec_D_800E3D7C *)target)->unk_04.at02_u16.v, ((Rec_D_800E3D7C *)actor)->unk_88.as_s16, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16) << 0x10) == 0) {
         direction_offset = ((u16) ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 >> 8) & 0xE;
         if ((func_800A7234((s16) (((Rec_D_80082E80 *)sprite)->unk_24 + *(u16 *)(D_8006CCD8 + direction_offset)), (s16) (((Rec_D_80082E80 *)sprite)->unk_25 + *(u16 *)(D_8006CCE8 + direction_offset)), ((Rec_D_800E3D7C *)actor)->unk_88.as_s16, &probe_a, &probe_b, &probe_c) << 0x10) != 0) {
-            can_animate = 1;
+            actor_or_can = 1;
         }
     }
-    if (can_animate != 0) {
+    if (actor_or_can != 0) {
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9A.as_s8 = 0x1F;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_9B.as_s8 = 0;
         ((Rec_func_8008ACDC_arg0 *)state)->unk_8C.as_s32 = 0;

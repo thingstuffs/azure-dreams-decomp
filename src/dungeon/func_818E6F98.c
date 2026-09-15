@@ -121,10 +121,9 @@ loop:
         primitive->v1 = primitive->v3 = uv_high;
 
         table_state = *(DungeonState *volatile *)state_address;
-        primitive->tag = (primitive->tag & 0xFF000000) |
+        (*(u32 *)((u8 *)primitive + 0)) = (primitive->tag & 0xFF000000) |
                          (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) &
                           0x00FFFFFF);
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         table_state = *(DungeonState *volatile *)state_address;
         *(u32 *)((u8 *)table_state + 0xB0 + table_offset) =
             (*(u32 *)((u8 *)table_state + 0xB0 + table_offset) & 0xFF000000) |

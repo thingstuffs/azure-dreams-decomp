@@ -97,7 +97,7 @@ s32 func_801732A4(Entity *input_entity, s32 action_param, Aux *input_aux)
     ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 top:
     if (aux->flags14 & 0x40) {
-        goto return_zero;
+        return 0;
     }
     script = D_80175DC4;
     command = script[1];
@@ -235,8 +235,7 @@ sequence_join:
             goto common;
         }
         angle_base = &D_80083228;
-        aux->sequence = sequence;
-        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
@@ -266,8 +265,7 @@ case_F8_state0:
             goto common;
         }
         angle_base = &D_80083228;
-        aux->sequence = start_sequence;
-        ASM_KEEP(start_sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        (*(u8 **)((u8 *)aux + 0x2C)) = start_sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, start_sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, start_sequence), aux->field04);
@@ -289,8 +287,7 @@ case_F8_state1:
         ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle_base = &D_80083228;
         entity->animation = next_phase;
-        aux->sequence = sequence;
-        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
@@ -321,8 +318,7 @@ case_E0_state0:
             goto common;
         }
         angle_base = &D_80083228;
-        aux->sequence = event_sequence;
-        ASM_KEEP(event_sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        (*(u8 **)((u8 *)aux + 0x2C)) = event_sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, event_sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, event_sequence), aux->field04);
@@ -353,8 +349,7 @@ case_E0_state1:
         ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle_base = &D_80083228;
         entity->animation = next_phase;
-        aux->sequence = sequence;
-        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
@@ -434,11 +429,9 @@ case_C8_state1:
         actor->angle = func_800A0818(aux->x24, aux->y25,
             D_80082E80[0x24], D_80082E80[0x25], angle_out);
         idle_sequence = D_801739A0;
-        ASM_KEEP(idle_sequence);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         angle_base = &D_80083228;
         entity->animation = 0;
-        aux->sequence = idle_sequence;
-        ASM_KEEP(idle_sequence);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        (*(u8 **)((u8 *)aux + 0x2C)) = idle_sequence;
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, idle_sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, idle_sequence), 0);
@@ -450,6 +443,5 @@ update_angle:
 
 common:
     func_800A9A0C(actor);
-return_zero:
     return 0;
 }

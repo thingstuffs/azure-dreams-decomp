@@ -101,12 +101,14 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
     void *entity;
     register void *motion ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *sprite ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor;
     u8 *body_part;
     u8 *part_anim;
     u8 *global_base;
     u8 *body;
-    register u8 *counter_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *state_zero_counter_base;
+    u8 *animate_counter_base;
+    u8 *state_two_counter_base;
     s32 actor_flags;
     s32 state;
     u16 timer;
@@ -133,7 +135,7 @@ void func_8017352C(void *in_entity, void *in_motion, void *in_sprite, void *in_a
         if (state == 0) {
             goto state_zero;
         }
-        goto done;
+        return;
     }
     if (state == 2) {
         goto state_two;
@@ -149,10 +151,12 @@ state_zero:
     func_80047784(sprite,
         D_801741CC[((D_80083228 + ((S_8017352C_2 *)actor)->unk_2A + 0x100) >> 9) & 7],
         0);
-    counter_base = (u8 *)&D_80083460;
+    state_zero_counter_base = (u8 *)&D_80083460;
     ((S_8017352C_0 *)entity)->unk_96 = 0;
-    count = ((S_8017352C_3 *)counter_base)->unk_0A - 1;
-    goto store_count;
+    count = ((S_8017352C_3 *)state_zero_counter_base)->unk_0A - 1;
+    ((S_8017352C_3 *)state_zero_counter_base)->unk_0A = count;
+    ((S_8017352C_0 *)entity)->unk_9B++;
+    goto done;
 
 state_one:
     if ((func_80042900(actor, 1) << 16) == 0) {
@@ -237,14 +241,12 @@ animate:
     if (((S_8017352C_1 *)sprite)->unk_14 & 0x8000) {
         goto clear_flag;
     }
-    counter_base = (u8 *)3;
-    ((S_8017352C_0 *)entity)->unk_96 = (s32)counter_base;
+    animate_counter_base = (u8 *)3;
+    ((S_8017352C_0 *)entity)->unk_96 = (s32)animate_counter_base;
     ((S_8017352C_0 *)entity)->unk_98 &= 0xBFFF;
-    counter_base = (u8 *)&D_80083460;
-    count = ((S_8017352C_3 *)counter_base)->unk_0A + 1;
-
-store_count:
-    ((S_8017352C_3 *)counter_base)->unk_0A = count;
+    animate_counter_base = (u8 *)&D_80083460;
+    count = ((S_8017352C_3 *)animate_counter_base)->unk_0A + 1;
+    ((S_8017352C_3 *)animate_counter_base)->unk_0A = count;
     ((S_8017352C_0 *)entity)->unk_9B++;
     goto done;
 
@@ -258,10 +260,10 @@ state_two:
     if (!(((S_8017352C_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
     }
-    counter_base = (u8 *)&D_80083460;
+    state_two_counter_base = (u8 *)&D_80083460;
     ((S_8017352C_9 *)motion)->unk_14 = 0;
     ((S_8017352C_0 *)entity)->unk_A8 = 0;
-    ((S_8017352C_3 *)counter_base)->unk_0A--;
+    ((S_8017352C_3 *)state_two_counter_base)->unk_0A--;
 
 clear_flag:
     ((S_8017352C_2 *)actor)->unk_1C.u &= -0x201;

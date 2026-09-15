@@ -40,14 +40,14 @@ typedef struct S_func_8047E1C0_3 {
 void func_8047E1C0(void) {
     void *state_data;
     s32 call_code;
-    register S_func_8047E1C0_3 *dispatch_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_8047E1C0_3 *dispatch_table;
 
     call_code = 0x3B0;
     state_data = &D_8001802A;
     ((S_func_8047E1C0_2 *)((S_func_8047E1C0_1 *)(*(void **)((u8 *)D_80010000 + 0x6000)))->unk_1C)->unk_40 = state_data;
     dispatch_table = *(void **)((u8 *)(*(void **)((u8 *)D_80010000 + 0x6000)) + 0x20);
     *(volatile M2C_UNK **)&D_8001794C[0] = &D_800177C8;
-    dispatch_table->unk_2EC(call_code, 0x100, (*(void **)((u8 *)D_80010000 + 0x6000)));
+    dispatch_table->unk_2EC(call_code, 0x100, ((S_func_8047E1C0_0 *)D_80010000)->unk_6000);
     func_800175E0(0x98);
     *(void **)((s8 *)((S_func_8047E1C0_1 *)(*(void **)((u8 *)D_80010000 + 0x6000)))->unk_40 + ((S_func_8047E1C0_1 *)(*(void **)((u8 *)D_80010000 + 0x6000)))->unk_08 * 8) = &D_8001624C;
 }

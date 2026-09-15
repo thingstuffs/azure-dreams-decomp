@@ -23,6 +23,41 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-seventh round (2026-09-15), gated (26 windows MATCH, SLUS SHA-1 MATCH): **7,206 pins in 1,348 rows** (7,253 at
+start, -47: `t63_memdep` sweep 19 rows / 37 pins, three sol register packs from the pool table 6 of 15 rows / 6 pins,
+cascade 4). The owner asked for a critical review, new mechanisms (long CPU jobs welcome) and less model spend.
+**Read `docs/PIN_MECHANISMS_20260912.md` "Round 27" for the measurements; the verdicts:**
+- **The CPU search is menu-limited, not budget-limited.** Every past escalation left the per-group cap at 240 screens
+  (depth ~1.7 of 3); `pin_search.py prepare --group-screens/--depth/--beam/--band` now exposes it, and the deep pilot
+  (beam 16, 2,400 per group, 39 near-band rows, 62k compiles) landed 0 with the candidate space exhausted. A text-only
+  replay of the whole menu on 120 lane-won register fixes reaches 1 at depth 1. **Do not run the search longer with
+  this menu; only a new move kind pays.** Lane fixes are lifetime splits/merges/renames (61% remove a declaration).
+- **The lane ledger and pool table** (`tools/lanes/ledger.py`, `tools/lanes/pools.py`, opus-built and reviewed) replace
+  the hand-made rate tables. 184 lanes: sol REG 31%, luna REG 19%, luna FENCE 16%, luna KEEP 5%, SWITCH 1%; by stratum
+  alloc2 39% > alloc5 29% > alloc1 24% > alloc4 17% > alloc3 15%. `ledger.py --closed 0.2` lists the groups no pack may
+  be built on (FAKEDEP, ARG, SWITCH, KEEP, FENCE, REG alloc3/alloc4). **Rule: a pack is launched from `pools.py` only,
+  never on a closed group.** The paying register pool is about 15 unserved rows (served as alloc75-77 at 40%).
+- **A new lever from the compiler source, bounded by measurement.** gcc 2.x sched.c/cse.c/loop.c exempt a struct-member
+  access through a varying address from conflicting with a fixed non-struct access (`MEM_IN_STRUCT_P`; fixture
+  `tools/fixtures/memdep/run.sh`, every cell but 2.91.66). `t63_memdep` respells one access (`p->f` <-> cast, `G` <->
+  `G[1]`) and pays 6% on fence/memory-barrier rows and ~1% on keeps: the near band is 66% non-memory residues (an ALU
+  op or a copy the pin holds), which no spelling reaches. Its reviewer caught a silent `volatile` drop that the screen
+  cannot see - the pattern to brief every future generator reviewer with.
+- **Probe triage of the whole register family** (`work/alloc_probe/reg_all/`, 1,041 rows, 80 min CPU): one-knob sites
+  1,235 (sugg 498, pref 478, order-swap 181), neither 1,655, no-knob-plan 337; `pref` on saved registers is unreachable
+  (round 26); `sugg` and `order-swap` are the only classes a machine lever could still target.
+- **Where this leaves the approach:** two levers have paid all along - generators built from a measured mechanism, and
+  skeptic lanes refuting a belief - and both are now instrumented (fixture, ledger, pool table). Packs and retries are
+  spent by measurement; 229 rows with 9+ pins hold half the pins and an astra skeptic found one structural cause in
+  eight. If the next round's mechanism candidates (a variable-set restructuring generator learned from the 763 lane
+  diffs; a `sugg`/`order-swap`-directed register generator over the probe's 679 sites) come back at the usual 1-6%,
+  the honest end state for the big rows is documented pins at L4, which is the owner's call, not more spend.
+- **Next, in order:** (1) the variable-set generator (split at each redefinition, merge non-overlapping same-type locals,
+  retype; exhaustive to depth 2 with the screen, pass-stream distance as the tie-break) built by opus from the
+  exemplar corpus and evaluated on the 120 lane-won pre-fix texts before any sweep; (2) a `sugg`-class register
+  generator (the probe names the hard register whose copy suggestion is missing); (3) the fence rows through
+  `t63_memdep` are done - the remaining 399 fences are the non-memory class; (4) packs only from `pools.py`.
+
 Twenty-sixth round, step 3, the saved-register preference study (opus, reviewed; `work/pref_study/REPORT.md`): a
 well-supported NEGATIVE. In gcc 2.7.2 / 2.7.2-cdk / 2.8.x (byte-identical `set_preference` / `expand_preferences`), a
 global allocno gets a preference for a saved register $sN only from a surviving `(set G SRC)` / `(set L G)` whose other

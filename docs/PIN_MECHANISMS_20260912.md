@@ -1715,3 +1715,17 @@ built by opus workflows and reviewed here. What was measured, in the order it ch
   (opus, reviewed) is being built and evaluated on the near-band keep rows; two hand probes before it (an untargeted
   flip of the nearest raw access at 26 keep sites; residue-directed flips at 40) changed the listing at one site and
   were inconclusive because they resolved almost no struct types, which is what the generator is for.
+- **`t63_memdep` measured** (opus-built; the opus reviewer found a BLOCKING defect - the member->cast flip silently
+  dropped `volatile`, invisible to the screen, and the implementer's one "the mechanism bites" example was that
+  dropped qualifier, not the flag - plus a stale-window defect after erasure; both fixed, 47 unit tests). Rates by
+  family through `lane_eval` before the fix: fence / memory-barrier rows **10 of 168 eligible (6%)**, near-band keep
+  rows 1 of 142, near-band rows 0 of 62; the residue census bounds it: in 66-76% of the misses the held instruction
+  is not a memory reference, which no access spelling can move. The corrected sweep over the whole tree
+  (`ledger/sweeps/t63_memdep.jsonl`, 12 minutes at 6 workers): **19 rows applied, 37 pins** in the counted containers
+  (the largest: `dungeon/func_8133C2A4` 12 -> 6, `func_819835AC` 18 -> 15, `func_81008664` 66 -> 63, `town/func_80953900`
+  8 -> 5); the one hit whose members were `volatile` (`dungeon/func_80083E28`) was refused as it should be. Every
+  landed diff is one shape: `ASM_SCHED_BARRIER()` or `ASM_MEM_BARRIER()` beside a struct-member store through a
+  pointer (`primitive->tag = ...`, `entry->kind = 2`, `st->state = 6`), respelled `(*(T *)((u8 *)p + off)) = ...` so the
+  store conflicts with the neighbouring fixed-address access again - the PSX SDK's own primitive macros write the
+  tag word through exactly such a cast - or a bare global respelled as a one-element array. The spelling is uglier
+  than `p->f`; a later tidy may choose among the equivalent non-struct spellings. `t63_memdep` is in the cascade list.

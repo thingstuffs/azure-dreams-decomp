@@ -53,15 +53,14 @@ typedef struct S_8009B2C4_1 {
 /* Dispatches town object actions for the active script and owner state. */
 s32 func_8009B2C4(TownObject *object, void *owner, void *context) {
     register TownControl *control ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register TownControl *initial_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     TownControl *control_page;
     TownControl *owner_control;
     register u8 *entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 active_script;
 
-    initial_page = (TownControl *)0x800D0000;
-    ASM_KEEP_NV(initial_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    control = (TownControl *)((u8 *)initial_page - 0x34C);
+    entry = (u8 *)0x800D0000;
+    ASM_KEEP_NV(entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    control = (TownControl *)(entry - 0x34C);
 
     if (control->field_10 == owner) {
         register s32 index ASM_REG("$8") = control->index;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

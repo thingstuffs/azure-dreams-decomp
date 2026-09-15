@@ -4,7 +4,7 @@
 typedef struct S_800525D4_sub {
     s16 f0;     /* 0x00 */
     s16 f2;     /* 0x02 */
-    s16 count;  /* 0x04 - incremented once per successfully attached slot */
+    s16 count;  /* 0x04 - incremented once per successfully attached slot0 */
     s16 f6;     /* 0x06 */
     void *f8;   /* 0x08 - set to &D_80071E44 */
     void *fC;   /* 0x0C - result of func_80051708 */
@@ -43,7 +43,11 @@ void func_800525D4(void)
 {
     S_800525D4_obj *node;
     S_800525D4_sub *slots;
-    register void *slot ASM_REG("$17");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    void *slot0;
+    void *slot1;
+    void *slot2;
+    void *slot3;
+    void *slot4;
 
     node = (S_800525D4_obj *)func_8003FC64(0);
     if (node != 0) {
@@ -62,36 +66,36 @@ void func_800525D4(void)
         func_8003F540(0, 0x15B7C, 0, 0x10093C8);
         SD_Call(0x300);
 
-        slot = func_8003FD64(0x212, node);
-        if (slot != 0) {
-            func_80051708(slot, slots);
-            slots->fC = slot;
+        slot0 = func_8003FD64(0x212, node);
+        if (slot0 != 0) {
+            func_80051708(slot0, slots);
+            slots->fC = slot0;
             slots->count++;
         }
         if (func_80033B2C(0x1392) == 0) {
-            slot = func_8003FD64(0x212, node);
-            if (slot != 0) {
-                func_80051BFC(slot, slots);
-                slots->f10 = slot;
+            slot1 = func_8003FD64(0x212, node);
+            if (slot1 != 0) {
+                func_80051BFC(slot1, slots);
+                slots->f10 = slot1;
                 slots->count++;
             }
         }
-        slot = func_8003FD64(0x212, node);
-        if (slot != 0) {
-            func_80051E94(slot, slots);
-            slots->f14 = slot;
+        slot2 = func_8003FD64(0x212, node);
+        if (slot2 != 0) {
+            func_80051E94(slot2, slots);
+            slots->f14 = slot2;
             slots->count++;
         }
-        slot = func_8003FD64(0x212, node);
-        if (slot != 0) {
-            func_800520B4(slot, slots);
-            slots->f18 = slot;
+        slot3 = func_8003FD64(0x212, node);
+        if (slot3 != 0) {
+            func_800520B4(slot3, slots);
+            slots->f18 = slot3;
             slots->count++;
         }
-        slot = func_8003FD64(0x212, node);
-        if (slot != 0) {
-            func_80053374(slot, slots);
-            slots->f1C = slot;
+        slot4 = func_8003FD64(0x212, node);
+        if (slot4 != 0) {
+            func_80053374(slot4, slots);
+            slots->f1C = slot4;
             slots->count++;
         }
     }

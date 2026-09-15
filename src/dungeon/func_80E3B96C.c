@@ -247,8 +247,7 @@ allocate:
     work->y = target_y;
     work->hit = hit;
     work->flags = context->f14 & 0x2007;
-    work->source_id = source_arg->f12;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    (*(u16 *)((u8 *)work + 0x3A)) = source_arg->f12;
     table_or_owner = owner_data;
     owner_byte = table_or_owner[0xAC];
     work->owner_minus20 = (u8 *)context - 0x20;
