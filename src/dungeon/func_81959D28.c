@@ -32,8 +32,7 @@ void func_81959D28(void *actor, Motion *motion) {
 
     timer = *(u16 *)((u8 *)actor + 0x30) - 1;
     counter = D_800281F8 + 1;
-    ASM_KEEP(counter);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    *(u16 *)((u8 *)actor + 0x30) = timer;
+    ((u16 *)actor)[24] = timer;
     D_800281F8 = counter;
 
     if ((s16)timer > 0) {

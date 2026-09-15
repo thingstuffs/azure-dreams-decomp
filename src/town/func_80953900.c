@@ -217,11 +217,9 @@ state_1:
         volatile s32 *money = &D_80012D5C;
 
         SD_Call(0x503);
-        entity->quantity = 1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        (*(s16 *)((u8 *)entity + 8)) = 1;
         *money -= 100;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        D_80113158 = option_ids.value[entity->selection];
+        D_80113158 = option_ids.value[(*(s16 *)((u8 *)entity + 6))];
         func_80033B9C(0x592);
         D_80024300[0] = func_800B1BEC(0, -0x48, -0x28);
         entity->timer = -1;
@@ -318,8 +316,7 @@ state_101:
     {
         s32 *global_flags = &D_800814A0;
 
-        ((u16 *)entity)[-1] |= 0x8000;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        (*(u16 *)((u8 *)entity + -2)) |= 0x8000;
         *global_flags |= 0x8000;
     }
     goto exit;

@@ -968,11 +968,8 @@ block_128:
 block_129:
     visual->unk_1A = (u16) (func_800A07D0(0, 0, motion->unk_0C.half.unk_0E, motion->unk_10.half.unk_12) - 0x400);
     common_speed = motion->unk_14.half.unk_16;
-    ASM_KEEP(common_speed);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    visual_scale = visual->unk_1C;
+    visual_scale = (*(u16 *)((u8 *)visual + 0x1C));
     red = visual->unk_0C.half.unk_0C;
-    ASM_KEEP(visual_scale);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(red);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     aim_angle = common_speed * 4;
     common_pitch = aim_angle + 0x400;
     visual->unk_16 = (u16) common_pitch;

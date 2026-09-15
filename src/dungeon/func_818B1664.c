@@ -408,12 +408,11 @@ case_0:
     direction_table = D_8006CCD8;
     target_x = (s32)target_x >> 10;
     direction_index = (s16)state_arg->direction;
-    ASM_KEEP(direction_index);
     target_cursor = &work.target.x.half.hi;
     axis_step = direction_table[direction_index];
     direction_table = D_8006CCE8;
     target_x = target_x + ((axis_step + 1) << 5);
-    target->x.half.hi = target_x;
+    (*(s16 *)((u8 *)target + 2)) = target_x;
     target_x = (s16)target_x;
     table_addr = (u16)saved_y;
     direction_index = (s16)state_arg->direction;

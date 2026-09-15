@@ -27,7 +27,7 @@ extern int D_800814A0;
 extern u8 D_80082E80[];
 extern u32 D_80082E8C;
 extern u8 D_80083160[];
-extern s16 D_800834C8;
+extern s16 D_800834C8[1];
 extern s32 D_80083780[];
 
 extern void func_800252B8(s32, s32, s32, s32);
@@ -95,8 +95,7 @@ case_0:
     }
 
 case_1:
-    D_800834C8 = 0x400;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    D_800834C8[0] = 0x400;
     {
         u16 flags = state->flags;
 

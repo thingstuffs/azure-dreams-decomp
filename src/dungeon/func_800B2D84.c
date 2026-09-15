@@ -63,9 +63,8 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   *((volatile s32 *) (((volatile u8 *) scratchpad) + 0xC)) = parameters->y0;
   *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x10)) = parameters->x1;
   *((volatile s32 *) (((volatile u8 *) scratchpad) + 0x14)) = parameters->y1;
-  ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
   segment = 0;
-  if (parameters->count != 0)
+  if ((*(u16 *)((u8 *)parameters + 0xE)) != 0)
   {
     blend_setting = blend_mode & 0xFFFF;
     packet_code = cursor + 7;
@@ -105,8 +104,7 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
         offset = scratch >> 12;
         *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x78)) = position->x + offset;
       }
-      ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-      trig_value = func_800644B8(angle_step / parameters->count);
+      trig_value = func_800644B8(angle_step / (*(u16 *)((u8 *)parameters + 0xE)));
       {
         offset = parameters->y2;
         scratch = offset * trig_value;

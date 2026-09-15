@@ -14,7 +14,7 @@ extern s32 func_80408684(s32 arg0);
 s32 func_804012B0(void)
 {
     s32 selection_state;
-    register s32 return_code ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 return_code;
     s32 selection;
     s32 *selected_slot;
 
@@ -40,22 +40,18 @@ case_one:
 
 case_three:
     selection = D_804094EC;
-    do {
-        selected_slot = (s32 *)D_800A0000;
-    } while (0);
+    selected_slot = (s32 *)D_800A0000;
     selected_slot -= 1820;
     if (selection != 0) {
         selected_slot++;
-        return_code = 3;
-    } else {
-        return_code = 3;
     }
+    return_code = 3;
     *selected_slot = 0;
     D_804094E8 = 0;
     goto fast_done;
 
 done:
-    ASM_KEEP(return_code);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(return_code);
 fast_done:
     return return_code;
 }

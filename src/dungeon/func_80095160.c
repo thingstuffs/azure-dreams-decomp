@@ -50,7 +50,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
     s32 coord_work;
     register s32 target_x ASM_REG("$17");
     s32 step_offset;
-    register s32 offset_work ASM_REG("$2");
+    u32 offset_work;
     s32 result;
     register s32 coord_or_height ASM_REG("$3");
     s32 next_x;
@@ -94,12 +94,9 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
             if (coord_or_height != 0) {
                 if (((1 << map_limits[11]) - 1) >= coord_or_height) {
                     coord_or_height = *(volatile u8 *)&actor->x;
-                    ASM_KEEP_NV(coord_or_height);
                     offset_work = *(volatile u8 *)&actor->y;
-                    ASM_KEEP_NV(offset_work);
                     body_addr = (u32)body;
-                    ASM_KEEP_NV(body_addr);
-                    height = ((FuncArg2 *)body_addr)->height;
+                    height = (*(u16 *)((u8 *)body_addr + 0x88));
                     coord_or_height <<= 6;
                     tile_coord = (u32)coord_or_height >> 6;
                     offset_work <<= 6;
