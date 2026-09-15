@@ -25,7 +25,7 @@ Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
 Thirtieth round (2026-09-15, evening), gated (64 windows MATCH, SLUS SHA-1 MATCH): **6,264 pins in 1,303 rows** (6,473 at start, -209: the
 `t66_sameregmerge` openings v3 through the forced tree sweep 148 pins / 73 evaluation outputs + 32 pins / 11 rows more in the forced tree sweep with `T66_TRY_INTERFERENCE=1`, `t59_offsetsym` opened 4 pins / 3 rows (the forced sweep added none), the two sol packs 6 rows /
-9 pins, the cascades). The owner's standing instruction: continue the approach and next steps, keep evaluating what works and
+8 pins, the cascades). The owner's standing instruction: continue the approach and next steps, keep evaluating what works and
 what doesn't. **Read `docs/PIN_MECHANISMS_20260912.md` "Round 30"; the verdicts:**
 - **Measure before commissioning, again - and this time in seconds.** `tools/lanes/erase_census.py` erases every live site
   alone and screens it (23 s for the tree): the handover's maspsx-level-screen item died on the spot (21 of 6,480 sites are
@@ -49,19 +49,20 @@ what doesn't. **Read `docs/PIN_MECHANISMS_20260912.md` "Round 30"; the verdicts:
   produces. The repair is "name the symbol" - the t29/t33/t54/t59 family's move - and t59 opened four ways pays 3 rows / 4 pins
   of 100; what remains of the class after respelling is the scheduling class. A clean bound on a census-named pattern.
 - **Packs from the pool pay what the table says, and sol went to capacity.** probe5 (REG alloc3 4-8) 2 of 12, probe6 (REG
-  alloc4 2-3 / 4-8) 4 of 10 - 6 rows / 9 pins, no repeating move; both lanes died at "Selected model is at capacity" after
+  alloc4 2-3 / 4-8) 4 of 10 - 6 rows / 8 pins, no repeating move; both lanes died at "Selected model is at capacity" after
   20 minutes and were relaunched (launch_lane.sh allows it: no `last_message.txt`), finishing on the second run.
 - **Model usage this round:** one opus Workflow `r30_samereg3_addr.js` 6 agents / 1.46M subagent tokens / 142 min (two
   implementers -> two adversarial reviewers -> two fixes; every reviewer found three majors, all fixed at zero measured
   cost); two sol packs (22 rows, ~50 min each after the relaunch); no astra/luna/agy. CPU: the erase census 23 s x 2, the
   moved-class phase census 4 min, the t66 refusal census ~2 min, the sweeps and one gate. Day total across rounds 28-30:
-  four opus workflows ~6.9M tokens, 7,206 -> 6,264 = 942 pins.
+  four opus workflows 5.23M subagent tokens (1.51M + 0.67M + 1.59M + 1.46M), 7,206 -> 6,264 = 942 pins.
 - **Next, in order:** (1) t51's refusal table on the 408 sched-moved sites (`scratch moved_phase.jsonl` -> a rows/sites list;
   t51/t57/t63 do not journal refusals: add the Counter first, then read the largest count in the code, as with t66); (2)
   the dbr class (188 sites: a fill moved into or out of a delay slot) against the pin notes' "delay-slot" rows - which C
   shape decides reorg.c's fill, measured on 20 sites with `-da` before any brief; (3) t66's `type-mismatch-narrow`
   (132 pairs / 46 rows / 433 pins) is the width rule, not an opening - leave it; `address-taken` (77 / 6) and
-  `loop-backedge` (24 / 5) are small; (4) packs only from `pools.py` - the alloc3/alloc4 strata are now served.
+  `loop-backedge` (24 / 5) are small; (4) packs only from `pools.py` - the knob-sufficient rows of alloc3/alloc4 are served; 38 rows without a
+  knob-sufficient site stay unserved (alloc3 4-8: 8, alloc4 2-3: 26, 4-8: 4).
 
 Twenty-ninth round (2026-09-15, afternoon), gated (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows** (6,850 at start, -377; -733 since the morning: `t64_varset`
 over the rest of the tree 82 rows / 123 pins, the `t66_sameregmerge` openings through two tree sweeps 47 + 28 rows (the 90
@@ -93,7 +94,7 @@ the verdicts:**
   implementers -> two adversarial reviewers -> two fixes; every reviewer found blocking defects again: name-slot macro
   parameters, multi-line macro arguments, a braceless-if anchor, whitespace-stripped run equality, a one-sided scope
   check); no codex lanes, no astra/luna/agy. CPU: the t64 tree sweep 45 min, the beam-64 pilot ~5 h, the forced t66 sweep
-  under a minute, the t67 sweep 8 min, three cascades, one gate. Round total across 28 + 29: three opus workflows ~5.4M
+  under a minute, the t67 sweep 8 min, three cascades, one gate. Round total across 28 + 29: three opus workflows 3.77M (1.51M + 0.67M + 1.59M)
   tokens for six tools, of which two paid 200+ pins each (t66 and its openings), one ~180 (t64), three measured a class
   out (t65, t67 mostly, the pilot).
 - **Next, in order:** (1) the refusal tables of t64 (`work/native_lane/r28_dev/evidence/*/`) and t67 read the way t66's were:

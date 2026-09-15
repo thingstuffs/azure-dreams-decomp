@@ -1885,7 +1885,7 @@ Measured first (CPU, before any tool was commissioned):
   `dungeon/func_80D3C944` 4 -> 2 (a byte load split across the intervening call: t64's split_def), `slus/w_80041344` 4 -> 3
   (the value hosted in a non-overlapping local already on that register: t66's move in the other direction),
   `town/func_800C7328` 3 -> 2 (a missing argument position recovered and forwarded), `town/func_80820AF4` 3 -> 2 (the value
-  hosted in a real call-argument producer). 6 of 22 rows, 9 pins, ~50 min of sol each; the alloc3/alloc4 strata pay as the
+  hosted in a real call-argument producer). 6 of 22 rows, 8 pins, ~50 min of sol each; the alloc3/alloc4 strata pay as the
   pool table said (15-17%) and no move repeats across the wins the way probe4's did - nothing new to write up as a
   generator. Their outputs land with the round's gate.
 - **The workflow (`r30_samereg3_addr.js`, 6 agents / 1.46M tokens / 142 min).** Item A, `t66_sameregmerge` openings v3:
@@ -1910,7 +1910,7 @@ Measured first (CPU, before any tool was commissioned):
   1,303 rows**, from 6,473 (-209): the t66 openings 148 pins / 73 evaluation outputs + 32 / 11 rows in the forced tree sweep
   with `T66_TRY_INTERFERENCE=1` (two passes: 9 + 2 rows; the second pass paid on the `T66_VERIFY`-limited rows), t59 4 / 3
   (its forced sweep added nothing), the packs 8 / 6, the cascade 17 (t53_reg_state 13, t53k 2, t63 2). The day, rounds 28-30:
-  7,206 -> 6,264 (-942), four opus workflows ~6.9M tokens, four sol packs.
+  7,206 -> 6,264 (-942), four opus workflows 5.23M subagent tokens (1.51M + 0.67M + 1.59M + 1.46M), four sol packs.
 
 ## Round 29 (2026-09-15): the control-flow inventory, t66's openings, the tail forms, and two clean negatives
 
