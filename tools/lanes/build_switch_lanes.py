@@ -36,8 +36,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import rows, clean_path
 from pin_census import sites_of
+from served import served_rows, assert_unserved
 
 R = {r["id"]: r for r in rows()}
 
@@ -222,7 +224,8 @@ def main():
     ap.add_argument("--per", type=int, default=10)
     ap.add_argument("--model", default="sol")
     ap.add_argument("--no-verify", action="store_true", help="skip the base-is-exact check (a landing gate is running)")
-    ap.add_argument("--repack", action="store_true", help="admit rows already given to an earlier sw* pack (retry packs)")
+    ap.add_argument("--repack", action="store_true", help="admit rows already served by a lane (retry packs)")
+    ap.add_argument("--dry-run", action="store_true", help="print the pack composition and the stats; write nothing")
     ap.add_argument("--max-cases", type=int, default=40, help="size guard: skip rows with more label-array entries")
     ap.add_argument("--max-text", type=int, default=40000, help="size guard: skip rows whose C is larger")
     a = ap.parse_args()
@@ -238,6 +241,8 @@ def main():
     packed = set()
     for f in (ROOT / "work/native_lane").glob("sw*/base/*/*.c"):
         packed.add(f.parent.name + "/" + f.stem)
+    served = served_rows()
+    nserved = 0
 
     pool, skipped = [], []
     for rid in ids:
@@ -245,6 +250,10 @@ def main():
             skipped.append((rid, "unknown row or missing file")); continue
         if rid in packed and not a.repack:
             skipped.append((rid, "already packed")); continue
+        if rid in served:
+            nserved += 1
+            if not a.repack:
+                skipped.append((rid, "served by an earlier lane")); continue
         text = clean_path(R[rid]).read_text(errors="replace")
         info, why = info_of(rid, text, a)
         if info is None:
@@ -263,13 +272,14 @@ def main():
 
     pool.sort(key=lambda p: (0 if p["d56"] else 1, -len(p["sites"]),
                              CELL_RANK.get(p["row"]["cell"], 2), p["rid"]))
-    (ROOT / "work/native_lane").mkdir(parents=True, exist_ok=True)
-    # tab separated (a cfg holds spaces); --pool reads the first field of each line.  This is the
-    # pool THIS run would pack: rows already in a sw* pack are absent unless --repack.
-    (ROOT / "work/native_lane/sw_pool.txt").write_text(
-        "# id\tcfg\tlive pins\tcases\tdispatch pin\n" + "".join("%s\t%s\t%d pins\t%d cases\t%s\n" % (p["rid"], p["row"]["cfg"], len(p["sites"]), p["ncases"],
-                                                     "$5/$6" if p["d56"] else "-") for p in pool))
-    print(stats(pool))
+    if not a.dry_run:
+        (ROOT / "work/native_lane").mkdir(parents=True, exist_ok=True)
+        # tab separated (a cfg holds spaces); --pool reads the first field of each line.  This is the
+        # pool THIS run would pack: rows already in a sw* pack are absent unless --repack.
+        (ROOT / "work/native_lane/sw_pool.txt").write_text(
+            "# id\tcfg\tlive pins\tcases\tdispatch pin\n" + "".join("%s\t%s\t%d pins\t%d cases\t%s\n" % (p["rid"], p["row"]["cfg"], len(p["sites"]), p["ncases"],
+                                                         "$5/$6" if p["d56"] else "-") for p in pool))
+    print(stats(pool) + " | served by an earlier lane: %d" % nserved)
 
     brief = (ROOT / "tools/lanes/switch_lane_brief.md").read_text()
     i = 0
@@ -277,6 +287,11 @@ def main():
         chunk = pool[i:i + a.per]; i += a.per
         if not chunk:
             print(name, "no rows left"); continue
+        assert_unserved([p["rid"] for p in chunk], a.repack)    # never re-serve a row by accident
+        if a.dry_run:
+            print(name, len(chunk), "rows (dry run, nothing written):",
+                  ", ".join(p["rid"] for p in chunk))
+            continue
         L = ROOT / "work/native_lane" / name
         assert not (L / "last_message.txt").exists(), name
         (L / "out").mkdir(parents=True, exist_ok=True)

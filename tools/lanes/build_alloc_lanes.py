@@ -43,9 +43,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import rows, clean_path, sha_text
 from pin_census import sites_of
 from verify import verify
+from served import served_rows, assert_unserved
 
 ALLOC = ROOT / "work/native_lane/alloc_astra"
 TRACES = ALLOC / "scratch/trace_population"
@@ -235,15 +237,21 @@ def row_sites(rid, text, trace):
 
 
 def site_reasons(st):
+    """The site's reason labels: the lane taxonomy plus, for a global owner, the finer find_reg reading
+    (`attempt_reasons`, always on in tools/alloc_trace.py), which resolves the coarse
+    `global-competition-or-scan-unresolved` label on about 100 never-served rows (round 26)."""
     out = set()
     for e in (st or {}).get("reasons") or []:
+        out |= set(e.get("reasons") or [])
+    for e in (st or {}).get("attempt_reasons") or []:
         out |= set(e.get("reasons") or [])
     return out
 
 
-def collect(per_stats, max_pins=3, exclude=(), traces=TRACES, min_pins=0):
+def collect(per_stats, max_pins=3, exclude=(), traces=TRACES, min_pins=0, served=()):
     """The pool: one record per admissible row, with its per-site traces (read from `traces`)."""
-    held, pool = heldout() | set(exclude), []
+    held, pool = heldout(), []
+    exclude, served = set(exclude), set(served)
     R = {r["id"]: r for r in rows()}
     for f in sorted(Path(traces).glob("*.json")):
         trace = json.loads(f.read_text())
@@ -256,6 +264,12 @@ def collect(per_stats, max_pins=3, exclude=(), traces=TRACES, min_pins=0):
         text = clean_path(r).read_text(errors="replace")
         if hashlib.sha256(text.encode()).hexdigest() != trace.get("sha"):
             per_stats["source drifted since the trace"] += 1
+            continue
+        if rid in exclude:
+            per_stats["already packed / excluded"] += 1
+            continue
+        if rid in served:
+            per_stats["served by an earlier lane"] += 1
             continue
         if rid in held and not INCLUDE_HELDOUTS:
             per_stats["held out (H1/H2)"] += 1
@@ -363,6 +377,10 @@ def main():
                          "scratch/trace_population)")
     ap.add_argument("--exclude", help="file of row ids to leave out (rows already given to a pack); rows under "
                                       "work/native_lane/alloc*/base are always left out")
+    ap.add_argument("--repack", action="store_true",
+                    help="admit rows already served by a lane (a deliberate retry pack)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="print the pack composition and the stats; write nothing")
     ap.add_argument("--as", dest="alias", default="",
                     help="NEW=STRATUM[,NEW=STRATUM...]: build a pack named NEW from STRATUM's rows (alloc1-4 are "
                          "the strata); packs sharing a stratum take successive slices")
@@ -381,7 +399,8 @@ def main():
         exclude.add(f.parent.name + "/" + f.stem)
 
     stats = collections.Counter()
-    pool = collect(stats, a.max_pins, exclude, Path(a.traces), a.min_pins)
+    pool = collect(stats, a.max_pins, exclude, Path(a.traces), a.min_pins,
+                   served=() if a.repack else served_rows())
     live = [p for p in pool if not p.get("skip")]
     tie_ids = {rid for rid, _ in TIES}
     by_id = {p["id"]: p for p in pool}
@@ -426,6 +445,17 @@ def main():
                 p = by_id.get(rid)
                 if p and verified.get(rid, True):
                     ties.append((p, site))
+        chunk = [(p, None) for p in picked] + ties
+        n = len(chunk)
+        if not n:
+            print(name, "no rows left")
+            continue
+        assert_unserved([p["id"] for p, _ in chunk], a.repack)    # never re-serve a row by accident
+        if a.dry_run:
+            print(name, n, "rows (dry run, nothing written):",
+                  ", ".join(p["id"] for p, _ in chunk))
+            built.append((name, n))
+            continue
         L = ROOT / "work/native_lane" / name
         assert not (L / "last_message.txt").exists(), name
         (L / "out").mkdir(parents=True, exist_ok=True)
@@ -433,14 +463,10 @@ def main():
                "smallest retail size)\n",
                "Site numbers index every `ASM_*` site of the file in source order, as `tools/pin_census.py` "
                "lists them.\n"]
-        for p, site in [(p, None) for p in picked] + ties:
+        for p, site in chunk:
             out.append(render_row(p, st, site))
-        n = len(picked) + len(ties)
-        if not n:
-            print(name, "no rows left")
-            continue
         (L / "rows.md").write_text("\n".join(out))
-        for p, _ in [(p, None) for p in picked] + ties:
+        for p, _ in chunk:
             cont, nm = p["id"].split("/")
             (L / "base" / cont).mkdir(parents=True, exist_ok=True)
             (L / "base" / cont / (nm + ".c")).write_text(p["text"])

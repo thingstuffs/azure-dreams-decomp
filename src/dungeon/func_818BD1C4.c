@@ -50,7 +50,8 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
     u16 pos_y;
     s32 phase_value;
     s32 phase_rounded;
-    register void *data_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *data_ptr;
+    void *transform_ptr;
     s32 object_result;
     void *unused_ptr;
     S_818BD1C4_2 *visual;
@@ -77,14 +78,12 @@ s32 func_818BD1C4(s32 *owner_id, void *transform, s16 color_index, s32 y_offset)
         if (color_channel == 0) {
             goto case_0;
         }
-        data_ptr = visual;
         goto after_data_ptr;
 
 check_2:
         if (color_channel == 2) {
             goto case_2;
         }
-        data_ptr = visual;
         goto after_data_ptr;
 
 case_0:
@@ -99,14 +98,13 @@ case_1:
         goto zero_red;
 
 case_2:
-        data_ptr = visual;
         visual->unk_0E = 0x80;
         visual->unk_0D = 0;
 zero_red:
         visual->unk_0C = 0;
 config_data:
-        data_ptr = visual;
 after_data_ptr:
+        data_ptr = visual;
         visual->unk_12 = 0x7DCF;
         visual->unk_14 = (u16) (visual->unk_14 | 0xC);
         visual->unk_10 = (u16) (visual->unk_10 | 0x60);
@@ -121,13 +119,13 @@ after_data_ptr:
         visual->unk_1E = 0x2000;
         visual->unk_1C = 0x2000;
         func_8004491C(object, &D_80045340);
-        data_ptr = ((S_818BD1C4_0 *)object)->unk_08;
-        (*(Copy24 *)((u8 *)data_ptr + 0)) =
+        transform_ptr = ((S_818BD1C4_0 *)object)->unk_08;
+        (*(Copy24 *)((u8 *)transform_ptr + 0)) =
             (*(Copy24 *)((u8 *)transform + 0));
-        pos_y = (*(u16 *)((u8 *)data_ptr + 0xA));
+        pos_y = (*(u16 *)((u8 *)transform_ptr + 0xA));
         object_result = (s32) object;
         pos_y -= saved_y_offset;
-        (*(u16 *)((u8 *)data_ptr + 0xA)) = pos_y;
+        (*(u16 *)((u8 *)transform_ptr + 0xA)) = pos_y;
         return object_result;
     }
     return 0;

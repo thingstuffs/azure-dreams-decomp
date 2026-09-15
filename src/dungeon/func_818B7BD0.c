@@ -115,9 +115,7 @@ s32 func_818B7BD0(S_818B7BD0_2 *arg0, S_818B7BD0_3 *arg1) {
         temp_s0->unk_1C = 0x400;
         func_8004491C(temp_v0, &D_80045C34);
         temp_v1_2 = ((S_818B7BD0_0 *)temp_v0)->unk_08;
-        ASM_KEEP(temp_v1_2);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         result = (s32) temp_v0;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         *temp_v1_2 = *(S_818B7BD0_4 *)arg1;
         return result;
     }

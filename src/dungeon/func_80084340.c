@@ -461,9 +461,10 @@ snapshot_input:
                                     if (turn_sign < 0) {
                                         state_or_address = 0x200;
                                     }
+                                    ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
+                                } else {
+                                    ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
                                 }
-                                ((S_80089AA0_7_pre *)input_snapshot)[-1].unk_00 = (s16) state_or_address;
-                                ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                                 if (!(D_80013714 & 8)) {
                                     ((S_80089AA0_8 *)&D_80083460)->unk_1E = (u16) (((S_80089AA0_8 *)&D_80083460)->unk_1E + 1);
                                     actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));

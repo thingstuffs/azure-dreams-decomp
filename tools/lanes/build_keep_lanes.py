@@ -21,10 +21,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import rows, clean_path, sha_text
 from pin_census import sites_of
 from pin_sites import erase_many
 from verify import verify
+from served import served_rows, assert_unserved
 
 R = {r["id"]: r for r in rows()}
 
@@ -78,6 +80,10 @@ def main():
     ap.add_argument("--max-residue", type=int, default=3)
     ap.add_argument("--classes", help="comma list of classes at combine: ops, wiring, late, order")
     ap.add_argument("--per", type=int, default=12)
+    ap.add_argument("--repack", action="store_true",
+                    help="admit rows already served by a lane (a deliberate retry pack)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="print the pack composition and the stats; write nothing")
     a = ap.parse_args()
     classes = set(a.classes.split(",")) if a.classes else None
     last = {}
@@ -93,14 +99,16 @@ def main():
             if c and c[2]["asm"] <= a.max_residue:
                 cand.append((len(c[1]), rid))
         pool = [rid for _, rid in sorted(cand)]
+    served = served_rows()
+    nserved = sum(1 for rid in pool if rid in served)
+    if not a.repack:
+        pool = [rid for rid in pool if rid not in served]
+    print("pool %d rows | served by an earlier lane: %d" % (len(pool), nserved))
     brief = (ROOT / "tools/lanes/keep_lane_brief.md").read_text()
     it = iter(pool)
     for name in a.lanes:
-        L = ROOT / "work/native_lane" / name
-        assert not (L / "last_message.txt").exists(), name
-        (L / "out").mkdir(parents=True, exist_ok=True)
         out = ["# Rows (erase the keep named here; the residue is the scorer diff of that one erasure)\n"]
-        n = 0
+        chunk, n = [], 0
         for rid in it:
             c = current(rid, last)
             if not c or (classes and c[2].get("cls") not in classes):
@@ -114,10 +122,7 @@ def main():
             if v.get("exact"):
                 continue                               # dies alone: T2's
             dd = v.get("text", "")
-            cont, nm = rid.split("/")
-            (L / "base" / cont).mkdir(parents=True, exist_ok=True)
-            (L / "base" / cont / (nm + ".c")).write_text(t)
-            (L / "base" / cont / (nm + ".c.base_sha")).write_text(sha_text(t))
+            chunk.append((rid, t))
             var = re.match(r"\s*(\w+)", k[2]).group(1)
             first = (best.get("first") or {}).get("abs") or "none"
             reg = [l for l in dd.splitlines() if l.strip() and not l.startswith(("NOTE", "##"))][:14]
@@ -132,6 +137,18 @@ def main():
         if n == 0:
             print(name, "no rows left")
             break
+        assert_unserved([rid for rid, _ in chunk], a.repack)   # never re-serve a row by accident
+        if a.dry_run:
+            print(name, n, "rows (dry run, nothing written):", ", ".join(rid for rid, _ in chunk))
+            continue
+        L = ROOT / "work/native_lane" / name
+        assert not (L / "last_message.txt").exists(), name
+        (L / "out").mkdir(parents=True, exist_ok=True)
+        for rid, t in chunk:
+            cont, nm = rid.split("/")
+            (L / "base" / cont).mkdir(parents=True, exist_ok=True)
+            (L / "base" / cont / (nm + ".c")).write_text(t)
+            (L / "base" / cont / (nm + ".c.base_sha")).write_text(sha_text(t))
         (L / "rows.md").write_text("\n".join(out))
         (L / "BRIEF.md").write_text(brief.replace("@LANE@", name).replace("@NROWS@", str(n))
                                     .replace("@ROOT@", str(ROOT)).replace("@HOME@", str(Path.home())))

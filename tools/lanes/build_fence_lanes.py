@@ -27,6 +27,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "tools/xform"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from served import served_rows, assert_unserved
 from common import rows, clean_path, sha_text
 from pin_census import sites_of
 from pin_sites import erase_many
@@ -136,8 +138,19 @@ def main():
     ap.add_argument("--relane", action="store_true")
     ap.add_argument("--study", default=str(ROOT / "work/native_lane/fence_study.json"))
     ap.add_argument("--study-only", action="store_true")
+    ap.add_argument("--repack", action="store_true",
+                    help="admit rows already served by a lane (a deliberate retry pack)")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="print the pack composition and the stats; write nothing")
     a = ap.parse_args()
-    ids = [l.strip() for l in open(a.pool) if l.strip()]
+    ids = [l.split()[0] for l in open(a.pool) if l.strip() and not l.startswith("#")]
+    # --relane IS a retry pack (rows an earlier fence lane failed), so it implies --repack
+    repack = a.repack or a.relane
+    served = served_rows()
+    nserved = sum(1 for rid in ids if rid in served)
+    if not repack:
+        ids = [rid for rid in ids if rid not in served]
+    print("pool %d rows | served by an earlier lane: %d" % (len(ids), nserved))
     if a.relane:
         ids.sort(key=lambda rid: len(sites_of(clean_path(R[rid]).read_text(errors="replace"))))
         ids = ids[:(a.per or 12) * max(len(a.lanes), 1)]
@@ -157,12 +170,16 @@ def main():
     live = sum(sum(s[1] == "ASM_SCHED_BARRIER" for s in sites_of(p.read_text(errors="replace")))
                for p in (ROOT / "src").glob("*/*.c"))
     for li, name in enumerate(a.lanes):
-        L = ROOT / "work/native_lane" / name
-        assert not (L / "last_message.txt").exists(), name
         mine = good[li * per:(li + 1) * per]
         if not mine:
             print(name, "no rows left")
             break
+        assert_unserved(mine, repack)                   # never re-serve a row by accident
+        if a.dry_run:
+            print(name, len(mine), "rows (dry run, nothing written):", ", ".join(mine))
+            continue
+        L = ROOT / "work/native_lane" / name
+        assert not (L / "last_message.txt").exists(), name
         (L / "out").mkdir(parents=True, exist_ok=True)
         out = ["# Rows (erase the fence named here; the residue is the scorer diff of that one erasure)\n"]
         for rid in mine:

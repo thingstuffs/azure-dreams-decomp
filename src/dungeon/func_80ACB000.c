@@ -100,7 +100,7 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
     void *tile;
     void *draw_mode;
     void *next_node;
-    register void *render_data ASM_REG("$19") = render_data_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *render_data = render_data_in;
     register void *position = position_in;
     void **render_state_ptr = &D_80083160;
     u32 address_mask = 0x00FFFFFFU;
@@ -115,72 +115,73 @@ BODY_STORAGE s32 BODY_NAME(void *render_data_in, void *position_in)
     SPAD_U32(0x24) = (u32)render_state + 0xB0;
     ((S_80ACB000_2 *)scratch)->unk_1C = initial_cursor;
     ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-node_loop:
-    SPAD_U16(4) = ((S_80ACB000_3 *)position)->unk_02;
-    tile = (void *)((S_80ACB000_2 *)scratch)->unk_1C;
-    SPAD_U16(6) = ((S_80ACB000_3 *)position)->unk_06;
-    SPAD_U16(8) = ((S_80ACB000_3 *)position)->unk_0A;
-    SPAD_U32(0x1C) = (u32)tile + 0xC;
+    do {
+        SPAD_U16(4) = ((S_80ACB000_3 *)position)->unk_02;
+        tile = (void *)((S_80ACB000_2 *)scratch)->unk_1C;
+        SPAD_U16(6) = ((S_80ACB000_3 *)position)->unk_06;
+        SPAD_U16(8) = ((S_80ACB000_3 *)position)->unk_0A;
+        SPAD_U32(0x1C) = (u32)tile + 0xC;
 
-    depth = func_80065420(scratch + 4, (u8 *)tile + 8,
-                            scratch + 0xD0, scratch + 0xD4);
-    SPAD_U32(0x100) = depth;
-    if (depth < 0x1E0U) {
-        register s32 call_zero ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        s32 call_one = 1;
-        u32 color = ((S_80ACB000_4 *)render_data)->unk_08;
-        register u32 packet_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(call_one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        packet_code = 2;
-        ((S_80ACB000_5 *)tile)->unk_00.at03.v = packet_code;
-        packet_code = 0x6A;
-        ((S_80ACB000_5 *)tile)->unk_04.at00.v = color;
-        {
-            u32 red = ((S_80ACB000_5 *)tile)->unk_04.at00u.v;
-            register u32 green ASM_REG("$6") = ((S_80ACB000_5 *)tile)->unk_04.at01.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register u8 blue ASM_REG("$7") = ((S_80ACB000_5 *)tile)->unk_04.at02.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        depth = func_80065420(scratch + 4, (u8 *)tile + 8,
+                                scratch + 0xD0, scratch + 0xD4);
+        SPAD_U32(0x100) = depth;
+        if (depth < 0x1E0U) {
+            register s32 call_zero ASM_REG("$4") = 0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 call_one = 1;
+            u32 color = ((S_80ACB000_4 *)render_data)->unk_08;
+            register u32 packet_code ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_KEEP(call_one);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            packet_code = 2;
+            ((S_80ACB000_5 *)tile)->unk_00.at03.v = packet_code;
+            packet_code = 0x6A;
+            ((S_80ACB000_5 *)tile)->unk_04.at00.v = color;
+            {
+                u32 red = ((S_80ACB000_5 *)tile)->unk_04.at00u.v;
+                register u32 green ASM_REG("$6") = ((S_80ACB000_5 *)tile)->unk_04.at01.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                register u8 blue ASM_REG("$7") = ((S_80ACB000_5 *)tile)->unk_04.at02.v;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(green);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            }
+            ((S_80ACB000_5 *)tile)->unk_04.at03.v = packet_code;
+            ((S_80ACB000_5 *)tile)->unk_00.at00.v =
+                (((S_80ACB000_5 *)tile)->unk_00.at00.v & length_mask) |
+                (*(u32 *)(SPAD_U32(0x24) + SPAD_U32(0x100) * 4) & address_mask);
+            {
+                u32 *ot_entry;
+                u32 ot_tag;
+                u32 tile_address;
+
+                ot_entry = (u32 *)(SPAD_U32(0x100) << 2);
+                ot_entry = (u32 *)((u32)ot_entry + SPAD_U32(0x24));
+                ot_tag = *ot_entry;
+                tile_address = (u32)tile & address_mask;
+                ot_tag &= length_mask;
+                ot_tag |= tile_address;
+                *ot_entry = ot_tag;
+            }
+
+            draw_mode = (void *)SPAD_U32(0x1C);
+            SPAD_U32(0x1C) = (u32)draw_mode + 0xC;
+            func_80067F20(draw_mode, 0, 0,
+                          func_80066460(call_zero, call_one, call_zero, call_zero) & 0xFFFF, 0);
+            ((S_80ACB000_6 *)draw_mode)->unk_00 =
+                (((S_80ACB000_6 *)draw_mode)->unk_00 & length_mask) |
+                (*(u32 *)(SPAD_U32(0x24) + SPAD_U32(0x100) * 4) & address_mask);
+            {
+                u32 *ot_entry;
+
+                ot_entry = (u32 *)(SPAD_U32(0x100) << 2);
+                ot_entry = (u32 *)((u32)ot_entry + SPAD_U32(0x24));
+                *ot_entry = (*ot_entry & length_mask) | ((u32)draw_mode & address_mask);
+            }
         }
-        ((S_80ACB000_5 *)tile)->unk_04.at03.v = packet_code;
-        ((S_80ACB000_5 *)tile)->unk_00.at00.v =
-            (((S_80ACB000_5 *)tile)->unk_00.at00.v & length_mask) |
-            (*(u32 *)(SPAD_U32(0x24) + SPAD_U32(0x100) * 4) & address_mask);
-        {
-            u32 *ot_entry;
-            register u32 ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            u32 tile_address;
 
-            ot_entry = (u32 *)(SPAD_U32(0x100) << 2);
-            ot_entry = (u32 *)((u32)ot_entry + SPAD_U32(0x24));
-            ot_tag = *ot_entry;
-            tile_address = (u32)tile & address_mask;
-            ot_tag &= length_mask;
-            ot_tag |= tile_address;
-            *ot_entry = ot_tag;
+        next_node = ((S_80ACB000_4_pre *)render_data)[-1].unk_00;
+        if (next_node == 0) {
+            break;
         }
-
-        draw_mode = (void *)SPAD_U32(0x1C);
-        SPAD_U32(0x1C) = (u32)draw_mode + 0xC;
-        func_80067F20(draw_mode, 0, 0,
-                      func_80066460(call_zero, call_one, call_zero, call_zero) & 0xFFFF, 0);
-        ((S_80ACB000_6 *)draw_mode)->unk_00 =
-            (((S_80ACB000_6 *)draw_mode)->unk_00 & length_mask) |
-            (*(u32 *)(SPAD_U32(0x24) + SPAD_U32(0x100) * 4) & address_mask);
-        {
-            u32 *ot_entry;
-
-            ot_entry = (u32 *)(SPAD_U32(0x100) << 2);
-            ot_entry = (u32 *)((u32)ot_entry + SPAD_U32(0x24));
-            *ot_entry = (*ot_entry & length_mask) | ((u32)draw_mode & address_mask);
-        }
-    }
-
-    next_node = ((S_80ACB000_4_pre *)render_data)[-1].unk_00;
-    if (next_node != 0) {
         render_data = (u8 *)next_node + 0x20;
         position = ((S_80ACB000_7 *)next_node)->unk_08;
-        goto node_loop;
-    }
+    } while (1);
     final_state = *render_state_ptr;
     final_cursor = SPAD_U32(0x1C);
     final_state->unk_8D0 = final_cursor;

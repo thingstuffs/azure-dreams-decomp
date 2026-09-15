@@ -23,9 +23,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 sys.path.insert(0, str(ROOT / "build_ovl/tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import rows, clean_path
 from pin_census import sites_of
 from verify import verify
+from served import served_rows, assert_unserved
 import rowbase
 
 R = {r["id"]: r for r in rows()}
@@ -103,16 +105,23 @@ def main():
     ap.add_argument("--per", type=int, default=12)
     ap.add_argument("--model", default="sol")
     ap.add_argument("--no-verify", action="store_true")
-    ap.add_argument("--repack", action="store_true", help="admit rows already given to an earlier lac* pack (retry packs)")
+    ap.add_argument("--repack", action="store_true", help="admit rows already served by a lane (retry packs)")
+    ap.add_argument("--dry-run", action="store_true", help="print the pack composition and the stats; write nothing")
     a = ap.parse_args()
     ids = [l.split()[0] for l in open(a.pool) if l.strip() and not l.startswith("#")]
     packed = set()
     for f in (ROOT / "work/native_lane").glob("lac*/base/*/*.c"):
         packed.add(f.parent.name + "/" + f.stem)
+    served = served_rows()
+    nserved = 0
     pool, skipped = [], []
     for rid in ids:
         if (rid in packed and not a.repack) or rid not in R or not clean_path(R[rid]).exists():
             skipped.append((rid, "packed or unknown")); continue
+        if rid in served:
+            nserved += 1
+            if not a.repack:
+                skipped.append((rid, "served by an earlier lane")); continue
         text = clean_path(R[rid]).read_text(errors="replace")
         info = sites(rid, text)
         if info is None:
@@ -127,12 +136,18 @@ def main():
         pool = [p for p, o in zip(pool, ok) if o]
         if bad:
             print("base not exact, dropped:", bad)
+    print("pool %d rows | skipped %d | served by an earlier lane: %d" % (len(pool), len(skipped), nserved))
     brief = (ROOT / "tools/lanes/lac_lane_brief.md").read_text()
     i = 0
     for name in a.lanes:
         chunk = pool[i:i + a.per]; i += a.per
         if not chunk:
             print(name, "no rows left"); continue
+        assert_unserved([rid for rid, _, _ in chunk], a.repack)   # never re-serve a row by accident
+        if a.dry_run:
+            print(name, len(chunk), "rows (dry run, nothing written):",
+                  ", ".join(rid for rid, _, _ in chunk))
+            continue
         L = ROOT / "work/native_lane" / name
         assert not (L / "last_message.txt").exists(), name
         (L / "out").mkdir(parents=True, exist_ok=True)

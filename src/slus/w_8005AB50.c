@@ -58,15 +58,12 @@ s32 func_8005AB50(s32 dest, u32 read_size, s16 entry_id)
     {
         s32 new_cursor;
         s32 end;
-        register s32 result ASM_REG("$2");
-
         new_cursor = D_8007382C.value + amount;
         end = entry->unk14;
         D_8007382C.value = new_cursor;
-        result = marker;
-        if (new_cursor < end) {
-            result = -2;
+        if (new_cursor >= end) {
+            return marker;
         }
-        return result;
+        return -2;
     }
 }

@@ -44,7 +44,6 @@ extern M2C_UNK D_800AE600;
 
 /* Advance the object position and transition step, then invoke its callback. */
 void func_800AE630(void *object) {
-    register M2C_UNK (*callback)(void) ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 next_step;
     s32 scaled_x;
     s32 scaled_y;
@@ -79,9 +78,9 @@ void func_800AE630(void *object) {
         ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_00 = (M2C_UNK *)(page - 0x1A00);
     }
-    callback = ((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
-    if (callback != NULL) {
-        callback();
+    next_step = (s32)((S_800AE630_0 *)((u8 *)object - 0x10))->unk_10;
+    if (next_step != 0) {
+        ((M2C_UNK (*)(void))next_step)();
     }
 }
 

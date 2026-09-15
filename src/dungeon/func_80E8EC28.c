@@ -80,7 +80,6 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 height;
     register s32 search_result ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 height_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *world;
     s16 *level;
@@ -209,9 +208,9 @@ case_4_position:
         search_result = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
             (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-        height_valid = search_result < 0x201;
+        state_valid = search_result < 0x201;
         attempts_left--;
-        if (!height_valid) {
+        if (!state_valid) {
             goto case_4_check;
         }
         goto advance_state;

@@ -262,17 +262,21 @@ mode2:
             }
 
             if (object->unk_60.ptr != 0) {
-                register s32 tile_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 tile_distance;
                 s32 duration;
                 S_func_818C8FD0_4 *target_pos;
                 u16 end_time;
+                u32 tile_coord;
 
                 effect->unk_08 = one;
-                if (object->unk_72 != tile->unk_24) {
-                    tile_distance = object->unk_72 - tile->unk_24;
+                tile_distance = object->unk_72;
+                tile_coord = tile->unk_24;
+                if (tile_distance != tile_coord) {
+                    tile_distance -= tile_coord;
                 } else {
                     tile_distance = object->unk_73;
-                    tile_distance -= tile->unk_25;
+                    tile_coord = tile->unk_25;
+                    tile_distance -= tile_coord;
                 }
                 if (tile_distance < 0) {
                     tile_distance = -tile_distance;
