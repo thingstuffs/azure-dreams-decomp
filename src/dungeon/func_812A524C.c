@@ -288,7 +288,6 @@ M2C_UNK func_800AA36C(); /* extern */
 s32 func_800BCB04();                   /* extern */
 s32 func_800F6D28();    /* extern */
 void *func_800F6DFC();                /* extern */
-void func_80170CE8() __attribute__((noreturn));     /* extern */
 extern u8 D_80010248[];
 extern u16 D_80013714[8];
 extern u8 D_8006CCF8[16];
@@ -339,7 +338,6 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     u16 *facing_lookup;
     s32 tail_value;
     s32 tail_acc;
-    register u32 early_page ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *flag_base;
     u8 *event_0;
     u8 *position_0;
@@ -418,7 +416,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     u16 bob_phase;
     u16 bob_phase_wide;
     u8 action_state;
-    register u8 scan_type ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 scan_type;
     u8 actor_kind;
     u8 current_kind;
     void *nearby_object;
@@ -460,9 +458,7 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     if (!(((S_812A524C_3 *)actor_in)->unk_B0 & 0x20000)) {
         if (((S_812A524C_5 *)(&D_800FBE54))->unk_00 == NULL) goto block_27;
         func_800A48F0(((S_812A524C_5 *)(&D_800FBE54))->unk_00 + 0x20, 1, 0xA);
-        early_page = 0x80010000;
-        ASM_PAGEBASE_PIN(early_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_80170CE8();
+        goto block_27;
     }
     goto block_26;
 action_10:
@@ -493,7 +489,6 @@ block_26:
         ((S_812A524C_5 *)(&D_800FBE54))->unk_00 = NULL;
     }
 block_27:
-    ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     if (!(((S_812A524C_6 *)(&D_80013714))->unk_00 & 1)) {
         if (((S_812A524C_3 *)actor_in)->unk_B8 == 0) {
             if (!(D_80083462[0] & 0x2000) && ((func_800A2C34(entity) << 0x10) == 0) && (event_0 = (u8 *)&D_80082E80, position_0 = (u8 *)&D_80083780, (((((S_812A524C_7 *)event_0)->unk_24 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_02)) && (((((S_812A524C_7 *)event_0)->unk_25 << 6) + 0x20) == ((S_812A524C_8 *)position_0)->unk_06)) {
