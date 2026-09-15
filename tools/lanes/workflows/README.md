@@ -25,3 +25,18 @@ Usage 6 agents / 1.59M subagent tokens / 158 min. Item B paid (68 rows / 131 pin
 measured its own mechanism away (jump.c's cross_jump canonicalises most tail moves) and is kept as a small generator with the
 finding in its docstring. The EVIDENCE blocks name `work/native_lane/r29_tail/` (row lists, the exemplar corpus, the
 control-flow inventory from `tools/lanes/ctrlmoves.py`): rebuild them before reuse.
+
+## r30_samereg3_addr.js (round 30, 2026-09-15 evening)
+
+Two items, each implementer -> adversarial reviewer -> fix, all opus at effort high. Item A opened
+`t66_sameregmerge` on its whole-tree refusal table (the brief carried the table and the code reading behind
+the largest count: `decl-unparsed` was a scan stopper, not a parser gap): six openings, `T66_DECL_RUN`,
+`T66_ASM_OPERAND`, `T66_COMPOUND`, `T66_INIT_PLACE`, `T66_SHADOW`, `T66_TRY_INTERFERENCE` (clashing pairs offered
+under vf - the argument: both variables share one hard register in a byte-exact row). Evaluation 75 rows /
+146 pins on 113 row-slots; the reviewer's three majors (a rename capturing an anonymous aggregate's member; a
+crossed initialiser with a side effect; an ASM_* sub-expression spelled bare) fixed at zero cost, 117 tests.
+Item B read the address-materialisation residue class (231 near sites from `erase_census.py --diff 4`) against
+t54/t59: one mechanism at every cell (cse `fold_rtx` folds the kept page plus the offset into one CONST_INT), so
+the repair is "name the symbol"; four openings of `t59_offsetsym`, 3 rows / 4 pins of 100, the remainder is the
+scheduling class after respelling; three majors fixed (braceless control flow, a whole-line replacement span,
+the keep-gap loop without a structural test), 75 tests. Usage: 6 agents / 1.46M subagent tokens / 142 min.
