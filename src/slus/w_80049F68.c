@@ -89,16 +89,15 @@ void func_80049F68(S_80049F68_Obj *obj_input)
     end_marker = 4;
     if (D_80080B30 != end_marker) {
         s32 expected_marker;
-        register u8 *order_ptr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 
         expected_marker = end_marker;
-        order_ptr = &D_80080B2C[4];
+        cursor = &D_80080B2C[4];
         do {
-            elem_index = *(order_ptr++);
+            elem_index = *(cursor++);
             next = &obj->elem[elem_index].link;
             tail->next = next;
             tail = next;
-        } while (*order_ptr != expected_marker);
+        } while (*cursor != expected_marker);
     }
     tail->next = 0;
 }

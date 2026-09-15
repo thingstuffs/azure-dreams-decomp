@@ -31,23 +31,17 @@ extern s32 D_800814A0[3];
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
 void func_818D4A94(void *motion, S_818D4A94_0 *position)
 {
-    register s32 updated_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 axis_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 accel_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 active_flag;
     s32 axis_step;
 
-    updated_value = position->unk_00.at00.v;
-    updated_value += ((S_818D4A94_1 *)motion)->unk_3C;
-    position->unk_00.at00.v = updated_value;
-    updated_value = position->unk_04;
-    updated_value += ((S_818D4A94_1 *)motion)->unk_40;
-    position->unk_04 = updated_value;
-    updated_value = position->unk_08;
-    updated_value += ((S_818D4A94_1 *)motion)->unk_44;
-    position->unk_08 = updated_value;
+    position->unk_00.at00.v += ((S_818D4A94_1 *)motion)->unk_3C;
+    position->unk_04 += ((S_818D4A94_1 *)motion)->unk_40;
+    position->unk_08 += ((S_818D4A94_1 *)motion)->unk_44;
 
-    updated_value = ((S_818D4A94_1 *)motion)->unk_3C;
+    {
+    s32 updated_value = ((S_818D4A94_1 *)motion)->unk_3C;
     axis_step = ((S_818D4A94_1 *)motion)->unk_48;
     axis_value = ((S_818D4A94_1 *)motion)->unk_4C;
     accel_z = ((S_818D4A94_1 *)motion)->unk_50;
@@ -84,5 +78,6 @@ void func_818D4A94(void *motion, S_818D4A94_0 *position)
     if (updated_value <= 0) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
+    }
     }
 }

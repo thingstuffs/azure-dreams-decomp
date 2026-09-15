@@ -21,6 +21,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     s32 handle;
     s32 text;
     u8 count;
+    register s32 signed_arg ASM_REG("$4");
 
     if (func_800C8078() != 0) {
         return 0;
@@ -45,11 +46,10 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     }
 
     {
-        register s32 signed_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        register s32 work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 work;
 
-        work = arg1 << 16;
-        signed_arg = work >> 16;
+        text = arg1 << 16;
+        signed_arg = text >> 16;
         work = mod < signed_arg;
         if (!work) {
             work = 0xFF;
@@ -78,11 +78,9 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     text = func_80099194(D_800E1A88, handle);
 
     {
-        register void *message_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-
-        message_object = arg0;
+        signed_arg = (s32)arg0;
         if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {
-            text = func_80099734(message_object, text);
+            text = func_80099734((void *)signed_arg, text);
             text = func_80099194(D_800E1A9D, text);
         } else {
             text = func_80099194(D_800E1AC2, text);
@@ -96,7 +94,3 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     func_800A56E0(0x615);
     return 1;
 }
-
-/* MECHANISM: The true-space CFG naturally holds arg0/arg1 in s0/s1 with a 0x20 frame.
-   Split early/late live ranges plus guarded a0/v0 roles reproduce remainder and byte RMW code.
-   Keeping the message object live on both flag edges fills the beq delay slot and removes the nop. */

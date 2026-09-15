@@ -91,10 +91,10 @@ s32 func_800248EC(void *first_point, void *first_position)
     s32 color_value;
     s32 draw_page;
     void *next_node;
-    register s32 tex_depth ASM_REG("$4");
+    s32 tex_depth;
     register s32 blend_mode ASM_REG("$5");
-    register s32 page_x ASM_REG("$6");
-    u32 tile_code;
+    u32 page_x;
+    register u32 tile_code ASM_REG("$2");
 
 
     packet_start = ((S_800248EC_0 *)render_ctx)->unk_8D0;
@@ -136,19 +136,18 @@ s32 func_800248EC(void *first_point, void *first_position)
             ((S_800248EC_2 *)tile)->unk_03 = 2;
             ASM_KEEP(tex_depth);
             tile_code = 0x6A;
-            ASM_KEEP(tile_code);
             page_x = tex_depth;
+            ASM_KEEP(tex_depth);
             ((S_800248EC_2 *)tile)->unk_04.at03.v = tile_code;
             tile->tag = (tile->tag & tag_mask) |
                           (scratch->ot[scratch->index] & addr_mask);
             {
                 u32 ot_tag = scratch->ot[scratch->index];
-                register u32 tile_addr ASM_REG("$2") =
-                    (u32)tile & addr_mask;
+                tile_code = (u32)tile & addr_mask;
 
                 scratch->ot[scratch->index] =
-                    (ot_tag & tag_mask) | tile_addr;
-                ASM_KEEP(tile_addr);
+                    (ot_tag & tag_mask) | tile_code;
+                ASM_KEEP(tile_code);
             }
 
             draw_mode = (Packet800248EC *)scratch->cursor;

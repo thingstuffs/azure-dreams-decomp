@@ -106,7 +106,6 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
     register void *motion ASM_REG("$20") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *sprite ASM_REG("$18") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$17") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *target_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 target_y;
     u16 position[3];
@@ -214,9 +213,9 @@ have_choice:
                 goto move_setup;
             }
 copy_existing:
-            target_sprite = ((S_80172AB4_2_pre *)target)[-1].unk_00;
-            ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)target_sprite)->unk_24;
-            ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)target_sprite)->unk_25;
+            target_y = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
+            ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)(void *)target_y)->unk_24;
+            ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)(void *)target_y)->unk_25;
             goto apply_move;
         }
 

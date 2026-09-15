@@ -71,11 +71,10 @@ typedef struct S_819AD1DC_4 {
 
 void *func_819AD1DC(void *arg0)
 {
-    S_819AD1DC_1 *temp_s3;
     s32 var_s1;
     M2C_UNK *temp_s5;
     M2C_UNK *temp_s4;
-    register s32 temp_s2 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register s32 temp_s2;
     void *temp_v0;
     s32 arithmetic_v1;
     u16 reload_a0;
@@ -86,7 +85,6 @@ void *func_819AD1DC(void *arg0)
     S_819AD1DC_3 *temp_a2;
     S_819AD1DC_2 *temp_v1;
 
-    temp_s3 = arg0;
     var_s1 = 0;
     temp_s5 = &D_800245A0;
     temp_s4 = &D_80027460;
@@ -97,16 +95,16 @@ loop_1:
         ((S_819AD1DC_0 *)temp_v0)->unk_10 = temp_s5;
         func_8004491C(temp_v0, &D_800CEEFC);
         temp_v1 = ((S_819AD1DC_0 *)temp_v0)->unk_08;
-        temp_v0_2 = temp_s3->unk_02;
+        temp_v0_2 = ((S_819AD1DC_1 *)arg0)->unk_02;
         temp_a2 = temp_v0 + 0x20;
         temp_v1->unk_02 = temp_v0_2;
         temp_v1->unk_0E = temp_v0_2;
         temp_a2->unk_1C = temp_v0_2;
-        temp_v0_3 = temp_s3->unk_06;
+        temp_v0_3 = ((S_819AD1DC_1 *)arg0)->unk_06;
         temp_v1->unk_06 = temp_v0_3;
         temp_v1->unk_12 = temp_v0_3;
         temp_a2->unk_1E = temp_v0_3;
-        temp_v0_4 = temp_s3->unk_0A;
+        temp_v0_4 = ((S_819AD1DC_1 *)arg0)->unk_0A;
         temp_v1->unk_0A = temp_v0_4;
         temp_v1->unk_16 = temp_v0_4;
         temp_a2->unk_20 = temp_v0_4;

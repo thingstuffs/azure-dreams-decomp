@@ -83,14 +83,14 @@ s32 func_80019684(s16 object_index, s16 mode, s32 activate) {
             buffer_addr = header | buffer_addr;
         }
         {
+            register s32 reload_left;
             register s32 reload_offset;
-            register Object **reload_objects ASM_REG("$2");
-            s32 cd_command = 6;
-            ASM_KEEP_NV(cd_command);
-            reload_offset = (s32)saved_object_index << 16;
+            register Object **reload_objects;
+            s16 cd_command = 6;
+            reload_left = (s32)saved_object_index << 16;
             load_object->field_0 = buffer_addr;
             reload_objects = D_8006E704_remat;
-            reload_offset >>= 14;
+            reload_offset = reload_left >> 14;
             slot = (Object **)((u8 *)reload_objects + reload_offset);
             Control_CD(cd_command, *slot, 0);
             D_80080AF4_fresh[D_80080AFC_fresh] = *slot;

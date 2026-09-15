@@ -82,20 +82,19 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
     register void *owner = head;
     register s32 match_x ASM_REG("$23") = target_x;
     register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
-    register void *next_link ASM_REG("$2") = ((S_801745BC_0 *)head)->unk_5C;
+    void *next_link = ((S_801745BC_0 *)head)->unk_5C;
     void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
     s32 match_y;
     u16 height_arg = target_height;
     register s32 center_height ASM_REG("$20");
-    register s32 height_shifted ASM_REG("$2");
 
     ASM_KEEP(next_link);
     node = (u8 *)next_link + 0x20;
     match_y = target_y;
 
     if (node != head) {
-        height_shifted = height_arg << 16;
-        center_height = height_shifted >> 16;
+        next_link = (void *)(height_arg << 16);
+        center_height = (s32)next_link >> 16;
         target_height = center_height - 0x40;
         do {
             S_801745BC_2 *node_data = ((S_801745BC_1_pre *)node)[-1].unk_04;

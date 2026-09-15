@@ -146,7 +146,7 @@ void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor
     s32 path_result;
     s32 random_bits;
     register s32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 moved ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 moved;
     s32 tile_mask;
     s32 base_angle;
     s16 move_angle;
@@ -371,7 +371,8 @@ loop:
     }
     attempt++;
     angle_offset++;
-    if (attempt < 8) {
+    moved = attempt < 8;
+    if (moved) {
         goto loop;
     }
 
