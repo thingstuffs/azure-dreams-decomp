@@ -29,9 +29,9 @@ extern void func_8004491C(void *a0, void *a1);
 extern void func_800A48F0(void *a0, s32 a1, s32 a2);
 
 /* Creates an entity at the given tile and height and initializes its sprite state. */
-void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
-    register u8 saved_tile_x ASM_REG("$20") = tile_x;
-    register u8 saved_tile_z ASM_REG("$21") = tile_z;
+void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
+    u8 saved_tile_x = tile_x;
+    u8 saved_tile_z = tile_z;
     void *entity;
     void *state;
     void *sprite;
@@ -47,8 +47,6 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
     register void *tint_entity ASM_REG("$4");
     register s32 tint_arg;
 
-    ASM_KEEP_NV(saved_tile_x);
-    ASM_KEEP_NV(saved_tile_z);
     state = 0;
     entity = func_8003FD64(0x112, &D_80083498);
     if (entity != 0) {
@@ -89,9 +87,8 @@ void *func_800C9850(u8 tile_x, u8 tile_z, u16 height) {
         FLD(entity, s32, 0x58) = result_word4;
         FLD(entity, s16, 0x5C) = result_half;
         {
-            register s32 result_byte ASM_REG("$3");
-            result_byte = result_base->fA;
-            FLD(entity, s8, 0x5E) = result_byte;
+            result_word0 = result_base->fA;
+            FLD(entity, s8, 0x5E) = result_word0;
         }
         FLD(state, s32, 0x1C) |= 0x40000000;
         FLD(state, s8, 0x71) = 0;

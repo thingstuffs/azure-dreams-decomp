@@ -518,7 +518,6 @@ case_three:
             result = func_80069EF8();
             {
                 u32 color;
-                register s32 sprite_size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 void *sprite_template;
                 color = 0x00100000u;
                 ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -527,10 +526,10 @@ case_three:
                 sprite->unk_1E = 0x800;
                 sprite->unk_1C = 0x800;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                sprite_size = 0x20;
+                direction_offsets = (s16 *)(0x20);
                 sprite_template = (void *)0x800E0000;
                 ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                sprite->unk_10 = sprite_size;
+                sprite->unk_10 = (s32)direction_offsets;
                 {
                     u16 flags;
                     flags = sprite->unk_14;

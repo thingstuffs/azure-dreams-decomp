@@ -48,6 +48,7 @@ extern u8 D_80174558[];
 /* Checks the tile ahead and updates the entity's action when the height permits. */
 s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
 {
+    register void *output ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     struct local_state {
         void *saved_ptr;
         volatile u8 pad[20];
@@ -83,10 +84,9 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     }
 
     {
-        register void *entity_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        entity_base = (u8 *)entity - 0x20;
-        state.saved_ptr = entity_base;
-        func_800C7930(entity_base, update_arg, 8, 0x300);
+        output = (u8 *)entity - 0x20;
+        state.saved_ptr = output;
+        func_800C7930(output, update_arg, 8, 0x300);
     }
     if ((s16)func_800A2B5C(entity) != 0) {
         return -1;
@@ -130,7 +130,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         return 0;
     }
     if ((s16)(height - ((S_801720EC_0 *)entity)->unk_88.u) >= -0x3f) {
-        register void *output ASM_REG("$8") = action_state;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        output = action_state;
         ((S_801720EC_2 *)output)->unk_9B = 0;
         ((S_801720EC_2 *)output)->unk_8C = 0;
         ((S_801720EC_2 *)output)->unk_9A = 0x17;

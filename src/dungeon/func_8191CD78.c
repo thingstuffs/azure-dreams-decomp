@@ -538,7 +538,6 @@ case_3:
         u16 max_height;
         S_func_80024578_3 *owner;
         register s32 effect_size ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 effect_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         height_base = D_800DDC40;
         owner = effect->unk_1C;
@@ -547,13 +546,13 @@ case_3:
         effect_size = 16;
         if (target_pos->unk_08.parts_0A.unk_0A.s16 >=
             effect->unk_16.s16 - height_entry->unk_00) {
-            effect_id = 8;
+            delta_x = 8;
             ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             index = 0;
             max_height = effect->unk_16.u16;
             target_pos->unk_08.parts_0A.unk_0A.u16 =
                 (u16)(max_height - height_entry->unk_00);
-            func_800419EC(effect_id, effect_size);
+            func_800419EC(delta_x, effect_size);
 case_3_loop:
             func_80024138(effect);
             index++;

@@ -65,6 +65,7 @@ void func_8009D3B0(void) {
     u8 *status_base;
     u8 *region_table;
     s8 region_index;
+    register s32 packed_levels ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     tile_or_map = &D_80088CB0;
     map_params = *(UA64 *)tile_or_map;
@@ -82,7 +83,6 @@ void func_8009D3B0(void) {
         s32 column_x;
         s32 coord_shifted;
         s32 excluded_tile_type;
-        register s32 packed_levels ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         tile_index_or_level = region_index * 0x14;
         region_table = (u8 *)D_800E2970;
         region = tile_index_or_level + region_table;
@@ -170,7 +170,6 @@ advance_y:
         }
     } else {
         u8 *position;
-        register s32 neighbor_packed_levels ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 excluded_neighbor_type;
         s16 next_neighbor;
         s32 neighbor_value;
@@ -199,10 +198,10 @@ scan_neighbor:
                 ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 tile_index_or_level = ((S_8009D3B0_2 *)tile_or_map)->unk_02;
                 tile_or_map = (u8 *)(map_index + (s32)map);
-                neighbor_packed_levels = (s16)(tile_index_or_level + 0x200) / 64;
-                neighbor_value = neighbor_packed_levels;
+                packed_levels = (s16)(tile_index_or_level + 0x200) / 64;
+                neighbor_value = packed_levels;
                 do {
-                    tile_index_or_level = neighbor_packed_levels;
+                    tile_index_or_level = packed_levels;
                 } while (0);
                 if (tile_index_or_level >= 0x10) {
                     neighbor_value = 15;
@@ -217,11 +216,11 @@ clamp_neighbor_level:
                 tile_index_or_level = neighbor_level_shifted >> 0x10;
                 neighbor_value = *tile_or_map;
                 if (neighbor_x & 1) {
-                    neighbor_packed_levels = neighbor_value | (tile_index_or_level << 4);
+                    packed_levels = neighbor_value | (tile_index_or_level << 4);
                 } else {
-                    neighbor_packed_levels = neighbor_value | tile_index_or_level;
+                    packed_levels = neighbor_value | tile_index_or_level;
                 }
-                *tile_or_map = neighbor_packed_levels;
+                *tile_or_map = packed_levels;
             }
         }
 advance_neighbor:

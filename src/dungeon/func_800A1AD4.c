@@ -23,19 +23,18 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     s32 inner_count;
     s32 inner_dir;
     register s32 outer_count ASM_REG("$19");
-    register s32 outer_dir ASM_REG("$17");
+    u32 outer_dir;
     s16 call_dir;
     register s32 call_x ASM_REG("$4");
     register s32 call_y ASM_REG("$5");
     register s32 distance_z ASM_REG("$6");
-    register s32 probe_dir ASM_REG("$6");
     u16 *flags_ptr;
     s32 inner_offset;
     s32 outer_offset;
     register u32 addr ASM_REG("$8");
     s32 zero = 0;
     s32 next_inner_dir;
-    register s32 next_outer_dir ASM_REG("$2");
+    s32 next_outer_dir;
     register u16 dir_seed ASM_REG("$3");
     register s32 base_x ASM_REG("$22");
     register s32 base_y ASM_REG("$23");
@@ -43,33 +42,31 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     u16 *dx;
     u16 *dy;
     register s32 saved_x ASM_REG("$16");
-    register s32 saved_y ASM_REG("$17");
-    register s32 saved_z ASM_REG("$19");
     s32 probe_y;
     register s32 found_x ASM_REG("$2");
     register s32 found_y ASM_REG("$3");
 
     saved_x = x;
-    saved_y = y;
-    saved_z = z;
+    outer_dir = y;
+    outer_count = z;
     ASM_KEEP_NV(saved_x);
     probe_x = (s16)(saved_x - 1);
-    probe_y = (s16)saved_y;
+    probe_y = (s16)outer_dir;
     tile_valid = func_8009A350(probe_x, probe_y, 0, &tile_flags);
     base_x = saved_x;
-    base_y = saved_y;
-    base_z = saved_z;
+    base_y = outer_dir;
+    base_z = outer_count;
     if ((tile_valid << 0x10) != 0) {
         if (!(tile_flags & 0x8820)) {
             packed_x = saved_x << 0x10;
-            distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0, (s16)(saved_z - 0x20));
+            distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0, (s16)(outer_count - 0x20));
             if ((s16)distance < 0x200) {
                 addr = (u32)out_x;
                 ASM_KEEP_NV(addr);
                 *(s16 *)addr = (s16)saved_x;
                 addr = (u32)out_y;
                 ASM_KEEP_NV(addr);
-                *(s16 *)addr = (s16)saved_y;
+                *(s16 *)addr = (s16)outer_dir;
                 goto store_result;
             }
         }
@@ -134,7 +131,7 @@ next_inner:
     probe_x = (base_y << 0x10) >> 0x10;
     outer_dir = dir_seed & 0xF;
 scan_outer:
-    probe_dir = zero;
+    distance_z = zero;
     outer_offset = outer_dir << 1;
     do {
         addr = (u32)D_800DCE6C;
@@ -150,7 +147,7 @@ scan_outer:
     ASM_KEEP_NV(call_y);
     call_x = (s16)(base_x + call_x - 1);
     call_y = (s16)(base_y + call_y);
-    if (((func_8009A350(call_x, call_y, probe_dir, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820)) {
+    if (((func_8009A350(call_x, call_y, distance_z, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820)) {
         goto next_outer;
     }
     call_x = (s16)*dx;

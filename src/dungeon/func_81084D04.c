@@ -154,16 +154,15 @@ loop:
     }
     } while (check_result != 0);
     {
-        register s32 next_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
         step_count++;
-        next_x = tile_x + (u16)*delta_x;
-        tile_x = next_x;
+        initial_direction = (u32)(tile_x + (u16)*delta_x);
+        tile_x = (s32)initial_direction;
         next_y = tile_y + (u16)*delta_y;
         tile_y = next_y;
         ((S_80172504_1 *)state)->unk_AA = next_y;
-        ((S_80172504_1 *)state)->unk_A8 = next_x;
+        ((S_80172504_1 *)state)->unk_A8 = (s32)initial_direction;
         if (0) {
         }
     }

@@ -159,17 +159,16 @@ state_0:
 
 state_1:
     {
-        register u16 rise_speed ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         u16 frames_left;
         u16 phase;
         s32 phase_duration;
 
         points->unk_16 +=
             (s32)(((S_80025E48_0 *)effect)->unk_26 << 16) >> 17;
-        rise_speed = ((S_80025E48_0 *)effect)->unk_26 + 1;
+        update_count = ((S_80025E48_0 *)effect)->unk_26 + 1;
         frames_left = ((S_80025E48_0 *)effect)->unk_1A.u - 1;
         ((S_80025E48_0 *)effect)->unk_1A.u = frames_left;
-        ((S_80025E48_0 *)effect)->unk_26 = rise_speed;
+        ((S_80025E48_0 *)effect)->unk_26 = update_count;
         if ((frames_left << 16) > 0) {
             goto epilogue;
         }

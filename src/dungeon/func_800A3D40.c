@@ -139,6 +139,7 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
     actor_state = ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_04;
     effect = func_8003FD64(0x12, D_80083498);
     if (effect != NULL) {
+        register s32 lookup_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         effect_mode = ((s32) mode << 0x10) >> 0x10;
         {
             s32 mode_arg = effect_mode;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -193,12 +194,12 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
         func_800C78A0(actor - 0x20, (((S_800A94A0_8 *)map_state)->unk_24 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEAC + direction_offset) << 0x10) >> 0x11) + 0x20, (((S_800A94A0_8 *)map_state)->unk_25 << 6) + ((s32) (*(u16 *)((u8 *)D_800DCEBC + direction_offset) << 0x10) >> 0x11) + 0x20, ((S_800A94A0_9 *)(*D_800E3D7C))->unk_88, 8, 0x300);
 set_effect_scale:
         if ((mode << 0x10) != 0) {
-            register s32 lookup_index ASM_REG("$2") = effect_id;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            lookup_index = effect_id;
             effect_scale = D_800DD8B4[lookup_index];
             actor_arg = actor;
             effect_scale <<= 6;
         } else {
-            register s32 lookup_index ASM_REG("$2") = effect_id;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            lookup_index = effect_id;
             effect_scale = D_800DD880[lookup_index];
             actor_arg = actor;
             effect_scale <<= 8;

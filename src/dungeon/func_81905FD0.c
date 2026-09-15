@@ -302,6 +302,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
     owner_motion = owner_object->unk_08;
 
     switch (state) {
+        register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     case 0:
         render->unk_0C.u32 = 0x00808080;
         *(Copy12 *)((u8 *)effect + 0xA2) = *(Copy12 *)D_800267A8;
@@ -421,7 +422,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
     case 2:
         index = 0;
         loop_0: {
-            register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             s32 particle_color;
             register s32 particle_shade ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
@@ -736,7 +736,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             }
             control_effect = func_8003FC64(0x212);
             if (control_effect != 0) {
-                register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 void *render_template;
                 void *control_script;
                 void *owner_target;

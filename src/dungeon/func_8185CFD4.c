@@ -121,6 +121,7 @@ s32 func_800247D4(void *effect_data)
     ((S_800247D4_0 *)scratch)->unk_18 = initial_render_ctx + 0xB0;
 
     do {
+        register s32 red ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         constant_or_count = (u32)D_80083160;
         ASM_KEEP(constant_or_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         render_ctx = *(u8 **)constant_or_count;
@@ -193,7 +194,7 @@ case_early:
             ((S_800247D4_2 *)packet)->unk_06 = color_base;
             ((S_800247D4_2 *)packet)->unk_0D = color_base - ((7 - start_or_fade) * 8);
             {
-                register s32 red ASM_REG("$2") = 0x40 + red_offset;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                red = 0x40 + red_offset;
 
                 ((S_800247D4_2 *)packet)->unk_0C = red;
             }
@@ -265,7 +266,7 @@ case_late:
             start_or_fade = (constant_or_count - start_or_fade) * 8;
             ((S_800247D4_2 *)packet)->unk_0E = (u8)color_step;
             {
-                register s32 red ASM_REG("$2") = 0x40 + red_offset;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                red = 0x40 + red_offset;
 
                 ((S_800247D4_2 *)packet)->unk_04 = red;
             }

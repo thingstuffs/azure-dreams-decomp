@@ -371,6 +371,7 @@ case_3:
     s32 point_index;
     s32 step;
     u8 *world_pos;
+    register u8 *outer_point ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
         goto done;
     }
@@ -399,7 +400,6 @@ case_3:
     }
     point_index = segment << 1;
     {
-        register u8 *outer_point ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         outer_point = (u8 *)effect + ((point_index + segment) << 2);
         point_index++;
         {
@@ -508,7 +508,6 @@ after_coords:
         if (effect_obj != 0) {
             u8 *effect_data = (u8 *)effect_obj + 0x20;
             u8 *sprite;
-            register u8 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             u32 light_saved;
             register u32 light_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             u32 dark_left;
@@ -555,10 +554,10 @@ after_coords:
             ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
             ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
             ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
-            position = ((S_8197192C_1 *)effect_obj)->unk_08;
-            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
-            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
-            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            outer_point = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)outer_point)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)outer_point)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)outer_point)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
             ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
@@ -574,7 +573,6 @@ after_coords:
         if (effect_obj != 0) {
             register u8 *effect_data ASM_REG("$16") = (u8 *)effect_obj + 0x20;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             u8 *sprite;
-            register u8 *position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             u32 light_saved;
             register u32 light_copy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             u32 dark_left;
@@ -620,10 +618,10 @@ after_coords:
             ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
             ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
             ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
-            position = ((S_8197192C_1 *)effect_obj)->unk_08;
-            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
-            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
-            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            outer_point = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)outer_point)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)outer_point)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)outer_point)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
             ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;

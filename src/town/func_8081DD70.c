@@ -89,7 +89,8 @@ void func_8081DD70(void *source_data, void *record_data) {
     u8 *dst;
     u8 *src_end;
     s32 word_0;
-    register s32 word_1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 word_1;
+    s32 word_1_2;
     s32 word_2;
     s32 word_3;
 
@@ -106,11 +107,11 @@ void func_8081DD70(void *source_data, void *record_data) {
         src_end = src_limit;
         do {
             word_0 = ((S_8081DD70_0 *)src)->unk_00;
-            word_1 = ((S_8081DD70_0 *)src)->unk_04;
+            word_1_2 = ((S_8081DD70_0 *)src)->unk_04;
             word_2 = ((S_8081DD70_0 *)src)->unk_08;
             word_3 = ((S_8081DD70_0 *)src)->unk_0C;
             ((S_8081DD70_1 *)dst)->unk_00 = word_0;
-            ((S_8081DD70_1 *)dst)->unk_04 = word_1;
+            ((S_8081DD70_1 *)dst)->unk_04 = word_1_2;
             ((S_8081DD70_1 *)dst)->unk_08 = word_2;
             ((S_8081DD70_1 *)dst)->unk_0C = word_3;
             do {
@@ -127,7 +128,6 @@ void func_8081DD70(void *source_data, void *record_data) {
         {
             void *call_object;
             void *call_data;
-            register void *copy_packet ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 record_word_0;
             s32 record_word_1;
             register s32 record_word_3 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -135,20 +135,20 @@ void func_8081DD70(void *source_data, void *record_data) {
             call_object = object;
             call_data = &D_80045340;
             ASM_USE2(call_object, call_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            copy_packet = ((S_8081DD70_2 *)object)->unk_08;
+            word_1 = (s32)(((S_8081DD70_2 *)object)->unk_08);
             ((S_8081DD70_2 *)object)->unk_10 = &D_800206D0;
             record_word_0 = ((S_8081DD70_3 *)record)->unk_00;
             record_word_1 = ((S_8081DD70_3 *)record)->unk_04;
             record_data = ((S_8081DD70_3 *)record)->unk_08;
             record_word_3 = ((S_8081DD70_3 *)record)->unk_0C;
-            ((S_8081DD70_4 *)copy_packet)->unk_00 = record_word_0;
-            ((S_8081DD70_4 *)copy_packet)->unk_04 = record_word_1;
-            ((S_8081DD70_4 *)copy_packet)->unk_08 = record_data;
-            ((S_8081DD70_4 *)copy_packet)->unk_0C = record_word_3;
+            ((S_8081DD70_4 *)(void *)word_1)->unk_00 = record_word_0;
+            ((S_8081DD70_4 *)(void *)word_1)->unk_04 = record_word_1;
+            ((S_8081DD70_4 *)(void *)word_1)->unk_08 = record_data;
+            ((S_8081DD70_4 *)(void *)word_1)->unk_0C = record_word_3;
             record_word_0 = ((S_8081DD70_3 *)record)->unk_10;
             record_word_1 = ((S_8081DD70_3 *)record)->unk_14;
-            ((S_8081DD70_4 *)copy_packet)->unk_10 = record_word_0;
-            ((S_8081DD70_4 *)copy_packet)->unk_14 = record_word_1;
+            ((S_8081DD70_4 *)(void *)word_1)->unk_10 = record_word_0;
+            ((S_8081DD70_4 *)(void *)word_1)->unk_14 = record_word_1;
             func_8004491C(call_object, call_data);
         }
 

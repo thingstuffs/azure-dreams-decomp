@@ -57,8 +57,7 @@ void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data,
     u16 flags_copy;
     register s32 render_param_copy ASM_REG("$2");
     S_800249F0_3 *position;
-    register void *render_state ASM_REG("$7");
-    register void *render_data ASM_REG("$7");
+    void *render_state;
     S_800249F0_0 *state;
     void *object;
     S_800249F0_4 *source_position;
@@ -84,14 +83,14 @@ void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data,
         position->unk_00 = (s32) source_position->unk_00;
         position->unk_04 = (s32) source_position->unk_04;
         position->unk_08 = (s32) source_position->unk_08;
-        render_data = (*(void **)((u8 *)object + 0xC));
-        ((S_800249F0_5 *)render_data)->unk_1C = (s16) render_x;
-        ((S_800249F0_5 *)render_data)->unk_1E = (s16) render_y;
-        ((S_800249F0_5 *)render_data)->unk_0E = 0x80;
-        ((S_800249F0_5 *)render_data)->unk_0D = 0x80;
-        ((S_800249F0_5 *)render_data)->unk_0C = (s8) render_mode;
+        render_state = (*(void **)((u8 *)object + 0xC));
+        ((S_800249F0_5 *)render_state)->unk_1C = (s16) render_x;
+        ((S_800249F0_5 *)render_state)->unk_1E = (s16) render_y;
+        ((S_800249F0_5 *)render_state)->unk_0E = 0x80;
+        ((S_800249F0_5 *)render_state)->unk_0D = 0x80;
+        ((S_800249F0_5 *)render_state)->unk_0C = (s8) render_mode;
         (*(Packed12 *)((u8 *)object + 0x92)) = *(Packed12 *)packed_data;
-        ((S_800249F0_5 *)render_data)->unk_08 = (void *) (object + 0x92);
+        ((S_800249F0_5 *)render_state)->unk_08 = (void *) (object + 0x92);
         return state;
     } else {
         return NULL;

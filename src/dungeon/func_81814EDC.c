@@ -162,6 +162,7 @@ void func_81814EDC(void *effect, void *position) {
     void *particle;
 
     if (((S_81814EDC_0 *)effect)->unk_00 == 0) {
+        register M2C_UNK *callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (!(((S_81814EDC_0 *)effect)->unk_0A & 1)) {
             spark_kind = func_80069EF8() & 7;
             spark_speed = (func_80069EF8() & 0xFF) | 0x80;
@@ -290,7 +291,7 @@ spawn_flashes:
                         owner_position = ((S_81814EDC_7_pre *)source_owner)[-1].unk_00;
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                         {
-                            register M2C_UNK *callback ASM_REG("$8") = &D_80024280;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                            callback = &D_80024280;
 
                             ((S_81814EDC_1 *)particle)->unk_10 = callback;
                         }
@@ -355,14 +356,14 @@ next_flash:
 move_effect:
         {
             void **position_ref = &position;
-            register S_81814EDC_10 *position_vec ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            callback = (M2C_UNK *)(*position_ref);
 
-            if ((func_800A4778(position_vec->unk_00.at02.v, position_vec->unk_04.at02.v, (s16) position_vec->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
-                position_vec = *position_ref;
+            if ((func_800A4778(((S_81814EDC_10 *)callback)->unk_00.at02.v, ((S_81814EDC_10 *)callback)->unk_04.at02.v, (s16) ((S_81814EDC_10 *)callback)->unk_08.at02.v, ((S_81814EDC_0 *)effect)->unk_30) << 0x10) == 0) {
+                callback = (M2C_UNK *)(*position_ref);
 
-                position_vec->unk_00.at00.v = (s32) (position_vec->unk_00.at00.v + ((S_81814EDC_0 *)effect)->unk_58);
-                position_vec->unk_04.at00.v = (s32) (position_vec->unk_04.at00.v + ((S_81814EDC_0 *)effect)->unk_5C);
-                position_vec->unk_08.at00.v = (s32) (position_vec->unk_08.at00.v + ((S_81814EDC_0 *)effect)->unk_60);
+                ((S_81814EDC_10 *)callback)->unk_00.at00.v = (s32) (((S_81814EDC_10 *)callback)->unk_00.at00.v + ((S_81814EDC_0 *)effect)->unk_58);
+                ((S_81814EDC_10 *)callback)->unk_04.at00.v = (s32) (((S_81814EDC_10 *)callback)->unk_04.at00.v + ((S_81814EDC_0 *)effect)->unk_5C);
+                ((S_81814EDC_10 *)callback)->unk_08.at00.v = (s32) (((S_81814EDC_10 *)callback)->unk_08.at00.v + ((S_81814EDC_0 *)effect)->unk_60);
                 goto update_fade;
             }
             goto finish_effect;

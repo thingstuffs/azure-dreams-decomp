@@ -14,6 +14,7 @@ extern s32 D_800CEEFC[3];
 /* Creates four groups of 32 effect objects with angularly distributed motion. */
 void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
 {
+    register u16 facing_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   volatile struct
   {
     s32 sp10;
@@ -58,7 +59,6 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   group_index = 0;
   ASM_USE2_NV(setup_asset, setup_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   {
-    register u16 facing_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     facing_angle = angle_value << 9;
     *((u16 *) ((void *) (&sp.sp20))) = facing_angle;
   }
@@ -66,9 +66,9 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   sp.sp28 = angle_value << 9;
   do
   {
+      register s32 base_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     sample_index = 0;
     {
-      register s32 base_angle ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       base_angle = sp.sp28;
       index_step = 1;
       base_shift = 5;
@@ -83,25 +83,22 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
       {
         register void *init_effect ASM_REG("$4") = effect;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         register void *init_data ASM_REG("$5") = D_800CEEFC;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register void *callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ASM_USE2(init_effect, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        callback = D_8002744C;
-        *((M2C_UNK **) (((s8 *) effect) + 0x10)) = callback;
+        base_angle = (s32)(D_8002744C);
+        *((M2C_UNK **) (((s8 *) effect) + 0x10)) = (void *)base_angle;
         func_8004491C(init_effect, init_data);
       }
       {
         void *positions;
-        register u16 initial_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u16 initial_z ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         positions = *((void **) (((s8 *) effect) + 8));
         *((s16 *) (((s8 *) positions) + 2)) = pos_x;
         *((s16 *) (((s8 *) positions) + 0xE)) = pos_x;
-        initial_y = sp.sp18;
-        *((u16 *) (((s8 *) positions) + 6)) = initial_y;
-        *((u16 *) (((s8 *) positions) + 0x12)) = initial_y;
-        initial_z = sp.sp1A;
-        *((u16 *) (((s8 *) positions) + 0xA)) = initial_z;
-        *((u16 *) (((s8 *) positions) + 0x16)) = initial_z;
+        facing_angle = sp.sp18;
+        *((u16 *) (((s8 *) positions) + 6)) = facing_angle;
+        *((u16 *) (((s8 *) positions) + 0x12)) = facing_angle;
+        facing_angle = sp.sp1A;
+        *((u16 *) (((s8 *) positions) + 0xA)) = facing_angle;
+        *((u16 *) (((s8 *) positions) + 0x16)) = facing_angle;
       }
       trig_result = func_80064584(motion_angle);
       sample_angle = sample_index << 7;
@@ -109,18 +106,16 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
       angle_value = trig_result;
       effect_state = effect + 0x20;
       {
-        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        product = angle_value * func_80064584(angle_arg);
-        motion_component = product >> scale_shift;
+        base_angle = angle_value * func_80064584(angle_arg);
+        motion_component = base_angle >> scale_shift;
         *((s32 *) (((s8 *) effect_state) + 0xC)) = motion_component;
       }
       trig_result = func_800644B8(motion_angle);
       angle_arg = sample_angle;
       angle_value = trig_result;
       {
-        register s32 product ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        product = angle_value * func_80064584(angle_arg);
-        motion_component = product >> scale_shift;
+        base_angle = angle_value * func_80064584(angle_arg);
+        motion_component = base_angle >> scale_shift;
         *((s32 *) (((s8 *) effect_state) + 0x10)) = motion_component;
       }
       trig_result = func_800644B8(sample_angle);

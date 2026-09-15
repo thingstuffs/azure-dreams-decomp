@@ -71,9 +71,10 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     var_s2 = 0;
     var_s1 = 0;
     if (func_800C80F0(arg0, arg1, arg2, arg3) == 0) {
+        register s32 probability ASM_REG("$2"); /* MATCH: the merged probability occupies v0 at the shared comparison. */
+        register s32 random_mod ASM_REG("$3"); /* MATCH: retail copies the remainder from v1 into the merged probability. */
         temp_s0 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_60;
         if (temp_s0 != NULL) {
-            register s32 probability ASM_REG("$2"); /* MATCH: the merged probability occupies v0 at the shared comparison. */
 
             var_s1 = 1;
             if (temp_s0->unk_01 == 0xF) {
@@ -86,7 +87,6 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
                 /* garbage-passthru: a1/a3 are residue from func_800C80F0, without a defined C value. */
                 temp_a0_2 = func_800A6D30() & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
-                    register s32 random_mod ASM_REG("$3"); /* MATCH: retail copies the remainder from v1 into the merged probability. */
                     random_mod = temp_a0_2 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
                     probability = random_mod;
                 } else {
@@ -108,7 +108,6 @@ s32 func_800CE748(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
 block_13:
         temp_s0_2 = ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_64;
         if (temp_s0_2 != NULL) {
-            register s32 probability ASM_REG("$2"); /* MATCH: the merged probability occupies v0 at the shared comparison. */
 
             temp_a0_3 = temp_s0_2->unk_00;
             temp_v1 = temp_a0_3 & 0xFF;
@@ -119,7 +118,6 @@ block_13:
                 /* garbage-passthru: a1/a3 remain residue from earlier calls. */
                 temp_a0 = func_800A6D30(temp_a0_3) & 0xFFFF;
                 if (((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17 != 0) {
-                    register s32 random_mod ASM_REG("$3"); /* MATCH: retail copies the remainder from v1 into the merged probability. */
                     random_mod = temp_a0 % ((S_800CE748_0 *)((u8 *)arg0 - 0x14))->unk_17;
                     probability = random_mod;
                 } else {

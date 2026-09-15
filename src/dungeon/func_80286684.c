@@ -50,8 +50,8 @@ s32 func_80019684(s16 object_index, s16 mode, s32 activate) {
         func_8004425C(0xC);
     }
     {
-        register s32 activate_test ASM_REG("$2") = activate_flag << 16;
-        if (activate_test == 0) {
+        buffer_addr = (u32)(activate_flag << 16);
+        if ((s32)buffer_addr == 0) {
             saved_index = (u16)D_80080AFC;
         }
     }

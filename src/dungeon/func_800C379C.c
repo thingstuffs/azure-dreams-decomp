@@ -29,17 +29,16 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
 
     {
         s32 random;
-        register s32 masked ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 denominator;
         u8 divisor;
 
         random = func_800A6D30();
         divisor = *(u8 *)((u8 *)arg0 + 3);
         if (divisor != 0) {
-            masked = random & 0xFFFF;
+            signed_arg = random & 0xFFFF;
             denominator = divisor;
             ASM_KEEP(denominator);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            mod = masked % denominator;
+            mod = signed_arg % denominator;
         } else {
             mod = 0;
         }

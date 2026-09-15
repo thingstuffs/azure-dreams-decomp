@@ -137,12 +137,12 @@ collision_clear:
                         !(D_800E2970[monster_index].flags & 2) ||
                         (result = 0, ((body_addr = (u32)body,
                                        ((FuncArg2 *)body_addr)->flags & 0x2000) != 0))) {
+                                           register u32 sample_offset ASM_REG("$8");
                         if (collision.value & 0x3300) {
                             target_x_u16 = target_x & 0xFFFF;
                             if (collision.value & 0x40) {
                                 {
                                     u16 sample_x;
-                                    register u32 sample_offset ASM_REG("$8");
                                     sample_x = target_x_u16;
                                     target_y_u16 = coord_work & 0xFFFF;
                                     ASM_USE(target_y_u16);
@@ -170,7 +170,6 @@ move_failed:
                             return -1;
                         }
                         {
-                            register u32 sample_offset ASM_REG("$8");
                             sample_offset = saved_offset;
                             floor_height = func_800BCB04(target_x & 0xFFFF, coord_work & 0xFFFF,
                                                         (s16)(height - sample_offset));

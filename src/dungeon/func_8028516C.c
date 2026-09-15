@@ -63,17 +63,17 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
     state = &D_8008333C;
 
     if (rows_left > 0) {
+        register s16 *y_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         scan_record_index = record_index;
     scan_row:
         {
             s32 record_offset;
-            register DungeonRecord *record_base ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             record_offset = scan_record_index << 2;
             record_offset += scan_record_index;
             record_offset <<= 2;
-            record_base = (DungeonRecord *)&D_800E2970;
-            record = (DungeonRecord *)(record_offset + (s32)record_base);
+            y_ptr = (s16 *)((DungeonRecord *)&D_800E2970);
+            record = (DungeonRecord *)(record_offset + (s32)(DungeonRecord *)y_ptr);
         }
         record_addr = (s32)y << 16;
         row = record_addr >> 16;
@@ -105,7 +105,6 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
                             (u16)center_y,
                             -0x400);
                         if (cell_result < 0x200) {
-                            register s16 *y_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                             *out_x = x;
                             y_ptr = *(s16 **)&out_y;

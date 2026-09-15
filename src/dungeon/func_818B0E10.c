@@ -59,8 +59,6 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32
     register s32 color_index ASM_REG("$5") = segment + phase_offset;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 biased_index = color_index;
     s32 color_scale;
-    register s32 shade ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 green_fixed ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     RenderState *ctx;
     s32 line_code;
     s32 color_sign;
@@ -69,44 +67,43 @@ s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32
       s64 both;
       struct { s32 hi; u32 lo; } word;
     } wide_product;
-    green_fixed = intensity << 16;
+    globals_page = (u8 *)(intensity << 16);
     div255_multiplier = (s32) 0x80808081U;
-    wide_product.both = (s64) green_fixed * div255_multiplier;
+    wide_product.both = (s64) (s32)globals_page * div255_multiplier;
     ctx = render_state->ctx;
     line_prim = ctx->nextPrim;
     ctx->nextPrim = line_prim + 0x14;
     line_prim[3] = 4;
     line_code = 0x52;
-    color_sign = green_fixed >> 31;
+    color_sign = (s32)globals_page >> 31;
     line_prim[7] = (u8) line_code;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    shade = (wide_product.word.hi - -green_fixed) >> 7;
-    color_scale = shade - color_sign;
+    phase_offset = (wide_product.word.hi - -(s32)globals_page) >> 7;
+    color_scale = phase_offset - color_sign;
     {
       register s32 shade_scale ASM_REG("$4") = color_scale;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
       register s32 saved_shade_scale ASM_REG("$7") = shade_scale;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      register s32 shade_product ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
       if (color_index < 0)
       {
         biased_index = color_index + 15;
       }
-      shade_product = shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index - ((biased_index >> 4) << 4)))));
-      shade = shade_product >> 18;
+      globals_page = (u8 *)(shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index - ((biased_index >> 4) << 4))))));
+      phase_offset = (s32)globals_page >> 18;
       shade_scale = saved_shade_scale;
       initial_z = color_index + 1;
       biased_index = initial_z;
       line_prim[5] = intensity;
-      line_prim[4] = (s8) shade;
-      line_prim[6] = (s8) shade;
+      line_prim[4] = (s8) phase_offset;
+      line_prim[6] = (s8) phase_offset;
       if (initial_z < 0)
       {
         biased_index = color_index + 16;
       }
-      shade_product = shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index >> 4) << 4)))));
+      globals_page = (u8 *)(shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index >> 4) << 4))))));
       line_prim[0xD] = intensity;
-      shade = shade_product >> 18;
-      line_prim[0xC] = (s8) shade;
-      line_prim[0xE] = (s8) shade;
+      phase_offset = (s32)globals_page >> 18;
+      line_prim[0xC] = (s8) phase_offset;
+      line_prim[0xE] = (s8) phase_offset;
     }
     {
       u8 *origin_bytes = (u8 *) origin;

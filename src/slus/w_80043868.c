@@ -14,16 +14,15 @@ s32 func_80043868(S_80043868 *state)
 {
     s32 lower;
     s32 upper;
-    register s32 range ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register s32 scaled_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 range;
 
     lower = func_8004383C(state, -1);
     upper = func_8004383C(state, 0);
     range = upper - lower;
     lower = state->unk18 - lower;
-    scaled_value = (lower * 20) / range;
-    if (scaled_value >= 21) {
-        scaled_value = 20;
+    range = (lower * 20) / range;
+    if (range >= 21) {
+        range = 20;
     }
-    return scaled_value;
+    return range;
 }

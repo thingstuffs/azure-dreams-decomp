@@ -68,8 +68,7 @@ s32 func_800A32A4(void *record) {
     s32 *counter_base;
     s32 slot_offset;
     s32 record_index;
-    s32 record_flags;
-    register s32 state_flags ASM_REG("$3");
+    s32 state_flags;
     s32 tail_w0;
     s32 tail_w4;
     s32 tail_w8;
@@ -143,10 +142,10 @@ scan_slots:
     }
 update_count:
     if (update_mode == 0) {
-        record_flags = ((Rec_D_800E3D7C *)record)->unk_14.as_s32;
+        state_flags = ((Rec_D_800E3D7C *)record)->unk_14.as_s32;
         update_mode = 3;
-        if (!(record_flags & 0x4000)) {
-            status_page = (u8 *)(record_flags & 0x2000);
+        if (!(state_flags & 0x4000)) {
+            status_page = (u8 *)(state_flags & 0x2000);
             if (status_page) {
                 counter_base = D_80083460;
                 if (((S_800A32A4_6 *)counter_base)->unk_1C.s != 0) {

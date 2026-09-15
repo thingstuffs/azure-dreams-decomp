@@ -69,6 +69,7 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
     u8 *scratch_base;
     u8 *packet;
     s32 mode_bits;
+    register s32 y_component ASM_REG("$3");
 
     VU16(scratch, 0x8C) = 0;
     VU16(scratch, 0x84) = 0;
@@ -90,7 +91,6 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
         register s32 x ASM_REG("$6");
         register s32 y ASM_REG("$7");
         s32 x_component;
-        register s32 y_component ASM_REG("$3");
 
         x = U16(input, 0);
         S16(scratch, 0x00) = x;
@@ -128,22 +128,21 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 
     do {
         if (!(U8(part, 0) & 0x20)) {
+            register s32 edge ASM_REG("$2");
             S32(scratch, 8) = U8(part, 8);
             S32(scratch, 0xC) = U8(part, 9);
             S32(scratch, 0x10) = U8(part, 0xA);
             S32(scratch, 0x14) = U8(part, 0xB);
 
             {
-                register s32 edge ASM_REG("$2");
                 if (((U8(part, 0) ^ U16(scratch, 0x24)) & 1) != 0) {
-                    register s32 origin_x ASM_REG("$3");
                     s32 width;
 
                     edge = VU8(part, 2);
-                    origin_x = U16(scratch, 0x108);
+                    y_component = U16(scratch, 0x108);
                     width = U16(scratch, 0x10);
                     edge = (s8)edge;
-                    edge = -edge - origin_x;
+                    edge = -edge - y_component;
                     U16(scratch, 0x80) = edge;
                     U16(scratch, 0x70) = edge;
                     edge -= width;
@@ -165,16 +164,14 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
             }
 
             {
-                register s32 edge ASM_REG("$2");
                 if (((U8(part, 0) ^ U16(scratch, 0x24)) & 2) != 0) {
-                    register s32 origin_y ASM_REG("$3");
                     s32 height;
 
                     edge = VU8(part, 3);
-                    origin_y = U16(scratch, 0x10A);
+                    y_component = U16(scratch, 0x10A);
                     height = U16(scratch, 0x14);
                     edge = (s8)edge;
-                    edge = -edge - origin_y;
+                    edge = -edge - y_component;
                     U16(scratch, 0x7A) = edge;
                     U16(scratch, 0x72) = edge;
                     edge -= height;
@@ -218,29 +215,27 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
 
             {
                 s32 tex_extent;
-                register s32 tex_end ASM_REG("$3");
 
                 tex_extent = S32(scratch, 0x10);
-                tex_end = S32(scratch, 8);
+                y_component = S32(scratch, 8);
                 tex_extent -= 1;
-                tex_end = tex_extent + tex_end;
-                S32(scratch, 0x10) = tex_end;
-                if (tex_end & 0x100) {
-                    tex_extent = tex_end - 1;
+                y_component = tex_extent + y_component;
+                S32(scratch, 0x10) = y_component;
+                if (y_component & 0x100) {
+                    tex_extent = y_component - 1;
                     S32(scratch, 0x10) = tex_extent;
                 }
             }
             {
                 s32 tex_extent;
-                register s32 tex_end ASM_REG("$3");
 
                 tex_extent = S32(scratch, 0x14);
-                tex_end = S32(scratch, 0xC);
+                y_component = S32(scratch, 0xC);
                 tex_extent -= 1;
-                tex_end = tex_extent + tex_end;
-                S32(scratch, 0x14) = tex_end;
-                if (tex_end & 0x100) {
-                    tex_extent = tex_end - 1;
+                y_component = tex_extent + y_component;
+                S32(scratch, 0x14) = y_component;
+                if (y_component & 0x100) {
+                    tex_extent = y_component - 1;
                     S32(scratch, 0x14) = tex_extent;
                 }
             }
@@ -268,16 +263,15 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
             S16(packet, 0x14) = U16(scratch, 0xC) + U16(scratch, 0x10);
 
             {
-                register s32 tex_page ASM_REG("$2");
                 s32 page_offset = U16(sprite, 0x10);
                 if (page_offset != 0) {
-                    tex_page = U16(part, 4);
-                    tex_page &= 0xFF9F;
-                    tex_page = page_offset + tex_page;
+                    edge = U16(part, 4);
+                    edge &= 0xFF9F;
+                    edge = page_offset + edge;
                 } else {
-                    tex_page = U16(part, 4);
+                    edge = U16(part, 4);
                 }
-                U16(packet, 0x16) = tex_page;
+                U16(packet, 0x16) = edge;
             }
             {
                 s16 edge_work;

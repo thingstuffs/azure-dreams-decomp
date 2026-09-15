@@ -214,9 +214,9 @@ void func_800CF8E4(void) {
     void *packet_code;
     void *edge_end;
     void *render_input;
-    register void *render_output ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 render_arg;
     s32 minus_one;
+    register s32 neighbor_row_step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     scene = (u8 *)D_80083160;
     render_flags = D_80013714[0];
@@ -239,10 +239,10 @@ L_CF974:
         func_80064D20(((void **)((s8 *)((void **)((s8 *)view + 0x38)))));
         render_input = view;
         ASM_KEEP(render_input);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        render_output = view_corners;
+        neighbor_row_step = (s32)(view_corners);
         render_arg = *(s32 *)(ram_base + 0x158);
         ((S_800CF8E4_0 *)scene)->unk_1E = 0x1BA;
-        func_80046884(render_input, render_output, render_arg);
+        func_80046884(render_input, (void *)neighbor_row_step, render_arg);
         reset_page = (u8 *)0x800E0000;
         if (reset_page[-0x30A8] != 0) {
             corner_0_x = view_corners[0];
@@ -386,7 +386,7 @@ L_CFB98:
             register s32 draw_mode ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             render_input = view + 8;
-            render_output = ram_base + 0x01C;
+            neighbor_row_step = (s32)(ram_base + 0x01C);
             setup_value = ((S_800CF8E4_2 *)view)->unk_90;
             render_arg = (s32)((u8 *)((u32)ram_base | 0x174));
             *(s32 *)(ram_base + 0x000) = setup_value;
@@ -430,13 +430,15 @@ L_CFB98:
             *(s32 *)(ram_base + 0x14C) = setup_value;
             *(s32 *)(ram_base + 0x17C) = width_shift_or_end;
             *(u16 *)(ram_base + 0x174) = 4U;
-            *(s32 *)(ram_base + 0x00C) = (s16)func_80046C20(render_input, render_output, render_arg, (void *)width_shift_or_end);
+            *(s32 *)(ram_base + 0x00C) = (s16)func_80046C20(render_input, (void *)neighbor_row_step, render_arg, (void *)width_shift_or_end);
         }
         if (*(u16 *)(ram_base + 0x174) != 0) {
             s32 address_mask;
             s32 one;
             s32 max_height;
             register s32 tag_mask ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            register s32 edge_progress ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 error_step;
 
             one = 1;
             max_height = 0x7FFF;
@@ -477,8 +479,6 @@ loop_15:
 L_CFCFC:
                 {
                     s32 edge_error;
-                    register s32 edge_progress ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    register s32 error_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                     edge_progress = ((S_800CF8E4_5 *)edge)->unk_2C;
                     edge_error = ((S_800CF8E4_5 *)edge)->unk_24;
@@ -583,8 +583,7 @@ L_CFE98:
                                 vertex_offset = *(volatile u16 *)(ram_base + 0x12C);
                                 vertex_value <<= 3;
                                 vertex_value += (s32)vertices;
-                                vertex_value = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
-                                *(volatile s32 *)(ram_base + 0x164) = vertex_value;
+                                *(volatile s32 *)(ram_base + 0x164) = ((S_800CF8E4_7 *)((void *)vertex_value))->unk_00;
                                 vertex_value = ((S_800CF8E4_6 *)face)->unk_02;
                                 vertex_x = *(volatile u16 *)(ram_base + 0x164);
                                 vertex_value <<= 3;
@@ -675,26 +674,24 @@ L_D0130:
                                                 {
                                                     s32 neighbor_offset;
                                                     s32 row_offset_mask;
-                                                    register s32 neighbor_column ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                                                    register s32 neighbor_row_step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                                                     neighbor_offset = *(volatile u16 *)(ram_base + 0x010);
-                                                    neighbor_column = *(volatile s32 *)(ram_base + 0x134);
+                                                    error_step = *(volatile s32 *)(ram_base + 0x134);
                                                     neighbor_row_step = *(volatile u16 *)(ram_base + 0x012);
                                                     row_offset_mask = *(volatile s32 *)(ram_base + 0x120);
                                                     render_arg = *(volatile s32 *)(ram_base + 0x124);
                                                     neighbor_offset = (s16)neighbor_offset;
-                                                    neighbor_column += neighbor_offset;
+                                                    error_step += neighbor_offset;
                                                     neighbor_offset = *(volatile s32 *)(ram_base + 0x11C);
                                                     neighbor_row_step = (s16)neighbor_row_step;
-                                                    neighbor_column &= neighbor_offset;
+                                                    error_step &= neighbor_offset;
                                                     neighbor_offset = *(volatile s32 *)(ram_base + 0x138);
                                                     row_offset_mask <<= render_arg;
-                                                    *(volatile s32 *)(ram_base + 0x13C) = neighbor_column;
+                                                    *(volatile s32 *)(ram_base + 0x13C) = error_step;
                                                     neighbor_offset += neighbor_row_step;
                                                     neighbor_offset &= row_offset_mask;
-                                                    neighbor_column += neighbor_offset;
-                                                    neighbor_index = neighbor_column;
+                                                    error_step += neighbor_offset;
+                                                    neighbor_index = error_step;
                                                     *(volatile s32 *)(ram_base + 0x13C) = neighbor_index;
                                                 }
                                                 neighbor = (CellRec *)((neighbor_index * 6) + (s32)cells);
@@ -785,21 +782,19 @@ block_64:
                                             overlay_ot_entry = (s32 *)((*(s32 *)(ram_base + 0x0C8) * 4) + *(s32 *)(ram_base + 0x0BC));
                                             {
                                                 s32 overlay_addr;
-                                                register s32 overlay_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                                                 overlay_addr = (s32) packet & address_mask;
-                                                overlay_tag = *overlay_ot_entry;
+                                                edge_progress = *overlay_ot_entry;
                                                 packet += 0x28;
-                                                overlay_tag &= tag_mask;
-                                                overlay_tag |= overlay_addr;
-                                                *overlay_ot_entry = overlay_tag;
+                                                edge_progress &= tag_mask;
+                                                edge_progress |= overlay_addr;
+                                                *overlay_ot_entry = edge_progress;
                                             }
                                             ((S_800CF8E4_9_pre *)packet_code)[-1].unk_00 = one;
                                             {
-                                                register s32 draw_mode_cmd ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                                                draw_mode_cmd = (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
-                                                (*(s32 *)((u8 *)packet_code + -3)) = draw_mode_cmd;
+                                                edge_progress = (s32) ((*(u16 *)(ram_base + 0x176) & 0x9FF) | 0xE1000000);
+                                                (*(s32 *)((u8 *)packet_code + -3)) = edge_progress;
                                             }
                                         }
 L_D0540:
@@ -837,11 +832,10 @@ L_D057C:
                             }
                             {
                                 s32 end_marker;
-                                register s32 face_marker ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                                 end_marker = 0x8001;
-                                face_marker = *(u16 *)(ram_base + 0x16E) & 0x80FF;
-                                if (face_marker == end_marker) {
+                                edge_progress = *(u16 *)(ram_base + 0x16E) & 0x80FF;
+                                if (edge_progress == end_marker) {
                                     goto block_98;
                                 }
                             }

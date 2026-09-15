@@ -208,6 +208,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
             &&case_0, &&case_1, &&case_2, &&switch_end, &&case_4
         };
         s32 dispatch_state;
+        register s32 interp_work ASM_REG("$2");
         dispatch_state = entity->state;
         if ((u32)dispatch_state >= 5) {
             goto switch_end;
@@ -368,6 +369,7 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                         register Entity *path_entity ASM_REG("$5");
                         register s32 path_half ASM_REG("$4");
                         register s32 path_saved_base ASM_REG("$3");
+                        u32 dim_color;
                         path_point = path_pair * 2;
                         path_entity = (Entity *)((u8 *)entity + (path_point + path_pair) * 4);
                         path_point++;
@@ -448,7 +450,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                             effect = &task->effect;
                             if (task != 0) {
                                 s32 bright_color;
-                                register s32 dim_color ASM_REG("$3");
                                 bright_color = 0x804020;
                                 dim_color = 0x201008;
                                 effect->value1C = bright_color;
@@ -500,7 +501,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                             effect = &task->effect;
                             if (task != 0) {
                                 s32 bright_color;
-                                register s32 dim_color ASM_REG("$3");
                                 bright_color = 0x804020;
                                 dim_color = 0x201008;
                                 effect->value1C = bright_color;
@@ -657,10 +657,8 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                         register s32 trail_index ASM_REG("$20");
                                         s32 trail_fraction;
                                         s32 interp_x;
-                                        register s32 interp_y ASM_REG("$5");
                                         s32 interp_z;
                                         s32 interp_base;
-                                        register s32 interp_work ASM_REG("$2");
                                         register s32 out_x ASM_REG("$7");
                                         trail_index = 0;
                                         do {
@@ -674,17 +672,17 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                                             out_x = interp_base * 2;
                                             interp_base = entity->path[19];
                                             interp_work = entity->path[7] - interp_base;
-                                            interp_y = interp_work * trail_fraction;
+                                            path_entity = (Entity *)(interp_work * trail_fraction);
                                             interp_work = interp_x >> 4;
                                             out_x += interp_work;
                                             interp_x = interp_base * 2;
-                                            if (interp_y < 0) {
-                                                interp_y += 15;
+                                            if ((s32)path_entity < 0) {
+                                                path_entity = (Entity *)(((s32)path_entity) + (15));
                                             }
                                             interp_base = entity->path[20];
                                             interp_work = entity->path[8] - interp_base;
                                             interp_z = interp_work * trail_fraction;
-                                            interp_work = interp_y >> 4;
+                                            interp_work = (s32)path_entity >> 4;
                                             interp_work = interp_x + interp_work;
                                             interp_base = interp_base * 2;
                                             if (interp_z < 0) {
@@ -722,7 +720,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
             task = func_8003FC64(0x212);
             effect = &task->effect;
             if (task != 0) {
-                register u8 *focus_data ASM_REG("$2");
                 effect->timer3A = 13;
                 effect->timer3C = 13;
                 task->callback = func_800245B8;
@@ -752,8 +749,8 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                 *(Blob12 *)(task->data + 12) = *(Blob12 *)(copy_page + 12);
                 ASM_KEEP(copy_page);
                 ASM_KEEP(task);
-                focus_data = task->data;
-                sprite->data = focus_data;
+                interp_work = (s32)(task->data);
+                sprite->data = (u8 *)interp_work;
                 goto switch_end;
             }
         }

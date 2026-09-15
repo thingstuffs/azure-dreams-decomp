@@ -170,8 +170,8 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     void *var_v1;
     register u8 *page ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 idx0;
-    register s16 idx1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 idx1_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 idx1;
+    u32 idx1_copy;
     void *entry_ptr;
     register S_800E3E48 *entries ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 ff;
@@ -189,7 +189,6 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     void **table2;
     s32 ff2;
     register s32 scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register u8 *var_v1_2 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register u32 dispatch_probe ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *dispatch_page;
     u32 dispatch_idx;
@@ -263,8 +262,8 @@ loop_1:
     table2 = (void **)(page2 + 0x248);
     dispatch_page = arg0;
     loop_0: {
-        var_v1_2 = (u8 *)(var_t1 + (u32)var_a3);
-        idx0 = ((S_80094988_5 *)var_v1_2)->unk_2D52;
+        idx1_copy = (s32)((u8 *)(var_t1 + (u32)var_a3));
+        idx0 = ((S_80094988_5 *)(u8 *)idx1_copy)->unk_2D52;
         if (idx0 != ff2) {
             ((S_80094988_6 *)dispatch_page)->unk_D0 =
                 (s32)((idx0 * 4) + (u32)table2);
@@ -310,13 +309,13 @@ loop_1:
                     if (((S_80094988_9 *)var_s4)->unk_00 & 0x20) {
                         var_s1 = 0;
                         var_v1 = arg0;
-                        do {
+                        loop_1_: {
                             if (((S_80094988_10 *)var_v1)->unk_D0 == var_s2) {
                                 var_s1 = var_t1_3 + 1;
                             }
                             var_t1_3 += 1;
                             var_v1 += 4;
-                        } while (var_t1_3 < 2);
+                        } if (var_t1_3 < 2) goto loop_1_;
                         if ((var_s1 << 0x10) != 0) {
                             var_s1 -= 1;
                             temp_v0 = func_800A1618(*var_s2, 3);

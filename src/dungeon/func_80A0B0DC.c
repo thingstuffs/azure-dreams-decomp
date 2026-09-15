@@ -219,6 +219,7 @@ flags_done:
 
     do {
         void *child;
+        register void *new_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         child = func_8003FD64(0x112, D_80083498);
         allocated = child;
@@ -252,7 +253,6 @@ flags_done:
                 s32 part_value;
                 s32 call_zero;
                 void *outer_child;
-                register void *new_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 item = (u8 *)entry + item_offset;
                 ((S_801588DC_6 *)entry)->unk_04 |= 0x8000;
@@ -295,14 +295,13 @@ flags_done:
         outer = (u8 *)outer + 4;
         {
             s32 child_count;
-            register s32 more_children ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             address_or_count = (uptr)stack.outer_index;
             child_count = ((S_801588DC_4 *)stable_object)->unk_9E;
             address_or_count++;
             stack.outer_index = (s32)address_or_count;
-            more_children = (s32)address_or_count < child_count;
-            if (!more_children) {
+            new_link = (void *)((s32)address_or_count < child_count);
+            if (!(s32)new_link) {
                 break;
             }
         }

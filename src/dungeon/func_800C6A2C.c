@@ -23,21 +23,17 @@ extern s32 func_800AA5E4(void *, s32, s32, void *);
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
     register s32 roll ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 random_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 range;
+    s32 random_value;
     register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 outcome;
-    s16 final_outcome;
     s32 feedback_kind;
     s32 feedback_or_result;
 
     outcome = 0;
     if (D_800E3D40[0] == 0) {
         random_value = func_800A6D30(entity, forwarded_1, forwarded_2, forwarded_3) & 0xFFFF;
-        range = ((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B;
-        if (range != 0) {
-            roll = range;
-            ASM_KEEP(roll);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        if (((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B)) != 0) {
+            roll = ((s32)(((S_800CC18C_0 *)((u8 *)entity - 0x18))->unk_1B));
             remainder = random_value % roll;
             roll = remainder;
             goto value_ready;
@@ -64,11 +60,10 @@ value_ready:
             func_800A6508();
         }
     }
-    final_outcome = outcome;
-    if (final_outcome < 0) {
+    if (((s16)(outcome)) < 0) {
         return 0;
     }
-    if (final_outcome != 0) {
+    if (((s16)(outcome)) != 0) {
         feedback_or_result = 1;
     } else {
         feedback_or_result = -1;

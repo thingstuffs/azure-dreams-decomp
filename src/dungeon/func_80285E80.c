@@ -187,10 +187,10 @@ finish_state_zero:
 
             floor_data = (s16 *)D_80081468;
             if (floor_data[2] == 1) {
+                s32 i;
             {
                 s32 monster_id;
                 s32 level;
-                register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u8 *even_ids;
                 u8 *odd_ids;
                 u8 *base;
@@ -221,7 +221,6 @@ finish_state_zero:
             {
                 s32 monster_id;
                 s32 level;
-                register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u8 *even_ids;
                 u8 *odd_ids;
                 u8 *base;
@@ -281,7 +280,7 @@ third_pair:
             do {
                 level = scratch + level_bonus;
             } while (0);
-            do {
+            loop_2: {
                 dungeon->records[i + 8].value = monster_id;
                 dungeon->records[i + 8].level = level;
                 i++;
@@ -289,7 +288,7 @@ third_pair:
                 *even_ids = monster_id;
                 even_ids += 2;
                 odd_ids += 2;
-            } while (i < 4);
+            } if (i < 4) goto loop_2;
         }
 
             {

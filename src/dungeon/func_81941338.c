@@ -47,6 +47,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     register void *effect_base ASM_REG("$21") = effect;
     void *position = effect_pos;
     register void *effect_context ASM_REG("$18") = effect_data;
+    u32 neutral_color;
     static void *const state_labels[] = { &&init, &&wait_ready, &&emit_trail, &&emit_burst, &&finish };
     s32 enabled;
     void *sprite;
@@ -304,30 +305,30 @@ emit_trail:
                     sprite = F(particle, void *, 0xC);
                 }
                 {
-                    register void *anim_sprite ASM_REG("$4") = sprite;
+                    neutral_color = (s32)(sprite);
                     if (particle_index != 0) {
                         void *animation = D_800DED28;
                         void *anim_context = 0;
-                        F(anim_sprite, u16, 0x10) = (u16)0x20;
-                        F(anim_sprite, u16, 0x1E) = 0x1000;
-                        F(anim_sprite, u16, 0x1C) = 0x1000;
-                        F(anim_sprite, u8, 0xE) = (u8)effect_context;
-                        F(anim_sprite, u8, 0xD) = (u8)effect_context;
-                        F(anim_sprite, u8, 0xC) = (u8)effect_context;
-                        func_8003DB94(anim_sprite, animation, anim_context);
+                        F((void *)neutral_color, u16, 0x10) = (u16)0x20;
+                        F((void *)neutral_color, u16, 0x1E) = 0x1000;
+                        F((void *)neutral_color, u16, 0x1C) = 0x1000;
+                        F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
+                        F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
+                        F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
+                        func_8003DB94((void *)neutral_color, animation, anim_context);
                     } else {
                         register void *animation ASM_REG("$5") = D_800DEB28;
                         register void *anim_context ASM_REG("$6") = 0;
                         ASM_USE2(animation, anim_context);
-                        F(anim_sprite, u16, 0x1E) = 0x2000;
-                        F(anim_sprite, u16, 0x1C) = 0x2000;
+                        F((void *)neutral_color, u16, 0x1E) = 0x2000;
+                        F((void *)neutral_color, u16, 0x1C) = 0x2000;
                         ASM_SCHED_BARRIER();
                         bits = 0x20;
-                        F(anim_sprite, u16, 0x10) = (u16)bits;
-                        F(anim_sprite, u8, 0xE) = (u8)effect_context;
-                        F(anim_sprite, u8, 0xD) = (u8)effect_context;
-                        F(anim_sprite, u8, 0xC) = (u8)effect_context;
-                        func_8003DB94(anim_sprite, animation, anim_context);
+                        F((void *)neutral_color, u16, 0x10) = (u16)bits;
+                        F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
+                        F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
+                        F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
+                        func_8003DB94((void *)neutral_color, animation, anim_context);
                     }
                 }
             }
@@ -488,7 +489,6 @@ finish:
     if (F(D_8002571C, s16, 0) == 0) {
         void *actor_model =
             F(D_800814A8[0], void *, 0x60);
-        register s32 neutral_color ASM_REG("$4");
         if (actor_model != 0) {
             bits = (u32)0xEFFFFFFF;
             neutral_color = 0x00808080;

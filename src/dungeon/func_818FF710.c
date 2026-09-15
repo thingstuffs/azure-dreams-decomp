@@ -335,6 +335,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     u16 offset[3];
     Local28 texture_rect;
     Local38 direction_steps;
+    register void *particle_owner ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     static void *const state_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c8 };
     s32 spawn_tick;
     s32 state;
@@ -506,7 +507,6 @@ jt_c2:
 launch_particles:
     launch_particle += 1;
     {
-        register void *particle_owner ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 particle_direction;
         s32 particle_color;
         register s32 particle_size ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -803,7 +803,6 @@ jt_c4:
 impact_particles:
     impact_particle += 1;
     {
-        register void *particle_owner ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 particle_direction;
         s32 particle_color;
         register s32 particle_size ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

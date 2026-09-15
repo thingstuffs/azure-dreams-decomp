@@ -140,7 +140,6 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     u16 start_y;
     u16 top_z;
     u16 next_start_x;
-    register u32 depth ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *point;
     register s32 coord_or_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -235,9 +234,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_2 *)prim)->unk_1A = SP16(0xE2);
         ((S_819112CC_2 *)prim)->unk_20 = SP16(0xE4);
         ((S_819112CC_2 *)prim)->unk_22 = SP16(0xE6);
-        depth = SP32(0xB4);
-        if (depth < 0x1E0U) {
-            coord_or_offset = depth << 2;
+        link = (u32 *)(SP32(0xB4));
+        if ((u32)link < 0x1E0U) {
+            coord_or_offset = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
             coord_or_offset += SP32(0x18);
             ((S_819112CC_2 *)prim)->unk_00.at00.v = (((S_819112CC_2 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
@@ -320,9 +319,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         ((S_819112CC_5 *)prim)->unk_1A = SP16(0xE2);
         ((S_819112CC_5 *)prim)->unk_20 = SP16(0xE4);
         ((S_819112CC_5 *)prim)->unk_22 = SP16(0xE6);
-        depth = SP32(0xB4);
-        if (depth < 0x1E0U) {
-            coord_or_offset = depth << 2;
+        link = (u32 *)(SP32(0xB4));
+        if ((u32)link < 0x1E0U) {
+            coord_or_offset = (u32)link << 2;
             angle_x_or_mask = (s32)0xFF000000;
             coord_or_offset += SP32(0x18);
             ((S_819112CC_5 *)prim)->unk_00.at00.v = (((S_819112CC_5 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |

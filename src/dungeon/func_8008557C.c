@@ -143,7 +143,6 @@ void func_8008ACDC(void *actor, void *motion_raw, void *sprite_raw, void *stats_
     s32 next_angle;
     u16 *flags_page;
     s32 input_flags;
-    register u32 slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 slot_addr;
     register void *action_target ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *selected_target;
@@ -352,23 +351,23 @@ finish_command:
                         call_actor = actor;
                         call_motion = motion;
                         call_sprite = sprite;
-                        slot = ((S_8008ACDC_6 *)command)->unk_00;
+                        angle_bits = (s32)(((S_8008ACDC_6 *)command)->unk_00);
                         action_target = selected_target;
-                        slot &= 0x60;
-                        slot >>= 5;
+                        angle_bits = (s32)(((u32)angle_bits) & (0x60));
+                        angle_bits = (s32)(((u32)angle_bits) >> (5));
                         goto apply_target_action;
                     case 0x88:
                         call_actor = actor;
-                        slot = (u32) (((S_8008ACDC_6 *)command)->unk_00 & 0x60) >> 5;
+                        angle_bits = (s32)((u32) (((S_8008ACDC_6 *)command)->unk_00 & 0x60) >> 5);
                         call_motion = motion;
-                        slot_addr = slot << 2;
+                        slot_addr = (u32)angle_bits << 2;
                         slot_addr = slot_addr + (s32) call_actor;
                         do {
                             action_target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
                         } while (0);
                         call_sprite = sprite;
 apply_target_action:
-                        func_80094270(call_actor, call_motion, call_sprite, action_target, slot);
+                        func_80094270(call_actor, call_motion, call_sprite, action_target, (u32)angle_bits);
                         goto epilogue;
                     case 0x70:
                         mode_cmd = ((S_8008ACDC_6 *)command)->unk_00;

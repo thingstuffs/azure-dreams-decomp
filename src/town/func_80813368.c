@@ -33,6 +33,7 @@ void func_80813368(void *arg0) {
     s32 init_kind;
     s32 state;
     u16 counter;
+    register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     state = S16_AT(arg0, 0x18);
     if (state == 0) {
@@ -117,7 +118,6 @@ state_done:
     }
 
     if (U16_AT(PTR_AT(arg0, 0), 0x64) >= U16_AT(arg0, 0x20)) {
-        register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 target_y;
         s32 current_x;
         register s32 current_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -137,23 +137,21 @@ state_done:
     } else {
         s32 target_const;
         s32 retreat_x;
-        register s32 retreat_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 delta_x;
-        register s32 motion_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         target_const = -0x60;
         retreat_x = S16_AT(arg0, 8);
-        retreat_y = S16_AT(arg0, 0x10);
+        target_x = S16_AT(arg0, 0x10);
         delta_x = target_const - retreat_x;
         retreat_x += delta_x >> 1;
-        target_const -= retreat_y;
+        target_const -= target_x;
         target_const >>= 1;
-        retreat_y += target_const;
-        S16_AT(arg0, 0x10) = retreat_y;
-        motion_value = (s16)retreat_y + 0x60;
-        motion_value = abs(motion_value);
+        target_x += target_const;
+        S16_AT(arg0, 0x10) = target_x;
+        target_x = (s16)target_x + 0x60;
+        target_x = abs(target_x);
         S16_AT(arg0, 8) = retreat_x;
-        if (motion_value < 2) {
+        if (target_x < 2) {
             flag_value = U16_AT(arg0, 0x24) | 1;
 store_flag:
             U16_AT(arg0, 0x24) = flag_value;

@@ -47,9 +47,9 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
     {
         s32 y;
         s32 y_velocity;
+        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         {
-            register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 x_velocity;
 
             x = motion->x;
@@ -60,7 +60,6 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
             motion->x = x;
         }
         {
-            register s32 z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 z_velocity;
             volatile s32 *x_velocity_addr = &motion->dx;
             s32 x_drag;
@@ -68,14 +67,14 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
             s32 z_jitter;
             s32 falling_velocity;
 
-            z = motion->z;
+            x = motion->z;
             z_velocity = motion->dz;
             y += y_velocity;
             motion->y = y;
             random_value = *x_velocity_addr;
-            z += z_velocity;
+            x += z_velocity;
             x_drag = random_value >> 3;
-            motion->z = z;
+            motion->z = x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             {
                 register s32 y_velocity_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

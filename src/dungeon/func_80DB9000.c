@@ -249,7 +249,6 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     u32 depth_scaled;
     register u32 coord_offset;
     register u32 uv_right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 uv_bottom ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 screen_offset;
     s16 screen_offset_2;
     register u32 coord_value;
@@ -263,7 +262,6 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     S_80DB9000_7 *render_data;
     register S_80DB9000_5 *render_state ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 address_mask;
-    register S_80DB9000_6 *render_buffer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 load_dependency;
     S_80DB9000_9 *packet;
     S_80DB9000_1 *sprite_size = size_arg;
@@ -284,13 +282,13 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     ASM_KEEP_NV(depth_bias);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     work_aux = (u8 *)((u32)work_aux | 0xD0);
-    render_buffer = ((S_80DB9000_5 *)&D_80083160)->unk_00;
+    uv_right = (u32)(((S_80DB9000_5 *)&D_80083160)->unk_00);
     scratch_page->unk_90 = 0;
     scratch_page->unk_CC = 0;
     scratch_page->unk_C4 = 0;
     scratch_page->unk_BC = 0;
     scratch_page->unk_B4 = 0;
-    scratch_page->unk_24 = (u8 *)render_buffer + 0xB0;
+    scratch_page->unk_24 = (u8 *)(S_80DB9000_6 *)uv_right + 0xB0;
     scratch_page->unk_04 = position->unk_02;
     projection_flags = (u8 *)scratch_page;
     ASM_KEEP_MEMDEP_NV(scratch_page, load_dependency, ((S_80DB9000_5 *)&D_80083160)->unk_00);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -299,7 +297,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     scratch_page->unk_06 = position->unk_06;
     scratch_page->unk_08 = position->unk_0A;
     projection_flags = (u8 *)((u32)projection_flags | 0xD4);
-    packet = render_buffer->unk_8D0;
+    packet = ((S_80DB9000_6 *)uv_right)->unk_8D0;
     render_state = (S_80DB9000_5 *)(state_page + 0x3160);
     scratch_page->unk_100 = func_80065420(work_src, work_dst, work_aux, projection_flags);
     sprite->unk_14 = (u16)(sprite->unk_14 | 0x8000);
@@ -456,6 +454,7 @@ next_entry:
                 corner3_visible = y_bound < 0x121U;
             }
             if ((first_three_visible | corner3_visible) != 0) {
+                register u32 uv_adjusted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 packet->unk_00.s8.unk_03 = 9;
                 sprite->unk_14 = (u16)(sprite->unk_14 & 0x7FFF);
                 {
@@ -466,18 +465,18 @@ next_entry:
                 }
                 scratch_page->unk_14 = uv_right;
                 if (uv_right & 0x100) {
-                    register u32 uv_adjusted ASM_REG("$2") = uv_right - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    uv_adjusted = uv_right - 1;
                     scratch_page->unk_14 = uv_adjusted;
                 }
                 {
                     u32 texel_count = scratch_page->unk_18;
-                    uv_bottom = scratch_page->unk_10;
+                    uv_right = scratch_page->unk_10;
                     texel_count -= 1;
-                    uv_bottom = texel_count + uv_bottom;
+                    uv_right = texel_count + uv_right;
                 }
-                scratch_page->unk_18 = uv_bottom;
-                if (uv_bottom & 0x100) {
-                    register u32 uv_adjusted ASM_REG("$2") = uv_bottom - 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                scratch_page->unk_18 = uv_right;
+                if (uv_right & 0x100) {
+                    uv_adjusted = uv_right - 1;
                     scratch_page->unk_18 = uv_adjusted;
                 }
                 scratch_page->unk_18 <<= 8;

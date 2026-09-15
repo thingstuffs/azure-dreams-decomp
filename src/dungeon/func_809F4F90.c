@@ -125,7 +125,6 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     s32 return_speed;
     s32 return_speed_2;
     s32 state;
-    register s32 particles_left ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 random_offset;
     s32 fall_speed;
     u16 flags;
@@ -174,7 +173,7 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     ((S_80172790_1 *)action)->unk_96.s--;
 
     if ((u32)(((S_80172790_1 *)action)->unk_9B - 1) < 3U) {
-        particles_left = 15;
+        heading_byte = 15;
         particle_x_offset = (x_step << 5) - 8;
         do {
             particle = func_8003FD64(0x312, &D_80083498);
@@ -226,8 +225,8 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
                 (*(s32 *)((u8 *)sprite + 0xC)) = color;
                 ((S_80172790_5 *)sprite)->unk_08 = sprite_params;
             }
-            particles_left--;
-        } while (particles_left >= 0);
+            heading_byte--;
+        } while (heading_byte >= 0);
     }
 
     state = ((S_80172790_1 *)action)->unk_9B;

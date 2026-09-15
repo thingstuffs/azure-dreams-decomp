@@ -66,6 +66,7 @@ extern s32 D_800FE5C0[];
 
 /* Resolves movement collisions along one axis using boundary probes and tile offsets. */
 void func_80095C80(S_80095C80_1 *position) {
+    register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     struct {
         s32 x;
         s32 y;
@@ -104,7 +105,6 @@ void func_80095C80(S_80095C80_1 *position) {
         if (((S_80095C80_0 *)motion)->unk_10 > 0) {
             register s32 x_hit ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 boundary_test;
-            register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             void *probe_ptr;
             probe.x = position->unk_00.at00.v - ((S_80095C80_0 *)motion)->unk_0C;
             probe.y = position->unk_04.at00.v;
@@ -225,7 +225,6 @@ check_neg_x:
             }
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 > 0) {
                 register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 y_test;
                 probe.x = position->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
                 probe.y = position->unk_04.at00.v;
@@ -284,7 +283,6 @@ check_neg_x_pos_y_corner:
             }
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 < 0) {
                 register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 probe.x = position->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
                 probe.y = position->unk_04.at00.v;
                 probe.z = position->unk_08;

@@ -126,6 +126,8 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     u16 state_flags;
     s32 flags;
     void *root;
+    register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *target ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     state_flags = D_80083462;
 
@@ -146,7 +148,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
     flags = ((S_8017405C_0 *)movement)->unk_1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
-            register void *target ASM_REG("$3") = func_800A02AC(movement, actor->unk_24.at00.v, actor->unk_24.at01.v);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            target = func_800A02AC(movement, actor->unk_24.at00.v, actor->unk_24.at01.v);
             if (target != 0) {
                 S_8017405C_3 *target_pos = ((S_8017405C_2_pre *)target)[-1].unk_00;
                 ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v,
@@ -183,8 +185,6 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             register unsigned long x_lookup ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             unsigned long y_lookup;
             register s32 leader_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 leader_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 actor_x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             leader_pos = D_80082E80;
@@ -193,7 +193,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             y_lookup = ((S_8017405C_0 *)movement)->unk_45;
             leader_x = leader_pos[0x24];
             y_lookup += (s16)((S_8017405C_4 *)root)->unk_2A >> 9;
-            leader_y = leader_pos[0x25];
+            leader_pos = (u8 *)(leader_pos[0x25]);
             y_lookup &= 7;
             y_lookup <<= 1;
             x_lookup += y_lookup;
@@ -205,7 +205,7 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             }
             actor_x = actor->unk_24.at00.v;
             target_x = leader_x + (s32)x_lookup;
-            target_y = leader_y + y_offset;
+            target_y = (s32)leader_pos + y_offset;
             if (actor_x == (u16)target_x && actor->unk_24.at01.v == (u16)target_y) {
                 goto stop_path;
             }
@@ -234,7 +234,7 @@ update_heading:
         }
     }
     if (!(((S_8017405C_0 *)movement)->unk_46 & 0x8000)) {
-        register void *target ASM_REG("$3") = func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v, ((S_8017405C_0 *)movement)->unk_2A.s);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        target = func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v, ((S_8017405C_0 *)movement)->unk_2A.s);
         if (target != 0 && (((S_8017405C_2 *)target)->unk_1C & 0x2000) && func_800A0134(target, movement) < 0x81) {
             if (func_8009A540((((s16)((S_8017405C_0 *)movement)->unk_2A.u >> 9) & 0xFFFF),
                               actor->unk_24.at00.v, actor->unk_24.at01.v,
@@ -305,15 +305,15 @@ update_heading:
                                                 target_x_sum, (s32)x_lookup, (u8 *)context + 0x98);
             {
                 s32 current_x = actor->unk_24.at00.v;
-                register s32 expected_x ASM_REG("$2") = (u16)target_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                if (current_x != expected_x) {
+                y_offset = (u16)target_x;
+                if (current_x != y_offset) {
                     goto choose_step;
                 }
             }
             {
                 s32 current_y = actor->unk_24.at01.v;
-                register s32 expected_y ASM_REG("$2") = (u16)target_y;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                if (current_y != expected_y) {
+                y_offset = (u16)target_y;
+                if (current_y != y_offset) {
                     goto choose_step;
                 }
             }
@@ -365,11 +365,11 @@ try_heading:
                     heading = base_heading + heading_offsets[move_index];
                 }
             } else {
-                register s32 base_heading ASM_REG("$3") = ((S_8017405C_0 *)movement)->unk_2A.s;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                target = (void *)((u8 *)(((S_8017405C_0 *)movement)->unk_2A.s));
                 if (((Rec_func_800A9E70_arg0 *)context)->unk_98 & 2) {
-                    heading = base_heading - heading_offsets[move_index];
+                    heading = (s32)(u8 *)target - heading_offsets[move_index];
                 } else {
-                    heading = base_heading + heading_offsets[move_index];
+                    heading = (s32)(u8 *)target + heading_offsets[move_index];
                 }
             }
             if (func_8009A66C(heading, actor, movement, 0x20) > 0) {
@@ -389,10 +389,10 @@ try_heading:
                               (((S_8017405C_0 *)movement)->unk_1C & 0x2000) ? 0x300 : 0x3000);
                 {
                     s32 step_offset;
-                    register u8 *x_steps ASM_REG("$3") = (u8 *)D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    target = (void *)((u8 *)D_8006CCD8);
                     step_offset = (((S_8017405C_0 *)movement)->unk_2A.u >> 8) & 0xE;
                     actor->unk_24.at00.v = actor->unk_24.at00.v +
-                                         *(u8 *)((unsigned long)step_offset + (unsigned long)x_steps);
+                                         *(u8 *)((unsigned long)step_offset + (unsigned long)(u8 *)target);
                     {
                         u8 *y_steps = (u8 *)D_8006CCE8;
                         actor->unk_24.at01.v = actor->unk_24.at01.v +

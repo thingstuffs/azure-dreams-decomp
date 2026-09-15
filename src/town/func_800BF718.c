@@ -283,9 +283,9 @@ case_20: {
 case_30: {
         s32 vy;
         s32 new_vy;
+        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         {
-            register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 vx;
 
             x = ((S_800BCE78_1 *)motion)->unk_00;
@@ -297,13 +297,12 @@ case_30: {
             ((S_800BCE78_1 *)motion)->unk_00 = x;
         }
         {
-            register s32 y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
+            x = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
             new_vy -= 0x4000;
             ((S_800BCE78_1 *)motion)->unk_14 = new_vy;
-            y += vy;
-            ((S_800BCE78_1 *)motion)->unk_08.at00.v = y;
+            x += vy;
+            ((S_800BCE78_1 *)motion)->unk_08.at00.v = x;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             sequence = D_800E9E34;

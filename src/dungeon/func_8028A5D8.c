@@ -59,7 +59,7 @@ void func_8001D5D8(DungeonRect *rect) {
     s16 swap_styles;
     s16 patch_style;
     s32 fill_value;
-    register s32 style_value_hi ASM_REG("$18");
+    s32 style_value_hi;
     DungeonCell *cell;
     register s32 patch_row ASM_REG("$23");
     s32 right_hi;
@@ -139,8 +139,8 @@ void func_8001D5D8(DungeonRect *rect) {
                     register s32 coord_hi = (s32)scan_y << 16;
                     register s32 coord = coord_hi >> 16;
                     if (coord < (s16)bottom) {
-                        cols_left = patch_width;
                         cell_x = scan_x;
+                        cols_left = patch_width;
 
                         if (cols_left > 0) {
                             s32 row_style;

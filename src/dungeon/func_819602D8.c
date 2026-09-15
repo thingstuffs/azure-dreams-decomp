@@ -20,6 +20,7 @@ typedef struct S_819602D8_0 {
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void func_819602D8(s16 center_x, s32 center_y) {
+    register u32 center_x_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     volatile union {
         u16 h;
         u8 b;
@@ -48,7 +49,6 @@ void func_819602D8(s16 center_x, s32 center_y) {
     store_page = (u8 *)0x80020000;
     saved_center_x.h = center_x;
     {
-        register u32 center_x_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         center_x_byte = saved_center_x.b;
         ASM_KEEP4_NV(store_page, row, tile_y, sample_row);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         store_page[0x744C] = center_x_byte;
@@ -90,8 +90,8 @@ do {
             ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
-            register s32 width_unit ASM_REG("$7") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            width_check = width_unit << width_check;
+            center_x_byte = (u32)(1);
+            width_check = (s32)center_x_byte << width_check;
         }
         width_check = sample_x < width_check;
         if (!width_check) {
@@ -109,8 +109,8 @@ do {
             ASM_USE_NV(height_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
-            register s32 height_unit ASM_REG("$7") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            height_check = height_unit << height_check;
+            center_x_byte = (u32)(1);
+            height_check = (s32)center_x_byte << height_check;
         }
         height_check = signed_y < height_check;
         if (height_check) {

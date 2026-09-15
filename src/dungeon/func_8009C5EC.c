@@ -181,7 +181,6 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             register s32 new_stat ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 stat;
             s32 old_value;
-            register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             prev_step = level - 1;
 
             old_scaled = stat_growth[1];
@@ -203,9 +202,9 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            stat_gain = stat - old_value;
+            new_scaled = stat - old_value;
             entity[1] = stat;
-            entity[0x27] += stat_gain;
+            entity[0x27] += new_scaled;
 
             old_scaled = stat_growth[2];
             base_stat = initial_stats[2];

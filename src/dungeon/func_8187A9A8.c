@@ -458,7 +458,6 @@ mesh_loop:
     }
 
     if (mesh->unk_4E == 0) {
-        register S_func_8187A9A8_6 *packet ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 ot_index;
         s32 midpoint;
         s32 midpoint_z;
@@ -485,8 +484,8 @@ mesh_loop:
         render_state_ref = (S_func_8187A9A8_5 **)D_80083160_line;
         ASM_KEEP(render_state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         render_state_2 = *render_state_ref;
-        packet = render_state_2->unk_8D0;
-        render_state_2->unk_8D0 = (u8 *)packet + 0x10;
+        raw_depth_bias = (s32)(render_state_2->unk_8D0);
+        render_state_2->unk_8D0 = (u8 *)(S_func_8187A9A8_6 *)raw_depth_bias + 0x10;
 
         coord_a = mesh->unk_58.as_s16_58;
         coord_b = mesh->unk_5C.as_s16_5C;
@@ -514,13 +513,13 @@ mesh_loop:
         scratch->unk_BA.as_s16_BA = midpoint;
         coord_a = mesh->unk_68.as_s16_68;
         coord_b = mesh->unk_6C.as_s16_6C;
-        screen_a = (u8 *)packet + 8;
+        screen_a = (u8 *)(S_func_8187A9A8_6 *)raw_depth_bias + 8;
         midpoint = (coord_a + coord_b) / 2;
         scratch->unk_C4.as_s16_C4 = midpoint;
         scratch->unk_B4.as_s16_B4 = midpoint;
         end_z_a = mesh->unk_6A.as_s16_6A;
         end_z_b = mesh->unk_6E.as_s16_6E;
-        screen_b = (u8 *)packet + 0x0C;
+        screen_b = (u8 *)(S_func_8187A9A8_6 *)raw_depth_bias + 0x0C;
         fog_out = (u8 *)scratch + 0xD0;
         flags_out = (u8 *)scratch + 0xD4;
 
@@ -549,16 +548,16 @@ mesh_loop:
 
         tpage_zero = 0;
         color_code = object->unk_0C.as_u32_0C;
-        packet->unk_00.as_u8_03.unk_03 = 3;
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u8_03.unk_03 = 3;
         ASM_SET(packet_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         packet_code = 0x42;
         blend_mode = 1;
         render_state_ref = (S_func_8187A9A8_5 **)D_80083160_tpage;
         ASM_KEEP(render_state_ref);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        packet->unk_04.as_u32_04 = color_code;
-        packet->unk_04.as_u8_07.unk_07 = packet_code;
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u32_04 = color_code;
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_04.as_u8_07.unk_07 = packet_code;
 
-        packet->unk_00.as_u32_00 = (packet->unk_00.as_u32_00 & tag_mask) |
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 = (((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 & tag_mask) |
             (((u32 *)scratch->unk_24)[scratch->unk_100] & addr_mask);
         ot_entry = (u32 *)
             (((u32)scratch->unk_100 << 2) +
@@ -569,24 +568,24 @@ mesh_loop:
             register u32 packet_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             ot_tag = *ot_entry;
-            packet_addr = (u32)packet & addr_mask;
+            packet_addr = (u32)(S_func_8187A9A8_6 *)raw_depth_bias & addr_mask;
             ot_tag &= tag_mask;
             ot_tag |= packet_addr;
             *ot_entry = ot_tag;
         }
 
         render_state = *render_state_ref;
-        packet = render_state->unk_8D0;
-        render_state->unk_8D0 = (u8 *)packet + 0x0C;
-        func_80067F20(packet, 0, 0,
+        raw_depth_bias = (s32)(render_state->unk_8D0);
+        render_state->unk_8D0 = (u8 *)(S_func_8187A9A8_6 *)raw_depth_bias + 0x0C;
+        func_80067F20((S_func_8187A9A8_6 *)raw_depth_bias, 0, 0,
                      func_80066460(tpage_zero, blend_mode,
                                    tpage_zero, tpage_zero) & 0xFFFF, 0);
 
-        packet->unk_00.as_u32_00 = (packet->unk_00.as_u32_00 & tag_mask) |
+        ((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 = (((S_func_8187A9A8_6 *)raw_depth_bias)->unk_00.as_u32_00 & tag_mask) |
             (((u32 *)scratch->unk_24)[scratch->unk_100] & addr_mask);
         ((u32 *)scratch->unk_24)[scratch->unk_100] =
             (((u32 *)scratch->unk_24)[scratch->unk_100] & tag_mask) |
-            ((u32)packet & addr_mask);
+            ((u32)(S_func_8187A9A8_6 *)raw_depth_bias & addr_mask);
     }
 
     if ((s8)texture->unk_00 >= 0) {

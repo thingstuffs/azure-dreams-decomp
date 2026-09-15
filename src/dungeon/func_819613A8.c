@@ -87,13 +87,11 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     register s32 x_offset ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x_or_height;
     register s32 y_or_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 height ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 height;
     register s32 height_bl ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 height_br ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 origin_height ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 saved_row;
-    register s32 texture_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register TempObj *init_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s8 *height_row;
     register void *output ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 *top_heights ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -104,10 +102,10 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     if (object != NULL) {
         saved_row = tile_y;
         row_offset = tile_y;
-        init_object = object;
+        y_or_color = (s32)(object);
         height_row = &D_800264D4;
         object->field10 = height_row;
-        func_8004491C(init_object, &D_800269CC);
+        func_8004491C((TempObj *)y_or_color, &D_800269CC);
         column = (s16) tile_x;
         x_offset = (column - 3) << 6;
         ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -169,27 +167,27 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height += x_or_height;
         ((TempOutput *)output)->field2C = height;
         y_or_color = 0xF8F82CC0;
-        texture_value = 0x13D;
+        height = 0x13D;
         object->field20 = y_or_color;
-        ((TempOutput *)output)->field4 = texture_value;
-        texture_value = column * 0x10;
-        ((TempOutput *)output)->field8 = (s8) texture_value;
-        texture_value = 6;
+        ((TempOutput *)output)->field4 = height;
+        height = column * 0x10;
+        ((TempOutput *)output)->field8 = (s8) height;
+        height = 6;
         ((TempOutput *)output)->field9 = (s8) row_offset;
-        if (column == texture_value) {
-            texture_value = 0xF;
+        if (column == height) {
+            height = 0xF;
         } else {
-            texture_value = 0x10;
+            height = 0x10;
         }
-        ((TempOutput *)output)->fieldA = texture_value;
-        texture_value = (s16) saved_row;
+        ((TempOutput *)output)->fieldA = height;
+        height = (s16) saved_row;
         x_or_height = 6;
-        if (texture_value == x_or_height) {
-            texture_value = 0xF;
+        if (height == x_or_height) {
+            height = 0xF;
         } else {
-            texture_value = 0x10;
+            height = 0x10;
         }
-        ((TempOutput *)output)->fieldB = texture_value;
+        ((TempOutput *)output)->fieldB = height;
         ((TempChild *)height_or_child)->field8 = output;
         ((TempOutput *)output)->field4C = 8;
         (*(s16 *)D_800273BC) = (s16) ((*(u16 *)D_800273BC) + 1);

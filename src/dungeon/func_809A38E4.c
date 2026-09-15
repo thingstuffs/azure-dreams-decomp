@@ -85,10 +85,9 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     u16 next_segment;
     s32 color_b;
     s32 color_a;
-    register s32 first_segment ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    first_segment = (s16)start_segment;
-    angle = first_segment << 7;
+    vertex_data = (u8 *)((s16)start_segment);
+    angle = (s32)vertex_data << 7;
     radii.arg0 = radius_a_x;
     graphics_ptr = &D_80083160;
     graphics = *graphics_ptr;
@@ -101,7 +100,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     segment_limit = end_segment;
     segment = start_segment;
 
-    if (first_segment < (s16)end_segment) {
+    if ((s32)vertex_data < (s16)end_segment) {
         scale_b_x = radii.arg2;
         scale_b_y = radii.arg3;
         scale_a_x = radii.arg0;

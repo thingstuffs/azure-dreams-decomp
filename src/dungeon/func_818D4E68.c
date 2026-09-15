@@ -168,6 +168,9 @@ void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4, &&state5, &&state6
     };
+    register s32 offset_x ASM_REG("$17");
+    register s32 offset_y ASM_REG("$16");
+    register s32 direction ASM_REG("$2");
     {
         u8 *copy_page;
         register PackedOffsets *copy_src ASM_REG("$6");
@@ -298,16 +301,15 @@ state0:
         {
             u8 *lookup_base;
             u32 lookup;
-            register u32 tile ASM_REG("$2");
             lookup_base = D_8006CCD8;
             lookup = (u32)actor->direction << 1;
             aux = *(Aux **)((u8 *)entity - 0x14);
             lookup += (u32)lookup_base;
             ASM_KEEP(lookup);
-            tile = aux->tile_x;
+            direction = (s32)(aux->tile_x);
             lookup = *(u8 *)lookup;
-            tile += lookup;
-            actor->target_x = (s8)tile;
+            direction = (s32)(((u32)direction) + (lookup));
+            actor->target_x = (s8)(u32)direction;
         }
         {
             register u8 *lookup_page ASM_REG("$2");
@@ -340,7 +342,6 @@ state0:
     }
     {
         AlignedOffsetPair *offset_base;
-        register s32 direction ASM_REG("$2");
         ASM_SCHED_BARRIER();
         direction = actor->direction;
         offset_base = (AlignedOffsetPair *)(void *)offsets.bytes;
@@ -364,27 +365,26 @@ state1:
     }
     {
         u16 angle;
-        register Task *task ASM_REG("$16");
         angle = render->angle;
         render->angle = angle + 0x300;
         if ((u16)(angle + 0x300) >= 0x1001) {
             render->angle = angle - 0xD00;
         }
-        task = func_8003FC64(0x212);
-        if (task != 0) {
+        offset_y = (s32)(func_8003FC64(0x212));
+        if ((Task *)offset_y != 0) {
             Motion *task_motion;
             register Render *task_render ASM_REG("$7");
-            task->field22 = 0x10;
-            task->update = func_80024548;
-            func_8004491C(task, func_80045340);
-            task_render = task->render;
+            ((Task *)offset_y)->field22 = 0x10;
+            ((Task *)offset_y)->update = func_80024548;
+            func_8004491C((Task *)offset_y, func_80045340);
+            task_render = ((Task *)offset_y)->render;
             task_render->field10 = 0x40;
             task_render->flags |= 0xC;
-            task_motion = task->position;
+            task_motion = ((Task *)offset_y)->position;
             task_motion->x.half.hi = motion->x.half.hi;
             task_motion->y.half.hi = motion->y.half.hi;
             task_motion->z.half.hi = motion->z.half.hi;
-            task_render = task->render;
+            task_render = ((Task *)offset_y)->render;
             task_render->scale_y = 0x800;
             task_render->scale_x = 0x800;
             task_render->color2 = 0x78;
@@ -398,11 +398,11 @@ state1:
                 ASM_KEEP(copy_page);
                 copy_src = (Packed12 *)(copy_page + 0x510C);
                 ASM_KEEP(copy_src);
-                task->image_data = *copy_src;
+                ((Task *)offset_y)->image_data = *copy_src;
                 ASM_USE_NV(copy_page);
             }
             {
-                u8 *task_image = (u8 *)task + 0x40;
+                u8 *task_image = (u8 *)(Task *)offset_y + 0x40;
                 task_render->image = task_image;
             }
         }
@@ -410,14 +410,13 @@ state1:
         if (actor->countdown <= 0) {
             if (entity->link60 != 0) {
                 register void *link ASM_REG("$6");
-                register Motion *linked_motion ASM_REG("$6");
                 s32 sound_id;
                 link = entity->link60;
                 sound_id = 0x300;
                 ASM_KEEP(sound_id);
-                linked_motion = *(Motion **)((u8 *)link - 0x18);
-                motion->x.half.hi = linked_motion->x.half.hi;
-                motion->y.half.hi = linked_motion->y.half.hi;
+                link = (void *)(*(Motion **)((u8 *)link - 0x18));
+                motion->x.half.hi = ((Motion *)link)->x.half.hi;
+                motion->y.half.hi = ((Motion *)link)->y.half.hi;
                 motion->z.half.hi = actor->target_y;
                 render->image = D_80025100;
                 render->scale_y = 0x400;
@@ -492,8 +491,6 @@ state2:
     {
         s32 particle_count;
         register s32 color ASM_REG("$18");
-        register s32 offset_x ASM_REG("$17");
-        register s32 offset_y ASM_REG("$16");
         s32 more_particles;
         s32 offset_z;
         particle_count = 0;
@@ -530,8 +527,6 @@ state3:
         register s32 particle_count ASM_REG("$19");
         for (particle_count = 0; particle_count < 2; particle_count++) {
             register s32 color ASM_REG("$18");
-            register s32 offset_x ASM_REG("$17");
-            register s32 offset_y ASM_REG("$16");
             s32 offset_z;
             color = func_80069EF8();
             color &= 0xFF;
@@ -574,12 +569,11 @@ state4:
             ASM_KEEP(room_table);
             room_value = room_table[0x3D68];
             {
-                register s32 no_room ASM_REG("$2");
-                no_room = 0xFF;
+                direction = 0xFF;
                 room_id = 0x10;
-                if (room_value == no_room) {
+                if (room_value == direction) {
                     ASM_CLOBBER("$3");
-                    room_id = no_room;
+                    room_id = direction;
                 }
             }
             effect_type = effect_kind;

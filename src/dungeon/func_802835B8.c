@@ -212,7 +212,6 @@ void func_800165B8(void) {
     u8 *display_page;
     u8 *display_state;
     u8 *map_state;
-    register u8 *bind_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     s32 bind_count;
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *bind_angle;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -342,12 +341,11 @@ initialize_position:
 
     entity_mask = 0xFFEFFFFF;
     {
-        register s32 *entries_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-        entries_base = (s32 *)((u8 *)&D_800E3D80);
+        init_value = (s32)((s32 *)((u8 *)&D_800E3D80));
            /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entity_flags = ((S_800165B8_5 *)entity)->unk_14;
-        reverse_entries = entries_base + 7;
+        reverse_entries = (s32 *)init_value + 7;
         entity_flags &= entity_mask;
         ((S_800165B8_5 *)entity)->unk_14 = entity_flags;
     }
@@ -391,11 +389,11 @@ load_entries:
             *(void **)((u8 *)D_800DD274 +
                 (((D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100) >> 7) & 0x1C)),
             0);
-        bind_base = D_80083498;
+        call_target = D_80083498;
     } else {
         func_800489F4(state, 0xB0, 0, 1);
         ((S_800165B8_3 *)state)->unk_2C = D_800DCFB0;
-        bind_base = D_80083498;
+        call_target = D_80083498;
     }
     bind_count = 1;
     bind_state = state + 0x2C;
@@ -405,7 +403,7 @@ load_entries:
     (*(s16 *)((u8 *)obj + 0x94)) = init_value;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
     ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)D_80083228 + 0x100) & 0xE00);
-    func_800BC26C(bind_base, bind_count, bind_state, bind_angle);
+    func_800BC26C(call_target, bind_count, bind_state, bind_angle);
     {
         s32 clear_flag_mask;
 
@@ -455,15 +453,14 @@ load_entries:
         u16 display_index;
         u16 height_index;
         u16 display_value;
-        register u16 *display_values ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-        display_values = D_800DD264;
+        neutral_color = (s32)(D_800DD264);
         tile_x = ((S_800165B8_3 *)state)->unk_24;
         ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         display_index = *(u16 *)(settings_page + 0x20A2);
         tile_y = ((S_800165B8_3 *)state)->unk_25;
         ASM_KEEP_DEP_NV(display_index, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        display_setting = display_values[(s16)display_index];
+        display_setting = ((u16 *)neutral_color)[(s16)display_index];
         map_state = D_80083460;
         ((S_800165B8_7 *)table_base)->unk_C4 = display_setting;
         height_index = *(u16 *)(settings_page + 0x20A0);

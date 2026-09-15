@@ -105,7 +105,7 @@ retry:
             s32 update_row_shift;
             s32 copy_row_shift;
             s32 flags_row_shift;
-            s32 cell_flags;
+            s16 cell_flags;
             s32 cell_index;
             MapCell *spawn_cell;
             s32 update_size;
@@ -126,9 +126,7 @@ retry:
             (*(s16 *)((u8 *)entry + 6)) = map[cell_offset + (row_offset << copy_row_shift)].value;
 
             flags_row_shift = *(s16 *)(config + 0x14);
-            ASM_KEEP(flags_row_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             cell_flags = 1;
-            ASM_KEEP(cell_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             row_offset <<= flags_row_shift;
             cell_offset += row_offset;
             spawn_cell = (MapCell *)(cell_offset * 6 + (s32)map);

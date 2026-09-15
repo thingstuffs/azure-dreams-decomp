@@ -284,15 +284,14 @@ state_case3:
     if (((Rec_D_80082E80 *)actor)->unk_43 < 0x40U) {
         s32 event_index;
         s32 event_mode;
-        register void *script_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         event_index = func_800429E4(actor);
-        script_actor = actor;
+        state4_event = actor;
         event_mode = 2;
         ASM_KEEP_NV(event_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_800C542C(script_actor,
+        func_800C542C(state4_event,
             D_800DCED4[event_index],
-            (s32)script_actor == ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_AC, event_mode);
+            (s32)state4_event == ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_AC, event_mode);
         state->unk_96.s = 0;
         state->unk_9B = 0x10;
         goto return_zero;

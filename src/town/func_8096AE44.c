@@ -86,7 +86,6 @@ void func_801232DC(void)
     s32 object_offset;
     register s32 initial_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 group_index;
-    register s32 entry_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 display_index;
     s32 final_width;
     register s32 final_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -151,7 +150,7 @@ void func_801232DC(void)
         group_slot += 1;
     } while (group_index < 0x10);
 
-    entry_index = 0;
+    initial_index = 0;
     {
         void **object_base;
         object_base = D_80129728;
@@ -159,15 +158,15 @@ void func_801232DC(void)
     }
     entry_data = D_801331D0;
     do {
-        column = entry_index >> 3;
-        row = entry_index & 7;
-        entry_index += 1;
+        column = initial_index >> 3;
+        row = initial_index & 7;
+        initial_index += 1;
         ((S_801232DC_3 *)(*entry_slot))->unk_00 = entry_data;
         entry_data += 0xC;
         ((S_801232DC_8 *)(((S_801232DC_3 *)(*entry_slot))->unk_04))->unk_08 = (column << 7) + 0x54;
         ((S_801232DC_8 *)(((S_801232DC_3 *)(*entry_slot))->unk_04))->unk_0A = row * 0x12 + 0x30;
         entry_slot += 1;
-    } while (entry_index < 0x10);
+    } while (initial_index < 0x10);
 
     display_index = 0;
     final_width = 0x10;

@@ -233,23 +233,27 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
     state = (*(s16 *)((u8 *)self + 0x0A));
     origin = ((S_818FA12C_0 *)parent_base)->unk_08;
     switch (state) {
+        u32 frames_squared;
+        s32 *flash_pos;
+        register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *packet ASM_REG("$9");   /* retained: preserves the cleanup packet role */
 
     case 0:
         {
-            register u8 *packet ASM_REG("$9") = render_data;   /* retained: preserves the case-zero packet role */
             s32 packed_pos;
             s32 packed_size;
             s32 copy_flags;
             u8 *colors;
             s32 state;
-            ((S_818FA12C_1 *)packet)->unk_0C.at00.v = 0x00808080;
+            frames_squared = (s32)(render_data);
+            ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at00.v = 0x00808080;
             packed_pos = 0x1400340;
             copy_flags = 0;
             ASM_KEEP(copy_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             (*(Copy12 *)((u8 *)self + 0xA2)) = D_80026698;
             packed_size = 0x400040;
             colors = (u8 *)&D_800266A4;
-            ((S_818FA12C_1 *)packet)->unk_08 = (u32)(self + 0xA2);
+            ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_08 = (u32)(self + 0xA2);
             (*(u16 *)((u8 *)self + 0x7E)) = (((S_818FA12C_2 *)parent)->unk_2A >> 9) & 7;
             ((S_818FA12C_3 *)colors)->unk_10 = 0x80;
             ((S_818FA12C_3 *)colors)->unk_11 = 0x80;
@@ -272,13 +276,10 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             s32 step_result;
             s32 height;
             s32 origin_z;
-            register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 frames;
             register s16 frames_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 target_height;
             s32 tile_distance;
-            register s32 frames_squared ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register u8 *packet ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             step_result = func_8003DF74(((S_818FA12C_12 *)(((S_818FA12C_0 *)parent_base)->unk_0C))->unk_08,
                 ((S_818FA12C_0 *)parent_base)->unk_0C, &out_pair, 0);
@@ -301,18 +302,18 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             }
             if (!((*(u8 *)((u8 *)self + 0x7A)) & 4)) {
                 func_8004491C(self - 0x20, D_80045340);
-                packet = render_data;
-                ((S_818FA12C_1 *)packet)->unk_10 = 0x20;
-                ((S_818FA12C_1 *)packet)->unk_0C.at02.v = 0x20;
-                ((S_818FA12C_1 *)packet)->unk_0C.at00u.v = 0x20;
-                flags = ((S_818FA12C_1 *)packet)->unk_14;
-                ((S_818FA12C_1 *)packet)->unk_0C.at01.v = 0xE0;
-                ((S_818FA12C_1 *)packet)->unk_1E.v = 2000;
-                ((S_818FA12C_1 *)packet)->unk_1C.v = 2000;
+                frames_squared = (s32)(render_data);
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_10 = 0x20;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at02.v = 0x20;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at00u.v = 0x20;
+                flags = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at01.v = 0xE0;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1E.v = 2000;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1C.v = 2000;
                 flags |= 0x0C;
-                ((S_818FA12C_1 *)packet)->unk_14 = flags;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 = flags;
                 flags &= 0xFFFC;
-                ((S_818FA12C_1 *)packet)->unk_14 = flags;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_14 = flags;
                 (*(u8 *)((u8 *)self + 0x7A)) |= 4;
             }
             if ((target = ((S_818FA12C_2 *)parent)->unk_60.p) != 0) {
@@ -372,13 +373,12 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             register u8 *impact_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             void *flash_state;
             void *animation;
-            register s32 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *impact_data;
             register s32 *impact_pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u8 *clear_cursor;
 
             index = 0;
-            do {
+            loop_0: {
                 u8 *emitter;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 s32 direction;
                 s32 color;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -390,36 +390,35 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
                 direction = (*(s16 *)((u8 *)self + 0x7E));
                 func_80025228(emitter, direction, color, intensity, 0, 0, 0);
                 index++;
-            } while (index < 8);
+            } if (index < 8) goto loop_0;
             hit_result = func_800A4778(((S_818FA12C_4 *)position)->unk_00.at02.v, ((S_818FA12C_4 *)position)->unk_04.at02.v,
                 ((S_818FA12C_4 *)position)->unk_08.at02u.v, ((S_818FA12C_2 *)parent)->unk_60.p2);
             if (hit_result << 16) {
-                register u8 *packet ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 (*(u16 *)((u8 *)self + 0x0A)) = 8;
                 (*(u16 *)((u8 *)self + 0x82)) = 0;
-                packet = render_data;
-                ((S_818FA12C_1 *)packet)->unk_0C.at02u.v = 0;
-                ((S_818FA12C_1 *)packet)->unk_0C.at01u.v = 0;
-                ((S_818FA12C_1 *)packet)->unk_0C.at00p.v = 0;
+                frames_squared = (s32)(render_data);
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at02u.v = 0;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at01u.v = 0;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_0C.at00p.v = 0;
                 return;
             }
             {
-                register u8 *packet ASM_REG("$9") = render_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 scale_y;
-                angle = ((S_818FA12C_1 *)packet)->unk_1A + 0x400;
+                frames_squared = (s32)(render_data);
+                angle = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1A + 0x400;
                 ASM_KEEP(angle);   /* retained: removing it changes the angle register */
                 if (angle >= 0x1001) {
                     angle -= 0x1000;
                 }
-                ((S_818FA12C_1 *)packet)->unk_1A = angle;
+                ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1A = angle;
                 shrinking = (*(s16 *)((u8 *)self + 0x90));
                 if (shrinking == 0) {
-                    ((S_818FA12C_1 *)packet)->unk_1C.n += (*(u16 *)((u8 *)self + 0x96));
-                    ((S_818FA12C_1 *)packet)->unk_1E.n += (*(u16 *)((u8 *)self + 0x96));
+                    ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1C.n += (*(u16 *)((u8 *)self + 0x96));
+                    ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1E.n += (*(u16 *)((u8 *)self + 0x96));
                 } else {
-                    packet = render_data;
-                    ((S_818FA12C_1 *)packet)->unk_1C.n -= (*(u16 *)((u8 *)self + 0x96));
-                    ((S_818FA12C_1 *)packet)->unk_1E.n -= (*(u16 *)((u8 *)self + 0x96));
+                    frames_squared = (s32)(render_data);
+                    ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1C.n -= (*(u16 *)((u8 *)self + 0x96));
+                    ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1E.n -= (*(u16 *)((u8 *)self + 0x96));
                 }
             }
             pulse_ticks = (*(s16 *)((u8 *)self + 0x92)) + 1;
@@ -491,11 +490,11 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025398;
             func_8004491C(impact, D_80045340);
             impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
-            render_flags = 0x0C;
-            ((S_818FA12C_8 *)impact_data)->unk_14 = render_flags;
+            flags = 0x0C;
+            ((S_818FA12C_8 *)impact_data)->unk_14 = flags;
             ((S_818FA12C_8 *)impact_data)->unk_10.s = index;
             ((S_818FA12C_8 *)impact_data)->unk_06 = 6;
-            ((S_818FA12C_8 *)impact_data)->unk_14 = render_flags | 0x80;
+            ((S_818FA12C_8 *)impact_data)->unk_14 = flags | 0x80;
             impact_pos = (*(s32 * *)((u8 *)impact + 8));
             impact_pos[0] = ((S_818FA12C_4 *)position)->unk_00.at00.v;
             impact_pos[1] = ((S_818FA12C_4 *)position)->unk_04.at00.v;
@@ -519,7 +518,7 @@ missing_target:
 
 cleanup_packet:
         {
-            register u8 *packet ASM_REG("$9") = render_data;   /* retained: preserves the cleanup packet role */
+            packet = render_data;
             ((S_818FA12C_1 *)packet)->unk_0C.at02u.v = 0;
             ((S_818FA12C_1 *)packet)->unk_0C.at01u.v = 0;
             ((S_818FA12C_1 *)packet)->unk_0C.at00p.v = 0;
@@ -539,7 +538,6 @@ update_position:
             s16 ticks;
             register u8 *flash_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u8 *flash_data;
-            register s32 *flash_pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u8 *clear_cursor;
             s32 render_flags;
             register s32 clear_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -599,13 +597,11 @@ update_position:
             register u8 *particle ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *particle_data;
             register u8 *particle_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            register s32 *particle_pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u8 *target_data;
             s32 random_bonus;
             s32 amount;
             s32 offset_radius;
             s32 height_random;
-            register s32 offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 fixed_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 offset_sign;
             s16 effect_kind;
@@ -630,23 +626,23 @@ update_position:
             ((S_818FA12C_8 *)particle_data)->unk_10.u = 0x20;
             ((S_818FA12C_8 *)particle_data)->unk_14 |= 0x0C;
             target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-            particle_pos = (*(s32 * *)((u8 *)particle + 8));
+            flash_pos = (*(s32 * *)((u8 *)particle + 8));
             offset_radius = func_80069EF8();
             offset_sign = func_8002512C();
             offset_radius &= 0x1F;
             offset_radius += 16;
-            offset = offset_radius * offset_sign;
-            fixed_offset = offset << 16;
-            particle_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v + fixed_offset;
+            packet = (u8 *)(offset_radius * offset_sign);
+            fixed_offset = (s32)packet << 16;
+            flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v + fixed_offset;
             offset_radius = func_80069EF8();
             offset_sign = func_8002512C();
             offset_radius &= 0x1F;
             offset_radius += 16;
-            offset = offset_radius * offset_sign;
-            fixed_offset = offset << 16;
-            particle_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v + fixed_offset;
+            packet = (u8 *)(offset_radius * offset_sign);
+            fixed_offset = (s32)packet << 16;
+            flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v + fixed_offset;
             height_random = func_80069EF8();
-            particle_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v
+            flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v
                 - (D_800DDC40[((S_818FA12C_2 *)parent)->unk_60.p[0x13]] << 15)
                 - ((height_random & 0x1F) << 16);
             particle_data = (*(u8 * *)((u8 *)particle + 0x0C));

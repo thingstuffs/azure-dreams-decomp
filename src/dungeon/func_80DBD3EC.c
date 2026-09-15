@@ -165,6 +165,7 @@ spawn_particles:
     frame = ((S_80174BEC_0 *)state)->unk_96.u;
     if (frame == 0 || frame == 7) {
         s16 particle_index;
+        register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
             func_800A56E0(0x80D);
@@ -184,7 +185,6 @@ spawn_particles:
                 {
                     s32 offset_y;
                     s32 velocity_y;
-                    register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     s32 velocity_x;
                     s32 offset_z;
                     s32 position_y;
@@ -282,7 +282,6 @@ next_particle_1:
                 {
                     s32 offset_y;
                     s32 velocity_y;
-                    register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     s32 velocity_x;
                     s32 offset_z;
                     s32 position_z;

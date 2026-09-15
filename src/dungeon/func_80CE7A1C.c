@@ -115,7 +115,6 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     u32 untracked_mask;
     u32 target_flags;
     u32 x_table_addr;
-    register void *target_handle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 effect_x;
     s16 *x_entry;
     s32 x_offset;
@@ -187,12 +186,12 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         ((S_8017121C_0 *)effect_state)->unk_58 = 0;
 
         x_table_addr = target->unk_2A.as_u16;
-        target_handle = target->unk_60.as_pv;
+        coord_delta = (s32)(target->unk_60.as_pv);
         effect_x = coords->unk_02.u;
         x_table_addr = (x_table_addr >> 7) & 0x1C;
         x_table_addr += (u32)direction_table;
         x_entry = (s16 *)x_table_addr;
-        target_coords = ((S_8017121C_8_pre *)target_handle)[-1].unk_00;
+        target_coords = ((S_8017121C_8_pre *)(void *)coord_delta)[-1].unk_00;
    /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         x_offset = *x_entry;
         target_x = target_coords->unk_02;

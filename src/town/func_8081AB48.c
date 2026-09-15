@@ -85,6 +85,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     Owner *owner = actor->ownerAC;
     HalfTable scale_x = D_800200E4;
     HalfTable scale_y = D_800200F0;
+    register s32 duration_roll ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     motion->x += motion->vx;
     motion->y += motion->vy;
@@ -102,7 +103,6 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     }
 
 jt_c0: {
-        register s32 duration_roll ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 duration ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         duration_roll = rand() & 0xF;
         if (owner->kindA >= 25) {
@@ -268,21 +268,20 @@ jt_c7:
             owner->flagsC &= ~4;
             actor->timerA2 = 8;
             {
-                register s32 exit_speed ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u16 actor_type = actor->typeA0;
-                exit_speed = -0x80000;
+                duration_roll = -0x80000;
                 if (actor_type & 1) {
                     s32 x_speed;
                     if ((s16)actor_type != 1) {
                         x_speed = 0x80000;
                     } else {
-                        x_speed = exit_speed;
+                        x_speed = duration_roll;
                     }
                     motion->vx = x_speed;
                     motion->vy = 0;
                 } else {
                     motion->vx = 0;
-                    motion->vy = exit_speed;
+                    motion->vy = duration_roll;
                 }
             }
             actor->state68 = 8;

@@ -270,7 +270,6 @@ void func_800259D8(void *in0, void *in1, void *in2)
     s32 index;
     s32 value;
     register s32 tail_a ASM_REG("$2");   /* MATCH: both state transitions pass their loaded state in v0. */
-    register s32 phase ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 i ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *arg0 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *arg1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -375,8 +374,8 @@ L0_adjust_z:
             if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {
                 resident_delta = ((S_800259D8_4 *)arg1)->unk_00.at02.v;
                 resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_00.at02.v;
-                phase = ((S_800259D8_0 *)arg0)->unk_80 << 2;   /* MATCH: the x-table index occupies v0 only in this arm. */
-                resident_copy = *(s16 *)((u8 *)&copy + phase);
+                tail_a = ((S_800259D8_0 *)arg0)->unk_80 << 2;   /* MATCH: the x-table index occupies v0 only in this arm. */
+                resident_copy = *(s16 *)((u8 *)&copy + tail_a);
                 if (resident_delta < 0) {
                     resident_delta = -resident_delta;
                 }
@@ -485,12 +484,12 @@ L_calc2:
     case 2:
     if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
         ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-        phase = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
+        tail_a = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
     } else {
-        phase = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
+        tail_a = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
         ((S_800259D8_0 *)arg0)->unk_A0 = 0;
     }
-    ((S_800259D8_0 *)arg0)->unk_AA = phase;
+    ((S_800259D8_0 *)arg0)->unk_AA = tail_a;
     result = func_800A4778(((S_800259D8_4 *)arg1)->unk_00.at02u.v, ((S_800259D8_4 *)arg1)->unk_04.at02u.v,
                            ((S_800259D8_4 *)arg1)->unk_08.at02u.v, ((S_800259D8_3 *)obj)->unk_60);
     if ((result << 16) != 0) {
@@ -545,12 +544,12 @@ L1_calc:
     case 3:
     if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
         ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-        phase = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
+        tail_a = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
     } else {
-        phase = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
+        tail_a = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
         ((S_800259D8_0 *)arg0)->unk_A0 = 0;
     }
-    ((S_800259D8_0 *)arg0)->unk_AA = phase;
+    ((S_800259D8_0 *)arg0)->unk_AA = tail_a;
     {
     void *spawn;
        /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -607,12 +606,12 @@ L1_calc:
         arg2->unk_0C.at02u.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0xE0) / 30;
         if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
             ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-            phase = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
+            tail_a = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
         } else {
-            phase = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
+            tail_a = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
             ((S_800259D8_0 *)arg0)->unk_A0 = 0;
         }
-        ((S_800259D8_0 *)arg0)->unk_AA = phase;
+        ((S_800259D8_0 *)arg0)->unk_AA = tail_a;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         i = 0;
         ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -666,18 +665,18 @@ L1_calc:
         ((S_800259D8_11 *)fade_entry)->unk_0C += 2;
         fade14 = ((S_800259D8_11 *)fade_entry)->unk_0E;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        phase = ((S_800259D8_11 *)fade_entry)->unk_0D;
+        tail_a = ((S_800259D8_11 *)fade_entry)->unk_0D;
         ((S_800259D8_11 *)fade_entry)->unk_0E = fade14 - 3;
-        phase = phase + 2;
+        tail_a = tail_a + 2;
     } else {
         ((S_800259D8_11 *)fade_entry)->unk_0C -= 2;
         fade14 = ((S_800259D8_11 *)fade_entry)->unk_0E;
         ASM_SCHED_BARRIER();   /* MATCH: retain the color store before loading the shared green value. */
-        phase = ((S_800259D8_11 *)fade_entry)->unk_0D;
+        tail_a = ((S_800259D8_11 *)fade_entry)->unk_0D;
         ((S_800259D8_11 *)fade_entry)->unk_0E = fade14 + 3;
-        phase = phase - 2;
+        tail_a = tail_a - 2;
     }
-    ((S_800259D8_11 *)fade_entry)->unk_0D = phase;
+    ((S_800259D8_11 *)fade_entry)->unk_0D = tail_a;
     if (((S_800259D8_0 *)arg0)->unk_84.s < 71) {
         goto done;
     }

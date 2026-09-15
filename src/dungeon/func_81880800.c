@@ -184,16 +184,15 @@ initialize:
         }
         {
             s32 owner_coord;
-            register s32 source_coord ASM_REG("$3");
             s32 tile_distance;
             owner_coord = F(owner, s8, 0x72);
-            source_coord = F(source_data, u8, 0x24);
-            if (owner_coord == source_coord) {
+            y_pos = F(source_data, u8, 0x24);
+            if (owner_coord == y_pos) {
                 owner_coord = F(owner, s8, 0x73);
-                source_coord = F(source_data, u8, 0x25);
-                tile_distance = owner_coord - source_coord;
+                y_pos = F(source_data, u8, 0x25);
+                tile_distance = owner_coord - y_pos;
             } else {
-                tile_distance = owner_coord - source_coord;
+                tile_distance = owner_coord - y_pos;
             }
             if (tile_distance < 0) {
                 tile_distance = -tile_distance;

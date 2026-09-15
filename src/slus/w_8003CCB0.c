@@ -49,6 +49,7 @@ void func_8003CCB0(s32 blend_step)
     register u8 *vertex_in ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register u8 *vertex_out ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     register u8 *flags_out ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    register u8 *first_sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     scratch = (u8 *)0x1F800000;
     render_state = (u8 **)D_80083160;
@@ -87,7 +88,7 @@ void func_8003CCB0(s32 blend_step)
     U16_AT(scratch, 0x74) = 0;
     PushMatrix();
     {
-        register u8 *first_sprite ASM_REG("$3") = (u8 *)D_80080AB0;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        first_sprite = (u8 *)D_80080AB0;
         sprite_uv = first_sprite + 4;
     }
     U16_AT(scratch, 0x28) = 0;
@@ -162,15 +163,15 @@ void func_8003CCB0(s32 blend_step)
 
         {
             s32 uv_coord = U32_AT(scratch, 0x10);
-            register s32 uv_start_u ASM_REG("$4") = U32_AT(scratch, 0x08);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            register s32 uv_end_v ASM_REG("$3") = U32_AT(scratch, 0x14);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            register s32 uv_start_v ASM_REG("$5") = U32_AT(scratch, 0x0C);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            uv_coord += uv_start_u;
-            uv_end_v += uv_start_v;
+            vertex_in = (u8 *)(U32_AT(scratch, 0x08));
+            first_sprite = (u8 *)(U32_AT(scratch, 0x14));
+            vertex_out = (u8 *)(U32_AT(scratch, 0x0C));
+            uv_coord += (s32)vertex_in;
+            first_sprite = (u8 *)(((s32)first_sprite) + ((s32)vertex_out));
             U32_AT(scratch, 0x10) = uv_coord;
-            uv_coord = uv_start_v;
+            uv_coord = (s32)vertex_out;
             ASM_KEEP_NV(uv_coord);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            U32_AT(scratch, 0x14) = uv_end_v << 8;
+            U32_AT(scratch, 0x14) = (s32)first_sprite << 8;
             U32_AT(scratch, 0x0C) = uv_coord << 8;
         }
 

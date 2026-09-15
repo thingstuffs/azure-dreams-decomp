@@ -61,7 +61,6 @@ void func_801685CC(void *source_obj, void *origin, s32 unused, s32 effect_param,
     register s32 table_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *callback_data;
     s32 direction;
-    register void *db_render ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *db_data;
     u8 *copy_src_init;
     s32 src_misalignment;
@@ -184,7 +183,7 @@ copy_done:
         table_index = (s32)position_base + table_index;
         S32_AT(part, 0x60) =
             S16_AT((u8 *)table_index, 2) * 0x50000;
-        db_render = render;
+        callback_obj = render;
         direction = U16_AT(held_source, 0x2A) >> 9;
         direction &= 7;
         table_offset +=
@@ -194,7 +193,7 @@ copy_done:
         db_data = D_800DEAE0;
         S32_AT(part, 0x64) =
             S16_AT(position_base, 4) << 19;
-        func_8003DB94(db_render, db_data, 0, render);
+        func_8003DB94(callback_obj, db_data, 0, render);
 
         pair_index = 0;
         out_base = D_80175DD8;

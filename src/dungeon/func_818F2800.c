@@ -188,7 +188,6 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
     u8 *edge_cache;
     void *graphics;
     register u8 *cached_edge ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register GlobalPage *global_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 column_or_x;
     s32 packed_uv;
     s32 texture_value;
@@ -198,8 +197,8 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
 
     geometry = shape;
     globals = D_80083160;
-    global_page = &D_80080000;
-    graphics = global_page->table[0];
+    cached_edge = (u8 *)(&D_80080000);
+    graphics = ((GlobalPage *)cached_edge)->table[0];
     scratch = (u8 *)0x1F800000;
 
     ASM_KEEP_NV(geometry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -244,6 +243,7 @@ next_part:
         u8 *cache_cursor;
         u8 *first_part;
         s32 start_x;
+        register s32 state_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
         cache_cursor = edge_cache;
         angle = geometry->unk_3A;
@@ -294,13 +294,12 @@ next_half:
         }
         {
             s32 texture_v;
-            register s32 half_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             DM_U32(0x08) = texture_u;
             texture_v = ((S_BODY_2 *)part)->unk_08.at01.v;
-            half_height = ((S_BODY_2 *)part)->unk_08.at03.v;
+            state_flags = ((S_BODY_2 *)part)->unk_08.at03.v;
             DM_U32(0x10) = 1;
-            half_height = (u32)half_height >> 1;
-            texture_v = texture_v + half_height;
+            state_flags = (u32)state_flags >> 1;
+            texture_v = texture_v + state_flags;
             DM_U32(0x0C) = texture_v;
         }
         /* --- shared tail of the two arms (retail word 146) --- */
@@ -365,7 +364,6 @@ next_half:
         }
         {
             s32 part_flags;
-            register s32 state_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 flip_flags;
             part_flags = ((S_BODY_2 *)part)->unk_00;
             ASM_USE(part_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

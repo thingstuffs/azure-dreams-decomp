@@ -12,7 +12,6 @@ s32 func_8009A540(s32 direction, s16 tile_x, s16 tile_y, s16 height)
     s32 side_offset;
     s32 center_x;
     s32 center_y;
-    s32 side_blocked;
     s32 x;
     s32 y;
     u16 *x_offsets;
@@ -52,7 +51,6 @@ loop:
                 (x_offset + center_x) & 0xFFFF,
                 (y_offset + center_y) & 0xFFFF,
                 probe_height) >= 0x201) {
-            side_blocked = side_offset < 2;
             goto decision;
         } else {
 next:
@@ -60,11 +58,9 @@ next:
             if (side_offset < 2) {
                 goto loop;
             }
-            ASM_KEEP(side_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            side_blocked = side_offset < 2;
         }
 decision:
-        if (side_blocked) {
+        if (((s32)(side_offset < 2))) {
             return 0;
         }
     }

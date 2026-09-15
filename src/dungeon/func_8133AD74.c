@@ -370,7 +370,6 @@ jt_c10:
             u8 *direction_base;
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
             ((S_80171D74_5 *)sprite)->unk_14 = (u16) (((S_80171D74_5 *)sprite)->unk_14 & 0xFF7F);
@@ -381,11 +380,11 @@ jt_c10:
             ((S_80171D74_1 *)state_in)->unk_A0.at00.v = 0;
             angle_input = target_state->unk_2A;
             angle_tmp = angle_input - 0x400;
-            angle_result = angle_tmp;
+            angle_input = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
-                angle_result = angle_tmp + 0x1000;
+                angle_input = angle_tmp + 0x1000;
             }
-            owner_state->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_input;
             ((S_80171D74_1 *)state_in)->unk_94 = 1;
             ((S_80171D74_5 *)sprite)->unk_2C.p = &D_80173DB4;
             func_80047784(sprite, D_80173DB4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
@@ -451,7 +450,6 @@ jt_c16:
             u8 *direction_entry;
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             register u32 direction_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
             ((S_80171D74_1 *)state_in)->unk_9A = (u8) (((S_80171D74_1 *)state_in)->unk_9A + 1);
@@ -460,11 +458,11 @@ jt_c16:
             func_80047784(sprite, D_80173DA4[((s32) (((S_80171D74_6 *)D_80083228)->unk_00 + (s16) owner_state->unk_2A.n + 0x100) >> 9) & 7], 0);
             angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input + 0x200;
-            angle_result = angle_tmp;
+            angle_input = angle_tmp;
             if ((s16) angle_tmp >= 0x1000) {
-                angle_result = angle_tmp - 0x1000;
+                angle_input = angle_tmp - 0x1000;
             }
-            direction_offset = ((u16) angle_result >> 7) & 0x1C;
+            direction_offset = ((u16) angle_input >> 7) & 0x1C;
             direction_entry = (u8 *)&direction_table;
             direction_entry += direction_offset;
             ((S_80171D74_3 *)motion_in)->unk_0C.n = (s32) (((S_80171D74_11 *)direction_entry)->unk_00 << 0x10);
@@ -502,14 +500,13 @@ jt_c17:
         if ((turn_frame == 0xA) || (turn_frame == 0x14) || (turn_frame == 0x1E)) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
-            angle_result = angle_tmp;
+            angle_input = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
-                angle_result = angle_tmp + 0x1000;
+                angle_input = angle_tmp + 0x1000;
             }
-            owner_state->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_input;
             if ((s16) ((S_80171D74_1 *)state_in)->unk_96 == 0x1E) {
                 func_800A56E0(0x81A);
                 goto update_height;
@@ -582,14 +579,13 @@ jt_c22:
         if ((spin_frame == 0x19) || (spin_frame == 0x1E) || (spin_frame == 0x23) || (spin_frame == 0x28)) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
-            angle_result = angle_tmp;
+            angle_input = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
-                angle_result = angle_tmp + 0x1000;
+                angle_input = angle_tmp + 0x1000;
             }
-            owner_state->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_input;
         }
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x2D) {
             ((S_80171D74_1 *)state_in)->unk_96 = 0U;
@@ -607,14 +603,13 @@ jt_c24:
         if (((s16) spin_up_frame == 5) || ((s16) spin_up_frame == 0xA) || ((s16) spin_up_frame == 0xF) || ((s16) spin_up_frame == 0x14)) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
-            angle_result = angle_tmp;
+            angle_input = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
-                angle_result = angle_tmp + 0x1000;
+                angle_input = angle_tmp + 0x1000;
             }
-            owner_state->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_input;
         }
         if ((s16) ((S_80171D74_1 *)state_in)->unk_96 >= 0x18) {
             u8 *direction_base;
@@ -743,14 +738,13 @@ jt_c34: {
         if ((spiral_frame & 3) == 3) {
             register s32 angle_input ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             s32 angle_tmp;
-            register s32 angle_result ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             angle_input = owner_state->unk_2A.n;
             angle_tmp = angle_input - 0x200;
-            angle_result = angle_tmp;
+            angle_input = angle_tmp;
             if ((angle_tmp << 0x10) < 0) {
-                angle_result = angle_tmp + 0x1000;
+                angle_input = angle_tmp + 0x1000;
             }
-            owner_state->unk_2A.n = angle_result;
+            owner_state->unk_2A.n = angle_input;
         }
         speed = ((0x61 - (s16) ((S_80171D74_1 *)state_in)->unk_96) * 0x60000) / 97;
         {

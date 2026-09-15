@@ -50,7 +50,6 @@ void func_801717A8(Entity *entity) {
     register s32 camera_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s16 *camera_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *focus_pos ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 focus_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     static void *const state_labels[] = {
         &&jt_c0, &&jt_c1, &&jt_c2, &&jt_exit,
         &&jt_c4, &&jt_exit, &&jt_c6, &&jt_exit,
@@ -85,7 +84,7 @@ jt_c0: {
     camera_offset[2] = offset_z - 0x600;
     D_801760E8[0] = actor->x;
     focus_pos = D_801760E8;
-    focus_y = (u16)actor->y - 0x100;
+    coord_sum = (u16)actor->y - 0x100;
     goto jt_case0_tail;
 }
 
@@ -143,12 +142,12 @@ jt_c4: {
     coord_sum = actor->x;
     coord_sum += camera[1];
     D_801760E8[0] = coord_sum / 2;
-    focus_y = actor->y;
-    focus_y += camera[3];
+    coord_sum = actor->y;
+    coord_sum += camera[3];
     focus_pos = D_801760E8;
-    focus_y /= 2;
+    coord_sum /= 2;
 jt_case0_tail:
-    *(volatile s16 *)&focus_pos[1] = focus_y;
+    *(volatile s16 *)&focus_pos[1] = coord_sum;
     focus_pos[2] = actor->z;
     globals = D_80083160;
     *(s32 *)(globals + 0x154) = 0;
