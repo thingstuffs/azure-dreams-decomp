@@ -48,8 +48,8 @@ typedef struct S_801653A8_2 {
 void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
 {
     register void *entity_base ASM_REG("$19") = entity;
-    register s16 old_state ASM_REG("$16");
-    register u8 state_byte ASM_REG("$2");
+    s16 old_state;
+    u8 state_byte;
     void *check_entity;
     void *check_motion;
     void *check_sprite;
@@ -72,9 +72,9 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
         if (entry_callback == (Callback)&D_801659DC) {
             ASM_KEEP(callback_entity);
             entry_callback(callback_entity, motion, sprite, callback_entity);
-            return;
+        } else {
+            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
-        (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         return;
     }
 
@@ -97,7 +97,7 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
     }
     D_801686A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
-        register s32 previous_state ASM_REG("$2");
+        s32 previous_state;
 
         previous_state = (u32)(u16)old_state << 16;
         ASM_KEEP_NV(previous_state);
@@ -130,10 +130,11 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
         }
         if (D_8006CCF8[direction] != 0) {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v |= 1;
+            func_800A020C(((S_801653A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
         } else {
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xFFFE;
+            func_800A020C(((S_801653A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
         }
-        func_800A020C(((S_801653A8_2 *)entity_base)->unk_1C, (u8 *)sprite + 0xC);
         if (!(((S_801653A8_2 *)entity_base)->unk_1C & 0x20)) {
             if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x40)) {
                 func_800478B8(sprite);
@@ -180,6 +181,7 @@ adjust_normal:
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
                 if (height_adjust < height_offset) {
                     height_adjust = height_bits - 8;
+                    shared_tail:
                     (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
                     goto finish_motion;
                 }
@@ -279,8 +281,7 @@ adjust_special:
         height_bits = (*(u16 *)((u8 *)entity + 0x92));
         if (height_adjust < height_offset) {
             height_adjust = height_bits - 8;
-            (*(s16 *)((u8 *)entity + 0x92)) = height_adjust;
-            goto finish_motion;
+            goto shared_tail;
         }
         height_adjust = height_offset < -8;
         if (height_adjust != 0) {

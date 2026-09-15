@@ -303,6 +303,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
 
     switch (state) {
         register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        u32 particle_shade;
     case 0:
         render->unk_0C.u32 = 0x00808080;
         *(Copy12 *)((u8 *)effect + 0xA2) = *(Copy12 *)D_800267A8;
@@ -355,16 +356,15 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         {
             S_func_81905FD0_6 *target = owner->unk_60;
             if (target != 0) {
-                register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 S_func_81905FD0_3 *owner_info;
                 s32 tile_distance;
 
                 s32 target_height;
 
-                target_motion = ((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_08;
+                particle_shade = (s32)(((S_func_81905FD0_5 *)((u8 *)target - 0x20))->unk_08);
                 kind_or_shade = target->unk_13;
                 target_height = D_800DDC40[kind_or_shade] + 64;
-                effect->unk_78.u16 = target_motion->unk_08.u16_0A.unk_0A - target_height;
+                effect->unk_78.u16 = ((S_func_81905FD0_2 *)particle_shade)->unk_08.u16_0A.unk_0A - target_height;
                 owner_info = ((S_func_81905FD0_5 *)((u8 *)owner - 0x20))->unk_0C;
                 effect->unk_BA = owner_info->unk_24 +
                     D_8006CCD8[effect->unk_7E.s16 * 2];
@@ -423,7 +423,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         index = 0;
         loop_0: {
             s32 particle_color;
-            register s32 particle_shade ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             index++;
             random_bits = func_80069EF8();
@@ -482,11 +481,10 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             }
         }
         {
-            register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-            target_motion = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-            motion->unk_00.u16_02.unk_02 = target_motion->unk_00.u16_02.unk_02;
-            motion->unk_04.u16_06.unk_06 = target_motion->unk_04.u16_06.unk_06;
+            particle_shade = (s32)(((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08);
+            motion->unk_00.u16_02.unk_02 = ((S_func_81905FD0_2 *)particle_shade)->unk_00.u16_02.unk_02;
+            motion->unk_04.u16_06.unk_06 = ((S_func_81905FD0_2 *)particle_shade)->unk_04.u16_06.unk_06;
         }
         motion->unk_08.u16_0A.unk_0A = effect->unk_78.u16;
         func_80026730();
@@ -590,6 +588,8 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             S_func_81905FD0_7 *child_data;
             S_func_81905FD0_3 *child_render;
             S_func_81905FD0_2 *child_motion;
+            S_func_81905FD0_2 *target_motion_m;
+            register u16 saved_flags_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
             upper_effect = func_8003FC64(0x212);
             if (upper_effect != 0) {
@@ -600,26 +600,24 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_render = upper_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
-                    register u16 saved_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                     render_data = child_render->unk_14 | 0xC;
                     child_render->unk_14 = render_data;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags = render_data;
-                    ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    saved_flags_m = render_data;
+                    ASM_KEEP(saved_flags_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     child_render->unk_10.u16 = 64;
-                    child_render->unk_14 = saved_flags | 0x80;
+                    child_render->unk_14 = saved_flags_m | 0x80;
                 }
                 child_motion = upper_effect->unk_08;
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 {
-                    register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                    target_motion = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->unk_00.u32 = target_motion->unk_00.u32;
-                    child_motion->unk_04.u32 = target_motion->unk_04.u32;
-                    child_motion->unk_08.u32 = target_motion->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
+                    child_motion->unk_00.u32 = target_motion_m->unk_00.u32;
+                    child_motion->unk_04.u32 = target_motion_m->unk_04.u32;
+                    child_motion->unk_08.u32 = target_motion_m->unk_08.u32;
                 }
                 child_render = upper_effect->unk_0C;
                 child_render->unk_1C.s16 = 4100;
@@ -655,12 +653,11 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 {
-                    register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                    target_motion = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->unk_00.u32 = target_motion->unk_00.u32;
-                    child_motion->unk_04.u32 = target_motion->unk_04.u32;
-                    child_motion->unk_08.u32 = target_motion->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
+                    child_motion->unk_00.u32 = target_motion_m->unk_00.u32;
+                    child_motion->unk_04.u32 = target_motion_m->unk_04.u32;
+                    child_motion->unk_08.u32 = target_motion_m->unk_08.u32;
                 }
                 child_render = lower_effect->unk_0C;
                 child_render->unk_1E.s16 = 4096;
@@ -682,27 +679,25 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_render = ring_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
-                    register u16 saved_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                     render_data = child_render->unk_14 & 0xFFF3;
                     child_render->unk_14 = render_data;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags = render_data;
-                    ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    saved_flags_m = render_data;
+                    ASM_KEEP(saved_flags_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     child_render->unk_10.s16 = 32;
-                    child_render->unk_14 = saved_flags | 0x80;
+                    child_render->unk_14 = saved_flags_m | 0x80;
                 }
                 child_motion = ring_effect->unk_08;
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 index = 0;
                 {
-                    register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                    target_motion = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->unk_00.u32 = target_motion->unk_00.u32;
-                    child_motion->unk_04.u32 = target_motion->unk_04.u32;
-                    child_motion->unk_08.u32 = target_motion->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
+                    child_motion->unk_00.u32 = target_motion_m->unk_00.u32;
+                    child_motion->unk_04.u32 = target_motion_m->unk_04.u32;
+                    child_motion->unk_08.u32 = target_motion_m->unk_08.u32;
                 }
                 child_render = ring_effect->unk_0C;
                 child_render->unk_1C.s16 = 4096;
@@ -726,11 +721,11 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
 
                     index = 1;
                     angle_slot = (s16 *)((u8 *)child_data + 2);
-                    do {
+                    loop_0__: {
                         angle_slot[40] = index << 9;
                         index++;
                         angle_slot++;
-                    } while (index < 9);
+                    } if (index < 9) goto loop_0__;
                 }
                 child_render->unk_08 = (u8 *)child_data + 0x20;
             }
@@ -759,15 +754,14 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_render->unk_06 = 0;
                 {
                     register u16 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    register u16 saved_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
                     render_flags = child_render->unk_14 | 0xC;
                     child_render->unk_14 = render_flags;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags = render_flags;
-                    ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    saved_flags_m = render_flags;
+                    ASM_KEEP(saved_flags_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     child_render->unk_10.s16 = 32;
-                    child_render->unk_14 = saved_flags | 0x80;
+                    child_render->unk_14 = saved_flags_m | 0x80;
                 }
                 child_motion = control_effect->unk_08;
                 child_data->unk_0A = 0;

@@ -145,15 +145,14 @@ scan_neighbors:
             next_y += coord_work;
             coord_work = (u32)(u16)next_x << 16;
             {
-                register s32 tile_index ASM_REG("$4");
 
                 tile_x = coord_work >> 16;
                 value_work = (u32)(u16)next_y << 16;
                 coord_work = ((S_80017BEC_0 *)map_info)->unk_14;
                 tile_y = value_work >> 16;
-                tile_index = tile_x + (tile_y << coord_work);
-                ASM_KEEP_NV(tile_index);
-                next_tile = (tile_index * 6) + tiles_base;
+                start_x = tile_x + (tile_y << coord_work);
+                ASM_KEEP_NV(start_x);
+                next_tile = (start_x * 6) + tiles_base;
             }
             index_work = steps_left - 1;
             steps_left = index_work;

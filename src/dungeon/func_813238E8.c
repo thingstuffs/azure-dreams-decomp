@@ -199,13 +199,12 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register void *status_record;
     register void *slot_cursor;
     S_8016B0E8_1 *seed_page;
-    void *entity_ref = entity;
     void *motion_ref = motion;
     register void *sprite_ref = sprite;
-    register void *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor;
     register u8 *actors_page ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 inactive_mask;
-#define entity entity_ref
+#define entity entity
 #define motion motion_ref
 #define sprite sprite_ref
 

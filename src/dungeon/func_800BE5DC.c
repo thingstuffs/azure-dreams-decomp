@@ -40,7 +40,6 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     void *first_entity;
     u8 *entry_data;
     u8 *entry_flags;
-    register s32 slot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 y;
     s32 cell_index;
@@ -83,7 +82,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
             S32(entity, 0x1C) = S32(entity, 0x1C) | 0x40000000;
             entity = (void *) (S32(entity, 0x5C) + 0x20);
         } while (entity != first_entity);
-        slot = 0;
+        effect_arg = 0;
         entry_data = D_800E36C8;
         entry_flags = D_800E3548;
         do {
@@ -91,10 +90,10 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
                 S16(entry_data, 4) = 0;
             }
             entry_data += 0xC;
-            slot += 1;
+            effect_arg += 1;
             entry_flags += 4;
-        } while (slot < 0x40);
-        slot = 0;
+        } while (effect_arg < 0x40);
+        effect_arg = 0;
         entry_data = D_800E39C8;
         entry_flags = D_800E3648;
         do {
@@ -102,9 +101,9 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
                 S16(entry_data, 0x12) = 0;
             }
             entry_data += 0x18;
-            slot += 1;
+            effect_arg += 1;
             entry_flags += 4;
-        } while (slot < 0x20);
+        } while (effect_arg < 0x20);
         y = 1;
         cleared_tile = 0x68;
         do {

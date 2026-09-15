@@ -77,7 +77,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   s32 depth_or_height;
   u16 world_pos_x;
   u16 world_pos_y;
-  register void *params ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   u16 sprite_yaw;
   u16 view_yaw;
   register u16 shadow_yaw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -137,6 +136,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   void *part_header;
   void *entry_flags;
   void *render_state;
+  register u8 *sprite_camera ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   ASM_KEEP_MEM_NV(transform_flags, *((void **) (((s8 *) (&D_80083160)) + 0)));   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   scratch = (u8 *) 0x1F800000;
   render_state = *((void **) (((s8 *) (&D_80083160)) + 0));
@@ -285,8 +285,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((u16 *) (((s8 *) quad) + 0x16)) = (u16) (*((u16 *) (((s8 *) world_part) + 0)));
               *((s16 *) (((s8 *) quad) + 0x1C)) = (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x008)))));
               *((s16 *) (((s8 *) quad) + 0x24)) = (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x010)))));
-              params = render_params;
-              *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) params) + 0xC)));
+              sprite_camera = (u8 *)(render_params);
+              *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)sprite_camera) + 0xC)));
               func_800666F4(quad, texture_v);
               *((u8 *) (((s8 *) quad) + 7)) = (u8) ((*((u8 *) (((s8 *) quad) + 7))) | 2);
               func_8006658C(((u8 *) (*((u8 **) (scratch + 0x020)))) + (((s32) (*((s32 *) (scratch + 0x0c0)))) * 4), quad);
@@ -320,16 +320,15 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
       *((s32 *) (scratch + 0x0c0)) = sort_depth;
       if (sort_depth < 0x1E0U)
       {
-        register u8 *sprite_camera ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         sprite_matrix_arg = rotation_matrix;
         sprite_rotation = scratch + 0x100;
         ASM_USE_NV(sprite_rotation);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         *((u16 *) (scratch + 0x0b8)) = (u16) ((*((u16 *) (scratch + 0x0b8))) - 0xA0);
         pitch_bits = camera_pitch;
         *((u16 *) (scratch + 0x0ba)) = (u16) ((*((u16 *) (scratch + 0x0ba))) - 0x78);
-        params = render_params;
-        *((u16 *) (scratch + 0x100)) = (s16) ((*((u16 *) (((s8 *) params) + 0x16))) + (((s32) (pitch_bits << 0x10)) >> 0x11));
-        sprite_yaw = *((u16 *) (((s8 *) params) + 0x1A));
+        sprite_camera = (u8 *)(render_params);
+        *((u16 *) (scratch + 0x100)) = (s16) ((*((u16 *) (((s8 *) (void *)sprite_camera) + 0x16))) + (((s32) (pitch_bits << 0x10)) >> 0x11));
+        sprite_yaw = *((u16 *) (((s8 *) (void *)sprite_camera) + 0x1A));
         sprite_camera = (u8 *) 0x80080000;
         ASM_KEEP_NV(sprite_camera);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         sprite_camera += 12640;
@@ -337,8 +336,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
         view_yaw = camera_yaw;
         *((u16 *) (scratch + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite_camera) + 0xB8))) + (sprite_yaw - view_yaw));
         sprite_part = part_header + 4;
-        params = render_params;
-        *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) params) + 0x18)));
+        sprite_camera = (u8 *)(render_params);
+        *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) (void *)sprite_camera) + 0x18)));
         func_80065820(sprite_rotation, sprite_matrix_arg, view_yaw);
         func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
         func_80064D80((M2C_UNK *) view_matrix);
@@ -432,8 +431,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((u8 *) (((s8 *) quad) + 0x1D)) = (u8) ((*((u8 *) (((s8 *) quad) + 0x1D))) - 1);
               *((u8 *) (((s8 *) quad) + 0x25)) = (u8) ((*((u8 *) (((s8 *) quad) + 0x25))) - 1);
             }
-            params = render_params;
-            *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) params) + 0xC)));
+            sprite_camera = (u8 *)(render_params);
+            *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)sprite_camera) + 0xC)));
             *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
             if ((D_800E296C[0] & 8) && (D_800E3648_entries[entry_index].b3 & 0x80))
             {
@@ -442,7 +441,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
             func_8006658C(((u8 *) (*((u8 **) (scratch + 0x020)))) + (((s32) (*((s32 *) (scratch + 0x0c0)))) * 4), quad, sprite_pair_visible);
             if (!((*((u8 *) (((s8 *) quad) + 7))) & 2))
             {
-              register u8 *shadow_camera ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
               func_80064D80(&saved_matrix);
               func_80064CF0(&saved_matrix);
               world_pos_x = *((u16 *) (scratch + 0x000));
@@ -478,7 +476,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               ASM_USE_NV(shadow_rotation);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
               shadow_matrix_arg = rotation_matrix;
               ASM_KEEP_NV(shadow_matrix_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-              shadow_camera = (u8 *) (&D_80083160);
+              camera_state = (u8 *) (&D_80083160);
               scale_component = shadow_scale[2];
               *((u16 *) (scratch + 0x102)) = 0U;
               shadow_yaw = camera_yaw;
@@ -488,8 +486,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               shadow_scale[1] = scale_component;
               {
                 u16 shadow_pitch = (u16) (0 - camera_pitch);
-                u16 shadow_roll = (u16) ((*((u16 *) (((s8 *) shadow_camera) + 0xB8))) - shadow_yaw);
-                ASM_USE2_NV(shadow_camera, shadow_roll);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                u16 shadow_roll = (u16) ((*((u16 *) (((s8 *) camera_state) + 0xB8))) - shadow_yaw);
+                ASM_USE2_NV(camera_state, shadow_roll);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 *((u16 *) (scratch + 0x100)) = (s16) shadow_pitch;
                 *((u16 *) (scratch + 0x104)) = (s16) shadow_roll;
               }
@@ -533,8 +531,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
                 *((u8 *) (((s8 *) shadow_quad) + 0x1D)) = (u8) ((*((u8 *) (((s8 *) shadow_quad) + 0x1D))) - 1);
                 *((u8 *) (((s8 *) shadow_quad) + 0x25)) = (u8) ((*((u8 *) (((s8 *) shadow_quad) + 0x25))) - 1);
               }
-              params = render_params;
-              *((s32 *) (((s8 *) shadow_quad) + 4)) = (s32) (*((s32 *) (((s8 *) params) + 0xC)));
+              sprite_camera = (u8 *)(render_params);
+              *((s32 *) (((s8 *) shadow_quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)sprite_camera) + 0xC)));
               *((u8 *) (((s8 *) shadow_quad) + 7)) = 0x2CU;
               func_8006658C(((u8 *) (*((u8 **) (scratch + 0x020)))) + (((s32) (*((s32 *) (scratch + 0x0c0)))) * 4), shadow_quad);
             }
@@ -562,9 +560,9 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
 
   if (entry_index >= 0x20)
   {
-    register u8 *final_state ASM_REG("$8") = (u8 *) (&D_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(final_state);
-    *((void **) (((s8 *) (*((void **) (((s8 *) final_state) + 0)))) + 0x8D0)) = (void *) (*((u8 **) (scratch + 0x018)));
+    sprite_camera = (u8 *) (&D_80083160);
+    ASM_KEEP(sprite_camera);
+    *((void **) (((s8 *) (*((void **) (((s8 *) sprite_camera) + 0)))) + 0x8D0)) = (void *) (*((u8 **) (scratch + 0x018)));
     return 0;
   }
   goto next_entry;

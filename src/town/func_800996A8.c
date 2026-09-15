@@ -9,7 +9,7 @@ s32 func_80096E08(s32 *x_ptr, s32 *y_ptr)
     s32 y;
     s32 x_bound;
     s32 y_bound;
-    register s32 clamp_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 clamp_flags;
 
     x = *x_ptr;
     x_bound = D_800FE508[0];
@@ -18,9 +18,8 @@ s32 func_80096E08(s32 *x_ptr, s32 *y_ptr)
         *x_ptr = x_bound;
         clamp_flags = 0x10;
     } else {
-        y = D_800FE508[1];
-        if (y < x) {
-            *x_ptr = y;
+        if (((s32)(D_800FE508[1])) < x) {
+            *x_ptr = ((s32)(D_800FE508[1]));
             clamp_flags = 1;
         }
     }
@@ -31,6 +30,7 @@ s32 func_80096E08(s32 *x_ptr, s32 *y_ptr)
         *y_ptr = y_bound;
         clamp_flags |= 0x1000;
     } else {
+        s32 y_bound;
         y_bound = D_800FE508[3];
         if (y_bound < y) {
             *y_ptr = y_bound;

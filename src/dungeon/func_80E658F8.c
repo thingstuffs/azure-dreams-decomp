@@ -52,14 +52,13 @@ extern u8 D_801755CC[];
 /* Advances a timed action animation, deforming the sprite and restoring it on completion. */
 void func_801750F8(void *action_in, void *direction_data_in, void *sprite_in, void *actor_in)
 {
-    void *action = action_in;
     void *direction_data = direction_data_in;
-    register void *sprite ASM_REG("$17") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *sprite = sprite_in;
     void *actor = actor_in;
     u8 state;
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4, &&L5 };
 
-    state = ((S_801750F8_0 *)action)->unk_9B;
+    state = ((S_801750F8_0 *)action_in)->unk_9B;
     if ((u32)state >= 6) {
         goto end;
     }
@@ -76,10 +75,10 @@ L0:
         facing_angle = (facing_angle << 16) >> 7;
         ((S_801750F8_1 *)actor)->unk_2A = facing_angle;
 
-        timer = ++((S_801750F8_0 *)action)->unk_96.s;
+        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer >= 0x78) {
-            ((S_801750F8_0 *)action)->unk_9B = 5;
-            ((S_801750F8_0 *)action)->unk_96.s = 0;
+            ((S_801750F8_0 *)action_in)->unk_9B = 5;
+            ((S_801750F8_0 *)action_in)->unk_96.s = 0;
             goto end;
         }
 
@@ -88,8 +87,8 @@ L0:
             goto end;
         }
         ((S_801750F8_1 *)actor)->unk_14 = actor_flags & 0xFF7FFFFF;
-        ((S_801750F8_0 *)action)->unk_96.s = 0;
-        ((S_801750F8_0 *)action)->unk_9B++;
+        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+        ((S_801750F8_0 *)action_in)->unk_9B++;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755BC;
         func_80047784(sprite,
             D_801755BC[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -102,8 +101,8 @@ L1:
     if (!(((S_801750F8_2 *)sprite)->unk_14 & 0x6000)) {
         goto end;
     }
-    ((S_801750F8_0 *)action)->unk_96.s = 0;
-    ((S_801750F8_0 *)action)->unk_9B++;
+    ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+    ((S_801750F8_0 *)action_in)->unk_9B++;
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755CC;
     func_80047784(sprite,
         D_801755CC[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
@@ -115,12 +114,12 @@ L2:
     {
         s16 timer;
 
-        timer = ++((S_801750F8_0 *)action)->unk_96.s;
+        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer < 0xF) {
             goto end;
         }
-        ((S_801750F8_0 *)action)->unk_96.s = 0;
-        ((S_801750F8_0 *)action)->unk_9B++;
+        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+        ((S_801750F8_0 *)action_in)->unk_9B++;
         ((S_801750F8_2 *)sprite)->unk_14 &= 0xF7FF;
         goto end;
     }
@@ -131,7 +130,7 @@ L3:
         s32 scale_y;
         s16 timer;
 
-        timer = ++((S_801750F8_0 *)action)->unk_96.s;
+        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer < 3) {
             goto opposite_sound;
         }
@@ -180,11 +179,11 @@ store_xy:
         ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
 
 after_xy:
-        if (((S_801750F8_0 *)action)->unk_96.u < 0x14) {
+        if (((S_801750F8_0 *)action_in)->unk_96.u < 0x14) {
             goto end;
         }
-        ((S_801750F8_0 *)action)->unk_96.s = 0;
-        ((S_801750F8_0 *)action)->unk_9B++;
+        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+        ((S_801750F8_0 *)action_in)->unk_9B++;
         ((S_801750F8_2 *)sprite)->unk_1E = 0x1000;
         ((S_801750F8_2 *)sprite)->unk_1C = 0x1000;
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801755C4;
@@ -192,7 +191,7 @@ after_xy:
             D_801755C4[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800A56E0(0x509);
-        func_80174D98(action, direction_data, sprite, actor);
+        func_80174D98(action_in, direction_data, sprite, actor);
         goto end;
     }
 
@@ -200,12 +199,12 @@ L4:
     {
         s16 timer;
 
-        timer = ++((S_801750F8_0 *)action)->unk_96.s;
+        timer = ++((S_801750F8_0 *)action_in)->unk_96.s;
         if (timer < 9) {
             goto end;
         }
-        ((S_801750F8_0 *)action)->unk_96.s = 0;
-        ((S_801750F8_0 *)action)->unk_9B++;
+        ((S_801750F8_0 *)action_in)->unk_96.s = 0;
+        ((S_801750F8_0 *)action_in)->unk_9B++;
         goto end;
     }
 
@@ -219,7 +218,7 @@ L5:
             D_8017555C[((D_80083228 + ((S_801750F8_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
             0);
         func_800AD594(actor, 0x1000);
-        ((S_801750F8_0 *)action)->unk_8C = D_801716F4;
+        ((S_801750F8_0 *)action_in)->unk_8C = D_801716F4;
         ((S_801750F8_3 *)action_counters)->unk_0C = 0;
         ((S_801750F8_1 *)actor)->unk_46 &= 0x7FFF;
     }

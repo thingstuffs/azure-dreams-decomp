@@ -31,10 +31,9 @@ void func_800B52F4(s32 text_id, S_800B52F4_1 *context) {
     StackData text_buffer;
     StackData *text;
     M2C_UNK *prefix;
-    register u32 prefix_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 prefix_page;
     register s32 prefix_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 prefix_tail ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 display_param ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     StackData *call_text;
 
     prefix_page = 0x80090000;
@@ -54,8 +53,8 @@ void func_800B52F4(s32 text_id, S_800B52F4_1 *context) {
     strcat(text, func_800A652C(text_id));
     call_text = text;
     ASM_KEEP(call_text);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    display_param = 0x88;
-    func_800B5264(context->unk_0C, call_text, 0, 0x47, display_param);
+    prefix_page = (u32)(0x88);
+    func_800B5264(context->unk_0C, call_text, 0, 0x47, (s32)prefix_page);
 }
 
 /* MECHANISM: A 64-byte stack object forces the 0x68 frame; s1/s2 hold args and s0 holds its address.

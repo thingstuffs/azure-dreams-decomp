@@ -275,8 +275,6 @@ create_spawn:
     {
         RoomData *room;
         ByteEntry *table;
-        register Graphic *spawn_graphic ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register PackedOffsets *offset_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *template_page;
         register PackedTemplate *template_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 path_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -286,14 +284,14 @@ create_spawn:
         s16 steps;
 
         source_or_spawn = func_8003FC64(0x12);
-        offset_base = &offsets.values;
+        coord_or_variant = (s32)(&offsets.values);
         if (source_or_spawn != 0) {
-            offset_x = offset_base->entry[(s16)state->variant7E].x;
+            offset_x = ((PackedOffsets *)coord_or_variant)->entry[(s16)state->variant7E].x;
             ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             data_base = (u8 *)&((Spawned *)source_or_spawn)->data20;
             ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             ((SpawnData *)data_base)->x4C = offset_x << 16;
-            offset_y = offset_base->entry[(s16)state->variant7E].y;
+            offset_y = ((PackedOffsets *)coord_or_variant)->entry[(s16)state->variant7E].y;
             ((SpawnData *)data_base)->owner2C = entity;
             ((SpawnData *)data_base)->y50 = offset_y << 16;
             ((SpawnData *)data_base)->path30 = entity->path60;
@@ -353,19 +351,19 @@ create_spawn:
             state->advance86 = 0;
             ((Spawned *)source_or_spawn)->update10 = func_800248E8;
             func_8004491C(source_or_spawn, func_80045340);
-            spawn_graphic = ((Spawned *)source_or_spawn)->graphicC;
-            spawn_graphic->field10 = 0;
-            spawn_graphic->flags14 |= 0xC;
+            graphic = ((Spawned *)source_or_spawn)->graphicC;
+            graphic->field10 = 0;
+            graphic->flags14 |= 0xC;
             spawn_position = ((Spawned *)source_or_spawn)->position8;
             ((s32 *)spawn_position)[0] = ((s32 *)position)[0];
             ((s32 *)spawn_position)[1] = ((s32 *)position)[1];
             ((s32 *)spawn_position)[2] = ((s32 *)position)[2];
-            spawn_graphic = ((Spawned *)source_or_spawn)->graphicC;
-            ((u8 *)spawn_graphic)[0xE] = 0x80;
-            ((u8 *)spawn_graphic)[0xD] = 0x80;
-            ((u8 *)spawn_graphic)[0xC] = 0x80;
-            spawn_graphic->scale1E = 0x1000;
-            spawn_graphic->scale1C = 0x1000;
+            graphic = ((Spawned *)source_or_spawn)->graphicC;
+            ((u8 *)graphic)[0xE] = 0x80;
+            ((u8 *)graphic)[0xD] = 0x80;
+            ((u8 *)graphic)[0xC] = 0x80;
+            graphic->scale1E = 0x1000;
+            graphic->scale1C = 0x1000;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             template_page = (u8 *)0x80020000;
             ASM_KEEP_NV(template_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -373,7 +371,7 @@ create_spawn:
             ASM_KEEP_DEP_NV(template_source, template_page);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((SpawnData *)data_base)->template20 = *template_source;
             ASM_KEEP(template_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            spawn_graphic->unk8 =
+            graphic->unk8 =
                 (u8 *)&((Spawned *)source_or_spawn)->data20.template20 +
                 ((u8 *)data_base - (u8 *)&((Spawned *)source_or_spawn)->data20);
             ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

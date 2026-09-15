@@ -273,10 +273,10 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
 
                 {
                     register s32 v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                    s32 u;
 
                     {
                         s32 width;
-                        register s32 u ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                         width = VFIELD(scratch, s32, 0x10);
                         u = VFIELD(scratch, s32, 8);
@@ -284,13 +284,12 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
                         VFIELD(scratch, s32, 0x10) = width + u;
                     }
                     {
-                        register s32 packed_v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                        packed_v = v;
-                        ASM_USE(packed_v);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                        u = v;
+                        ASM_USE(u);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                         v_end = VFIELD(scratch, s32, 0x14);
-                        packed_v <<= 8;
-                        VFIELD(scratch, s32, 0xC) = packed_v;
+                        u <<= 8;
+                        VFIELD(scratch, s32, 0xC) = u;
                         uv_row = VFIELD(scratch, u16, 0xC);
                         v_end += v;
                     }

@@ -88,7 +88,6 @@ extern u8 D_80024688[];
 
 /* Brightens and accelerates an effect, spawns particles, then fades it out. */
 void func_8183EFD8(void *effect_arg, S_8183EFD8_3 *motion, S_8183EFD8_2 *sprite) {
-    register void *effect ASM_REG("$19") = effect_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 color;
     s32 phase;
     s32 z_velocity;
@@ -102,11 +101,10 @@ void func_8183EFD8(void *effect_arg, S_8183EFD8_3 *motion, S_8183EFD8_2 *sprite)
     S_8183EFD8_8 *particle_state;
     void *particle_data;
 
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    owner = ((S_8183EFD8_0 *)effect)->unk_00;
+    owner = ((S_8183EFD8_0 *)effect_arg)->unk_00;
     owner->unk_52 = (u16) (owner->unk_52 | 0x8000);
-    phase = *(s16 *)((s8 *)effect + 0x4C);
-    ((S_8183EFD8_0 *)effect)->unk_48 = (u16) (((S_8183EFD8_0 *)effect)->unk_48 - 1);
+    phase = *(s16 *)((s8 *)effect_arg + 0x4C);
+    ((S_8183EFD8_0 *)effect_arg)->unk_48 = (u16) (((S_8183EFD8_0 *)effect_arg)->unk_48 - 1);
     if (phase == 1) {
         goto accelerate;
     }
@@ -130,9 +128,9 @@ brighten:
         sprite->unk_0C.at01.v = bright_level;
         sprite->unk_0C.at00.v = bright_level;
     }
-    if ((s16) ((S_8183EFD8_0 *)effect)->unk_48 <= 0) {
-        ((S_8183EFD8_0 *)effect)->unk_48 = 0x10U;
-        ((S_8183EFD8_0 *)effect)->unk_4C.u = (u16) (((S_8183EFD8_0 *)effect)->unk_4C.u + 1);
+    if ((s16) ((S_8183EFD8_0 *)effect_arg)->unk_48 <= 0) {
+        ((S_8183EFD8_0 *)effect_arg)->unk_48 = 0x10U;
+        ((S_8183EFD8_0 *)effect_arg)->unk_4C.u = (u16) (((S_8183EFD8_0 *)effect_arg)->unk_4C.u + 1);
         return;
     }
     goto end;
@@ -142,9 +140,9 @@ accelerate:
     motion->unk_14 = z_velocity;
     motion->unk_08 = (s32) (motion->unk_08 + z_velocity);
     count_or_step = 0x14;
-    if ((s16) ((S_8183EFD8_0 *)effect)->unk_48 <= 0) {
+    if ((s16) ((S_8183EFD8_0 *)effect_arg)->unk_48 <= 0) {
         particle_data = D_80024688;
-        ((S_8183EFD8_0 *)effect)->unk_4C.s = (s16) ((u16) ((S_8183EFD8_0 *)effect)->unk_4C.s + 1);
+        ((S_8183EFD8_0 *)effect_arg)->unk_4C.s = (s16) ((u16) ((S_8183EFD8_0 *)effect_arg)->unk_4C.s + 1);
         do {
             particle = func_8003FD64(0x312, D_80083498);
             if (particle != NULL) {
@@ -178,7 +176,7 @@ accelerate:
                 particle_state->unk_48 = (s16) (func_80069EF8((void *)color) & 3);
                 particle_state->unk_4A = 0xC;
                 particle_state->unk_4C = 0;
-                ((S_8183EFD8_4 *)particle)->unk_20 = (void *) ((S_8183EFD8_0 *)effect)->unk_00;
+                ((S_8183EFD8_4 *)particle)->unk_20 = (void *) ((S_8183EFD8_0 *)effect_arg)->unk_00;
             }
             count_or_step -= 1;
         } while (count_or_step >= 0);
@@ -189,7 +187,7 @@ accelerate:
 fade_out:
     if (count_or_step >= (s32) sprite->unk_0C.at00.v) {
         sprite->unk_0C.at00u.v = 0;
-        ((S_8183EFD8_0_pre *)effect)[-1].unk_00 = (u16) (((S_8183EFD8_0_pre *)effect)[-1].unk_00 | 0x8000);
+        ((S_8183EFD8_0_pre *)effect_arg)[-1].unk_00 = (u16) (((S_8183EFD8_0_pre *)effect_arg)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
         return;
     }

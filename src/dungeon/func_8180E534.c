@@ -80,9 +80,10 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
 
     if (effect != 0)
     {
+        register void *init_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
       {
         register void *init_effect ASM_REG("$4") = effect;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *init_data ASM_REG("$5") = D_800CEEFC;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        init_data = D_800CEEFC;
         ASM_USE2(init_effect, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         base_angle = (s32)(D_8002744C);
         *((M2C_UNK **) (((s8 *) effect) + 0x10)) = (void *)base_angle;
@@ -120,7 +121,7 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
       }
       trig_result = func_800644B8(sample_angle);
       {
-        register s32 color ASM_REG("$5") = 0x808080;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        init_data = (void *)(0x808080);
         *((s32 *) (((s8 *) effect_state) + 0x14)) = (s32) (trig_result << ((group_index >> index_step) + 7));
         render_state = *((void **) (((s8 *) effect) + 0xC));
         *((s16 *) (((s8 *) render_state) + 0x1E)) = 0x400;
@@ -130,7 +131,7 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
           *((M2C_UNK **) (((s8 *) render_state) + 8)) = render_asset;
         }
         *((s16 *) (((s8 *) render_state) + 0x10)) = 0x20;
-        *((s32 *) (((s8 *) render_state) + 0xC)) = color;
+        *((s32 *) (((s8 *) render_state) + 0xC)) = (s32)init_data;
         *((u16 *) (((s8 *) render_state) + 0x14)) = (u16) ((*((u16 *) (((s8 *) render_state) + 0x14))) | 0xC);
         *((s16 *) (((s8 *) effect_state) + 0x66)) = 0xC;
         {

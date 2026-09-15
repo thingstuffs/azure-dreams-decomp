@@ -227,7 +227,7 @@ void *func_800277F4(void *first, void *second, void *destination) {
     s32 allowed_elements;
     s32 slot_index;
     s32 slot_flags;
-    register s32 global_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 global_flags;
     s32 owner_action;
     s32 scan_index;
     register s32 clear_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -691,8 +691,8 @@ store_ability:
             }
             func_8003DB4C(&D_800E3E48[(((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F) * 0x8C], 0x23);
             {
-                register void *destroy_arg ASM_REG("$4") = donor_runtime;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(destroy_arg);
+                update_target = donor_runtime;
+                ASM_KEEP_NV(update_target);
 #ifdef NON_MATCHING
                 D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
 #else
@@ -707,7 +707,7 @@ store_ability:
                     *(u32 *) (dead_base + ((dead_index & 0x1F) * 4)) = 0;
                 }
 #endif
-                func_80098B38(destroy_arg);
+                func_80098B38(update_target);
             }
             result_traits = ((S_800277F4_0 *)result)->unk_54;
             if ((result_traits & 0x800000) &&
@@ -719,9 +719,10 @@ store_ability:
             global_flags = *(s32 *) (D_80080000 + 0x14A0);
             global_flags |= 0x8000;
             *(s32 *) (D_80080000 + 0x14A0) = global_flags;
+            return_tail:
             return result;
         }
-        return result;
+        goto return_tail;
     }
     return result;
 }

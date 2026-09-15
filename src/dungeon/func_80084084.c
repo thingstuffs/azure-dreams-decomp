@@ -29,6 +29,7 @@ extern u8 D_800E0000[];
 /* Dispatch eligible entry callbacks according to the current mode. */
 void func_800897E4(void)
 {
+    register Entry *entry_m ASM_REG("$17");
     if (D_800E296C & 0x02000000) {
         register Callback *callback_slot ASM_REG("$16");
         register Callback *callback_base;
@@ -36,7 +37,6 @@ void func_800897E4(void)
         Callback *sentinel_scan;
         register Callback callback;
         register Entry **entry_slot;
-        register Entry *entry ASM_REG("$17");
 
         special_start = D_800DCF80 + 9;
         callback_base = D_80083360;
@@ -45,16 +45,16 @@ void func_800897E4(void)
 loop_first:
         callback = *callback_slot;
         if (callback != 0) {
-            entry = *entry_slot;
-            if (entry != 0) {
-                if (!(entry->flags & 0x800)) {
+            entry_m = *entry_slot;
+            if (entry_m != 0) {
+                if (!(entry_m->flags & 0x800)) {
                     register Callback *special_scan;
 
                     sentinel_scan = (Callback *)(D_800E0000 - 0x3080);
                     special_scan = special_start;
 first_scan:
                     if (*special_scan == callback) {
-                        callback(entry->data, entry->arg1, entry->arg2);
+                        callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                         callback_slot++;
                         goto first_advance;
                     }
@@ -154,7 +154,6 @@ second_advance:
         Callback *callback_slot;
         register Callback callback ASM_REG("$7");
         register Entry **entry_slot;
-        register Entry *entry ASM_REG("$17");
         register s32 slot_index ASM_REG("$19");
         u8 *D_800E0000;
         s32 stop_dispatch;
@@ -165,10 +164,10 @@ second_advance:
 loop_third:
         callback = *callback_slot;
         if (callback != 0) {
-            entry = *entry_slot;
-            if (entry != 0) {
-                if (!(entry->flags & 0x800)) {
-                    callback(entry->data, entry->arg1, entry->arg2);
+            entry_m = *entry_slot;
+            if (entry_m != 0) {
+                if (!(entry_m->flags & 0x800)) {
+                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                     stop_dispatch = func_80045310(
                         *(s32 *)((u8 *)D_80083160[0] + 0x8D0));
                     if (stop_dispatch == 0) {

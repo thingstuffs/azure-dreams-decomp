@@ -171,6 +171,10 @@ void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
     register s32 offset_x ASM_REG("$17");
     register s32 offset_y ASM_REG("$16");
     register s32 direction ASM_REG("$2");
+    register s32 color_m ASM_REG("$18");
+    register Packed12 *linked_pos ASM_REG("$6");
+    register s32 aux_coord ASM_REG("$3");
+    register u8 *lookup_page ASM_REG("$2");
     {
         u8 *copy_page;
         register PackedOffsets *copy_src ASM_REG("$6");
@@ -211,12 +215,11 @@ state0:
     ASM_SCHED_BARRIER();
     {
         u8 *copy_page;
-        register Packed12 *copy_src ASM_REG("$6");
         copy_page = (u8 *)0x80020000;
         ASM_KEEP(copy_page);
-        copy_src = (Packed12 *)(copy_page + 0x510C);
-        ASM_KEEP(copy_src);
-        actor->image_data = *copy_src;
+        linked_pos = (Packed12 *)(copy_page + 0x510C);
+        ASM_KEEP(linked_pos);
+        actor->image_data = *linked_pos;
         ASM_USE_NV(copy_page);
     }
     {
@@ -283,11 +286,10 @@ state0:
     }
     if (entity->link60 != 0) {
         void *link;
-        register u8 *linked_pos ASM_REG("$6");
         u16 linked_z;
         link = entity->link60;
-        linked_pos = *(u8 **)((u8 *)link - 0x18);
-        linked_z = *(u16 *)(linked_pos + 0xA) - 0x40;
+        linked_pos = (Packed12 *)(*(u8 **)((u8 *)link - 0x18));
+        linked_z = *(u16 *)((u8 *)linked_pos + 0xA) - 0x40;
         actor->target_y = (s16)linked_z;
     } else {
         actor->target_y = (s16)(entity->height88 - 0x50);
@@ -295,7 +297,6 @@ state0:
     {
         Aux *aux;
         s32 entity_coord;
-        register s32 aux_coord ASM_REG("$3");
         s32 distance;
 
         {
@@ -312,7 +313,6 @@ state0:
             actor->target_x = (s8)(u32)direction;
         }
         {
-            register u8 *lookup_page ASM_REG("$2");
             u8 *lookup_base;
             u32 lookup;
             u32 tile;
@@ -393,12 +393,11 @@ state1:
             ASM_SCHED_BARRIER();
             {
                 u8 *copy_page;
-                register Packed12 *copy_src ASM_REG("$6");
                 copy_page = (u8 *)0x80020000;
                 ASM_KEEP(copy_page);
-                copy_src = (Packed12 *)(copy_page + 0x510C);
-                ASM_KEEP(copy_src);
-                ((Task *)offset_y)->image_data = *copy_src;
+                linked_pos = (Packed12 *)(copy_page + 0x510C);
+                ASM_KEEP(linked_pos);
+                ((Task *)offset_y)->image_data = *linked_pos;
                 ASM_USE_NV(copy_page);
             }
             {
@@ -490,7 +489,6 @@ state2:
     }
     {
         s32 particle_count;
-        register s32 color ASM_REG("$18");
         s32 more_particles;
         s32 offset_z;
         particle_count = 0;
@@ -501,9 +499,9 @@ state2:
         }
 do {
         particle_count++;
-        color = func_80069EF8();
-        color &= 0xFF;
-        color |= 0x80;
+        color_m = func_80069EF8();
+        color_m &= 0xFF;
+        color_m |= 0x80;
         offset_x = func_80069EF8();
         offset_x &= 0x7F;
         offset_x -= 0x40;
@@ -514,7 +512,7 @@ do {
         offset_y = (s16)offset_y;
         offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
         func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
-                      color, offset_x, offset_y, offset_z);
+                      color_m, offset_x, offset_y, offset_z);
         more_particles = particle_count < 2;
         if (!more_particles) {
             return;
@@ -526,11 +524,10 @@ state3:
     {
         register s32 particle_count ASM_REG("$19");
         for (particle_count = 0; particle_count < 2; particle_count++) {
-            register s32 color ASM_REG("$18");
             s32 offset_z;
-            color = func_80069EF8();
-            color &= 0xFF;
-            color |= 0x80;
+            color_m = func_80069EF8();
+            color_m &= 0xFF;
+            color_m |= 0x80;
             offset_x = func_80069EF8();
             offset_x &= 0x7F;
             offset_x -= 0x40;
@@ -541,7 +538,7 @@ state3:
             offset_y = (s16)offset_y;
             offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
             func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
-                          color, offset_x, offset_y, offset_z);
+                          color_m, offset_x, offset_y, offset_z);
         }
     }
 
@@ -554,24 +551,21 @@ state4:
         actor->timer84 = 40;
         actor->state++;
         if (func_8009D218(entity->link60, 4, entity) == 0) {
-            register s32 roll ASM_REG("$2");
-            register s32 room_value ASM_REG("$3");
             s32 effect_kind;
-            register u8 *room_table ASM_REG("$2");
-            roll = func_800A6D30();
-            roll &= 3;
-            ASM_KEEP_NV(roll);
-            room_value = actor->field09;
-            roll += 4;
-            room_value >>= 2;
-            effect_kind = room_value + roll;
-            room_table = (u8 *)0x800E0000;
-            ASM_KEEP(room_table);
-            room_value = room_table[0x3D68];
+            direction = func_800A6D30();
+            direction &= 3;
+            ASM_KEEP_NV(direction);
+            aux_coord = actor->field09;
+            direction += 4;
+            aux_coord >>= 2;
+            effect_kind = aux_coord + direction;
+            lookup_page = (u8 *)0x800E0000;
+            ASM_KEEP(lookup_page);
+            aux_coord = lookup_page[0x3D68];
             {
                 direction = 0xFF;
                 room_id = 0x10;
-                if (room_value == direction) {
+                if (aux_coord == direction) {
                     ASM_CLOBBER("$3");
                     room_id = direction;
                 }

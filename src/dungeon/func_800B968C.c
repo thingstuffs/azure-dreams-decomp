@@ -89,7 +89,6 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
 
         {
             s32 text_end;
-            register u8 *message_text ASM_REG("$4");
             register s32 message_end ASM_REG("$5");
 
             if (!(linked_item[3] & 0x40)) {
@@ -109,16 +108,16 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
                 saved_cursor = text_cursor;
                 text_cursor = next_cursor;
                 func_800998C0(target, saved_cursor);
-                message_text = D_80089370;
+                actor = D_80089370;
                 message_end = text_cursor;
             } else {
                 text_start = func_800990FC();
 
                 text_end = func_80099368(linked_item, text_start);
-                message_text = D_800E11AB;
+                actor = D_800E11AB;
                 message_end = text_end;
             }
-            func_80099290(func_80099194(message_text, message_end));
+            func_80099290(func_80099194(actor, message_end));
         }
         func_800A5720(text_start);
     } else {

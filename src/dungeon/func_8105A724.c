@@ -41,11 +41,12 @@ s32 func_80171F24(void *action_state, s32 action_id, void *sprite, void *actor) 
         goto checks;
     }
 early_zero:
-    return 0;
+    goto return_tail;
 
 no_flag:
     if ((func_800A2CB8(actor, target_direction) << 0x10) == 0) {
-        goto return_zero;
+        return_tail:
+        return 0;
     }
 
 checks:
@@ -63,7 +64,6 @@ checks:
         goto range_ok;
     }
 return_zero:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     return 0;
 
 range_ok:

@@ -31,6 +31,7 @@ extern s32 D_80084D5C;
 
 s32 func_80810454(void *arg0, S_80810454_1 *arg1) {
     s16 state;
+    register s32 result_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     if (((S_80810454_2 *)(((S_80810454_0 *)arg0)->unk_04))->unk_18 == 2) {
         ((S_80810454_0 *)arg0)->unk_00 = 3;
@@ -91,21 +92,20 @@ state_1: {
 
 state_2: {
         s32 position;
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s32 speed;
 
         position = arg1->unk_08.s;
         speed = arg1->unk_14.s;
         position += speed;
         arg1->unk_08.s = position;
-        result = arg1->unk_14.s;
-        result -= 0x8000;
-        arg1->unk_14.s = result;
-        if (result == -0x40000) {
+        result_m = arg1->unk_14.s;
+        result_m -= 0x8000;
+        arg1->unk_14.s = result_m;
+        if (result_m == -0x40000) {
             ((S_80810454_0 *)arg0)->unk_00 = 1;
             return func_8052B1D8();
         }
-        return result;
+        return result_m;
     }
 
 state_f0: {
@@ -120,17 +120,16 @@ state_f0: {
     }
 
 state_3: {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        result = arg1->unk_08.s;
-        result -= 0x100000;
-        arg1->unk_08.s = result;
-        if (result <= (s32)0xFE000000) {
+        result_m = arg1->unk_08.s;
+        result_m -= 0x100000;
+        arg1->unk_08.s = result_m;
+        if (result_m <= (s32)0xFE000000) {
             ((S_80810454_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-            result = D_80084D5C;
-            result |= 0x8000;
-            D_80084D5C = result;
+            result_m = D_80084D5C;
+            result_m |= 0x8000;
+            D_80084D5C = result_m;
         }
-        return result;
+        return result_m;
     }
 }

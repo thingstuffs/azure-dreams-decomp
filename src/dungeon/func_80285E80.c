@@ -176,6 +176,7 @@ finish_state_zero:
             goto final;
 
         } else if (state == 2) {
+            s32 i_m;
             floor_group = func_800A6D30() & 7;
             encounter_status = func_80019684(floor_group + 1, 1, 1);
             if (encounter_status == 0) {
@@ -260,7 +261,6 @@ third_pair:
             s32 monster_id;
             s32 level;
             s32 level_bonus;
-            register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u8 *even_ids;
             u8 *odd_ids;
             s32 scratch;
@@ -268,7 +268,7 @@ third_pair:
 
             monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
             level_bonus = func_800A6D30() & 1;
-            i = 0;
+            i_m = 0;
             scratch = 0x80080000;
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dungeon = (DungeonState80285E80 *)(scratch + 0x3460);
@@ -281,21 +281,20 @@ third_pair:
                 level = scratch + level_bonus;
             } while (0);
             loop_2: {
-                dungeon->records[i + 8].value = monster_id;
-                dungeon->records[i + 8].level = level;
-                i++;
+                dungeon->records[i_m + 8].value = monster_id;
+                dungeon->records[i_m + 8].level = level;
+                i_m++;
                 *odd_ids = monster_id;
                 *even_ids = monster_id;
                 even_ids += 2;
                 odd_ids += 2;
-            } if (i < 4) goto loop_2;
+            } if (i_m < 4) goto loop_2;
         }
 
             {
             s32 monster_id;
             s32 level;
             s32 level_bonus;
-            register s32 i ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u8 *even_ids;
             u8 *odd_ids;
             s32 scratch;
@@ -303,7 +302,7 @@ third_pair:
 
             monster_id = func_800A6DA4(3, 0x2D) & 0xFFFF;
             level_bonus = func_800A6D30() & 1;
-            i = 0;
+            i_m = 0;
             scratch = 0x80080000;
             ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dungeon = (DungeonState80285E80 *)(scratch + 0x3460);
@@ -315,15 +314,15 @@ third_pair:
             do {
                 level = scratch + level_bonus;
             } while (0);
-            do {
-                dungeon->records[i + 12].value = monster_id;
-                dungeon->records[i + 12].level = level;
-                i++;
+            loop_2_: {
+                dungeon->records[i_m + 12].value = monster_id;
+                dungeon->records[i_m + 12].level = level;
+                i_m++;
                 *odd_ids = monster_id;
                 *even_ids = monster_id;
                 even_ids += 2;
                 odd_ids += 2;
-            } while (i < 4);
+            } if (i_m < 4) goto loop_2_;
             }
         }
     }

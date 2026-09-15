@@ -20,7 +20,7 @@ typedef struct S_819602D8_0 {
 
 /* Sample a 7 by 7 area around the given tile and flag the tiles found there. */
 void func_819602D8(s16 center_x, s32 center_y) {
-    register u32 center_x_byte ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s16 *width_info ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     volatile union {
         u16 h;
         u8 b;
@@ -49,9 +49,9 @@ void func_819602D8(s16 center_x, s32 center_y) {
     store_page = (u8 *)0x80020000;
     saved_center_x.h = center_x;
     {
-        center_x_byte = saved_center_x.b;
+        width_info = (s16 *)(saved_center_x.b);
         ASM_KEEP4_NV(store_page, row, tile_y, sample_row);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        store_page[0x744C] = center_x_byte;
+        store_page[0x744C] = (u32)width_info;
     }
     *D_8002744D = center_y;
 row_loop:
@@ -85,13 +85,13 @@ do {
     {
         s32 width_check;
         {
-            register s16 *width_info ASM_REG("$7") = (s16 *)D_8008333C;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            width_info = (s16 *)D_8008333C;
             width_check = width_info[10];
             ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
-            center_x_byte = (u32)(1);
-            width_check = (s32)center_x_byte << width_check;
+            width_info = (s16 *)((u32)(1));
+            width_check = (s32)(u32)width_info << width_check;
         }
         width_check = sample_x < width_check;
         if (!width_check) {
@@ -104,13 +104,13 @@ do {
     {
         s32 height_check;
         {
-            register s16 *height_info ASM_REG("$7") = D_8008333C_second;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            height_check = height_info[11];
-            ASM_USE_NV(height_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            width_info = D_8008333C_second;
+            height_check = width_info[11];
+            ASM_USE_NV(width_info);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         }
         {
-            center_x_byte = (u32)(1);
-            height_check = (s32)center_x_byte << height_check;
+            width_info = (s16 *)((u32)(1));
+            height_check = (s32)(u32)width_info << height_check;
         }
         height_check = signed_y < height_check;
         if (height_check) {

@@ -30,10 +30,9 @@ extern M2C_UNK D_800E0979;
 /* Raise the entity one level, update its stats, XP reward and abilities, and optionally display a message. */
 s32 func_800A1D4C(void *entity_data, s32 show_message) {
     u8 ability_gained[3];
-    u8 *entity;
     u8 *stat_growth;
     u8 *initial_stats;
-    register s32 level ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 level;
     s32 prev_level;
     s32 species_id;
     s32 slot;
@@ -44,11 +43,11 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
     s32 level_product;
     s32 level_product_2;
 
-    entity = (u8 *)entity_data;
-    if (entity[0x11] < 99U) {
-        level = entity[0x11];
-        species_id = entity[0x13];
-        entity[0x11] = level + 1;
+    if (((u8 *)entity_data)[0x11] < 99U) {
+        register s32 stat_gain_m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        level = ((u8 *)entity_data)[0x11];
+        species_id = ((u8 *)entity_data)[0x13];
+        ((u8 *)entity_data)[0x11] = level + 1;
         stat_growth = D_800DDCBC + (species_id * 8);
         prev_level = level - 1;
         initial_stats = D_8006D168 + (species_id * 0x18);
@@ -66,7 +65,6 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 old_sum;
             s32 stat;
             s32 old_value;
-            register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             curve_value = func_800647A0((prev_level * stat_growth[5]) << 0xB, species_id);
             old_base = *(volatile u8 *)(initial_stats + 5);
             old_linear = stat_growth[5] * prev_level;
@@ -95,15 +93,15 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             new_stat = new_sum + (new_curve >> 0xF);
             ASM_KEEP(new_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-            stat = entity[5];
+            stat = ((u8 *)entity_data)[5];
             old_value = stat;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            stat_gain = stat - old_value;
-            entity[5] = stat;
-            entity[0x28] += stat_gain;
+            stat_gain_m = stat - old_value;
+            ((u8 *)entity_data)[5] = stat;
+            ((u8 *)entity_data)[0x28] += stat_gain_m;
         }
 
         {
@@ -112,7 +110,6 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 new_stat;
             s32 stat;
             s32 old_value;
-            register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             {
                 s32 base_stat;
                 old_scaled = stat_growth[4];
@@ -130,15 +127,15 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             }
                /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             new_stat = initial_stats[4] + (new_scaled >> 0xA);
-            stat = entity[4];
+            stat = ((u8 *)entity_data)[4];
             old_value = stat;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            stat_gain = stat - old_value;
-            entity[4] = stat;
-            entity[0x25] += stat_gain;
+            stat_gain_m = stat - old_value;
+            ((u8 *)entity_data)[4] = stat;
+            ((u8 *)entity_data)[0x25] += stat_gain_m;
         }
 
         {
@@ -148,12 +145,11 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 new_stat;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 stat;
             s32 old_value;
-            register s32 stat_gain ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             old_scaled = stat_growth[0];
             base_stat = initial_stats[0];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_level;
-            stat = entity[0];
+            stat = ((u8 *)entity_data)[0];
             old_value = stat;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
@@ -168,16 +164,15 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            stat_gain = stat - old_value;
-            entity[0] = stat;
-            entity[0x26] += stat_gain;
+            stat_gain_m = stat - old_value;
+            ((u8 *)entity_data)[0] = stat;
+            ((u8 *)entity_data)[0x26] += stat_gain_m;
         }
 
         {
             s32 prev_step;
             s32 base_stat;
             s32 old_scaled;
-            register s32 new_scaled ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             register s32 new_stat ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 stat;
             s32 old_value;
@@ -187,66 +182,66 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             base_stat = initial_stats[1];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_step;
-            stat = entity[1];
+            stat = ((u8 *)entity_data)[1];
             old_value = stat;
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
-            new_scaled = slot * level;
+            stat_gain_m = slot * level;
             old_stat = base_stat + (old_scaled >> 6);
-            if (new_scaled < 0) {
-                new_scaled += 0x3F;
+            if (stat_gain_m < 0) {
+                stat_gain_m += 0x3F;
             }
-            new_stat = base_stat + (new_scaled >> 6);
+            new_stat = base_stat + (stat_gain_m >> 6);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            new_scaled = stat - old_value;
-            entity[1] = stat;
-            entity[0x27] += new_scaled;
+            stat_gain_m = stat - old_value;
+            ((u8 *)entity_data)[1] = stat;
+            ((u8 *)entity_data)[0x27] += stat_gain_m;
 
             old_scaled = stat_growth[2];
             base_stat = initial_stats[2];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_step;
-            stat = entity[2];
+            stat = ((u8 *)entity_data)[2];
             if (old_scaled < 0) {
                 old_scaled += 0x3F;
             }
-            new_scaled = slot * level;
+            stat_gain_m = slot * level;
             old_stat = base_stat + (old_scaled >> 6);
-            if (new_scaled < 0) {
-                new_scaled += 0x3F;
+            if (stat_gain_m < 0) {
+                stat_gain_m += 0x3F;
             }
                /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            new_stat = base_stat + (new_scaled >> 6);
+            new_stat = base_stat + (stat_gain_m >> 6);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            entity[2] = stat;
+            ((u8 *)entity_data)[2] = stat;
 
             old_scaled = stat_growth[3];
             base_stat = initial_stats[3];
             slot = old_scaled * base_stat;
             old_scaled = slot * prev_step;
-            stat = entity[3];
+            stat = ((u8 *)entity_data)[3];
             if (old_scaled < 0) {
                 old_scaled += 0x3FF;
             }
-            new_scaled = slot * level;
+            stat_gain_m = slot * level;
             old_stat = base_stat + (old_scaled >> 0xA);
-            if (new_scaled < 0) {
-                new_scaled += 0x3FF;
+            if (stat_gain_m < 0) {
+                stat_gain_m += 0x3FF;
             }
                /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            new_stat = base_stat + (new_scaled >> 0xA);
+            new_stat = base_stat + (stat_gain_m >> 0xA);
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
             }
-            entity[3] = stat;
+            ((u8 *)entity_data)[3] = stat;
         }
 
         {
@@ -271,10 +266,10 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             if (xp_given > 0xFFFFU) {
                 xp_given = 0xFFFF;
             }
-            *(u16 *)(entity + 6) = xp_given;
+            *(u16 *)(((u8 *)entity_data) + 6) = xp_given;
         }
 
-        if (entity[0x13] != 0) {
+        if (((u8 *)entity_data)[0x13] != 0) {
             u8 *gained_base;
             s32 gained_flag;
             u8 *ability_table;
@@ -288,14 +283,14 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             ability_table = D_8006DE24;
             gained_flag = 1;
             levels_left = 100 - level;
-            ability_slot = entity + 6;
+            ability_slot = ((u8 *)entity_data) + 6;
             loop_0: {
                 gained = gained_base + slot;
                 *gained = 0;
                 ability_value = ability_slot[8];
                 if (ability_value != 0) {
                     s32 type_mask = ability_table[ability_value * 0x14 + 0x10] >> 4;
-                    if ((type_mask & (*(s32 *)(entity + 0x14))) || !(type_mask & 7)) {
+                    if ((type_mask & (*(s32 *)(((u8 *)entity_data) + 0x14))) || !(type_mask & 7)) {
                         s32 ability_level = ability_slot[10];
                         if ((u32) ability_level < 99U) {
                             s32 new_level;
@@ -319,7 +314,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             } if (slot >= 0) goto loop_0;
         }
 
-        func_80041E70(entity);
+        func_80041E70(((u8 *)entity_data));
 
         if ((show_message << 0x10) != 0) {
             if (!(D_80013714[0] & 1)) {
@@ -327,25 +322,25 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 D_80083460[5]++;
             }
             effect_id = 0x8003;
-            if ((*(s32 *)(entity + 0x14) & 0x2000) != 0) {
+            if ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x2000) != 0) {
                 effect_id = 0x8002;
             }
-            func_800B4C7C(effect_id, entity, -2, 1);
+            func_800B4C7C(effect_id, ((u8 *)entity_data), -2, 1);
 
             message = func_800990FC();
             text_end = func_80099194(&D_800E0953, message);
             text_end = func_8009929C(0xA, text_end);
-            text_end = func_80099734(entity, text_end);
+            text_end = func_80099734(((u8 *)entity_data), text_end);
             text_end = func_80099194(&D_800E095F, text_end);
-            text_end = func_8003AD08(entity[0x11], text_end);
+            text_end = func_8003AD08(((u8 *)entity_data)[0x11], text_end);
             text_end = func_80099194(&D_80089000, text_end);
 
-            if (entity[0x13] != 0 && ((*(s32 *)(entity + 0x14) & 0x4000) != 0)) {
+            if (((u8 *)entity_data)[0x13] != 0 && ((*(s32 *)(((u8 *)entity_data) + 0x14) & 0x4000) != 0)) {
                 u8 *ability_slot;
                 u8 *ability_table;
                 slot = 0;
                 ability_table = D_8006DE24;
-                ability_slot = entity;
+                ability_slot = ((u8 *)entity_data);
                 do {
                     if (ability_gained[slot] != 0) {
                         text_end = func_8009929C(0xA, text_end);

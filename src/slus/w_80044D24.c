@@ -79,6 +79,7 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
     for (;;) {
         if (!(parts[0] & 0x20)) {
             register s32 far_edge ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+            s16 flipped_offset;
             uv_start = U8_AT(part, 7);
             U32_AT(scratch, 8) = uv_start;
             uv_size = U8_AT(part, 9);
@@ -106,7 +107,7 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
                     offset = (offset_byte << 24) >> 24;
                 }
                 {
-                    register s32 flipped_offset ASM_REG("$3") = -offset;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+                    flipped_offset = -offset;
                     ASM_KEEP_NV(flipped_offset);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     S16_AT(scratch, 0x80) = flipped_offset;
                     S16_AT(scratch, 0x70) = flipped_offset;
@@ -144,7 +145,7 @@ void func_80044D24(void *unused, void *sprite_data, s32 ot_depth)
                     offset = (offset_byte << 24) >> 24;
                 }
                 {
-                    register s32 flipped_offset ASM_REG("$3") = -offset;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+                    flipped_offset = -offset;
                     ASM_KEEP_NV(flipped_offset);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     S16_AT(scratch, 0x7A) = flipped_offset;
                     S16_AT(scratch, 0x72) = flipped_offset;

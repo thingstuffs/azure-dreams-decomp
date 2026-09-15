@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     s16 x;
@@ -58,6 +59,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
         &&state0, &&state1, &&state2, &&state3, &&state4,
         &&done, &&done, &&done, &&state8
     };
+    register u8 *target_pos_m ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     owner = PTR_AT(effect_data, 0x00);
 #ifdef NON_MATCHING
@@ -179,15 +181,14 @@ state1:
             {
                 register u32 target ASM_REG("$3") =
                     (u32)PTR_AT(owner, 0x60);
-                register u8 *target_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 u32 table;
 
-                target_pos = PTR_AT((u8 *)target, -0x18);
+                copy_source = PTR_AT((u8 *)target, -0x18);
                 table = (u32)D_800DDC40;
                 target = U8_AT((u8 *)target, 0x13);
                 target += table;
                 table = U8_AT((u8 *)target, 0x00);
-                target = U16_AT(target_pos, 0x0A);
+                target = U16_AT(copy_source, 0x0A);
                 table += 0x20;
                 target -= table;
 
@@ -224,9 +225,7 @@ state1:
                     delta = owner_axis - sprite_axis;
                 }
             }
-            if (delta < 0) {
-                delta = -delta;
-            }
+            delta = abs(delta);
             U8_AT(effect_data, 0x7B) = (u8)((delta * 2) - 1);
         } else {
             s32 height = U16_AT(owner, 0x88);
@@ -316,13 +315,12 @@ state2:
         U8_AT(effect_data, 0x7B)--;
         if (S8_AT(effect_data, 0x7B) <= 0) {
             if (PTR_AT(owner, 0x60) != 0) {
-                register u8 *target_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 S16_AT(effect_data, 0x0A) = 3;
                 S16_AT(effect_data, 0x82) = 0;
-                target_pos = PTR_AT(PTR_AT(owner, 0x60), -0x18);
-                U16_AT(effect_pos, 0x02) = U16_AT(target_pos, 0x02);
-                U16_AT(effect_pos, 0x06) = U16_AT(target_pos, 0x06);
+                target_pos_m = PTR_AT(PTR_AT(owner, 0x60), -0x18);
+                U16_AT(effect_pos, 0x02) = U16_AT(target_pos_m, 0x02);
+                U16_AT(effect_pos, 0x06) = U16_AT(target_pos_m, 0x06);
                 U16_AT(effect_pos, 0x0A) = U16_AT(effect_data, 0x78);
                 func_800A56E0(0x300);
                 goto done;
@@ -355,7 +353,6 @@ state3:
 
         source = func_8003FC64(0x212);
         if (source != 0) {
-            register u8 *target_pos ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 trig;
 
             entity = source + 0x20;
@@ -369,9 +366,9 @@ state3:
                 s32 spawn_counter = S16_AT(effect_data, 0x82);
                 S16_AT(entity, 0x0C) = spawn_counter << 9;
             }
-            target_pos = PTR_AT(PTR_AT(owner, 0x60), -0x18);
-            S32_AT(entity, 0x4C) = S32_AT(target_pos, 0x00);
-            S32_AT(entity, 0x50) = S32_AT(target_pos, 0x04);
+            target_pos_m = PTR_AT(PTR_AT(owner, 0x60), -0x18);
+            S32_AT(entity, 0x4C) = S32_AT(target_pos_m, 0x00);
+            S32_AT(entity, 0x50) = S32_AT(target_pos_m, 0x04);
             S32_AT(source, 0x10) = (s32)func_800245A8;
             func_8004491C(source, func_80045340);
 
@@ -413,6 +410,7 @@ state3:
 state4:
     {
         s32 fade_frame;
+        u8 *target_display;
 
         U16_AT(effect_data, 0x82)++;
         fade_frame = S16_AT(effect_data, 0x82);
@@ -445,7 +443,6 @@ state4:
 
         if (S16_AT(effect_data, 0x82) >= 50) {
             u8 *target = PTR_AT(owner, 0x60);
-            register u8 *target_display ASM_REG("$5");
 
             S32_AT(target, 0x1C) |= 0x10000000;
             target_display = PTR_AT(target, -0x14);
@@ -462,7 +459,7 @@ state4:
 
         if (S16_AT(effect_data, 0x82) >= 101) {
             u8 *target = PTR_AT(owner, 0x60);
-            register u8 *target_display ASM_REG("$5") = PTR_AT(target, -0x14);
+            target_display = PTR_AT(target, -0x14);
 
             S32_AT(target, 0x1C) &= 0xEFFFFFFF;
             U8_AT(target_display, 0x0E) = 0x80;

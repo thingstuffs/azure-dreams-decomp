@@ -202,6 +202,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     state = ((S_800253C0_0 *)sequence)->unk_9B.n;
     switch (state) {
         register s32 coord_delta ASM_REG("$3");
+        register void *object_m ASM_REG("$16");
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0) {
             goto missing_object;
@@ -252,10 +253,10 @@ start_sequence:
             void *object_slot = sequence;
 
             do {
-                register void *object ASM_REG("$16") = ((S_800253C0_4 *)object_slot)->unk_AC;
-                if ((((S_800253C0_5 *)object)->unk_14 & mask) != 0) {
-                    func_800ACB98(object, ((S_800253C0_5_pre *)object)[-1].unk_00,
-                        ((S_800253C0_5_pre *)object)[-1].unk_04, object);
+                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+                if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
+                    func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
+                        ((S_800253C0_5_pre *)object_m)[-1].unk_04, object_m);
                 }
                 object_index++;
                 object_slot = (u8 *)object_slot + 4;
@@ -272,13 +273,13 @@ start_sequence:
             u32 mask = 0x100000;
             void *object_slot = sequence;
             do {
-                register void *object ASM_REG("$16") = ((S_800253C0_4 *)object_slot)->unk_AC;
                 u16 angle;
+                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
                 object_slot = (u8 *)object_slot + 4;
                 object_index++;
-                ((S_800253C0_5 *)object)->unk_14 |= mask;
-                angle = ((S_800253C0_5 *)object)->unk_2A.n;
-                ((S_800253C0_5 *)object)->unk_8A = angle;
+                ((S_800253C0_5 *)object_m)->unk_14 |= mask;
+                angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
+                ((S_800253C0_5 *)object_m)->unk_8A = angle;
             } while (object_index < 2);
         }
         {
@@ -288,7 +289,6 @@ start_sequence:
             s16 timer;
             s32 delta;
             u8 *scene_rgb;
-            register s32 target_level ASM_REG("$3");
             u8 *move_scene;
             s16 *table_x;
             s16 *table_y;
@@ -297,10 +297,10 @@ start_sequence:
             ((S_800253C0_0 *)sequence)->unk_9B.n++;
             ((S_800253C0_0 *)sequence)->unk_96.v = 32;
             ASM_SCHED_BARRIER();
-            target_level = 32;
+            coord_delta = 32;
             brightness = ((S_800253C0_6 *)scene)->unk_A8;
             timer = ((S_800253C0_0 *)sequence)->unk_96.n;
-            delta = (target_level - brightness) / timer;
+            delta = (coord_delta - brightness) / timer;
             brightness = brightness + delta;
             scene_rgb = scene + 0xA8;
             object_index = 0;
@@ -313,36 +313,35 @@ start_sequence:
             scene_rgb[1] = brightness;
             scene_rgb[2] = brightness;
             do {
-                register void *object ASM_REG("$16");
                 register s32 table_index ASM_REG("$5");
                 s32 delta;
                 register s32 old_coord ASM_REG("$2");
                 s32 frames_left;
 
                 table_index = object_index << 11;
-                object = ((S_800253C0_4 *)object_slot)->unk_AC;
+                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
                 old_coord = ((S_800253C0_7 *)move_scene)->unk_C8;
                 table_index = table_index - old_coord;
                 table_index = (table_index + 0x100) >> 8;
                 table_index &= 0xE;
-                target_level = (s32)((S_800253C0_8 *)actor)->unk_24;
+                coord_delta = (s32)((S_800253C0_8 *)actor)->unk_24;
                 frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
-                target_level = target_level + table_x[table_index >> 1];
-                target_level = target_level << 6;
-                prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
+                coord_delta = coord_delta + table_x[table_index >> 1];
+                coord_delta = coord_delta << 6;
+                prim = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
                 old_coord = ((S_800253C0_9 *)prim)->unk_02.s - 0x20;
-                target_level = target_level - old_coord;
-                ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u + target_level / frames_left;
-                target_level = (s32)((S_800253C0_8 *)actor)->unk_25;
+                coord_delta = coord_delta - old_coord;
+                ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u + coord_delta / frames_left;
+                coord_delta = (s32)((S_800253C0_8 *)actor)->unk_25;
                 {
                     old_coord = table_y[table_index >> 1];
-                    target_level = target_level + old_coord;
+                    coord_delta = coord_delta + old_coord;
                 }
-                target_level = target_level << 6;
+                coord_delta = coord_delta << 6;
                 old_coord = ((S_800253C0_9 *)prim)->unk_06.s - 0x20;
-                target_level = target_level - old_coord;
+                coord_delta = coord_delta - old_coord;
                 ((S_800253C0_9 *)prim)->unk_06.u = ((S_800253C0_9 *)prim)->unk_06.u +
-                    target_level / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                 {
                     s32 old_z = ((S_800253C0_9 *)prim)->unk_0A.s;
                     s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
@@ -351,10 +350,10 @@ start_sequence:
                 }
 
                 {
-                    s32 angle = ((S_800253C0_7 *)move_scene)->unk_C8 + ((S_800253C0_5 *)object)->unk_2A.n2;
-                    u16 old_angle = ((S_800253C0_5 *)object)->unk_2A.n;
+                    s32 angle = ((S_800253C0_7 *)move_scene)->unk_C8 + ((S_800253C0_5 *)object_m)->unk_2A.n2;
+                    u16 old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
                     if ((((angle + 0x100) >> 9) & 7) != 2) {
-                        ((S_800253C0_5 *)object)->unk_2A.n = old_angle + 0x200;
+                        ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
                     }
                 }
                 object_index++;
@@ -395,10 +394,9 @@ start_sequence:
                     object_index++;
                 } while (object_index < 2);
                 {
-                    register s32 next_timer ASM_REG("$3");
-                    next_timer = 16;
+                    coord_delta = 16;
                     state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                    ((S_800253C0_0 *)sequence)->unk_96.n = next_timer;
+                    ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
                 }
             }
             goto store_next_state;
@@ -414,10 +412,9 @@ start_sequence:
             func_80026C88(((S_800253C0_10 *)position)->unk_02, ((S_800253C0_10 *)position)->unk_06,
                 ((S_800253C0_10 *)position)->unk_0A.s, actor);
             {
-                register s32 next_timer ASM_REG("$3");
-                next_timer = 32;
+                coord_delta = 32;
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = next_timer;
+                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
             goto store_next_state;
         }
@@ -465,11 +462,10 @@ start_sequence:
                 goto done;
             }
             {
-                register s32 next_timer ASM_REG("$3");
-                next_timer = 8;
+                coord_delta = 8;
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
                 ASM_SCHED_BARRIER();
-                ((S_800253C0_0 *)sequence)->unk_96.n = next_timer;
+                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
             goto store_next_state;
         }

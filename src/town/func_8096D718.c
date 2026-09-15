@@ -38,7 +38,6 @@ extern u8 D_80127B64[];
 /* Updates the object's number display and paired fields for its current state. */
 void func_80125BB0(TownObject *obj)
 {
-    register TownObject *object ASM_REG("$18") = obj;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 side_offset;
     s32 entry_index;
     s32 slot_index;
@@ -49,53 +48,53 @@ void func_80125BB0(TownObject *obj)
     HalfFields *primary;
     HalfFields *secondary;
 
-    switch (object->state) {
+    switch (((TownObject *)(obj))->state) {
     case 1:
-        index_base = 1 - object->side;
+        index_base = 1 - ((TownObject *)(obj))->side;
         side_stride8 = index_base << 3;
         side_stride16 = index_base << 4;
         side_offset = side_stride16 + side_stride8;
         slot_index = side_offset + 33;
-        index_base = object->digit << 4;
+        index_base = ((TownObject *)(obj))->digit << 4;
         index_base = index_base + 1;
-        entry_index = index_base - object->side;
+        entry_index = index_base - ((TownObject *)(obj))->side;
 
         if (func_80123200((u8)entry_index) != 0) {
             s32 display_number = entry_index + 1;
 
-            *object->pool->slots[slot_index] = (u32)D_80127B64;
+            *((TownObject *)(obj))->pool->slots[slot_index] = (u32)D_80127B64;
             slot_index = side_offset + 34;
-            *object->pool->slots[slot_index] = D_801269D0[display_number / 10];
+            *((TownObject *)(obj))->pool->slots[slot_index] = D_801269D0[display_number / 10];
             slot_index = side_offset + 35;
-            *object->pool->slots[slot_index] = D_801269D0[display_number % 10];
+            *((TownObject *)(obj))->pool->slots[slot_index] = D_801269D0[display_number % 10];
         }
         break;
 
     case 2: {
-        HalfFields *primary = object->pool->pair->first;
+        HalfFields *primary = ((TownObject *)(obj))->pool->pair->first;
         primary->field6 = 0;
         primary->field4 = 0;
         return;
     }
 
     case 3:
-        object->pool->pair->first->field8 = D_80126B20[object->side];
-        object->pool->pair->first->fieldA = D_80126B24;
+        ((TownObject *)(obj))->pool->pair->first->field8 = D_80126B20[((TownObject *)(obj))->side];
+        ((TownObject *)(obj))->pool->pair->first->fieldA = D_80126B24;
         break;
 
     default:
         return;
     }
 
-    pair = object->pool->pair;
+    pair = ((TownObject *)(obj))->pool->pair;
     primary = pair->first;
     secondary = pair->second;
     secondary->field6 = primary->field8;
-    pair = object->pool->pair;
+    pair = ((TownObject *)(obj))->pool->pair;
     primary = pair->first;
     secondary = pair->second;
     secondary->field8 = primary->fieldA;
-    primary = object->pool->pair->first;
+    primary = ((TownObject *)(obj))->pool->pair->first;
     primary->field6 = 0x800;
     primary->field4 = 0x800;
 }

@@ -227,6 +227,7 @@ s32 func_800AB778(S_800AB778_1 *state, void *unused_context, S_800AB778_3 *visua
     if (actor_flags & 0x20000000) {
         ((Rec_D_80082E80 *)actor)->unk_14.at00_s32.v = actor_flags | 0x400000;
         func_800ACB98();
+        return_tail:
         return 0;
     }
 
@@ -264,9 +265,8 @@ state_case0:
 
         if (((Rec_D_80082E80 *)actor)->unk_43 != 0xFD) {
             if ((func_800A2C78(actor) << 0x10) != 0) {
-                return 0;
+                goto return_tail;
             }
-            ASM_SCHED_BARRIER(); /* MATCH: preserve the jump into the shared state update. */
         } else {
             ((S_800AB778_21 *)(((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_pv.v))->unk_110 = 0;
         }

@@ -74,13 +74,13 @@ void func_800CEA44(void *den_event) {
 
     state = *(s16 *)(den_event + 6);
     if (state == 0) {
+        register u8 *global_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         {
             u32 area_byte;
-            register s32 area_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             area_byte = D_80082EA6;
-            area_raw = (s8)area_byte;
-            scratch.area_index = area_raw;
+            global_base = (u8 *)((s8)area_byte);
+            scratch.area_index = (s32)global_base;
             if ((s32)(area_byte << 24) < 0) {
                 goto initial_done;
             }
@@ -98,7 +98,6 @@ do {
 
         random_value = func_800A6D30();
         {
-            register u8 *global_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             global_base = (u8 *)&D_80083460;
             ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -108,10 +107,10 @@ do {
         }
         spawn_availability = func_800A1618(monster_type, 1);
         if (spawn_availability != 0) {
+            register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             retries_left = 0xF;
             {
                 register unsigned long area_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 area_offset;
 
                 area_raw = scratch.area_index;
@@ -155,15 +154,14 @@ retry_position:
                     ((u8 *)monster)[0x12] = 0;
 
                     {
-                        register u32 *limits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                        limits = D_800835E4;
-                        experience = limits[monster_level];
-                        limits++;
+                        area_calc = (s32)(D_800835E4);
+                        experience = ((u32 *)area_calc)[monster_level];
+                        area_calc = (s32)(((u32 *)area_calc) + 1);
                         *(u32 *)((u8 *)monster + 0x18) = experience;
                         if (*(u32 *)((u8 *)monster + 0x18) >=
-                            limits[((u8 *)monster)[0x11]]) {
-                            level_thresholds = limits;
+                            ((u32 *)area_calc)[((u8 *)monster)[0x11]]) {
+                            level_thresholds = (u32 *)area_calc;
                             do {
                                 func_800A1D4C(monster, 0);
                             } while (level_thresholds[((u8 *)monster)[0x11]] <=

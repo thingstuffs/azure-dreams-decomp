@@ -55,7 +55,7 @@ void *func_80171190(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     Work *work;
-    register void *obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *obj;
     S_80171190_1 *part_a;
     S_80171190_2 *part_b;
     void *resource;
@@ -65,7 +65,6 @@ void *func_80171190(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     s8 saved_arg1;
     s16 saved_arg3;
     s8 saved_arg2;
-    void *call_a0;
     void *call_a1;
 
     work = 0;
@@ -92,7 +91,9 @@ void *func_80171190(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         if (kind == 1) {
             left = work->flags14 | 0x6000;
             right = work->flags1c | 0x6000;
-            goto write_kind;
+            work->flags14 = left;
+            work->flags1c = right;
+            goto post_kind;
         }
         if (kind < 2) {
             goto normal_kind;
@@ -106,13 +107,12 @@ write_kind:
         goto post_kind;
 
     normal_kind:
-        call_a0 = obj;
+        call_a1 = obj;
         if (((arg0 & ~3) << 16) == 0) {
             if (!(work->flags14 & 0x200)) {
                 call_a1 = part_a;
-                ASM_KEEP(call_a0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 left = func_800A6D30();
-                call_a0 = obj;
+                call_a1 = obj;
                 if (!(left & 1)) {
                     goto call_a1_setup;
                 }
@@ -125,9 +125,9 @@ write_kind:
         goto call_a1_setup;
 
 post_kind:
-        call_a0 = obj;
+        call_a1 = obj;
 call_a1_setup:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        func_800A9C18(call_a1, part_a, part_b, arg0);
         actor->byte9a = 0xFF;
         actor->byte9c = -1;
         actor->ptr8c = &D_80171760;

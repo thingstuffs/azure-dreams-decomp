@@ -114,7 +114,8 @@ state_0:
     counter_base = D_80083460;
     ((S_80173204_3 *)counter_base)->unk_0A =
         ((S_80173204_3 *)counter_base)->unk_0A - 1;
-    goto increment_state;
+    controller->unk_9B++;
+    goto done;
 
 state_1:
     if ((func_80042900(entity, 1) << 16) == 0) {
@@ -209,7 +210,7 @@ second_check:
     }
 increment_counter:
     {
-        register u8 *counter ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        u8 *counter;
 
         counter = D_80083460;
         ((S_80173204_7 *)counter)->unk_0A++;

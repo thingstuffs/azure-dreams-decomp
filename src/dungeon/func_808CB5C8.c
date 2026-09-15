@@ -19,7 +19,9 @@ typedef struct S_80123A60_0 {
 void func_80123A60(S_80123A60_0 *state) {
     s16 draw_rect[4];
     s32 *entry;
-    register s32 *entry_table ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 *entry_table;
+    s32 *entry_table_2;
+    s32 *entry_table_3;
     s32 entry_id;
     s32 slot;
     u8 group;
@@ -41,8 +43,8 @@ void func_80123A60(S_80123A60_0 *state) {
         }
         entry_id += 1;
         if (func_80123200(entry_id & 0xFF) & 0xFF) {
-            entry_table = &D_80126E98;
-            func_80123928(*((entry_id * 3) + entry_table), 0x1A4, 0xA0);
+            entry_table_2 = &D_80126E98;
+            func_80123928(*((entry_id * 3) + entry_table_2), 0x1A4, 0xA0);
         }
         func_80067014(0);
         do {
@@ -51,8 +53,8 @@ void func_80123A60(S_80123A60_0 *state) {
     }
     group = state->unk_0F;
     entry_id = group * 0x10;
-    entry_table = &D_80126E98;
-    entry = ((group * 0x20) + entry_id) + entry_table;
+    entry_table_3 = &D_80126E98;
+    entry = ((group * 0x20) + entry_id) + entry_table_3;
     loop_0: {
         if (func_80123200(entry_id & 0xFF) & 0xFF) {
             func_80123928(*entry, (s16) (((slot % 3) * 0x12) + 0x180), (s16) (((slot / 3) * 0x10) + 0x80));

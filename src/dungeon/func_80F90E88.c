@@ -384,13 +384,12 @@ advance_object:
 return_zero:
     {
         register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         hard_zero = 0;
 #else
 #endif
-        result = hard_zero;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return result;
+        mode_ot_link = hard_zero;
+        ASM_KEEP(mode_ot_link);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        return mode_ot_link;
     }
 }

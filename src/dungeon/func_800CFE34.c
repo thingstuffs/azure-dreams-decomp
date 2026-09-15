@@ -28,10 +28,8 @@ extern u8 D_800E2460[];
 /* Updates entity appearance, position, and facing from its owner and effect state. */
 void func_800D5594(void *owner_data, void *position_data, void *entity_data)
 {
-    register u8 *owner ASM_REG("$19") = owner_data;
-    u8 *position = position_data;
     u8 *entity = entity_data;
-    register u8 *record ASM_REG("$21");
+    u8 *record;
     u8 *effect;
     u8 *appearance;
     u8 *coords;
@@ -45,7 +43,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
     s32 angle_sector;
     s16 effect_angle;
 
-    record = PTR(owner, 0xAC);
+    record = PTR(((u8 *)(owner_data)), 0xAC);
     effect = record + 0x20;
     effect_data = PTR(effect, 0x1C);
     appearance = PTR(record, 0xC);
@@ -63,10 +61,10 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
         func_800478B8(entity);
     }
 
-    effect_angle = S16(effect, 0x2A);
     facing_check = U16(effect, 0x2A);
-    if (S16(owner, 0x2A) != effect_angle) {
-        U16(owner, 0x2A) = facing_check;
+    effect_angle = S16(effect, 0x2A);
+    if (S16(((u8 *)(owner_data)), 0x2A) != effect_angle) {
+        U16(((u8 *)(owner_data)), 0x2A) = facing_check;
         func_80047784(
             entity,
             PTR(entity, 0x2C)[(D_80083228 + effect_angle + 0x100) >> 9 & 7],
@@ -75,22 +73,22 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
 
     angle_table = D_80083160;
     angle_sector =
-        (S16(angle_table, 0xC8) + S16(owner, 0x2A) + 0x100) >> 9;
+        (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9;
     facing_index = angle_sector & 7;
     facing_check = facing_index;
-    angle_sector = S16(owner, 0x94);
+    angle_sector = S16(((u8 *)(owner_data)), 0x94);
     if (angle_sector != facing_check) {
         func_80047784(entity, PTR(entity, 0x2C)[facing_check], 0);
-        S16(owner, 0x94) = facing_index;
+        S16(((u8 *)(owner_data)), 0x94) = facing_index;
     }
 
     U16(entity, 0x14) = U16(appearance, 0x14);
-    U16(position, 2) = U16(coords, 2);
-    U16(position, 6) = U16(coords, 6);
-    U16(position, 0xA) = U16(coords, 0xA);
+    U16(position_data, 2) = U16(coords, 2);
+    U16(position_data, 6) = U16(coords, 6);
+    U16(position_data, 0xA) = U16(coords, 0xA);
 
     direction_index =
-        (S16(angle_table, 0xC8) + S16(owner, 0x2A) + 0x100) >> 9 & 7;
+        (S16(angle_table, 0xC8) + S16(((u8 *)(owner_data)), 0x2A) + 0x100) >> 9 & 7;
     S16(entity, 6) = (s32)D_800DCECC[direction_index] * 4;
     U16(entity, 0x1C) = U16(appearance, 0x1C);
     U16(entity, 0x1E) = U16(appearance, 0x1E);
@@ -107,7 +105,7 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
             appearance_type == D_800E2460 ||
             appearance_type == D_800E2440 ||
             appearance_type == D_800E2438) {
-            U16(owner, -2) |= 0x8000;
+            U16(((u8 *)(owner_data)), -2) |= 0x8000;
             D_800814A0 |= 0x8000;
             U8(saved_effect, 0xB0)--;
             return;
@@ -117,6 +115,6 @@ void func_800D5594(void *owner_data, void *position_data, void *entity_data)
         }
     }
 
-    U16(owner, -2) |= 0x8000;
+    U16(((u8 *)(owner_data)), -2) |= 0x8000;
     D_800814A0 |= 0x8000;
 }

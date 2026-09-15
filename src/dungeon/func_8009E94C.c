@@ -8,16 +8,14 @@ s32 func_800A35D8(u8 arg0, u16 arg1);
 /* Selects the highest-value nonempty item among three slots, breaking ties by kind score. */
 s16 func_800A40AC(s32 records_addr, s32 item_kind)
 {
-    s32 kind;
     s16 result;
     s32 best_score;
     s16 best_value;
     s32 count;
-    register u8 *item_data ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *item_data;
     s16 index;
     s32 value;
-    register u32 item_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    s16 loop_index;
+    u32 item_page;
     s32 tripled_index;
     u8 item;
     register s32 item_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -25,7 +23,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     u8 *record;
 
     records = records_addr;
-    kind = item_kind;
+    records_addr = item_kind;
     result = -1;
     best_score = -4;
     best_value = 0;
@@ -36,12 +34,10 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
     item_data = (u8 *)(item_page - 0x21DC);
     index = tripled_index & 3;
     do {
-        loop_index = index;
-        if (loop_index == 3) {
+        if (((s16)(index)) == 3) {
             index = 0;
         }
-        loop_index = index;
-        tripled_index = loop_index * 3;
+        tripled_index = ((s16)(index)) * 3;
         record = (u8 *)records + tripled_index;
         item = record[8];
         if (item != 0) {
@@ -51,7 +47,7 @@ s16 func_800A40AC(s32 records_addr, s32 item_kind)
 
             value = record[9];
             item_offset = item * 20;
-            score = func_800A35D8(item_data[item_offset + 16], (u16)kind);
+            score = func_800A35D8(item_data[item_offset + 16], (u16)records_addr);
             prior_value = best_value;
             candidate_value = value;
             if (prior_value < candidate_value) {

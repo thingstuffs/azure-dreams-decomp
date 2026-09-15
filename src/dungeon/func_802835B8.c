@@ -202,7 +202,6 @@ void func_800165B8(void) {
     register s32 *reverse_entries ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 *state_entries;
     u8 *table_base;
-    register u8 *entry_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 tile;
     u8 actor_x;
     u8 actor_y;
@@ -217,7 +216,6 @@ void func_800165B8(void) {
     u8 *bind_angle;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *defaults_page;
     register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 init_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u8 *status_page;
     s32 status_value;
     u16 init_flags;
@@ -328,9 +326,9 @@ initialize_position:
     ((S_800165B8_4 *)actor)->unk_0A = height;
     ((S_800165B8_5 *)entity)->unk_88 = height;
     (*(s16 *)((u8 *)entity + 0x8A)) = height;
-    init_value = ((S_800165B8_1 *)obj)->unk_A2;
+    delta_page = (u8 *)(((S_800165B8_1 *)obj)->unk_A2);
     ((S_800165B8_3 *)state)->unk_0C = 0x2C808080;
-    ((S_800165B8_1 *)obj)->unk_A2 = init_value | 0x10;
+    ((S_800165B8_1 *)obj)->unk_A2 = (s32)delta_page | 0x10;
     state_config = D_80080A80;
     ((S_800165B8_5 *)entity)->unk_5C = allocation;
     ((S_800165B8_5 *)entity)->unk_58 = allocation;
@@ -342,10 +340,10 @@ initialize_position:
     entity_mask = 0xFFEFFFFF;
     {
 
-        init_value = (s32)((s32 *)((u8 *)&D_800E3D80));
+        delta_page = (u8 *)((s32)((s32 *)((u8 *)&D_800E3D80)));
            /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entity_flags = ((S_800165B8_5 *)entity)->unk_14;
-        reverse_entries = (s32 *)init_value + 7;
+        reverse_entries = (s32 *)(s32)delta_page + 7;
         entity_flags &= entity_mask;
         ((S_800165B8_5 *)entity)->unk_14 = entity_flags;
     }
@@ -356,22 +354,22 @@ load_entries:
     table_base = (u8 *)0x800E0000;
     ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     table_base -= 0x2F88;
-    entry_addr = (u8 *)((u32)entry_index + (u32)table_base);
-    ASM_KEEP_DEP_NV(entry_addr, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800489F4(call_target, *entry_addr, (s32)bind_state, (s32)bind_state);
+    delta_page = (u8 *)((u32)entry_index + (u32)table_base);
+    ASM_KEEP_DEP_NV(delta_page, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_800489F4(call_target, *delta_page, (s32)bind_state, (s32)bind_state);
     call_target = state;
     bind_state = (u8 *)0;
     zero_arg = bind_state;
     ASM_KEEP_DEP_NV(zero_arg, bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     table_base = (u8 *)0x800E0000;
     ASM_KEEP_NV(table_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    init_value = ((S_800165B8_3 *)state)->unk_08;
+    delta_page = (u8 *)(((S_800165B8_3 *)state)->unk_08);
     table_base -= 0x2F58;
-    *reverse_entries = init_value;
+    *reverse_entries = (s32)delta_page;
     reverse_entries--;
-    entry_addr = (u8 *)((u32)entry_index + (u32)table_base);
-    ASM_KEEP_DEP_NV(entry_addr, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800489F4(call_target, *entry_addr, (s32)bind_state, (s32)zero_arg);
+    delta_page = (u8 *)((u32)entry_index + (u32)table_base);
+    ASM_KEEP_DEP_NV(delta_page, table_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    func_800489F4(call_target, *delta_page, (s32)bind_state, (s32)zero_arg);
     entry_offset = (u32)entry_index << 2;
     state_entries = D_800E3CF8;
     *(s32 *)((u8 *)state_entries + entry_offset) = ((S_800165B8_3 *)state)->unk_08;
@@ -399,8 +397,8 @@ load_entries:
     bind_state = state + 0x2C;
     bind_angle = obj + 0x2A;
     ASM_KEEP(bind_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    init_value = -1;
-    (*(s16 *)((u8 *)obj + 0x94)) = init_value;
+    delta_page = (u8 *)(-1);
+    (*(s16 *)((u8 *)obj + 0x94)) = (s32)delta_page;
     (*(s16 *)((u8 *)obj + 0x118)) = 0;
     ((S_800165B8_5 *)entity)->unk_2A = 0x400 - (((u16)D_80083228 + 0x100) & 0xE00);
     func_800BC26C(call_target, bind_count, bind_state, bind_angle);
@@ -409,8 +407,8 @@ load_entries:
 
         clear_flag_mask = 0xFFEFFFFF;
         call_target = obj;
-        init_value = 0xFF;
-        ((S_800165B8_1 *)obj)->unk_9A = init_value;
+        delta_page = (u8 *)(0xFF);
+        ((S_800165B8_1 *)obj)->unk_9A = (s32)delta_page;
         ((S_800165B8_5 *)entity)->unk_1C &= clear_flag_mask;
     }
     func_80096088(call_target, entity);
@@ -429,10 +427,10 @@ load_entries:
     ASM_KEEP_NV(settings_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     table_base = (u8 *)0x80080000;
     ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    init_value = ((S_800165B8_1 *)obj)->unk_A2;
+    delta_page = (u8 *)(((S_800165B8_1 *)obj)->unk_A2);
     table_base += 0x3160;
-    init_value |= 0x10;
-    ((S_800165B8_1 *)obj)->unk_A2 = init_value;
+    delta_page = (u8 *)(((s32)delta_page) | (0x10));
+    ((S_800165B8_1 *)obj)->unk_A2 = (s32)delta_page;
     ((S_800165B8_5 *)entity)->unk_14 |= 0x4000;
     display_page = (u8 *)0x800E0000;
     ASM_KEEP(display_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */

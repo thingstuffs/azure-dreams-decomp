@@ -56,7 +56,6 @@ extern u16 D_80083462;
 
 /* Scan up to eight tiles ahead for a valid target and update the entity action state. */
 s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *actor) {
-    register void *entity ASM_REG("$20") = actor;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *state ASM_REG("$23") = action_state;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *x_delta_table;
     register u32 initial_direction ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -77,18 +76,18 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     u16 direction;
     register u32 origin_or_direction ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ((S_80172504_0 *)entity)->unk_71 &= 0x7F;
+    ((S_80172504_0 *)actor)->unk_71 &= 0x7F;
     if (D_80083462 & 0x2000) {
         return -1;
     }
-    if (!(((S_80172504_0 *)entity)->unk_46 & 0x8000) && (D_80083462 & 8)) {
+    if (!(((S_80172504_0 *)actor)->unk_46 & 0x8000) && (D_80083462 & 8)) {
         return -1;
     }
-    if ((func_800A2B5C(entity) << 16) != 0) {
+    if ((func_800A2B5C(actor) << 16) != 0) {
         return -1;
     }
-    func_800C7930((u8 *)entity - 0x20, transfer_data, 8, 0x300);
-    check_result = func_800A2B5C(entity);
+    func_800C7930((u8 *)actor - 0x20, transfer_data, 8, 0x300);
+    check_result = func_800A2B5C(actor);
     step_count = 0;
     if ((check_result << 16) == 0) {
         goto initialize;
@@ -98,12 +97,12 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
 do {
     ((S_80172504_1 *)state)->unk_AE = 2;
     ((S_80172504_1 *)state)->unk_AC = step_count + 1;
-    ((S_80172504_0 *)entity)->unk_60 = check_result;
+    ((S_80172504_0 *)actor)->unk_60 = check_result;
     goto finish;
 
 initialize:
     x_delta_table = (u8 *)&D_8006CCD8;
-    initial_direction = (((S_80172504_0 *)entity)->unk_2A.s >> 9) & 7;
+    initial_direction = (((S_80172504_0 *)actor)->unk_2A.s >> 9) & 7;
     direction_offset = initial_direction * 2;
     origin_or_direction = (u32)origin;
     tile_x = ((S_80172504_2 *)((void *)origin_or_direction))->unk_24;
@@ -123,7 +122,7 @@ loop:
     origin_or_direction = direction;
     if ((func_800A44E0(world_x,
                        world_y,
-                       ((S_80172504_0 *)entity)->unk_88.s, origin_or_direction << 9) << 16) != 0) {
+                       ((S_80172504_0 *)actor)->unk_88.s, origin_or_direction << 9) << 16) != 0) {
         goto finish_pinned;
     }
 
@@ -132,11 +131,11 @@ loop:
     next_height = func_800BCB04(
         next_world_x,
         (((signed_y + *delta_y) << 6) + 0x20) & 0xFFE0,
-        (s16)(((S_80172504_0 *)entity)->unk_88.u - 0x20));
+        (s16)(((S_80172504_0 *)actor)->unk_88.u - 0x20));
     if (next_height >= 0x201) {
         goto finish;
     }
-    if ((u16)(next_height - ((S_80172504_0 *)entity)->unk_88.u + 0x3F) >= 0x7F) {
+    if ((u16)(next_height - ((S_80172504_0 *)actor)->unk_88.u + 0x3F) >= 0x7F) {
         goto finish;
     }
 
@@ -150,7 +149,7 @@ loop:
         step_y = (u16)(tile_y + step_y);
         if (0) {
         }
-        check_result = func_8009B4B0(entity, step_x, step_y);
+        check_result = func_8009B4B0(actor, step_x, step_y);
     }
     } while (check_result != 0);
     {
@@ -176,16 +175,16 @@ finish:
     ((S_80172504_1 *)state)->unk_9B = 0;
     ((S_80172504_1 *)state)->unk_8C = 0;
     ((S_80172504_1 *)state)->unk_96 = 8;
-    ((S_80172504_0 *)entity)->unk_84 = 0x7E;
-    ((S_80172504_0 *)entity)->unk_85 = 8;
-    func_800A4ACC(entity);
-    ((S_80172504_0 *)entity)->unk_6D--;
-    copy_dest = (u8 *)entity - 0x20;
+    ((S_80172504_0 *)actor)->unk_84 = 0x7E;
+    ((S_80172504_0 *)actor)->unk_85 = 8;
+    func_800A4ACC(actor);
+    ((S_80172504_0 *)actor)->unk_6D--;
+    copy_dest = (u8 *)actor - 0x20;
     if (((S_80172504_1 *)state)->unk_AE != 2) {
         goto copy_data;
     }
-    func_8009C93C(entity, origin, ((S_80172504_0 *)entity)->unk_2A.u,
-                  (s16)(step_count + 1), ((S_80172504_0 *)entity)->unk_60);
+    func_8009C93C(actor, origin, ((S_80172504_0 *)actor)->unk_2A.u,
+                  (s16)(step_count + 1), ((S_80172504_0 *)actor)->unk_60);
     goto done;
 
 copy_data:

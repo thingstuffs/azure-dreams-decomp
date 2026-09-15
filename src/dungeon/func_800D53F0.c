@@ -61,31 +61,31 @@ extern void func_800DBA90(WorkBlock *);
 /* Update the effect vertices, animate their color, and advance the rotation. */
 void func_800DAB50(void *effect_data) {
     WorkBlock work;
-    void *effect = effect_data;
     s32 index;
-    register s32 vertex_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 vertex_offset;
     register s32 color_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 color_value;
     s32 updated_value;
-    register s32 phase_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 phase_value;
+    s32 phase_value_2;
     s32 state;
 
     work.unk28 = 0;
     work.unk20 = 0;
-    if (((S_800DAB50_0 *)effect)->unk_08 != 0) {
+    if (((S_800DAB50_0 *)effect_data)->unk_08 != 0) {
         work.unk22 = 0x30;
-        work.unk2A = ((S_800DAB50_0 *)effect)->unk_02.s + 0x30;
+        work.unk2A = ((S_800DAB50_0 *)effect_data)->unk_02.s + 0x30;
     } else {
-        phase_value = ((S_800DAB50_0 *)effect)->unk_02.s;
+        phase_value_2 = ((S_800DAB50_0 *)effect_data)->unk_02.s;
         work.unk2A = 0x30;
-        work.unk22 = (phase_value * 2) + 0x40;
+        work.unk22 = (phase_value_2 * 2) + 0x40;
     }
     index = 0;
-    work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)effect)->unk_02.s - 0x20) << 6) >> 6);
+    work.unk24 = (s16)(func_800644B8(((s16)((S_800DAB50_0 *)effect_data)->unk_02.s - 0x20) << 6) >> 6);
     work.unk0 = &work.unk20;
     work.unk2C = 0;
     work.unk18 = 2;
-    phase_value = ((S_800DAB50_0 *)effect)->unk_0A.s;
+    phase_value = ((S_800DAB50_0 *)effect_data)->unk_0A.s;
     vertex_offset = 0x28;
     work.unk8 = 0;
     work.unk14 = 0;
@@ -93,7 +93,7 @@ void func_800DAB50(void *effect_data) {
     work.unk1A = 0;
     work.unkC = phase_value;
     do {
-        work.unk4 = (s16 *)((s8 *)effect + vertex_offset);
+        work.unk4 = (s16 *)((s8 *)effect_data + vertex_offset);
         func_800DBA90(&work);
         phase_value = work.unkC;
         do {
@@ -105,17 +105,17 @@ void func_800DAB50(void *effect_data) {
 
     index = 3;
     {
-        s16 *vertex = (s16 *)((s8 *)effect + 0x18);
+        s16 *vertex = (s16 *)((s8 *)effect_data + 0x18);
         do {
-            ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28 + ((S_800DAB50_0 *)effect)->unk_20);
-            ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A + ((S_800DAB50_0 *)effect)->unk_22);
+            ((S_800DAB50_1 *)vertex)->unk_28 = (u16)(((S_800DAB50_1 *)vertex)->unk_28 + ((S_800DAB50_0 *)effect_data)->unk_20);
+            ((S_800DAB50_1 *)vertex)->unk_2A = (u16)(((S_800DAB50_1 *)vertex)->unk_2A + ((S_800DAB50_0 *)effect_data)->unk_22);
             index -= 1;
-            ((S_800DAB50_1 *)vertex)->unk_2C = (u16)(((S_800DAB50_1 *)vertex)->unk_2C + ((S_800DAB50_0 *)effect)->unk_24);
+            ((S_800DAB50_1 *)vertex)->unk_2C = (u16)(((S_800DAB50_1 *)vertex)->unk_2C + ((S_800DAB50_0 *)effect_data)->unk_24);
             vertex -= 4;
         } while (index >= 0);
     }
 
-    state = ((S_800DAB50_0 *)effect)->unk_00.s;
+    state = ((S_800DAB50_0 *)effect_data)->unk_00.s;
     switch (state) {
     case 0: goto init_color;
     case 1: goto brighten;
@@ -125,16 +125,16 @@ void func_800DAB50(void *effect_data) {
     }
 
 init_color:
-    ((S_800DAB50_0 *)effect)->unk_10.at00.v = 0;
-    ((S_800DAB50_0 *)effect)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
-    ((S_800DAB50_0 *)effect)->unk_0C = 0x242424;
-    ((S_800DAB50_0 *)effect)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect)->unk_00.s + 1);
+    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
+    ((S_800DAB50_0 *)effect_data)->unk_04 = func_80066460(0, 1, 0x2C0, 0x100);
+    ((S_800DAB50_0 *)effect_data)->unk_0C = 0x242424;
+    ((S_800DAB50_0 *)effect_data)->unk_00.s = (s16)((u16)((S_800DAB50_0 *)effect_data)->unk_00.s + 1);
     goto brighten;
 
 brighten:
-    ((S_800DAB50_0 *)effect)->unk_10.at00.v = ((S_800DAB50_0 *)effect)->unk_10.at00.v + ((S_800DAB50_0 *)effect)->unk_0C;
+    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v + ((S_800DAB50_0 *)effect_data)->unk_0C;
     color_step = 0;
-    if (((S_800DAB50_0 *)effect)->unk_10.at03.v != 0) {
+    if (((S_800DAB50_0 *)effect_data)->unk_10.at03.v != 0) {
         phase_value = func_80066460(0, 3, 0x2C0, 0x100);
         color_value = 0xFFFFFF;
         goto advance_state;
@@ -142,55 +142,55 @@ brighten:
     goto update_angle;
 
 dim_color:
-    ((S_800DAB50_0 *)effect)->unk_10.at00.v = ((S_800DAB50_0 *)effect)->unk_10.at00.v - ((S_800DAB50_0 *)effect)->unk_0C;
+    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - ((S_800DAB50_0 *)effect_data)->unk_0C;
     color_step = 0;
-    if ((u8)((S_800DAB50_0 *)effect)->unk_10.at00.v == 0x7F) {
+    if ((u8)((S_800DAB50_0 *)effect_data)->unk_10.at00.v == 0x7F) {
         phase_value = func_80066460(0, 3, 0x2C0, 0x100);
         color_value = 0xA0A0A0;
 advance_state:
         color_step = 0x101010;
-        state = ((S_800DAB50_0 *)effect)->unk_00.u;
-        ((S_800DAB50_0 *)effect)->unk_04 = phase_value;
-        ((S_800DAB50_0 *)effect)->unk_10.at00.v = color_value;
+        state = ((S_800DAB50_0 *)effect_data)->unk_00.u;
+        ((S_800DAB50_0 *)effect_data)->unk_04 = phase_value;
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = color_value;
 
-        ((S_800DAB50_0 *)effect)->unk_0C = color_step;
+        ((S_800DAB50_0 *)effect_data)->unk_0C = color_step;
         state += 1;
-        ((S_800DAB50_0 *)effect)->unk_00.s = state;
+        ((S_800DAB50_0 *)effect_data)->unk_00.s = state;
         goto update_angle;
     }
     goto update_angle;
 
 fade_out:
-    color_step = ((S_800DAB50_0 *)effect)->unk_0C;
+    color_step = ((S_800DAB50_0 *)effect_data)->unk_0C;
     color_value = color_step;
-    updated_value = ((S_800DAB50_0 *)effect)->unk_10.at00.v - color_step;
-    ((S_800DAB50_0 *)effect)->unk_10.at00.v = updated_value;
+    updated_value = ((S_800DAB50_0 *)effect_data)->unk_10.at00.v - color_step;
+    ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = updated_value;
     if (color_value > 0x80808) {
-        ((S_800DAB50_0 *)effect)->unk_0C = color_value + 0xFFFEFEFF;
+        ((S_800DAB50_0 *)effect_data)->unk_0C = color_value + 0xFFFEFEFF;
     }
-    if (((S_800DAB50_0 *)effect)->unk_10.at00.v < 0) {
-        ((S_800DAB50_0 *)effect)->unk_10.at00.v = 0;
-        ((S_800DAB50_0_pre *)effect)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect)[-1].unk_00 | 0x8000);
+    if (((S_800DAB50_0 *)effect_data)->unk_10.at00.v < 0) {
+        ((S_800DAB50_0 *)effect_data)->unk_10.at00.v = 0;
+        ((S_800DAB50_0_pre *)effect_data)[-1].unk_00 = (u16)(((S_800DAB50_0_pre *)effect_data)[-1].unk_00 | 0x8000);
         D_800814A0[0] |= 0x8000;
     }
 
     ASM_USE_NV(color_step); /* MATCH: keep a0 live so the subtraction uses a0 after the a1 copy. */
 
 update_angle:
-    phase_value = ((S_800DAB50_0 *)effect)->unk_02.u;
+    phase_value = ((S_800DAB50_0 *)effect_data)->unk_02.u;
     phase_value <<= 0x10;
     updated_value = phase_value >> 0xE;
     phase_value >>= 0x11;
     index = updated_value + phase_value;
-    phase_value = ((S_800DAB50_0 *)effect)->unk_08;
-    updated_value = ((S_800DAB50_0 *)effect)->unk_0A.u;
+    phase_value = ((S_800DAB50_0 *)effect_data)->unk_08;
+    updated_value = ((S_800DAB50_0 *)effect_data)->unk_0A.u;
     if (phase_value == 0) {
         updated_value -= index;
     } else {
         updated_value += index;
 
     }
-    phase_value = ((S_800DAB50_0 *)effect)->unk_02.u;
-    ((S_800DAB50_0 *)effect)->unk_0A.s = updated_value;
-    ((S_800DAB50_0 *)effect)->unk_02.s = phase_value - 1;
+    ((S_800DAB50_0 *)effect_data)->unk_0A.s = updated_value;
+    phase_value = ((S_800DAB50_0 *)effect_data)->unk_02.u;
+    ((S_800DAB50_0 *)effect_data)->unk_02.s = phase_value - 1;
 }

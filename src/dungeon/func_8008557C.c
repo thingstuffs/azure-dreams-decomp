@@ -144,7 +144,6 @@ void func_8008ACDC(void *actor, void *motion_raw, void *sprite_raw, void *stats_
     u16 *flags_page;
     s32 input_flags;
     s32 slot_addr;
-    register void *action_target ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *selected_target;
     u8 mode_cmd;
     u8 spell_cmd;
@@ -352,7 +351,7 @@ finish_command:
                         call_motion = motion;
                         call_sprite = sprite;
                         angle_bits = (s32)(((S_8008ACDC_6 *)command)->unk_00);
-                        action_target = selected_target;
+                        target = selected_target;
                         angle_bits = (s32)(((u32)angle_bits) & (0x60));
                         angle_bits = (s32)(((u32)angle_bits) >> (5));
                         goto apply_target_action;
@@ -363,11 +362,11 @@ finish_command:
                         slot_addr = (u32)angle_bits << 2;
                         slot_addr = slot_addr + (s32) call_actor;
                         do {
-                            action_target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
+                            target = (void *) ((S_8008ACDC_8 *)((void *) slot_addr))->unk_D0;
                         } while (0);
                         call_sprite = sprite;
 apply_target_action:
-                        func_80094270(call_actor, call_motion, call_sprite, action_target, (u32)angle_bits);
+                        func_80094270(call_actor, call_motion, call_sprite, target, (u32)angle_bits);
                         goto epilogue;
                     case 0x70:
                         mode_cmd = ((S_8008ACDC_6 *)command)->unk_00;

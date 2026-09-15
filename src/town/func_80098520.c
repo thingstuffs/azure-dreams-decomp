@@ -140,7 +140,8 @@ void func_80095C80(S_80095C80_1 *position) {
                     if (x_offset == 0) {
                         goto resolve_y;
                     }
-                    goto resolve_x;
+                    func_800961A8(position);
+                    goto done;
                 }
                 goto check_pos_xy_corner;
             }
@@ -160,7 +161,8 @@ check_pos_xy_corner:
             pos_xy_test = position->unk_00.at00.v < (func_80095BC0(&probe, y_step_or_side) << 0x10);
             pos_xy_test ^= 1;
             if (pos_xy_test != 0) {
-                goto resolve_x;
+                func_800961A8(position);
+                goto done;
             }
             goto resolve_y;
         }
@@ -185,7 +187,8 @@ check_pos_xy_corner:
                     axis_test &= 0x3F;
                     x_offset = x_offset < axis_test;
                     if (x_offset != 0) {
-                        goto resolve_x;
+                        func_800961A8(position);
+                        goto done;
                     }
                     goto resolve_y;
                 }
@@ -205,11 +208,12 @@ check_pos_x_neg_y_corner:
             probe.y = pos_x_neg_y_y - pos_x_neg_y_test;
             probe.z = position->unk_08 - pos_x_neg_y_test;
             pos_x_neg_y_test = position->unk_00.at00.v >= (func_80095BC0(&probe, y_step_or_side) << 0x10);
-            ASM_KEEP_NV(pos_x_neg_y_test);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             if (pos_x_neg_y_test != 0) {
-                goto resolve_x;
+                func_800961A8(position);
+                goto done;
+            } else {
+                goto resolve_y;
             }
-            goto resolve_y;
         }
         goto load_neg_x_motion;
     }
@@ -220,11 +224,11 @@ load_neg_x_motion:
 check_neg_x:
         motion_or_hit = (unsigned long)((s8 *)motion_page - 0x1A40);
         {
+            register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C >= 0) {
                 goto check_single_axis;
             }
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 > 0) {
-                register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 s32 y_test;
                 probe.x = position->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
                 probe.y = position->unk_04.at00.v;
@@ -255,7 +259,8 @@ check_neg_x:
                         axis_test &= 0x3F;
                         y_offset &= 0x3F;
                         if (axis_test < y_offset) {
-                            goto resolve_x;
+                            func_800961A8(position);
+                            goto done;
                         }
                         goto resolve_y;
                     }
@@ -277,12 +282,12 @@ check_neg_x_pos_y_corner:
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) < position->unk_00.at00.v;
                 axis_test ^= 1;
                 if (axis_test != 0) {
-                    goto resolve_x;
+                    func_800961A8(position);
+                    goto done;
                 }
                 goto resolve_y;
             }
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_10 < 0) {
-                register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 probe.x = position->unk_00.at00.v - ((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C;
                 probe.y = position->unk_04.at00.v;
                 probe.z = position->unk_08;
@@ -315,7 +320,8 @@ check_neg_x_pos_y_corner:
                         if (axis_test < y_offset) {
                             goto apply_y;
                         }
-                        goto resolve_x;
+                        func_800961A8(position);
+                        goto done;
                     }
                     goto check_neg_xy_corner;
                 }
@@ -333,9 +339,9 @@ check_neg_xy_corner:
                 probe.y = neg_xy_y - probe_coord;
                 probe.z = position->unk_08 - probe_coord;
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) >= position->unk_00.at00.v;
-                ASM_KEEP_NV(axis_test);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 if (axis_test != 0) {
-                    goto resolve_x;
+                    func_800961A8(position);
+                    goto done;
                 }
                 goto resolve_y;
             }

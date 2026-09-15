@@ -91,6 +91,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
     s32 height_step;
     s32 trig_value;
     u32 input;
+    register u8 *height_addr ASM_REG("$3");
 
     ASM_KEEP_NV(render);
     controls_page = (u8 *)0x80080000;
@@ -137,7 +138,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             if (work->mode != 2) {
                 u8 *height_base;
                 Entity *entity;
-                register u8 *height_addr ASM_REG("$3");
                 s32 target_height;
                 height_base = (u8 *)work->node;
                 entity = ((Node *)height_base)->entity;
@@ -213,14 +213,13 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
 
         input = *(u32 *)(controls + 0x10);
         if (input & 0x20) {
-            register u8 *counter_page ASM_REG("$3");
             if (work->mode != 0) {
                 goto finish;
             }
-            counter_page = (u8 *)0x80080000;
-            ASM_KEEP_NV(counter_page);
-            counter_page += 0x3460;
-            counter_base = counter_page;
+            height_addr = (u8 *)0x80080000;
+            ASM_KEEP_NV(height_addr);
+            height_addr += 0x3460;
+            counter_base = height_addr;
             goto decrement_counter;
         }
         if (input & 0x40) {

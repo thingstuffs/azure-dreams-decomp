@@ -79,6 +79,7 @@ s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_til
     world_x = (tile_x << 6) | 0x20;
     world_y = (tile_y << 6) | 0x20;
     if ((max_steps << 0x10) > 0) {
+        register u16 *tile_dx_reload ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         direction = direction_index;
         tile_dx_base = (s32)D_8006CCD8;
         direction_offset = direction << 1;
@@ -92,7 +93,6 @@ check_tile:
             goto blocked;
         }
         {
-            register u16 *tile_dx_reload ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             tile_dx_reload = tile_dx_ptr;
             ASM_KEEP_NV(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -100,12 +100,11 @@ check_tile:
         }
         tile_y += *(u16 *)((u8 *)D_8006CCE8 + direction_offset);
         if (tile_info[0] & 0x3300) {
-            register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
                 S_8009AF18_1 *world;
 
-                page = (u8 *)D_800E0000;
-                world = *(void **)(page + 0x3D7C);
+                tile_dx_reload = (u16 *)((u8 *)D_800E0000);
+                world = *(void **)((u8 *)tile_dx_reload + 0x3D7C);
                 occupant = func_8009B25C(world, tile_x & 0xFFFF, tile_y & 0xFFFF, world->unk_88);
             }
             if (occupant != NULL) {
@@ -113,8 +112,8 @@ check_tile:
                     if (!(occupant->unk_1C & 0x228)) {
                         {
 
-                            page = (u8 *)((u8 *)&D_800E3D7C - 15740);
-                            if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124))->unk_13 < 0) {
+                            tile_dx_reload = (u16 *)((u8 *)((u8 *)&D_800E3D7C - 15740));
+                            if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)((u8 *)tile_dx_reload + 0x3D7C)))->unk_124))->unk_13 < 0) {
                                 D_800DD7DC = 1;
                                 occupant->unk_14 |= 0x800000;
                                 goto done;

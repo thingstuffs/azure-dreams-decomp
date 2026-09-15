@@ -84,7 +84,7 @@ extern void func_800BB044(void *);
 void func_801728E4(void *action, void *item, void *sprite, void *actor)
 {
     u8 state;
-    register s32 use_global_source ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 use_global_source;
     u16 action_flags;
     s32 item_kind;
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
@@ -150,11 +150,10 @@ HaveSource:
     }
 
     {
-        s32 global_source_test;
+        s16 global_source_test;
 
         ((S_801728E4_0 *)action)->unk_98 &= 0xFF7F;
         global_source_test = use_global_source;
-        ASM_KEEP(global_source_test);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         if (global_source_test) {
             source_entity = D_800814A8;
             ((S_801728E4_1 *)actor)->unk_60 = source_entity;
@@ -201,7 +200,8 @@ CallUpdate:
         return;
     }
     func_800BB044(actor);
-    goto AdvanceState;
+    ((S_801728E4_0 *)action)->unk_9B++;
+    return;
 
 L1:
     if (func_8003F270()) {
@@ -220,7 +220,8 @@ L2:
         *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
                 (uptr)D_80176648),
         0);
-    goto AdvanceState;
+    ((S_801728E4_0 *)action)->unk_9B++;
+    return;
 
 L3:
     if (((S_801728E4_4 *)sprite)->unk_04 == 6 && (((S_801728E4_4 *)sprite)->unk_14 & 0x1000)) {

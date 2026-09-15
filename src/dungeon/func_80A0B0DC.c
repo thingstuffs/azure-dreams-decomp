@@ -219,7 +219,7 @@ flags_done:
 
     do {
         void *child;
-        register void *new_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         child = func_8003FD64(0x112, D_80083498);
         allocated = child;
@@ -240,7 +240,6 @@ flags_done:
                 outer_base = outer;
             } while (0);
             {
-                register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 table_page = (u8 *)0x80160000;
                 ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -287,9 +286,9 @@ flags_done:
                     func_800478E8(call_part, call_data, call_one);
                 }
                 address_or_count = (uptr)stack.root;
-                new_link = (u8 *)address_or_count + 0x1E;
+                table_page = (u8 *)((u8 *)address_or_count + 0x1E);
                 more_items = item_index < ((S_801588DC_6 *)entry)->unk_02;
-                ((S_801588DC_6 *)entry)->unk_98 = new_link;
+                ((S_801588DC_6 *)entry)->unk_98 = (void *)table_page;
             } while (more_items);
         }
         outer = (u8 *)outer + 4;
@@ -300,8 +299,8 @@ flags_done:
             child_count = ((S_801588DC_4 *)stable_object)->unk_9E;
             address_or_count++;
             stack.outer_index = (s32)address_or_count;
-            new_link = (void *)((s32)address_or_count < child_count);
-            if (!(s32)new_link) {
+            table_page = (u8 *)((void *)((s32)address_or_count < child_count));
+            if (!(s32)(void *)table_page) {
                 break;
             }
         }

@@ -87,6 +87,7 @@ void func_80173CD4(void *action_in, void *context_in, void *sprite_in, void *act
     void *sprite = sprite_in;
     void *actor;
     u8 *world_state;
+    register u8 *world_counters_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80173CD4_0 *)action)->unk_9B;
     actor = actor_in;
@@ -228,8 +229,8 @@ animate:
         }
 
         {
-            register u8 *world_counters ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_80173CD4_3 *)world_counters)->unk_0A++;
+            world_counters_m = (u8 *)&D_80083460;
+            ((S_80173CD4_3 *)world_counters_m)->unk_0A++;
         }
     }
 
@@ -239,10 +240,9 @@ increment_state:
 
 state_two:
     if (((S_80173CD4_1 *)sprite)->unk_14 & 0xE000) {
-        register u8 *world_counters ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        world_counters = (u8 *)&D_80083460;
-        ((S_80173CD4_3 *)world_counters)->unk_0A--;
+        world_counters_m = (u8 *)&D_80083460;
+        ((S_80173CD4_3 *)world_counters_m)->unk_0A--;
         goto set_pointer;
     }
     goto done;

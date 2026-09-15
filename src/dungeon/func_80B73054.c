@@ -70,7 +70,6 @@ void *func_80B73054(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
     s8 saved_x;
     s16 saved_value;
     s8 saved_y;
-    void *init_obj;
     void *saved_part;
 
     work = 0;
@@ -110,13 +109,12 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        init_obj = obj;
+        saved_part = obj;
         if (((spawn_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 saved_part = part_a;
-                ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 state_bits = func_800A6D30();
-                init_obj = obj;
+                saved_part = obj;
                 if (!(state_bits & 1)) {
                     goto init_parts;
                 }
@@ -130,9 +128,9 @@ normal_kind:
         goto init_parts;
 
 post_kind:
-        init_obj = obj;
+        saved_part = obj;
 init_parts:
-        func_800A9C18(init_obj, part_a, part_b, spawn_flags);
+        func_800A9C18(saved_part, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8016AE5C;

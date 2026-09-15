@@ -22,15 +22,15 @@ s32 func_80024C14(void *effect_data) {
     register u8 *next_effect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     do {
-        register u8 *color_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u8 *effect_cursor ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register void **render_globals_m ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register u32 *seed_colors ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         effect = (u8 *)effect_data;
         ASM_KEEP_MEMDEP(effect, frame_scratch, effect_data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         {
             s32 seed_index = 7;
             u32 *seed_color;
-            register u32 *seed_colors ASM_REG("$8") = (u32 *)0x1f800000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            seed_colors = (u32 *)0x1f800000;
 
             ASM_KEEP_NV(seed_colors);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             seed_color = seed_colors + 7;
@@ -90,8 +90,8 @@ s32 func_80024C14(void *effect_data) {
                         color_column = (u8 *)(column << 2);
                         column++;
                         faded_shade >>= 5;
-                        color_base = (u8 *)0x1f800000;
-                        color_column = (u8 *)((u32)color_column + (u32)color_base);
+                        seed_colors = (u32 *)((u8 *)0x1f800000);
+                        color_column = (u8 *)((u32)color_column + (u32)(u8 *)seed_colors);
                         depth_cue = faded_shade;
                         *(volatile u32 *)(row_offset + (u32)color_column) =
                             faded_shade + (faded_shade << 8) + (faded_shade << 16);
@@ -104,8 +104,8 @@ s32 func_80024C14(void *effect_data) {
             s32 age = *(s16 *)(effect + 0x48);
             register s32 first_cell ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register s32 row ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 row_limit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             u32 start_radius;
+            register u8 *screen_vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             if (age < 7) {
                 start_radius = 7;
@@ -115,12 +115,12 @@ s32 func_80024C14(void *effect_data) {
             }
             {
                 row = first_cell;
-                color_base = (u8 *)(15);
-                row_limit = (s32)color_base - row;
+                seed_colors = (u32 *)((u8 *)(15));
+                screen_vertex = (u8 *)((s32)(u8 *)seed_colors - row);
             }
 
-            if (row < row_limit) {
-                volatile s32 saved_row_limit = row_limit;
+            if (row < (s32)screen_vertex) {
+                volatile s32 saved_row_limit = (s32)screen_vertex;
                 do {
                     register s32 draw_row ASM_REG("$8") = 1;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     register s32 column ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -168,7 +168,6 @@ s32 func_80024C14(void *effect_data) {
 
                             {
                                 s32 screen_column_offset = column << 6;
-                                register u8 *screen_vertex ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
                                 screen_vertex = (u8 *)(screen_column_offset + (u32)screen_grid - 32);
                                 ASM_KEEP_NV(screen_vertex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -220,9 +219,9 @@ s32 func_80024C14(void *effect_data) {
                             }
                         } if (column < column_limit && (color_column += 4, 1)) goto quad_loop;
                     }
-                    color_base = (u8 *)(saved_row_limit);
+                    seed_colors = (u32 *)((u8 *)(saved_row_limit));
                     row++;
-                    start_radius = row < (s32)color_base;
+                    start_radius = row < (s32)(u8 *)seed_colors;
                 } while (start_radius);
             }
         }
@@ -235,11 +234,11 @@ s32 func_80024C14(void *effect_data) {
                 s32 zero_arg = 0;
                 s32 blend_mode = 2;
                 u8 *packet_pool;
-                register void **render_globals ASM_REG("$8") = D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                render_globals_m = D_80083160;
                 ASM_KEEP_NV(zero_arg);
                 ASM_KEEP_NV(blend_mode);
-                ASM_KEEP_NV(render_globals);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                packet_pool = (u8 *)render_globals[0];
+                ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                packet_pool = (u8 *)render_globals_m[0];
                 draw_mode = *(u8 **)(packet_pool + 0x8d0);
 
                 *(u8 **)(packet_pool + 0x8d0) = draw_mode + 12;
@@ -257,15 +256,15 @@ s32 func_80024C14(void *effect_data) {
             {
                 u8 *order_head;
                 u32 packet_tag;
-                register void **render_globals ASM_REG("$8") = D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(render_globals);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                order_head = (u8 *)render_globals[0];
+                render_globals_m = D_80083160;
+                ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                order_head = (u8 *)render_globals_m[0];
                 ASM_KEEP_NV(order_head);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 packet_tag = *(u32 *)draw_mode;
                 ASM_KEEP_NV(packet_tag);
                 {
-                    effect_cursor = (u8 *)(0xff000000);
-                    packet_tag &= (u32)effect_cursor;
+                    render_globals_m = (void **)((u8 *)(0xff000000));
+                    packet_tag &= (u32)(u8 *)render_globals_m;
                 }
                 {
                     register void **link_globals ASM_REG("$8") =
@@ -289,8 +288,8 @@ s32 func_80024C14(void *effect_data) {
         }
 
         {
-            effect_cursor = (u8 *)effect_data;
-            next_effect = *(u8 **)(effect_cursor - 8);
+            render_globals_m = (void **)((u8 *)effect_data);
+            next_effect = *(u8 **)((u8 *)render_globals_m - 8);
         }
     } while (next_effect != 0 && (effect_data = next_effect + 32, 1));
 

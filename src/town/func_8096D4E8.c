@@ -40,7 +40,6 @@ extern u8 D_80127B64[16];
 /* Updates numbered slots and sprite display fields according to the object state. */
 void func_80125980(TownObject *object)
 {
-    register TownObject *obj ASM_REG("$18") = object;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 slot_base;
     s32 entry_id;
     s32 slot_index;
@@ -51,7 +50,7 @@ void func_80125980(TownObject *object)
     SpriteFields *source_sprite;
     SpriteFields *hidden_sprite;
 
-    state = obj->state;
+    state = ((TownObject *)(object))->state;
     if (state == 2) {
         goto state_2;
     }
@@ -67,34 +66,34 @@ void func_80125980(TownObject *object)
     goto end;
 
 state_1:
-    column = obj->column;
-    row_offset = obj->row << 3;
+    column = ((TownObject *)(object))->column;
+    row_offset = ((TownObject *)(object))->row << 3;
     slot_base = (row_offset + column) * 3;
     slot_index = slot_base + 33;
-    entry_id = (obj->digit << 4) + row_offset + column;
+    entry_id = (((TownObject *)(object))->digit << 4) + row_offset + column;
     if (func_80123200((u8)entry_id) != 0) {
-        *obj->town->slots[slot_index] = D_80127B64;
+        *((TownObject *)(object))->town->slots[slot_index] = D_80127B64;
         slot_index = slot_base + 34;
-        *obj->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];
+        *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) / 10];
         slot_index = slot_base + 35;
-        *obj->town->slots[slot_index] = D_801269D0[(entry_id + 1) % 10];
+        *((TownObject *)(object))->town->slots[slot_index] = D_801269D0[(entry_id + 1) % 10];
     }
     goto common;
 
 state_2:
-    hidden_sprite = obj->town->display->src;
+    hidden_sprite = ((TownObject *)(object))->town->display->src;
     hidden_sprite->f6 = 0;
     hidden_sprite->f4 = 0;
     goto end;
 
 state_3:
-    obj->town->display->src->f8 = D_80126B20[obj->row];
-    obj->town->display->src->fA = D_80126B24[obj->index];
+    ((TownObject *)(object))->town->display->src->f8 = D_80126B20[((TownObject *)(object))->row];
+    ((TownObject *)(object))->town->display->src->fA = D_80126B24[((TownObject *)(object))->index];
 
 common:
-    obj->town->display->dst->f6 = obj->town->display->src->f8;
-    obj->town->display->dst->f8 = obj->town->display->src->fA;
-    source_sprite = obj->town->display->src;
+    ((TownObject *)(object))->town->display->dst->f6 = ((TownObject *)(object))->town->display->src->f8;
+    ((TownObject *)(object))->town->display->dst->f8 = ((TownObject *)(object))->town->display->src->fA;
+    source_sprite = ((TownObject *)(object))->town->display->src;
     source_sprite->f6 = 0x800;
     source_sprite->f4 = 0x800;
 

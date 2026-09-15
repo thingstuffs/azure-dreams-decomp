@@ -65,13 +65,12 @@ void func_8003CCB0(s32 blend_step)
         D_80080AAC = D_80080AAC + 1;
         sprite_key[1] = 0;
         do {
-            register u8 *sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             sprite_key[0] = *(u8 *)(sprite_index + (u32)sprite_ids);
-            sprite = (u8 *)func_8004E298(sprite_slot, sprite_key, 0);
-            S8_AT(sprite, 3) = origin_offset;
-            S8_AT(sprite, 2) = origin_offset;
+            first_sprite = (u8 *)func_8004E298(sprite_slot, sprite_key, 0);
+            S8_AT(first_sprite, 3) = origin_offset;
+            S8_AT(first_sprite, 2) = origin_offset;
             if (sprite_index == 0) {
-                D_80080AB0 = sprite;
+                D_80080AB0 = first_sprite;
             }
             sprite_index++;
             sprite_slot += 0xC;

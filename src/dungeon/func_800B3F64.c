@@ -12,8 +12,6 @@ extern void func_800478B8(void *, void *, void *);
 
 /* Updates a target marker's position, scale, color, and rotation. */
 void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
-    void *position = position_arg;
-    register void *marker ASM_REG("$17") = marker_arg;
     void *target;
     void *target_pos;
 
@@ -34,25 +32,25 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
             D_800DF364[0] = fallback_target;
             F(state, u16, 0xC) = phase + 1;
         }
-        if (F(marker, u16, 0x1C) < 0x1000) {
-            u16 next_scale = F(marker, u16, 0x1E) + 0x200;
-            F(marker, u16, 0x1E) = next_scale;
-            F(marker, u16, 0x1C) = next_scale;
+        if (F(marker_arg, u16, 0x1C) < 0x1000) {
+            u16 next_scale = F(marker_arg, u16, 0x1E) + 0x200;
+            F(marker_arg, u16, 0x1E) = next_scale;
+            F(marker_arg, u16, 0x1C) = next_scale;
             if (next_scale >= 0x1001) {
-                F(marker, u16, 0x1E) = 0x1000;
-                F(marker, u16, 0x1C) = 0x1000;
+                F(marker_arg, u16, 0x1E) = 0x1000;
+                F(marker_arg, u16, 0x1C) = 0x1000;
             }
         }
     } else {
         s16 frames_left = F(state, s16, 0xE);
         if (frames_left != 0) {
-            u16 scale = F(marker, u16, 0x1E);
+            u16 scale = F(marker_arg, u16, 0x1E);
             u16 next_scale = (u16)((s32)scale - (s32)scale / frames_left);
-            F(marker, u16, 0x1E) = next_scale;
-            F(marker, u16, 0x1C) = next_scale;
+            F(marker_arg, u16, 0x1E) = next_scale;
+            F(marker_arg, u16, 0x1C) = next_scale;
         } else {
-            F(marker, u16, 0x1E) = 0;
-            F(marker, u16, 0x1C) = 0;
+            F(marker_arg, u16, 0x1E) = 0;
+            F(marker_arg, u16, 0x1C) = 0;
         }
     }
 
@@ -67,22 +65,22 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
             ASM_SCHED_BARRIER();
             color = 0x801010;
         }
-        F(marker, s32, 0xC) = color;
+        F(marker_arg, s32, 0xC) = color;
     }
     target = D_800DF364[0];
     target_pos = F((char *)target - 0x18, void *, 0);
     if (F(state, s16, 0xE) != 0) {
-        F(position, s32, 0) = F(position, s32, 0) + (F(target_pos, s32, 0) - F(position, s32, 0)) / F(state, s16, 0xE);
-        F(position, s32, 4) = F(position, s32, 4) + (F(target_pos, s32, 4) - F(position, s32, 4)) / F(state, s16, 0xE);
-        F(position, s32, 8) = F(position, s32, 8) + (((s32)(F(target, s16, 0x88) - F(position, s16, 0xA))) << 16) / F(state, s16, 0xE);
+        F(((void *)(position_arg)), s32, 0) = F(((void *)(position_arg)), s32, 0) + (F(target_pos, s32, 0) - F(((void *)(position_arg)), s32, 0)) / F(state, s16, 0xE);
+        F(((void *)(position_arg)), s32, 4) = F(((void *)(position_arg)), s32, 4) + (F(target_pos, s32, 4) - F(((void *)(position_arg)), s32, 4)) / F(state, s16, 0xE);
+        F(((void *)(position_arg)), s32, 8) = F(((void *)(position_arg)), s32, 8) + (((s32)(F(target, s16, 0x88) - F(((void *)(position_arg)), s16, 0xA))) << 16) / F(state, s16, 0xE);
         {
             s16 frames_left = F(state, u16, 0xE) - 1;
             F(state, u16, 0xE) = frames_left;
             if (frames_left == 0) {
                 if (F(state, s16, 0xC) == 0) {
-                    F(position, u16, 2) = F(target_pos, u16, 2);
-                    F(position, u16, 6) = F(target_pos, u16, 6);
-                    F(position, u16, 0xA) = F(target, u16, 0x88);
+                    F(((void *)(position_arg)), u16, 2) = F(target_pos, u16, 2);
+                    F(((void *)(position_arg)), u16, 6) = F(target_pos, u16, 6);
+                    F(((void *)(position_arg)), u16, 0xA) = F(target, u16, 0x88);
                 } else {
                     F(state, u16, -2) = F(state, u16, -2) | 0x8000;
                     D_8008346C[0] = 0;
@@ -91,6 +89,6 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
             }
         }
     }
-    F(marker, u16, 0x1A) = F(marker, u16, 0x1A) + 0x40;
-    func_800478B8(marker, target_pos, target);
+    F(marker_arg, u16, 0x1A) = F(marker_arg, u16, 0x1A) + 0x40;
+    func_800478B8(marker_arg, target_pos, target);
 }

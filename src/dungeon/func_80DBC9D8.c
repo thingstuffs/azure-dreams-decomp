@@ -82,6 +82,7 @@ void func_801741D8(void *controller_in, void *context_in, void *sprite_in, void 
     state = ((S_801741D8_0 *)controller)->unk_9B;
     actor = actor_in;
     switch (state) {
+        register u8 *counter_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     case 0:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
             u8 *counter;
@@ -184,8 +185,8 @@ set_effect:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0x8000) {
             goto set_owner;
         } else {
-            register u8 *counter ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            ((S_801741D8_3 *)counter)->unk_0A++;
+            counter_m = (u8 *)&D_80083460;
+            ((S_801741D8_3 *)counter_m)->unk_0A++;
         }
 
 increment_state:
@@ -194,8 +195,8 @@ increment_state:
 
     case 2:
         if (((S_801741D8_1 *)sprite)->unk_14 & 0xE000) {
-            register u8 *counter ASM_REG("$2") = (u8 *)&D_80083460;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            ((S_801741D8_3 *)counter)->unk_0A--;
+            counter_m = (u8 *)&D_80083460;
+            ((S_801741D8_3 *)counter_m)->unk_0A--;
 set_owner:
             ((S_801741D8_0 *)controller)->unk_8C = D_80171E20;
         }

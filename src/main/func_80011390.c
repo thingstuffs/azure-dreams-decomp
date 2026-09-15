@@ -81,11 +81,10 @@ void func_80024390(void *arg0) {
     u8 sp10[256];
     u8 sp110[16];
     s32 var_a3;
-    register s32 *var_a2 ASM_REG("$6"); /* MATCH: Keep the table cursor in retail's a2 after removing the label call. */
+    s32 *var_a2;
     s32 temp_s0_5;
     s32 temp_s4;
     s32 temp_s5;
-    s32 var_a0;
     s32 var_a0_3;
     u32 temp_v1;
     u32 var_a0_2;
@@ -105,7 +104,7 @@ void func_80024390(void *arg0) {
     S_80024390_2 *table_base;
     S_80024390_1 *temp_s3;
     void *temp_v0;
-    register void *var_a1 ASM_REG("$5"); /* MATCH: Keep the object cursor in retail's a1 so the loop count uses a0. */
+    void *var_a1;
     s32 *global_table;
 
     temp_s3 = ((S_80024390_0 *)arg0)->unk_B4C;
@@ -152,11 +151,11 @@ void func_80024390(void *arg0) {
     temp_s5 = temp_hi;
     temp_s3 = ((S_80024390_0 *)arg0)->unk_B5C;
     temp_s4 = temp_s5 / 3600;
-    var_a0 = 0x3E7;
+    var_a0_3 = 0x3E7;
     if (temp_s4 < 0x3E8) {
-        var_a0 = temp_s4;
+        var_a0_3 = temp_s4;
     }
-    func_8004E5A0(var_a0, 3, &sp10);
+    func_8004E5A0(var_a0_3, 3, &sp10);
     func_80069E38(&sp10, D_800200A4);
     temp_s0_5 = temp_s5 / 60;
     func_8004E5E8(temp_s0_5 - (temp_s4 * 0x3C), 2, &sp110);
@@ -205,11 +204,10 @@ loop_7:
     temp_v0 = (void *)((u32)temp_v0 + (u32)loop_base);
     if (((S_80024390_3 *)temp_v0)->unk_30 & (one << var_a0_3)) {
         temp_v1 = *(volatile s32 *)var_a2;
-        var_a2 += 1;
     } else {
         temp_v1 = global_table[8];
-        var_a2 += 1;
     }
+    var_a2 += 1;
     var_a1 += 4;
     var_a0_3 += 1;
     temp_s3->unk_00.u = (s32) temp_v1;

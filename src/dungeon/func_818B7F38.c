@@ -141,7 +141,6 @@ typedef struct LocalFrame {
 /* Advance movement toward a target or a reachable tile, then finish the timed action. */
 void func_80025738(void *state, void *motion_in, void *render) {
     static void *const state_labels[] = { &&phase_init, &&phase_aim, &&phase_move_target, &&phase_wait_short, &&phase_wait_long, &&phase_finish, &&phase_move_path };
-    register void *motion ASM_REG("$21") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     LocalFrame frame;
     u16 *target_delta_cursor;
     u16 *path_delta_cursor;
@@ -226,18 +225,18 @@ phase_aim:
     }
 copy_source_position:
     source_position = ((S_80025738_3 *)source_header)->unk_08;
-    ((S_80025738_5 *)motion)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
-    ((S_80025738_5 *)motion)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
+    ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
+    ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
     source_z = ((S_80025738_6 *)source_position)->unk_0A;
-    ((S_80025738_5 *)motion)->unk_08.at02.v = source_z;
+    ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z;
     if (((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000) {
         goto lower_source_z;
     }
-    ((S_80025738_5 *)motion)->unk_00.at02.v = (u16) (((S_80025738_5 *)motion)->unk_00.at02.v + frame.delta[0]);
-    ((S_80025738_5 *)motion)->unk_04.at02.v = (u16) (((S_80025738_5 *)motion)->unk_04.at02.v + frame.delta[1]);
+    ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_00.at02.v + frame.delta[0]);
+    ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) (((S_80025738_5 *)motion_in)->unk_04.at02.v + frame.delta[1]);
        /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    base_z = ((S_80025738_5 *)motion)->unk_08.at02.v;
-    ((S_80025738_5 *)motion)->unk_08.at02.v = base_z + frame.delta[2];
+    base_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v;
+    ((S_80025738_5 *)motion_in)->unk_08.at02.v = base_z + frame.delta[2];
     if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
         goto clear_update_flag;
     }
@@ -249,14 +248,14 @@ copy_source_position:
     ((S_80025738_0 *)state)->unk_18 = target;
     destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
     target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
-    target_dx -= ((S_80025738_5 *)motion)->unk_00.at02u.v;
+    target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
     if (target_dx >= 0) {
         goto store_target_dx;
     }
     target_dx = 0 - target_dx;
     goto store_target_dx;
 lower_source_z:
-    ((S_80025738_5 *)motion)->unk_08.at02.v = source_z - 0x40;
+    ((S_80025738_5 *)motion_in)->unk_08.at02.v = source_z - 0x40;
     if (!(*((S_80025738_0 *)state)->unk_04 & 0x80)) {
         goto clear_update_flag;
     }
@@ -268,7 +267,7 @@ lower_source_z:
     ((S_80025738_0 *)state)->unk_18 = target;
     destination = ((S_80025738_14_pre *)(((S_80025738_1 *)owner)->unk_60))[-1].unk_00;
     target_dx = ((S_80025738_7 *)destination)->unk_00.at02.v;
-    target_dx -= ((S_80025738_5 *)motion)->unk_00.at02u.v;
+    target_dx -= ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
     if (target_dx >= 0) {
         goto store_target_dx;
     }
@@ -276,7 +275,7 @@ lower_source_z:
 store_target_dx:
     frame.delta[0] = (u16) target_dx;
     target_dy = ((S_80025738_7 *)destination)->unk_04.at02.v;
-    target_dy -= ((S_80025738_5 *)motion)->unk_04.at02u.v;
+    target_dy -= ((S_80025738_5 *)motion_in)->unk_04.at02u.v;
     if (target_dy >= 0) {
         goto store_target_dy;
     }
@@ -284,7 +283,7 @@ store_target_dx:
 store_target_dy:
     frame.delta[1] = (u16) target_dy;
     target = ((S_80025738_1 *)owner)->unk_60;
-    current_z = ((S_80025738_5 *)motion)->unk_08.at02u.v;
+    current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
     target_dz = ((S_80025738_8 *)target)->unk_88;
     target_dz -= current_z;
     target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
@@ -311,10 +310,10 @@ next_target_axis:
     }
     ((S_80025738_0 *)state)->unk_12 = 1;
 set_target_velocity:
-    ((S_80025738_5 *)motion)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v - ((S_80025738_5 *)motion)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-    ((S_80025738_5 *)motion)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v - ((S_80025738_5 *)motion)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-    ((S_80025738_5 *)motion)->unk_14 = (s32) ((s32) ((((S_80025738_14 *)(((S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10) - ((S_80025738_5 *)motion)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-    func_800253D0(state, motion);
+    ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+    ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+    ((S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) ((((S_80025738_14 *)(((S_80025738_1 *)owner)->unk_60))->unk_88 << 0x10) - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+    func_800253D0(state, motion_in);
     next_phase = (u16) ((S_80025738_0 *)state)->unk_0A + 1;
     goto set_phase;
 scan_path:
@@ -401,9 +400,9 @@ build_path_endpoint:
     end_y = world_y + ((offset_y + 1) << 5);
     ((S_80025738_7 *)destination)->unk_04.at02.v = end_y;
     end_y_signed = (s32) ((u16) end_y << 0x10);
-    end_z = ((S_80025738_5 *)motion)->unk_08.at02.v + 0x20;
+    end_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v + 0x20;
     ((S_80025738_7 *)destination)->unk_08.at02.v = end_z;
-    phase = ((S_80025738_5 *)motion)->unk_00.at02u.v;
+    phase = ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     end_y_signed >>= 0x10;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -415,7 +414,7 @@ build_path_endpoint:
     path_dx = 0 - path_dx;
 store_path_dx:
     frame.delta[0] = path_dx;
-    current_y = ((S_80025738_5 *)motion)->unk_04.at02u.v;
+    current_y = ((S_80025738_5 *)motion_in)->unk_04.at02u.v;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     end_z_signed = (s32) ((u16) end_z << 0x10);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -427,7 +426,7 @@ store_path_dx:
     path_dy = 0 - path_dy;
 store_path_dy:
     frame.delta[1] = path_dy;
-    current_z = ((S_80025738_5 *)motion)->unk_08.at02u.v;
+    current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
     end_z_signed >>= 0x10;
     path_dz = end_z_signed;
     path_dz -= current_z;
@@ -453,25 +452,25 @@ next_path_axis:
     }
     ((S_80025738_0 *)state)->unk_12 = 1;
 set_path_velocity:
-    ((S_80025738_5 *)motion)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v - ((S_80025738_5 *)motion)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-    ((S_80025738_5 *)motion)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v - ((S_80025738_5 *)motion)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-    ((S_80025738_5 *)motion)->unk_14 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_08.at00.v - ((S_80025738_5 *)motion)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
-    func_80025614(state, motion);
+    ((S_80025738_5 *)motion_in)->unk_0C = (s32) ((s32) (((S_80025738_7 *)destination)->unk_00.at00.v - ((S_80025738_5 *)motion_in)->unk_00.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+    ((S_80025738_5 *)motion_in)->unk_10 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_04.at00.v - ((S_80025738_5 *)motion_in)->unk_04.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+    ((S_80025738_5 *)motion_in)->unk_14 = (s32) ((s32) (((S_80025738_7 *)destination)->unk_08.at00.v - ((S_80025738_5 *)motion_in)->unk_08.at00.v) / (s16) ((S_80025738_0 *)state)->unk_12);
+    func_80025614(state, motion_in);
     next_phase = 6;
     goto set_phase;
 phase_move_target:
-    position_xy = ((S_80025738_5 *)motion)->unk_00.at00.v;
-    step_x_or_z = ((S_80025738_5 *)motion)->unk_0C;
-    target_dx = ((S_80025738_5 *)motion)->unk_10;
-    velocity_z = ((S_80025738_5 *)motion)->unk_14;
+    position_xy = ((S_80025738_5 *)motion_in)->unk_00.at00.v;
+    step_x_or_z = ((S_80025738_5 *)motion_in)->unk_0C;
+    target_dx = ((S_80025738_5 *)motion_in)->unk_10;
+    velocity_z = ((S_80025738_5 *)motion_in)->unk_14;
     position_xy += step_x_or_z;
-    ((S_80025738_5 *)motion)->unk_00.at00.v = position_xy;
-    position_xy = ((S_80025738_5 *)motion)->unk_04.at00.v;
-    step_x_or_z = ((S_80025738_5 *)motion)->unk_08.at00.v;
+    ((S_80025738_5 *)motion_in)->unk_00.at00.v = position_xy;
+    position_xy = ((S_80025738_5 *)motion_in)->unk_04.at00.v;
+    step_x_or_z = ((S_80025738_5 *)motion_in)->unk_08.at00.v;
     position_xy += target_dx;
     step_x_or_z += velocity_z;
-    ((S_80025738_5 *)motion)->unk_04.at00.v = position_xy;
-    ((S_80025738_5 *)motion)->unk_08.at00.v = step_x_or_z;
+    ((S_80025738_5 *)motion_in)->unk_04.at00.v = position_xy;
+    ((S_80025738_5 *)motion_in)->unk_08.at00.v = step_x_or_z;
     if ((s16) ((S_80025738_0 *)state)->unk_10 < ((S_80025738_0 *)state)->unk_12) {
         goto clear_update_flag;
     }
@@ -501,9 +500,9 @@ phase_finish:
     (*(s32 *)&D_800814A0) = (s32) (((S_80025738_12 *)(&D_800814A0))->unk_00 | 0x8000);
     goto clear_update_flag;
 phase_move_path:
-    ((S_80025738_5 *)motion)->unk_00.at00.v = (s32) (((S_80025738_5 *)motion)->unk_00.at00.v + ((S_80025738_5 *)motion)->unk_0C);
-    ((S_80025738_5 *)motion)->unk_04.at00.v = (s32) (((S_80025738_5 *)motion)->unk_04.at00.v + ((S_80025738_5 *)motion)->unk_10);
-    ((S_80025738_5 *)motion)->unk_08.at00.v = (s32) (((S_80025738_5 *)motion)->unk_08.at00.v + ((S_80025738_5 *)motion)->unk_14);
+    ((S_80025738_5 *)motion_in)->unk_00.at00.v = (s32) (((S_80025738_5 *)motion_in)->unk_00.at00.v + ((S_80025738_5 *)motion_in)->unk_0C);
+    ((S_80025738_5 *)motion_in)->unk_04.at00.v = (s32) (((S_80025738_5 *)motion_in)->unk_04.at00.v + ((S_80025738_5 *)motion_in)->unk_10);
+    ((S_80025738_5 *)motion_in)->unk_08.at00.v = (s32) (((S_80025738_5 *)motion_in)->unk_08.at00.v + ((S_80025738_5 *)motion_in)->unk_14);
     if ((s16) ((S_80025738_0 *)state)->unk_10 < ((S_80025738_0 *)state)->unk_12) {
         goto clear_update_flag;
     }

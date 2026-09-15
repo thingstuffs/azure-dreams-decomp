@@ -94,7 +94,7 @@ extern u8 D_800E0919[];
 /* Check the item, report restrictions, and create an action object for the actor and target. */
 void *func_80098CF8(void *actor_arg, s32 action_id, void *target_arg, void *item_arg)
 {
-    register void *message ASM_REG("$4") = actor_arg;
+    void *message = actor_arg;
 
     register void *actor ASM_REG("$19") = message;
     s32 action = action_id;
@@ -109,34 +109,33 @@ void *func_80098CF8(void *actor_arg, s32 action_id, void *target_arg, void *item
 
     ASM_KEEP_NV(actor);
     actor_state = actor;
-    result = D_80081484;
-    if ((item != result) && (((S_80098CF8_0 *)result)->unk_01 != 0)) {
+    if ((item != ((void *)(D_80081484))) && (((S_80098CF8_0 *)((void *)(D_80081484)))->unk_01 != 0)) {
         message_id = func_800990FC(message, action_id, target_arg, item_arg);
         text_cursor = func_8009929C(8, message_id);
         text_cursor = func_80099368(item, text_cursor);
         text_cursor = func_80099194(D_800E08CC, text_cursor);
-        text_cursor = func_80099368(result, text_cursor);
+        text_cursor = func_80099368(((void *)(D_80081484)), text_cursor);
         message = D_800E08E5;
 print_message:
         text_cursor = func_80099194(message, text_cursor);
         func_80099290(text_cursor);
         func_800A5720(message_id);
 
-        ASM_KEEP(action);
-        ASM_KEEP(target);
-        ASM_KEEP(item);
-        ASM_KEEP(actor_state);
-        goto return_zero;
+        return 0;
     }
 
-    if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x20) {
+    if ((*(u8 *)((u8 *)item + 3)) & 0x20) {
         message_id = func_800990FC(message, action_id, target_arg, item_arg);
         result = (void *)func_8009929C(8, message_id);
         if (((S_80098CF8_1 *)item)->unk_00.at03.v & 0x40) {
             func_800A56E0(0x70A);
             text_cursor = func_80099368(item, result);
             message = D_800E08F1;
-            goto print_message;
+            text_cursor = func_80099194(message, text_cursor);
+            func_80099290(text_cursor);
+            func_800A5720(message_id);
+
+            return 0;
         }
 
         text_cursor = func_80099368(item, result);
@@ -152,7 +151,7 @@ print_message:
 
     result = func_800A8608((u8 *)actor - 0x20, item, 0, 0, 0);
     if (result == 0) {
-        goto return_zero;
+        return 0;
     }
 
     {
@@ -201,6 +200,5 @@ print_message:
     }
     return result;
 
-return_zero:
     return 0;
 }

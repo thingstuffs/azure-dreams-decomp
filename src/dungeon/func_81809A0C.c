@@ -193,6 +193,7 @@ extern u8 D_800E3D7C[16384];
 
 /* Update the selection menu animation, side positions, and facing directions. */
 void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
+    s32 *side_ptr;
     static void *const state_labels[] = { &&init_menu, &&animate_entry, &&handle_input, &&wait_for_sides, &&animate_exit, &&done };
     u16 target_y;
     u16 entry_counter;
@@ -346,12 +347,14 @@ handle_input:
                     goto check_other_side;
                 }
                 first_slot = menu + 0xC;
+                step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
+                other_slot = first_slot;
             } else {
 check_other_side:
                 first_slot = menu + 0xC;
+                step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
+                other_slot = first_slot;
             }
-            step_or_cell = ((S_8002520C_0 *)menu)->unk_26;
-            other_slot = first_slot;
             if (step_or_cell == 0) {
                 other_slot = menu + 0x10;
             }
@@ -402,16 +405,15 @@ check_other_side:
             func_800A56E0(0x503);
             {
                 s32 side_offset;
-                register s32 world_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 S_8002520C_10 *world_node;
 
                 world_page = (s32 *)0x800E0000;
                 side_offset = ((S_8002520C_0 *)menu)->unk_26;
-                world_base = ((S_8002520C_9 *)world_page)->unk_3D7C;
+                side_ptr = (s32 *)(((S_8002520C_9 *)world_page)->unk_3D7C);
                 side_offset *= 4;
                 world_node = (void *) (side_offset + (s32) menu);
                 world_node = world_node->unk_0C;
-                side_offset += world_base;
+                side_offset += (s32)side_ptr;
                 cell = (S_8002520C_6 *)(world_node->unk_0C);
                 actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
                 direction = (func_800A0818(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25, &target_y) >> 9) & 7;
@@ -527,7 +529,6 @@ animate_exit:
                 s32 index_or_object;
                 s32 flags_or_page;
                 s32 object_or_state;
-                register s32 *side_ptr ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 *flags_page;
 
                 side_ptr = (s32 *) 0x80080000;

@@ -263,13 +263,13 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
             vertex_depth = *(volatile u32 *)(scratch + 0xC0);
             ((S_800C55F4_1 *)scratch)->unk_C8.s = third_depth - depth_bias;
             if (vertex_depth < 0x1E0) {
+                register s32 second_shade ASM_REG("$3");
                 {
                     s32 first_shade;
-                    register s32 first_height ASM_REG("$4");
 
                     first_shade = 0x100;
-                    first_height = ((S_800C55F4_8 *)params)->unk_32;
-                    first_shade -= first_height;
+                    vector_arg = (u8 *)(((S_800C55F4_8 *)params)->unk_32);
+                    first_shade -= (s32)vector_arg;
                     first_shade -=
                         (((S_800C55F4_1 *)scratch)->unk_CC - vertex_depth) << 5;
                     if (first_shade < 0x20) {
@@ -289,7 +289,6 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
 
                 {
                     s32 second_base_shade;
-                    register s32 second_shade ASM_REG("$3");
                     s32 second_delta;
                     s32 second_height;
 
@@ -321,7 +320,6 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
 
                 {
                     s32 third_base_shade;
-                    register s32 third_shade ASM_REG("$3");
                     s32 third_delta;
                     s32 third_height;
 
@@ -330,21 +328,21 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
                         third_height = ((S_800C55F4_8 *)params)->unk_32;
                     } while (0);
                     third_delta = ((S_800C55F4_1 *)scratch)->unk_CC;
-                    third_shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
+                    second_shade = ((S_800C55F4_1 *)scratch)->unk_C8.s;
                     third_base_shade -= third_height;
-                    third_delta -= third_shade;
+                    third_delta -= second_shade;
                     third_delta <<= 5;
-                    third_shade = third_base_shade - third_delta;
-                    if (third_shade < 0x20) {
-                        third_shade = 0x20;
-                    } else if (third_shade >= 0x100) {
-                        third_shade = 0xFF;
+                    second_shade = third_base_shade - third_delta;
+                    if (second_shade < 0x20) {
+                        second_shade = 0x20;
+                    } else if (second_shade >= 0x100) {
+                        second_shade = 0xFF;
                     }
                     {
                         s32 shade_arg;
 
-                        shade_arg = (s32)(s16)third_shade;
-                        ASM_KEEP_DEP_NV(shade_arg, third_shade);
+                        shade_arg = (s32)(s16)second_shade;
+                        ASM_KEEP_DEP_NV(shade_arg, second_shade);
                         func_8004CECC(((S_800C55F4_8 *)params)->unk_30,
                                       shade_arg, 0xFF,
                                       record + 0x14);

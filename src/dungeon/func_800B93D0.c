@@ -118,7 +118,8 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
                 func_800998C0(choice_index, value_arg);
                 data_arg = D_80089368;
                 value_arg = value;
-                goto message;
+                value = func_80099194(data_arg, value_arg);
+                goto shared_tail;
             }
             result_value = func_80099368(item, action_value);
             data_arg = D_800E112A;
@@ -133,8 +134,8 @@ result:
         value_arg = result_value;
 message:
         value = func_80099194(data_arg, value_arg);
+        shared_tail:
         func_80099290(value);
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         func_800A5720(action_value);
         goto decrement;
     }

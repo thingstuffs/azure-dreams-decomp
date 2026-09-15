@@ -27,7 +27,6 @@ s32 func_8009FF8C(s32 record_set, void *target)
     u8 *flag_base;
     s32 count;
     s32 best_distance;
-    register s32 best_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 record_index;
     s32 base_x;
     s32 base_y;
@@ -42,7 +41,7 @@ s32 func_8009FF8C(s32 record_set, void *target)
     records = *(TownRecord **)((u8 *)D_80100900->recordsOwner + 4);
     raw_x = D_80100900->x;
     raw_y = D_80100900->y;
-    best_index = record_index;
+    record_set = record_index;
     if (count > 0) {
         base_x = (s16)raw_x;
         base_y = (s16)raw_y;
@@ -55,7 +54,7 @@ s32 func_8009FF8C(s32 record_set, void *target)
                     ((record->y + base_y) - *(s16 *)(target + 6)) << 16);
                 if (distance < best_distance) {
                     best_distance = distance;
-                    best_index = record_index;
+                    record_set = record_index;
                 }
                 record++;
             } else {
@@ -68,7 +67,7 @@ s32 func_8009FF8C(s32 record_set, void *target)
     if (best_distance == 0x7FFFFFFF) {
         goto no_best;
     }
-    result = records[best_index].result;
+    result = records[record_set].result;
     goto done;
 no_best:
     result = -1;

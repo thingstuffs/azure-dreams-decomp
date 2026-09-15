@@ -67,19 +67,19 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
         start_y -= x;
         ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y;
         y_result = *(u8 *)(u32)y_step_or_count;
-        ASM_KEEP(y_result);
         start_y = 0;
-        goto collision_tail;
+        y_result -= y;
+        goto shared_tail;
 
 collision_exit:
         start_y = *(u8 *)(u32)offset_or_x_step;
         start_y -= x;
         ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y;
         y_result = *(u8 *)(u32)limit_or_y_step;
-        ASM_KEEP_NV(y_result);
         start_y = 0;
 collision_tail:
         y_result -= y;
+        shared_tail:
         ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = y_result;
         return (void *)start_y;
     }
@@ -125,7 +125,6 @@ start:
                 s32 next_x;
                 s32 next_x2;
                 s32 next_x3;
-                register s32 next_y ASM_REG("$5");
 
                 loop_y_table = (u8 *)D_8006CCE8;
                 next_x = *(u16 *)(u32)offset_or_x_step;
@@ -134,28 +133,28 @@ start:
                 next_x3 = (s32)((u32)next_x2 << 16);
                 ASM_KEEP(next_x3);
                 limit_or_y_step = (s32)(loop_y_table + loop_offset);
-                next_y = *(u16 *)(u32)limit_or_y_step;
-                next_y = y + next_y;
-                if (func_800A0548(next_x3 >> 16, (s16)next_y) != 0) {
+                initial_y = *(u16 *)(u32)limit_or_y_step;
+                initial_y = y + initial_y;
+                if (func_800A0548(next_x3 >> 16, (s16)initial_y) != 0) {
                     goto collision_exit;
                 }
             }
 
             {
-                register u16 call_direction ASM_REG("$8");
 
-                call_direction = *(volatile u16 *)&frame_slots[0];
+                loop_limit = *(volatile u16 *)&frame_slots[0];
                 blocked = func_800A44E0((u16)(x << 6),
                                       (u16)(y << 6),
                                       (s16)(*(u16 *)((u8 *)source + 0x88) - height_range),
-                                      call_direction << 9);
+                                      loop_limit << 9);
             }
             height_range += 0x20;
             if (blocked != 0) {
                 goto blocked_exit;
+            } else {
+                y_step_or_count++;
             }
 
-            y_step_or_count++;
             {
                 s32 x_delta;
                 register u16 y_delta ASM_REG("$3");

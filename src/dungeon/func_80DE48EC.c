@@ -54,7 +54,6 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         volatile u8 pad[20];
     } state;
     register s32 kept_result ASM_REG("$23") = 0;   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register void *entity ASM_REG("$17") = actor;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u16 flags;
     s32 direction;
     u16 base_x;
@@ -67,28 +66,28 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     u8 *x_steps;
     s16 height;
 
-    ((S_801720EC_0 *)entity)->unk_71 &= 0x7f;
+    ((S_801720EC_0 *)actor)->unk_71 &= 0x7f;
     flags = D_80083462;
     if (flags & 0x2000) {
         return -1;
     }
 
-    if (!(((S_801720EC_0 *)entity)->unk_46 & 0x8000)) {
+    if (!(((S_801720EC_0 *)actor)->unk_46 & 0x8000)) {
         if (flags & 8) {
             return -1;
         }
     }
 
-    if ((s16)func_800A2B5C(entity) != 0) {
+    if ((s16)func_800A2B5C(actor) != 0) {
         return -1;
     }
 
     {
-        output = (u8 *)entity - 0x20;
+        output = (u8 *)actor - 0x20;
         state.saved_ptr = output;
         func_800C7930(output, update_arg, 8, 0x300);
     }
-    if ((s16)func_800A2B5C(entity) != 0) {
+    if ((s16)func_800A2B5C(actor) != 0) {
         return -1;
     }
 
@@ -96,12 +95,12 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     base_y = ((S_801720EC_1 *)sprite)->unk_25;
     x = base_x;
     y = base_y;
-    direction = (((S_801720EC_0 *)entity)->unk_2A.s >> 9) & 7;
-    if ((s16)func_800A44E0(x << 6, y << 6, ((S_801720EC_0 *)entity)->unk_88.s, direction << 9) != 0) {
+    direction = (((S_801720EC_0 *)actor)->unk_2A.s >> 9) & 7;
+    if ((s16)func_800A44E0(x << 6, y << 6, ((S_801720EC_0 *)actor)->unk_88.s, direction << 9) != 0) {
+        return_tail:
         return 0;
     }
 
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     x_steps = (u8 *)&D_8006CCD8;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     delta_offset = direction << 1;
@@ -113,9 +112,9 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
         register s32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         step_x = *x_delta;
         step_y = *y_delta;
-        if (func_8009B4B0(entity, (base_x + step_x) & 0xffff,
+        if (func_8009B4B0(actor, (base_x + step_x) & 0xffff,
                           (base_y + step_y) & 0xffff) != 0) {
-            return 0;
+            goto return_tail;
         }
     }
 
@@ -125,26 +124,26 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
 
     height = func_800BCB04((((x + (s16)*x_delta) << 6) + 0x20) & 0xffe0,
                            (((y + (s16)*y_delta) << 6) + 0x20) & 0xffe0,
-                           (s16)(((S_801720EC_0 *)entity)->unk_88.u - 0x20));
+                           (s16)(((S_801720EC_0 *)actor)->unk_88.u - 0x20));
     if (height >= 0x201) {
         return 0;
     }
-    if ((s16)(height - ((S_801720EC_0 *)entity)->unk_88.u) >= -0x3f) {
+    if ((s16)(height - ((S_801720EC_0 *)actor)->unk_88.u) >= -0x3f) {
         output = action_state;
         ((S_801720EC_2 *)output)->unk_9B = 0;
         ((S_801720EC_2 *)output)->unk_8C = 0;
         ((S_801720EC_2 *)output)->unk_9A = 0x17;
         (*(u8 * *)((u8 *)sprite + 0x2c)) = D_80174558;
         func_80047784(sprite,
-                      D_80174558[((D_80083228 + ((S_801720EC_0 *)entity)->unk_2A.u + 0x100) >> 9) & 7],
+                      D_80174558[((D_80083228 + ((S_801720EC_0 *)actor)->unk_2A.u + 0x100) >> 9) & 7],
                       0);
-        func_800A4ACC(entity);
+        func_800A4ACC(actor);
         {
             register s32 update_mode ASM_REG("$6") = 8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 update_flags = 0x300;
             void *entity_base = state.saved_ptr;
             ASM_KEEP_NV(update_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ((S_801720EC_0 *)entity)->unk_6D--;
+            ((S_801720EC_0 *)actor)->unk_6D--;
             func_800C77D0(entity_base, update_arg, update_mode, update_flags);
         }
         ASM_USE_NV(kept_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
