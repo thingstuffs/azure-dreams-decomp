@@ -63,6 +63,15 @@ half-edited t66 applied 47 rows before it was stopped; they verified byte-exact 
 was wrong). And the cheapest lever seen so far: **open a paying generator's largest refusal classes before building a new
 generator** - t66's two spelling refusals paid 75 rows through two sweeps for one workflow item.
 
+Round 30 added `erase_census.py` (every live site erased alone and screened against the pinned listing, 23 s for the whole
+tree; `--diff 4` keeps the residue lines so the near sites group by what one erasure changes: moved / recoloured / an
+operation changed, then by opcode pattern) and the rule it enforces: **census the residues before briefing a class** - the
+handover's maspsx-screen item died in 23 seconds (21 of 6,480 sites are cc1-invisible), and the census named the
+address-materialisation pattern (231 sites) that no inventory of the lane diffs had. A refusal table is read the same way:
+`pairs_of` + `candidates_for` over every family row with a skips Counter (three lines) gave t66's table for the whole tree,
+and the largest class turned out to be a scan stopper hiding declarations, not a parser gap - read the CODE behind the
+largest count before writing the brief.
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`
