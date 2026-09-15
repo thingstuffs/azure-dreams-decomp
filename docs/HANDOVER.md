@@ -57,8 +57,9 @@ cascade 4). The owner asked for a critical review, new mechanisms (long CPU jobs
   exemplar corpus and evaluated on the 120 lane-won pre-fix texts before any sweep; (2) a `sugg`-class register
   generator (the probe names the hard register whose copy suggestion is missing); (3) `t63_memdep` has swept every row: 10 fence rows responded to a spelling flip, the other fences did not, and their
   residues were not classified this round; (4) packs only from `pools.py`. Note: the sweep also changed one row in the
-  PARKED ovmovie container (`func_800403EC`, 5 -> 3 pins; its window gated MATCH at 06:51Z) - the owner's call whether
-  parked rows may be swept.
+  PARKED ovmovie container (`func_800403EC`, 5 -> 3 pins; its window gated MATCH at 06:51Z). **Owner (09-15): parked
+  ovmovie rows may be cleaned up incidentally, no approval needed; and a pin or fence removed at the cost of an uglier
+  spelling (t63's cast form) is fine - readability is a separate, later pass.**
 
 Twenty-sixth round, step 3, the saved-register preference study (opus, reviewed; `work/pref_study/REPORT.md`): a
 well-supported NEGATIVE. In gcc 2.7.2 / 2.7.2-cdk / 2.8.x (byte-identical `set_preference` / `expand_preferences`), a
