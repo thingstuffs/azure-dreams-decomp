@@ -24,8 +24,10 @@ escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/nat
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
 Twenty-ninth round (2026-09-15, afternoon), gated (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows** (6,850 at start, -377; -733 since the morning: `t64_varset`
-over the rest of the tree 82 rows / 123 pins, the `t66_sameregmerge` openings 68 + 28 rows / ~150 pins, `t67_tailform` 30
-rows, the cascades ~45, one hand port). The owner: "mechanical approaches are still viable ... keep evaluating what works
+over the rest of the tree 82 rows / 123 pins, the `t66_sameregmerge` openings through two tree sweeps 47 + 28 rows (the 90
+evaluation outputs were all stale by landing time; the first sweep started while the fix agent still owned the module -
+48 rows, byte-exact, audited afterwards with the final module's NAME-slot table: 0 renames in a NAME slot, see
+PIN_MECHANISMS round 29), `t67_tailform` 30 rows, the cascades ~45, one hand port). The owner: "mechanical approaches are still viable ... keep evaluating what works
 and what doesn't to build on the good and prevent or address the bad". **Read `docs/PIN_MECHANISMS_20260912.md` "Round 29";
 the verdicts:**
 - **What worked, twice more: open the refusals of a paying generator before building a new one.** t66's two largest refusal

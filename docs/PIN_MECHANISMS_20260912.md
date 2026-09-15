@@ -1873,6 +1873,15 @@ Measured first, all CPU or text:
   cc1-screened candidate can rank it - the screen is blind there and only vf could tell, at six calls a row.
 - `dungeon/func_809F90DC`: the probe4 output three-way merged onto the swept text by hand, exact at 15 pins.
 - **Landed and gated** (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows**, from 6,850 (-377: t64 tree 123, the
-  t66 openings ~150 across the evaluation outputs and the forced sweep's 28 rows, t67 30 rows, three cascades, the port).
+  t66 openings through two tree sweeps - 47 rows before the fix stage finished (see the audit below) and 28 in the forced
+  re-sweep with the final module; the 90 evaluation outputs were stale at landing - t67 30 rows, three cascades, the port).
+- **Audit of the early t66 sweep.** The whole-tree sweep of the opened t66 was started at 16:40Z while the workflow's fix
+  agent still owned the module (the fix that followed was the per-slot NAME classifier for macro parameters); it applied
+  48 rows before it was stopped, every one verified byte-exact by vf. Byte equality does not prove struct honesty (a
+  rename inside a NAME slot that lands on a member of the same offset and type verifies exact and misnames the field),
+  so the 48 rows were audited afterwards with the final module's macro table: 31 macro calls new to those rows, all
+  in VALUE slots (ASM_KEEP/_NV 14, ASM_USE2_NV 3, LOAD_GLOBAL_PAGE / FINISH_GLOBAL_TABLE 8, U8_AT/S16_AT 2, ASM_SET,
+  ASM_TAILSLOT_PIN_TIED, ASM_KEEP_DEP_NV 2), none in a NAME slot, no call to a macro the table cannot see. Nothing to
+  revert. The order was still wrong: a sweep of a module a fix agent is editing starts only after the workflow returns.
   The non-mips preprocessor arms of every changed row were compared before and after: none differ. Since the morning's
   7,206: **-733 in one day**, of which one mechanism family (same-register merges and their openings) is ~520.

@@ -53,6 +53,16 @@ two-minute sweep over a population no pack would have finished). A generator bui
 reviewer: t66's edited `#ifdef __mips__` arms, which `pin_census.arm_labels` cannot see (it labels only NON_MATCHING
 conditions), so every landing must compare the non-mips arms before and after (round 28 did, 0 of 142 rows differed).
 
+Round 29 added `ctrlmoves.py` (the control-flow inventory of the lane diffs: tail merge/dup, loop form, return split, arm
+swap) and four rules: **sweep a new generator over the WHOLE tree before the near band** (t64: 10.7% off the near band, 4.7%
+on it - the band the search worked hardest pays least); **`sweep.py --processes` for any generator that parses compiler
+dumps** (threads crawled at 5 rows a minute under the GIL, processes ran 35); **check an inventory class against the pass
+dumps and the reachability delta before briefing it as a mechanism** (t67: `jump.c` cross_jump canonicalises 92% of tail
+sinks away - the inventory had counted co-occurrence); **never start a sweep of a module a fix agent still owns** (a
+half-edited t66 applied 47 rows before it was stopped; they verified byte-exact and were audited afterwards, but the order
+was wrong). And the cheapest lever seen so far: **open a paying generator's largest refusal classes before building a new
+generator** - t66's two spelling refusals paid 75 rows through two sweeps for one workflow item.
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`
