@@ -182,11 +182,17 @@ def code_fingerprint():
 
 # ---------------------------------------------------------------- scanning
 
+def is_evaluator_dir(d):
+    """A `lane_eval.py` working directory (evidence/ and out/, but no brief, prompt or model log) is not a model
+    lane: t63_dev/t63_fence (round 27) and noknob (round 26) hold generator measurements, not served rows."""
+    return (d / "evidence").is_dir() and not any((d / n).exists() for n in ("BRIEF.md", "PROMPT.txt", "codex.log", "agy.log"))
+
+
 def lane_dirs(root):
     base = Path(root) / "work" / "native_lane"
     if not base.is_dir():
         return []
-    return sorted((d for d in base.iterdir() if d.is_dir() and d.name not in NOT_LANES),
+    return sorted((d for d in base.iterdir() if d.is_dir() and d.name not in NOT_LANES and not is_evaluator_dir(d)),
                   key=lambda d: d.name)
 
 
