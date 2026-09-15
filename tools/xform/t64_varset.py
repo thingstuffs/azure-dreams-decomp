@@ -67,7 +67,7 @@ MENU_CAP = 48
 # they are part of the established search.  T64_NO_WIDTH=0 puts them back for an experiment only.
 WIDTH_FAMILIES = ("width", "narrow")
 PASS_COST = 3               # a -da observation is worth about this many plain screens
-BEAM = 8                    # depth-1 texts expanded at depth 2
+BEAM = int(os.getenv("T64_BEAM", "8"))   # depth-1 texts expanded at depth 2 (T64_BEAM=64: exhaustive over the bounded menu)
 PIN_MACROS = ("ASM_REG", "ASM_KEEP", "ASM_KEEP_NV")
 FORBIDDEN = (r"\bASM_[A-Z0-9_]+", r"\b__asm__\b", r"\bdo\s*\{", r"\bwhile\s*\(\s*0\s*\)",
              r"\bfor\s*\([^;]*;\s*0\s*;", r"\bif\s*\(\s*1\s*\)", r"\(\s*\{")
