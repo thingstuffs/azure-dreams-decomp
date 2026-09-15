@@ -154,10 +154,10 @@ jt_c1:
     }
 
     if (*(u16 *)action->field4 & 0x80) {
+        register s32 x_delta ASM_REG("$4");
         index = 1;
         if (owner->target != 0) {
             register Motion *target ASM_REG("$7");
-            register s32 x_delta ASM_REG("$4");
             s32 axis_delta;
             s32 coord;
             u8 *delta_iter;
@@ -205,7 +205,6 @@ jt_c1:
             s32 grid_y;
             s32 saved_x;
             Motion *destination;
-            register s32 coord_work ASM_REG("$4");
             s32 coord_aux;
             register s32 x_work ASM_REG("$5");
             register s16 *table ASM_REG("$3");
@@ -273,13 +272,13 @@ jt_c1:
                 (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318;
                 update_y_entry = (u16 *)(update_offset + table_work);
                 ASM_KEEP(update_y_entry);
-                coord_work = grid_x + *update_x_entry;
-                grid_x = coord_work;
+                x_delta = grid_x + *update_x_entry;
+                grid_x = x_delta;
                 coord_aux = grid_y + *update_y_entry;
                 grid_y = coord_aux;
                 stack.accum_y = coord_aux;
-                ASM_KEEP4_NV(coord_work, coord_aux, grid_x, grid_y);
-                saved_x = coord_work;
+                ASM_KEEP4_NV(x_delta, coord_aux, grid_x, grid_y);
+                saved_x = x_delta;
             }
 
             destination = &stack.local;
@@ -292,11 +291,11 @@ jt_c1:
             x_work += (table[action->angle] + 1) << 5;
             destination->x.h.hi = x_work;
             x_work = (s16)x_work;
-            coord_work = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
+            x_delta = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
             table = D_8006CCE8;
-            coord_work += (table[action->angle] + 1) << 5;
-            destination->y.h.hi = coord_work;
-            coord_work = (u32)coord_work << 16;
+            x_delta += (table[action->angle] + 1) << 5;
+            destination->y.h.hi = x_delta;
+            x_delta = (u32)x_delta << 16;
             coord_aux = (u16)motion->z.h.hi + 32;
             destination->z.h.hi = coord_aux;
 
@@ -304,16 +303,16 @@ jt_c1:
                 s32 coord;
 
                 coord = motion->x.h.hi;
-                coord_work = (s32)coord_work >> 16;
+                x_delta = (s32)x_delta >> 16;
                 x_work -= coord;
                 x_work = abs(x_work);
                 stack.diffs[0] = x_work;
 
                 coord = motion->y.h.hi;
                 coord_aux = (u32)coord_aux << 16;
-                coord_work -= coord;
-                coord_work = abs(coord_work);
-                stack.diffs[1] = coord_work;
+                x_delta -= coord;
+                x_delta = abs(x_delta);
+                stack.diffs[1] = x_delta;
 
                 coord = motion->z.h.hi;
                 coord_aux = (s32)coord_aux >> 16;

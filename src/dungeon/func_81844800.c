@@ -342,10 +342,9 @@ case0:
         }
         sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
         if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
-            register void *source_sprite ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            source_sprite = source_render;
-            ASM_KEEP(source_sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if ((((S_81844800_9 *)source_sprite)->unk_14 & 0x8000) != 0) {
+            owner_start = source_render;
+            ASM_KEEP(owner_start);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            if ((((S_81844800_9 *)owner_start)->unk_14 & 0x8000) != 0) {
                 func_8009CE1C(
                     ((S_81844800_1 *)owner)->unk_60,
                     10,
@@ -370,13 +369,13 @@ case0:
                 delta.x = 0;
             }
             {
+                register s32 target_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 owner_start = owner_base;
                 ((S_81844800_3 *)motion)->unk_00.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_02 + delta.x;
                 ((S_81844800_3 *)motion)->unk_04.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_06 + delta.y;
                 ((S_81844800_3 *)motion)->unk_08.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A + delta.z;
                 ((S_81844800_0 *)effect)->unk_50.s = 8;
                 {
-                    register s32 target_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     target_x = ((S_81844800_1 *)owner)->unk_72.u;
                     ASM_KEEP(target_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
@@ -386,12 +385,11 @@ case0:
                 }
                 ((S_81844800_3 *)motion)->unk_0C.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
                 {
-                    register s32 target_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    target_y = ((S_81844800_1 *)owner)->unk_73.u;
-                    ASM_KEEP(target_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    target_x = ((S_81844800_1 *)owner)->unk_73.u;
+                    ASM_KEEP(target_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
                         s16 start_y = ((S_81844800_3 *)motion)->unk_04.at02.v - 0x20;
-                        ((S_81844800_3 *)motion)->unk_10.at02.v = (target_y << 6) - start_y;
+                        ((S_81844800_3 *)motion)->unk_10.at02.v = (target_x << 6) - start_y;
                     }
                 }
                 ((S_81844800_3 *)motion)->unk_10.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;

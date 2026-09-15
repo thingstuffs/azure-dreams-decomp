@@ -74,19 +74,17 @@ typedef struct S_8008C8BC_5 {
 
 /* Selects a target in the facing direction and initializes the entity action state. */
 s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void *entity_arg) {
-    register void *actor_state ASM_REG("$18") = actor_state_arg;
-    void *position = position_arg;
     register void *entity = entity_arg;
     s32 direction;
     u8 *page_or_entity;
     s32 target;
     u8 *action_state;
 
-    ASM_KEEP(actor_state);
+    ASM_KEEP(actor_state_arg);
     direction = ((u16) ((S_8008C8BC_0 *)entity)->unk_2A >> 9) & 7;
-    if ((func_8009A540(direction, ((S_8008C8BC_1 *)position)->unk_24, ((S_8008C8BC_1 *)position)->unk_25, (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
+    if ((func_8009A540(direction, ((S_8008C8BC_1 *)position_arg)->unk_24, ((S_8008C8BC_1 *)position_arg)->unk_25, (s16) (((S_8008C8BC_0 *)entity)->unk_88 - 0x20)) << 0x10) != 0) {
         do {
-            target = func_8009B25C(entity, (((S_8008C8BC_1 *)position)->unk_24 + D_8006CCD8[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position)->unk_25 + D_8006CCE8[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
+            target = func_8009B25C(entity, (((S_8008C8BC_1 *)position_arg)->unk_24 + D_8006CCD8[direction]) & 0xFFFF, (((S_8008C8BC_1 *)position_arg)->unk_25 + D_8006CCE8[direction]) & 0xFFFF, (s16) ((S_8008C8BC_0 *)entity)->unk_88);
         } while (0);
         page_or_entity = (u8 *)0x80010000;
         ((S_8008C8BC_0 *)entity)->unk_60.i = target;
@@ -96,24 +94,24 @@ s32 func_8008C8BC(void *actor_state_arg, void *unused, void *position_arg, void 
             return 0;
         }
         page_or_entity = (u8 *)entity;
-        func_8009C93C(page_or_entity, position, (s16) ((S_8008C8BC_0 *)entity)->unk_2A, 1, 0);
+        func_8009C93C(page_or_entity, position_arg, (s16) ((S_8008C8BC_0 *)entity)->unk_2A, 1, 0);
     } else {
         ((S_8008C8BC_0 *)entity)->unk_60.p = NULL;
     }
-    ((S_8008C8BC_4 *)actor_state)->unk_9A = 0x11;
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_9A = 0x11;
     action_state = D_80083460;
-    ((S_8008C8BC_4 *)actor_state)->unk_9B = 0;
-    ((S_8008C8BC_4 *)actor_state)->unk_8C = 0;
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_9B = 0;
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_8C = 0;
     ((S_8008C8BC_5 *)action_state)->unk_0C = entity;
-    ((S_8008C8BC_4 *)actor_state)->unk_A6 = 0;
-    ((S_8008C8BC_4 *)actor_state)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state)->unk_98 | 0x2000) & 0xEFFF);
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_A6 = 0;
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_98 = (u16) ((((S_8008C8BC_4 *)actor_state_arg)->unk_98 | 0x2000) & 0xEFFF);
     ((S_8008C8BC_5 *)action_state)->unk_02 = (u16) (((S_8008C8BC_5 *)action_state)->unk_02 | 0x400);
     func_80099F70(((S_8008C8BC_0 *)entity)->unk_5C);
     func_8009F644(entity, 0x18, 0, 0);
     if (func_800A5C70() != 0) {
         ((S_8008C8BC_5 *)action_state)->unk_02 = (u16) (((S_8008C8BC_5 *)action_state)->unk_02 | 0x80);
     }
-    ((S_8008C8BC_4 *)actor_state)->unk_96 = 6;
-    ((S_8008C8BC_4 *)actor_state)->unk_102 = 0;
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_96 = 6;
+    ((S_8008C8BC_4 *)actor_state_arg)->unk_102 = 0;
     return 0;
 }

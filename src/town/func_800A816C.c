@@ -49,7 +49,6 @@ extern u8 D_800D0000[];
 
 /* Updates the object and interpolates town angles before advancing the state. */
 void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
-    register S_800A58CC_2 *state ASM_REG("$18") = state_arg; /* MATCH: Keep the object in retail s2 across the merged control-flow arms. */
     s16 threshold;
     s16 yaw;
     s32 object_ref;
@@ -81,7 +80,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     }
     func_80095094((void *) object_ref);
     func_80095094((void *) object_ref);
-    target_yaw = (state->unk_10 - 0x800) & 0xFFF;
+    target_yaw = (state_arg->unk_10 - 0x800) & 0xFFF;
     yaw = func_80094AA0(((S_800A58CC_3 *)town)->unk_C8, target_yaw, 0x80);
     ((S_800A58CC_3 *)town)->unk_C8 = yaw;
     do {
@@ -93,8 +92,8 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     if (yaw_delta < 0x80) {
         ((S_800A58CC_3 *)town)->unk_C8 = target_yaw;
     }
-    ticks = state->unk_0A.s - 1;
-    state->unk_0A.s = ticks;
+    ticks = state_arg->unk_0A.s - 1;
+    state_arg->unk_0A.s = ticks;
     {
         s32 shifted_ticks;
         s32 ticks_left;
@@ -103,7 +102,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
         ticks_left = shifted_ticks >> 16;
         pitch_step = -0x2B0;
         if (ticks_left <= 0) {
-            state->unk_0A.u = 0;
+            state_arg->unk_0A.u = 0;
         }
         pitch = ticks_left > 0
             ? (pitch_step = (pitch_step - ((S_800A58CC_3 *)town)->unk_C4.s) / ticks_left,
@@ -111,8 +110,8 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
             : -0x2B0;
         ((S_800A58CC_3 *)town)->unk_C4.s = pitch;
     }
-    if ((state->unk_0A.u == 0) && (((S_800A58CC_3 *)town)->unk_C8 == target_yaw)) {
-        state->unk_0A.u = 0;
-        state->unk_00 = &D_800A5A98;
+    if ((state_arg->unk_0A.u == 0) && (((S_800A58CC_3 *)town)->unk_C8 == target_yaw)) {
+        state_arg->unk_0A.u = 0;
+        state_arg->unk_00 = &D_800A5A98;
     }
 }

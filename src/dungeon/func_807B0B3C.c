@@ -182,7 +182,6 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     u8 *effect;
     s16 saved_a1 = caller_a1;
     void *saved_a2 = caller_a2;
-    register s32 div5_magic ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     StackLocals stack;
     register u32 draw_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 vertex_index;
@@ -195,12 +194,16 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     u8 *world_vertex;
     u8 *screen_vertex;
     register u8 *prim ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *object_base ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *next_object;
     register u16 component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 coord;
     register s32 height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 coord_work ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 **render_slot_m ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 **render_slot_m2 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 **render_slot_m3 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *render_state_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *bucket_ptr_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     (void)&object;
     scratch = (u8 *)0x1F800000;
@@ -211,36 +214,35 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     verts = scratch;
     ASM_KEEP_NV(verts);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     verts = (u8 *)((u32)verts | 0x80);
-    div5_magic = 0x66666667;
+    render_slot_m = (u8 **)(0x66666667);
     addr_mask = 0xFFFFFF;
-    stack.sp1C = div5_magic;
+    stack.sp1C = (s32)render_slot_m;
 next_object_loop:
-    object_base = (u8 *)object;
-    effect = object_base;
-    if ((((S_807B0B3C_0 *)object_base)->unk_06 >> 10) & 1) {
+    render_slot_m2 = (u8 **)((u8 *)object);
+    effect = (u8 *)render_slot_m2;
+    if ((((S_807B0B3C_0 *)(u8 *)render_slot_m2)->unk_06 >> 10) & 1) {
         u8 *vertex_pair;
         u8 *vertex_ptr;
         u32 pair_addr;
         s32 frame_remainder;
         s32 coord_half;
-        register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         SignedProduct product;
 
         vertex_index = 0;
         vertex_pair = scratch;
 build_y_pairs:
-        coord_work = vertex_index * 2;
+        bucket_ptr_m = (u8 *)(vertex_index * 2);
         coord_half = ((S_807B0B3C_1 *)effect)->unk_00.u;
-        stack.sp18 = coord_work;
+        stack.sp18 = (s32)bucket_ptr_m;
         ((S_807B0B3C_2 *)vertex_pair)->unk_08 = coord_half;
         ((S_807B0B3C_2 *)vertex_pair)->unk_00 = coord_half;
         vertex_ptr = vertex_pair + 8;
-        coord_work = ((S_807B0B3C_1 *)effect)->unk_02.s;
+        bucket_ptr_m = (u8 *)(((S_807B0B3C_1 *)effect)->unk_02.s);
         if (vertex_index < 2) {
-            coord_half = coord_work - 0x20;
+            coord_half = (s32)bucket_ptr_m - 0x20;
             ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
         } else {
-            coord_half = coord_work + 0x20;
+            coord_half = (s32)bucket_ptr_m + 0x20;
             ((S_807B0B3C_3 *)vertex_ptr)->unk_02.v = coord_half;
         }
         pair_addr = stack.sp18;
@@ -251,17 +253,17 @@ build_y_pairs:
         pair_addr += (u32)scratch;
         ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_0C = height;
         coord_half = ((S_807B0B3C_1 *)effect)->unk_08.u16;
-        div5_magic = stack.sp1C;
+        render_slot_m = (u8 **)(stack.sp1C);
         frame_remainder = (s16)coord_half;
-        product.value = (long long)frame_remainder * div5_magic;
+        product.value = (long long)frame_remainder * (s32)render_slot_m;
         vertex_index++;
         vertex_pair += 0x10;
         ASM_KEEP_NV(product.words.hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         product_hi = product.words.hi;
         ASM_KEEP_NV(product_hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        coord_work = product_hi >> 1;
-        coord_work -= frame_remainder >> 31;
-        frame_remainder -= coord_work * 5;
+        bucket_ptr_m = (u8 *)(product_hi >> 1);
+        bucket_ptr_m = (u8 *)(((s32)bucket_ptr_m) - (frame_remainder >> 31));
+        frame_remainder -= (s32)bucket_ptr_m * 5;
         height = height + frame_remainder - 0x36;
         ((S_807B0B3C_4 *)((u8 *)pair_addr))->unk_04 = height;
         if (vertex_index < 2) {
@@ -276,40 +278,39 @@ build_y_pairs:
         s32 second_pair;
         s32 pairs_end;
         s32 frame_remainder;
-        register s32 product_hi ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         SignedProduct product;
 
         pair_addr = (s32)scratch;
         second_pair = (s32)scratch + 0x10;
         pairs_end = (s32)scratch + 0x20;
 build_x_pairs:
-        coord_work = ((S_807B0B3C_1 *)effect)->unk_00.s;
+        bucket_ptr_m = (u8 *)(((S_807B0B3C_1 *)effect)->unk_00.s);
         vertex_ptr = (u8 *)pair_addr + 8;
         if (pair_addr < second_pair) {
-            caller_a1 = coord_work - 0x20;
+            caller_a1 = (s32)bucket_ptr_m - 0x20;
             ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = caller_a1;
         } else {
-            caller_a1 = coord_work + 0x20;
+            caller_a1 = (s32)bucket_ptr_m + 0x20;
             ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_08 = caller_a1;
         }
         caller_a1 = ((S_807B0B3C_3 *)vertex_ptr)->unk_00.v;
         ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_00 = caller_a1;
         caller_a1 = ((S_807B0B3C_1 *)effect)->unk_02.u;
-        coord_work = (s32)((u32)8 + (u32)pair_addr);
-        ((S_807B0B3C_6 *)((u8 *)coord_work))->unk_02 = caller_a1;
+        bucket_ptr_m = (u8 *)((s32)((u32)8 + (u32)pair_addr));
+        ((S_807B0B3C_6 *)((u8 *)(s32)bucket_ptr_m))->unk_02 = caller_a1;
         ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_02 = caller_a1;
         height = ((S_807B0B3C_1 *)effect)->unk_04;
-        ((S_807B0B3C_6 *)((u8 *)coord_work))->unk_04 = height;
+        ((S_807B0B3C_6 *)((u8 *)(s32)bucket_ptr_m))->unk_04 = height;
         caller_a1 = ((S_807B0B3C_1 *)effect)->unk_08.u16;
-        div5_magic = stack.sp1C;
+        render_slot_m = (u8 **)(stack.sp1C);
         frame_remainder = (s16)caller_a1;
-        product.value = (long long)frame_remainder * div5_magic;
+        product.value = (long long)frame_remainder * (s32)render_slot_m;
         ASM_KEEP_NV(product.words.hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         product_hi = product.words.hi;
         ASM_KEEP_NV(product_hi);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        coord_work = product_hi >> 1;
-        coord_work -= frame_remainder >> 31;
-        frame_remainder -= coord_work * 5;
+        bucket_ptr_m = (u8 *)(product_hi >> 1);
+        bucket_ptr_m = (u8 *)(((s32)bucket_ptr_m) - (frame_remainder >> 31));
+        frame_remainder -= (s32)bucket_ptr_m * 5;
         ((S_807B0B3C_5 *)((u8 *)pair_addr))->unk_04 = height + frame_remainder - 0x36;
         pair_addr += 0x10;
         if (pair_addr < pairs_end) {
@@ -333,8 +334,8 @@ set_depth:
         projection_arg = &stack.sp18;
         flag_arg = projection_arg;
         vertex_depth = func_80065420(world_arg, screen_arg, projection_arg, flag_arg);
-        coord_work = depth - 8;
-        depth = coord_work + vertex_depth;
+        bucket_ptr_m = (u8 *)(depth - 8);
+        depth = (s32)bucket_ptr_m + vertex_depth;
         screen_vertex += 4;
         vertex_index++;
         world_vertex += 8;
@@ -352,12 +353,11 @@ set_depth:
     }
 
     {
-        register u8 **render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *render_state;
 
-        render_slot = &D_80083160;
-        ASM_KEEP_NV(render_slot);
-        render_state = *render_slot;
+        render_slot_m3 = &D_80083160;
+        ASM_KEEP_NV(render_slot_m3);
+        render_state = *render_slot_m3;
         prim = *(u8 **)(render_state + 0x8D0);
         prim_arg = (void *)prim;
         ASM_KEEP_NV(prim_arg);
@@ -401,26 +401,23 @@ set_depth:
     ((S_807B0B3C_7 *)prim)->unk_0C.at01.v = draw_value;
 
     if ((u32)depth < 0x1E0U) {
-        register u8 **next_render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         {
-            register u8 **render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register u8 *render_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 prim_tag;
             u32 bucket_tag;
 
-            render_slot = &D_80083160;
-            ASM_KEEP_NV(render_slot);
+            render_slot_m = &D_80083160;
+            ASM_KEEP_NV(render_slot_m);
             draw_value = depth * 4;
-            render_state = *render_slot;
-            div5_magic = (s32)(0xFF000000);
+            render_state_m = *render_slot_m;
+            render_slot_m = (u8 **)((s32)(0xFF000000));
             prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
-            render_state = (u8 *)((u32)draw_value + (u32)render_state);
-            prim_tag &= (u32)div5_magic;
-            LOAD_GLOBAL_PAGE(next_render_slot);
-            bucket_tag = ((S_807B0B3C_9 *)render_state)->unk_B0;
-            FINISH_GLOBAL_TABLE(next_render_slot, bucket_tag, prim_tag);
-            ASM_KEEP_NV(next_render_slot);
+            render_state_m = (u8 *)((u32)draw_value + (u32)render_state_m);
+            prim_tag &= (u32)(s32)render_slot_m;
+            LOAD_GLOBAL_PAGE(render_slot_m3);
+            bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
+            FINISH_GLOBAL_TABLE(render_slot_m3, bucket_tag, prim_tag);
+            ASM_KEEP_NV(render_slot_m3);
             ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
         }
         {
@@ -428,7 +425,7 @@ set_depth:
             u8 *bucket_ptr;
             register u32 tag_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            render_state = *next_render_slot;
+            render_state = *render_slot_m3;
             tag_mask = 0xFF000000;
             bucket_ptr = (u8 *)((u32)draw_value + (u32)render_state);
             ((S_807B0B3C_10 *)bucket_ptr)->unk_B0 =
@@ -560,7 +557,6 @@ loop_setup_b:
         s32 blend_mode;
         s32 page_x;
         s32 page_y;
-        register u8 **next_render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         {
             register u8 **render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -584,17 +580,15 @@ loop_setup_b:
         func_80066708(prim);
         func_80066640(prim, 1);
         {
-            register u8 **render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register u8 *render_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 vertex;
             u32 prim_tag;
             u32 bucket_tag;
 
-            LOAD_GLOBAL_PAGE(render_slot);
+            LOAD_GLOBAL_PAGE(render_slot_m2);
             vertex = ((S_807B0B3C_8 *)verts)->unk_00;
             prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
-            FINISH_GLOBAL_TABLE(render_slot, vertex, prim_tag);
-            ASM_KEEP_NV(render_slot);
+            FINISH_GLOBAL_TABLE(render_slot_m2, vertex, prim_tag);
+            ASM_KEEP_NV(render_slot_m2);
             ((S_807B0B3C_7 *)prim)->unk_08 = vertex;
             vertex = ((S_807B0B3C_8 *)verts)->unk_04;
             bucket_offset = depth * 4;
@@ -607,38 +601,37 @@ loop_setup_b:
             blend_mode = 1;
             ASM_KEEP_NV(blend_mode);
             ((S_807B0B3C_7 *)prim)->unk_20 = vertex;
-            render_state = *render_slot;
-            object_base = (u8 *)(0xFF000000);
-            prim_tag &= (u32)object_base;
-            LOAD_GLOBAL_PAGE(next_render_slot);
-            render_state = (u8 *)((u32)bucket_offset + (u32)render_state);
-            bucket_tag = ((S_807B0B3C_9 *)render_state)->unk_B0;
-            FINISH_GLOBAL_TABLE(next_render_slot, bucket_tag, prim_tag);
-            ASM_KEEP_NV(next_render_slot);
+            render_state_m = *render_slot_m2;
+            render_slot_m2 = (u8 **)((u8 *)(0xFF000000));
+            prim_tag &= (u32)(u8 *)render_slot_m2;
+            LOAD_GLOBAL_PAGE(render_slot_m);
+            render_state_m = (u8 *)((u32)bucket_offset + (u32)render_state_m);
+            bucket_tag = ((S_807B0B3C_9 *)render_state_m)->unk_B0;
+            FINISH_GLOBAL_TABLE(render_slot_m, bucket_tag, prim_tag);
+            ASM_KEEP_NV(render_slot_m);
             ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
         }
         {
-            register u8 *bucket_ptr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register u32 tag_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 bucket_tag;
 
-            bucket_ptr = *next_render_slot;
+            bucket_ptr_m = *render_slot_m;
             tag_mask = 0xFF000000;
-            bucket_ptr = (u8 *)((u32)bucket_offset + (u32)bucket_ptr);
+            bucket_ptr_m = (u8 *)((u32)bucket_offset + (u32)bucket_ptr_m);
             bucket_tag =
-                (((S_807B0B3C_10 *)bucket_ptr)->unk_B0 & tag_mask) |
+                (((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & tag_mask) |
                 ((u32)prim & addr_mask);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            next_render_slot = &D_80083160;
-            ASM_KEEP_NV(next_render_slot);
-            ((S_807B0B3C_10 *)bucket_ptr)->unk_B0 = bucket_tag;
-            bucket_ptr = *next_render_slot;
+            render_slot_m = &D_80083160;
+            ASM_KEEP_NV(render_slot_m);
+            ((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 = bucket_tag;
+            bucket_ptr_m = *render_slot_m;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_x = draw_value;
             ASM_KEEP_NV(page_x);
-            prim = *(u8 **)(bucket_ptr + 0x8D0);
+            prim = *(u8 **)(bucket_ptr_m + 0x8D0);
             page_y = draw_value;
-            *(u8 **)(bucket_ptr + 0x8D0) = prim + 0xC;
+            *(u8 **)(bucket_ptr_m + 0x8D0) = prim + 0xC;
         }
         component = func_80066460(draw_value, blend_mode, page_x, page_y);
         {
@@ -651,29 +644,27 @@ loop_setup_b:
         }
 
         {
-            register u8 **render_slot ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register u8 *bucket_ptr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 prim_tag;
             u32 bucket_tag;
 
-            render_slot = &D_80083160;
-            ASM_KEEP_NV(render_slot);
-            bucket_ptr = *render_slot;
-            object_base = (u8 *)(0xFF000000);
+            render_slot_m2 = &D_80083160;
+            ASM_KEEP_NV(render_slot_m2);
+            render_state_m = *render_slot_m2;
+            render_slot_m2 = (u8 **)((u8 *)(0xFF000000));
             prim_tag = ((S_807B0B3C_7 *)prim)->unk_00;
-            bucket_ptr = (u8 *)((u32)bucket_offset + (u32)bucket_ptr);
-            prim_tag &= (u32)object_base;
-            LOAD_GLOBAL_PAGE(next_render_slot);
-            bucket_tag = ((S_807B0B3C_10 *)bucket_ptr)->unk_B0;
-            FINISH_GLOBAL_TABLE(next_render_slot, bucket_tag, prim_tag);
-            ASM_KEEP_NV(next_render_slot);
+            render_state_m = (u8 *)((u32)bucket_offset + (u32)render_state_m);
+            prim_tag &= (u32)(u8 *)render_slot_m2;
+            LOAD_GLOBAL_PAGE(render_slot_m);
+            bucket_tag = ((S_807B0B3C_10 *)render_state_m)->unk_B0;
+            FINISH_GLOBAL_TABLE(render_slot_m, bucket_tag, prim_tag);
+            ASM_KEEP_NV(render_slot_m);
             ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
         }
         {
             u8 *render_state;
             register u32 tag_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-            render_state = *next_render_slot;
+            render_state = *render_slot_m;
             tag_mask = 0xFF000000;
             bucket_offset += (s32)render_state;
             ((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 =
@@ -682,8 +673,8 @@ loop_setup_b:
         }
     }
 
-    object_base = (u8 *)object;
-    draw_value = (u32) ((S_807B0B3C_0_pre *)object_base)[-1].unk_00;
+    render_slot_m2 = (u8 **)((u8 *)object);
+    draw_value = (u32) ((S_807B0B3C_0_pre *)(u8 *)render_slot_m2)[-1].unk_00;
     if (draw_value != 0) {
         draw_value += 0x20;
         object = (u8 *)draw_value;

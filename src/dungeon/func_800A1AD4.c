@@ -41,29 +41,27 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     s32 base_z;
     u16 *dx;
     u16 *dy;
-    register s32 saved_x ASM_REG("$16");
     s32 probe_y;
     register s32 found_x ASM_REG("$2");
     register s32 found_y ASM_REG("$3");
 
-    saved_x = x;
     outer_dir = y;
     outer_count = z;
-    ASM_KEEP_NV(saved_x);
-    probe_x = (s16)(saved_x - 1);
+    ASM_KEEP_NV(x);
+    probe_x = (s16)(x - 1);
     probe_y = (s16)outer_dir;
     tile_valid = func_8009A350(probe_x, probe_y, 0, &tile_flags);
-    base_x = saved_x;
+    base_x = x;
     base_y = outer_dir;
     base_z = outer_count;
     if ((tile_valid << 0x10) != 0) {
         if (!(tile_flags & 0x8820)) {
-            packed_x = saved_x << 0x10;
+            packed_x = x << 0x10;
             distance = func_800BCB04((((packed_x >> 0xA) + 0x20) & 0xFFE0), ((probe_y << 6) + 0x20) & 0xFFE0, (s16)(outer_count - 0x20));
             if ((s16)distance < 0x200) {
                 addr = (u32)out_x;
                 ASM_KEEP_NV(addr);
-                *(s16 *)addr = (s16)saved_x;
+                *(s16 *)addr = (s16)x;
                 addr = (u32)out_y;
                 ASM_KEEP_NV(addr);
                 *(s16 *)addr = (s16)outer_dir;

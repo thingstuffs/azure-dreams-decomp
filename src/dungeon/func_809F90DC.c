@@ -218,7 +218,7 @@ flags_done:
 
     do {
         void *child;
-        register void *root_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         child = func_8003FD64(0x112, D_80083498);
         allocated = child;
@@ -239,8 +239,6 @@ flags_done:
                 outer_base = outer;
             } while (0);
             {
-                register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
                 table_page = (u8 *)0x80170000;
                 ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 direction_table = table_page - 0xe98;
@@ -286,9 +284,9 @@ flags_done:
                     func_800478E8(call_part, call_data, call_one);
                 }
                 work_value = (uptr)stack.root;
-                root_link = (u8 *)work_value + 0x1E;
+                table_page = (u8 *)work_value + 0x1E;
                 more_items = item_index < ((S_8016A8DC_6 *)entry)->unk_02;
-                ((S_8016A8DC_6 *)entry)->unk_98 = root_link;
+                ((S_8016A8DC_6 *)entry)->unk_98 = table_page;
             } while (more_items);
         }
         outer = (u8 *)outer + 4;
@@ -299,8 +297,8 @@ flags_done:
             child_count = ((S_8016A8DC_4 *)stable_object)->unk_9E;
             work_value++;
             stack.outer_index = (s32)work_value;
-            root_link = (void *)((s32)work_value < child_count);
-            if (!(s32)root_link) {
+            table_page = (u8 *)((s32)work_value < child_count);
+            if (table_page == 0) {
                 break;
             }
         }

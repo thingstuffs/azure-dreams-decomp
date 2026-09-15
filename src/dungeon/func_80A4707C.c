@@ -111,7 +111,7 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
     S_8017087C_8 *child_slot;
     s32 entry_id_fixed;
     void *part_b;
-    register void *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *work;
     s8 saved_x;
     s16 saved_part_id;
     s8 saved_y;
@@ -148,7 +148,9 @@ void *func_8017087C(s16 kind_flags, s16 tile_x, s16 tile_y, s16 part_id)
         if (kind == 1) {
             setup_value = ((S_8017087C_1 *)work)->unk_14 | 0x6000;
             work_flags = ((S_8017087C_1 *)work)->unk_1C | 0x6000;
-            goto set_flags;
+            ((S_8017087C_1 *)work)->unk_14 = setup_value;
+            ((S_8017087C_1 *)work)->unk_1C = work_flags;
+            goto post_kind;
         }
         if (kind < 2) {
             goto normal_kind;

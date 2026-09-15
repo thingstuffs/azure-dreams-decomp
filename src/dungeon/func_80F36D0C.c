@@ -112,7 +112,6 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     PackedRecord *record_base;
     s32 record_offset;
     u16 saved_y;
-    register TileRecord *tile_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *spawn_parent;
     register unsigned long step_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 *step_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -122,7 +121,6 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     register u32 angle_bits ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register unsigned long return_step_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 delta_y;
-    register s32 coord_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 current_x;
     s32 return_distance;
     register u8 *angle_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -159,9 +157,9 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
             ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             spawn_parent = (u8 *)entity - 0x20;
             ASM_KEEP_NV(spawn_parent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            tile_base = D_800E36C8;
+            return_step_addr = (unsigned long)(D_800E36C8);
             animation_entry = record_index * 12;
-            tile = (TileRecord *)(animation_entry + (unsigned long)tile_base);
+            tile = (TileRecord *)(animation_entry + (unsigned long)(TileRecord *)return_step_addr);
             ASM_KEEP_NV(tile);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             spawned = func_800A8608(
                 spawn_parent,
@@ -271,17 +269,17 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         func_80047784(effect, *animation_entry, 0);
 
         delta_y = entity->saved_y;
-        coord_delta = motion->y.half.hi;
+        angle_page = (u8 *)(motion->y.half.hi);
         current_x = motion->x.half.hi;
-        delta_y -= coord_delta;
-        coord_delta = entity->saved_x;
+        delta_y -= (s32)angle_page;
+        angle_page = (u8 *)(entity->saved_x);
         direction = delta_y;
         if (delta_y < 0) {
             direction = -direction;
         }
-        coord_delta -= current_x;
-        return_distance = coord_delta;
-        if (coord_delta < 0) {
+        angle_page = (u8 *)(((s32)angle_page) - (current_x));
+        return_distance = (s32)angle_page;
+        if ((s32)angle_page < 0) {
             return_distance = -return_distance;
         }
         if (return_distance < direction) {

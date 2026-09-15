@@ -63,7 +63,6 @@ extern u8 D_80045C34[9];
 
 /* Creates an object with the supplied identifier, data, and visual template. */
 s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_template) {
-    S_818C32F4_3 *template_visual = visual_template;
     u16 angle;
     void *init_data;
     S_818C32F4_2 *visual;
@@ -72,7 +71,6 @@ s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_templa
     S_818C32F4_5 *object_data;
 
     object = func_8003FC64(0x212);
-    ASM_KEEP(template_visual);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     if (object != 0) {
         ((S_818C32F4_0 *)object)->unk_10 = D_80024A08;
         ((S_818C32F4_0 *)object)->unk_20 = *object_id;
@@ -80,7 +78,7 @@ s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_templa
         object_state->unk_04 = 0;
         object_state->unk_06 = 0;
         visual = ((S_818C32F4_0 *)object)->unk_0C;
-        visual->unk_0C.at00.v = template_visual->unk_0C;
+        visual->unk_0C.at00.v = ((S_818C32F4_3 *)(visual_template))->unk_0C;
         if ((u8)visual->unk_0C.at00.v != 0) {
             visual->unk_0C.at00u.v = 0xC0;
         }
@@ -94,7 +92,7 @@ s32 func_818C32F4(s32 *object_id, S_818C32F4_4 *source_data, void *visual_templa
         visual->unk_10 = visual->unk_10 | 0x60;
         func_8003DB94(visual, D_80025B38, 0);
         init_data = D_80045C34;
-        angle = template_visual->unk_1A;
+        angle = ((S_818C32F4_3 *)(visual_template))->unk_1A;
         visual->unk_1E = 0x1400;
         visual->unk_1C = 0x1400;
         visual->unk_1A = angle;

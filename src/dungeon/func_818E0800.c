@@ -171,9 +171,7 @@ __asm__(".globl func_818E0800\n"
 /* Updates target-directed movement, spawns particles, and advances the effect state. */
 void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
 {
-    void *effect = effect_arg;
-    void *motion = motion_arg;
-    register void *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor;
     void *actor_base;
     void *entity;
     void *target;
@@ -189,28 +187,28 @@ void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
     s32 found_target;
     s32 hit_effect;
 
-    actor = ((S_818E0800_0 *)effect)->unk_00;
-    timer = ((S_818E0800_0 *)effect)->unk_50.s;
+    actor = ((S_818E0800_0 *)effect_arg)->unk_00;
+    timer = ((S_818E0800_0 *)effect_arg)->unk_50.s;
     actor_data = ((S_818E0800_1_pre *)actor)[-1].unk_00;
     timer -= 1;
-    initial_state = ((S_818E0800_0 *)effect)->unk_0A.s;
-    ((S_818E0800_0 *)effect)->unk_50.s = timer;
+    initial_state = ((S_818E0800_0 *)effect_arg)->unk_0A.s;
+    ((S_818E0800_0 *)effect_arg)->unk_50.s = timer;
     actor_base = (u8 *)actor - 0x20;
 
     if (initial_state == 2) {
         target = ((S_818E0800_1 *)actor)->unk_60;
         if (target == 0) {
-            ((S_818E0800_2 *)motion)->unk_00.at00.v =
+            ((S_818E0800_2 *)motion_arg)->unk_00.at00.v =
                 ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_00.at00.v;
-            ((S_818E0800_2 *)motion)->unk_04.at00.v =
+            ((S_818E0800_2 *)motion_arg)->unk_04.at00.v =
                 ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_04.at00.v;
-            ((S_818E0800_2 *)motion)->unk_08.at00.v =
+            ((S_818E0800_2 *)motion_arg)->unk_08.at00.v =
                 ((S_818E0800_13 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_08;
         } else {
             entity = (u8 *)target - 0x20;
-            ((S_818E0800_2 *)motion)->unk_00.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)entity)->unk_08))->unk_00;
-            ((S_818E0800_2 *)motion)->unk_04.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)entity)->unk_08))->unk_04;
-            ((S_818E0800_2 *)motion)->unk_08.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)entity)->unk_08))->unk_08;
+            ((S_818E0800_2 *)motion_arg)->unk_00.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)entity)->unk_08))->unk_00;
+            ((S_818E0800_2 *)motion_arg)->unk_04.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)entity)->unk_08))->unk_04;
+            ((S_818E0800_2 *)motion_arg)->unk_08.at00.v = ((S_818E0800_13 *)(((S_818E0800_4 *)entity)->unk_08))->unk_08;
         }
 
         particles_left = 5;
@@ -222,11 +220,11 @@ void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
                 render_state = ((S_818E0800_4 *)entity)->unk_0C;
                 ((S_818E0800_4 *)entity)->unk_10 = func_80024594;
                 particle = (u8 *)entity + 0x20;
-                ((S_818E0800_5 *)particle)->unk_0C = ((S_818E0800_2 *)motion)->unk_00.at02.v;
-                ((S_818E0800_5 *)particle)->unk_0E = ((S_818E0800_2 *)motion)->unk_04.at02.v;
+                ((S_818E0800_5 *)particle)->unk_0C = ((S_818E0800_2 *)motion_arg)->unk_00.at02.v;
+                ((S_818E0800_5 *)particle)->unk_0E = ((S_818E0800_2 *)motion_arg)->unk_04.at02.v;
                 {
                     s32 particle_z;
-                    particle_z = ((S_818E0800_2 *)motion)->unk_08.at02.v;
+                    particle_z = ((S_818E0800_2 *)motion_arg)->unk_08.at02.v;
                     ((S_818E0800_5 *)particle)->unk_48 = 0;
                     ((S_818E0800_5 *)particle)->unk_16 = 0;
                     ((S_818E0800_5 *)particle)->unk_14 = 0;
@@ -242,14 +240,14 @@ void BODY_NAME(void *effect_arg, void *motion_arg, S_818E0800_10 *actor_state)
                 ((S_818E0800_6 *)render_state)->unk_08 = ((S_818E0800_7 *)sprite_set)->unk_04;
                 ((S_818E0800_6 *)render_state)->unk_04 = 0;
                 ((S_818E0800_6 *)render_state)->unk_05 = 0;
-                ((S_818E0800_4 *)entity)->unk_20 = effect;
+                ((S_818E0800_4 *)entity)->unk_20 = effect_arg;
                 ((S_818E0800_5 *)particle)->unk_4C = 0;
             }
             particles_left -= 1;
         } while (particles_left >= 0);
     }
 
-    dispatch_state = ((S_818E0800_0 *)effect)->unk_0A.s;
+    dispatch_state = ((S_818E0800_0 *)effect_arg)->unk_0A.s;
     if (dispatch_state == 2) {
         goto dispatch_case_2;
     }
@@ -274,7 +272,7 @@ dispatch_high:
     return;
 
 dispatch_case_0:
-        if (!(((S_818E0800_14 *)(((S_818E0800_0 *)effect)->unk_04))->unk_00 & 0x80)) {
+        if (!(((S_818E0800_14 *)(((S_818E0800_0 *)effect_arg)->unk_04))->unk_00 & 0x80)) {
             return;
         }
         found_target = (s32)func_800A05A4(
@@ -297,47 +295,47 @@ dispatch_case_0:
         ((S_818E0800_1 *)actor)->unk_72.s = ((S_818E0800_6 *)render_state)->unk_24;
         ((S_818E0800_1 *)actor)->unk_73.s = ((S_818E0800_6 *)render_state)->unk_25;
 set_motion_xy:
-        ((S_818E0800_2 *)motion)->unk_00.at02.v =
+        ((S_818E0800_2 *)motion_arg)->unk_00.at02.v =
             ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_00.at02.v;
-        ((S_818E0800_2 *)motion)->unk_04.at02.v =
+        ((S_818E0800_2 *)motion_arg)->unk_04.at02.v =
             ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_04.at02.v;
-        ((S_818E0800_2 *)motion)->unk_08.at02.v =
+        ((S_818E0800_2 *)motion_arg)->unk_08.at02.v =
             ((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_0A;
-        ((S_818E0800_0 *)effect)->unk_50.s = 8;
+        ((S_818E0800_0 *)effect_arg)->unk_50.s = 8;
 
         {
             s32 delta_x = ((S_818E0800_1 *)actor)->unk_72.u;
-            s32 origin_x = ((S_818E0800_2 *)motion)->unk_00.at02.v;
+            s32 origin_x = ((S_818E0800_2 *)motion_arg)->unk_00.at02.v;
             delta_x <<= 6;
             origin_x -= 0x20;
             delta_x -= origin_x;
-            ((S_818E0800_2 *)motion)->unk_0C.at02.v = delta_x;
+            ((S_818E0800_2 *)motion_arg)->unk_0C.at02.v = delta_x;
         }
-        ((S_818E0800_2 *)motion)->unk_0C.at00.v /= ((S_818E0800_0 *)effect)->unk_50.u;
+        ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v /= ((S_818E0800_0 *)effect_arg)->unk_50.u;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         {
             s32 delta_y = ((S_818E0800_1 *)actor)->unk_73.u;
-            s32 origin_y = ((S_818E0800_2 *)motion)->unk_04.at02.v;
+            s32 origin_y = ((S_818E0800_2 *)motion_arg)->unk_04.at02.v;
             delta_y <<= 6;
             origin_y -= 0x20;
             delta_y -= origin_y;
-            ((S_818E0800_2 *)motion)->unk_10.at02.v = delta_y;
+            ((S_818E0800_2 *)motion_arg)->unk_10.at02.v = delta_y;
         }
-        ((S_818E0800_2 *)motion)->unk_10.at00.v /= ((S_818E0800_0 *)effect)->unk_50.u;
+        ((S_818E0800_2 *)motion_arg)->unk_10.at00.v /= ((S_818E0800_0 *)effect_arg)->unk_50.u;
         ground_z = (s16)(((S_818E0800_12 *)(((S_818E0800_3 *)actor_base)->unk_08))->unk_0A - 0x30);
-        ground_z = func_800BCB04(((S_818E0800_2 *)motion)->unk_00.at02.v, ((S_818E0800_2 *)motion)->unk_04.at02.v, ground_z);
-        ((S_818E0800_2 *)motion)->unk_14.at02.v = ground_z - ((S_818E0800_2 *)motion)->unk_08.at02.v;
-        ((S_818E0800_2 *)motion)->unk_14.at00.v /= ((S_818E0800_0 *)effect)->unk_50.u;
+        ground_z = func_800BCB04(((S_818E0800_2 *)motion_arg)->unk_00.at02.v, ((S_818E0800_2 *)motion_arg)->unk_04.at02.v, ground_z);
+        ((S_818E0800_2 *)motion_arg)->unk_14.at02.v = ground_z - ((S_818E0800_2 *)motion_arg)->unk_08.at02.v;
+        ((S_818E0800_2 *)motion_arg)->unk_14.at00.v /= ((S_818E0800_0 *)effect_arg)->unk_50.u;
         func_800A56E0(0x300);
-        ((S_818E0800_0 *)effect)->unk_0A.u += 1;
+        ((S_818E0800_0 *)effect_arg)->unk_0A.u += 1;
         return;
 
 dispatch_case_1: {
         s32 next_timer;
-        ((S_818E0800_2 *)motion)->unk_00.at00.v += ((S_818E0800_2 *)motion)->unk_0C.at00.v;
-        ((S_818E0800_2 *)motion)->unk_04.at00.v += ((S_818E0800_2 *)motion)->unk_10.at00.v;
-        ((S_818E0800_2 *)motion)->unk_08.at00.v += ((S_818E0800_2 *)motion)->unk_14.at00.v;
-        if (((S_818E0800_0 *)effect)->unk_50.u > 0) {
+        ((S_818E0800_2 *)motion_arg)->unk_00.at00.v += ((S_818E0800_2 *)motion_arg)->unk_0C.at00.v;
+        ((S_818E0800_2 *)motion_arg)->unk_04.at00.v += ((S_818E0800_2 *)motion_arg)->unk_10.at00.v;
+        ((S_818E0800_2 *)motion_arg)->unk_08.at00.v += ((S_818E0800_2 *)motion_arg)->unk_14.at00.v;
+        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
             return;
         }
         if (((S_818E0800_1 *)actor)->unk_60 != 0) {
@@ -345,34 +343,34 @@ dispatch_case_1: {
         } else {
             next_timer = 10;
         }
-        ((S_818E0800_0 *)effect)->unk_50.u = next_timer;
-        ((S_818E0800_0 *)effect)->unk_0A.u += 1;
+        ((S_818E0800_0 *)effect_arg)->unk_50.u = next_timer;
+        ((S_818E0800_0 *)effect_arg)->unk_0A.u += 1;
         return;
     }
 
 dispatch_case_2: {
         s32 sound_id;
         void *active_target;
-        if (((S_818E0800_0 *)effect)->unk_50.u > 0) {
+        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
             return;
         }
         active_target = ((S_818E0800_1 *)actor)->unk_60;
         sound_id = 8;
         if (active_target == 0) {
-            ((S_818E0800_0 *)effect)->unk_50.u = 10;
-            ((S_818E0800_0 *)effect)->unk_0A.u = 0xFF;
+            ((S_818E0800_0 *)effect_arg)->unk_50.u = 10;
+            ((S_818E0800_0 *)effect_arg)->unk_0A.u = 0xFF;
             return;
         }
         func_800419EC(sound_id, 0x10);
-        ((S_818E0800_0 *)effect)->unk_50.u = 6;
+        ((S_818E0800_0 *)effect_arg)->unk_50.u = 6;
 state_f0:
-        ((S_818E0800_0 *)effect)->unk_0A.u = 0xF0;
+        ((S_818E0800_0 *)effect_arg)->unk_0A.u = 0xF0;
         return;
     }
 
 dispatch_case_f0:
-        func_80024784(((S_818E0800_1 *)actor)->unk_60, ((S_818E0800_0 *)effect)->unk_50.u);
-        if (((S_818E0800_0 *)effect)->unk_50.u == 2 &&
+        func_80024784(((S_818E0800_1 *)actor)->unk_60, ((S_818E0800_0 *)effect_arg)->unk_50.u);
+        if (((S_818E0800_0 *)effect_arg)->unk_50.u == 2 &&
             !func_8009D218(((S_818E0800_1 *)actor)->unk_60, 2, actor)) {
             if (((S_818E0800_15 *)(((S_818E0800_1 *)actor)->unk_60))->unk_14 & 1) {
                 if (((S_818E0800_1 *)actor)->unk_60 != 0) {
@@ -381,22 +379,22 @@ dispatch_case_f0:
                 }
             }
         }
-        if (((S_818E0800_0 *)effect)->unk_50.u > 0) {
+        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
             return;
         }
-        ((S_818E0800_0 *)effect)->unk_0A.u = 0xFF;
+        ((S_818E0800_0 *)effect_arg)->unk_0A.u = 0xFF;
         return;
 
 dispatch_case_ff:
-        if (((S_818E0800_0 *)effect)->unk_52.s & 0x8000) {
-            ((S_818E0800_0 *)effect)->unk_52.u &= 0x7FFF;
+        if (((S_818E0800_0 *)effect_arg)->unk_52.s & 0x8000) {
+            ((S_818E0800_0 *)effect_arg)->unk_52.u &= 0x7FFF;
             return;
         }
-        if (((S_818E0800_0 *)effect)->unk_50.u > 0) {
+        if (((S_818E0800_0 *)effect_arg)->unk_50.u > 0) {
             return;
         }
         D_8008346C[0] = 0;
-        ((S_818E0800_0_pre *)effect)[-1].unk_00 |= 0x8000;
+        ((S_818E0800_0_pre *)effect_arg)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
         return;
 

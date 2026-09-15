@@ -128,6 +128,10 @@ node_loop:
         SCR_S32(0x48) = S32_AT(object, 0x14);
         SCR_S32(0x4C) = S32_AT(object, 0x18);
         TransMatrix(work_matrix, translation);
+        RotMatrix(D_80080994, work_matrix);
+        CompMatrix(matrix, work_matrix, matrix);
+        SetRotMatrix(matrix);
+        SetTransMatrix(matrix);
     } else {
         TransMatrix(matrix, object + 0x30);
         RotMatrix(object + 0x8, matrix);
@@ -147,12 +151,11 @@ node_loop:
         SCR_S32(0x48) = S32_AT(object, 0x14);
         SCR_S32(0x4C) = S32_AT(object, 0x18);
         TransMatrix(work_matrix, scratch + 0x44);
+        RotMatrix(D_80080994, work_matrix);
+        CompMatrix(matrix, work_matrix, matrix);
+        SetRotMatrix(matrix);
+        SetTransMatrix(matrix);
     }
-    RotMatrix(D_80080994, work_matrix);
-    CompMatrix(matrix, work_matrix, matrix);
-    SetRotMatrix(matrix);
-    ASM_USE_NV(work_matrix);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    SetTransMatrix(matrix);
 
     if (sprite_data != 0) {
         sprite = sprite_data + 1;

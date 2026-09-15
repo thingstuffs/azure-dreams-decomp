@@ -307,7 +307,7 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     s32 flags_or_height;
     register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 record_callback;
-    register s32 turn_sign ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 turn_sign;
     s32 retry_callback;
     register s32 companion_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 pending_passes ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -336,7 +336,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     s32 pending_low;
     u8 action_id;
     u8 pending_high;
-    s32 actor_points;
     s32 companion_points;
     S_80089AA0_11 *companion;
     void *next_link;
@@ -469,19 +468,19 @@ snapshot_input:
                                     ((S_80089AA0_8 *)&D_80083460)->unk_1E = (u16) (((S_80089AA0_8 *)&D_80083460)->unk_1E + 1);
                                     actor_fraction = ((S_80089AA0_9 *)(&D_800E3D70))->unk_00 + (*(u8 *)((u8 *)actor + 0x29));
                                     D_800E3D70 = (s32)actor_fraction;
-                                    actor_points = (*(u8 *)((u8 *)actor + 0x28));
+                                    turn_sign = (*(u8 *)((u8 *)actor + 0x28));
                                     if (actor_fraction >= 0x101U) {
                                         do {
                                             actor_remainder = (u32)D_800E3D70 - 0x100;
                                             D_800E3D70 = (s32)actor_remainder;
-                                            actor_points += 1;
+                                            turn_sign += 1;
                                         } while (actor_remainder >= 0x101U);
                                     }
                                     actor_limit = (*(u8 *)((u8 *)actor + 0x29));
-                                    if ((s32) actor_limit < (s32) actor_points) {
-                                        actor_points = actor_limit;
+                                    if ((s32) actor_limit < (s32) turn_sign) {
+                                        turn_sign = actor_limit;
                                     }
-                                    (*(u8 *)((u8 *)actor + 0x28)) = actor_points;
+                                    (*(u8 *)((u8 *)actor + 0x28)) = turn_sign;
                                     companion_index = 1;
                                     companion_counters = &D_800E3D74;
                                     companion_fraction = (u32 *)((u8 *)companion_counters + 4);

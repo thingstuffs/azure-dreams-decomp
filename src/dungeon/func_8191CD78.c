@@ -244,6 +244,7 @@ void func_80024578(void *effect_data, void *position_data, void *render_data)
         &&case_4, &&case_5, &&case_6, &&case_7,
         &&case_8, &&case_9, &&case_10, &&case_11,
     };
+    register s32 expanded_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     frame = effect->unk_10.u16;
     state = effect->unk_0A.s16;
@@ -252,10 +253,11 @@ void func_80024578(void *effect_data, void *position_data, void *render_data)
     effect->unk_10.u16 = (u16)(frame + 1);
     if ((u32)state >= 16U) {
         goto finish;
+    } else {
+        state_table = jtbl_80024008;
+        (void)state_labels;
+        goto *state_table[state];
     }
-    state_table = jtbl_80024008;
-    (void)state_labels;
-    goto *state_table[state];
 
 case_0:
     effect->unk_10.u16 = 0;
@@ -281,19 +283,19 @@ case_1_entry:
         if ((((S_func_80024578_6 *)(work_base->unk_0C))->unk_14 & 0x8000) == 0) {
             position->unk_00.parts_02.unk_02.u16 = (u16)(position->unk_00.parts_02.unk_02.u16 + DELTA(0));
             position->unk_04.parts_06.unk_06.u16 = (u16)(position->unk_04.parts_06.unk_06.u16 + DELTA(1));
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             {
-                register u16 position_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                u16 position_z;
                 s32 offset_z;
 
                 position_z = position->unk_08.parts_0A.unk_0A.u16;
                 offset_z = (u16)DELTA(2);
                 next_z = (u16)(position_z + offset_z);
             }
+            position->unk_08.parts_0A.unk_0A.u16 = next_z;
         } else {
             next_z = (u16)(copied_z - 64);
+            position->unk_08.parts_0A.unk_0A.u16 = next_z;
         }
-        position->unk_08.parts_0A.unk_0A.u16 = next_z;
     }
     if ((((S_func_80024578_8 *)(effect->unk_04))->unk_00 & 0x80) == 0) {
         goto finish;
@@ -431,7 +433,6 @@ case_1_entry:
         work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
         final_floor = func_800BCB04(floor_x, floor_y, floor_limit);
         {
-            register s32 expanded_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 widened_y;
             s32 position_y;
             s16 *delta_scan = (s16 *)(scratch + 2);
@@ -519,9 +520,9 @@ case_2:
     ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A =
         (u16)(((S_func_80024578_3 *)(effect->unk_1C))->unk_2A + 0x200);
     if (effect->unk_10.s16 >= 28) {
-        register S_func_80024578_4 *target_render ASM_REG("$2") = effect->unk_24;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        expanded_floor = (s32)(effect->unk_24);
 
-        target_render->unk_1A = (u16)(target_render->unk_1A + 0x800);
+        ((S_func_80024578_4 *)expanded_floor)->unk_1A = (u16)(((S_func_80024578_4 *)expanded_floor)->unk_1A + 0x800);
         goto advance_state;
     }
     goto finish;

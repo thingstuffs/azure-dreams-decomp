@@ -565,12 +565,11 @@ mesh_loop:
         ASM_KEEP(ot_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         {
             u32 ot_tag;
-            register u32 packet_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
             ot_tag = *ot_entry;
-            packet_addr = (u32)(S_func_8187A9A8_6 *)raw_depth_bias & addr_mask;
+            ot_base = (u8 *)((u32)(S_func_8187A9A8_6 *)raw_depth_bias & addr_mask);
             ot_tag &= tag_mask;
-            ot_tag |= packet_addr;
+            ot_tag |= (u32)ot_base;
             *ot_entry = ot_tag;
         }
 

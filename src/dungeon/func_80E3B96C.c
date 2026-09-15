@@ -146,11 +146,11 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
         u16 *first_x_step;
         u16 *first_y_step;
         s32 trial_result;
+        register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         trial_dir = 0;
         x_steps = D_8006CCD8;
         {
-            register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             ASM_SET(direction_offset);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             direction_offset = direction << 1;
@@ -182,13 +182,12 @@ search_done:
 
 trial_success:
         {
-            register s32 trial_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 trial_y_address;
 
-            trial_offset = trial_dir << 1;
-            trial_x_step = (u16 *)(trial_offset + (s32)x_steps);
+            direction_offset = trial_dir << 1;
+            trial_x_step = (u16 *)(direction_offset + (s32)x_steps);
             table_or_owner = (u8 *)D_8006CCE8;
-            trial_y_address = trial_offset + (s32)table_or_owner;
+            trial_y_address = direction_offset + (s32)table_or_owner;
             ASM_KEEP(trial_x_step);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             target_x = trial_x_step[0] + (source_arg->x + first_x_step[0]);
             target_y = *(u16 *)trial_y_address + (source_arg->y + first_y_step[0]);

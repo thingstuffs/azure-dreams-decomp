@@ -56,7 +56,6 @@ extern u8 D_80176340[];
 /* Updates the actor's movement animation and finishes the timed action. */
 void func_80174F24(void *action, void *motion_arg, void *unit_arg, void *actor)
 {
-    register void *motion ASM_REG("$18") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *unit ASM_REG("$19") = unit_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 direction_aux;
     u8 move_state;
@@ -92,16 +91,16 @@ void func_80174F24(void *action, void *motion_arg, void *unit_arg, void *actor)
             move_ticks = ((S_80174F24_0 *)action)->unk_9E.s;
             if (move_ticks != 0) {
                 target_delta = ((S_80174F24_1 *)unit)->unk_24 << 6;
-                axis_pos = ((S_80174F24_3 *)motion)->unk_02 - 0x20;
+                axis_pos = ((S_80174F24_3 *)motion_arg)->unk_02 - 0x20;
                 target_delta -= axis_pos;
                 x_velocity = (target_delta << 16) / move_ticks;
 
-                axis_pos = ((S_80174F24_3 *)motion)->unk_06;
-                ((S_80174F24_3 *)motion)->unk_0C = x_velocity;
+                axis_pos = ((S_80174F24_3 *)motion_arg)->unk_06;
+                ((S_80174F24_3 *)motion_arg)->unk_0C = x_velocity;
                 axis_pos -= 0x20;
                 target_delta = ((S_80174F24_1 *)unit)->unk_25 << 6;
                 target_delta -= axis_pos;
-                ((S_80174F24_3 *)motion)->unk_10 =
+                ((S_80174F24_3 *)motion_arg)->unk_10 =
                     (target_delta << 16) / ((S_80174F24_0 *)action)->unk_9E.s;
 
                 ((S_80174F24_0 *)action)->unk_A0 =
@@ -127,10 +126,10 @@ check_landing:
             u8 *direction_table;
 
             ((S_80174F24_0 *)action)->unk_98 &= 0xFFF7;
-            ((S_80174F24_3 *)motion)->unk_14 = 0;
-            ((S_80174F24_3 *)motion)->unk_10 = 0;
-            ((S_80174F24_3 *)motion)->unk_0C = 0;
-            func_800A2B04(motion,
+            ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
+            ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
+            ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
+            func_800A2B04(motion_arg,
                 ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
             direction_table = D_80176340;
             (*(u8 * *)((u8 *)unit + 0x2C)) = direction_table;
@@ -157,10 +156,10 @@ check_timeout:
             return;
         }
 
-        ((S_80174F24_3 *)motion)->unk_14 = 0;
-        ((S_80174F24_3 *)motion)->unk_10 = 0;
-        ((S_80174F24_3 *)motion)->unk_0C = 0;
-        func_800A2B04(motion,
+        ((S_80174F24_3 *)motion_arg)->unk_14 = 0;
+        ((S_80174F24_3 *)motion_arg)->unk_10 = 0;
+        ((S_80174F24_3 *)motion_arg)->unk_0C = 0;
+        func_800A2B04(motion_arg,
             ((S_80174F24_1 *)unit)->unk_24, ((S_80174F24_1 *)unit)->unk_25);
         func_800AD594(actor, 4);
         func_800A4ACC(actor);
@@ -191,7 +190,6 @@ update_actor:
             ((S_80174F24_0 *)action)->unk_8C = &D_80173B98;
             func_800A9A04(actor);
         }
-        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(unit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

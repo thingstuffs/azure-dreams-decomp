@@ -91,7 +91,7 @@ s32 func_80022C8C(void)
     right_x = 0x04900000;
     top_y = 0x02E00000;
     position[2] = (s32)0xFFE00000;
-    do {
+    loop_0: {
         if ((object_or_slot >> 1) != 0) {
             position[0] = left_x;
         } else {
@@ -100,22 +100,21 @@ s32 func_80022C8C(void)
 
         if (object_or_slot & 1) {
             position[1] = top_y;
+            spawn_position = position;
+            spawn_kind = 0x35;
+            spawn_table = (void *)0x80020000;
         } else {
             bottom_y = 0x03E00000;
-            ASM_KEEP(bottom_y);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             position[1] = bottom_y;
+            spawn_position = position;
+            spawn_kind = 0x35;
+            spawn_table = (void *)0x80020000;
         }
-
-        spawn_position = position;
-        ASM_KEEP(spawn_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        spawn_kind = 0x35;
-        ASM_KEEP(spawn_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        spawn_table = (void *)0x80020000;
-        ASM_KEEP(spawn_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         spawn_table = (u8 *)spawn_table + 0x3920;
         func_80022E64(spawn_position, spawn_kind, spawn_table, parent_link);
         object_or_slot--;
-    } while (object_or_slot >= 0);
+
+    } if (object_or_slot >= 0) goto loop_0;
 
     object_or_slot = (s32)func_8003FC64(0x136);
     if (object_or_slot != 0) {

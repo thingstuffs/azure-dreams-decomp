@@ -80,10 +80,9 @@ typedef struct S_80169EC0_5 {
 /* Updates actor callbacks, facing, movement, and terrain height. */
 void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
 {
-    void *owner = owner_arg;
     void *motion = motion_arg;
     void *data = data_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register void *actor ASM_REG("$16") = owner;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor = owner_arg;
     register s16 initial_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s16 facing ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register u32 state_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -100,12 +99,12 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     s32 signed_height;
     s32 height_offset;
 
-    if ((*(u8 *)((u8 *)owner + (0xB1))) == 0 &&
+    if ((*(u8 *)((u8 *)owner_arg + (0xB1))) == 0 &&
         !(D_80013714 & 1) && D_8008346A == 0) {
-        (*(u8 *)((u8 *)owner + (0xB1))) = 1;
+        (*(u8 *)((u8 *)owner_arg + (0xB1))) = 1;
         func_800353F4(D_80173DDC);
-        (*(u8 *)((u8 *)owner + (0x6D))) = 0;
-        (*(u8 *)((u8 *)owner + (0x9B))) = 0;
+        (*(u8 *)((u8 *)owner_arg + (0x6D))) = 0;
+        (*(u8 *)((u8 *)owner_arg + (0x9B))) = 0;
     }
 
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -124,15 +123,15 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         } while (slot_index >= 0);
     }
 
-    if ((*(u8 *)((u8 *)owner + (0xB0))) == 1) {
+    if ((*(u8 *)((u8 *)owner_arg + (0xB0))) == 1) {
         func_800A48F0(actor, 7, 1);
     } else {
         func_80042B68(actor, 7);
     }
     if (D_80083462 & 0x2000) {
-        special_callback = (*(Callback *)((u8 *)owner + (0x8C)));
+        special_callback = (*(Callback *)((u8 *)owner_arg + (0x8C)));
         if (special_callback == (Callback)D_8016A36C) {
-            special_callback(owner, motion, data, actor);
+            special_callback(owner_arg, motion, data, actor);
             return;
         } else {
             ((S_80169EC0_3 *)actor)->unk_71 &= 0x7F;
@@ -141,7 +140,7 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     }
 
     {
-        register void *call_owner ASM_REG("$4") = owner;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *call_owner ASM_REG("$4") = owner_arg;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         register void *call_motion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         register void *call_data ASM_REG("$6") = data;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
@@ -154,28 +153,27 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         }
     }
 
-    update_callback = (*(Callback *)((u8 *)owner + (0x8C)));
+    update_callback = (*(Callback *)((u8 *)owner_arg + (0x8C)));
     if (update_callback != NULL) {
-        update_callback(owner, motion, data, actor);
+        update_callback(owner_arg, motion, data, actor);
     }
-    D_80173B94[(*(u8 *)((u8 *)owner + (0x9A)))](owner, motion, data, actor);
+    D_80173B94[(*(u8 *)((u8 *)owner_arg + (0x9A)))](owner_arg, motion, data, actor);
     if (initial_state != ((S_80169EC0_3 *)actor)->unk_6D.s) {
-        func_800AA36C(owner, motion, data, actor);
+        func_800AA36C(owner_arg, motion, data, actor);
     }
 
     status = ((S_80169EC0_4 *)data)->unk_14;
     if (!(status & 0x8000)) {
-        register s32 facing_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u16 frame_status;
         u16 cleared_status;
-        facing_angle = D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100;
-        facing = (facing_angle >> 9) & 7;
-        if ((*(s16 *)((u8 *)owner + (0x94))) != facing) {
+        state_bits = (u32)(D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
+        facing = ((s32)state_bits >> 9) & 7;
+        if ((*(s16 *)((u8 *)owner_arg + (0x94))) != facing) {
             u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (facing_steps != NULL) {
                 func_80047738(data, facing_steps[facing], ((S_80169EC0_4 *)data)->unk_04);
             }
-            (*(s16 *)((u8 *)owner + (0x94))) = facing;
+            (*(s16 *)((u8 *)owner_arg + (0x94))) = facing;
         }
 
         frame_status = ((S_80169EC0_4 *)data)->unk_14;
@@ -196,16 +194,16 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
 
     ((S_80169EC0_5 *)motion)->unk_00.at00.v += ((S_80169EC0_5 *)motion)->unk_0C;
     ((S_80169EC0_5 *)motion)->unk_04.at00.v += ((S_80169EC0_5 *)motion)->unk_10;
-    if ((*(u16 *)((u8 *)owner + (0x98))) & 8) {
-        (*(u8 *)((u8 *)owner + (0x9D))) = 0;
+    if ((*(u16 *)((u8 *)owner_arg + (0x98))) & 8) {
+        (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
     } else {
-        ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)owner + (0x9D)))++;
+        ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner_arg + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)owner_arg + (0x9D)))++;
     }
        /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    (*(s32 *)((u8 *)owner + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
+    (*(s32 *)((u8 *)owner_arg + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
-    if ((*(u16 *)((u8 *)owner + (0x98))) & 4) {
+    if ((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) {
         goto clear_movement_flag;
     }
     terrain_height = func_800BCB04(((S_80169EC0_5 *)motion)->unk_00.at02.v, ((S_80169EC0_5 *)motion)->unk_04.at02.v,
@@ -213,20 +211,20 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     if ((s16)terrain_height >= 0x200) {
         goto clear_movement_flag;
     }
-    height_offset = (*(s16 *)((u8 *)owner + (0x92)));
+    height_offset = (*(s16 *)((u8 *)owner_arg + (0x92)));
     signed_height = ((S_80169EC0_3 *)actor)->unk_88.s;
     height = ((S_80169EC0_3 *)actor)->unk_88.u;
     if (height_offset + signed_height < (s16)terrain_height) {
         ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
     } else {
         if ((s16)terrain_height >= signed_height) {
-            (*(s32 *)((u8 *)owner + (0x90))) = 0;
+            (*(s32 *)((u8 *)owner_arg + (0x90))) = 0;
         } else {
-            (*(s16 *)((u8 *)owner + (0x92))) = terrain_height - height;
+            (*(s16 *)((u8 *)owner_arg + (0x92))) = terrain_height - height;
         }
         ((S_80169EC0_5 *)motion)->unk_14 = 0;
         ((S_80169EC0_3 *)actor)->unk_1C |= 0x08000000;
-        (*(u8 *)((u8 *)owner + (0x9D))) = 0;
+        (*(u8 *)((u8 *)owner_arg + (0x9D))) = 0;
     }
     actor_flags = ((S_80169EC0_3 *)actor)->unk_1C;
     if (actor_flags & 0x40000000) {
@@ -234,7 +232,7 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         terrain_height = func_800BCB04((((S_80169EC0_4 *)data)->unk_24 << 6) | 0x20,
                                (((S_80169EC0_4 *)data)->unk_25 << 6) | 0x20,
                                (s16)(((S_80169EC0_3 *)actor)->unk_88.u - 0x20));
-        (*(s16 *)((u8 *)owner + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
+        (*(s16 *)((u8 *)owner_arg + (0x92))) += ((S_80169EC0_3 *)actor)->unk_88.u - terrain_height;
         ((S_80169EC0_3 *)actor)->unk_88.u = terrain_height;
     }
     goto finish;
@@ -243,9 +241,9 @@ clear_movement_flag:
     ((S_80169EC0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
 
 finish:
-    ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner + (0xAA))) +
+    ((S_80169EC0_5 *)motion)->unk_0A = (*(s8 *)((u8 *)owner_arg + (0xAA))) +
                               (((S_80169EC0_3 *)actor)->unk_88.u +
-                               (*(u16 *)((u8 *)owner + (0x92))));
+                               (*(u16 *)((u8 *)owner_arg + (0x92))));
     ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

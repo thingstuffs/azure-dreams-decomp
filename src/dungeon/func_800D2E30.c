@@ -78,6 +78,7 @@ void *func_800D8590(void *entity)
         flags = ((S_800D8590_3 *)child)->unk_14;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         flags |= 0x8000;
+        ((S_800D8590_3 *)child)->unk_14 = flags;
     } else {
         if (((S_800D8590_1 *)entity)->unk_13 == 0x2B) {
             func_80042B68(entity, 0x1A);
@@ -110,9 +111,8 @@ void *func_800D8590(void *entity)
         flags = ((S_800D8590_3 *)child)->unk_14;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         flags |= 0x8000;
+        ((S_800D8590_3 *)child)->unk_14 = flags;
     }
-    ((S_800D8590_3 *)child)->unk_14 = flags;
-    ASM_SCHED_BARRIER();
     masked_flags = flags;
     result = entity;
     *(volatile u16 *)(child + 0x14) = masked_flags & 0xFFF3;

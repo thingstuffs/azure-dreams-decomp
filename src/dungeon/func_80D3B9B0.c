@@ -53,10 +53,7 @@ typedef struct S_801711B0_2 {
 /* Update object callbacks, motion, facing, and ground-relative height. */
 void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
 {
-    register void *obj ASM_REG("$17") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *part ASM_REG("$20") = part_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    void *base = obj;
+    void *base = object_arg;
     s16 state_or_dir;
     s32 direction;
     register s32 update_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -78,128 +75,124 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     s32 bob_phase;
 
     if (D_80083462[0] & 0x2000) {
-        paused_callback = (*(Callback *)((u8 *)obj + (0x8C)));
+        paused_callback = (*(Callback *)((u8 *)object_arg + (0x8C)));
         if (paused_callback == (Callback)D_80171A80) {
             void *callback_obj = object_arg;
 
-            ASM_UNDEF(callback_obj);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             paused_callback(callback_obj, motion_arg, part_arg, callback_obj);
             return;
         }
-        (*(u8 *)((u8 *)obj + (0x71))) &= 0x7F;
+        ((u8 *)object_arg)[113] &= 0x7F;
         return;
     }
 
-    ASM_KEEP(obj);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    check_obj = obj;
-    check_motion = motion;
-    check_part = part;
-    update_value_2 = (*(u8 *)((u8 *)obj + (0x6D)));
-    check_context = obj;
+    check_obj = object_arg;
+    check_motion = motion_arg;
+    check_part = part_arg;
+    update_value_2 = (*(u8 *)((u8 *)object_arg + (0x6D)));
+    check_context = object_arg;
     state_or_dir = (s8)update_value_2;
     if (func_800A9E70(check_obj, check_motion, check_part, check_context) != 0) {
         return;
     }
 
-    callback = (*(Callback *)((u8 *)obj + (0x8C)));
+    callback = (*(Callback *)((u8 *)object_arg + (0x8C)));
     if (callback != 0) {
-        callback(obj, motion, part, obj);
+        callback(object_arg, motion_arg, part_arg, object_arg);
     }
-    D_80176374[(*(u8 *)((u8 *)obj + (0x9A)))](obj, motion, part, obj);
+    D_80176374[(*(u8 *)((u8 *)object_arg + (0x9A)))](object_arg, motion_arg, part_arg, object_arg);
 
     update_value = (s32)state_or_dir << 16;
-    new_state = (*(s8 *)((u8 *)obj + (0x6D)));
+    new_state = (*(s8 *)((u8 *)object_arg + (0x6D)));
     update_value >>= 16;
     if (update_value != new_state) {
-        func_800AA36C(obj, motion, part, obj);
+        func_800AA36C(object_arg, motion_arg, part_arg, object_arg);
     }
 
-    ((S_801711B0_0 *)motion)->unk_00.at00.v += ((S_801711B0_0 *)motion)->unk_0C;
-    ((S_801711B0_0 *)motion)->unk_04.at00.v += ((S_801711B0_0 *)motion)->unk_10;
+    ((S_801711B0_0 *)motion_arg)->unk_00.at00.v += ((S_801711B0_0 *)motion_arg)->unk_0C;
+    ((S_801711B0_0 *)motion_arg)->unk_04.at00.v += ((S_801711B0_0 *)motion_arg)->unk_10;
 
-    if (!((*(u32 *)((u8 *)obj + (0x1C))) & 0x40000) &&
-        !((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-        ((S_801711B0_0 *)motion)->unk_14 += (*(s8 *)((u8 *)obj + (0x9D))) * 0x14000;
-        (*(u8 *)((u8 *)obj + (0x9D)))++;
+    if (!((*(u32 *)((u8 *)object_arg + (0x1C))) & 0x40000) &&
+        !((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+        ((S_801711B0_0 *)motion_arg)->unk_14 += (*(s8 *)((u8 *)object_arg + (0x9D))) * 0x14000;
+        (*(u8 *)((u8 *)object_arg + (0x9D)))++;
     } else {
-        (*(u8 *)((u8 *)obj + (0x9D))) = 0;
+        (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
     }
-    (*(s32 *)((u8 *)obj + (0x90))) += ((S_801711B0_0 *)motion)->unk_14;
-    part_flags = ((S_801711B0_1 *)part)->unk_14;
+    (*(s32 *)((u8 *)object_arg + (0x90))) += ((S_801711B0_0 *)motion_arg)->unk_14;
+    part_flags = ((S_801711B0_1 *)part_arg)->unk_14;
 
     if (!(part_flags & 0x8000)) {
         direction = ((D_80083228[0] + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
         ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        update_value = (*(s16 *)((u8 *)obj + (0x94)));
+        update_value = (*(s16 *)((u8 *)object_arg + (0x94)));
         state_or_dir = direction;
         if (update_value != state_or_dir) {
-            func_80047738(part,
-                (*(u8 *)((u8 *)(((S_801711B0_1 *)part)->unk_2C) + (state_or_dir))),
-                ((S_801711B0_1 *)part)->unk_04);
-            (*(s16 *)((u8 *)obj + (0x94))) = direction;
+            func_80047738(part_arg,
+                (*(u8 *)((u8 *)(((S_801711B0_1 *)part_arg)->unk_2C) + (state_or_dir))),
+                ((S_801711B0_1 *)part_arg)->unk_04);
+            (*(s16 *)((u8 *)object_arg + (0x94))) = direction;
         }
 
         if (D_8006CCF8[state_or_dir] != 0) {
-            update_value = ((S_801711B0_1 *)part)->unk_14;
+            update_value = ((S_801711B0_1 *)part_arg)->unk_14;
             update_value |= 1;
         } else {
-            update_value = ((S_801711B0_1 *)part)->unk_14 & 0xFFFE;
+            update_value = ((S_801711B0_1 *)part_arg)->unk_14 & 0xFFFE;
         }
-        ((S_801711B0_1 *)part)->unk_14 = update_value;
+        ((S_801711B0_1 *)part_arg)->unk_14 = update_value;
 
-        func_800A020C(((S_801711B0_2 *)base)->unk_1C, (u8 *)part + 0xC);
+        func_800A020C(((S_801711B0_2 *)base)->unk_1C, (u8 *)part_arg + 0xC);
         if (!(((S_801711B0_2 *)base)->unk_1C & 0x20)) {
-            if (!(((S_801711B0_1 *)part)->unk_14 & 0x40)) {
-                func_800478B8(part);
+            if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40)) {
+                func_800478B8(part_arg);
             }
         } else {
-            ((S_801711B0_1 *)part)->unk_14 |= 0x7000;
+            ((S_801711B0_1 *)part_arg)->unk_14 |= 0x7000;
             ((S_801711B0_2 *)base)->unk_1C &= 0xFFFBFFFF;
         }
 
         normal_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
         ((S_801711B0_2 *)base)->unk_1C = normal_flags;
         if (normal_flags & 0x40000) {
-            if (!(((S_801711B0_1 *)part)->unk_14 & 0x40) &&
-                ((S_801711B0_1 *)part)->unk_2C == D_800E23E0) {
-                bob_step = (*(u16 *)((u8 *)obj + (0x9E)));
+            if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40) &&
+                ((S_801711B0_1 *)part_arg)->unk_2C == D_800E23E0) {
+                bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)));
                 update_value = (s32)bob_step << 16;
                 update_value >>= 16;
                 bob_phase = update_value * 0x55;
                 ASM_KEEP_DEP_NV(bob_step, bob_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 bob_step++;
-                (*(u16 *)((u8 *)obj + (0x9E))) = bob_step;
-                (*(s32 *)((u8 *)obj + (0xA0))) +=
+                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step;
+                (*(s32 *)((u8 *)object_arg + (0xA0))) +=
                     func_800644B8(bob_phase) << 4;
             }
 
             ground_height = -0x20;
-            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-                if (ground_height < (*(s16 *)((u8 *)obj + (0x92)))) {
-                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) - 8;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
+                    (*(u16 *)((u8 *)object_arg + (0x92))) = (*(u16 *)((u8 *)object_arg + (0x92))) - 8;
                 } else {
-                    if ((*(s16 *)((u8 *)obj + (0x92))) < -0x28) {
-                        (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) + 8;
+                    if ((*(s16 *)((u8 *)object_arg + (0x92))) < -0x28) {
+                        (*(u16 *)((u8 *)object_arg + (0x92))) = (*(u16 *)((u8 *)object_arg + (0x92))) + 8;
                     }
                 }
             }
         } else {
-            update_value = (*(s32 *)((u8 *)obj + (0xA0)));
-            (*(u16 *)((u8 *)obj + (0x9E))) = 0;
-            (*(s32 *)((u8 *)obj + (0xA0))) = 0;
-            (*(s32 *)((u8 *)obj + (0x90))) -= update_value;
-            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-                ground_height = func_800BCB04(((S_801711B0_0 *)motion)->unk_00.at02.v,
-                                      ((S_801711B0_0 *)motion)->unk_04.at02.v,
+            update_value = (*(s32 *)((u8 *)object_arg + (0xA0)));
+            (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0x90))) -= update_value;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                ground_height = func_800BCB04(((S_801711B0_0 *)motion_arg)->unk_00.at02.v,
+                                      ((S_801711B0_0 *)motion_arg)->unk_04.at02.v,
                                       (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20)) -
                         ((S_801711B0_2 *)base)->unk_88;
-                if (ground_height < (*(s16 *)((u8 *)obj + (0x92)))) {
-                    (*(s16 *)((u8 *)obj + (0x92))) = ground_height;
-                    (*(u8 *)((u8 *)obj + (0x9D))) = 0;
-                    ((S_801711B0_0 *)motion)->unk_14 = 0;
+                if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
+                    (*(s16 *)((u8 *)object_arg + (0x92))) = ground_height;
+                    (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+                    ((S_801711B0_0 *)motion_arg)->unk_14 = 0;
                     ((S_801711B0_2 *)base)->unk_1C |= 0x08000000;
                 }
             }
@@ -207,56 +200,56 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     } else {
         new_part_flags = part_flags & 0x800;
         if (new_part_flags) {
-            ((S_801711B0_1 *)part)->unk_14 = part_flags & 0x8FFF;
+            ((S_801711B0_1 *)part_arg)->unk_14 = part_flags & 0x8FFF;
         } else {
-            ((S_801711B0_1 *)part)->unk_14 = part_flags | 0x7000;
+            ((S_801711B0_1 *)part_arg)->unk_14 = part_flags | 0x7000;
         }
 
         special_flags = ((S_801711B0_2 *)base)->unk_1C & 0xF7FFFFFF;
         ((S_801711B0_2 *)base)->unk_1C = special_flags;
         if (!(special_flags & 0x40000)) {
-            update_value = (*(s32 *)((u8 *)obj + (0xA0)));
-            (*(u16 *)((u8 *)obj + (0x9E))) = 0;
-            (*(s32 *)((u8 *)obj + (0xA0))) = 0;
-            (*(s32 *)((u8 *)obj + (0x90))) -= update_value;
-            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-                ground_height = func_800BCB04(((S_801711B0_0 *)motion)->unk_00.at02.v,
-                                      ((S_801711B0_0 *)motion)->unk_04.at02.v,
+            update_value = (*(s32 *)((u8 *)object_arg + (0xA0)));
+            (*(u16 *)((u8 *)object_arg + (0x9E))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0xA0))) = 0;
+            (*(s32 *)((u8 *)object_arg + (0x90))) -= update_value;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                ground_height = func_800BCB04(((S_801711B0_0 *)motion_arg)->unk_00.at02.v,
+                                      ((S_801711B0_0 *)motion_arg)->unk_04.at02.v,
                                       (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20)) -
                         ((S_801711B0_2 *)base)->unk_88;
-                if (ground_height < (*(s16 *)((u8 *)obj + (0x92)))) {
-                    (*(s16 *)((u8 *)obj + (0x92))) = ground_height;
-                    (*(u8 *)((u8 *)obj + (0x9D))) = 0;
-                    ((S_801711B0_0 *)motion)->unk_14 = 0;
+                if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
+                    (*(s16 *)((u8 *)object_arg + (0x92))) = ground_height;
+                    (*(u8 *)((u8 *)object_arg + (0x9D))) = 0;
+                    ((S_801711B0_0 *)motion_arg)->unk_14 = 0;
                     ((S_801711B0_2 *)base)->unk_1C |= 0x08000000;
                 }
             }
         } else {
-            if (!(((S_801711B0_1 *)part)->unk_14 & 0x40) &&
-                ((S_801711B0_1 *)part)->unk_2C == D_800E23E0) {
-                bob_step = (*(u16 *)((u8 *)obj + (0x9E)));
+            if (!(((S_801711B0_1 *)part_arg)->unk_14 & 0x40) &&
+                ((S_801711B0_1 *)part_arg)->unk_2C == D_800E23E0) {
+                bob_step = (*(u16 *)((u8 *)object_arg + (0x9E)));
                 update_value = (s32)bob_step << 16;
                 update_value >>= 16;
                 bob_phase = update_value * 0x55;
                 ASM_KEEP_DEP_NV(bob_step, bob_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 bob_step++;
-                (*(u16 *)((u8 *)obj + (0x9E))) = bob_step;
-                (*(s32 *)((u8 *)obj + (0xA0))) +=
+                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step;
+                (*(s32 *)((u8 *)object_arg + (0xA0))) +=
                     func_800644B8(bob_phase) << 4;
             }
 
             ground_height = -0x20;
-            if (!((*(u16 *)((u8 *)obj + (0x98))) & 8)) {
-                if (ground_height < (*(s16 *)((u8 *)obj + (0x92)))) {
-                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) - 8;
-                } else if ((*(s16 *)((u8 *)obj + (0x92))) < -0x28) {
-                    (*(u16 *)((u8 *)obj + (0x92))) = (*(u16 *)((u8 *)obj + (0x92))) + 8;
+            if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
+                if (ground_height < (*(s16 *)((u8 *)object_arg + (0x92)))) {
+                    (*(u16 *)((u8 *)object_arg + (0x92))) = (*(u16 *)((u8 *)object_arg + (0x92))) - 8;
+                } else if ((*(s16 *)((u8 *)object_arg + (0x92))) < -0x28) {
+                    (*(u16 *)((u8 *)object_arg + (0x92))) = (*(u16 *)((u8 *)object_arg + (0x92))) + 8;
                 }
             }
         }
 
-        if ((*(u8 *)((u8 *)obj + (0xB5))) != 0) {
-            (*(u16 *)((u8 *)obj + (0x92))) = 0;
+        if ((*(u8 *)((u8 *)object_arg + (0xB5))) != 0) {
+            (*(u16 *)((u8 *)object_arg + (0x92))) = 0;
         }
     }
 
@@ -264,16 +257,16 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
     if (flags & 0x40000000) {
         ((S_801711B0_2 *)base)->unk_1C = flags & 0xBFFFFFFF;
         ground_height = func_800BCB04(
-            (((S_801711B0_1 *)part)->unk_24 << 6) | 0x20,
-            (((S_801711B0_1 *)part)->unk_25 << 6) | 0x20,
+            (((S_801711B0_1 *)part_arg)->unk_24 << 6) | 0x20,
+            (((S_801711B0_1 *)part_arg)->unk_25 << 6) | 0x20,
             (s16)(((S_801711B0_2 *)base)->unk_88 - 0x20));
         if (ground_height < 0x200) {
-            (*(u16 *)((u8 *)obj + (0x92))) += ((S_801711B0_2 *)base)->unk_88 - ground_height;
+            (*(u16 *)((u8 *)object_arg + (0x92))) += ((S_801711B0_2 *)base)->unk_88 - ground_height;
             ((S_801711B0_2 *)base)->unk_88 = ground_height;
         }
     }
 
-    ((S_801711B0_0 *)motion)->unk_0A = ((S_801711B0_2 *)base)->unk_88 +
-        (*(u16 *)((u8 *)obj + (0x92))) - (*(u16 *)((u8 *)obj + (0xA2)));
-    ((S_801711B0_1 *)part)->unk_14 |= 0x40;
+    ((S_801711B0_0 *)motion_arg)->unk_0A = ((S_801711B0_2 *)base)->unk_88 +
+        (*(u16 *)((u8 *)object_arg + (0x92))) - (*(u16 *)((u8 *)object_arg + (0xA2)));
+    ((S_801711B0_1 *)part_arg)->unk_14 |= 0x40;
 }

@@ -77,12 +77,11 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
             motion->z = x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             {
-                register s32 y_velocity_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                y_velocity_copy = y_velocity;
-                ASM_KEEP(y_velocity_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                x = y_velocity;
+                ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 motion->dx = random_value - x_drag;
-                motion->dy = y_velocity_copy - (y_velocity_copy >> 3);
+                motion->dy = x - (x >> 3);
             }
             random_value = func_80069EF8(x_drag, y_velocity);
             z_jitter = random_value * 4;

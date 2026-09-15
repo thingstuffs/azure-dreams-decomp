@@ -178,8 +178,6 @@ void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s16 heading)
         register s32 saved_flags ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 actor_flags;
         s32 state_flags;
-        register void *call_created ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register S_80FD5000_2 *call_position ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 random_bits;
         s32 appearance_id;
         s32 palette_y;
@@ -220,14 +218,14 @@ finish_kind:
             actor_state->unk_1C = state_flags;
             goto finish_kind_args;
         }
-        call_created = created;
+        call_id = (s32)(created);
         if (((s32)spawn_flags & ~3) << 16 != 0)
             goto have_call_position;
-        call_position = position;
+        call_definition = (void *)(position);
         if (actor_state->unk_14 & 0x200)
             goto have_call_args;
-        random_bits = func_800A6D30(call_created, call_position);
-        call_created = created;
+        random_bits = func_800A6D30((void *)call_id, (S_80FD5000_2 *)call_definition);
+        call_id = (s32)(created);
         if (!(random_bits & 1))
             goto have_call_position;
         actor_state->unk_1C |= 0x200;
@@ -236,11 +234,11 @@ finish_kind:
         monster->unk_2C = &D_80151298;
 
 finish_kind_args:
-        call_created = created;
+        call_id = (s32)(created);
 have_call_position:
-        call_position = position;
+        call_definition = (void *)(position);
 have_call_args:
-        func_800A9C18(call_created, call_position, monster, (s16)saved_flags);
+        func_800A9C18((void *)call_id, (S_80FD5000_2 *)call_definition, monster, (s16)saved_flags);
 
         entry_index = 0;
         appearance_id = monster->unk_12;

@@ -35,6 +35,7 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
   }
   if (target_rotation != 0)
   {
+      register s32 current_angle_wide_m ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     angle_bits = *((u16 *) (((u8 *) target_rotation) + 0));
     if (angle_bits & 0x800)
     {
@@ -56,8 +57,8 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     }
     state->f_AC = current_angle;
     {
-      register s32 current_angle_wide ASM_REG("$3") = current_angle;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-      angle_delta = (*((s16 *) (((u8 *) target_rotation) + 0))) - current_angle_wide;
+      current_angle_wide_m = current_angle;
+      angle_delta = (*((s16 *) (((u8 *) target_rotation) + 0))) - current_angle_wide_m;
     }
     if (angle_delta < 0)
     {
@@ -90,8 +91,8 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     }
     state->f_AE = current_angle;
     {
-      register s32 current_angle_wide ASM_REG("$3") = current_angle;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-      angle_delta = (*((s16 *) (((u8 *) target_rotation) + 2))) - current_angle_wide;
+      current_angle_wide_m = current_angle;
+      angle_delta = (*((s16 *) (((u8 *) target_rotation) + 2))) - current_angle_wide_m;
     }
     if (angle_delta < 0)
     {
@@ -124,8 +125,8 @@ void func_8004D294(void *target_position, void *target_rotation, s32 transition_
     }
     state->f_B0 = current_angle;
     {
-      register s32 current_angle_wide ASM_REG("$3") = current_angle;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-      angle_delta = (*((s16 *) (((u8 *) target_rotation) + 4))) - current_angle_wide;
+      current_angle_wide_m = current_angle;
+      angle_delta = (*((s16 *) (((u8 *) target_rotation) + 4))) - current_angle_wide_m;
     }
     if (angle_delta < 0)
     {

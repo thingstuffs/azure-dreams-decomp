@@ -16,20 +16,17 @@ extern s32 func_800A6D30();
 
 s32 func_801761AC(S_801761AC_0 *arg0) {
     s32 seed;
-    register s32 d ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 d;
     s32 r;
-    s32 slot;
-    register s32 count ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 slot;
 
     if (arg0 == D_800E3D7C) {
         goto fail;
     }
     seed = func_800A6D30() & 0xFFFF;
-    count = arg0->unk_03;
-    if (count != 0) {
-        d = count;
+    if (((s32)(arg0->unk_03)) != 0) {
+        d = ((s32)(arg0->unk_03));
         r = seed % d;
-        ASM_KEEP_DEP_NV(r, d);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         slot = r;
     } else {
         slot = 0;

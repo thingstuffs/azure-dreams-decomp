@@ -57,7 +57,7 @@ void func_806D85A0(void) {
     register s32 variant ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 second_variant_active;
     s32 initial_x;
-    register u32 initial_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 initial_y;
     s32 initial_value;
     register void *context ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     void *dispatch_ptr;
@@ -72,18 +72,23 @@ void func_806D85A0(void) {
         if (second_variant_active != 0) {
             variant = 1;
         }
+        initial_x = 4;
+        initial_y = initial_x;
+        initial_value = 0;
+        dispatch_ptr = (void *)D_80010000;
+        context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
+        group_index = initial_value;
+        dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     } else {
         variant = 0;
+        initial_x = 4;
+        initial_y = initial_x;
+        initial_value = 0;
+        dispatch_ptr = (void *)D_80010000;
+        context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
+        group_index = initial_value;
+        dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     }
-    initial_x = 4;
-    ASM_KEEP_NV(initial_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    initial_y = initial_x;
-    initial_value = 0;
-    ASM_KEEP_NV(initial_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    dispatch_ptr = (void *)D_80010000;
-    context = ((S_806D85A0_1 *)dispatch_ptr)->unk_6000;
-    group_index = initial_value;
-    dispatch_ptr = ((S_806D85A0_2 *)context)->unk_20;
     count_offset = variant * 8;
     do {
         dispatch_ptr = ((S_806D85A0_1 *)dispatch_ptr)->unk_2D0;

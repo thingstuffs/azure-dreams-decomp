@@ -72,6 +72,7 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
     s32 distance;
     s16 offset[3];
     register s32 original_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u8 *context_data ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     {
         actor = (u8 *)S32(effect, 0);
@@ -115,13 +116,12 @@ set_distance:
         while (distance >= 0) {
             particle = (u8 *)func_8003FD64(786, D_80083498);
             if (particle != 0) {
-                register u8 *callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 func_8004491C(particle, D_80045340);
                 render_data = (u8 *)S32(particle, 12);
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 {
-                    callback = D_800249DC_store;
-                    S32(particle, 16) = (s32)callback;
+                    context_data = D_800249DC_store;
+                    S32(particle, 16) = (s32)context_data;
                 }
                 U16(S32(particle, 8), 2) = (u16)(U16(motion, 2) +
                                              (func_80069EF8() & 0x1ff) - 256);
@@ -147,11 +147,11 @@ set_distance:
                     S16(render_data, 16) = 32;
                     flags = U16(render_data, 20);
                     ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    callback = D_800DECF8;
+                    context_data = D_800DECF8;
                     S32(render_data, 12) = init_word;
-                    init_word = (s32)callback;
+                    init_word = (s32)context_data;
                     ASM_KEEP(init_word);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    S32(render_data, 0) = (s32)callback;
+                    S32(render_data, 0) = (s32)context_data;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     flags |= 0xc;
                     S16(render_data, 20) = (u16)flags;
@@ -213,7 +213,7 @@ mode_0: {
                 }
                 render_data = (u8 *)S32(target, -20);
                 if ((U16(render_data, 20) & 0x8000) != 0) {
-                    register u8 *context_data ASM_REG("$8") = (u8 *)context_arg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    context_data = (u8 *)context_arg;
                     if ((U16(context_data, 20) & 0x8000) != 0) {
                         goto set_state_240;
                     }

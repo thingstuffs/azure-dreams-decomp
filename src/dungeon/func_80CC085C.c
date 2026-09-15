@@ -170,7 +170,8 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
         if (func_800A04F0(movement, actor->unk_24.at00.v, actor->unk_24.at01.v, ((S_8017405C_0 *)movement)->unk_2A.s) == 0) {
             goto choose_step;
         }
-        goto stop_path;
+        ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+        return;
     }
     if (flags & 0x2000) {
         if (((S_8017405C_0 *)movement)->unk_46 & 0x8000) {
@@ -207,7 +208,8 @@ void func_8017405C(void *context, s32 action, S_8017405C_1 *actor, void *movemen
             target_x = leader_x + (s32)x_lookup;
             target_y = (s32)leader_pos + y_offset;
             if (actor_x == (u16)target_x && actor->unk_24.at01.v == (u16)target_y) {
-                goto stop_path;
+                ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+                return;
             }
         }
         {
@@ -239,7 +241,8 @@ update_heading:
             if (func_8009A540((((s16)((S_8017405C_0 *)movement)->unk_2A.u >> 9) & 0xFFFF),
                               actor->unk_24.at00.v, actor->unk_24.at01.v,
                               (s16)(((S_8017405C_0 *)movement)->unk_88 - 0x20)) != 0) {
-                goto stop_path;
+                ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+                return;
             }
         }
     }
@@ -318,11 +321,12 @@ update_heading:
                 }
             }
         }
-        goto stop_path;
+        ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+        return;
 follow_master:
         {
             void *first_pos = ((S_8017405C_7_pre *)first_master)[-1].unk_00;
-            register void *second_pos ASM_REG("$17") = ((S_8017405C_8_pre *)second_master)[-1].unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *second_pos = ((S_8017405C_8_pre *)second_master)[-1].unk_00;
             s16 first_distance = func_8009FD40(first_pos, actor);
             if (first_distance < func_8009FD40(second_pos, actor)) {
                 ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v,
@@ -332,7 +336,8 @@ follow_master:
                                   ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25) == 0) {
                     goto choose_step;
                 }
-                goto stop_path;
+                ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+                return;
             }
             ((S_8017405C_0 *)movement)->unk_2A.u = func_800A0818(actor->unk_24.at00.v, actor->unk_24.at01.v,
                                                 ((S_8017405C_10 *)second_pos)->unk_24, ((S_8017405C_10 *)second_pos)->unk_25,
@@ -341,8 +346,8 @@ follow_master:
                               ((S_8017405C_9 *)first_pos)->unk_24, ((S_8017405C_9 *)first_pos)->unk_25) == 0) {
                 goto choose_step;
             }
-            ASM_KEEP(first_pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            goto stop_path;
+            ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+            return;
         }
     }
     if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
@@ -375,10 +380,12 @@ try_heading:
             if (func_8009A66C(heading, actor, movement, 0x20) > 0) {
                 if (move_index >= 3) {
                     if (stop_fallback != 0) {
-                        goto stop_path;
+                        ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+                        return;
                     }
                     if (((Rec_func_800A9E70_arg0 *)context)->unk_A6 != 0) {
-                        goto stop_path;
+                        ((S_8017405C_0 *)movement)->unk_71.u &= 0x7F;
+                        return;
                     }
                 }
                 ((S_8017405C_0 *)movement)->unk_2A.u = heading;

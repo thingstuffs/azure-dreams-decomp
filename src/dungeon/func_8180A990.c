@@ -200,13 +200,11 @@ void func_80026190(void *owner_arg)
     register void *entity_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register void *owner ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *status_page;
-    u8 *mode_page;
     s32 mode;
     u8 *flag_page;
     u8 *cleanup_page;
     u8 *status;
     volatile u8 *clear_cursor;
-    void *container;
     void *source;
     void *parent;
     void *main_child;
@@ -223,7 +221,6 @@ void func_80026190(void *owner_arg)
     owner = owner_arg;
     status_page = (u8 *)0x80080000;
     ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(status_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
@@ -236,7 +233,6 @@ void func_80026190(void *owner_arg)
     }
 
     status = status_page + 0x3160;
-    ASM_KEEP_NV(status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     if (((S_80026190_1 *)status)->unk_08 & 0x20) {
         main_child = ((S_80026190_0 *)owner)->unk_00;
         if (main_child != NULL) {
@@ -262,12 +258,12 @@ void func_80026190(void *owner_arg)
         goto done;
     }
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = D_8002520C;
-    container = (u8 *)object_or_kind + 0x20;
-    ((S_80026190_0 *)owner)->unk_00 = container;
-    ((S_80026190_5 *)container)->unk_26 = ((S_80026190_0 *)owner)->unk_26;
+    owner_arg = (u8 *)object_or_kind + 0x20;
+    ((S_80026190_0 *)owner)->unk_00 = owner_arg;
+    ((S_80026190_5 *)owner_arg)->unk_26 = ((S_80026190_0 *)owner)->unk_26;
 
     child_object = func_8003FC64(0x112);
-    ((S_80026190_5 *)container)->unk_08 = child_object;
+    ((S_80026190_5 *)owner_arg)->unk_08 = child_object;
     if (child_object == NULL) {
         alloc_container = ((S_80026190_0 *)owner)->unk_00;
         alloc_bits = ((S_80026190_6_pre *)alloc_container)[-1].unk_00;
@@ -282,19 +278,19 @@ void func_80026190(void *owner_arg)
     object_or_kind = (s32)child_object;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_10.s = D_80025A14;
     ((S_80026190_4 *)((void *)object_or_kind))->unk_78 = ((S_80026190_0 *)owner)->unk_00;
-    if ((((S_80026190_5 *)container)->unk_14 = func_80025170(container)) == NULL) {
+    if ((((S_80026190_5 *)owner_arg)->unk_14 = func_80025170(owner_arg)) == NULL) {
         setup_container = ((S_80026190_0 *)owner)->unk_00;
         owner_bits = ((S_80026190_7_pre *)setup_container)[-1].unk_00;
         cleanup_page = (u8 *)0x80080000;
         ((S_80026190_7_pre *)setup_container)[-1].unk_00 = owner_bits | 0x8000;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
-        setup_child = ((S_80026190_5 *)container)->unk_08;
+        setup_child = ((S_80026190_5 *)owner_arg)->unk_08;
         cleanup_flags = ((S_80026190_8 *)cleanup_page)->unk_14A0;
         child_bits = ((S_80026190_9 *)setup_child)->unk_1E;
         cleanup_flags |= 0x8000;
         ((S_80026190_8 *)cleanup_page)->unk_14A0 = cleanup_flags;
         ((S_80026190_9 *)setup_child)->unk_1E = child_bits | 0x8000;
-        ((S_80026190_5 *)container)->unk_08 = NULL;
+        ((S_80026190_5 *)owner_arg)->unk_08 = NULL;
         goto done;
     }
 
@@ -315,8 +311,8 @@ loop:
     }
     func_8004397C(source);
 
-    mode_page = (u8 *)0x80010000;
-    mode = ((S_80026190_11 *)mode_page)->unk_2090;
+    status_page = (u8 *)0x80010000;
+    mode = ((S_80026190_11 *)status_page)->unk_2090;
     if (mode == 1) {
         if ((s16)object_or_kind == 2) {
             object_or_kind = 0x39;
@@ -329,8 +325,8 @@ loop:
     func_8003F320();
     entity = ((SpawnFunc)entity)(1, 0, 0, ((S_80026190_10 *)source)->unk_88);
 
-    mode_page = (u8 *)0x80010000;
-    mode = ((S_80026190_11 *)mode_page)->unk_2090;
+    status_page = (u8 *)0x80010000;
+    mode = ((S_80026190_11 *)status_page)->unk_2090;
     if ((mode == 1) && (signed_kind == 0x39)) {
         object_or_kind = 2;
     }
@@ -340,23 +336,23 @@ loop:
         ((S_80026190_12_pre *)spawn_container)[-1].unk_00 |= 0x8000;
         ((S_80026190_0 *)owner)->unk_00 = NULL;
 
-        spawn_child = ((S_80026190_5 *)container)->unk_08;
+        spawn_child = ((S_80026190_5 *)owner_arg)->unk_08;
         ((S_80026190_13 *)spawn_child)->unk_1E |= 0x8000;
-        ((S_80026190_5 *)container)->unk_08 = NULL;
+        ((S_80026190_5 *)owner_arg)->unk_08 = NULL;
 
-        spawn_resource = ((S_80026190_5 *)container)->unk_14;
+        spawn_resource = ((S_80026190_5 *)owner_arg)->unk_14;
         ((S_80026190_14 *)spawn_resource)->unk_1E |= 0x8000;
 
         loaded_fail_flags = ((S_80026190_15 *)flag_page)->unk_14A0.s;
-        entity_arg = ((S_80026190_5 *)container)->unk_0C;
-        ((S_80026190_5 *)container)->unk_14 = NULL;
+        entity_arg = ((S_80026190_5 *)owner_arg)->unk_0C;
+        ((S_80026190_5 *)owner_arg)->unk_14 = NULL;
         fail_flags = loaded_fail_flags | 0x8000;
         ((S_80026190_15 *)flag_page)->unk_14A0.u = fail_flags;
         if (entity_arg != NULL) {
             spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;
             ((S_80026190_15 *)flag_page)->unk_14A0.s = fail_flags;
             ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
-            ((S_80026190_5 *)container)->unk_0C = NULL;
+            ((S_80026190_5 *)owner_arg)->unk_0C = NULL;
         }
         goto done;
     }
@@ -403,7 +399,7 @@ loop:
     ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
     object_or_kind = (s32)entity - 0x20;
-    *(s32 *)((u8 *)container + (source_slot * 4) + 0xC) = object_or_kind;
+    *(s32 *)((u8 *)owner_arg + (source_slot * 4) + 0xC) = object_or_kind;
     ((S_80026190_17 *)entity)->unk_5C = ((S_80026190_4 *)((void *)object_or_kind))->unk_10.u | 0x80000000;
     ((S_80026190_17 *)entity)->unk_58 = ((S_80026190_0 *)owner)->unk_00;
     ((S_80026190_17 *)entity)->unk_6A = source_slot;

@@ -225,7 +225,6 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     register s32 facing ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 dx ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 dy ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 abs_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 abs_y;
     register s32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -327,9 +326,9 @@ state_0:
             dx = tile_pixel_x + 0x20;
             tile_pixel_y = (tile_pixel_y + off_y) << 6;
             ASM_KEEP(tile_pixel_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            dy = tile_pixel_y + 0x20;
+            facing_shift = tile_pixel_y + 0x20;
             probe_x = (u16)dx;
-            probe_y = (u16)dy;
+            probe_y = (u16)facing_shift;
             ground_height = func_800BCB04(probe_x, probe_y, min_height);
             if ((s16)func_800A4688(probe_x, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
                                    caster_data->unk_60) != 0) {
@@ -344,9 +343,9 @@ state_0:
         } while (1);
 state_0_tail:
         dx = step_x * tiles_ahead;
-        dy = step_y * tiles_ahead;
+        facing_shift = step_y * tiles_ahead;
         ASM_KEEP(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(dy);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         func_800241F0();
         return;
     }
@@ -354,10 +353,10 @@ state_0_tail:
     position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
     copy_value = caster_sprite->unk_24;
     facing = position->unk_24;
-    dy = position->unk_25;
+    facing_shift = position->unk_25;
     dx = facing - copy_value;
     base_y = caster_sprite->unk_25;
-    dy -= base_y;
+    facing_shift -= base_y;
     if ((position->unk_14.unk_14_u16 & 0x8000) &&
         (sprite->unk_14 & 0x8000)) {
         owner->unk_0A.unk_0A_s16 = 2;
@@ -369,8 +368,8 @@ state_0_tail:
     if (dx < 0) {
         abs_x = -abs_x;
     }
-    abs_y = dy;
-    if (dy < 0) {
+    abs_y = facing_shift;
+    if (facing_shift < 0) {
         abs_y = -abs_y;
     }
     if (abs_x < abs_y) {

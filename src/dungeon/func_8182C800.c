@@ -275,7 +275,6 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     register s32 tile_origin_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 tile_origin_y;
     s32 heading;
-    register s32 start_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 start_y;
     u8 *launch_texture;
     s32 travel_x;
@@ -320,7 +319,6 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     s32 distance_y_abs;
     s32 covered_distance;
     s32 step_index;
-    register s32 move_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 sprite_or_step_x;
     s32 step_y;
     u8 *trail_texture;
@@ -399,10 +397,10 @@ state_launch:
             target = func_800A05A4(owner, owner_sprite->unk_24, owner_sprite->unk_25, ((S_8182C800_1 *)owner)->unk_2A.u, (s16) func_800A3820(5, launch_tpage));
             ((S_8182C800_1 *)owner)->unk_60 = target;
             if (target == 0) {
-                move_count = 0;
+                distance_sum = 0;
                 step_y = 0;
                 sprite_or_step_x = 0;
-                while (move_count < func_800A3820(5)) {
+                while (distance_sum < func_800A3820(5)) {
                     tile_origin_x = (owner_sprite->unk_24 + sprite_or_step_x) << 6;
                     ASM_KEEP_NV(tile_origin_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     probe_x = tile_origin_x + 0x20;
@@ -414,11 +412,11 @@ state_launch:
                     }
                     step_y += direction_y;
                     ASM_KEEP(probe_y_full);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                    move_count += 1;
+                    distance_sum += 1;
                     sprite_or_step_x += direction_x;
                 }
-                ((S_8182C800_1 *)owner)->unk_72.s = (u8) (owner_sprite->unk_24 + (direction_x * move_count));
-                ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * move_count));
+                ((S_8182C800_1 *)owner)->unk_72.s = (u8) (owner_sprite->unk_24 + (direction_x * distance_sum));
+                ((S_8182C800_1 *)owner)->unk_73.s = (u8) (owner_sprite->unk_25 + (direction_y * distance_sum));
             } else {
                 object = target - 0x20;
                 target_sprite = ((S_8182C800_8 *)object)->unk_0C;
@@ -447,10 +445,10 @@ state_launch:
                 frame.u28.half.sp2A = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
             }
             target_x = frame.sp22;
-            start_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
+            tile_origin_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
             target_y = frame.sp26;
             start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
-            distance_x = target_x - start_x;
+            distance_x = target_x - tile_origin_x;
             motion_extent = target_y - start_y;
             ASM_SET(target_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             distance_sum = distance_x;

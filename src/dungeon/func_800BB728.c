@@ -138,7 +138,9 @@ s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
         if (((S_800C0E88_1 *)data)->unk_02.s >= 10 && data[0] < 16) {
             slot = ((data[0] - 1) * 3) + 1;
             if ((s16)func_800A57B4(object, slot) >= 0) {
-                goto normal_finish;
+                func_80098B38(data);
+                tail_status = (u8 *)0x80080000;
+                goto shared_tail;
             }
             message_table = D_8006DE24;
             slot_scan = object;
@@ -192,7 +194,7 @@ set_scan_slot:
 normal_finish:
         func_80098B38(data);
         tail_status = (u8 *)0x80080000;
-        ASM_KEEP_NV(tail_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        shared_tail:
         tail_status += 0x3460;
         goto decrement_status;
     }

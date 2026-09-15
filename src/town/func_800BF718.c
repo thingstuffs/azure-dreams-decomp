@@ -40,6 +40,7 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     register s32 wait_state;
     s32 glide_state;
     u32 settle_state;
+    register s32 x_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     sequence = 0;
     if ((func_800352FC(actor, motion, sprite, update_mode) != 0) && (func_800C2AB4(actor) != 0)) {
@@ -235,7 +236,6 @@ case_10: {
 
 case_20: {
         void *floor_motion;
-        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 vx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s32 y;
         register s32 vy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -245,22 +245,21 @@ case_20: {
 
         floor_motion = motion;
         ASM_KEEP(floor_motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        x = ((S_800BCE78_1 *)motion)->unk_00;
+        x_m = ((S_800BCE78_1 *)motion)->unk_00;
         vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
         vy = ((S_800BCE78_1 *)motion)->unk_14;
-        x += vx;
+        x_m += vx;
         y += vy;
-        ((S_800BCE78_1 *)motion)->unk_00 = x;
+        ((S_800BCE78_1 *)motion)->unk_00 = x_m;
         {
-            register s32 new_vy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            new_vy = vy;
-            ASM_KEEP(new_vy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            x_m = vy;
+            ASM_KEEP(x_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_800BCE78_1 *)motion)->unk_08.at00.v = y;
             y = 0x10000;
-            new_vy += y;
-            ((S_800BCE78_1 *)motion)->unk_14 = new_vy;
+            x_m += y;
+            ((S_800BCE78_1 *)motion)->unk_14 = x_m;
         }
         floor = func_800C2AE8(floor_motion);
         below_floor = floor < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
@@ -283,26 +282,25 @@ case_20: {
 case_30: {
         s32 vy;
         s32 new_vy;
-        register s32 x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         {
             s32 vx;
 
-            x = ((S_800BCE78_1 *)motion)->unk_00;
+            x_m = ((S_800BCE78_1 *)motion)->unk_00;
             vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
             vy = ((S_800BCE78_1 *)motion)->unk_14;
-            x += vx;
+            x_m += vx;
             new_vy = vy;
             ASM_KEEP(new_vy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_800BCE78_1 *)motion)->unk_00 = x;
+            ((S_800BCE78_1 *)motion)->unk_00 = x_m;
         }
         {
 
-            x = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
+            x_m = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
             new_vy -= 0x4000;
             ((S_800BCE78_1 *)motion)->unk_14 = new_vy;
-            x += vy;
-            ((S_800BCE78_1 *)motion)->unk_08.at00.v = x;
+            x_m += vy;
+            ((S_800BCE78_1 *)motion)->unk_08.at00.v = x_m;
         }
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             sequence = D_800E9E34;

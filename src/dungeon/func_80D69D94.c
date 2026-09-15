@@ -101,7 +101,7 @@ void func_80175594(void *motion, void *position, void *entity_in, void *object_i
         u32 state = ((S_80175594_0 *)motion)->unk_9B;
 
         if (state >= 8) {
-            goto done;
+            return;
         }
         object = object_in;
         ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -116,10 +116,10 @@ case_0:
     if (((Rec_func_800D6DC0_arg2 *)entity)->unk_14 & 0x8000) {
         ((S_80175594_0 *)motion)->unk_9B = 7;
         ((Rec_func_800D6DC0_arg2 *)entity)->unk_14 |= 0x6000;
-        goto done;
+        return;
     }
     if (((S_80175594_0 *)motion)->unk_A0.at00.v <= 0x6FFFF) {
-        goto done;
+        return;
     }
     ((S_80175594_0 *)motion)->unk_98 |= 8;
     ((S_80175594_3 *)object)->unk_1C &= ~0x40000;
@@ -128,36 +128,40 @@ case_0:
     ((S_80175594_0 *)motion)->unk_9B++;
     ((S_80175594_0 *)motion)->unk_B6 =
         ((S_80175594_1 *)position)->unk_0A.s + ((S_80175594_0 *)motion)->unk_92.s;
-    goto done;
+    return;
 
 case_1:
     (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23B8;
     func_80047784(entity,
         D_800E23B8[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    goto next_state;
+    ((S_80175594_0 *)motion)->unk_96 = 0;
+    ((S_80175594_0 *)motion)->unk_9B++;
+    return;
 
 case_2:
     if (++((S_80175594_0 *)motion)->unk_96 < 9) {
-        goto done;
+        return;
     }
     (*(u8 * *)((u8 *)entity + 0x2C)) = D_800E23C0;
     func_80047784(entity,
         D_800E23C0[((D_80083228 + ((S_80175594_3 *)object)->unk_2A + 0x100) >> 9) & 7],
         0);
-    goto next_state;
+    ((S_80175594_0 *)motion)->unk_96 = 0;
+    ((S_80175594_0 *)motion)->unk_9B++;
+    return;
 
 case_3:
     if (((S_80175594_0 *)motion)->unk_96++ < 3) {
-        goto done;
+        return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    goto next_state;
+    ((S_80175594_0 *)motion)->unk_96 = 0;
+    ((S_80175594_0 *)motion)->unk_9B++;
+    return;
 
 case_4:
     if (((S_80175594_0 *)motion)->unk_96++ < 0xB) {
-        goto done;
+        return;
     }
     particle_index = 0;
     ((S_80175594_0 *)motion)->unk_96 = 0;
@@ -171,7 +175,7 @@ case_4:
         particle_index++;
     } while (particle_index < 6);
     func_800D6DC0(motion, position, entity, object);
-    goto done;
+    return;
 
 case_5:
     switch (((S_80175594_0 *)motion)->unk_96) {
@@ -210,9 +214,11 @@ case_5:
         func_800A56E0(0x705);
     }
     if (((S_80175594_0 *)motion)->unk_96++ < 0x2E) {
-        goto done;
+        return;
     }
-    goto next_state;
+    ((S_80175594_0 *)motion)->unk_96 = 0;
+    ((S_80175594_0 *)motion)->unk_9B++;
+    return;
 
 case_6:
     ((S_80175594_1 *)position)->unk_0A.s = ((S_80175594_0 *)motion)->unk_B6;
@@ -220,7 +226,7 @@ case_6:
 next_state:
     ((S_80175594_0 *)motion)->unk_96 = 0;
     ((S_80175594_0 *)motion)->unk_9B++;
-    goto done;
+    return;
 
 case_7:
     func_8009A3D0(((Rec_func_800D6DC0_arg2 *)entity)->unk_24, ((Rec_func_800D6DC0_arg2 *)entity)->unk_25,

@@ -99,7 +99,12 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
         ((S_8008BC58_3 *)display_record)->unk_34 = y;
         goto done;
     } else if (state == 10) {
-        register s32 selection_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 selection_index;
+        s32 selection_index_2;
+        s32 selection_index_3;
+        s32 selection_index_4;
+        s32 selection_index_5;
+        s32 selection_index_6;
         u8 selection_id;
         u8 *selection_positions;
         s32 buttons;
@@ -113,11 +118,11 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
                 ((S_8008BC58_0 *)object)->unk_74.s = 0;
             }
         } else if (buttons & 0x9000) {
-            selection_index = ((S_8008BC58_0 *)object)->unk_74.s - 1;
-            ((S_8008BC58_0 *)object)->unk_74.s = selection_index;
-            if (selection_index < 0) {
-                selection_index = ((S_8008BC58_0 *)object)->unk_78 - 1;
-                ((S_8008BC58_0 *)object)->unk_74.s = selection_index;
+            selection_index_2 = ((S_8008BC58_0 *)object)->unk_74.s - 1;
+            ((S_8008BC58_0 *)object)->unk_74.s = selection_index_2;
+            if (selection_index_2 < 0) {
+                selection_index_3 = ((S_8008BC58_0 *)object)->unk_78 - 1;
+                ((S_8008BC58_0 *)object)->unk_74.s = selection_index_3;
             }
         } else {
             goto update;
@@ -126,18 +131,18 @@ void func_8008BC58(u8 *object, S_8008BC58_2 *view_params, void *update_context)
         func_8008B620(selection_ids[((S_8008BC58_0 *)object)->unk_74.u]);
 
 update:
-        selection_index = ((S_8008BC58_0 *)object)->unk_74.s;
+        selection_index_4 = ((S_8008BC58_0 *)object)->unk_74.s;
         selection_positions = D_800D2EA4;
-        selection_id = selection_ids[selection_index];
+        selection_id = selection_ids[selection_index_4];
         ((S_8008BC58_3 *)(*(u8 **)object))->unk_30 = selection_positions[selection_id * 8] - 0x18;
 
-        selection_index = ((S_8008BC58_0 *)object)->unk_74.s;
-        selection_id = selection_ids[selection_index];
+        selection_index_5 = ((S_8008BC58_0 *)object)->unk_74.s;
+        selection_id = selection_ids[selection_index_5];
         display_record = *(u8 **)object;
         ((S_8008BC58_3 *)display_record)->unk_34 = selection_positions[selection_id * 8 + 1] - 0x40;
 
-        selection_index = ((S_8008BC58_0 *)object)->unk_74.s;
-        selection_id = selection_ids[selection_index];
+        selection_index_6 = ((S_8008BC58_0 *)object)->unk_74.s;
+        selection_id = selection_ids[selection_index_6];
         D_80082ABC = selection_id;
     }
 

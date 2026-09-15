@@ -48,7 +48,6 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     register s32 center_y ASM_REG("$20");
     s32 direction_offset;
     s32 coord_value;
-    register s32 coord_offset ASM_REG("$2");
     s32 query_arg;
     s32 direction_arg;
     void *tile_flags_out;
@@ -63,7 +62,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     s32 early_result;
     u32 scaled_y;
     register u32 scaled_x ASM_REG("$3");
-    register s32 call_height_offset ASM_REG("$8");
+    s32 call_height_offset;
     register S_800CA1E0_0 *coords ASM_REG("$18");
     register u8 *bounds ASM_REG("$6");
     s32 clearance;
@@ -76,16 +75,16 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     lookup_arg = (action_flags >> 9) & 7;
     direction = lookup_arg;
     ASM_KEEP_NV(direction);
-    coord_offset = (s32)(D_8006CCD8);
+    bounds_page = (u32)((s32)(D_8006CCD8));
     direction_offset = direction << 1;
     ASM_KEEP_NV(direction_offset);
-    step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)coord_offset);
+    step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
     coord_value = coords->unk_24.s;
-    coord_offset = *step_x;
+    bounds_page = (u32)(*step_x);
     ASM_KEEP_NV(direction);
     saved_height_offset = entry_height_offset;
     lookup_arg = direction;
-    target_x = coord_value + coord_offset;
+    target_x = coord_value + (s32)bounds_page;
     bounds_page = 0x80080000;
     ASM_KEEP_DEP_NV(bounds_page, target_x);
     coord_value = target_x & 0xFFFF;
@@ -98,11 +97,11 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
         return -1;
     }
-    coord_offset = (s32)(D_8006CCE8);
-    step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)coord_offset);
+    bounds_page = (u32)((s32)(D_8006CCE8));
+    step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
     coord_value = coords->unk_25.s;
-    coord_offset = *step_y;
-    target_coord = coord_value + coord_offset;
+    bounds_page = (u32)(*step_y);
+    target_coord = coord_value + (s32)bounds_page;
     coord_value = target_coord & 0xFFFF;
     if (coord_value == 0) {
         return -1;
@@ -127,7 +126,8 @@ check_step:
     height = ((S_800CA1E0_2 *)call_height_offset)->unk_88;
     center_y = scaled_y + 0x20;
     if ((func_8009A540(lookup_arg, query_arg, direction_arg, (s16) (height - entry_height_offset)) << 0x10) == 0) {
-        goto blocked;
+        early_result = 0;
+        return early_result;
     }
     direction_arg = direction;
     ASM_KEEP_NV(direction_arg);
@@ -144,9 +144,9 @@ check_step:
     query_arg = coords->unk_25.s;
     ASM_KEEP_NV(query_arg);
     coord_value = *offset_x;
-    coord_offset = *offset_y;
+    bounds_page = (u32)(*offset_y);
     target_x = coord_value + target_coord;
-    target_coord = coord_offset + center_y;
+    target_coord = (s32)bounds_page + center_y;
     func_8009A350(lookup_arg, query_arg, direction_arg, tile_flags_out);
     if ((tile_flags & 0x8002) != 0) {
         goto blocked;
@@ -160,9 +160,9 @@ check_entity:
         lookup_arg = func_8009FB34((coords->unk_24.s + *step_x) & 0xFFFF, (coords->unk_25.s + *step_y) & 0xFFFF);
         if (lookup_arg >= 0) {
             entity_addr = lookup_arg << 2;
-            coord_offset = (s32)((u16 *)D_800E2970);
+            bounds_page = (u32)((s32)((u16 *)D_800E2970));
             entity_addr = (entity_addr + lookup_arg) << 2;
-            entity_addr = entity_addr + (u32)(u16 *)coord_offset;
+            entity_addr = entity_addr + (u32)(u16 *)(s32)bounds_page;
             ASM_KEEP_NV(entity_addr);
             lookup_arg = target_x & 0xFFFF;
             if (!(((S_800CA1E0_3 *)((void *)entity_addr))->unk_0C & 2)) {
@@ -178,9 +178,9 @@ check_entity:
 check_clearance:
     call_height_offset = saved_height_offset;
     clearance = (s16)func_800BCB04(lookup_arg, target_coord & 0xFFFF, (s16) (height - call_height_offset));
-    coord_offset = -1;
+    bounds_page = (u32)(-1);
     if (clearance < 0x201) {
-        coord_offset = 1;
+        bounds_page = (u32)(1);
     }
-    return coord_offset;
+    return (s32)bounds_page;
 }

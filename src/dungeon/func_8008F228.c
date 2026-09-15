@@ -161,7 +161,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     s32 temp_v0;
     s16 var_s1;
     s32 var_s6;
-    register s32 var_t1 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 var_t1;
     s32 var_t1_2;
     register s32 var_t1_3 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *var_s2;
@@ -188,7 +188,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     u8 *page2;
     void **table2;
     s32 ff2;
-    register s32 scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 scaled;
     register u32 dispatch_probe ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *dispatch_page;
     u32 dispatch_idx;
@@ -239,15 +239,17 @@ loop_1:
         entry_ptr = (void *)((u32)(idx1_copy * sizeof(S_800E3E48)) +
                              (u32)entries);
         ((S_80094988_3 *)var_t5)->unk_00 = (s32)entry_ptr;
+        var_t5 += 4;
+        var_t3 += 1;
+        var_t4 += 0x8C;
     } else {
         ((S_80094988_3 *)var_t5)->unk_00 = 0;
+        var_t5 += 4;
+        var_t3 += 1;
+        var_t4 += 0x8C;
     }
-    var_t5 += 4;
-    var_t3 += 1;
-    var_t4 += 0x8C;
     var_t6 += 0x8C;
     var_t1 += 1;
-    ASM_KEEP(var_t1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     var_t2 += 4;
     if (var_t1 < 0x14) {
         goto loop_1;

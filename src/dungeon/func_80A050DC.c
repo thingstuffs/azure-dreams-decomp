@@ -218,7 +218,7 @@ flags_done:
 
     do {
         void *child;
-        register void *root_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *direction_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         child = func_8003FD64(0x112, D_80083498);
         allocated = child;
@@ -239,7 +239,6 @@ flags_done:
                 outer_base = outer;
             } while (0);
             {
-                register u8 *direction_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                 direction_page = (u8 *)0x80160000;
                 ASM_KEEP(direction_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -287,9 +286,9 @@ flags_done:
                     func_800478E8(call_part, call_data, call_one);
                 }
                 setup_scratch = (uptr)stack.root;
-                root_link = (u8 *)setup_scratch + 0x1E;
+                direction_page = (u8 *)((u8 *)setup_scratch + 0x1E);
                 more_items = item_index < ((S_8015E8DC_6 *)entry)->unk_02;
-                ((S_8015E8DC_6 *)entry)->unk_98 = root_link;
+                ((S_8015E8DC_6 *)entry)->unk_98 = (void *)direction_page;
             } while (more_items);
         }
         outer = (u8 *)outer + 4;
@@ -300,8 +299,8 @@ flags_done:
             child_count = ((S_8015E8DC_4 *)stable_object)->unk_9E;
             setup_scratch++;
             stack.outer_index = (s32)setup_scratch;
-            root_link = (void *)((s32)setup_scratch < child_count);
-            if (!(s32)root_link) {
+            direction_page = (u8 *)((void *)((s32)setup_scratch < child_count));
+            if (!(s32)(void *)direction_page) {
                 break;
             }
         }

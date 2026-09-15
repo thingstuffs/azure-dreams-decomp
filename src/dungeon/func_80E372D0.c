@@ -53,8 +53,6 @@ typedef struct S_80170AD0_2 {
 /* Updates actor callbacks, facing, movement, and floor contact. */
 void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
 {
-    register void *motion ASM_REG("$21") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *monster ASM_REG("$20") = monster_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *actor = entity_arg;
     s16 direction_index;
     register s32 direction;
@@ -77,31 +75,29 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
         return;
     }
 
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_direction_raw = (*(volatile u8 *)((u8 *)entity_arg + 0x6D));
     entity_kind = (*(u8 *)((u8 *)entity_arg + 0x9A));
     old_direction_raw = old_direction_raw << 24;
     direction_index = (s32)old_direction_raw >> 24;
     if (entity_kind != 0x17 && entity_kind != 0x19) {
-        if (func_800A9E70(entity_arg, motion, monster, entity_arg) != 0) {
+        if (func_800A9E70(entity_arg, motion_arg, monster_arg, entity_arg) != 0) {
             return;
         }
     }
 
     callback = (*(Callback *)((u8 *)entity_arg + 0x8C));
     if (callback != 0) {
-        callback(entity_arg, motion, monster, actor);
+        callback(entity_arg, motion_arg, monster_arg, actor);
     }
 
-    D_80176680[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion, monster, actor);
+    D_80176680[(*(u8 *)((u8 *)entity_arg + 0x9A))](entity_arg, motion_arg, monster_arg, actor);
 
     if ((s16)direction_index != ((S_80170AD0_0 *)actor)->unk_6D) {
-        func_800AA36C(entity_arg, motion, monster, actor);
+        func_800AA36C(entity_arg, motion_arg, monster_arg, actor);
     }
 
-    monster_flags = ((S_80170AD0_1 *)monster)->unk_14;
+    monster_flags = ((S_80170AD0_1 *)monster_arg)->unk_14;
     if (!(monster_flags & 0x8000)) {
         s32 direction_sector;
 
@@ -111,47 +107,47 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
         direction_index = direction;
 
         if ((*(s16 *)((u8 *)entity_arg + 0x94)) != direction_index) {
-            u8 *direction_tiles = ((S_80170AD0_1 *)monster)->unk_2C;
-            func_80047738(monster, direction_tiles[direction_index],
-                          ((S_80170AD0_1 *)monster)->unk_04);
+            u8 *direction_tiles = ((S_80170AD0_1 *)monster_arg)->unk_2C;
+            func_80047738(monster_arg, direction_tiles[direction_index],
+                          ((S_80170AD0_1 *)monster_arg)->unk_04);
             (*(s16 *)((u8 *)entity_arg + 0x94)) = direction;
         }
 
         if (D_8006CCF8[direction_index] != 0) {
-            ((S_80170AD0_1 *)monster)->unk_14 |= 1;
+            ((S_80170AD0_1 *)monster_arg)->unk_14 |= 1;
         } else {
-            ((S_80170AD0_1 *)monster)->unk_14 &= 0xFFFE;
+            ((S_80170AD0_1 *)monster_arg)->unk_14 &= 0xFFFE;
         }
 
         if (!(((S_80170AD0_0 *)actor)->unk_1C.u & 0x20)) {
-            if (!(((S_80170AD0_1 *)monster)->unk_14 & 0x40)) {
-                func_800478B8(monster);
+            if (!(((S_80170AD0_1 *)monster_arg)->unk_14 & 0x40)) {
+                func_800478B8(monster_arg);
             }
         } else {
-            ((S_80170AD0_1 *)monster)->unk_14 |= 0x7000;
+            ((S_80170AD0_1 *)monster_arg)->unk_14 |= 0x7000;
         }
 
-        func_800A020C(((S_80170AD0_0 *)actor)->unk_1C.s, (u8 *)monster + 0xC);
+        func_800A020C(((S_80170AD0_0 *)actor)->unk_1C.s, (u8 *)monster_arg + 0xC);
     } else {
-        ((S_80170AD0_1 *)monster)->unk_14 =
+        ((S_80170AD0_1 *)monster_arg)->unk_14 =
             (monster_flags & 0x0800) ? (monster_flags & 0x8FFF) : (monster_flags | 0x7000);
     }
 
-    ((S_80170AD0_2 *)motion)->unk_00.at00.v += ((S_80170AD0_2 *)motion)->unk_0C;
-    ((S_80170AD0_2 *)motion)->unk_04.at00.v += ((S_80170AD0_2 *)motion)->unk_10;
+    ((S_80170AD0_2 *)motion_arg)->unk_00.at00.v += ((S_80170AD0_2 *)motion_arg)->unk_0C;
+    ((S_80170AD0_2 *)motion_arg)->unk_04.at00.v += ((S_80170AD0_2 *)motion_arg)->unk_10;
 
     if ((*(u16 *)((u8 *)entity_arg + 0x98)) & 8) {
         (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
     } else {
-        ((S_80170AD0_2 *)motion)->unk_14 += (*(s8 *)((u8 *)entity_arg + 0x9D)) * 0x14000;
+        ((S_80170AD0_2 *)motion_arg)->unk_14 += (*(s8 *)((u8 *)entity_arg + 0x9D)) * 0x14000;
         (*(u8 *)((u8 *)entity_arg + 0x9D))++;
     }
 
-    (*(s32 *)((u8 *)entity_arg + 0x90)) += ((S_80170AD0_2 *)motion)->unk_14;
+    (*(s32 *)((u8 *)entity_arg + 0x90)) += ((S_80170AD0_2 *)motion_arg)->unk_14;
 
     if (!((*(u16 *)((u8 *)entity_arg + 0x98)) & 4)) {
-        floor_height = func_800BCB04(((S_80170AD0_2 *)motion)->unk_00.at02.v,
-                              ((S_80170AD0_2 *)motion)->unk_04.at02.v,
+        floor_height = func_800BCB04(((S_80170AD0_2 *)motion_arg)->unk_00.at02.v,
+                              ((S_80170AD0_2 *)motion_arg)->unk_04.at02.v,
                               (s16)(((S_80170AD0_0 *)actor)->unk_88.u - 0x20));
         if (floor_height < 0x200) {
             actor_height = ((S_80170AD0_0 *)actor)->unk_88.s;
@@ -164,7 +160,7 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
                     (*(s16 *)((u8 *)entity_arg + 0x92)) = floor_height - ((S_80170AD0_0 *)actor)->unk_88.u;
                 }
 
-                ((S_80170AD0_2 *)motion)->unk_14 = 0;
+                ((S_80170AD0_2 *)motion_arg)->unk_14 = 0;
                 (*(u8 *)((u8 *)entity_arg + 0x9D)) = 0;
                 ((S_80170AD0_0 *)actor)->unk_1C.u |= 0x08000000;
             }
@@ -172,8 +168,8 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
             if (((S_80170AD0_0 *)actor)->unk_1C.u & 0x40000000) {
                 ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xBFFFFFFF;
                 floor_height = func_800BCB04(
-                    (((S_80170AD0_1 *)monster)->unk_24 << 6) | 0x20,
-                    (((S_80170AD0_1 *)monster)->unk_25 << 6) | 0x20,
+                    (((S_80170AD0_1 *)monster_arg)->unk_24 << 6) | 0x20,
+                    (((S_80170AD0_1 *)monster_arg)->unk_25 << 6) | 0x20,
                     (s16)(((S_80170AD0_0 *)actor)->unk_88.u - 0x20));
                 (*(s16 *)((u8 *)entity_arg + 0x92)) +=
                     ((S_80170AD0_0 *)actor)->unk_88.u - floor_height;
@@ -186,8 +182,8 @@ void func_80170AD0(void *entity_arg, void *motion_arg, void *monster_arg)
     ((S_80170AD0_0 *)actor)->unk_1C.u &= 0xF7FFFFFF;
 
 finish:
-    ((S_80170AD0_2 *)motion)->unk_0A =
+    ((S_80170AD0_2 *)motion_arg)->unk_0A =
         ((S_80170AD0_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity_arg + 0x92));
-    ((S_80170AD0_1 *)monster)->unk_14 |= 0x40;
+    ((S_80170AD0_1 *)monster_arg)->unk_14 |= 0x40;
 
 }

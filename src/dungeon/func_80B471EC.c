@@ -185,6 +185,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     s32 coordinate;
     register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 y_coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 state_m ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 vertices[10][6][3];
     s16 *volatile opening_angles;
     s16 *volatile closing_angles;
@@ -256,13 +257,12 @@ void func_801749EC(void *effect, void *origin, void *tint) {
             if (phase == 0) {
                 s16 *angle_base;
                 s32 angle_limit;
-                register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 scale = 0x1E;
                 ring_index = 1;
-                state = (s32) *(void *volatile *)&effect;
+                state_m = (s32) *(void *volatile *)&effect;
                 angle_base = ring_angles;
                 angle_limit = 0x400;
-                ring_angles[0] = (0 - ((S_801749EC_1 *)state)->unk_0C) + 0x400;
+                ring_angles[0] = (0 - ((S_801749EC_1 *)state_m)->unk_0C) + 0x400;
                 do {
                     opening_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
                     opening_angle = ((S_801749EC_2_pre *)opening_angle_slot)[-1].unk_00 + 0xCC;
@@ -274,46 +274,46 @@ void func_801749EC(void *effect, void *origin, void *tint) {
                     ring_index = next_angle_index;
                 } while (next_angle_index < 0xA);
                 ring_index = 0;
-                state = (s32) ring_angles;
-                opening_angles = (void *) state;
+                state_m = (s32) ring_angles;
+                opening_angles = (void *) state_m;
                 radius = scale;
                 do {
                     sector = 0;
                     ring_index_shifted = ring_index << 0x10;
                     signed_ring_index = ring_index_shifted >> 0x10;
-                    state = (s32) opening_angles;
+                    state_m = (s32) opening_angles;
                     {
                         coordinate = signed_ring_index << 1;
-                        angle_or_vertices = (s16 *) (coordinate + state);
+                        angle_or_vertices = (s16 *) (coordinate + state_m);
                     }
 opening_sector_loop:
                     opening_sector_radius = sector << 0x10;
-                    state = radius * func_800644B8(*angle_or_vertices);
+                    state_m = radius * func_800644B8(*angle_or_vertices);
                     opening_sector_radius >>= 0x10;
                     vertex_offset = (opening_sector_radius * 6) + (signed_ring_index * 0x24);
                     opening_vertex = (s8 *)vertices + vertex_offset;
                     {
-                        coordinate = state >> 0xC;
+                        coordinate = state_m >> 0xC;
                         ((S_801749EC_3 *)opening_vertex)->unk_04 = (s16) coordinate;
                     }
                     opening_azimuth = opening_sector_radius << 2;
-                    state = radius * func_80064584(*angle_or_vertices);
+                    state_m = radius * func_80064584(*angle_or_vertices);
                     opening_azimuth += opening_sector_radius;
                     opening_azimuth += opening_azimuth << 4;
                     opening_azimuth <<= 2;
                     opening_azimuth += opening_sector_radius;
                     opening_azimuth <<= 1;
-                    opening_sector_radius = state >> 0xC;
-                    state = (s16) opening_sector_radius * func_80064584(opening_azimuth);
+                    opening_sector_radius = state_m >> 0xC;
+                    state_m = (s16) opening_sector_radius * func_80064584(opening_azimuth);
                     {
-                        coordinate = state >> 0xC;
+                        coordinate = state_m >> 0xC;
                         ((S_801749EC_3 *)opening_vertex)->unk_00 = (s16) coordinate;
                     }
                     next_opening_sector = sector + 1;
                     sector = next_opening_sector;
-                    state = (s16) opening_sector_radius * func_800644B8(opening_azimuth);
+                    state_m = (s16) opening_sector_radius * func_800644B8(opening_azimuth);
                     {
-                        y_coordinate = state >> 0xC;
+                        y_coordinate = state_m >> 0xC;
                         ((S_801749EC_3 *)opening_vertex)->unk_02 = (s16) y_coordinate;
                     }
                     if (next_opening_sector < 6) {
@@ -322,18 +322,18 @@ opening_sector_loop:
                     next_opening_ring = ring_index + 1;
                     ring_index = next_opening_ring;
                 } while (next_opening_ring < 0xA);
-                state = (s32) *(void *volatile *)&effect;
-                opening_progress = ((S_801749EC_1 *)state)->unk_0C + 0x64;
-                ((S_801749EC_1 *)state)->unk_0C = opening_progress;
+                state_m = (s32) *(void *volatile *)&effect;
+                opening_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
+                ((S_801749EC_1 *)state_m)->unk_0C = opening_progress;
                 if ((s16) opening_progress >= 0x800) {
-                    ((S_801749EC_1 *)state)->unk_0C = 0x800U;
+                    ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
                 }
                 meridian = 0;
-                state = (s32) *(void *volatile *)&effect;
-                if (((S_801749EC_1 *)state)->unk_08 < 0x16) {
-                    old_phase = ((S_801749EC_1 *)state)->unk_06;
-                    ((S_801749EC_1 *)state)->unk_0C = 0U;
-                    ((S_801749EC_1 *)state)->unk_06 = old_phase + 1;
+                state_m = (s32) *(void *volatile *)&effect;
+                if (((S_801749EC_1 *)state_m)->unk_08 < 0x16) {
+                    old_phase = ((S_801749EC_1 *)state_m)->unk_06;
+                    ((S_801749EC_1 *)state_m)->unk_0C = 0U;
+                    ((S_801749EC_1 *)state_m)->unk_06 = old_phase + 1;
                     goto select_line_data;
                 }
                 goto select_line_data;
@@ -346,13 +346,12 @@ opening_sector_loop:
     {
     s16 *angle_base;
     s32 angle_limit;
-    register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     scale = 0x1E;
     ring_index = 8;
-    state = (s32) *(void *volatile *)&effect;
+    state_m = (s32) *(void *volatile *)&effect;
     angle_base = ring_angles;
     angle_limit = -0x400;
-    ring_angles[9] = (0 - ((S_801749EC_1 *)state)->unk_0C) + 0x400;
+    ring_angles[9] = (0 - ((S_801749EC_1 *)state_m)->unk_0C) + 0x400;
     do {
         closing_angle_slot = (void *)(((ring_index << 0x10) >> 0xF) + (s32)angle_base);
         closing_angle_value = ((S_801749EC_4 *)closing_angle_slot)->unk_02 - 0xCC;
@@ -364,47 +363,47 @@ opening_sector_loop:
         ring_index = prev_angle_index;
     } while ((prev_angle_index << 0x10) != 0);
     ring_index = 0;
-    state = (s32) ring_angles;
-    closing_angles = (void *) state;
+    state_m = (s32) ring_angles;
+    closing_angles = (void *) state_m;
     radius = scale;
     do {
         sector = 0;
         ring_index_shifted = ring_index << 0x10;
         signed_ring_index = ring_index_shifted >> 0x10;
-        state = (s32) closing_angles;
+        state_m = (s32) closing_angles;
         {
             s32 scaled_outer;
             scaled_outer = signed_ring_index << 1;
-            closing_angle = (s16 *) (scaled_outer + state);
+            closing_angle = (s16 *) (scaled_outer + state_m);
         }
 closing_sector_loop:
         closing_sector_radius = sector << 0x10;
-        state = radius * func_800644B8(*closing_angle);
+        state_m = radius * func_800644B8(*closing_angle);
         closing_sector_radius >>= 0x10;
         vertex_offset = (closing_sector_radius * 6) + (signed_ring_index * 0x24);
         closing_vertex = (s8 *)vertices + vertex_offset;
         {
-            coordinate = state >> 0xC;
+            coordinate = state_m >> 0xC;
             ((S_801749EC_5 *)closing_vertex)->unk_04 = (s16) coordinate;
         }
         closing_azimuth = closing_sector_radius << 2;
-        state = radius * func_80064584(*closing_angle);
+        state_m = radius * func_80064584(*closing_angle);
         closing_azimuth += closing_sector_radius;
         closing_azimuth += closing_azimuth << 4;
         closing_azimuth <<= 2;
         closing_azimuth += closing_sector_radius;
         closing_azimuth <<= 1;
-        closing_sector_radius = state >> 0xC;
-        state = (s16) closing_sector_radius * func_80064584(closing_azimuth);
+        closing_sector_radius = state_m >> 0xC;
+        state_m = (s16) closing_sector_radius * func_80064584(closing_azimuth);
         {
-            coordinate = state >> 0xC;
+            coordinate = state_m >> 0xC;
             ((S_801749EC_5 *)closing_vertex)->unk_00 = (s16) coordinate;
         }
         next_closing_sector = sector + 1;
         sector = next_closing_sector;
-        state = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
+        state_m = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
         {
-            y_coordinate = state >> 0xC;
+            y_coordinate = state_m >> 0xC;
             ((S_801749EC_5 *)closing_vertex)->unk_02 = (s16) y_coordinate;
         }
         if (next_closing_sector < 6) {
@@ -413,11 +412,11 @@ closing_sector_loop:
         next_closing_ring = ring_index + 1;
         ring_index = next_closing_ring;
     } while (next_closing_ring < 0xA);
-    state = (s32) *(void *volatile *)&effect;
-    closing_progress = ((S_801749EC_1 *)state)->unk_0C + 0x64;
-    ((S_801749EC_1 *)state)->unk_0C = closing_progress;
+    state_m = (s32) *(void *volatile *)&effect;
+    closing_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
+    ((S_801749EC_1 *)state_m)->unk_0C = closing_progress;
     if ((s16) closing_progress >= 0x800) {
-        ((S_801749EC_1 *)state)->unk_0C = 0x800U;
+        ((S_801749EC_1 *)state_m)->unk_0C = 0x800U;
     }
     meridian = 0;
     }
@@ -548,12 +547,11 @@ advance_ring_sector:
     ring = next_ring;
     } while (next_ring < 9);
     {
-        register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        state = *(void *volatile *)&effect;
-        remaining_ticks = (u16) ((S_801749EC_1 *)state)->unk_08 - 1;
-        ((S_801749EC_1 *)state)->unk_08 = remaining_ticks;
+        state_m = (s32)(*(void *volatile *)&effect);
+        remaining_ticks = (u16) ((S_801749EC_1 *)(void *)state_m)->unk_08 - 1;
+        ((S_801749EC_1 *)(void *)state_m)->unk_08 = remaining_ticks;
         if ((remaining_ticks << 0x10) <= 0) {
-            (*(u16 *)((u8 *)state + -2)) = (u16) (((S_801749EC_1_pre *)state)[-1].unk_00 | 0x8000);
+            (*(u16 *)((u8 *)(void *)state_m + -2)) = (u16) (((S_801749EC_1_pre *)(void *)state_m)[-1].unk_00 | 0x8000);
             D_800814A0 = D_800814A0 | 0x8000;
         }
         return;

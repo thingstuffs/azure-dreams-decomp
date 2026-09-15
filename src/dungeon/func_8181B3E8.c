@@ -267,6 +267,9 @@ void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
     s32 state;
     void *target_graphics;
     register void *source_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 impact_position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 impact_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register s32 particle_count_m ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
     velocity_table = D_80024004;
@@ -407,9 +410,6 @@ state_1:
         void *target_position;
         void *animation;
         void *impact;
-        register void *impact_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register void *impact_position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 particle_count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 color;
         register s32 color_mode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 random_intensity;
@@ -422,13 +422,13 @@ state_1:
             goto common;
         }
 
-        particle_count = 0;
+        particle_count_m = 0;
         loop_0: {
             register void *effect_task ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 direction;
             s32 particle_color;
             register s32 intensity ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            particle_count++;
+            particle_count_m++;
             random_intensity = func_80069EF8();
             effect_task = (u8 *)effect - 0x20;
             particle_color = 0xF04040;
@@ -437,7 +437,7 @@ state_1:
             ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
             func_80024758(effect_task, direction, particle_color, intensity, 0, 0, 0);
-        } if (particle_count < 4) goto loop_0;
+        } if (particle_count_m < 4) goto loop_0;
 
         ((S_80024BE8_0 *)effect)->unk_7B--;
         if (((S_80024BE8_0 *)effect)->unk_7B > 0) {
@@ -468,23 +468,23 @@ state_1:
             if (impact != 0) {
                 ((S_80024BE8_11 *)impact)->unk_10 = D_80024B14;
                 func_8004491C(impact, D_80045C34);
-                impact_sprite = ((S_80024BE8_11 *)impact)->unk_0C;
-                ((S_80024BE8_12 *)impact_sprite)->unk_10 = 0;
-                ((S_80024BE8_12 *)impact_sprite)->unk_14 |= 0xC;
-                impact_position = ((S_80024BE8_11 *)impact)->unk_08;
-                ((S_80024BE8_13 *)impact_position)->unk_02 = ((S_80024BE8_5 *)motion)->unk_00.at02.v;
-                ((S_80024BE8_13 *)impact_position)->unk_06 = ((S_80024BE8_5 *)motion)->unk_04.at02.v;
-                ((S_80024BE8_13 *)impact_position)->unk_08.at00.v = ((S_80024BE8_5 *)motion)->unk_08.at00.v;
+                impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_10 = 0;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 |= 0xC;
+                impact_position = (s32)(((S_80024BE8_11 *)impact)->unk_08);
+                ((S_80024BE8_13 *)(void *)impact_position)->unk_02 = ((S_80024BE8_5 *)motion)->unk_00.at02.v;
+                ((S_80024BE8_13 *)(void *)impact_position)->unk_06 = ((S_80024BE8_5 *)motion)->unk_04.at02.v;
+                ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at00.v = ((S_80024BE8_5 *)motion)->unk_08.at00.v;
                 animation = D_800258FC;
-                impact_sprite = ((S_80024BE8_11 *)impact)->unk_0C;
-                ((S_80024BE8_12 *)impact_sprite)->unk_08 = animation;
-                ((S_80024BE8_12 *)impact_sprite)->unk_0E = color;
-                ((S_80024BE8_12 *)impact_sprite)->unk_0D = color;
-                ((S_80024BE8_12 *)impact_sprite)->unk_0C = color;
-                ((S_80024BE8_12 *)impact_sprite)->unk_1E = 1;
-                ((S_80024BE8_12 *)impact_sprite)->unk_1C = 1;
-                ((S_80024BE8_12 *)impact_sprite)->unk_14 ^= 0xC;
-                ((S_80024BE8_13 *)impact_position)->unk_08.at02.v = ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
+                impact_sprite = (s32)(((S_80024BE8_11 *)impact)->unk_0C);
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_08 = animation;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0E = color;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0D = color;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_0C = color;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1E = 1;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_1C = 1;
+                ((S_80024BE8_12 *)(void *)impact_sprite)->unk_14 ^= 0xC;
+                ((S_80024BE8_13 *)(void *)impact_position)->unk_08.at02.v = ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
             }
             ((S_80024BE8_5 *)motion)->unk_08.at02.v = ((S_80024BE8_23 *)(((S_80024BE8_3 *)source)->unk_60))->unk_88;
         } else {
@@ -499,50 +499,48 @@ state_1:
 
 state_2:
     {
-        register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         ((S_80024BE8_5 *)motion)->unk_00.at00.v += ((S_80024BE8_5 *)motion)->unk_0C;
         ((S_80024BE8_5 *)motion)->unk_04.at00.v += ((S_80024BE8_5 *)motion)->unk_10;
         ((S_80024BE8_5 *)motion)->unk_08.at00.v += ((S_80024BE8_5 *)motion)->unk_14;
 
-        offset_x = func_80069EF8() & 0xF;
-        ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        offset_x = (s16)(offset_x - 8);
-        offset_y = func_80069EF8() & 0xF;
-        ASM_KEEP(offset_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        offset_y = (s16)(offset_y - 8);
-        func_800240C0(effect, motion, sprite, offset_x, offset_y,
+        impact_position = func_80069EF8() & 0xF;
+        ASM_KEEP(impact_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        impact_position = (s16)(impact_position - 8);
+        impact_sprite = func_80069EF8() & 0xF;
+        ASM_KEEP(impact_sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        impact_sprite = (s16)(impact_sprite - 8);
+        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
-        offset_x = func_80069EF8() & 0xF;
-        offset_x = (s16)(offset_x - 8);
-        offset_y = func_80069EF8() & 0xF;
-        offset_y = (s16)(offset_y - 8);
-        func_800240C0(effect, motion, sprite, offset_x, offset_y,
+        impact_position = func_80069EF8() & 0xF;
+        impact_position = (s16)(impact_position - 8);
+        impact_sprite = func_80069EF8() & 0xF;
+        impact_sprite = (s16)(impact_sprite - 8);
+        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
-        offset_x = func_80069EF8() & 0xF;
-        offset_x = (s16)(offset_x - 8);
-        offset_y = func_80069EF8() & 0xF;
-        offset_y = (s16)(offset_y - 8);
-        func_800240C0(effect, motion, sprite, offset_x, offset_y,
+        impact_position = func_80069EF8() & 0xF;
+        impact_position = (s16)(impact_position - 8);
+        impact_sprite = func_80069EF8() & 0xF;
+        impact_sprite = (s16)(impact_sprite - 8);
+        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
-        offset_x = func_80069EF8() & 0xF;
-        offset_x = (s16)(offset_x - 8);
-        offset_y = func_80069EF8() & 0xF;
-        offset_y = (s16)(offset_y - 8);
-        func_800240C0(effect, motion, sprite, offset_x, offset_y,
+        impact_position = func_80069EF8() & 0xF;
+        impact_position = (s16)(impact_position - 8);
+        impact_sprite = func_80069EF8() & 0xF;
+        impact_sprite = (s16)(impact_sprite - 8);
+        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
-        offset_x = func_80069EF8() & 0xF;
-        offset_x = (s16)(offset_x - 8);
-        offset_y = func_80069EF8() & 0xF;
-        offset_y = (s16)(offset_y - 8);
-        func_800240C0(effect, motion, sprite, offset_x, offset_y,
+        impact_position = func_80069EF8() & 0xF;
+        impact_position = (s16)(impact_position - 8);
+        impact_sprite = func_80069EF8() & 0xF;
+        impact_sprite = (s16)(impact_sprite - 8);
+        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
-        offset_x = func_80069EF8() & 0xF;
-        offset_x = (s16)(offset_x - 8);
-        offset_y = func_80069EF8() & 0xF;
-        offset_y = (s16)(offset_y - 8);
-        func_800240C0(effect, motion, sprite, offset_x, offset_y,
+        impact_position = func_80069EF8() & 0xF;
+        impact_position = (s16)(impact_position - 8);
+        impact_sprite = func_80069EF8() & 0xF;
+        impact_sprite = (s16)(impact_sprite - 8);
+        func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         goto common;
     }
@@ -575,8 +573,6 @@ state_4:
         register void *particle ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
         void *particle_sprite;
         void *particle_position;
-        register s32 particle_count ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 offset_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         s32 particle_kind;
         u16 direction_preload;
         s32 animation_mode;
@@ -587,16 +583,16 @@ state_4:
         s32 height;
         u16 scale_step;
 
-        particle_count = 0;
+        particle_count_m = 0;
         do {
-            particle_count++;
-            offset_x = func_80069EF8() & 0x3F;
-            ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            offset_x = (s16)(offset_x - 0x20);
-            func_800249A0((u8 *)effect - 0x20, offset_x,
+            particle_count_m++;
+            impact_sprite = func_80069EF8() & 0x3F;
+            ASM_KEEP(impact_sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            impact_sprite = (s16)(impact_sprite - 0x20);
+            func_800249A0((u8 *)effect - 0x20, impact_sprite,
                 (s16)((func_80069EF8() & 0x3F) - 0x20),
                 (s16)(-(((S_80024BE8_0 *)effect)->unk_86.s * 2) + 0x10), 0x1E);
-        } while (particle_count < 2);
+        } while (particle_count_m < 2);
 
         particle_kind = 0x212;
         side = ((S_80024BE8_0 *)effect)->unk_86.u & 3;
@@ -680,21 +676,19 @@ state_5:
         void *target;
         void *current_target;
         s32 particle_count;
-        register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         s32 target_flag;
         u16 scale_step;
 
         particle_count = 0;
         do {
             particle_count++;
-            offset_x = func_80069EF8() & 0x3F;
-            ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            offset_x = (s16)(offset_x - 0x20);
-            offset_y = func_80069EF8() & 0x3F;
-            ASM_KEEP(offset_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            offset_y = (s16)(offset_y - 0x20);
-            func_800249A0((u8 *)effect - 0x20, offset_x, offset_y,
+            impact_position = func_80069EF8() & 0x3F;
+            ASM_KEEP(impact_position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            impact_position = (s16)(impact_position - 0x20);
+            impact_sprite = func_80069EF8() & 0x3F;
+            ASM_KEEP(impact_sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            impact_sprite = (s16)(impact_sprite - 0x20);
+            func_800249A0((u8 *)effect - 0x20, impact_position, impact_sprite,
                 (s16)(-0x20 - (func_80069EF8() & 0x3F)), 0x1E);
         } while (particle_count < 2);
 

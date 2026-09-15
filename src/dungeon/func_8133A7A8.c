@@ -42,8 +42,8 @@ void func_801717A8(Entity *entity) {
     s16 phase_slot;
     s16 height_slot;
     s32 state = entity->state;
-    register void *focus_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *offset_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *focus_arg;
+    void *offset_arg;
     s32 transition_ticks;
     u16 previous_state;
     register s32 coord_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -62,8 +62,9 @@ void func_801717A8(Entity *entity) {
     (void)state_labels;
     if ((u32)state < 22) {
         goto *D_80164A68[state];
+    } else {
+        goto jt_exit;
     }
-    goto jt_exit;
 
 jt_c0: {
     u16 offset_x;
@@ -92,12 +93,16 @@ jt_c1:
     entity->timer++;
     if (entity->timer < 0x28) {
         goto jt_exit;
+    } else {
+        focus_arg = D_801760E8;
+        offset_arg = D_801760E0;
+        previous_state = entity->state;
+        transition_ticks = 0x14;
+        entity->timer = 0;
+        entity->state = previous_state + 1;
+        func_8004D294(focus_arg, offset_arg, transition_ticks);
+        goto jt_exit;
     }
-    focus_arg = D_801760E8;
-    offset_arg = D_801760E0;
-    previous_state = entity->state;
-    transition_ticks = 0x14;
-    goto jt_call_common;
 
 jt_c2:
     entity->timer++;
@@ -111,7 +116,6 @@ jt_c2:
 
 jt_call_common:
     entity->timer = 0;
-    ASM_KEEP(transition_ticks);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity->state = previous_state + 1;
     func_8004D294(focus_arg, offset_arg, transition_ticks);
     goto jt_exit;

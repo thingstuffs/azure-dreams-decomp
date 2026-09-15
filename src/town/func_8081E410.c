@@ -29,8 +29,7 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     s32 *close_pos;
     s32 dx = (world_pos[0] + (s32)0xFCA00000) >> 16;
     s32 dy = (world_pos[1] + (s32)0xFCA00000) >> 16;
-    void *effect;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *spin_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *spin_data;
     s32 prev_angle;
     LocalPoint point;
     s32 distance;
@@ -50,9 +49,8 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
         &&decelerate, &&stop_spin, &&start_icons, &&draw_icons,
     };
 
-    effect = effect_arg;
     spin_data = *(void **)state_arg;
-    prev_angle = U16(effect, 0x1A);
+    prev_angle = U16(effect_arg, 0x1A);
     point = *(LocalPoint *)D_8002004C;
     dx_squared = dx * dx;
     dy_squared = dy * dy;
@@ -141,11 +139,11 @@ position_done:
     goto *D_80020058[phase];
 
 idle:
-    value = U8(effect, 0xE);
+    value = U8(effect_arg, 0xE);
     value += (128 - value) >> 1;
-    U8(effect, 0xE) = value;
-    U8(effect, 0xD) = value;
-    U8(effect, 0xC) = value;
+    U8(effect_arg, 0xE) = value;
+    U8(effect_arg, 0xD) = value;
+    U8(effect_arg, 0xC) = value;
     S32(state_arg, 0x6C) = 0x00080000;
     goto wrap_angle;
 
@@ -157,11 +155,11 @@ accelerate:
         U16(state_arg, 0x72) = speed_limit;
         S16(state_arg, 0x70) = 2;
     }
-    U16(effect, 0x1A) += U16(state_arg, 0x72);
+    U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
     goto wrap_angle;
 
 spin:
-    U16(effect, 0x1A) += speed_limit;
+    U16(effect_arg, 0x1A) += speed_limit;
     if (distance >= 161 && S32(D_80083780, 4) > 0x03600000 && S16(spin_data, 0x18) == 5) {
         S16(state_arg, 0x72) = speed_limit;
         S16(state_arg, 0x70) = 3;
@@ -169,7 +167,7 @@ spin:
     goto wrap_angle;
 
 select_sector:
-    dx = U16(effect, 0x1A) & 0x7FF;
+    dx = U16(effect_arg, 0x1A) & 0x7FF;
     if (dx >= 0x6AB) {
         S16(spin_data, 0x24) = 0;
         goto reset_spin_angle;
@@ -200,7 +198,7 @@ decelerate:
     value = S16(state_arg, 0x72) >> dx;
     reduced_speed = U16(state_arg, 0x72) - value;
     U16(state_arg, 0x72) = reduced_speed;
-    U16(effect, 0x1A) += U16(state_arg, 0x72);
+    U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
     U16(spin_data, 0x1A) += U16(state_arg, 0x72);
     if (S16(state_arg, 0x72) < (1 << dx)) {
         S16(state_arg, 0x74) = 0;
@@ -209,7 +207,7 @@ decelerate:
     goto wrap_angle;
 
 stop_spin:
-    U16(effect, 0x1A) += U16(state_arg, 0x72);
+    U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
     U16(spin_data, 0x1A) += U16(state_arg, 0x72);
     value = U16(state_arg, 0x74) + 1;
     U16(state_arg, 0x74) = value;
@@ -249,8 +247,8 @@ icon_loop:
     }
 
 wrap_angle:
-    value = U16(effect, 0x1A) & 0xFFF;
-    U16(effect, 0x1A) = value;
+    value = U16(effect_arg, 0x1A) & 0xFFF;
+    U16(effect_arg, 0x1A) = value;
     if ((prev_angle >> 8) != ((u32)value >> 8)) {
         SD_Call(0x701);
     }

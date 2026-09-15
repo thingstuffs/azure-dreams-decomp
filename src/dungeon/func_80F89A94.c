@@ -137,7 +137,8 @@ state_1:
         ((S_80173294_3 *)sprite_data)->unk_14 = sprite_flags;
         state_byte = (volatile u8 *)((u8 *)effect_data + 0x9B);
         direction_y_table = (u8 *)(*state_byte + 1);
-        goto store_state;
+        ((S_80173294_2 *)effect_data)->unk_9B = (s32)direction_y_table;
+        goto done;
     }
 
 state_2:
@@ -184,6 +185,5 @@ state_3:
     }
 
 done:
-    ASM_KEEP(effect_data);
     return;
 }

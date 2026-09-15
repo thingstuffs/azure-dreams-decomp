@@ -68,6 +68,8 @@ s32 func_8002263C(Actor *actor, s16 *zone_id, s32 *offset_x, s32 *offset_y) {
     s32 edge_delta;
     register s32 edge_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 edge_coord_2;
+    register s32 edge_delta_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 zone_y_m ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     static void *const case_labels[] = {&&diagonal_2, &&diagonal_3, &&diagonal_4, &&diagonal_5, &&clear};
 
     (void)case_labels;
@@ -231,7 +233,6 @@ zone_found:
 
 diagonal_2:
     {
-        register s32 zone_y ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 zone_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 edge_delta;
         s32 zone_x;
@@ -240,15 +241,15 @@ diagonal_2:
         s32 edge_y;
         s32 neg_x;
         actor_y = actor->y;
-        zone_y = CURRENT_ZONE(y);
+        zone_y_m = CURRENT_ZONE(y);
         zone_x = CURRENT_ZONE(x);
         actor_x = actor->x;
-        edge_y = zone_y + 0x100;
+        edge_y = zone_y_m + 0x100;
         old_zone = zone_x + edge_y;
         neg_x = -actor_x;
         edge_delta = neg_x + old_zone;
         edge_delta = actor_y - edge_delta;
-        edge_y = zone_y - 0x70;
+        edge_y = zone_y_m - 0x70;
         if (edge_delta < 0) {
             PUSH(0x80000, 0x80000)
         }
@@ -300,9 +301,7 @@ diagonal_3:
 
 diagonal_4:
     {
-        register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 current_zone;
-        register s32 zone_y ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 zone_x;
         s32 actor_y;
         s32 actor_x;
@@ -311,24 +310,24 @@ diagonal_4:
         current_zone = *zone_id;
         actor_x = ((Actor *)actor)->x;
         actor_y = (*(s16 *)((u8 *)actor + 6));
-        zone_y = ((Zone *)zone_data)[current_zone].y;
-        edge_delta = ((Zone *)zone_data)[current_zone].h;
+        zone_y_m = ((Zone *)zone_data)[current_zone].y;
+        edge_delta_m = ((Zone *)zone_data)[current_zone].h;
         zone_x = ((Zone *)zone_data)[current_zone].x;
-        edge_delta = zone_y + edge_delta;
+        edge_delta_m = zone_y_m + edge_delta_m;
         edge_coord_2 = zone_x + 0x100;
-        old_zone = edge_delta - edge_coord_2;
-        edge_delta = actor_x + old_zone;
-        edge_delta = actor_y - edge_delta;
-        edge_coord = zone_y + 0x70;
-        if (edge_delta > 0) {
+        old_zone = edge_delta_m - edge_coord_2;
+        edge_delta_m = actor_x + old_zone;
+        edge_delta_m = actor_y - edge_delta_m;
+        edge_coord = zone_y_m + 0x70;
+        if (edge_delta_m > 0) {
             PUSH(-0x100000, 0x100000)
         }
-        edge_delta = ((Zone *)zone_data)[current_zone].w;
-        edge_delta = zone_x + edge_delta;
-        old_zone = edge_coord - edge_delta;
-        edge_delta = actor_x + old_zone;
-        edge_delta = actor_y - edge_delta;
-        if (edge_delta < 0) {
+        edge_delta_m = ((Zone *)zone_data)[current_zone].w;
+        edge_delta_m = zone_x + edge_delta_m;
+        old_zone = edge_coord - edge_delta_m;
+        edge_delta_m = actor_x + old_zone;
+        edge_delta_m = actor_y - edge_delta_m;
+        if (edge_delta_m < 0) {
             PUSH(0x200000, -0x200000)
         }
     }
@@ -336,7 +335,6 @@ diagonal_4:
 
 diagonal_5:
     {
-        register s32 edge_delta ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 zone_width;
         s32 zone_y;
         s32 zone_x;
@@ -348,24 +346,24 @@ diagonal_5:
             zone_width = CURRENT_ZONE(w);
         } while (0);
         zone_x = CURRENT_ZONE(x);
-        edge_delta = zone_y + zone_width;
+        edge_delta_m = zone_y + zone_width;
         edge_x = zone_x - 0x100;
-        edge_delta = edge_delta + edge_x;
-        old_zone = edge_delta + zone_width;
+        edge_delta_m = edge_delta_m + edge_x;
+        old_zone = edge_delta_m + zone_width;
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         neg_x = actor->x;
         actor_y = actor->y;
         neg_x = -neg_x;
-        edge_delta = neg_x + old_zone;
-        edge_delta = actor_y - edge_delta;
-        if (edge_delta > 0) {
+        edge_delta_m = neg_x + old_zone;
+        edge_delta_m = actor_y - edge_delta_m;
+        if (edge_delta_m > 0) {
             PUSH(-0x100000, -0x100000)
         }
-        edge_delta = zone_y + zone_x;
-        old_zone = edge_delta + 0x70;
-        edge_delta = neg_x + old_zone;
-        edge_delta = actor_y - edge_delta;
-        if (edge_delta < 0) {
+        edge_delta_m = zone_y + zone_x;
+        old_zone = edge_delta_m + 0x70;
+        edge_delta_m = neg_x + old_zone;
+        edge_delta_m = actor_y - edge_delta_m;
+        if (edge_delta_m < 0) {
             PUSH(0x200000, 0x200000)
         }
     }

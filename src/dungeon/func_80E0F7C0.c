@@ -117,7 +117,6 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
         &&select_first, &&select_second, &&select_third, &&no_effect, &&special_first, &&special_second, &&special_third
     };
     u16 offset[3];
-    register void *transform ASM_REG("$20") = transform_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 is_special;
     u8 *effect_id;
     u8 state;
@@ -125,7 +124,6 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
     void *main_actor;
     register void *child ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(transform);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     state = ((S_80172FC0_0 *)anim)->unk_9B;
     is_special = 0;
     if (state >= 7U) {
@@ -236,10 +234,10 @@ copy_effect:
         }
     }
 
-    ((S_80172FC0_5 *)transform)->unk_14 = 0;
-    ((S_80172FC0_5 *)transform)->unk_10 = 0;
-    ((S_80172FC0_5 *)transform)->unk_0C = 0;
-    func_800A2B04(transform, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
+    ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
+    ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
+    ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
+    func_800A2B04(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
     main_actor = D_800814A8[0];
     D_8008346C = 0;
     (*(u16 *)((u8 *)main_actor + 0xA6))--;
@@ -272,7 +270,7 @@ shrink_sprite:
         return;
     }
 
-    ((S_80172FC0_0 *)anim)->unk_A0 = func_80175858(anim, transform, sprite);
+    ((S_80172FC0_0 *)anim)->unk_A0 = func_80175858(anim, transform_arg, sprite);
     {
         s16 *camera_data;
         s32 direction;
@@ -318,12 +316,12 @@ shrink_sprite:
                         ((S_80172FC0_4 *)sprite)->unk_08, sprite, offset, 0) != 0) {
                     u16 height_offset;
 
-                    ((S_80172FC0_5 *)transform)->unk_02 += offset[0];
-                    ((S_80172FC0_5 *)transform)->unk_06 += offset[1];
+                    ((S_80172FC0_5 *)transform_arg)->unk_02 += offset[0];
+                    ((S_80172FC0_5 *)transform_arg)->unk_06 += offset[1];
                     height_offset = offset[2];
                     ((S_80172FC0_0 *)anim)->unk_B2 = height_offset;
                     ((S_80172FC0_0 *)anim)->unk_90.at02.v =
-                        ((S_80172FC0_5 *)transform)->unk_0A - ((Rec_D_800E3D7C *)actor)->unk_88.as_u16 +
+                        ((S_80172FC0_5 *)transform_arg)->unk_0A - ((Rec_D_800E3D7C *)actor)->unk_88.as_u16 +
                         (s16)height_offset / 2;
                 }
             }
@@ -438,10 +436,10 @@ restore_sprite:
     ((S_80172FC0_4 *)sprite)->unk_12 = ((S_80172FC0_0 *)anim)->unk_B8;
     ((S_80172FC0_4 *)sprite)->unk_0C.at00.v = ((S_80172FC0_0 *)anim)->unk_B4;
     ((S_80172FC0_4 *)sprite)->unk_10 = ((S_80172FC0_0 *)anim)->unk_BA;
-    ((S_80172FC0_5 *)transform)->unk_14 = 0;
-    ((S_80172FC0_5 *)transform)->unk_10 = 0;
-    ((S_80172FC0_5 *)transform)->unk_0C = 0;
-    func_800A2B04(transform, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
+    ((S_80172FC0_5 *)transform_arg)->unk_14 = 0;
+    ((S_80172FC0_5 *)transform_arg)->unk_10 = 0;
+    ((S_80172FC0_5 *)transform_arg)->unk_0C = 0;
+    func_800A2B04(transform_arg, ((S_80172FC0_4 *)sprite)->unk_24, ((S_80172FC0_4 *)sprite)->unk_25);
     ((S_80172FC0_0 *)anim)->unk_98 &= 0xFFF7;
     ((Rec_D_800E3D7C *)actor)->unk_1C.as_u32 |= 0x40000000;
     if (((S_80172FC0_4 *)sprite)->unk_2C != D_80176460) {

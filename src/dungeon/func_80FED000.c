@@ -141,7 +141,6 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     s32 mode;
     register s32 call_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *check_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 saved_grid_x;
     s16 saved_placement;
     s8 saved_grid_y;
@@ -153,7 +152,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     register void *setup_alias ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     DungeonArgBits saved_setup;
     s32 state_flags;
-    register s32 status_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 status_flags;
     register s32 setup_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = NULL;
@@ -190,7 +189,8 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
             status_flags = state->field1c;
             state_flags |= 0x6000;
             status_flags |= 0x6000;
-            goto store_flags;
+            state->field14 = state_flags;
+            goto shared_tail;
         }
         else if (mode >= 2) {
             state_flags = state->field14;
@@ -199,18 +199,19 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
             status_flags |= 0x2000;
 store_flags:
             state->field14 = state_flags;
+            shared_tail:
             state->field1c = status_flags;
             goto final_call;
         }
         setup_mask = ((s32) setup_alias & ~3) << 0x10;
         if (setup_mask == 0) {
-            check_obj = node;
+            call_count = (s32)(node);
             if (!(state->field14 & 0x200)) {
                 call_target = node_data;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                if (func_800A6D30(check_obj, call_target) & 1) {
+                if (func_800A6D30((void *)call_count, call_target) & 1) {
                     state->field1c |= 0x200;
-                    func_800A48F0(state, 1, (func_800A6D30(check_obj) & 0x3F) | 0x20);
+                    func_800A48F0(state, 1, (func_800A6D30((void *)call_count) & 0x3F) | 0x20);
                     placement->field2c = &D_80162088;
                 }
             }

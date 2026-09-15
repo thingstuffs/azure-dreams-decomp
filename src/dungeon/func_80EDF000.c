@@ -142,6 +142,7 @@ void BODY_NAME(S_func_80EDF000_0 *motion, S_func_80EDF000_1 *position, S_func_80
     u16 travel_frames;
     u16 scale;
     u32 tile_distance;
+    register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
 #ifdef __mips__
     static void *const switch_keepalive[] __attribute__((used)) = {
@@ -208,7 +209,6 @@ advance_interpolation:
         if (countdown == 0)
             goto check_arrival;
         {
-            register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 interp_current;
 
             interp_goal = position->unk_0E;
@@ -290,40 +290,39 @@ move:
     position->unk_04.s32 += motion->unk_70;
     {
         s32 coord;
-        register s32 next_tile ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 world_coord;
         GridPoint *step;
 
         coord = motion->unk_70;
-        next_tile = motion->unk_34;
-        ASM_KEEP(next_tile);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        interp_goal = motion->unk_34;
+        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         world_coord = motion->unk_7C;
         ASM_KEEP(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        step = &step_table[next_tile];
+        step = &step_table[interp_goal];
         ASM_KEEP(step);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        next_tile = motion->unk_5C;
+        interp_goal = motion->unk_5C;
         coord += world_coord;
         motion->unk_70 = coord;
 
         coord = step->unk_00.x;
         world_coord = position->unk_00.parts.unk_02.s16;
-        next_tile += coord;
+        interp_goal += coord;
         if (world_coord < 0)
             world_coord += 0x3F;
         coord = world_coord >> 6;
-        if (next_tile != coord)
+        if (interp_goal != coord)
             goto update_height;
 
         coord = step->unk_02.unk_02;
         world_coord = position->unk_04.parts.unk_06.s16;
-        next_tile = motion->unk_5D;
-        ASM_KEEP(next_tile);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        interp_goal = motion->unk_5D;
+        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord = (s16)coord;
-        next_tile += coord;
+        interp_goal += coord;
         if (world_coord < 0)
             world_coord += 0x3F;
         coord = world_coord >> 6;
-        if (next_tile != coord)
+        if (interp_goal != coord)
             goto update_height;
     }
     if ((func_800A45D8(position->unk_00.parts.unk_02.u16, position->unk_04.parts.unk_06.u16,

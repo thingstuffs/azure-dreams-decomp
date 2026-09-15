@@ -188,11 +188,11 @@ void func_8001EF0C(void) {
             flag_bits = flags & 0x3000;
             if (flag_bits != 0x3000) {
                 register u32 shifted_flag_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                register u32 scaled_flag_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                register u8 *lookup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 shifted_flag_bits = flag_bits << 16;
                 ASM_KEEP_NV(shifted_flag_bits);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                scaled_flag_bits = shifted_flag_bits >> 26;
-                trap_cost = scaled_flag_bits + 4;
+                lookup_base = (u8 *)(shifted_flag_bits >> 26);
+                trap_cost = (u32)lookup_base + 4;
                 if (trap_budget >= trap_cost) {
                     trap_budget -= trap_cost;
                     if ((D_800E296C[0] & 0x20000000) ||
@@ -219,7 +219,6 @@ void func_8001EF0C(void) {
                         func_8009A21C(x, y, 0x20);
                         {
                             u32 lookup_index;
-                            register u8 *lookup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             lookup_index = trap_type;
                             lookup_base = D_800DF258;
                             ASM_KEEP_DEP_NV(lookup_index, lookup_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

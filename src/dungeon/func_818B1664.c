@@ -138,7 +138,6 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     u16 source_z;
     TargetInfo *target_info;
     Motion *source;
-    register Motion *child_motion ASM_REG("$6");
     u8 *angle_update;
     u8 *angle_clear;
     u8 *angle_build;
@@ -190,6 +189,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
         &&case_0, &&case_2, &&case_3, &&case_4,
         &&case_5, &&case_6, &&case_7, &&case_8, &&case_9
     };
+    void *cleanup_base;
 
     index = 7;
     angle_update = (u8 *)state_arg + 14;
@@ -278,15 +278,15 @@ case_0:
 
     index = 0;
     if (entity->child != 0) {
-        child_motion = *(Motion **)((u8 *)entity->child - 0x18);
+        cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
 
         motion_coord = motion_arg->x.half.hi;
-        child_delta = child_motion->x.half.hi;
+        child_delta = ((Motion *)cleanup_base)->x.half.hi;
         child_delta -= motion_coord;
         child_delta = abs(child_delta);
         work.distance[0] = child_delta;
 
-        child_delta = child_motion->y.half.hi;
+        child_delta = ((Motion *)cleanup_base)->y.half.hi;
         motion_coord = motion_arg->y.half.hi;
         child_delta -= motion_coord;
         child_delta = abs(child_delta);
@@ -294,10 +294,10 @@ case_0:
 
         if (entity->child->flags & 0x40000) {
             motion_coord = motion_arg->z.half.hi - 16;
-            child_delta = child_motion->z.half.hi;
+            child_delta = ((Motion *)cleanup_base)->z.half.hi;
             child_delta -= motion_coord;
         } else {
-            child_delta = child_motion->z.half.hi;
+            child_delta = ((Motion *)cleanup_base)->z.half.hi;
             motion_coord = motion_arg->z.half.hi;
             child_delta -= motion_coord;
         }
@@ -308,32 +308,32 @@ case_0:
 
         state_arg->duration = work.distance[0];
         distance_cursor = &work.target.x.half.hi;
-        do {
+        loop_0___: {
             if (distance_cursor[12] > state_arg->duration) {
                 state_arg->duration = (u16)distance_cursor[12];
             }
             index++;
             distance_cursor++;
-        } while (index < 3);
+        } if (index < 3) goto loop_0___;
         state_arg->duration >>= 5;
         if (state_arg->duration == 0) {
             state_arg->duration = 1;
         }
 
         motion_arg->dx.half.hi =
-            (child_motion->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
+            (((Motion *)cleanup_base)->x.half.hi - motion_arg->x.half.hi) / state_arg->duration;
         motion_arg->dy.half.hi =
-            (child_motion->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
+            (((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
         if (entity->child->flags & 0x40000) {
             s32 child_delta;
             motion_coord = motion_arg->z.half.hi;
-            child_delta = child_motion->z.half.hi;
+            child_delta = ((Motion *)cleanup_base)->z.half.hi;
             motion_coord -= 16;
             child_delta -= motion_coord;
             motion_arg->dz.half.hi = child_delta / state_arg->duration;
         } else {
             motion_arg->dz.half.hi =
-                (child_motion->z.half.hi - motion_arg->z.half.hi) /
+                (((Motion *)cleanup_base)->z.half.hi - motion_arg->z.half.hi) /
                 state_arg->duration;
         }
         next_state = (u16)state_arg->state + 1;
@@ -489,13 +489,13 @@ case_3:
     state_arg->timer = 0;
     state_arg->timer2 = 0;
     state_arg->state++;
-    child_motion = *(Motion **)((u8 *)entity->child - 0x18);
-    motion_arg->x.half.hi = child_motion->x.half.hi;
-    motion_arg->y.half.hi = child_motion->y.half.hi;
+    cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
+    motion_arg->x.half.hi = ((Motion *)cleanup_base)->x.half.hi;
+    motion_arg->y.half.hi = ((Motion *)cleanup_base)->y.half.hi;
     if (entity->child->flags & 0x40000) {
-        motion_arg->z.half.hi = child_motion->z.half.hi + 16;
+        motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi + 16;
     } else {
-        motion_arg->z.half.hi = child_motion->z.half.hi;
+        motion_arg->z.half.hi = ((Motion *)cleanup_base)->z.half.hi;
     }
 
     index = 7;
@@ -559,7 +559,6 @@ case_6: {
     Effect *effect;
     EffectInner *inner;
     Effect *cleanup_effect;
-    register void *cleanup_base ASM_REG("$6");
     s32 cleanup_flags;
     s32 global_flags;
     s32 effect_delta;

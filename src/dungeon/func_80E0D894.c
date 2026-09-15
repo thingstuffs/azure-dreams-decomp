@@ -112,7 +112,6 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
         &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12,
         &&jt_s0, &&jt_s1, &&jt_s2, &&jt_s3, &&jt_s4
     };
-    register void *sprite ASM_REG("$18") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *stats = stats_arg;
     s16 distance;
     s8 tile_id;
@@ -121,21 +120,21 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
 
     if (D_80083462 & 0x1000) {
         ((S_80171094_0 *)actor_arg)->unk_9A = 14;
-        func_801716D8(actor_arg, context_arg, sprite, stats);
+        func_801716D8(actor_arg, context_arg, sprite_arg, stats);
         return;
     }
 
 
     if (((S_80171094_1 *)stats)->unk_25 == 0) {
-        func_800AA79C(actor_arg, context_arg, sprite, stats);
-        if (((S_80171094_2 *)sprite)->unk_2C == D_80176470) {
+        func_800AA79C(actor_arg, context_arg, sprite_arg, stats);
+        if (((S_80171094_2 *)sprite_arg)->unk_2C == D_80176470) {
             return;
         }
         {
             u8 *animations = D_80176468;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = animations;
+            (*(u8 * *)((u8 *)sprite_arg + 0x2C)) = animations;
             func_80047784(
-                sprite,
+                sprite_arg,
                 animations[((D_80083228 + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
             return;
@@ -143,21 +142,21 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
     }
 
     if (((S_80171094_1 *)stats)->unk_1C & 0x200) {
-        if (((S_80171094_2 *)sprite)->unk_2C == D_80176470) {
+        if (((S_80171094_2 *)sprite_arg)->unk_2C == D_80176470) {
             ((S_80171094_0 *)actor_arg)->unk_9A = 13;
             ((S_80171094_0 *)actor_arg)->unk_9B = 1;
             ((S_80171094_0 *)actor_arg)->unk_8C = 0;
             ((S_80171094_1 *)stats)->unk_1C &= ~0x40000;
             return;
         }
-        if (func_800AA924(actor_arg, context_arg, sprite, D_80176468) != 0) {
+        if (func_800AA924(actor_arg, context_arg, sprite_arg, D_80176468) != 0) {
             return;
         }
     }
 
     if ((D_80083462 & 0x2000) == 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x100) {
-            func_800AA258(actor_arg, context_arg, sprite, stats);
+            func_800AA258(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
 
@@ -165,14 +164,14 @@ void func_80171094(void *actor_arg, void *context_arg, void *sprite_arg, void *s
             ((S_80171094_0 *)actor_arg)->unk_9A = 14;
         }
 
-        if (((S_80171094_2 *)sprite)->unk_2C != D_80176460) {
+        if (((S_80171094_2 *)sprite_arg)->unk_2C != D_80176460) {
             u8 *animations = D_80176460;
-            (*(u8 * *)((u8 *)sprite + 0x2C)) = animations;
+            (*(u8 * *)((u8 *)sprite_arg + 0x2C)) = animations;
             func_80047784(
-                sprite,
+                sprite_arg,
                 animations[((D_80083228 + ((S_80171094_1 *)stats)->unk_2A.s + 0x100) >> 9) & 7],
                 0);
-            ((S_80171094_2 *)sprite)->unk_05 = 1;
+            ((S_80171094_2 *)sprite_arg)->unk_05 = 1;
             ((S_80171094_0 *)actor_arg)->unk_A6.s = 0;
             ((S_80171094_0 *)actor_arg)->unk_AC.s = 0;
         }
@@ -195,33 +194,33 @@ store_98:
         }
 
         if (((S_80171094_1 *)stats)->unk_64 != 0) {
-            if (func_800AA6B4(actor_arg, context_arg, sprite, D_801764A8) != 0) {
+            if (func_800AA6B4(actor_arg, context_arg, sprite_arg, D_801764A8) != 0) {
                 return;
             }
         }
 
         if (((S_80171094_1 *)stats)->unk_1C & 0x80000) {
-            func_800AA888(actor_arg, context_arg, sprite, stats);
+            func_800AA888(actor_arg, context_arg, sprite_arg, stats);
             ((S_80171094_0 *)actor_arg)->unk_92 -= ((S_80171094_0 *)actor_arg)->unk_A6.u;
             ((S_80171094_0 *)actor_arg)->unk_A6.u = 0;
             ((S_80171094_0 *)actor_arg)->unk_AC.u = 0;
-            func_80174520(actor_arg, context_arg, sprite, stats);
+            func_80174520(actor_arg, context_arg, sprite_arg, stats);
             return;
         }
 
         if ((s16)func_800A1C58(stats) != 0) {
-            func_800AAB10(actor_arg, context_arg, sprite, stats);
+            func_800AAB10(actor_arg, context_arg, sprite_arg, stats);
         }
     }
 
-    tile_id = func_8009FB34(((S_80171094_2 *)sprite)->unk_24.at00.v, ((S_80171094_2 *)sprite)->unk_24.at01.v);
-    ((S_80171094_2 *)sprite)->unk_26 = tile_id;
+    tile_id = func_8009FB34(((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v);
+    ((S_80171094_2 *)sprite_arg)->unk_26 = tile_id;
 
     if (((S_80171094_1 *)stats)->unk_6D > 0) {
         if (((S_80171094_1 *)stats)->unk_1C & 0x20) {
             goto jt_c12;
         }
-        if (((S_80171094_2 *)sprite)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
+        if (((S_80171094_2 *)sprite_arg)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto jt_default;
         }
         action_flags = ((S_80171094_1 *)stats)->unk_46;
@@ -232,7 +231,7 @@ store_98:
                     return;
                 }
             }
-            if ((s16)func_80172A5C(actor_arg, context_arg, sprite, 0) == 0) {
+            if ((s16)func_80172A5C(actor_arg, context_arg, sprite_arg, 0) == 0) {
                 return;
             }
             action_flags = ((S_80171094_1 *)stats)->unk_46 | 0x4000;
@@ -250,10 +249,10 @@ store_98:
         goto *D_80170808[dispatch_index];
 
 jt_c9:
-        if ((s16)func_80171FFC(actor_arg, context_arg, sprite, stats) != 0) {
+        if ((s16)func_80171FFC(actor_arg, context_arg, sprite_arg, stats) != 0) {
             return;
         }
-        func_801721C0(actor_arg, context_arg, sprite, stats);
+        func_801721C0(actor_arg, context_arg, sprite_arg, stats);
         return;
 
 jt_c8:
@@ -266,22 +265,22 @@ jt_c8:
                 ((S_80171094_1 *)stats)->unk_2A.u += (func_800A6D30() & 7) << 9;
             }
         }
-        dispatch_index = (s16)(func_80172438(actor_arg, context_arg, sprite, stats) + 1);
+        dispatch_index = (s16)(func_80172438(actor_arg, context_arg, sprite_arg, stats) + 1);
         if ((u32)dispatch_index >= 5U) {
             return;
         }
         goto *(((void **)D_80170838)[dispatch_index]);
 
 jt_s0:
-        func_8017272C(actor_arg, context_arg, sprite, stats);
+        func_8017272C(actor_arg, context_arg, sprite_arg, stats);
         return;
 
 jt_s1:
-        func_8017283C(actor_arg, context_arg, sprite, stats);
+        func_8017283C(actor_arg, context_arg, sprite_arg, stats);
         return;
 
 jt_s2:
-        func_8017294C(actor_arg, context_arg, sprite, stats);
+        func_8017294C(actor_arg, context_arg, sprite_arg, stats);
         return;
 
 jt_s3:
@@ -291,7 +290,7 @@ jt_c6:
 jt_c7:
         {
             s16 heading = func_800A0818(
-                ((S_80171094_2 *)sprite)->unk_24.at00.v, ((S_80171094_2 *)sprite)->unk_24.at01.v,
+                ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
                 D_80082E80[0x24], D_80082E80[0x25], &distance);
             void *player = D_800814A8;
             ((S_80171094_1 *)stats)->unk_2A.s = heading;
@@ -308,14 +307,14 @@ jt_c1:
 jt_c2:
 jt_c3:
 jt_call:
-        func_800AAF00(actor_arg, context_arg, sprite, D_80176460, D_80171094);
+        func_800AAF00(actor_arg, context_arg, sprite_arg, D_80176460, D_80171094);
         return;
 
 jt_c4:
 jt_c10:
 jt_c11:
 jt_default:
-        func_801718B4(actor_arg, context_arg, sprite, stats);
+        func_801718B4(actor_arg, context_arg, sprite_arg, stats);
         return;
     }
 
@@ -330,10 +329,10 @@ jt_default:
                 if (!(flags & 0x430)) {
                     void *player_pos = D_80082E80;
                     if ((s16)func_8009FD7C(
-                            ((S_80171094_2 *)sprite)->unk_24.at00.v, ((S_80171094_2 *)sprite)->unk_24.at01.v,
+                            ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
                             ((S_80171094_5 *)player_pos)->unk_24, ((S_80171094_5 *)player_pos)->unk_25) != 0) {
                         ((S_80171094_1 *)stats)->unk_2A.s = func_800A0818(
-                            ((S_80171094_2 *)sprite)->unk_24.at00.v, ((S_80171094_2 *)sprite)->unk_24.at01.v,
+                            ((S_80171094_2 *)sprite_arg)->unk_24.at00.v, ((S_80171094_2 *)sprite_arg)->unk_24.at01.v,
                             ((S_80171094_5 *)player_pos)->unk_24, ((S_80171094_5 *)player_pos)->unk_25,
                             &distance);
                     }

@@ -87,15 +87,15 @@ extern void func_80024060();
 /* Moves toward a linked object or forward cell over 15 ticks, then completes the action. */
 void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_render_data)
 {
-    register Controller *ctrl ASM_REG("$18") = input_ctrl;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register Motion *motion ASM_REG("$21") = input_motion;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *root;
-    register void *render_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *render_data;
     RootPrefix *root_prefix;
     Lookup *lookup;
     Motion *source_motion;
     register Motion *linked_motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *linked_root;
+    u8 *linked_root_2;
+    u8 *linked_root_3;
     s16 offsets[3];
     u16 end_x;
     u16 end_y;
@@ -109,17 +109,17 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
     s32 state;
     u32 elapsed;
 
-    elapsed = (u16)ctrl->timer;
-    state = ctrl->state;
-    root = ctrl->root;
-    ctrl->timer = elapsed + 1;
+    elapsed = (u16)input_ctrl->timer;
+    state = input_ctrl->state;
+    root = input_ctrl->root;
+    input_ctrl->timer = elapsed + 1;
     render_data = input_render_data;
     switch (state) {
     case 0:
-        ctrl->timer = 0;
-        ctrl->state++;
-        ctrl->angle = (*(u16 *)(root + 0x2A) >> 9) & 7;
-        ctrl->ready = 0;
+        input_ctrl->timer = 0;
+        input_ctrl->state++;
+        input_ctrl->angle = (*(u16 *)(root + 0x2A) >> 9) & 7;
+        input_ctrl->ready = 0;
         ((s32 *)render_data)[3] = 0x00808080;
 
     case 1:
@@ -131,22 +131,22 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         }
 
         source_motion = root_prefix->motion;
-        motion->x.h.hi = source_motion->x.h.hi;
-        motion->y.h.hi = source_motion->y.h.hi;
+        input_motion->x.h.hi = source_motion->x.h.hi;
+        input_motion->y.h.hi = source_motion->y.h.hi;
         source_z = source_motion->z.h.hi;
-        motion->z.h.hi = source_z;
+        input_motion->z.h.hi = source_z;
         if (!(root_prefix->lookup->flags & 0x8000)) {
-            motion->x.h.hi += offsets[0];
-            motion->y.h.hi += offsets[1];
-            motion->z.h.hi += offsets[2];
+            input_motion->x.h.hi += offsets[0];
+            input_motion->y.h.hi += offsets[1];
+            input_motion->z.h.hi += offsets[2];
         } else {
-            motion->z.h.hi = source_z - 64;
+            input_motion->z.h.hi = source_z - 64;
         }
-        if (!(*ctrl->flags & 0x80)) {
+        if (!(*input_ctrl->flags & 0x80)) {
             goto finish;
         }
 
-        ctrl->saved = *motion;
+        input_ctrl->saved = *input_motion;
         linked_root = *(u8 **)(root + 0x60);
         if (linked_root != 0) {
             s32 div_magic = (s32)0x88880000;
@@ -155,7 +155,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             linked_motion = *(Motion **)(linked_root - 0x18);
 
-            origin_coord = motion->x.h.hi;
+            origin_coord = input_motion->x.h.hi;
             coord_diff = linked_motion->x.h.hi - origin_coord;
             if (coord_diff < 0) {
                 coord_diff = -coord_diff;
@@ -163,47 +163,47 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             offsets[0] = coord_diff;
 
             coord_diff = linked_motion->y.h.hi;
-            coord_diff -= motion->y.h.hi;
+            coord_diff -= input_motion->y.h.hi;
             if (coord_diff < 0) {
                 coord_diff = -coord_diff;
             }
             offsets[1] = coord_diff;
 
-            linked_root = *(u8 **)(root + 0x60);
-            origin_coord = motion->z.h.hi;
-            coord_diff = *(s16 *)(linked_root + 0x88);
+            linked_root_2 = *(u8 **)(root + 0x60);
+            origin_coord = input_motion->z.h.hi;
+            coord_diff = *(s16 *)(linked_root_2 + 0x88);
             coord_diff -= origin_coord;
             if (coord_diff < 0) {
                 coord_diff = -coord_diff;
             }
             offsets[2] = coord_diff;
 
-            linked_root = *(u8 **)(root + 0x60);
-            lookup = *(Lookup **)(linked_root - 0x14);
-            ctrl->cell_x = lookup->cell_x;
-            ctrl->cell_y = lookup->cell_y;
+            linked_root_3 = *(u8 **)(root + 0x60);
+            lookup = *(Lookup **)(linked_root_3 - 0x14);
+            input_ctrl->cell_x = lookup->cell_x;
+            input_ctrl->cell_y = lookup->cell_y;
 
-            ctrl->target[0].val = linked_motion->x.val;
-            ctrl->target[1].val = linked_motion->y.val;
+            input_ctrl->target[0].val = linked_motion->x.val;
+            input_ctrl->target[1].val = linked_motion->y.val;
             coord_diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
-            *(volatile u16 *)&ctrl->target[2].h.lo = 0;
-            *(volatile u16 *)&ctrl->target[2].h.hi = coord_diff;
+            *(volatile u16 *)&input_ctrl->target[2].h.lo = 0;
+            *(volatile u16 *)&input_ctrl->target[2].h.hi = coord_diff;
 
             div_magic |= 0x8889;
-            coord_diff = *(volatile s32 *)&ctrl->target[0].val;
-            coord_diff -= motion->x.val;
+            coord_diff = *(volatile s32 *)&input_ctrl->target[0].val;
+            coord_diff -= input_motion->x.val;
             product.value = (long long)coord_diff * div_magic;
-            motion->dx.val = ((s32)((u32)product.word.upper -
+            input_motion->dx.val = ((s32)((u32)product.word.upper -
                 (0U - (u32)coord_diff)) >> 3) - (coord_diff >> 31);
-            coord_diff = *(volatile s32 *)&ctrl->target[1].val;
-            coord_diff -= motion->y.val;
+            coord_diff = *(volatile s32 *)&input_ctrl->target[1].val;
+            coord_diff -= input_motion->y.val;
             product.value = (long long)coord_diff * div_magic;
-            motion->dy.val = ((s32)((u32)product.word.upper -
+            input_motion->dy.val = ((s32)((u32)product.word.upper -
                 (0U - (u32)coord_diff)) >> 3) - (coord_diff >> 31);
-            coord_diff = *(volatile s32 *)&ctrl->target[2].val;
-            coord_diff -= motion->z.val;
+            coord_diff = *(volatile s32 *)&input_ctrl->target[2].val;
+            coord_diff -= input_motion->z.val;
             product.value = (long long)coord_diff * div_magic;
-            motion->dz.val = ((s32)((u32)product.word.upper -
+            input_motion->dz.val = ((s32)((u32)product.word.upper -
                 (0U - (u32)coord_diff)) >> 3) - (coord_diff >> 31);
             goto advance;
         }
@@ -222,7 +222,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
             if ((s16)func_800A44E0(((s16)cell_x << 6) & 0xFFC0,
                 ((s16)cell_y << 6) & 0xFFC0,
                 *(s16 *)(root + 0x88),
-                (s16)(ctrl->angle << 9)) != 0) {
+                (s16)(input_ctrl->angle << 9)) != 0) {
                 break;
             }
 
@@ -233,7 +233,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
                 s32 direction;
                 u16 root_z;
 
-                direction = (s16)ctrl->angle;
+                direction = (s16)input_ctrl->angle;
                 root_z = *(u16 *)(root + 0x88);
                 step_x = &D_8006CCD8[direction];
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -257,7 +257,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
                 s16 *step_y;
                 s32 direction;
 
-                direction = (s16)ctrl->angle;
+                direction = (s16)input_ctrl->angle;
                 step_x = &D_8006CCD8[direction];
                 steps++;
                 step_y = &D_8006CCE8[direction];
@@ -273,67 +273,66 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         {
             Fixed32 *target;
 
-            target = ctrl->target;
+            target = input_ctrl->target;
             target[2].val = 0;
             target[1].val = 0;
-            ctrl->target[0].val = 0;
+            input_ctrl->target[0].val = 0;
             target[0].h.hi = ((end_x << 16) >> 10) + 32;
             target[1].h.hi = ((end_y << 16) >> 10) + 32;
             target[2].h.hi = -1024;
             target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
                 (u16)target[1].h.hi, -1024);
             if ((s16)target[2].h.hi >= 513) {
-                target[2].h.hi = motion->z.h.hi + 32;
+                target[2].h.hi = input_motion->z.h.hi + 32;
             }
         }
 
-        motion->dx.val = (ctrl->target[0].val - motion->x.val) / 15;
-        motion->dy.val = (ctrl->target[1].val - motion->y.val) / 15;
-        motion->dz.val = (ctrl->target[2].val - motion->z.val) / 15;
-        ctrl->cell_x = end_x;
-        ctrl->cell_y = end_y;
+        input_motion->dx.val = (input_ctrl->target[0].val - input_motion->x.val) / 15;
+        input_motion->dy.val = (input_ctrl->target[1].val - input_motion->y.val) / 15;
+        input_motion->dz.val = (input_ctrl->target[2].val - input_motion->z.val) / 15;
+        input_ctrl->cell_x = end_x;
+        input_ctrl->cell_y = end_y;
         goto advance;
 
     case 2:
-        motion->x.val += motion->dx.val;
-        motion->y.val += motion->dy.val;
-        motion->z.val += motion->dz.val;
-        func_800248C8(ctrl, render_data);
-        ASM_KEEP(ctrl);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (ctrl->timer < 15) {
+        input_motion->x.val += input_motion->dx.val;
+        input_motion->y.val += input_motion->dy.val;
+        input_motion->z.val += input_motion->dz.val;
+        func_800248C8(input_ctrl, render_data);
+        if (input_ctrl->timer < 15) {
             goto finish;
         }
-        ctrl->timer = 0;
-        ctrl->state++;
-        func_800247DC(ctrl, motion);
+        input_ctrl->timer = 0;
+        input_ctrl->state++;
+        func_800247DC(input_ctrl, input_motion);
         func_800A56E0(0x300);
         goto finish;
 
     case 3:
-        if (ctrl->ready == 0) {
+        if (input_ctrl->ready == 0) {
             goto finish;
         }
-        ctrl->timer = 0;
-        ctrl->ready = 0;
-        ctrl->state++;
-        func_80024684(ctrl, motion);
+        input_ctrl->timer = 0;
+        input_ctrl->ready = 0;
+        input_ctrl->state++;
+        func_80024684(input_ctrl, input_motion);
         goto finish;
 
     case 4:
-        if (ctrl->ready == 0) {
+        if (input_ctrl->ready == 0) {
             goto finish;
         }
-        func_80024060(ctrl->cell_x, ctrl->cell_y, root, ctrl->kind);
+        func_80024060(input_ctrl->cell_x, input_ctrl->cell_y, root, input_ctrl->kind);
 
     advance:
-        ctrl->timer = 0;
-        ctrl->state++;
+        input_ctrl->timer = 0;
+        input_ctrl->state++;
         goto finish;
 
     case 5:
-        if (ctrl->active == 0) {
+        if (input_ctrl->active == 0) {
             D_8008346C[0] = 0;
-            *(u16 *)((u8 *)ctrl - 2) |= 0x8000;
+            *(u16 *)((u8 *)input_ctrl - 2) |= 0x8000;
             D_800814A0.value |= 0x8000;
         }
 
@@ -342,5 +341,5 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
     }
 
 finish:
-    ctrl->active = 0;
+    input_ctrl->active = 0;
 }

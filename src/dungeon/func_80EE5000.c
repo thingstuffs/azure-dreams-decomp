@@ -148,6 +148,7 @@ void BODY_NAME(S_func_80EE5000_0 *motion, S_func_80EE5000_1 *position, S_func_80
     u16 settle_frames;
     u16 scale;
     u32 tile_distance;
+    register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
 #ifdef __mips__
     static void *const switch_keepalive[] __attribute__((used)) = {
@@ -214,7 +215,6 @@ interpolate:
         if (countdown == 0)
             goto check_settled;
         {
-            register s32 interp_goal ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 interp_current;
 
             interp_goal = position->unk_0E;
@@ -296,40 +296,39 @@ move:
     position->unk_04.unk_04 += motion->unk_70;
     {
         s32 coord;
-        register s32 map_sum ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         s32 rounded;
         GridPoint *point;
 
         coord = motion->unk_70;
-        map_sum = motion->unk_34;
-        ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        interp_goal = motion->unk_34;
+        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rounded = motion->unk_7C;
         ASM_KEEP(rounded);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        point = &grid_base[map_sum];
+        point = &grid_base[interp_goal];
         ASM_KEEP(point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        map_sum = motion->unk_5C;
+        interp_goal = motion->unk_5C;
         coord += rounded;
         motion->unk_70 = coord;
 
         coord = point->unk_00.x;
         rounded = position->unk_00.unk_00_s16.unk_02.unk_02;
-        map_sum += coord;
+        interp_goal += coord;
         if (rounded < 0)
             rounded += 0x3F;
         coord = rounded >> 6;
-        if (map_sum != coord)
+        if (interp_goal != coord)
             goto update_height;
 
         coord = point->unk_02.unk_02;
         rounded = position->unk_04.unk_04_s16.unk_06.unk_06;
-        map_sum = motion->unk_5D;
-        ASM_KEEP(map_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        interp_goal = motion->unk_5D;
+        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord = (s16)coord;
-        map_sum += coord;
+        interp_goal += coord;
         if (rounded < 0)
             rounded += 0x3F;
         coord = rounded >> 6;
-        if (map_sum != coord)
+        if (interp_goal != coord)
             goto update_height;
     }
     if ((func_800A45D8(position->unk_00.unk_00_s16.unk_02.unk_02_u16, position->unk_04.unk_04_s16.unk_06.unk_06_u16,

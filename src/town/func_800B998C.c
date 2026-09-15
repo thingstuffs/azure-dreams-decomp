@@ -31,7 +31,6 @@ extern u8 D_8014F004[];
 
 /* Initialize town asset state and load graphics for the current scene. */
 void func_800B70EC(void) {
-    register s32 scene_id ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 special_scene;
     s32 scene_index;
     s32 scene_offset;
@@ -44,12 +43,11 @@ void func_800B70EC(void) {
     u8 *asset_state;
     u8 *shared_state;
     u16 *upload_rect;
-    register u16 *initial_rect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *image_data;
     register u8 *scene_entry ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     upload_rect = D_80111FA8;
-    initial_rect = upload_rect;
+    scene_entry = (u8 *)(upload_rect);
     image_data = D_80110EC8;
     state_base = D_80083160;
     asset_state = state_base + 0x1DC;
@@ -73,21 +71,21 @@ void func_800B70EC(void) {
     upload_rect[3] = 0x80;
     (*(u16 *)((u8 *)shared_state + 0x16)) |= 1;
     asset_data = D_8014F004;
-    func_8006733C(initial_rect, image_data, limit);
+    func_8006733C((u16 *)scene_entry, image_data, limit);
 
-    scene_id = D_800D2FB4[D_800D381A[0] << 5];
-    ASM_KEEP(scene_id);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    size = D_800D2FB4[D_800D381A[0] << 5];
+    ASM_KEEP(size);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     single_row = 1;
     special_scene = 0x21;
-    if (scene_id != special_scene) {
+    if (size != special_scene) {
         ASM_KEEP(special_scene);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if ((s32)scene_id < 0x21) {
+        if ((s32)size < 0x21) {
             goto common;
         }
-        if ((s32)scene_id >= 0x29) {
+        if ((s32)size >= 0x29) {
             goto common;
         }
-        scene_offset = (s32)scene_id < 0x26;
+        scene_offset = (s32)size < 0x26;
         if (scene_offset) {
             goto common;
         }
@@ -118,8 +116,8 @@ common:
     scene_offset = scene_index << 5;
     scene_entry = size + scene_offset;
     ASM_KEEP(scene_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    scene_id = *scene_entry;
-    if (scene_id != 0x29) {
-        func_80046E38(scene_id, D_8012F004);
+    size = *scene_entry;
+    if (size != 0x29) {
+        func_80046E38(size, D_8012F004);
     }
 }

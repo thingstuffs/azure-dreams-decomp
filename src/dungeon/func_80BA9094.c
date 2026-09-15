@@ -54,14 +54,13 @@ Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 saved_arg0 = arg0;
     s16 saved_arg1 = arg1;
     s32 saved_arg3 = arg3;
-    register s32 saved_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 saved_arg2 = arg2;
     register Body *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     register Object *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ChildA *child_a;
     s32 arg0_copy;
     ChildB *child_b;
     Body *body_alias;
-    s32 mode;
 
     body = 0;
     object = func_8003FD64(0x112, D_80083498);
@@ -73,21 +72,21 @@ Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         func_8004491C(object, D_80045340);
 
         child_a = object->child_a_08;
-        mode = saved_arg0 & 3;
+        arg2 = saved_arg0 & 3;
         child_a->field_0A = saved_arg3;
         child_b = object->child_b_0C;
         child_b->field_25 = saved_arg2;
         body_alias = body;
         child_b->field_24 = saved_arg1;
 
-        if (mode == 1) {
+        if (arg2 == 1) {
             body->callback_8C = D_8015EE9C;
             body->flags_14 |= 0x6000;
             body->flags_1C |= 0x6000;
             child_b->field_2C = D_80162ED8;
             goto after_child_value;
         }
-        if (mode >= 2) {
+        if (arg2 >= 2) {
             body->callback_8C = D_8015EE9C;
             body->flags_14 |= 0x2000;
             body->flags_1C |= 0x2000;

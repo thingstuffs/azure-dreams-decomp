@@ -206,10 +206,9 @@ loop:
 
                 {
                     u32 ot_link;
-                    register u32 packet_length ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     u32 *ordering_table = ((S_81892C5C_0 *)scratch)->unk_18.u;
-                    packet_length = ((S_81892C5C_4 *)polyline)->unk_00.at00.v & length_mask;
-                    ((S_81892C5C_4 *)polyline)->unk_00.at00.v = packet_length | (ordering_table[otz] & addr_mask);
+                    prim_mode = (s32)(((S_81892C5C_4 *)polyline)->unk_00.at00.v & length_mask);
+                    ((S_81892C5C_4 *)polyline)->unk_00.at00.v = (u32)prim_mode | (ordering_table[otz] & addr_mask);
                     ot_link = (((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] & length_mask) | ((u32)polyline & addr_mask);
                     ((S_81892C5C_0 *)scratch)->unk_18.u[((S_81892C5C_0 *)scratch)->unk_B4.u] = ot_link;
                 }

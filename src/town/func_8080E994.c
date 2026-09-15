@@ -86,7 +86,6 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
     case 0:
     {
         s32 call_a0;
-        register s32 call_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u32 result_v0;
         s32 threshold;
 
@@ -94,8 +93,8 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
         default:
             return func_80529650();
         case 1:
-            call_a1 = 10;
-            ASM_TAILSLOT_PIN_TIED(call_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+            dispatch_a1 = 10;
+            ASM_TAILSLOT_PIN_TIED(dispatch_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             return func_80529650();
         case 2:
             break;
@@ -103,12 +102,11 @@ void func_80529594(State *state, Motion *motion, Actor *actor)
 
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
-            register s32 divisor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            divisor = 100;
+            dispatch_a1 = 100;
             do {
                 call_a0 = entity->field1E;
             } while (0);
-            call_a0 /= divisor;
+            call_a0 /= dispatch_a1;
         }
         {
             s32 quotient;

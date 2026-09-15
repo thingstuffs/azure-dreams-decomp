@@ -296,9 +296,9 @@ loop_setup:
 
             {
                 s32 move_offset = (U16_AT(actor, 0x2A) >> 8) & 0xE;
-                register u8 *x_steps ASM_REG("$3") = (u8 *)&D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                current_angle = (s32)((u8 *)&D_8006CCD8);
 
-                U8_AT(position, 0x24) += U8_AT(x_steps, move_offset);
+                U8_AT(position, 0x24) += U8_AT(((u8 *)current_angle), move_offset);
                 U8_AT(position, 0x25) += U8_AT(&D_8006CCE8, move_offset);
             }
             func_8009A21C(

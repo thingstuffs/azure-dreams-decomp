@@ -106,7 +106,7 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     void *init_effect;
     void *init_data;
     S_8017121C_3 *coords;
-    register u8 *effect_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *effect_state;
     S_8017121C_6 *source;
     S_8017121C_2 *part;
     S_8017121C_9 *target_coords;
@@ -160,18 +160,21 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         coords->unk_02.s += offset.raw_y;
         coords->unk_06.s += offset.y;
         coords->unk_0A.s += offset.z;
+        part = ((S_8017121C_1 *)effect)->unk_0C;
+        part->unk_1E = 0x1000;
+        part->unk_1C = 0x1000;
     } else {
         coords->unk_0A.s -= 0x14;
+        part = ((S_8017121C_1 *)effect)->unk_0C;
+        part->unk_1E = 0x1000;
+        part->unk_1C = 0x1000;
     }
-
-    part = ((S_8017121C_1 *)effect)->unk_0C;
-    part->unk_1E = 0x1000;
-    part->unk_1C = 0x1000;
     part->unk_0E = 0xA0;
     part->unk_0D = 0xA0;
     part->unk_0C = 0xA0;
     ((S_8017121C_0 *)effect_state)->unk_00 = 0xA0;
     ((S_8017121C_0 *)effect_state)->unk_01 = part->unk_0D;
+
     ((S_8017121C_0 *)effect_state)->unk_02 = part->unk_0E;
 
     if (target->unk_60.as_pv == NULL) {

@@ -148,13 +148,11 @@ extern PositionTableEntry D_80175DD8[];
 
 /* Update trail motion, emit interpolated particles, and build fading trail segments. */
 void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
-    void *self = effect_data;
     u8 *motion_table;
     u8 *table_join;
     u8 *clamp_base;
     s16 *clamp_coord;
     s16 life_left;
-    s16 phase;
     s32 trail_index;
     s32 scaled_z;
     s32 velocity_y;
@@ -186,12 +184,12 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 clamp_pair_stride;
     s32 copy_pair_stride;
     s32 particle_count;
-    register s32 history_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 history_index;
     s32 sum_x;
     s32 sum_y;
-    register s32 object_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 object_index;
     s32 sum_z;
-    register s32 history_offset ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 history_offset;
     register s32 limit_or_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 copy_row_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 clamp_pair;
@@ -216,10 +214,10 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     S_80167C74_6 *pos_x1;
     S_80167C74_7 *pos_y1;
     S_80167C74_8 *pos_z1;
-    register u8 *object_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *object_data;
     S_80167C74_1 *target_pos;
     u8 *copy_row;
-    u8 *trail_row;
+    S_80167C74_9 *trail_row;
     void *object;
     u8 *interp_row;
     u8 *head_pos;
@@ -232,51 +230,50 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     u8 *object_base;
     S_80167C74_16 *object_origin;
     u8 *vertex_color;
-    register u8 *object_pair_data ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *object_pair_data;
     s32 object_offset;
     register s32 object_copy_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-    phase = ((Rec_func_80167A98_arg0 *)self)->unk_12;
-    target_pos = ((Rec_func_80167A98_arg0 *)self)->unk_24;
-    switch (phase) {
+    target_pos = ((Rec_func_80167A98_arg0 *)effect_data)->unk_24;
+    switch (((s16)(((Rec_func_80167A98_arg0 *)effect_data)->unk_12))) {
     case 0:
-        velocity_y = ((Rec_func_80167A98_arg0 *)self)->unk_60;
+        velocity_y = ((Rec_func_80167A98_arg0 *)effect_data)->unk_60;
         phase_threshold = 0;
-        ((Rec_func_80167A98_arg0 *)self)->unk_5C = (s32) ((((Rec_func_80167A98_arg0 *)self)->unk_5C * 4) / 5);
-        trail_index = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
-        ((Rec_func_80167A98_arg0 *)self)->unk_60 = (s32) ((velocity_y * 4) / 5);
-        ((Rec_func_80167A98_arg0 *)self)->unk_64 = (s32) ((((Rec_func_80167A98_arg0 *)self)->unk_64 * 4) / 5);
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C = (s32) ((((Rec_func_80167A98_arg0 *)effect_data)->unk_5C * 4) / 5);
+        trail_index = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_60 = (s32) ((velocity_y * 4) / 5);
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_64 = (s32) ((((Rec_func_80167A98_arg0 *)effect_data)->unk_64 * 4) / 5);
         if (trail_index == 0) phase_threshold = 0x46;
         if (trail_index == 1) phase_threshold = 0x32;
         if (trail_index == 2) phase_threshold = 0x1E;
         motion_table = (u8 *)0x80170000;
-        if (phase_threshold >= ((Rec_func_80167A98_arg0 *)self)->unk_18) {
-            ((Rec_func_80167A98_arg0 *)self)->unk_12 = (s16) ((u16) ((Rec_func_80167A98_arg0 *)self)->unk_12 + 1);
+        if (phase_threshold >= ((Rec_func_80167A98_arg0 *)effect_data)->unk_18) {
+            ((Rec_func_80167A98_arg0 *)effect_data)->unk_12 = (s16) ((u16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_12 + 1);
             case_base = (u8 *)D_80175DD8;
-            ((Rec_func_80167A98_arg0 *)self)->unk_68 = (s32) ((s32) ((target_pos->unk_00 - (((Rec_func_80167A98_arg0 *)self)->unk_5C * 0x14)) - (origin->unk_00 + (*(s16 *)(case_base + (((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60)) << 0x11))) >> 7);
-            ((Rec_func_80167A98_arg0 *)self)->unk_6C = (s32) ((s32) ((target_pos->unk_04 - (((Rec_func_80167A98_arg0 *)self)->unk_60 * 0x14)) - (origin->unk_04 + (*(s16 *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + case_base + 2) << 0x11))) >> 7);
-            scaled_z = (((Rec_func_80167A98_arg0 *)self)->unk_64 * 0x14) + 0x200000;
-            ((Rec_func_80167A98_arg0 *)self)->unk_70 = (s32) ((s32) ((target_pos->unk_08 - scaled_z) - (origin->unk_08 + (*(s16 *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + case_base + 4) << 0x11))) >> 7);
-            ((Rec_func_80167A98_arg0 *)self)->unk_1E = 0U;
+            ((Rec_func_80167A98_arg0 *)effect_data)->unk_68 = (s32) ((s32) ((target_pos->unk_00 - (((Rec_func_80167A98_arg0 *)effect_data)->unk_5C * 0x14)) - (origin->unk_00 + (*(s16 *)(case_base + (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60)) << 0x11))) >> 7);
+            ((Rec_func_80167A98_arg0 *)effect_data)->unk_6C = (s32) ((s32) ((target_pos->unk_04 - (((Rec_func_80167A98_arg0 *)effect_data)->unk_60 * 0x14)) - (origin->unk_04 + (*(s16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + case_base + 2) << 0x11))) >> 7);
+            scaled_z = (((Rec_func_80167A98_arg0 *)effect_data)->unk_64 * 0x14) + 0x200000;
+            ((Rec_func_80167A98_arg0 *)effect_data)->unk_70 = (s32) ((s32) ((target_pos->unk_08 - scaled_z) - (origin->unk_08 + (*(s16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + case_base + 4) << 0x11))) >> 7);
+            ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = 0U;
             goto load_motion_table;
         }
         break;
     case 1:
-        phase_tick = ((Rec_func_80167A98_arg0 *)self)->unk_1E + 1;
-        ((Rec_func_80167A98_arg0 *)self)->unk_1E = phase_tick;
+        phase_tick = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E + 1;
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E = phase_tick;
         if (phase_tick == 0xC) {
-            func_80167A98(self, origin, color);
+            func_80167A98(effect_data, origin, color);
             D_800814A8->unk_10C = (u16) (D_800814A8->unk_10C | 1);
             D_800814A8->unk_6A = (s16) (D_800814A8->unk_2A.as_u16 + 0x800);
             func_800419EC(6, 0xC, D_800814A8);
             func_800A56E0(0x601);
         }
-        if ((s16) ((Rec_func_80167A98_arg0 *)self)->unk_1E >= 0x10) {
-            ((Rec_func_80167A98_arg0 *)self)->unk_18 = 0;
+        if ((s16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_1E >= 0x10) {
+            ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = 0;
         }
-        ((Rec_func_80167A98_arg0 *)self)->unk_5C = (s32) (((Rec_func_80167A98_arg0 *)self)->unk_5C + ((Rec_func_80167A98_arg0 *)self)->unk_68);
-        ((Rec_func_80167A98_arg0 *)self)->unk_60 = (s32) (((Rec_func_80167A98_arg0 *)self)->unk_60 + ((Rec_func_80167A98_arg0 *)self)->unk_6C);
-        ((Rec_func_80167A98_arg0 *)self)->unk_64 = (s32) (((Rec_func_80167A98_arg0 *)self)->unk_64 + ((Rec_func_80167A98_arg0 *)self)->unk_70);
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_5C + ((Rec_func_80167A98_arg0 *)effect_data)->unk_68);
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_60 = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_60 + ((Rec_func_80167A98_arg0 *)effect_data)->unk_6C);
+        ((Rec_func_80167A98_arg0 *)effect_data)->unk_64 = (s32) (((Rec_func_80167A98_arg0 *)effect_data)->unk_64 + ((Rec_func_80167A98_arg0 *)effect_data)->unk_70);
         goto load_motion_table;
     default:
         motion_table = (u8 *)D_80175DD8;
@@ -287,28 +284,28 @@ load_motion_table:
     motion_table = (u8 *)D_80175DD8;
 update_positions:
     table_join = motion_table;
-    move_x0 = ((Rec_func_80167A98_arg0 *)self)->unk_5C;
-    pos_x0 = (u16 *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_join);
+    move_x0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C;
+    pos_x0 = (u16 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
     if (move_x0 < 0) move_x0 += 0xFFFF;
     *pos_x0 += move_x0 >> 0x10;
-    move_y0 = ((Rec_func_80167A98_arg0 *)self)->unk_60;
-    pos_y0 = (void *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_join);
+    move_y0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_60;
+    pos_y0 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
     if (move_y0 < 0) move_y0 += 0xFFFF;
     pos_y0->unk_02 = (u16) (pos_y0->unk_02 + (move_y0 >> 0x10));
-    move_z0 = ((Rec_func_80167A98_arg0 *)self)->unk_64;
-    pos_z0 = (void *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_join);
+    move_z0 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_64;
+    pos_z0 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
     if (move_z0 < 0) move_z0 += 0xFFFF;
     pos_z0->unk_04 = (u16) (pos_z0->unk_04 + (move_z0 >> 0x10));
-    move_x1 = ((Rec_func_80167A98_arg0 *)self)->unk_5C;
-    pos_x1 = (void *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_join);
+    move_x1 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_5C;
+    pos_x1 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
     if (move_x1 < 0) move_x1 += 0xFFFF;
     pos_x1->unk_06 = (u16) (pos_x1->unk_06 + (move_x1 >> 0x10));
-    move_y1 = ((Rec_func_80167A98_arg0 *)self)->unk_60;
-    pos_y1 = (void *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_join);
+    move_y1 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_60;
+    pos_y1 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
     if (move_y1 < 0) move_y1 += 0xFFFF;
     pos_y1->unk_08 = (u16) (pos_y1->unk_08 + (move_y1 >> 0x10));
-    move_z1 = ((Rec_func_80167A98_arg0 *)self)->unk_64;
-    pos_z1 = (void *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_join);
+    move_z1 = ((Rec_func_80167A98_arg0 *)effect_data)->unk_64;
+    pos_z1 = (void *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_join);
     if (move_z1 < 0) move_z1 += 0xFFFF;
     clamp_pair = 0;
     clamp_base = table_join;
@@ -319,15 +316,14 @@ update_positions:
         clamp_axis = 0;
         clamp_pair_offset = clamp_pair_stride;
         do {
-            clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
+            clamp_row = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
             clamp_axis_offset = clamp_axis * 2;
             clamp_index = clamp_row * 0x60;
             clamp_index = clamp_index + (s32)clamp_base;
             clamp_index = clamp_pair_offset + clamp_index;
-            clamp_index = clamp_axis_offset + clamp_index;
-            clamp_coord = (s16 *)clamp_index;
+            clamp_coord = (s16 *)(clamp_axis_offset + clamp_index);
             if (*clamp_coord >= 0x191) *clamp_coord = limit_or_offset;
-            clamp_row = ((Rec_func_80167A98_arg0 *)self)->unk_1C;
+            clamp_row = ((Rec_func_80167A98_arg0 *)effect_data)->unk_1C;
             clamp_index = clamp_row * 0x60;
             clamp_index = clamp_index + (s32)clamp_base;
             clamp_index = clamp_pair_offset + clamp_index;
@@ -346,7 +342,7 @@ update_positions:
     history_index = 7;
     table_base = (u8 *)D_80175DD8;
     limit_or_offset = 0x54;
-    do {
+    loop_2: {
         copy_pair = 0;
         copy_row_offset = limit_or_offset;
         copy_pair_stride = copy_pair;
@@ -356,7 +352,7 @@ copy_pairs:
         do {
             copy_axis_offset = copy_axis * 2;
             copy_axis += 1;
-            copy_row = (u8 *)(copy_row_offset + ((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)table_base));
+            copy_row = (u8 *)(copy_row_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_base));
             copy_dst = (u8 *)(copy_pair_offset + (s32)copy_row);
             copy_row -= 0xC;
             copy_src = (u8 *)(copy_pair_offset + (s32)copy_row);
@@ -369,14 +365,14 @@ copy_pairs:
         if (copy_pair < 2) goto copy_pairs;
         history_index -= 1;
         limit_or_offset -= 0xC;
-    } while (history_index > 0);
+    } if (history_index > 0) goto loop_2;
     particle_count = 0xA;
     interp_base = (u8 *)D_80175DD8;
-    trail_row = (((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + interp_base;
-    delta_x = (((S_80167C74_9 *)trail_row)->unk_00 + ((S_80167C74_9 *)trail_row)->unk_06) - (((S_80167C74_9 *)trail_row)->unk_18 + ((S_80167C74_9 *)trail_row)->unk_1E);
-    delta_y = (((S_80167C74_9 *)trail_row)->unk_02 + ((S_80167C74_9 *)trail_row)->unk_08) - (((S_80167C74_9 *)trail_row)->unk_1A + ((S_80167C74_9 *)trail_row)->unk_20);
-    delta_z = (((S_80167C74_9 *)trail_row)->unk_04 + ((S_80167C74_9 *)trail_row)->unk_0A) - (((S_80167C74_9 *)trail_row)->unk_1C + ((S_80167C74_9 *)trail_row)->unk_22);
-    if (((Rec_func_80167A98_arg0 *)self)->unk_12 == 0) particle_count = 3;
+    trail_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + interp_base;
+    delta_x = (trail_row->unk_00 + trail_row->unk_06) - (trail_row->unk_18 + trail_row->unk_1E);
+    delta_y = (trail_row->unk_02 + trail_row->unk_08) - (trail_row->unk_1A + trail_row->unk_20);
+    delta_z = (trail_row->unk_04 + trail_row->unk_0A) - (trail_row->unk_1C + trail_row->unk_22);
+    if (((Rec_func_80167A98_arg0 *)effect_data)->unk_12 == 0) particle_count = 3;
     history_index = 1;
     if (history_index < (particle_count + 1)) {
         sum_z = delta_z;
@@ -392,14 +388,14 @@ copy_pairs:
             step_y = sum_y / particle_count;
             step_z = sum_z / particle_count;
             step_x = sum_x / particle_count;
-            effect_object = self - 0x20;
+            effect_object = effect_data - 0x20;
             particle_life = 0xA;
             ASM_KEEP_NV(particle_life);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             sum_z += delta_z;
             sum_y += delta_y;
             sum_x += delta_x;
             history_index += 1;
-            interp_row = (((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (u8 *)D_80175DD8;
+            interp_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)D_80175DD8;
             interp_y0 = ((S_80167C74_10 *)interp_row)->unk_1A;
             interp_y1 = ((S_80167C74_10 *)interp_row)->unk_20;
             interp_x1 = ((S_80167C74_10 *)interp_row)->unk_1E;
@@ -410,7 +406,7 @@ copy_pairs:
         } while (history_index < (particle_count + 1));
     }
     object_table_base = (u8 *)&D_80175DD8;
-    head_pos = (u8 *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)object_table_base);
+    head_pos = (u8 *)((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_table_base);
     if ((((S_80167C74_12 *)head_pos)->unk_00 != 0x190) && (((S_80167C74_12 *)head_pos)->unk_02 != 0x190) && (((S_80167C74_12 *)head_pos)->unk_04 != 0x190)) {
         object_index = 0;
         object_limit = 8;
@@ -466,10 +462,10 @@ copy_pairs:
                     object_pos = object_pair_data + 0x74;
 copy_object_axes:
                     object_axis_offset = object_axis * 2;
-                    *object_pos = *(u16 *)(object_axis_offset + (limit_or_offset + (object_offset + ((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)object_base))));
+                    *object_pos = *(u16 *)(object_axis_offset + (limit_or_offset + (object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
                     object_axis += 1;
                     object_pos += 1;
-                    object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)object_base);
+                    object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base);
                     object_copy_index += 0xC;
                     object_copy_index = limit_or_offset + object_copy_index;
                     object_axis_offset += object_copy_index;
@@ -485,10 +481,10 @@ copy_object_axes:
             history_offset += 0xC;
         } while (object_index < 7);
     }
-    life_left = (u16) ((Rec_func_80167A98_arg0 *)self)->unk_18 - 1;
-    ((Rec_func_80167A98_arg0 *)self)->unk_18 = life_left;
+    life_left = (u16) ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 - 1;
+    ((Rec_func_80167A98_arg0 *)effect_data)->unk_18 = life_left;
     if ((life_left << 0x10) <= 0) {
-        ((S_80167C74_0_pre *)self)[-1].unk_00 = (u16) (((S_80167C74_0_pre *)self)[-1].unk_00 | 0x8000);
+        ((S_80167C74_0_pre *)effect_data)[-1].unk_00 = (u16) (((S_80167C74_0_pre *)effect_data)[-1].unk_00 | 0x8000);
         D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
     }
 }

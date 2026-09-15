@@ -32,14 +32,13 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
     s32 width;
     register s32 height ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 row;
-    s32 col;
     s32 tile;
     register s32 tile_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 map_row_odd;
     s32 signed_width;
     s32 has_columns;
-    register s32 origin_x_s16 ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 origin_x_s16;
     s32 origin_y_s16;
     s32 origin_x;
     register s32 origin_y ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -64,7 +63,7 @@ void func_800B7428(s32 x, s32 y, u16 *src_tiles)
         scratch = x << 16;
         origin_x_s16 = scratch >> 16;
 outer:
-        col = 0;
+        width = 0;
         if (has_columns) {
             scratch = row << 16;
             scratch >>= 16;
@@ -77,7 +76,7 @@ do {
             ASM_KEEP_NV(row);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             scratch = row + origin_y;
             scratch <<= 7;
-            scratch = col + scratch;
+            scratch = width + scratch;
             tile_index = origin_x + scratch;
             ASM_KEEP_NV(tile_index);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             x = tile_index;
@@ -91,12 +90,12 @@ do {
             case 0x154:
             case 0x15E:
                 if (map_row_odd != 0) {
-                    if (((s16)col + origin_x_s16) & 1) {
+                    if (((s16)width + origin_x_s16) & 1) {
                         OUTPUT_TILE(0x15E);
                     } else {
                         OUTPUT_TILE(0x137);
                     }
-                } else if (((s16)col + origin_x_s16) & 1) {
+                } else if (((s16)width + origin_x_s16) & 1) {
                     OUTPUT_TILE(0x154);
                 } else {
                     OUTPUT_TILE(0x135);
@@ -107,12 +106,12 @@ do {
             case 0x153:
             case 0x15D:
                 if (map_row_odd != 0) {
-                    if (((s16)col + origin_x_s16) & 1) {
+                    if (((s16)width + origin_x_s16) & 1) {
                         OUTPUT_TILE(0x138);
                     } else {
                         OUTPUT_TILE(0x15D);
                     }
-                } else if (((s16)col + origin_x_s16) & 1) {
+                } else if (((s16)width + origin_x_s16) & 1) {
                     OUTPUT_TILE(0x136);
                 } else {
                     OUTPUT_TILE(0x153);
@@ -120,7 +119,7 @@ do {
 
             case 0x141:
             case 0x142:
-                if (((s16)col + origin_x_s16) & 1) {
+                if (((s16)width + origin_x_s16) & 1) {
                     OUTPUT_TILE(0x142);
                 } else {
                     OUTPUT_TILE(0x141);
@@ -131,12 +130,12 @@ do {
             case 0x15B:
             case 0x15C:
                 if (map_row_odd != 0) {
-                    if (((s16)col + origin_x_s16) & 1) {
+                    if (((s16)width + origin_x_s16) & 1) {
                         OUTPUT_TILE(0x144);
                     } else {
                         OUTPUT_TILE(0x143);
                     }
-                } else if (((s16)col + origin_x_s16) & 1) {
+                } else if (((s16)width + origin_x_s16) & 1) {
                     OUTPUT_TILE(0x15C);
                 } else {
                     OUTPUT_TILE(0x15B);
@@ -147,12 +146,12 @@ do {
             case 0x13F:
             case 0x140:
                 if (map_row_odd != 0) {
-                    if (((s16)col + origin_x_s16) & 1) {
+                    if (((s16)width + origin_x_s16) & 1) {
                         OUTPUT_TILE_INDEX(0x140);
                     } else {
                         OUTPUT_TILE_INDEX(0x13F);
                     }
-                } else if (((s16)col + origin_x_s16) & 1) {
+                } else if (((s16)width + origin_x_s16) & 1) {
                     OUTPUT_TILE_INDEX(0x13E);
                 } else {
                     OUTPUT_TILE_INDEX(0x13D);
@@ -163,12 +162,12 @@ do {
             case 0x14B:
             case 0x14C:
                 if (map_row_odd != 0) {
-                    if (((s16)col + origin_x_s16) & 1) {
+                    if (((s16)width + origin_x_s16) & 1) {
                         OUTPUT_TILE_INDEX(0x14C);
                     } else {
                         OUTPUT_TILE_INDEX(0x14B);
                     }
-                } else if (((s16)col + origin_x_s16) & 1) {
+                } else if (((s16)width + origin_x_s16) & 1) {
                     OUTPUT_TILE_INDEX(0x14A);
                 } else {
                     OUTPUT_TILE_INDEX(0x149);
@@ -181,8 +180,8 @@ store:
                 *dst_tile = tile;
                 break;
             }
-            scratch = col + 1;
-            col = scratch;
+            scratch = width + 1;
+            width = scratch;
             src_tiles++;
             scratch <<= 16;
             scratch >>= 16;

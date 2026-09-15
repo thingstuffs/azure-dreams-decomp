@@ -3,8 +3,7 @@
 /* Copies raw bytes or decodes nibble RLE in linear or column order. */
 u8 *func_800407C0(u8 *src_start, u8 *dst_start)
 {
-    register u8 *dst ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u8 *column_start;
+    u8 *dst;
     u8 *first_row_end;
     u8 *dst_end;
     register u8 *dst_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -20,17 +19,14 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
     s32 saved_byte;
     s32 column_byte;
     u32 packed;
-    u8 *src;
 
-    src = src_start;
-    ASM_KEEP_NV(src);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     dst = dst_start;
     dst_high = 0;
-    column_start = dst;
-    header = *src++;
+    dst_start = dst;
+    header = *src_start++;
     if (header & 1) {
         for (;;) {
-            packed = *src++;
+            packed = *src_start++;
             if ((packed & 0xF0) == 0) {
                 remaining = (packed & 0xFF) * 2;
                 if ((packed & 0xFF) == 0) {
@@ -39,7 +35,7 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
                 src_low = 0;
                 while (remaining > 0) {
                     if (src_low == 0) {
-                        packed = *src++;
+                        packed = *src_start++;
                     }
                     dst_byte = dst;
                     if (dst_high == 0) {
@@ -83,18 +79,18 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
     }
     if (header != 0) {
         stride = header >> 1;
-        size = src[0] + (src[1] << 8);
-        src += 2;
+        size = src_start[0] + (src_start[1] << 8);
+        src_start += 2;
         first_row_end = dst + stride;
         dst_end = dst + size;
         do {
-            packed = *src++;
+            packed = *src_start++;
             if ((packed & 0xF0) == 0) {
                 remaining = packed * 2;
                 src_low = 0;
                 while (remaining > 0) {
                     if (src_low == 0) {
-                        packed = *src++;
+                        packed = *src_start++;
                     }
                     if (dst_high == 0) {
                         nibble = packed & 0xF;
@@ -116,12 +112,12 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
                     if (dst >= dst_end) {
                         dst_high ^= 1;
                         if (dst_high == 0) {
-                            column_start++;
-                            if (column_start >= first_row_end) {
+                            dst_start++;
+                            if (dst_start >= first_row_end) {
                                 return dst_end;
                             }
                         }
-                        dst = column_start;
+                        dst = dst_start;
                     }
                     remaining--;
                 }
@@ -139,20 +135,20 @@ u8 *func_800407C0(u8 *src_start, u8 *dst_start)
                     if (dst >= dst_end) {
                         dst_high ^= 1;
                         if (dst_high == 0) {
-                            column_start++;
-                            if (column_start >= first_row_end) {
+                            dst_start++;
+                            if (dst_start >= first_row_end) {
                                 return dst_end;
                             }
                         }
-                        dst = column_start;
+                        dst = dst_start;
                     }
                     remaining--;
                 }
             }
-        } while (dst + stride < dst_end || dst_high == 0 || column_start + 1 < first_row_end);
+        } while (dst + stride < dst_end || dst_high == 0 || dst_start + 1 < first_row_end);
         return dst_end;
     }
-    size = src[0] + (src[1] << 8);
-    memcpy(dst, src + 2, size);
+    size = src_start[0] + (src_start[1] << 8);
+    memcpy(dst, src_start + 2, size);
     return dst + size;
 }

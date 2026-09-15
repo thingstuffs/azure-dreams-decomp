@@ -80,6 +80,7 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
     register void *actor_to_check ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u8 *status;
     s32 actor_flags;
+    register u8 *counter_base_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     action = action_in;
     context = context_in;
@@ -198,10 +199,9 @@ update_table:
         goto assign_owner;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        counter_base = (u8 *)&D_80083460;
-        ((S_80173D4C_3 *)counter_base)->unk_0A++;
+        counter_base_m = (u8 *)&D_80083460;
+        ((S_80173D4C_3 *)counter_base_m)->unk_0A++;
     }
 
 increment_state:
@@ -213,10 +213,9 @@ state_two:
         goto done;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        counter_base = (u8 *)&D_80083460;
-        ((S_80173D4C_3 *)counter_base)->unk_0A--;
+        counter_base_m = (u8 *)&D_80083460;
+        ((S_80173D4C_3 *)counter_base_m)->unk_0A--;
     }
 
 assign_owner:

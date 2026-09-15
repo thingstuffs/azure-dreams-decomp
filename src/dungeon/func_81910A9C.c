@@ -8,8 +8,7 @@ extern void func_80067F20(void *, s32, s32, u16, s32);
 /* Builds and depth-sorts five radial line segments for an effect. */
 void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_factor)
 {
-  u8 *effect;
-  register s32 scale ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  s32 scale;
   register s32 step;
   u32 addr_mask;
   register s32 angle ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -20,7 +19,6 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
   u8 *flags_or_mode;
   s32 ray_index = 0;
   s32 prev_step;
-  effect = effect_data;
   render_global = (u8 *) D_80083160;
   scale = (s16) scale_factor;
   step = (s16) step_index;
@@ -45,17 +43,17 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = line_packet + 0x14;
     *((u8 *) (((u8 *) line_packet) + 3)) = 4;
     *((u8 *) (((u8 *) line_packet) + 7)) = 0x52;
-    *((u8 *) (((u8 *) line_packet) + 4)) = *((u8 *) (((u8 *) effect) + 0x40));
-    *((u8 *) (((u8 *) line_packet) + 5)) = *((u8 *) (((u8 *) effect) + 0x41));
-    *((u8 *) (((u8 *) line_packet) + 6)) = *((u8 *) (((u8 *) effect) + 0x42));
-    *((u8 *) (((u8 *) line_packet) + 0xC)) = *((u8 *) (((u8 *) effect) + 0x40));
-    *((u8 *) (((u8 *) line_packet) + 0xD)) = *((u8 *) (((u8 *) effect) + 0x41));
-    *((u8 *) (((u8 *) line_packet) + 0xE)) = *((u8 *) (((u8 *) effect) + 0x42));
+    *((u8 *) (((u8 *) line_packet) + 4)) = *((u8 *) (((u8 *) effect_data) + 0x40));
+    *((u8 *) (((u8 *) line_packet) + 5)) = *((u8 *) (((u8 *) effect_data) + 0x41));
+    *((u8 *) (((u8 *) line_packet) + 6)) = *((u8 *) (((u8 *) effect_data) + 0x42));
+    *((u8 *) (((u8 *) line_packet) + 0xC)) = *((u8 *) (((u8 *) effect_data) + 0x40));
+    *((u8 *) (((u8 *) line_packet) + 0xD)) = *((u8 *) (((u8 *) effect_data) + 0x41));
+    *((u8 *) (((u8 *) line_packet) + 0xE)) = *((u8 *) (((u8 *) effect_data) + 0x42));
     origin_ptr = *((void * volatile *) (&origin));
     origin_coord = *((u16 *) (((u8 *) origin_ptr) + 2));
     *((u16 *) (((u8 *) scratch) + 0x6C)) = origin_coord;
     *((u16 *) (((u8 *) scratch) + 0x64)) = origin_coord;
-    radial_offset = ((func_800644B8(angle + (*((s16 *) (((u8 *) effect) + 0xA)))) >> 4) * (*((s16 *) (((u8 *) effect) + 0xE)))) << 8;
+    radial_offset = ((func_800644B8(angle + (*((s16 *) (((u8 *) effect_data) + 0xA)))) >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
     start_step_offset = radial_offset / scale;
     *((s32 *) (((u8 *) scratch) + 0x108)) = radial_offset;
     ASM_KEEP_NV(radial_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -66,7 +64,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     origin_coord = *((u16 *) (((u8 *) origin_ptr) + 6));
     *((u16 *) (((u8 *) scratch) + 0x6E)) = origin_coord;
     *((u16 *) (((u8 *) scratch) + 0x66)) = origin_coord;
-    radial_offset = ((func_80064584(angle + (*((s16 *) (((u8 *) effect) + 0xA)))) >> 4) * (*((s16 *) (((u8 *) effect) + 0xE)))) << 8;
+    radial_offset = ((func_80064584(angle + (*((s16 *) (((u8 *) effect_data) + 0xA)))) >> 4) * (*((s16 *) (((u8 *) effect_data) + 0xE)))) << 8;
     start_step_offset = radial_offset / scale;
     *((s32 *) (((u8 *) scratch) + 0x10C)) = radial_offset;
     ASM_KEEP_NV(radial_offset);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -78,7 +76,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
     origin_coord = *((u16 *) (((u8 *) origin_ptr) + 0xA));
     *((u16 *) (((u8 *) scratch) + 0x70)) = origin_coord;
     *((u16 *) (((u8 *) scratch) + 0x68)) = origin_coord;
-    z_delta = (((s32) (*((s16 *) (((u8 *) effect) + 0x14)))) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
+    z_delta = (((s32) (*((s16 *) (((u8 *) effect_data) + 0x14)))) << 16) - (*((s32 *) (((u8 *) origin_ptr) + 8)));
     *((s32 *) (((u8 *) scratch) + 0x110)) = z_delta;
     z_step = z_delta >> scale;
     *((u16 *) (((u8 *) scratch) + 0x68)) += (z_step << prev_step) >> 16;
@@ -101,7 +99,7 @@ void func_8002429C(void *effect_data, void *origin, s16 step_index, s16 scale_fa
       render_ctx = *render_ptr;
       flags_or_mode = *((u8 **) (((u8 *) render_ctx) + 0x8D0));
       *((u8 **) (((u8 *) render_ctx) + 0x8D0)) = flags_or_mode + 0xC;
-      func_80067F20(flags_or_mode, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect) + 0x12)), 0, 0) & 0xFFFF, 0);
+      func_80067F20(flags_or_mode, 0, 0, func_80066460(0, *((s16 *) (((u8 *) effect_data) + 0x12)), 0, 0) & 0xFFFF, 0);
       *((u32 *) (((u8 *) flags_or_mode) + 0)) = ((*((u32 *) (((u8 *) flags_or_mode) + 0))) & 0xFF000000) | ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & addr_mask);
       *((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0)) = ((*((u32 *) (((u8 *) ((*((u32 **) (((u8 *) scratch) + 0x18))) + (*((s32 *) (((u8 *) scratch) + 0xB4))))) + 0))) & 0xFF000000) | (((u32) flags_or_mode) & addr_mask);
     }

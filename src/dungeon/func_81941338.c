@@ -48,6 +48,8 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     void *position = effect_pos;
     register void *effect_context ASM_REG("$18") = effect_data;
     u32 neutral_color;
+    register void *model_color ASM_REG("$6");
+    register void *animation_m ASM_REG("$5");
     static void *const state_labels[] = { &&init, &&wait_ready, &&emit_trail, &&emit_burst, &&finish };
     s32 enabled;
     void *sprite;
@@ -68,7 +70,8 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     s32 particle_x;
     s16 texture_rect[6];
     s32 component;
-    register u32 bits ASM_REG("$2");
+    u32 bits;
+    u32 bits_2;
 
     ASM_KEEP_NV(effect_base);
 
@@ -317,9 +320,9 @@ emit_trail:
                         F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
                         func_8003DB94((void *)neutral_color, animation, anim_context);
                     } else {
-                        register void *animation ASM_REG("$5") = D_800DEB28;
-                        register void *anim_context ASM_REG("$6") = 0;
-                        ASM_USE2(animation, anim_context);
+                        animation_m = D_800DEB28;
+                        model_color = 0;
+                        ASM_USE2(animation_m, model_color);
                         F((void *)neutral_color, u16, 0x1E) = 0x2000;
                         F((void *)neutral_color, u16, 0x1C) = 0x2000;
                         ASM_SCHED_BARRIER();
@@ -328,7 +331,7 @@ emit_trail:
                         F((void *)neutral_color, u8, 0xE) = (u8)effect_context;
                         F((void *)neutral_color, u8, 0xD) = (u8)effect_context;
                         F((void *)neutral_color, u8, 0xC) = (u8)effect_context;
-                        func_8003DB94((void *)neutral_color, animation, anim_context);
+                        func_8003DB94((void *)neutral_color, animation_m, model_color);
                     }
                 }
             }
@@ -459,12 +462,12 @@ emit_burst:
 
 fade_model:
     {
-        register void *actor_model ASM_REG("$5") = F(D_800814A8[0], void *, 0x60);
         s32 fade;
-        if (actor_model != 0) {
-            F(actor_model, u32, 0x1C) |= 0x10000000;
+        animation_m = F(D_800814A8[0], void *, 0x60);
+        if (animation_m != 0) {
+            F(animation_m, u32, 0x1C) |= 0x10000000;
             {
-                register void *model_color ASM_REG("$6") = F(actor_model, void *, -20);
+                model_color = F(animation_m, void *, -20);
                 fade = F(effect_base, s16, 0x20) * 0x7F;
                 if (fade < 0) {
                     fade += 15;
@@ -500,10 +503,10 @@ finish:
         }
         {
             D_80083460_t *dungeon_state = &D_80083460;
-            bits = dungeon_state->fieldA;
+            bits_2 = dungeon_state->fieldA;
             F(dungeon_state, u32, 0xC) = 0;
             F(D_80082E80, u16, 6) = 0;
-            dungeon_state->fieldA = (u16)(bits - 1);
+            dungeon_state->fieldA = (u16)(bits_2 - 1);
         }
         F(effect_base, u16, -2) = (u16)(F(effect_base, u16, -2) | 0x8000);
         D_800814A0[0] |= 0x8000;

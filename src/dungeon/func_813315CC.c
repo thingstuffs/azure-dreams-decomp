@@ -53,11 +53,9 @@ void func_801685CC(void *source_obj, void *origin, s32 unused, s32 effect_param,
     void *render;
     register void *effect_pos ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 mode;
-    register s32 neg_one ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u32 base_intensity;
     register void *callback_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 table_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *position_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 table_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *callback_data;
     s32 direction;
@@ -141,11 +139,11 @@ copy_done:
         S32_AT(effect_pos, 4) = S32_AT(origin, 4);
         S32_AT(effect_pos, 8) = S32_AT(origin, 8);
 
-        neg_one = -1;
+        effect_pos = (void *)(-1);
         VS16_AT(part, 0x7A) = 1;
         VS16_AT(part, 0x86) = 1;
-        VS16_AT(part, 0x74) = neg_one;
-        VS16_AT(part, 0x80) = neg_one;
+        VS16_AT(part, 0x74) = (s32)effect_pos;
+        VS16_AT(part, 0x80) = (s32)effect_pos;
         VS16_AT(part, 0x78) = -0x14;
         VS16_AT(part, 0x7E) = -0x14;
         VS16_AT(part, 0x84) = -0x14;
@@ -170,17 +168,17 @@ copy_done:
         }
 
         table_offset = mode * 6;
-        position_base = (u8 *)&positions;
+        copy_src = (u8 *)&positions;
         table_index =
             ((U16_AT(held_source, 0x2A) >> 9) & 7) * 0x12;
         table_index = table_offset + table_index;
-        table_index = (s32)position_base + table_index;
+        table_index = (s32)copy_src + table_index;
         S32_AT(part, 0x5C) =
             *(s16 *)table_index * 0x50000;
         table_index =
             ((U16_AT(held_source, 0x2A) >> 9) & 7) * 0x12;
         table_index = table_offset + table_index;
-        table_index = (s32)position_base + table_index;
+        table_index = (s32)copy_src + table_index;
         S32_AT(part, 0x60) =
             S16_AT((u8 *)table_index, 2) * 0x50000;
         callback_obj = render;
@@ -188,11 +186,11 @@ copy_done:
         direction &= 7;
         table_offset +=
             ((direction << 3) + direction) << 1;
-        position_base += table_offset;
+        copy_src += table_offset;
         ASM_KEEP(held_source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         db_data = D_800DEAE0;
         S32_AT(part, 0x64) =
-            S16_AT(position_base, 4) << 19;
+            S16_AT(copy_src, 4) << 19;
         func_8003DB94(callback_obj, db_data, 0, render);
 
         pair_index = 0;

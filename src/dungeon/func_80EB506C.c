@@ -104,7 +104,7 @@ extern u8 D_801741CC[];
 void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
-    register void *work ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *work;
     s8 saved_arg1;
     s8 saved_arg2;
     void *obj;
@@ -151,7 +151,9 @@ void *func_8017086C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         if (kind == 1) {
             left = ((S_8017086C_1 *)work)->unk_14 | 0x6000;
             right = ((S_8017086C_1 *)work)->unk_1C | 0x6000;
-            goto set_kind_flags;
+            ((S_8017086C_1 *)work)->unk_14 = left;
+            ((S_8017086C_1 *)work)->unk_1C = right;
+            goto call_actor_setup;
         }
         if (kind < 2) {
             goto normal_kind;

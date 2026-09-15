@@ -170,7 +170,6 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                     u16 source_z;
                     register u16 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     u16 particle_flags;
-                    register u16 particle_size ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     register s32 draw_command ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     register s32 draw_zero ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     u32 particle_color;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -199,10 +198,10 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
                     ((S_801733BC_5 *)particle_render)->unk_14 = render_flags;
                     ASM_USE(render_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     particle_flags = render_flags;
-                    particle_size = 0x20;
+                    render_flags = 0x20;
                     draw_param = ((S_801733BC_0 *)render_part)->unk_12;
                     particle_flags |= 0xC;
-                    ((S_801733BC_5 *)particle_render)->unk_10 = particle_size;
+                    ((S_801733BC_5 *)particle_render)->unk_10 = render_flags;
                     ((S_801733BC_5 *)particle_render)->unk_0C = particle_color;
                     ((S_801733BC_5 *)particle_render)->unk_14 = particle_flags;
                     ((S_801733BC_5 *)particle_render)->unk_12 = draw_param;
