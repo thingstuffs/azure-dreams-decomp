@@ -22,19 +22,16 @@ typedef struct S_800C2988_1 {
 
 /* Sets the motion page and updates the object state and orientation. */
 void func_800C2988(void *object_data, void *motion_data) {
-    S_800C2988_1 *object = object_data;
-    register S_800C2988_0 *motion ASM_REG("$16") = motion_data;
+    register S_800C2988_0 *motion = motion_data;
 
     u32 page;
 
     if (D_8006ADD4 == 0x17000C) {
         motion->unk_08 = 0xFF600000;
     } else {
-        ASM_KEEP(object);
         motion->unk_08 = 0xFFE00000;
     }
-    func_8008F074(object, motion, func_800C296C(0));
-    object->unk_50 = &D_800C2A10;
-    object->unk_16 = (s16) ((object->unk_72 - 0x800) & 0xFFF);
-    ASM_KEEP(motion);
+    func_8008F074(((S_800C2988_1 *)(object_data)), motion, func_800C296C(0));
+    ((S_800C2988_1 *)(object_data))->unk_50 = &D_800C2A10;
+    ((S_800C2988_1 *)(object_data))->unk_16 = (s16) ((((S_800C2988_1 *)(object_data))->unk_72 - 0x800) & 0xFFF);
 }

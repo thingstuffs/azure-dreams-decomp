@@ -70,18 +70,17 @@ void func_800B6094(void *entry_data, s32 display_base, s32 row_index) {
     s32 display_value;
     s32 display_value_2;
     S_800B6094_2 *entry_info;
-    register void *row_display ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_800B6094_3 *display_node;
 
     text_y = (row * 0x10) + 0xD8;
-    row_display = (void *) (row * 4);
+    entry_data = (void *) (row * 4);
     ASM_KEEP(row);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entry_info = (entry->unk_00 * 0x14) + D_8006DE24;
-    row_display = (void *) ((s8 *)row_display + (s32)row_base);
-    func_800B5264(((S_800B6094_1 *)row_display)->unk_20, entry_info->unk_00, first_zero, 0x58, text_y);
-    func_800B53BC(((S_800B6094_1 *)row_display)->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
+    entry_data = (void *) ((s8 *)entry_data + (s32)row_base);
+    func_800B5264(((S_800B6094_1 *)entry_data)->unk_20, entry_info->unk_00, first_zero, 0x58, text_y);
+    func_800B53BC(((S_800B6094_1 *)entry_data)->unk_2C, func_800B6030(entry->unk_01, text_buffer), 0, 0xA0, text_y);
     icon_id = func_80049944(entry_info->unk_10);
-    icon_slot = ((S_800B6094_1 *)row_display)->unk_38;
+    icon_slot = ((S_800B6094_1 *)entry_data)->unk_38;
     if (func_800439BC(entry->unk_00) != 0) {
         display_value = func_800498EC(icon_id);
     } else {

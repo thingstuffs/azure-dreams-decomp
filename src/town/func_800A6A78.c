@@ -146,7 +146,6 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     void *buffer_end;
     void *packet_cursor;
     void *entry_cursor;
-    register void *next_prim ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 half_index;
     s32 texture_entry;
     s32 strip_index;
@@ -155,7 +154,6 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     s32 bucket_addr;
     s32 visible_count;
 
-    next_prim = prim_buffer;
     visible_count = 0;
     strip_index = 0;
     texture_id = texture_index;
@@ -197,23 +195,23 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                 corner_visible = screen_y < 0x121U;
             }
             if ((first_three_visible | corner_visible) != 0) {
-                right_quad = next_prim + 0x28;
-                ((S_800A41D8_2 *)next_prim)->unk_08 = ((S_800A41D8_1 *)draw_state)->unk_F0.at00u.v;
-                ((S_800A41D8_2 *)next_prim)->unk_18 = ((S_800A41D8_1 *)draw_state)->unk_F8.at00u.v;
-                ((S_800A41D8_2 *)next_prim)->unk_38 = ((S_800A41D8_1 *)draw_state)->unk_F4.at00u.v;
-                ((S_800A41D8_2 *)next_prim)->unk_48 = ((S_800A41D8_1 *)draw_state)->unk_FC.at00u.v;
+                right_quad = prim_buffer + 0x28;
+                ((S_800A41D8_2 *)prim_buffer)->unk_08 = ((S_800A41D8_1 *)draw_state)->unk_F0.at00u.v;
+                ((S_800A41D8_2 *)prim_buffer)->unk_18 = ((S_800A41D8_1 *)draw_state)->unk_F8.at00u.v;
+                ((S_800A41D8_2 *)prim_buffer)->unk_38 = ((S_800A41D8_1 *)draw_state)->unk_F4.at00u.v;
+                ((S_800A41D8_2 *)prim_buffer)->unk_48 = ((S_800A41D8_1 *)draw_state)->unk_FC.at00u.v;
                 coord_value = (s32) ((s16) ((S_800A41D8_1 *)draw_state)->unk_F0.at00.v + (s16) ((S_800A41D8_1 *)draw_state)->unk_F4.at00.v) >> 1;
                 ((S_800A41D8_3 *)right_quad)->unk_08 = (s16) coord_value;
-                ((S_800A41D8_2 *)next_prim)->unk_10 = (s16) coord_value;
+                ((S_800A41D8_2 *)prim_buffer)->unk_10 = (s16) coord_value;
                 bottom_x = (s32) ((s16) ((S_800A41D8_1 *)draw_state)->unk_F8.at00.v + (s16) ((S_800A41D8_1 *)draw_state)->unk_FC.at00.v) >> 1;
                 ((S_800A41D8_3 *)right_quad)->unk_18 = (s16) bottom_x;
-                ((S_800A41D8_2 *)next_prim)->unk_20 = (s16) bottom_x;
+                ((S_800A41D8_2 *)prim_buffer)->unk_20 = (s16) bottom_x;
                 top_y = (s32) ((s16) ((S_800A41D8_1 *)draw_state)->unk_F0.at02.v + (s16) ((S_800A41D8_1 *)draw_state)->unk_F4.at02.v) >> 1;
                 ((S_800A41D8_3 *)right_quad)->unk_0A = (s16) top_y;
-                ((S_800A41D8_2 *)next_prim)->unk_12 = (s16) top_y;
+                ((S_800A41D8_2 *)prim_buffer)->unk_12 = (s16) top_y;
                 bottom_y = (s32) ((s16) ((S_800A41D8_1 *)draw_state)->unk_F8.at02.v + (s16) ((S_800A41D8_1 *)draw_state)->unk_FC.at02.v) >> 1;
                 ((S_800A41D8_3 *)right_quad)->unk_1A = (s16) bottom_y;
-                ((S_800A41D8_2 *)next_prim)->unk_22 = (s16) bottom_y;
+                ((S_800A41D8_2 *)prim_buffer)->unk_22 = (s16) bottom_y;
                 strip_offset = (s16) ((S_800A41D8_1 *)draw_state)->unk_74 % 3584;
                 ((S_800A41D8_1 *)draw_state)->unk_90 = (s32) strip_offset;
                 coord_value = (strip_offset / 256);
@@ -227,18 +225,18 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     }
                 }
                 half_index = 0;
-                packet_cursor = next_prim + 0x25;
-                right_colors = next_prim + 0x28;
-                ((S_800A41D8_2 *)next_prim)->unk_06 = (s8) shade;
+                packet_cursor = prim_buffer + 0x25;
+                right_colors = prim_buffer + 0x28;
+                ((S_800A41D8_2 *)prim_buffer)->unk_06 = (s8) shade;
                 ((S_800A41D8_4 *)right_colors)->unk_06 = (s8) shade;
-                ((S_800A41D8_2 *)next_prim)->unk_05 = (s8) shade;
+                ((S_800A41D8_2 *)prim_buffer)->unk_05 = (s8) shade;
                 ((S_800A41D8_4 *)right_colors)->unk_05 = (s8) shade;
-                ((S_800A41D8_2 *)next_prim)->unk_04 = (s8) shade;
-                ((S_800A41D8_2 *)next_prim)->unk_2C = (s8) shade;
+                ((S_800A41D8_2 *)prim_buffer)->unk_04 = (s8) shade;
+                ((S_800A41D8_2 *)prim_buffer)->unk_2C = (s8) shade;
                 texture_entry = ((S_800A41D8_1 *)draw_state)->unk_118 + ((((strip_index & 1) * 2) + ((s32) (texture_id << 0x10) >> 0xE)) * 0xC);
                 entry_cursor = texture_entry + 4;
                 do {
-                    func_800666F4(next_prim);
+                    func_800666F4(prim_buffer);
                     ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_00 = (u8) (((S_800A41D8_5_pre *)packet_cursor)[-1].unk_00 | (((S_800A41D8_6 *)render_flags)->unk_0F & 2));
                     ((S_800A41D8_1 *)draw_state)->unk_08.n = (s32) ((S_800A41D8_7 *)entry_cursor)->unk_04;
                     ((S_800A41D8_1 *)draw_state)->unk_0C.n = (s32) ((S_800A41D8_7 *)entry_cursor)->unk_05;
@@ -273,11 +271,11 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_1D = (u8) (((S_800A41D8_5_pre *)packet_cursor)[-1].unk_1D - 1);
                     ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_16 = (u8) (((S_800A41D8_5_pre *)packet_cursor)[-1].unk_16 - 1);
                     ((S_800A41D8_5 *)packet_cursor)->unk_00 = (u8) (((S_800A41D8_5 *)packet_cursor)->unk_00 - 1);
-                    func_8006658C(((S_800A41D8_1 *)draw_state)->unk_20 + (((u32) ((s32) (0 - ((texture_entry - ((S_800A41D8_1 *)draw_state)->unk_118) * 0x55555555)) >> 2) / 12U) * 4), next_prim);
+                    func_8006658C(((S_800A41D8_1 *)draw_state)->unk_20 + (((u32) ((s32) (0 - ((texture_entry - ((S_800A41D8_1 *)draw_state)->unk_118) * 0x55555555)) >> 2) / 12U) * 4), prim_buffer);
                     bucket_index = (u32) ((s32) (0 - ((texture_entry - ((S_800A41D8_1 *)draw_state)->unk_118) * 0x55555555)) >> 2) / 12U;
                     entry_cursor += 0xC;
                     packet_cursor += 0x28;
-                    next_prim += 0x28;
+                    prim_buffer += 0x28;
                     bucket_offset = half_index * 4;
                     half_index += 1;
                     bucket_slot = (s32 *)(bucket_offset + (s32) bucket_list);
@@ -286,7 +284,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     bucket_addr += bucket_index * 4;
                     *bucket_slot = bucket_addr;
                 } while (half_index < 2);
-                packet_cursor = next_prim;
+                packet_cursor = prim_buffer;
                 half_index = 0;
                 entry_cursor = bucket_list;
                 do {
@@ -298,7 +296,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     half_index += 1;
                     func_8006658C(bucket, draw_mode);
                 } while (half_index < 2);
-                next_prim = packet_cursor;
+                prim_buffer = packet_cursor;
                 visible_count += 1;
             }
         }
@@ -306,7 +304,7 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     } while (strip_index < 0xE);
     buffer_end = 0;
     if (visible_count != 0) {
-        buffer_end = next_prim;
+        buffer_end = prim_buffer;
     }
     return buffer_end;
 }

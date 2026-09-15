@@ -66,7 +66,8 @@ void func_80024700(void *source_object)
     void *source = source_object;
     void *object;
     S_80024700_0 *data;
-    register void *primitive ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *primitive;
+    void *primitive_2;
     register s32 object_arg ASM_REG("$4") = 0x212;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u8 *resource;
     s32 angle_or_zero;
@@ -114,16 +115,16 @@ void func_80024700(void *source_object)
         ((S_80024700_1 *)primitive)->unk_1A = angle_or_zero;
         func_8004491C((void *)object_arg, resource);
 
-        primitive = (*(void * *)((u8 *)object + 8));
+        primitive_2 = (*(void * *)((u8 *)object + 8));
         value = (*(s32 *)((u8 *)source + 0x34));
-        ((S_80024700_1 *)primitive)->unk_0C.at00u.v = value;
-        ((S_80024700_1 *)primitive)->unk_00.at00.v = value;
+        ((S_80024700_1 *)primitive_2)->unk_0C.at00u.v = value;
+        ((S_80024700_1 *)primitive_2)->unk_00.at00.v = value;
         value = (*(s32 *)((u8 *)source + 0x38));
-        ((S_80024700_1 *)primitive)->unk_10.s32 = value;
-        ((S_80024700_1 *)primitive)->unk_04.at00.v = value;
+        ((S_80024700_1 *)primitive_2)->unk_10.s32 = value;
+        ((S_80024700_1 *)primitive_2)->unk_04.at00.v = value;
         value = (*(s32 *)((u8 *)source + 0x3C));
-        ((S_80024700_1 *)primitive)->unk_14.at00u.v = value;
-        ((S_80024700_1 *)primitive)->unk_08.at00.v = value;
+        ((S_80024700_1 *)primitive_2)->unk_14.at00u.v = value;
+        ((S_80024700_1 *)primitive_2)->unk_08.at00.v = value;
 
         local_offset[0] = ((func_800644B8(data->unk_2E.s) >> 4) *
             data->unk_2C.s) >> 8;
@@ -135,9 +136,9 @@ void func_80024700(void *source_object)
         func_80064B30((u8 *)object + 0x24, local_offset, world_offset);
         func_80064A40();
 
-        ((S_80024700_1 *)primitive)->unk_00.at02.v += world_offset[0];
-        ((S_80024700_1 *)primitive)->unk_04.at02.v += world_offset[1];
-        ((S_80024700_1 *)primitive)->unk_08.at02.v += world_offset[2];
+        ((S_80024700_1 *)primitive_2)->unk_00.at02.v += world_offset[0];
+        ((S_80024700_1 *)primitive_2)->unk_04.at02.v += world_offset[1];
+        ((S_80024700_1 *)primitive_2)->unk_08.at02.v += world_offset[2];
     }
 }
 
