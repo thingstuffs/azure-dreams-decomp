@@ -47,12 +47,11 @@ void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800
 #endif
 
 /* Advance a timed action, spawn its effect, and update completion flags. */
-void func_81946800(void *action_in, void *saved_position)
+void func_81946800(void *action, void *saved_position)
 {
-  void *action;
   void *owner_work;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  register u8 *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  register void *effect ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  u8 *owner;
+  void *effect;
   void *effect_part;
   void *offset_part;
   void *source_part;
@@ -68,7 +67,6 @@ void func_81946800(void *action_in, void *saved_position)
   s32 color_index;
   u8 *colors;
   u32 state3_page;
-  action = action_in;
   timer = (*((u16 *) (((u8 *) action) + 0x50))) - 1;
   owner_work = *((void **) (((u8 *) action) + 0));
   state = *((s16 *) (((u8 *) action) + 0xA));

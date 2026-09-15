@@ -142,10 +142,9 @@ jt_c1:
         motion->z.h.hi = position_z;
 
         if (!(prefix->lookup->flags & 0x8000)) {
-            s32 adjusted_z;
+            s16 adjusted_z;
             motion->x.h.hi += stack.diffs[0];
             motion->y.h.hi += stack.diffs[1];
-            ASM_SCHED_BARRIER();
             adjusted_z = (u16)motion->z.h.hi;
             adjusted_z += (u16)stack.diffs[2];
             motion->z.h.hi = adjusted_z;

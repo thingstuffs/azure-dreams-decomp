@@ -40,10 +40,9 @@ void func_81868B84(void *effect, void *position) {
     s32 radial_product;
     s32 fade_angle;
     s32 grow_angle;
-    s32 fade_point;
     s32 grow_point;
     s32 fade_angle_fixed;
-    register s32 grow_angle_fixed ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 grow_angle_fixed;
     u16 angular_speed;
     void *effect_data;
     s16 state;
@@ -98,8 +97,8 @@ case 1:
         }
         return;
 case 2:
-        fade_point = 0;
-        fade_angle_fixed = fade_point;
+        grow_point = 0;
+        fade_angle_fixed = grow_point;
         ((S_81868B84_0 *)effect)->unk_06 = (u16) (((S_81868B84_0 *)effect)->unk_06 + 6);
         ((S_81868B84_0 *)effect)->unk_08 = (u16) (((S_81868B84_0 *)effect)->unk_08 + ((S_81868B84_0 *)effect)->unk_0A);
         do {
@@ -112,8 +111,8 @@ case 2:
                 func_80024264(((S_81868B84_0 *)effect)->unk_0C, position, ((S_81868B84_0 *)effect)->unk_10);
             }
             fade_angle_fixed += 0x05550000;
-            fade_point += 1;
-        } while (fade_point < 3);
+            grow_point += 1;
+        } while (grow_point < 3);
         ((S_81868B84_0 *)effect)->unk_10 = (u8) (((S_81868B84_0 *)effect)->unk_10 - 8);
         if (((S_81868B84_0 *)effect)->unk_02.u < 8) {
             return;

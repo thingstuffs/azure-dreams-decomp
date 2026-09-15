@@ -13,14 +13,14 @@ extern M2C_UNK D_80024EF4[3];
 /* Creates an object, copies three source fields to its child, and runs 16 child setup steps. */
 void *func_80024C80(s32 value, void *source, s32 unused, s32 context)
 {
-    void *source_or_value = source;
-    register s32 saved_context ASM_REG("$21") = context;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register u32 saved_context;
     s32 adjusted_value;
     s32 step;
     void *child;
     void *object;
     u16 counter;
 
+    saved_context = context;
     adjusted_value = value - 0x20;
     object = func_8003FD64(2, adjusted_value);
     if (object != 0) {
@@ -30,19 +30,17 @@ void *func_80024C80(s32 value, void *source, s32 unused, s32 context)
         func_8004491C(object, D_80024EF4);
 
         child = *(void **)((u8 *)object + 8);
-        *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source_or_value + 2);
+        *(u16 *)((u8 *)child + 2) = *(u16 *)((u8 *)source + 2);
         step = 0;
-        *(u16 *)((u8 *)child + 6) = *(u16 *)((u8 *)source_or_value + 6);
-        *(u16 *)((u8 *)child + 0xA) = *(u16 *)((u8 *)source_or_value + 0xA);
-        source_or_value = (void *)adjusted_value;
+        *(u16 *)((u8 *)child + 6) = *(u16 *)((u8 *)source + 6);
+        *(u16 *)((u8 *)child + 0xA) = *(u16 *)((u8 *)source + 0xA);
+        source = (void *)adjusted_value;
         *(s32 *)((u8 *)object + 0x20) = saved_context;
-        ASM_KEEP(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         do {
-            func_8002569C(child, (s16)(step << 8), 0x40, -0x100, source_or_value);
+            func_8002569C(child, (s16)(step << 8), 0x40, -0x100, source);
             step += 1;
         } while (step < 0x10);
     }
     return object;
 }
-

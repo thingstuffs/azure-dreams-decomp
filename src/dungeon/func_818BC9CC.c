@@ -155,8 +155,6 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     render_state = (S_func_818BC9CC_6 *)D_80083160;
     scratch = (S_func_818BC9CC_2 *)0x1F800000;
     angle = render_state->unk_C8;
-    ASM_USE(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(angle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch->unk_18 = (u8 *)((S_func_818BC9CC_6 *)D_80083160)->unk_00 + 0xB0;
     x_extent = (u32)((func_80064584(angle) >> 4) * effect->unk_08.as_s16) >> 8;
     y_extent = (u32)((func_800644B8(angle) >> 4) * effect->unk_08.as_s16) >> 8;

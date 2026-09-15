@@ -253,24 +253,26 @@ store_next_state:
     special = 0;
 state_4:
     {
-        s32 brightness;
-        register s32 x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register s32 x;
+        register s32 y;
         s16 z;
 
         special++;
-        brightness = (rand() & 0xFF) | 0x80;
+        sprite = (void *)(rand() & 0xFF);
+        sprite = (void *)((u32)sprite | 0x80);
         x = rand();
         x &= 0x7F;
         x -= 0x40;
-        x = (s16)x;
+        x <<= 16;
+        x >>= 16;
         y = rand();
         y &= 0x7F;
         y -= 0x40;
-        y = (s16)y;
+        y <<= 16;
+        y >>= 16;
         z = (rand() & 0x7F) - 0x40;
         func_80170D28((u8 *)action - 0x20, 0, 0x00C0C0C0,
-                      brightness, x, y, z);
+                      (s32)sprite, x, y, z);
         if ((u16)special < 5) {
             goto state_4;
         }

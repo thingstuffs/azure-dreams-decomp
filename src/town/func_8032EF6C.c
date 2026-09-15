@@ -29,7 +29,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     u32 tag_bits;
     u32 flag_bits;
     s32 header_word;
-    register u32 packed_word ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 packed_word;
     s32 half_bits;
     u32 header_or_addr;
 
@@ -55,7 +55,7 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
         } else {
             packed_word = tag_bits | packed_word;
         }
-        packed_word = flag_bits | packed_word;
+        packed_word |= flag_bits & ~packed_word;
         half_bits = record->unkC.half.lo;
         record->unkC.word = packed_word | half_bits;
         if (*entry != 0) {
@@ -69,7 +69,3 @@ void *func_8001976C(void *records, void *entries, s32 flags, s32 tag)
     } if (*(entry - 0x13) != 0x80) goto loop_0;
     return record;
 }
-
-/* MECHANISM: Guarded pins encode s0-s5 and v0/v1/a0; a seam fence preserves
-   the second OR before the lhu, including its required load-delay nop.
-   The callback arm rejoins the bottom-tested loop instead of tail-calling. */

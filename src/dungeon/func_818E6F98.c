@@ -49,7 +49,7 @@ s32 func_818E6F98(void *sprite_data, void *position)
     u16 world_pos[4];
     s16 screen_points[4];
     WorkOutput scratch;
-    register u8 *uv_source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *uv_source;
     DungeonState **state_address;
     s16 *screen_base;
     WorkOutput *scratch_base;
@@ -80,7 +80,8 @@ loop:
     screen_cursor = screen_base;
     do {
         ordering_index =
-            func_80065420(world_pos, screen_cursor, scratch_base, scratch_base) - 8;
+            func_80065420(world_pos, screen_cursor, scratch_base, scratch_base);
+        ordering_index -= 8;
         screen_cursor += 2;
         point_index++;
         world_pos[2] += 0x40;
@@ -131,13 +132,14 @@ loop:
     }
 
     node = *(s32 *)((u8 *)sprite_data - 8);
-    sprite_data = (u8 *)node + 0x20;
+    uv_source = (u8 *)node + 0x20;
+    sprite_data = uv_source;
     if (node != 0) {
         position = *(void **)(node + 8);
         goto loop;
     }
     {
-        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        s32 zero = 0;
 
         return zero;
     }

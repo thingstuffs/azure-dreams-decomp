@@ -84,6 +84,9 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
     u32 xy14;
     u32 xy2;
     u32 xy3;
+    u32 xy32;
+    u32 xy33;
+    u32 xy34;
     u32 vert0_ref;
     u32 index1;
     u32 index2;
@@ -191,9 +194,8 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     y2_high = cell_y + vert2_y;
                     y2_high = y2_high << 0x10;
                     xy2 = xy2 | y2_high;
-                    xy3 = xy3 + cell_x;
-                    xy3 = xy3 & 0xFFFF;
-                    ASM_USE_NV(y2_high);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    xy32 = xy3 + cell_x;
+                    xy33 = xy32 & 0xFFFF;
                     S16(scratch, 0x74) = height0;
                     index1 = U16((u8 *)face, 2);
                     vert1_addr = index1 * 8 + (u32)vertices;
@@ -210,8 +212,8 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     S16(scratch, 0x84) = height2;
                     index3 = U16((u8 *)face, 6);
                     vert3_addr = index3 * 8 + (u32)vertices;
-                    xy3 = xy3 | y3_high;
-                    S32(scratch, 0x88) = xy3;
+                    xy34 = xy33 | y3_high;
+                    S32(scratch, 0x88) = xy34;
                     height3 = U16((u8 *)vert3_addr, 4);
                     height3 = height3 - ((Cell *)((u8 *)&D_80027120[0] + cell_index * 6))->bias;
                     S16(scratch, 0x8C) = height3;
