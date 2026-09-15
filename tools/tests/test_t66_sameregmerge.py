@@ -5,10 +5,13 @@ Every test is textual (no compiler): the generator's contract is that it only de
 moves a declaration, and respells the uses of the variable it deleted - `vf` decides the rest.
 """
 import collections
+import contextlib
+import os
 import re
 import sys
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -17,6 +20,11 @@ from pin_census import sites_of, unscored_text
 from xform import t66_sameregmerge as M
 
 HEAD = '#include "common.h"\n\n'
+
+
+def off(*switches):
+    """One of the round-29 openings turned off (they default ON and are read per call)."""
+    return mock.patch.dict(os.environ, {k: "0" for k in switches})
 
 
 def gen(text):
@@ -92,6 +100,10 @@ TWOARM = HEAD + '''void func_test(s32 *arg0, s32 sel) {
     arg0[2] = total;
 }
 '''
+
+
+# the row-local value macro several slus rows define themselves (both parameters are values)
+U16_DEF = '#define U16_AT(p, n) (*(u16 *)((u8 *)(p) + (n)))\n'
 
 
 class Forms(unittest.TestCase):
@@ -288,9 +300,10 @@ class Refusals(unittest.TestCase):
         self.refuses(PLAIN.replace("register s32 first", "register u16 first"),
                      "type-mismatch-narrow")
 
-    def test_macro_argument(self):
-        self.refuses(PLAIN.replace("    total += second;", "    ASM_KEEP(second);"),
-                     "in-macro-arg")
+    def test_macro_argument_with_the_opening_off(self):
+        with off("T66_MACRO_ARGS"):
+            self.refuses(PLAIN.replace("    total += second;", "    ASM_KEEP(second);"),
+                         "in-macro-arg")
 
     def test_same_named_inner_scope_local(self):
         self.refuses(PLAIN.replace("    arg0[2] = total;", """    {
@@ -430,9 +443,370 @@ class Refusals(unittest.TestCase):
         # `inner` may not host: an unrelated local of that name already lives in the block the
         # declaration would move to.  The other direction is untouched by that.
         text = HOISTED.replace("    s32 total;", "    s32 total;\n    s32 inner;")
-        out, skips = gen(text)
+        with off("T66_RENAME_HOST"):
+            out, skips = gen(text)
         self.assertEqual([l for l, _ in out], ["t66:hoist:rename+hoist:inner->later@$2"])
         self.assertEqual(skips["host-name-collision"], 1)
+
+
+COLLIDE = HEAD + '''void func_test(s32 *arg0) {
+    s32 total;
+    s32 inner;
+    s32 later;
+
+    total = 0;
+    {
+        register s32 inner ASM_REG("$2") = 7;   /* UNRESOLVED C shape (pin) */
+        total = inner;
+    }
+    {
+        register s32 later ASM_REG("$2");   /* UNRESOLVED C shape (pin) */
+        later = arg0[1];
+        total += later;
+    }
+    inner = arg0[3];
+    later = arg0[4];
+    arg0[2] = total + inner + later;
+}
+'''
+
+# m2c's own spelling of ONE retail variable declared four times: every copy is called `slot` and
+# every copy is pinned to the same hard register (town/func_800B1544 has five of these).
+SAMENAME = HEAD + '''void func_test(s32 *arg0) {
+    s32 total;
+
+    total = 0;
+    {
+        register s32 slot ASM_REG("$2");   /* UNRESOLVED C shape (pin) */
+        slot = arg0[0];
+        total = slot;
+    }
+    {
+        register s32 slot ASM_REG("$2");   /* UNRESOLVED C shape (pin) */
+        slot = arg0[1];
+        total += slot;
+    }
+    {
+        register s32 slot ASM_REG("$2");   /* UNRESOLVED C shape (pin) */
+        slot = arg0[2];
+        total += slot;
+    }
+    arg0[3] = total;
+}
+'''
+
+KEPT = PLAIN.replace("    total += second;", "    ASM_KEEP(second);\n    total += second;")
+
+
+class RenameHost(unittest.TestCase):
+    """T66_RENAME_HOST: the merge retried with the surviving variable renamed."""
+
+    def test_the_victims_name_is_preferred_when_it_is_free(self):
+        text = HOISTED.replace("    s32 total;", "    s32 total;\n    s32 inner;")
+        got = labels(text)
+        self.assertIn("t66:hoist:rename+hoist:later->later@$2+vname", got)
+        cand = only(text, "+vname")
+        self.assertIn('    register s32 later ASM_REG("$2");', cand)
+        self.assertIn("    s32 inner;\n", cand)          # the colliding local is untouched
+        self.assertEqual(cand.count("ASM_REG"), 1)
+        self.assertNotIn("inner =", cand)                # every use of the host was rewritten
+
+    def test_a_fresh_name_when_the_victims_name_is_taken_too(self):
+        """`inner` collides in the target block and `later` is not free either (the host's own
+        mentions would capture it), so the surviving declaration becomes `inner_m` - type,
+        register binding and initialiser kept."""
+        got = labels(COLLIDE)
+        self.assertIn("t66:hoist:rename+hoist_init:later->inner_m@$2+hostm", got)
+        cand = only(COLLIDE, "rename+hoist_init:later->inner_m")
+        self.assertIn('    register s32 inner_m ASM_REG("$2") = 7;', cand)
+        self.assertIn("    inner_m = arg0[1];", cand)
+        self.assertIn("    total += inner_m;", cand)
+        self.assertIn("    inner = arg0[3];", cand)      # the unrelated locals keep their names
+        self.assertIn("    later = arg0[4];", cand)
+        self.assertIn("arg0[2] = total + inner + later;", cand)
+        self.assertEqual(cand.count("ASM_REG"), 1)
+
+    def test_a_colliding_host_that_is_itself_pinned_in_the_inner_block(self):
+        """Three pinned declarations of ONE name on ONE register: merging two of them may not
+        touch the third, and the pin count drops by exactly one."""
+        pins = len(sites_of(SAMENAME))
+        out, skips = gen(SAMENAME)
+        self.assertTrue(out, dict(skips))
+        third = '        register s32 slot ASM_REG("$2");   /* UNRESOLVED C shape (pin) */\n'
+        for label, cand in out:
+            self.assertIn("+hostm", label)
+            self.assertEqual(len(sites_of(cand)), pins - 1, label)
+            self.assertIn("slot_m", cand, label)
+            self.assertEqual(cand.count(third), 1, label)   # exactly one untouched copy remains
+            self.assertEqual(cand.count('ASM_REG("$2")'), 2, label)
+
+    def test_a_name_already_in_the_function_is_never_taken(self):
+        text = COLLIDE.replace("    s32 inner;", "    s32 inner;\n    s32 inner_m;")
+        cand = only(text, "rename+hoist_init:later->inner_m2")
+        self.assertIn('    register s32 inner_m2 ASM_REG("$2") = 7;', cand)
+        self.assertIn("    s32 inner_m;\n", cand)
+
+    def test_the_opening_only_fires_where_the_collision_blocks_the_merge(self):
+        """A pair with no collision is spelled exactly as it was before the opening."""
+        self.assertEqual([l for l in labels(HOISTED) if "+hostm" in l or "+vname" in l], [])
+        self.assertEqual(labels(PLAIN),
+                         ["t66:plain:rename:second->first@$3", "t66:plain:rename:first->second@$3"])
+
+    def test_the_collision_count_and_the_reopened_count_add_up(self):
+        text = HOISTED.replace("    s32 total;", "    s32 total;\n    s32 inner;")
+        with off("T66_RENAME_HOST"):
+            before = gen(text)[1]
+        after = gen(text)[1]
+        self.assertEqual(before["host-name-collision"], 1)
+        self.assertEqual(after["host-name-collision"] + after["host-name-collision-reopened"],
+                         before["host-name-collision"])
+
+
+class MacroArgs(unittest.TestCase):
+    """T66_MACRO_ARGS: a mention inside a macro argument is a use like any other."""
+
+    def test_a_keep_on_the_victim_becomes_a_keep_on_the_host(self):
+        pins = len(sites_of(KEPT))
+        cand = only(KEPT, "rename:second->first")
+        self.assertIn("    ASM_KEEP(first);\n", cand)
+        self.assertNotIn("second", cand)
+        self.assertEqual(len(sites_of(cand)), pins - 1)
+        # the keep is still a keep, at the same point, and nothing else about it moved
+        self.assertEqual(M._pin_key(cand)[("ASM_KEEP", "first", "")], 1)
+        self.assertEqual(sum(1 for s in sites_of(cand) if s[1] == "ASM_KEEP"),
+                         sum(1 for s in sites_of(KEPT) if s[1] == "ASM_KEEP"))
+
+    def test_a_value_macro_argument_is_renamed(self):
+        text = U16_DEF + PLAIN.replace("    total += second;",
+                                       "    total += U16_AT(arg0, second);")
+        cand = only(text, "rename:second->first")
+        self.assertIn("    total += U16_AT(arg0, first);\n", cand)
+
+    def test_a_cast_read_inside_a_macro_argument_is_parenthesised(self):
+        text = U16_DEF + CASTED.replace("    arg0[scaled] = 0;",
+                                        "    arg0[0] = U16_AT(arg0, scaled);")
+        cand = only(text, "cast:scaled->page")
+        self.assertIn("U16_AT(arg0, ((s32)page));", cand)
+
+    def test_the_cast_form_refuses_an_asm_operand(self):
+        """`ASM_KEEP(var)` is `__asm__ __volatile__("" : "=r"(var) : "0"(var))`: `(s32)page` is not
+        an lvalue there, so the cast spelling of that pair has to go."""
+        text = CASTED.replace("    arg0[scaled] = 0;", "    ASM_KEEP(scaled);")
+        out, skips = gen(text)
+        # the direction that would CAST the keep's operand is gone; the other direction, which only
+        # respells `page`, is untouched (the keep still names `scaled`, which survives)
+        self.assertEqual([l for l, _ in out], ["t66:plain:cast:page->scaled@$7+macroarg"])
+        self.assertEqual(skips["asm-operand-cast"], 1)
+        self.assertIn("    ASM_KEEP(scaled);\n", out[0][1])
+
+    def test_a_stringifying_macro_defined_by_the_row_is_refused(self):
+        text = ('#define NAME_OF(x) #x\n'
+                + PLAIN.replace("    total += second;", "    func_80000000(NAME_OF(second));"))
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-stringify"], 2)
+
+    def test_a_lowercase_stringifying_macro_is_refused_too(self):
+        """`MACROARG_RE`'s uppercase shape decides the CLASS, but a name in the refuse set is looked
+        for whatever its case: a row-local `#define name_of(x) #x` would otherwise be detected as a
+        stringifier and then never consulted, and `name_of(V)` would be renamed."""
+        text = ('#define name_of(x) #x\n'
+                + PLAIN.replace("    total += second;", "    func_80000000(name_of(second));"))
+        self.assertIn("name_of", M._stringify_macros(text))
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-stringify"], 2)
+        self.assertEqual(M._macros_at("    f(name_of(v));", 14, ("name_of",)), ["name_of"])
+        self.assertEqual(M._macros_at("    f(name_of(v));", 14), [])
+
+    def test_a_macro_that_passes_its_parameter_to_a_stringifier_is_refused(self):
+        """`#define OUTER(y) INNER(y)` over `#define INNER(x) #x` stringifies y: `_hash_params`
+        reads only the direct body, so the refuse set is closed to a fixpoint."""
+        defs = [("INNER", ["x"], "#x"), ("OUTER", ["y"], "INNER(y)"),
+                ("UNRELATED", ["z"], "INNER(3) + (z)")]
+        self.assertEqual(sorted(M._close_stringify(defs, {"INNER"})), ["INNER", "OUTER"])
+        text = ('#define INNER(x) #x\n#define OUTER(y) INNER(y)\n'
+                + PLAIN.replace("    total += second;", "    func_80000000(OUTER(second));"))
+        self.assertIn("OUTER", M._stringify_macros(text))
+        self.assertEqual(gen(text)[1]["in-macro-arg-stringify"], 2)
+        # over include/ today the closure adds nothing to the four direct stringifiers
+        direct = (set(M.KNOWN_STRINGIFY) | set(M.NEVER_IN_MACRO)
+                  | {n for n, p, b in M._header_defs() if M._hash_params(p, b)})
+        self.assertEqual(set(M._header_stringify()) - direct, set())
+        self.assertEqual(sorted(direct), ["ASM_LIVE_SIBCALL_PIN", "ASM_REG",
+                                          "ASM_SHAPE_D_SIBCALL_PIN", "INCLUDE_ASM",
+                                          "INCLUDE_RODATA"])
+
+    def test_a_header_stringifier_is_refused_by_name(self):
+        self.assertIn("ASM_LIVE_SIBCALL_PIN", M._stringify_macros(""))
+        self.assertIn("INCLUDE_ASM", M._stringify_macros(""))
+        text = PLAIN.replace("    total += second;", "    ASM_LIVE_SIBCALL_PIN(second, 4);")
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-stringify"], 2)
+
+    def test_a_literal_hash_in_an_asm_template_is_not_a_stringify(self):
+        """`__asm__("#maspsx_pagebase_pin %0" : "+r"(var))` carries a `#` inside a STRING."""
+        self.assertNotIn("ASM_PAGEBASE_PIN", M._stringify_macros(""))
+        self.assertNotIn("ASM_TAILSLOT_PIN", M._stringify_macros(""))
+        self.assertNotIn("ASM_KEEP", M._stringify_macros(""))
+        self.assertEqual(M._hash_params(["var"], '__asm__("#maspsx_pin %0" : "+r"(var))'), [])
+        self.assertEqual(M._hash_params(["imm"], '__asm__("#p " #imm)'), ["imm"])
+        self.assertEqual(M._hash_params(["a", "b"], "x##a##b"), ["a", "b"])
+
+    def test_the_asm_reg_binding_is_never_renamed(self):
+        """A function whose local is called like a register: the merge may rewrite the DECLARED
+        NAME and nothing inside `ASM_REG("...")`."""
+        text = HEAD + '''void func_test(s32 *arg0) {
+    s32 total;
+    register s32 s0 ASM_REG("$s0");   /* UNRESOLVED C shape (pin) */
+    register s32 s0b ASM_REG("$s0");   /* UNRESOLVED C shape (pin) */
+
+    s0 = arg0[0];
+    total = s0;
+    s0b = arg0[1];
+    total += s0b;
+    arg0[2] = total;
+}
+'''
+        out, skips = gen(text)
+        self.assertTrue(out, dict(skips))
+        for label, cand in out:
+            self.assertEqual(cand.count('ASM_REG("$s0")'), 1, label)
+            self.assertNotIn('ASM_REG("$s0b")', cand)
+        self.assertIn("ASM_REG", M._stringify_macros(text))
+        line = '    x = ASM_REG(v) + FOO(BAR(v));'
+        self.assertEqual(M._macros_at(line, line.index("v)")), ["ASM_REG"])
+        self.assertEqual(M._macros_at(line, line.rindex("v)")), ["FOO", "BAR"])
+
+    def test_a_mention_inside_an_asm_reg_argument_is_refused(self):
+        text = PLAIN.replace("    total += second;", "    total += ASM_REG(second);")
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-asm-reg-binding"], 2)
+
+    # ---------------- a macro parameter that is a NAME, not a value (round-29 review)
+
+    def test_a_row_local_macro_whose_parameter_is_a_member_name_is_refused(self):
+        """`#define ZONE_OF(F) (D_80024020[zone_id].F)` pastes its argument after a `.`: renaming
+        the variable there would read a DIFFERENT MEMBER - a different offset, a different program.
+        `#`/`##` cannot see this class, and it is in the tree (`CURRENT_ZONE`/`OLD_ZONE`/
+        `CANDIDATE_ZONE` in src/town/func_8095563C.c)."""
+        text = ('#define ZONE_OF(F) (D_80024020[zone_id].F)\n'
+                + PLAIN.replace("    total += second;", "    total += ZONE_OF(second);"))
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-nameparam"], 2)
+        self.assertEqual(M._macro_table(text)["ZONE_OF"]["unsafe"], {0: "member"})
+
+    def test_a_type_name_parameter_is_refused_slot_by_slot(self):
+        """`M2C_FIELD(expr, type_ptr, offset)` is in include/ and 187 rows call it: slot 1 is a
+        TYPE, slots 0 and 2 are values.  The refusal is per SLOT, not per macro."""
+        self.assertEqual(M._header_table()["M2C_FIELD"]["unsafe"], {1: "cast-type"})
+        bad = PLAIN.replace("    total += second;",
+                            "    total += M2C_FIELD(arg0, second, 0x10);")
+        out, skips = gen(bad)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-nameparam"], 2)
+        good = PLAIN.replace("    total += second;",
+                             "    total += M2C_FIELD(second, s32 *, 0x10);")
+        cand = only(good, "rename:second->first")
+        self.assertIn("    total += M2C_FIELD(first, s32 *, 0x10);\n", cand)
+
+    def test_the_name_parameter_test_does_not_fire_on_a_value_macro(self):
+        """The one-sided test may cost a candidate; it may not cost every mask macro in the tree.
+        `((x) * 2)` and `((x) & 0xFF)` are arithmetic, not casts."""
+        for name, params, body in (("U16_AT", ["p", "n"], "(*(u16 *)((u8 *)(p) + (n)))"),
+                                   ("SCALE", ["a", "x"], "((a) + (x) * 2)"),
+                                   ("LO", ["x"], "((x) & 0xFF)"),
+                                   ("ASM_KEEP", ["var"],
+                                    '__asm__ __volatile__("" : "=r"(var) : "0"(var))')):
+            t = M._table_from([(name, params, body)])
+            self.assertEqual(t[name]["unsafe"], {}, name)
+        for n in ("ASM_KEEP", "ASM_KEEP_NV", "ASM_USE", "ASM_SET", "ASM_KEEP_DEP_NV"):
+            self.assertEqual(M._header_table()[n]["unsafe"], {}, n)
+
+    def test_a_parameter_passed_into_another_macros_name_slot_is_refused(self):
+        """The closure is per PARAMETER: `WRAP(a, b)` handing `b` to `ZONE_OF` is a name too."""
+        text = ('#define ZONE_OF(F) (D_80024020[zone_id].F)\n'
+                '#define WRAP(a, b) ((a) + ZONE_OF(b))\n'
+                + PLAIN.replace("    total += second;", "    total += WRAP(1, second);"))
+        self.assertEqual(M._macro_table(text)["WRAP"]["unsafe"], {1: "via-ZONE_OF"})
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-nameparam"], 2)
+        # slot 0 of the same macro is still a value
+        ok = ('#define ZONE_OF(F) (D_80024020[zone_id].F)\n'
+              '#define WRAP(a, b) ((a) + ZONE_OF(b))\n'
+              + PLAIN.replace("    total += second;", "    total += WRAP(second, y);"))
+        self.assertIn("    total += WRAP(first, y);\n", only(ok, "rename:second->first"))
+
+    def test_a_macro_this_module_cannot_see_the_body_of_is_refused(self):
+        """Round 28 refused every macro argument wholesale, so refusing the ones whose body is out
+        of reach is never worse than the baseline - and its parameter may be a member or a type."""
+        text = PLAIN.replace("    total += second;", "    total += BODY_NAME(arg0, second);")
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-unknown-macro"], 2)
+
+    def test_a_call_with_more_arguments_than_the_definition_has_is_refused(self):
+        text = U16_DEF + PLAIN.replace("    total += second;",
+                                       "    total += U16_AT(arg0, 4, second);")
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-argcount"], 2)
+
+    # ---------------- a macro argument on a CONTINUATION line (round-29 review)
+
+    def test_a_stringifiers_argument_on_a_continuation_line_is_refused(self):
+        """The macro scan was per LINE until this review, so a line break hid the argument from
+        every macro test: the token a `#` stringifies was renamed with nothing journalled."""
+        one = ('#define NAME_OF(a, x) func_80000000(a, #x)\n'
+               + PLAIN.replace("    total += second;", "    total += NAME_OF(arg0, second);"))
+        cont = one.replace("NAME_OF(arg0, second);", "NAME_OF(arg0,\n        second);")
+        for text in (one, cont):
+            out, skips = gen(text)
+            self.assertEqual([l for l, _ in out], [])
+            self.assertEqual(skips["in-macro-arg-stringify"], 2)
+
+    def test_a_cast_read_on_a_continuation_line_is_parenthesised(self):
+        text = U16_DEF + CASTED.replace("    arg0[scaled] = 0;",
+                                        "    arg0[0] = U16_AT(arg0,\n        scaled);")
+        cand = only(text, "cast:scaled->page")
+        self.assertIn("        ((s32)page));\n", cand)
+
+    def test_a_value_argument_on_a_continuation_line_is_still_renamed(self):
+        text = U16_DEF + PLAIN.replace("    total += second;",
+                                       "    total += U16_AT(arg0,\n        second);")
+        cand = only(text, "rename:second->first")
+        self.assertIn("        first);\n", cand)
+
+    def test_a_short_all_caps_macro_is_a_macro_call_too(self):
+        """`U8(x)`/`S8(x)` are row-local macros two characters long: `MACROARG_RE`'s 3-character
+        shape would not see them at all - no slot, no refusal, a silent rename."""
+        text = ('#define U8(x) (*(u8 *)(x))\n#define AT(p, f) ((p).f)\n'
+                + PLAIN.replace("    total += second;", "    total += AT(arg0, second);"))
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], [])
+        self.assertEqual(skips["in-macro-arg-nameparam"], 2)
+        line = "    total = U8(v) + XY(v);"
+        self.assertEqual(M._macros_at(line, line.index("v)")), ["U8"])
+        self.assertEqual(M._macros_at(line, line.rindex("v)")), ["XY"])
+
+    def test_the_macro_index_spans_lines(self):
+        ml = ["    x = U16_AT(arg0,", "        v) + FOO(w);"]
+        idx = M._MacroIdx(ml, M._header_table())
+        self.assertEqual(idx.at(1, ml[1].index("v")), [("U16_AT", 1)])
+        self.assertEqual(idx.at(1, ml[1].index("w")), [("FOO", 0)])
+        self.assertEqual(idx.at(0, ml[0].index("arg0")), [("U16_AT", 0)])
+
+    def test_the_reopened_pairs_are_counted(self):
+        with off("T66_MACRO_ARGS"):
+            before = gen(KEPT)[1]
+        after = gen(KEPT)[1]
+        self.assertEqual(before["in-macro-arg"], 2)
+        self.assertEqual(after["in-macro-arg"], 0)
+        self.assertEqual(after["in-macro-arg-reopened"], 2)
 
 
 class Contract(unittest.TestCase):

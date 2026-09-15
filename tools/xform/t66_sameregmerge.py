@@ -52,10 +52,63 @@ where the other is defined), so a variable live around a loop back edge that enc
 lifetime is refused automatically; that case is journaled as `loop-backedge`.
 
 Refusals besides interference: an address-taken variable (`&v`), a variable whose name is also a
-label or a called function, a mention inside a macro argument, an inner-scope local of the same
-name, a declaration or a mention of either variable inside ANY preprocessor region of the function
-(see PREPROCESSOR REGIONS below), a multi-declarator or array declaration, and any candidate whose
-surviving pins are not exactly the input's minus V's.
+label or a called function, an inner-scope local of the same name, a declaration or a mention of
+either variable inside ANY preprocessor region of the function (see PREPROCESSOR REGIONS below), a
+multi-declarator or array declaration, and any candidate whose surviving pins are not exactly the
+input's minus V's (`_expected_pins`).
+
+TWO OPENINGS (2026-09-15, round 29), both behind env switches that default ON.  They reopen the two
+largest refusals the round-28 packs measured - `host-name-collision` (141 ordered pairs in 15 rows)
+and `in-macro-arg` (183 in 45) - both of which are SPELLING problems, not program problems.
+
+    T66_RENAME_HOST (default 1)
+        The host's name means something else in the block the merged declaration would cover (an
+        inner local, a sibling declaration of the same name - m2c names every copy of one retail
+        variable alike - or a global), so writing V's uses as H would capture.  The merge is retried
+        with the SURVIVING variable renamed: to V's own name when that is free in the function, else
+        to a fresh `<host>_m` that appears nowhere in the file.  A local's name is byte-neutral on
+        this port, and the declaration keeps its type, its register binding and its initialiser.
+        Mechanically the rename is a SEPARATE TEXT (`_host_renamed`: every line of `Facts.lines`
+        rewritten once, so the masked-position rename is safe even where a line mentions both
+        variables) which is then re-parsed and merged by the ordinary path - so every check in this
+        module, the collision test included, fires again on the renamed text.  A pair whose rename
+        wins is journaled `host-name-collision-reopened`; one that still fails keeps the old
+        `host-name-collision` count, so the two columns add up to the round-28 number.
+    T66_MACRO_ARGS (default 1)
+        A mention of V inside the argument list of an uppercase macro call is renamed like any other
+        use.  `ASM_KEEP(V)` becomes `ASM_KEEP(H)`: the pin COUNT is unchanged (`_expected_pins`
+        asserts the whole multiset, with V's spelling rewritten) and the keep still keeps the same
+        value at the same point, because the value V carried is now in H there.  An argument is a
+        VALUE or it is refused; the refusals, every one of them per (macro, argument SLOT):
+
+          `in-macro-arg-stringify`   the slot's parameter is under `#`/`##`.  `_stringify_macros`
+            reads every function-like macro in `include/*.h`, `include/records/*.h`, `include/*.inc`
+            AND the row's own `#define`s (the slus rows define `U8_AT`/`S16_AT` themselves) and
+            finds four in include/: INCLUDE_ASM, INCLUDE_RODATA, ASM_LIVE_SIBCALL_PIN,
+            ASM_SHAPE_D_SIBCALL_PIN.
+          `in-macro-arg-nameparam`   the slot's parameter is a MEMBER, a TYPE or a TAG rather than a
+            value (`_param_name_use`).  `#`/`##` cannot see this class and the first shipping of
+            this opening had no test for it: `#define ZONE_OF(F) (D_80024020[zone_id].F)` over a
+            pinned local named `flags` renamed the MEMBER READ, and `M2C_FIELD(expr, type_ptr,
+            offset)` - in include/, called by 187 rows - renames a CAST TYPE.  Found by review
+            2026-09-15; over include/ the class is M2C_FIELD and M2C_BITWISE, and in src/ the three
+            `*_ZONE(F)` macros of town/func_8095563C.
+          `in-macro-arg-unknown-macro`  a macro-shaped name (`MACROARG_RE`'s class) whose body is
+            not in include/ or in the row - its parameter may be any of the above.  Round 28 refused
+            every macro argument wholesale, so this is never worse than the baseline.
+          `in-macro-arg-argcount`    the call passes more arguments than the definition read here
+            declares, so the slot numbers do not line up.
+          `in-asm-reg-binding`       a mention inside `ASM_REG(...)`: the pin being deleted or kept,
+            never a value.
+          `asm-operand-cast`         the CAST form into any `ASM_*` argument - `ASM_KEEP(var)` is
+            `__asm__ __volatile__("" : "=r"(var) : "0"(var))`, so `(u8 *)h` there is not an lvalue.
+
+        Every one of those tests reads a WHOLE-TEXT index of macro calls (`_MacroIdx`), not one line:
+        until the same review the scan was per line, so a macro argument on a CONTINUATION line was
+        invisible to all of them - a stringifier's argument was renamed with nothing journalled.
+        Inside a macro argument a cast read is always parenthesised, `((TV)H)`, because the macro
+        body decides what binds to it; that too was a per-line test, and it now holds across a line
+        break.
 
 PREPROCESSOR REGIONS (2026-09-15, after a review found three landed rows with invalid C in them)
     `pin_census.arm_labels` only recognises `NON_MATCHING` and `#if 0`: every line of an
@@ -79,7 +132,36 @@ the search restarts on the new text, because the family has shrunk and more pair
 
 `sameregmerge_candidates(text)` exposes the same rewrites as a search menu (<= 48, nearest pairs
 first).  No scaffolding is ever emitted: this generator only deletes a declaration, moves a
-declaration, and respells the uses of the variable it deleted.
+declaration, renames a local, and respells the uses of the variable it deleted.
+
+RESULT
+    round 28 (`work/native_lane/r28_samereg/`): 238 pins from 127 rows in a two-minute sweep; the
+        two evaluation packs left `in-macro-arg` 183 and `host-name-collision` 141 ordered pairs
+        refused, over 45 and 15 rows.
+    round 29 (`work/native_lane/r29_samereg2/REPORT.md`, the two openings above): 131 pins from 68
+        of those 110 rows, where the round-28 generator offered 22 candidates in 2 rows.
+        `t66v2_refused` (the 58 rows whose journals carried either refusal; 0 candidates before):
+        35 of 57 eligible rows exact, 45 pins, 45 candidates offered / screened / exact.
+        `t66v2_big` (all 52 rows of the never-examined 21+ pin band): 33 of 50 exact, 86 pins,
+        125 screened.  Per opening, over both packs: T66_RENAME_HOST 441 ordered pairs newly
+        offered, 36 exact, 36 pins; T66_MACRO_ARGS 476 newly offered, 94 exact, 94 pins (a
+        candidate marked with both is counted in both).  Every cc1 distance journalled is 0 - the
+        merged variable inherits the pin - so a miss is a refusal, not a near miss, and the only
+        budget reached was T66_VERIFY, on the three largest rows.  All 68 outputs audited against
+        their bases: guarded lines, unscored arms, stmt-pin macros and ASM_REG bindings all as
+        expected, 0 defects.
+    round 29, REVIEW (same REPORT, "Review fixes"): a review found two defects in T66_MACRO_ARGS -
+        a macro parameter that is a MEMBER or a TYPE name was renamed (no detector existed; the
+        class is not empty - `M2C_FIELD`'s `type_ptr` is in include/ and 187 rows call it), and the
+        macro scan was per LINE, so an argument on a continuation line escaped every macro test.
+        Both fixed above (`_param_name_use`/`_table_from`, `_MacroIdx`).  Neither cost a landed
+        output: over the two packs' 110 frozen bases the fixed generator offers the SAME 654
+        candidates byte for byte, one row aside (`dungeon/func_819A1654`, 4 ordered pairs now
+        `in-macro-arg-unknown-macro`, 0 candidates either way), and `in-macro-arg-nameparam` is 0
+        on that population.  Rerun `lane_eval --tag samereg22` over all 110 rows (45 of the 68
+        round-29 outputs had been landed into src/ by then, so the totals are not comparable): 21
+        hits, 60 pins, and on all 61 rows whose source had NOT moved the outcome and pin count are
+        the round-29 run's, 61 of 61.  63 unit tests.
 """
 import collections
 import os
@@ -126,6 +208,329 @@ CALL_RE = re.compile(r"(?<![\w.])(?<!->)(?!(?:if|while|for|switch|return|sizeof)
 WORD = ("s", "u", "p")
 NARROW = N.SMALL
 
+# A mention here is the pin's own register binding, never a value: `ASM_REG("$2")`.  The binding is
+# a string literal, so `natural.mask` blanks it and `_occ` cannot match inside it anyway - this is
+# the belt to that brace, and it is what keeps `ASM_REG("$s0")` byte-identical in a function whose
+# local is called `s0`.
+NEVER_IN_MACRO = frozenset(("ASM_REG",))
+# The four function-like macros in include/ that apply `#`/`##` to a parameter (verified 2026-09-15
+# by listing all 74).  Kept as a constant so the module behaves the same when include/ is unreadable.
+KNOWN_STRINGIFY = frozenset(("INCLUDE_ASM", "INCLUDE_RODATA", "ASM_LIVE_SIBCALL_PIN",
+                             "ASM_SHAPE_D_SIBCALL_PIN"))
+DEFINE_RE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)\(([^)]*)\)(.*)$")
+STR_RE = re.compile(r"\"(?:[^\"\\]|\\.)*\"|'(?:[^'\\]|\\.)*'")
+ANYCALL_RE = re.compile(r"(?<![\w.])(?<!->)(\w+)[ \t]*\(")
+# `MACROARG_RE`'s class, tested on a NAME and WIDENED to one and two characters: several rows define
+# `U8(x)`/`S8(x)` themselves, and a two-letter macro from a header this module does not read would
+# otherwise not be a macro call at all - no slot, no refusal, a silent rename.
+MACRO_NAME_RE = re.compile(r"^[A-Z][A-Z0-9_]*$")
+COMMENT_RE = re.compile(r"/\*.*?\*/|//[^\n]*", re.S)
+# A word before a parameter that makes it a NAME: a tag, a type in `sizeof`, a label.
+NAME_PREV_WORDS = frozenset(("struct", "union", "enum", "sizeof", "goto", "case"))
+# the words a VALUE may follow directly; any other identifier before a parameter makes it a declarator
+VALUE_PREV_WORDS = frozenset(("return", "else", "do"))
+_HEADER_DEFS = None
+_HEADER_STRINGIFY = None
+_HEADER_TABLE = None
+_TABLE_CACHE = {}
+
+
+def _env_on(name, default="1"):
+    """An opening's switch, read per call so a test may patch it."""
+    return os.getenv(name, default).strip().lower() not in ("0", "", "no", "off", "false")
+
+
+def _hash_params(params, body):
+    """The parameters a macro body applies `#` or `##` to.
+
+    String literals are masked first: `__asm__("#maspsx_pagebase_pin %0" : "+r"(var))` carries a
+    literal `#` inside a string, which is NOT the stringify operator, and a crude `'#' in body`
+    test calls six value-passing ASM_* pins stringifiers."""
+    b = STR_RE.sub(lambda m: " " * len(m.group(0)), body)
+    if "##" in b:
+        return list(params)
+    return [p for p in params if re.search(r"#[ \t]*%s\b" % re.escape(p), b)]
+
+
+def _defs_in(text):
+    """(name, [params], body) for every function-like `#define`, continuations joined."""
+    for ln in text.replace("\\\n", " ").splitlines():
+        m = DEFINE_RE.match(ln)
+        if m:
+            yield m.group(1), [p.strip() for p in m.group(2).split(",") if p.strip()], m.group(3)
+
+
+def _close_stringify(defs, seed):
+    """`seed` grown to a fixpoint: a macro that passes one of its OWN parameters into an argument of
+    a macro already in the set stringifies it too - `#define OUTER(x) INNER(x)` over
+    `#define INNER(x) #x` expands x and then stringifies it, and `_hash_params` reads only the direct
+    body.  (Measured over include/ on 2026-09-15: the closure adds nothing to the four direct ones.)
+    """
+    out = set(seed)
+    changed = True
+    while changed:
+        changed = False
+        for name, params, body in defs:
+            if name in out or not params:
+                continue
+            b = STR_RE.sub(lambda m: " " * len(m.group(0)), body)
+            for mm in ANYCALL_RE.finditer(b):
+                if mm.group(1) not in out:
+                    continue
+                span = _paren_span(b, mm.end() - 1)
+                if span and any(re.search(r"\b%s\b" % re.escape(p), b[span[0]:span[1]])
+                                for p in params):
+                    out.add(name)
+                    changed = True
+                    break
+    return out
+
+
+def _header_defs():
+    global _HEADER_DEFS
+    if _HEADER_DEFS is None:
+        defs = []
+        try:
+            inc = ROOT / "include"
+            for p in (sorted(inc.glob("*.h")) + sorted((inc / "records").glob("*.h"))
+                      + sorted(inc.glob("*.inc"))):
+                defs += list(_defs_in(p.read_text(errors="replace")))
+        except Exception:                      # an unreadable include/ costs candidates, never safety
+            pass
+        _HEADER_DEFS = tuple(defs)
+    return _HEADER_DEFS
+
+
+def _header_stringify():
+    global _HEADER_STRINGIFY
+    if _HEADER_STRINGIFY is None:
+        defs = _header_defs()
+        seed = set(KNOWN_STRINGIFY) | set(NEVER_IN_MACRO)
+        seed |= {n for n, p, b in defs if _hash_params(p, b)}
+        _HEADER_STRINGIFY = frozenset(_close_stringify(defs, seed))
+    return _HEADER_STRINGIFY
+
+
+def _stringify_macros(text):
+    """Every macro whose argument may not be renamed: the headers' stringifiers, the row's own
+    (`#define U8_AT(p, o) ...` sits at the top of several slus rows), anything that passes a
+    parameter into one of those, and the ASM_REG binding.  Case is NOT part of the test - a
+    lowercase `#define name_of(x) #x` in a row is refused like an uppercase one (`_macros_at` looks
+    past `MACROARG_RE` for exactly these names)."""
+    own = list(_defs_in(text))
+    if not own:
+        return _header_stringify()
+    defs = list(_header_defs()) + own
+    seed = set(_header_stringify()) | {n for n, p, b in own if _hash_params(p, b)}
+    return frozenset(_close_stringify(defs, seed))
+
+
+def _mask_body(body):
+    """A macro body with its string literals and comments blanked (same length)."""
+    b = STR_RE.sub(lambda m: " " * len(m.group(0)), body)
+    return COMMENT_RE.sub(lambda m: " " * len(m.group(0)), b)
+
+
+def _param_name_use(p, b):
+    """Why parameter `p` of a macro whose masked body is `b` is a NAME rather than a value, or None.
+
+    The class the round-29 review named: `#define ZONE_OF(F) (D_80024020[zone_id].F)` pastes its
+    argument after a `.`, so renaming a variable inside that argument reads a DIFFERENT MEMBER -
+    a different offset, a different program, and `#`/`##` (the only detector this module had) cannot
+    see it.  `#define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))` is
+    the same defect through a TYPE name, and it is in `include/` today (187 rows call it).
+
+    A parameter is a name when ANY occurrence in the body sits in a name position: after `.`/`->`
+    (a member), after `struct`/`union`/`enum`/`sizeof`/`goto`/`case` (a tag, a type, a label), under
+    `#`/`##` (a token), directly after another identifier or directly before one (`t n;` is a
+    declaration, never a value - only `return`/`else`/`do` may precede a value that way), or spelled
+    `p *)` / `(p)` before a value (a cast type).  Everything else is a value position; a false
+    positive here costs a candidate, a false negative changes the program, so the test is one-sided
+    on purpose.
+    """
+    for m in re.finditer(r"\b%s\b" % re.escape(p), b):
+        before, after = b[:m.start()].rstrip(), b[m.end():]
+        if before.endswith(".") or before.endswith("->"):
+            return "member"
+        if before.endswith("#") or before.endswith("##") or after.lstrip().startswith("##"):
+            return "stringify"
+        w = re.search(r"(\w+)$", before)
+        if w and w.group(1) in NAME_PREV_WORDS:
+            return "tag-or-sizeof"
+        if w and w.group(1) not in VALUE_PREV_WORDS:
+            # `ident p` in C is a declaration (`#define DECL(t, n) t n;`) or a cast, never a value,
+            # unless the word before is one of the few keywords a value may follow.
+            return "declarator"
+        if re.match(r"[ \t]*\*+[ \t]*\)", after):
+            return "cast-type"                       # `(type *)`
+        if re.match(r"[ \t]*[A-Za-z_]", after):
+            return "declaration"                     # `type name`
+        if before.endswith("(") and re.match(r"[ \t]*\)", after):
+            rest = after[after.index(")") + 1:]
+            if re.match(r"[ \t]*[A-Za-z_(]", rest):
+                # `(type)(value)` (`M2C_FIELD`'s `type_ptr`) or `(type)x`.  `*` and `&` are NOT in
+                # that set: `((x) * 2)` and `((x) & 0xFF)` are arithmetic, and a value macro of that
+                # shape is common, so the deref/address spelling of a cast (`(t) *p`) is left to the
+                # `p *)` test above rather than costing every mask macro in the tree.
+                return "cast-type"
+    return None
+
+
+def _arg_spans(s, span):
+    """[(start, end)] of each top-level argument of the call whose parens are `span`."""
+    a, b = span
+    out, d, start = [], 0, a + 1
+    for i in range(a + 1, b):
+        ch = s[i]
+        if ch in "([{":
+            d += 1
+        elif ch in ")]}":
+            d -= 1
+        elif ch == "," and d == 0:
+            out.append((start, i))
+            start = i + 1
+    out.append((start, b))
+    return out
+
+
+def _calls_in(s, known=()):
+    """[(name, open, close, [arg spans])] for every call in `s` whose name is macro-shaped
+    (uppercase, `MACROARG_RE`'s class) or is a known macro whatever its case - a row may define
+    `#define name_of(x) #x` in lower case."""
+    out = []
+    for mm in ANYCALL_RE.finditer(s):
+        name = mm.group(1)
+        if not (MACRO_NAME_RE.match(name) or name in known):
+            continue
+        span = _paren_span(s, mm.end() - 1)
+        if span is None:
+            continue
+        out.append((name, span[0], span[1], _arg_spans(s, span)))
+    return out
+
+
+def _slot_of(call, pos):
+    """The argument index `pos` falls in, or None when the call's arity is unreadable."""
+    for i, (a, b) in enumerate(call[3]):
+        if a <= pos < b:
+            return i
+    return None
+
+
+def _table_from(defs):
+    """{macro: {"params", "unsafe": {index: why}, "variadic"}} for a list of `(name, params, body)`.
+
+    A later definition of the same name UNIONS its unsafe set with the earlier one (the row's own
+    `#define` and a header's may differ and the preprocessor state is not read here), and the
+    unsafe sets are then closed: a parameter a body passes into another macro's unsafe slot, or
+    into an argument of a macro-shaped name this module cannot see the body of, is unsafe too.
+    """
+    info = {}
+    for name, params, body in defs:
+        b = _mask_body(body)
+        rec = info.get(name)
+        unsafe = dict(rec["unsafe"]) if rec else {}
+        for i, p in enumerate(params):
+            if p == "..." or not re.match(r"^\w+$", p):
+                continue
+            why = _param_name_use(p, b)
+            if why:
+                unsafe[i] = why
+        if rec and rec["params"] != params:
+            # two definitions with different parameter lists: the slot numbers do not line up, so
+            # every slot of both is refused rather than guessed.
+            unsafe = {i: "ambiguous-define" for i in range(max(len(params), len(rec["params"])))}
+            params = rec["params"]
+        info[name] = dict(params=params, unsafe=unsafe,
+                          variadic=bool(params) and params[-1] == "...", body=b)
+    changed = True
+    while changed:
+        changed = False
+        for name, rec in info.items():
+            b = rec["body"]
+            for call in _calls_in(b, info):
+                callee = info.get(call[0])
+                for si, (a, e) in enumerate(call[3]):
+                    if callee is not None:
+                        slot = si if si < len(callee["params"]) or not callee["variadic"] \
+                            else len(callee["params"]) - 1
+                        if slot not in callee["unsafe"]:
+                            continue
+                        why = "via-%s" % call[0]
+                    else:
+                        why = "via-unknown-%s" % call[0]   # a macro-shaped name with no body here
+                    for i, p in enumerate(rec["params"]):
+                        if i in rec["unsafe"] or p == "..." or not re.match(r"^\w+$", p):
+                            continue
+                        if re.search(r"\b%s\b" % re.escape(p), b[a:e]):
+                            rec["unsafe"][i] = why
+                            changed = True
+    return info
+
+
+def _header_table():
+    global _HEADER_TABLE
+    if _HEADER_TABLE is None:
+        _HEADER_TABLE = _table_from(list(_header_defs()))
+    return _HEADER_TABLE
+
+
+def _macro_table(text):
+    """Every function-like macro this module can see, with the parameter slots that are NAMES.
+
+    The headers plus the row's own `#define`s - the slus rows define `U8_AT`/`S16_AT` themselves.
+    A macro-shaped call whose name is NOT in this table is refused at the call site
+    (`in-macro-arg-unknown-macro`): round 28 refused every macro argument wholesale, so refusing
+    the ones whose body is out of reach is never worse than the baseline.
+    """
+    own = list(_defs_in(text))
+    if not own:
+        return _header_table()
+    key = tuple(sorted((n, tuple(p), b) for n, p, b in own))
+    if key not in _TABLE_CACHE:
+        if len(_TABLE_CACHE) > 64:
+            _TABLE_CACHE.clear()
+        _TABLE_CACHE[key] = _table_from(list(_header_defs()) + own)
+    return _TABLE_CACHE[key]
+
+
+class _MacroIdx:
+    """Every macro call in one masked text, found WHOLE-TEXT.
+
+    Until the round-29 review this scan was per LINE (`_macros_at`), so an argument that sat on a
+    continuation line was invisible to the whole macro-argument machinery: a stringifier's argument
+    was renamed with nothing journalled, and a cast read there was emitted unparenthesised.  The
+    index joins the masked lines once and answers `(line, column) -> [(macro, slot)]`.
+    """
+
+    def __init__(self, ml, known=()):
+        self.off, pos = [], 0
+        for ln in ml:
+            self.off.append(pos)
+            pos += len(ln) + 1
+        self.calls = _calls_in("\n".join(ml), known)
+
+    def at(self, line, col):
+        if line >= len(self.off):
+            return []
+        p = self.off[line] + col
+        return [(c[0], _slot_of(c, p)) for c in self.calls if c[1] < p < c[2]]
+
+
+def _calls_at(s, pos, known=()):
+    """`_MacroIdx.at` for a single string - the one-line form, kept for direct callers."""
+    return [(c[0], _slot_of(c, pos)) for c in _calls_in(s, known) if c[1] < pos < c[2]]
+
+
+def _macros_at(s, pos, refuse=()):
+    """Every macro (or macro-shaped) call whose argument list encloses `pos`, in one string.
+
+    `MACROARG_RE`'s uppercase shape is the CLASS the round-28 refusal named, and it is what decides
+    whether a mention is "in a macro argument" at all.  A name in `refuse` is looked for whatever its
+    case, because a row may define `#define name_of(x) #x` in lower case and a rename inside that
+    argument would change what the program says."""
+    return [n for n, _ in _calls_at(s, pos, refuse)]
+
 
 def _tclass(ty):
     return N._tclass(ty) if ty else None
@@ -147,10 +552,18 @@ class Flow:
     over-approximate: an unclassifiable statement reaches every later node.
     """
 
-    def __init__(self, F, recs, pp=None):
+    def __init__(self, F, recs, pp=None, macro_ok=None, macro_refuse=(), mtable=None, midx=None):
         self.F = F
         ml = F.ml
         self.ml = ml
+        # the T66_MACRO_ARGS opening, and the macros it may never rewrite (see the module docstring)
+        self.macro_ok = _env_on("T66_MACRO_ARGS") if macro_ok is None else macro_ok
+        self.macro_refuse = frozenset(macro_refuse) | NEVER_IN_MACRO
+        # every function-like macro this module can see, and the whole-text index of macro calls
+        # (built once per file: a macro argument may sit on a continuation line)
+        self.mtable = _macro_table(F.t.text) if mtable is None else mtable
+        self.midx = _MacroIdx(ml, self.mtable) if midx is None else midx
+        self.rcache = {}                   # host-rename texts, shared by every pair of this function
         # Lines whose presence the preprocessor decides.  They stay NODES (a mention in one still
         # has to be seen) but every one of them is `unknown`: the arms of a region are alternatives,
         # not the sequence the successor rules would otherwise read them as, so reading them in
@@ -250,6 +663,38 @@ class Flow:
         return {x for x in out if x in self.index}
 
 
+def _macro_arg_refusal(encl, refuse, table, macro_ok):
+    """Why a mention inside these macro arguments may not be renamed, or None.
+
+    `encl` is `[(macro, slot)]`, innermost order irrelevant: EVERY enclosing call has to accept the
+    rename.  The order of the tests is the order the columns of the round-28 before/after table
+    were counted in - the ASM_REG binding and the stringifiers were already their own refusals
+    before the opening, so they stay named whether the opening is on or off, and everything else
+    reads `in-macro-arg` when it is off.
+    """
+    names = [n for n, _ in encl]
+    bad = [x for x in names if x in refuse]
+    if bad:
+        return "in-asm-reg-binding" if "ASM_REG" in bad else "in-macro-arg-stringify"
+    if not macro_ok:
+        return "in-macro-arg"
+    for name, slot in encl:
+        rec = table.get(name)
+        if rec is None:
+            # a macro-shaped name whose body this module cannot see (a header it does not read, a
+            # call through an uppercase function pointer): its parameter may be a member or a type.
+            return "in-macro-arg-unknown-macro"
+        if slot is None:
+            return "in-macro-arg-unknown-macro"
+        if rec["variadic"] and slot >= len(rec["params"]) - 1:
+            slot = len(rec["params"]) - 1
+        elif slot >= len(rec["params"]):
+            return "in-macro-arg-argcount"       # the call does not match the definition read here
+        if slot in rec["unsafe"]:
+            return "in-macro-arg-nameparam"
+    return None
+
+
 # ------------------------------------------------------------------ one variable's facts
 
 class Facts:
@@ -264,8 +709,13 @@ class Facts:
         rx = N._occ(self.name)
         o, c = d["block"]
         self.mentions = {}                 # line -> [match objects on the masked line]
+        self.macro_mentions = {}           # line -> [(column, [enclosing macro names])]
         self.kills = set()
         self.addr = False
+        macro_ok = getattr(flow, "macro_ok", False)
+        refuse = getattr(flow, "macro_refuse", NEVER_IN_MACRO)
+        table = getattr(flow, "mtable", None) or {}
+        midx = getattr(flow, "midx", None)
         for k in flow.nodes:
             if not (o < k < c):
                 continue
@@ -295,10 +745,16 @@ class Facts:
                 before = s[:m.start()]
                 if re.search(r"(?:^|[^&\w)\]])&[ \t]*$", before):
                     self.addr = True
-                for mm in MACROARG_RE.finditer(s):
-                    span = _paren_span(s, mm.end() - 1)
-                    if span and span[0] < m.start() < span[1]:
-                        self.ok, self.reason = False, "in-macro-arg"
+                encl = midx.at(k, m.start()) if midx is not None \
+                    else _calls_at(s, m.start(), refuse)
+                if not encl:
+                    continue
+                why = _macro_arg_refusal(encl, refuse, table, macro_ok)
+                if why:
+                    self.ok, self.reason = False, why
+                else:
+                    self.macro_mentions.setdefault(k, []).append(
+                        (m.start(), [n for n, _ in encl]))
             self.mentions[k] = hits
             if self._is_kill(flow, k, hits):
                 self.kills.add(k)
@@ -408,7 +864,8 @@ def interference(flow, a, b):
 # ------------------------------------------------------------------ candidates
 
 class Pair:
-    __slots__ = ("F", "flow", "H", "V", "hf", "vf_", "reg", "block", "dist", "twoarm")
+    __slots__ = ("F", "flow", "H", "V", "hf", "vf_", "reg", "block", "dist", "twoarm",
+                 "base", "sites")
 
 
 def _decl_of(F, line, name):
@@ -519,6 +976,10 @@ def pairs_of(text, skips=None):
         skips["parse-error"] += 1
         return out
     pp = _pp_regions(text)
+    macro_ok = _env_on("T66_MACRO_ARGS")
+    refuse = _stringify_macros(text)
+    mtable = _macro_table(text)
+    midx = _MacroIdx(t.m, mtable)
     fns = _functions(t)
     sites = sites_of(text)
     byfn = collections.defaultdict(list)
@@ -540,7 +1001,8 @@ def pairs_of(text, skips=None):
             F = members[0][2]
             if key not in flows:
                 try:
-                    flows[key] = Flow(F, recs, pp)
+                    flows[key] = Flow(F, recs, pp, macro_ok=macro_ok, macro_refuse=refuse,
+                                      mtable=mtable, midx=midx)
                 except Exception:
                     skips["parse-error"] += 1
                     flows[key] = None
@@ -577,9 +1039,15 @@ def pairs_of(text, skips=None):
                         continue
                     p = Pair()
                     p.F, p.flow, p.H, p.V, p.hf, p.vf_, p.reg = F, flow, dh, dv, fh, fv, reg
+                    p.base, p.sites = text, sites
                     p.block = F.encl(min(fh.lines + fv.lines), max(fh.lines + fv.lines))
                     p.dist = min(abs(x - y) for x in fh.lines for y in fv.lines)
                     p.twoarm = _arms(F, dh["block"], dv["block"])
+                    if fh.macro_mentions or fv.macro_mentions:
+                        # an ordered pair the `in-macro-arg` refusal used to cost (informational:
+                        # it is offered, not skipped - the before/after table reads it beside the
+                        # `in-macro-arg` count a T66_MACRO_ARGS=0 run still reports)
+                        skips["in-macro-arg-reopened"] += 1
                     out.append(p)
     out.sort(key=lambda p: (p.dist, p.H["line"], p.V["line"]))
     return out
@@ -688,6 +1156,13 @@ def _cast_edits(t, facts, host, tv, th, skips):
     module also emitted an undocumented cast-free `implicit` spelling AHEAD of this one, which
     silently changed `u32 >>= 5` into an arithmetic shift; it was removed in review.)
     """
+    if any(x.startswith("ASM_") for hits in facts.macro_mentions.values()
+           for _, encl in hits for x in encl):
+        # `ASM_KEEP(var)` is `__asm__ __volatile__("" : "=r"(var) : "0"(var))`: the argument is an
+        # OUTPUT operand, and `(u8 *)h` is not an lvalue.  The rename form of the same pair is
+        # unaffected - only the cast spelling has to be refused here.
+        skips["asm-operand-cast"] += 1
+        return None
     edits = {}
     ch, cv = _cast(th), _cast(tv)
     name = re.escape(facts.name)
@@ -725,17 +1200,158 @@ def _cast_edits(t, facts, host, tv, th, skips):
                     or re.search(r"(?:\+\+|--)[ \t]*$", s[:m.start()]):
                 skips["compound-assign-cast"] += 1
                 return None
-            paren = bool(re.match(r"[ \t]*(?:\[|->|\.|\()", after))
+            # Inside a macro argument the macro body decides what the cast binds to, and this line
+            # cannot be read for it: parenthesise there always.
+            in_macro = any(col == m.start() for col, _ in facts.macro_mentions.get(k, ()))
+            paren = in_macro or bool(re.match(r"[ \t]*(?:\[|->|\.|\()", after))
             rep = ("(%s%s)" % (cv, host)) if paren else "%s%s" % (cv, host)
             ln = ln[:m.start()] + rep + ln[m.end():]
         edits[k] = ln
     return edits
 
 
-def candidates_for(pair, skips):
-    """[(form, label, text)] for one ordered pair."""
+def _collides(F, H, V, bt):
+    """Does the host's name mean something other than H or V anywhere in block `bt`?"""
+    rxh = N._occ(H["name"])
+    return any(rxh.search(F.ml[k]) and F.resolve(H["name"], k) not in (H, V)
+               for k in range(bt[0] + 1, min(bt[1], len(F.ml)))
+               if k not in (H["line"], V["line"]))
+
+
+def _expected_pins(pair, host):
+    """The pin multiset a candidate of this pair must carry.
+
+    The pins of the text the pair was read from, with V's own `ASM_REG` dropped and V's name
+    rewritten to `host` wherever a pin's text names it - which is exactly the T66_MACRO_ARGS
+    assertion that `ASM_KEEP(V)` became `ASM_KEEP(H)` and the pin COUNT did not move.  V's spelling
+    is rewritten only on lines `Facts` recorded as V's own mentions, where every occurrence of the
+    name resolves to V; `natural._occ` (never `str.replace`) does the rewriting, so `v` inside
+    `driver_value` is left alone.  A reg site's `arg` is the REGISTER, never a name - a function
+    with a local called `s0` and a pin on `$s0` would otherwise rewrite its own binding.
+    """
+    want = collections.Counter()
+    rx = N._occ(pair.V["name"])
+    vlines = set(pair.vf_.mentions)
+    for s in pair.sites:
+        k = s[5] - 1
+        macro, arg, decl = s[1], s[2], (s[6] or "").strip()
+        if s[0] == "reg" and k == pair.V["line"]:
+            continue                                   # the pin being deleted
+        if k in vlines:
+            if s[0] == "stmt":
+                arg = rx.sub(host, arg)
+            else:
+                decl = rx.sub(host, decl)
+        want[(macro, arg, decl)] += 1
+    return want
+
+
+def _fresh_name(pair):
+    """`<host>_m`, or `_m2`.. when that is taken: a name no word of the file already is."""
+    body = pair.F.t.mtext
+    for suffix in ["_m"] + ["_m%d" % i for i in range(2, 10)]:
+        cand = pair.H["name"] + suffix
+        if not re.search(r"\b%s\b" % re.escape(cand), body):
+            return cand
+    return None
+
+
+def _vname_free(pair):
+    """May the merged variable be spelled with V's name?  Only when V's name is V's alone in this
+    function: no other declaration carries it and no mention of it resolves elsewhere (a global)."""
+    F, vn = pair.F, pair.V["name"]
+    if vn == pair.H["name"]:
+        return False
+    if any(d is not pair.V for d in F.byname.get(vn, ())):
+        return False
+    rx = N._occ(vn)
+    return not any(rx.search(F.ml[k]) and F.resolve(vn, k) is not pair.V
+                   for k in range(F.a + 1, min(F.b, len(F.ml)))
+                   if k not in (pair.V["line"], pair.H["line"]))
+
+
+def _host_renamed(pair, new):
+    """The whole text with every mention of the host - its declaration line included - renamed.
+
+    One edit per line, built from the ORIGINAL masked positions, so a line that mentions both
+    variables is safe; `Facts` guarantees every occurrence of the host's name on one of these lines
+    resolves to the host, and it refuses a host with a mention in any preprocessor region, so the
+    guarded lines and the unscored arms are untouched by construction (asserted by the caller).
+
+    None when a mention of the host sits on a line `Facts` never saw (one `t51.units()` does not
+    record): renaming the host is the ONE rewrite in this module whose missed mention does not have
+    to fail the build, because the collision that provoked the rename is a live declaration of that
+    very name - the stale mention would silently bind to it.  V's rename is safe without this: V's
+    declaration is deleted, so a missed mention of V cannot compile."""
+    t, F = pair.F.t, pair.F
+    o, c = pair.H["block"]
+    seen, rx = set(pair.hf.lines), N._occ(pair.H["name"])
+    if any(rx.search(F.ml[k]) for k in range(o + 1, min(c, len(F.ml))) if k not in seen):
+        return None
+    return t.build(N._rename(t, pair.hf.lines, pair.H["name"], new))
+
+
+def _rename_host(pair, skips):
+    """T66_RENAME_HOST: retry the merge with the surviving variable renamed (docstring, opening 1).
+
+    V's own name first (the clearest spelling - it is what retail's one variable was called at the
+    second value), then a fresh `<host>_m`.  The renamed text is re-parsed from scratch and merged
+    by the ordinary path, so the collision test, `Facts`, the liveness test and the preprocessor
+    guards all fire again on what the compiler will actually see."""
+    names = ([(pair.V["name"], "vname")] if _vname_free(pair) else [])
+    fresh = _fresh_name(pair)
+    if fresh:
+        names.append((fresh, "hostm"))
+    if not names:
+        skips["host-rename-name-taken"] += 1
+        return []
+    base = pair.F.t.text
+    cache, last = pair.flow.rcache, None
+    for new, tag in names:
+        key = (pair.H["line"], new)
+        if key not in cache:
+            try:
+                text1 = _host_renamed(pair, new)
+                if text1 is None:
+                    cache[key] = None
+                elif _pp_sig(text1) != _pp_sig(base) or unscored_text(text1) != unscored_text(base):
+                    cache[key] = None            # unreachable by construction; the assertion stands
+                else:
+                    cache[key] = (text1, pairs_of(text1, collections.Counter()))
+            except Exception:
+                cache[key] = None
+        if cache[key] is None:
+            skips["host-rename-build-failed"] += 1
+            continue
+        _, ps = cache[key]
+        p1 = next((q for q in ps
+                   if q.H["line"] == pair.H["line"] and q.V["line"] == pair.V["line"]
+                   and q.reg == pair.reg and q.H["name"] == new), None)
+        if p1 is None:
+            # the rename changed what `Facts`/`interference` see - the pair is no longer offered
+            skips["host-rename-pair-lost"] += 1
+            continue
+        last = collections.Counter()
+        got = candidates_for(p1, last, renamed=tag)
+        if got:
+            skips.update(last)
+            return got
+    if last:
+        skips.update(last)
+    return []
+
+
+def candidates_for(pair, skips, renamed=None):
+    """[(form, label, text)] for one ordered pair.
+
+    `renamed` is the T66_RENAME_HOST tag (`vname` or `hostm`) when this pair was read from a text
+    whose surviving variable has already been renamed; it both marks the labels and stops the
+    recursion at one level."""
     F, t = pair.F, pair.F.t
     H, V, hf, vf_ = pair.H, pair.V, pair.hf, pair.vf_
+    marks = ([renamed] if renamed else []) + (
+        ["macroarg"] if (hf.macro_mentions or vf_.macro_mentions) else [])
+    mark = ("+" + "+".join(marks)) if marks else ""
     th, tv = H["ty"], V["ty"]
     if th == tv:
         spells = [("rename", None)]
@@ -763,17 +1379,14 @@ def candidates_for(pair, skips):
     # body as well when that is a different block.
     targets = [pair.block] if not hoist else [pair.block] + (
         [F.body] if pair.block != F.body else [])
-    places = []
+    places, collide = [], 0
     for bt, btag in zip(targets, ("hoist", "hoistfn")):
         # The host's name must mean the host everywhere in the block it is about to cover: an inner
         # local or a global of that name there would be captured by the rename (or by the new scope).
         # A mention that already means V is one the rewrite renames - V may even carry H's own name,
         # which is m2c's spelling of one variable declared twice, the clearest case of all.
-        rxh = N._occ(H["name"])
-        if any(rxh.search(F.ml[k]) and F.resolve(H["name"], k) not in (H, V)
-               for k in range(bt[0] + 1, min(bt[1], len(F.ml)))
-               if k not in (H["line"], V["line"])):
-            skips["host-name-collision"] += 1
+        if _collides(F, H, V, bt):
+            collide += 1
             continue
         if not hoist:
             places.append(("", bt, None, None, None, [], True))
@@ -810,8 +1423,23 @@ def candidates_for(pair, skips):
         places.append((btag, bt, anchor, ind + keep.lstrip(), ind + stripped.lstrip(), between,
                        _reaches(F, bt, anchor)))
     if not places:
+        # Every target block the merged declaration could cover already means something else by the
+        # host's name.  T66_RENAME_HOST retries the whole merge on a text where the SURVIVING
+        # variable has been renamed (see the module docstring); the collision is only charged when
+        # that fails too, so `host-name-collision` + `host-name-collision-reopened` is the count a
+        # T66_RENAME_HOST=0 run reports.
+        if collide and renamed is None and _env_on("T66_RENAME_HOST"):
+            got = _rename_host(pair, skips)
+            if got:
+                skips["host-name-collision-reopened"] += collide
+                return got
+        if collide:
+            skips["host-name-collision"] += collide
         return []
+    if collide:
+        skips["host-name-collision"] += collide
     kind = "twoarm" if pair.twoarm else ("hoist" if hoist else "plain")
+    want_pins = _expected_pins(pair, H["name"])
 
     for form, spell in spells:
         if spell is None:
@@ -869,9 +1497,14 @@ def candidates_for(pair, skips):
                 else:
                     ins.setdefault(vplace[1], []).append(vstmt)
             cand = t.build(e, dropped, ins)
-            label = "t66:%s:%s%s:%s->%s@$%s" % (kind, form, ("+" + tag if tag else ""),
-                                                V["name"], H["name"], pair.reg)
-            out.append(("%s/%s%s" % (kind, form, ("+" + tag) if tag else ""), label, cand))
+            if _pin_key(cand) != want_pins:
+                # the surviving pins must be the base text's minus V's own ASM_REG, with V's
+                # spelling rewritten wherever a pin names it (`ASM_KEEP(V)` -> `ASM_KEEP(H)`)
+                skips["pinsig-changed"] += 1
+                continue
+            label = "t66:%s:%s%s:%s->%s@$%s%s" % (kind, form, ("+" + tag if tag else ""),
+                                                  V["name"], H["name"], pair.reg, mark)
+            out.append(("%s/%s%s%s" % (kind, form, ("+" + tag) if tag else "", mark), label, cand))
     return out
 
 
@@ -886,7 +1519,6 @@ def sameregmerge_candidates(text, skips=None, cap=MENU_CAP):
     try:
         usig = unscored_text(text)
         ppsig = _pp_sig(text)
-        want = _pin_key(text)
         pins_in = len(sites_of(text))
         for p in pairs_of(text, skips):
             for form, label, cand in candidates_for(p, skips):
@@ -900,7 +1532,7 @@ def sameregmerge_candidates(text, skips=None, cap=MENU_CAP):
                 if unscored_text(cand) != usig:
                     skips["unscored-arm-edit"] += 1
                     continue
-                if len(sites_of(cand)) != pins_in - 1 or not _pins_ok(want, cand, p, text):
+                if len(sites_of(cand)) != pins_in - 1:       # `_expected_pins` decided the rest
                     skips["pinsig-changed"] += 1
                     continue
                 out.append((label, cand))
@@ -909,24 +1541,6 @@ def sameregmerge_candidates(text, skips=None, cap=MENU_CAP):
     except Exception as e:                       # a parse fault costs candidates, never a sweep row
         skips["error:" + type(e).__name__] += 1
     return out
-
-
-def _reg_arg(text, d):
-    for s in sites_of(text):
-        if s[1] == "ASM_REG" and s[5] - 1 == d["line"]:
-            return s[2]
-    return None
-
-
-def _pins_ok(want, cand, pair, text):
-    """The candidate's pins are the input's minus V's own, and no other pin's text changed."""
-    got = _pin_key(cand)
-    lost, gained = want - got, got - want
-    if gained or sum(lost.values()) != 1:
-        return False
-    macro, arg, decl = next(iter(lost))
-    return (macro == "ASM_REG" and arg == _reg_arg(text, pair.V)
-            and decl.split()[-1].lstrip("*") == pair.V["name"])
 
 
 # ------------------------------------------------------------------ the generator
@@ -1005,9 +1619,8 @@ class T:
                         if unscored_text(cand) != usig:
                             skips["unscored-arm-edit"] += 1
                             continue
-                        if len(sites_of(cand)) != len(sites_of(cur)) - 1 \
-                                or not _pins_ok(_pin_key(cur), cand, p, cur):
-                            skips["pinsig-changed"] += 1
+                        if len(sites_of(cand)) != len(sites_of(cur)) - 1:
+                            skips["pinsig-changed"] += 1     # `_expected_pins` decided the rest
                             continue
                         log["candidates_n"] += 1
                         forms[form] += 1
