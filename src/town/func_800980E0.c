@@ -43,6 +43,7 @@ s32 func_80095840(void *destination, void *source)
     register s32 selection ASM_REG("$2");
     s32 offset;
     u8 entry_kind;
+    register void *entry ASM_REG("$6");
 
     result = destination;
     candidates = source;
@@ -64,7 +65,6 @@ s32 func_80095840(void *destination, void *source)
 
     selection = ((S_80095840_1 *)candidates)->unk_3A;
     if (selection != 0) {
-        register void *entry ASM_REG("$6");
 
         selection = ((S_80095840_1 *)candidates)->unk_1C;
         ((S_80095840_1 *)candidates)->unk_18 = 0;
@@ -81,7 +81,6 @@ s32 func_80095840(void *destination, void *source)
 
     selection = (s32)candidates + offset;
     if (((S_80095840_2 *)((void *)selection))->unk_3A != 0) {
-        register void *entry ASM_REG("$6");
 
         selection = offset * 4;
         selection += (s32)candidates;

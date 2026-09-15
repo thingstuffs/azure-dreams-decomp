@@ -71,9 +71,9 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
     s32 tile_y;
     s32 distance;
     s16 offset[3];
+    register s32 original_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     {
-        register s32 original_count ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         actor = (u8 *)S32(effect, 0);
         ASM_KEEP_NV(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         original_count = U16(effect, 80);
@@ -97,10 +97,9 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
         count = 8;
         goto set_distance;
 state_1: {
-            register s32 frames_left ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            frames_left = (s16)count;
+            original_count = (s16)count;
             state = 20;
-            count = state - frames_left;
+            count = state - original_count;
             goto set_distance;
         }
 state_2:
@@ -116,11 +115,12 @@ set_distance:
         while (distance >= 0) {
             particle = (u8 *)func_8003FD64(786, D_80083498);
             if (particle != 0) {
+                register u8 *callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 func_8004491C(particle, D_80045340);
                 render_data = (u8 *)S32(particle, 12);
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 {
-                    register u8 *callback ASM_REG("$8") = D_800249DC_store;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    callback = D_800249DC_store;
                     S32(particle, 16) = (s32)callback;
                 }
                 U16(S32(particle, 8), 2) = (u16)(U16(motion, 2) +
@@ -141,18 +141,17 @@ set_distance:
                 {
                     s32 init_word = 0x101010;
                     s16 flags;
-                    register u8 *template ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     s32 template_word;
                     S16(render_data, 30) = 4096;
                     S16(render_data, 28) = 4096;
                     S16(render_data, 16) = 32;
                     flags = U16(render_data, 20);
                     ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    template = D_800DECF8;
+                    callback = D_800DECF8;
                     S32(render_data, 12) = init_word;
-                    init_word = (s32)template;
+                    init_word = (s32)callback;
                     ASM_KEEP(init_word);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    S32(render_data, 0) = (s32)template;
+                    S32(render_data, 0) = (s32)callback;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     flags |= 0xc;
                     S16(render_data, 20) = (u16)flags;
@@ -196,7 +195,6 @@ mode_ge_2:
 mode_0: {
             s32 target;
             s32 delta_x;
-            register s32 delta_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 abs_y;
             if ((U16(S32(effect, 4), 0) & 0x80) != 0) {
                 if (func_8003DE58(S32(S32(actor_header, 12), 8), S32(actor_header, 12), offset, 0) == 0) {
@@ -232,10 +230,10 @@ mode_0: {
                     func_8004491C(effect_header, callback);
                 }
                 delta_x = S8(actor, 114);
-                delta_y = U8(actor_data, 36);
+                original_count = U8(actor_data, 36);
                 abs_y = U8(actor_data, 37);
-                delta_x -= delta_y;
-                delta_y = S8(actor, 115);
+                delta_x -= original_count;
+                original_count = S8(actor, 115);
                 if (delta_x < 0) {
                     distance = delta_x;
                     ASM_KEEP_NV(distance);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -243,34 +241,34 @@ mode_0: {
                 } else {
                     distance = delta_x;
                 }
-                delta_y -= abs_y;
-                if (delta_y < 0) {
-                    abs_y = delta_y;
+                original_count -= abs_y;
+                if (original_count < 0) {
+                    abs_y = original_count;
                     ASM_KEEP_NV(abs_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     abs_y = -abs_y;
                 } else {
-                    abs_y = delta_y;
+                    abs_y = original_count;
                 }
                 if (distance < abs_y) distance = abs_y;
                 if (distance < 4) distance = 4;
-                delta_y = distance << 2;
-                U16(effect, 80) = (u16)delta_y;
+                original_count = distance << 2;
+                U16(effect, 80) = (u16)original_count;
                 abs_y = S8(actor, 114);
                 delta_x = S16(motion, 2);
                 abs_y <<= 6;
                 distance = abs_y + 32;
-                delta_y = (s16)delta_y;
+                original_count = (s16)original_count;
                 delta_x = distance - delta_x;
-                delta_x /= delta_y;
-                delta_y = S8(actor, 115);
-                delta_y <<= 6;
-                abs_y = delta_y + 32;
-                delta_y = S16(motion, 6);
+                delta_x /= original_count;
+                original_count = S8(actor, 115);
+                original_count <<= 6;
+                abs_y = original_count + 32;
+                original_count = S16(motion, 6);
                 S32(motion, 12) = delta_x << 16;
                 delta_x = S16(effect, 80);
-                delta_y = abs_y - delta_y;
-                delta_y /= delta_x;
-                S32(motion, 16) = delta_y << 16;
+                original_count = abs_y - original_count;
+                original_count /= delta_x;
+                S32(motion, 16) = original_count << 16;
                 tile_x = (S8(actor, 114) << 6) & 0xffc0;
                 tile_y = (S8(actor, 115) << 6) & 0xffc0;
                 distance = (s16)func_800BCB04(tile_x, tile_y, U16(S32(actor_header, 8), 10) - 48) - 192;

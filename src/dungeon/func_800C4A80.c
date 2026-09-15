@@ -54,7 +54,6 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     void *tile_flags_out;
     u16 entry_height_offset;
     s32 entity_addr;
-    register u16 *lookup_base ASM_REG("$2");
     register u16 *step_x;
     u16 *step_y;
     u16 *offset_x;
@@ -64,10 +63,8 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     s32 early_result;
     u32 scaled_y;
     register u32 scaled_x ASM_REG("$3");
-    register s32 result ASM_REG("$2");
     register s32 call_height_offset ASM_REG("$8");
     register S_800CA1E0_0 *coords ASM_REG("$18");
-    register S_800CA1E0_2 *object_data ASM_REG("$8");
     register u8 *bounds ASM_REG("$6");
     s32 clearance;
     void *position_copy;
@@ -79,10 +76,10 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     lookup_arg = (action_flags >> 9) & 7;
     direction = lookup_arg;
     ASM_KEEP_NV(direction);
-    lookup_base = D_8006CCD8;
+    coord_offset = (s32)(D_8006CCD8);
     direction_offset = direction << 1;
     ASM_KEEP_NV(direction_offset);
-    step_x = (u16 *)((u32)direction_offset + (u32)lookup_base);
+    step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)coord_offset);
     coord_value = coords->unk_24.s;
     coord_offset = *step_x;
     ASM_KEEP_NV(direction);
@@ -101,8 +98,8 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     if (((1 << ((S_800CA1E0_1 *)bounds)->unk_14) - 1) < coord_value) {
         return -1;
     }
-    lookup_base = D_8006CCE8;
-    step_y = (u16 *)((u32)direction_offset + (u32)lookup_base);
+    coord_offset = (s32)(D_8006CCE8);
+    step_y = (u16 *)((u32)direction_offset + (u32)(u16 *)coord_offset);
     coord_value = coords->unk_25.s;
     coord_offset = *step_y;
     target_coord = coord_value + coord_offset;
@@ -119,7 +116,7 @@ out_of_bounds:
 check_step:
     scaled_x = coords->unk_24.u;
     scaled_y = coords->unk_25.u;
-    object_data = object;
+    call_height_offset = (s32)(object);
     scaled_x <<= 6;
     query_arg = scaled_x >> 6;
     ASM_KEEP_NV(query_arg);
@@ -127,7 +124,7 @@ check_step:
     direction_arg = scaled_y >> 6;
     ASM_KEEP_NV(direction_arg);
     target_coord = scaled_x + 0x20;
-    height = object_data->unk_88;
+    height = ((S_800CA1E0_2 *)call_height_offset)->unk_88;
     center_y = scaled_y + 0x20;
     if ((func_8009A540(lookup_arg, query_arg, direction_arg, (s16) (height - entry_height_offset)) << 0x10) == 0) {
         goto blocked;
@@ -163,16 +160,16 @@ check_entity:
         lookup_arg = func_8009FB34((coords->unk_24.s + *step_x) & 0xFFFF, (coords->unk_25.s + *step_y) & 0xFFFF);
         if (lookup_arg >= 0) {
             entity_addr = lookup_arg << 2;
-            lookup_base = (u16 *)D_800E2970;
+            coord_offset = (s32)((u16 *)D_800E2970);
             entity_addr = (entity_addr + lookup_arg) << 2;
-            entity_addr = entity_addr + (u32)lookup_base;
+            entity_addr = entity_addr + (u32)(u16 *)coord_offset;
             ASM_KEEP_NV(entity_addr);
             lookup_arg = target_x & 0xFFFF;
             if (!(((S_800CA1E0_3 *)((void *)entity_addr))->unk_0C & 2)) {
                 goto check_clearance;
             }
-            object_data = object;
-            if (!(object_data->unk_1C & 0x2000)) {
+            call_height_offset = (s32)(object);
+            if (!(((S_800CA1E0_2 *)call_height_offset)->unk_1C & 0x2000)) {
                 goto blocked;
             }
         }
@@ -181,9 +178,9 @@ check_entity:
 check_clearance:
     call_height_offset = saved_height_offset;
     clearance = (s16)func_800BCB04(lookup_arg, target_coord & 0xFFFF, (s16) (height - call_height_offset));
-    result = -1;
+    coord_offset = -1;
     if (clearance < 0x201) {
-        result = 1;
+        coord_offset = 1;
     }
-    return result;
+    return coord_offset;
 }

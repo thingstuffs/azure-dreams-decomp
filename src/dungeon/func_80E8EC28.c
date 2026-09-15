@@ -83,10 +83,8 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *world;
     s16 *level;
-    register void **jump_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 jump_address;
     u32 state_id;
-    register u32 state_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     x_step_ptr = (s16 *)&D_8006CCD8;
     raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
     direction_offset = raw_direction >> 8;
@@ -94,16 +92,16 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     state_id = ((S_80174428_1 *)state)->unk_9B;
     x_step_ptr = (s16 *)((u8 *)x_step_ptr + direction_offset);
     direction_offset += (u32)&D_8006CCE8;
-    state_valid = state_id < 6;
+    raw_direction = state_id < 6;
     x_step = *x_step_ptr;
     y_step = *(s16 *)direction_offset;
-    if (!state_valid) {
+    if (!raw_direction) {
         return;
     }
     (void)state_labels;
-    jump_base = D_801708F0;
+    raw_direction = (u32)(D_801708F0);
     jump_address = state_id << 2;
-    jump_address = jump_address + (u32)jump_base;
+    jump_address = jump_address + (u32)(void **)raw_direction;
     goto **(void **)jump_address;
 
 case_0:
@@ -208,9 +206,9 @@ case_4_position:
         search_result = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
             (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-        state_valid = search_result < 0x201;
+        raw_direction = search_result < 0x201;
         attempts_left--;
-        if (!state_valid) {
+        if (!raw_direction) {
             goto case_4_check;
         }
         goto advance_state;

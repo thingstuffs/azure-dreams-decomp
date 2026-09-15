@@ -53,6 +53,10 @@ typedef struct S_801728A8_4 {
 /* Updates movement, height, and animation through the action states. */
 void func_801728A8(void *action, void *motion, void *sprite, void *actor)
 {
+    register s32 direction_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 direction_x_2;
+    u32 step_x;
+    s32 step_y;
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     u8 state;
 
@@ -109,23 +113,19 @@ L2:
         s16 *direction_x_ptr;
         s16 *direction_y_ptr;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 arc;
-        register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 direction_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 step_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
 
         directions_x = (s16 *)&D_8006CCD8;
         directions_y = (s16 *)&D_8006CCE8;
-        direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
-        direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
-        direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
+        direction_x = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
+        direction_x_ptr = (s16 *)(direction_x + (u8 *)directions_x);
+        direction_y_ptr = (s16 *)(direction_x + (u8 *)directions_y);
         do {
             arc = *direction_x_ptr;
         } while (0);
-        direction_y = *direction_y_ptr;
+        direction_x = *direction_y_ptr;
         step_x = arc << 16;
-        step_y = direction_y << 16;
+        step_y = direction_x << 16;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
         arc = -func_800644B8(((S_801728A8_0 *)action)->unk_96.s * 170);
@@ -153,10 +153,7 @@ L3:
         s16 *direction_x_ptr;
         s16 *direction_y_ptr;
         s32 arc;
-        register s32 direction_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 direction_offset;
-        register s32 step_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
         s32 velocity_x;
         s32 velocity_y;
@@ -165,14 +162,13 @@ L3:
             func_8009C12C(actor, sprite, ((S_801728A8_4 *)actor)->unk_2A.s, 1);
         }
         directions_x = (s16 *)&D_8006CCD8;
-        directions_y = (s16 *)&D_8006CCE8;
         direction_offset = ((u16)((S_801728A8_4 *)actor)->unk_2A.u >> 8) & 0xE;
         direction_x_ptr = (s16 *)(direction_offset + (u8 *)directions_x);
+        directions_y = (s16 *)&D_8006CCE8;
         direction_y_ptr = (s16 *)(direction_offset + (u8 *)directions_y);
-        ASM_KEEP(direction_x_ptr);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        direction_x = *direction_x_ptr;
+        direction_x_2 = *direction_x_ptr;
         arc = *direction_y_ptr;
-        step_x = direction_x << 16;
+        step_x = direction_x_2 << 16;
         step_y = arc << 16;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;

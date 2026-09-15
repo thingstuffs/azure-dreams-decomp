@@ -54,6 +54,8 @@ typedef struct S_80173408_4 {
 /* Updates jump movement, animation, and landing across five states. */
 void func_80173408(void *jump, void *motion, void *sprite, void *actor)
 {
+    u32 step_x;
+    s32 step_y;
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     u8 state;
 
@@ -111,9 +113,6 @@ L2:
         register s16 *y_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 arc;
         register s32 dir_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 direction_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 step_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
 
         x_table = (s16 *)&D_8006CCD8;
@@ -123,9 +122,9 @@ L2:
         y_entry = (s16 *)(dir_offset + (u8 *)y_table);
         ASM_KEEP(dir_offset);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         arc = *x_entry;
-        direction_y = *y_entry;
+        y_entry = (s16 *)(*y_entry);
         step_x = arc << 16;
-        step_y = direction_y << 16;
+        step_y = (s32)y_entry << 16;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 += step_x;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v += step_y;
         arc = -func_800644B8(((S_80173408_0 *)jump)->unk_96.s * 170);
@@ -153,23 +152,20 @@ L3:
         s16 *x_entry;
         s16 *y_entry;
         s32 arc;
-        register s32 direction_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 direction_x;
         s32 dir_offset;
-        register s32 step_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register s32 step_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 timer;
         s32 velocity_x;
         s32 velocity_y;
 
-        if (((S_80173408_0 *)jump)->unk_96.s == 10) {
+        if ((*(s16 *)((u8 *)jump + 0x96)) == 10) {
             func_8009C12C(actor, sprite, ((S_80173408_4 *)actor)->unk_2A.s, 1);
         }
         x_table = (s16 *)&D_8006CCD8;
-        y_table = (s16 *)&D_8006CCE8;
         dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE;
         x_entry = (s16 *)(dir_offset + (u8 *)x_table);
+        y_table = (s16 *)&D_8006CCE8;
         y_entry = (s16 *)(dir_offset + (u8 *)y_table);
-        ASM_KEEP(x_entry);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         direction_x = *x_entry;
         arc = *y_entry;
         step_x = direction_x << 16;

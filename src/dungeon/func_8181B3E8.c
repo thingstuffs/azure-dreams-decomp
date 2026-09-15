@@ -266,6 +266,7 @@ void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
     register void *source ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
     s32 state;
     void *target_graphics;
+    register void *source_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     source = ((S_80024BE8_0 *)effect)->unk_00;
     velocity_table = D_80024004;
@@ -296,7 +297,6 @@ state_0:
         {
             S_80024BE8_4 *source_sprite;
             void *target;
-            register void *source_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register u8 *direction_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
             u8 *direction_entry;
             s32 default_steps;
@@ -678,7 +678,6 @@ state_4:
 state_5:
     {
         void *target;
-        register void *target_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         void *current_target;
         s32 particle_count;
         register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -709,10 +708,10 @@ state_5:
             target = ((S_80024BE8_3 *)source)->unk_60;
             ((S_80024BE8_19 *)target)->unk_1C ^= target_flag;
             current_target = ((S_80024BE8_3 *)source)->unk_60;
-            target_graphics = ((S_80024BE8_20_pre *)current_target)[-1].unk_00;
-            ((S_80024BE8_21 *)target_graphics)->unk_0C = 0x80;
-            ((S_80024BE8_21 *)target_graphics)->unk_0D = 0x80;
-            ((S_80024BE8_21 *)target_graphics)->unk_0E = 0x80;
+            source_graphics = ((S_80024BE8_20_pre *)current_target)[-1].unk_00;
+            ((S_80024BE8_21 *)source_graphics)->unk_0C = 0x80;
+            ((S_80024BE8_21 *)source_graphics)->unk_0D = 0x80;
+            ((S_80024BE8_21 *)source_graphics)->unk_0E = 0x80;
             func_8009CE1C(((S_80024BE8_3 *)source)->unk_60, 0x10, ((S_80024BE8_0 *)effect)->unk_09, 2,
                 (s16)(((S_80024BE8_0 *)effect)->unk_7E.u << 9), source, 2);
         }

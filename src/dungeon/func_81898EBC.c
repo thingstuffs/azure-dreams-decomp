@@ -114,6 +114,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
 
     part = color_part;
     switch (state_id) {
+        register u32 direction_x ASM_REG("$2");
     case 0:
 
         origin = D_80082E80_early;
@@ -182,17 +183,15 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
-            register u32 direction_x ASM_REG("$2");
-            register u32 direction_y ASM_REG("$2");
 
             direction_x = U16_AT(direction_node, 0x2A);
             state->x = position_base[0x24] +
                 ((s16 *)((u8 *)D_8006CCD8 +
                 ((direction_x >> 8) & 0xE)))[0];
-            direction_y = U16_AT(direction_node, 0x2A);
+            direction_x = U16_AT(direction_node, 0x2A);
             state->y = position_base[0x25] +
                 ((s16 *)((u8 *)D_8006CCE8 +
-                ((direction_y >> 8) & 0xE)))[0];
+                ((direction_x >> 8) & 0xE)))[0];
             goto place_target;
         }
 
@@ -226,10 +225,9 @@ place_target:
             }
             {
                 register s32 target_z ASM_REG("$6") = S16_AT(target_pos, 0xA);
-                register s32 in_range ASM_REG("$2");
 
-                in_range = target_z < 0x201;
-                if (!in_range) {
+                direction_x = (u32)(target_z < 0x201);
+                if (!(s32)direction_x) {
                     s32 fallback_value;
 
                     fallback_value =

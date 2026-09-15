@@ -133,11 +133,9 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     s32 state4_v0;
     s32 state4_a1;
     s32 high_v0;
-    register s32 abs_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 abs_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state6_v0;
     s32 state6_v1;
-    register s32 state10_sin_v0 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u16 temp_v0;
     u16 temp_v0_2;
     u16 temp_v0_5;
@@ -379,8 +377,8 @@ block_state7:
                     }
                     goto block_160;
 block_state10:
-                state10_sin_v0 = (s32) (((s32) ((S_8080C650_1 *)var_s0)->unk_00 >> 0xC) * func_8006A3A4(((S_8080C650_1 *)var_s0)->unk_2C));
-                ((S_8080C650_2 *)arg1)->unk_0C = state10_sin_v0;
+                temp_lo = (s32) (((s32) ((S_8080C650_1 *)var_s0)->unk_00 >> 0xC) * func_8006A3A4(((S_8080C650_1 *)var_s0)->unk_2C));
+                ((S_8080C650_2 *)arg1)->unk_0C = temp_lo;
                 temp_lo = ((s32) (0 - ((S_8080C650_1 *)var_s0)->unk_00) >> 0xC) * func_8006A470(((S_8080C650_1 *)var_s0)->unk_2C);
                 ((S_8080C650_2 *)arg1)->unk_10 = temp_lo;
                 if (temp_lo > -0x40000) {
@@ -503,11 +501,11 @@ block_124:
         }
         ((S_8080C650_2 *)arg1)->unk_08.at00.v = 0x200000;
         abs_v1 = 0xFC600000;
-        abs_v0 = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
-        abs_v0 = abs(abs_v0);
-        if (abs_v0 <= 0x80000) {
-            abs_v0 = (s32) (s16) ((S_8080C650_0 *)in0)->unk_6C;
-            if (abs_v0 < 0) {
+        temp_lo = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
+        temp_lo = abs(temp_lo);
+        if (temp_lo <= 0x80000) {
+            temp_lo = (s32) (s16) ((S_8080C650_0 *)in0)->unk_6C;
+            if (temp_lo < 0) {
                 ((S_8080C650_1 *)var_s0)->unk_2A = (u16) (((S_8080C650_1 *)var_s0)->unk_2A | 2);
                 ((S_8080C650_2 *)arg1)->unk_14 = 0;
                 ((S_8080C650_2 *)arg1)->unk_10 = 0;

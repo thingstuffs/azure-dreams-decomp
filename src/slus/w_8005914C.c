@@ -77,6 +77,7 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
     case 0xB0:
       if ((event_data & 0xFF) == 0x63)
       {
+          register u8 value_4a ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
         if ((second_data & 0xFF) == 0x14)
         {
           if (D_800869B8[0] != 0)
@@ -90,7 +91,6 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
               s32 value_40;
               s32 value_2c;
               s32 track_count;
-              register u8 value_4a ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
               s32 repeat_count;
               track_index = 0;
               repeat_count = 0x14;
@@ -140,7 +140,6 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
                 s32 saved_40;
                 s32 saved_2c;
                 s32 track_count;
-                register u8 saved_4a ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
                 track_index = 0;
                 track_iter = D_80085FA8;
                 do
@@ -149,9 +148,9 @@ void func_8005914C(S_80085FA8 *track_arg, s32 status, s32 first_data, s32 second
                   saved_10 = *(volatile s32 *)&track_iter->unk14;
                   saved_40 = *(volatile s32 *)&track_iter->unk44;
                   saved_2c = *(volatile s32 *)&track_iter->unk30;
-                  saved_4a = *(volatile u8 *)&track_iter->unk4B;
+                  value_4a = *(volatile u8 *)&track_iter->unk4B;
                   track_iter->unk00 = saved_00;
-                  track_iter->unk4A = saved_4a;
+                  track_iter->unk4A = value_4a;
                   track_count = count_page[D_800869B4_PAGE_INDEX];
                   track_index++;
                   track_iter->unk10 = saved_10;

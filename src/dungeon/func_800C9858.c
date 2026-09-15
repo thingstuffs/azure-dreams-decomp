@@ -152,7 +152,6 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     u16 sprite_flags;
     register u16 segment_angle ASM_REG("$2");
     s32 texture_override;
-    register s32 texture_word ASM_REG("$2");
     register u8 packet_code ASM_REG("$4");
     u8 right_u;
     u8 bottom_v;
@@ -287,10 +286,9 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
             rotation_z += (s16)segment_angle;
         }
         {
-            register void *rotation_in ASM_REG("$4");
             register u8 *matrix_out ASM_REG("$5");
             s32 rotation_y;
-            rotation_in = (void *)0x1F800100;
+            scratch_base = (u8 *)((void *)0x1F800100);
             SP16(0x104) = rotation_z;
             rotation_y = ((S_800CEFB8_1 *)sprite_data)->unk_18;
             SP16(0x102) = (s16) ((((u16) SP32(0x38) + 0x100) & 0x1FF) + (s16) (rotation_y - 0x100));
@@ -304,7 +302,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
             quad = packet_next + 4;
             SP32(0xE8) = (s32) origin_y;
             SP16(0x10A) = origin_y;
-            func_80065820(rotation_in, matrix_out);
+            func_80065820((void *)scratch_base, matrix_out);
         }
         {
             s32 scale_x;
@@ -471,26 +469,26 @@ coord_done:
                         ((S_800CEFB8_8 *)quad)->unk_0A = texture_override;
                         goto continuation_coords;
                     }
-                    texture_word = (*(u16 *)((u8 *)part_data + 5));
-                    texture_word = texture_override + texture_word;
+                    coord_work = (*(u16 *)((u8 *)part_data + 5));
+                    coord_work = texture_override + coord_work;
                     goto continuation_color;
                 }
-                texture_word = (u16) (*(u16 *)((u8 *)part_data + 5));
+                coord_work = (u16) (*(u16 *)((u8 *)part_data + 5));
 continuation_color:
-                ((S_800CEFB8_8 *)quad)->unk_0A = texture_word;
+                ((S_800CEFB8_8 *)quad)->unk_0A = coord_work;
 continuation_coords:
                 ((S_800CEFB8_8 *)quad)->unk_08 = (s16) ((u16) SP32(0x0C) + (u16) SP32(0x08));
                 ((S_800CEFB8_8 *)quad)->unk_10.s16 = (s16) ((u16) SP32(0x0C) + (u16) SP32(0x10));
                 texture_override = ((S_800CEFB8_1 *)sprite_data)->unk_10;
                 if (texture_override != 0) {
-                    texture_word = (*(u16 *)((u8 *)part_data + 3));
-                    texture_word &= 0xFF9F;
-                    texture_word = texture_override + texture_word;
+                    coord_work = (*(u16 *)((u8 *)part_data + 3));
+                    coord_work &= 0xFF9F;
+                    coord_work = texture_override + coord_work;
                     goto continuation_texture;
                 }
-                texture_word = (u16) (*(u16 *)((u8 *)part_data + 3));
+                coord_work = (u16) (*(u16 *)((u8 *)part_data + 3));
 continuation_texture:
-                ((S_800CEFB8_8 *)quad)->unk_12 = texture_word;
+                ((S_800CEFB8_8 *)quad)->unk_12 = coord_work;
                 {
                     s32 left_x;
                     register u16 packed_uv ASM_REG("$3");

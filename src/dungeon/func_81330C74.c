@@ -187,8 +187,6 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 copy_pair_stride;
     s32 particle_count;
     register s32 history_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 particle_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 color_index ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 sum_x;
     s32 sum_y;
     register s32 object_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -379,8 +377,8 @@ copy_pairs:
     delta_y = (((S_80167C74_9 *)trail_row)->unk_02 + ((S_80167C74_9 *)trail_row)->unk_08) - (((S_80167C74_9 *)trail_row)->unk_1A + ((S_80167C74_9 *)trail_row)->unk_20);
     delta_z = (((S_80167C74_9 *)trail_row)->unk_04 + ((S_80167C74_9 *)trail_row)->unk_0A) - (((S_80167C74_9 *)trail_row)->unk_1C + ((S_80167C74_9 *)trail_row)->unk_22);
     if (((Rec_func_80167A98_arg0 *)self)->unk_12 == 0) particle_count = 3;
-    particle_index = 1;
-    if (particle_index < (particle_count + 1)) {
+    history_index = 1;
+    if (history_index < (particle_count + 1)) {
         sum_z = delta_z;
         sum_y = delta_y;
         sum_x = delta_x;
@@ -400,7 +398,7 @@ copy_pairs:
             sum_z += delta_z;
             sum_y += delta_y;
             sum_x += delta_x;
-            particle_index += 1;
+            history_index += 1;
             interp_row = (((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (u8 *)D_80175DD8;
             interp_y0 = ((S_80167C74_10 *)interp_row)->unk_1A;
             interp_y1 = ((S_80167C74_10 *)interp_row)->unk_20;
@@ -409,7 +407,7 @@ copy_pairs:
             interp_x0 = ((S_80167C74_10 *)interp_row)->unk_18;
             interp_z1 = ((S_80167C74_10 *)interp_row)->unk_22;
             func_80165018(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x), (s32) (s16) (interp_y0 + interp_y1 + step_y), (s32) (s16) (interp_z0 + interp_z1 + step_z));
-        } while (particle_index < (particle_count + 1));
+        } while (history_index < (particle_count + 1));
     }
     object_table_base = (u8 *)&D_80175DD8;
     head_pos = (u8 *)((((Rec_func_80167A98_arg0 *)self)->unk_1C * 0x60) + (s32)object_table_base);
@@ -430,7 +428,7 @@ copy_pairs:
                 object_flags->unk_10 = 0x20;
                 object_flags->unk_14 = (u16) (object_flags->unk_14 | 0xC);
                 object_origin = ((S_80167C74_14 *)object)->unk_08;
-                color_index = 0;
+                history_index = 0;
                 object_origin->unk_00 = (s32) origin->unk_00;
                 color_weight = object_limit - object_index;
                 object_origin->unk_04 = (s32) origin->unk_04;
@@ -452,9 +450,9 @@ copy_pairs:
                     scaled_blue = color->unk_0C.at02.v * color_weight;
                     if (scaled_blue < 0) scaled_blue += 7;
                     ((S_80167C74_18 *)vertex_color)->unk_02 = (s8) (scaled_blue >> 3);
-                    color_index += 1;
+                    history_index += 1;
                     vertex_color += 4;
-                } if (color_index < 4) goto loop_4;
+                } if (history_index < 4) goto loop_4;
                 object_render->unk_06 = 0;
                 func_8003DB94(object_render, &D_800DEAE0, 0);
                 object_pair = 0;

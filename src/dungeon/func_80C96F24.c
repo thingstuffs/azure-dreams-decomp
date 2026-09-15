@@ -271,7 +271,6 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 }
 
                 {
-                    register s32 middle_band_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     s32 last_band_z;
                     s16 end_z = 0;
                     s16 start_z = end_z;
@@ -279,9 +278,9 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     if (band_index == 0) {
                         start_z = -0x14;
                     }
-                    middle_band_z = 1;
+                    middle_band = 1;
                     last_band_z = 2;
-                    if (band_index == middle_band_z) {
+                    if (band_index == middle_band) {
                         start_z = -0x2E;
                         end_z = -0x14;
                     }
@@ -298,18 +297,17 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
             {
                 s32 segment_step;
-                register void *counter_owner ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 u16 effect_count;
 
                 segment_step = segment + 1;
                 segment = segment_step;
                 segment_step <<= 16;
-                counter_owner = owner;
+                middle_band = (s32)(owner);
                 segment_step >>= 16;
-                effect_count = ((S_80C96F24_7 *)counter_owner)->unk_A4;
+                effect_count = ((S_80C96F24_7 *)(void *)middle_band)->unk_A4;
                 segment_step = segment_step < 8;
                 effect_count++;
-                ((S_80C96F24_7 *)counter_owner)->unk_A4 = effect_count;
+                ((S_80C96F24_7 *)(void *)middle_band)->unk_A4 = effect_count;
                 if (segment_step) {
                     continue;
                 }

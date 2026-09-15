@@ -177,6 +177,10 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
     *((u16 *) (((s8 *) sprite_entry) + 0x10)) = entry_height;
     if (part_header != 0)
     {
+        register void *world_bottom_right ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *world_bottom_left ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        register void *world_top_right ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        register void *world_top_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x100)
       {
         transform_dst = scratch + 0x100;
@@ -219,10 +223,10 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
             *((s32 *) (scratch + 0x014)) = texture_height_byte - 1;
           }
           {
-            register void *world_top_left ASM_REG("$4") = scratch + 0x70;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register void *world_top_right ASM_REG("$5") = scratch + 0x78;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register void *world_bottom_left ASM_REG("$6") = scratch + 0x80;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            register void *world_bottom_right ASM_REG("$7") = scratch + 0x88;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            world_top_left = scratch + 0x70;
+            world_top_right = scratch + 0x78;
+            world_bottom_left = scratch + 0x80;
+            world_bottom_right = scratch + 0x88;
             world_x_byte = *((u8 *) (((s8 *) world_part) + (-2)));
             ASM_USE_NV(world_x_byte);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             world_corner_x = (s8) world_x_byte;
@@ -495,14 +499,14 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               func_80064D80((M2C_UNK *) view_matrix);
               func_80064CF0((M2C_UNK *) view_matrix);
               {
-                register void *shadow_top_left ASM_REG("$4") = scratch + 0x70;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                register void *shadow_top_right ASM_REG("$5") = scratch + 0x78;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                register void *shadow_bottom_left ASM_REG("$6") = scratch + 0x80;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                register void *shadow_bottom_right ASM_REG("$7") = scratch + 0x88;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 u16 right_x;
                 u16 left_x;
+                world_top_left = scratch + 0x70;
+                world_top_right = scratch + 0x78;
+                world_bottom_left = scratch + 0x80;
+                world_bottom_right = scratch + 0x88;
                 shadow_quad = *((u8 **) (scratch + 0x018));
-                func_800654B0(shadow_top_left, shadow_top_right, shadow_bottom_left, shadow_bottom_right, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs){depth_cue, transform_flags}, (left_x = *((u16 *) (scratch + 0x070)), *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x = *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x, right_x += 6, *((u16 *) (scratch + 0x078)) = right_x, *((GeomSideEffects *) 0)));
+                func_800654B0(world_top_left, world_top_right, world_bottom_left, world_bottom_right, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs){depth_cue, transform_flags}, (left_x = *((u16 *) (scratch + 0x070)), *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x = *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x, right_x += 6, *((u16 *) (scratch + 0x078)) = right_x, *((GeomSideEffects *) 0)));
               }
               *((u16 *) (((s8 *) shadow_quad) + 8)) = (u16) (((s32) (*((u16 *) (scratch + 0x0f0)))) + ((s32) (*((u16 *) (scratch + 0x0b8)))));
               *((u16 *) (((s8 *) shadow_quad) + 0xA)) = (u16) (((s32) (*((u16 *) (scratch + 0x0f2)))) + ((s32) (*((u16 *) (scratch + 0x0ba)))));

@@ -377,6 +377,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     ASM_KEEP_NV(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     scratch->unk_24 = (u16) frame->unk_14;
     if (!(frame_header->unk_00 & 0x20)) {
+        register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         scratch->unk_08 = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_08;
         scratch->unk_0C = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_09.unk_09;
         scratch->unk_10.as_s32_10 = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_0A.unk_0A;
@@ -574,7 +575,6 @@ clut_done:
         row_quad = (u8 *)packet;
         left_row_addr = (s32) packet & addr_mask;
         {
-            register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
             packet_tag = packet->unk_00.as_s32_00;
             packet->unk_00.as_s32_00 = (packet_tag & length_mask) | (*scratch->unk_20 & addr_mask);
         }
@@ -592,7 +592,6 @@ clut_done:
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_18.as_u16_18 = (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_18.as_u16_18 + 0x40);
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_20.as_u16_20 = (u16) (((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_20.as_u16_20 + 0x40);
         {
-            register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
             packet_tag = packet->unk_00.as_s32_00;
             packet->unk_00.as_s32_00 = (packet_tag & length_mask) | (*scratch->unk_20 & addr_mask);
         }

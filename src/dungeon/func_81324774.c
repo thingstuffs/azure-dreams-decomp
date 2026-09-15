@@ -127,17 +127,15 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     register s32 tile_x_or_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *x_offset_ptr;
     s32 move_value;
-    register s32 initialized_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 initialized_bit;
     s32 actor_flags;
     s32 direction_offset;
     s32 result;
     s8 tile_index;
     s8 *state;
     s32 state_flags;
-    register void *target_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8016BF74_4 *target_position;
     void *ahead_target;
-    register void *nearby_target ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 active_actor;
     s32 path_status;
     s32 tile_y;
@@ -184,10 +182,10 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
         actor_flags = ((S_8016BF74_1 *)actor)->unk_1C;
         if (actor_flags & 0x410) {
             if (actor_flags & 0x400) {
-                target_entry = func_800A02AC(actor, position->unk_24.at00.v, position->unk_24.at01.v);
-                if (target_entry != NULL) {
+                initialized_bit = (s32)(func_800A02AC(actor, position->unk_24.at00.v, position->unk_24.at01.v));
+                if ((void *)initialized_bit != NULL) {
                     source_x = position->unk_24.at00.v;
-                    target_position = ((S_8016BF74_3_pre *)target_entry)[-1].unk_00;
+                    target_position = ((S_8016BF74_3_pre *)(void *)initialized_bit)[-1].unk_00;
                     source_y = position->unk_24.at01.v;
                     dest_x = target_position->unk_24;
                     dest_y = target_position->unk_25;
@@ -258,8 +256,8 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
         if ((tile_index < 0) || !(D_800E2970[tile_index].flags & 2)) {
             turn_index = 0;
             if (!(((S_8016BF74_1 *)actor)->unk_46 & 0x8000)) {
-                nearby_target = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
-                if ((nearby_target == NULL) || !(((S_8016BF74_7 *)nearby_target)->unk_1C & 0x2000) || (func_800A0134(nearby_target, actor) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
+                initialized_bit = (s32)(func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u));
+                if (((void *)initialized_bit == NULL) || !(((S_8016BF74_7 *)(void *)initialized_bit)->unk_1C & 0x2000) || (func_800A0134((void *)initialized_bit, actor) >= 0x81) || ((func_8009A540(((s32) (((S_8016BF74_1 *)actor)->unk_2A.u << 0x10) >> 0x19) & 0xFFFF, position->unk_24.at00.v, position->unk_24.at01.v, (s16) (((S_8016BF74_1 *)actor)->unk_88 - 0x20)) << 0x10) == 0)) {
                     if (((S_8016BF74_1 *)actor)->unk_1C & 0x20000) {
                         u8 *world_origin;
 

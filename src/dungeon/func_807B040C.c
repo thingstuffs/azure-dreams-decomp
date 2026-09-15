@@ -123,6 +123,7 @@ s32 func_807B040C(void) {
     s16 *direction_offset;
     u8 *room;
     u8 *collision;
+    register s32 distance_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (state == 1) {
         goto move_entity;
@@ -220,7 +221,6 @@ next_direction:
 
     {
         s32 target_x;
-        register s32 distance_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 y_is_farther;
         s32 entity_flags;
 
@@ -264,7 +264,6 @@ move_entity:
     {
         register s32 world_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register s32 tile_origin_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 world_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         s32 aligned_x;
 
         world_x = ((S_807B040C_1 *)entity)->unk_AA.s16 << 6;
@@ -272,9 +271,9 @@ move_entity:
         world_x += 0x20;
         tile_origin_y = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
         ASM_KEEP_NV(tile_origin_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        world_y = tile_origin_y + 0x20;
+        distance_y = tile_origin_y + 0x20;
         aligned_x = world_x & 0xFFE0;
-        ground_height = func_800BCB04(aligned_x, world_y & 0xFFE0, -0x400);
+        ground_height = func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);
     }
     motion[3] = ((((((S_807B040C_1 *)entity)->unk_AA.s16 << 6) + 0x20) << 16) -
                  motion[0]) /

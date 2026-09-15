@@ -37,6 +37,7 @@ typedef struct S_80017BEC_4 {
 
 /* Marks a path through neighboring tiles, retrying within the region when needed. */
 s32 func_80017BEC(s16 region_id) {
+    register s32 start_x ASM_REG("$4");
     struct {
         s16 sp10;
         s16 sp12;
@@ -83,7 +84,6 @@ mark_start:
     {
         s32 start_y;
         s32 row_shift;
-        register s32 start_x ASM_REG("$4");
 
         start_y = cursor.sp12;
         row_shift = ((S_80017BEC_0 *)map_info)->unk_14;
@@ -186,12 +186,11 @@ scan_neighbors:
         if (tile_id < 0x200) {
             s32 retry_y;
             s32 retry_shift;
-            register s32 retry_x ASM_REG("$4");
 
             retry_y = cursor.sp12;
             retry_shift = ((S_80017BEC_0 *)map_info)->unk_14;
-            retry_x = cursor.sp10;
-            retry_tile = ((retry_x + (retry_y << retry_shift)) * 6) + tiles_base;
+            start_x = cursor.sp10;
+            retry_tile = ((start_x + (retry_y << retry_shift)) * 6) + tiles_base;
             ASM_KEEP(retry_tile);
             index_work = steps_left - 1;
             steps_left = index_work;

@@ -95,7 +95,6 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
     void *text;
     void *state;
     void *new_object;
-    register void *text_storage ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     S_800B4C7C_0 *source_object;
     S_800B4C7C_2 *source_position;
     void *anchor;
@@ -130,11 +129,11 @@ void *func_800B4C7C(s32 flags, u8 *source_data, s16 value, u16 callback_mode) {
         position->unk_0A = anchor_z;
         ((S_800B4C7C_1 *)state)->unk_1C = anchor_z;
         do {
-            text_storage = object + 0x40;
+            callback_kind = (s32)(object + 0x40);
         } while (0);
-        text = text_storage;
+        text = (void *)callback_kind;
         ASM_KEEP(text);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        text_link->unk_08 = text_storage;
+        text_link->unk_08 = (void *)callback_kind;
         text_link->unk_06 = space;
         if (flags & 0x8000) {
             ((S_800B4C7C_1 *)state)->unk_0E = 1;

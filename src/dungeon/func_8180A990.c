@@ -218,7 +218,6 @@ void func_80026190(void *owner_arg)
     void *spawn_container;
     void *spawn_child;
     void *spawn_resource;
-    register void *prior_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *entity;
 
     owner = owner_arg;
@@ -349,14 +348,14 @@ loop:
         ((S_80026190_14 *)spawn_resource)->unk_1E |= 0x8000;
 
         loaded_fail_flags = ((S_80026190_15 *)flag_page)->unk_14A0.s;
-        prior_entity = ((S_80026190_5 *)container)->unk_0C;
+        entity_arg = ((S_80026190_5 *)container)->unk_0C;
         ((S_80026190_5 *)container)->unk_14 = NULL;
         fail_flags = loaded_fail_flags | 0x8000;
         ((S_80026190_15 *)flag_page)->unk_14A0.u = fail_flags;
-        if (prior_entity != NULL) {
-            spawn_bits = ((S_80026190_16 *)prior_entity)->unk_1E;
+        if (entity_arg != NULL) {
+            spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;
             ((S_80026190_15 *)flag_page)->unk_14A0.s = fail_flags;
-            ((S_80026190_16 *)prior_entity)->unk_1E = spawn_bits | 0x8000;
+            ((S_80026190_16 *)entity_arg)->unk_1E = spawn_bits | 0x8000;
             ((S_80026190_5 *)container)->unk_0C = NULL;
         }
         goto done;

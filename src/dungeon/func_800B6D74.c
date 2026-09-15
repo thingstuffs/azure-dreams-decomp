@@ -274,16 +274,15 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
 
         for (;;) {
             if (!(texture[0] & 0x20)) {
-                s32 mode_flag;
-                register s32 mode_flag_copy ASM_REG("$6");
-                register u8 *packet_arg ASM_REG("$4");
+                u16 mode_flag;
+                s32 mode_flag_copy;
                 u32 tile_u;
                 u32 tile_width;
                 u32 tile_height;
 
                 mode_flag = 0;
                 tile_u = texture_data[4];
-                packet_arg = packet;
+                tex_u = (s32)(packet);
                 do {
                     ((S_800BC4D4_1 *)scratch)->unk_08.u32 = tile_u;
                 } while (0);
@@ -295,7 +294,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 packet_field += 0xC;
                 ((S_800BC4D4_1 *)scratch)->unk_14.u32 = tile_height;
 
-                func_80067EF4(packet_arg, mode_flag, mode_flag_copy);
+                func_80067EF4((u8 *)tex_u, mode_flag, mode_flag_copy);
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                                   ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);

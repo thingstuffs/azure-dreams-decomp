@@ -53,13 +53,12 @@ extern u8 *D_800E3D7C;
 /* Reset the entity state and animation, then update its child flags. */
 void *func_800D8590(void *entity)
 {
-    register u8 *child ASM_REG("$18");
+    u8 *child;
     u8 *map;
     register u8 map_index ASM_REG("$3");
     register u16 flags ASM_REG("$2");
     register void *result ASM_REG("$2");
     void *entity_arg;
-    u8 *root;
     s32 *object_state;
     u8 *parent;
     u8 *object;
@@ -67,29 +66,28 @@ void *func_800D8590(void *entity)
     s32 frame_index;
 
     entity_arg = entity;
-    root = entity;
     object_state = &D_80083460;
-    parent = root - 0x20;
+    parent = entity - 0x20;
     if ((u8 *)object_state[4] == parent) {
         object_state[4] = (s32)parent & 0x7FFFFFFF;
     }
 
     child = ((S_800D8590_0 *)parent)->unk_0C;
-    if (((S_800D8590_1 *)root)->unk_13 == 0) {
+    if (((S_800D8590_1 *)entity)->unk_13 == 0) {
         func_80094E34(entity_arg);
         flags = ((S_800D8590_3 *)child)->unk_14;
         ((S_800D8590_3 *)child)->unk_12 = 0;
         flags |= 0x8000;
     } else {
-        if (((S_800D8590_1 *)root)->unk_13 == 0x2B) {
-            func_80042B68(root, 0x1A);
+        if (((S_800D8590_1 *)entity)->unk_13 == 0x2B) {
+            func_80042B68(entity, 0x1A);
         }
 
-        if ((((S_800D8590_1 *)root)->unk_13 == 0x15) &&
-            (((S_800D8590_1 *)root)->unk_A7 != 0) &&
-            (((S_800D8590_1 *)root)->unk_A8 != 0)) {
+        if ((((S_800D8590_1 *)entity)->unk_13 == 0x15) &&
+            (((S_800D8590_1 *)entity)->unk_A7 != 0) &&
+            (((S_800D8590_1 *)entity)->unk_A8 != 0)) {
             map = *(u8 * volatile *)&D_800E3D7C;
-            map_index = *(volatile u8 *)(root + 0xA8);
+            map_index = *(volatile u8 *)(entity + 0xA8);
             map += map_index;
             map[0xF9] = 1;
         }
@@ -98,14 +96,14 @@ void *func_800D8590(void *entity)
         object = parent + 0x20;
         ((S_800D8590_2 *)object)->unk_AC = ((S_800D8590_0 *)parent)->unk_10;
         ((S_800D8590_0 *)parent)->unk_10 = (s32)D_800D8728 & 0x7FFFFFFF;
-        ((S_800D8590_2 *)object)->unk_A8 = ((S_800D8590_1 *)root)->unk_13;
-        ((S_800D8590_1 *)root)->unk_13 = 0x2E;
+        ((S_800D8590_2 *)object)->unk_A8 = ((S_800D8590_1 *)entity)->unk_13;
+        ((S_800D8590_1 *)entity)->unk_13 = 0x2E;
         ((S_800D8590_2 *)object)->unk_9A = 0xFF;
         ((S_800D8590_2 *)object)->unk_9C = -1;
         ((S_800D8590_2 *)object)->unk_8C = D_800D8C64;
         (*(void ** *)((u8 *)child + 0x2C)) = D_800E262C;
 
-        frame_index = (D_80083228 + ((S_800D8590_1 *)root)->unk_2A + 0x100) >> 7;
+        frame_index = (D_80083228 + ((S_800D8590_1 *)entity)->unk_2A + 0x100) >> 7;
         func_8003DB94(child,
                       *(void **)((u8 *)D_800E262C + (frame_index & 0x1C)), 0);
         ((S_800D8590_2 *)object)->unk_A0 = 0x14;
@@ -116,7 +114,7 @@ void *func_800D8590(void *entity)
     ((S_800D8590_3 *)child)->unk_14 = flags;
     ASM_SCHED_BARRIER();
     masked_flags = flags;
-    result = root;
+    result = entity;
     *(volatile u16 *)(child + 0x14) = masked_flags & 0xFFF3;
     return result;
 }

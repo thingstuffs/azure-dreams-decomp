@@ -188,7 +188,7 @@ command:
             u8 gpu_code = U8_AT(work, 1);
             register u8 tex_u ASM_REG("$4") = U8_AT(work, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
             register s32 screen_x0 ASM_REG("$5") = S16_AT(packet, 8);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-            register s32 screen_x1 ASM_REG("$2") = S16_AT(packet, 0x10);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+            coord = S16_AT(packet, 0x10);
             U8_AT(packet, 7) = gpu_code;
             U8_AT(packet, 0xC) = tex_u;
             {
@@ -196,7 +196,7 @@ command:
                 u8 tex_v = U8_AT(work, 9);
                 U16_AT(packet, 0xE) = clut;
                 U8_AT(packet, 0xD) = tex_v;
-                if (screen_x1 < screen_x0 || screen_x0 != S16_AT(packet, 0x18)) {
+                if (coord < screen_x0 || screen_x0 != S16_AT(packet, 0x18)) {
                     U8_AT(work, 0xA) = U8_AT(work, 0xA) - 1;
                 }
             }

@@ -193,6 +193,7 @@ void func_80025374(State *state_arg, Vec12 *position_arg, Graphic *graphic_arg)
     static void *const state_labels[] = {
         &&initialize, &&create_spawn, &&follow_spawn, &&wait_finish, &&inactive
     };
+    register Vec12 *spawn_position ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     state = state_arg;
     position = position_arg;
@@ -275,7 +276,6 @@ create_spawn:
         RoomData *room;
         ByteEntry *table;
         register Graphic *spawn_graphic ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        register Vec12 *spawn_position ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register PackedOffsets *offset_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *template_page;
         register PackedTemplate *template_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -387,7 +387,6 @@ create_spawn:
 
 follow_spawn:
     {
-        register Vec12 *spawn_position ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         if (state->sentinel88 == 99) {
             source_or_spawn = state->spawnA8;

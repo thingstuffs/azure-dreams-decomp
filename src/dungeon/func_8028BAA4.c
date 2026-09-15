@@ -28,12 +28,11 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     register u16 *category_threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 item_flags;
     register s32 cumulative_weight ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 result_index;
     u32 rng_result;
     u16 random_weight;
     unsigned long table_base_or_mode;
     register u8 *item_category_table ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *category_entry ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *category_entry;
 
     rng_result = func_800A6D30(category_out, item_out, arg2, arg3);
     category_threshold = (u16 *)D_8001F6F8;
@@ -68,7 +67,7 @@ loop_1:
         item_category_table = (u8 *)table_base_or_mode;
         table_base_or_mode = 2;
         category_entry = table_cursor_or_item_offset;
-        result_index = scan_value >> 16;
+        arg2 = scan_value >> 16;
         table_cursor_or_item_offset = (u8 *)0x14;
 loop_6:
         item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
@@ -100,7 +99,7 @@ loop_6:
                 if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
                     *category_out = (s8)category_index;
                     *item_out = (s8)item_index;
-                    return result_index;
+                    return arg2;
                 }
                 goto block_18;
             }

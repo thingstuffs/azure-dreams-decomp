@@ -35,7 +35,6 @@ void func_800B8B00(s32 code) {
     s32 *scan_id;
     s32 *free_id;
     register s32 scan_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 free_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 duplicate_code;
     S_800B8B00_0 *scan_slot;
     S_800B8B00_1 *free_slot;
@@ -66,19 +65,19 @@ check_duplicate:
             if (scan_slot->unk_33A5 != duplicate_code) {
                 scan_id += 1;
                 if (scan_count >= 5) {
-                    free_count = 0;
+                    scan_count = 0;
                     free_base = (u8 *)0x80010000;
                     free_id = slot_ids.value;
 find_empty_slot:
                     do {
                         free_slot = (u8 *)((u32)(*free_id * 2) + (u32)free_base);
-                        free_count += 1;
+                        scan_count += 1;
                         if (free_slot->unk_33A5 == 0) {
                             free_slot->unk_33A5 = stored_code;
                             return;
                         }
                         free_id += 1;
-                    } while (free_count < 5);
+                    } while (scan_count < 5);
                     return;
                 }
                 goto check_duplicate;

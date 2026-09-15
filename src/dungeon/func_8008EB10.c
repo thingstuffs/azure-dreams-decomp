@@ -67,7 +67,6 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
     S_80094270_1 *temp_v1;
     M2C_UNK *hdr;
     register M2C_UNK *hdr3 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 call_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     ((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A = (s16) arg4;
     if (func_80094208(0) == 0) {
@@ -77,7 +76,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
         }
         temp_v1 = (void *) ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A * 4) + (u32) arg0);
         if (temp_v1->unk_D0 == arg3) {
-            call_a0 = (s32) arg0;
+            hdr3 = (M2C_UNK *)((s32) arg0);
             if (!(((S_80094270_5 *)(((S_80094270_4 *)temp_v1)->unk_AC))->unk_1C & 0x20000)) {
                 /* retail: a single shared "jal func_80099194(hdr,.)" call is
                  * reached from BOTH arms of the (s16)arg4 check below (hdr
@@ -93,7 +92,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
                  * func_80094364()/func_800944CC() whose "return" never
                  * actually escaped the function -- the real control flow
                  * always ends in "return 1". */
-                temp_s2 = func_800990FC(call_a0);
+                temp_s2 = func_800990FC((s32)hdr3);
                 temp_a1 = func_80099194(&D_800E0726, temp_s2);
                 if (((Rec_func_8008ACDC_arg0 *)arg0)->unk_8A != 0) {
                     hdr = &D_800E05F0;
@@ -103,7 +102,7 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
                 temp_a1 = func_80099194(hdr, temp_a1);
                 call_result = func_80099194(&D_800E0739, temp_a1 - 3);
                 ASM_SET(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                call_a0 = call_result;
+                hdr3 = (M2C_UNK *)(call_result);
                 goto call_290;
             }
             func_80094E34();
@@ -113,9 +112,9 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
             goto return_zero;
         }
         temp_v0 = func_8009402C(arg0, arg1, arg2, &sp18, &sp1A, arg3);
-        call_a0 = (s32) arg0;
+        hdr3 = (M2C_UNK *)((s32) arg0);
         if (temp_v0 != 0) {
-            temp_s2 = func_800990FC(call_a0);
+            temp_s2 = func_800990FC((s32)hdr3);
             if (temp_v0 == 1) {
                 register s32 temp_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 s32 *table_base;
@@ -154,12 +153,12 @@ s32 func_80094270(void *arg0, M2C_UNK arg1, M2C_UNK arg2, S_80094270_2 *arg3, s3
              * three arms above (each pre-selects hdr3 and temp_a1, then
              * merges here). */
             temp_a1 = func_80099194(hdr3, temp_a1);
-            call_a0 = temp_a1;
+            hdr3 = (M2C_UNK *)(temp_a1);
         call_290:
             /* one physical "jal func_80099290(temp_a1,temp_a1)" call shared
              * by ALL FOUR endings (the single-arg I-block ending above jumps
              * straight here too), followed by the shared finish tail. */
-            func_80099290(call_a0, temp_a1);
+            func_80099290((s32)hdr3, temp_a1);
         finish:
             func_800A5720(temp_s2);
             func_800A56E0(0x506);

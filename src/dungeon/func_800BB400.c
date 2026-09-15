@@ -38,6 +38,7 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
     s32 message_end;
     register s32 slot_index;
     u8 *slot;
+    register s32 text_buffer ASM_REG("$5");
 
     if (entity == D_800E3D7C[0]) {
         *(u8 **)(entity + 0x110) = event;
@@ -121,7 +122,6 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
             message_buffer = func_800990FC();
             {
                 register u8 *message_entity ASM_REG("$4");
-                register s32 text_buffer ASM_REG("$5");
                 message_entity = entity;
                 text_buffer = message_buffer;
                 message_start = text_buffer;
@@ -135,7 +135,6 @@ s32 func_800C0B60(u8 *target, u8 *event_data, s32 value)
         message_buffer = func_800990FC();
         {
             u8 *message_prefix;
-            register s32 text_buffer ASM_REG("$5");
             message_prefix = D_800E1426;
             ASM_KEEP(message_prefix);
             text_buffer = message_buffer;

@@ -288,7 +288,6 @@ set_target_velocity:
                 break;
             }
             {
-                register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 register s32 step_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 u16 *x_step;
@@ -299,14 +298,14 @@ set_target_velocity:
                 x_step = (u16 *) (((unsigned long) step_index << 1) + (unsigned long) step_table);
                 step_table = D_8006CCE8_2;
                 y_step = step_index + step_table;
-                next_x = *x_step;
+                probe_x_dest_y = *x_step;
                 next_y = *y_step;
-                next_x = path_tile_x + next_x;
-                path_tile_x = next_x;
+                probe_x_dest_y = path_tile_x + probe_x_dest_y;
+                path_tile_x = probe_x_dest_y;
                 next_y = path_tile_y + next_y;
                 path_tile_y = next_y;
                 scratch.saved_y = (u16) next_y;
-                last_tile_x = next_x;
+                last_tile_x = probe_x_dest_y;
             }
         } while (index < 8);
 set_path_destination:

@@ -51,7 +51,6 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
     s32 temp_cmp;
     s32 temp_a2;
     s32 temp_shift;
-    register s32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s8 temp_v0;
     void *temp_v1;
 
@@ -81,9 +80,9 @@ s32 func_80095854(void *arg0_in, s32 arg1, void *arg2_in, s32 arg3_in) {
         temp_cmp = var_s1 << 0x10;
         if (temp_cmp != 0) {
             func_8009A21C(sp18, sp1A, 0x8000);
-            temp_s1 = func_8009B88C(0, ((S_80095854_0 *)arg0)->unk_72, ((S_80095854_0 *)arg0)->unk_73, &sp1C, &sp1E);
+            var_s1 = func_8009B88C(0, ((S_80095854_0 *)arg0)->unk_72, ((S_80095854_0 *)arg0)->unk_73, &sp1C, &sp1E);
             func_8009A3D0(sp18, sp1A, 0x8000);
-            temp_shift = temp_s1 << 0x10;
+            temp_shift = var_s1 << 0x10;
             ASM_CLOBBER("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (temp_shift != 0) {
                 ((S_80095854_0 *)arg0)->unk_72 = (s8) (u8) sp1C;

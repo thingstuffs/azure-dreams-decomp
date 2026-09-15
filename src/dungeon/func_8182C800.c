@@ -337,7 +337,6 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     S_8182C800_11 *trail_pos_y;
     S_8182C800_4 *owner_sprite;
     register S_8182C800_9 *target_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register S_8182C800_13 *trail_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8182C800_20 *burst_sprite;
     S_8182C800_15 *particle;
     void *object;
@@ -511,7 +510,7 @@ state_flight:
 spawn_trail:
         object = func_8003FD64(0x312, D_80083498);
         if (object != NULL) {
-            trail_sprite = ((S_8182C800_8 *)object)->unk_0C;
+            target_sprite = (S_8182C800_9 *)(((S_8182C800_8 *)object)->unk_0C);
             ((S_8182C800_8 *)object)->unk_10 = &D_80024D44;
             frame.sp60 = 0 - (func_80069EF8() & 0x1FF);
             frame.sp64 = 0;
@@ -562,15 +561,15 @@ spawn_trail:
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_0C = (s32) ((s32) ((S_8182C800_5 *)motion)->unk_0C >> 3);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_10 = (s32) ((s32) ((S_8182C800_5 *)motion)->unk_10 >> 3);
             ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_14 = (s32) ((s32) ((S_8182C800_5 *)motion)->unk_14 >> 3);
-            trail_sprite->unk_1E = 0x800;
-            trail_sprite->unk_1C = 0x800;
-            trail_sprite->unk_10 = 0x60;
-            trail_sprite->unk_00 = trail_texture;
-            trail_sprite->unk_14 = (u16) (trail_sprite->unk_14 | 0xC);
-            trail_sprite->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
-            trail_sprite->unk_04 = 0;
-            trail_sprite->unk_05 = 0;
-            trail_sprite->unk_0C = 0x808080;
+            ((S_8182C800_13 *)target_sprite)->unk_1E = 0x800;
+            ((S_8182C800_13 *)target_sprite)->unk_1C = 0x800;
+            ((S_8182C800_13 *)target_sprite)->unk_10 = 0x60;
+            ((S_8182C800_13 *)target_sprite)->unk_00 = trail_texture;
+            ((S_8182C800_13 *)target_sprite)->unk_14 = (u16) (((S_8182C800_13 *)target_sprite)->unk_14 | 0xC);
+            ((S_8182C800_13 *)target_sprite)->unk_08 = (s32) ((S_8182C800_14 *)trail_texture)->unk_04;
+            ((S_8182C800_13 *)target_sprite)->unk_04 = 0;
+            ((S_8182C800_13 *)target_sprite)->unk_05 = 0;
+            ((S_8182C800_13 *)target_sprite)->unk_0C = 0x808080;
             particle->unk_00 = effect;
             particle->unk_48 = (s16) (func_80069EF8() & 3);
             particle->unk_4C = 0;

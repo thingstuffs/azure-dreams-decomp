@@ -397,11 +397,8 @@ void func_812A524C(void *actor_in, void *motion_in, void *sprite_in) {
     s32 distance_y;
     s32 scaled_x;
     register s32 event_x_1 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 event_x_2 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 event_x_3 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 event_x_4 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 event_x_5 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 event_x_6 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 event_x_7 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 event_x_8 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 event_x_11 ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -538,8 +535,8 @@ block_27:
                                 event_2 = (u8 *)&D_80082E80;
                                 if ((((S_812A524C_12 *)event_2)->unk_24.at00.v == 0x2B2D) || (((S_812A524C_12 *)event_2)->unk_24.at00.v == 0x2C2D)) {
                                     position_2 = (u8 *)&D_80083780;
-                                    event_x_2 = ((S_812A524C_12 *)event_2)->unk_24.at00u.v;
-                                    if (((event_x_2 << 6) + 0x20) == ((S_812A524C_13 *)position_2)->unk_02) {
+                                    event_x_1 = ((S_812A524C_12 *)event_2)->unk_24.at00u.v;
+                                    if (((event_x_1 << 6) + 0x20) == ((S_812A524C_13 *)position_2)->unk_02) {
                                         if (((((S_812A524C_12 *)event_2)->unk_24.at01.v << 6) + 0x20) == ((S_812A524C_13 *)position_2)->unk_06) {
                                             func_800353F4(&D_800FB8DF);
                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;
@@ -578,8 +575,8 @@ block_27:
                                             event_5 = (u8 *)&D_80082E80;
                                             if ((u32) (((S_812A524C_18 *)event_5)->unk_24.at00.v - 0x1D07) < 2U) {
                                                 position_5 = (u8 *)&D_80083780;
-                                                event_x_5 = ((S_812A524C_18 *)event_5)->unk_24.at00u.v;
-                                                if (((event_x_5 << 6) + 0x20) == ((S_812A524C_19 *)position_5)->unk_02) {
+                                                event_x_4 = ((S_812A524C_18 *)event_5)->unk_24.at00u.v;
+                                                if (((event_x_4 << 6) + 0x20) == ((S_812A524C_19 *)position_5)->unk_02) {
                                                     if (((((S_812A524C_18 *)event_5)->unk_24.at01.v << 6) + 0x20) == ((S_812A524C_19 *)position_5)->unk_06) {
                                                         func_800353F4(&D_8006F47A);
                                                         ((S_812A524C_4 *)entity)->unk_6D = 0U;
@@ -602,8 +599,8 @@ block_27:
                                                 event_6 = (u8 *)&D_80082E80;
                                                 if ((u32) (((S_812A524C_21 *)event_6)->unk_24.at00.v - 0x291E) < 3U) {
                                                     position_6 = (u8 *)&D_80083780;
-                                                    event_x_6 = ((S_812A524C_21 *)event_6)->unk_24.at00u.v;
-                                                    if (((event_x_6 << 6) + 0x20) == ((S_812A524C_22 *)position_6)->unk_02) {
+                                                    event_x_4 = ((S_812A524C_21 *)event_6)->unk_24.at00u.v;
+                                                    if (((event_x_4 << 6) + 0x20) == ((S_812A524C_22 *)position_6)->unk_02) {
                                                         if (((((S_812A524C_21 *)event_6)->unk_24.at01.v << 6) + 0x20) == ((S_812A524C_22 *)position_6)->unk_06) {
                                                             func_800353F4(&D_8006F50D);
                                                             ((S_812A524C_4 *)entity)->unk_6D = 0U;

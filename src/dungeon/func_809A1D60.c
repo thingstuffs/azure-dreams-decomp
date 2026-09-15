@@ -106,7 +106,6 @@ void func_80173560(void *action, void *motion, void *sprite_arg, void *actor_arg
     s32 item_type;
     s32 item_index;
     s32 audio_index;
-    register s32 audio_result ASM_REG("$2");
     void *resource;
     void *target;
 
@@ -174,20 +173,19 @@ copy_target_pos:
             }
         }
     } else {
-        register s32 target_x ASM_REG("$2");
         s32 target_y;
         resource = func_800A05A4(actor, ((S_80173560_4 *)sprite)->unk_24,
                             ((S_80173560_4 *)sprite)->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
         ((S_80173560_1 *)actor)->unk_60 = resource;
-        target_x = ((S_80173560_1 *)actor)->unk_72.s;
+        action_value = ((S_80173560_1 *)actor)->unk_72.s;
         target_y = ((S_80173560_1 *)actor)->unk_73.s;
-        if (target_x < 0) {
-            target_x = -target_x;
+        if (action_value < 0) {
+            action_value = -action_value;
         }
         if (target_y < 0) {
             target_y = -target_y;
         }
-        ((S_80173560_1 *)actor)->unk_72.u = target_x;
+        ((S_80173560_1 *)actor)->unk_72.u = action_value;
         ((S_80173560_1 *)actor)->unk_73.u = target_y;
     }
 
@@ -237,10 +235,10 @@ start_audio:
     }
     item_id = D_80175F6E & 0x7F;
     item_or_audio_base = (s32)D_800DDAB8;
-    audio_result = func_800A9400(item_id);
+    action_value = func_800A9400(item_id);
     sound_id = 0x1300;
     ASM_USE(sound_id);
-    audio_index = audio_result << 16;
+    audio_index = action_value << 16;
     audio_index >>= 16;
     func_800A56E0(sound_id);
     func_8003F540(0, D_8006CD58[0],

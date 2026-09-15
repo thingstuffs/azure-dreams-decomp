@@ -99,12 +99,11 @@ s32 func_800CD6E0(void *source, s32 passthrough_1, s32 passthrough_2, s32 passth
     s32 effect_index;
     register s32 random_or_effect_id ASM_REG("$4");
     s32 divisor;
-    register s32 spawn_roll ASM_REG("$2");
+    s32 spawn_roll;
     register s32 color ASM_REG("$7");
     register s32 roll_value ASM_REG("$3");
     s32 owner_coord;
     s32 owner_coord_2;
-    s32 coord;
     s32 y_entry;
     void *update_callback;
 
@@ -145,30 +144,30 @@ check_gate:
             y_entry = effect_index << 2;
 
             owner_coord_2 = owner->unk_24;
-            coord = *x_offsets;
+            spawn_roll = *x_offsets;
             position = ((S_800CD6E0_3 *)effect)->unk_08;
             owner_coord_2 <<= 6;
-            coord = (coord << 5) + 0x20;
-            owner_coord_2 += coord;
-            coord = (u32)D_8006CCE8;
-            y_entry += coord;
+            spawn_roll = (spawn_roll << 5) + 0x20;
+            owner_coord_2 += spawn_roll;
+            spawn_roll = (u32)D_8006CCE8;
+            y_entry += spawn_roll;
             position->unk_02 = owner_coord_2;
             owner_coord = owner->unk_25;
-            coord = ((S_800CD6E0_5 *)((void *)y_entry))->unk_00;
+            spawn_roll = ((S_800CD6E0_5 *)((void *)y_entry))->unk_00;
             owner_coord <<= 6;
-            coord = (coord << 5) + 0x20;
-            owner_coord += coord;
+            spawn_roll = (spawn_roll << 5) + 0x20;
+            owner_coord += spawn_roll;
             position->unk_06 = owner_coord;
             x_offsets += 2;
             position->unk_0A = ((S_800CD6E0_0 *)source)->unk_88 - 0x200;
 
             sprite = ((S_800CD6E0_3 *)effect)->unk_0C;
-            coord = 0x1000;
-            sprite->unk_1C = coord;
-            coord = 0x2000;
-            sprite->unk_1E = coord;
-            coord = (s32)D_800E03E0;
-            sprite->unk_08 = (void *)coord;
+            spawn_roll = 0x1000;
+            sprite->unk_1C = spawn_roll;
+            spawn_roll = 0x2000;
+            sprite->unk_1E = spawn_roll;
+            spawn_roll = (s32)D_800E03E0;
+            sprite->unk_08 = (void *)spawn_roll;
             sprite->unk_10 = 0x20;
             sprite->unk_16 = 0x400;
             sprite->unk_0C = color;

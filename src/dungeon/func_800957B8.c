@@ -100,8 +100,8 @@ check_tile:
         }
         tile_y += *(u16 *)((u8 *)D_8006CCE8 + direction_offset);
         if (tile_info[0] & 0x3300) {
+            register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
-                register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 S_8009AF18_1 *world;
 
                 page = (u8 *)D_800E0000;
@@ -112,7 +112,6 @@ check_tile:
                 if (occupant->unk_13 == 0x1F) {
                     if (!(occupant->unk_1C & 0x228)) {
                         {
-                            register u8 *page ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
                             page = (u8 *)((u8 *)&D_800E3D7C - 15740);
                             if (((S_8009AF18_4 *)(((S_8009AF18_3 *)(*(void **)(page + 0x3D7C)))->unk_124))->unk_13 < 0) {

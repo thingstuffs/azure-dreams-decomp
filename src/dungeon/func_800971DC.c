@@ -58,6 +58,7 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     s32 step;
     u8 *base;
     u16 *tableA;
+    register Ent *callArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
 #ifdef NON_MATCHING
     zero = 0;
@@ -153,7 +154,6 @@ adjusted:
     }
     value = func_800A6D30();
     {
-        register Ent *callArg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
         callArg = a;
         step = value & 1;
@@ -176,16 +176,15 @@ adjusted:
         a->flags1c &= ~0x1000000;
     }
     if ((ent2->flags1c & 0x238) != 0) {
-        register s32 m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         u8 d;
 
-        m = func_800A6D30() & 0xFFFF;
+        callArg = (Ent *)(func_800A6D30() & 0xFFFF);
         d = ent2->unk3;
 
         if (d != 0) {
             s32 dd = d + zero; /* move v0,v1 */
 
-            value = (m % dd) + zero; /* mfhi; move s1 */
+            value = ((s32)callArg % dd) + zero; /* mfhi; move s1 */
             ASM_USE_NV(dd);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         } else {
             value = 0;

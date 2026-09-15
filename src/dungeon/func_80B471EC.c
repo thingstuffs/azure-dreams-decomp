@@ -182,6 +182,9 @@ extern M2C_UNK D_801749A8;
 /* Build an animated spherical wireframe and advance its lifetime. */
 void func_801749EC(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
+    s32 coordinate;
+    register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 y_coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 vertices[10][6][3];
     s16 *volatile opening_angles;
     s16 *volatile closing_angles;
@@ -251,7 +254,6 @@ void func_801749EC(void *effect, void *origin, void *tint) {
         meridian = 0;
         if (phase < 2) {
             if (phase == 0) {
-                register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s16 *angle_base;
                 s32 angle_limit;
                 register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -281,9 +283,8 @@ void func_801749EC(void *effect, void *origin, void *tint) {
                     signed_ring_index = ring_index_shifted >> 0x10;
                     state = (s32) opening_angles;
                     {
-                        s32 scaled_outer;
-                        scaled_outer = signed_ring_index << 1;
-                        angle_or_vertices = (s16 *) (scaled_outer + state);
+                        coordinate = signed_ring_index << 1;
+                        angle_or_vertices = (s16 *) (coordinate + state);
                     }
 opening_sector_loop:
                     opening_sector_radius = sector << 0x10;
@@ -292,7 +293,6 @@ opening_sector_loop:
                     vertex_offset = (opening_sector_radius * 6) + (signed_ring_index * 0x24);
                     opening_vertex = (s8 *)vertices + vertex_offset;
                     {
-                        register s32 coordinate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         coordinate = state >> 0xC;
                         ((S_801749EC_3 *)opening_vertex)->unk_04 = (s16) coordinate;
                     }
@@ -306,7 +306,6 @@ opening_sector_loop:
                     opening_sector_radius = state >> 0xC;
                     state = (s16) opening_sector_radius * func_80064584(opening_azimuth);
                     {
-                        register s32 coordinate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         coordinate = state >> 0xC;
                         ((S_801749EC_3 *)opening_vertex)->unk_00 = (s16) coordinate;
                     }
@@ -314,7 +313,6 @@ opening_sector_loop:
                     sector = next_opening_sector;
                     state = (s16) opening_sector_radius * func_800644B8(opening_azimuth);
                     {
-                        register s32 y_coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                         y_coordinate = state >> 0xC;
                         ((S_801749EC_3 *)opening_vertex)->unk_02 = (s16) y_coordinate;
                     }
@@ -346,7 +344,6 @@ opening_sector_loop:
         goto select_line_data;
     }
     {
-    register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *angle_base;
     s32 angle_limit;
     register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -387,7 +384,6 @@ closing_sector_loop:
         vertex_offset = (closing_sector_radius * 6) + (signed_ring_index * 0x24);
         closing_vertex = (s8 *)vertices + vertex_offset;
         {
-            register s32 coordinate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             coordinate = state >> 0xC;
             ((S_801749EC_5 *)closing_vertex)->unk_04 = (s16) coordinate;
         }
@@ -401,7 +397,6 @@ closing_sector_loop:
         closing_sector_radius = state >> 0xC;
         state = (s16) closing_sector_radius * func_80064584(closing_azimuth);
         {
-            register s32 coordinate ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             coordinate = state >> 0xC;
             ((S_801749EC_5 *)closing_vertex)->unk_00 = (s16) coordinate;
         }
@@ -409,7 +404,6 @@ closing_sector_loop:
         sector = next_closing_sector;
         state = (s16) closing_sector_radius * func_800644B8(closing_azimuth);
         {
-            register s32 y_coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             y_coordinate = state >> 0xC;
             ((S_801749EC_5 *)closing_vertex)->unk_02 = (s16) y_coordinate;
         }

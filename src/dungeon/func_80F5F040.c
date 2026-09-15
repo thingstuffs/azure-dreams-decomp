@@ -178,7 +178,6 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
     u32 heading;
     u8 *direction_x_ptr;
     s32 direction_x_value;
-    register u8 *direction_y_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *direction_y_ptr;
     register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$19") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -191,9 +190,9 @@ void func_80172840(void *action, void *position, void *sprite_in, void *actor_in
         counter = heading >> 8;
         direction_offset = counter & 0xE;
         direction_x_ptr = direction_offset + direction_x_ptr;
-        direction_y_table = (u8 *)D_8006CCE8;
+        move_x = (s32)((u8 *)D_8006CCE8);
         direction_x_value = *(s16 *)direction_x_ptr;
-        direction_y_ptr = (u8 *)((unsigned long)direction_offset + (unsigned long)direction_y_table);
+        direction_y_ptr = (u8 *)((unsigned long)direction_offset + (unsigned long)(u8 *)move_x);
         direction_x = direction_x_value;
     }
     phase = ((S_80172840_1 *)action)->unk_9B;
@@ -371,11 +370,11 @@ state_2:
                 void *particle_data;
                 particle = func_8003FD64(0x312, D_80083498);
                 if (particle != 0) {
+                    register void *particle_callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     func_8004491C(particle, D_80045340);
                     particle_data = ((S_80172840_7 *)particle)->unk_0C;
                     ASM_KEEP_NV(particle_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
-                        register void *particle_callback ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         particle_callback = D_80173EC0;
                         ((S_80172840_7 *)particle)->unk_10 = particle_callback;
@@ -384,14 +383,13 @@ state_2:
                         s32 random_x;
                         s32 origin_x;
                         s32 offset_x;
-                        register s32 heading_x ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                         random_x = func_800A6D30() & 0x3F;
                         origin_x = ((S_80172840_5 *)position)->unk_02;
                         offset_x = coords[4];
-                        heading_x = direction_x;
+                        particle_callback = (void *)(direction_x);
                         origin_x += offset_x;
-                        offset_x = heading_x << 6;
+                        offset_x = (s32)particle_callback << 6;
                         origin_x += offset_x;
                         origin_x += random_x;
                         ((S_80172840_12 *)(((S_80172840_7 *)particle)->unk_08))->unk_02 =

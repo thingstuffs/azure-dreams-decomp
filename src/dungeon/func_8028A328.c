@@ -40,10 +40,10 @@ void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 set
     void *state_prefix;
     u8 *state_base;
     register s32 index_sum ASM_REG("$3");
+    register s32 height ASM_REG("$4");
 
     random_bits = func_800A6D30(region, setup_arg1, setup_arg2, setup_arg3);
     {
-        register s32 height ASM_REG("$4");
         register s32 area ASM_REG("$8");
 
         height = region->unk_06;
@@ -60,14 +60,13 @@ void func_8001D328(S_8001D328_0 *region, s32 setup_arg1, s32 setup_arg2, s32 set
     }
     entry_index = (s16) last_index;
     if (entry_index >= 0) {
-        register u8 *prefix_base ASM_REG("$4");
         u8 *coords_base;
         s32 coords_offset;
 
         state_base = D_800E3549;
-        prefix_base = state_base - 1;
+        height = (s32)(state_base - 1);
         index_sum = entry_index * 4;
-        state_prefix = (void *) (index_sum + (s32) prefix_base);
+        state_prefix = (void *) (index_sum + (s32) (u8 *)height);
         state = index_sum + state_base;
         coords_base = D_800E36C8;
         coords_offset = entry_index * 0xC;

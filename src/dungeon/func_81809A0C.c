@@ -286,6 +286,7 @@ animate_entry:
 handle_input:
     }
     if (D_80027156[0] == 0) {
+        register S_8002520C_6 *cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         input_angle = func_8009074C(((u16) appearance->unk_1A >> 9) & 7, ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v + 0xA2, 0) & 0xFFFF;
         if ((input_angle != 0xFFF) && (((S_8002520C_4 *)state_base)->unk_10 & 0xF000)) {
             s32 step_index;
@@ -293,7 +294,6 @@ handle_input:
             s32 side_index;
             void *side_data;
             u16 *x_step_ptr;
-            register S_8002520C_6 *cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             register u32 base_x ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u32 x_value;
             u32 y_value;
@@ -404,7 +404,6 @@ check_other_side:
                 s32 side_offset;
                 register s32 world_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 S_8002520C_10 *world_node;
-                register S_8002520C_12 *world_cell ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 world_page = (s32 *)0x800E0000;
                 side_offset = ((S_8002520C_0 *)menu)->unk_26;
@@ -413,9 +412,9 @@ check_other_side:
                 world_node = (void *) (side_offset + (s32) menu);
                 world_node = world_node->unk_0C;
                 side_offset += world_base;
-                world_cell = world_node->unk_0C;
+                cell = (S_8002520C_6 *)(world_node->unk_0C);
                 actor = ((S_8002520C_11 *)((void *) side_offset))->unk_AC;
-                direction = (func_800A0818(1, 1, world_cell->unk_24, world_cell->unk_25, &target_y) >> 9) & 7;
+                direction = (func_800A0818(1, 1, ((S_8002520C_12 *)cell)->unk_24, ((S_8002520C_12 *)cell)->unk_25, &target_y) >> 9) & 7;
             }
             {
                 s32 turned_dir;

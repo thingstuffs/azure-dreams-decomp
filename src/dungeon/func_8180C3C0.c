@@ -201,6 +201,7 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
 
     state = ((S_800253C0_0 *)sequence)->unk_9B.n;
     switch (state) {
+        register s32 coord_delta ASM_REG("$3");
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0) {
             goto missing_object;
@@ -291,6 +292,7 @@ start_sequence:
             u8 *move_scene;
             s16 *table_x;
             s16 *table_y;
+            register void *prim ASM_REG("$8");
 
             ((S_800253C0_0 *)sequence)->unk_9B.n++;
             ((S_800253C0_0 *)sequence)->unk_96.v = 32;
@@ -312,9 +314,7 @@ start_sequence:
             scene_rgb[2] = brightness;
             do {
                 register void *object ASM_REG("$16");
-                register void *prim ASM_REG("$8");
                 register s32 table_index ASM_REG("$5");
-                register s32 coord_delta ASM_REG("$3");
                 s32 delta;
                 register s32 old_coord ASM_REG("$2");
                 s32 frames_left;
@@ -325,25 +325,24 @@ start_sequence:
                 table_index = table_index - old_coord;
                 table_index = (table_index + 0x100) >> 8;
                 table_index &= 0xE;
-                coord_delta = (s32)((S_800253C0_8 *)actor)->unk_24;
+                target_level = (s32)((S_800253C0_8 *)actor)->unk_24;
                 frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
-                coord_delta = coord_delta + table_x[table_index >> 1];
-                coord_delta = coord_delta << 6;
+                target_level = target_level + table_x[table_index >> 1];
+                target_level = target_level << 6;
                 prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
                 old_coord = ((S_800253C0_9 *)prim)->unk_02.s - 0x20;
-                coord_delta = coord_delta - old_coord;
-                ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u + coord_delta / frames_left;
-                coord_delta = (s32)((S_800253C0_8 *)actor)->unk_25;
+                target_level = target_level - old_coord;
+                ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u + target_level / frames_left;
+                target_level = (s32)((S_800253C0_8 *)actor)->unk_25;
                 {
-                    register s32 y_offset ASM_REG("$2");
-                    y_offset = table_y[table_index >> 1];
-                    coord_delta = coord_delta + y_offset;
+                    old_coord = table_y[table_index >> 1];
+                    target_level = target_level + old_coord;
                 }
-                coord_delta = coord_delta << 6;
+                target_level = target_level << 6;
                 old_coord = ((S_800253C0_9 *)prim)->unk_06.s - 0x20;
-                coord_delta = coord_delta - old_coord;
+                target_level = target_level - old_coord;
                 ((S_800253C0_9 *)prim)->unk_06.u = ((S_800253C0_9 *)prim)->unk_06.u +
-                    coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
+                    target_level / ((S_800253C0_0 *)sequence)->unk_96.n;
                 {
                     s32 old_z = ((S_800253C0_9 *)prim)->unk_0A.s;
                     s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
@@ -381,7 +380,6 @@ start_sequence:
                 final_slot = sequence;
                 do {
                     register void *object ASM_REG("$16") = ((S_800253C0_12 *)final_slot)->unk_AC;
-                    register void *prim ASM_REG("$8");
                     s32 table_index = ((object_index << 11) - ((S_800253C0_13 *)snap_scene)->unk_C8 + 0x100) >> 8;
                     s32 x;
                     s32 y;
@@ -509,10 +507,9 @@ start_sequence:
 animate_objects:
                     {
                         register s32 slot_index ASM_REG("$19");
-                        register s32 index_bits ASM_REG("$2");
                         void *other;
-                        index_bits = object_index << 16;
-                        slot_index = index_bits >> 16;
+                        next_state = object_index << 16;
+                        slot_index = next_state >> 16;
                         other = ((S_800253C0_4 *)object_slot)->unk_AC;
                         func_800264D4(((S_800253C0_14_pre *)other)[-1].unk_00, other,
                             slot_index, object == other);
@@ -691,10 +688,9 @@ show_result:
                 object_index++;
             } if (object_index < 2) goto loop_7;
             {
-                register s32 next_timer ASM_REG("$3");
-                next_timer = 64;
+                coord_delta = 64;
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = next_timer;
+                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
             goto store_next_state;
         }
@@ -707,11 +703,10 @@ show_result:
                 goto done;
             }
             {
-                register s32 next_timer ASM_REG("$3");
-                next_timer = 32;
+                coord_delta = 32;
                 ASM_SCHED_BARRIER();
                 state = ((S_800253C0_0 *)sequence)->unk_9B.v;
-                ((S_800253C0_0 *)sequence)->unk_96.n = next_timer;
+                ((S_800253C0_0 *)sequence)->unk_96.n = coord_delta;
             }
             goto store_next_state;
         }
@@ -748,7 +743,6 @@ show_result:
             do {
                 object = ((S_800253C0_4 *)object_slot)->unk_AC;
                 if (object != 0) {
-                    register s32 coord_delta ASM_REG("$3");
                     register s32 old_coord ASM_REG("$2");
                     child = ((S_800253C0_5_pre *)object)[-1].unk_04;
                     prim = ((S_800253C0_5_pre *)object)[-1].unk_00;

@@ -21,6 +21,7 @@ S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
   u8 *queue_index;
   u8 *wait_index;
   register S_80083968 *entries ASM_REG("$6");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+  register u8 *slot_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
   queue_index = (u8 *) (&D_800814D1);
   if (((D_800814D1 + 1) & 0x1F) == queue_index[-1])
   {
@@ -44,10 +45,9 @@ S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
   entries[write_index].unk08[15] = 0;
   if ((entry_type & 0xFF) == sentinel)
   {
-    register S_80083968 *slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(entries);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    slot = &entries[write_index];
-    *((s32 *) slot->unk08) = payload;
+    slot_data = (u8 *)(&entries[write_index]);
+    *((s32 *) ((S_80083968 *)slot_data)->unk08) = payload;
   }
   else if (payload == 1)
   {
@@ -55,7 +55,6 @@ S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
   }
   else
   {
-    register u8 *slot_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     ASM_KEEP_NV(entries);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     slot_data = (u8 *) entries + 8;
     if (payload != 0)

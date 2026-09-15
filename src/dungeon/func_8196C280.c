@@ -52,10 +52,8 @@ void func_8196C280(void *effect, void *position, void *sprite) {
     u16 reduced_scale_x;
     u16 reduced_scale_y;
     u16 life_left;
-    register u16 scale_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 scale_y;
+    u16 scale_x;
     u16 next_scale_y;
-    register u16 next_scale_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     ((S_8196C280_0 *)position)->unk_00.at00.v += ((S_8196C280_1 *)effect)->unk_8C;
     ((S_8196C280_1 *)effect)->unk_8C += ((S_8196C280_1 *)effect)->unk_98;
@@ -100,21 +98,21 @@ void func_8196C280(void *effect, void *position, void *sprite) {
     ((S_8196C280_1 *)effect)->unk_50 = age + 1;
     if ((s16)age >= 3) {
         scale_x = ((S_8196C280_2 *)sprite)->unk_1C;
-        scale_y = ((S_8196C280_2 *)sprite)->unk_1E;
+        next_scale_y = ((S_8196C280_2 *)sprite)->unk_1E;
         reduced_scale_x = scale_x - 0x100;
-        next_scale_x = reduced_scale_x;
+        scale_x = reduced_scale_x;
         if ((s16)reduced_scale_x < 0) {
-            next_scale_x = 0;
+            scale_x = 0;
         }
-        reduced_scale_y = scale_y - 0x100;
+        reduced_scale_y = next_scale_y - 0x100;
         next_scale_y = reduced_scale_y;
         if ((s16)reduced_scale_y < 0) {
             next_scale_y = 0;
         }
-        if (((next_scale_y << 0x10) == 0) || ((next_scale_x << 0x10) == 0)) {
+        if (((next_scale_y << 0x10) == 0) || ((scale_x << 0x10) == 0)) {
             ((S_8196C280_1 *)effect)->unk_2C = 0;
         }
-        ((S_8196C280_2 *)sprite)->unk_1C = next_scale_x;
+        ((S_8196C280_2 *)sprite)->unk_1C = scale_x;
         ((S_8196C280_2 *)sprite)->unk_1E = next_scale_y;
     }
     func_80024AF8(effect, position, sprite,

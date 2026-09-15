@@ -62,7 +62,6 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     s32 state;
     s32 motion_value;
     s32 is_low_state;
-    register s32 next_state ASM_REG("$2");
 
     direction_x = (s32)(unsigned long)&D_8006CCD8;
     direction_y_table = &D_8006CCE8;
@@ -137,16 +136,16 @@ state_1:
         ((S_80173294_3 *)sprite_data)->unk_12 = sprite_x;
         ((S_80173294_3 *)sprite_data)->unk_14 = sprite_flags;
         state_byte = (volatile u8 *)((u8 *)effect_data + 0x9B);
-        next_state = *state_byte + 1;
+        direction_y_table = (u8 *)(*state_byte + 1);
         goto store_state;
     }
 
 state_2:
     if (!(((S_80173294_3 *)sprite_data)->unk_14 & 0x6000)) goto done;
     ((S_80173294_2 *)effect_data)->unk_96.s16 = 0x80;
-    next_state = ((S_80173294_2 *)effect_data)->unk_9B + 1;
+    direction_y_table = (u8 *)(((S_80173294_2 *)effect_data)->unk_9B + 1);
 store_state:
-    ((S_80173294_2 *)effect_data)->unk_9B = next_state;
+    ((S_80173294_2 *)effect_data)->unk_9B = (s32)direction_y_table;
     goto done;
 
 state_3:

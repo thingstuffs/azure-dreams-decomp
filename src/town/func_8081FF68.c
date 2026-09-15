@@ -169,6 +169,10 @@ void func_80022768(void *machine_state, void *position_input)
     register void *position ASM_REG("$21") = position_input;
     u8 *input = D_80083160;
     u8 *payout_callback;
+    register s32 half_delta ASM_REG("$7");
+    register s32 angle ASM_REG("$6");
+    s32 angle_delta;
+    s32 angle_delta_2;
     s32 symbols[3][3];
 
     (void)state_labels;
@@ -176,7 +180,6 @@ void func_80022768(void *machine_state, void *position_input)
 
     if ((u32)((u16)((S_80022768_0 *)state)->unk_5C.u - 2) < 5U) {
         s16 *angles = (s16 *)D_80083780;
-        register s32 angle ASM_REG("$6");
 
         angle = func_800C2AE8(angles);
         if (angle > 0) {
@@ -184,12 +187,11 @@ void func_80022768(void *machine_state, void *position_input)
             angle = func_800C2AE8(angles);
         } else {
             s16 current_angle = ((S_80022768_1 *)angles)->unk_08.at02.v;
-            register s32 angle_delta ASM_REG("$2") = angle - current_angle;
-            register s32 half_delta ASM_REG("$7");
+            angle_delta = angle - current_angle;
             half_delta = angle_delta >> 1;
             {
-                register s32 smoothed_angle ASM_REG("$2") = angle - half_delta;
-                ((S_80022768_1 *)angles)->unk_08.at02.v = smoothed_angle;
+                angle_delta = angle - half_delta;
+                ((S_80022768_1 *)angles)->unk_08.at02.v = angle_delta;
             }
         }
     }
@@ -299,21 +301,20 @@ sw_5:
     {
         u16 timer = (u16)(((S_80022768_0 *)state)->unk_5E.u - 1);
         u8 *reel_slot;
-        register s32 reel_index ASM_REG("$7");
         s32 reel_mode;
         ((S_80022768_0 *)state)->unk_5E.u = timer;
         if ((s16)timer > 0) {
             return;
         }
-        reel_index = 2;
-        reel_mode = reel_index;
+        half_delta = 2;
+        reel_mode = half_delta;
         reel_slot = (u8 *)state + 8;
         do {
             void *reel = ((S_80022768_3 *)reel_slot)->unk_4C;
             reel_slot -= 4;
-            reel_index--;
+            half_delta--;
             ((S_80022768_4 *)reel)->unk_24 = (s16)reel_mode;
-        } while (reel_index >= 0);
+        } while (half_delta >= 0);
         ((S_80022768_0 *)state)->unk_5C.s = 5;
         return;
     }
@@ -362,13 +363,12 @@ sw_6:
             register u8 *reel_table ASM_REG("$2") = D_800244B8;
             register u8 *reel_symbols ASM_REG("$10") = reel_table + 0x18;
             s32 *symbol_row = &symbols[2][0];
-            register s32 row_index ASM_REG("$6");
             u8 *strip;
             u8 *slot_cursor;
             s32 *symbol_out;
 
         outer_top:
-            row_index = 2;
+            angle = 2;
             strip = reel_symbols;
             slot_cursor = reel_slot;
             symbol_out = symbol_row + 2;
@@ -376,10 +376,10 @@ sw_6:
             {
                 register s32 reel_offset ASM_REG("$4");
                 reel_offset = (s16)((S_80022768_13 *)(((S_80022768_6 *)slot_cursor)->unk_4C))->unk_2A;
-                *symbol_out = strip[(row_index + reel_offset) % 12];
+                *symbol_out = strip[(angle + reel_offset) % 12];
                 symbol_out--;
             }
-            if (--row_index >= 0) goto inner_top;
+            if (--angle >= 0) goto inner_top;
             reel_slot -= 4;
             reel_symbols -= 12;
             symbol_row -= 3;
@@ -485,7 +485,6 @@ sw_6:
         }
 
         {
-            register s32 digit_work ASM_REG("$2") = ((S_80022768_0 *)state)->unk_58;
             s32 tens;
             s32 hundreds;
             s32 raw_units;
@@ -495,36 +494,35 @@ sw_6:
             s32 tens_digit;
             s32 hundreds_digit;
             s32 thousands_value;
-            register s32 digit_sum ASM_REG("$6");
-            index = digit_work / 100;
+            angle_delta_2 = ((S_80022768_0 *)state)->unk_58;
+            index = angle_delta_2 / 100;
             tens = index / 10;
-            digit_work = tens * 10;
-            raw_units = index - digit_work;
-            digit_work = raw_units << 16;
-            units_digit = digit_work >> 16;
+            angle_delta = tens * 10;
+            raw_units = index - angle_delta;
+            angle_delta = raw_units << 16;
+            units_digit = angle_delta >> 16;
             ASM_KEEP_NV(units_digit);
             hundreds = tens / 10;
-            digit_work = hundreds * 10;
-            raw_tens = tens - digit_work;
-            digit_work = raw_tens << 16;
-            tens_digit = digit_work >> 16;
-            digit_sum = units_digit + tens_digit;
+            angle_delta = hundreds * 10;
+            raw_tens = tens - angle_delta;
+            angle_delta = raw_tens << 16;
+            tens_digit = angle_delta >> 16;
+            angle = units_digit + tens_digit;
             thousands_value = (hundreds / 10) * 10;
             raw_hundreds = hundreds - thousands_value;
-            digit_work = raw_hundreds << 16;
-            hundreds_digit = digit_work >> 16;
+            angle_delta = raw_hundreds << 16;
+            hundreds_digit = angle_delta >> 16;
             D_80024630[0] = raw_units;
             D_80024630[1] = raw_tens;
             D_80024630[2] = raw_hundreds;
             {
-                digit_sum += hundreds_digit;
-                digit_work = digit_sum < 10;
-                if (digit_work) {
+                angle += hundreds_digit;
+                angle_delta = angle < 10;
+                if (angle_delta) {
                     if (hundreds_digit > 0) {
                         s32 adjusted = raw_hundreds - 1;
                         D_80024630[2] = adjusted;
-                        adjusted = raw_tens + 10;
-                        D_80024630[1] = adjusted;
+                        D_80024630[1] = raw_tens + 10;
                     } else if (tens_digit > 0) {
                         s32 adjusted = raw_tens - 1;
                         D_80024630[1] = adjusted;

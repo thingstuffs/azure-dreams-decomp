@@ -338,11 +338,10 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     }
     if (attack_bonus != 0) {
         u16 bonus_base;
-        register s32 bonus_scale ASM_REG("$2");
         register s32 bonus_product ASM_REG("$12");
         bonus_base = ((S_8009C12C_0 *)attacker_in)->unk_20.n;
-        bonus_scale = (s32)(bonus_base << 0x10) >> 0x13;
-        bonus_product = bonus_scale * attack_bonus;
+        scaled_modifier = (s32)(bonus_base << 0x10) >> 0x13;
+        bonus_product = scaled_modifier * attack_bonus;
         ((S_8009C12C_0 *)attacker_in)->unk_20.n = (u16)(bonus_base + bonus_product);
     }
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
@@ -394,12 +393,11 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     }
     {
         register u16 distance_raw ASM_REG("$12");
-        register s32 signed_distance ASM_REG("$2");
         s32 one;
         distance_raw = *(volatile u16 *)&homes.arg3;
         one = 1;
-        signed_distance = (s16)distance_raw;
-        if (signed_distance == one) {
+        scaled_modifier = (s16)distance_raw;
+        if (scaled_modifier == one) {
             func_800C7DEC(attacker_in, target);
         }
     }

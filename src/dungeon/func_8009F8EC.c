@@ -200,7 +200,6 @@ s32 func_800A504C(s32 unused, void *source_entity)
     register u8 *copy_call_entity ASM_REG("$4");
     s32 copy_call_zero;
     s32 scale;
-    register u8 *replace_call_entity ASM_REG("$4");
     s32 replace_call_zero;
     s32 load_kind;
     u8 *spawned;
@@ -414,16 +413,16 @@ spawn_replacement:
     ((S_800A504C_2 *)entity_data)->unk_1E = 0x1000;
     ((S_800A504C_2 *)entity_data)->unk_1C = 0x1000;
     func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
-    replace_call_entity = spawned;
+    copy_call_entity = spawned;
     replace_call_zero = 0;
-    ASM_KEEP4_NV(replace_call_entity, replace_call_zero,
+    ASM_KEEP4_NV(copy_call_entity, replace_call_zero,
                  spawned, entity_data);
     flags_mask = -8;
     ((S_800A504C_4 *)spawned)->unk_14 &= flags_mask;
     ((S_800A504C_4 *)spawned)->unk_1C &= flags_mask;
     ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
     ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
-    func_800424E0(replace_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
+    func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
                   replace_call_zero, flags_mask);
     func_80042710(spawned, entity);
 

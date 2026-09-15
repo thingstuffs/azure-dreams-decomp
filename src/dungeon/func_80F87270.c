@@ -66,6 +66,7 @@ void func_80170A70(void *entity, void *motion_arg, void *sprite_arg)
     s32 bob_offset;
     u16 sprite_flags;
     u16 visibility_flags;
+    u32 object_height;
 
     bob_offset = 0;
     if (D_80083462 & 0x2000) {
@@ -175,7 +176,6 @@ phase_update_a:
 
         (*(s16 *)((u8 *)entity + (0xA0))) = 0;
         if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-            register s32 object_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ground_delta = (s16)func_800BCB04(
                 ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,
@@ -205,7 +205,6 @@ phase_update_a:
         (*(s16 *)((u8 *)entity + (0x92))) = (u16)(*(s16 *)((u8 *)entity + (0x92))) - bob_offset;
         bob_offset = 0;
         if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
-            register s32 object_height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             ground_delta = (s16)func_800BCB04(
                 ((S_80170A70_0 *)motion_arg)->unk_00.at02.v, ((S_80170A70_0 *)motion_arg)->unk_04.at02.v,

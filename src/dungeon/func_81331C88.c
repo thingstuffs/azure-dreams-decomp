@@ -251,11 +251,10 @@ interpolate_axis:
     do {
         task = func_8003FC64(0x12);
         if (task != NULL) {
-            register void *task_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             void *init_fn;
             void *callback;
 
-            task_arg = task;
+            scaled_delta = (s32)(task);
             segment_data = (u8 *)task + 0x20;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             init_fn = D_80167C30;
@@ -264,7 +263,7 @@ interpolate_axis:
             ((S_80168C88_4 *)segment_data)->unk_18 = one;
             ((S_80168C88_4 *)segment_data)->unk_1A = one;
             ((S_80168C88_5 *)task)->unk_10 = init_fn;
-            func_8004491C(task_arg, callback);
+            func_8004491C((void *)scaled_delta, callback);
 
             render_data = ((S_80168C88_5 *)task)->unk_0C;
             ((S_80168C88_6 *)render_data)->unk_10 = 0x20;

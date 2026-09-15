@@ -54,7 +54,8 @@ void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
     void *check_motion;
     void *check_sprite;
     s32 height_offset;
-    register u32 height_bits ASM_REG("$3");
+    s32 height_offset_2;
+    u32 height_bits;
     s16 direction;
     s16 ground_height;
     s32 flags;
@@ -201,8 +202,8 @@ void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
         height_sum += adjustment;
         (*(s32 *)((u8 *)entity + 0x90)) = height_sum;
-        height_offset = height_flags & 8;
-        if (height_offset == 0) {
+        height_offset_2 = height_flags & 8;
+        if (height_offset_2 == 0) {
             ground_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_801593A8_2 *)entity_base)->unk_88 - 0x20)) -
@@ -234,8 +235,8 @@ void func_801593A8(void *entity, S_801593A8_0 *motion, void *sprite)
         (*(s32 *)((u8 *)entity + 0xA4)) = 0;
         height_sum -= adjustment;
         (*(s32 *)((u8 *)entity + 0x90)) = height_sum;
-        height_offset = height_flags & 8;
-        if (height_offset == 0) {
+        height_offset_2 = height_flags & 8;
+        if (height_offset_2 == 0) {
             ground_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_801593A8_2 *)entity_base)->unk_88 - 0x20)) -
@@ -272,14 +273,14 @@ clear_height:
 
     adjustment = (*(u16 *)((u8 *)entity + 0x98)) & 8;
     if (adjustment == 0) {
-        height_offset = (*(s16 *)((u8 *)entity + 0x92));
+        height_offset_2 = (*(s16 *)((u8 *)entity + 0x92));
         height_bits = (*(u16 *)((u8 *)entity + 0x92));
-        if (adjustment < height_offset) {
+        if (adjustment < height_offset_2) {
             adjustment = height_bits - 8;
             (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
             goto finish_height;
         }
-        adjustment = height_offset < -8;
+        adjustment = height_offset_2 < -8;
         if (adjustment != 0) {
             adjustment = height_bits + 8;
             (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
