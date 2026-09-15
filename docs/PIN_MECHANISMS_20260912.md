@@ -1729,3 +1729,54 @@ built by opus workflows and reviewed here. What was measured, in the order it ch
   store conflicts with the neighbouring fixed-address access again - the PSX SDK's own primitive macros write the
   tag word through exactly such a cast - or a bare global respelled as a one-element array. The spelling is uglier
   than `p->f`; a later tidy may choose among the equivalent non-struct spellings. `t63_memdep` is in the cascade list.
+
+## Round 28 (2026-09-15): the menu replayed at depth 2 with rename invariance, the move inventory, two generators by workflow
+
+Started at 1677434c: **7,206 pins in 1,348 rows**, the machine idle. The round continues round 27's pattern (a critical
+measurement before any model spend; tools by opus workflow with an adversarial opus reviewer; packs only from the pool table)
+on the two levers its handover named: a variable-set generator learned from the lane diffs, and a register generator directed
+by the allocator probe's `sugg` / `order-swap` classes. Measured first, all CPU:
+
+- **Round 27's reachability replay was too strict.** It compared the engine's depth-1 candidates with the landed text token
+  for token, so a split whose fresh name or declaration position differed from the lane's counted as a miss, and a two-move fix
+  was out of reach by construction. `tools/lanes/reach.py` (from the scratchpad's `reach2.py`) compares SKELETONS (pins erased,
+  comments gone, the function's locals alpha-renamed by first appearance, declaration runs sorted, struct bodies untouched) and
+  expands the 12 nearest depth-1 texts once more. On the same 120 lane-won register diffs (seed 1): **depth-1 exact 7** (t51
+  `single-set` 4, `gotoloop`, t51 `move`, t51 `fuse`), **depth-2 exact 6** (dropcopy+armstore, hostwide twice, dropcopy twice,
+  basesym twice, fuse twice, fuse+width), closer 60, no closer 45 (118 rows in at the time of writing). So the CURRENT menu holds
+  about one lane-won fix in nine at depth 2 - but only under oracle ranking (distance to the known answer); the search's
+  assembly-distance beam had run on most of these rows and found none, and the reached rows are the small diffs (9 of 13 within
+  8-27 tokens; the unreached median is 48). The nearest families on the unreached: t53 width 6, dropcopy 4, single-set 4,
+  hostwide 3, narrow 3; median distance reduction 9%, 29 of 105 halfway. Two conclusions the workflow was briefed with: the
+  ranking is a lever for the reachable ninth (is the correct first step in the top 4 by screen distance, by pass-stream
+  distance, or by neither?), and new moves are the lever for the rest.
+- **The move inventory** (`tools/lanes/declmoves.py`, declaration-level, over the 403 lane-won register diffs): a width retype
+  50, a lifetime SPLIT (an added local takes one definition of an existing one) 43, an INLINE of a removed local's defining
+  expression at its uses 31 certain + 47 probable, a MERGE into another local 24 or into a parameter 8, a rename 9, control flow
+  changed 76, a parameter list 13, and **113 diffs with no declaration change at all** (statement rewrites: expression forms,
+  `goto done` -> `return`, order). The keep diffs (220): control flow 64, width 39, inline 19+31, split 11, none 51. The menu's
+  own split/inline/merge moves are bounded (t51 `single-set`: a straight-line run of at most ten statements; t51 `fuse`: the next
+  statement's sole use; natural `dropcopy`: bare copies; t60 `reuse`: straight-line disjoint lifetimes), which is the gap the
+  variable-set generator is specified against: per-definition inlining across statements and labels, splits and merges decided
+  on a statement-level control-flow graph, merges into parameters, pointer retypes.
+- **Register lane rate by stratum and pin band**, read from the lane directories (base pins at serve time; out/ = exact):
+  alloc1 4-8 pins 37% (31 of 84), alloc1 9-20 37% (20 of 54), alloc2 4-8 56% (32 of 57), alloc2 9-20 19% (5 of 26), alloc5 4-8
+  28% (9 of 32), alloc1 2-3 9% (7 of 82). The lane kit's "33-42% on rows with 1-3 pins, 0-8% elsewhere" was a round-25 luna
+  measurement and is wrong for sol on these strata: the 4-8 band pays best. The pool table's unserved alloc1/alloc2 rows (18,
+  of which 8 are copies of one function, `dungeon/func_80BC1084` … `80C8D084`, 6 pins each, `d0 = 2`) are refused by
+  `build_alloc_lanes.py` (a site without a specific observer reason) and went out as probe-briefed sol packs `probe3` (the
+  eight copies + `800C84B8`, with a note to solve one and transfer) and `probe4` (nine rows, 3-20 pins).
+- **The changed-rows search** (`changed_r27_20260915`, the 72 rows changed since their last search, round 26's budget,
+  8 workers, ~25 min): one candidate (`dungeon/func_8028484C` 6 -> 4), 71 noop - the usual 1-2%.
+- **The allocator probe's machine-targetable classes, by register:** the 175 `sugg` sites on rows with at most 8 pins name $2
+  49 times, $3 34, $4 29, $6 18, $7 16, $5 12, saved registers 13 - all local quantities, i.e. the missing copy is to or from a
+  return or argument register (local-alloc.c 1792-1834 sets `qty_phys_sugg` from exactly such a copy insn). The 102
+  `order-swap` sites are all global allocnos with a named competitor (global.c `allocno_compare`: log2(refs)·refs/live·size).
+  That reading is the brief of the second generator, `t65_regroute`.
+
+Running as this is written: the opus workflow `tools/lanes/workflows/r28_varset.js` (two implementers in parallel, an
+adversarial reviewer each, a fix stage each): item A `tools/xform/varset.py` + `t64_varset.py`, evaluated by the reachability
+delta on the same 120/100 rows, a ranking audit on the reached rows, and `lane_eval` on 100 near-band register rows and 60
+near-band keep rows; item B `t65_regroute.py`, evaluated on 80 `sugg` rows and 60 `order-swap` rows. Frozen row lists in
+`work/native_lane/r28_dev/rows/`; the exemplar corpus and the two measurement tools are copied under that lane directory so
+nothing points at a session scratchpad.
