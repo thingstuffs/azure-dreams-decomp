@@ -23,6 +23,49 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-eighth round (2026-09-15), gated (109 windows MATCH + 1 for the search, SLUS SHA-1 MATCH): **6,893 pins in 1,342 rows** (7,206 at start, -313: the `t66_sameregmerge`
+tree sweep 127 rows / 238 pins, its cascade 44, the `t64_varset` lane outputs 12 rows / 21 pins, the search candidate 2, T2
+and tidy the rest). The owner asked to continue round 27's patterns (opus workflows with an adversarial reviewer, packs
+only from the pool table, CPU jobs free) and to note the model usage. **Read `docs/PIN_MECHANISMS_20260912.md` "Round 28"
+for the measurements; the verdicts:**
+- **Measure the menu before commissioning a move.** Round 27's "1 of 120 lane-won texts reachable" was an artefact of a
+  token-exact comparison at depth 1: `tools/lanes/reach.py` (rename-invariant skeletons, depth 2) reaches 13 of the same
+  120 register texts and 9 of 100 keep texts with the menu as it was. The move inventory (`tools/lanes/declmoves.py`)
+  says what the lanes did: width retype 12%, split 11%, inline 8-19%, merge 8%, control flow 19%, no declaration change
+  28%. Both tools take minutes and fed the workflow briefs.
+- **The pack move that repeats is the generator.** Sol pack `probe4` won 7 of 9 rows, five by one move (two `ASM_REG`
+  variables on the same hard register with disjoint lifetimes merged into one); `t66_sameregmerge`, built and reviewed
+  in 89 minutes, removed 238 pins from 127 rows in a two-minute sweep - the largest single generator since round 8 - on a
+  population (235 rows / 1,179 family pins) that t62's family erasure (0 of 186) and natural's `host` (the other
+  direction) had both missed. The lever was the *direction* of the merge: the later value inherits the register through
+  the surviving pin, so no allocator decision is left to go wrong.
+- **The variable-set generator pays ~10% on the near band, not more.** `t64_varset` (per-definition inline, CFG-decided
+  split/merge, merge into a parameter, pointer retype; erase-first depth-2 search): 10 of 100 near-band register rows, 2
+  of 60 keeps, 0 of the reviewer's 20. Its ranking audit is the round's structural finding: on the 11 lane-won rows the
+  menu reaches at depth 2, the correct first step is outside the top 4 by screen distance AND by pass-stream distance in
+  9, and does not lower the screen distance at all in 10 - **a two-move fix's first half does not look like the pinned
+  output, so no distance-ranked beam finds it.** The depth-2 rows need exhaustive bounded expansion, not a better
+  ranking; CTRL (control-flow) is the largest unreached class and nothing in the menu touches it.
+- **The `sugg` / `order-swap` classes are bounded.** `t65_regroute` 0 of 125 eligible rows before and after its fixes;
+  `probe3` (the eight copies of one function) 0 of 9 with the reason: the missing suggestion needs a real consumer of the
+  value in that register, which clean C cannot add. With round 26's `pref` result the allocator probe's one-knob classes
+  are now all measured out at the C level.
+- **Band rates corrected:** register lanes pay 37% (alloc1) and 56% (alloc2) on rows with 4-8 pins, not the lane kit's
+  "0-8% elsewhere" (a round-25 luna number) - `probe4`'s 78% on 9-20-pin rows agrees.
+- **Model usage this round:** opus Workflow `r28_varset.js` 6 agents / 1.51M subagent tokens / 4.6 h (t64 + t65, each
+  implementer -> adversarial reviewer -> fix), opus Workflow `r28_samereg.js` 3 agents / 672k tokens / 89 min (t66); two sol
+  codex packs (18 rows, ~35 min each) -> 7 rows / 10 pins; no astra, luna or agy. CPU-only: two reachability replays (~25
+  and ~35 min at 12 processes), the move inventory (minutes), the changed-rows search (72 rows, ~25 min), the t66 sweep (2
+  min), the cascade (95 min at 8 workers), the landing gate. Every generator's reviewer found a defect the tests had
+  missed (t64: two interference holes; t66: four, one in a preprocessor arm the census cannot see; t65: five): the
+  reviewer stage stays mandatory.
+- **Next, in order:** (1) `t64_varset` swept over the rest of the near band (running/planned: `sweep.py t64_varset --only`
+  the 298 + 215 near rows; ~3 h at 8 workers) and then the tree; (2) exhaustive bounded depth-2 expansion in the engine
+  for rows whose bare erasure is within 4 lines (the ranking audit's conclusion), measured on the 13 reached rows first;
+  (3) the t66 misses by refusal class (`host-name-collision`, `in-macro-arg`, `interference` lead) - the two-direction
+  and hoist forms on the 21+ band were never evaluated; (4) `dungeon/func_809F90DC`: port the probe4 hoist by hand (1
+  pin); (5) packs only from `pools.py` - the register pool's paying strata are now served.
+
 Twenty-seventh round (2026-09-15), gated (26 windows MATCH, SLUS SHA-1 MATCH): **7,206 pins in 1,348 rows** (7,253 at
 start, -47: `t63_memdep` sweep 19 rows / 37 pins, three sol register packs from the pool table 6 of 15 rows / 6 pins,
 cascade 4). The owner asked for a critical review, new mechanisms (long CPU jobs welcome) and less model spend.

@@ -1743,11 +1743,13 @@ by the allocator probe's `sugg` / `order-swap` classes. Measured first, all CPU:
   comments gone, the function's locals alpha-renamed by first appearance, declaration runs sorted, struct bodies untouched) and
   expands the 12 nearest depth-1 texts once more. On the same 120 lane-won register diffs (seed 1): **depth-1 exact 7** (t51
   `single-set` 4, `gotoloop`, t51 `move`, t51 `fuse`), **depth-2 exact 6** (dropcopy+armstore, hostwide twice, dropcopy twice,
-  basesym twice, fuse twice, fuse+width), closer 60, no closer 45 (118 rows in at the time of writing). So the CURRENT menu holds
+  basesym twice, fuse twice, fuse+width), closer 62, no closer 45 (all 120 rows). So the CURRENT menu holds
   about one lane-won fix in nine at depth 2 - but only under oracle ranking (distance to the known answer); the search's
   assembly-distance beam had run on most of these rows and found none, and the reached rows are the small diffs (9 of 13 within
   8-27 tokens; the unreached median is 48). The nearest families on the unreached: t53 width 6, dropcopy 4, single-set 4,
-  hostwide 3, narrow 3; median distance reduction 9%, 29 of 105 halfway. Two conclusions the workflow was briefed with: the
+  hostwide 3, narrow 3; median distance reduction 9%, 31 of 107 halfway. The 100 lane-won KEEP diffs: depth-1 exact 9 (t53
+  width 4, t51 move 3, fuse 1, dropcopy 1), depth-2 exact 0, closer 56, no closer 35, median reduction 11%, 24 halfway
+  (nearest families single-set 5, narrow 4, commute 3, hostwide 3, dropcopy 3). Two conclusions the workflow was briefed with: the
   ranking is a lever for the reachable ninth (is the correct first step in the top 4 by screen distance, by pass-stream
   distance, or by neither?), and new moves are the lever for the rest.
 - **The move inventory** (`tools/lanes/declmoves.py`, declaration-level, over the 403 lane-won register diffs): a width retype
@@ -1780,3 +1782,52 @@ delta on the same 120/100 rows, a ranking audit on the reached rows, and `lane_e
 near-band keep rows; item B `t65_regroute.py`, evaluated on 80 `sugg` rows and 60 `order-swap` rows. Frozen row lists in
 `work/native_lane/r28_dev/rows/`; the exemplar corpus and the two measurement tools are copied under that lane directory so
 nothing points at a session scratchpad.
+
+### Round 28 results: the two workflows, the packs, the sweep
+
+- **`t66_sameregmerge`** (second workflow, 3 opus agents / 672k tokens / 89 min): two `register T v ASM_REG("$N")`
+  declarations on the SAME hard register with disjoint lifetimes (decided on a statement-level control-flow graph) merged
+  into the surviving variable - a plain rename when the types match, a cast form across word-sized types (`H = (TH)(expr)`,
+  reads `(TV)H`, narrow types refused), the host declaration hoisted to the block enclosing both, two arm-local declarations
+  made one. The later value inherits the register through the surviving pin: no allocator decision is left to go wrong,
+  which is why erasing the family (t62, 0 of 186) and hosting the pinned variable on an unpinned local (natural `host`) both
+  miss. `lane_eval`: 31 of 76 rows with 1-8 pins, 28 of 60 with 9-20, the reviewer's own 20 rows 15 of 20; every candidate
+  it ever screened sat at cc1 distance 0 (the selectivity is entirely in the legality test). The reviewer's four defects
+  (edits inside `#ifdef __mips__` arms - `pin_census.arm_labels` labels only NON_MATCHING conditions, so `unscored_text`
+  is blind to every other arm and the module now keeps its own preprocessor map; an undocumented cast-free signedness
+  merge that turned a logical shift arithmetic; a hoisted initialiser placed before a switch's first `case`; skip counts
+  summed over restart passes) were fixed. **Tree-wide sweep: 127 rows, 238 pins in 2 minutes**; the cascade over those
+  rows added 44 (t37 13 rows, t53 14, t41c 3, t63 2, t16, t36, t38, t53k, t66 itself once more). The lesson for the
+  brief of every future pack: the move a sol lane repeats across five of seven wins is a generator, and the generator
+  removes in two minutes what the lanes would have taken ~15 packs to serve.
+- **`t64_varset`** (first workflow, item A; the whole workflow 6 opus agents / 1.51M tokens / 4.6 h): `tools/xform/varset.py`
+  - `inline_def` (one definition of a multi-definition local substituted at the uses only it reaches), `split_def` (one
+  definition and its exclusive uses renamed), `merge_local` / `merge_param` (disjoint on the CFG, with a def-over-live-out
+  interference test the reviewer had to demand), `retype_ptr` - under an erase-first depth-2 search ranked by the screen
+  and the pass-stream distance. `lane_eval`: **10 of 100 near-band register rows (21 pins), 2 of 60 near-band keeps (4)**;
+  the reviewer's own 20 rows 0 of 20 (rows that collapse to ~11 distinct functions); 9 of the 10 register wins use a varset
+  move (inline_def 6, merge_local 2, merge_param 2, split_def 1). Reachability delta on the replay: register 13 -> 16 of
+  120 (one by `split_def`, the rest by the erase-first structure), keep 6 -> 9 - but the reviewer showed the broad replay
+  credits families t64 refuses (width, narrow); restricted to t64's own menu the delta is register 11 -> 13, keep 2 -> 2.
+  **The ranking audit** on the 11 rows the menu reaches at depth 2: the correct first step is in the top 4 by screen
+  distance in 2, by pass-stream distance in 2, by neither in 9; it does not lower the screen distance at all in 10 of 11 and
+  raises it in 5. A two-move fix's first half does not look like the pinned output, so no distance-ranked beam finds it:
+  the depth-2 rows need an exhaustive (bounded-menu) expansion, not a better ranking. Still-unreached classes: CTRL (29
+  register, 38 keep rows) is the largest and nothing in the menu touches it; scalar width retypes (14 / 11) are refused by
+  policy.
+- **`t65_regroute`** (item B): the probe-directed routing of a value through the ABI role its `sugg` register names (return
+  through the variable, argument k spelled through it, a merge with the parameter) and the priority moves for `order-swap`
+  sites: **0 of 65 eligible sugg rows and 0 of 60 order-swap rows, no candidate ever reached screen distance 0** (665
+  screened), before and after the reviewer's five defects (a substring hoist that deleted stores, a merge that renamed
+  struct members) were fixed. With probe3's finding below, the `sugg` class is bounded: the missing suggestion needs a real
+  consumer of the value in that register (a four-argument call whose body does the retail work), which clean C cannot add.
+- **Packs** (sol, from the pool table): `probe4` (nine unserved alloc1/alloc2 rows with 3-20 pins, probe-briefed) **7 of
+  9, 10 pins**, five of them by the same-register merge that became t66; `probe3` (the eight copies of one 6-pin function
+  plus one) **0 of 9**: the `$a3` byte value's suggestion needs a real fourth-argument consumer; every clean spelling leaves
+  the erased pseudo a local quantity without suggestions choosing `$v1`. The swept tree matches or beats the pack's outputs
+  on six of its seven rows (one row, `dungeon/func_809F90DC`, keeps one pin the pack removed by a hoist the generator's
+  forms do not cover).
+- **Search** `changed_r27_20260915`: one candidate (`dungeon/func_8028484C` 6 -> 4) on 72 rows, published through its gate.
+- **Landed and gated** (109 windows MATCH + the search's, SLUS SHA-1 MATCH): **6,893 pins in 1,342 rows**, from 7,206 (-313:
+  t66 sweep 238, cascade 44, t64 outputs 21, search 2, the rest T2/tidy). `probe4`'s seven outputs were stale by the time
+  the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
