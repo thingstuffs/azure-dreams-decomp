@@ -431,7 +431,6 @@ select_line_data:
     line_data = &D_801749A8;
 build_lines:
     vertex_base_or_offset = (s32)vertices;
-    ASM_USE_NV(vertex_base_or_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     segment = 0;
     do {
         {
@@ -467,11 +466,11 @@ meridian_segment_loop:
         segment_index = segment << 0x10;
         segment_index >>= 0x10;
         sector_offset = (s32) sector_or_ring_start * 6;
-        segment_end = (s8 *)vertices + (sector_offset + ((segment_index + 1) * 0x24));
+        segment_end = (s8 *)vertex_base_or_offset + (sector_offset + ((segment_index + 1) * 0x24));
         ((S_801749EC_6 *)meridian_line)->unk_64 = (u16) ((S_801749EC_12 *)segment_end)->unk_00;
         ((S_801749EC_6 *)meridian_line)->unk_66 = (u16) ((S_801749EC_12 *)segment_end)->unk_02;
         ((S_801749EC_6 *)meridian_line)->unk_68 = (u16) ((S_801749EC_12 *)segment_end)->unk_04;
-        segment_start = (s8 *)vertices + (sector_offset + (segment_index * 0x24));
+        segment_start = (s8 *)vertex_base_or_offset + (sector_offset + (segment_index * 0x24));
         ((S_801749EC_6 *)meridian_line)->unk_6A = (u16) ((S_801749EC_13 *)segment_start)->unk_00;
         ((S_801749EC_6 *)meridian_line)->unk_6C = (u16) ((S_801749EC_13 *)segment_start)->unk_02;
         ((S_801749EC_6 *)meridian_line)->unk_6E = (u16) ((S_801749EC_13 *)segment_start)->unk_04;
@@ -488,7 +487,7 @@ next_meridian_segment:
     ring = 1;
     ring_data = &D_801749A8;
     angle_or_vertices = (s16 *)vertices;
-ring_loop:
+do {
     ring_sector = 0;
     {
         s32 signed_outer;
@@ -512,7 +511,7 @@ ring_sector_loop:
     ring_render = ((S_801749EC_15 *)ring_object)->unk_0C;
     {
         u16 object_flags;
-        register s32 object_width ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 object_width;
         object_flags = ((S_801749EC_16 *)ring_render)->unk_14;
         object_width = 0x20;
         ((S_801749EC_16 *)ring_render)->unk_10 = object_width;
@@ -553,9 +552,7 @@ advance_ring_sector:
     }
     next_ring = ring + 1;
     ring = next_ring;
-    if (next_ring < 9) {
-        goto ring_loop;
-    }
+    } while (next_ring < 9);
     {
         register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         state = *(void *volatile *)&effect;

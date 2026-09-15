@@ -87,9 +87,6 @@ extern void *func_800D24A8(u8, s16, s16, s16);
 extern void func_80042640(void *, s32);
 extern s32 func_800A6D30(void);
 
-extern void func_80024980(void) __attribute__((noreturn));
-extern void func_80024D54(void) __attribute__((noreturn));
-extern void func_80024DE0(void) __attribute__((noreturn));
 
 /* Update the effect's launch, movement, impact, and cleanup phases. */
 void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
@@ -109,6 +106,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
     s32 adjusted_z;
     s32 axis;
     u8 *delta_ptr;
+    s16 *target_pos;
 
     state->timer++;
     state_id = state->state;
@@ -180,6 +178,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             goto done;
         }
 
+        target_pos = scratch.work;
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
@@ -194,16 +193,13 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             state->y = position_base[0x25] +
                 ((s16 *)((u8 *)D_8006CCE8 +
                 ((direction_y >> 8) & 0xE)))[0];
-            func_80024980();
+            goto place_target;
         }
 
         {
-            s16 *target_pos = scratch.work;
-
-            ASM_SCHED_BARRIER();
             state->x = D_80082E80[0x24] + D_8006CCD8[state->direction];
             state->y = D_80082E80[0x25] + D_8006CCE8[state->direction];
-            ASM_SCHED_BARRIER();
+place_target:
             {
                 void *height_node;
                 s32 tile_coord;
@@ -330,7 +326,7 @@ state_set:
             func_800240CC(state, motion, state->duration);
             func_800240CC(state, motion, state->duration);
             state->timer = 0;
-            func_80024DE0();
+            goto done;
         }
 
     case 2:
@@ -342,14 +338,14 @@ state_set:
         }
         func_8002441C(state, motion);
         func_800A56E0(0x300);
-        func_80024D54();
+        goto advance_state;
 
     case 3:
         if (state->timer < 0x10) {
             goto done;
         }
         func_800245CC(state, motion);
-        func_80024D54();
+        goto advance_state;
 
     case 4:
         if (state->timer < 0x11) {
@@ -358,9 +354,9 @@ state_set:
         if (state->status != 0) {
             void *effect = func_800D24A8(state->status, state->x, state->y,
                                         state->z);
-            register s32 intensity ASM_REG("$4");
+            s32 intensity;
             s16 clamped_intensity;
-            s32 effect_id;
+            u32 effect_id;
             s32 random_bits;
 
             func_80042640(effect, 52);
@@ -377,9 +373,10 @@ state_set:
             U8_AT(effect, 0x28) = clamped_intensity;
             U8_AT(effect, 0x29) = clamped_intensity;
         }
+advance_state:
         state->timer = 0;
         state->state++;
-        func_80024DE0();
+        goto done;
 
     case 5:
         if (state->field_14 != 0) {
@@ -388,7 +385,7 @@ state_set:
         D_8008346C = 0;
         U16_AT(state, -2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_80024DE0();
+        goto done;
 
     case 6:
         S32_AT(motion, 0) += S32_AT(motion, 0xC);

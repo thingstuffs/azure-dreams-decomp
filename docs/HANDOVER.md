@@ -23,6 +23,35 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-sixth round, step 3, the saved-register preference study (opus, reviewed; `work/pref_study/REPORT.md`): a
+well-supported NEGATIVE. In gcc 2.7.2 / 2.7.2-cdk / 2.8.x (byte-identical `set_preference` / `expand_preferences`), a
+global allocno gets a preference for a saved register $sN only from a surviving `(set G SRC)` / `(set L G)` whose other
+side resolves (directly, or as operand 0 of a one-level unary/binary/mem form: `L + k`, `L & k`, `L >> k`, `-L`,
+`(short)L`, `*L`) to a pseudo that LOCAL allocation already placed in $sN; local allocation only reaches block-local
+values that cross a call and hands out $s0 first. A bare copy `G = L` is coalesced by cse/combine in every cell (the
+only surviving copy form is `L` reassigned afterwards); `G = L->f` (a non-zero offset) sets nothing. In the 64 scanned
+sites of the probe's `pref`-on-saved family, 0 rows have a block-local value in the target register (55 have none in
+any saved register), the erased build packs the value 1-3 saved registers LOWER than retail (41/19/4 sites) and the
+target is never in the value's conflict set: the family is a permutation of the saved bank decided by colouring order
+and `regs_used_so_far`, not by preferences. Ten real-site candidates: 0 exact. No generator (its precondition is
+invisible in the text and false everywhere). Consequence for step 6: the preference rate is unchanged, so the 129
+remaining one-knob rows are NOT re-sent as preference packs; a pack on them would need the (untested) ordering lever.
+Two free spellings for any register brief: prefer `G = *L` over `G = L->f`, and `G = L + k` over `G = L`.
+
+Twenty-sixth round, step 5, gated (8 windows MATCH, SLUS SHA-1 MATCH): **7,253 pins in 1,354 rows** (round 26 total:
+7,343 -> 7,253, per-row flags 391 -> 341 rows). Small opus packs: label-as-call retries `lacf1` 4 of 7 exact (the misses: one row at
+distance 3, one at 1, and `dungeon/func_81946800` whose honest rewrite is exact but the row has no `ASM_*` site, so the
+landing filter cannot admit it: a fidelity-only landing for `apply_candidates.py`); typed-grid pack `grid1` 1 of 4
+(`dungeon/func_80B471EC`; the other three keeps buy a load order the typed address does not restore). The two flag
+switches from the skeptic landed through the flag census.
+
+Twenty-sixth round, step 4 (no landing): the 34 rows whose probed register site has NO allocatable pseudo without the
+pin (the value is coalesced or substituted away before allocation, `no-knob-plan`) were run through `tools/lane_eval.py`
+with `t53_reg_state` at double budget (768 observations, 8 verifies), `t51_sched_order` and `t60_alloc_inputs`
+(`work/native_lane/noknob/evidence/`): **0 of 34 for each**. The split/move/reuse menus do not reach this class; a new
+generator is not justified by 34 rows and three misses. (`sweep.py` skips journaled rows, so a re-run at a higher
+budget must go through `lane_eval.py`, not the sweep.)
+
 Twenty-sixth round, part 3, gated (38 windows MATCH, SLUS SHA-1 MATCH): **7,268 pins in 1,356 rows**, per-row flags
 391 -> 341 rows. **The flag census** (`tools/flag_census.py`, `ledger/flag_census.jsonl`; 405 flagged rows compiled from
 their current text at the same cell without the flag, 90 seconds of scorer time): 62 flags are REDUNDANT (the text is

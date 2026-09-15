@@ -101,7 +101,6 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
-extern void func_80025C38(void) __attribute__((noreturn));
 
 extern u8 D_800249A0[];
 extern u8 D_80025380[];
@@ -112,7 +111,7 @@ extern s32 D_800814A0;
 /* Initializes a five-point star and spawns its edge effects over successive updates. */
 void func_800257E0(void *state_data, void *source_data) {
     u8 *source_position;
-    register u8 *node ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *node;
     u8 *edge_data;
     u8 *sprite;
     u8 *dest_position;
@@ -128,20 +127,18 @@ void func_800257E0(void *state_data, void *source_data) {
 
     switch (mode) {
     default:
-        func_80025C38();
+        return;
     case 0:
         vertex_index = 0;
-        node = state_data;
         do {
             angle_offset = (vertex_index << 12) / 5;
-            ((S_8187BFE0_1 *)node)->unk_1E =
+            ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_1E =
                 (((S_8187BFE0_0 *)state_data)->unk_0A *
                  func_80064584(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
-            ((S_8187BFE0_1 *)node)->unk_2A =
+            ((S_8187BFE0_1 *)((u8 *)state_data + vertex_index * 2))->unk_2A =
                 (((S_8187BFE0_0 *)state_data)->unk_0A *
                  func_800644B8(((S_8187BFE0_0 *)state_data)->unk_0C + angle_offset)) >> 12;
             vertex_index++;
-            node += 2;
         } while (vertex_index < 5);
 
         ((S_8187BFE0_0 *)state_data)->unk_1C.s = 0;
@@ -280,7 +277,7 @@ after_edge_setup:
 
         *(Data12 *)(edge_data + 0x44) = D_80026940;
         ((S_8187BFE0_3 *)sprite)->unk_08 = edge_data + 0x44;
-        func_80025C38();
+        return;
 
 update_state:
         ((S_8187BFE0_0 *)state_data)->unk_02.u++;
