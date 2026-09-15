@@ -26,6 +26,12 @@ preference strata paid 33-42% on rows with 1-3 pins, 0-8% elsewhere; `--max-pins
 observer `tools/alloc_trace.py` itself. A tool a lane builds is reviewed by an opus workflow against the
 failure list in "After it finishes" item 2 before it is copied (t61 had the lane-path import; t60 dropped a
 declaration's line remainder).
+Round 26 added `served.py` (`served_rows()`, `assert_unserved()`: every builder refuses a pack holding a row any
+lane has served unless `--repack`; all builders take `--dry-run`), `promote_honest.py` (an honest-C pack landed at
+its true base in one command: promote, register, as_flags; `--decision-b` verifies every region mate first),
+`tools/alloc_probe.py` (the allocator counterfactual probe: which ONE allocator input, changed under gdb, makes
+the unpinned compile reproduce retail; a triage of register sites at 1.3 s each, `probe_rows.sh ROWS DIR` over a
+list) and `build_probe_lanes.py` + `probe_lane_brief.md` (retry packs briefed with the measured knob).
 
 ## Before launch: give it everything it would otherwise fetch or rebuild
 

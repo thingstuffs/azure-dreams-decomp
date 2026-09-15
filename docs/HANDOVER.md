@@ -23,6 +23,33 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-sixth round, part 1, gated (20 windows MATCH, SLUS SHA-1 MATCH): **7,300 pins in 1,359 rows** (8893578f).
+Landed: the CPU search on the 368 rows changed since the last search (`pin_search.py`, 4x budget, 65 minutes, 7 rows /
+10 pins), the six sol register packs alloc66-71 on held-out and fence-carrying rows (16 of 60 rows / 28 pins:
+preference 3/10, conflict 2/10 and 5/10, scan-order 1/10, lifetime 3/10, coalesced 2/10), and a 5-pin cascade.
+- **The fresh-row pack pools are spent, measured:** of the 364 pinned rows no lane had served, the register pool by
+  the observer's reasons is 46 rows, almost all in the non-paying strata (coalesced 28, lifetime 13); reading the
+  observer's finer `attempt_reasons` (the builder ignored them) resolves ~100 more coarse-label rows, 23 of them in
+  the paying conflict/preference strata (alloc72-74). Label-as-call: 48 pinned rows still carry a live pseudo-call,
+  40 already served; 8 fresh rows / 40 pins. Tail-slot: 18 pins in 11 rows. goto->loop restructuring is NOT a
+  lever (landed diffs since round 25: loop+ 4 rows / 17 pins vs pseudo-call->goto 84 rows / 339 pins).
+- **The allocator counterfactual probe** (`tools/alloc_probe.py`, opus-built and reviewed, `work/alloc_probe/REPORT.md`):
+  erase one register pin, then under gdb change ONE allocator input (a preference, a suggestion, a conflict bit, the
+  allocation order, the used-so-far set, a competitor's input) at the moment the stock allocator decides, and compare
+  the final assembly with the pinned build. Calibration on landed pre-fix sites: one sufficient knob 16%, force 11%;
+  on current 1-3-pin sites 35% / 41%. The knob names the INPUT (pref = a copy to/from the hard register; order-swap =
+  rank; unconflict = the other value's lifetime), not the C spelling: the landed fixes were mostly type-width changes
+  the probe cannot name, so it is a TRIAGE tool. 1.3 s per site: the 354 served-and-missed 1-3-pin register rows were
+  triaged in 5 minutes (175 of 459 trusted sites have a one-knob solution: pref 84, sugg 52, order-swap 35; 34 sites
+  have no allocatable pseudo at all). `tools/lanes/build_probe_lanes.py` + `probe_lane_brief.md` build retry packs
+  briefed with the knob; `probe_rows.sh` runs the triage over a row list.
+- **Tooling:** `tools/lanes/promote_honest.py` (an honest-C pack lands at its true base in one command, `--decision-b`
+  for shared regions, the town as_flags dial carried), `tools/lanes/served.py` + `assert_unserved` in every builder
+  (`--dry-run`, `--repack`: no pack can re-serve a row by accident).
+- **Running after this gate:** alloc72-74 (sol, conflict/preference from the attempt_reasons pool), probe1/probe2
+  (sol, the knob-briefed retry experiment against the ~3% retry baseline), `bigrow_skeptic` (astra, the eight largest
+  rows / 457 pins, brief: disprove "these pins have no structural cause"). Land all with `tools/lanes/land_lanes.sh`.
+
 Twenty-fifth round, part 12, gated (61 windows MATCH, SLUS SHA-1 MATCH): **7,334 pins in 1,368 rows**. Landed: the
 fence-carrying register rows in two sol batches (24 of 40, then 19 of 60: preference 10/10 and 8/10, conflict 8/10,
 scan-order 4/10; lifetime and coalesced 1-2/10), the last big rows (opus 4 of 25 with the misses diagnosed as rank
