@@ -52,6 +52,11 @@ cascade 4). The owner asked for a critical review, new mechanisms (long CPU jobs
   eight. If the next round's mechanism candidates (a variable-set restructuring generator learned from the 763 lane
   diffs; a `sugg`/`order-swap`-directed register generator over the probe's 679 sites) come back at the usual 1-6%,
   the honest end state for the big rows is documented pins at L4, which is the owner's call, not more spend.
+- **Model usage this round (the owner's first question):** two opus Workflow runs (implementer -> adversarial reviewer ->
+  fix; scripts kept in `tools/lanes/workflows/`): ledger+pools 6 agents / 762k subagent tokens / 44 min, t63_memdep 3
+  agents / 598k tokens / 90 min, so ~1.36M opus tokens for three tools and one generator; three sol codex lanes
+  (gpt-5.6-sol, 15 rows, ~1 h wall) for 6 rows / 6 pins; no astra, luna or agy. CPU-only: the deep pilot (20 min), the
+  register-probe triage (80 min), the t63 sweep (12 min), the reachability audits (~3 h single-core). 47 pins in all.
 - **Next, in order:** (1) the variable-set generator (split at each redefinition, merge non-overlapping same-type locals,
   retype; exhaustive to depth 2 with the screen, pass-stream distance as the tie-break) built by opus from the
   exemplar corpus and evaluated on the 120 lane-won pre-fix texts before any sweep; (2) a `sugg`-class register
