@@ -23,6 +23,17 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Thirtieth round (2026-09-15, evening) - IN PROGRESS at the time of writing; if this paragraph is still here, the round did
+not close: check `git log`, `work/native_lane/r30_samereg3/REPORT.md`, `work/native_lane/r30_addr/REPORT.md`, probe5/probe6
+`last_message.txt`, and land what is exact (`tools/lanes/land_lanes.sh`, never while a codex lane scores). Measured first,
+recorded in `docs/PIN_MECHANISMS_20260912.md` "Round 30": the lone-erasure census (`tools/lanes/erase_census.py`, 23 s for the
+tree) closed the maspsx-screen item - 21 of 6,480 sites are cc1-invisible - and classified the 2,161 near residues (46% one
+instruction moved, 21% recoloured, 31% an operation changed, of which address materialisation 231 sites / 143 rows is the
+largest pattern); t66's refusal table over all 138 family rows named the openings (`decl-unparsed` 792 pairs is a scan stopper
+hiding declarations below an anonymous struct or a one-line label table; interference 224 pairs tried under vf); t67's skips
+are structural and t64 has no refusal table. Running: opus Workflow `tools/lanes/workflows/r30_samereg3_addr.js` (item A the
+t66 openings v3, item B the address class read against t54/t59), sol packs probe5 (12 rows) and probe6 (10 rows).
+
 Twenty-ninth round (2026-09-15, afternoon), gated (160 windows MATCH, SLUS SHA-1 MATCH): **6,473 pins in 1,304 rows** (6,850 at start, -377; -733 since the morning: `t64_varset`
 over the rest of the tree 82 rows / 123 pins, the `t66_sameregmerge` openings through two tree sweeps 47 + 28 rows (the 90
 evaluation outputs were all stale by landing time; the first sweep started while the fix agent still owned the module -

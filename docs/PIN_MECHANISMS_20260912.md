@@ -1835,6 +1835,41 @@ nothing points at a session scratchpad.
   of every landed row were compared before and after both landings (9 + 5 rows carry `__mips__`): none differ. `probe4`'s seven outputs were stale by the time
   the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
 
+## Round 30 (2026-09-15, evening): the lone-erasure census, t66's remaining refusals, the address class
+
+Measured first (CPU, before any tool was commissioned):
+- **The lone-erasure census** (`tools/lanes/erase_census.py`, 23 s for the whole tree at 8 processes): every one of the
+  6,480 live sites erased alone and screened against the pinned listing. `d0 == 0` - the class the cc1 screen cannot see,
+  the one a maspsx-level screen would serve - is **21 sites** (SCHED_BARRIER 11, KEEP 4, JALDELAY 2, UNDEF 2, MEM_BARRIER 1,
+  REG 1): the handover's `screen_s` item is closed without a build. The near band by site: d0 1 = 89, 2 = 907, 3 = 284,
+  4 = 881 (2,161 sites within four lines, 33%); 1,506 sites at 30 or more.
+- **What one erasure changes, at d0 <= 4** (the residue lines grouped): one instruction MOVED, text unchanged, 1,002 sites
+  (46%: KEEP 345, REG 217, KEEP_NV 182, SCHED_BARRIER 114 - the scheduling class t51 serves); the same instructions
+  RECOLOURED 460 (21%: REG 234, KEEP 134 - the allocator class, bounded at the C level in rounds 26-28); an operation
+  changed 678 (31%). The largest specific pattern in the last group is address materialisation: `lui+addiu -> lui+ori`
+  112, `addiu -> ori` 73, `addiu -> move+ori` 22, `addiu -> lui+ori` 15 - 231 sites in 143 rows where retail spells an
+  address as a symbol's carry-adjusted halves or adds an offset to a kept page, and the erased text folds it to an
+  integer constant or an IOR. That is the pinned-integer-page family of rounds 5-7 and 18 (t29/t33/t54/t59), all swept:
+  these sites are their residue, and they are the round's second workflow item (`work/native_lane/r30_addr/`).
+- **t66's refusal table over every family row of the tree** (138 rows / 2,148 pins; ONE row still offers a candidate),
+  pairs / rows / pins: decl-unparsed 792 / 41 / 797; interference 224 / 43 / 899; host-name-collision (candidate stage,
+  after the rename opening) 138 / 6 / 170; init-before-declarations 92 / 10 / 172; type-mismatch-narrow 88 / 32 / 433 (the
+  width rule, not an opening); address-taken 77 / 6 / 137; asm-operand-cast 44 / 14 / 356; pp-guarded-mention 33 / 9 / 124;
+  shadowed-inner-local 32 / 5 / 148; loop-backedge 20 / 4 / 70; compound-assign-cast 17 / 9 / 220. `decl-unparsed` is not
+  a parser gap but a scan stopper: `_augment`'s walk breaks at the first line it cannot read and hides every declaration
+  below it - an anonymous `struct {` declaration (80 hidden declarations, 19 rows), the ONE-LINE computed-goto label table
+  `static void *const state_labels[] = { &&jt_c0, ... };` (96, 11 rows; the biggest family rows: `dungeon/func_81008664`
+  63 pins / 23 hidden), a multi-dimensional array or `void *volatile` (10, 6 rows). The first workflow item opens those
+  and the three spelling refusals (asm-operand-cast, init-before-declarations, shadowed-inner-local), and TRIES the
+  interference class under vf: both variables share one hard register in a byte-exact row, so the compiled program never
+  holds both values at once - the C-level clash is the liveness over-approximating or an m2c artifact (one temporary per
+  use, `event_x_1..8` on `$2`), and the byte verdict decides. `work/native_lane/r30_samereg3/rows/` holds the lists.
+- **t67 has no opening**: its skips are structural (`sink_tail:no-tail` 279 rows, `arm-does-not-terminate` 194,
+  `label-in-jump-table` 60, `run-stops-at-brace` 135), not spellings. **t64 has no refusal table**: it is a search; its
+  misses sit one move from the pinned listing with `inline_def` nearest in 87 of 137 (d = 2 in 86), the menu verdict again.
+- **Two sol packs from the pool** (`probe5`: REG alloc3 4-8, 12 rows admitted of 20; `probe6`: REG alloc4 2-3 and 4-8, 10 of
+  40 - the rest "no knob-sufficient site"), launched 19:48Z.
+
 ## Round 29 (2026-09-15): the control-flow inventory, t66's openings, the tail forms, and two clean negatives
 
 Started at b17cbf57 (6,850 pins in 1,338 rows) on the owner's "keep going, keep evaluating what works and what doesn't".
