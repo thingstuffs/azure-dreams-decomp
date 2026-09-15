@@ -44,7 +44,6 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
     register s32 result_word4 ASM_REG("$4");
     register s32 result_half ASM_REG("$5");
     s32 tint;
-    register void *tint_entity ASM_REG("$4");
     register s32 tint_arg;
 
     state = 0;
@@ -101,9 +100,9 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
             }
         }
         tint = 0x404040;
-        tint_entity = entity;
+        result_word4 = (s32)(entity);
         tint_arg = 0;
-        ASM_KEEP4(tint, tint_entity, tint_arg, state);
+        ASM_KEEP4(tint, result_word4, tint_arg, state);
         FLD(state_tail, u8, 0x9A) = 0xFF;
         FLD(state_tail, s8, 0x9C) = -1;
         FLD(state_tail, void *, 0x8C) = &D_800C9F34;
@@ -111,7 +110,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         FLD(state, s32, 0x1C) |= 0x40000;
         FLD(state_tail, s16, 0x92) = -0x20;
         FLD(state_tail, s32, 0xAC) = tint;
-        func_800CB4C0(tint_entity, tint_arg, tint);
+        func_800CB4C0((void *)result_word4, tint_arg, tint);
         func_8004491C(entity, &D_80045340);
         func_800A48F0(state, 0x1B, 0);
     }

@@ -374,18 +374,11 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     S_818FF710_28 *released_target;
     S_818FF710_4 *parent_sprite;
     register void *target_pos_or_step ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *linked_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *sprite_resource;
-    register void *target_position ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *first_source_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *second_source_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *third_source_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *fourth_source_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     S_818FF710_0 *parent_object;
     S_818FF710_15 *first_sprite;
     S_818FF710_18 *second_sprite;
     register void *third_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *fourth_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_818FF710_14 *child_effect;
     S_818FF710_6 *parent_position;
     void *parent;
@@ -466,8 +459,8 @@ check_launch:
     if (flight_target == NULL) {
         goto set_untargeted_flight;
     }
-    target_position = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
-    (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_position)->unk_0A - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
+    target_pos_or_step = ((S_818FF710_7_pre *)flight_target)[-1].unk_00;
+    (*(s16 *)((u8 *)effect + 0x78)) = (s16) (((S_818FF710_8 *)target_pos_or_step)->unk_0A - (D_800DDC40[((S_818FF710_7 *)flight_target)->unk_13] + 0x40));
     origin = ((S_818FF710_2_pre *)parent)[-1].unk_00;
     (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + D_8006CCD8[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
     (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + D_8006CCE8[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
@@ -665,10 +658,10 @@ check_spawn_tick:
     first_position = (*(void **)((u8 *)first_object + 8));
     child_effect->unk_0A = 0;
     child_effect->unk_0C = 0;
-    first_source_pos = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    first_position->unk_00 = (s32) ((S_818FF710_17 *)first_source_pos)->unk_00;
-    first_position->unk_04 = (s32) ((S_818FF710_17 *)first_source_pos)->unk_04;
-    first_position->unk_08 = (s32) ((S_818FF710_17 *)first_source_pos)->unk_08;
+    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+    first_position->unk_00 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_00;
+    first_position->unk_04 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_04;
+    first_position->unk_08 = (s32) ((S_818FF710_17 *)target_pos_or_step)->unk_08;
     first_sprite = (*(void **)((u8 *)first_object + 0xC));
     first_sprite->unk_1C = 0x1004;
     first_sprite->unk_1E = 0x1004;
@@ -700,10 +693,10 @@ spawn_second:
     second_position = (*(void **)((u8 *)second_object + 8));
     child_effect->unk_0A = 0;
     child_effect->unk_0C = 0;
-    second_source_pos = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    second_position->unk_00 = (s32) ((S_818FF710_20 *)second_source_pos)->unk_00;
-    second_position->unk_04 = (s32) ((S_818FF710_20 *)second_source_pos)->unk_04;
-    second_position->unk_08 = (s32) ((S_818FF710_20 *)second_source_pos)->unk_08;
+    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+    second_position->unk_00 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_00;
+    second_position->unk_04 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_04;
+    second_position->unk_08 = (s32) ((S_818FF710_20 *)target_pos_or_step)->unk_08;
     second_sprite = (*(void **)((u8 *)second_object + 0xC));
     second_sprite->unk_1E = 0x1000;
     second_sprite->unk_1C = 0x1000;
@@ -731,10 +724,10 @@ spawn_third:
     third_position = (*(void **)((u8 *)third_object + 8));
     child_effect->unk_0A = 0;
     child_effect->unk_0C = 0;
-    third_source_pos = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    third_position->unk_00 = (s32) ((S_818FF710_23 *)third_source_pos)->unk_00;
-    third_position->unk_04 = (s32) ((S_818FF710_23 *)third_source_pos)->unk_04;
-    third_position->unk_08 = (s32) ((S_818FF710_23 *)third_source_pos)->unk_08;
+    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+    third_position->unk_00 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_00;
+    third_position->unk_04 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_04;
+    third_position->unk_08 = (s32) ((S_818FF710_23 *)target_pos_or_step)->unk_08;
     third_sprite = (*(void **)((u8 *)third_object + 0xC));
     ((S_818FF710_21 *)third_sprite)->unk_0E = 0x80;
     ((S_818FF710_21 *)third_sprite)->unk_0D = 0x80;
@@ -749,7 +742,7 @@ spawn_fourth:
     if (fourth_object == NULL) {
         goto finish_spawn;
     }
-    linked_object = fourth_object;
+    particle_owner = fourth_object;
     sprite_resource = (void *) &D_80045340;
     ASM_KEEP_NV(sprite_resource);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     child_effect->unk_2C = parent;
@@ -763,28 +756,28 @@ spawn_fourth:
     child_effect->unk_34 = effect;
     child_effect->unk_30 = linked_target;
     (*(M2C_UNK **)((u8 *)fourth_object + 0x10)) = &D_8002499C;
-    func_8004491C(linked_object, sprite_resource);
-    fourth_sprite = (*(void **)((u8 *)fourth_object + 0xC));
-    ((S_818FF710_24 *)fourth_sprite)->unk_06 = 0;
-    ((S_818FF710_24 *)fourth_sprite)->unk_14 |= 0xC;
-    ((S_818FF710_24 *)fourth_sprite)->unk_10 = 0x20;
-    sprite_flags = ((S_818FF710_24 *)fourth_sprite)->unk_14;
-    ((S_818FF710_24 *)fourth_sprite)->unk_14 = (u16) (sprite_flags | 0x80);
+    func_8004491C(particle_owner, sprite_resource);
+    third_sprite = (*(void **)((u8 *)fourth_object + 0xC));
+    ((S_818FF710_24 *)third_sprite)->unk_06 = 0;
+    ((S_818FF710_24 *)third_sprite)->unk_14 |= 0xC;
+    ((S_818FF710_24 *)third_sprite)->unk_10 = 0x20;
+    sprite_flags = ((S_818FF710_24 *)third_sprite)->unk_14;
+    ((S_818FF710_24 *)third_sprite)->unk_14 = (u16) (sprite_flags | 0x80);
     fourth_position = (*(void **)((u8 *)fourth_object + 8));
     child_effect->unk_0A = 0;
     child_effect->unk_0C = 0;
-    fourth_source_pos = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
-    fourth_position->unk_00 = (s32) ((S_818FF710_26 *)fourth_source_pos)->unk_00;
-    fourth_position->unk_04 = (s32) ((S_818FF710_26 *)fourth_source_pos)->unk_04;
-    fourth_position->unk_08 = (s32) ((S_818FF710_26 *)fourth_source_pos)->unk_08;
-    fourth_sprite = (*(void **)((u8 *)fourth_object + 0xC));
-    ((S_818FF710_24 *)fourth_sprite)->unk_1E = 0x1000;
-    ((S_818FF710_24 *)fourth_sprite)->unk_1C = 0x1000;
-    ((S_818FF710_24 *)fourth_sprite)->unk_0E = 0x80;
-    ((S_818FF710_24 *)fourth_sprite)->unk_0D = 0x80;
-    ((S_818FF710_24 *)fourth_sprite)->unk_0C = 0x80;
+    target_pos_or_step = ((S_818FF710_31_pre *)(((S_818FF710_2 *)parent)->unk_60))[-1].unk_00;
+    fourth_position->unk_00 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_00;
+    fourth_position->unk_04 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_04;
+    fourth_position->unk_08 = (s32) ((S_818FF710_26 *)target_pos_or_step)->unk_08;
+    third_sprite = (*(void **)((u8 *)fourth_object + 0xC));
+    ((S_818FF710_24 *)third_sprite)->unk_1E = 0x1000;
+    ((S_818FF710_24 *)third_sprite)->unk_1C = 0x1000;
+    ((S_818FF710_24 *)third_sprite)->unk_0E = 0x80;
+    ((S_818FF710_24 *)third_sprite)->unk_0D = 0x80;
+    ((S_818FF710_24 *)third_sprite)->unk_0C = 0x80;
     (*(Packed12 *)((u8 *)fourth_object + 0x40)) = D_80025E28;
-    ((S_818FF710_24 *)fourth_sprite)->unk_08 = (void *) (fourth_object + 0x40);
+    ((S_818FF710_24 *)third_sprite)->unk_08 = (void *) (fourth_object + 0x40);
     ASM_KEEP(fourth_object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 finish_spawn:
     spawn_tick = (s16) (*(u16 *)((u8 *)effect + 0x82));

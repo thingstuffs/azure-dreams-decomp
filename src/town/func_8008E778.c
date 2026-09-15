@@ -8,10 +8,10 @@ s32 func_8008BED8(void *object) {
     register u32 result_m ASM_REG("$2");
 
     if (value == 0xFF) {
-        register u32 result ASM_REG("$2") = 0x80090000;
+        result_m = 0x80090000;
 
-        ASM_KEEP(result);
-        result -= 0x4600;
+        ASM_KEEP(result_m);
+        result_m -= 0x4600;
         goto merge;
     }
     ASM_SCHED_BARRIER();

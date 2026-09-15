@@ -161,8 +161,7 @@ begin_move:
 #else
         room_page = (u8 *)0x80080000;
 #endif
-        ASM_KEEP_NV(room_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        nearby_room = room_page + 0x2E80;
+        nearby_room = D_80082E80;
         dx = ((S_807B040C_2 *)nearby_room)->unk_24;
         target_coord = ((S_807B040C_3 *)target)->unk_24;
         dx -= target_coord;

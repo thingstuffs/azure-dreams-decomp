@@ -168,26 +168,21 @@ void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4, &&state5, &&state6
     };
-    register s32 offset_x ASM_REG("$17");
-    register s32 offset_y ASM_REG("$16");
     register s32 direction ASM_REG("$2");
-    register s32 color_m ASM_REG("$18");
     register Packed12 *linked_pos ASM_REG("$6");
     register s32 aux_coord ASM_REG("$3");
-    register u8 *lookup_page ASM_REG("$2");
     {
         u8 *copy_page;
-        register PackedOffsets *copy_src ASM_REG("$6");
         copy_page = (u8 *)0x80020000;
         ASM_KEEP(copy_page);
         ASM_KEEP(render);
         entity = actor->entity;
         ASM_KEEP(entity);
-        copy_src = (PackedOffsets *)(copy_page + 0x4004);
-        ASM_KEEP(copy_src);
-        offsets.copy.first = copy_src->copy.first;
-        offsets.copy.second = copy_src->copy.second;
-        offsets.copy.third = copy_src->copy.third;
+        linked_pos = (Packed12 *)((PackedOffsets *)(copy_page + 0x4004));
+        ASM_KEEP(linked_pos);
+        offsets.copy.first = ((PackedOffsets *)linked_pos)->copy.first;
+        offsets.copy.second = ((PackedOffsets *)linked_pos)->copy.second;
+        offsets.copy.third = ((PackedOffsets *)linked_pos)->copy.third;
         ASM_KEEP(copy_page);
     }
     timer = actor->timer82;
@@ -316,10 +311,10 @@ state0:
             u8 *lookup_base;
             u32 lookup;
             u32 tile;
-            lookup_page = (u8 *)0x80070000;
-            ASM_KEEP(lookup_page);
+            direction = (s32)((u8 *)0x80070000);
+            ASM_KEEP(direction);
             lookup = (u32)actor->direction << 1;
-            lookup_base = lookup_page - 0x3318;
+            lookup_base = (u8 *)direction - 0x3318;
             lookup += (u32)lookup_base;
             ASM_KEEP(lookup);
             tile = aux->tile_y;
@@ -370,21 +365,21 @@ state1:
         if ((u16)(angle + 0x300) >= 0x1001) {
             render->angle = angle - 0xD00;
         }
-        offset_y = (s32)(func_8003FC64(0x212));
-        if ((Task *)offset_y != 0) {
+        owner = (Owner *)((s32)(func_8003FC64(0x212)));
+        if ((Task *)(s32)owner != 0) {
             Motion *task_motion;
             register Render *task_render ASM_REG("$7");
-            ((Task *)offset_y)->field22 = 0x10;
-            ((Task *)offset_y)->update = func_80024548;
-            func_8004491C((Task *)offset_y, func_80045340);
-            task_render = ((Task *)offset_y)->render;
+            ((Task *)(s32)owner)->field22 = 0x10;
+            ((Task *)(s32)owner)->update = func_80024548;
+            func_8004491C((Task *)(s32)owner, func_80045340);
+            task_render = ((Task *)(s32)owner)->render;
             task_render->field10 = 0x40;
             task_render->flags |= 0xC;
-            task_motion = ((Task *)offset_y)->position;
+            task_motion = ((Task *)(s32)owner)->position;
             task_motion->x.half.hi = motion->x.half.hi;
             task_motion->y.half.hi = motion->y.half.hi;
             task_motion->z.half.hi = motion->z.half.hi;
-            task_render = ((Task *)offset_y)->render;
+            task_render = ((Task *)(s32)owner)->render;
             task_render->scale_y = 0x800;
             task_render->scale_x = 0x800;
             task_render->color2 = 0x78;
@@ -397,25 +392,24 @@ state1:
                 ASM_KEEP(copy_page);
                 linked_pos = (Packed12 *)(copy_page + 0x510C);
                 ASM_KEEP(linked_pos);
-                ((Task *)offset_y)->image_data = *linked_pos;
+                ((Task *)(s32)owner)->image_data = *linked_pos;
                 ASM_USE_NV(copy_page);
             }
             {
-                u8 *task_image = (u8 *)(Task *)offset_y + 0x40;
+                u8 *task_image = (u8 *)(Task *)(s32)owner + 0x40;
                 task_render->image = task_image;
             }
         }
         actor->countdown--;
         if (actor->countdown <= 0) {
             if (entity->link60 != 0) {
-                register void *link ASM_REG("$6");
                 s32 sound_id;
-                link = entity->link60;
+                linked_pos = (Packed12 *)(entity->link60);
                 sound_id = 0x300;
                 ASM_KEEP(sound_id);
-                link = (void *)(*(Motion **)((u8 *)link - 0x18));
-                motion->x.half.hi = ((Motion *)link)->x.half.hi;
-                motion->y.half.hi = ((Motion *)link)->y.half.hi;
+                linked_pos = (Packed12 *)((void *)(*(Motion **)((u8 *)(void *)linked_pos - 0x18)));
+                motion->x.half.hi = ((Motion *)(void *)linked_pos)->x.half.hi;
+                motion->y.half.hi = ((Motion *)(void *)linked_pos)->y.half.hi;
                 motion->z.half.hi = actor->target_y;
                 render->image = D_80025100;
                 render->scale_y = 0x400;
@@ -499,20 +493,20 @@ state2:
         }
 do {
         particle_count++;
-        color_m = func_80069EF8();
-        color_m &= 0xFF;
-        color_m |= 0x80;
-        offset_x = func_80069EF8();
-        offset_x &= 0x7F;
-        offset_x -= 0x40;
-        offset_x = (s16)offset_x;
-        offset_y = func_80069EF8();
-        offset_y &= 0x7F;
-        offset_y -= 0x40;
-        offset_y = (s16)offset_y;
+        owner_motion = (Motion *)(func_80069EF8());
+        owner_motion = (Motion *)(((s32)owner_motion) & (0xFF));
+        owner_motion = (Motion *)(((s32)owner_motion) | (0x80));
+        motion = (Motion *)(func_80069EF8());
+        motion = (Motion *)(((s32)motion) & (0x7F));
+        motion = (Motion *)(((s32)motion) - (0x40));
+        motion = (Motion *)((s16)(s32)motion);
+        owner = (Owner *)(func_80069EF8());
+        owner = (Owner *)(((s32)owner) & (0x7F));
+        owner = (Owner *)(((s32)owner) - (0x40));
+        owner = (Owner *)((s16)(s32)owner);
         offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
         func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
-                      color_m, offset_x, offset_y, offset_z);
+                      (s32)owner_motion, (s32)motion, (s32)owner, offset_z);
         more_particles = particle_count < 2;
         if (!more_particles) {
             return;
@@ -525,20 +519,20 @@ state3:
         register s32 particle_count ASM_REG("$19");
         for (particle_count = 0; particle_count < 2; particle_count++) {
             s32 offset_z;
-            color_m = func_80069EF8();
-            color_m &= 0xFF;
-            color_m |= 0x80;
-            offset_x = func_80069EF8();
-            offset_x &= 0x7F;
-            offset_x -= 0x40;
-            offset_x = (s16)offset_x;
-            offset_y = func_80069EF8();
-            offset_y &= 0x7F;
-            offset_y -= 0x40;
-            offset_y = (s16)offset_y;
+            owner_motion = (Motion *)(func_80069EF8());
+            owner_motion = (Motion *)(((s32)owner_motion) & (0xFF));
+            owner_motion = (Motion *)(((s32)owner_motion) | (0x80));
+            motion = (Motion *)(func_80069EF8());
+            motion = (Motion *)(((s32)motion) & (0x7F));
+            motion = (Motion *)(((s32)motion) - (0x40));
+            motion = (Motion *)((s16)(s32)motion);
+            owner = (Owner *)(func_80069EF8());
+            owner = (Owner *)(((s32)owner) & (0x7F));
+            owner = (Owner *)(((s32)owner) - (0x40));
+            owner = (Owner *)((s16)(s32)owner);
             offset_z = (s16)((func_80069EF8() & 0x7F) - 0x40);
             func_80024394((u8 *)actor - 0x20, actor->direction, 0xC0C0C0,
-                          color_m, offset_x, offset_y, offset_z);
+                          (s32)owner_motion, (s32)motion, (s32)owner, offset_z);
         }
     }
 
@@ -559,9 +553,9 @@ state4:
             direction += 4;
             aux_coord >>= 2;
             effect_kind = aux_coord + direction;
-            lookup_page = (u8 *)0x800E0000;
-            ASM_KEEP(lookup_page);
-            aux_coord = lookup_page[0x3D68];
+            direction = (s32)((u8 *)0x800E0000);
+            ASM_KEEP(direction);
+            aux_coord = ((u8 *)direction)[0x3D68];
             {
                 direction = 0xFF;
                 room_id = 0x10;

@@ -137,7 +137,6 @@ void func_80174AA4(void *effect, void *motion, void *sprite)
     s32 tile_x;
     s32 floor_x;
     s32 floor_y;
-    register s32 target_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 object_tile;
     s32 fade_value;
     s32 delay_pending;
@@ -227,14 +226,14 @@ state_2:
     effect->unk_4D.u = next_tile;
     step_coord <<= 6;
     ASM_KEEP_NV(step_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    target_x = step_coord + 0x20;
+    coord_base = step_coord + 0x20;
     target_y = (effect->unk_4D.s << 6) + 0x20;
     collision_coord = effect->unk_26;
     if (collision_coord != 0) {
         goto checks_done;
     }
     ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    check_x = (u16)target_x;
+    check_x = (u16)coord_base;
     check_y = (u16)target_y;
     if ((func_800A45D8(check_x, check_y,
                        motion->unk_0A.s) << 16) != 0) {

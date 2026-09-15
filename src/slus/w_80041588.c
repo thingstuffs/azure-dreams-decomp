@@ -75,14 +75,13 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     base = (u8 *)cmd;
     DrawSync(0);
     {
-        register u8 *table_page ASM_REG("$2") = TBL_PAGE;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+        register u8 *table_page = TBL_PAGE;
         ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         buffer_addr = D_8008148C.value;
-        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        D_80081480.value = buffer_addr;
         table = (void **)(table_page + TBL_OFFSET);
     }
     buffer = (u8 *)buffer_addr;
-    D_80081480.value = (s32)buffer;
 
 dispatch:
     command_idx = cmd->type - 1;

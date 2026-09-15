@@ -627,13 +627,12 @@ L_CFE98:
                             }
                             gte_ldv3(ram_base + 0xE0, ram_base + 0xE8, ram_base + 0xF0);
                             {
-                                register s32 corner_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                                 s32 cell_height;
 
-                                corner_height = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices)))->unk_04;
+                                edge_progress = ((S_800CF8E4_12 *)(((((S_800CF8E4_6 *)face)->unk_06 * 8) + vertices)))->unk_04;
                                 cell_height = *(volatile u16 *)(ram_base + 0x12C);
-                                corner_height -= cell_height;
-                                *(u16 *)(ram_base + 0x0FC) = (u16) corner_height;
+                                edge_progress -= cell_height;
+                                *(u16 *)(ram_base + 0x0FC) = (u16) edge_progress;
                             }
                             gte_rtpt_nn();
                             gte_nclip();

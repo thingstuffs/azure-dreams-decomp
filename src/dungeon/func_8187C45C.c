@@ -100,7 +100,6 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     s32 blue_scaled;
     s32 green_scaled;
     s32 red_scaled;
-    register s32 channel_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 owner_z;
     s32 effect_z;
     s32 tile_distance;
@@ -232,14 +231,14 @@ await_launch:
 
         {
             s32 owner_axis = S8(owner, 0x72);
-            register u32 sprite_axis ASM_REG("$3") = U8(owner_sprite, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            offset_value = (void *)(U8(owner_sprite, 0x24));
 
-            if (owner_axis != sprite_axis) {
-                tile_distance = owner_axis - sprite_axis;
+            if (owner_axis != (u32)offset_value) {
+                tile_distance = owner_axis - (u32)offset_value;
             } else {
                 owner_axis = S8(owner, 0x73);
-                sprite_axis = U8(owner_sprite, 0x25);
-                tile_distance = owner_axis - sprite_axis;
+                offset_value = (void *)(U8(owner_sprite, 0x25));
+                tile_distance = owner_axis - (u32)offset_value;
             }
         }
         if (tile_distance < 0) {
@@ -457,21 +456,19 @@ brighten_target:
     U16(effect, 0x82) = U16(effect, 0x82) + 1;
     object_data = 0;
     blue_scaled = S16(effect, 0x82) * 0x20;
-    channel_value = blue_scaled / 0x28;
-    U8(effect, 0x92) = channel_value;
+    table_value = (void **)(blue_scaled / 0x28);
+    U8(effect, 0x92) = (s32)table_value;
     green_scaled = S16(effect, 0x82) * 8;
     green_scaled = (green_scaled - S16(effect, 0x82)) * 32;
-    channel_value = green_scaled / 0x28;
-    U8(effect, 0x91) = channel_value;
+    table_value = (void **)(green_scaled / 0x28);
+    U8(effect, 0x91) = (s32)table_value;
     red_scaled = S16(effect, 0x82) * 8;
     red_scaled = (red_scaled - S16(effect, 0x82)) * 32;
-    channel_value = red_scaled / 0x28;
-    U8(effect, 0x90) = channel_value;
+    table_value = (void **)(red_scaled / 0x28);
+    U8(effect, 0x90) = (s32)table_value;
 
-    table_value = (void **)0x800E0000;
-    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     offset_value = PTR(owner, 0x60);
-    motion = (u8 *)table_value - 0x23C0;
+    motion = (u8 *)D_800DDC40;
     object = PTR(offset_value, -0x18);
     do {
         template_data = (PointTable *)0x80;
@@ -503,10 +500,8 @@ animate_target:
         U8(effect, 0x90) = ((0x46 - S16(effect, 0x82)) * 0xE0) / 0x23;
     }
 
-    table_value = (void **)0x800E0000;
-    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     offset_value = PTR(owner, 0x60);
-    motion = (u8 *)table_value - 0x23C0;
+    motion = (u8 *)D_800DDC40;
     object = PTR(offset_value, -0x18);
     do {
         template_data = (PointTable *)0x80;

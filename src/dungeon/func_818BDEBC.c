@@ -117,11 +117,9 @@ void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPar
     register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 next_y;
-    register s16 *direction_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 direction_index;
     s32 offset_x;
     s32 offset_y;
-    register s32 dest_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 end_tile_x;
     u16 end_tile_y;
     static void *const state_labels[] = {
@@ -286,21 +284,21 @@ case_0:
     ASM_KEEP_NV(target_pos);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     index = 1;
     x_distance = (u32)end_tile_x << 16;
-    direction_steps = D_8006CCD8;
+    update_offset = (s32)(D_8006CCD8);
     x_distance = (s32)x_distance >> 10;
     direction_index = (s16)state->direction;
     color_part = (u8 *)&work.destination + 2;
-    offset_x = direction_steps[direction_index];
-    direction_steps = D_8006CCE8;
-    dest_x = x_distance + ((offset_x + 1) << 5);
-    target_pos->x = dest_x;
-    dest_x = (s16)dest_x;
-    ASM_KEEP(dest_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    offset_x = ((s16 *)update_offset)[direction_index];
+    update_offset = (s32)(D_8006CCE8);
+    x_distance = x_distance + ((offset_x + 1) << 5);
+    target_pos->x = x_distance;
+    x_distance = (s16)x_distance;
+    ASM_KEEP(x_distance);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     table_base = end_tile_y;
     direction_index = (s16)state->direction;
     ASM_KEEP_DEP_NV(table_base, direction_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     next_x = (u32)(u16)table_base << 16;
-    offset_y = direction_steps[direction_index];
+    offset_y = ((s16 *)update_offset)[direction_index];
     next_x = (s32)next_x >> 10;
     next_x += (offset_y + 1) << 5;
     target_pos->y = next_x;
@@ -314,9 +312,9 @@ case_0:
         motion_coord = S16_AT(motion, 2);
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_x = (s32)next_x >> 16;
-        dest_x -= motion_coord;
-        dest_x = abs(dest_x);
-        work.probe_delta[0] = dest_x;
+        x_distance -= motion_coord;
+        x_distance = abs(x_distance);
+        work.probe_delta[0] = x_distance;
 
         motion_coord = S16_AT(motion, 6);
            /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -332,7 +330,7 @@ case_0:
         work.probe_delta[2] = next_y;
     }
 
-    x_distance = dest_x;
+    x_distance = x_distance;
     state->duration = x_distance;
     loop_0: {
         if (S16_AT(color_part, 0x18) > state->duration) {

@@ -64,14 +64,15 @@ typedef struct S_80172144_4 {
 
 /* Advance the entity along its path and update its movement state. */
 void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_arg) {
-    register void *state ASM_REG("$17") = state_arg;
-    register void *entity ASM_REG("$18") = entity_arg;
+    register void *state = state_arg;
+    register void *entity = entity_arg;
     s32 tile_flags;
     s16 direction;
     s16 move_result;
     s32 effect_status;
+    u8 old_x_early;
     u8 old_x;
-    u8 old_y;
+    s16 old_y;
     s32 step_count;
     S_80172144_3 *path_step;
 
@@ -87,12 +88,13 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
                 func_801708B8(actor, actor_slot, entity);
             }
         }
-        old_x = ((S_80172144_2 *)entity)->unk_24;
+        old_x_early = ((S_80172144_2 *)entity)->unk_24;
         old_y = ((S_80172144_2 *)entity)->unk_25;
         effect_status = func_80042900(state, 0x1B);
+        old_x = old_x_early;
         if ((effect_status << 0x10) == 0) {
             register s32 tile_x ASM_REG("$4");
-            register s32 tile_y ASM_REG("$5");
+            s32 tile_y;
             s32 flags;
             s32 mode;
 

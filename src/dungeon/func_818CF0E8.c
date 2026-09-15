@@ -154,7 +154,7 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
     s32 b;
     register u8 *src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     register s32 w0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 w1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u32 w1;
     register s32 w2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 hi ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
@@ -163,17 +163,15 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
     if (((S_818CF0E8_0 *)arg0)->unk_00.s == 0) {
         p = (void *)0;
         loop_0: {
-            register void *a0v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 a2v ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             register s32 a3v ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 rv;
             p = (u8 *)p + 1;
             rv = func_80069EF8();
-            a0v = (u8 *)arg0 - 0x20;
-            a2v = 0xC0C0C0;
+            w1 = (s32)((u8 *)arg0 - 0x20);
+            src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
-            ASM_USE2(a2v, a3v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            func_80024358(a0v, ((S_818CF0E8_0 *)arg0)->unk_16, a2v, a3v, 0, 0, 0);
+            ASM_USE2(src, a3v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            func_80024358((void *)w1, ((S_818CF0E8_0 *)arg0)->unk_16, (s32)src, a3v, 0, 0, 0);
         } if ((s32)p < 4) goto loop_0;
         if ((func_800A4778(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
                            arg1->unk_08.at02.v, ((S_818CF0E8_0 *)arg0)->unk_30) << 0x10) != 0) {

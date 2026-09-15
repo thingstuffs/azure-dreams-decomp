@@ -183,7 +183,7 @@ extern M2C_UNK D_801749A8;
 void func_801749EC(void *effect, void *origin, void *tint) {
     s16 ring_angles[10];
     s32 coordinate;
-    register s32 scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 scale;
     register s32 y_coordinate ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 state_m ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 vertices[10][6][3];
@@ -208,7 +208,6 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     s16 meridian;
     s16 ring_sector;
     register s16 sector ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 segment ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 ring;
     s16 ring_index;
     s16 next_segment;
@@ -230,13 +229,10 @@ void func_801749EC(void *effect, void *origin, void *tint) {
     void *meridian_render;
     void *segment_start;
     void *ring_render;
-    register void *ring_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *meridian_line ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    register void *ring_line ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    void *meridian_line;
     void *opening_vertex;
     void *closing_vertex;
     void *sector_or_ring_start;
-    register void *color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *meridian_object;
     void *segment_end;
     void *ring_object;
@@ -277,7 +273,7 @@ void func_801749EC(void *effect, void *origin, void *tint) {
                 state_m = (s32) ring_angles;
                 opening_angles = (void *) state_m;
                 radius = scale;
-                do {
+                loop_1: {
                     sector = 0;
                     ring_index_shifted = ring_index << 0x10;
                     signed_ring_index = ring_index_shifted >> 0x10;
@@ -321,7 +317,7 @@ opening_sector_loop:
                     }
                     next_opening_ring = ring_index + 1;
                     ring_index = next_opening_ring;
-                } while (next_opening_ring < 0xA);
+                } if (next_opening_ring < 0xA) goto loop_1;
                 state_m = (s32) *(void *volatile *)&effect;
                 opening_progress = ((S_801749EC_1 *)state_m)->unk_0C + 0x64;
                 ((S_801749EC_1 *)state_m)->unk_0C = opening_progress;
@@ -424,7 +420,7 @@ select_line_data:
     line_data = &D_801749A8;
 build_lines:
     vertex_base_or_offset = (s32)vertices;
-    segment = 0;
+    sector = 0;
     do {
         {
             s32 sector_shifted;
@@ -452,11 +448,11 @@ meridian_segment_loop:
         meridian_render = ((S_801749EC_7 *)meridian_object)->unk_0C;
         (*(s16 *)((u8 *)meridian_render + 0x1E)) = 0x1000;
         (*(s16 *)((u8 *)meridian_render + 0x1C)) = 0x1000;
-        color = *(void *volatile *)&tint;
-        ((S_801749EC_8 *)meridian_render)->unk_0C = (u8) ((S_801749EC_11 *)color)->unk_0C;
-        ((S_801749EC_8 *)meridian_render)->unk_0D = (u8) ((S_801749EC_11 *)color)->unk_0D;
-        ((S_801749EC_8 *)meridian_render)->unk_0E = (u8) ((S_801749EC_11 *)color)->unk_0E;
-        segment_index = segment << 0x10;
+        state_m = (s32)(*(void *volatile *)&tint);
+        ((S_801749EC_8 *)meridian_render)->unk_0C = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0C;
+        ((S_801749EC_8 *)meridian_render)->unk_0D = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0D;
+        ((S_801749EC_8 *)meridian_render)->unk_0E = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0E;
+        segment_index = sector << 0x10;
         segment_index >>= 0x10;
         sector_offset = (s32) sector_or_ring_start * 6;
         segment_end = (s8 *)vertex_base_or_offset + (sector_offset + ((segment_index + 1) * 0x24));
@@ -468,12 +464,12 @@ meridian_segment_loop:
         ((S_801749EC_6 *)meridian_line)->unk_6C = (u16) ((S_801749EC_13 *)segment_start)->unk_02;
         ((S_801749EC_6 *)meridian_line)->unk_6E = (u16) ((S_801749EC_13 *)segment_start)->unk_04;
 next_meridian_segment:
-        next_segment = segment + 1;
-        segment = next_segment;
+        next_segment = sector + 1;
+        sector = next_segment;
         if (next_segment < 9) {
             goto meridian_segment_loop;
         }
-        segment = 0;
+        sector = 0;
         next_meridian = meridian + 1;
         meridian = next_meridian;
     } while (next_meridian < 6);
@@ -496,9 +492,9 @@ ring_sector_loop:
         goto advance_ring_sector;
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    ring_line = ring_object + 0x20;
-    ((S_801749EC_14 *)ring_line)->unk_1A = 1;
-    ((S_801749EC_14 *)ring_line)->unk_1C = 1;
+    meridian_line = ring_object + 0x20;
+    ((S_801749EC_14 *)meridian_line)->unk_1A = 1;
+    ((S_801749EC_14 *)meridian_line)->unk_1C = 1;
     ((S_801749EC_15 *)ring_object)->unk_10 = ring_data;
     func_8004491C(ring_object, &D_80174954);
     ring_render = ((S_801749EC_15 *)ring_object)->unk_0C;
@@ -515,28 +511,28 @@ ring_sector_loop:
     ((S_801749EC_17 *)ring_origin)->unk_00 = (s32) ((S_801749EC_10 *)object_origin)->unk_00;
     ((S_801749EC_17 *)ring_origin)->unk_04 = (s32) ((S_801749EC_10 *)object_origin)->unk_04;
     ((S_801749EC_17 *)ring_origin)->unk_08 = (s32) ((S_801749EC_10 *)object_origin)->unk_08;
-    ring_color = ((S_801749EC_15 *)ring_object)->unk_0C;
-    (*(s16 *)((u8 *)ring_color + 0x1E)) = 0x1000;
-    (*(s16 *)((u8 *)ring_color + 0x1C)) = 0x1000;
-    color = *(void *volatile *)&tint;
-    ((S_801749EC_18 *)ring_color)->unk_0C = (u8) ((S_801749EC_11 *)color)->unk_0C;
-    ((S_801749EC_18 *)ring_color)->unk_0D = (u8) ((S_801749EC_11 *)color)->unk_0D;
-    ((S_801749EC_18 *)ring_color)->unk_0E = (u8) ((S_801749EC_11 *)color)->unk_0E;
+    scale = (s32)(((S_801749EC_15 *)ring_object)->unk_0C);
+    (*(s16 *)((u8 *)(void *)scale + 0x1E)) = 0x1000;
+    (*(s16 *)((u8 *)(void *)scale + 0x1C)) = 0x1000;
+    state_m = (s32)(*(void *volatile *)&tint);
+    ((S_801749EC_18 *)(void *)scale)->unk_0C = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0C;
+    ((S_801749EC_18 *)(void *)scale)->unk_0D = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0D;
+    ((S_801749EC_18 *)(void *)scale)->unk_0E = (u8) ((S_801749EC_11 *)(void *)state_m)->unk_0E;
     if (ring_sector != 5) {
         next_vertex = (s8 *)angle_or_vertices + (((ring_sector + 1) * 6) + vertex_base_or_offset);
-        ((S_801749EC_14 *)ring_line)->unk_64 = (u16) ((S_801749EC_19 *)next_vertex)->unk_00;
-        ((S_801749EC_14 *)ring_line)->unk_66 = (u16) ((S_801749EC_19 *)next_vertex)->unk_02;
-        ((S_801749EC_14 *)ring_line)->unk_68 = (u16) ((S_801749EC_19 *)next_vertex)->unk_04;
+        ((S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((S_801749EC_19 *)next_vertex)->unk_00;
+        ((S_801749EC_14 *)meridian_line)->unk_66 = (u16) ((S_801749EC_19 *)next_vertex)->unk_02;
+        ((S_801749EC_14 *)meridian_line)->unk_68 = (u16) ((S_801749EC_19 *)next_vertex)->unk_04;
         goto set_ring_start;
     }
-    ((S_801749EC_14 *)ring_line)->unk_64 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_00;
-    ((S_801749EC_14 *)ring_line)->unk_66 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_02;
-    ((S_801749EC_14 *)ring_line)->unk_68 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_04;
+    ((S_801749EC_14 *)meridian_line)->unk_64 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_00;
+    ((S_801749EC_14 *)meridian_line)->unk_66 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_02;
+    ((S_801749EC_14 *)meridian_line)->unk_68 = (u16) ((S_801749EC_20 *)sector_or_ring_start)->unk_04;
 set_ring_start:
     current_vertex = (s8 *)angle_or_vertices + ((ring_sector * 6) + vertex_base_or_offset);
-    ((S_801749EC_14 *)ring_line)->unk_6A = (u16) ((S_801749EC_21 *)current_vertex)->unk_00;
-    ((S_801749EC_14 *)ring_line)->unk_6C = (u16) ((S_801749EC_21 *)current_vertex)->unk_02;
-    ((S_801749EC_14 *)ring_line)->unk_6E = (u16) ((S_801749EC_21 *)current_vertex)->unk_04;
+    ((S_801749EC_14 *)meridian_line)->unk_6A = (u16) ((S_801749EC_21 *)current_vertex)->unk_00;
+    ((S_801749EC_14 *)meridian_line)->unk_6C = (u16) ((S_801749EC_21 *)current_vertex)->unk_02;
+    ((S_801749EC_14 *)meridian_line)->unk_6E = (u16) ((S_801749EC_21 *)current_vertex)->unk_04;
 advance_ring_sector:
     next_ring_sector = ring_sector + 1;
     ring_sector = next_ring_sector;

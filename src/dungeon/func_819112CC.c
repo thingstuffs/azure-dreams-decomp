@@ -126,7 +126,6 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     s16 end_x;
     s16 next_end_x;
     register u32 *link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 radial_x;
     s32 next_delta_y;
     s32 delta_y;
@@ -157,15 +156,15 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     while (point_index < 5) {
         twice_index = point_index * 2;
         angle_x_or_mask = (twice_index + 1) * 0x199;
-        angle = angle_x_or_mask + ((S_819112CC_0 *)effect)->unk_0A;
-        radial_x = func_800644B8(angle);
-        angle = ((S_819112CC_0 *)effect)->unk_0A;
-        angle = angle_x_or_mask + angle;
+        link = (u32 *)(angle_x_or_mask + ((S_819112CC_0 *)effect)->unk_0A);
+        radial_x = func_800644B8((s32)link);
+        link = (u32 *)(((S_819112CC_0 *)effect)->unk_0A);
+        link = (u32 *)(angle_x_or_mask + (s32)link);
         angle_x_or_mask = origin->unk_00;
         angle_x_or_mask += (((radial_x >> 4) *
                      ((S_819112CC_0 *)effect)->unk_0E) << 8);
         ASM_KEEP_NV(angle_x_or_mask);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        coord_or_offset = func_80064584(angle);
+        coord_or_offset = func_80064584((s32)link);
         target_x = angle_x_or_mask;
         coord_or_offset >>= 4;
         radial_y = origin->unk_04 +

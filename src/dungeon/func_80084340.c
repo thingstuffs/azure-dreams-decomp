@@ -310,7 +310,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     s32 turn_sign;
     s32 retry_callback;
     register s32 companion_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 pending_passes ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 room_index;
     u16 input_flags;
     u16 pass_flags;
@@ -795,7 +794,7 @@ clear_linked_flags:
                 do {
                     record_or_page = (*(void **)((u8 *)actor + 0x5C));
                     linked_actor = (u8 *)record_or_page + 0x20;
-                    pending_passes = 0;
+                    companion_index = 0;
                     if (linked_actor != actor) {
                         do {
                             retry_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
@@ -804,14 +803,14 @@ clear_linked_flags:
                                 retry_callback |= 0x80000000;
                                 ((M2C_UNK (*)(void *, s32, s32)) retry_callback)((u8 *)record_or_page + 0x20, ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
                                 if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000) && (((S_80089AA0_19 *)linked_actor)->unk_71 < 0) && (((S_80089AA0_19 *)linked_actor)->unk_6D != 0)) {
-                                    pending_passes += 1;
+                                    companion_index += 1;
                                 }
                             }
                             record_or_page = D_800E3DE8;
                             linked_actor = (u8 *)record_or_page + 0x20;
                         } while (linked_actor != sprite_or_root);
                     }
-                } while (pending_passes != 0);
+                } while (companion_index != 0);
                 linked_actor = (*(void **)((u8 *)actor + 0x5C)) + 0x20;
                 sprite_or_root = actor;
                 if (linked_actor != actor) {
@@ -848,7 +847,7 @@ process_turns:
     if (tail_status->unk_10 > 0) {
         tail_status->unk_10 = 0;
     }
-    pending_passes = 0;
+    companion_index = 0;
     actor_root_page = (u8 *)0x800E0000;
     ASM_KEEP(actor_root_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     do {
@@ -966,8 +965,8 @@ store_pending_actor:
         if ((func_800A2B28() << 0x10) != 0) {
             goto check_pass_completion;
         }
-        if (pending_passes == 0) {
-            pending_passes = 1;
+        if (companion_index == 0) {
+            companion_index = 1;
             goto begin_actor_pass;
         }
         pass_flags = ((S_80089AA0_24 *)loop_status)->unk_02;

@@ -165,7 +165,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 world_x;
     s32 direction;
     s32 end_x_signed;
-    register s32 end_y_signed ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 offset_x;
     s32 offset_y;
     register s32 table_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -176,7 +175,6 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 probe_y;
     register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 end_z_signed;
-    register s32 current_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 current_z;
     s32 position_xy;
     s32 step_x_or_z;
@@ -399,12 +397,12 @@ build_path_endpoint:
     world_y >>= 0xA;
     end_y = world_y + ((offset_y + 1) << 5);
     ((S_80025738_7 *)destination)->unk_04.at02.v = end_y;
-    end_y_signed = (s32) ((u16) end_y << 0x10);
+    probe_x = (s32) ((u16) end_y << 0x10);
     end_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v + 0x20;
     ((S_80025738_7 *)destination)->unk_08.at02.v = end_z;
     phase = ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    end_y_signed >>= 0x10;
+    probe_x >>= 0x10;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     path_dx = end_x_signed;
     path_dx -= phase;
@@ -414,12 +412,12 @@ build_path_endpoint:
     path_dx = 0 - path_dx;
 store_path_dx:
     frame.delta[0] = path_dx;
-    current_y = ((S_80025738_5 *)motion_in)->unk_04.at02u.v;
+    update_y_entry = (u16 *)(((S_80025738_5 *)motion_in)->unk_04.at02u.v);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     end_z_signed = (s32) ((u16) end_z << 0x10);
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    path_dy = end_y_signed;
-    path_dy -= current_y;
+    path_dy = probe_x;
+    path_dy -= (s32)update_y_entry;
     if (path_dy >= 0) {
         goto store_path_dy;
     }

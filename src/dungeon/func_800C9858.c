@@ -246,9 +246,9 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
                                 (s16)end_x - (s16)start_x,
                                 (s16)end_x);
     {
-        register u8 *coeff_page ASM_REG("$3") = (u8 *)0x80070000;
-        ASM_KEEP_NV(coeff_page);
-        coeff_base = (s32 *)(coeff_page - 0x32D0);
+        coord_end = (s32)((u8 *)0x80070000);
+        ASM_KEEP_NV(coord_end);
+        coeff_base = (s32 *)((u8 *)coord_end - 0x32D0);
     }
     depth_offset = sort_bias;
     ASM_SCHED_BARRIER();

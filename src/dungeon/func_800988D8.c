@@ -138,7 +138,6 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
     S_func_8009E038_7 *idle_offsets;
     s32 left_step;
     register s32 shared_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s32 reset_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     render = render_params;
     input = (S_func_8009E038_5 *)&D_80083160;
@@ -163,9 +162,9 @@ check_reset:
     transition->unk_1A = 0;
     transition->unk_1C = 8;
 clear_idle:
-    reset_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
+    shared_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
     transition->unk_2C = 0U;
-    (*(s32 *)&D_800E296C) = reset_flags & 0xFEFFFFFF;
+    (*(s32 *)&D_800E296C) = shared_flags & 0xFEFFFFFF;
     goto check_idle;
 check_shrink_end:
     if ((u32) ((u16) transition->unk_1A - 0x20) >= 0x10U) {
@@ -183,9 +182,9 @@ check_idle:
         goto dispatch_state;
     }
 reset_idle:
-    reset_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
+    shared_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
     transition->unk_2C = 0U;
-    (*(s32 *)&D_800E296C) = reset_flags & 0xFEFFFFFF;
+    (*(s32 *)&D_800E296C) = shared_flags & 0xFEFFFFFF;
 dispatch_state:
     state = transition->unk_1A;
     if ((u32) state >= 0x31U) {
@@ -248,11 +247,11 @@ tick_reset:
     render->unk_0C.s32 = 0x808080;
     transition->unk_08 = 0x140;
     transition->unk_0A = 0xE0;
-    reset_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
+    shared_flags = ((S_func_8009E038_3 *)&D_800E296C)->unk_00;
     transition->unk_04 = 0;
     transition->unk_06 = 0;
     transition->unk_1C = 0;
-    if (!(reset_flags & 0x800000)) {
+    if (!(shared_flags & 0x800000)) {
         goto check_move_start;
     }
     transition->unk_1C = 0x1E;

@@ -65,6 +65,7 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     u16 *x_delta;
     u8 *x_steps;
     s16 height;
+    register s32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     ((S_801720EC_0 *)actor)->unk_71 &= 0x7f;
     flags = D_80083462;
@@ -109,7 +110,6 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     y_delta = (u16 *)((u8 *)&D_8006CCE8 + delta_offset);
     {
         s32 step_x;
-        register s32 step_y ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         step_x = *x_delta;
         step_y = *y_delta;
         if (func_8009B4B0(actor, (base_x + step_x) & 0xffff,
@@ -139,12 +139,12 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
                       0);
         func_800A4ACC(actor);
         {
-            register s32 update_mode ASM_REG("$6") = 8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             s32 update_flags = 0x300;
             void *entity_base = state.saved_ptr;
+            step_y = 8;
             ASM_KEEP_NV(update_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             ((S_801720EC_0 *)actor)->unk_6D--;
-            func_800C77D0(entity_base, update_arg, update_mode, update_flags);
+            func_800C77D0(entity_base, update_arg, step_y, update_flags);
         }
         ASM_USE_NV(kept_result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         return 1;

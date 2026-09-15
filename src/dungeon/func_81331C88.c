@@ -165,7 +165,6 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     s32 coord_offset;
     s32 source_side;
     s32 source_index;
-    register u8 *coord_lookup ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u8 *far_coord;
     s16 ticks_left;
     u8 *coord_table;
@@ -332,20 +331,20 @@ interpolate_axis:
                 near_vertex = (u16 *)(vertex_base + 0x74);
 copy_coord:
                 coord_offset = coord * 2;
-                coord_lookup = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
-                coord_lookup += (s32)coord_table;
-                coord_lookup = (u8 *)((s32)sample_offset + (s32)coord_lookup);
-                coord_lookup = (u8 *)((s32)source_offset + (s32)coord_lookup);
-                coord_lookup = (u8 *)((s32)coord_offset + (s32)coord_lookup);
-                *near_vertex = ((S_80168C88_13 *)coord_lookup)->unk_00;
+                endpoint = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
+                endpoint += (s32)coord_table;
+                endpoint = (u8 *)((s32)sample_offset + (s32)endpoint);
+                endpoint = (u8 *)((s32)source_offset + (s32)endpoint);
+                endpoint = (u8 *)((s32)coord_offset + (s32)endpoint);
+                *near_vertex = ((S_80168C88_13 *)endpoint)->unk_00;
                 coord += 1;
                 near_vertex += 1;
-                coord_lookup = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
-                coord_lookup += (s32)coord_table;
-                coord_lookup = (u8 *)((s32)sample_offset + (s32)coord_lookup);
-                coord_lookup += 0xC;
-                coord_lookup = (u8 *)((s32)source_offset + (s32)coord_lookup);
-                far_coord = (u8 *)((s32)coord_offset + (s32)coord_lookup);
+                endpoint = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
+                endpoint += (s32)coord_table;
+                endpoint = (u8 *)((s32)sample_offset + (s32)endpoint);
+                endpoint += 0xC;
+                endpoint = (u8 *)((s32)source_offset + (s32)endpoint);
+                far_coord = (u8 *)((s32)coord_offset + (s32)endpoint);
                 ASM_KEEP_NV(far_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 *far_vertex = ((S_80168C88_14 *)far_coord)->unk_00;
                 far_vertex += 1;

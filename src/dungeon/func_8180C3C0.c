@@ -203,6 +203,11 @@ void func_800253C0(void *sequence_in, void *position_in, void *actor_in, void *o
     switch (state) {
         register s32 coord_delta ASM_REG("$3");
         register void *object_m ASM_REG("$16");
+        register s32 message_text ASM_REG("$18");
+        register s32 object_index_m ASM_REG("$17");
+        register s32 next_state ASM_REG("$2");
+        void *prim_m;
+        register s32 table_index_m ASM_REG("$5");
     case 0:
         if (((S_800253C0_0 *)sequence)->unk_AC == 0) {
             goto missing_object;
@@ -252,7 +257,7 @@ start_sequence:
             u32 mask = 0x20000000;
             void *object_slot = sequence;
 
-            do {
+            loop_0: {
                 object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
                 if ((((S_800253C0_5 *)object_m)->unk_14 & mask) != 0) {
                     func_800ACB98(object_m, ((S_800253C0_5_pre *)object_m)[-1].unk_00,
@@ -260,7 +265,7 @@ start_sequence:
                 }
                 object_index++;
                 object_slot = (u8 *)object_slot + 4;
-            } while (object_index < 2);
+            } if (object_index < 2) goto loop_0;
         }
         goto advance_state;
 
@@ -283,7 +288,6 @@ start_sequence:
             } while (object_index < 2);
         }
         {
-            register s32 object_index ASM_REG("$17");
             void *object_slot;
             u8 brightness;
             s16 timer;
@@ -292,7 +296,6 @@ start_sequence:
             u8 *move_scene;
             s16 *table_x;
             s16 *table_y;
-            register void *prim ASM_REG("$8");
 
             ((S_800253C0_0 *)sequence)->unk_9B.n++;
             ((S_800253C0_0 *)sequence)->unk_96.v = 32;
@@ -303,7 +306,7 @@ start_sequence:
             delta = (coord_delta - brightness) / timer;
             brightness = brightness + delta;
             scene_rgb = scene + 0xA8;
-            object_index = 0;
+            object_index_m = 0;
             object_slot = sequence;
             move_scene = D_80083160;
             table_x = (s16 *)&D_8006CCD8;
@@ -313,39 +316,37 @@ start_sequence:
             scene_rgb[1] = brightness;
             scene_rgb[2] = brightness;
             do {
-                register s32 table_index ASM_REG("$5");
                 s32 delta;
-                register s32 old_coord ASM_REG("$2");
                 s32 frames_left;
 
-                table_index = object_index << 11;
+                table_index_m = object_index_m << 11;
                 object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
-                old_coord = ((S_800253C0_7 *)move_scene)->unk_C8;
-                table_index = table_index - old_coord;
-                table_index = (table_index + 0x100) >> 8;
-                table_index &= 0xE;
+                next_state = ((S_800253C0_7 *)move_scene)->unk_C8;
+                table_index_m = table_index_m - next_state;
+                table_index_m = (table_index_m + 0x100) >> 8;
+                table_index_m &= 0xE;
                 coord_delta = (s32)((S_800253C0_8 *)actor)->unk_24;
                 frames_left = ((S_800253C0_0 *)sequence)->unk_96.n;
-                coord_delta = coord_delta + table_x[table_index >> 1];
+                coord_delta = coord_delta + table_x[table_index_m >> 1];
                 coord_delta = coord_delta << 6;
-                prim = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
-                old_coord = ((S_800253C0_9 *)prim)->unk_02.s - 0x20;
-                coord_delta = coord_delta - old_coord;
-                ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u + coord_delta / frames_left;
+                prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+                next_state = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+                coord_delta = coord_delta - next_state;
+                ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u + coord_delta / frames_left;
                 coord_delta = (s32)((S_800253C0_8 *)actor)->unk_25;
                 {
-                    old_coord = table_y[table_index >> 1];
-                    coord_delta = coord_delta + old_coord;
+                    next_state = table_y[table_index_m >> 1];
+                    coord_delta = coord_delta + next_state;
                 }
                 coord_delta = coord_delta << 6;
-                old_coord = ((S_800253C0_9 *)prim)->unk_06.s - 0x20;
-                coord_delta = coord_delta - old_coord;
-                ((S_800253C0_9 *)prim)->unk_06.u = ((S_800253C0_9 *)prim)->unk_06.u +
+                next_state = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+                coord_delta = coord_delta - next_state;
+                ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
                     coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                 {
-                    s32 old_z = ((S_800253C0_9 *)prim)->unk_0A.s;
+                    s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
                     s32 z_delta = ((S_800253C0_10 *)position)->unk_0A.s - old_z;
-                    ((S_800253C0_9 *)prim)->unk_0A.u = ((S_800253C0_9 *)prim)->unk_0A.u +
+                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
                         z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                 }
 
@@ -356,9 +357,9 @@ start_sequence:
                         ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
                     }
                 }
-                object_index++;
+                object_index_m++;
                 object_slot = (u8 *)object_slot + 4;
-            } while (object_index < 2);
+            } while (object_index_m < 2);
             timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
@@ -366,33 +367,32 @@ start_sequence:
             }
             func_800A56E0(0x300);
             {
-                register s32 object_index ASM_REG("$17");
                 u8 *snap_scene;
                 s16 *snap_x;
                 s16 *snap_y;
                 void *final_slot;
                 ((S_800253C0_11 *)scene_rgb)->unk_00 = 0x2C202020;
-                object_index = 0;
+                object_index_m = 0;
                 snap_scene = D_80083160;
                 snap_x = (s16 *)&D_8006CCD8;
                 snap_y = (s16 *)&D_8006CCE8;
                 final_slot = sequence;
                 do {
-                    register void *object ASM_REG("$16") = ((S_800253C0_12 *)final_slot)->unk_AC;
-                    s32 table_index = ((object_index << 11) - ((S_800253C0_13 *)snap_scene)->unk_C8 + 0x100) >> 8;
+                    s32 table_index = ((object_index_m << 11) - ((S_800253C0_13 *)snap_scene)->unk_C8 + 0x100) >> 8;
                     s32 x;
                     s32 y;
+                    object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
                     ASM_KEEP_NV(table_index);
                     table_index &= 0xE;
                     x = (s32)((S_800253C0_8 *)actor)->unk_24 + snap_x[table_index >> 1];
-                    prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
-                    ((S_800253C0_9 *)prim)->unk_02.s = (x << 6) + 0x20;
+                    prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+                    ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
                     y = (s32)((S_800253C0_8 *)actor)->unk_25 + snap_y[table_index >> 1];
-                    ((S_800253C0_9 *)prim)->unk_06.s = (y << 6) + 0x20;
-                    ((S_800253C0_9 *)prim)->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
+                    ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
+                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_10 *)position)->unk_0A.u;
                     final_slot = (u8 *)final_slot + 4;
-                    object_index++;
-                } while (object_index < 2);
+                    object_index_m++;
+                } while (object_index_m < 2);
                 {
                     coord_delta = 16;
                     state = ((S_800253C0_0 *)sequence)->unk_9B.v;
@@ -423,22 +423,20 @@ start_sequence:
         {
             s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             s32 object_index;
-            register void *object_slot ASM_REG("$18");
-            register void *object ASM_REG("$16");
 
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
                 goto done;
             }
             object_index = 0;
-            object_slot = sequence;
+            message_text = (s32)(sequence);
             do {
                 register void *call_position ASM_REG("$4") = position;
                 register void *call_actor ASM_REG("$7") = actor;
-                object = ((S_800253C0_4 *)object_slot)->unk_AC;
-                object_slot = (u8 *)object_slot + 4;
+                object_m = ((S_800253C0_4 *)(void *)message_text)->unk_AC;
+                message_text = (s32)((u8 *)(void *)message_text + 4);
                 object_index++;
-                func_80026A84(call_position, ((S_800253C0_5_pre *)object)[-1].unk_00, object, call_actor);
+                func_80026A84(call_position, ((S_800253C0_5_pre *)object_m)[-1].unk_00, object_m, call_actor);
             } while (object_index < 2);
             {
                 s16 texture_rect[4];
@@ -486,7 +484,6 @@ start_sequence:
             register s32 message_id ASM_REG("$22") = func_800990FC();
             s32 text = func_8009929C(8, message_id);
             s32 saved_text;
-            register s32 next_state ASM_REG("$2");
             text = func_80099734(((S_800253C0_0 *)sequence)->unk_AC, text);
             text = func_80099194(D_80025000, text);
             text = func_80099734(((S_800253C0_0 *)sequence)->unk_B0, text);
@@ -572,21 +569,21 @@ show_result:
     case 8:
         func_80025FF4(((S_800253C0_0 *)sequence)->unk_AC, ((S_800253C0_0 *)sequence)->unk_B0);
         {
-            register s32 object_index ASM_REG("$17") = 0;
             void *object_slot = sequence;
+            object_index_m = 0;
             do {
                 register void *object ASM_REG("$16") = ((S_800253C0_4 *)object_slot)->unk_AC;
                 void *child = ((S_800253C0_5_pre *)object)[-1].unk_04;
                 u32 red = ((S_800253C0_17 *)child)->unk_0C.at00.v;
-                register u32 green ASM_REG("$3") = ((S_800253C0_17 *)child)->unk_0C.at01.v;
                 u32 blue;
+                coord_delta = (s32)(((S_800253C0_17 *)child)->unk_0C.at01.v);
                 red = red - (red >> 1);
                 ((S_800253C0_17 *)child)->unk_0C.at00.v = red;
                 ASM_KEEP(red);
-                green = green - (green >> 1);
+                coord_delta = (s32)((u32)coord_delta - ((u32)coord_delta >> 1));
                 blue = ((S_800253C0_17 *)child)->unk_0C.at02.v;
                 red = ((S_800253C0_17 *)child)->unk_0C.at00u.v;
-                ((S_800253C0_17 *)child)->unk_0C.at01.v = green;
+                ((S_800253C0_17 *)child)->unk_0C.at01.v = (u32)coord_delta;
                 blue = blue - (blue >> 1);
                 ((S_800253C0_17 *)child)->unk_0C.at02.v = blue;
                 if (red < 5) {
@@ -594,9 +591,9 @@ show_result:
                     ((S_800253C0_17 *)child)->unk_0C.at01.v = 0;
                     ((S_800253C0_17 *)child)->unk_0C.at00.v = 0;
                 }
-                object_index++;
+                object_index_m++;
                 object_slot = (u8 *)object_slot + 4;
-            } while (object_index < 2);
+            } while (object_index_m < 2);
             {
                 s16 timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
                 ((S_800253C0_0 *)sequence)->unk_96.n = timer;
@@ -613,7 +610,6 @@ show_result:
                 void **removed_slot;
                 void *new_object;
                 register s32 message_id ASM_REG("$22");
-                register s32 message_text ASM_REG("$18");
                 s32 text_cursor;
 
                 message_id = func_800990FC();
@@ -657,28 +653,28 @@ show_result:
                 register void *object ASM_REG("$16") =
                     ((S_800253C0_18 *)((void *)((object_index << 2) + (s32)sequence)))->unk_AC;
                 if (object != 0) {
-                    register void *prim ASM_REG("$8") = ((S_800253C0_5_pre *)object)[-1].unk_00;
-                    register void *child ASM_REG("$5") = ((S_800253C0_5_pre *)object)[-1].unk_04;
                     s32 index;
                     u8 *y_table;
                     s32 effect_size;
                     s32 x;
                     s32 y;
                     s32 z;
-                    ((S_800253C0_17 *)child)->unk_0C.at00p.v = 0x808080;
-                    ((S_800253C0_17 *)child)->unk_10 = 0;
-                    ((S_800253C0_17 *)child)->unk_12.u &= 0x3F;
-                    ((S_800253C0_17 *)child)->unk_14.u &= 0xFFF3;
+                    prim_m = ((S_800253C0_5_pre *)object)[-1].unk_00;
+                    table_index_m = (s32)(((S_800253C0_5_pre *)object)[-1].unk_04);
+                    ((S_800253C0_17 *)(void *)table_index_m)->unk_0C.at00p.v = 0x808080;
+                    ((S_800253C0_17 *)(void *)table_index_m)->unk_10 = 0;
+                    ((S_800253C0_17 *)(void *)table_index_m)->unk_12.u &= 0x3F;
+                    ((S_800253C0_17 *)(void *)table_index_m)->unk_14.u &= 0xFFF3;
                     index = (((-((S_800253C0_19 *)restore_scene)->unk_C8 + 0x500) >> 8) & 0xE);
                     x = ((S_800253C0_8 *)actor)->unk_24 + table_x[index >> 1];
-                    ((S_800253C0_9 *)prim)->unk_02.s = (x << 6) + 0x20;
+                    ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
                     effect_size = 16;
                     y_table = (u8 *)&D_8006CCE8;
                     y = ((S_800253C0_8 *)actor)->unk_25 + *(s16 *)((s32)(index + (s32)y_table));
-                    ((S_800253C0_9 *)prim)->unk_06.s = (y << 6) + 0x20;
+                    ((S_800253C0_9 *)prim_m)->unk_06.s = (y << 6) + 0x20;
                     z = ((S_800253C0_10 *)position)->unk_0A.u;
-                    ((S_800253C0_9 *)prim)->unk_0A.u = z;
-                    func_80027534(((S_800253C0_9 *)prim)->unk_02.s, ((S_800253C0_9 *)prim)->unk_06.s,
+                    ((S_800253C0_9 *)prim_m)->unk_0A.u = z;
+                    func_80027534(((S_800253C0_9 *)prim_m)->unk_02.s, ((S_800253C0_9 *)prim_m)->unk_06.s,
                         (s16)(z - 0x20), effect_size);
                 }
                 object_index++;
@@ -709,12 +705,8 @@ show_result:
 
     case 10:
         {
-            register s32 object_index ASM_REG("$17");
             void *object_slot;
-            register u8 *scene_rgb ASM_REG("$18");
             s32 target_level;
-            register void *object ASM_REG("$16");
-            register void *prim ASM_REG("$8");
             void *child;
             register void *final_slot;
             s16 timer;
@@ -729,75 +721,74 @@ show_result:
             register u32 clear_flags;
 
             step = (128 - ((S_800253C0_6 *)scene)->unk_A8) / ((S_800253C0_0 *)sequence)->unk_96.n;
-            scene_rgb = scene + 0xA8;
-            object_index = 0;
+            message_text = (s32)(scene + 0xA8);
+            object_index_m = 0;
             object_slot = sequence;
             brightness = ((S_800253C0_6 *)scene)->unk_A8 + step;
             ((S_800253C0_6 *)scene)->unk_A8 = brightness;
-            scene_rgb[2] = brightness;
-            scene_rgb[1] = brightness;
+            ((u8 *)message_text)[2] = brightness;
+            ((u8 *)message_text)[1] = brightness;
             do {
-                object = ((S_800253C0_4 *)object_slot)->unk_AC;
-                if (object != 0) {
-                    register s32 old_coord ASM_REG("$2");
-                    child = ((S_800253C0_5_pre *)object)[-1].unk_04;
-                    prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
+                object_m = ((S_800253C0_4 *)object_slot)->unk_AC;
+                if (object_m != 0) {
+                    child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
+                    prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
                     coord_delta = (s32)((S_800253C0_17 *)child)->unk_24;
                     coord_delta = coord_delta << 6;
-                    old_coord = ((S_800253C0_9 *)prim)->unk_02.s - 0x20;
-                    coord_delta = coord_delta - old_coord;
-                    ((S_800253C0_9 *)prim)->unk_02.u = ((S_800253C0_9 *)prim)->unk_02.u +
+                    next_state = ((S_800253C0_9 *)prim_m)->unk_02.s - 0x20;
+                    coord_delta = coord_delta - next_state;
+                    ((S_800253C0_9 *)prim_m)->unk_02.u = ((S_800253C0_9 *)prim_m)->unk_02.u +
                         coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                     coord_delta = (s32)((S_800253C0_17 *)child)->unk_25;
                     ASM_SCHED_BARRIER();
                     coord_delta = coord_delta << 6;
-                    old_coord = ((S_800253C0_9 *)prim)->unk_06.s - 0x20;
-                    coord_delta = coord_delta - old_coord;
-                    ((S_800253C0_9 *)prim)->unk_06.u = ((S_800253C0_9 *)prim)->unk_06.u +
+                    next_state = ((S_800253C0_9 *)prim_m)->unk_06.s - 0x20;
+                    coord_delta = coord_delta - next_state;
+                    ((S_800253C0_9 *)prim_m)->unk_06.u = ((S_800253C0_9 *)prim_m)->unk_06.u +
                         coord_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                     {
-                        s32 old_z = ((S_800253C0_9 *)prim)->unk_0A.s;
-                        s32 z_delta = ((S_800253C0_5 *)object)->unk_88.s - old_z;
-                        ((S_800253C0_9 *)prim)->unk_0A.u = ((S_800253C0_9 *)prim)->unk_0A.u +
+                        s32 old_z = ((S_800253C0_9 *)prim_m)->unk_0A.s;
+                        s32 z_delta = ((S_800253C0_5 *)object_m)->unk_88.s - old_z;
+                        ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_9 *)prim_m)->unk_0A.u +
                             z_delta / ((S_800253C0_0 *)sequence)->unk_96.n;
                     }
-                    saved_angle = ((S_800253C0_5 *)object)->unk_8A;
-                    ((S_800253C0_5 *)object)->unk_2A.v =
-                        ((S_800253C0_5 *)object)->unk_2A.n & 0xFFF;
-                    current_angle = ((S_800253C0_5 *)object)->unk_2A.n2;
-                    old_angle = ((S_800253C0_5 *)object)->unk_2A.n;
+                    saved_angle = ((S_800253C0_5 *)object_m)->unk_8A;
+                    ((S_800253C0_5 *)object_m)->unk_2A.v =
+                        ((S_800253C0_5 *)object_m)->unk_2A.n & 0xFFF;
+                    current_angle = ((S_800253C0_5 *)object_m)->unk_2A.n2;
+                    old_angle = ((S_800253C0_5 *)object_m)->unk_2A.n;
                     saved_angle = saved_angle & 0xFFF;
-                    ((S_800253C0_5 *)object)->unk_8A = saved_angle;
+                    ((S_800253C0_5 *)object_m)->unk_8A = saved_angle;
                     if (current_angle != (s16)saved_angle) {
-                        ((S_800253C0_5 *)object)->unk_2A.n = old_angle + 0x200;
+                        ((S_800253C0_5 *)object_m)->unk_2A.n = old_angle + 0x200;
                     }
                 }
-                object_index++;
+                object_index_m++;
                 object_slot = (u8 *)object_slot + 4;
-            } while (object_index < 2);
+            } while (object_index_m < 2);
             timer = ((S_800253C0_0 *)sequence)->unk_96.n - 1;
             ((S_800253C0_0 *)sequence)->unk_96.n = timer;
             if (timer > 0) {
                 goto done;
             }
-            ((S_800253C0_11 *)scene_rgb)->unk_00 = 0x2C808080;
-            object_index = 0;
+            ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C808080;
+            object_index_m = 0;
             clear_flags = 0xFFEFFFFF;
             final_slot = sequence;
             do {
-                object = ((S_800253C0_12 *)final_slot)->unk_AC;
-                if (object != 0) {
-                    child = ((S_800253C0_5_pre *)object)[-1].unk_04;
+                object_m = ((S_800253C0_12 *)final_slot)->unk_AC;
+                if (object_m != 0) {
+                    child = ((S_800253C0_5_pre *)object_m)[-1].unk_04;
                     x = ((S_800253C0_17 *)child)->unk_24;
-                    prim = ((S_800253C0_5_pre *)object)[-1].unk_00;
-                    ((S_800253C0_9 *)prim)->unk_02.s = (x << 6) + 0x20;
-                    ((S_800253C0_9 *)prim)->unk_06.s = ((s32)((S_800253C0_17 *)child)->unk_25 << 6) + 0x20;
-                    ((S_800253C0_9 *)prim)->unk_0A.u = ((S_800253C0_5 *)object)->unk_88.u;
-                    ((S_800253C0_5 *)object)->unk_14 &= clear_flags;
+                    prim_m = ((S_800253C0_5_pre *)object_m)[-1].unk_00;
+                    ((S_800253C0_9 *)prim_m)->unk_02.s = (x << 6) + 0x20;
+                    ((S_800253C0_9 *)prim_m)->unk_06.s = ((s32)((S_800253C0_17 *)child)->unk_25 << 6) + 0x20;
+                    ((S_800253C0_9 *)prim_m)->unk_0A.u = ((S_800253C0_5 *)object_m)->unk_88.u;
+                    ((S_800253C0_5 *)object_m)->unk_14 &= clear_flags;
                 }
-                object_index++;
+                object_index_m++;
                 final_slot = (u8 *)final_slot + 4;
-            } while (object_index < 2);
+            } while (object_index_m < 2);
             goto advance_state;
         }
 

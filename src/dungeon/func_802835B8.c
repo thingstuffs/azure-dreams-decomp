@@ -215,14 +215,12 @@ void func_800165B8(void) {
     register u8 *bind_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *bind_angle;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *defaults_page;
-    register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *status_page;
     s32 status_value;
     u16 init_flags;
     register s32 neutral_color ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 entity_mask;
     s32 entity_flags;
-    register u32 copy_addr ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 copy_tail;
     u8 *zero_arg;
 
@@ -258,18 +256,18 @@ retry_position:
             entry_index = 7;
             goto initialize_position;
         }
-        height_limit = -0x400;
-        ASM_KEEP(height_limit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        bind_state = (u8 *)(-0x400);
+        ASM_KEEP(bind_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         direction = -1;
         first_height = func_800BCB04((pos_x << 6) | 0x20,
-                                     (pos_y << 6) | 0x20, height_limit);
+                                     (pos_y << 6) | 0x20, (s32)bind_state);
         delta_page = (u8 *)0x80070000;
         ASM_KEEP(delta_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         delta_x = (s16 *)(delta_page - 0x3328);
         delta_y = D_8006CCE8;
 check_neighbor:
         func_8009A350(pos_x, pos_y, (s16)direction, &flags);
-        height_limit = -0x400;
+        bind_state = (u8 *)(-0x400);
         if (flags & 0x8000) {
             goto retry_position;
         }
@@ -286,7 +284,7 @@ check_neighbor:
             sample_y += delta_y[offset_index] << 6;
             sample_y &= 0xFFE0;
         }
-        height = func_800BCB04(sample_x, sample_y, height_limit);
+        height = func_800BCB04(sample_x, sample_y, (s32)bind_state);
         height_diff = (height & 0xFF) - (first_height & 0xFF);
         if (height_diff < 0) {
             height_diff = -height_diff;
@@ -434,10 +432,10 @@ load_entries:
     ((S_800165B8_5 *)entity)->unk_14 |= 0x4000;
     display_page = (u8 *)0x800E0000;
     ASM_KEEP(display_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    copy_addr = 0x8001020C;
-    ASM_KEEP_NV(copy_addr);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    *(Copy12 *)(entity + 0x34) = *(Copy12 *)copy_addr;
-    copy_tail = *(s8 *)(copy_addr + 12);
+    bind_state = (u8 *)(0x8001020C);
+    ASM_KEEP_NV(bind_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    *(Copy12 *)(entity + 0x34) = *(Copy12 *)(u32)bind_state;
+    copy_tail = *(s8 *)((u32)bind_state + 12);
     ASM_KEEP(copy_tail);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     ((S_800165B8_5 *)entity)->unk_40 = copy_tail;
     ((S_800165B8_5 *)entity)->unk_42 = 0;

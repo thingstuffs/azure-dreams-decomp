@@ -43,7 +43,6 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
     register s32 row ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 row_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 x;
-    register s32 row_y_scaled ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 next_cells_left;
     s16 cell_result;
     u16 y;
@@ -92,9 +91,9 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
         cell = (DungeonCell *)(row_offset + record_addr);
 
         if (row_width > 0) {
-            row_y_scaled = row << 6;
-            ASM_KEEP_NV(row_y_scaled);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            center_y = row_y_scaled + 0x20;
+            records_page = (s8 *)(row << 6);
+            ASM_KEEP_NV(records_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            center_y = (s32)records_page + 0x20;
                /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             do {
                 flags = cell->flags;

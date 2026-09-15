@@ -110,17 +110,15 @@ L2:
         s16 *x_table;
         s16 *y_table;
         s16 *x_entry;
-        register s16 *y_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s16 *y_entry;
         s32 arc;
-        register s32 dir_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s16 timer;
 
         x_table = (s16 *)&D_8006CCD8;
+        y_entry = (s16 *)(((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE);
+        x_entry = (s16 *)((s32)y_entry + (u8 *)x_table);
         y_table = (s16 *)&D_8006CCE8;
-        dir_offset = ((u16)((S_80173408_4 *)actor)->unk_2A.u >> 8) & 0xE;
-        x_entry = (s16 *)(dir_offset + (u8 *)x_table);
-        y_entry = (s16 *)(dir_offset + (u8 *)y_table);
-        ASM_KEEP(dir_offset);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        y_entry = (s16 *)((s32)y_entry + (u8 *)y_table);
         arc = *x_entry;
         y_entry = (s16 *)(*y_entry);
         step_x = arc << 16;

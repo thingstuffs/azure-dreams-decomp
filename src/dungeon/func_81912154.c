@@ -148,9 +148,7 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     s16 *x_lookup_first;
     s16 *y_lookup_first;
     s16 *x_lookup_next;
-    register s16 *y_lookup_next ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 height ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 *final_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s16 *final_ptr;
     register u32 end_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *motion_out;
@@ -352,12 +350,12 @@ scan_tiles:
         ASM_KEEP(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         lookup_base = (s16 *) ((u8 *) lookup_base - 0x3318);
 #endif
-        y_lookup_next = (s16 *) ((step_direction << 1) + (u32) lookup_base);
-        ASM_KEEP(y_lookup_next);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        axis_delta = (s32)((s16 *) ((step_direction << 1) + (u32) lookup_base));
+        ASM_KEEP(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
     source_coord = tile_x + (u16) *x_lookup_next;
     tile_x = source_coord;
-    motion_value = tile_y + (u16) *y_lookup_next;
+    motion_value = tile_y + (u16) *(s16 *)axis_delta;
     tile_y = motion_value;
     stack.saved_y = (u16) motion_value;
     end_tile_x = source_coord;
@@ -370,13 +368,13 @@ use_endpoint:
 build_endpoint:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     axis_delta = (u32) end_tile_x << 0x10;
-    final_base = D_8006CCD8;
+    source_coord = (s32)(D_8006CCD8);
     axis_delta >>= 0xA;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     motion_value = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
     motion_value <<= 1;
-    final_ptr = (s16 *) ((u8 *) final_base + motion_value);
-    final_base = D_8006CCE8;
+    final_ptr = (s16 *) ((u8 *) (s16 *)source_coord + motion_value);
+    source_coord = (s32)(D_8006CCE8);
     motion_value = *final_ptr;
     motion_value = (motion_value + 1) << 5;
     axis_delta += motion_value;
@@ -386,7 +384,7 @@ build_endpoint:
     motion_value = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
     y_delta = (u32) end_tile_y << 0x10;
     motion_value <<= 1;
-    final_ptr = (s16 *) ((u8 *) final_base + motion_value);
+    final_ptr = (s16 *) ((u8 *) (s16 *)source_coord + motion_value);
     motion_value = *final_ptr;
     y_delta >>= 0xA;
     motion_value = (motion_value + 1) << 5;

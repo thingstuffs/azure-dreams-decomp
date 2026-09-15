@@ -23,7 +23,6 @@ void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
     register s32 adjusted_length ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 divisor;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 limit_units ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 first_quotient ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 second_quotient;
 
     first_step = func_800644B8(angle) << 6;
@@ -39,7 +38,7 @@ void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
             adjusted_length = second_quotient + 0x1FFE;
         }
         divisor = adjusted_length >> 12;
-        first_quotient =
+        adjusted_length =
             ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 / divisor;
         if (max_length < 0) {
             limit_units = max_length;
@@ -49,7 +48,7 @@ void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
         }
         limit_units >>= 12;
         ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 =
-            first_quotient * limit_units;
+            adjusted_length * limit_units;
         second_quotient =
             ((Rec_D_800E3D7C *)vector)->unk_10.at00_vs32.v / divisor;
         ((Rec_D_800E3D7C *)vector)->unk_10.at00_vs32.v =

@@ -146,14 +146,13 @@ s32 func_80024C14(void *effect_data) {
                         quad_loop: {
                             u8 *quad;
                             u32 first_screen_xy;
-                            register void **render_globals ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                             u8 *vertex_colors;
 
                             {
                                 u8 *packet_pool;
-                                register void **render_globals ASM_REG("$8") = D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                                ASM_KEEP_NV(render_globals);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                                packet_pool = (u8 *)render_globals[0];
+                                draw_row = (s32)(D_80083160);
+                                ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                                packet_pool = (u8 *)((void **)draw_row)[0];
                                 quad = *(u8 **)(packet_pool + 0x8d0);
                                 *(u8 **)(packet_pool + 0x8d0) = quad + 36;
                             }
@@ -173,11 +172,11 @@ s32 func_80024C14(void *effect_data) {
                                 ASM_KEEP_NV(screen_vertex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                 screen_vertex += 32;
                                 screen_vertex = (u8 *)(row_word_offset + (u32)screen_vertex);
-                                render_globals = (void **)D_80080000;
+                                draw_row = (s32)((void **)D_80080000);
                                 first_screen_xy = *(u32 *)(screen_vertex + 0);
                                 ASM_KEEP(first_screen_xy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                                render_globals = (void **)((u8 *)render_globals + 0x3160);
-                                ASM_KEEP_NV(render_globals);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                                draw_row = (s32)((void **)((u8 *)(void **)draw_row + 0x3160));
+                                ASM_KEEP_NV(draw_row);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                                 *(u32 *)(quad + 8) = first_screen_xy;
                                 *(u32 *)(quad + 16) = *(u32 *)(screen_vertex + 4);
                                 screen_vertex = (u8 *)screen_grid + 64;
@@ -191,7 +190,7 @@ s32 func_80024C14(void *effect_data) {
                             {
                                 u8 *order_head;
                                 u32 packet_length;
-                                order_head = (u8 *)render_globals[0];
+                                order_head = (u8 *)((void **)draw_row)[0];
                                 ASM_KEEP_NV(order_head);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                 {
                                     register u32 length_mask ASM_REG("$8") = 0xff000000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

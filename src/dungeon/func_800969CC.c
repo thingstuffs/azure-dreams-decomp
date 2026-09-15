@@ -149,7 +149,6 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     register u8 kind_check ASM_REG("$4");
     S_8009C12C_4 *target_data;
     register s16 *opposite_x_ptr ASM_REG("$5");
-    register s16 *direction_ptr ASM_REG("$2");
     register u16 direction_value ASM_REG("$12");
     register s32 effect_x ASM_REG("$4");
     register s32 step_distance ASM_REG("$9");
@@ -164,7 +163,6 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         u8 gap[6];
         u16 arg3;
     } homes;
-    register void **actor_page ASM_REG("$3");
     void *target;
     void *blocked_actor;
     void *null_result;
@@ -415,14 +413,14 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     func_800B4C7C(3, target, damage, 0);
     message_cursor = 0x800E0000;
     ASM_KEEP(message_cursor);
-    actor_page = (void **)0x80080000;
+    opposite_offset = (s32)((void **)0x80080000);
     if (target == ((S_8009C12C_5 *)((void *)message_cursor))->unk_3D7C) {
         func_80094E34();
-        actor_page = (void **)0x80080000;
+        opposite_offset = (s32)((void **)0x80080000);
     }
     ((S_8009C12C_3 *)target)->unk_60 = attacker_in;
     ((S_8009C12C_0 *)attacker_in)->unk_60 = target;
-    ((S_8009C12C_6 *)actor_page)->unk_3470 = target - 0x20;
+    ((S_8009C12C_6 *)(void **)opposite_offset)->unk_3470 = target - 0x20;
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
         func_800A56E0(0x700);
         effect_flags = ((S_8009C12C_0 *)attacker_in)->unk_14.u16;
@@ -451,34 +449,34 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     opposite_x_ptr = (s16 *)((s32)opposite_x_ptr - 0x3328);
     opposite_offset = (direction_value >> 9) & 7;
     direction_offset = opposite_offset * 2;
-    direction_ptr = (s16 *)(direction_offset + (s32)opposite_x_ptr);
-    ASM_KEEP(direction_ptr);
+    scaled_modifier = (s32)((s16 *)(direction_offset + (s32)opposite_x_ptr));
+    ASM_KEEP(scaled_modifier);
     opposite_offset = (opposite_offset + 4) & 7;
     opposite_offset *= 2;
     opposite_x_ptr = (s16 *)(opposite_offset + (s32)opposite_x_ptr);
     direction_value = homes.arg3;
     ASM_KEEP(direction_value);
-    effect_x = *direction_ptr;
-    direction_ptr = (s16 *)0x80070000;
-    ASM_KEEP(direction_ptr);
+    effect_x = *(s16 *)scaled_modifier;
+    scaled_modifier = (s32)((s16 *)0x80070000);
+    ASM_KEEP(scaled_modifier);
     step_distance = (s16)direction_value;
     x_step = effect_x * step_distance;
-    direction_ptr = (s16 *)((s32)direction_ptr - 0x3318);
-    direction_offset += (s32)direction_ptr;
-    opposite_offset += (s32)direction_ptr;
+    scaled_modifier = (s32)((s16 *)((s32)(s16 *)scaled_modifier - 0x3318));
+    direction_offset += (s32)(s16 *)scaled_modifier;
+    opposite_offset += (s32)(s16 *)scaled_modifier;
     x_offset = *opposite_x_ptr;
     effect_y = ((S_8009C12C_2 *)(tile_in))->unk_25;
     y_step = *(s16 *)direction_offset;
-    direction_ptr = (s16 *)((S_8009C12C_0 *)attacker_in)->unk_60;
+    scaled_modifier = (s32)((s16 *)((S_8009C12C_0 *)attacker_in)->unk_60);
     opposite_offset = *(s16 *)opposite_offset;
     x_offset <<= 5;
     x_offset += 0x20;
     opposite_offset <<= 5;
     opposite_offset += 0x20;
     effect_x = ((S_8009C12C_2 *)(tile_in))->unk_24;
-    direction_offset = ((S_8009C12C_7 *)direction_ptr)->unk_88 - 0x30;
+    direction_offset = ((S_8009C12C_7 *)(s16 *)scaled_modifier)->unk_88 - 0x30;
     direction_offset = (s16)direction_offset;
-    direction_ptr = (s16 *)(s32)((S_8009C12C_0 *)attacker_in)->unk_2A;
+    scaled_modifier = (s32)((s16 *)(s32)((S_8009C12C_0 *)attacker_in)->unk_2A);
     effect_x += x_step;
     effect_x <<= 6;
     effect_x += x_offset;
@@ -488,7 +486,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     effect_y <<= 6;
     effect_y += opposite_offset;
     effect_y = (s16)effect_y;
-    func_80099C58(effect_x, effect_y, direction_offset, effect_elements, (s32)direction_ptr);
+    func_80099C58(effect_x, effect_y, direction_offset, effect_elements, (s32)(s16 *)scaled_modifier);
     ASM_SET(y_step);
     return target;
 }

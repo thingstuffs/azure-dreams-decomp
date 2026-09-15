@@ -107,6 +107,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     register u8 *animation ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *animation_entry;
     register u32 angle_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u32 angle_index_2;
     s32 animation_angle;
     s32 zero_arg;
     PackedRecord *record_base;
@@ -114,16 +115,13 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     u16 saved_y;
     void *spawn_parent;
     register unsigned long step_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 *step_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 * step_table_2;
-    register s32 velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 scaled_velocity;
     register u32 angle_bits ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register unsigned long return_step_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 delta_y;
     s32 current_x;
     s32 return_distance;
-    register u8 *angle_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *data_page;
     void *object_base;
     s32 record_index;
@@ -133,18 +131,18 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     case 0:
         angle_index = object->angle >> 9;
         direction = angle_index & 7;
-        step_table = (s16 *)0x80070000;
-        ASM_KEEP_NV(step_table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        angle_index = (u32)((s16 *)0x80070000);
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         entity->saved_x = motion->x.half.hi;
         saved_y = motion->y.half.hi;
         ASM_KEEP_NV(saved_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        step_table = (s16 *)((u8 *)step_table - 0x3328);
-        ASM_KEEP_NV(step_table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        angle_index = (u32)((s16 *)((u8 *)(s16 *)angle_index - 0x3328));
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         entity->saved_y = saved_y;
         record_offset = direction << 1;
 
         record_index = func_800A70E4(
-            effect->x_tile + *(s16 *)(record_offset + (unsigned long)step_table),
+            effect->x_tile + *(s16 *)(record_offset + (unsigned long)(s16 *)angle_index),
             effect->y_tile + *(s16 *)((u8 *)D_8006CCE8 + record_offset),
             object->height);
         angle_index = record_index << 16;
@@ -182,26 +180,26 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
             break;
         }
 
-        step_table = D_8006CCD8;
+        angle_index = (u32)(D_8006CCD8);
         step_addr = direction << 1;
-        step_table = (s16 *)(step_addr + (unsigned long)step_table);
-        velocity = *step_table;
-        ASM_KEEP_NV(velocity);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        angle_index = (u32)((s16 *)(step_addr + (unsigned long)(s16 *)angle_index));
+        angle_index = (u32)((s16 *)(*(s16 *)angle_index));
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         animation = (u8 *)0x80170000;
         ASM_KEEP_NV(animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        scaled_velocity = (velocity << 16) + (velocity << 15);
+        scaled_velocity = ((s32)(s16 *)angle_index << 16) + ((s32)(s16 *)angle_index << 15);
         step_table_2 = D_8006CCE8;
         step_addr += (unsigned long)step_table_2;
         motion->velocity_x = scaled_velocity;
-        velocity = *(s16 *)step_addr;
-        ASM_KEEP_NV(velocity);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        angle_index = (u32)((s16 *)(*(s16 *)step_addr));
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         animation += 0x4AE4;
-        scaled_velocity = (velocity << 16) + (velocity << 15);
+        scaled_velocity = ((s32)(s16 *)angle_index << 16) + ((s32)(s16 *)angle_index << 15);
         motion->velocity_y = scaled_velocity;
         effect->callback = (void (*)(void))animation;
-        angle_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(angle_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        angle_index = *(s16 *)(angle_page + 0x3228);
+        angle_index = (u32)((u8 *)0x80080000);
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        angle_index = *(s16 *)((u8 *)angle_index + 0x3228);
         ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         animation_angle = (s16)object->angle;
         ASM_KEEP_NV(animation_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -227,9 +225,9 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         }
         animation = D_80174AEC;
         effect->callback = (void (*)(void))animation;
-        angle_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(angle_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        angle_index = ((*(s16 *)(angle_page + 0x3228) + (s16)object->angle + 0x100) >> 9) & 7;
+        angle_index = (u32)((u8 *)0x80080000);
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        angle_index = ((*(s16 *)((u8 *)angle_index + 0x3228) + (s16)object->angle + 0x100) >> 9) & 7;
         animation_entry = (u8 *)(angle_index + (unsigned long)animation);
         func_80047784(effect, *animation_entry, 0);
         entity->timer = 2000;
@@ -247,39 +245,38 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
 
         angle_index = object->angle;
         angle_bits = angle_index >> 8;
-        step_table = D_8006CCD8;
+        angle_index = (u32)(D_8006CCD8);
         return_step_addr = angle_bits & 0xE;
-        step_table = (s16 *)(return_step_addr + (unsigned long)step_table);
-        velocity = -*step_table;
-        velocity <<= 16;
-        motion->velocity_x = velocity;
-        step_table = D_8006CCE8;
-        return_step_addr += (unsigned long)step_table;
-        ASM_KEEP_NV(return_step_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        velocity = *(s16 *)return_step_addr;
+        angle_index = (u32)((s16 *)(return_step_addr + (unsigned long)(s16 *)angle_index));
+        angle_index = (u32)((s16 *)(-*(s16 *)angle_index));
+        angle_index = (u32)((s16 *)(((s32)(s16 *)angle_index) << (16)));
+        motion->velocity_x = (s32)(s16 *)angle_index;
+        angle_index_2 = (u32)(D_8006CCE8);
+        return_step_addr += (unsigned long)(s16 *)angle_index_2;
+        angle_index = (u32)((s16 *)(*(s16 *)return_step_addr));
         animation = (u8 *)&D_80174A74;
-        velocity = -velocity;
-        velocity <<= 16;
-        motion->velocity_y = velocity;
+        angle_index = (u32)((s16 *)(-(s32)(s16 *)angle_index));
+        angle_index = (u32)((s16 *)(((s32)(s16 *)angle_index) << (16)));
+        motion->velocity_y = (s32)(s16 *)angle_index;
         effect->callback = (void (*)(void))animation;
-        angle_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(angle_page);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        angle_index = ((*(s16 *)(angle_page + 0x3228) + (s16)object->angle + 0x100) >> 9) & 7;
+        angle_index = (u32)((u8 *)0x80080000);
+        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        angle_index = ((*(s16 *)((u8 *)angle_index + 0x3228) + (s16)object->angle + 0x100) >> 9) & 7;
         animation_entry = (u8 *)(angle_index + (unsigned long)animation);
         func_80047784(effect, *animation_entry, 0);
 
         delta_y = entity->saved_y;
-        angle_page = (u8 *)(motion->y.half.hi);
+        angle_index = (u32)((u8 *)(motion->y.half.hi));
         current_x = motion->x.half.hi;
-        delta_y -= (s32)angle_page;
-        angle_page = (u8 *)(entity->saved_x);
+        delta_y -= (s32)(u8 *)angle_index;
+        angle_index = (u32)((u8 *)(entity->saved_x));
         direction = delta_y;
         if (delta_y < 0) {
             direction = -direction;
         }
-        angle_page = (u8 *)(((s32)angle_page) - (current_x));
-        return_distance = (s32)angle_page;
-        if ((s32)angle_page < 0) {
+        angle_index = (u32)((u8 *)(((s32)(u8 *)angle_index) - (current_x)));
+        return_distance = (s32)(u8 *)angle_index;
+        if ((s32)(u8 *)angle_index < 0) {
             return_distance = -return_distance;
         }
         if (return_distance < direction) {

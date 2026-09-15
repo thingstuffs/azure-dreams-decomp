@@ -274,7 +274,6 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     s32 target_gap_y;
     s32 approach_wrap_gap;
     s32 approach_turn_gap;
-    register s32 approach_gap_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 approach_gap_y;
     s32 approach_gap_z;
     s32 travel_wrap_gap;
@@ -310,10 +309,8 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     S_819835AC_2 *state0_move;
     S_819835AC_5 *state0_actor;
     S_819835AC_5 *state0_height_actor;
-    register s32 side_component ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 state0_delta_x;
     s32 state0_delta_y;
-    register s32 coord_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 coord_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 step_y;
     s32 step_z;
@@ -322,7 +319,6 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     S_819835AC_2 *state1_move;
     S_819835AC_6 *state1_actor;
     S_819835AC_6 *state2_stage;
-    register void *list_sentinel ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 tile_x;
     u16 tile_counter;
     u8 tile_y;
@@ -336,13 +332,11 @@ void func_80024DAC(S_819835AC_1 *effect, S_819835AC_2 *motion, S_819835AC_3 *vis
     u32 tile_coord;
     s32 tile_call_arg;
     s32 common_speed;
-    register s32 common_pitch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 state6_timer_signed;
     u16 state6_timer;
     u16 state6_next;
     u16 state6_height;
     s32 state6_spin_arg;
-    register s32 state6_velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 state6_target_base;
     s32 alternate_delta;
     s32 alternate_scale;
@@ -380,26 +374,26 @@ do {
 jt_c0:
     func_8003DE58(*(M2C_UNK *)((((s32) (D_80083228 + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
     heading_or_owner = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16);
-    side_component = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
+    boost_speed_x = func_80064584(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
     state0_move = (S_819835AC_2 *) &D_80083780;
     ASM_KEEP(state0_move);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     heading_or_owner >>= 4;
     state0_delta_x = state0_move->unk_00.half.unk_02.u16;
-    side_component >>= 4;
+    boost_speed_x >>= 4;
     state0_delta_x -= heading_or_owner;
-    state0_delta_x += side_component;
-    coord_value = effect->unk_28.u16;
+    state0_delta_x += boost_speed_x;
+    boost_speed_x = effect->unk_28.u16;
     state0_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
-    coord_value += state0_delta_x;
-    effect->unk_28.u16 = (u16) coord_value;
+    boost_speed_x += state0_delta_x;
+    effect->unk_28.u16 = (u16) boost_speed_x;
     heading_or_owner = func_800644B8(state0_actor->unk_2A.s16);
-    side_component = func_800644B8(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
+    boost_speed_x = func_800644B8(((S_819835AC_5 *) (*(void **)&D_800E3D7C))->unk_2A.s16 - 0x400);
     heading_or_owner >>= 4;
-    side_component >>= 4;
+    boost_speed_x >>= 4;
     state0_delta_y = state0_move->unk_04.half.unk_06.u16;
     coord_delta = effect->unk_2A.u16;
     state0_delta_y -= heading_or_owner;
-    state0_delta_y += side_component;
+    state0_delta_y += boost_speed_x;
     state0_height_actor = ((S_819835AC_11 *) &D_800E3D7C)->unk_00;
     coord_delta += state0_delta_y;
     effect->unk_2A.u16 = (u16) coord_delta;
@@ -479,21 +473,21 @@ block_22:
 block_24:
     state1_global = ((S_819835AC_11 *) &D_800814A8)->unk_00;
     state1_global->unk_96 = 2;
-    coord_value = motion->unk_00.word;
+    boost_speed_x = motion->unk_00.word;
     coord_delta = motion->unk_0C.word;
     step_y = motion->unk_10.word;
     step_z = motion->unk_14.word;
-    coord_value += coord_delta;
-    motion->unk_00.word = coord_value;
-    coord_value = motion->unk_04.word;
+    boost_speed_x += coord_delta;
+    motion->unk_00.word = boost_speed_x;
+    boost_speed_x = motion->unk_04.word;
     coord_delta = motion->unk_08.word;
-    coord_value += step_y;
-    motion->unk_04.word = coord_value;
-    approach_gap_x = motion->unk_00.half.unk_02.s16;
+    boost_speed_x += step_y;
+    motion->unk_04.word = boost_speed_x;
+    boost_speed_x = motion->unk_00.half.unk_02.s16;
     coord_delta += step_z;
     motion->unk_08.word = coord_delta;
-    approach_gap_x -= effect->unk_28.s16;
-    if (__builtin_abs(approach_gap_x) >= 0x40) {
+    boost_speed_x -= effect->unk_28.s16;
+    if (__builtin_abs(boost_speed_x) >= 0x40) {
         goto block_129;
     }
     approach_gap_y = motion->unk_04.half.unk_06.s16;
@@ -510,20 +504,20 @@ block_24:
     }
     func_8003DE58(*(M2C_UNK *)((((s32) (D_80083228 + ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_2A.s16 + 0x100) >> 7) & 0x1C) + D_800E3D18), &D_80082E80, (u8 *) effect + 0x28, 0);
     state1_move = (S_819835AC_2 *) &D_80083780;
-    coord_value = effect->unk_28.u16;
+    boost_speed_x = effect->unk_28.u16;
     coord_delta = state1_move->unk_00.half.unk_02.u16;
-    coord_value += coord_delta;
-    effect->unk_28.u16 = coord_value;
-    coord_value = effect->unk_2A.u16;
+    boost_speed_x += coord_delta;
+    effect->unk_28.u16 = boost_speed_x;
+    boost_speed_x = effect->unk_2A.u16;
     coord_delta = state1_move->unk_04.half.unk_06.u16;
     state1_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
-    coord_value += coord_delta;
-    effect->unk_2A.u16 = coord_value;
+    boost_speed_x += coord_delta;
+    effect->unk_2A.u16 = boost_speed_x;
     coord_delta = effect->unk_2C.u16;
-    coord_value = ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.u16;
+    boost_speed_x = ((S_819835AC_5 *) ((S_819835AC_11 *) &D_800E3D7C)->unk_00)->unk_88.u16;
     coord_delta -= 0x50;
-    coord_value += coord_delta;
-    effect->unk_2C.u16 = coord_value;
+    boost_speed_x += coord_delta;
+    effect->unk_2C.u16 = boost_speed_x;
     state1_actor->unk_A6 = state1_actor->unk_A6 - 1;
     effect->unk_30 = (s16) ((u16) effect->unk_30 + 1);
     goto block_128;
@@ -589,18 +583,18 @@ block_50:
     effect->unk_34.u16 = 0U;
     motion->unk_14.word = 0;
 block_52:
-    coord_value = motion->unk_00.word;
+    boost_speed_x = motion->unk_00.word;
     coord_delta = motion->unk_0C.word;
     step_y = motion->unk_10.word;
     step_z = motion->unk_14.word;
-    coord_value += coord_delta;
-    motion->unk_00.word = coord_value;
-    coord_value = motion->unk_04.word;
+    boost_speed_x += coord_delta;
+    motion->unk_00.word = boost_speed_x;
+    boost_speed_x = motion->unk_04.word;
     coord_delta = motion->unk_08.word;
-    coord_value += step_y;
+    boost_speed_x += step_y;
     coord_delta += step_z;
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    motion->unk_04.word = coord_value;
+    motion->unk_04.word = boost_speed_x;
     state2_stage = (*(void **)((u8 *)&D_800814A8 + 0));
     motion->unk_08.word = coord_delta;
     state2_stage->unk_96 = 2;
@@ -712,9 +706,9 @@ block_71:
     }
 block_73:
     hit_actor = ((S_819835AC_11 *) &D_800814A8)->unk_00;
-    list_sentinel = hit_actor;
+    boost_speed_x = (s32)(hit_actor);
     hit_actor = hit_actor->unk_5C + 0x20;
-    if (hit_actor != list_sentinel) {
+    if (hit_actor != (void *)boost_speed_x) {
         do {
             actor_data = ((S_819835AC_8 *) ((u8 *) hit_actor - 0x20))->unk_0C;
             if ((actor_data->unk_24 == effect->unk_40) &&
@@ -871,15 +865,15 @@ block_113:
     effect->unk_9C = NULL;
     effect->unk_8A = (u16) ((func_80069EF8() & 0x1F) + 0x10);
 block_115:
-    state6_velocity = func_80064584((s16) effect->unk_38);
+    boost_speed_x = func_80064584((s16) effect->unk_38);
 
-    state6_velocity <<= 8;
-    motion->unk_0C.word = state6_velocity;
-    state6_velocity = func_800644B8((s16) effect->unk_38);
+    boost_speed_x <<= 8;
+    motion->unk_0C.word = boost_speed_x;
+    boost_speed_x = func_800644B8((s16) effect->unk_38);
 
-    state6_velocity <<= 8;
-    ASM_KEEP(state6_velocity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    motion->unk_10.word = state6_velocity;
+    boost_speed_x <<= 8;
+    ASM_KEEP(boost_speed_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    motion->unk_10.word = boost_speed_x;
 
     if ((s16) effect->unk_38 != aim_angle) {
         goto block_123;
@@ -889,8 +883,8 @@ block_115:
     step_y = boost_speed_x >> 1;
     boost_speed_x += step_y;
     motion->unk_0C.word = boost_speed_x;
-    coord_value = boost_speed_y >> 1;
-    boost_speed_y += coord_value;
+    boost_speed_x = boost_speed_y >> 1;
+    boost_speed_y += boost_speed_x;
     motion->unk_10.word = boost_speed_y;
     goto block_123;
 block_117:
@@ -912,9 +906,9 @@ block_120:
     related_motion = ((S_819835AC_8 *) ((u8 *) new_target - 0x20))->unk_08;
     effect->unk_34.u16 = 0x10U;
     state6_target_base = motion->unk_08.half.unk_0A.s16;
-    coord_value = related_motion->unk_08.half.unk_0A.s16;
+    boost_speed_x = related_motion->unk_08.half.unk_0A.s16;
     state6_target_base += 0x40;
-    height_numerator = (coord_value - state6_target_base) << 0x10;
+    height_numerator = (boost_speed_x - state6_target_base) << 0x10;
     height_frames = 16;
     motion->unk_14.word = height_numerator / height_frames;
     effect->unk_9A = 0x3CU;
@@ -971,12 +965,12 @@ block_129:
     visual_scale = (*(u16 *)((u8 *)visual + 0x1C));
     red = visual->unk_0C.half.unk_0C;
     aim_angle = common_speed * 4;
-    common_pitch = aim_angle + 0x400;
-    visual->unk_16 = (u16) common_pitch;
-    common_pitch = 0x2000;
-    common_pitch -= visual_scale;
-    common_pitch >>= 2;
-    visual_scale += common_pitch;
+    boost_speed_x = aim_angle + 0x400;
+    visual->unk_16 = (u16) boost_speed_x;
+    boost_speed_x = 0x2000;
+    boost_speed_x -= visual_scale;
+    boost_speed_x >>= 2;
+    visual_scale += boost_speed_x;
     red += 8;
     visual->unk_0C.half.unk_0C = red;
     visual->unk_1C = (u16) visual_scale;
@@ -1028,13 +1022,13 @@ block_140:
     owner_state = heading_or_owner + 0x20;
     visual->unk_1A = (u16) (func_800A07D0((s16) motion->unk_00.half.unk_02.u16, (s16) motion->unk_04.half.unk_06.u16, related_motion->unk_00.half.unk_02.s16, related_motion->unk_04.half.unk_06.s16) - 0x400);
     alternate_delta = related_motion->unk_08.half.unk_0A.s16;
-    coord_value = motion->unk_08.half.unk_0A.s16;
-    alternate_delta -= coord_value;
+    boost_speed_x = motion->unk_08.half.unk_0A.s16;
+    alternate_delta -= boost_speed_x;
     alternate_scale = alternate_delta << 2;
     alternate_scale += alternate_delta;
     aim_angle = alternate_scale << 1;
-    common_pitch = aim_angle + 0x400;
-    visual->unk_16 = (u16) common_pitch;
+    boost_speed_x = aim_angle + 0x400;
+    visual->unk_16 = (u16) boost_speed_x;
     visual->unk_14 = (u16) actor_data->unk_14;
     motion->unk_00.half.unk_02.u16 = (u16) owner_state->unk_50;
     motion->unk_04.half.unk_06.u16 = (u16) owner_state->unk_52;

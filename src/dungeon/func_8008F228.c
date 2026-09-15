@@ -209,8 +209,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     do {
         addr_temp = (u8 *)0x800E0000;
     } while (0);
-    ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    var_t5 = addr_temp + 0x3DF0;
+    var_t5 = D_800E3DF0;
     var_t3 = page;
     var_t4 = var_t3;
     addr_temp = (u8 *)0x800E0000;

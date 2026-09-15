@@ -186,7 +186,6 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     s32 expired_status;
     s32 expired_x;
     void *final_object;
-    register s32 global_flags ASM_REG("$3"); /* MATCH: both flag paths feed the shared tail in v1. */
     u16 final_flags;
     void *effect_object;
     u8 *slots_page;
@@ -279,12 +278,10 @@ finish_release:
     ((S_800C2824_0 *)effect)->unk_04 = (u16) ((S_800C2824_0 *)effect)->unk_04 + 1;
     return;
 state_finish: {
-    register u8 *coords_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register void *active_object ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    coords_page = (u8 *)0x80080000;
-    ASM_KEEP(coords_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    player_coords = coords_page + 0x2E80;
+    source_object = (void *)((u8 *)0x80080000);
+    ASM_KEEP(source_object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    player_coords = (u8 *)source_object + 0x2E80;
     effect_object = D_800E3D7C;
     D_800DF55C = effect_object;
     effect_flags = 0x208020;
@@ -292,10 +289,10 @@ state_finish: {
         goto done;
     }
     flags_page = (u8 *)0x80080000;
-    active_object = ((S_800C2824_0 *)effect)->unk_00;
-    ((S_800C2824_9_pre *)active_object)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)active_object)[-1].unk_00 | 0x8000);
-    global_flags = ((S_800C2824_10 *)flags_page)->unk_14A0 | 0x8000;
-    ((S_800C2824_10 *)flags_page)->unk_14A0 = global_flags;
+    effect_flags = (s32)(((S_800C2824_0 *)effect)->unk_00);
+    ((S_800C2824_9_pre *)(void *)effect_flags)[-1].unk_00 = (u16) (((S_800C2824_9_pre *)(void *)effect_flags)[-1].unk_00 | 0x8000);
+    effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0 | 0x8000;
+    ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
     goto mark_done;
 }
 state_start_wait:
@@ -340,14 +337,14 @@ finish_expired:
     (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
     final_object = D_800DF560;
     flags_page = (u8 *)0x80080000;
-    global_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+    effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
     final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
-    global_flags |= 0x8000;
-    ((S_800C2824_10 *)flags_page)->unk_14A0 = global_flags;
+    effect_flags |= 0x8000;
+    ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
     ((S_800C2824_15 *)final_object)->unk_1E = (u16)(final_flags | 0x8000);
 mark_done:
     (*(u16 *)((u8 *)effect + -2)) = (u16) ((*(u16 *)((u8 *)effect + -2)) | 0x8000);
-    ((S_800C2824_10 *)flags_page)->unk_14A0 = global_flags;
+    ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;
 done:
     return;
 }

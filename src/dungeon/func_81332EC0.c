@@ -84,7 +84,6 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     void *data = data_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor = owner_arg;
     register s16 initial_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s16 facing ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register u32 state_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     Callback special_callback;
     Callback update_callback;
@@ -167,13 +166,13 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         u16 frame_status;
         u16 cleared_status;
         state_bits = (u32)(D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
-        facing = ((s32)state_bits >> 9) & 7;
-        if ((*(s16 *)((u8 *)owner_arg + (0x94))) != facing) {
+        initial_state = ((s32)state_bits >> 9) & 7;
+        if ((*(s16 *)((u8 *)owner_arg + (0x94))) != initial_state) {
             u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (facing_steps != NULL) {
-                func_80047738(data, facing_steps[facing], ((S_80169EC0_4 *)data)->unk_04);
+                func_80047738(data, facing_steps[initial_state], ((S_80169EC0_4 *)data)->unk_04);
             }
-            (*(s16 *)((u8 *)owner_arg + (0x94))) = facing;
+            (*(s16 *)((u8 *)owner_arg + (0x94))) = initial_state;
         }
 
         frame_status = ((S_80169EC0_4 *)data)->unk_14;
@@ -247,5 +246,5 @@ finish:
     ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
        /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(facing);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(initial_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

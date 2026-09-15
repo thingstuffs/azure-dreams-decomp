@@ -216,7 +216,6 @@ jt_c1:
             u16 *update_y_entry;
             register s32 probe_z ASM_REG("$6");
             s32 table_offset;
-            register s32 update_offset ASM_REG("$3");
             s16 probe_result;
 
             index = 0;
@@ -265,12 +264,12 @@ jt_c1:
                 }
 
                 (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328;
-                update_offset = (s16)action->angle;
+                table = (s16 *)((s16)action->angle);
                 index++;
-                update_offset *= 2;
-                update_x_entry = (u16 *)(update_offset + table_work);
+                table = (s16 *)(((s32)table) * (2));
+                update_x_entry = (u16 *)((s32)table + table_work);
                 (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318;
-                update_y_entry = (u16 *)(update_offset + table_work);
+                update_y_entry = (u16 *)((s32)table + table_work);
                 ASM_KEEP(update_y_entry);
                 x_delta = grid_x + *update_x_entry;
                 grid_x = x_delta;

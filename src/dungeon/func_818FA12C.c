@@ -371,7 +371,6 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             s32 shrinking;
             register u8 *flash ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *flash_data;
-            register u8 *impact_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             void *flash_state;
             void *animation;
             u8 *impact_data;
@@ -470,24 +469,24 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             if (impact == 0) {
                 goto cleanup_packet;
             }
-            impact_state = impact + 0x20;
+            particle_state = impact + 0x20;
             index = 95;
-            clear_cursor = impact_state + 95;
-            (*(u16 *)((u8 *)impact_state + 2)) = 0x50;
-            (*(u16 *)((u8 *)impact_state + 0x0A)) = 0x14;
-            (*(u16 *)((u8 *)impact_state + 4)) = 0;
-            (*(void * *)((u8 *)impact_state + 0x28)) = parent;
-            (*(void * *)((u8 *)impact_state + 0x2C)) = ((S_818FA12C_2 *)parent)->unk_60.p2;
-            (*(void * *)((u8 *)impact_state + 0x30)) = self;
+            clear_cursor = particle_state + 95;
+            (*(u16 *)((u8 *)particle_state + 2)) = 0x50;
+            (*(u16 *)((u8 *)particle_state + 0x0A)) = 0x14;
+            (*(u16 *)((u8 *)particle_state + 4)) = 0;
+            (*(void * *)((u8 *)particle_state + 0x28)) = parent;
+            (*(void * *)((u8 *)particle_state + 0x2C)) = ((S_818FA12C_2 *)parent)->unk_60.p2;
+            (*(void * *)((u8 *)particle_state + 0x30)) = self;
             flash_state = flash + 0x20;
-            (*(void * *)((u8 *)impact_state + 0x34)) = flash_state;
+            (*(void * *)((u8 *)particle_state + 0x34)) = flash_state;
             ASM_USE(flash);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             for (; index >= 0; index--) {
                 ((S_818FA12C_10 *)clear_cursor)->unk_38 = 0;
                 clear_cursor--;
             }
             index = 96;
-            (*(u16 *)((u8 *)impact_state + 0x9A)) = 0;
+            (*(u16 *)((u8 *)particle_state + 0x9A)) = 0;
             (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_80025398;
             func_8004491C(impact, D_80045340);
             impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
@@ -506,9 +505,9 @@ void func_8002592C(void *effect, void *motion, void *volatile render_data)
             ((S_818FA12C_8 *)impact_data)->unk_0E = 0;
             ((S_818FA12C_8 *)impact_data)->unk_0D = 0;
             ((S_818FA12C_8 *)impact_data)->unk_0C = 0;
-            (*(Copy12 *)((u8 *)impact_state + 0x1A)) = D_80026674;
-            animation = impact_state + 0x1A;
-            ASM_USE(impact_state);   /* retained: removing it changes the saved-register set */
+            (*(Copy12 *)((u8 *)particle_state + 0x1A)) = D_80026674;
+            animation = particle_state + 0x1A;
+            ASM_USE(particle_state);   /* retained: removing it changes the saved-register set */
             ((S_818FA12C_8 *)impact_data)->unk_08 = animation;
             goto cleanup_packet;
         }

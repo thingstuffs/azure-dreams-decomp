@@ -192,12 +192,11 @@ loop:
         }
         if (piece_index != 0) {
             register u32 link_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register u8 *link_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             link_value = (u32)D_80027580;
-            link_entry = (u8 *)(piece_index + link_value);
-            ASM_KEEP_NV(link_entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            link_value = *link_entry;
+            component_data = (u8 *)(piece_index + link_value);
+            ASM_KEEP_NV(component_data);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            link_value = *component_data;
             ASM_KEEP_NV(link_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (link_value != 0) {
                 link_value = (u32)object_base[link_value - 1] & 0x7FFFFFFF;

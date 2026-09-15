@@ -281,9 +281,9 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
     (*(u8 *)(actor + 0x71))++;
     func_8009A3D0(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
     {
-      register u8 *x_table ASM_REG("$3") = &D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       s32 direction = ((*(u16 *)(actor + 0x2A)) >> 8) & 0xE;
-      *(u8 *)(tile + 0x24) += *(u8 *)(x_table + direction);
+      base_angle = (s32)(&D_8006CCD8);
+      *(u8 *)(tile + 0x24) += *(u8 *)((u8 *)base_angle + direction);
       *(u8 *)(tile + 0x25) += *((u8 *) (((u8 *) (&D_8006CCE8)) + direction));
     }
     func_8009A21C(*(u8 *)(tile + 0x24), *(u8 *)(tile + 0x25), ((*(s32 *)(actor + 0x1C)) & 0x2000) ? (0x300) : (0x3000));
