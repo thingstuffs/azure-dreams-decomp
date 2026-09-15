@@ -1878,6 +1878,16 @@ Measured first (CPU, before any tool was commissioned):
   wiring 174, order 154. What is NOT yet measured for any of these: which C-level move t51 / t57 / t63 refuse on each
   site, because those generators do not journal refusals - the next opening after t66's is a refusal table for t51 on
   the 408 sched-moved sites, built the way t66's was.
+- **The two sol packs**: both died at 20:11Z with "Selected model is at capacity" (205k and 331k tokens in; probe5 had one
+  exact output by then) and were relaunched at 20:11Z; done 20:39Z. probe5 (REG alloc3 4-8, 12 rows): 2 exact -
+  `dungeon/func_7FFEE0B8` 6 -> 5 (the value passed at its actual consuming argument position), `slus/w_80041588` 7 -> 5 (an
+  artificial keep replaced by the store the row already needed). probe6 (REG alloc4 2-3 / 4-8, 10 rows): 4 exact -
+  `dungeon/func_80D3C944` 4 -> 2 (a byte load split across the intervening call: t64's split_def), `slus/w_80041344` 4 -> 3
+  (the value hosted in a non-overlapping local already on that register: t66's move in the other direction),
+  `town/func_800C7328` 3 -> 2 (a missing argument position recovered and forwarded), `town/func_80820AF4` 3 -> 2 (the value
+  hosted in a real call-argument producer). 6 of 22 rows, 9 pins, ~50 min of sol each; the alloc3/alloc4 strata pay as the
+  pool table said (15-17%) and no move repeats across the wins the way probe4's did - nothing new to write up as a
+  generator. Their outputs land with the round's gate.
 
 ## Round 29 (2026-09-15): the control-flow inventory, t66's openings, the tail forms, and two clean negatives
 
