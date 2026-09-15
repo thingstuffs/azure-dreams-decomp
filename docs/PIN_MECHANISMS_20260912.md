@@ -1869,6 +1869,15 @@ Measured first (CPU, before any tool was commissioned):
   misses sit one move from the pinned listing with `inline_def` nearest in 87 of 137 (d = 2 in 86), the menu verdict again.
 - **Two sol packs from the pool** (`probe5`: REG alloc3 4-8, 12 rows admitted of 20; `probe6`: REG alloc4 2-3 and 4-8, 10 of
   40 - the rest "no knob-sufficient site"), launched 19:48Z.
+- **The MOVED class by pass** (`tools/phase_census.work` driven over the 1,002 moved sites, scratchpad `moved_phase.py`,
+  4 min at 6 processes): the first pass whose instruction ORDER differs after the erasure is `sched` 276, `dbr` 188, `cse`
+  152, `sched2` 132, `combine` 122, `loop` 100, `rtl` 24, `greg` 4, `cse2` 2, `jump` 1. So 41% of the moved residues are
+  the two scheduling passes (t51's class: KEEP 168, SCHED_BARRIER 64+, KEEP_NV 64), 19% are delay-branch reorg (a fill
+  moved into or out of a delay slot - the "delay-slot" pin notes; KEEP 76, REG 56, SCHED_BARRIER 23), and 37% are code
+  motion before allocation (cse 152 - REG 76, KEEP_NV 40 - loop 100, combine 122). Class at combine: late 434, ops 240,
+  wiring 174, order 154. What is NOT yet measured for any of these: which C-level move t51 / t57 / t63 refuse on each
+  site, because those generators do not journal refusals - the next opening after t66's is a refusal table for t51 on
+  the 408 sched-moved sites, built the way t66's was.
 
 ## Round 29 (2026-09-15): the control-flow inventory, t66's openings, the tail forms, and two clean negatives
 
