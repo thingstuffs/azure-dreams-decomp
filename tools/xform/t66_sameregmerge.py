@@ -52,10 +52,12 @@ where the other is defined), so a variable live around a loop back edge that enc
 lifetime is refused automatically; that case is journaled as `loop-backedge`.
 
 Refusals besides interference: an address-taken variable (`&v`), a variable whose name is also a
-label or a called function, an inner-scope local of the same name, a declaration or a mention of
-either variable inside ANY preprocessor region of the function (see PREPROCESSOR REGIONS below), a
-multi-declarator or array declaration, and any candidate whose surviving pins are not exactly the
-input's minus V's (`_expected_pins`).
+label or a called function, an inner-scope local of the same name, a mention of the name that is
+itself a DECLARATION of it (a member of an aggregate written out in the function, a stepped-over
+table, another declaration at its own line: `mention-in-declaration`, `shadowed-inner-local`), a
+declaration or a mention of either variable inside ANY preprocessor region of the function (see
+PREPROCESSOR REGIONS below), a multi-declarator or array declaration, and any candidate whose
+surviving pins are not exactly the input's minus V's (`_expected_pins`).
 
 TWO OPENINGS (2026-09-15, round 29), both behind env switches that default ON.  They reopen the two
 largest refusals the round-28 packs measured - `host-name-collision` (141 ordered pairs in 15 rows)
@@ -110,6 +112,62 @@ and `in-macro-arg` (183 in 45) - both of which are SPELLING problems, not progra
         body decides what binds to it; that too was a per-line test, and it now holds across a line
         break.
 
+SIX MORE OPENINGS (2026-09-15, round 30), read off the refusal table of every row of the tree that
+still carries a same-register family (138 rows / 2,148 pins, `pairs_of` + `candidates_for` with one
+skips Counter - `work/native_lane/r30_samereg3/scratch/census.py`).  Each has its own env switch and
+its own journal: the refusal it opens keeps its old key when the switch is OFF, and a
+`<class>-reopened` count says how often it fired when it is on.
+
+    T66_DECL_RUN (default 1)          decl-unparsed, 792 ordered pairs in 41 rows - the LARGEST
+        refusal, and a scan stopper rather than a parser gap.  `_augment`'s looser walk broke at the
+        first line that is neither a multi-line `= {` table nor a MULTIDECL_RE declaration, and every
+        declaration below that line was then invisible: the pin's declaration was dropped from the
+        family and its pairs charged.  Three shapes stopped it, counted over the hidden declarations:
+        the ONE-LINE computed-goto label table `static void *const state_labels[] = { &&jt_c0, ... };`
+        and its `__attribute__((used))` spelling (96 in 11 rows - ARRAY_OPEN_RE only knew the
+        multi-line form); an anonymous aggregate definition, `struct {` / `volatile struct {` /
+        `volatile struct` alone, its members, then `} name;` (80 in 19 rows); and a declarator
+        MULTIDECL_RE cannot spell - `s16 vertices[10][6][3];`, `void *volatile perspective_out;`,
+        `struct { u16 a, b, c; } camera_angles;` (10 in 6 rows).  All three are now STEPPED OVER
+        exactly as the multi-line table was: their declared NAMES are registered so scope resolution
+        still sees them, they are never parsed into mergeable declarations, and the walk continues.
+        An aggregate is stepped by brace depth to the line that closes it, and a definition whose
+        depth returns to 0 on a line that does not end in `;` still breaks the walk.  (The residue is
+        three `{ register s32 implicit_hi ASM_REG("hi"); ... }` one-line BLOCKS in one row: m2c's
+        HI/LO idiom, which has no declaration run to walk at all.)
+    T66_ASM_OPERAND (default 1)       asm-operand-cast, 44 pairs in 14 rows.  See `_cast_edits`.
+    T66_INIT_PLACE (default 1)        init-before-declarations, 92 pairs in 10 rows.  See `_demote`
+        and `_init_place_refusal`.
+    T66_SHADOW (default 1)            shadowed-inner-local, 32 pairs in 5 rows.  See `_shadow_inners`
+        and `_shadow_retry`.
+    T66_COMPOUND (default 1)          compound-assign-cast, 17 pairs in 9 rows.  See `_cast_edits`.
+    T66_TRY_INTERFERENCE (default 0)  interference, 224 pairs in 43 rows.  A pair whose lifetimes
+        clash at the C level is offered ANYWAY, with the ordinary rename/cast forms, and the screen
+        and `vf` decide.  The argument: both variables are bound to ONE hard register in a row that
+        is byte-exact today, so the compiled program never holds both values at once.  A clash in the
+        C text is therefore either this module's liveness over-approximating (a kill it does not
+        recognise, a dead arm, a back edge carrying a dead value, an unknown statement that reaches
+        every later node) or an m2c artefact - m2c names one temporary per use (`event_x_1` ..
+        `event_x_8`, all on `$2` in `dungeon/func_812A524C`) and a later temporary's "read" takes the
+        earlier one's value through the shared register - in which case the merged text is the more
+        honest C.  Acceptance is `vf`'s byte verdict, as for every other form; nothing else in the
+        module is relaxed, and `loop-backedge` keeps its own refusal.  Each pair is journaled
+        `interference-nested` (one live range inside the other) or `interference-overlap`, and a
+        clashing pair sorts AFTER every clean one so the screen budget is spent on the clean pairs
+        first.  Measured over the 138 family rows: 452 nested, 8 overlap.
+
+NOT opened, and why (the same table, read at the candidate stage):
+    type-mismatch-narrow (88 pairs / 32 rows)  the width rule.  Merging an s8/u8/s16/u16 with a word
+        changes the width of the value, which is a different program.
+    pp-guarded-mention (33 / 9)                policy: this module never edits a preprocessor arm.
+    host-name-collision (138 / 6)              NOT a name problem.  Every one of those pairs also
+        carries `init-before-declarations` or `asm-operand-cast`: T66_RENAME_HOST's rename SUCCEEDS
+        and `candidates_for` then refuses the renamed pair downstream, at which point the old
+        `collide` count is charged anyway.  The 9 `host-rename-pair-lost` are the `vname` attempt
+        making two declarations of one name (a shadow in the re-read), which falls through to the
+        fresh `<host>_m`.  It is a journaling artefact over another refusal, so it needs no opening
+        of its own and it falls when they open: 138 -> 56 over the same population.
+
 PREPROCESSOR REGIONS (2026-09-15, after a review found three landed rows with invalid C in them)
     `pin_census.arm_labels` only recognises `NON_MATCHING` and `#if 0`: every line of an
     `#ifdef __mips__ ... #else ... #endif` block is labelled `both`, so `unscored_text` keeps none
@@ -162,6 +220,56 @@ RESULT
         round-29 outputs had been landed into src/ by then, so the totals are not comparable): 21
         hits, 60 pins, and on all 61 rows whose source had NOT moved the outcome and pin count are
         the round-29 run's, 61 of 61.  63 unit tests.
+    round 30 (`work/native_lane/r30_samereg3/REPORT.md`, the six openings above).  The refusal table
+        over every row of the tree that still carries a same-register family (138 rows / 2,148 pins)
+        moved from 262 ordered pairs offered / 40 candidates / ONE row with a candidate to 706 / 629
+        / 42 rows at the defaults, and to 1,168 / 1,053 / 79 rows with T66_TRY_INTERFERENCE=1.
+        `decl-unparsed` 792 -> 100 (`decl-unparsed-reopened` 692: the two columns add up), `asm-operand-cast` 44 -> 0, `init-before-declarations` 92 -> 48,
+        `compound-assign-cast` 17 -> 0 (3 multi-line writes keep `write-multiline-cast`),
+        `host-name-collision` 138 -> 56 with no opening of its own.  Three lane_eval packs:
+        `t66v3_decl` (the 41 `decl-unparsed` rows) 25 of 41 exact, 53 pins; `t66v3_forms` (the 29
+        rows of the five candidate-stage refusals) 21 of 29, 33 pins; `t66v3_interf` (the 43
+        `interference` rows, T66_TRY_INTERFERENCE=1) 37 of 43, 81 pins - 75 DISTINCT rows and 146
+        pins, six rows being in two or three of the packs.  Per opening, by replaying
+        each row's menu with that one switch off (a candidate marked by two is counted in both):
+        T66_DECL_RUN 456 candidates newly offered, 46 exact; T66_ASM_OPERAND 150 / 40;
+        T66_COMPOUND 69 / 18; T66_INIT_PLACE 82 / 6; T66_SHADOW 2 / 1; T66_TRY_INTERFERENCE
+        196 / 69.  No budget was reached, no candidate failed to compile, and every candidate that
+        reached `vf` was exact (167 screened-to-0 candidates, 167 verifies, 167 hits).
+        REGRESSION: with all six openings off the module offers the SAME candidates byte for byte as
+        the round-29 module over the 110 frozen bases of the round-29 packs (110 of 110 identical,
+        labels and skip tables included), and `lane_eval --tag t66v3_regress` over 20 of those rows
+        reproduces the round-29 outcome, candidate count, pair count, skip table and steps, 20 of 20.
+        103 unit tests.
+    round 30, REVIEW (same REPORT, "Review fixes"): a review demonstrated three defects, all three
+        of them mechanisms that PREDATE round 30 (the round-29 module emits the same candidates) and
+        all three unexposed on today's tree - round 30 is what would have put a population in front
+        of the first one.  (1) A mention of the pin's name that is itself a DECLARATION was renamed:
+        a member line `s32 second;` inside `struct { ... } box;` is a `_occ` mention, and
+        `F.resolve` cannot return a declaration it never registered (it also requires
+        `d["line"] < k`, so an inner local at its OWN line resolved to the pin), so the rename
+        rewrote a struct member or an unrelated declaration, byte-neutrally, with nothing journalled.
+        Fixed in `Facts` against `F.declspans` (`_agg_spans`, found whether the declaration walk
+        reached the aggregate or not) and against `F.byname`; the declaration-line capture is
+        journalled as the shadow it is and T66_SHADOW's retry now reopens it.  (2) T66_INIT_PLACE
+        tested the CROSSED initialisers for a mention of the pair and for a call, but not for a side
+        effect of their own: `s32 tail = arg0[idx++];` crossed by `first = arg0[idx];` reads
+        `arg0[idx + 1]` in the candidate.  Fixed (`crossed-init-has-side-effects`), and the gate now
+        reads `_crossed_init`, so a crossed initialiser the parse DROPPED (`init=None` for a
+        multi-declarator or a declarator spread over lines) is read off the source instead of
+        passing unexamined.  (3) T66_ASM_OPERAND spelled the surviving name BARE for any mention
+        inside an `ASM_*` argument, but its argument ("the operand is the register") holds only
+        where the mention IS the argument: `ASM_KEEP_DEP_NV(total, scaled + 1)` became
+        `(total, page + 1)`, `s32 + 1` read as `u8 * + 1`.  Fixed with a whole-argument test
+        (`_MacroIdx.whole_arg`, which spans continuation lines); a sub-expression refuses the cast
+        form (`asm-operand-cast-subexpr`) and leaves the rename form alone.  Cost, measured: the
+        census over the 138 family rows is IDENTICAL to round 30's, per row and per skip key, at the
+        defaults (706 pairs / 629 candidates) and with T66_TRY_INTERFERENCE=1 (1,168 / 1,053), the
+        three new keys reading 0 in both; the four packs rerun as `samereg32b_*` reproduce
+        `t66v3_*` row for row (133 of 133: outcome, pins, candidate sha, menu size, pair count,
+        steps and skip table), 25/53, 21/33, 37/81 and the 20-row regression; and with every opening
+        off the module still offers the round-29 module's candidates byte for byte over its 110
+        frozen bases (110 of 110).  117 unit tests.
 """
 import collections
 import os
@@ -508,7 +616,8 @@ class _MacroIdx:
         for ln in ml:
             self.off.append(pos)
             pos += len(ln) + 1
-        self.calls = _calls_in("\n".join(ml), known)
+        self.text = "\n".join(ml)
+        self.calls = _calls_in(self.text, known)
 
     def at(self, line, col):
         if line >= len(self.off):
@@ -516,10 +625,40 @@ class _MacroIdx:
         p = self.off[line] + col
         return [(c[0], _slot_of(c, p)) for c in self.calls if c[1] < p < c[2]]
 
+    def whole_arg(self, line, col, end, pred):
+        """Does the text [col, end) on `line` fill the WHOLE argument of every enclosing call
+        `pred` names?  `ASM_KEEP(v)` yes, `ASM_KEEP_DEP_NV(total, v + 1)` no (see
+        `_asm_arg_mentions`)."""
+        if line >= len(self.off):
+            return False
+        p0, p1 = self.off[line] + col, self.off[line] + end
+        for c in self.calls:
+            if not (c[1] < p0 < c[2]) or not pred(c[0]):
+                continue
+            sp = next(((a, b) for a, b in c[3] if a <= p0 < b), None)
+            if sp is None or self.text[sp[0]:sp[1]].strip() != self.text[p0:p1]:
+                return False
+        return True
+
 
 def _calls_at(s, pos, known=()):
     """`_MacroIdx.at` for a single string - the one-line form, kept for direct callers."""
     return [(c[0], _slot_of(c, pos)) for c in _calls_in(s, known) if c[1] < pos < c[2]]
+
+
+def _is_asm_macro(name):
+    return name.startswith("ASM_")
+
+
+def _whole_arg_at(s, col, end, known, pred):
+    """`_MacroIdx.whole_arg` for a single string - the one-line form."""
+    for c in _calls_in(s, known):
+        if not (c[1] < col < c[2]) or not pred(c[0]):
+            continue
+        sp = next(((a, b) for a, b in c[3] if a <= col < b), None)
+        if sp is None or s[sp[0]:sp[1]].strip() != s[col:end]:
+            return False
+    return True
 
 
 def _macros_at(s, pos, refuse=()):
@@ -710,6 +849,7 @@ class Facts:
         o, c = d["block"]
         self.mentions = {}                 # line -> [match objects on the masked line]
         self.macro_mentions = {}           # line -> [(column, [enclosing macro names])]
+        self.asm_partial = set()           # (line, column) inside an ASM_* argument, but not ALL of it
         self.kills = set()
         self.addr = False
         macro_ok = getattr(flow, "macro_ok", False)
@@ -738,6 +878,22 @@ class Facts:
                 if d["init"] is not None:
                     self.kills.add(k)
                 continue
+            if any(lo <= k <= hi for lo, hi in getattr(F, "declspans", ())):
+                # The line is part of a DECLARATION, not a statement: a member of an aggregate
+                # written out here, a stepped-over table, a declarator this module does not parse.
+                # `F.resolve` cannot see a declaration it never registered and would hand this
+                # mention to the pin's own declaration, so the rename would rewrite a struct
+                # MEMBER (round 30 review, defect 1).
+                self.ok, self.reason = False, "mention-in-declaration"
+                continue
+            if any(x is not d and x["line"] <= k <= x["end"]
+                   for x in F.byname.get(self.name, ())):
+                # the mention is another declaration OF THE SAME NAME, at its own line: `resolve`
+                # requires `d["line"] < k` and so returns the outer pin even for an inner local it
+                # did register.  Named like the resolve-based refusal below, because it is the same
+                # capture and T66_SHADOW's retry reopens it the same way.
+                self.ok, self.reason = False, "shadowed-inner-local"
+                continue
             if F.resolve(self.name, k) is not d:
                 self.ok, self.reason = False, "shadowed-inner-local"
                 continue
@@ -753,8 +909,16 @@ class Facts:
                 if why:
                     self.ok, self.reason = False, why
                 else:
-                    self.macro_mentions.setdefault(k, []).append(
-                        (m.start(), [n for n, _ in encl]))
+                    names = [n for n, _ in encl]
+                    self.macro_mentions.setdefault(k, []).append((m.start(), names))
+                    if any(_is_asm_macro(n) for n in names) and not (
+                            midx.whole_arg(k, m.start(), m.end(), _is_asm_macro)
+                            if midx is not None else
+                            _whole_arg_at(s, m.start(), m.end(), refuse, _is_asm_macro)):
+                        # the mention is a SUB-EXPRESSION of the ASM_* argument, not the argument:
+                        # T66_ASM_OPERAND's bare spelling would drop the cast from part of an
+                        # expression (round 30 review, defect 3).
+                        self.asm_partial.add((k, m.start()))
             self.mentions[k] = hits
             if self._is_kill(flow, k, hits):
                 self.kills.add(k)
@@ -846,14 +1010,25 @@ def live(flow, facts):
     return lin, lout
 
 
-def interference(flow, a, b):
-    """None when the two variables can be one, else the reason."""
+def interference(flow, a, b, kind=None):
+    """None when the two variables can be one, else the reason.
+
+    `kind` is an optional one-element list the clash shape is written into for the journal:
+    `nested` when one variable's live range lies inside the other's, else `overlap` (see
+    T66_TRY_INTERFERENCE in the module docstring).
+    """
     ain, aout = live(flow, a)
     bin_, bout = live(flow, b)
     clash = [k for k in flow.nodes
              if (ain.get(k) and bin_.get(k)) or (aout.get(k) and bout.get(k))]
     if not clash:
         return None
+    if kind is not None:
+        sa = [k for k in flow.nodes if ain.get(k) or aout.get(k)] + a.lines
+        sb = [k for k in flow.nodes if bin_.get(k) or bout.get(k)] + b.lines
+        lo_a, hi_a, lo_b, hi_b = min(sa), max(sa), min(sb), max(sb)
+        kind.append("nested" if (lo_a <= lo_b and hi_b <= hi_a)
+                    or (lo_b <= lo_a and hi_a <= hi_b) else "overlap")
     for o, c in flow.F.loops:
         if any(o < k < c for k in clash) and any(o < k < c for k in a.lines) \
                 and any(o < k < c for k in b.lines):
@@ -865,7 +1040,7 @@ def interference(flow, a, b):
 
 class Pair:
     __slots__ = ("F", "flow", "H", "V", "hf", "vf_", "reg", "block", "dist", "twoarm",
-                 "base", "sites")
+                 "base", "sites", "interf", "shadow")
 
 
 def _decl_of(F, line, name):
@@ -900,6 +1075,121 @@ ARRAY_OPEN_RE = re.compile(
     r"^[ \t]*(?:(?:static|const|register|volatile|unsigned|signed|struct|union|enum)[ \t]+)*"
     r"%s(?:(?:[ \t]*\*)+[ \t]*|[ \t]+)(?:const[ \t]+)?%s[ \t]*\[[^\]]*\][ \t]*=[ \t]*\{[ \t]*$" % (ID, ID))
 
+# ---------------------------------------------------------------- T66_DECL_RUN (round 30, opening 1)
+# The three shapes the looser walk used to break on.  Each is STEPPED OVER: its declared names are
+# registered so scope resolution still sees them, and none of them is ever parsed into a mergeable
+# declaration (they are aggregates, tables and arrays - no pin merges into one).
+#
+# (a) the label table, on ONE line as well as the multi-line `= {` form ARRAY_OPEN_RE already knew,
+#     and with the `__attribute__((used))` spelling between the brackets and the `=`;
+ARRAY_RUN_RE = re.compile(
+    r"^[ \t]*(?:(?:static|const|register|volatile|unsigned|signed|struct|union|enum)[ \t]+)*"
+    r"%s(?:(?:[ \t]*\*)+[ \t]*|[ \t]+)(?:(?:const|volatile)(?:[ \t]*\*)*[ \t]+)*%s"
+    r"(?:[ \t]*\[[^\]]*\])+(?:[ \t]*__attribute__[ \t]*\(\(.*\)\))?[ \t]*=[ \t]*\{" % (ID, ID))
+# (b) an aggregate DEFINITION opened in the declaration run: `struct {`, `volatile struct {`,
+#     `volatile struct` alone with the brace on the next line, or `struct Tag {`.  Stepped by brace
+#     depth to the line that closes it; the names come from that closing line (`} camera_angles;`).
+AGG_OPEN_RE = re.compile(
+    r"^[ \t]*(?:(?:static|const|register|volatile|unsigned|signed)[ \t]+)*"
+    r"(?:struct|union|enum)\b(?:[ \t]+%s)?[ \t]*(?:\{.*)?$" % ID)
+# (c) a declarator MULTIDECL_RE cannot spell: a multi-dimensional array (`s16 v[10][6][3];`) or a
+#     qualifier behind the pointer stars (`void *volatile perspective_out;`).  Otherwise identical to
+#     MULTIDECL_RE, so it can never step over a statement MULTIDECL_RE would have stopped at.
+RUNDECL_RE = re.compile(
+    r"^[ \t]*(?:(?:register|const|volatile|static|unsigned|signed|struct|union|enum)[ \t]+)*"
+    r"%s(?:(?:[ \t]*\*)+[ \t]*|[ \t]+)(?:(?:const|volatile)(?:[ \t]*\*)*[ \t]+)*"
+    r"\(?\*?%s\)?(?:[ \t]*\([^;]*\))?(?:[ \t]*\[[^\]]*\])*"
+    r"(?:[ \t]*ASM_[A-Z0-9_]+[ \t]*\([^;]*\))?"
+    r"(?:[ \t]*,[ \t]*\**%s(?:[ \t]*\[[^\]]*\])*)*[ \t]*(?:=[^;]*)?;[ \t]*$" % (ID, ID, ID))
+
+
+def _agg_close(F, k, c):
+    """(line, column) of the brace that closes an aggregate definition opened at line `k`, or None.
+
+    Brace depth from `k`; the opening brace may sit on `k` itself or on the line below it (m2c
+    writes `volatile struct` and then `{`).  A definition whose depth returns to 0 on a line that
+    does not end in `;` is NOT stepped over - the walk breaks there rather than guess what follows.
+    The COLUMN matters: `} camera_angles = {1, 2};` closes the aggregate at the first brace, and
+    slicing from the last one would take the initialiser's `}` and lose the declared name.
+    """
+    depth, seen = 0, False
+    for j in range(k, min(c, len(F.ml))):
+        s = F.ml[j]
+        if not seen and j > k + 1:
+            return None                      # no `{` where an aggregate definition must have one
+        for i, ch in enumerate(s):
+            if ch == "{":
+                depth, seen = depth + 1, True
+            elif ch == "}":
+                depth -= 1
+                if seen and depth <= 0:
+                    return (j, i) if s.rstrip().endswith(";") else None
+    return None
+
+
+def _agg_spans(F):
+    """[(first line, last line)] of every aggregate DEFINITION written out inside this function.
+
+    Found independently of the declaration-run walk (round 30 review, defect 1): the walk sees an
+    aggregate only where it steps over one, and the member lines of an aggregate it never reached -
+    it broke above, or `T66_DECL_RUN` is off - are ordinary lines to `Facts`.  A member line
+    `s32 second;` is then a `_occ` mention of the pin variable `second` whose own declaration is
+    the OUTER one (`F.resolve` needs `d["line"] < k`, so it cannot return a member it never
+    registered), and the rename rewrites a STRUCT MEMBER.  Byte-neutral where nothing else names
+    the member, so nothing downstream catches it.
+
+    Spans cover the opening line through the closing `} name;` (which declares a name of its own).
+    The close is found by brace depth ALONE, not by `_agg_close`, which also demands that the
+    closing line end in `;` before the walk may step over it: a declarator this module cannot read
+    is a reason to refuse the rename, never a reason to leave the members exposed to it.
+    """
+    out, c = [], min(F.b, len(F.ml))
+    for k in range(F.a, c):
+        if not AGG_OPEN_RE.match(F.ml[k]):
+            continue
+        depth, seen, end = 0, False, None
+        for j in range(k, c):
+            if not seen and j > k + 1:
+                break                        # no `{` where an aggregate definition must have one
+            for ch in F.ml[j]:
+                if ch == "{":
+                    depth, seen = depth + 1, True
+                elif ch == "}":
+                    depth -= 1
+            if seen and depth <= 0:
+                end = j
+                break
+        if end is not None:
+            out.append((k, end))
+    return out
+
+
+ATTRIBUTE_RE = re.compile(r"__attribute__[ \t]*\(\(.*?\)\)", re.S)
+STATIC_RE = re.compile(r"^[ \t]*(?:(?:const|volatile|register|unsigned|signed)[ \t]+)*static\b")
+INIT_EQ_RE = re.compile(r"(?<![=!<>+\-*/%&|^])=(?!=)")
+
+
+def _run_names(F, blk, k, end, s, arr=False):
+    """Register the names a stepped-over declaration declares, and nothing else about it.
+
+    An `__attribute__((...))` is cut out first: `natural._decl_names` takes the LAST identifier of a
+    declarator, so `void *const state_labels[] __attribute__((used)) = {...}` would register `used`
+    and lose `state_labels` - the one thing this branch exists to register.
+
+    `init` matters even though nothing mergeable is read out of these: `_init_place_refusal` walks
+    the initialisers a demoted assignment would cross, and a stepped-over declaration that carried
+    one and reported None would be a crossing it never tested.  A `static` initialiser does not run
+    at block entry, so that one is None; every other `=` records the text after it, which is all the
+    refusal reads (a mention of V or H, a call).
+    """
+    body = ATTRIBUTE_RE.sub(" ", s)
+    m = None if STATIC_RE.match(body) else INIT_EQ_RE.search(body)
+    init = body[m.end():] if m else None
+    for n in N._decl_names(body):
+        F.decls.setdefault(blk, []).append(dict(
+            line=k, end=end, name=n, block=blk, single=False, ty=None, quals=set(), run=True,
+            init=init, arr=arr, pinned="ASM_REG" in s, spell=None, ind=N._ind(F.ml[k])))
+
 
 def _augment(F):
     """Declarations `natural._Fn` stopped short of.
@@ -908,12 +1198,21 @@ def _augment(F):
     `M2C_UNK (*update_actor)(void *, void *);` in the middle of a 90-line declaration run hides
     every declaration under it - 75 of the pins in the two evaluation packs.  This walks the same
     run with a looser test and adds what is missing (a line it cannot parse into a type still
-    registers its NAMES, so scope resolution still sees them)."""
+    registers its NAMES, so scope resolution still sees them).
+
+    T66_DECL_RUN (round 30, opening 1) steps over three more shapes the same way - the one-line
+    computed-goto label table, an aggregate definition, and a declarator MULTIDECL_RE cannot spell -
+    instead of breaking on them and hiding every declaration below (792 ordered pairs, 41 rows,
+    `decl-unparsed`).  With the switch off the loop body is exactly what it was.
+    """
+    run_on = _env_on("T66_DECL_RUN")
+    F.runsteps = []                        # (shape, first line, last line) of every stepped-over run
     for blk in F.blocks:
         o, c = blk
         known = {d["line"] for d in F.decls.get(blk, [])}
         stop = max(known) + 1 if known else o + 1
         k = stop
+        stepped = False                    # a T66_DECL_RUN stopper has been walked past in THIS block
         while k < c:
             s = F.ml[k]
             if not s.strip() or s.lstrip().startswith("#"):
@@ -931,15 +1230,51 @@ def _augment(F):
                     F.decls.setdefault(blk, []).append(dict(
                         line=k, end=end, name=n, block=blk, single=False, ty=None, quals=set(),
                         init=None, arr=True, pinned=False, spell=None, ind=N._ind(s)))
+                F.runsteps.append(("array-multiline", k, end))
                 k = end + 1
                 continue
             if not s.rstrip().endswith(";") or not MULTIDECL_RE.match(s):
+                first = re.match(ID, s.strip())
+                if not run_on or not first or first.group(0) in N.CTRL:
+                    # `return x;` and `case 3:` are not declarations, whatever a declarator regex
+                    # makes of them: the run ENDS there rather than stepping over a statement.
+                    break
+                if ARRAY_RUN_RE.match(s):
+                    # (a) the label table on one line, and the `__attribute__((used))` spelling
+                    end = k
+                    while end < c and not F.ml[end].rstrip().endswith(";"):
+                        end += 1
+                    if end >= c:
+                        break
+                    _run_names(F, blk, k, end, " ".join(F.ml[k:end + 1]), arr=True)
+                    F.runsteps.append(("array", k, end))
+                    stepped = True
+                    k = end + 1
+                    continue
+                if AGG_OPEN_RE.match(s):
+                    # (b) `struct {` / `volatile struct` ... `} name;` - by brace depth
+                    close = _agg_close(F, k, c)
+                    if close is None:
+                        break
+                    end, col = close
+                    _run_names(F, blk, k, end, F.ml[end][col:])
+                    F.runsteps.append(("aggregate", k, end))
+                    stepped = True
+                    k = end + 1
+                    continue
+                if RUNDECL_RE.match(s):
+                    # (c) `s16 v[10][6][3];`, `void *volatile perspective_out;`
+                    _run_names(F, blk, k, k, s)
+                    F.runsteps.append(("declarator", k, k))
+                    stepped = True
+                    k += 1
+                    continue
                 break
             m = N.VDECL_RE.match(s)
             if m and m.group("base") not in N.CTRL:
                 q = m.group("q").split()
                 F.decls.setdefault(blk, []).append(dict(
-                    line=k, end=k, name=m.group("n"), block=blk, single=True,
+                    line=k, end=k, name=m.group("n"), block=blk, single=True, run_below=stepped,
                     ty=N._ptype(q, m.group("base"), m.group("ptr")), quals=set(q),
                     init=m.group("init"), arr=bool(m.group("arr")), pinned=bool(m.group("asm")),
                     spell=m.group("spell").strip(), ind=m.group("i")))
@@ -947,8 +1282,13 @@ def _augment(F):
                 for n in N._decl_names(s):
                     F.decls.setdefault(blk, []).append(dict(
                         line=k, end=k, name=n, block=blk, single=False, ty=None, quals=set(),
-                        init=None, arr=False, pinned="ASM_REG" in s, spell=None, ind=N._ind(s)))
+                        init=None, arr=False, pinned="ASM_REG" in s, spell=None, ind=N._ind(s),
+                        run_below=stepped))
             k += 1
+    # Every line whose text belongs to a declaration rather than to a statement: the runs this walk
+    # stepped over, plus every aggregate definition in the function whether the walk reached it or
+    # not (round 30 review, defect 1 - see `_agg_spans`).  `Facts` refuses a mention there.
+    F.declspans = [(lo, hi) for _, lo, hi in F.runsteps] + _agg_spans(F)
     F.byname = {}
     for d in [x for ds in F.decls.values() for x in ds] + F.params:
         F.byname.setdefault(d["name"], []).append(d)
@@ -964,9 +1304,151 @@ def _fn_of(fns, line):
     return next((F for F in fns if F.a < line < F.b), None)
 
 
-def pairs_of(text, skips=None):
+def _fresh(t, base, taken=()):
+    """`<base>_s`, or `_s2`.. when that is taken: a name no word of the file already is, and none
+    this text has already handed out (two inner locals of one file may share a base name)."""
+    for suffix in ["_s"] + ["_s%d" % i for i in range(2, 10)]:
+        cand = base + suffix
+        if cand not in taken and not re.search(r"\b%s\b" % re.escape(cand), t.mtext):
+            return cand
+    return None
+
+
+def _rename_many(t, plan):
+    """{line: new line} for a plan of {line: [(old name, new name)]}.
+
+    One pass per LINE over every rename it carries, positions taken from the original masked line
+    and applied right to left.  `natural._rename` chains only renames of ONE name: a second call on
+    a line the first already edited would splice at stale offsets, which is how two inner locals
+    renamed on one line would have lost the first rewrite.
+    """
+    edits = {}
+    for k, subs in plan.items():
+        ln = N._nl(t.lines[k])
+        hits = []
+        for old, new in subs:
+            hits += [(m.start(), m.end(), new) for m in N._occ(old).finditer(t.m[k])]
+        for a, b, new in sorted(hits, reverse=True):
+            ln = ln[:a] + new + ln[b:]
+        edits[k] = ln
+    return edits
+
+
+def _shadow_inners(F, d, flow):
+    """The inner declarations that capture `d`'s name inside `d`'s block, or None when one of them
+    may not be renamed (T66_SHADOW, round 30, opening 4).
+
+    Refused: a parameter or a global (there is no inner block to rename in); a declaration this
+    module cannot spell as a plain scalar local - an aggregate member, a table, a multi-declarator -
+    since `natural._occ` skips `.x`/`->x` and the rename would then touch the declaration alone;
+    an inner local that is ITSELF an `ASM_REG` pin (the merge may not respell another pin's
+    variable); a mention in a preprocessor region; and a mention in a macro argument slot the
+    classifier calls a NAME (or in a stringifier, or in a macro whose body is out of reach).
+    """
+    o, c = d["block"]
+    rx = N._occ(d["name"])
+    inners, lines = {}, collections.defaultdict(set)
+    for k in range(o + 1, min(c, len(F.ml))):
+        if k == d["line"] or not rx.search(F.ml[k]):
+            continue
+        other = F.resolve(d["name"], k)
+        if other is None or other is d:
+            # the capture AT the inner declaration's own line: `resolve` requires `d["line"] < k`,
+            # so it hands that line to the outer declaration (round 30 review, defect 1).
+            other = next((x for x in F.byname.get(d["name"], ())
+                          if x is not d and x["line"] <= k <= x["end"]), None)
+        if other is None or other is d:
+            continue
+        if other.get("param") or not other["single"] or not other["ty"] or other["pinned"] \
+                or other["arr"] or other["line"] != other["end"]:
+            return None
+        ob = other["block"]
+        if not (o < ob[0] and ob[1] <= c):
+            return None
+        inners[other["line"]] = other
+        lines[other["line"]].add(k)
+    if not inners:
+        return None
+    for line, other in inners.items():
+        ob = other["block"]
+        want = {line}
+        for k in range(line, min(ob[1], len(F.ml))):
+            if rx.search(F.ml[k]) and (k == line or F.resolve(d["name"], k) is other):
+                want.add(k)
+        if any(k in flow.pp for k in want):
+            return None
+        for k in want:
+            for m in rx.finditer(F.ml[k]):
+                encl = flow.midx.at(k, m.start())
+                if encl and _macro_arg_refusal(encl, flow.macro_refuse, flow.mtable,
+                                               flow.macro_ok):
+                    return None
+        lines[line] = want
+    return [(inners[line], sorted(lines[line])) for line in sorted(inners)]
+
+
+def _shadow_retry(text, entries, skips):
+    """One text with every capturing inner local renamed, re-read for the pairs it now offers.
+
+    Mechanically the same move as `_rename_host`: a SEPARATE TEXT, re-parsed and merged by the
+    ordinary path, so `Facts`, the liveness test, the collision test and the preprocessor guards
+    all fire again on what the compiler will actually see.  A local's name is byte-neutral on this
+    port; where the inner local is named by a statement pin (`ASM_KEEP(inner)`) the pin's ARGUMENT
+    is respelled with it, exactly as T66_MACRO_ARGS respells the victim's - the pin count and the
+    keep's position do not move, and `_expected_pins` asserts the whole multiset against THIS text.
+    """
+    t = N._T(text)
+    plan, want, taken, touched = collections.defaultdict(list), set(), set(), 0
+    for F, d, flow in entries:
+        got = _shadow_inners(F, d, flow)
+        if got is None:
+            skips["shadow-inner-refused"] += 1
+            continue
+        sub = []
+        for other, lines in got:
+            new = _fresh(t, other["name"], taken)
+            if new is None:
+                sub = None
+                break
+            taken.add(new)
+            sub.append((other, lines, new))
+        if not sub:
+            skips["shadow-name-taken"] += 1
+            continue
+        for other, lines, new in sub:
+            for k in lines:
+                plan[k].append((other["name"], new))
+            if (other["name"], other["line"]) in F.pinned:
+                touched += 1
+        want.add(d["line"])
+    if not plan:
+        return []
+    try:
+        text1 = t.build(_rename_many(t, plan))
+    except Exception:
+        skips["shadow-build-failed"] += 1
+        return []
+    if _pp_sig(text1) != _pp_sig(text) or unscored_text(text1) != unscored_text(text):
+        skips["shadow-build-failed"] += 1        # unreachable by construction; the assertion stands
+        return []
+    if touched:
+        skips["shadow-renames-a-pin-argument"] += touched
+    got = []
+    for p in pairs_of(text1, collections.Counter(), _shadow=False):
+        if p.H["line"] not in want and p.V["line"] not in want:
+            continue
+        p.shadow = True
+        got.append(p)
+    skips["shadowed-inner-local-reopened"] += len(got)
+    return got
+
+
+def pairs_of(text, skips=None, _shadow=True):
     """Every ordered (host, victim) pair of same-register ASM_REG declarations whose lifetimes are
-    disjoint, nearest first.  `skips` counts the refusals."""
+    disjoint, nearest first.  `skips` counts the refusals.
+
+    `_shadow` is False on the ONE level of re-entry T66_SHADOW and T66_RENAME_HOST allow: the text
+    those build has already had its shadowing inner locals renamed."""
     skips = collections.Counter() if skips is None else skips
     out = []
     try:
@@ -977,6 +1459,7 @@ def pairs_of(text, skips=None):
         return out
     pp = _pp_regions(text)
     macro_ok = _env_on("T66_MACRO_ARGS")
+    try_interf = _env_on("T66_TRY_INTERFERENCE", "0")
     refuse = _stringify_macros(text)
     mtable = _macro_table(text)
     midx = _MacroIdx(t.m, mtable)
@@ -991,6 +1474,7 @@ def pairs_of(text, skips=None):
         byfn[(F.a, F.b)].append((s, name, F))
     flows = {}
     factcache = {}
+    shadowed = {}
     for key, group in byfn.items():
         byreg = collections.defaultdict(list)
         for s, name, F in group:
@@ -1017,12 +1501,20 @@ def pairs_of(text, skips=None):
                     continue
                 if d["line"] not in factcache:
                     factcache[d["line"]] = Facts(flow, d)
+                if factcache[d["line"]].reason == "shadowed-inner-local":
+                    shadowed[d["line"]] = (F, d, flow)
                 decls.append((d, factcache[d["line"]]))
             # Every skip below is counted per ORDERED PAIR; the declarations dropped just above
             # cost pairs too, so charge them at the same scale instead of once per declaration.
             n, k_ = len(members), len(decls)
             if k_ < n:
                 skips["decl-unparsed"] += n * (n - 1) - k_ * (k_ - 1)
+            r = sum(1 for d, _ in decls if d.get("run_below"))
+            if r:
+                # T66_DECL_RUN: the declarations only this opening reaches, charged at the same
+                # ordered-pair scale, so `decl-unparsed` + `decl-unparsed-reopened` is the count a
+                # T66_DECL_RUN=0 run reports.
+                skips["decl-unparsed-reopened"] += k_ * (k_ - 1) - (k_ - r) * (k_ - r - 1)
             for i, (dh, fh) in enumerate(decls):
                 for j, (dv, fv) in enumerate(decls):
                     if i == j:
@@ -1033,13 +1525,23 @@ def pairs_of(text, skips=None):
                     if not fv.ok:
                         skips[fv.reason] += 1
                         continue
-                    why = interference(flow, fh, fv)
+                    kind = []
+                    why = interference(flow, fh, fv, kind)
+                    interf = None
                     if why:
-                        skips[why] += 1
-                        continue
+                        if why != "interference" or not try_interf:
+                            skips[why] += 1
+                            continue
+                        # T66_TRY_INTERFERENCE: both variables are bound to ONE hard register in a
+                        # row that is byte-exact today, so the compiled program never holds both
+                        # values at once - the C-level clash is liveness over-approximating or an
+                        # m2c artefact.  The merged text is offered and `vf` decides (docstring).
+                        interf = kind[0] if kind else "overlap"
+                        skips["interference-reopened"] += 1
+                        skips["interference-" + interf] += 1
                     p = Pair()
                     p.F, p.flow, p.H, p.V, p.hf, p.vf_, p.reg = F, flow, dh, dv, fh, fv, reg
-                    p.base, p.sites = text, sites
+                    p.base, p.sites, p.interf, p.shadow = text, sites, interf, None
                     p.block = F.encl(min(fh.lines + fv.lines), max(fh.lines + fv.lines))
                     p.dist = min(abs(x - y) for x in fh.lines for y in fv.lines)
                     p.twoarm = _arms(F, dh["block"], dv["block"])
@@ -1049,7 +1551,12 @@ def pairs_of(text, skips=None):
                         # `in-macro-arg` count a T66_MACRO_ARGS=0 run still reports)
                         skips["in-macro-arg-reopened"] += 1
                     out.append(p)
-    out.sort(key=lambda p: (p.dist, p.H["line"], p.V["line"]))
+    if shadowed and _shadow and _env_on("T66_SHADOW"):
+        seen = {(p.H["line"], p.V["line"], p.reg) for p in out}
+        out += [p for p in _shadow_retry(text, list(shadowed.values()), skips)
+                if (p.H["line"], p.V["line"], p.reg) not in seen]
+    # a pair whose lifetimes clash goes LAST: the clean pairs have first call on the screen budget
+    out.sort(key=lambda p: (bool(p.interf), p.dist, p.H["line"], p.V["line"]))
     return out
 
 
@@ -1118,21 +1625,98 @@ def _reaches(F, block, line):
     return first is None or line >= first
 
 
-def _demote(F, d):
+SIDE_EFFECT_RE = re.compile(r"(?<![=!<>+\-*/%&|^])=(?!=)|[-+*/%&|^]=|<<=|>>=|\+\+|--")
+
+
+def _crossed_init(F, x):
+    """The initialiser text of a crossed declaration, read from its SOURCE when the parse dropped it.
+
+    `natural._block_decls` and `_augment`'s fallback branch record `init=None` for every declaration
+    line `VDECL_RE` cannot spell - a multi-declarator, a declarator spread over lines, a non-static
+    table - so a crossing that carries an initialiser reported none and was invisible to the whole
+    refusal (round 30 review, defect 2).  A `static` initialiser does not run at block entry (it is
+    not a crossing at all), so that one stays None; everything else is read off the masked lines of
+    the declaration with its `ASM_REG(...)` and `__attribute__((...))` cut out, and whatever follows
+    the first `=` is handed to the tests.  A multi-declarator's remainder (`1, b = 2`) carries the
+    `=` of the second declarator and therefore refuses - the conservative answer, which is correct.
+    """
+    if x["init"] is not None:
+        return x["init"]
+    s = " ".join(F.ml[x["line"]:min(x["end"], len(F.ml) - 1) + 1])
+    if STATIC_RE.match(F.ml[x["line"]]):
+        return None
+    body = ATTRIBUTE_RE.sub(" ", re.sub(r"ASM_REG[ \t]*\([^)]*\)", " ", s))
+    m = INIT_EQ_RE.search(body)
+    return body[m.end():] if m else None
+
+
+def _init_place_refusal(F, later, guard, moved_init):
+    """T66_INIT_PLACE: why the demoted assignment may NOT cross these declarations, or None.
+
+    The demoted assignment lands after the LAST declaration of the run, so it now runs AFTER every
+    initialiser those declarations carry, where it used to run before them.  That is the same
+    program only when neither order can see the difference:
+
+      - no crossed initialiser reads V or H (it would read the value the move is carrying);
+      - no crossed initialiser calls anything (a call may read or write whatever the moved
+        assignment reads or writes);
+      - no crossed initialiser has a side effect of its own (`++`, `--`, an embedded assignment):
+        the demoted assignment now runs AFTER it and would read the value it left behind
+        (`s32 tail = arg0[idx++];` crossed by `first = arg0[idx];` - round 30 review, defect 2);
+      - the moved initialiser does not name a crossed declaration (it would read an initialised
+        value where it used to read an uninitialised one, and vice versa);
+      - the moved initialiser neither calls anything nor assigns (its own side effects would then
+        happen after the crossed initialisers ran).
+
+    Every test is one-sided: a false refusal costs a candidate, a false pass changes the program.
+    """
+    inits = [i for i in ((x, _crossed_init(F, x)) for x in later) if i[1] is not None]
+    if not inits:
+        return None
+    rxs = [N._occ(g) for g in guard if g]
+    for _, init in inits:
+        if any(rx.search(init) for rx in rxs):
+            return "crossed-init-reads-the-pair"
+        if CALL_RE.search(init):
+            return "crossed-init-calls"
+        if SIDE_EFFECT_RE.search(init):
+            return "crossed-init-has-side-effects"
+    names = {x["name"] for x in later}
+    mv = moved_init or ""
+    if any(n in names for n in re.findall(ID, mv)):
+        return "moved-init-reads-a-crossed-declaration"
+    if CALL_RE.search(mv) or SIDE_EFFECT_RE.search(mv):
+        return "moved-init-has-side-effects"
+    return None
+
+
+def _demote(F, d, guard=(), moved_init=None, skips=None):
     """Where the assignment that replaces declaration `d` may go, as (kind, line).
 
     A declaration in the middle of a block's declaration run cannot simply become a statement:
     C89 puts every declaration first, so `register s32 next ASM_REG("$4");` two lines below would
     then be a syntax error (17 candidates in the mid pack before this was measured).  The
-    assignment goes after the LAST declaration of that block instead - and only when none of the
-    declarations it now follows has an initialiser of its own, because those initialisers run in
-    declaration order and one of them may read the very value being moved.
+    assignment goes after the LAST declaration of that block instead - and, before round 30, only
+    when none of the declarations it now follows has an initialiser of its own, because those
+    initialisers run in declaration order and one of them may read the very value being moved
+    (`init-before-declarations`, 92 ordered pairs in 10 rows).  T66_INIT_PLACE tests that instead
+    of assuming it: see `_init_place_refusal`.
     """
     later = [x for x in (F.decls.get(d["block"]) or []) if x["line"] > d["line"]]
     if not later:
         return ("edit", d["line"]) if _reaches(F, d["block"], d["line"]) else None
-    if any(x["init"] is not None for x in later):
-        return None
+    if any(_crossed_init(F, x) is not None for x in later):
+        # `_crossed_init`, not `x["init"]`: a crossed declaration whose initialiser the parse
+        # dropped used to pass this gate unexamined (round 30 review, defect 2).
+        if not _env_on("T66_INIT_PLACE"):
+            return None
+        why = _init_place_refusal(F, later, guard, moved_init)
+        if why:
+            if skips is not None:
+                skips["init-place-" + why] += 1
+            return None
+        if skips is not None:
+            skips["init-before-declarations-reopened"] += 1
     at = max(x["end"] for x in later)
     return ("after", at) if _reaches(F, d["block"], at) else None
 
@@ -1145,6 +1729,45 @@ COMPOUND_RE = re.compile(r"^(?P<i>[ \t]*)%s[ \t]*(?P<op><<|>>|[-+*/%%&|^])=(?!=)
 INCDEC_RE = re.compile(r"^(?P<i>[ \t]*)(?:(?P<pre>\+\+|--)%s|%s(?P<post>\+\+|--))[ \t]*;(?P<tail>.*)$")
 
 
+def _asm_arg_mentions(facts):
+    """({(line, col)} inside an `ASM_*` argument, {(line, col)} ALSO inside something else).
+
+    The second set is the shape T66_ASM_OPERAND may not spell either way: `ASM_KEEP(U16_AT(p, v))`
+    can take neither the cast (the asm operand would not be an lvalue) nor the bare name (the inner
+    macro would lose the cast, and with it the signedness the merge is sound in).  It is refused as
+    `asm-operand-cast-mixed-macro`, and it does not occur in the tree today.
+    """
+    asm, mixed = set(), set()
+    for k, hits in facts.macro_mentions.items():
+        for col, encl in hits:
+            if not any(_is_asm_macro(x) for x in encl):
+                continue
+            asm.add((k, col))
+            if not all(_is_asm_macro(x) for x in encl):
+                mixed.add((k, col))
+    return asm, mixed
+
+
+PLAINWRITE_RE = re.compile(r"^(?P<i>[ \t]*)%s[ \t]*=(?!=)(?P<rhs>[^;]*);(?P<tail>.*)$")
+
+
+def _is_deref(s, pos):
+    """Is the `*` immediately left of `pos` a DEREFERENCE rather than a multiplication?
+
+    `*v = e` writes through v and only reads it; `a * v` is arithmetic.  The difference is what
+    sits left of the star: an identifier, a `)` or a `]` makes it a binary operator, anything else
+    (an operator, an open bracket, the start of the line) makes it unary.  Reading only `endswith
+    ("*")` calls `frame * div5_magic` a deref - measured on `dungeon/func_807B0B3C`.
+    """
+    i = len(s[:pos].rstrip()) - 1
+    if i < 0 or s[i] != "*":
+        return False
+    j = len(s[:i].rstrip()) - 1
+    while j >= 0 and s[j] == "*":
+        j = len(s[:j].rstrip()) - 1
+    return j < 0 or not (s[j].isalnum() or s[j] in "_)]")
+
+
 def _cast_edits(t, facts, host, tv, th, skips):
     """V's definitions become `H = (TH)(expr);`, its reads `(TV)H`.
 
@@ -1155,19 +1778,69 @@ def _cast_edits(t, facts, host, tv, th, skips):
     logical shift stays logical and an unsigned compare stays unsigned.  (Until 2026-09-15 this
     module also emitted an undocumented cast-free `implicit` spelling AHEAD of this one, which
     silently changed `u32 >>= 5` into an arithmetic shift; it was removed in review.)
+
+    T66_ASM_OPERAND (round 30, opening 2) - inside an `ASM_*` argument the operand is the REGISTER,
+    and a word is a word on this port, so the surviving name goes in BARE (`ASM_KEEP(h)`) and every
+    other read is cast exactly as before.  `ASM_KEEP(var)` is `__asm__ __volatile__("" : "=r"(var)
+    : "0"(var))`, so `(u8 *)h` there is not an lvalue for the output operand; that is what used to
+    refuse the whole pair (`asm-operand-cast`, 44 ordered pairs in 14 rows).  The pin count cannot
+    move (`_expected_pins` asserts the whole multiset with V's spelling rewritten), the argument
+    count cannot move (one name replaces one name), and an `ASM_REG` binding never reaches here at
+    all - `NEVER_IN_MACRO` refuses the pair in `Facts`.
+
+    T66_COMPOUND (round 30) - the `compound-assign-cast` refusal was not about `v += e` (that has
+    its own spelling above).  Over the 17 ordered pairs it charged, 23 of the 28 trigger lines are
+    a PLAIN assignment whose right-hand side reads V (`v = (u8 *)v + 4;`), which `_is_kill` refuses
+    to call a kill, and one is a plain assignment in a braceless `if` body (a write that may not
+    execute, so it may not kill either).  Both are definitions written in the ordinary way and both
+    have the ordinary spelling, `H = (TH)(<rhs with every V read written (TV)H>);`.  Five more are
+    not writes at all: `*v = e` and `*v &= e` write THROUGH the pointer and READ v, and the old
+    lookahead read the `=` after the name without looking at the `*` before it.  The three that
+    remain are assignments spread over several lines, which this per-line edit map cannot spell:
+    they keep their own refusal, `write-multiline-cast`.
     """
-    if any(x.startswith("ASM_") for hits in facts.macro_mentions.values()
-           for _, encl in hits for x in encl):
-        # `ASM_KEEP(var)` is `__asm__ __volatile__("" : "=r"(var) : "0"(var))`: the argument is an
-        # OUTPUT operand, and `(u8 *)h` is not an lvalue.  The rename form of the same pair is
-        # unaffected - only the cast spelling has to be refused here.
-        skips["asm-operand-cast"] += 1
-        return None
+    asm_args, asm_mixed = _asm_arg_mentions(facts)
+    asm_ok = _env_on("T66_ASM_OPERAND")
+    comp_ok = _env_on("T66_COMPOUND")
+    if asm_args:
+        if not asm_ok:
+            # the round-29 refusal: the cast spelling of the pair is gone, the rename spelling of
+            # the same pair is untouched (it only respells the name the keep already carries).
+            skips["asm-operand-cast"] += 1
+            return None
+        if asm_mixed:
+            skips["asm-operand-cast-mixed-macro"] += 1
+            return None
+        if getattr(facts, "asm_partial", None):
+            # The opening's argument is "inside an ASM_* argument the operand is the REGISTER", and
+            # it holds only where the mention IS the argument.  `ASM_KEEP_DEP_NV(total, v + 1)` is
+            # an expression whose operand is the whole argument: dropping the cast from one term of
+            # it changes the value (`s32 + 1` read as `u8 * + 1` is +4 bytes), and the cast cannot
+            # be kept either - `_expected_pins` compares the pin's argument against the victim's
+            # name substituted, so `((s32)h) + 1` is not that pin any more.  Refused, and the
+            # RENAME form of the same pair is untouched (round 30 review, defect 3).
+            skips["asm-operand-cast-subexpr"] += 1
+            return None
+        skips["asm-operand-cast-reopened"] += 1
     edits = {}
     ch, cv = _cast(th), _cast(tv)
     name = re.escape(facts.name)
     comp_re = re.compile(COMPOUND_RE.pattern % name)
     incdec_re = re.compile(INCDEC_RE.pattern % (name, name))
+    write_re = re.compile(PLAINWRITE_RE.pattern % name)
+    comp_used = [False]                    # T66_COMPOUND actually spelled something on this pair
+
+    def spell(k, m, s):
+        """How one READ of V at `m` on line `k` is spelled with the surviving variable."""
+        if (k, m.start()) in asm_args:
+            return host                       # T66_ASM_OPERAND: the operand is the register
+        after = s[m.end():]
+        # Inside a macro argument the macro body decides what the cast binds to, and this line
+        # cannot be read for it: parenthesise there always.
+        paren = any(col == m.start() for col, _ in facts.macro_mentions.get(k, ())) \
+            or bool(re.match(r"[ \t]*(?:\[|->|\.|\()", after))
+        return ("(%s%s)" % (cv, host)) if paren else "%s%s" % (cv, host)
+
     for k, hits in facts.mentions.items():
         s = t.m[k]
         ln = N._nl(t.lines[k])
@@ -1185,28 +1858,47 @@ def _cast_edits(t, facts, host, tv, th, skips):
                 edits[k] = "%s%s = %s((%s%s) %s 1);%s" % (
                     m.group("i"), host, ch, cv, host, op, ln[m.start("tail"):])
                 continue
-        if k in facts.kills:
-            m = re.match(r"^(?P<i>[ \t]*)%s[ \t]*=(?!=)(?P<rhs>[^;]*);(?P<tail>.*)$"
-                         % re.escape(facts.name), s)
-            if not m:
+        wm = write_re.match(s)
+        lhs_write = bool(wm) and bool(hits) and hits[0].start() == len(wm.group("i"))
+        if k in facts.kills or (comp_ok and lhs_write):
+            if not lhs_write:
                 skips["write-not-plain-cast"] += 1
                 return None
-            rhs = ln[m.start("rhs"):m.end("rhs")].strip()
-            edits[k] = "%s%s = %s(%s);%s" % (m.group("i"), host, ch, rhs, ln[m.end("rhs") + 1:])
+            # `v = <rhs>;<tail>` - a kill, or (T66_COMPOUND) a write `_is_kill` would not call one:
+            # the rhs reads V (`v = (u8 *)v + 4;`) or the statement is a braceless if/loop body.
+            a, b = wm.start("rhs"), wm.end("rhs")
+            if any(x.start() >= b for x in hits):
+                # `v = e; ASM_KEEP(v);` on one line: the tail is copied verbatim below, so a mention
+                # in it would survive V's deletion.  (A kill cannot reach here - `_is_kill` demands
+                # an empty tail - so this is T66_COMPOUND's refusal alone.)
+                skips["write-tail-mentions-victim"] += 1
+                return None
+            if k not in facts.kills:
+                comp_used[0] = True        # a write `_is_kill` would not have called one
+            rhs = ln[a:b]
+            for m in reversed([x for x in hits if a <= x.start() < b]):
+                rhs = rhs[:m.start() - a] + spell(k, m, s) + rhs[m.end() - a:]
+            edits[k] = "%s%s = %s(%s);%s" % (wm.group("i"), host, ch, rhs.strip(),
+                                             ln[wm.start("tail"):])
             continue
         for m in reversed(hits):
             after = s[m.end():]
+            deref = _is_deref(s, m.start())
             if re.match(r"[ \t]*(?:=(?!=)|[-+*/%&|^]=|<<=|>>=|\+\+|--)", after) \
                     or re.search(r"(?:\+\+|--)[ \t]*$", s[:m.start()]):
-                skips["compound-assign-cast"] += 1
-                return None
-            # Inside a macro argument the macro body decides what the cast binds to, and this line
-            # cannot be read for it: parenthesise there always.
-            in_macro = any(col == m.start() for col, _ in facts.macro_mentions.get(k, ()))
-            paren = in_macro or bool(re.match(r"[ \t]*(?:\[|->|\.|\()", after))
-            rep = ("(%s%s)" % (cv, host)) if paren else "%s%s" % (cv, host)
-            ln = ln[:m.start()] + rep + ln[m.end():]
+                # T66_COMPOUND: `*v = e` / `*v &= e` assign THROUGH the pointer, so the name is a
+                # READ like any other; the old lookahead never looked left of it.
+                if not (comp_ok and deref):
+                    skips["write-multiline-cast" if comp_ok and not s.rstrip().endswith(";")
+                          else "compound-assign-cast"] += 1
+                    return None
+                comp_used[0] = True        # `*v = e` read as the read it is
+            ln = ln[:m.start()] + spell(k, m, s) + ln[m.end():]
         edits[k] = ln
+    if comp_used[0]:
+        # the pair the `compound-assign-cast` refusal used to cost: `compound-assign-cast` plus
+        # `compound-assign-cast-reopened` is the count a T66_COMPOUND=0 run reports.
+        skips["compound-assign-cast-reopened"] += 1
     return edits
 
 
@@ -1317,7 +2009,9 @@ def _rename_host(pair, skips):
                 elif _pp_sig(text1) != _pp_sig(base) or unscored_text(text1) != unscored_text(base):
                     cache[key] = None            # unreachable by construction; the assertion stands
                 else:
-                    cache[key] = (text1, pairs_of(text1, collections.Counter()))
+                    # `_shadow=False`: the text a rename builds has already had its shadowing inner
+                    # locals renamed when T66_SHADOW built it, and one level of re-entry is the cap.
+                    cache[key] = (text1, pairs_of(text1, collections.Counter(), _shadow=False))
             except Exception:
                 cache[key] = None
         if cache[key] is None:
@@ -1350,7 +2044,9 @@ def candidates_for(pair, skips, renamed=None):
     F, t = pair.F, pair.F.t
     H, V, hf, vf_ = pair.H, pair.V, pair.hf, pair.vf_
     marks = ([renamed] if renamed else []) + (
-        ["macroarg"] if (hf.macro_mentions or vf_.macro_mentions) else [])
+        ["macroarg"] if (hf.macro_mentions or vf_.macro_mentions) else []) + (
+        ["shadow"] if getattr(pair, "shadow", None) else []) + (
+        ["interf-" + pair.interf] if getattr(pair, "interf", None) else [])
     mark = ("+" + "+".join(marks)) if marks else ""
     th, tv = H["ty"], V["ty"]
     if th == tv:
@@ -1454,12 +2150,14 @@ def candidates_for(pair, skips, renamed=None):
             init = V["init"].strip()
             rhs = ("%s(%s)" % (_cast(th), init)) if spell else init
             vstmt = "%s%s = %s;" % (V["ind"], H["name"], rhs)
-            vplace = _demote(F, V)
+            vplace = _demote(F, V, guard=(V["name"], H["name"]),
+                             moved_init=V["init"], skips=skips)
             if vplace is None:
                 skips["init-before-declarations"] += 1
                 continue
         hstmt = None if H["init"] is None else (H["ind"] + "%s = %s;" % (H["name"], H["init"].strip()))
-        hplace = _demote(F, H) if hstmt else None
+        hplace = _demote(F, H, guard=(V["name"], H["name"]),
+                         moved_init=H["init"], skips=skips) if hstmt else None
         variants = []
         for btag, bt, anchor, moved_keep, moved_bare, between, reach in places:
             if not btag:

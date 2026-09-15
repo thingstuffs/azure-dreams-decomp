@@ -306,12 +306,9 @@ class Refusals(unittest.TestCase):
                          "in-macro-arg")
 
     def test_same_named_inner_scope_local(self):
-        self.refuses(PLAIN.replace("    arg0[2] = total;", """    {
-        s32 second;
-        second = arg0[4];
-        arg0[5] = second;
-    }
-    arg0[2] = total;"""), "shadowed-inner-local")
+        """Reopened by T66_SHADOW (round 30); with the opening off it is the round-29 refusal."""
+        with off("T66_SHADOW"):
+            self.refuses(SHADOWED, "shadowed-inner-local")
 
     def test_uses_inside_an_ifdef_arm(self):
         self.refuses(PLAIN.replace("    second = arg0[1] + 2;", """#ifdef NON_MATCHING
@@ -497,6 +494,115 @@ SAMENAME = HEAD + '''void func_test(s32 *arg0) {
 
 KEPT = PLAIN.replace("    total += second;", "    ASM_KEEP(second);\n    total += second;")
 
+# ------------------------------------------------------------------ round 30, the five openings
+
+# (1) T66_DECL_RUN: the three shapes the declaration walk used to break on.  Every pin below the
+# stopper was invisible before it - `decl-unparsed`, the largest refusal of the round-30 table.
+LABEL_TABLE = HEAD + '''void func_test(u8 *arg0) {
+    static void *const state_labels[] = { &&one, &&two };
+    s32 total;
+    register u8 *page ASM_REG("$7");   /* UNRESOLVED C shape (pin) */
+    register s32 scaled ASM_REG("$7");   /* UNRESOLVED C shape (pin) */
+
+    (void) state_labels;
+    page = arg0 + 8;
+    total = page[3];
+    scaled = total * 4;
+    arg0[scaled] = 0;
+one:
+two:
+    return;
+}
+'''
+
+ANON_STRUCT = HEAD + '''void func_test(s32 *arg0) {
+    volatile struct {
+        u16 a;
+        u16 b;
+    } camera_angles;
+    s16 vertices[2][3][4];
+    void *volatile perspective_out;
+    s32 total;
+    register s32 first ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+    register s32 second ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+
+    camera_angles.a = 1;
+    vertices[0][0][0] = 2;
+    perspective_out = arg0;
+    first = arg0[0] + 1;
+    total = first;
+    second = arg0[1] + 2;
+    total += second;
+    arg0[2] = total;
+}
+'''
+
+# (2) T66_ASM_OPERAND: the victim is named by a keep AND the pair needs the cast spelling.
+ASMCAST = CASTED.replace("    arg0[scaled] = 0;", "    ASM_KEEP(scaled);\n    arg0[scaled] = 0;")
+
+# (3) T66_INIT_PLACE: the victim carries an initialiser and a LATER declaration of the same run
+# carries one too, so the demoted assignment has to cross it.
+INITRUN = HEAD + '''void func_test(s32 *arg0) {
+    s32 total;
+    register s32 second ASM_REG("$3") = 7;   /* UNRESOLVED C shape (pin) */
+    s32 later = 3;
+    register s32 first ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+
+    total = second + later;
+    first = arg0[0];
+    total += first;
+    arg0[2] = total;
+}
+'''
+
+# (4) T66_SHADOW: an inner block declares the victim's name again.
+SHADOWED = PLAIN.replace("    second = arg0[1] + 2;", """    {
+        s32 second;
+        second = arg0[4];
+        arg0[5] = second;
+    }
+    second = arg0[1] + 2;""")
+
+# (5) T66_TRY_INTERFERENCE: two lifetimes that DO clash at the C level, on one hard register.
+OVERLAP = HEAD + '''void func_test(s32 *arg0) {
+    register s32 first ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+    register s32 second ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+
+    first = arg0[0];
+    second = arg0[1];
+    arg0[2] = first + second;
+}
+'''
+
+# T66_COMPOUND: a write `_is_kill` will not call a kill (the rhs reads the victim), and an
+# assignment THROUGH the victim (`*v = e`), which is a read of it.
+SELFREAD = HEAD + '''void func_test(u8 *arg0) {
+    s32 total;
+    register void *slot ASM_REG("$7");   /* UNRESOLVED C shape (pin) */
+    register s32 scaled ASM_REG("$7");   /* UNRESOLVED C shape (pin) */
+
+    slot = arg0;
+    total = ((S_0 *)slot)->unk_00;
+    slot = (u8 *)slot + 4;
+    total += ((S_0 *)slot)->unk_04;
+    scaled = total * 4;
+    arg0[scaled] = 0;
+}
+'''
+
+DEREF_WRITE = HEAD + '''void func_test(u32 *arg0) {
+    s32 total;
+    register u32 *link ASM_REG("$7");   /* UNRESOLVED C shape (pin) */
+    register s32 scaled ASM_REG("$7");   /* UNRESOLVED C shape (pin) */
+
+    link = arg0;
+    *link = (*link & 0xF) | 0x10;
+    total = 3;
+    scaled = total * 4;
+    arg0[scaled] = 0;
+}
+'''
+
 
 class RenameHost(unittest.TestCase):
     """T66_RENAME_HOST: the merge retried with the surviving variable renamed."""
@@ -588,11 +694,12 @@ class MacroArgs(unittest.TestCase):
         cand = only(text, "cast:scaled->page")
         self.assertIn("U16_AT(arg0, ((s32)page));", cand)
 
-    def test_the_cast_form_refuses_an_asm_operand(self):
+    def test_the_cast_form_refuses_an_asm_operand_with_the_opening_off(self):
         """`ASM_KEEP(var)` is `__asm__ __volatile__("" : "=r"(var) : "0"(var))`: `(s32)page` is not
-        an lvalue there, so the cast spelling of that pair has to go."""
+        an lvalue there, so before T66_ASM_OPERAND the cast spelling of that pair had to go."""
         text = CASTED.replace("    arg0[scaled] = 0;", "    ASM_KEEP(scaled);")
-        out, skips = gen(text)
+        with off("T66_ASM_OPERAND"):
+            out, skips = gen(text)
         # the direction that would CAST the keep's operand is gone; the other direction, which only
         # respells `page`, is untouched (the keep still names `scaled`, which survives)
         self.assertEqual([l for l, _ in out], ["t66:plain:cast:page->scaled@$7+macroarg"])
@@ -809,6 +916,387 @@ class MacroArgs(unittest.TestCase):
         self.assertEqual(after["in-macro-arg-reopened"], 2)
 
 
+class DeclRun(unittest.TestCase):
+    """T66_DECL_RUN: the declaration walk steps over three shapes instead of breaking on them."""
+
+    def test_a_one_line_label_table_no_longer_hides_the_run(self):
+        self.assertEqual(labels(LABEL_TABLE),
+                         ["t66:plain:cast:scaled->page@$7", "t66:plain:cast:page->scaled@$7"])
+        cand = only(LABEL_TABLE, "cast:scaled->page")
+        self.assertIn("    page = (u8 *)(total * 4);\n", cand)
+        # the table itself is untouched, and its name is still a name
+        self.assertIn("    static void *const state_labels[] = { &&one, &&two };\n", cand)
+
+    def test_the_attribute_spelling_of_the_table(self):
+        """`_decl_names` takes the LAST identifier of a declarator, so the attribute has to be cut
+        out first or the table registers `used` and loses its own name."""
+        text = LABEL_TABLE.replace("state_labels[] = {",
+                                   "state_labels[] __attribute__((used)) = {")
+        self.assertEqual(len(labels(text)), 2)
+        t = M.N._T(text)
+        names = {d["name"] for ds in M._functions(t)[0].decls.values() for d in ds}
+        self.assertIn("state_labels", names)
+        self.assertNotIn("used", names)
+
+    def test_a_stepped_over_declaration_reports_the_initialiser_it_carries(self):
+        """`_init_place_refusal` walks the initialisers a demoted assignment crosses; a stepped-over
+        declaration that carried one and reported None would be a crossing it never tested.  A
+        `static` initialiser does not run at block entry, so that one stays None."""
+        t = M.N._T(ANON_STRUCT.replace("    } camera_angles;", "    } camera_angles = {1, 2};"))
+        by = {d["name"]: d for ds in M._functions(t)[0].decls.values() for d in ds}
+        self.assertIn("1, 2", (by["camera_angles"]["init"] or ""))
+        t2 = M.N._T(LABEL_TABLE)
+        by2 = {d["name"]: d for ds in M._functions(t2)[0].decls.values() for d in ds}
+        self.assertIsNone(by2["state_labels"]["init"])
+
+    def test_the_reopened_pairs_are_counted(self):
+        for text in (LABEL_TABLE, ANON_STRUCT):
+            with off("T66_DECL_RUN"):
+                before = gen(text)[1]
+            after = gen(text)[1]
+            self.assertEqual(before["decl-unparsed"], 2)
+            self.assertEqual(after["decl-unparsed"], 0)
+            self.assertEqual(after["decl-unparsed-reopened"], before["decl-unparsed"])
+
+    def test_an_anonymous_struct_a_multidim_array_and_a_qualified_pointer(self):
+        self.assertEqual(labels(ANON_STRUCT),
+                         ["t66:plain:rename:second->first@$3", "t66:plain:rename:first->second@$3"])
+        cand = only(ANON_STRUCT, "rename:second->first")
+        self.assertIn("    } camera_angles;\n", cand)
+        self.assertIn("    s16 vertices[2][3][4];\n", cand)
+        self.assertIn("    void *volatile perspective_out;\n", cand)
+
+    def test_the_stepped_over_names_are_registered_for_scope_resolution(self):
+        """`_augment` may not parse these as mergeable declarations, but their NAMES have to be
+        visible: a host whose name is one of them would otherwise be merged over."""
+        for text in (LABEL_TABLE, ANON_STRUCT):
+            t = M.N._T(text)
+            F = M._functions(t)[0]
+            names = {d["name"] for ds in F.decls.values() for d in ds}
+            self.assertFalse(any(d["single"] and d["ty"] for ds in F.decls.values() for d in ds
+                                 if d["name"] in ("state_labels", "camera_angles", "vertices",
+                                                  "perspective_out")))
+            self.assertTrue(names & {"state_labels", "camera_angles"})
+
+    def test_the_walk_still_stops_at_the_first_statement(self):
+        """The looser run may never read a statement as a declaration: a declaration BELOW the
+        first statement is not C89 and must stay invisible."""
+        text = ANON_STRUCT.replace("    camera_angles.a = 1;",
+                                   "    camera_angles.a = 1;\n    register s32 third ASM_REG(\"$3\");")
+        t = M.N._T(text)
+        F = M._functions(t)[0]
+        self.assertNotIn("third", {d["name"] for ds in F.decls.values() for d in ds})
+
+    def test_an_aggregate_that_never_closes_breaks_the_run(self):
+        text = ANON_STRUCT.replace("    } camera_angles;", "    } camera_angles")
+        with self.assertRaises(AssertionError):
+            only(text, "rename")
+
+    def test_with_the_opening_off_every_declaration_below_is_hidden(self):
+        for text in (LABEL_TABLE, ANON_STRUCT):
+            with off("T66_DECL_RUN"):
+                out, skips = gen(text)
+            self.assertEqual(out, [])
+            self.assertEqual(skips["decl-unparsed"], 2)
+
+
+class AsmOperand(unittest.TestCase):
+    """T66_ASM_OPERAND: inside an `ASM_*` argument the operand is the register, so the name is bare."""
+
+    def operands(self, text, macro):
+        """[argument count] of every call of `macro` in `text`."""
+        out = []
+        for call in M._calls_in(M.N._T(text).mtext, (macro,)):
+            if call[0] == macro:
+                out.append(len(call[3]))
+        return out
+
+    def test_the_keeps_operand_is_the_bare_host_and_every_other_read_is_cast(self):
+        pins = len(sites_of(ASMCAST))
+        cand = only(ASMCAST, "cast:scaled->page")
+        self.assertIn("    ASM_KEEP(page);\n", cand)
+        self.assertIn("    arg0[(s32)page] = 0;\n", cand)
+        self.assertNotIn("scaled", cand)
+        self.assertEqual(len(sites_of(cand)), pins - 1)
+        self.assertEqual(M._pin_key(cand)[("ASM_KEEP", "page", "")], 1)
+        self.assertEqual(self.operands(cand, "ASM_KEEP"), self.operands(ASMCAST, "ASM_KEEP"))
+
+    def test_a_later_slot_of_a_two_operand_pin(self):
+        text = ASMCAST.replace("    ASM_KEEP(scaled);", "    ASM_KEEP_DEP_NV(total, scaled);")
+        cand = only(text, "cast:scaled->page")
+        self.assertIn("    ASM_KEEP_DEP_NV(total, page);\n", cand)
+        self.assertEqual(self.operands(cand, "ASM_KEEP_DEP_NV"), [2])
+
+    def test_a_non_asm_macro_on_the_same_row_still_gets_the_cast(self):
+        text = U16_DEF + ASMCAST.replace("    arg0[scaled] = 0;",
+                                         "    arg0[0] = U16_AT(arg0, scaled);")
+        cand = only(text, "cast:scaled->page")
+        self.assertIn("    ASM_KEEP(page);\n", cand)
+        self.assertIn("U16_AT(arg0, ((s32)page));", cand)
+
+    def test_an_asm_reg_binding_is_never_rewritten(self):
+        """A local called `s0` beside a pin on `$s0`: the binding is a string, and `ASM_REG` is in
+        `NEVER_IN_MACRO`, so a mention there refuses the pair rather than being renamed."""
+        for label, cand in gen(ASMCAST)[0]:
+            self.assertEqual(cand.count('ASM_REG("$7")'), 1, label)
+
+    def test_the_reopened_pairs_are_counted(self):
+        with off("T66_ASM_OPERAND"):
+            before = gen(ASMCAST)[1]
+        after = gen(ASMCAST)[1]
+        self.assertEqual(before["asm-operand-cast"], 1)
+        self.assertEqual(after["asm-operand-cast"], 0)
+        self.assertEqual(after["asm-operand-cast-reopened"], 1)
+
+
+class InitPlace(unittest.TestCase):
+    """T66_INIT_PLACE: the demoted assignment may cross a declaration that carries an initialiser."""
+
+    def test_the_assignment_lands_after_the_last_declaration_of_the_run(self):
+        cand = only(INITRUN, "rename:second->first")
+        self.assertIn('    register s32 first ASM_REG("$3");', cand)
+        self.assertIn("    first = 7;\n", cand)
+        self.assertIn("    s32 later = 3;\n", cand)
+        self.assertLess(cand.index("s32 later = 3;"), cand.index("first = 7;"))
+        self.assertEqual(cand.count("ASM_REG"), 1)
+
+    def test_a_crossed_initialiser_that_reads_the_pair_is_refused(self):
+        out, skips = gen(INITRUN.replace("    s32 later = 3;", "    s32 later = second;"))
+        self.assertEqual([l for l, _ in out], ["t66:plain:rename:first->second@$3"])
+        self.assertEqual(skips["init-place-crossed-init-reads-the-pair"], 2)
+
+    def test_a_crossed_initialiser_that_calls_is_refused(self):
+        out, skips = gen(INITRUN.replace("    s32 later = 3;",
+                                         "    s32 later = func_80000000();"))
+        self.assertEqual([l for l, _ in out], ["t66:plain:rename:first->second@$3"])
+        self.assertEqual(skips["init-place-crossed-init-calls"], 2)
+
+    def test_a_moved_initialiser_that_names_a_crossed_declaration_is_refused(self):
+        out, skips = gen(INITRUN.replace('ASM_REG("$3") = 7', 'ASM_REG("$3") = later'))
+        self.assertEqual(skips["init-place-moved-init-reads-a-crossed-declaration"], 2)
+
+    def test_a_moved_initialiser_with_side_effects_is_refused(self):
+        out, skips = gen(INITRUN.replace('ASM_REG("$3") = 7',
+                                         'ASM_REG("$3") = func_80000000()'))
+        self.assertEqual(skips["init-place-moved-init-has-side-effects"], 2)
+
+    def test_the_reopened_pairs_are_counted(self):
+        with off("T66_INIT_PLACE"):
+            before = gen(INITRUN)[1]
+        after = gen(INITRUN)[1]
+        self.assertEqual(before["init-before-declarations"], 1)
+        self.assertEqual(after["init-before-declarations"], 0)
+        self.assertEqual(after["init-before-declarations-reopened"], 2)
+
+
+class Shadow(unittest.TestCase):
+    """T66_SHADOW: the capturing inner local is renamed first, then the merge as usual."""
+
+    def test_the_inner_local_is_renamed_and_the_merge_proceeds(self):
+        self.assertEqual(labels(SHADOWED), ["t66:plain:rename:second->first@$3+shadow",
+                                            "t66:plain:rename:first->second@$3+shadow"])
+        cand = only(SHADOWED, "rename:second->first")
+        self.assertIn("        s32 second_s;\n", cand)
+        self.assertIn("        second_s = arg0[4];\n", cand)
+        self.assertIn("        arg0[5] = second_s;\n", cand)
+        self.assertIn("    first = arg0[1] + 2;\n", cand)
+        self.assertEqual(cand.count("ASM_REG"), 1)
+        self.assertEqual(len(sites_of(cand)), len(sites_of(SHADOWED)) - 1)
+
+    def test_a_pinned_inner_local_is_refused(self):
+        text = SHADOWED.replace("        s32 second;",
+                                '        register s32 second ASM_REG("$9");   /* pin */')
+        out, skips = gen(text)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["shadow-inner-refused"], 1)
+
+    def test_an_inner_local_in_a_name_slot_is_refused(self):
+        text = ('#define ZONE_OF(F) (D_80024020[zone_id].F)\n'
+                + SHADOWED.replace("        arg0[5] = second;",
+                                   "        arg0[5] = ZONE_OF(second);"))
+        out, skips = gen(text)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["shadow-inner-refused"], 1)
+
+    def test_a_fresh_name_that_is_taken_is_not_reused(self):
+        text = SHADOWED.replace("    s32 total;", "    s32 total;\n    s32 second_s;")
+        cand = only(text, "rename:second->first")
+        self.assertIn("        s32 second_s2;\n", cand)
+        self.assertIn("    s32 second_s;\n", cand)
+
+    def test_the_reopened_pairs_are_counted(self):
+        with off("T66_SHADOW"):
+            before = gen(SHADOWED)[1]
+        after = gen(SHADOWED)[1]
+        self.assertEqual(before["shadowed-inner-local"], 2)
+        self.assertEqual(after["shadowed-inner-local"], 2)       # the first pass still refuses
+        self.assertEqual(after["shadowed-inner-local-reopened"], 2)
+
+
+class TryInterference(unittest.TestCase):
+    """T66_TRY_INTERFERENCE: a C-level lifetime clash offered anyway, for `vf` to judge."""
+
+    def on(self):
+        return mock.patch.dict(os.environ, {"T66_TRY_INTERFERENCE": "1"})
+
+    def test_off_by_default(self):
+        out, skips = gen(OVERLAP)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["interference"], 2)
+
+    def test_on_the_pair_is_offered_and_the_clash_shape_is_journalled(self):
+        with self.on():
+            out, skips = gen(OVERLAP)
+        self.assertEqual([l for l, _ in out],
+                         ["t66:plain:rename:second->first@$3+interf-nested",
+                          "t66:plain:rename:first->second@$3+interf-nested"])
+        self.assertEqual(skips["interference"], 0)
+        self.assertEqual(skips["interference-reopened"], 2)
+        self.assertEqual(skips["interference-nested"], 2)
+        self.assertEqual(len(sites_of(out[0][1])), len(sites_of(OVERLAP)) - 1)
+
+    def test_a_loop_back_edge_is_still_its_own_refusal(self):
+        text = HEAD + '''void func_test(s32 *arg0) {
+    s32 i;
+    register s32 base ASM_REG("$3");   /* pin */
+    register s32 tmp ASM_REG("$3");   /* pin */
+
+    base = arg0[0];
+    i = 0;
+    while (i < 4) {
+        tmp = arg0[i] + base;
+        arg0[i] = tmp;
+        i += 1;
+    }
+    arg0[7] = 0;
+}
+'''
+        with self.on():
+            out, skips = gen(text)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["loop-backedge"], 2)
+
+    def test_a_clashing_pair_vf_refuses_is_a_miss(self):
+        """`vf`'s byte verdict is the only acceptance: a refused candidate leaves the text alone
+        and the row is a miss, exactly as for every other form."""
+        seen = []
+
+        def vf(cand):
+            seen.append(cand)
+            return {"exact": False}
+
+        with self.on(), mock.patch.object(M, "compile_s", lambda row, text: ["x"]), \
+                mock.patch.object(M, "sdiff", lambda a, b: 0):
+            new, log = M.T.apply_verified(OVERLAP, {"cfg": "2.7.2"}, {}, vf)
+        self.assertIsNone(new)
+        self.assertEqual(log["steps"], [])
+        self.assertEqual(log["candidates_n"], 2)
+        self.assertEqual(log["tried"], 1)
+        self.assertEqual(len(seen), 1)
+        self.assertEqual(log["skips"]["interference-nested"], 2)
+
+    def test_a_clashing_pair_vf_accepts_is_taken(self):
+        with self.on(), mock.patch.object(M, "compile_s", lambda row, text: ["x"]), \
+                mock.patch.object(M, "sdiff", lambda a, b: 0):
+            new, log = M.T.apply_verified(OVERLAP, {"cfg": "2.7.2"}, {},
+                                          lambda cand: {"exact": True})
+        self.assertIsNotNone(new)
+        self.assertEqual(len(sites_of(new)), len(sites_of(OVERLAP)) - 1)
+        self.assertIn("+interf-nested", log["steps"][0])
+
+    def test_clean_pairs_are_screened_before_clashing_ones(self):
+        with self.on():
+            ps = M.pairs_of(OVERLAP.replace("    arg0[2] = first + second;",
+                                            "    arg0[2] = first + second;\n    arg0[3] = 0;"),
+                            collections.Counter())
+        self.assertEqual([bool(p.interf) for p in ps], sorted(bool(p.interf) for p in ps))
+
+
+class Compound(unittest.TestCase):
+    """T66_COMPOUND: the writes and the deref reads the round-29 lookahead called compound."""
+
+    def test_a_write_whose_right_hand_side_reads_the_victim(self):
+        cand = only(SELFREAD, "cast:slot->scaled")
+        self.assertIn("    scaled = (s32)((u8 *)(void *)scaled + 4);\n", cand)
+        self.assertIn("    total = ((S_0 *)(void *)scaled)->unk_00;\n", cand)
+        self.assertNotIn("slot", cand)
+
+    def test_an_assignment_through_the_victim_is_a_read_of_it(self):
+        cand = only(DEREF_WRITE, "cast:link->scaled")
+        self.assertIn("    *(u32 *)scaled = (*(u32 *)scaled & 0xF) | 0x10;\n", cand)
+        self.assertNotIn("link", cand)
+
+    def test_a_write_in_a_braceless_if_body(self):
+        """A plain assignment that may not execute is not a kill, so `_is_kill` refuses it - but it
+        is still a write, and it has the ordinary spelling."""
+        text = HEAD + '''void func_test(u8 *arg0) {
+    s32 total;
+    register s32 early ASM_REG("$7");   /* pin */
+    register void *slot ASM_REG("$7");   /* pin */
+
+    early = arg0[0];
+    total = early;
+    slot = arg0;
+    if (total != 0)
+        slot = arg0 + 12;
+    total += ((S_0 *)slot)->unk_04;
+    arg0[2] = total;
+}
+'''
+        cand = only(text, "cast:slot->early")
+        self.assertIn("        early = (s32)(arg0 + 12);\n", cand)
+        self.assertIn("    early = (s32)(arg0);\n", cand)
+        self.assertNotIn("slot", cand)
+        with off("T66_COMPOUND"):
+            self.assertEqual(gen(text)[1]["compound-assign-cast"], 1)
+
+    def test_a_multi_line_assignment_keeps_its_own_refusal(self):
+        text = SELFREAD.replace("    slot = (u8 *)slot + 4;",
+                                "    slot = (u8 *)(arg0 +\n                  4);")
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out], ["t66:plain:cast:scaled->slot@$7"])
+        self.assertEqual(skips["write-multiline-cast"], 1)
+
+    def test_a_write_whose_tail_mentions_the_victim(self):
+        text = SELFREAD.replace("    slot = (u8 *)slot + 4;",
+                                "    slot = arg0 + 4; ASM_KEEP(slot);")
+        out, skips = gen(text)
+        self.assertEqual(skips["write-tail-mentions-victim"], 1)
+        self.assertNotIn("t66:plain:cast:slot->scaled@$7+macroarg", [l for l, _ in out])
+
+    def test_a_real_compound_assignment_still_has_its_own_spelling(self):
+        text = SELFREAD.replace("    scaled = total * 4;",
+                                "    scaled = total;\n    scaled >>= 5;")
+        cand = only(text, "cast:scaled->slot")
+        self.assertIn("    slot = (void *)(((s32)slot) >> (5));\n", cand)
+
+    def test_a_star_left_of_the_name_is_a_deref_only_when_it_is_unary(self):
+        """`frame * div5_magic` is arithmetic, not a deref: reading only `endswith("*")` added a
+        parenthesis to every multiplication (measured on `dungeon/func_807B0B3C`)."""
+        for s, pos, want in (("*v = 1;", 1, True), ("a * v = 1;", 4, False),
+                             ("x = *v;", 5, True), ("x = a*v;", 6, False),
+                             ("**v = 1;", 2, True), ("x = f()*v;", 8, False),
+                             ("x = arr[0]*v;", 11, False), ("x = v;", 4, False)):
+            self.assertEqual(M._is_deref(s, pos), want, (s, pos))
+
+    def test_a_multiplication_is_not_parenthesised(self):
+        text = SELFREAD.replace("    total += ((S_0 *)slot)->unk_04;",
+                                "    total += total * (s32)slot;")
+        cand = only(text, "cast:slot->scaled")
+        self.assertIn("    total += total * (s32)(void *)scaled;\n", cand)
+
+    def test_with_the_opening_off_both_shapes_are_refused(self):
+        for text in (SELFREAD, DEREF_WRITE):
+            with off("T66_COMPOUND"):
+                before = gen(text)
+            self.assertEqual(len(before[0]), 1, [l for l, _ in before[0]])
+            self.assertEqual(before[1]["compound-assign-cast"], 1)
+            after = gen(text)[1]
+            self.assertEqual(after["compound-assign-cast"], 0)
+            self.assertEqual(after["compound-assign-cast-reopened"],
+                             before[1]["compound-assign-cast"])
+
+
 class Contract(unittest.TestCase):
 
     def test_every_candidate_drops_exactly_one_pin_and_no_unscored_text(self):
@@ -898,6 +1386,184 @@ two:
         k = next(k for k in flow.nodes if "goto nowhere" in F.ml[k])
         self.assertIn(k, flow.unknown)
         self.assertEqual(flow.succ[k], {x for x in flow.nodes if x > k})
+
+
+MEMBER_NAME = HEAD + '''void func_test(s32 *arg0) {
+    s32 total;
+    register s32 first ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+    register s32 second ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+    struct {
+        s32 first_member;
+        s32 second;
+    } box;
+
+    first = arg0[0] + 1;
+    total = first;
+    second = arg0[1] + 2;
+    total += second;
+    box.first_member = total;
+    arg0[2] = total;
+}
+'''
+
+CROSSED_SIDE_EFFECT = HEAD + '''void func_test(s32 *arg0, s32 idx) {
+    s32 total;
+    register s32 first ASM_REG("$3");   /* UNRESOLVED C shape (pin) */
+    register s32 second ASM_REG("$3") = arg0[idx];   /* UNRESOLVED C shape (pin) */
+    s32 tail = arg0[idx++];
+
+    total = second;
+    first = arg0[0] + 1;
+    total += first;
+    arg0[2] = total + tail;
+}
+'''
+
+
+class ReviewFixes(unittest.TestCase):
+    """Round 30 review: three defects the adversarial reviewer demonstrated, and their refusals.
+
+    All three fire whatever the openings are set to - the mechanisms predate round 30, and the
+    openings only put a population in front of them."""
+
+    # ---- defect 1: a mention that is another DECLARATION of the same name
+
+    def test_a_member_of_the_same_name_is_never_renamed(self):
+        """`s32 second;` inside `struct { ... } box;` is a `_occ` mention of the pin variable, and
+        `F.resolve` cannot return a member it never registered - the rename rewrote a struct
+        MEMBER, byte-neutrally, with nothing journalled."""
+        out, skips = gen(MEMBER_NAME)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["mention-in-declaration"], 2)
+        for _, cand in gen(MEMBER_NAME)[0]:
+            self.assertIn("        s32 second;\n", cand)
+
+    def test_the_refusal_does_not_depend_on_an_opening(self):
+        with off("T66_DECL_RUN", "T66_ASM_OPERAND", "T66_INIT_PLACE", "T66_SHADOW",
+                 "T66_COMPOUND", "T66_MACRO_ARGS", "T66_RENAME_HOST"):
+            out, skips = gen(MEMBER_NAME)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["mention-in-declaration"], 2)
+
+    def test_an_aggregate_whose_members_are_named_otherwise_still_merges(self):
+        """The refusal is about the NAME, not about the shape: the round-30 opening's yield on the
+        aggregate rows is untouched."""
+        text = MEMBER_NAME.replace("        s32 second;\n", "        s32 second_member;\n")
+        self.assertEqual(labels(text),
+                         ["t66:plain:rename:second->first@$3", "t66:plain:rename:first->second@$3"])
+        cand = only(text, "rename:second->first")
+        self.assertIn("        s32 second_member;\n", cand)
+
+    def test_an_aggregate_whose_declarator_the_walk_cannot_read_still_protects_its_members(self):
+        """`_agg_spans` closes the aggregate by brace depth ALONE: `_agg_close` also demands that
+        the closing line end in `;` before the walk may step over the declaration, and a declarator
+        this module cannot read is a reason to refuse the rename, never a reason to expose the
+        members to it."""
+        text = MEMBER_NAME.replace("    } box;", "    } box\n      = {1, 2};")
+        out, skips = gen(text)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["mention-in-declaration"], 2)
+        t = M.N._T(text)
+        F = M._functions(t)[0]
+        self.assertTrue(any(lo <= k <= hi for lo, hi in F.declspans
+                            for k in [next(i for i, s in enumerate(F.ml)
+                                           if s.strip() == "s32 second;")]))
+
+    def test_an_inner_declaration_at_its_own_line_is_a_shadow_not_a_mention(self):
+        """`resolve` needs `d["line"] < k`, so an inner local that is declared and never used
+        resolved to the pin and had its DECLARATION renamed.  It is journalled as the shadow it
+        is, and T66_SHADOW's retry reopens it."""
+        text = PLAIN.replace("    arg0[2] = total;", "    {\n        s32 second;\n    }\n"
+                                                    "    arg0[2] = total;")
+        with off("T66_SHADOW"):
+            out, skips = gen(text)
+        self.assertEqual(out, [])
+        self.assertEqual(skips["shadowed-inner-local"], 2)
+        for _, cand in gen(text)[0]:
+            self.assertNotIn("        s32 first;\n", cand)
+
+    def test_the_shadow_retry_reaches_a_declaration_only_capture(self):
+        text = PLAIN.replace("    arg0[2] = total;", "    {\n        s32 second;\n"
+                                                    "        second = arg0[6];\n"
+                                                    "        arg0[7] = second;\n    }\n"
+                                                    "    arg0[2] = total;")
+        cand = only(text, "rename:second->first")
+        self.assertIn("        s32 second_s;\n", cand)
+        self.assertEqual(gen(text)[1]["shadowed-inner-local-reopened"], 2)
+
+    # ---- defect 2: a crossed initialiser with a side effect of its own
+
+    def test_a_crossed_initialiser_with_a_side_effect_is_refused(self):
+        """The demoted assignment now runs AFTER the crossed initialiser, so `arg0[idx]` would be
+        read as `arg0[idx + 1]`."""
+        out, skips = gen(CROSSED_SIDE_EFFECT)
+        self.assertEqual([l for l in [x for x, _ in out] if "second->first" in l], [])
+        self.assertEqual(skips["init-place-crossed-init-has-side-effects"], 2)
+
+    def test_a_clean_crossing_still_moves(self):
+        text = CROSSED_SIDE_EFFECT.replace("arg0[idx++]", "arg0[idx]")
+        cand = only(text, "rename:second->first")
+        self.assertIn("    first = arg0[idx];\n", cand)
+        self.assertLess(cand.index("s32 tail ="), cand.index("first = arg0[idx];"))
+        self.assertEqual(gen(text)[1]["init-before-declarations-reopened"], 2)
+
+    def test_a_crossed_initialiser_the_parse_dropped_is_still_read(self):
+        """`VDECL_RE` only spells a declarator that fits on ONE line, so a declarator spread over
+        two reported `init=None` and the whole refusal was blind to the crossing."""
+        text = CROSSED_SIDE_EFFECT.replace("    s32 tail = arg0[idx++];",
+                                           "    s32 tail =\n        arg0[idx++];")
+        t = M.N._T(text)
+        by = {d["name"]: d for ds in M._functions(t)[0].decls.values() for d in ds}
+        self.assertIsNone(by["tail"]["init"])
+        self.assertIsNotNone(M._crossed_init(M._functions(t)[0], by["tail"]))
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out if "second->first" in l], [])
+        self.assertEqual(skips["init-place-crossed-init-has-side-effects"], 2)
+
+    def test_a_static_initialiser_the_parse_dropped_is_not_a_crossing(self):
+        """It does not run at block entry, so nothing the demoted assignment reads can move."""
+        text = CROSSED_SIDE_EFFECT.replace("    s32 tail = arg0[idx++];",
+                                           "    static s32 tail =\n        3;")
+        t = M.N._T(text)
+        by = {d["name"]: d for ds in M._functions(t)[0].decls.values() for d in ds}
+        self.assertIsNone(by["tail"]["init"])
+        self.assertIsNone(M._crossed_init(M._functions(t)[0], by["tail"]))
+
+    # ---- defect 3: the victim inside a LARGER expression in an ASM_* argument
+
+    def test_a_sub_expression_of_an_asm_argument_refuses_the_cast_form(self):
+        """`ASM_KEEP_DEP_NV(total, scaled + 1)`: the operand is the whole argument, so the bare
+        name would read `s32 + 1` as `u8 * + 1`."""
+        text = ASMCAST.replace("    ASM_KEEP(scaled);", "    ASM_KEEP_DEP_NV(total, scaled + 1);")
+        out, skips = gen(text)
+        self.assertEqual([l for l, _ in out if "cast:scaled->page" in l], [])
+        self.assertEqual(skips["asm-operand-cast-subexpr"], 1)
+        self.assertEqual(skips["asm-operand-cast-reopened"], 0)
+        for _, cand in out:
+            self.assertNotIn("ASM_KEEP_DEP_NV(total, page + 1);", cand)
+
+    def test_the_whole_argument_is_still_spelled_bare(self):
+        pins = len(sites_of(ASMCAST))
+        cand = only(ASMCAST, "cast:scaled->page")
+        self.assertIn("    ASM_KEEP(page);\n", cand)
+        self.assertEqual(len(sites_of(cand)), pins - 1)
+        self.assertEqual(gen(ASMCAST)[1]["asm-operand-cast-subexpr"], 0)
+
+    def test_an_argument_on_a_continuation_line_is_still_the_whole_argument(self):
+        text = ASMCAST.replace("    ASM_KEEP(scaled);",
+                               "    ASM_KEEP_DEP_NV(total,\n        scaled);")
+        cand = only(text, "cast:scaled->page")
+        self.assertIn("        page);\n", cand)
+        self.assertEqual(gen(text)[1]["asm-operand-cast-subexpr"], 0)
+
+    def test_the_rename_form_of_the_same_pair_is_untouched(self):
+        """Only the cast spelling needs the operand argument; a same-type pair just respells the
+        name the keep already carries."""
+        text = PLAIN.replace("    total += second;",
+                             "    ASM_KEEP_DEP_NV(total, second + 1);\n    total += second;")
+        cand = only(text, "rename:second->first")
+        self.assertIn("    ASM_KEEP_DEP_NV(total, first + 1);\n", cand)
+        self.assertEqual(gen(text)[1]["asm-operand-cast-subexpr"], 0)
 
 
 if __name__ == "__main__":
