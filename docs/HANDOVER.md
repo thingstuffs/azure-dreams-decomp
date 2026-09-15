@@ -23,9 +23,10 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
-Twenty-eighth round (2026-09-15), gated (109 windows MATCH + 1 for the search, SLUS SHA-1 MATCH): **6,893 pins in 1,342 rows** (7,206 at start, -313: the `t66_sameregmerge`
-tree sweep 127 rows / 238 pins, its cascade 44, the `t64_varset` lane outputs 12 rows / 21 pins, the search candidate 2, T2
-and tidy the rest). The owner asked to continue round 27's patterns (opus workflows with an adversarial reviewer, packs
+Twenty-eighth round (2026-09-15), gated twice (109 + 28 windows MATCH, the search's window, SLUS SHA-1 MATCH): **6,850 pins in
+1,338 rows** (7,206 at start, -356: the `t66_sameregmerge` tree sweep 127 rows / 238 pins, its cascade 44, the `t64_varset`
+lane outputs 12 rows / 21 pins and its sweep over the 513 near-band rows 24 rows / 38 pins (13 minutes with `--processes`;
+the threaded run crawled on the GIL), the search candidate 2, cascade and T2 the rest). The owner asked to continue round 27's patterns (opus workflows with an adversarial reviewer, packs
 only from the pool table, CPU jobs free) and to note the model usage. **Read `docs/PIN_MECHANISMS_20260912.md` "Round 28"
 for the measurements; the verdicts:**
 - **Measure the menu before commissioning a move.** Round 27's "1 of 120 lane-won texts reachable" was an artefact of a
@@ -59,8 +60,8 @@ for the measurements; the verdicts:**
   min), the cascade (95 min at 8 workers), the landing gate. Every generator's reviewer found a defect the tests had
   missed (t64: two interference holes; t66: four, one in a preprocessor arm the census cannot see; t65: five): the
   reviewer stage stays mandatory.
-- **Next, in order:** (1) `t64_varset` swept over the rest of the near band (running/planned: `sweep.py t64_varset --only`
-  the 298 + 215 near rows; ~3 h at 8 workers) and then the tree; (2) exhaustive bounded depth-2 expansion in the engine
+- **Next, in order:** (1) `t64_varset` over the rest of the tree (the near band is swept: 24 of 513 rows, 4.7%; run it with
+  `--processes`, ~35 rows a minute); (2) exhaustive bounded depth-2 expansion in the engine
   for rows whose bare erasure is within 4 lines (the ranking audit's conclusion), measured on the 13 reached rows first;
   (3) the t66 misses by refusal class (`host-name-collision`, `in-macro-arg`, `interference` lead) - the two-direction
   and hoist forms on the 21+ band were never evaluated; (4) `dungeon/func_809F90DC`: port the probe4 hoist by hand (1

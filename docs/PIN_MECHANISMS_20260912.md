@@ -1829,5 +1829,8 @@ nothing points at a session scratchpad.
   forms do not cover).
 - **Search** `changed_r27_20260915`: one candidate (`dungeon/func_8028484C` 6 -> 4) on 72 rows, published through its gate.
 - **Landed and gated** (109 windows MATCH + the search's, SLUS SHA-1 MATCH): **6,893 pins in 1,342 rows**, from 7,206 (-313:
-  t66 sweep 238, cascade 44, t64 outputs 21, search 2, the rest T2/tidy). `probe4`'s seven outputs were stale by the time
+  t66 sweep 238, cascade 44, t64 outputs 21, search 2, the rest T2/tidy). Then `t64_varset` over the 513 near-band rows
+  (`--processes`: 13 minutes; the threaded run managed 5 rows a minute on the GIL): **24 rows / 38 pins (4.7% of the band)**,
+  cascade 3, second gate 28 windows MATCH: **6,850 pins in 1,338 rows** (-356 for the round). The non-mips preprocessor arms
+  of every landed row were compared before and after both landings (9 + 5 rows carry `__mips__`): none differ. `probe4`'s seven outputs were stale by the time
   the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
