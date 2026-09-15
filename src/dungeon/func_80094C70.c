@@ -25,6 +25,7 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
     s32 cell_y;
     s32 matched_flags;
     s32 cell_index;
+    register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     flags = flag_mask;
     cells = D_80083160.cells;
@@ -35,7 +36,6 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
         matched_flags = flags & 0x800;
         if (matched_flags) {
             s32 query_x;
-            register s32 row_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             checked_x = (s16)x;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -44,9 +44,9 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
             if ((s16)func_800A6E10(query_x, checked_y) >= 2) {
                 goto done;
             }
-            row_offset = *(s16 *)(config + 0x14);
-            row_offset = checked_y << row_offset;
-            cell_index = checked_x + row_offset;
+            cell = (DungeonCell *)(*(s16 *)(config + 0x14));
+            cell = (DungeonCell *)(checked_y << (s32)cell);
+            cell_index = checked_x + (s32)cell;
         } else {
             ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             cell_index = (s16)x +
@@ -61,7 +61,6 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
         u32 raw_remainder;
         register s32 remainder ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         s32 flag_cell_index;
-        register DungeonCell *cell ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 old_flags;
 
         cell_x = (s16)x;

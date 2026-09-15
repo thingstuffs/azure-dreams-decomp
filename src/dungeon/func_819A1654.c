@@ -386,21 +386,20 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                         path_entity->path[0] = path_half + (origin_path->x - path_saved_base) / 2;
                         path_entity->path[1] = entity->y / 2 + (origin_path->y - entity->base[1]) / 2;
                         {
-                            register u32 path_z_work ASM_REG("$2");
-                            path_z_work = (u16)entity->z;
+                            copy_page = (u8 *)((u16)entity->z);
                             path_half = entity->base[2];
-                            path_z_work <<= 16;
-                            path_saved_base = (s32)path_z_work >> 16;
-                            path_z_work >>= 31;
-                            path_saved_base += path_z_work;
-                            ASM_USE2(path_saved_base, path_z_work);
-                            path_z_work = (s32)origin_path->z - path_half;
+                            copy_page = (u8 *)(((u32)copy_page) << (16));
+                            path_saved_base = (s32)(u32)copy_page >> 16;
+                            copy_page = (u8 *)(((u32)copy_page) >> (31));
+                            path_saved_base += (u32)copy_page;
+                            ASM_USE2(path_saved_base, copy_page);
+                            copy_page = (u8 *)((s32)origin_path->z - path_half);
                             path_saved_base >>= 1;
-                            path_z_work = (s32)path_z_work / 2;
-                            path_saved_base += (s32)path_z_work;
-                            path_z_work = (path_point * 3) * 2;
+                            copy_page = (u8 *)((s32)(u32)copy_page / 2);
+                            path_saved_base += (s32)(u32)copy_page;
+                            copy_page = (u8 *)((path_point * 3) * 2);
                             path_entity->path[2] = path_saved_base;
-                            path_entity = (Entity *)((u8 *)entity + path_z_work);
+                            path_entity = (Entity *)((u8 *)entity + (u32)copy_page);
                         }
                         path_entity->path[0] = entity->x / 4 + (origin_path->x - entity->base[0]) / 2;
                         path_entity->path[1] = entity->y / 4 + (origin_path->y - entity->base[1]) / 2;

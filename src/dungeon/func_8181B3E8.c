@@ -308,7 +308,6 @@ state_0:
             s32 tile_coord;
             s32 source_coord;
             s32 direction;
-            register s32 target_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
             u16 prev_state;
             u16 source_flags;
             u16 target_height;
@@ -362,14 +361,14 @@ state_0:
                         source_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                         tile_offset = *direction_entry;
                         tile_coord = ((S_80024BE8_8 *)source_graphics)->unk_24;
-                        target_coord = tile_coord + tile_offset;
-                        ((S_80024BE8_0 *)effect)->unk_A2 = target_coord;
+                        direction_table = (u8 *)(tile_coord + tile_offset);
+                        ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
                         direction_table = D_8006CCE8;
                         direction_entry = direction_table + ((S_80024BE8_0 *)effect)->unk_7E.s * 2;
                         tile_coord = ((S_80024BE8_8 *)source_graphics)->unk_25;
                         tile_offset = *direction_entry;
-                        target_coord = tile_coord + tile_offset;
-                        ((S_80024BE8_0 *)effect)->unk_A3 = target_coord;
+                        direction_table = (u8 *)(tile_coord + tile_offset);
+                        ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
                         tile_distance = ((S_80024BE8_3 *)source)->unk_72;
                         source_coord = ((S_80024BE8_8 *)source_graphics)->unk_24;
                         if (tile_distance == source_coord) {
@@ -424,19 +423,18 @@ state_1:
 
         particle_count_m = 0;
         loop_0: {
-            register void *effect_task ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             s32 direction;
             s32 particle_color;
             register s32 intensity ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             particle_count_m++;
             random_intensity = func_80069EF8();
-            effect_task = (u8 *)effect - 0x20;
+            color_mode = (s32)((u8 *)effect - 0x20);
             particle_color = 0xF04040;
             ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             intensity = (random_intensity & 0xFF) | 0x80;
             ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-            func_80024758(effect_task, direction, particle_color, intensity, 0, 0, 0);
+            func_80024758((void *)color_mode, direction, particle_color, intensity, 0, 0, 0);
         } if (particle_count_m < 4) goto loop_0;
 
         ((S_80024BE8_0 *)effect)->unk_7B--;

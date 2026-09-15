@@ -108,7 +108,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
         void *copy;
         s32 outer_index;
     } stack;
-    register s32 saved_kind ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 saved_kind;
     register s32 saved_halfword ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_byte_25;
     void *object;
@@ -224,16 +224,15 @@ flags_done:
         allocated = child;
         ((S_8014C89C_5 *)child_slot)->unk_A4 = allocated;
         if (allocated != 0) {
-            register void *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             s32 item_offset;
             s32 item_index;
             register void *slot_base;
             u8 *direction_table;
             s32 more_items;
 
-            entry = (u8 *)allocated + 0x20;
+            saved_kind = (s32)((u8 *)allocated + 0x20);
             ptr_or_count = 1;
-            ((S_8014C89C_6 *)entry)->unk_02 = (s16)ptr_or_count;
+            ((S_8014C89C_6 *)(void *)saved_kind)->unk_02 = (s16)ptr_or_count;
             item_index = 0;
             slot_base = child_slot;
             direction_table = D_80150494 + 0x50;
@@ -245,8 +244,8 @@ flags_done:
                 s32 call_zero;
                 void *child_root;
 
-                item = (u8 *)entry + item_offset;
-                ((S_8014C89C_6 *)entry)->unk_04 |= 0x8000;
+                item = (u8 *)(void *)saved_kind + item_offset;
+                ((S_8014C89C_6 *)(void *)saved_kind)->unk_04 |= 0x8000;
                 part_value = ((S_8014C89C_3 *)part)->unk_28;
                 ((S_8014C89C_7 *)item)->unk_10 = 0x20;
                 ((S_8014C89C_7 *)item)->unk_0C = 0x00808080;
@@ -274,13 +273,13 @@ flags_done:
                     call_one = 1;
                     ASM_KEEP(call_one);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     ptr_or_count = (uptr)call_one;
-                    ((S_8014C89C_6 *)entry)->unk_06 = (s16)ptr_or_count;
+                    ((S_8014C89C_6 *)(void *)saved_kind)->unk_06 = (s16)ptr_or_count;
                     func_800478E8(call_part, call_data, call_one);
                 }
                 ptr_or_count = (uptr)stack.root;
                 root_link = (u8 *)ptr_or_count + 0x1E;
-                more_items = item_index < ((S_8014C89C_6 *)entry)->unk_02;
-                ((S_8014C89C_6 *)entry)->unk_98 = root_link;
+                more_items = item_index < ((S_8014C89C_6 *)(void *)saved_kind)->unk_02;
+                ((S_8014C89C_6 *)(void *)saved_kind)->unk_98 = root_link;
             } while (more_items);
         }
         child_slot = (u8 *)child_slot + 4;

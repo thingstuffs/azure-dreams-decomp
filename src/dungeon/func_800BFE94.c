@@ -137,7 +137,6 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
     u8 *packet_code;
     u8 *render_state;
     u8 *packet;
-    register u8 *state_ptr ASM_REG("$8");
     u8 packet_flags;
     s32 result;
     s32 face_flags;
@@ -378,7 +377,7 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
         break;
     }
     func_80064A40();
-    state_ptr = D_80083160;
-    ASM_KEEP(state_ptr);
-    ((S_800C55F4_10 *)(((S_800C55F4_9 *)state_ptr)->unk_00))->unk_8D0 = record;
+    output_addr = (u32)(D_80083160);
+    ASM_KEEP(output_addr);
+    ((S_800C55F4_10 *)(((S_800C55F4_9 *)(u8 *)output_addr)->unk_00))->unk_8D0 = record;
 }

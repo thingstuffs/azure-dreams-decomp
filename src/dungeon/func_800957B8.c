@@ -128,11 +128,10 @@ check_tile:
         world_x += *(u16 *)((u8 *)D_800DCEAC + direction_offset);
         world_y += *(u16 *)((u8 *)D_800DCEBC + direction_offset);
         {
-            register FuncArg1 *origin_reload ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            origin_reload = origin;
-            ASM_KEEP(origin_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, origin_reload->height);
+            tile_dx_reload = (u16 *)(origin);
+            ASM_KEEP(tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            height_result = func_800BCB04(world_x & 0xFFFF, world_y & 0xFFFF, ((FuncArg1 *)tile_dx_reload)->height);
         }
         next_step = step + 1;
         if (height_result < 0x200) {
@@ -145,14 +144,13 @@ advance_step:
         step = next_step;
         do { } while (0);
         {
-            register s32 step_limit ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 shifted_next_step;
 
-            step_limit = tile_info[4];
+            tile_dx_reload = (u16 *)((FuncArg1 *)(tile_info[4]));
             shifted_next_step = next_step << 0x10;
             ASM_KEEP_NV(shifted_next_step);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            shifted_limit = step_limit << 0x10;
-            ASM_KEEP_DEP_NV(shifted_limit, step_limit);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            shifted_limit = (s32)(FuncArg1 *)tile_dx_reload << 0x10;
+            ASM_KEEP_DEP_NV(shifted_limit, tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (shifted_next_step <= shifted_limit) {
                 goto check_tile;
             }

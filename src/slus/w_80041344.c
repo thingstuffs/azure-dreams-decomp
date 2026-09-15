@@ -29,7 +29,6 @@ void func_80041344(s32 data_base, void *scratch)
     s32 reloc_addr;
     s32 vram_offset, palette_count;
     u32 cmd_index;
-    register u16 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u16 *color;
     void *src;
     void *src_addr;
@@ -66,11 +65,11 @@ LC:
         src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto call_tile;
 LD:
-        raw_flags = entry->u.t.w;
+        cmd_index = entry->u.t.w;
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
         src_addr = (void *)command->arg0;
-        raw_flags |= 2;
+        cmd_index |= 2;
         src = ((void *)((void *)(data_base + (s32)src_addr)));
         goto sign_flags;
 LE:
@@ -81,10 +80,10 @@ LE:
             *color |= 0x8000;
             color++;
         }
-        raw_flags = entry->u.t.w;
+        cmd_index = entry->u.t.w;
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
-        raw_flags |= 4;
+        cmd_index |= 4;
         goto sign_flags;
 LF:
         src = (void *)(data_base + command->arg0);
@@ -97,13 +96,13 @@ LF:
                 color++;
             }
         }
-        raw_flags = entry->u.t.w;
+        cmd_index = entry->u.t.w;
         vram_offset = entry->u.t.x;
         palette_count = entry->u.t.y;
-        raw_flags |= 2;
+        cmd_index |= 2;
 sign_flags:
-        flags = (s16)raw_flags;
-        ASM_KEEP(raw_flags);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        flags = (s16)cmd_index;
+        ASM_KEEP(cmd_index);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 call_tile:
         func_8003F80C(src, vram_offset, palette_count, flags);
         DrawSync(0);

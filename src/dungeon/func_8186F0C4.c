@@ -59,7 +59,6 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
         &&state0, &&state1, &&state2, &&state3, &&state4,
         &&done, &&done, &&done, &&state8
     };
-    register u8 *target_pos_m ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     owner = PTR_AT(effect_data, 0x00);
 #ifdef NON_MATCHING
@@ -318,9 +317,9 @@ state2:
 
                 S16_AT(effect_data, 0x0A) = 3;
                 S16_AT(effect_data, 0x82) = 0;
-                target_pos_m = PTR_AT(PTR_AT(owner, 0x60), -0x18);
-                U16_AT(effect_pos, 0x02) = U16_AT(target_pos_m, 0x02);
-                U16_AT(effect_pos, 0x06) = U16_AT(target_pos_m, 0x06);
+                copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
+                U16_AT(effect_pos, 0x02) = U16_AT(copy_source, 0x02);
+                U16_AT(effect_pos, 0x06) = U16_AT(copy_source, 0x06);
                 U16_AT(effect_pos, 0x0A) = U16_AT(effect_data, 0x78);
                 func_800A56E0(0x300);
                 goto done;
@@ -366,9 +365,9 @@ state3:
                 s32 spawn_counter = S16_AT(effect_data, 0x82);
                 S16_AT(entity, 0x0C) = spawn_counter << 9;
             }
-            target_pos_m = PTR_AT(PTR_AT(owner, 0x60), -0x18);
-            S32_AT(entity, 0x4C) = S32_AT(target_pos_m, 0x00);
-            S32_AT(entity, 0x50) = S32_AT(target_pos_m, 0x04);
+            copy_source = PTR_AT(PTR_AT(owner, 0x60), -0x18);
+            S32_AT(entity, 0x4C) = S32_AT(copy_source, 0x00);
+            S32_AT(entity, 0x50) = S32_AT(copy_source, 0x04);
             S32_AT(source, 0x10) = (s32)func_800245A8;
             func_8004491C(source, func_80045340);
 

@@ -285,7 +285,6 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     s32 moving_object;
     s32 fall_random;
     s32 drop_random;
-    register void *launch_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 init_value;
     s32 reverse_x_gap;
     s32 bounce_y;
@@ -319,7 +318,6 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
     S_800218E4_25 *object_xy;
     S_800218E4_10 *fall_object;
     S_800218E4_7 *init_position;
-    register S_800218E4_23 *partner_speed ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     S_800218E4_14 *shuffle_slot;
     void *init_slot;
     void *angle_slot;
@@ -469,9 +467,9 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
             shuffle_object = (void *)0xC0000;
             launch_slot = game + 8;
             do {
-                launch_object = ((S_800218E4_11 *)launch_slot)->unk_20;
+                state_value = (s32)(((S_800218E4_11 *)launch_slot)->unk_20);
                 launch_slot -= 4;
-                object_motion = launch_object + 0x20;
+                object_motion = (void *)state_value + 0x20;
                 object_motion->unk_22 = object_index;
                 object_index -= 1;
                 object_motion->unk_18 = shuffle_value;
@@ -767,13 +765,13 @@ do {
                         object_motion = state_value + 0x20;
                         object_motion->unk_0C = (s32) (object_motion->unk_0C + bounce_x);
                         object_motion->unk_10 = (s32) (object_motion->unk_10 + bounce_y);
-                        partner_speed = ((S_800218E4_17 *)partner_slot)->unk_00;
+                        pair_value = (s32)(((S_800218E4_17 *)partner_slot)->unk_00);
                         do {
                             collision_value |= 0xFFFF;
                         } while (0);
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                        other_speed_y = partner_speed->unk_0C;
-                        other_speed_x = partner_speed->unk_10;
+                        other_speed_y = ((S_800218E4_23 *)pair_value)->unk_0C;
+                        other_speed_x = ((S_800218E4_23 *)pair_value)->unk_10;
                         if (other_speed_y < 0) {
                             other_speed_y = 0 - other_speed_y;
                         }

@@ -277,10 +277,9 @@ launch:
             offset_y = (caster_sprite->unk_25 + tile_dy) * 64 + 32;
             sprite_or_x = index_or_x & 0xFFFF;
             {
-                register s32 ground_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                ground_x = sprite_or_x;
+                direction_x = (u8 *)(sprite_or_x);
                 particle_or_y = offset_y & 0xFFFF;
-                ground_z = func_800BCB04(ground_x, particle_or_y,
+                ground_z = func_800BCB04((s32)direction_x, particle_or_y,
                                    (s16)(((S_func_81838800_2 *)caster_obj->unk_08)->unk_08.h.unk_0A - 128));
             }
             if (func_800A4688(sprite_or_x, particle_or_y, ground_z, caster->unk_2A.s,

@@ -246,7 +246,6 @@ void FUNC_8197C800_BODY(void *input, void *output)
     register s32 height ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 offset_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 random_value ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s16 *direction_offsets ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 angle;
     u16 tail_state;
     u16 tail_timer;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -387,13 +386,13 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)scene_page)->unk_14A8))->unk_2A;
             offset_index = (s16)angle >> 9;
-            direction_offsets = D_8006CCD8;
+            result = (s32)(D_8006CCD8);
             {
                 s32 grid_coord;
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_24 + direction_offsets[offset_index];
+                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_24 + ((s16 *)result)[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 scaled_coord = grid_coord << 6;
@@ -407,13 +406,13 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_23 *)(((S_FUNC_8197C800_BODY_12 *)scene_page)->unk_14A8))->unk_2A;
             offset_index = (s16)angle >> 9;
-            direction_offsets = D_8006CCE8;
+            result = (s32)(D_8006CCE8);
             {
                 s32 grid_coord;
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_25 + direction_offsets[offset_index];
+                grid_coord = ((S_FUNC_8197C800_BODY_13 *)burst_origin)->unk_25 + ((s16 *)result)[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -472,14 +471,14 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)debris_scene_page)->unk_14A8))->unk_2A;
             offset_index = (s16)angle >> 9;
-            direction_offsets = D_8006CCD8;
+            result = (s32)(D_8006CCD8);
             {
                 s32 grid_coord;
                 s32 scaled_coord;
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_24 + direction_offsets[offset_index];
+                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_24 + ((s16 *)result)[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -494,14 +493,14 @@ case_three:
             random_value = func_80069EF8();
             angle = ((S_FUNC_8197C800_BODY_24 *)(((S_FUNC_8197C800_BODY_16 *)debris_scene_page)->unk_14A8))->unk_2A;
             offset_index = (s16)angle >> 9;
-            direction_offsets = D_8006CCE8;
+            result = (s32)(D_8006CCE8);
             {
                 s32 grid_coord;
                 s32 scaled_coord;
                 s32 rounded_random;
                 s32 jitter;
                 void *position;
-                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_25 + direction_offsets[offset_index];
+                grid_coord = ((S_FUNC_8197C800_BODY_17 *)debris_origin)->unk_25 + ((s16 *)result)[offset_index];
                 rounded_random = random_value;
                 position = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_08;
                 ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -526,10 +525,10 @@ case_three:
                 sprite->unk_1E = 0x800;
                 sprite->unk_1C = 0x800;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                direction_offsets = (s16 *)(0x20);
+                result = (s32)((s16 *)(0x20));
                 sprite_template = (void *)0x800E0000;
                 ASM_KEEP(sprite_template);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                sprite->unk_10 = (s32)direction_offsets;
+                sprite->unk_10 = (s32)(s16 *)result;
                 {
                     u16 flags;
                     flags = sprite->unk_14;

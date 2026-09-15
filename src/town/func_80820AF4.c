@@ -26,7 +26,7 @@ void func_800232F4(void *object)
     u8 *obj;
     void *owner;
     s16 state;
-    register u16 step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 step;
     u16 position_value;
     register s32 quarter_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     volatile u16 *position;
@@ -44,7 +44,8 @@ void func_800232F4(void *object)
     goto done;
 
 state_zero:
-    func_800537D0(*((S_800232F4_0 *)obj)->unk_08 * 100, 5,
+    step = *((S_800232F4_0 *)obj)->unk_08;
+    func_800537D0(step * 100, 5,
                   ((S_800232F4_0 *)obj)->unk_04 + 4);
     if (((S_800232F4_1 *)owner)->unk_5C != 3) {
         goto done;
@@ -77,7 +78,3 @@ state_one:
 done:
     return;
 }
-
-/* MECHANISM: True-space labels plus held obj/owner produce the 0x20 s0/s1/ra frame
-   and exact zero/default/one CFG. Volatile stores preserve the two-stage position RMW;
-   pinned a0/v1 roles and the value fence select retail's copy/add/shift schedule. */

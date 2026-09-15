@@ -250,15 +250,14 @@ set_target_velocity:
         register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         u16 *x_step_ptr;
         register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u32 table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 last_tile_x;
         s32 path_tile_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 path_tile_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         index = 0;
         tile_info = ((S_80024660_3 *)source_record)->unk_0C;
         ASM_KEEP(tile_info);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        table_page = 0x80070000;
-        ASM_USE(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        path_z_dist = (s32)(0x80070000);
+        ASM_USE(path_z_dist);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         path_tile_x = ((S_80024660_9 *)tile_info)->unk_24;
         path_tile_y = ((S_80024660_9 *)tile_info)->unk_25;
         last_tile_x = path_tile_x;
@@ -288,7 +287,6 @@ set_target_velocity:
                 break;
             }
             {
-                register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 register s32 step_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 u16 *x_step;
                 u16 *y_step;
@@ -299,12 +297,12 @@ set_target_velocity:
                 step_table = D_8006CCE8_2;
                 y_step = step_index + step_table;
                 probe_x_dest_y = *x_step;
-                next_y = *y_step;
+                path_z_dist = (s32)((u32)(*y_step));
                 probe_x_dest_y = path_tile_x + probe_x_dest_y;
                 path_tile_x = probe_x_dest_y;
-                next_y = path_tile_y + next_y;
-                path_tile_y = next_y;
-                scratch.saved_y = (u16) next_y;
+                path_z_dist = (s32)((u32)(path_tile_y + (s32)(u32)path_z_dist));
+                path_tile_y = (s32)(u32)path_z_dist;
+                scratch.saved_y = (u16) (s32)(u32)path_z_dist;
                 last_tile_x = probe_x_dest_y;
             }
         } while (index < 8);

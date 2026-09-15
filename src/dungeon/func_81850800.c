@@ -228,19 +228,15 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     register s32 abs_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 abs_y;
     register s32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 scale ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 mode ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 particles_left ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 tile_x;
     s32 tile_y;
     s32 color;
     s32 copy_value;
     s32 spawn_color;
-    register s32 tile_step_x ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u32 tile_step_x;
     s32 tile_step_y;
     s32 pixel_step_x;
-    register s32 pixel_step_y ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 pixel_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u16 timer;
     u16 flags;
@@ -309,7 +305,6 @@ state_0:
     tiles_ahead = 0;
     if (target == 0) {
         s32 tile_pixel_x;
-        register s32 tile_pixel_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 min_height;
         register s32 probe_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 probe_y;
@@ -320,13 +315,13 @@ state_0:
             min_height = -0x400;
             ASM_KEEP(min_height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             tile_pixel_x = caster_sprite->unk_24;
-            tile_pixel_y = caster_sprite->unk_25;
+            magnitude = caster_sprite->unk_25;
             tile_pixel_x = (tile_pixel_x + off_x) << 6;
             ASM_KEEP(tile_pixel_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             dx = tile_pixel_x + 0x20;
-            tile_pixel_y = (tile_pixel_y + off_y) << 6;
-            ASM_KEEP(tile_pixel_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            facing_shift = tile_pixel_y + 0x20;
+            magnitude = (magnitude + off_y) << 6;
+            ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            facing_shift = magnitude + 0x20;
             probe_x = (u16)dx;
             probe_y = (u16)facing_shift;
             ground_height = func_800BCB04(probe_x, probe_y, min_height);
@@ -384,46 +379,43 @@ state_0_tail:
         ASM_KEEP_NV(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto state_0_one;
     }
-    scale = 1;
-    mode = 0;
-    ASM_USE(scale);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_TAILSLOT_PIN(mode);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    dx = 1;
+    facing_shift = 0;
+    ASM_USE(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_TAILSLOT_PIN(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     func_8002426C();
 
 state_0_zero:
-    scale = zero;
-    ASM_KEEP(scale);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    mode = 2;
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    dx = zero;
+    ASM_KEEP(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    facing_shift = 2;
+    ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     owner->unk_50.unk_50_u16 = 0;
     func_8002427C();
 
 state_0_one:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    scale = zero;
-    mode = 3;
-    state = mode;
+    dx = zero;
+    facing_shift = 3;
+    state = facing_shift;
     if (caster_data->unk_60 != 0) {
         state = zero + 1;
     }
     ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     owner->unk_50.unk_50_u16 = state;
     func_8002427C();
 
 state_0_after:
     owner->unk_50.unk_50_u16 -= 2;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    tile_step_x = step_x * scale;
-    pixel_offset = mode << 4;
+    tile_step_x = step_x * dx;
+    pixel_offset = facing_shift << 4;
     pixel_step_x = step_x * pixel_offset;
-    ASM_KEEP(pixel_step_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    tile_step_y = step_y * scale;
-    ASM_KEEP_NV(tile_step_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    tile_step_y = step_y * dx;
     origin_x = caster_sprite->unk_24;
-    ASM_USE_NV(scale);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     pix_x = (origin_x + tile_step_x) << 6;
-    pixel_step_y = step_y * pixel_offset;
+    tile_step_x = step_y * pixel_offset;
     pixel_offset = pixel_step_x + 0x20;
     pix_x += pixel_offset;
     motion->unk_00.unk_02_view_u16.unk_02_u16 = pix_x;
@@ -431,7 +423,7 @@ state_0_after:
     motion->unk_0C.unk_0E_view_u16.unk_0E_u16 = step_x << 4;
     motion->unk_10.unk_12_view_u16.unk_12_u16 = step_y << 4;
     pix_y = (origin_y + tile_step_y) << 6;
-    pixel_offset = pixel_step_y + 0x20;
+    pixel_offset = tile_step_x + 0x20;
     pix_y += pixel_offset;
     motion->unk_04.unk_06_view_u16.unk_06_u16 = pix_y;
     func_800A56E0(0x300);
@@ -534,12 +526,12 @@ state_1_after_first:
     effect_data->unk_48.unk_48_u16 = timer;
 
 state_1_loop_setup:
-    particles_left = 0x3C;
+    dx = 0x3C;
     particle_cb = D_800247DC;
-    ASM_KEEP_MEM_NV(particles_left, *(u8 *)D_800247DC);
+    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800247DC);
     particle_anim = (S_81850800_10 *)D_800DEC28;
-    ASM_KEEP_MEM_NV(particles_left, *(u8 *)D_800DEC28);
-state_1_loop:
+    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800DEC28);
+do {
     obj = func_8003FD64(0x312, &D_80083498);
     if (obj == 0) {
         goto state_1_loop_next;
@@ -577,10 +569,8 @@ state_1_loop:
     effect_data->unk_4A = 0x10;
     effect_data->unk_4C = 0;
 state_1_loop_next:
-    particles_left--;
-    if (particles_left >= 0) {
-        goto state_1_loop;
-    }
+    dx--;
+    } while (dx >= 0);
     func_800246DC();
     return;
 

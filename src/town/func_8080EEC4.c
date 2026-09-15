@@ -95,7 +95,6 @@ void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
     s32 value;
     s32 limit;
     register s32 shift ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 i ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 x;
     s32 state;
     s32 old_angle;
@@ -242,17 +241,17 @@ case_3:
         if (dx >= 0x6AB) {
             ((S_8080EEC4_3 *)work)->unk_24 = 0;
         } else {
-            i = 4;
+            distance = 4;
             limit = 0x554;
         limit_loop:
             if (dx < limit) {
-                i--;
-                if (i >= 0) {
+                distance--;
+                if (distance >= 0) {
                     limit -= dy;
                     goto limit_loop;
                 }
             }
-            ((S_8080EEC4_3 *)work)->unk_24 = (i & 1) ? 1 : 2;
+            ((S_8080EEC4_3 *)work)->unk_24 = (distance & 1) ? 1 : 2;
         }
         ((S_8080EEC4_3 *)work)->unk_1A.s = 0;
         do {

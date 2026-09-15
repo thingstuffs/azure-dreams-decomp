@@ -301,10 +301,9 @@ void func_800AC4C4(void) {
     register S_func_800AED64_1 *render_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     {
-        register u8 *state_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        state_page = (u8 *)0x80080000;
-        ASM_KEEP_NV(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        render_state = state_page + 0x3160;
+        work_value = (s32)((u8 *)0x80080000);
+        ASM_KEEP_NV(work_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        render_state = (u8 *)work_value + 0x3160;
     }
     ASM_KEEP_NV(render_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     map_data = (u8 *)render_state + 0x1DC;

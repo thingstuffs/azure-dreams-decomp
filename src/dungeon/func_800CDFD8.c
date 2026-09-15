@@ -246,7 +246,6 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     register u32 texture_right ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 packed_v ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 screen_bound;
-    register u32 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 any_visible;
     u32 depth;
     u32 ot_depth;
@@ -261,7 +260,6 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     S_func_800CDFD8_8 *quad;
     S_func_800CDFD8_1 *scratch;
     register u8 *globals_page ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register S_func_800CDFD8_2 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *page_dependency;
     S_func_800CDFD8_6 *matrix_or_part;
     S_func_800CDFD8_7 *part;
@@ -270,7 +268,7 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     S_func_800CDFD8_5 *sprite;
     register s16 depth_bias ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
-    position = position_in;
+    texture_right = (u32)(position_in);
     sprite = sprite_in;
     ASM_KEEP_NV(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     depth_bias = depth_bias_in;
@@ -298,7 +296,7 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
         scratch->unk_7C = 0;
         scratch->unk_74 = 0;
         scratch->unk_20 = (u8 *)render_root + 0xB0;
-        coord = position->unk_02;
+        coord = ((S_func_800CDFD8_2 *)texture_right)->unk_02;
         projection_flags = world_pos;
         scratch->unk_00 = coord;
         ASM_KEEP_MEMDEP_NV(scratch, page_dependency, *(void **)D_80083160);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -307,10 +305,10 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
 #else
         ASM_SET(globals_page);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 #endif
-        coord = position->unk_06;
+        coord = ((S_func_800CDFD8_2 *)texture_right)->unk_06;
         projection_flags = (void *) ((u32) projection_flags | 0x94);
         scratch->unk_02 = coord;
-        coord = position->unk_0A;
+        coord = ((S_func_800CDFD8_2 *)texture_right)->unk_0A;
         scratch->unk_04 = coord;
         packet = render_root->unk_8D0;
         scratch->unk_C0 = func_80065420((render_state = (S_func_800CDFD8_4 *)(globals_page + 0x3160), world_pos), screen_pos, depth_out, projection_flags);
@@ -523,10 +521,10 @@ y_ready:
                 packed_v = texture_v;
                 ASM_KEEP_NV(packed_v);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 scratch->unk_10 = texture_right;
-                sprite_flags = scratch->unk_24.unk_24_u16;
+                texture_right = scratch->unk_24.unk_24_u16;
                 packed_v <<= 8;
                 scratch->unk_0C = packed_v;
-                if (sprite_flags & 0x100) {
+                if (texture_right & 0x100) {
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) sprite->unk_12;
                 } else {
                     ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0E = (s16) (sprite->unk_12 + ((S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_06);

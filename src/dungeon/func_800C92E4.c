@@ -110,18 +110,17 @@ do {
             register s32 area_calc ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             retries_left = 0xF;
             {
-                register unsigned long area_raw ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 area_offset;
 
-                area_raw = scratch.area_index;
-                ASM_KEEP(area_raw);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                area_calc = (s16)area_raw;
+                global_base = (u8 *)(scratch.area_index);
+                ASM_KEEP(global_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                area_calc = (s16)(unsigned long)global_base;
                 ASM_KEEP(area_calc);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 area_offset = area_calc * sizeof(AreaRecord);
                 do {
-                    area_raw = (unsigned long)D_800E2970;
+                    global_base = (u8 *)((unsigned long)D_800E2970);
                 } while (0);
-                area = (u8 *)(area_offset + area_raw);
+                area = (u8 *)(area_offset + (unsigned long)global_base);
             }
 retry_position:
             spawn_x = func_800A6DA4(0, (u16)(((AreaRecord *)area)->width - 1));

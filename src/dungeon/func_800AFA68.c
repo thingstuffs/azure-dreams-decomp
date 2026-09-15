@@ -60,11 +60,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   u8 *transform_flags = (u8 *) 0x1F800094;
   u8 *shadow_rotation;
   u8 *sprite_rotation;
-  register u8 *sprite_matrix_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   u32 depth_dependency;
   register u8 *camera_state ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  register u8 *depth_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  register u8 *shadow_depth_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   register u8 *scratch ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   volatile u16 camera_pitch;
   volatile u16 camera_yaw;
@@ -136,7 +133,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   void *part_header;
   void *entry_flags;
   void *render_state;
-  register u8 *sprite_camera ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   ASM_KEEP_MEM_NV(transform_flags, *((void **) (((s8 *) (&D_80083160)) + 0)));   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   scratch = (u8 *) 0x1F800000;
   render_state = *((void **) (((s8 *) (&D_80083160)) + 0));
@@ -179,8 +175,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
     {
         register void *world_bottom_right ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         register void *world_bottom_left ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        register void *world_top_right ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *world_top_left ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       if ((*((u16 *) (((s8 *) sprite_entry) + 0x14))) & 0x100)
       {
         transform_dst = scratch + 0x100;
@@ -223,8 +217,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
             *((s32 *) (scratch + 0x014)) = texture_height_byte - 1;
           }
           {
-            world_top_left = scratch + 0x70;
-            world_top_right = scratch + 0x78;
+            transform_dst = (u8 *)(scratch + 0x70);
+            world_matrix_arg = (u8 *)(scratch + 0x78);
             world_bottom_left = scratch + 0x80;
             world_bottom_right = scratch + 0x88;
             world_x_byte = *((u8 *) (((s8 *) world_part) + (-2)));
@@ -238,7 +232,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
             *((u16 *) (scratch + 0x078)) = world_corner_x;
             world_y_byte = *((u8 *) (((s8 *) world_part) + (-1)));
             *((u8 **) (scratch + 0x018)) = quad + 0x28;
-            quad_depth = func_80065590(world_top_left, world_top_right, world_bottom_left, world_bottom_right, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20, (GeomTailArgs){depth_cue, transform_flags}, (world_corner_y = (s8) world_y_byte, *((u16 *) (scratch + 0x07a)) = world_corner_y, *((u16 *) (scratch + 0x072)) = world_corner_y, world_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) = world_corner_y, *((u16 *) (scratch + 0x082)) = world_corner_y, *((GeomSideEffects *) 0)));
+            quad_depth = func_80065590((void *)transform_dst, (void *)world_matrix_arg, world_bottom_left, world_bottom_right, quad + 8, quad + 0x10, quad + 0x18, quad + 0x20, (GeomTailArgs){depth_cue, transform_flags}, (world_corner_y = (s8) world_y_byte, *((u16 *) (scratch + 0x07a)) = world_corner_y, *((u16 *) (scratch + 0x072)) = world_corner_y, world_corner_y += (u16) (*((u16 *) (scratch + 0x014))), *((u16 *) (scratch + 0x08a)) = world_corner_y, *((u16 *) (scratch + 0x082)) = world_corner_y, *((GeomSideEffects *) 0)));
             *((s32 *) (scratch + 0x0c0)) = quad_depth;
           }
           if (quad_depth < 0x1E0U)
@@ -285,8 +279,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((u16 *) (((s8 *) quad) + 0x16)) = (u16) (*((u16 *) (((s8 *) world_part) + 0)));
               *((s16 *) (((s8 *) quad) + 0x1C)) = (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x008)))));
               *((s16 *) (((s8 *) quad) + 0x24)) = (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x010)))));
-              sprite_camera = (u8 *)(render_params);
-              *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)sprite_camera) + 0xC)));
+              camera_state = (u8 *)(render_params);
+              *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)camera_state) + 0xC)));
               func_800666F4(quad, texture_v);
               *((u8 *) (((s8 *) quad) + 7)) = (u8) ((*((u8 *) (((s8 *) quad) + 7))) | 2);
               func_8006658C(((u8 *) (*((u8 **) (scratch + 0x020)))) + (((s32) (*((s32 *) (scratch + 0x0c0)))) * 4), quad);
@@ -311,34 +305,34 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
       sort_depth = sprite_depth;
       ASM_KEEP_MEM_NV(sort_depth, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
       depth_or_height = sprite_depth * 4;
-      depth_base = (u8 *) 0x80070000;
-      ASM_KEEP_NV(depth_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-      depth_base -= 13008;
-      ASM_USE_NV(depth_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-      *((s32 *) (((s8 *) depth_base) + 0x1C)) = depth_or_height;
+      camera_state = (u8 *) 0x80070000;
+      ASM_KEEP_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+      camera_state -= 13008;
+      ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+      *((s32 *) (((s8 *) camera_state) + 0x1C)) = depth_or_height;
       sort_depth -= 4;
       *((s32 *) (scratch + 0x0c0)) = sort_depth;
       if (sort_depth < 0x1E0U)
       {
-        sprite_matrix_arg = rotation_matrix;
+        world_matrix_arg = rotation_matrix;
         sprite_rotation = scratch + 0x100;
         ASM_USE_NV(sprite_rotation);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         *((u16 *) (scratch + 0x0b8)) = (u16) ((*((u16 *) (scratch + 0x0b8))) - 0xA0);
         pitch_bits = camera_pitch;
         *((u16 *) (scratch + 0x0ba)) = (u16) ((*((u16 *) (scratch + 0x0ba))) - 0x78);
-        sprite_camera = (u8 *)(render_params);
-        *((u16 *) (scratch + 0x100)) = (s16) ((*((u16 *) (((s8 *) (void *)sprite_camera) + 0x16))) + (((s32) (pitch_bits << 0x10)) >> 0x11));
-        sprite_yaw = *((u16 *) (((s8 *) (void *)sprite_camera) + 0x1A));
-        sprite_camera = (u8 *) 0x80080000;
-        ASM_KEEP_NV(sprite_camera);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        sprite_camera += 12640;
-        ASM_USE_NV(sprite_camera);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        camera_state = (u8 *)(render_params);
+        *((u16 *) (scratch + 0x100)) = (s16) ((*((u16 *) (((s8 *) (void *)camera_state) + 0x16))) + (((s32) (pitch_bits << 0x10)) >> 0x11));
+        sprite_yaw = *((u16 *) (((s8 *) (void *)camera_state) + 0x1A));
+        camera_state = (u8 *) 0x80080000;
+        ASM_KEEP_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        camera_state += 12640;
+        ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         view_yaw = camera_yaw;
-        *((u16 *) (scratch + 0x104)) = (s16) ((*((u16 *) (((s8 *) sprite_camera) + 0xB8))) + (sprite_yaw - view_yaw));
+        *((u16 *) (scratch + 0x104)) = (s16) ((*((u16 *) (((s8 *) camera_state) + 0xB8))) + (sprite_yaw - view_yaw));
         sprite_part = part_header + 4;
-        sprite_camera = (u8 *)(render_params);
-        *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) (void *)sprite_camera) + 0x18)));
-        func_80065820(sprite_rotation, sprite_matrix_arg, view_yaw);
+        camera_state = (u8 *)(render_params);
+        *((u16 *) (scratch + 0x102)) = (u16) (*((u16 *) (((s8 *) (void *)camera_state) + 0x18)));
+        func_80065820(sprite_rotation, world_matrix_arg, view_yaw);
         func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
         func_80064D80((M2C_UNK *) view_matrix);
         func_80064CF0((M2C_UNK *) view_matrix);
@@ -431,8 +425,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((u8 *) (((s8 *) quad) + 0x1D)) = (u8) ((*((u8 *) (((s8 *) quad) + 0x1D))) - 1);
               *((u8 *) (((s8 *) quad) + 0x25)) = (u8) ((*((u8 *) (((s8 *) quad) + 0x25))) - 1);
             }
-            sprite_camera = (u8 *)(render_params);
-            *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)sprite_camera) + 0xC)));
+            camera_state = (u8 *)(render_params);
+            *((s32 *) (((s8 *) quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)camera_state) + 0xC)));
             *((u8 *) (((s8 *) quad) + 7)) = 0x2CU;
             if ((D_800E296C[0] & 8) && (D_800E3648_entries[entry_index].b3 & 0x80))
             {
@@ -455,11 +449,11 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((s32 *) (scratch + 0x0c0)) = shadow_depth;
               ASM_KEEP_MEMDEP_NV(shadow_depth, depth_dependency, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
               depth_or_height = shadow_depth * 4;
-              shadow_depth_base = (u8 *) 0x80070000;
-              ASM_KEEP_NV(shadow_depth_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-              shadow_depth_base -= 13008;
-              ASM_USE_NV(shadow_depth_base);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-              *((s32 *) (((s8 *) shadow_depth_base) + 0x1C)) = depth_or_height;
+              camera_state = (u8 *) 0x80070000;
+              ASM_KEEP_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+              camera_state -= 13008;
+              ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+              *((s32 *) (((s8 *) camera_state) + 0x1C)) = depth_or_height;
               *((s32 *) (scratch + 0x0c0)) -= 3;
               projected_y = *((u16 *) (scratch + 0x0ba));
               *((u16 *) (scratch + 0x0b8)) = (u16) ((*((u16 *) (scratch + 0x0b8))) - 0xA0);
@@ -499,12 +493,12 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               {
                 u16 right_x;
                 u16 left_x;
-                world_top_left = scratch + 0x70;
-                world_top_right = scratch + 0x78;
+                transform_dst = (u8 *)(scratch + 0x70);
+                world_matrix_arg = (u8 *)(scratch + 0x78);
                 world_bottom_left = scratch + 0x80;
                 world_bottom_right = scratch + 0x88;
                 shadow_quad = *((u8 **) (scratch + 0x018));
-                func_800654B0(world_top_left, world_top_right, world_bottom_left, world_bottom_right, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs){depth_cue, transform_flags}, (left_x = *((u16 *) (scratch + 0x070)), *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x = *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x, right_x += 6, *((u16 *) (scratch + 0x078)) = right_x, *((GeomSideEffects *) 0)));
+                func_800654B0((void *)transform_dst, (void *)world_matrix_arg, world_bottom_left, world_bottom_right, scratch + 0xF0, scratch + 0xF4, scratch + 0xF8, scratch + 0xFC, (GeomTailArgs){depth_cue, transform_flags}, (left_x = *((u16 *) (scratch + 0x070)), *((u8 **) (scratch + 0x018)) = ((u8 *) shadow_quad) + 0x28, right_x = *((u16 *) (scratch + 0x078)), left_x += 6, *((u16 *) (scratch + 0x070)) = left_x, right_x += 6, *((u16 *) (scratch + 0x078)) = right_x, *((GeomSideEffects *) 0)));
               }
               *((u16 *) (((s8 *) shadow_quad) + 8)) = (u16) (((s32) (*((u16 *) (scratch + 0x0f0)))) + ((s32) (*((u16 *) (scratch + 0x0b8)))));
               *((u16 *) (((s8 *) shadow_quad) + 0xA)) = (u16) (((s32) (*((u16 *) (scratch + 0x0f2)))) + ((s32) (*((u16 *) (scratch + 0x0ba)))));
@@ -531,8 +525,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
                 *((u8 *) (((s8 *) shadow_quad) + 0x1D)) = (u8) ((*((u8 *) (((s8 *) shadow_quad) + 0x1D))) - 1);
                 *((u8 *) (((s8 *) shadow_quad) + 0x25)) = (u8) ((*((u8 *) (((s8 *) shadow_quad) + 0x25))) - 1);
               }
-              sprite_camera = (u8 *)(render_params);
-              *((s32 *) (((s8 *) shadow_quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)sprite_camera) + 0xC)));
+              camera_state = (u8 *)(render_params);
+              *((s32 *) (((s8 *) shadow_quad) + 4)) = (s32) (*((s32 *) (((s8 *) (void *)camera_state) + 0xC)));
               *((u8 *) (((s8 *) shadow_quad) + 7)) = 0x2CU;
               func_8006658C(((u8 *) (*((u8 **) (scratch + 0x020)))) + (((s32) (*((s32 *) (scratch + 0x0c0)))) * 4), shadow_quad);
             }
@@ -560,9 +554,9 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
 
   if (entry_index >= 0x20)
   {
-    sprite_camera = (u8 *) (&D_80083160);
-    ASM_KEEP(sprite_camera);
-    *((void **) (((s8 *) (*((void **) (((s8 *) sprite_camera) + 0)))) + 0x8D0)) = (void *) (*((u8 **) (scratch + 0x018)));
+    camera_state = (u8 *) (&D_80083160);
+    ASM_KEEP(camera_state);
+    *((void **) (((s8 *) (*((void **) (((s8 *) camera_state) + 0)))) + 0x8D0)) = (void *) (*((u8 **) (scratch + 0x018)));
     return 0;
   }
   goto next_entry;

@@ -37,22 +37,21 @@ void func_808B2E74(void)
         *first_byte &= ~first_bits;
         {
             s32 second_id;
-            register s32 second_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *second_byte;
             register u8 *second_state_base;
             second_id = ((S_808B2E74_0 *)((u32)D_A0700000 + slot_offset))->unk_F1C;
-            second_bits = second_id;
+            first_byte = (u8 *)(second_id);
             if (second_id < 0)
-                second_bits = second_id + 31;
+                first_byte = (u8 *)(second_id + 31);
             first_id_ptr = (s16 *)((u8 *)first_id_ptr + 2);
             slot += 1;
             second_state_base = (u8 *)0xA0700000;
             second_byte = *(u8 **)(second_state_base + 0xF40);
-            second_bits >>= 5;
-            second_byte += second_bits;
-            second_bits = second_id - (second_bits << 5);
-            second_bits = bit_one << second_bits;
-            *second_byte &= ~second_bits;
+            first_byte = (u8 *)(((s32)first_byte) >> (5));
+            second_byte += (s32)first_byte;
+            first_byte = (u8 *)(second_id - ((s32)first_byte << 5));
+            first_byte = (u8 *)(bit_one << (s32)first_byte);
+            *second_byte &= ~(s32)first_byte;
         }
     } while (slot < 4);
 }

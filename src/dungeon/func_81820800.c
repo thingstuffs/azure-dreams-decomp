@@ -184,7 +184,6 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     s32 velocity_y;
     s32 phase;
     s16 target_flag;
-    register M2C_UNK direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u16 header_raw;
     u16 duration;
     s32 coord_x;
@@ -196,11 +195,11 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     owner = (void *) ((u8 *) actor - 0x20);
     header_raw = actor->unk_2A;
     delta_x = header_raw >> 8;
-    direction_offset = delta_x & 0xE;
-    ASM_KEEP_DEP_NV(direction_offset, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    abs_y = (s32)(delta_x & 0xE);
+    ASM_KEEP_DEP_NV(abs_y, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
-    step_x = *(s16 *)(direction_offset + x_steps);
-    step_y = *(s16 *)(direction_offset + (s8 *)&D_8006CCE8);
+    step_x = *(s16 *)((M2C_UNK)abs_y + x_steps);
+    step_y = *(s16 *)((M2C_UNK)abs_y + (s8 *)&D_8006CCE8);
     if (state_obj->unk_0A != 1) {
         goto dispatch;
     }

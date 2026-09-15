@@ -52,7 +52,6 @@ s32 func_80017BEC(s16 region_id) {
     s16 next_direction;
     register s16 tile_id ASM_REG("$20");
     s32 *map_info;
-    register s32 index_work ASM_REG("$4");
     s32 tiles_base;
     register s32 coord_work ASM_REG("$2");
     s32 open_count;
@@ -64,7 +63,6 @@ s32 func_80017BEC(s16 region_id) {
     s32 value_work_2;
     S_80017BEC_2 *neighbor;
     S_80017BEC_1 *start_tile;
-    register S_80017BEC_3 *next_tile ASM_REG("$2");
     S_80017BEC_4 *retry_tile;
     register u8 *lookup_base ASM_REG("$9");
     u16 *next_x_step;
@@ -109,12 +107,12 @@ scan_neighbors:
             value_work_2 = *y_step;
             neighbor_x += coord_work;
             coord_work = cursor.sp12;
-            index_work = ((S_80017BEC_0 *)map_info)->unk_14;
+            start_x = ((S_80017BEC_0 *)map_info)->unk_14;
             coord_work += value_work_2;
-            coord_work <<= index_work;
-            index_work = neighbor_x + coord_work;
-            ASM_KEEP_NV(index_work);
-            neighbor = (void *)((index_work * 6) + tiles_base);
+            coord_work <<= start_x;
+            start_x = neighbor_x + coord_work;
+            ASM_KEEP_NV(start_x);
+            neighbor = (void *)((start_x * 6) + tiles_base);
             neighbor_flags = neighbor->unk_04;
             if (!(neighbor_flags & 0x100)) {
                 neighbor->unk_04 = (u16)(neighbor_flags | 0x200);
@@ -136,11 +134,11 @@ scan_neighbors:
             lookup_base = (u8 *)&D_8006CCD8;
             next_x_step = (u16 *)(lookup_base + coord_work);
             lookup_base = (u8 *)&D_8006CCE8;
-            next_tile = lookup_base + coord_work;
+            coord_work = (s32)(lookup_base + coord_work);
             next_x = (u16)cursor.sp10;
             value_work = *next_x_step;
             next_y = (u16)cursor.sp12;
-            coord_work = *(u16 *)next_tile;
+            coord_work = *(u16 *)(S_80017BEC_3 *)coord_work;
             next_x += value_work;
             next_y += coord_work;
             coord_work = (u32)(u16)next_x << 16;
@@ -152,16 +150,16 @@ scan_neighbors:
                 tile_y = value_work >> 16;
                 start_x = tile_x + (tile_y << coord_work);
                 ASM_KEEP_NV(start_x);
-                next_tile = (start_x * 6) + tiles_base;
+                coord_work = (s32)((start_x * 6) + tiles_base);
             }
-            index_work = steps_left - 1;
-            steps_left = index_work;
+            start_x = steps_left - 1;
+            steps_left = start_x;
             ASM_KEEP(steps_left);
-            value_work = next_tile->unk_04;
+            value_work = ((S_80017BEC_3 *)coord_work)->unk_04;
             cursor.sp10 = next_x;
             cursor.sp12 = next_y;
-            next_tile->unk_04 = (u16)(value_work | 0x100);
-            if ((index_work << 0x10) > 0) {
+            ((S_80017BEC_3 *)coord_work)->unk_04 = (u16)(value_work | 0x100);
+            if ((start_x << 0x10) > 0) {
                 tile_id = func_800BCB04(((tile_x << 6) + 0x20) & 0xFFE0, ((tile_y << 6) + 0x20) & 0xFFE0, -0x400, tile_x);
                 goto scan_neighbors;
             }
@@ -191,12 +189,12 @@ scan_neighbors:
             start_x = cursor.sp10;
             retry_tile = ((start_x + (retry_y << retry_shift)) * 6) + tiles_base;
             ASM_KEEP(retry_tile);
-            index_work = steps_left - 1;
-            steps_left = index_work;
+            start_x = steps_left - 1;
+            steps_left = start_x;
             value_work = retry_tile->unk_04;
-            index_work <<= 0x10;
+            start_x <<= 0x10;
             retry_tile->unk_04 = (u16)(value_work | 0x100);
-            if (index_work <= 0) {
+            if (start_x <= 0) {
 success:
                 result = 1;
                 return result;

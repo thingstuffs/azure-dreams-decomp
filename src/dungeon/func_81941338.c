@@ -62,7 +62,6 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     s32 particle_color;
     s32 particle_alpha;
     register void *init_object ASM_REG("$4");
-    register void *init_data ASM_REG("$5");
     s32 state;
     s16 timer;
     u16 old_state;
@@ -355,10 +354,10 @@ emit_flash:
         return;
     }
     init_object = particle;
-    init_data = D_80045340;
+    animation_m = D_80045340;
     F(particle, s16, 0x4A) = 6;
     F(particle, void *, 0x10) = (void *)((u32)&D_800248B8);
-    func_8004491C(init_object, init_data);
+    func_8004491C(init_object, animation_m);
     bits = 0x20;
     sprite = F(particle, void *, 0xC);
     {
@@ -405,12 +404,12 @@ emit_burst:
         particle = func_8003FC64(0x212);
         if (particle != 0) {
             init_object = particle;
-            init_data = D_80045340;
-            ASM_KEEP_NV(init_data);
+            animation_m = D_80045340;
+            ASM_KEEP_NV(animation_m);
             effect_context = (u8 *)particle + 0x20;
             F(effect_context, s16, 0x2A) = 12;
             F(particle, void *, 0x10) = particle_script;
-            func_8004491C(init_object, init_data);
+            func_8004491C(init_object, animation_m);
             sprite = F(particle, void *, 0xC);
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
             F(sprite, u16, 0x10) = 0x60;

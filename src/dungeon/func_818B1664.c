@@ -148,7 +148,6 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     Effect **effect_cleanup;
     s32 index;
     s32 child_delta;
-    register s32 motion_coord ASM_REG("$3");
     s32 next_state;
     s32 angle;
     s32 effect_angle;
@@ -165,7 +164,6 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s32 angle_signed;
     s32 angle_adjusted;
     u16 lowered_z;
-    register s16 *direction_table ASM_REG("$3");
     s32 direction_index;
     s32 axis_step;
     register s32 table_addr ASM_REG("$8");
@@ -174,9 +172,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s16 *step_x;
     s16 *step_y;
     u16 *update_x;
-    register u16 *update_y ASM_REG("$3");
     register s32 probe_height ASM_REG("$6");
-    register s32 next_x ASM_REG("$4");
     s32 next_y;
     u32 table_page;
     register s32 tile_x ASM_REG("$20");
@@ -280,26 +276,26 @@ case_0:
     if (entity->child != 0) {
         cleanup_base = (void *)(*(Motion **)((u8 *)entity->child - 0x18));
 
-        motion_coord = motion_arg->x.half.hi;
+        color = motion_arg->x.half.hi;
         child_delta = ((Motion *)cleanup_base)->x.half.hi;
-        child_delta -= motion_coord;
+        child_delta -= color;
         child_delta = abs(child_delta);
         work.distance[0] = child_delta;
 
         child_delta = ((Motion *)cleanup_base)->y.half.hi;
-        motion_coord = motion_arg->y.half.hi;
-        child_delta -= motion_coord;
+        color = motion_arg->y.half.hi;
+        child_delta -= color;
         child_delta = abs(child_delta);
         work.distance[1] = child_delta;
 
         if (entity->child->flags & 0x40000) {
-            motion_coord = motion_arg->z.half.hi - 16;
+            color = motion_arg->z.half.hi - 16;
             child_delta = ((Motion *)cleanup_base)->z.half.hi;
-            child_delta -= motion_coord;
+            child_delta -= color;
         } else {
             child_delta = ((Motion *)cleanup_base)->z.half.hi;
-            motion_coord = motion_arg->z.half.hi;
-            child_delta -= motion_coord;
+            color = motion_arg->z.half.hi;
+            child_delta -= color;
         }
         child_delta = abs(child_delta);
         work.distance[2] = child_delta;
@@ -326,10 +322,10 @@ case_0:
             (((Motion *)cleanup_base)->y.half.hi - motion_arg->y.half.hi) / state_arg->duration;
         if (entity->child->flags & 0x40000) {
             s32 child_delta;
-            motion_coord = motion_arg->z.half.hi;
+            color = motion_arg->z.half.hi;
             child_delta = ((Motion *)cleanup_base)->z.half.hi;
-            motion_coord -= 16;
-            child_delta -= motion_coord;
+            color -= 16;
+            child_delta -= color;
             motion_arg->dz.half.hi = child_delta / state_arg->duration;
         } else {
             motion_arg->dz.half.hi =
@@ -390,27 +386,27 @@ case_0:
         update_offset *= 2;
         update_x = (u16 *)(update_offset + table_addr);
         (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318;
-        update_y = (u16 *)(update_offset + table_addr);
-        ASM_KEEP(update_y);
-        next_x = tile_x + *update_x;
-        tile_x = next_x;
-        next_y = tile_y + *update_y;
+        color = (s32)((s16 *)((u16 *)(update_offset + table_addr)));
+        ASM_KEEP(color);
+        target_y = tile_x + *update_x;
+        tile_x = target_y;
+        next_y = tile_y + *(u16 *)(s16 *)color;
         tile_y = next_y;
         saved_y = next_y;
-        ASM_KEEP4_NV(next_x, next_y, tile_x, tile_y);
-        final_x = next_x;
+        ASM_KEEP4_NV(target_y, next_y, tile_x, tile_y);
+        final_x = target_y;
     }
 
     target = &work.target;
     ASM_KEEP_NV(target);
     index = 1;
     target_x = (u32)final_x << 16;
-    direction_table = D_8006CCD8;
+    color = (s32)(D_8006CCD8);
     target_x = (s32)target_x >> 10;
     direction_index = (s16)state_arg->direction;
     target_cursor = &work.target.x.half.hi;
-    axis_step = direction_table[direction_index];
-    direction_table = D_8006CCE8;
+    axis_step = ((s16 *)color)[direction_index];
+    color = (s32)(D_8006CCE8);
     target_x = target_x + ((axis_step + 1) << 5);
     (*(s16 *)((u8 *)target + 2)) = target_x;
     target_x = (s16)target_x;
@@ -418,7 +414,7 @@ case_0:
     direction_index = (s16)state_arg->direction;
     ASM_KEEP_DEP_NV(table_addr, direction_index);
     target_y = (u32)(u16)table_addr << 16;
-    axis_step = direction_table[direction_index];
+    axis_step = ((s16 *)color)[direction_index];
     target_y = (s32)target_y >> 10;
     target_y += (axis_step + 1) << 5;
     target->y.half.hi = target_y;

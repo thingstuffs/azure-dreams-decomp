@@ -6,7 +6,7 @@ extern void func_8008B9D8(void);
 extern void func_8008BA00(void);
 extern void *func_8004491C(void *, void *);
 extern void func_80033C1C(void *, s32);
-extern void func_800375C0(void *);
+extern void func_800375C0(void *, u32);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_80033D08(void *);
 
@@ -29,7 +29,7 @@ void func_8008B818(s32 initial_mode, s32 *value_list, u8 *init_context, u8 *targ
     register u8 *display ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 list_value;
     u32 *mode_table;
-    register u32 mode_entry ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 mode_entry;
 
     ASM_KEEP4_NV(mode, list, context, object);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
@@ -52,7 +52,7 @@ void func_8008B818(s32 initial_mode, s32 *value_list, u8 *init_context, u8 *targ
     mode_entry = mode_table[mode];
     if (mode_entry != 0) {
         *(u8 **)(record + 8) = &D_80037714;
-        func_800375C0(record);
+        func_800375C0(record, mode_entry);
     } else {
         *(u8 **)(record + 8) = 0;
     }

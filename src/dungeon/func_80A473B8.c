@@ -75,7 +75,6 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     u8 *entity = entity_data;
     register u8 *subject ASM_REG("$19") = actor;   /* Byte-exact pin. */
     register u8 *part ASM_REG("$20");   /* Byte-exact pin. */
-    register u8 *sprite ASM_REG("$16");   /* Byte-exact pin. */
     s32 state_index;
     u32 global_flags;
     u16 *global_flags_ptr = (u16 *)0x80080000;
@@ -90,6 +89,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     register u32 height_raw ASM_REG("$3");   /* Byte-exact pin. */
     s32 height_offset;
     register s32 ground_offset ASM_REG("$5");   /* Byte-exact pin. */
+    register s32 direction ASM_REG("$16");   /* Byte-exact pin. */
 
     ASM_KEEP(global_flags_ptr);   /* Byte-exact pin. */
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
@@ -100,10 +100,10 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
     ASM_KEEP(actor);   /* Byte-exact pin. */
     ASM_KEEP(subject);   /* Byte-exact pin. */
-    ASM_KEEP(sprite);   /* Byte-exact pin. */
+    ASM_KEEP(direction);   /* Byte-exact pin. */
 
     global_flags &= 0x2000;
-    sprite = part_base + 0x28;
+    direction = (s32)(part_base + 0x28);
     if (global_flags) {
         callback = (*(Callback *)((u8 *)actor + 0x8C));
         if (callback == (Callback)D_8017140C) {
@@ -160,15 +160,15 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
     if (((S_80170BB8_1 *)subject)->unk_1C.u & 0x200) {
         if ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000) {
-            ((S_80170BB8_2 *)sprite)->unk_3C = 0x00808080;
-            ((S_80170BB8_2 *)sprite)->unk_0C.u32 = 0x00808080;
-        } else if (((S_80170BB8_2 *)sprite)->unk_0C.u8 >= 8) {
-            ((S_80170BB8_2 *)sprite)->unk_3C += 0xFFF7F7F8;
-            ((S_80170BB8_2 *)sprite)->unk_0C.u32 = ((S_80170BB8_2 *)sprite)->unk_3C;
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_3C = 0x00808080;
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = 0x00808080;
+        } else if (((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u8 >= 8) {
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_3C += 0xFFF7F7F8;
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = ((S_80170BB8_2 *)(u8 *)direction)->unk_3C;
         }
 
-        if (((S_80170BB8_2 *)sprite)->unk_14 & 0x6000) {
-            if (((S_80170BB8_2 *)sprite)->unk_0C.u8 < 8 ||
+        if (((S_80170BB8_2 *)(u8 *)direction)->unk_14 & 0x6000) {
+            if (((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u8 < 8 ||
                 ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000)) {
                 u16 actor_flags = (*(u16 *)((u8 *)actor + 0x98));
 
@@ -187,19 +187,19 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
             ((S_80170BB8_3 *)part)->unk_04 &= 0x7FFF;
             if (((S_80170BB8_3 *)part)->unk_02 > 0) {
                 do {
-                    func_80047784(sprite, 0x1C, 0);
-                    sprite += 0x30;
+                    func_80047784((u8 *)direction, 0x1C, 0);
+                    direction = (s32)(((u8 *)direction) + (0x30));
                     state_index++;
                 } while (state_index < ((S_80170BB8_3 *)part)->unk_02);
             }
         }
     } else {
-        if (((S_80170BB8_2 *)sprite)->unk_0C.u8 >= 0x80) {
-            ((S_80170BB8_2 *)sprite)->unk_3C = 0x00808080;
-            ((S_80170BB8_2 *)sprite)->unk_0C.u32 = 0x00808080;
+        if (((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u8 >= 0x80) {
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_3C = 0x00808080;
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = 0x00808080;
         } else {
-            ((S_80170BB8_2 *)sprite)->unk_3C += 0x00080808;
-            ((S_80170BB8_2 *)sprite)->unk_0C.u32 = ((S_80170BB8_2 *)sprite)->unk_3C;
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_3C += 0x00080808;
+            ((S_80170BB8_2 *)(u8 *)direction)->unk_0C.u32 = ((S_80170BB8_2 *)(u8 *)direction)->unk_3C;
         }
 
         if ((*(u16 *)((u8 *)actor + 0x98)) & 0x4000) {
@@ -208,26 +208,26 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
         }
 
         if ((*(u16 *)((u8 *)actor + 0x98)) & 0x1000) {
-            func_80047784(sprite, 0x1D, 0);
-            func_80047784(sprite + 0x30, 0x1D, 0);
+            func_80047784((u8 *)direction, 0x1D, 0);
+            func_80047784((u8 *)direction + 0x30, 0x1D, 0);
             (*(u16 *)((u8 *)actor + 0x98)) &= 0xEFFF;
         } else if (((*(u16 *)((u8 *)actor + 0x98)) & 0x2000) &&
-                   (((S_80170BB8_2 *)sprite)->unk_14 & 0x6000)) {
+                   (((S_80170BB8_2 *)(u8 *)direction)->unk_14 & 0x6000)) {
             s32 effect_mode;
 
             if ((*(u8 *)((u8 *)actor + 0x9A)) == 7) {
-                func_80047784(sprite, 0x19, 0);
-                func_80047784(sprite + 0x30, 0x24, 0);
+                func_80047784((u8 *)direction, 0x19, 0);
+                func_80047784((u8 *)direction + 0x30, 0x24, 0);
             } else {
                 s32 random_value;
 
-                func_80047784(sprite, 0x19, 0);
+                func_80047784((u8 *)direction, 0x19, 0);
                 random_value = func_80069EF8();
                 effect_mode = 0x24;
                 if (random_value & 3) {
                     effect_mode = 0x19;
                 }
-                func_80047784(sprite + 0x30, effect_mode, 0);
+                func_80047784((u8 *)direction + 0x30, effect_mode, 0);
             }
         }
     }
@@ -242,7 +242,6 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
             state_index = (view_angle >> 9) & 7;
         }
         {
-            register s32 direction ASM_REG("$16");   /* Byte-exact pin. */
 
             if ((*(s16 *)((u8 *)actor + 0x94)) != (direction = state_index)) {
                 func_80047738(entity,
@@ -392,5 +391,5 @@ final_collision:
 done:
     ASM_KEEP(motion);   /* Byte-exact pin. */
     ASM_KEEP(entity);   /* Byte-exact pin. */
-    ASM_KEEP(sprite);   /* Byte-exact pin. */
+    ASM_KEEP(direction);   /* Byte-exact pin. */
 }

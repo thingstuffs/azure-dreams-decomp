@@ -170,14 +170,13 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         if ((U16_AT(owner_data, 0x1E) | 0x2000) != 0) {
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
-            register u32 direction_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            direction_x = U16_AT(direction_node, 0x2A);
+            height_valid = (s32)(U16_AT(direction_node, 0x2A));
             state->x = position_base[0x24] +
-                ((s16 *)((u8 *)D_8006CCD8 + ((direction_x >> 8) & 0xE)))[0];
-            direction_x = U16_AT(direction_node, 0x2A);
+                ((s16 *)((u8 *)D_8006CCD8 + (((u32)height_valid >> 8) & 0xE)))[0];
+            height_valid = (s32)(U16_AT(direction_node, 0x2A));
             state->y = position_base[0x25] +
-                ((s16 *)((u8 *)D_8006CCE8 + ((direction_x >> 8) & 0xE)))[0];
+                ((s16 *)((u8 *)D_8006CCE8 + (((u32)height_valid >> 8) & 0xE)))[0];
         } else {
             state->x = D_80082E80[0x24] + D_8006CCD8[state->direction];
             state->y = D_80082E80[0x25] + D_8006CCE8[state->direction];

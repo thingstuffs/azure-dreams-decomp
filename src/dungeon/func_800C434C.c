@@ -65,11 +65,11 @@ void func_800C9AAC(void *object_state, void *object_motion, void *object_part)
     s32 adjusted_flags;
     s16 target_height;
     u16 old_height;
+    register void *callback_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     if (update_flags & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)state + (0x8C)));
         if (early_callback == (Callback)&D_800C9F34) {
-            register void *callback_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ASM_KEEP(callback_state);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             early_callback(callback_state, motion, part, callback_state);
             return;
@@ -80,16 +80,16 @@ void func_800C9AAC(void *object_state, void *object_motion, void *object_part)
     }
 
     {
-        register void *check_state ASM_REG("$4") = state;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         register void *check_motion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         register void *check_part ASM_REG("$6") = part;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(check_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        callback_state = state;
+        ASM_KEEP(callback_state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(check_motion);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ASM_KEEP(check_part);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        check_state = state;
+        callback_state = state;
         check_motion = motion;
         check_part = part;
-        if (func_800A9E70(check_state, check_motion, check_part, state) != 0) {
+        if (func_800A9E70(callback_state, check_motion, check_part, state) != 0) {
             return;
         }
     }

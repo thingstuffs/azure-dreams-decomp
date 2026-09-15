@@ -34,9 +34,9 @@ S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
   }
 
   {
-    register u32 table_page ASM_REG("$2") = 0x80080000;   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-    entries = (S_80083968 *)(table_page + 0x3968);
+    slot_data = (u8 *)(0x80080000);
+    ASM_KEEP_NV(slot_data);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    entries = (S_80083968 *)((u32)slot_data + 0x3968);
   }
   sentinel = 0xFF;
   write_index = D_800814D1;

@@ -98,6 +98,7 @@ void func_80018A70(void) {
         u8 *xor_base;
         u8 *xor_page;
         u16 entry_flags;
+        s32 a1role;
 
         state = (State13710 *)0x80013710;
         xor_page = (u8 *)0x80080000;
@@ -108,7 +109,6 @@ void func_80018A70(void) {
         if (entry_flags & 2) {
             u32 v0role;
             s32 sum;
-            register u32 a1role ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             func_800A6D98(state->seed);
             v0role = func_800A6D30();
@@ -164,13 +164,12 @@ void func_80018A70(void) {
         {
             u32 v0role;
             u32 v1role;
-            register u8 *a1role ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         value = rand();
         v0role = rand();
         common_arg = D_80083780;
         ASM_KEEP_NV(common_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        a1role = (u8 *)0x80080000;
+        a1role = (u32)((u8 *)0x80080000);
         ASM_KEEP_NV(a1role);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         v0role <<= 16;
         state->field8 = 0;
@@ -180,7 +179,7 @@ void func_80018A70(void) {
         v1role = *(u16 *)(xor_base + 4);
         value |= v0role;
         value ^= v1role;
-        *(s32 *)(a1role + 0x1468) = value;
+        *(s32 *)((u8 *)a1role + 0x1468) = value;
         state->seed = value;
         }
     }

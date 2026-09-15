@@ -142,10 +142,8 @@ s32 func_80F90E88(void *object) {
     s32 position_xy;
     s32 position_z;
     register s8 *stack_base ASM_REG("$29");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 upper_mask ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 coord;
     u32 coord_bits;
-    register s32 point_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *screen_out;
     s32 *depth_out;
     s32 bound_test;
@@ -157,7 +155,6 @@ s32 func_80F90E88(void *object) {
     s32 mode_tag_mask;
     s32 quad_ot_link;
     s32 quad_tag;
-    register s32 mode_ot_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 mode_tag;
 
 #define point_storage frame.work[0]
@@ -236,34 +233,34 @@ draw_object:
     transform_flags = 0;
     func_800DBA90(transform);
     min_xy |= 0x75300000;
-    upper_mask = 0xFFFF0000;
-    min_xy &= upper_mask;
+    base = (s8 *)(0xFFFF0000);
+    min_xy &= (s32)base;
     min_xy |= 0x7530;
     max_xy |= 0x8AD00000;
-    max_xy &= upper_mask;
+    max_xy &= (s32)base;
     max_xy |= 0x8AD0;
     loop_1: {
-        point_addr = side * 8;
+        quad_ot_slot = side * 8;
         screen_out = &screen_x;
         base = points;
         depth_out = scratch_ptr;
-        point_addr = (s32) base + point_addr;
-        depth = func_80065420(point_addr, screen_out, depth_out, depth_out) - 4;
+        quad_ot_slot = (s32) base + quad_ot_slot;
+        depth = func_80065420(quad_ot_slot, screen_out, depth_out, depth_out) - 4;
         ASM_KEEP_NV(depth);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         bound_test = (s16) max_xy;
         coord = screen_x;
         coord_bits = (u16) screen_x;
         bound_test = bound_test < coord;
         if (bound_test) {
-            upper_mask = 0xFFFF0000;
-            max_xy &= upper_mask;
+            base = (s8 *)(0xFFFF0000);
+            max_xy &= (s32)base;
             max_xy = coord_bits | max_xy;
         }
         bound_test = (s16) min_xy;
         bound_test = coord < bound_test;
         if (bound_test) {
-            upper_mask = 0xFFFF0000;
-            min_xy &= upper_mask;
+            base = (s8 *)(0xFFFF0000);
+            min_xy &= (s32)base;
             min_xy = coord_bits | min_xy;
         }
         bound_test = max_xy >> 0x10;
@@ -357,16 +354,16 @@ setup_quad:
             base = (s8 *) &D_80083160_final;
             mode_ot_offset = depth * 4;
             mode_tag_mask = 0xFF000000;
-            mode_ot_link = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
+            endpoint = (WorkCell *)((s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08);
             mode_tag = *draw_mode;
-            mode_ot_link = mode_ot_offset + mode_ot_link;
-            mode_ot_link = ((S_80F90E88_4 *)mode_ot_link)->unk_B0;
+            endpoint = (WorkCell *)(mode_ot_offset + (s32)endpoint);
+            endpoint = (WorkCell *)(((S_80F90E88_4 *)(s32)endpoint)->unk_B0);
             mode_tag &= mode_tag_mask;
-            mode_ot_link &= address_mask;
-            mode_tag |= mode_ot_link;
+            endpoint = (WorkCell *)(((s32)endpoint) & (address_mask));
+            mode_tag |= (s32)endpoint;
             *draw_mode = mode_tag;
-            mode_ot_link = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
-            mode_ot_slot = (void *) (mode_ot_offset + mode_ot_link);
+            endpoint = (WorkCell *)((s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08);
+            mode_ot_slot = (void *) (mode_ot_offset + (s32)endpoint);
             mode_ot_slot->unk_B0 = (s32) ((mode_ot_slot->unk_B0 & mode_tag_mask) | ((s32) draw_mode & address_mask));
             goto advance_object;
         }
@@ -388,8 +385,8 @@ return_zero:
         hard_zero = 0;
 #else
 #endif
-        mode_ot_link = hard_zero;
-        ASM_KEEP(mode_ot_link);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        return mode_ot_link;
+        endpoint = (WorkCell *)(hard_zero);
+        ASM_KEEP(endpoint);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        return (s32)endpoint;
     }
 }
