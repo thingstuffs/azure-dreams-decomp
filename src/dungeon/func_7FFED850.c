@@ -17,10 +17,7 @@ typedef struct S_8008AFB0_0 {
 } S_8008AFB0_0;   /* &D_800CF720[0] in func_8008AFB0 */
 
 /* Loads a resource into the buffer, freeing entries until enough space is available. */
-s32 func_8008AFB0(s8 resource_kind, s8 resource_group, s16 resource_id, s32 entry_index) {
-    register s32 lookup_kind ASM_REG("$4");
-    register s32 lookup_group ASM_REG("$5");
-    register s32 lookup_id ASM_REG("$6");
+s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 entry_index) {
     s32 entry = entry_index;
     u32 *resource;
     s32 alloc_size;
@@ -30,7 +27,7 @@ s32 func_8008AFB0(s8 resource_kind, s8 resource_group, s16 resource_id, s32 entr
     register s32 capacity;
     s32 used_bytes;
 
-    resource = func_8008AF2C(lookup_kind, lookup_group, lookup_id);
+    resource = func_8008AF2C(resource_kind, resource_group, resource_id);
     block_count = 0;
     if (resource == NULL)
         return block_count;

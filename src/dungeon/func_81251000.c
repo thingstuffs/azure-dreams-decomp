@@ -137,19 +137,19 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
 void BODY_NAME(void *root_data, void *position_out, void *part_out)
 {
     s16 offset[3];
-    void *root = root_data;
-    register void *output_pos ASM_REG("$17") = position_out;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *output_pos = position_out;
     S_81251000_3 *output_part = part_out;
+    S_81251000_2 *source_part;
     S_81251000_1 *owner;
     S_81251000_5 *transform;
     S_81251000_6 *motion_part;
     s8 phase;
 
-    owner = ((S_81251000_0 *)root)->unk_AC;
-    part_out = owner->unk_0C;
+    owner = ((S_81251000_0 *)root_data)->unk_AC;
+    source_part = owner->unk_0C;
     transform = owner->unk_08;
 
-    if (!(((S_81251000_2 *)part_out)->unk_14 & 0x80)) {
+    if (!(source_part->unk_14 & 0x80)) {
         output_part->unk_14 &= 0xFF7F;
     }
 
@@ -159,26 +159,26 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
 
     motion_part = owner->unk_0C;
     if (func_8003DE58(motion_part->unk_08, motion_part, offset,
-                      ((S_81251000_0 *)root)->unk_B6) != 0) {
+                      ((S_81251000_0 *)root_data)->unk_B6) != 0) {
         ((S_81251000_4 *)output_pos)->unk_02 +=
-            (offset[0] + ((S_81251000_0 *)root)->unk_B0) / 2;
+            (offset[0] + ((S_81251000_0 *)root_data)->unk_B0) / 2;
         ((S_81251000_4 *)output_pos)->unk_06 +=
-            (offset[1] + ((S_81251000_0 *)root)->unk_B2) / 2;
+            (offset[1] + ((S_81251000_0 *)root_data)->unk_B2) / 2;
         ((S_81251000_4 *)output_pos)->unk_0A +=
-            (offset[2] + ((S_81251000_0 *)root)->unk_B4) / 2;
-        ((S_81251000_0 *)root)->unk_B0 = offset[0];
-        ((S_81251000_0 *)root)->unk_B2 = offset[1];
-        ((S_81251000_0 *)root)->unk_B4 = offset[2];
+            (offset[2] + ((S_81251000_0 *)root_data)->unk_B4) / 2;
+        ((S_81251000_0 *)root_data)->unk_B0 = offset[0];
+        ((S_81251000_0 *)root_data)->unk_B2 = offset[1];
+        ((S_81251000_0 *)root_data)->unk_B4 = offset[2];
     }
 
     transform = output_part->unk_08;
-    output_part->unk_1C = ((S_81251000_2 *)part_out)->unk_1C;
-    output_part->unk_1E = ((S_81251000_2 *)part_out)->unk_1E;
-    output_part->unk_14 = ((S_81251000_2 *)part_out)->unk_14;
+    output_part->unk_1C = source_part->unk_1C;
+    output_part->unk_1E = source_part->unk_1E;
+    output_part->unk_14 = source_part->unk_14;
     transform->unk_01 &= 0xFE;
 
-    if (((S_81251000_0 *)root)->unk_B6 == 1) {
-        phase = ((S_81251000_2 *)part_out)->unk_04.s8;
+    if (((S_81251000_0 *)root_data)->unk_B6 == 1) {
+        phase = source_part->unk_04.s8;
         if (phase < 8) {
             s32 brightness = (phase * 14) + 0x20;
 
@@ -192,14 +192,14 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
             output_part->unk_0D = brightness;
             output_part->unk_0C = brightness;
         }
-        if (!(((S_81251000_2 *)part_out)->unk_14 & 0x8000) &&
-            ((S_81251000_2 *)part_out)->unk_04.u16 == 0x10C) {
+        if (!(source_part->unk_14 & 0x8000) &&
+            source_part->unk_04.u16 == 0x10C) {
             func_800A56E0(0x709);
         }
     }
 
-    if (((S_81251000_0 *)root)->unk_B6 == 2) {
-        phase = ((S_81251000_2 *)part_out)->unk_04.s8;
+    if (((S_81251000_0 *)root_data)->unk_B6 == 2) {
+        phase = source_part->unk_04.s8;
         if (phase < 8) {
             s32 brightness = ((7 - phase) * 14) + 0x20;
 
@@ -213,15 +213,15 @@ void BODY_NAME(void *root_data, void *position_out, void *part_out)
             output_part->unk_0D = brightness;
             output_part->unk_0C = brightness;
         }
-        if (!(((S_81251000_2 *)part_out)->unk_14 & 0x8000) &&
-            ((S_81251000_2 *)part_out)->unk_04.u16 == 0x104) {
+        if (!(source_part->unk_14 & 0x8000) &&
+            source_part->unk_04.u16 == 0x104) {
             func_800A56E0(0x709);
         }
     }
 
     func_800478B8(output_part);
     if (owner->unk_1E & 0x8000) {
-        ((S_81251000_0_pre *)root)[-1].unk_00 |= 0x8000;
+        ((S_81251000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

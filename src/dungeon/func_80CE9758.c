@@ -143,7 +143,7 @@ void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 
     u32 actor_flags;
     s32 direction_clear;
     register s32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 move_found ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 move_found;
     s32 tile_mask;
     s32 base_angle;
     s16 move_angle;
@@ -370,7 +370,8 @@ loop:
     }
     attempt++;
     angle_offset++;
-    if (attempt < 8) {
+    move_found = attempt < 8;
+    if (move_found) {
         goto loop;
     }
 

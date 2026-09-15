@@ -23,6 +23,28 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Twenty-sixth round, part 2, gated (22 windows MATCH, SLUS SHA-1 MATCH): **7,268 pins in 1,356 rows**. Landed: the
+three sol packs from the observer's finer `attempt_reasons` labels (alloc72 conflict 8 of 12, alloc73 conflict 1 of 5,
+alloc74 preference 5 of 6: 14 of 23 rows, the best register rate this round), the knob-briefed retry experiment
+(probe1 0 of 12, probe2 3 of 12: 12.5% against the ~3% retry baseline; sol's misses say the `pref` knob for a SAVED
+register is hard to supply because the copy it writes is coalesced away before allocation, so the preference never
+forms - a candidate copy must survive regmove/combine, i.e. both values live afterwards), the big-row skeptic's one
+output, and a 5-pin cascade.
+- **Big-row skeptic (astra, 24 minutes, 511 experiments, `work/native_lane/bigrow_skeptic/REPORT.md`):** the belief
+  "the largest rows' pins have no structural cause" is NARROWLY refuted, not overturned: 457 -> 454 pins on the eight
+  rows, one row improved (`dungeon/func_819B3414`, a typed `&grid[i][j]` address written at its consumer instead of two
+  pinned byte-address stages plus an array-decay keep). The other seven are bounded negatives over loop notes,
+  dispatch order, field re-reads, direct call staging and same-register family erasure. Side findings for fidelity:
+  the per-row flags on `818D4E68` (`-fno-cse-skip-blocks`, the pinned text is exact at stock) and `819B3414`
+  (`-fno-strength-reduce`, a loop spelling makes the fewer-pin text exact without it) are redundant / a shape; cell
+  switches under rules 1-2 through `apply_candidates.py --cells`. The typed-grid shape is a family of 5 pinned rows
+  (`819B3414`, `80B471EC`, `80285E80`, `818571BC`, `town/8070DE48`): an opus pack, not a generator.
+- **Where the register family stands after this round:** fresh rows by the paying strata are exhausted (the
+  attempt_reasons pool of 23 is served); 153 served-and-missed 1-3-pin rows carry a one-knob site (the triage in
+  `work/alloc_probe/missed_small/`), of which 24 have been retried at 12.5%; `pref`-on-saved-register sites need a
+  spelling whose copy survives coalescing before they are worth another pack. The rest of the family is big rows
+  (229 rows hold half the pins) and rows two packs have missed.
+
 Twenty-sixth round, part 1, gated (20 windows MATCH, SLUS SHA-1 MATCH): **7,300 pins in 1,359 rows** (8893578f).
 Landed: the CPU search on the 368 rows changed since the last search (`pin_search.py`, 4x budget, 65 minutes, 7 rows /
 10 pins), the six sol register packs alloc66-71 on held-out and fence-carrying rows (16 of 60 rows / 28 pins:

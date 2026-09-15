@@ -131,19 +131,19 @@ void BODY_NAME(void *root_data, void *position_data, void *render_data)
 void BODY_NAME(void *root_data, void *position_data, void *render_data)
 {
     s16 motion_offset[3];
-    void *root = root_data;
-    register void *out_pos ASM_REG("$17") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *out_pos = position_data;
     S_81275000_3 *render_part = render_data;
+    S_81275000_2 *source_pos;
     S_81275000_1 *owner;
     S_81275000_5 *transform;
     S_81275000_6 *motion_part;
     s8 phase;
 
-    owner = ((S_81275000_0 *)root)->unk_AC;
-    position_data = owner->unk_0C;
+    owner = ((S_81275000_0 *)root_data)->unk_AC;
+    source_pos = owner->unk_0C;
     transform = owner->unk_08;
 
-    if (!(((S_81275000_2 *)position_data)->unk_14 & 0x80)) {
+    if (!(source_pos->unk_14 & 0x80)) {
         render_part->unk_14 &= 0xFF7F;
     }
 
@@ -153,26 +153,26 @@ void BODY_NAME(void *root_data, void *position_data, void *render_data)
 
     motion_part = owner->unk_0C;
     if (func_8003DE58(motion_part->unk_08, motion_part, motion_offset,
-                      ((S_81275000_0 *)root)->unk_B6) != 0) {
+                      ((S_81275000_0 *)root_data)->unk_B6) != 0) {
         ((S_81275000_4 *)out_pos)->unk_02 +=
-            (motion_offset[0] + ((S_81275000_0 *)root)->unk_B0) / 2;
+            (motion_offset[0] + ((S_81275000_0 *)root_data)->unk_B0) / 2;
         ((S_81275000_4 *)out_pos)->unk_06 +=
-            (motion_offset[1] + ((S_81275000_0 *)root)->unk_B2) / 2;
+            (motion_offset[1] + ((S_81275000_0 *)root_data)->unk_B2) / 2;
         ((S_81275000_4 *)out_pos)->unk_0A +=
-            (motion_offset[2] + ((S_81275000_0 *)root)->unk_B4) / 2;
-        ((S_81275000_0 *)root)->unk_B0 = motion_offset[0];
-        ((S_81275000_0 *)root)->unk_B2 = motion_offset[1];
-        ((S_81275000_0 *)root)->unk_B4 = motion_offset[2];
+            (motion_offset[2] + ((S_81275000_0 *)root_data)->unk_B4) / 2;
+        ((S_81275000_0 *)root_data)->unk_B0 = motion_offset[0];
+        ((S_81275000_0 *)root_data)->unk_B2 = motion_offset[1];
+        ((S_81275000_0 *)root_data)->unk_B4 = motion_offset[2];
     }
 
     transform = render_part->unk_08;
-    render_part->unk_1C = ((S_81275000_2 *)position_data)->unk_1C;
-    render_part->unk_1E = ((S_81275000_2 *)position_data)->unk_1E;
-    render_part->unk_14 = ((S_81275000_2 *)position_data)->unk_14;
+    render_part->unk_1C = source_pos->unk_1C;
+    render_part->unk_1E = source_pos->unk_1E;
+    render_part->unk_14 = source_pos->unk_14;
     transform->unk_01 &= 0xFE;
 
-    if (((S_81275000_0 *)root)->unk_B6 == 1) {
-        phase = ((S_81275000_2 *)position_data)->unk_04.s8;
+    if (((S_81275000_0 *)root_data)->unk_B6 == 1) {
+        phase = source_pos->unk_04.s8;
         {
             s32 intensity;
 
@@ -185,14 +185,14 @@ void BODY_NAME(void *root_data, void *position_data, void *render_data)
             render_part->unk_0D = intensity;
             render_part->unk_0C = intensity;
         }
-        if (!(((S_81275000_2 *)position_data)->unk_14 & 0x8000) &&
-            ((S_81275000_2 *)position_data)->unk_04.u16 == 0x10C) {
+        if (!(source_pos->unk_14 & 0x8000) &&
+            source_pos->unk_04.u16 == 0x10C) {
             func_800A56E0(0x709);
         }
     }
 
-    if (((S_81275000_0 *)root)->unk_B6 == 2) {
-        phase = ((S_81275000_2 *)position_data)->unk_04.s8;
+    if (((S_81275000_0 *)root_data)->unk_B6 == 2) {
+        phase = source_pos->unk_04.s8;
         {
             s32 intensity;
 
@@ -205,15 +205,15 @@ void BODY_NAME(void *root_data, void *position_data, void *render_data)
             render_part->unk_0D = intensity;
             render_part->unk_0C = intensity;
         }
-        if (!(((S_81275000_2 *)position_data)->unk_14 & 0x8000) &&
-            ((S_81275000_2 *)position_data)->unk_04.u16 == 0x104) {
+        if (!(source_pos->unk_14 & 0x8000) &&
+            source_pos->unk_04.u16 == 0x104) {
             func_800A56E0(0x709);
         }
     }
 
     func_800478B8(render_part);
     if (owner->unk_1E & 0x8000) {
-        ((S_81275000_0_pre *)root)[-1].unk_00 |= 0x8000;
+        ((S_81275000_0_pre *)root_data)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 }

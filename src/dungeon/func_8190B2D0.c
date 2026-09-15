@@ -251,6 +251,7 @@ void func_80024AD0(void *effect_arg, void *motion_arg, void *sprite_arg)
     register u32 source_pos;
     s32 state;
     register S_func_8190B2D0_0 *effect ASM_REG("$19") = effect_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_8190B2D0_3 *target_pos;
     S_func_8190B2D0_4 *motion_or_child = motion_arg;
     S_func_8190B2D0_5 *sprite = sprite_arg;
 
@@ -296,7 +297,6 @@ state1:
         u16 base_z;
         u16 base_height;
         S_func_8190B2D0_6 *target;
-        register S_func_8190B2D0_3 *target_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         S_func_8190B2D0_5 *owner_sprite;
         s32 target_z;
         register s32 height_or_steps ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -382,16 +382,15 @@ state2:
         u8 frames_left;
         register s32 elapsed_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 collision;
-        register S_func_8190B2D0_3 *target_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         particle_index = 0;
-        do {
+        loop_0: {
             s32 particle_shade;
             s32 random_bits = func_80069EF8();
             particle_shade = (random_bits & 0xFF) | 0x80;
             func_80024470((u8 *)effect - 32, effect->unk_7E.s16,
                           0x00202020, particle_shade, 0, 0, 0);
             particle_index++;
-        } while ((s32)particle_index < 4);
+        } if ((s32)particle_index < 4) goto loop_0;
         {
             u16 angle = sprite->unk_1A + 400;
             sprite->unk_1A = angle;
@@ -452,7 +451,6 @@ state2:
 
 state3:
     {
-        register S_func_8190B2D0_3 *target_pos ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         S_func_8190B2D0_3 *child_pos;
         u32 child_data;
         s32 frame;

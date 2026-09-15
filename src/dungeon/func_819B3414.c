@@ -59,19 +59,12 @@ s32 func_80024C14(void *effect_data) {
                     s32 distance;
                     s32 shade;
                     s32 faded_shade;
-                    u16 *vertex_arg = vertex;
                     s32 column_offset = column << 6;
-                    register u8 *screen_column ASM_REG("$3") =
-                        (u8 *)screen_grid + column_offset;
-                    register s32 row_word_offset ASM_REG("$5") = row << 2;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-                    ASM_KEEP_NV(vertex_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    row_word_offset = (u32)screen_column + row_word_offset;
 
                     vertex[0] = *(u16 *)(effect + 0x0c) + column_offset;
                     vertex[1] = *(u16 *)(effect + 0x0e) + row_offset;
                     vertex[2] = *(u16 *)(effect + 0x10);
-                    func_80065420(vertex_arg, (u32 *)row_word_offset,
+                    func_80065420(vertex, &screen_grid[column][row],
                         &depth_cue, &projection_flags);
 
                     vertex[0] -= *(u16 *)(effect + 4);
@@ -151,7 +144,7 @@ s32 func_80024C14(void *effect_data) {
                             color_column = (u8 *)(column_byte_offset + (u32)color_table);
                         }
 
-                        do {
+                        quad_loop: {
                             u8 *quad;
                             u32 first_screen_xy;
                             register void **render_globals ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -226,7 +219,7 @@ s32 func_80024C14(void *effect_data) {
                                     }
                                 }
                             }
-                        } while (column < column_limit && (color_column += 4, 1));
+                        } if (column < column_limit && (color_column += 4, 1)) goto quad_loop;
                     }
                     loop_limit = saved_row_limit;
                     row++;

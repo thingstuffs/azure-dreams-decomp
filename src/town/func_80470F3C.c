@@ -29,9 +29,8 @@ void func_80017F3C(void *unused)
     u32 tail_page;
     register u32 tail_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 end_offset;
-    register s32 tail_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *tail_record;
-    register u8 *end_record ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *end_record;
 
     records = D_8001B218;
     seed_record = D_8001B1C0;
@@ -64,13 +63,13 @@ void func_80017F3C(void *unused)
     record_id = 1;
     plain_base = D_8001B218;
     plain_tag = 0xB;
-    do {
+    loop_1: {
         plain_count = record_count + record_id;
         plain_record = (u8 *)((u32)((plain_count - 1) * 4) + (u32)plain_base);
         plain_record[0] = record_id;
         record_id++;
         plain_record[1] = plain_tag;
-    } while (record_id < 6);
+    } if (record_id < 6) goto loop_1;
 
     record_count = plain_count;
     tail_offset = plain_count * 4;
@@ -85,13 +84,12 @@ void func_80017F3C(void *unused)
     tail_base = (u8 *)(tail_page - 0x4DE8);
     tail_record = (u8 *)(tail_offset + (u32)tail_base);
     ASM_KEEP_NV(tail_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    tail_value = 0x18;
-    tail_record[1] = tail_value;
-    tail_value = 0x20;
-    tail_record[0] = tail_value;
+    end_record = (u8 *)0x18;
+    tail_record[1] = (s32)end_record;
+    end_record = (u8 *)0x20;
+    tail_record[0] = (s32)end_record;
     end_offset = record_count * 4;
     end_record = (u8 *)(end_offset + (u32)tail_base);
-    ASM_KEEP(end_record);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     end_record[1] = 0;
     end_record[0] = 0;
 }
