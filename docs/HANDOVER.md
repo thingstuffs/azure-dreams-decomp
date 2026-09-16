@@ -23,6 +23,49 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Thirty-fourth round (2026-09-16, 15:45-17:40 UTC), gated (7 windows MATCH, SLUS SHA-1 MATCH): **6,148 pins in 1,295 rows**
+(6,181 at start, -33: t69_prologue's new `T69_ADDR_MEMBER` 5 rows / 14 pins - 3 lane rows and 2 more in the forced tree
+sweep; t29_addrsym's new `T29_DEREF_USE` 2 rows / 17 pins; a `T29_SYMDEF` lane output 1 row / 1 pin; the plain t29 sweep
+over the 105 rows it had never seen at their current text 1 row / 1 pin; the cascade 0; non-mips arms identical on all 9
+changed rows). One Workflow, `tools/lanes/workflows/r34_wave.js` (6 opus agents / 1.40M tokens / 118 min: two implementers,
+two adversarial reviewers, two fixes; no runner - the parent swept, landed and gated by the round-29/30 pattern). Lane
+`work/native_lane/r34_wave/` (`report_A.txt`, `report_B.txt`, the reviews, `rows/`). **Read `docs/PIN_MECHANISMS_20260912.md`
+"Round 34"; the verdicts:**
+- **t69's 72 missed rows are not a scheduling residue and no lever moves them (item A, four honest negatives).** The
+  population re-measured (470 pins): MOVED 41 rows - 39 of them the one key `MOVED|3-4|-move,sw +move,sw` - BOTH 25,
+  CHANGED 4, RECOLOURED 2; the colouring half sits at d >= 9 where the round-33 control says an L1 key means nothing.
+  The mechanism, read off the dumps: at `greg`, before sched2 or dbr run, the candidate's prologue is already "the merged
+  parameters' entry copies in parameter order, then the copy that is still a body statement" - the residue is a claim
+  about WHICH copies are parameters, t69's own question. Levers: the T69_TWICE no-fold variant (2 rows, 0); t51 composed
+  on the ordering class (43 of 45 moved insns sit on the function's opening line - the prologue - and t51 has no
+  statement there); `alloc_trace.py` on the colouring class (3 of the 10 bindable sites name an input - a competitor
+  pseudo, a preference - and t53's menus aimed at those inputs reach 0 of 3 nearer); t53 / t37 / decl-reorder / the
+  `register` keyword moved onto the parameter, 0 at 0. The one opening the residues named: t69's `addr-taken` test
+  misread `&v->field` (the address of the pointed-to object) as the address of the variable - `T69_ADDR_MEMBER`, default
+  on, 3 of 72 lane rows / 10 pins under vf and 2 more rows / 4 pins in the forced sweep. The 22 textual rows: nothing
+  one rule away.
+- **The address family (item B): t29's refusal table with the pins behind it, two openings, three negatives, and t54 is
+  not blind.** The table (every switch off): candidates produced and vf refused 177 rows / 436 pins; `symbol-page-def-
+  only` 208 rows / 297 pins (the largest); `non-ram-page-literal` 37 / 58; `operand-context` 19 / 45; `port-arm` 20 / 44;
+  `modified` 5 / 29; `no-uses` 15 / 26; `symbol-decl-init-only` 20 / 23; `not-operand` 9 / 15; `no-decl` 7 / 10.
+  `T29_DEREF_USE` (a use under a `*`, default on): 20 candidate rows, 2 hits / 17 pins (`town/func_800BA42C` 14 -> 0).
+  `T29_SYMDEF` (the largest class opened, a scan stopper like t66's): 164 candidate rows -> 1 hit / 1 pin; stays off,
+  documented so it is not opened a third time - its misses are MOVED / RECOLOURED at 3-4, schedule and allocation, not
+  spelling. `T29_NONRAM` 0 of 37, off. The copy-drop composition on the 97 missed rows: 0 at 0 (1 strictly nearer), a
+  clean negative. t54's 126 `noop` rows are a search miss, not a blind spot: every row has a menu, 4 at t54's own
+  distance 0, and four times the verify budget buys 0 of 40; 88 of the rows / 832 pins carry round 30's
+  address-materialisation residue and t59 reaches 66 of them without exactness - the next lever there is not textual.
+- **The wave's CPU items are exhausted.** Bucket a's two generator classes are read to the end (t69: which copies are
+  parameters; t29/t54: allocation and schedule after the respelling), the t51 class was never a composition target, and
+  the model lanes (step 3c) are what remains - the owner's call on credits. The catalogue's instrument stays as measured.
+- **Round 35 plan:** (1) the model lanes on the rows the instrument cannot explain: packs from the existing builders with
+  the admission rule "unexplained at L1 in the near band, or far band" ranked by pins, sol first, opus on what sol misses,
+  every brief carrying the row's fingerprint (`work/native_lane/r33_catalog/scratch/census_fp2.jsonl`), its nearest
+  catalogue hypotheses (`rows/match3/per_site.jsonl`, with the caveat: a compatible mechanism, not the move), and the
+  measured negatives above so no lane re-derives them; the closed-groups rule per bucket; under 20% is the honest floor.
+  (2) One more widening only if the lanes ask for it (the address and width spellings, 382 reachable near-band pins).
+  (3) The far band needs a different instrument (a per-instruction alignment, or the pass stream), not L1f.
+
 Thirty-third round (2026-09-16, 06:50-15:30 UTC), NOT gated - no landing, no sweep; the tree under src/ is unchanged at
 **6,181 pins in 1,298 rows**. The round built the instrument the round-32 plan asked for (step 1), measured it against the
 tree's own landed history (the text oracle), widened it once where that measurement said it was narrow, and read the

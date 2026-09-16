@@ -137,7 +137,6 @@ void func_80025C80(void *effect_in, void *motion_in, void *sprite_in) {
     void *resident_sprite;
     void *source_data;
     void * source_data_2;
-    register s16 *update_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 *update_ptr;
     s16 *update_y_base;
     s16 *update_y_ptr;
@@ -282,8 +281,7 @@ start_fade:
     goto move_to_tile;
 
 advance_tile:
-    update_base = D_8006CCD8;
-    update_ptr = &update_base[((S_80025C80_0 *)effect_in)->unk_40.s];
+    update_ptr = &D_8006CCD8[((S_80025C80_0 *)effect_in)->unk_40.s];
     update_x = (u16) ((S_80025C80_0 *)effect_in)->unk_3C;
     update_x += ((u16) *update_ptr);
     ((S_80025C80_0 *)effect_in)->unk_3C = update_x;

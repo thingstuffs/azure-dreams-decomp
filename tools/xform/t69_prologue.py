@@ -35,6 +35,8 @@ Openings (env switches; each writes its refusals first and journals an `opened-*
     T69_CAST_COPY=1         the copy is spelled through a cast to the LOCAL'S OWN type
     T69_PIN_BEFORE_COPY=1   the only use before the copy is an ERASABLE pin naming the local alone
     T69_TWICE=1             two locals copy the same parameter: both ARE the parameter
+    T69_ADDR_MEMBER=1       (default ON, round 34)  `&v->field` is the address of the pointed-to
+                            OBJECT, not of the variable; `T69_ADDR_MEMBER=0` closes it again
 """
 import collections
 import itertools
@@ -299,6 +301,48 @@ def _retype_safe(masked, b0, b1, p, pty, lty, surv, macros, skips):
     return True
 
 
+def _address_taken(body, names, skips):
+    """True when an `&` takes the address of one of `names` (a {name: declared type} map).
+
+    The scan is round-31's regex, unchanged, and the loop returns on the FIRST occurrence, so with
+    `T69_ADDR_MEMBER=0` the answer is exactly what `re.search(...)` said: no row's menu, refusal or
+    note moves (proved over all 1,299 pinned rows against the pre-round-34 module).  With the opening
+    on - the default since it paid - ONE form is exempt, `&v->field` on a POINTER: that is the address
+    of the pointed-to OBJECT, computed from the pointer's value, and it leaves the variable itself in a
+    register (gcc never marks it addressable), so the merge is the same C.
+
+    Everything else still refuses, deliberately: a bare `&v`, `&v.field` (part of the variable), `&v[i]`
+    and a bitwise `x & v`, which this regex cannot tell from an address-of and which the refusal
+    therefore keeps.
+
+    Census over the pinned tree (`work/native_lane/r34_wave/scratch/a/addr_census.py` ->
+    `work/native_lane/r34_wave/rows/addr_census.json`, round 34, re-run after review): 16 rows carry
+    the refusal.  Exhaustively - every `&name` occurrence of every
+    scanned (local, parameter) pair, de-duplicated by (row, body, offset, name) - there are 42
+    occurrences, 41 of them the member form and 15 rows member-only; in the unit this loop actually
+    decides by (it returns on the FIRST occurrence of a record) there are 16 occurrences, 15 member and
+    15 member-only.  The counts agree with the identity proof: 16 rows refuse, 15 change their menu
+    with the opening on, and the 16th is the row the single non-member occurrence sits in.
+
+    That one non-member occurrence is NOT a bare `&v`: it is the bitwise AND of
+    `dungeon/func_80094C70` (`(old_flags & flags) - (flags & 0x1100)`).  No bare `&v`, no `&v.field`
+    and no `&v[i]` occurs behind this refusal anywhere in the pinned tree - those three forms are kept
+    refusing on the argument alone, with no row to measure them on, and the bitwise form is the only
+    one the census can show the refusal still earning.
+    """
+    opened = os.getenv("T69_ADDR_MEMBER", "1") == "1"
+    exempt = 0
+    for name, ty in names.items():
+        for m in re.finditer(r"&\s*%s\b" % re.escape(name), body):
+            if opened and "*" in ty and body[m.end():m.end() + 2] == "->":
+                exempt += 1
+                continue
+            return True
+    if exempt:
+        _note(skips, "opened-addr-member")
+    return False
+
+
 def _bare(ty):
     """The declared type without its storage class: `register` is carried, never compared."""
     return re.sub(r"^register\b[ \t]*", "", ty).strip()
@@ -478,7 +522,7 @@ def entry_copies(text, fn, skips=None):
         if _writes(body, p) != 0:
             _note(skips, "param-written")
             continue
-        if re.search(r"&\s*(?:%s|%s)\b" % (re.escape(v), re.escape(p)), body):
+        if _address_taken(body, {v: ty, p: _bare(pnames[p])}, skips):
             _note(skips, "addr-taken")
             continue
         if p in dnames or v in dnames:

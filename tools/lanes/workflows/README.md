@@ -89,3 +89,16 @@ whole-population re-run, the re-match, the oracle re-run with a control column a
 next script is written, and the parent's own fix afterwards (the `__typeof__` declaration scanner) was the only edit not
 made by an agent. Row lists and evidence live in `work/native_lane/r33_catalog/`; rebuild `scratch/census_fp2.jsonl` and
 the catalogues under `work/perturb_catalog/` before reuse (both behind `.ignore`).
+
+## r34_wave.js (round 34, 2026-09-16 evening)
+
+The targeted wave's CPU items, sized by round 33's buckets read against the sweep journals: item A, t69_prologue's 72 rows
+where its candidate was produced and vf refused it, composed with a register or ordering lever; item B, the address family
+(t29_addrsym's refusal table with the pins behind it, its missed candidates composed with a copy drop, t54's `noop` rows
+read for their shape). Two opus implementers in parallel, two adversarial reviewers, two fixes; no runner - the parent
+swept the opened modules over the tree, landed with `land_lanes.sh` and gated once. 6 agents / 1.40M tokens / 118 min.
+Result: four honest negatives on A (the residue is decided at `greg`: which copies are parameters) and one opening
+(`T69_ADDR_MEMBER`, 5 rows / 14 pins tree-wide), two openings and three negatives on B (`T29_DEREF_USE` 2 rows / 17 pins;
+`T29_SYMDEF` 1 pin of 297, off; NONRAM off; the composition 0; t54 not blind); -33 pins. The row lists came from
+`work/native_lane/r33_catalog/rows/match3/` and the parent's journal scan (`r34_wave/rows/wave_*.txt`); rebuild them
+before reuse.

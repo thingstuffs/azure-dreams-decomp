@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80111FA8[];
 
 extern void func_800672D8(void *, void *);
 extern void *D_800893F8[];
@@ -22,7 +23,6 @@ void func_800B7F8C(u16 *anim_tick)
         &&L4
     };
     s32 texture_base;
-    s32 palette_base;
     void *rect;
     register void *upload_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 palette_phase;
@@ -78,33 +78,27 @@ after_first:
     palette_phase = (s16)*anim_tick % 6;
     switch (palette_phase) {
     case 0:
-        palette_base = (s32)0x80110000;
-        ASM_KEEP(palette_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        rect = (void *)(palette_base + 0x1FA8);
+        rect = (void *)D_80111FA8;
         upload_data = D_80111F48;
-        *(u16 *)(palette_base + 0x1FA8) = 16;
+        *(u16 *)D_80111FA8 = 16;
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
         func_800672D8(rect, upload_data);
         return;
     case 2:
-        palette_base = (s32)0x80110000;
-        ASM_KEEP(palette_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        rect = (void *)(palette_base + 0x1FA8);
+        rect = (void *)D_80111FA8;
         upload_data = D_80111F68;
-        *(u16 *)(palette_base + 0x1FA8) = 16;
+        *(u16 *)D_80111FA8 = 16;
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
         func_800672D8(rect, upload_data);
         return;
     case 4:
-        palette_base = (s32)0x80110000;
-        ASM_KEEP(palette_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        rect = (void *)(palette_base + 0x1FA8);
+        rect = (void *)D_80111FA8;
         upload_data = D_80111F88;
-        *(u16 *)(palette_base + 0x1FA8) = 16;
+        *(u16 *)D_80111FA8 = 16;
         ((u16 *)rect)[1] = 449;
         ((u16 *)rect)[2] = 16;
         ((u16 *)rect)[3] = 1;
@@ -113,7 +107,7 @@ after_first:
         return;
     }
 
-    *(u16 *)(palette_base + 0x1FA8) = 16;
+    *(u16 *)D_80111FA8 = 16;
     ((u16 *)rect)[1] = 449;
     ((u16 *)rect)[2] = 16;
     ((u16 *)rect)[3] = 1;

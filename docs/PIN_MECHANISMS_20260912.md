@@ -1835,6 +1835,47 @@ nothing points at a session scratchpad.
   of every landed row were compared before and after both landings (9 + 5 rows carry `__mips__`): none differ. `probe4`'s seven outputs were stale by the time
   the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
 
+## Round 34 (2026-09-16, evening): the wave's CPU items - t69's missed class read to the mechanism, t29's refusal table
+
+Gated: **6,148 pins in 1,295 rows** (-33). One Workflow (`r34_wave.js`, 6 opus agents / 1.40M tokens / 118 min), the
+parent's sweeps, landing and gate. Lane `work/native_lane/r34_wave/`.
+- **The `-move,sw +move,sw` class is decided at global allocation, and it is t69's own question.** On the 72 rows
+  where t69's candidate was produced and vf refused it (the bucket-a rows the journals mark `no candidate exact`): 41
+  MOVED (39 at that one key), 25 BOTH, 4 CHANGED, 2 RECOLOURED. Both texts compiled `-g -da` and the `.dbr` dumps aligned
+  on the insn pattern (`scratch/sched_map2.py`, sched_map's method for two texts): 45 moved insns over 41 rows, 43 of
+  them on the function's opening line - the prologue; and at `greg` the candidate already emits the merged parameters'
+  entry copies in parameter order and the surviving local's copy where its statement is, while retail has three BODY
+  copies in declaration order. The order is wrong before sched2 and dbr run, so no scheduling lever can be the fix;
+  the residue says which copies retail's C had as parameters. Four levers measured, all negative: the T69_TWICE no-fold
+  variant (2 rows change class, 0 at 0); t51's menu composed at the moved statement (t51 has no statement on the opening
+  line: `stmt-not-simple` 44 of 45); `alloc_trace.py` on the colouring class (7 rows / 10 ASM_REG sites pin a register
+  the residue recolours; 3 name an allocator input - a competitor pseudo with a higher priority, an `other-global-
+  preference` - and t53's `wiring` / `order` menus aimed at the competitor reach 0 of 3 nearer); t53 / t37 / a
+  declaration reorder / the `register` keyword moved onto the parameter, 0 at 0. The one opening the residues named:
+  `_address_taken` read `&v->field` as the address of the variable v (it is the address of the pointed-to object), so
+  three rows' copies were refused `addr-taken` - `T69_ADDR_MEMBER`, default on, 3 of 72 / 10 pins, 2 more rows / 4 pins
+  tree-wide. Review: two majors in the report's prose (a "no allocator input named" sentence its own trace file
+  contradicted; a docstring census), both re-measured; 94 tests.
+- **t29's refusal table with the pins behind it** (`t29_addrsym.Detail`, every switch off, whole tree, text only):
+  candidates produced / vf refused 177 rows / 436 pins; `symbol-page-def-only` 208 / 297 (the page is defined only as a
+  symbol - a scan stopper of the same kind as t66's `decl-unparsed`); `non-ram-page-literal` 37 / 58; `operand-context`
+  19 / 45; `port-arm` 20 / 44; `modified` 5 / 29; `no-uses` 15 / 26; `symbol-decl-init-only` 20 / 23; `not-operand` 9 /
+  15; `no-decl` 7 / 10. Opened: `T29_DEREF_USE` (a use under a `*`; default on) 20 candidate rows -> 2 hits / 17 pins
+  (`town/func_800BA42C` 14 -> 0, `func_800BA82C` 8 -> 5, the page literal named as `D_80111FA8`); `T29_SYMDEF` 164
+  candidate rows -> 1 hit / 1 pin, off (its misses are MOVED / RECOLOURED at 3-4: schedule and allocation after the
+  respelling, not spelling); `T29_NONRAM` 0 of 37, off (a scratchpad page spelled as a symbol is farther from retail).
+  The copy-drop composition on t29's 97 missed rows (dropcopy / varset merges / t69's menu on the candidate text): 0 at 0,
+  1 row strictly nearer - clean negative. Review: three majors (the "skip a candidate that removes no pin" filter active
+  at the shipped default changed the sequence put to vf on 10 rows the opening does not apply to; `sym_value` read a
+  bare scalar load `v = D_X;` as an address; a false "no switch removes a candidate" claim), all fixed; 30 tests.
+- **t54's 126 `noop` rows are not a blind spot.** Every one produces a menu; 4 have a candidate at t54's own distance 0;
+  90 exhaust `T54_VERIFY=8`; with `T54_VERIFY=32 T54_COMPILERS=768` over the 40 nearest rows (695 pins): 0 hits. The
+  residue of t54's nearest candidate is round 30's address-materialisation class on 88 rows / 832 pins, and t59 reaches
+  66 of them without exactness. The lever there is not textual.
+- **Bounded this round:** t69's missed class (the greg order of merged entry copies - every register and ordering lever
+  negative), t29's SYMDEF and NONRAM classes, the address x copy-drop composition, t54's budget, and (from round 33's
+  re-match) t51's noop class as a composition target. The wave's CPU items are done; what remains is the model lanes.
+
 ## Round 33 (2026-09-16): the forward perturbation catalogue, the text oracle, one widening, the buckets
 
 No landing; 6,181 pins in 1,298 rows throughout. Three opus Workflows (`tools/lanes/workflows/r33_catalog.js`,

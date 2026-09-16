@@ -659,9 +659,90 @@ class TailOpenings(unittest.TestCase):
         self.assertIn("prologue:f:b", on)
         self.assertNotIn("prologue:f:b", off)
 
-    # --- all three together leave every other menu alone ---------------------------------------
+    # --- D. T69_ADDR_MEMBER: `&v->field` is the object's address, not the variable's ------------
+    # Refusals first: with the opening ON, everything that is not the member form on a pointer still
+    # refuses - a bare `&v`, `&v.field`, and a bitwise `x & v` the scan cannot tell from an address-of.
+    MEMBER = fn("S *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(&a->f);\n" % PIN)
+
+    def test_the_member_address_is_refused_with_the_switch_closed(self):
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "0"}):
+            cands, skips = gen(self.MEMBER)
+        self.assertTrue(skips["addr-taken"])
+        self.assertFalse(skips["opened-addr-member"])
+        self.assertEqual(cands, [])
+
+    def test_the_member_address_opens_by_default(self):
+        # T69_ADDR_MEMBER defaults to 1 (round 34): it paid 3 rows / 10 pins under vf.
+        cands, skips = gen(self.MEMBER)
+        self.assertTrue(skips["opened-addr-member"])
+        self.assertEqual([l for l, _ in cands], ["prologue:f:a"])
+
+    def test_the_member_address_opens_on_request(self):
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+            cands, skips = gen(self.MEMBER)
+        self.assertTrue(skips["opened-addr-member"])
+        self.assertFalse(skips["addr-taken"])
+        self.assertEqual([l for l, _ in cands], ["prologue:f:a"])
+        best = cands[0][1]
+        self.assertIn("void f(S *a)", best)
+        self.assertIn("g(&a->f);", best)                    # the member address itself is untouched
+        self.assertEqual(len(sites_of(best)), 0)
+
+    def test_the_member_address_on_the_parameter_opens_too(self):
+        t = fn("S *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(&a_in->f);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["opened-addr-member"])
+        self.assertEqual([l for l, _ in cands], ["prologue:f:a"])
+
+    def test_a_bare_address_still_refuses_with_the_opening_on(self):
+        t = fn("S *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(&a);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["addr-taken"])
+        self.assertFalse(skips["opened-addr-member"])
+        self.assertEqual(cands, [])
+
+    def test_a_bitwise_and_still_refuses_with_the_opening_on(self):
+        # `flags & a` is not an address-of, but this scan cannot tell: the refusal stays conservative.
+        t = fn("S *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(flags & a);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["addr-taken"])
+        self.assertEqual(cands, [])
+
+    def test_a_member_address_on_a_scalar_local_still_refuses(self):
+        # `&v.field` is part of the VARIABLE: only a pointer's `->` is the pointed-to object.
+        t = fn("S a_in", "    S a = a_in;\n    ASM_KEEP(a);%s\n    g(&a.f);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["addr-taken"])
+        self.assertEqual(cands, [])
+
+    def test_an_element_address_still_refuses(self):
+        # `&v[i]` on a pointer is also the object's address, but no pinned row has the form: closed.
+        t = fn("S *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(&a[2]);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["addr-taken"])
+        self.assertEqual(cands, [])
+
+    def test_the_member_opening_does_not_change_a_menu_without_its_shape(self):
+        # T69_ADDR_MEMBER defaults ON, so this comparison has to set BOTH sides explicitly.
+        for t in (TWO, DECLINIT,
+                  fn("void *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN),
+                  fn("void *a_in", "    register void *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)):
+            with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "0"}):
+                off = gen(t)
+            with mock.patch.dict(os.environ, {"T69_ADDR_MEMBER": "1"}):
+                on = gen(t)
+            self.assertEqual(off[0], on[0])
+            self.assertEqual(dict(off[1]), dict(on[1]))
+
+    # --- all four together leave every other menu alone ----------------------------------------
     def test_the_three_openings_do_not_change_a_menu_without_their_shapes(self):
-        env = {"T69_CAST_COPY": "1", "T69_PIN_BEFORE_COPY": "1", "T69_TWICE": "1"}
+        env = {"T69_CAST_COPY": "1", "T69_PIN_BEFORE_COPY": "1", "T69_TWICE": "1",
+               "T69_ADDR_MEMBER": "1"}
         for t in (TWO, DECLINIT,
                   fn("void *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n    h(a_in, 1);\n" % PIN),
                   fn("void *a_in", "    register void *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)):

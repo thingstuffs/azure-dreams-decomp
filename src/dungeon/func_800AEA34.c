@@ -45,10 +45,8 @@ extern s16 func_800A9400(s16);
 extern void func_800B4C7C(s32, void *, s32, s32);
 extern s32 func_800C8980(Entity800B4194 *, s32, s32);
 extern s32 func_800C8C1C(Entity800B4194 *, s32, s32);
-s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
+s32 func_800B4194(s16 arg0, Entity800B4194 *entityp, Context800B4194 *contextp)
 {
-  Entity800B4194 *entityp = entity;
-  Context800B4194 *contextp;
   s16 blocked;
   s32 total;
   s32 flag;
@@ -60,9 +58,6 @@ s32 func_800B4194(s16 arg0, Entity800B4194 *entity, Context800B4194 *context)
   s16 range;
   u8 *event;
   s16 value;
-  ASM_KEEP_NV(entityp);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  contextp = context;
-  ASM_KEEP_NV(contextp);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   code = func_800A9400(arg0);
   total = entityp->value28 + entityp->value64;
   flag = total < 1;
