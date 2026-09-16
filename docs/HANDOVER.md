@@ -23,14 +23,39 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
-Thirty-first round (2026-09-16) - IN PROGRESS at the time of writing; if this paragraph is still here, the round did not
-close: check `git log`, `work/native_lane/r31_prologue/REPORT.md`, and land what is exact (`tools/lanes/land_lanes.sh`).
-Measured first, recorded in `docs/PIN_MECHANISMS_20260912.md` "Round 31": no packs (the pool's dry-runs admit 0-2 rows), the
-fresh census, t51's reach on the 402 sched-moved sites (a single statement move fixes 0 of 60; the body class is a region
-reschedule), and `tools/lanes/sched_map.py` (the `-g` line-note mapping of every moved insn to its C statement), whose one
-coherent class is the PROLOGUE: 89 sites / 65 rows where a body statement's instructions exchange order with the `$sp`
-adjust or a callee-saved store at sched2 or dbr. Running: opus Workflow `tools/lanes/workflows/r31_prologue.js` (one item:
-the mechanism on 20 sites with the dumps, then the C lever, opened in t40 or built as t69).
+Thirty-first round (2026-09-16), gated (22 windows MATCH, SLUS SHA-1 MATCH): **6,201 pins in 1,301 rows** (6,264 at start, -63: `t69_prologue` 8 lane
+outputs / 24 pins + 8 pins / 7 rows in the tree sweep, `t64_varset` re-swept over the rows changed since round 29 4 rows / 6 pins,
+the cascade t53k 6, t16 4, t63 3, t53 1, t59 1). The owner: "progress is real. Start the next phase", and on the workflow's interim result: "any
+mechanism looking at one pin at a time may miss the whole picture ... something to ponder over other pin mechanisms".
+**Read `docs/PIN_MECHANISMS_20260912.md` "Round 31"; the verdicts:**
+- **The census maps residues to C now.** `tools/lanes/sched_map.py` compiles both texts with `-g -da` (gcc 2.x keeps its
+  line notes in every dump under `-g`), so each insn whose order changed maps to its C statement and the statements it
+  crossed, classified with t51's own tests. In seconds it showed the body scheduling class is a region reschedule (312 of
+  402 sites move three or more insns; a single statement move reaches 0 on 0 of 60 sites where t51's tests allow it) and
+  isolated the one coherent class, the PROLOGUE: 89 sites / 65 rows.
+- **The mechanism was one pass earlier than the census said, and the lever only works jointly.** sched1's
+  `adjust_priority` promotes a single-set producer; `ASM_KEEP(x)` is a second set of x, so m2c's entry copy `x = x_arg;`
+  stays put until the keep goes. Dropping the redundant parameter copies is the honest C - retail's parameter IS x - but
+  dropping one of four screens at 132 where all four screen at 0. `t69_prologue` (every subset, most pins first): 8 of 45
+  rows / 24 pins, held-out 0 of 20, 47% of the rows that produce a candidate; 5 more rows in the tree sweep.
+- **The joint-move lesson, generalised (the owner's question).** Every generator that ranks one-site moves by screen
+  distance (`dropcopy`, t64's moves, t51, t53) sits in that valley; the ones that try the family together (t36's joint
+  widening, t57's all-sites form, t62, t63's groups, t69) are the ones that paid. Recorded as a LANE_KIT rule; the next
+  round measures it before building: one candidate per move kind that applies the move to every eligible site at once,
+  screened beside the singles on the near band.
+- **Bounded this round:** no packs (the pool's dry-runs admit 0-2 rows; the KEEP pool 12 rows on a 4% family); the early
+  moved class (cse/loop/combine) is substitution not reorder (350 of 384 sites show no order change); the remaining
+  operation-change residues have no pattern above 36 sites; t51's own menu reaches 0 on 1 of 402 sched sites.
+- **Model usage this round:** one opus Workflow `r31_prologue.js` 3 agents / 613k subagent tokens / 86 min (implementer ->
+  adversarial reviewer -> fix; two majors and five smaller holes fixed at zero cost to the outputs; the harness refused
+  the subagents' REPORT.md writes, the parent assembled the report from the returned text); no codex lanes, no
+  astra/luna/agy. CPU: the census chain ~10 min, `sched_map` 9 s x 3, t51's reach 81 s, the t64 re-sweep 18 min, the t69
+  sweep 55 s, one gate. Day total across rounds 28-31: five opus workflows 5.85M subagent tokens.
+- **Next, in order:** (1) the family-mode measurement above, on the near band, per generator (dropcopy and t64's
+  inline/retype first: the largest populations), then the family mode built into whichever pays; (2) t69's own refusal
+  table over the tree (`rows/tree_scan_after.txt`: `no-entry-copy`, `retype-*`, `macro-name-collision` - which refusal
+  has the most pins behind it and is a spelling); (3) the 37 "another mechanism" sites of the prologue class and the 12
+  SCHED_BARRIER fences among them stay with the fence family; (4) packs only from `pools.py` - nothing is admissible now.
 
 Thirtieth round (2026-09-15, evening), gated (64 windows MATCH, SLUS SHA-1 MATCH): **6,264 pins in 1,303 rows** (6,473 at start, -209: the
 `t66_sameregmerge` openings v3 through the forced tree sweep 148 pins / 73 evaluation outputs + 32 pins / 11 rows more in the forced tree sweep with `T66_TRY_INTERFERENCE=1`, `t59_offsetsym` opened 4 pins / 3 rows (the forced sweep added none), the two sol packs 6 rows /

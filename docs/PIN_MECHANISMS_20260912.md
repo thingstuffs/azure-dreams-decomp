@@ -1890,6 +1890,11 @@ Measured first (CPU, before any tool was commissioned; the owner: "progress is r
   scalar-vs-pointer refused), 59 tests; the fixes cost none of the 8 outputs. The owner's reading of the joint result -
   "any mechanism looking at one pin at a time may miss the whole picture" - is now a LANE_KIT rule and the next round's
   first measurement (a family mode per generator, measured on the near band before it is built).
+- **Landed and gated** (22 windows MATCH, SLUS SHA-1 MATCH; non-mips arms identical on all 17 changed rows): **6,201 pins
+  in 1,301 rows**, from 6,264 (-63): t69's 8 outputs 24 pins (34 with the cascade on the same rows), its tree sweep 8
+  pins / 7 rows, t64's re-sweep 6 / 4, the cascade t53k 6, t16 4, t63 3, t53 1, t59 1. `t69_prologue` joins the permanent
+  cascade list (55 s for the whole tree). The day, rounds 28-31: 7,206 -> 6,201 (-1,005), five opus workflows 5.85M
+  subagent tokens, four sol packs.
 
 ## Round 30 (2026-09-15, evening): the lone-erasure census, t66's remaining refusals, the address class
 
