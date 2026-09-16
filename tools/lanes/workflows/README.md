@@ -40,3 +40,16 @@ t54/t59: one mechanism at every cell (cse `fold_rtx` folds the kept page plus th
 the repair is "name the symbol"; four openings of `t59_offsetsym`, 3 rows / 4 pins of 100, the remainder is the
 scheduling class after respelling; three majors fixed (braceless control flow, a whole-line replacement span,
 the keep-gap loop without a structural test), 75 tests. Usage: 6 agents / 1.46M subagent tokens / 142 min.
+
+## r31_prologue.js (round 31, 2026-09-16)
+
+One item, implementer -> adversarial reviewer -> fix, opus at effort high: the PROLOGUE scheduling class that
+`tools/lanes/sched_map.py` isolated (89 sites / 65 rows where a body statement's instructions exchange order with the
+`$sp` adjust or a callee-saved store). The brief carried the site list, five listing diffs read in context, and the
+priority hypothesis; the implementer found the mechanism one pass earlier than the census said (sched1's
+`adjust_priority` -> `birthing_insn_p`: a single-set producer is promoted to LAUNCH_PRIORITY, and `ASM_KEEP(x)` is a
+second set of x) and the lever: a function's redundant m2c parameter copies dropped TOGETHER - one of four leaves the
+listing 132 lines away, all four reach 0, which is why one-copy-at-a-time `dropcopy` never saw it. `t69_prologue`: 8 of
+45 rows / 24 pins, held-out 0 of 20; the reviewer's two majors (directive lines rewritten, a retype without a use guard)
+fixed with 25 new tests. The harness refused the subagents' REPORT.md writes; the parent assembled the report from the
+returned text. Usage: 3 agents / 613k subagent tokens / 86 min.

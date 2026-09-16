@@ -78,6 +78,16 @@ verdict on its whole population before composing a work-around. Landing pattern 
 first (all fresh), then the forced tree sweep of the opened module (two passes), then `land_lanes.sh` for the cascade and the
 one gate; the arm check on every changed row before the commit.
 
+Round 31 added `sched_map.py` (every scheduling residue mapped to its C statement through `-g` line notes and classified
+with t51's own tests - a class table in seconds, the prologue class from it) and one lesson the owner named first: **a
+move that only works jointly is invisible to every one-site-at-a-time generator ranked by screen distance**. Dropping one
+of four parameter copies screens at 132 where dropping all four screens at 0, so `dropcopy` (one copy per candidate),
+t64's per-definition moves, t51's single statement moves and t53's per-site rewrites all sit in that valley, while the
+generators that try the family jointly (t36's joint widening, t57's all-sites form, t62's family erasure, t63's grouped
+flips, now t69) are the ones that paid. Before building a family mode into a generator, measure it: one candidate per
+move kind that applies the move to every eligible site of the function at once, screened beside the singles on the near
+band, counting sites where the joint form reaches 0 and no single does.
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`
