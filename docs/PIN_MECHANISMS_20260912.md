@@ -1835,6 +1835,33 @@ nothing points at a session scratchpad.
   of every landed row were compared before and after both landings (9 + 5 rows carry `__mips__`): none differ. `probe4`'s seven outputs were stale by the time
   the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
 
+## Round 31 (2026-09-16): the scheduling residue mapped to C
+
+Measured first (CPU, before any tool was commissioned; the owner: "progress is real. Start the next phase"):
+- **Packs**: the pool's remaining REG strata admit nothing worth a lane - `build_alloc_lanes.py --dry-run` on the unserved
+  alloc4 rows 0 admitted, alloc3 2; `build_probe_lanes` refused the same rows in round 30 (no knob-sufficient site); the
+  KEEP pool (`build_keep_lanes.py --dry-run --max-residue 2`) offers 12 rows on a family whose lanes pay 4%. No packs this
+  round; do not rerun the dry-runs.
+- **The census, fresh on the landed tree** (`erase_census.py --diff 4`, 23 s): 6,271 sites, near band 2,092 (d0 1-4),
+  moved 980 / recoloured 425 / ops 666 / same-ops 21. The moved class by first differing pass: sched 271, dbr 186, cse 149,
+  sched2 131, combine 116, loop 95, rtl 24 - `work/native_lane/r31_sched/rows/{sched,dbr,early}_sites.tsv`.
+- **t51's reach on the 402 sched-moved sites** (its own `candidates()` at the site, up to 64 screened per site): a
+  distance-0 candidate on 1 site (unverified), nearest at 2 on 235, at 4 on 161; the nearest is `commute` or `fuse`
+  far more often than `move`. **The single statement move never fixes a sched site**: on 60 sites where t51's own
+  independence test allows the move that the residue names, 0 reach distance 0 (23 stop at 2, 26 at 4, 7 offer no such
+  move), and 312 of the 402 sites move three or more instructions. The body class is a region reschedule - the round-16
+  and round-27 verdict a third time, now per site - and a t51 refusal table would not change it.
+- **`tools/lanes/sched_map.py`** (new): both texts compiled with `-g -da`, which keeps gcc 2.x's line notes in every dump,
+  so the insns whose relative order changed map to C lines; each moved insn is classified with t51's own tests. Body
+  sched sites (329) by lead reason: independent 105, stmt-not-simple 99 (a control line, a bare block, a multi-line
+  statement), dep-mem 44 (two memory statements - t51 never reorders those; t63's flips are the honest lever there),
+  crossed-not-simple 33, dep-data 17, same-statement 12. **The one coherent class the mapping found is the PROLOGUE: 89
+  sites in 65 rows (893 pins in those rows)** where the insn exchanged with the body is the function's `$sp` adjust (74) or
+  a callee-saved store (15), at sched2 (53: KEEP 36, KEEP_NV 8, SCHED_BARRIER 7) or moved into a delay slot at dbr (36:
+  KEEP 19, REG 5, SCHED_BARRIER 5). 87 of the 89 pins sit nine or more lines below the function's first body line: the
+  pin is not at the top; it holds an ordinary statement whose instructions the second scheduler would otherwise lift
+  above the stack adjust. That is round 31's workflow item (`work/native_lane/r31_prologue/rows/`).
+
 ## Round 30 (2026-09-15, evening): the lone-erasure census, t66's remaining refusals, the address class
 
 Measured first (CPU, before any tool was commissioned):

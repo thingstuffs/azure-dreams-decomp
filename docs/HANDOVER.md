@@ -23,6 +23,15 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Thirty-first round (2026-09-16) - IN PROGRESS at the time of writing; if this paragraph is still here, the round did not
+close: check `git log`, `work/native_lane/r31_prologue/REPORT.md`, and land what is exact (`tools/lanes/land_lanes.sh`).
+Measured first, recorded in `docs/PIN_MECHANISMS_20260912.md` "Round 31": no packs (the pool's dry-runs admit 0-2 rows), the
+fresh census, t51's reach on the 402 sched-moved sites (a single statement move fixes 0 of 60; the body class is a region
+reschedule), and `tools/lanes/sched_map.py` (the `-g` line-note mapping of every moved insn to its C statement), whose one
+coherent class is the PROLOGUE: 89 sites / 65 rows where a body statement's instructions exchange order with the `$sp`
+adjust or a callee-saved store at sched2 or dbr. Running: opus Workflow `tools/lanes/workflows/r31_prologue.js` (one item:
+the mechanism on 20 sites with the dumps, then the C lever, opened in t40 or built as t69).
+
 Thirtieth round (2026-09-15, evening), gated (64 windows MATCH, SLUS SHA-1 MATCH): **6,264 pins in 1,303 rows** (6,473 at start, -209: the
 `t66_sameregmerge` openings v3 through the forced tree sweep 148 pins / 73 evaluation outputs + 32 pins / 11 rows more in the forced tree sweep with `T66_TRY_INTERFERENCE=1`, `t59_offsetsym` opened 4 pins / 3 rows (the forced sweep added none), the two sol packs 6 rows /
 8 pins, the cascades). The owner's standing instruction: continue the approach and next steps, keep evaluating what works and
