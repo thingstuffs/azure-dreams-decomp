@@ -67,12 +67,18 @@ two adversarial reviewers, two fixes; no runner - the parent swept, landed and g
   55 pins; 521 far rows / 1,147 pins, 405 served, 99 closed -> 17 / 52. With `--ignore-closed` 44 / 147 near and 116 /
   206 far; with `--repack` 81 / 364 and 221 / 548. Two 12-row packs written: `work/native_lane/catalog_near1` (52 pins;
   each row's sites with fingerprint, top causes labelled "a compatible mechanism, not the move", the round-33/34
-  negatives) and `catalog_far1` (47 pins; no cause named, classes only). **`catalog_near1` was launched on sol at 18:20
-  UTC** (`launch_lane.sh catalog_near1 sol`, PID in `lane.pid`; wait with `kill -0`, never gate or sweep while it
-  scores; harvest with `bash tools/lanes/land_lanes.sh r35 catalog_near1` then the arm check and one gate).
-  `catalog_far1` is built and NOT launched: the far band is where the catalogue says nothing, so its brief is thin -
-  the owner decides whether to spend sol there (`bash tools/lanes/launch_lane.sh catalog_far1 sol`). Read the closed-groups
-  rule per bucket after both: if the near pack pays under 20%, the unexplained near band joins the honest floor.
+  negatives) and `catalog_far1` (47 pins; no cause named, classes only). **`catalog_near1` ran on sol (18:20-18:55 UTC):
+  0 of 12 exact - an honest negative, recorded in `ledger/lanes.jsonl`.** Every row was attempted with two to nine
+  candidates (`work/native_lane/catalog_near1/REPORT.md`, "Final measurements"): best residues of ONE word on four rows
+  (`town/func_800A4978`, `func_800BB264`, `func_8046C048`, `dungeon/func_8099F0B4`), 3-9 on the rest; one row's site
+  is assembler-invisible (`slus/w_80041CBC`). The lane's rule, which agrees with the catalogue's from the other side:
+  these rows concentrate where a pin preserves an equality the optimiser would otherwise exploit (zero vs a copied
+  zero, two registers holding one parameter, a page vs its derived base, a staged argument vs its saved copy) - a
+  copy-propagation / register-suggestion wall that no respelling crosses, and equal-multiset moved pairs are schedule
+  walls that need a region dependence, not a statement swap. Under the plan's own rule (a bucket paying under 20% is
+  the honest floor), **the unexplained near band on this pool is part of the floor.** `catalog_far1` is built and NOT
+  launched (`bash tools/lanes/launch_lane.sh catalog_far1 sol` if the owner wants the far-band measurement; the near
+  result says to expect 0-1 of 12). No landing, no gate after 5a38ee62.
 - **Round 35 plan:** (1) the model lanes on the rows the instrument cannot explain: packs from the existing builders with
   the admission rule "unexplained at L1 in the near band, or far band" ranked by pins, sol first, opus on what sol misses,
   every brief carrying the row's fingerprint (`work/native_lane/r33_catalog/scratch/census_fp2.jsonl`), its nearest

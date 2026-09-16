@@ -1880,7 +1880,12 @@ parent's sweeps, landing and gate. Lane `work/native_lane/r34_wave/`.
   near and 405 of the far rows were served by earlier lanes, and the closed-group rule takes 29 and 99 more - 15 near rows
   / 55 pins and 17 far / 52 unserved and open. The wave the plan imagined on "unexplained rows ranked by pins" is two
   12-row packs; beyond them every pack is a retry (`--repack`, 3% historically) or a deliberate measurement on a closed
-  group. `catalog_near1` went to sol; `catalog_far1` is built, unlaunched.
+  group. `catalog_near1` went to sol: **0 of 12** (35 min, two to nine candidates a row, best residue one word on four
+  rows) - the lane's own rule is the catalogue's from the other side: the pin preserves an equality the optimiser
+  would exploit (a copied zero, two registers holding one parameter, a page vs its base, a staged argument vs its
+  saved copy), a copy-propagation / suggestion wall no spelling crosses; equal-multiset moved pairs are schedule walls
+  needing a region dependence. By the plan's rule the unexplained near band on this pool is the honest floor.
+  `catalog_far1` is built, unlaunched.
 
 ## Round 33 (2026-09-16): the forward perturbation catalogue, the text oracle, one widening, the buckets
 
