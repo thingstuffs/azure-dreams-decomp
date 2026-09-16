@@ -22,10 +22,7 @@ void func_800B7B8C(u16 *anim_tick, s32 unused, s32 upload_arg) {
     u16 next_tick;
     s16 phase;
     s32 dispatch_index;
-    s32 palette_rect_base;
-    s32 texture_rect_base;
     s16 *rect;
-    u8 *pixels;
     s32 tile_width;
     static void *const keepalive[] = { &&L0, &&L4, &&L8, &&L12 };
 
@@ -43,10 +40,8 @@ void func_800B7B8C(u16 *anim_tick, s32 unused, s32 upload_arg) {
     goto *D_80089348[dispatch_index];
 
 L0:
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x328;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0x328;
     rect[1] = 0x80;
     rect[2] = 8;
     rect[3] = 0x20;
@@ -54,10 +49,8 @@ L0:
     goto Lafter_first;
 
 L4:
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x328;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0x328;
     rect[1] = 0x80;
     rect[2] = 8;
     rect[3] = 0x20;
@@ -65,10 +58,8 @@ L4:
     goto Lafter_first;
 
 L8:
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x328;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0x328;
     rect[1] = 0x80;
     rect[2] = 8;
     rect[3] = 0x20;
@@ -76,11 +67,9 @@ L8:
     goto Lafter_first;
 
 L12:
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
+    rect = (s16 *)D_80111FA8;
 
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x328;
+    *(s16 *)D_80111FA8 = 0x328;
     rect[1] = 0x80;
     rect[2] = 8;
     rect[3] = 0x20;
@@ -107,10 +96,8 @@ Lafter_first:
     goto Lafter_second;
 
 Lsecond_0:
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    *(volatile s16 *)(texture_rect_base + 0x1FA8) = 0x330;
+    rect = (s16 *)D_80111FA8;
+    *(volatile s16 *)D_80111FA8 = 0x330;
     ((volatile s16 *)rect)[1] = 0x80;
     ((volatile s16 *)rect)[2] = 8;
     rect[3] = 0x20;
@@ -118,52 +105,39 @@ Lsecond_0:
     goto Lafter_second;
 
 Lsecond_4:
-    pixels = (u8 *)0x80110000;
-    ASM_KEEP(pixels);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    pixels += 0x18C8;
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x330;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0x330;
     rect[1] = 0x80;
     rect[2] = 8;
        /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     rect[3] = 0x20;
-    func_800672D8(rect, pixels);
+    func_800672D8(rect, D_801118C8);
     goto Lafter_second;
 
 Lsecond_8:
-    pixels = (u8 *)0x80110000;
-    ASM_KEEP(pixels);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    pixels += 0x1AC8;
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x330;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0x330;
     rect[1] = 0x80;
     {
         s32 tile_height;
         tile_height = 0x20;
         rect[2] = tile_width;
         rect[3] = tile_height;
-        func_800672D8(rect, pixels);
+        func_800672D8(rect, D_80111AC8);
     }
     goto Lafter_second;
 
 Lsecond_12:
-    texture_rect_base = 0x80110000;
-    ASM_KEEP(texture_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(texture_rect_base + 0x1FA8);
-    pixels = D_80111CC8;
+    rect = (s16 *)D_80111FA8;
 
-    *(s16 *)(texture_rect_base + 0x1FA8) = 0x330;
+    *(s16 *)D_80111FA8 = 0x330;
     rect[1] = 0x80;
     {
         s32 tile_height;
         tile_height = 0x20;
         rect[2] = tile_width;
         rect[3] = tile_height;
-        func_800672D8(rect, pixels);
+        func_800672D8(rect, D_80111CC8);
     }
     goto Lafter_second;
 
@@ -188,10 +162,8 @@ Lafter_second:
     return;
 
 Lthird_0:
-    palette_rect_base = 0x80110000;
-    ASM_KEEP(palette_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(palette_rect_base + 0x1FA8);
-    *(s16 *)(palette_rect_base + 0x1FA8) = 0;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0;
     rect[1] = 0x1FB;
     rect[2] = 0x10;
     rect[3] = 1;
@@ -199,10 +171,8 @@ Lthird_0:
     return;
 
 Lthird_2:
-    palette_rect_base = 0x80110000;
-    ASM_KEEP(palette_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(palette_rect_base + 0x1FA8);
-    *(s16 *)(palette_rect_base + 0x1FA8) = 0;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0;
     rect[1] = 0x1FB;
     rect[2] = 0x10;
     rect[3] = 1;
@@ -210,10 +180,8 @@ Lthird_2:
     return;
 
 Lthird_4:
-    palette_rect_base = 0x80110000;
-    ASM_KEEP(palette_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(palette_rect_base + 0x1FA8);
-    *(s16 *)(palette_rect_base + 0x1FA8) = 0;
+    rect = (s16 *)D_80111FA8;
+    *(s16 *)D_80111FA8 = 0;
     rect[1] = 0x1FB;
     rect[2] = 0x10;
     rect[3] = 1;
@@ -221,11 +189,9 @@ Lthird_4:
     return;
 
 Lthird_6:
-    palette_rect_base = 0x80110000;
-    ASM_KEEP(palette_rect_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    rect = (s16 *)(palette_rect_base + 0x1FA8);
+    rect = (s16 *)D_80111FA8;
 
-    *(s16 *)(palette_rect_base + 0x1FA8) = 0;
+    *(s16 *)D_80111FA8 = 0;
     rect[1] = 0x1FB;
     rect[2] = 0x10;
     rect[3] = 1;

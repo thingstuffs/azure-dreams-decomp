@@ -84,12 +84,9 @@ extern void func_80024428();
 extern void func_80024060();
 
 /* Moves toward a linked object or a reachable cell, then runs the arrival effects. */
-void func_80024AE4(Controller *controller, Motion *motion_arg, void *render_arg)
+void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
 {
-    register Controller *ctrl ASM_REG("$19") = controller;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register Motion *motion ASM_REG("$22") = motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *root;
-    register void *render_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     RootPrefix *prefix;
     Lookup *lookup;
     Motion *root_motion;
@@ -113,7 +110,6 @@ void func_80024AE4(Controller *controller, Motion *motion_arg, void *render_arg)
     state = ctrl->state;
     root = ctrl->root;
     ctrl->timer = elapsed + 1;
-    render_data = render_arg;
     switch (state) {
     case 0:
         ctrl->timer = 0;
@@ -310,7 +306,6 @@ advance:
         motion->y.val += motion->dy.val;
         motion->z.val += motion->dz.val;
         func_800246D8(ctrl, render_data);
-        ASM_KEEP(ctrl);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         if (ctrl->timer < 15) {
             goto finish;
         }

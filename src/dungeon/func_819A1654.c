@@ -165,11 +165,8 @@ extern void func_80045340(void);
 
 
 /* Advance the entity effect sequence, spawning particles and trails before cleanup. */
-void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) {
+void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     PointTable points;
-    Entity *entity = entity_arg;
-    void *saved_context = effect_context;
-    void *saved_data = effect_data;
     register Task *task ASM_REG("$18");
     register Effect *effect ASM_REG("$17");
     register Sprite *sprite ASM_REG("$16");
@@ -193,7 +190,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
 
     copy_page = (u8 *)0x80020000;
     ASM_KEEP(copy_page);
-    ASM_KEEP(entity);
     copy_source = copy_page + 0x4054;
     ASM_KEEP(copy_source);
     *(Blob12 *)&points = *(Blob12 *)copy_source;
@@ -310,7 +306,6 @@ void func_80024E54(Entity *entity_arg, void *effect_context, void *effect_data) 
                         sprite->data = task->data;
                         ASM_KEEP(task);
                     }
-                    ASM_KEEP(saved_context);
                     spawn_index++;
                 } while (spawn_index < 10);
             }
@@ -781,5 +776,4 @@ cleanup:
     switch_end:
         (void)switch_keepalive;
     }
-    ASM_KEEP(saved_data);
 }

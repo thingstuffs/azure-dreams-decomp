@@ -59,17 +59,14 @@ extern s32 func_80240810(void *, Motion *, void *, void *);
 extern void func_8023FB18(void *);
 extern void func_80529650(void) __attribute__((noreturn));
 
-void func_80529594(State *state, Motion *motion, Actor *actor)
+void func_80529594(State *st, Motion *mot, Actor *actor)
 {
-    State *st = state;
-    Motion *mot = motion;
     Actor *act = actor;
     Entity *entity;
     register s32 dispatch_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Vec3 choices;
     s32 value;
 
-    ASM_KEEP(st);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity = st->entity;
     choices = D_80526448;
 
