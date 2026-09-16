@@ -136,6 +136,56 @@ class Families(unittest.TestCase):
                                "lw $2,0($17)", "jr $31"])
         self.assertTrue(fp["L1"].startswith(fp["L0"] + "|"))
         self.assertTrue(fp["L2"].startswith(fp["L1"] + "|"))
+        self.assertTrue(fp["L1f"].startswith(fp["L0"] + "|"))
+
+
+# --------------------------------------------------------------------------- L1f (the far band)
+
+class L1fKey(unittest.TestCase):
+    def test_the_family_set_is_the_tail(self):
+        fp = R.fingerprint(A, ["addiu $sp,$sp,-24", "sw $31,20($sp)", "move $17,$4",
+                               "lw $2,0($17)", "jr $31"])
+        self.assertEqual(fp["cls"], "RECOLOURED")
+        self.assertEqual(fp["regfam"], [["s", "s"]])
+        self.assertEqual(fp["L1f"], "RECOLOURED|3-4|s")
+
+    def test_each_family_counts_once_and_both_sides_count(self):
+        self.assertEqual(R.famset([["s", "s"], ["s", "s"]]), "s")
+        self.assertEqual(R.famset([["a", "t"], ["t", "a"]]), "a,t")
+        self.assertEqual(R.famset([["t", "a"], ["v", "a"]]), "a,t,v")
+        self.assertEqual(R.famset([]), "")
+
+    def test_it_does_not_grow_with_the_diff_s_length(self):
+        # L1's `far:` shape is a per-function signature beyond d = 4; L1f's tail is bounded by the
+        # twelve register families however long the residue is
+        ref = ["move $%d,$4" % (16 + i) for i in range(12)]
+        cand = ["move $%d,$5" % (16 + i) for i in range(12)]
+        fp = R.fingerprint(ref, cand)
+        self.assertEqual(fp["cls"], "RECOLOURED")
+        self.assertEqual(fp["band"], "17-32")
+        self.assertTrue(fp["shape"].startswith("far:"))
+        self.assertEqual(fp["L1f"], "RECOLOURED|17-32|a")
+
+    def test_a_moved_residue_has_an_empty_family_set(self):
+        fp = R.fingerprint(A, [A[0], A[2], A[1], A[3], A[4]])
+        self.assertEqual(fp["cls"], "MOVED")
+        self.assertEqual(fp["regfam"], [])
+        self.assertEqual(fp["L1f"], "MOVED|1-2|")
+
+    def test_nobuild_and_invisible_carry_the_key_too(self):
+        self.assertEqual(R.fingerprint(A, None)["L1f"], "NOBUILD|none|")
+        self.assertEqual(R.fingerprint(A, list(A))["L1f"], "INVISIBLE|0|")
+
+    def test_l1f_is_neither_coarser_nor_finer_than_l1(self):
+        # two residues with the SAME L1 and different L1f, and two with the same L1f and
+        # different L1 - the two keys are different axes, not two levels of one
+        a = R.fingerprint(["move $16,$4"], ["move $17,$4"])
+        b = R.fingerprint(["move $16,$4"], ["move $16,$5"])
+        self.assertEqual(a["L1"], b["L1"])
+        self.assertNotEqual(a["L1f"], b["L1f"])
+        c = R.fingerprint(["addu $16,$4,$5"], ["addu $17,$4,$5"])
+        self.assertNotEqual(a["L1"], c["L1"])
+        self.assertEqual(a["L1f"], c["L1f"])
 
 
 if __name__ == "__main__":

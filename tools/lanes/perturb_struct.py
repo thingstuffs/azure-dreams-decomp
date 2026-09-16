@@ -91,7 +91,7 @@ if str(ROOT / "tools/xform") not in sys.path:
 
 from pin_census import sites_of as _pin_sites                  # noqa: E402
 from xform import varset as V                                  # noqa: E402
-from xform.t12_stmtorder import depths, is_decl                # noqa: E402
+from xform.t12_stmtorder import depths, is_decl, movable       # noqa: E402
 from xform.t36_paramwidth import functions as _fn_defs         # noqa: E402
 from xform.t69_prologue import _mask                           # noqa: E402
 
@@ -238,8 +238,17 @@ FIRST_TOKEN = re.compile(r"[ \t]*(?:(?:register|static|const|volatile|struct|uni
                          r"|signed|long|short)[ \t]+)*(%s)" % ID)
 
 
+# A temporary declared `__typeof__(EXPR) name;` - what hoist / cond_temp themselves write.  Without
+# this the declaration-block scanner read a first hoist's temporary as a STATEMENT, so a second
+# hoist / cond_temp on that text declared its temporary above a statement (hoist>hoist 26% NOBUILD,
+# cond_temp>cond_temp 35% in the round-33 two-move catalogue).
+TYPEOF_DECL = re.compile(r"^[ \t]*__typeof__[ \t]*\(.*\)[ \t]*(?:\*[ \t]*)*[A-Za-z_]\w*"
+                         r"(?:\[[^\]\n]*\])*[ \t]*(?:=[^;\n]*)?;[ \t]*$")
+
+
 def _declaration_line(s, tds=()):
-    """Any declaration spelling: `varset.DECL_RE`, a leading type word, a function pointer.
+    """Any declaration spelling: `varset.DECL_RE`, a leading type word, a function pointer, or a
+    `__typeof__(EXPR) name;` temporary (`TYPEOF_DECL`).
 
     Two traps, both measured: `void (*next_callback)(void) = state->unk6C;` matches none of
     `DECL_RE`'s declarator shapes (the chain scanner hoisted `*next_callback` out of its own
@@ -254,12 +263,24 @@ def _declaration_line(s, tds=()):
         if (first and first.group(1) == m.group("base") and m.group("base") not in V.STMT_KEYWORDS
                 and m.group("var") not in KEYWORDS and V._is_typename(m.group("base"), tds)):
             return True
-    return is_decl(s) or bool(FNPTR_DECL.match(s))
+    return is_decl(s) or bool(FNPTR_DECL.match(s)) or bool(TYPEOF_DECL.match(s))
+
+
+MASKED_COMMENT = re.compile(r"^[ \t]*(?:/\*[ \t*]*\*/|//[ \t]*)+[ \t]*$")
 
 
 def _prev_body_line(ml, k, lo):
+    """The previous line that carries CODE: a blank line and a comment-only line are both skipped.
+
+    `_mask` blanks a comment's TEXT but keeps its `/*` and `*/`, so a line holding only
+    `/* UNRESOLVED C shape (pin): ... */` used to read as the previous statement - it does not end
+    in `;`, `{`, `}` or `:`, so `_complete_statement` called the line under it a continuation and
+    refused it.  Measured on dungeon/func_8008FF58, whose duplicated arm tail sits under exactly
+    such a note (the oracle lost that row's exact hit to it), and on the population: 39 population
+    rows carry a note line directly above a statement.
+    """
     j = k - 1
-    while j >= lo and not ml[j].strip():
+    while j >= lo and (not ml[j].strip() or MASKED_COMMENT.match(ml[j])):
         j -= 1
     return j if j >= lo else None
 
@@ -605,6 +626,51 @@ def _expr_ok(e, detail, what):
     return True
 
 
+ASSIGN_OP = re.compile(r"(?<![<>!=+\-*/%&|^])=(?!=)")
+
+
+def _rest_side_effect_free(rest, detail, what, kind):
+    """The expression AROUND the hoisted span must have no side effect of its own.
+
+    Round-33 review, defect 2.  PLACEMENT settles a store BETWEEN the insertion point and the
+    statement - the assignment goes immediately before it - and settles NOTHING about a store
+    INSIDE the same expression: `if ((p->a = n) > q->a)` hoisting `q->a` puts its load BEFORE the
+    store to `p->a`, and `x = p->a++ + q->b;` hoisting `q->b` puts its load before the increment.
+    `_expr_ok` is applied to the hoisted span only, so it never saw either.
+
+    The remainder is a FRAGMENT, not an expression (`if (( = n) > ` with the span cut out), so it
+    is NOT put through `_expr_ok`, whose well-formedness rules - not-an-expression, a bare type, a
+    top-level comma - would refuse almost every fragment.  Only the two side-effect forms are
+    looked for.  A call is deliberately NOT one of them: the contract's rule is a memory read moved
+    across a call and `hoist`/`cond_temp` already carry it by name (`call-in-condition`,
+    `hoist:call-between`), which permits a pure-local operand to move where a blanket call guard
+    would not.
+    """
+    if re.search(r"\+\+|--", rest):
+        _note(detail, kind + ":side-effect-elsewhere-in-the-expression", what)
+        return False
+    if ASSIGN_OP.search(rest):
+        _note(detail, kind + ":side-effect-elsewhere-in-the-expression", what)
+        return False
+    return True
+
+
+def _stmt_rest(s, a, b):
+    """The statement with the span cut out AND its own top-level `=` blanked.
+
+    `x = p->a + q->b;` is an assignment, so the bare remainder would always read as a side effect;
+    but the store to `x` happens AFTER the whole right-hand side is evaluated and the temporary is
+    assigned before the statement, so that one operator is never crossed.  Every OTHER `=` is
+    (`x = (p->a = n) + q->b;`), and so is an `++` anywhere - in the left-hand side included
+    (`t[i++] = p->a;`).
+    """
+    rest = s[:a] + s[b:]
+    m = ASSIGN_OP.search(rest)
+    if m and rest.count("(", 0, m.start()) == rest.count(")", 0, m.start()):
+        rest = rest[:m.start()] + " " + rest[m.end():]
+    return rest
+
+
 def _is_lvalue_target(s, a, b, detail, what):
     """The occurrence is written to (`x->f = e`, `x->f += e`, `&x->f`, `x[i]++`)."""
     pre, post = s[:a].rstrip(), s[b:].lstrip()
@@ -652,6 +718,36 @@ def _block_locals(fn):
     return {v for v, ds in fn.decls.items() if any(d["depth"] > top for d in ds)}
 
 
+DECLARED_NAME = re.compile(
+    r"^[ \t]*(?:(?:register|static|const|volatile|struct|union|enum|unsigned|signed|long|short)"
+    r"[ \t]+)*%s(?:[ \t]+|[ \t]*\*+[ \t]*)(?P<var>%s)[ \t]*(?:\[|=|;|,)" % (ID, ID))
+
+
+def _later_locals(fn, ins, tds=()):
+    """Names DECLARED below the insertion point `ins` - `__typeof__` there cannot see them.
+
+    `_decl_block_end` returns `fn.lo - 1` whenever the body's FIRST line is not a one-line
+    declaration - a `static void *const state_labels[] = {` jump-table keep, or any multi-line
+    initialiser - and the temporary is then declared ABOVE every local of the function.  45 of the
+    whole-population run's 45 `cond_temp` nobuild instances (town/func_800C1FCC@68 and friends).
+    `_block_locals` does not catch them: the declarations are at the block's own depth, just later.
+
+    The scan is TEXTUAL rather than `fn.decls`-based on purpose: `varset.Fn` does not record a
+    `static const s32 tbl[] = {` at all (it is an array and its line is not simple), so a
+    `fn.decls`-only test left `__typeof__(tbl[0])` declared above `tbl` itself.
+    """
+    out = set()
+    for v, ds in fn.decls.items():
+        if all(d["line"] > ins for d in ds):
+            out.add(v)
+    for j in range(max(ins + 1, fn.lo), fn.hi):
+        if _declaration_line(fn.m[j], tds):
+            m = DECLARED_NAME.match(fn.m[j])
+            if m and m.group("var") not in KEYWORDS:
+                out.add(m.group("var"))
+    return out
+
+
 def _hoist_spans(s, detail, fn_name):
     """Every sub-expression of one statement worth hoisting, richest class first, span-deduplicated."""
     spans, seen = [], set()
@@ -690,6 +786,7 @@ def _hoist_fn(text, fn, detail, tds=(), aggv=frozenset(), agge=frozenset(), file
                    and not _scalar_base(_type_words(ty)[-1])}
     local_agge |= file_agge                           # and a file-scope array of structs
     ins = _decl_block_end(fn, tds)
+    block = block | _later_locals(fn, ins, tds)  # the same shape as cond_temp's, same guard
     ind = _indent(fn.lines[ins]) if ins >= fn.lo else \
         (_indent(next((fn.lines[j] for j in range(fn.lo, fn.hi) if fn.lines[j].strip()), "    ")))
     for n in fn.nodes:
@@ -736,6 +833,8 @@ def _hoist_fn(text, fn, detail, tds=(), aggv=frozenset(), agge=frozenset(), file
             if re.fullmatch(r"%s|-?\d+|0[xX][0-9A-Fa-f]+" % ID, e):
                 continue                               # a bare name or literal is not a computation
             if _is_lvalue_target(s, a, b, detail, what):
+                continue
+            if not _rest_side_effect_free(_stmt_rest(s, a, b), detail, what, "hoist"):
                 continue
             if chain_end != b:
                 # A PREFIX of a longer chain may be hoisted only when the next step is `->`: the
@@ -881,6 +980,148 @@ def _retype_uses(fn, v, T, decl_line, decl_var_span, detail, what):
     return edits, typed
 
 
+SCALAR_SIZE = {"u8": 1, "s8": 1, "char": 1, "M2C_UNK8": 1,
+               "u16": 2, "s16": 2, "short": 2, "M2C_UNK16": 2,
+               "u32": 4, "s32": 4, "int": 4, "long": 4, "f32": 4, "float": 4, "M2C_UNK32": 4,
+               "u64": 8, "s64": 8, "f64": 8, "double": 8}
+STRUCT_BODY = re.compile(r"\btypedef[ \t]+struct(?:[ \t]+(?P<tag>%s))?[ \t]*\{" % ID)
+UNK_MEMBER = re.compile(r"^unk_(?P<off>[0-9A-Fa-f]+)$")
+
+
+def _struct_offsets(text):
+    """{struct name: {member: (offset, type spelling)}} for the row's OWN m2c typedefs.
+
+    m2c writes a row's structures as a run of `u8 pad_XX[0xN];` fillers and `TYPE unk_XX;` members
+    where XX IS the member's hex offset, so the layout is readable from the text without any header.
+    The offsets are nevertheless WALKED (natural MIPS alignment: 1 / 2 / 4 / 4 for a pointer / 8),
+    and a member named `unk_XX` whose walked offset is not 0xXX makes the WHOLE struct unreadable -
+    the walk is the cross-check on the name, not the other way round.  So is any member this code
+    cannot size: a nested struct or union, a typedef'd field, a bit-field, a flexible array.
+    """
+    m_text = _mask(text)
+    out = {}
+    for mm in STRUCT_BODY.finditer(m_text):
+        i = mm.end() - 1
+        j = _match_bracket(m_text, i, "{", "}")
+        if j is None:
+            continue
+        names = [mm.group("tag")] if mm.group("tag") else []
+        tail = re.match(r"[ \t]*(%s)[ \t]*;" % ID, m_text[j + 1:])
+        if tail:
+            names.append(tail.group(1))
+        body = m_text[i + 1:j]
+        if "{" in body or "}" in body or ":" in body:
+            continue                                   # a nested struct / union or a bit-field
+        off, members, ok = 0, {}, True
+        for part in body.split(";"):
+            if not part.strip():
+                continue
+            dm = re.fullmatch(r"[ \t\n]*(?P<kw>(?:(?:const|volatile|unsigned|signed)[ \t]+)*)"
+                              r"(?P<base>%s)(?P<stars>(?:[ \t]*\*)*)[ \t]*(?P<var>%s)"
+                              r"(?P<arr>\[[^\]]*\])?[ \t\n]*" % (ID, ID), part)
+            if dm is None:
+                ok = False
+                break
+            stars, base, var = dm.group("stars").count("*"), dm.group("base"), dm.group("var")
+            if stars:
+                size = align = 4
+                ty = base + " " + "*" * stars
+            elif base in SCALAR_SIZE:
+                size = align = SCALAR_SIZE[base]
+                ty = (dm.group("kw") + base).strip()
+            else:
+                ok = False                             # a typedef'd member: the size is not here
+                break
+            n = 1
+            if dm.group("arr"):
+                try:
+                    n = int(dm.group("arr")[1:-1].strip(), 0)
+                except ValueError:
+                    ok = False
+                    break
+            off += (-off) % align
+            um = UNK_MEMBER.match(var)
+            if um and int(um.group("off"), 16) != off:
+                ok = False                             # the walk and the name disagree
+                break
+            if n == 1 and not dm.group("arr"):
+                members[var] = (off, ty)
+            off += size * n
+        if ok:
+            for nm in names:
+                out[nm] = members
+    return out
+
+
+def _offset_uses(fn, v, struct, decl_line, decl_var_span, detail, what, has_u8=True):
+    """Line edits that spell every `v->m` as `*(T *)((u8 *)v + 0xNN)` (None = refused)."""
+    if not has_u8:
+        # The spelling needs the byte type the row does not have.  `dungeon/func_81940F34` never
+        # writes `u8` and does not reach the tree's typedefs, so `(u8 *)state` is
+        # "`u8' undeclared" - 4 of the 8 remaining nobuild instances of the whole-population run.
+        # Substituting `char *` would be a different move under this kind's name.
+        _note(detail, "retype_void:offset:row-has-no-u8-type", what)
+        return None
+    ptrs = _pointer_names(fn)
+    edits, typed = {}, 0
+    for k in range(fn.lo, fn.hi):
+        spans = V.occ_spans(fn.m[k], v)
+        if not spans:
+            continue
+        if fn.pp[k]:
+            _note(detail, "retype_void:offset:use-in-preprocessor-arm", what)
+            return None
+        real = _nl(fn.lines[k])
+        for a, b in reversed(spans):
+            if k == decl_line and a == decl_var_span[0]:
+                continue
+            cls = _use_class(fn.m[k], a, b, ptrs)
+            if cls in ("addr", "incdec", "diff"):
+                _note(detail, {"addr": "retype_void:offset:address-taken",
+                               "incdec": "retype_void:offset:pointer-incdec",
+                               "diff": "retype_void:offset:pointer-difference"}[cls], what)
+                return None
+            if cls == "bare":
+                continue                                # `void *` converts silently under -w
+            mm = re.match(r"[ \t]*->[ \t]*(%s)" % ID, fn.m[k][b:])
+            if mm is None:
+                # `v[i]` or `*v`: the offset of THAT use is not written in the text, so the
+                # spelling cannot be built (the index is a runtime value, the deref has no member).
+                _note(detail, "retype_void:offset:use-is-not-a-member", what)
+                return None
+            member = mm.group(1)
+            if member not in struct:
+                _note(detail, "retype_void:offset:member-not-in-the-typedef", "%s.%s" % (what, member))
+                return None
+            end = b + mm.end()
+            nxt = fn.m[k][end:].lstrip()
+            if nxt[:2] in ("++", "--"):
+                # POSTFIX `++` binds tighter than the unary `*`, so `*(s32 *)((u8 *)p + 0x4)++`
+                # parses as `*(s32 *)(((u8 *)p + 0x4)++)` - the pointer is incremented and the
+                # object is not.  45 of the 49 nobuild instances of the whole-population run.
+                _note(detail, "retype_void:offset:member-incdec", "%s.%s" % (what, member))
+                return None
+            if nxt[:2] == "->" or nxt[:1] in (".", "[", "("):
+                # `v->a->b`, `v->a[i]`: the load would have to be parenthesised and the SECOND step
+                # respelled too - two moves, and the offset of the second is in another typedef.
+                _note(detail, "retype_void:offset:member-use-is-a-chain", "%s.%s" % (what, member))
+                return None
+            if fn.m[k][:a].rstrip().endswith("&"):
+                _note(detail, "retype_void:offset:address-of-member", "%s.%s" % (what, member))
+                return None
+            off, ty = struct[member]
+            # `M2C_UNK *unk_10;` must cast to `M2C_UNK **`, not to `M2C_UNK * *`
+            cast = "%s%s*" % (ty, "" if ty.endswith("*") else " ")
+            real = real[:a] + "*(%s)((u8 *)%s + 0x%X)" % (cast, v, off) + real[end:]
+            typed += 1
+        if real != _nl(fn.lines[k]):
+            edits[k] = real
+    if not typed:
+        _note(detail, "retype_void:offset:no-member-use", what)
+        return None
+    return edits, typed
+
+
 def _type_words(decl_text):
     return [w for w in decl_text.replace("*", " ").split() if w not in ("register", "static")]
 
@@ -921,6 +1162,10 @@ def retype_void(text, detail=None):
         d += (ch == "{") - (ch == "}")
     dep.append(d)
     tds = V.typedef_names(text)
+    structs = _struct_offsets(text)
+    # `u8` is m2c's byte type and almost every row has it, but a row that neither declares it nor
+    # reaches the tree's typedefs cannot carry the `(u8 *)` of an offset load.
+    has_u8 = bool(re.search(r"(?<![\w.])u8(?![\w])", _mask(text)))
     for name, params, b0, b1 in _fn_defs(text):
         try:
             fn = V.Fn(text, name, params, b0, b1)
@@ -947,6 +1192,32 @@ def retype_void(text, detail=None):
             got = _retype_uses(fn, v, T, d0["line"], (dm.start("var"), dm.end("var")), detail, what)
             if got is None:
                 continue
+            offs = structs.get(words[-1])
+            if offs:
+                got2 = _offset_uses(fn, v, offs, d0["line"], (dm.start("var"), dm.end("var")),
+                                    detail, what, has_u8)
+                if got2 is not None:
+                    e2, n2 = got2
+                    cur2 = e2.get(d0["line"], _nl(fn.lines[d0["line"]]))
+                    keep2 = ("static " if re.search(r"\bstatic\b", d0["decl_text"]) else "") \
+                        + ("register " if d0["register"] else "")
+                    e2[d0["line"]] = (cur2[:dm.start("prefix")] + keep2 + "void *"
+                                      + cur2[dm.start("var"):])
+                    c2 = V._apply(text, e2)
+                    if c2 != text and c2 not in seen \
+                            and _keeps_pins(pins, c2, "retype_void", detail, what):
+                        seen.add(c2)
+                        out.append(({"site": d0["line"] + 1,
+                                     "label": "retype_void:offset:local:%s:%s*>void*" % (v, T),
+                                     "which": "local", "var": v, "from": T + " *", "to": "void *",
+                                     "spelling": "offset_load", "casts": n2, "fn": name}, c2))
+                        made += 1
+            elif words[-1] in structs:
+                pass
+            else:
+                _note(detail, "retype_void:offset:typedef-not-readable", what)
+            if made >= MAX_PER_FN:
+                break
             edits, typed = got
             cur = edits.get(d0["line"], _nl(fn.lines[d0["line"]]))
             # the storage class is REBUILT, so every word of it has to be carried: `_type_words`
@@ -981,6 +1252,25 @@ def retype_void(text, detail=None):
                 _note(detail, "retype_void:address-taken", what)
                 continue
             T = " ".join(words)
+            offs = structs.get(words[-1])
+            if offs:
+                got2 = _offset_uses(fn, p, offs, -1, (-1, -1), detail, what, has_u8)
+                if got2 is not None:
+                    e2, n2 = got2
+                    b2 = V._apply(text, e2)
+                    c2 = b2[:pa] + "void *" + b2[pb:]
+                    if c2 != text and c2 not in seen \
+                            and _keeps_pins(pins, c2, "retype_void", detail, what):
+                        seen.add(c2)
+                        out.append(({"site": text.count("\n", 0, pa) + 1,
+                                     "label": "retype_void:offset:param:%s:%s*>void*" % (p, T),
+                                     "which": "param", "var": p, "from": T + " *", "to": "void *",
+                                     "spelling": "offset_load", "casts": n2, "fn": name}, c2))
+                        made += 1
+            elif words[-1] not in structs:
+                _note(detail, "retype_void:offset:typedef-not-readable", what)
+            if made >= MAX_PER_FN:
+                break
             got = _retype_uses(fn, p, T, -1, (-1, -1), detail, what)
             if got is None:
                 continue
@@ -1019,22 +1309,143 @@ def split(text, detail=None):
     return _order(out)
 
 
+def _decl_with_init(masked_line):
+    """(var, initialiser text) when the line is a one-line declaration WITH an initialiser."""
+    m = V.DECL_RE.match(masked_line)
+    if not m or not m.group("init"):
+        return None
+    if m.group("base") in V.STMT_KEYWORDS or m.group("var") in KEYWORDS:
+        return None
+    return m.group("var"), m.group("init").lstrip("=").strip()
+
+
+def _line_delta(text, cand):
+    """(lines only in `text`, lines only in `cand`), as stripped texts with their multiplicity."""
+    a = collections.Counter(l.strip() for l in text.split("\n"))
+    b = collections.Counter(l.strip() for l in cand.split("\n"))
+    return list((a - b).elements()), list((b - a).elements())
+
+
+def _block_openers(ml):
+    """For every line, the line number of the `{` that opens its innermost enclosing block."""
+    out, stack = [], []
+    for j, s in enumerate(ml):
+        out.append(stack[-1] if stack else -1)
+        for ch in s:
+            if ch == "{":
+                stack.append(j)
+            elif ch == "}" and stack:
+                stack.pop()
+    return out
+
+
+def _decl_lines(ml, opener, name, tds):
+    """{enclosing block opener} for every line that declares `name`."""
+    out = set()
+    for j, s in enumerate(ml):
+        if not _declaration_line(s, tds):
+            continue
+        m = DECLARED_NAME.match(s)
+        if m and m.group("var") == name:
+            out.add(opener[j])
+    return out
+
+
+def _merge_same_block(text, label, tds, detail):
+    """Guest and host must be declared in the SAME block, not merely at the same depth.
+
+    `varset.merge_local_candidates` refuses a pair whose declarations differ in DEPTH
+    (`merge:different-block`), and depth is not block identity: two sibling `if` arms both declare
+    at depth 2, and renaming the guest's uses to the host's name then puts a name where it does not
+    exist.  cc1 says so - "`enabled' undeclared (first use this function)" on town/func_800A4A8C.
+
+    THIS IS NOT A DEFECT OF `allow_init`: 7 of the 12 merge instances that failed to compile in the
+    whole-population run are produced by HEAD's merge at its own default, so the shape predates the
+    keyword.  What `allow_init` does is make more locals usable and so expose the shape on 5 more
+    pairs, which is why the guard belongs to the caller that turned the keyword on.  The fix in
+    varset itself - comparing the enclosing block rather than the depth - is a SECOND varset change
+    and out of this task's scope; it is recommended in the report instead.
+    """
+    if not label.startswith("merge_local:"):
+        return True                                       # a parameter is in scope for the body
+    pair = label.rsplit(":", 1)[-1]
+    if ">" not in pair:
+        return True
+    guest, host = (x.strip() for x in pair.split(">", 1))
+    ml = _mask(text).split("\n")
+    opener = _block_openers(ml)
+    g, h = _decl_lines(ml, opener, guest, tds), _decl_lines(ml, opener, host, tds)
+    if g and h and not (g & h):
+        _note(detail, "merge:different-block-same-depth", label)
+        return False
+    return True
+
+
+def _merge_init_ok(text, cand, label, detail):
+    """No definition may be lost, and no `T x = x;` may be created, by an ALLOW_INIT merge.
+
+    Both failures are properties of `allow_init=True` alone and both are read off the candidate
+    itself, so the check cannot drift from what varset actually did:
+
+      * `merge_local:g>h` where `g` is declared `T g = X;` and X is not `h`.  The merge renames g's
+        occurrences to h AND DROPS g's declaration line, so the definition `g = X` disappears and
+        every renamed use reads whatever `h` last held - a different program (`merge:init-lost`).
+        When X IS `h` the deletion is exactly right: `T g = h;` becomes `h = h;`, the self-copy the
+        merge already drops, and this is the typed-alias shape the class wants.
+      * the other naming direction of the same pair, `merge_local:h>g`, renames the READ of `h`
+        inside `T g = h;` and leaves `T g = g;` - a declaration initialised from itself
+        (`merge:self-initialised-declaration`).
+    """
+    removed, added = _line_delta(text, cand)
+    pair = label.rsplit(":", 1)[-1]
+    if ">" not in pair:
+        return True
+    guest, host = (x.strip() for x in pair.split(">", 1))
+    for line in removed:
+        got = _decl_with_init(_mask(line))
+        # ONLY the guest's own declaration is a candidate for the loss: every other removed line is
+        # a line the rename REWROTE, and its replacement is in `added` with the same initialiser.
+        # (Measured: without the `got[0] == guest` test the check also refused 12 honest candidates
+        # on dungeon/func_81887480 and dungeon/func_8188D004, whose `void *L5 = source;` is renamed,
+        # not dropped - the two rows check V7 reported merge reaching at -51% and -45%.)
+        if got and got[0] == guest and got[1] != host:
+            _note(detail, "merge:init-lost", "%s [%s]" % (label, line[:48]))
+            return False
+    for line in added:
+        got = _decl_with_init(_mask(line))
+        if got and got[0] == got[1]:
+            _note(detail, "merge:self-initialised-declaration", "%s [%s]" % (label, line[:48]))
+            return False
+    return True
+
+
 def merge(text, detail=None):
-    """`varset.merge_local_candidates` / `merge_param_candidates`: a split lifetime merged back."""
+    """`varset.merge_local_candidates` / `merge_param_candidates`: a split lifetime merged back.
+
+    Called with `allow_init=True` (round 33: 886 `initialised-decl` refusals in the 1,000-row
+    single-move run, 4,958 population-wide, and the oracle's TYPED_ALIAS_INIT_DECL class - 20 rows
+    whose m2c target opens the block with `S *alias = obj;` and whose landed text has neither).  The
+    two shapes that deletion can break are refused by `_merge_init_ok` from the candidate text.
+    """
     if _pinned(text, "merge", detail):
         return []
     out, pins = [], _pin_lines(text)
+    tds = V.typedef_names(text)
     for which, f in (("local", V.merge_local_candidates), ("param", V.merge_param_candidates)):
         try:
-            cands = f(text, None, _counter(detail))
+            cands = f(text, None, _counter(detail), allow_init=True)
         except Exception as e:
             _note(detail, "merge:error:%s:%s" % (which, type(e).__name__))
             continue
         for label, cand in cands:
             if cand == text or not _keeps_pins(pins, cand, "merge", detail, label):
                 continue
+            if not _merge_same_block(text, label, tds, detail):
+                continue
+            if not _merge_init_ok(text, cand, label, detail):
+                continue
             out.append(({"site": _first_diff_line(text, cand), "label": "merge:" + label,
-                         "which": which, "varset_label": label}, cand))
+                         "which": which, "varset_label": label, "allow_init": True}, cand))
     return _order(out)
 
 
@@ -1044,6 +1455,10 @@ LABEL_LINE = re.compile(r"^(?P<i>[ \t]*)(?P<l>%s)[ \t]*:[ \t]*(?P<br>\{)?[ \t]*$
 GOTO_LINE = re.compile(r"^[ \t]*goto[ \t]+(?P<l>%s)[ \t]*;[ \t]*$" % ID)
 IFGOTO_LINE = re.compile(r"^[ \t]*if[ \t]*\((?P<c>.+)\)[ \t]*goto[ \t]+(?P<l>%s)[ \t]*;[ \t]*$" % ID)
 IFOPEN_LINE = re.compile(r"^[ \t]*if[ \t]*\((?P<c>.+)\)[ \t]*\{[ \t]*$")
+# `} if (COND) goto L;` - t41's own landed spelling, the closing brace and the test on ONE line.
+# The line must END at the `;`, so `} if (c) goto L; x = 1;` is not read as a bare terminator.
+CLOSE_IFGOTO_LINE = re.compile(
+    r"^[ \t]*\}[ \t]*if[ \t]*\((?P<c>.+)\)[ \t]*goto[ \t]+(?P<l>%s)[ \t]*;[ \t]*$" % ID)
 ELSE_LINE = re.compile(r"^[ \t]*\}[ \t]*else\b")
 ANY_GOTO = re.compile(r"(?<![\w.])goto[ \t]+(%s)\b" % ID)
 CASE_LINE = re.compile(r"^[ \t]*(?:case\b|default[ \t]*:)")
@@ -1065,8 +1480,17 @@ def _close_of(ml, dep, k):
     return None
 
 
-def _region_ok(ml, pp, lo, hi, detail, what, tds=()):
-    """The body between the label and the terminator may become a loop body."""
+def _region_ok(ml, pp, lo, hi, detail, what, tds=(), braced=False):
+    """The body between the label and the terminator may become a loop body.
+
+    `braced` is the label's OWN brace (`loop_0: {`).  When it is there the region is ALREADY a
+    block, so wrapping it in `do { ... } while (C);` re-uses that block and changes no
+    declaration's scope - the `body-declares` guard is then measuring nothing and is skipped
+    (round 33 oracle, check V5: dungeon/func_8008F15C `u32 slot_base;` and town/func_800BC0D0
+    `u8 second_byte = source_record[7];` were refused by it although both labels are written
+    `loop_N: {`).  Without the brace the body is a run of statements in the ENCLOSING block and the
+    rewrite really would move a declaration into a new scope, so the guard stands there.
+    """
     if not any(ml[j].strip() for j in range(lo, hi + 1)):
         _note(detail, "goto_to_loop:empty-body", what)
         return False
@@ -1084,6 +1508,8 @@ def _region_ok(ml, pp, lo, hi, detail, what, tds=()):
         if LABEL_LINE.match(ml[j]):
             _note(detail, "goto_to_loop:region-has-label", what)
             return False
+        if braced:
+            continue                       # the region is already a block: no scope to change
         m = DECL_LINE.match(ml[j])
         if m and m.group(1) not in V.STMT_KEYWORDS and V._is_typename(m.group(1), tds):
             _note(detail, "goto_to_loop:body-declares", what)
@@ -1108,6 +1534,24 @@ def _terminator(ml, dep, k, hi, L, g, braced, detail, what):
         c = _close_of(ml, dep, k)
         if c is None:
             _note(detail, "goto_to_loop:unbalanced-label-block", what)
+            return None
+        same = CLOSE_IFGOTO_LINE.match(ml[c])
+        if same is not None and same.group("l") == L:
+            # t41's OWN LANDED SPELLING: `} if (COND) goto loop_0;` - the closing brace of the
+            # label's block and the backward test on ONE line.  The scan below only ever looked at
+            # the FIRST NON-BLANK LINE AFTER `c`, so every t41 / t41c landing read
+            # `goto_to_loop:no-terminator` on the very text t41 wrote (round 33 oracle, §3 item 3:
+            # 14 of 14 rows, and on 11 of them the loop spelling is the WHOLE residue, d = 5).
+            # The region ends AT `c`: `_loop_text` drops line `end` and writes `} while (C);` in
+            # its place, which is exactly the brace this line already carries plus the test.
+            return "do_while", same.group("c").strip(), k + 1, c - 1, c, _indent(ml[c])
+        if not CLOSE_LINE.match(ml[c]):
+            # The closing line carries something the rewrite would DELETE: `_loop_text` replaces
+            # every line from `k` to `end` with the loop, and `end` is the terminator BELOW `c`, so
+            # a statement sharing line `c` disappears silently.  Reached only once the
+            # same-line terminator above is not this label's - `} if (i < n) goto skip;` with the
+            # real backward goto on the next line - and found by the test that builds exactly that.
+            _note(detail, "goto_to_loop:label-block-close-has-a-statement", what)
             return None
         t = next((j for j in range(c + 1, hi + 1) if ml[j].strip()), None)
         m = IFGOTO_LINE.match(ml[t]) if t is not None else None
@@ -1182,7 +1626,7 @@ def _goto_fn(lines, ml, dep, pp, lo, hi, detail, tds=()):
         if body_hi < body_lo:
             _note(detail, "goto_to_loop:empty-body", what)
             continue
-        if not _region_ok(ml, pp, body_lo, body_hi, detail, what, tds):
+        if not _region_ok(ml, pp, body_lo, body_hi, detail, what, tds, braced=bool(m.group("br"))):
             continue
         floor = dep[k] + (1 if (m.group("br") or form == "while") else 0)
         if any(dep[j] < floor for j in range(body_lo, body_hi + 1) if ml[j].strip()):
@@ -1220,6 +1664,515 @@ def goto_to_loop(text, detail=None):
     return _order(out)
 
 
+# =============================================================================== cond_temp
+
+IF_ANY_LINE = re.compile(r"^(?P<i>[ \t]*)(?P<pre>\}[ \t]*else[ \t]+)?if[ \t]*\(")
+LOOP_HEAD_LINE = re.compile(r"^[ \t]*(?:while|for)[ \t]*\(")
+FULL_CAST = re.compile(r"^\([ \t]*(?P<t>(?:(?:struct|union|enum|unsigned|signed|const)[ \t]+)*"
+                       r"%s(?:[ \t]*\*)*)[ \t]*\)" % ID)
+
+
+def _cond_span(s):
+    """[a, b) of the condition of an `if` line, or None."""
+    m = re.match(r"^[ \t]*(?:\}[ \t]*else[ \t]+)?if[ \t]*", s)
+    if not m or m.end() >= len(s) or s[m.end()] != "(":
+        return None
+    j = _match_bracket(s, m.end(), "(", ")")
+    return None if j is None else (m.end() + 1, j)
+
+
+CAST_TAIL_OPS = set("+-*/%&|^<>=!?,~")
+
+
+def _cast_covers(rest):
+    """True when what FOLLOWS a leading cast is one postfix expression - no top-level operator.
+
+    `->` is the one two-character sequence whose characters are operators on their own, so it is
+    stepped over; everything inside a bracket is at depth > 0 and does not count.
+    """
+    i, d = 0, 0
+    while i < len(rest):
+        c = rest[i]
+        if c in "([":
+            d += 1
+        elif c in ")]":
+            d -= 1
+        elif d == 0:
+            if rest[i:i + 2] == "->":
+                i += 2
+                continue
+            if c in CAST_TAIL_OPS:
+                return False
+        i += 1
+    return True
+
+
+def _temp_type(real_e, fn, tds):
+    """The temporary's declared type: a full cast's own type where the text spells one.
+
+    `__typeof__(EXPR)` is always CORRECT and the contract allows it, but it is not what m2c writes -
+    m2c declares `s32 temp;` - and reach.py's skeleton compares declaration TOKENS, so a
+    `__typeof__` temporary can never equal an m2c target under the primary metric (it can only ever
+    agree in the type-blind column).  Where the row itself spells the type - the expression is a
+    cast, which is m2c's own idiom for a widened load (`((s32)(D_800FE508[1]))`) - that spelling is
+    used instead, and `params["type_spelling"]` records which of the two the instance carries.
+    """
+    e = real_e.strip()
+    while V._wrapped(e):
+        e = e[1:-1].strip()
+    m = FULL_CAST.match(e)
+    if m and _cast_covers(e[m.end():]):
+        # the cast must COVER the whole expression.  `(s16)a + b` has type `int` by the usual
+        # arithmetic conversions, so `s16 t = (s16)a + b;` TRUNCATES, and `(s16)a == 6` is an `int`
+        # too - a different declaration than m2c would ever write, under a spelling that was only
+        # ever meant to be prettier.  Anything with a top-level operator after the cast falls back
+        # to `__typeof__`, which is right by construction.
+        words = _type_words(m.group("t"))
+        if words and V._is_typename(words[-1], tds) and words[-1] not in ("void",):
+            stars = m.group("t").count("*")
+            return " ".join(words) + (" " + "*" * stars if stars else ""), "cast"
+    return "__typeof__(%s)" % real_e, "typeof"
+
+
+def _cond_temp_fn(text, fn, detail, tds=()):
+    out = []
+    ins = _decl_block_end(fn, tds)
+    block = _block_locals(fn) | _later_locals(fn, ins, tds)
+    ind = _indent(fn.lines[ins]) if ins >= fn.lo else "    "
+    for n in fn.nodes:
+        if len(out) >= MAX_PER_FN:
+            _note(detail, "cond_temp:function-capped", fn.name)
+            break
+        k = n.line
+        s, real = fn.m[k], _nl(fn.lines[k])
+        if LOOP_HEAD_LINE.match(s):
+            # a `while`/`for` condition is RE-EVALUATED on every trip, so a temporary assigned once
+            # before the loop is a different program (and one assigned inside it is a different
+            # move: `for (;;) { t = C; if (!t) break; ... }`).  Only an `if` is a single evaluation.
+            _note(detail, "cond_temp:loop-condition-re-evaluated", "%s@%d" % (fn.name, k + 1))
+            continue
+        m = IF_ANY_LINE.match(s)
+        if not m:
+            continue
+        what = "%s@%d" % (fn.name, k + 1)
+        if fn.pp[k]:
+            _note(detail, "cond_temp:preprocessor-line", what)
+            continue
+        if m.group("pre"):
+            # `} else if (C) {`: the assignment would have to go BEFORE the `if` and there is no
+            # statement position there - it is inside the enclosing `else`.
+            _note(detail, "cond_temp:else-if", what)
+            continue
+        if k <= ins:
+            _note(detail, "cond_temp:inside-the-declaration-block", what)
+            continue
+        span = _cond_span(s)
+        if span is None or not _complete_statement(fn.m, k, fn.lo):
+            _note(detail, "cond_temp:multi-line-condition", what)
+            continue
+        if _braceless_head(fn.m, k, fn.lo):
+            # the `if` is itself the arm of a braceless head: a line inserted before it becomes the
+            # arm and takes the `if` out of it (hoist's own `braceless-arm`).
+            _note(detail, "cond_temp:braceless-arm", what)
+            continue
+        ca, cb = span
+        cond = s[ca:cb]
+        if "&&" in cond or "||" in cond or "?" in cond:
+            # only the LEFTMOST operand of a short-circuit is evaluated unconditionally; every other
+            # one may never run, so a temporary assigned before the `if` computes what the row did
+            # not.  Refused wholesale here, the way `hoist` refuses a short-circuit statement.
+            _note(detail, "cond_temp:shortcircuit-in-condition", what)
+            continue
+        calls = _call_spans(s)
+        cands = [(ca, cb, "whole")]
+        for a, b, cls, chain_end in _hoist_spans(s, detail, fn.name):
+            if ca <= a and b <= cb and (a, b) != (ca, cb) and chain_end == b:
+                cands.append((a, b, cls))
+        taken = 0
+        for a, b, cls in cands:
+            if taken >= MAX_PER_STMT or len(out) >= MAX_PER_FN:
+                break
+            e, real_e = s[a:b].strip(), real[a:b].strip()
+            while V._wrapped(e) and V._wrapped(real_e):
+                e, real_e = e[1:-1].strip(), real_e[1:-1].strip()
+            w2 = "%s:%s" % (e[:32], what)
+            if not _expr_ok(e, detail, w2):
+                continue
+            if re.fullmatch(r"%s|-?\d+|0[xX][0-9A-Fa-f]+" % ID, e):
+                continue                                  # a bare name is not a computation
+            if _is_lvalue_target(s, a, b, detail, w2):
+                continue
+            if (a, b) != (ca, cb) and not _rest_side_effect_free(s[ca:a] + s[b:cb], detail, w2,
+                                                                "cond_temp"):
+                # the condition MINUS this operand.  The whole-condition candidate is covered by
+                # `_expr_ok` above; a partial one is not, and `if ((p->a = n) > q->a)` lifted the
+                # load of `q->a` above the store to `p->a` (round-33 review, defect 2).
+                continue
+            if V._reads_memory(e) and any(not (x <= a and b <= y) for x, y in calls):
+                # the same rule `hoist` carries from `varset._inline_one`'s `inline:call-between`:
+                # `if (f() != p->a)` would put the load of `p->a` BEFORE the call it followed.
+                _note(detail, "cond_temp:call-in-condition", w2)
+                continue
+            if {x for x in re.findall(ID, e) if x not in KEYWORDS} & block:
+                _note(detail, "cond_temp:names-a-block-local", w2)
+                continue
+            tmp = _fresh(text, "cond")
+            if tmp is None:
+                _note(detail, "cond_temp:no-fresh-name", w2)
+                continue
+            ty, spelling = _temp_type(real_e, fn, tds)
+            inserts = collections.defaultdict(list)
+            # m2c writes `s8 *p;`, not `s8 * p;`, and the skeleton compares declaration TOKENS
+            inserts[ins].append("%s%s%s%s;" % (ind, ty, "" if ty.endswith("*") else " ", tmp))
+            inserts[k - 1].append("%s%s = %s;" % (_indent(real), tmp, real_e))
+            cand = V._apply(text, {k: real[:a] + tmp + real[b:]}, (), dict(inserts))
+            if cand == text:
+                continue
+            out.append(({"site": k + 1, "label": "cond_temp:%s:%s@%d" % (cls, e[:40], k + 1),
+                         "expr_class": cls, "expr": real_e, "temp": tmp, "fn": fn.name,
+                         "type_spelling": spelling, "decl_line": ins + 1}, cand))
+            taken += 1
+    return out
+
+
+def cond_temp(text, detail=None):
+    """An `if` condition (or one side-effect-free operand of it) computed into a temporary first.
+
+    m2c's own shape - `L3 = D_800FE508[1]; if (L3 < L1)` where the row reads
+    `if (((s32)(D_800FE508[1])) < L1)` - and the round-33 oracle's CONDITION_TEMPORARY class, 10
+    rows.  `hoist` cannot reach it: it only ever works on a `stmt` or a `return` node, never on a
+    condition (report_oracle §3 item 9).  The assignment goes IMMEDIATELY before the `if`, so
+    nothing can be moved across a store or a call BETWEEN the two - and that is ALL placement
+    settles.  A store INSIDE the condition is a separate question and needs a CHECK, which a
+    partial operand now gets (`_rest_side_effect_free`): the round-33 review found
+    `if ((p->a = n) > q->a)` lifting the load of `q->a` above the store to `p->a`.
+    """
+    if _pinned(text, "cond_temp", detail):
+        return []
+    out, seen = [], set()
+    tds = V.typedef_names(text)
+    pins = _pin_lines(text)
+    for fn in V.functions(text, _counter(detail)):
+        for params, cand in _cond_temp_fn(text, fn, detail, tds):
+            if cand in seen or not _keeps_pins(pins, cand, "cond_temp", detail, params["label"]):
+                continue
+            seen.add(cand)
+            out.append((params, cand))
+    return _order(out)
+
+
+# =============================================================================== tail_merge
+
+ELSE_OPEN_LINE = re.compile(r"^[ \t]*\}[ \t]*else[ \t]*\{[ \t]*$")
+CLOSE_LINE = re.compile(r"^[ \t]*\}[ \t]*$")
+JUMP_STMT = re.compile(r"^(?:return\b|goto\b|break\b|continue\b)")
+
+
+def _arm_close(ml, dep, i):
+    """Line of the `}` that closes the block opened on line `i`, `} else {` included.
+
+    `_close_of` cannot be used here: its net brace count for `} else {` is 0, so it WALKS PAST the
+    line that ends the if arm and returns the end of the else arm instead (the trap the
+    `goto_to_loop` top-test scan documents).  A closing line of the block opened at depth `dep[i]`
+    is the first later line whose own depth is `dep[i] + 1` and which STARTS with `}` - a nested
+    block's closing line sits a level deeper, so it is never taken.
+    """
+    for j in range(i + 1, len(ml)):
+        if dep[j] < dep[i] + 1:
+            return None
+        if dep[j] == dep[i] + 1 and ml[j].lstrip().startswith("}"):
+            return j
+    return None
+
+
+def _else_close(ml, dep, c1):
+    """Line of the `}` that closes the else arm opened by `} else {` on line `c1`."""
+    for j in range(c1 + 1, len(ml)):
+        if dep[j] < dep[c1]:
+            return None
+        if dep[j] == dep[c1] and ml[j].lstrip().startswith("}"):
+            return j
+    return None
+
+
+def _arm_body(ml, lo, hi):
+    """The non-blank line numbers of an arm, in order."""
+    return [j for j in range(lo, hi + 1) if ml[j].strip()]
+
+
+def _tail_stmt_ok(ml, dep, j, want_depth, lo, detail, what):
+    """One line may be hoisted out of both arms: a simple one-line statement at the arm's own depth."""
+    if dep[j] != want_depth:
+        _note(detail, "tail_merge:tail-not-at-the-arms-depth", what)
+        return False
+    if not movable(ml[j]) or is_decl(ml[j]):
+        _note(detail, "tail_merge:tail-not-a-simple-statement", what)
+        return False
+    if not _complete_statement(ml, j, lo):
+        # `movable` only asks that the line END in `;`, so the LAST LINE of a multi-line call -
+        # `                              sprite->unk_04);` in dungeon/func_800A4710 - passes it and
+        # a fragment of a statement was hoisted out of both arms.  (Found by the whole-population
+        # compile: 5 of tail_merge's 22 nobuild instances.)
+        _note(detail, "tail_merge:tail-is-a-continuation-line", what)
+        return False
+    return True
+
+
+def _arm_declared(ml, lo, hi, tds):
+    """Names DECLARED inside an arm: a tail that reads one cannot leave the arm's scope."""
+    out = set()
+    for j in range(lo, hi + 1):
+        m = DECL_LINE.match(ml[j])
+        if m and m.group(1) not in V.STMT_KEYWORDS and V._is_typename(m.group(1), tds):
+            mv = re.match(r"^[ \t]*(?:(?:register|const|static|volatile|unsigned|signed|struct"
+                          r"|union|enum)[ \t]+)*%s(?:[ \t]+|[ \t]*\*+[ \t]*)(%s)" % (ID, ID), ml[j])
+            if mv:
+                out.add(mv.group(1))
+    return out
+
+
+def _common_tail(lines, ml, dep, a_lines, b_lines, want_depth, lo, detail, what):
+    """The longest run of trailing lines the two arms spell identically (after their indentation).
+
+    Token-identical after each arm's own indentation, compared on the REAL text (so a comment or a
+    different spelling of the same operation is never merged), and every line must be a simple
+    one-line statement sitting at the arm's own depth - a nested block's last line is not "the arm's
+    tail", and pulling it out of its block would change its scope.
+    """
+    n = 0
+    while n < len(a_lines) and n < len(b_lines):
+        ja, jb = a_lines[-1 - n], b_lines[-1 - n]
+        if _nl(lines[ja]).strip() != _nl(lines[jb]).strip():
+            break
+        if not _tail_stmt_ok(ml, dep, ja, want_depth, lo, detail, what) \
+                or not _tail_stmt_ok(ml, dep, jb, want_depth, lo, detail, what):
+            break
+        n += 1
+    return n
+
+
+def _tail_merge_if(lines, ml, dep, pp, i, detail, fn_name, lo=0, tds=()):
+    """Every hoistable common tail of ONE `if (..) { } else { }`, longest first."""
+    out = []
+    what = "%s@%d" % (fn_name, i + 1)
+    c1 = _arm_close(ml, dep, i)
+    if c1 is None:
+        return out
+    if not ELSE_OPEN_LINE.match(ml[c1]):
+        # `} else if (..) {` has no arm to hoist out of (the tail would have to be repeated in
+        # every leg of the chain), and a bare `}` means the `if` has no else at all - the tail then
+        # already runs once, unconditionally, and there is nothing to merge.
+        _note(detail, "tail_merge:else-if" if re.match(r"^[ \t]*\}[ \t]*else\b", ml[c1])
+              else "tail_merge:no-else", what)
+        return out
+    c2 = _else_close(ml, dep, c1)
+    if c2 is None or not CLOSE_LINE.match(ml[c2]):
+        _note(detail, "tail_merge:else-arm-not-a-plain-block", what)
+        return out
+    if any(pp[j] for j in range(i, c2 + 1)):
+        _note(detail, "tail_merge:preprocessor-in-the-if", what)
+        return out
+    want = dep[i] + 1
+    a_lines = _arm_body(ml, i + 1, c1 - 1)
+    b_lines = _arm_body(ml, c1 + 1, c2 - 1)
+    if not a_lines or not b_lines:
+        _note(detail, "tail_merge:empty-arm", what)
+        return out
+    n = _common_tail(lines, ml, dep, a_lines, b_lines, want, lo, detail, what)
+    if not n:
+        _note(detail, "tail_merge:no-common-tail", what)
+        return out
+    # A local DECLARED inside an arm dies with the arm: `if (c) { S *state; ...; p->f = state; }
+    # else { ...; p->f = state; }` hoisted out puts the store where `state` does not exist
+    # (town/func_800B361C, one of the whole-population compile's nobuild instances).
+    declared = _arm_declared(ml, i + 1, c1 - 1, tds) | _arm_declared(ml, c1 + 1, c2 - 1, tds)
+    ind = _indent(ml[i])
+    for take in range(n, 0, -1):
+        a_tail, b_tail = a_lines[-take:], b_lines[-take:]
+        if declared and any(declared & set(re.findall(ID, ml[j])) for j in a_tail):
+            _note(detail, "tail_merge:tail-reads-an-arm-local", what)
+            continue
+        a_keep, b_keep = a_lines[:-take], b_lines[:-take]
+        if not a_keep:
+            # hoisting everything out of the IF arm leaves `if (c) { }`; writing the shape the other
+            # way round means NEGATING the condition, which is a second move.
+            _note(detail, "tail_merge:if-arm-empties", what)
+            continue
+        for keep in (a_keep, b_keep):
+            if keep and JUMP_STMT.match(ml[keep[-1]].strip()):
+                # `if (c) { ...; return; stmt } else { stmt }`: the tail is DEAD in that arm, so
+                # hoisting it out makes it run where it did not - a different program.
+                _note(detail, "tail_merge:jump-before-the-tail", what)
+                break
+        else:
+            drop = set(a_tail) | set(b_tail)
+            body = [_nl(lines[j]).strip() for j in a_tail]
+            new = lines[:i + 1]
+            new += [lines[j] for j in range(i + 1, c1) if j not in drop]
+            if b_keep:
+                new += [lines[c1]]
+                new += [lines[j] for j in range(c1 + 1, c2) if j not in drop]
+                new += [lines[c2]]
+            else:
+                # the ELSE arm is now empty: `} else { }` is scaffolding, so the else goes with it
+                # and the `if` closes on the line that carried it.  (This is the shape
+                # `t15_shapes.dup_after_if` starts from, so its inverse must reach it exactly.)
+                new += [ind + "}\n"]
+            new += [ind + s + "\n" for s in body]
+            new += lines[c2 + 1:]
+            out.append(({"site": i + 1, "fn": fn_name, "n_tail": take,
+                         "dropped_else": not b_keep, "tail": body[0][:48],
+                         "label": "tail_merge:%d:%s@%d" % (take, body[0][:32], i + 1)},
+                        "".join(new)))
+    return out
+
+
+def tail_merge(text, detail=None):
+    """The common tail of both arms of an `if`/`else` hoisted out to follow the if once.
+
+    The inverse of `t15_shapes.dup_after_if`, which t61_naturalkeep lands: six of the eight
+    duplicated-tail rows of the round-33 oracle are t61 landings (report_oracle §3 item 4).
+
+    ON MEANING.  The tail runs after EITHER arm in both texts, so a variable the two arms assign
+    differently is read by the tail with the same value it had before: the arm still runs first and
+    still writes its own value, and only ONE arm ever runs.  Nothing is reordered across the store.
+    The real traps are elsewhere and each is refused above: a jump before the tail (the tail is dead
+    in that arm), an `else if` (the tail would belong to every leg), no else at all (the tail
+    already runs once), a tail line that is not a simple statement or does not sit at the arm's own
+    depth (pulling it out of a nested block changes its scope), and a preprocessor line anywhere in
+    the `if` (the two arms need not exist in the same compilation).
+    """
+    if _pinned(text, "tail_merge", detail):
+        return []
+    pins = _pin_lines(text)
+    lines = text.splitlines(True)
+    ml = [_nl(x) for x in _mask(text).splitlines(True)]
+    ml += [""] * (len(lines) - len(ml))
+    dep = depths(ml)
+    tds = V.typedef_names(text)
+    pp = V.pp_lines(text)
+    pp += [True] * (len(lines) - len(pp))
+    out, seen = [], set()
+    for name, params, b0, b1 in _fn_defs(text):
+        lo, hi = text.count("\n", 0, b0) + 1, min(text.count("\n", 0, b1), len(ml) - 1)
+        made = 0
+        for i in range(lo, hi + 1):
+            if made >= MAX_PER_FN:
+                _note(detail, "tail_merge:function-capped", name)
+                break
+            if not IFOPEN_LINE.match(ml[i]) or pp[i]:
+                continue
+            for p, cand in _tail_merge_if(lines, ml, dep, pp, i, detail, name, lo, tds):
+                if cand == text or cand in seen \
+                        or not _keeps_pins(pins, cand, "tail_merge", detail, p["label"]):
+                    continue
+                seen.add(cand)
+                out.append((p, cand))
+                made += 1
+                if made >= MAX_PER_FN:
+                    break
+    return _order(out)
+
+
+# =============================================================================== dup_tail
+
+def dup_tail(text, detail=None):
+    """`t15_shapes.dup_after_if` itself: the statement after an `if` written into BOTH arms.
+
+    The TARGET direction of the same class - on two of the oracle's rows it is the m2c text that
+    duplicates the tail and the landed text that holds it once (report_oracle §3 item 4).
+
+    The generator's own four refusals are SILENT (`dup_after_if_candidates` simply `continue`s), so
+    they are re-run here and counted; TWO are ADDED, and neither is a widening:
+      * `brace-does-not-close-an-if` - the generator matches ANY line that is only `}`, so a
+        `while`/`for`/`switch`/function closing brace produced `} else {`, text that does not
+        compile.  The catalogue wants a refusal there, not a `nobuild` under this kind's name.
+      * `jump-before-the-tail` - the refusal `tail_merge` carries in the other direction, which
+        this kind did not carry until the round-33 review named it (defect 1).  An arm that has
+        already returned / jumped makes the copy UNREACHABLE: 1,117 of the kind's 2,276 population
+        instances were this shape and every one of them was invisible.
+    """
+    if _pinned(text, "dup_tail", detail):
+        return []
+    from xform import t15_shapes as T15
+    pins = _pin_lines(text)
+    lines = text.splitlines(True)
+    ml = [_nl(x) for x in _mask(text).splitlines(True)]
+    ml += [""] * (len(lines) - len(ml))
+    dep = depths(ml)
+    out, seen = [], set()
+    try:
+        cands = T15.dup_after_if_candidates(text)
+    except Exception as e:
+        _note(detail, "dup_tail:error:" + type(e).__name__)
+        return []
+    for label, cand in cands:
+        i = int(label.rsplit(":", 1)[1]) - 1          # `dup_after_if:<1-based line of the brace>`
+        what = "%s@%d" % (_nl(lines[i + 1]).strip()[:32], i + 2)
+        head = _if_head_of(ml, dep, i)
+        if head is None:
+            _note(detail, "dup_tail:brace-does-not-close-an-if", what)
+            continue
+        j = _prev_body_line(ml, i, head + 1)
+        if j is not None and dep[j] == dep[i] and JUMP_STMT.match(ml[j].strip()):
+            # `if (c) { ...; return 0; }` followed by `stmt;`: the copy written into the IF arm
+            # sits BEHIND the jump and can never run.  The C means the same (which is why all
+            # 1,117 such instances compiled) and not one of them changes an instruction - every
+            # one measured INVISIBLE, against 57% visible for the rest of the kind.  This is the
+            # refusal `tail_merge` carries in the other direction under the same name, and the
+            # round-33 review's defect 1 was that the inverse did not carry it.  Only a jump at
+            # the ARM's OWN depth is dead: `if (c) { if (d) { return; } }` still falls through.
+            _note(detail, "dup_tail:jump-before-the-tail", what)
+            continue
+        if cand == text or cand in seen or not _keeps_pins(pins, cand, "dup_tail", detail, what):
+            continue
+        seen.add(cand)
+        out.append(({"site": i + 2, "label": "dup_tail:" + what, "brace_line": i + 1,
+                     "if_line": head + 1, "stmt": _nl(lines[i + 1]).strip()[:48]}, cand))
+    _dup_tail_refusals(lines, ml, dep, detail)
+    return _order(out)
+
+
+def _if_head_of(ml, dep, c):
+    """The `if (..) {` line whose block the bare `}` on line `c` closes, or None.
+
+    The block ending at depth `d = dep[c]` was opened EITHER by a head at depth `d - 1` that nets a
+    brace (`if (..) {`, `while (..) {`, a function, a bare `{`) OR by a `} else {` line, which sits
+    at depth `d` and nets ZERO.  Missing the second case was the whole population's biggest nobuild
+    class: the `}` that closes an ELSE arm reported the `if` above it as its head, and the
+    generator then wrote `} else { ... } else { ... }` - 278 instances that do not compile
+    (main/func_80012030@29, main/func_8000E7D4@25).
+    """
+    d = dep[c]
+    for j in range(c - 1, -1, -1):
+        if dep[j] == d and ml[j].lstrip().startswith("}"):
+            return None                     # a `} else {`: this brace closes the ELSE arm
+        if dep[j] == d - 1:
+            return j if IFOPEN_LINE.match(ml[j]) else None
+        if dep[j] < d - 1:
+            return None
+    return None
+
+
+def _dup_tail_refusals(lines, ml, dep, detail):
+    """The generator's four silent `continue`s, re-run and counted (its refusal table)."""
+    if detail is None:
+        return
+    for i in range(len(ml) - 1):
+        if not CLOSE_LINE.match(ml[i]):
+            continue
+        nxt = ml[i + 1]
+        what = "@%d" % (i + 2)
+        if nxt.strip().startswith("else"):
+            _note(detail, "dup_tail:next-line-is-else", what)
+        elif is_decl(nxt):
+            _note(detail, "dup_tail:next-line-is-a-declaration", what)
+        elif not movable(nxt):
+            _note(detail, "dup_tail:next-line-not-a-simple-statement", what)
+        elif nxt[:len(_indent(ml[i])) + 1] != _indent(ml[i]) + nxt.strip()[0]:
+            _note(detail, "dup_tail:statement-not-at-the-braces-indent", what)
+
+
 # =============================================================================== the menu
 
 PERTURBATIONS = [
@@ -1228,6 +2181,9 @@ PERTURBATIONS = [
     ("split", split),
     ("merge", merge),
     ("goto_to_loop", goto_to_loop),
+    ("tail_merge", tail_merge),
+    ("dup_tail", dup_tail),
+    ("cond_temp", cond_temp),
 ]
 KINDS = [k for k, _ in PERTURBATIONS]
 

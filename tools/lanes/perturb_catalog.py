@@ -62,19 +62,80 @@ TWO_MOVE_CAP = 100
 DEFAULT_SEED = 20260916
 
 # Which generator already spells a kind's inverse (the (a)/(b) split of the round-33 plan).
+#
+# CORRECTED after the round-33 text oracle (report_oracle.txt §2, "THE TWO ROWS WITH THE WRONG
+# CAUSE", and §4's method list).  Three entries named a generator that does not make the move:
+#   * `merge` / `split` are t51_sched_order's moves as much as t64's.  t51's own docstring records
+#     `single-set lifetime split 27` of the 61 rows of its first sweep, with the split lifetimes
+#     named `<var>_2`; the oracle found two t51 landings (dungeon/func_8133985C,
+#     main/func_80012F0C) that ONLY `merge` reproduces, with labels `merge:merge_local:frame>
+#     frame_2`.  Until this line said t51 the catalogue named the wrong generator on that class.
+#   * `local_alias` is t20_fencefree's and t61_naturalkeep's landing as well as natural.dropcopy's
+#     - 24 t20 rows and 6 t61 rows in the oracle's population, against 0 for dropcopy alone.
+#   * `tail_merge` (implementer D's kind) is t15_shapes.dup_after_if's move, which arrives on rows
+#     the journals attribute to t61_naturalkeep - the oracle's §3 shape 4, 12 rows.
 KIND_GENERATOR = {
     "param_copy": "t69_prologue",
     "hoist": "varset.inline_def / t64",
+    "cond_temp": "varset.inline_def / t64",
     "decl_reorder": "t53 decl-swap",
     "retype_void": "varset.retype_ptr / t64",
-    "split": "varset.split_def / t64",
-    "merge": "varset.merge_local + merge_param / t64",
+    "split": "varset.split_def / t64 + t51 split lever",
+    "merge": "varset.merge_local + merge_param / t64 + t51 split lever",
     "width_change": "t36 / t37",
     "adjacent_swap": "t51",
-    "local_alias": "natural.dropcopy",
+    "stmt_shift": "t51",
+    "local_alias": "natural.dropcopy / t20 / t61",
     "page_local": "t54 / t59",
+    "addr_literal": "t29_addrsym / t54",
     "goto_to_loop": "t41 / t41b",
+    "tail_merge": "t15_shapes.dup_after_if / t61_naturalkeep",
+    "dup_tail": "t15_shapes.dup_after_if",
 }
+
+# The same table in the sweep journals' own vocabulary: the `transform` values whose records are
+# evidence that this kind's generator has run on a row.  KIND_GENERATOR's strings are prose and
+# never match a journal record; this is what `match --bucket-a-split` looks up.
+KIND_TRANSFORMS = {
+    "param_copy": ["t69_prologue"],
+    "hoist": ["t64_varset"],
+    "cond_temp": ["t64_varset"],
+    "decl_reorder": ["t53_reg_state", "t53k_keep"],
+    "retype_void": ["t64_varset"],
+    "split": ["t64_varset", "t51_sched_order"],
+    "merge": ["t64_varset", "t51_sched_order"],
+    "width_change": ["t36_paramwidth", "t37_localwidth", "t37b_localwidth_keep"],
+    "adjacent_swap": ["t51_sched_order"],
+    "stmt_shift": ["t51_sched_order"],
+    "local_alias": ["t20_fencefree", "t61_naturalkeep"],
+    "page_local": ["t54_pagebase", "t59_offsetsym"],
+    "addr_literal": ["t29_addrsym", "t54_pagebase"],
+    "goto_to_loop": ["t41_gotoloop", "t41b_gotoloop_while", "t41c_gotoloop_greedy",
+                     "t44_doloop_greedy"],
+    "tail_merge": ["t15_shapes", "t61_naturalkeep"],
+    "dup_tail": ["t15_shapes"],
+}
+
+
+def transforms_of(cause):
+    """The journal transforms behind a cause (`a+b` for a two-move composition)."""
+    out = []
+    for part in cause.split("+"):
+        for t in KIND_TRANSFORMS.get(part, []):
+            if t not in out:
+                out.append(t)
+    return out
+
+
+def l1f_of(fp):
+    """`L1f` from a fingerprint record, derived when the record predates the key.
+
+    scratch/census_fp.jsonl was written before residue.py carried L1f, so the census side has to be
+    derived; the catalogue side (written after) carries it.  Deriving it is exact - L1f is a pure
+    function of `cls`, `band` and `regfam`, all three of which every record already holds."""
+    if fp.get("L1f"):
+        return fp["L1f"]
+    return "%s|%s" % (fp["L0"], residue.famset(fp.get("regfam") or []))
 
 
 def load_modules(log=True):
@@ -422,6 +483,7 @@ def match(args):
             c = _cause(r)
             for lvl in ("L0", "L1", "L2"):
                 cat[(lvl, r["fp"][lvl])][c] += 1
+            cat[("L1f", l1f_of(r["fp"]))][c] += 1
             n_cat += 1
     sites = [r for r in (json.loads(l) for l in Path(args.census).open() if l.strip())
              if "fp" in r and "err" not in r]
@@ -443,13 +505,13 @@ def match(args):
                 break
         rec = dict(id=s["id"], i=s.get("i"), macro=s.get("macro"), d0=s.get("d0"),
                    n=s.get("n"), cls=fp["cls"], band=fp["band"],
-                   L0=fp["L0"], L1=fp["L1"], L2=fp["L2"], level=level,
+                   L0=fp["L0"], L1=fp["L1"], L2=fp["L2"], L1f=l1f_of(fp), level=level,
                    mass=mass, causes=[dict(cause=k, n=v, share=round(sh, 3),
                                            generator=generator_of(k)) for k, v, sh in causes[:6]])
         per_site.append(rec)
         rowinfo[s["id"]].append(rec)
-        for lvl in ("L0", "L1", "L2"):
-            c = cat.get((lvl, fp[lvl]))
+        for lvl in ("L0", "L1", "L2", "L1f"):
+            c = cat.get((lvl, rec[lvl]))
             if c and sum(c.values()) >= args.min:
                 cov[lvl] += 1
         if level:
@@ -471,22 +533,28 @@ def match(args):
          " catalogue but never a cause)   --min %d"
          % (n, n_cat, skipped["INVISIBLE"], skipped["NOBUILD"], args.min), ""]
     L.append("%-10s %8s %7s" % ("level", "covered", "share"))
-    for lvl in ("L0", "L1", "L2", "any"):
+    for lvl in ("L0", "L1", "L2", "L1f", "any"):
         L.append("%-10s %8d %6.1f%%" % (lvl, cov[lvl], 100.0 * cov[lvl] / max(1, n)))
+    L += ["", "L1f is the SIDEWAYS key of residue.py: cls|band|the set of register families in the",
+          "recolour pairs.  It is not a level between L1 and L2 - a MOVED residue has no pairs, so",
+          "its L1f is cls|band| and can only be as coarse as L0.  It is here for the FAR band, where",
+          "L1's `far:` opcode shape is close to a per-function signature; scratch/control.py's",
+          "negative control is what decides whether it means anything, not this table."]
     for name, keyf in (("d band", lambda r: r["band"]), ("residue class", lambda r: r["cls"]),
                        ("row pin band", lambda r: pin_band(r["n"] or 1)),
                        ("macro family", lambda r: family(r["macro"] or ""))):
         L += ["", "coverage by %s" % name,
-              "%-12s %7s %9s %9s %9s" % (name, "sites", "cov L0", "cov L1", "cov L2")]
+              "%-12s %7s %9s %9s %9s %9s" % (name, "sites", "cov L0", "cov L1", "cov L2", "cov L1f")]
         groups = collections.defaultdict(list)
         for r in per_site:
             groups[keyf(r)].append(r)
         for g in sorted(groups):
             rs = groups[g]
-            c = {lvl: sum(1 for r in rs if _covered_at(cat, r, lvl, args.min)) for lvl in ("L0", "L1", "L2")}
-            L.append("%-12s %7d %8.1f%% %8.1f%% %8.1f%%"
+            c = {lvl: sum(1 for r in rs if _covered_at(cat, r, lvl, args.min))
+                 for lvl in ("L0", "L1", "L2", "L1f")}
+            L.append("%-12s %7d %8.1f%% %8.1f%% %8.1f%% %8.1f%%"
                      % (g, len(rs), 100.0 * c["L0"] / len(rs), 100.0 * c["L1"] / len(rs),
-                        100.0 * c["L2"] / len(rs)))
+                        100.0 * c["L2"] / len(rs), 100.0 * c["L1f"] / len(rs)))
     tab("coverage", L)
 
     # 2. concentration
@@ -562,6 +630,14 @@ def match(args):
     L += ["", "row lists in bucket_<a|b|weak|c>_rows.txt, per-site causes in per_site.jsonl"]
     tab("row buckets", L)
 
+    # 6. bucket a, split by the sweep journal
+    if not args.no_bucket_a_split:
+        tab("bucket a split", bucket_a_split(brows["a"], rowinfo, args))
+
+    # 7. the zero-instance rate the oracle asked for beside every coverage number
+    if not args.no_zero_instance:
+        tab("zero instance", zero_instance(sorted(rowinfo), args))
+
     with (out / "summary.txt").open("w") as f:
         print("round-33 catalogue match: census %s, catalogue %s%s"
               % (args.census, args.catalog, (" + " + args.catalog2) if args.catalog2 else ""), file=f)
@@ -569,6 +645,205 @@ def match(args):
             print("\n\n%s\n%s" % (title.upper(), "=" * len(title)), file=f)
             print("\n".join(lines), file=f)
     print("wrote %d tables + per_site.jsonl + summary.txt in %s" % (len(tables), out))
+
+
+# --------------------------------------------------------------- bucket a, split by the journal
+
+def journal_index(ids=None):
+    """`ledger/sweeps/*.jsonl` indexed once: (row id, in_sha) -> [(transform, outcome)].
+
+    Every sweep record carries the sha256 of the text the transform was HANDED (`in_sha`), so a
+    record whose in_sha is the sha of the row's text AS IT STANDS TODAY is a run of that transform
+    on this very text - and its outcome says what happened.  Any other record was a run on an older
+    text and proves nothing about the row now.  215 files, ~318,000 records, about 5 s.
+    """
+    idx = collections.defaultdict(list)
+    n = 0
+    for p in sorted((ROOT / "ledger/sweeps").glob("*.jsonl")):
+        with p.open() as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                n += 1
+                rid, sha = r.get("id"), r.get("in_sha")
+                if not rid or not sha or (ids is not None and rid not in ids):
+                    continue
+                idx[(rid, sha)].append((r.get("transform"), r.get("outcome")))
+    return idx, n
+
+
+def bucket_a_split(rows_a, rowinfo, args):
+    """a_missed / a_unseen / a_applied, per generator.
+
+    A bucket-a row has a site whose top cause names a generator.  The question the round-33 plan
+    could not answer is whether that generator has ALREADY been offered this row: the catalogue
+    says "a move of this shape produces this residue", not "nobody has tried".  So for each row,
+    and for the journal transforms behind its top cause (`KIND_TRANSFORMS`), the journals are asked
+    for records whose `in_sha` is the sha256 of the row's CURRENT src text:
+
+      a_missed   the generator RAN on this very text and did not apply (the outcome is reported -
+                 `refused` with its reason, `noop`, `mismatch`, `build-failed`).  Opening its
+                 refusal is the cheap move: the row is already in front of it.
+      a_unseen   no record on the current text at all - the generator has never run here, or ran
+                 on an older text.  A sweep is what this row wants, not a widening.
+      a_applied  an applied record on the current text: the generator changed the row and pins
+                 remain.  Its next pin needs a different move.
+    """
+    from common import sha_text                                     # noqa: E402
+    rows = {r["id"]: r for r in all_rows()}
+    want = {}
+    for rid in rows_a:
+        sites = rowinfo[rid]
+        best = None
+        for s in sites:
+            if s["level"] in ("L1", "L2") and s["causes"] and s["causes"][0]["generator"]:
+                if best is None or s["causes"][0]["n"] > best["causes"][0]["n"]:
+                    best = s
+        if best is None:
+            continue
+        want[rid] = best
+    idx, n_recs = journal_index(set(want))
+    per = collections.defaultdict(lambda: collections.Counter())
+    pins = collections.defaultdict(lambda: collections.Counter())
+    outcomes = collections.defaultdict(collections.Counter)
+    detail = {}
+    no_text = 0
+    for rid, site in sorted(want.items()):
+        row = rows.get(rid)
+        if row is None or not clean_path(row).exists():
+            no_text += 1
+            continue
+        sha = sha_text(clean_path(row).read_text(errors="replace"))
+        cause = site["causes"][0]["cause"]
+        trs = transforms_of(cause)
+        recs = [x for x in idx.get((rid, sha), []) if x[0] in trs]
+        if not trs:
+            sub = "a_unseen"
+        elif any(o == "applied" for _t, o in recs):
+            sub = "a_applied"
+        elif recs:
+            sub = "a_missed"
+        else:
+            sub = "a_unseen"
+        gen = site["causes"][0]["generator"]
+        per[gen][sub] += 1
+        pins[gen][sub] += len(rowinfo[rid])
+        for _t, o in recs:
+            outcomes[sub][o] += 1
+        detail[rid] = (sub, cause, gen, sorted(set(recs)))
+    L = ["bucket a (%d rows) split by the sweep journals: has the generator the catalogue names"
+         " already been offered THIS text?" % len(rows_a),
+         "%d journal records scanned; %d bucket-a rows carry a top cause with a generator;"
+         " %d rows have no clean file" % (n_recs, len(want), no_text),
+         "",
+         "%-46s %8s %8s %8s %8s" % ("generator (of the row's top cause)", "a_missed", "a_unseen",
+                                    "a_applied", "rows")]
+    tot = collections.Counter()
+    tpins = collections.Counter()
+    for gen in sorted(per, key=lambda g: -sum(per[g].values())):
+        c = per[gen]
+        L.append("%-46s %8d %8d %8d %8d" % (gen[:46], c["a_missed"], c["a_unseen"], c["a_applied"],
+                                            sum(c.values())))
+        tot.update(c)
+        tpins.update(pins[gen])
+    L.append("%-46s %8d %8d %8d %8d" % ("TOTAL rows", tot["a_missed"], tot["a_unseen"],
+                                        tot["a_applied"], sum(tot.values())))
+    L.append("%-46s %8d %8d %8d %8d" % ("TOTAL pins", tpins["a_missed"], tpins["a_unseen"],
+                                        tpins["a_applied"], sum(tpins.values())))
+    L += ["", "the outcome of the records behind a_missed and a_applied:"]
+    for sub in ("a_missed", "a_applied"):
+        L.append("  %-10s %s" % (sub, ", ".join("%s %d" % kv for kv in outcomes[sub].most_common())))
+    key = "MOVED|3-4|-move,sw +move,sw"
+    rows_key = [rid for rid, s in want.items() if s["L1"] == key]
+    if rows_key:
+        c = collections.Counter(detail[r][0] for r in rows_key if r in detail)
+        g = collections.Counter(detail[r][2] for r in rows_key if r in detail)
+        L += ["", "THE CONFIRMATION the round-33 brief asked for, on `%s`:" % key,
+              "  %d bucket-a rows carry that key as their top-cause site; %s"
+              % (len(rows_key), ", ".join("%s %d" % kv for kv in c.most_common())),
+              "  generators: %s" % ", ".join("%s %d" % kv for kv in g.most_common())]
+    L += ["", "per row: bucket_a_split.jsonl"]
+    (Path(args.out) / "bucket_a_split.jsonl").write_text(
+        "".join(json.dumps(dict(id=r, sub=v[0], cause=v[1], generator=v[2],
+                                journal=[list(x) for x in v[3]])) + "\n"
+                for r, v in sorted(detail.items())))
+    return L
+
+
+# --------------------------------------------------------------- the zero-instance rate
+
+def _zi_one(rid):
+    row = ZI_ROWS.get(rid)
+    if row is None or not clean_path(row).exists():
+        return rid, None
+    text = clean_path(row).read_text(errors="replace")
+    from pin_sites import erase_many                                # noqa: E402
+    clean = erase_many(text, sites_of(text), clean_notes=True)
+    out = {}
+    for kind, fn in kinds_of(ZI_MODS):
+        try:
+            out[kind] = len(fn(clean, collections.Counter()))
+        except Exception:
+            out[kind] = -1
+    return rid, out
+
+
+ZI_ROWS = {}
+ZI_MODS = None
+
+
+def _zi_init():
+    global ZI_ROWS, ZI_MODS
+    ZI_ROWS = {r["id"]: r for r in all_rows()}
+    ZI_MODS = load_modules(log=False)
+
+
+def zero_instance(ids, args):
+    """Per kind and per generator: the share of PINNED rows on which the kind enumerates nothing.
+
+    The oracle's third method change - "report the reversing kind's zero-instance rate beside any
+    coverage number" - read on the census's own rows instead of on the 152 landed ones.
+
+    THE ONE CHOICE THIS MAKES, and it has to be stated: every kind refuses a text that carries pin
+    sites outright (`_guard`, "the catalogue perturbs pin-free rows only"), so the rate is measured
+    on the row's text WITH ITS PINS ERASED - `erase_many(text, sites_of(text), clean_notes=True)`,
+    the same m2c-like text the oracle calls the target.  That is the text a generator would be
+    handed if its pins came out, so it is the right one to ask; it is NOT the pinned text, and a
+    kind could in principle behave differently on the two.
+    """
+    t0 = time.time()
+    res = {}
+    with Pool(args.procs, initializer=_zi_init) as p:
+        for rid, out in p.imap_unordered(_zi_one, ids, chunksize=8):
+            if out is not None:
+                res[rid] = out
+    kinds = sorted({k for v in res.values() for k in v})
+    L = ["the share of the census's %d PINNED rows on which each kind enumerates AT LEAST ONE"
+         " instance, measured on the row's text with its pins erased (%.0f s)"
+         % (len(res), time.time() - t0),
+         "",
+         "%-16s %-46s %8s %8s %8s" % ("kind", "generator", "rows", "some", "zero")]
+    for kind in sorted(kinds, key=lambda k: -sum(1 for v in res.values() if v.get(k, 0) > 0)):
+        some = sum(1 for v in res.values() if v.get(kind, 0) > 0)
+        L.append("%-16s %-46s %8d %7d%% %7d%%"
+                 % (kind, (KIND_GENERATOR.get(kind) or "-")[:46], len(res),
+                    round(100.0 * some / max(1, len(res))),
+                    round(100.0 * (len(res) - some) / max(1, len(res)))))
+    L += ["", "per generator (a kind's rate is the generator's reach on the rows still pinned):"]
+    bygen = collections.defaultdict(list)
+    for kind in kinds:
+        bygen[KIND_GENERATOR.get(kind) or "-"].append(kind)
+    L.append("%-46s %-40s %8s" % ("generator", "kinds", "some-instance rows"))
+    for gen in sorted(bygen):
+        ks = bygen[gen]
+        some = sum(1 for v in res.values() if any(v.get(k, 0) > 0 for k in ks))
+        L.append("%-46s %-40s %7d%%" % (gen[:46], ",".join(ks)[:40],
+                                        round(100.0 * some / max(1, len(res)))))
+    return L
 
 
 def _covered_at(cat, rec, lvl, minimum):
@@ -603,6 +878,9 @@ def main():
     d.add_argument("--catalog2")
     d.add_argument("--out", required=True)
     d.add_argument("--min", type=int, default=5)
+    d.add_argument("--procs", type=int, default=6)
+    d.add_argument("--no-bucket-a-split", action="store_true")
+    d.add_argument("--no-zero-instance", action="store_true")
     args = ap.parse_args()
     if args.cmd == "sample":
         sample(args)

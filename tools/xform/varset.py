@@ -1063,12 +1063,22 @@ def _disjoint(fn, kinds_a, kinds_b):
     return not _interfere(fn, kinds_a, kinds_b)
 
 
-def merge_local_candidates(text, focus=None, skips=None):
-    """Two same-type locals with disjoint CFG live ranges, merged in both naming directions."""
+def merge_local_candidates(text, focus=None, skips=None, allow_init=False):
+    """Two same-type locals with disjoint CFG live ranges, merged in both naming directions.
+
+    `allow_init` (default False, the behaviour every existing caller keeps) passes straight through
+    to `usable_locals`: an INITIALISED declaration - `S *alias = obj;`, m2c's own typed-alias shape -
+    then becomes a merge candidate instead of counting `initialised-decl`.  It is off by default
+    because the merge DELETES the guest's declaration line, initialiser and all: with it on, the
+    caller owns the two shapes that deletion can break - a guest whose initialiser is not the host
+    (the definition is lost) and a host whose initialiser READS the guest (the line becomes
+    `T host = host;`).  `tools/lanes/perturb_struct.merge` is the caller that turns it on, and it
+    refuses both from the candidate text (`merge:init-lost`, `merge:self-initialised-declaration`).
+    """
     skips = collections.Counter() if skips is None else skips
     scored = []
     for fn in functions(text, skips):
-        locs = usable_locals(fn, skips)
+        locs = usable_locals(fn, skips, allow_init=allow_init)
         kinds = {v: fn.kinds(v) for v in locs}
         for a, b in itertools.combinations(sorted(locs), 2):
             da, db = locs[a], locs[b]
@@ -1100,12 +1110,17 @@ def merge_local_candidates(text, focus=None, skips=None):
 
 # --------------------------------------------------------------------------- merge_param
 
-def merge_param_candidates(text, focus=None, skips=None):
-    """A local merged into a same-type dead parameter, and the `usecopy` reverse direction."""
+def merge_param_candidates(text, focus=None, skips=None, allow_init=False):
+    """A local merged into a same-type dead parameter, and the `usecopy` reverse direction.
+
+    `allow_init`: see `merge_local_candidates` - the same keyword, the same default, passed through
+    to `usable_locals` and nothing else.  Direction (1) deletes the local's declaration, so the same
+    caller-side refusals apply; the `usecopy` direction deletes nothing.
+    """
     skips = collections.Counter() if skips is None else skips
     scored = []
     for fn in functions(text, skips):
-        locs = usable_locals(fn, skips)
+        locs = usable_locals(fn, skips, allow_init=allow_init)
         if not fn.nodes:
             continue
         body = "\n".join(fn.m[fn.lo:fn.hi])

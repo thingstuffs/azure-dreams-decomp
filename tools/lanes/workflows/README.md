@@ -69,3 +69,23 @@ listing 132 lines away, all four reach 0, which is why one-copy-at-a-time `dropc
 45 rows / 24 pins, held-out 0 of 20; the reviewer's two majors (directive lines rewritten, a retype without a use guard)
 fixed with 25 new tests. The harness refused the subagents' REPORT.md writes; the parent assembled the report from the
 returned text. Usage: 3 agents / 613k subagent tokens / 86 min.
+
+## r33_catalog.js, r33_oracle.js, r33b_widen.js (round 33, 2026-09-16)
+
+The round-32 plan's step 1, the forward perturbation catalogue, as three Workflows the parent orchestrated and checked.
+`r33_catalog.js`: two opus implementers in parallel to one fixed contract (A: `residue.py`, `perturb_basic.py`,
+`perturb_catalog.py`, `erase_census.py --fp`; B: `perturb_struct.py`), each with an adversarial reviewer and a fix stage,
+then one opus RUNNER (a barrier is right here: it needs both modules) for the census with fingerprints, the 1,000-row and
+whole-population catalogues, the match, a calibration and a negative control. 7 agents / 1.98M tokens / 169 min. The
+reviewers found three blocking defects in A and two in B (a jump parsed as a declaration; a store/load pair called
+independent; a read hoisted across a call; the varset wrappers renaming inside a pin), all fixed with regression tests
+proven to fail pre-fix. `r33_oracle.js`: one opus measurer and one adversarial reviewer (the advisor's idea, run before
+sizing the widening): the text oracle over the 152 rows a generator landed - which kinds reproduce the pre-landing text
+minus its pins, and the missing shapes named from the nearest misses. 3 agents / 817k / 104 min; its report sized the next
+script. `r33b_widen.js`: the same two-item shape (C the text-level kinds, the cause table and the bucket-a split; D the
+structural kinds and one keyword parameter in `varset.py` with its default proven unchanged), then a runner for the
+whole-population re-run, the re-match, the oracle re-run with a control column and the gate re-read. 7 agents / 2.22M /
+198 min. Pattern that held across all three: the runner's report ends with a recommendation the parent reads before the
+next script is written, and the parent's own fix afterwards (the `__typeof__` declaration scanner) was the only edit not
+made by an agent. Row lists and evidence live in `work/native_lane/r33_catalog/`; rebuild `scratch/census_fp2.jsonl` and
+the catalogues under `work/perturb_catalog/` before reuse (both behind `.ignore`).

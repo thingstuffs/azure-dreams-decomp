@@ -23,6 +23,84 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Thirty-third round (2026-09-16, 06:50-15:30 UTC), NOT gated - no landing, no sweep; the tree under src/ is unchanged at
+**6,181 pins in 1,298 rows**. The round built the instrument the round-32 plan asked for (step 1), measured it against the
+tree's own landed history (the text oracle), widened it once where that measurement said it was narrow, and read the
+buckets. Three Workflows, all opus, the parent orchestrating and checking: `r33_catalog.js` (7 agents / 1.98M tokens /
+169 min), `r33_oracle.js` (3 / 817k / 104 min), `r33b_widen.js` (7 / 2.22M / 198 min); CPU runs are cheap (the whole
+5,434-row population in 143 s, a 1,000-row two-move catalogue in 182 s). **Read `docs/PIN_MECHANISMS_20260912.md` "Round
+33", then `work/native_lane/r33_catalog/report_run2.txt` (the widened run: every table), `report_oracle.txt` (sections 3-4)
+and `report_run.txt` (the first run). The verdicts:**
+- **The catalogue exists and speaks the generators' language.** `tools/lanes/residue.py` (ONE fingerprint for the census
+  side and the catalogue side: INVISIBLE / MOVED / RECOLOURED / BOTH / CHANGED x d band x opcode shape x register families,
+  keys L0 / L1 / L2; a `$L` renumber is never a recolour), `erase_census.py --fp` (every site fingerprinted, flagless output
+  byte-identical), `perturb_basic.py` (param_copy, decl_reorder, width_change, adjacent_swap, stmt_shift, local_alias with
+  five openings and two declaration spellings, page_local, addr_literal) and `perturb_struct.py` (hoist, retype_void with
+  the offset-load spelling, split, merge with `allow_init`, goto_to_loop accepting t41's landed spelling, tail_merge,
+  dup_tail, cond_temp) - 16 kinds, each a generator's move REVERSED toward the m2c form; `perturb_catalog.py` (sample / run
+  / summary / match with `KIND_GENERATOR`, the row buckets and the bucket-a split by the sweep journals); 386 tests. Every
+  workflow's adversarial reviewer found real defects (a jump parsed as a declaration, a store/load pair t51 calls
+  independent, a read hoisted across a call, an alias declared inside a switch above its first `case`, `&D_X` spelled as
+  bare `u8 *` arithmetic ...), all fixed and re-measured over the whole population with regression tests proven to fail
+  pre-fix. The parent's own fix after the last run: a `__typeof__(EXPR) name;` temporary was read as a statement by the
+  declaration scanners, which silently deleted every hoist/cond_temp composition from the two-move catalogue (99% NOBUILD);
+  `TYPEOF_DECL` in both modules, 4 tests, the pairs re-run.
+- **The gate, read honestly, is two sentences.** Whole census at L1: 11.6% (step 1, 1,000 rows) -> 16.0% (whole
+  population) -> 20.2% (widened). But beyond d = 4 the L1 key cannot cover the CATALOGUE'S OWN other half (self-coverage
+  95 / 83 / 41 / 13 / 2 / 3% by band 1-2 / 3-4 / 5-8 / 9-16 / 17-32 / 33+), so 4,105 of the 6,188 sites sit where an L1
+  number means nothing either way; the sideways key L1f (register-family set) covers 93% but 99% of it is other kinds'
+  mass - unusable. Where the key works, the near band (2,062 sites), coverage went 33.9% -> 56.5% (L1 by band 73.9% at
+  1-2, 40.6% at 3-4). The pin-band spread is flat (18-21%): interacting pins are NOT the discriminator the plan expected;
+  the whole structure of the shortfall is the d band. Rows are not the lever (5.4x rows bought +4.4 points).
+- **The text oracle is the method's falsification test, and it is cheap** (`scratch/oracle.py`, 3 min, no compiles): on
+  152 rows a generator landed, does some kind on the LANDED text reproduce the pre-landing text minus its pins,
+  rename-invariantly (reach.py skeletons, parameters alpha-renamed too)? 47 exact before the widening, 69 after (+3 from
+  the metric, +19 from the kinds; none lost); rows where the reversing kind enumerates NOTHING 48 -> 29. goto_to_loop went
+  0 -> 11 of 15 t41 rows once it accepted `} if (COND) goto L;` on one line; tail_merge 4 of 6 t61 rows. What still misses:
+  the redundant-copy family where the copy is one of several differences, the address spellings addr_literal does not
+  write, noreturn tail-call declarations (not buildable), and t64's split/merge on rows where varset itself refuses.
+- **The near band's remainder is more than half allocator.** 898 uncovered near-band pins (from 1,364): 516 (57%) are
+  RECOLOURED residues or a register copy appearing/disappearing - no single text perturbation produces those; the reachable
+  remainder is 382 pins on 247 rows, half address spellings (`-addiu +lui,ori`, `-addiu,la +la`, `-addiu,lw +lw`), half
+  width/sign (`-lbu +andi,lbu`, `-lbu,sll,sra +lb`). addr_literal (new) is the top cause on 248 of the 1,248 L1-covered
+  sites and closed the two heaviest uncovered keys outright (`CHANGED|3-4|-addiu,lui +lui,ori` 107 pins, `CHANGED|1-2|-addiu
+  +ori` 70). A further single-move widening is bidding for 382 pins (ceiling: near band 56.5% -> 75%) - and for the
+  instrument: d 5-8 self-coverage went 18% -> 41% on this widening; one more of comparable size likely takes 793 sites past
+  the 50% bar.
+- **Bucket a is two lists, not a backlog, and the sweep journals separate them cleanly.** 584 rows / 4,200 pins have a
+  covered site whose top cause names a generator. Of those, `a_missed:noop` 359 rows / 2,915 pins - the generator RAN on
+  this very text and found nothing (it does not recognise the site: a COMPOSITION target); `a_missed:refused` 167 rows /
+  1,020 pins - it saw the site and declined by a named rule (a REFUSAL TABLE to open, as DROP_REG was); `a_unseen` 57 rows /
+  264 pins (no record on the current text: sweep). By generator: t51 244 noop / 0 refused / 45 unseen (1,779 / 0 / 192
+  pins); t29/t54 80 noop / 62 refused / 8 unseen (967 / 360 / 53); t69_prologue 0 / 90 / 0 (0 / 574 / 0); t64 14 / 0 / 2.
+  The round-32 lead reads the same from a third side: `MOVED|3-4|-move,sw +move,sw` (109 pins) is now covered, top cause
+  param_copy, and 71 of 71 of its bucket-a rows are a_missed for t69_prologue - the DROP_REG-miss rows. Bucket weak (L0
+  only) 710 rows / 1,982 pins, bucket c 6 rows; at L1 4,940 sites are uncovered, 4,021 of them in bands where the
+  instrument cannot see.
+- **Round 34 plan (steps 3-4 of the round-32 plan, with the buckets as measured):**
+  1. **Done at the close of round 33:** the pairs catalogue re-run with the `__typeof__` scanner fix
+     (`work/perturb_catalog/pairs_1000_3.jsonl`, 74,909 pairs, NOBUILD 5.6% -> 0.1%; hoist-first pairs 23.5% -> 0.2%) and
+     the re-match (`rows/match3/`, the CURRENT match: L1 20.4%, near band 75.1% at 1-2 / 40.6% at 3-4, the compositions
+     present for the first time). Read `rows/match3/` for step 3's row lists, `report_run2.txt` for the reading.
+  2. **The refusal tables (a_missed:refused, 1,020 pins):** t69_prologue 90 rows / 574 pins - EVERY t69 bucket-a row is a
+     refusal, and round 32 already read its table: what is left is the `T69_TWICE` d=2 class composed with a register
+     lever (handover item 4 of round 32, still open); then t29_addrsym / t54 62 rows / 360 pins - t29's refusal table with
+     the pins behind it, opened as DROP_REG was (a Workflow: opus implements and reviews, the parent's final check).
+  3. **The compositions (a_missed:noop, 2,915 pins):** t51 x adjacent_swap 239 rows / 1,748 pins - t51 nooped on every
+     one; the two-move catalogue (now unblocked) names which second move makes the pair independent (stmt_shift or
+     adjacent_swap beside param_copy / local_alias, i.e. a t69/dropcopy move AND a t51 move verified TOGETHER - the valley
+     round 31 named); t29/t54 x addr_literal 80 rows / 967 pins - address materialisation composed with a register copy or
+     recolour (`-move,ori +ori`, `-addiu +move,ori`, `RECOLOURED -addiu,lui`): a symbol naming AND a copy drop, jointly.
+     Build each as a composition generator (the first move's candidate, then the second generator's menu, vf on the pair).
+  4. **The model lanes (step 3c):** the rows the instrument cannot explain - bucket weak/c at L1 plus the far band - served
+     by packs from the existing builders with the new admission rule (unexplained at L1, ranked by pins), sol first, opus on
+     what sol misses, every brief carrying the row's fingerprint (`scratch/census_fp2.jsonl`) and the catalogue's nearest
+     hypotheses (`rows/match3/per_site.jsonl`); the closed-groups rule measured per bucket. If those pay under 20% too,
+     their remaining pins are the honest floor.
+  5. **One more widening only if 3 needs it:** the address spellings and the width/sign spellings (382 reachable pins),
+     and nothing aimed at the 516 allocator pins by text.
+  Do not quote L1f, and do not quote a whole-census L1 number without the band it was measured in.
+
 Thirty-second round (2026-09-16, morning), gated (16 windows MATCH, SLUS SHA-1 MATCH): **6,181 pins in 1,298 rows** (6,201 at start,
 -20: `t69_prologue` with the new `T69_DROP_REG` opening 11 rows / 18 pins - 10 through the lane, 1 through the forced sweep - and the
 cascade t48 1, t53 1; arms identical on all 11 changed rows). All CPU, no model. The owner's instruction for the batch after this

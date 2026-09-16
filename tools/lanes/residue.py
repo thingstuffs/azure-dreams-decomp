@@ -30,6 +30,16 @@ Fields
   regs    the (from, to) register pairs of a recolour, at most 6, [] for MOVED/CHANGED/NOBUILD
   regfam  the same pairs by register family (a, v, t, s, sp, ra, gp, fp, at, k, zero, other)
   L0/L1/L2  the three nested keys: cls|band, L0|shape, L1|regfam
+  L1f     a SIDEWAYS key beside L1, for the far band: cls|band|the SET of register families that
+          appear in the recolour pairs (sorted and joined, each family once however often it
+          occurs, both sides of a pair together).  L1 refines L0 by the OPCODE shape, and beyond
+          d = 4 that shape is `far:`-truncated and close to a per-function signature - the round-33
+          negative control measured the catalogue's self-coverage there at 0-8%, so L1 answers
+          nothing about the far band.  L1f refines L0 by WHICH REGISTERS moved instead, which does
+          not grow with the diff's length.  It is a strictly different axis, not a level: L1f is
+          neither coarser nor finer than L1 (a MOVED residue has no pairs at all, so its L1f is
+          just `cls|band|`), and whether it is worth anything is the negative control's verdict,
+          not this module's claim.
 
 The register regex is the HARD-REGISTER one (`rev_residue_check.py`'s), never `\\$\\w+`: `screen.py`
 renumbers `$L` labels, and `\\$\\w+` blanks a label exactly like a register, so a pure label renumber
@@ -154,6 +164,19 @@ def _fam(pairs):
     return out[:MAX_REGS]
 
 
+def famset(fam):
+    """The SET of register families in a recolour's pairs, sorted and joined - L1f's tail.
+
+    `fam` is the `regfam` list (`[[from, to], ...]`).  Both sides of every pair contribute, each
+    family once: `[[a, t], [t, a]]` and `[[a, t]]` have the same set, because the question the far
+    band asks is WHICH FAMILIES the residue touches, not in which direction.
+    """
+    out = set()
+    for pair in fam:
+        out.update(pair)
+    return ",".join(sorted(out))
+
+
 def classify(ref, cand, d):
     if ref is None or cand is None:
         return "NOBUILD"
@@ -174,7 +197,8 @@ def fingerprint(ref, cand):
     """The residue fingerprint of `cand` against `ref` (both `compile_s` listings)."""
     if ref is None or cand is None:
         return dict(d=None, cls="NOBUILD", band="none", shape="", regs=[], regfam=[],
-                    L0="NOBUILD|none", L1="NOBUILD|none|", L2="NOBUILD|none||")
+                    L0="NOBUILD|none", L1="NOBUILD|none|", L2="NOBUILD|none||",
+                    L1f="NOBUILD|none|")
     d = sum(1 for x in difflib.unified_diff(ref, cand, lineterm="", n=0)
             if x[:1] in "+-" and not x.startswith(("+++", "---")))
     cls = classify(ref, cand, d)
@@ -186,5 +210,6 @@ def fingerprint(ref, cand):
     L0 = "%s|%s" % (cls, band)
     L1 = "%s|%s" % (L0, shape)
     L2 = "%s|%s" % (L1, ",".join("%s>%s" % f for f in fam))
+    L1f = "%s|%s" % (L0, famset([list(f) for f in fam]))
     return dict(d=d, cls=cls, band=band, shape=shape, regs=[list(r) for r in regs],
-                regfam=[list(f) for f in fam], L0=L0, L1=L1, L2=L2)
+                regfam=[list(f) for f in fam], L0=L0, L1=L1, L2=L2, L1f=L1f)

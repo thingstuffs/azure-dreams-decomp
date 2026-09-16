@@ -97,6 +97,18 @@ ties each refusal to the local it was about, so the pins BEHIND a refusal can be
 seconds (`scratch/dropreg_screen.py`) before any verify - and the order of a generator's refusals matters, because a test
 that fires before the class test (t69's `declared-twice`) counts records that were never the generator's.
 
+Round 33 added the forward perturbation catalogue (`tools/lanes/residue.py`, `perturb_basic.py`, `perturb_struct.py`,
+`perturb_catalog.py`, `erase_census.py --fp`): every pin-free byte-exact row perturbed one m2c-style move at a time (each a
+generator's move reversed), the residue fingerprinted by the same function as the census, so a pinned site gets its ranked
+CAUSES and a row its bucket (`match`; bucket a split by the sweep journals into noop / refused / unseen). Four rules from it:
+**run the text oracle before sizing a widening** (`work/native_lane/r33_catalog/scratch/oracle.py`: on the rows a generator
+landed, does a kind on the landed text reproduce the pre-landing text minus its pins, rename-invariantly? 3 min, no compiles;
+it named the missing shapes the compile gate could not); **report a kind's zero-instance rate on its own generator's rows
+beside any coverage number** (48 of 152 rows had a reversing kind that produced nothing); **never quote coverage without the
+band, and never beyond the band where the key covers the catalogue's own other half** (L1 means something at d <= 4 only);
+**split "a cause with a generator" by the journals before opening a refusal table** - 359 of 584 bucket-a rows are rows the
+generator already ran on and nooped (a composition target), 167 are named refusals (the table to open).
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`
