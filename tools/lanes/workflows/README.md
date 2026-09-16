@@ -102,3 +102,12 @@ Result: four honest negatives on A (the residue is decided at `greg`: which copi
 `T29_SYMDEF` 1 pin of 297, off; NONRAM off; the composition 0; t54 not blind); -33 pins. The row lists came from
 `work/native_lane/r33_catalog/rows/match3/` and the parent's journal scan (`r34_wave/rows/wave_*.txt`); rebuild them
 before reuse.
+
+## r34_packs.js (round 34, step 3c tooling)
+
+One opus implementer, one adversarial reviewer, one fix: `tools/lanes/build_catalog_lanes.py` and `catalog_lane_brief.md`,
+the pack builder for the catalogue's unexplained rows (near band uncovered at L1, or far band), with the served and
+closed-group guards per bucket and every brief carrying each site's fingerprint, its top causes labelled "a compatible
+mechanism, not the move", and the round-33/34 negatives. 3 agents / 489k tokens / 39 min. Its dry-run measured the pool
+the plan asked for (15 near / 17 far rows unserved and open) and built `catalog_near1` (launched on sol by the parent)
+and `catalog_far1` (built, unlaunched). The reviewer's one major was a mis-sized option count in the report prose.

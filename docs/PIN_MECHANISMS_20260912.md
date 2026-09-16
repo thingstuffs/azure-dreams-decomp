@@ -1875,6 +1875,12 @@ parent's sweeps, landing and gate. Lane `work/native_lane/r34_wave/`.
 - **Bounded this round:** t69's missed class (the greg order of merged entry copies - every register and ordering lever
   negative), t29's SYMDEF and NONRAM classes, the address x copy-drop composition, t54's budget, and (from round 33's
   re-match) t51's noop class as a composition target. The wave's CPU items are done; what remains is the model lanes.
+- **The model-lane pool, measured by the catalogue's admission rule (`build_catalog_lanes.py`):** of 1,300 pinned rows,
+  546 are bucket a (a near site covered at L1), 224 unexplained-near (930 pins) and 521 far (1,147 pins); but 180 of the
+  near and 405 of the far rows were served by earlier lanes, and the closed-group rule takes 29 and 99 more - 15 near rows
+  / 55 pins and 17 far / 52 unserved and open. The wave the plan imagined on "unexplained rows ranked by pins" is two
+  12-row packs; beyond them every pack is a retry (`--repack`, 3% historically) or a deliberate measurement on a closed
+  group. `catalog_near1` went to sol; `catalog_far1` is built, unlaunched.
 
 ## Round 33 (2026-09-16): the forward perturbation catalogue, the text oracle, one widening, the buckets
 
@@ -1891,7 +1897,9 @@ every report, running the tests and the diffs, and making one fix of its own. La
   pairs by family; keys L0 = cls|band, L1 = +shape, L2 = +families). The direction is the census's on both sides: `-` is
   retail. `perturb_catalog.py match` then gives every pinned site its ranked causes (kinds by share of the key's catalogue
   mass, at the finest level where the key has five or more instances) and every row a bucket. 16 kinds after the
-  widening; 386 tests; the whole population runs in 143 s.
+  widening; 386 tests; the whole population runs in 143 s. Two counters, seven sites apart: `erase_census.py` counts
+  6,188 live sites on the tree STATUS.md counts as 6,181 pins (STATUS's census excludes a handful of sites, e.g. the
+  one-trip blocks it counts separately); every coverage share in the round-33 reports is over the census's 6,188.
 - **What the reviewers caught, so the numbers can be believed.** Step 1: a jump (`goto L;`, `return x;`) parsed as a
   declaration (decl_reorder swapped two gotos, param_copy placed its copy after a jump), a store/load pair t51's
   `access()` calls independent (32 real dependences swapped), a memory read hoisted across a call, the varset wrappers

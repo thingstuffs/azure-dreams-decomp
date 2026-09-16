@@ -57,7 +57,22 @@ two adversarial reviewers, two fixes; no runner - the parent swept, landed and g
   address-materialisation residue and t59 reaches 66 of them without exactness - the next lever there is not textual.
 - **The wave's CPU items are exhausted.** Bucket a's two generator classes are read to the end (t69: which copies are
   parameters; t29/t54: allocation and schedule after the respelling), the t51 class was never a composition target, and
-  the model lanes (step 3c) are what remains - the owner's call on credits. The catalogue's instrument stays as measured.
+  the model lanes (step 3c) are what remains. The catalogue's instrument stays as measured.
+- **Step 3c built and started (`r34_packs.js`, 3 opus agents / 489k tokens / 39 min): `tools/lanes/build_catalog_lanes.py`
+  + `catalog_lane_brief.md`, 29 tests.** The admission rule: a pinned row is UNEXPLAINED-NEAR when it has a site at
+  d0 <= 4 and none of its near sites is covered at L1 with a cause; FAR when it has no near site; bucket a (a near site
+  covered) is never admitted. Ranked by pins; served rows refused (`--repack` lifts it), closed (family, stratum) groups
+  refused (`--ignore-closed` lifts it; strata outside the alloc pack names fold to `-`). **The pool the plan asked for is
+  small:** 224 unexplained-near rows / 930 pins, of which 180 rows served already and 29 in closed groups -> 15 admitted /
+  55 pins; 521 far rows / 1,147 pins, 405 served, 99 closed -> 17 / 52. With `--ignore-closed` 44 / 147 near and 116 /
+  206 far; with `--repack` 81 / 364 and 221 / 548. Two 12-row packs written: `work/native_lane/catalog_near1` (52 pins;
+  each row's sites with fingerprint, top causes labelled "a compatible mechanism, not the move", the round-33/34
+  negatives) and `catalog_far1` (47 pins; no cause named, classes only). **`catalog_near1` was launched on sol at 18:20
+  UTC** (`launch_lane.sh catalog_near1 sol`, PID in `lane.pid`; wait with `kill -0`, never gate or sweep while it
+  scores; harvest with `bash tools/lanes/land_lanes.sh r35 catalog_near1` then the arm check and one gate).
+  `catalog_far1` is built and NOT launched: the far band is where the catalogue says nothing, so its brief is thin -
+  the owner decides whether to spend sol there (`bash tools/lanes/launch_lane.sh catalog_far1 sol`). Read the closed-groups
+  rule per bucket after both: if the near pack pays under 20%, the unexplained near band joins the honest floor.
 - **Round 35 plan:** (1) the model lanes on the rows the instrument cannot explain: packs from the existing builders with
   the admission rule "unexplained at L1 in the near band, or far band" ranked by pins, sol first, opus on what sol misses,
   every brief carrying the row's fingerprint (`work/native_lane/r33_catalog/scratch/census_fp2.jsonl`), its nearest
