@@ -1,5 +1,18 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**500-pin continuation closed at a measured plateau (2026-09-16): 6,103 pins
+in 1,284 rows. Net -35 from `500808e2`; the 500-pin threshold was not reached.**
+Two gated implementation commits: `85f57ff1` (-6) and `a6cb5c82` (-29). The initial
+round 35 demonstration removed ten more, outside this goal's counter. Read
+[PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and the compact plateau evidence JSON.
+Final follow-ups: 88 row-visits / 504 candidate screens across larger copy pairs,
+coherent copy families, cast copies, paired return/local types, and two definite
+void/scalar return contradictions; zero exact removals. The reusable lesson is
+coupled value types plus caller review, not more spelling search. This is a
+practical stopping point for the tested mechanisms, not an irreducibility claim.
+All affected overlay/SLUS gates passed; five generator tests and row database OK.
+No active lane or scorer; clean checkpoint after this handover commit.
+
 **Active 500-pin goal, round 37 (2026-09-16): 6,103 pins in 1,284 rows (-29).**
 Cumulative progress **35/500** from `500808e2` (6,138). Read
 [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md). Jointly narrowing a parameter and

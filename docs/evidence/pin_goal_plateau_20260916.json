@@ -1,0 +1,55 @@
+{
+  "goal_baseline_commit": "500808e2",
+  "baseline_pins": 6138,
+  "target_pins": 5638,
+  "final_pins": 6103,
+  "final_pinned_rows": 1284,
+  "pins_removed_toward_goal": 35,
+  "initial_demo_pins_excluded": 10,
+  "stop_condition": "measured plateau, not 500 removals",
+  "implementation_commits": [
+    "85f57ff1",
+    "a6cb5c82"
+  ],
+  "followups": [
+    {
+      "family": "larger parameter/local copies",
+      "row_visits": 6,
+      "screens": 60,
+      "exact": 0
+    },
+    {
+      "family": "coherent direct-copy groups",
+      "row_visits": 71,
+      "screens": 426,
+      "exact": 0
+    },
+    {
+      "family": "explicit-cast parameter copies",
+      "row_visits": 6,
+      "screens": 7,
+      "exact": 0
+    },
+    {
+      "family": "callee-return and result-local types",
+      "row_visits": 3,
+      "screens": 3,
+      "exact": 0
+    },
+    {
+      "family": "void definitions consumed as scalar",
+      "row_visits": 2,
+      "caller_relations": 4,
+      "screens": 8,
+      "full_verifiers": 8,
+      "exact": 0
+    }
+  ],
+  "final_followup_row_visits": 88,
+  "final_followup_screens": 504,
+  "final_followup_source_changes": 0,
+  "gates": "All changed overlay windows and SLUS MATCH; see round36/37 evidence",
+  "row_database": "OK",
+  "generator_tests": 5,
+  "limitations": "Bounded source hypotheses exhausted; no claim that all remaining pins are irreducible."
+}

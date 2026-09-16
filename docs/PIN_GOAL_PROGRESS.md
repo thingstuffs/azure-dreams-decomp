@@ -1,6 +1,6 @@
 # Pin-removal goal: 500 new removals or an evidence-based plateau
 
-Active objective: continue small, hypothesis-driven waves; prove a source fix,
+Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,
 transfer it cheaply, adapt to results; stop after 500 new pins are removed or
 measured removals plateau with no productive approach remaining. The initial
 round-35 ten-pin demonstration is outside this goal's counter.
@@ -57,10 +57,10 @@ Artifacts: `work/native_lane/r36_width/`, `r36_returns/`, `r36_proto/`,
 - A fresh width-pair fix in `81084D04` narrows `tile_y` and `next_y` to `u16`,
   removing the latter's binding. `tile_y` is unpinned, so the earlier pinned-only
   pairs excluded it. Either narrowing alone fails (41/2), both exact. Direct
-  local-copy transfer:182 rows /2,436 screens, only this exemplar exact.
+  local-copy transfer:182 rows / 2,436 screens, only this exemplar exact.
 - Parameter/local copies are more productive: change both ends together.
-  Separate-assignment pilot118 rows /1,150 screens found 10 exact rows. The
-  bound-initializer spelling adds52 rows /462 screens (164 unique total),
+  Separate-assignment pilot118 rows / 1,150 screens found 10 exact rows. The
+  bound-initializer spelling adds52 rows / 462 screens (164 unique total),
   finding5 more. Composing on these15 winners adds10 pins in 79 screens,
   including one plain binding erasure unlocked by the width repair. Final
   parameter lane:27 pins in 15 rows. All candidate outputs fully byte-verified.
@@ -68,7 +68,7 @@ Artifacts: `work/native_lane/r36_width/`, `r36_returns/`, `r36_proto/`,
   One Sol agent independently reviewed all 15 rows and the composed coordinates.
   Same-file prototypes follow parameter changes; definite cross-TU declarations
   are being checked separately, with overlay identity established before edits.
-- Standard landing accepted all 16 functions /28 pins; changed-row cascade added
+- Standard landing accepted all 16 functions / 28 pins; changed-row cascade added
   two more (`80BAF094` binding and `800BEE14` angle-copy width). All20 changed
   overlay windows MATCH in 249 seconds; SLUS MATCH; row database OK. That first gate covered 30 removals. Caller review then required withdrawing
   `80287768` (one pin): its caller's compatible prototype could not stay exact,
@@ -84,18 +84,52 @@ Artifacts: `work/native_lane/r36_width/`, `r36_returns/`, `r36_proto/`,
 
 Artifacts: `work/native_lane/r37_bool/`, `r37_param/`, `r37_returns/`.
 
-## Round 38 follow-ups (in progress)
+## Round 38 follow-ups (no removals)
 
-- Beyond the pilot size limit: all six eligible functions /60 screens, no hits.
-- Coherent groups of direct parameter/local copies: 71 rows /426 screens, no hits.
-- Explicit short-cast parameter copies: 6 rows /7 screens, no hits.
+- Beyond the pilot size limit: all six eligible functions / 60 screens, no hits.
+- Coherent groups of direct parameter/local copies: 71 rows / 426 screens, no hits.
+- Explicit short-cast parameter copies: 6 rows / 7 screens, no hits.
 - Caller/callee return-type repair together with a pinned result local's width:
-  3 eligible rows /3 screens, no hits. This tested the reverse edge of the
+  3 eligible rows / 3 screens, no hits. This tested the reverse edge of the
   paired argument repair, with actual callee definitions as evidence.
-- Sol is auditing void definitions that definite same-image callers use for a
-  value. Only strong return-dataflow cases warrant compiling a candidate.
+- Sol audited void definitions that definite same-image callers use for a
+  scalar value: two strong definitions / four definite caller relations. Eight
+  reasoned candidates, eight full verifiers, zero exact. `81811388` keeps an
+  input argument in v0 (best distance 5); `800A23CC` needs a particular branch
+  join (best distance 3). A third name relation was excluded because the return
+  is discarded in a comma expression. No source changes or gates in round 38.
 
-The successful direct-copy width family is now measured through its natural
-extensions. Further work follows source evidence; no forecast that the remaining
-pins are all removable, and no claim of mathematical impossibility if these
-bounded approaches plateau.
+## Final result and evaluation
+
+**Stopped at the plateau condition: 35 additional pins removed, 6,103 remaining
+in 1,284 rows. The 500-pin target was not reached.** The initial ten-pin
+round 35 demonstration is outside this goal, so total removal across the initial
+request and continuation is 45. Gated implementation checkpoints: `85f57ff1`
+(round 36, six pins) and `a6cb5c82` (round 37, 29 pins net). The final source tree has
+passed every affected overlay window and SLUS; row database OK; five generator
+boundary tests pass. One exact candidate was withdrawn to preserve caller type
+agreement. No recipe or toolchain changes and no replacement scaffolding.
+
+The broad proper-pair extension paid one exact row in 234 rows / 28,499 screens.
+The evidence-led parameter/local repair paid 14 retained rows in 164 unique rows
+/1,612 initial screens, then benefited from composition and the cleanup cascade.
+That is the useful improvement over spending model time on many independent
+near misses: find a missing source fact, test a finite related family cheaply,
+and verify complete bytes plus caller consistency before landing. A normalized
+compiler-listing match remains only a screen; the return-prototype experiment
+had eight screen-hit rows and zero byte-exact results.
+
+The final plateau measurement covers all six larger eligible functions, 71
+coherent copy groups, six explicit-cast cases, three paired return/local cases,
+and both strong void/scalar return contradictions: 88 row-visits / 504 candidate
+screens, no exact removal. These are bounded negative results, not a proof that
+all 6,103 pins are irreducible. The current productive mechanisms have no further
+unmeasured concrete transfer in this audit. The remaining catalogue is dominated
+by allocation, scheduling, and assembler-side residues already investigated in
+prior campaigns. Another campaign needs new source/typing or toolchain evidence
+to justify reopening those cases; simply enlarging the same menus is unlikely
+to repeat the gains above.
+
+Round 38 artifacts: `work/native_lane/r38_large/`, `r38_cast/`,
+`r38_returnlocal/`, and `r38_void_returns/`. The four extra signature-repair
+negatives are in `r38_sig/` and belong to the round 37 withdrawal decision.
