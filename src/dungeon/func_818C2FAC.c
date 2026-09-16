@@ -82,7 +82,7 @@ s32 func_818C2FAC(void *data_addr, void *position_addr, s32 direction)
     s32 position_word_3;
     s32 position_word_4;
     s32 object_type;
-    register s32 offset_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    register s16 offset_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     uptr effect;
     register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 render_arg_low;
@@ -92,7 +92,6 @@ s32 func_818C2FAC(void *data_addr, void *position_addr, s32 direction)
     S_818C2FAC_1 *effect_state;
 
     object_type = 0x212;
-    ASM_KEEP_NV(object_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     offset_angle = direction;
     effect = (uptr)func_8003FC64(object_type);
     if (effect != NULL) {

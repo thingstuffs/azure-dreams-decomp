@@ -1,5 +1,24 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**Round 35 independent bounded wave (2026-09-16): 6,138 pins in 1,292 rows (-10 pins,
+7 changed functions, 3 newly pin-free).** Parent source diagnosis plus four CPU width/erasure
+cohorts (27,759 candidate screens, ~124 s combined elapsed) removed 8 pins in 6 rows;
+one Sol agent on the first six `catalog_far1` rows removed 2 pins in 1 row (24 verifier
+calls, lane-reported ~18 min). Every candidate independently verified and landed through
+`apply_candidates.py`; changed-row T2 added zero. All 6 changed overlay windows MATCH (154 s; 2,169 current windows reused),
+SLUS SHA-1 MATCH, row database OK.
+Read [PIN_WAVE_20260916.md](PIN_WAVE_20260916.md) and its compact evidence JSON. The useful
+new distinction: jointly retype related values, or change one value's type while removing
+another value's pin. The single-variable generator couples those choices and misses both.
+Controls: in `8009ED80`, either coordinate narrowed alone is worse, both together exact;
+in two random-check rows only the merged result needs narrowing but BOTH bindings must go.
+Sol repaired a non-void bare return (`8184AF90`) by returning the effect pointer explicitly.
+Next concrete lead: audit that source defect; extend type/erasure pairings with range guards
+before another broad model campaign. No compiler/flag/assembler change; one pre-proven true
+name registered (`81876014` -> `80025814`). This is a measured opening, not a forecast for
+the remaining 6,138 pins or an impossibility verdict on the five far-lane misses.
+
+
 **2026-09-12 address-literal harvest (evening):** `t29_addrsym` writes pinned integer pages back
 as symbols, at the recorded cell or at a CDK cell that admits the pinned text. It removed
 **139 pins in 44 functions** (14 pin-free), all gated. Neither the rewrite nor the cell switch works

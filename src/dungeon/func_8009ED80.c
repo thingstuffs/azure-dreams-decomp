@@ -13,8 +13,8 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     s16 offset_height;
     s32 probe_height;
     s32 layer_offset;
-    s32 offset_cell_x;
-    s32 offset_cell_y;
+    u16 offset_cell_x;
+    u16 offset_cell_y;
     u16 *x_offsets;
     u16 *layer_x_offset;
     u16 *layer_y_offset;
@@ -46,7 +46,6 @@ s32 func_800A44E0(u16 x, u16 y, s16 height, u32 flags)
     layer_y_offset = (u16 *)((s8 *)&D_8006CCE8 + layer_offset);
     offset_cell_x = *layer_x_offset + cell_x;
     offset_cell_y = *layer_y_offset + cell_y;
-    ASM_USE2(offset_cell_x, offset_cell_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     offset_height = func_800BCB04(
         ((((offset_cell_x) & 0xFFFF) << 6) + 0x20) & 0xFFE0,
         ((((offset_cell_y) & 0xFFFF) << 6) + 0x20) & 0xFFE0,
