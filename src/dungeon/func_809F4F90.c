@@ -111,7 +111,7 @@ extern u8 D_80175148[];
 extern u8 D_80175160[];
 
 /* Updates an actor's staged movement, particle effects, and return to its tile. */
-void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_in)
+void func_80172790(void *action, void *motion, void *tile, void *actor)
 {
     s32 particle_x_offset;
     u8 *move_frames;
@@ -144,26 +144,12 @@ void func_80172790(void *action_in, void *motion_in, void *tile_in, void *actor_
     void *particle;
     void *particle_motion;
     void *sprite;
-    void *action;
-    void *motion;
-    void *tile;
-    void *actor;
     u8 *x_step_entry;
     u8 *x_step_base;
 
-    action = action_in;
-    motion = motion_in;
-    tile = tile_in;
-    actor = actor_in;
-    x_step_entry = (u8 *)0x80070000;
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(x_step_entry);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
     heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
-    x_step_entry -= 0x3328;
+    x_step_entry = (u8 *)D_8006CCD8;
     heading_byte = heading_raw >> 8;
     direction_offset = heading_byte & 0xE;
     x_step_base = x_step_entry;

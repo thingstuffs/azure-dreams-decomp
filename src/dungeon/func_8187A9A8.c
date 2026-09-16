@@ -277,12 +277,10 @@ extern u8 D_80083160_line[] __asm__("D_80083160");
 extern u8 D_80083160_tpage[] __asm__("D_80083160");
 
 /* Transform the mesh and enqueue textured quads or lines in the ordering table. */
-void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_data, s32 depth_bias)
+void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func_8187A9A8_3 *object, s32 depth_bias)
 {
     register u8 *ot_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u8 *barrier_scratch;
-    S_func_8187A9A8_4 *mesh = mesh_data;
-    S_func_8187A9A8_3 *object = object_data;
     S_func_8187A9A8_1 *scratch = (S_func_8187A9A8_1 *)0x1F800000;
     register s32 raw_depth_bias ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_func_8187A9A8_8 *texture;
@@ -297,8 +295,6 @@ void func_8187A9A8(void *mesh_data, S_func_8187A9A8_2 *transform, void *object_d
 
     ot_base = *(u8 **)(D_80083150 + 0x10);
     ASM_KEEP_MEMDEP(ot_base, barrier_scratch, *(u8 **)(D_80083150 + 0x10));   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(mesh);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch->unk_24 = ot_base + 0xB0;
     scratch->unk_88 = transform->unk_02;
     scratch->unk_8C = transform->unk_06;

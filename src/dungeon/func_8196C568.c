@@ -157,7 +157,8 @@ void func_8196C568(Work *work, s32 position_arg, s32 sprite_arg)
     Motion *motion;
     register s32 particle_index;
     Position *pos;
-    register DungeonState *dungeon ASM_REG("$3");
+    DungeonState *dungeon;
+    DungeonState *dungeon_2;
     void **state_table;
     u8 *effect_page;
     u8 *active_page;
@@ -204,13 +205,13 @@ state0:
         return;
     }
     active_page = (u8 *)0x80080000;
-    dungeon = *(DungeonState **)(active_page + 0x14A8);
+    dungeon_2 = *(DungeonState **)(active_page + 0x14A8);
     work->timer = 45;
-    dungeon_count = *(u16 *)&dungeon->pad0[0xA6];
+    dungeon_count = *(u16 *)&dungeon_2->pad0[0xA6];
     dungeon_count--;
-    *(u16 *)&dungeon->pad0[0xA6] = dungeon_count;
+    *(u16 *)&dungeon_2->pad0[0xA6] = dungeon_count;
     object_kind = work->kind;
-    dungeon->pad0[0xA8] = object_kind;
+    dungeon_2->pad0[0xA8] = object_kind;
     dungeon = *(DungeonState **)(active_page + 0x14A8);
     direction_index = ((*(u16 *)&dungeon->pad0[0x2A]) >> 9) & 7;
     work->state++;

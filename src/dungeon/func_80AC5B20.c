@@ -47,11 +47,8 @@ typedef struct S_80171320_2 {
 } S_80171320_2;   /* motion in func_80171320 */
 
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
-void func_80171320(void *entity_arg, void *motion_arg, void *monster_arg)
+void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
 {
-    void *entity = entity_arg;
-    S_80171320_2 *motion = motion_arg;
-    void *monster = monster_arg;
     register void *actor ASM_REG("$18") = entity;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -68,7 +65,7 @@ void func_80171320(void *entity_arg, void *motion_arg, void *monster_arg)
         ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         early_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (early_callback == (Callback)&D_80171728) {
-            early_callback(entity_arg, motion_arg, monster_arg, entity_arg);
+            early_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
@@ -187,9 +184,6 @@ finish:
         ((S_80171320_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80171320_0 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }

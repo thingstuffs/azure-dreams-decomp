@@ -395,11 +395,9 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     void *flight_target;
     void *impact_target;
 
-    register void *sprite_ptr ASM_REG("$17") = sprite;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(sprite_ptr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #define effect effect
 #define motion motion
-#define sprite sprite_ptr
+#define sprite sprite
 
     parent = (*(void **)((u8 *)effect + 0));
     texture_rect.packed = D_80024028;

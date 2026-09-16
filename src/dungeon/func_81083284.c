@@ -12,7 +12,7 @@ extern s16 func_800BCB04();
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
-extern u16 D_80083462;
+extern u16 D_80083462[1];
 extern u8 D_80170E94;
 extern Callback D_80175F70[];
 
@@ -49,29 +49,26 @@ typedef struct S_80170A84_2 {
 } S_80170A84_2;   /* motion in func_80170A84 */
 
 /* Updates monster facing, callbacks, movement, and floor contact. */
-void func_80170A84(void *entity_arg, void *motion_arg, void *monster_arg)
+void func_80170A84(void *entity, S_80170A84_2 *motion, void *monster)
 {
-    void *entity = entity_arg;
-    S_80170A84_2 *motion = motion_arg;
-    void *monster = monster_arg;
     register void *actor ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 direction;
+    s16 direction_copy;
     s16 old_direction;
     u32 old_direction_raw;
-    register s32 rounded_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 rounded_angle;
     Callback callback;
     u16 monster_flags;
     s16 floor_height;
     s16 actor_height;
-    s32 direction_index;
+    s16 direction_index;
 
-    if (D_80083462 & 0x2000) {
+    if (D_80083462[0] & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)entity + 0x8C));
 
         ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (early_callback == (Callback)&D_80170E94) {
-            early_callback(entity_arg, motion_arg, monster_arg, entity_arg);
+            early_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
@@ -90,7 +87,6 @@ void func_80170A84(void *entity_arg, void *motion_arg, void *monster_arg)
     if (!(monster_flags & 0x8000)) {
         rounded_angle = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (rounded_angle >> 9) & 7;
-        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         direction_index = direction;
         direction_copy = direction;
 
@@ -192,8 +188,4 @@ finish:
         ((S_80170A84_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170A84_0 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }

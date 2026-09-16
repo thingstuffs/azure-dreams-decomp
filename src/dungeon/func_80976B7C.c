@@ -47,26 +47,20 @@ extern s32 D_80083460;
 extern u16 D_80083462;
 
 /* Validates an actor action, applies its effect, and updates the action state and remaining count. */
-s32 func_8017237C(void *action_data, void *effect_data, void *target_data, void *actor_data)
+s32 func_8017237C(S_8017237C_2 *action, void *effect, S_8017237C_1 *target, void *actor_data)
 {
-    S_8017237C_2 *action = action_data;
-    void *effect = effect_data;
     void *actor = actor_data;
     u16 *global_flags;
-    u8 *global_page;
-    register s32 action_ready ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 action_ready;
     s32 target_code;
     u8 actor_flags;
 
-    actor_flags = ((S_8017237C_0 *)actor)->unk_71;
+    actor_flags = (*(u8 *)((u8 *)actor + 0x71));
     {
-        S_8017237C_1 *target = target_data;
 
         actor_flags = (u8)(actor_flags & 0x7F);
         ((S_8017237C_0 *)actor)->unk_71 = actor_flags;
-        global_page = (u8 *)0x80080000;
-        ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        global_flags = (u16 *)(global_page + 0x3460);
+        global_flags = (u16 *)&D_80083460;
         action_ready = 0;
 
         if (global_flags[1] & 0x2000) {
@@ -131,9 +125,6 @@ s32 func_8017237C(void *action_data, void *effect_data, void *target_data, void 
                 func_8009C93C(active_actor, action_target, facing, 1, 0);
             }
 
-            ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             return result;
         }
     }

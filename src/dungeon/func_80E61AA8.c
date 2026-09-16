@@ -52,14 +52,11 @@ typedef struct S_801712A8_2 {
 } S_801712A8_2;   /* motion in func_801712A8 */
 
 /* Updates actor behavior, facing, movement, and floor contact. */
-void func_801712A8(void *entity_arg, void *motion_arg, void *monster_arg)
+void func_801712A8(void *entity, S_801712A8_2 *motion, void *monster)
 {
-    void *entity = entity_arg;
-    S_801712A8_2 *motion = motion_arg;
-    void *monster = monster_arg;
     register void *actor ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u16 direction;
+    u32 direction_copy;
     u32 old_direction_raw;
     Callback callback;
     u16 monster_flags;
@@ -73,7 +70,7 @@ void func_801712A8(void *entity_arg, void *motion_arg, void *monster_arg)
         ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         first_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (first_callback == (Callback)D_801716F4) {
-            first_callback(entity_arg, motion_arg, monster_arg, entity_arg);
+            first_callback(entity, motion, monster, entity);
         } else {
             (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         }
@@ -113,7 +110,6 @@ void func_801712A8(void *entity_arg, void *motion_arg, void *monster_arg)
 
         angle_sector =
             (D_80083228 + ((S_801712A8_0 *)actor)->unk_2A + 0x100) >> 9;
-        ASM_USE(direction);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         direction = angle_sector & 7;
         direction_index = direction;
         direction_copy = direction;
@@ -202,8 +198,4 @@ finish:
         ((S_801712A8_0 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
     ((S_801712A8_1 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(monster);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }
