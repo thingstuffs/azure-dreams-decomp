@@ -80,15 +80,13 @@ typedef struct S_800DB2DC_5 {
 } S_800DB2DC_5;   /* temp_v1 in func_800DB2DC */
 
 /* Creates two groups of four effects using the source position and visual state. */
-void func_800DB2DC(void *position_arg, void *visual_arg, void *source_arg, s16 effect_param) {
+void func_800DB2DC(S_800DB2DC_4 *position, S_800DB2DC_2 *source_visual, void *source_arg, s16 effect_param) {
     register M2C_UNK *callback;
     s32 scale;
-    S_800DB2DC_4 *position;
-    S_800DB2DC_2 *source_visual;
     register S_800DB2DC_1 *source_object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 saved_param;
     s32 effects_left;
-    register s32 group_step ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 group_step;
     u16 visual_flags;
     u16 source_offset;
     s32 visual_word;
@@ -97,8 +95,6 @@ void func_800DB2DC(void *position_arg, void *visual_arg, void *source_arg, s16 e
     void *effect;
 
     effect = source_arg;
-    position = position_arg;
-    source_visual = visual_arg;
     source_object = source_arg;
     saved_param = effect_param;
     group_step = 3;
@@ -137,9 +133,7 @@ void func_800DB2DC(void *position_arg, void *visual_arg, void *source_arg, s16 e
                 visual->unk_2C =
                     (s32)source_visual->unk_2C;
             }
-            ASM_KEEP(effects_left);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         } while (--effects_left >= 0);
         group_step -= 3;
     } while (group_step >= 0);
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

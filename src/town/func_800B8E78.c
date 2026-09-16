@@ -41,8 +41,7 @@ typedef struct S_800B65D8_3 {
 } S_800B65D8_3;   /* base in func_800B65D8 */
 
 /* Updates two display entries for the mode and adjusts their spacing. */
-void func_800B65D8(void *display, s32 display_mode) {
-    S_800B65D8_3 *base;
+void func_800B65D8(S_800B65D8_3 *base, s32 display_mode) {
     s32 mode;
     s32 total_width;
     s32 entry_index;
@@ -54,15 +53,11 @@ void func_800B65D8(void *display, s32 display_mode) {
     S_800B65D8_1 *entry;
     S_800B65D8_2 *position;
 
-    base = display;
-    mode = display_mode;
     entry_index = (total_width = 0);
     lookup = D_80089344;
     entry_slot = base;
-    ASM_KEEP(lookup);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     do {
+        mode = display_mode;
         entry = ((S_800B65D8_0 *)entry_slot)->unk_50;
         entry_id = func_80048DA0(mode, *(u8 *)((s32)entry_index + (s32)lookup));
         if ((entry_index == 0) && (mode == 4)) {

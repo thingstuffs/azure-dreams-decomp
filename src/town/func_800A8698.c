@@ -52,20 +52,16 @@ extern u8 D_800FE488[];
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void func_800A5DF8(void *state_arg, void *actor_arg, M2C_UNK context_arg) {
+void func_800A5DF8(void *state_arg, S_800A5DF8_0 *actor, M2C_UNK context) {
     s16 threshold;
     s16 angle;
     s32 next_offset;
     u16 ticks_left;
     u8 *position;
     register S_800A5DF8_4 *state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_800A5DF8_0 *actor;
-    M2C_UNK context;
     register u8 *scene_state;
     register u8 *effect_data;
 
-    actor = actor_arg;
-    context = context_arg;
     scene_state = D_80083160;
     func_80095C80(actor);
     effect_data = D_800FE488;
@@ -119,7 +115,5 @@ void func_800A5DF8(void *state_arg, void *actor_arg, M2C_UNK context_arg) {
         }
     }
 
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

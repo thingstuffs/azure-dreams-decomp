@@ -69,13 +69,10 @@ void func_80173204(Rec_func_80173204_arg0 *controller, s32 update_mode, S_801732
     s32 flags;
     s8 floor;
     register u8 *status ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 mode ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     u8 *floor_base;
     u8 *status_page;
 
-    mode = update_mode;
-    ASM_KEEP_NV(mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (controller->unk_9B < 2U) {
         if (sprite->unk_0C.u8 < 0x33U) {
             goto dispatch;
@@ -142,7 +139,7 @@ state_1:
         goto done;
     }
     if (entity->unk_64.as_s16 != 0) {
-        if (func_800AA6B4(controller, mode, sprite, 0) != 0) {
+        if (func_800AA6B4(controller, update_mode, sprite, 0) != 0) {
             goto done;
         }
     }
@@ -150,7 +147,7 @@ state_1:
         if (((S_80173204_4 *)status)->unk_02 & 0x2008) {
             goto done;
         }
-        func_800AA79C(controller, mode, sprite, entity);
+        func_800AA79C(controller, update_mode, sprite, entity);
         goto done;
     }
     if ((func_800A2C34(entity) << 16) != 0) {
@@ -159,12 +156,12 @@ state_1:
 
     flags = entity->unk_1C.as_s32;
     if (flags & 0x100) {
-        func_800AA258(controller, mode, sprite, entity);
+        func_800AA258(controller, update_mode, sprite, entity);
         goto done;
     }
     if (flags & 0x80000) {
-        func_800AA888(controller, mode, sprite, entity);
-        func_80173A20(controller, mode, sprite, entity);
+        func_800AA888(controller, update_mode, sprite, entity);
+        func_80173A20(controller, update_mode, sprite, entity);
         goto done;
     }
     if (entity->unk_6D.as_s8 == 0) {

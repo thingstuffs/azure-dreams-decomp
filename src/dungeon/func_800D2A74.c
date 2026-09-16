@@ -51,19 +51,17 @@ s32 func_80069EF8(void);
 extern M2C_UNK D_800814A0;
 
 /* Updates a rotating effect's motion, color, and lifetime. */
-void func_800D81D4(S_800D81D4_0 *effect, void *motion_data, void *primitive_data) {
+void func_800D81D4(S_800D81D4_0 *effect, S_800D81D4_1 *motion, void *primitive_data) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     s32 phase_index;
     M2C_UNK height_offset;
-    S_800D81D4_1 *motion = motion_data;
-    register S_800D81D4_2 *primitive ASM_REG("$17") = primitive_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    S_800D81D4_2 *primitive = primitive_data;
 
     effect->unk_48.s = (s16) (effect->unk_48.s - 1);
     func_800478B8(primitive);
     phase_index = effect->unk_4C.s;
     if ((u32) phase_index >= 7U) {
-        goto update_position;
+        motion->unk_02 = (s16) (effect->unk_0C + ((s32) (func_800644B8((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC)); motion->unk_06 = (s16) (effect->unk_0E + ((s32) (func_80064584((s16) effect->unk_18) * effect->unk_1C.at02.v) >> 0xC)); return;
     }
     (void)jt_keep; goto *D_80089474[phase_index];
 jt_c0:
