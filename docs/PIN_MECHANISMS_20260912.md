@@ -1871,10 +1871,28 @@ check - applies from the batch after this one). Lane `work/native_lane/r32_famil
   in a nested block, every occurrence of the local inside it): 88 rows / 7 candidates / 0 at 0 - a clean negative, the flag
   documented and closed. `T69_DROP_REG` now defaults to 1 (the sweeps cost 56 s and 46 s for 134 and 110 rows; the
   cascade runs t69 over changed rows only); `T69_RETYPE_SCALAR` and `T69_BLOCK_COPY` stay off.
-- **Left with pins behind them:** `use-before-copy` where the use is `ASM_SET(v)` (11 pins / 3 rows, all REG-pinned),
-  `param-copied-twice` (8 pins / 8 rows, one template family), the cast-spelled copy (7 pins / 5 rows) - the next batch,
-  by the owner's instruction a Workflow (opus implements, opus reviews, the parent checks); the 37 other-mechanism prologue
-  sites and their 12 fences stay with the fence family.
+- **The next batch, as the owner directed, a Workflow (`r32_t69tail.js`, 3 opus agents / 631k tokens / 71 min): three
+  honest negatives.** `T69_CAST_COPY` (a copy spelled through a cast to the local's own type: 112 rows carry the note, 54
+  pinned, 14 with a candidate, 0 at screen 0, 0 of 18 verified), `T69_PIN_BEFORE_COPY` (the class is 4 keeps in 1 row once
+  the other two rows are read: one local written eight times, one held by a multi-variable pin; the one candidate screens
+  at 8, vf refuses), `T69_TWICE` (0 of 14 verified). All three stay off; menu identity with them off is proved over all
+  1,300 pinned rows and the whole-tree refusal table reproduces byte-for-byte; 85 tests. The reviewer's one major was a
+  false sentence in the report, not the code, and it reverses the reading of `T69_TWICE`: with the switch off
+  `param-copied-twice` drops the second record before any subset is enumerated, so the candidate that renames the SECOND
+  local alone does not exist in the closed menu - with it on, the best free screen moves 147 -> 2 on the seven-row template
+  family (`dungeon/func_80BC1BA8` ...) and 13 of 14 rows' best candidate is one the closed menu never had. vf on those:
+  `reg-rename, subs 1` on 10 of 14 - ONE instruction, `move $7,$4` in retail against `move $7,$19` in the candidate: the
+  fourth argument taken from the incoming argument register, not from the callee-saved copy the `ASM_REG("$19")` pin holds.
+  That class is t69's own and reachable only with `T69_TWICE=1`; the next round composes that candidate with a
+  register-assignment lever (`alloc_trace.py`'s per-site reason, t53_reg_state, t66's colouring), and measures first the
+  cheap variant (lift `param-copied-twice`, enumerate each record alone, no subset fold: 11 of the 13 candidates).
+  **Measurement D, the DROP_REG misses** (226 rows, the best candidate's residue against the pinned listing): 65
+  ordering-only (50 of them `-move,sw +move,sw` at d=4 - the entry copy and its callee-saved store in another position,
+  the round-31 prologue residue where dropping the ASM_REG was not enough; `sched_map.py` over those 50 is the check), 20
+  colouring-only (7 the single `-move +move` at d=2, the same shape as the twice rows), 86 both colouring and ordering (not
+  briefable to one tool), 55 changed. The t66 composition is structurally impossible there: no row has two ASM_REG
+  declarations on one hard register, so `sameregmerge_candidates` returns nothing on all 106 either way. The 37
+  other-mechanism prologue sites and their 12 fences stay with the fence family.
 
 ## Round 31 (2026-09-16): the scheduling residue mapped to C
 

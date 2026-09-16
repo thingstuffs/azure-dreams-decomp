@@ -41,6 +41,22 @@ the repair is "name the symbol"; four openings of `t59_offsetsym`, 3 rows / 4 pi
 scheduling class after respelling; three majors fixed (braceless control flow, a whole-line replacement span,
 the keep-gap loop without a structural test), 75 tests. Usage: 6 agents / 1.46M subagent tokens / 142 min.
 
+## r32_t69tail.js (round 32, 2026-09-16 morning - the owner's "next batch")
+
+The owner: "for the next batch you can use a workflow, use opus to implement and review then you do a final check". One
+item, implementer -> adversarial reviewer -> fix, opus at effort high: the three t69_prologue refusals that round 32's
+refusal table (pins behind each refusal) left with pins behind them - a copy spelled through a cast (`T69_CAST_COPY`), an
+ERASABLE pin as the only use before the copy (`T69_PIN_BEFORE_COPY`), two locals copying one parameter (`T69_TWICE`) - plus
+the DROP_REG residue classified on its 228 missing rows and one t66 composition screened. Result: three honest negatives
+(0 verified pins on 35 rows; the switches stay off; menu identity with them off proved over all 1,300 pinned rows and the
+whole-tree refusal table reproduced byte-for-byte), 85 tests. The reviewer's one major was a false sentence in the report,
+not the code: `T69_TWICE` is the ONLY way t69 reaches a class that sits one register word from retail on 10 rows (`move
+$7,$4` in retail, `move $7,$19` in the candidate: the argument taken from the incoming register, not the callee-saved copy
+the ASM_REG holds) - next round's lead, to compose with a register-assignment lever. Measurement D: the DROP_REG misses
+are 65 ordering-only (50 of them `-move,sw +move,sw` at d=4), 20 colouring-only, 86 both, 55 changed; the t66 composition
+is structurally impossible there (no row has two ASM_REG declarations on one register). The parent's final check: tests,
+the diff, the docs. Usage: 3 agents / 631k subagent tokens / 71 min.
+
 ## r31_prologue.js (round 31, 2026-09-16)
 
 One item, implementer -> adversarial reviewer -> fix, opus at effort high: the PROLOGUE scheduling class that

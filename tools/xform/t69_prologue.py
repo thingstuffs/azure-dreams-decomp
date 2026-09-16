@@ -27,6 +27,14 @@ RESOLVES    the copies are redundant: the parameter can carry the local's name (
             (one copy at a time) and t36's note "dropping the copies left the residue unchanged"
             missed the class.
 Candidates: the whole set first, then every subset, most pins removed first.  Only `vf` accepts.
+
+Openings (env switches; each writes its refusals first and journals an `opened-*` note):
+    T69_DROP_REG=1          (default ON, round 32)  the copy goes with its `ASM_REG`
+    T69_BLOCK_COPY=1        the copy sits in a nested block (measured 0, closed)
+    T69_RETYPE_SCALAR=1     the parameter narrows or widens to the local's scalar type
+    T69_CAST_COPY=1         the copy is spelled through a cast to the LOCAL'S OWN type
+    T69_PIN_BEFORE_COPY=1   the only use before the copy is an ERASABLE pin naming the local alone
+    T69_TWICE=1             two locals copy the same parameter: both ARE the parameter
 """
 import collections
 import itertools
@@ -54,10 +62,18 @@ MAX_CANDS = int(os.getenv("T69_MAX_CANDS", "48"))
 VERIFY_BUDGET = int(os.getenv("T69_VERIFY", "6"))
 # Only these pin spellings name exactly one variable and mean "keep this value here".
 ERASABLE = ("ASM_KEEP", "ASM_KEEP_NV", "ASM_SET")
-DECL = re.compile(r"^(?P<ind>[ \t]+)(?P<reg>register[ \t]+)?"
-                  r"(?P<type>(?:(?:unsigned|signed|struct|union|enum|const|volatile)[ \t]+)*" + ID +
-                  r"[ \t]+(?:\*[ \t]*)*)(?P<var>" + ID + r")[ \t]*(?P<asm>ASM_REG\([^\n;]*\))?"
-                  r"[ \t]*(?:=[ \t]*(?P<init>" + ID + r")[ \t]*)?;[^\n]*\n", re.M)
+_DECL_HEAD = (r"^(?P<ind>[ \t]+)(?P<reg>register[ \t]+)?"
+              r"(?P<type>(?:(?:unsigned|signed|struct|union|enum|const|volatile)[ \t]+)*" + ID +
+              r"[ \t]+(?:\*[ \t]*)*)(?P<var>" + ID + r")[ \t]*(?P<asm>ASM_REG\([^\n;]*\))?")
+DECL = re.compile(_DECL_HEAD + r"[ \t]*(?:=[ \t]*(?P<init>" + ID + r")[ \t]*)?;[^\n]*\n", re.M)
+# T69_CAST_COPY: the same declaration with the initialiser spelled through a cast, `T v = (T)p;`.
+# A SECOND regex, never a widening of DECL: with the opening off nothing this one alone matches is
+# enumerated, counted in `declared-twice` or journalled, so the menu of every other row is untouched.
+DECL_CAST = re.compile(_DECL_HEAD + r"[ \t]*(?:=[ \t]*(?:\([ \t]*(?P<cast>[^()\n;]*?)[ \t]*\)[ \t]*)?"
+                       r"(?P<init>" + ID + r")[ \t]*)?;[^\n]*\n", re.M)
+COPY = r"^[ \t]*%s[ \t]*=[ \t]*(?P<src>%s)[ \t]*;[ \t]*$"
+COPY_CAST = (r"^[ \t]*%s[ \t]*=[ \t]*\([ \t]*(?P<cast>[^()\n;]*?)[ \t]*\)[ \t]*"
+             r"(?P<src>%s)[ \t]*;[ \t]*$")
 NOTYPE = {"return", "goto", "extern", "typedef", "if", "else", "while", "for", "switch", "case",
           "do", "break", "continue", "sizeof"}
 QUAL = re.compile(r"\b(const|volatile)\b")
@@ -288,6 +304,39 @@ def _bare(ty):
     return re.sub(r"^register\b[ \t]*", "", ty).strip()
 
 
+def _normty(ty):
+    """One spelling per declared type, for comparing a CAST with a declaration: the storage class
+    dropped, whitespace collapsed and no space around a `*` (`u8 *` == `u8*` == `u8   *`)."""
+    return re.sub(r"\s*\*\s*", "*", re.sub(r"\s+", " ", _bare(ty)).strip())
+
+
+def _cast_ok(cast, lty, skips):
+    """T69_CAST_COPY: a cast on the copy is this class only when it names the LOCAL'S OWN type.
+
+    `u8 *render_bytes = (u8 *)render_data;` is the same redundant copy as `u8 *x = p;` - the cast
+    spells the declared type and is deleted with the declaration.  A cast to any other type is a
+    conversion the merge would have to keep somewhere: not this opening."""
+    if cast is None:
+        return True
+    if _normty(cast) != _normty(lty):
+        _note(skips, "cast-type-differs")
+        return False
+    _note(skips, "opened-cast-copy")
+    return True
+
+
+def _copy_match(body, v, cast_open):
+    """The lone copy statement `v = p;` of `v`, or - with T69_CAST_COPY - `v = (T)p;`.
+
+    The bare-identifier form is searched FIRST and wins whenever it exists, so the opening can only
+    ADD a record: no row whose copy is already enumerated changes which statement is taken."""
+    cm = re.search(COPY % (re.escape(v), ID), body, re.M)
+    if cm is not None or not cast_open:
+        return cm, None
+    cm = re.search(COPY_CAST % (re.escape(v), ID), body, re.M)
+    return cm, (cm.group("cast") if cm else None)
+
+
 def _compatible(pty, lty, skips):
     """The parameter may take the local's declared type only when no value changes."""
     pty = _bare(pty)
@@ -337,8 +386,17 @@ def entry_copies(text, fn, skips=None):
     dep = _depths(masked)
     pnames = {p: ty for p, ty, _, _ in params}
     pspan = {p: (a, b) for p, _, a, b in params}
+    cast_open = os.getenv("T69_CAST_COPY", "0") == "1"
+    decls = list(DECL.finditer(masked, b0, b1))
+    if cast_open:
+        # strictly additive: only a declaration whose CAST initialiser names a parameter of this
+        # function joins the enumeration.  `u8 *p = (u8 *)D_80083160;` stays as invisible as today.
+        at = {d.start() for d in decls}
+        decls += [d for d in DECL_CAST.finditer(masked, b0, b1)
+                  if d.group("cast") is not None and d.group("init") in pnames and d.start() not in at]
+        decls.sort(key=lambda d: d.start())
     out, seen = [], set()
-    for m in DECL.finditer(masked, b0, b1):
+    for m in decls:
         v, ty = m.group("var"), m.group("type").strip()
         if v in pnames or v in seen or ty.split()[0] in NOTYPE:
             continue
@@ -346,7 +404,7 @@ def entry_copies(text, fn, skips=None):
             skips.cur = v
         if dep[m.start()] <= dep[b0]:
             continue                              # not inside this function's body
-        if len([1 for d in DECL.finditer(masked, b0, b1) if d.group("var") == v]) != 1:
+        if len([1 for d in decls if d.group("var") == v]) != 1:
             _note(skips, "declared-twice")        # merging would capture another scope's variable
             continue
         if dep[m.start()] > dep[b0] + 1:
@@ -362,11 +420,15 @@ def entry_copies(text, fn, skips=None):
             if init not in pnames:
                 continue
             p = init
-        else:
-            cm = re.search(r"^[ \t]*%s[ \t]*=[ \t]*(%s)[ \t]*;[ \t]*$" % (re.escape(v), ID), body, re.M)
-            if not cm or cm.group(1) not in pnames:
+            if not _cast_ok(m.groupdict().get("cast"), ty, skips):
                 continue
-            p = cm.group(1)
+        else:
+            cm, ccast = _copy_match(body, v, cast_open)
+            if not cm or cm.group("src") not in pnames:
+                continue
+            p = cm.group("src")
+            if not _cast_ok(ccast, ty, skips):
+                continue
             if dep[b0 + cm.start()] != dep[m.start()] or b0 + cm.start() < m.end():
                 # T69_BLOCK_COPY=1: the copy sits in a nested block (`if (..) { v = p; .. ASM_KEEP(v)`)
                 # and every occurrence of the local lies inside that block - the local is a block
@@ -385,8 +447,20 @@ def entry_copies(text, fn, skips=None):
             copy_span = (b0 + cm.start(), b0 + cm.end() + 1)
             first = re.search(r"(?<![\w.])%s\b" % re.escape(v), body[m.end() - b0:])
             if first and m.end() - b0 + first.start() < cm.start():
-                _note(skips, "use-before-copy")
-                continue
+                # T69_PIN_BEFORE_COPY=1: every occurrence of the local before its copy lies inside an
+                # ERASABLE pin statement naming that local ALONE (`ASM_SET(view); view = segment;`),
+                # which the merge erases anyway - so nothing reads the local before the copy and the
+                # merge is the same C.  Round-32 refusal table: 11 keeps in 3 rows behind this refusal.
+                opened = False
+                if os.getenv("T69_PIN_BEFORE_COPY", "0") == "1":
+                    spans = [(s[3], s[4]) for s in sites_of(text)
+                             if s[0] == "stmt" and s[1] in ERASABLE and s[2] == v and b0 < s[3] < b1]
+                    occ = [a for a, _ in _occurrences(masked, v, m.end(), b0 + cm.start())]
+                    opened = bool(occ) and all(any(x <= a < y for x, y in spans) for a in occ)
+                if not opened:
+                    _note(skips, "use-before-copy")
+                    continue
+                _note(skips, "opened-pin-before-copy")
         if m.group("asm"):
             # a hard-register pin cannot move onto a parameter.  T69_DROP_REG (default 1 since round
             # 32) drops the copy AND its ASM_REG (the parameter's own pseudo takes whatever register the
@@ -424,9 +498,20 @@ def entry_copies(text, fn, skips=None):
         if m.group("reg") and not m.group("asm"):
             _note(skips, "register-local-carried")    # the storage class moves with the declaration
             # (a `register T v ASM_REG(..)` local's keyword is the pin's and goes with it: not carried)
-        if any(r[0] == p for r in out):
-            _note(skips, "param-copied-twice")
-            continue
+        prev = next((r for r in out if r[0] == p), None)
+        if prev is not None:
+            # T69_TWICE=1: a second local copies the SAME never-written parameter (`entry_entity =
+            # entity;` beside `entity_base = entity;`).  Both locals are that parameter, so the
+            # parameter takes the first one's name and the second is renamed to it as well; without
+            # the opening the second copy survives as a local-to-local copy and its keep stays.
+            # Round-32 refusal table: 12 keeps in 12 rows behind this refusal.
+            if os.getenv("T69_TWICE", "0") != "1":
+                _note(skips, "param-copied-twice")
+                continue
+            if _normty(prev[4]) != _normty(ty):
+                _note(skips, "twice-types-differ")   # one name cannot carry two declared types
+                continue
+            _note(skips, "opened-twice")
         seen.add(v)
         out.append((p, pnames[p], pspan[p], v, ty, (m.start(), m.end()), copy_span))
     if hasattr(skips, "cur"):
@@ -472,14 +557,34 @@ def merge(text, fn, chosen, skips=None):
     name, params, b0, b1 = fn
     masked = _mask(text)
     sig_lo = min(a for _, _, a, _ in params)
-    ren = {r[0]: r[3] for r in chosen}
-    rety = {r[0]: r[4] for r in chosen if _bare(r[1]) != r[4]}
+    # T69_TWICE: several chosen records may share one parameter.  The parameter takes the FIRST
+    # chosen local's name (`ren`); every later local of that parameter is renamed to it (`fold`).
+    # With the opening off `fold` is empty and every line below is what it was.
+    ren, fold, lead = {}, {}, []
+    for r in chosen:
+        if r[0] in ren:
+            fold[r[3]] = ren[r[0]]
+        else:
+            ren[r[0]] = r[3]
+            lead.append(r)
+    rety = {r[0]: r[4] for r in lead if _bare(r[1]) != r[4]}
+    # A FOLDED local is the parameter under another name, so ITS `register` is the parameter's too.
+    # Round-33 review, defect 2: the fold dropped the storage class silently while `entry_copies`
+    # journalled `register-local-carried` for that very local - the note said the opposite of what
+    # happened.  An `ASM_REG`-pinned local's `register` is the pin's syntax and goes with the pin,
+    # the same rule the lead record follows below.
+    reg_folded = {r[0] for r in chosen if r[3] in fold
+                  and "ASM_REG" not in masked[r[5][0]:r[5][1]]
+                  and re.match(r"[ \t]*register\b", masked[r[5][0]:r[5][1]])}
     edits = []
     dropped_reg = False
     for p, pty, ps, v, lty, dspan, cspan in chosen:
         edits.append((dspan[0], dspan[1], ""))
         if cspan:
             edits.append((cspan[0], cspan[1], ""))
+        if v in fold:
+            dropped_reg = dropped_reg or "ASM_REG" in masked[dspan[0]:dspan[1]]
+            continue                              # the parameter's own slot is the lead record's
         # a `register` local keeps its storage class when it becomes the parameter, and a `register`
         # parameter keeps its own (legal C; the round-31 reviewer's case 5: dropping it silently
         # changed what the source said, and the retype path used to drop it too).  A local declared
@@ -488,7 +593,8 @@ def merge(text, fn, chosen, skips=None):
         asm_pinned = "ASM_REG" in masked[dspan[0]:dspan[1]]
         dropped_reg = dropped_reg or asm_pinned
         reg = ((not asm_pinned and bool(re.match(r"[ \t]*register\b", masked[dspan[0]:dspan[1]])))
-               or bool(re.match(r"register\b", pty)))
+               or bool(re.match(r"register\b", pty))
+               or p in reg_folded)                # a folded `register` local hands its class over
         newty = lty if p in rety else pty
         if reg and not re.match(r"register\b", newty):
             newty = "register " + newty
@@ -506,6 +612,28 @@ def merge(text, fn, chosen, skips=None):
                 continue                          # the occurrence is inside a statement we delete
             if sig_lo <= a < b0 or b0 < a < b1:
                 edits.append((a, b, v))
+    if fold:
+        # a folded local is the parameter under another name: rename it inside the body only.
+        for src, dst in fold.items():
+            for a, b in _occurrences(masked, src, b0, b1):
+                if any(x <= a < y for x, y in gone):
+                    continue
+                edits.append((a, b, dst))
+        nmap = dict(fold)                          # folded local -> the name it takes
+        nmap.update(ren)                           # parameter    -> the name it takes
+        nmap.update({r[3]: r[3] for r in lead})    # the lead local keeps its own name
+        for s in sites_of(text):
+            if not (b0 < s[3] < b1):
+                continue
+            named = sorted({n for n in re.findall(ID, str(s[2])) if n in nmap})
+            if len({nmap[n] for n in named}) < len(named):
+                # `ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base)` would name one
+                # variable twice: a second set of it, not the pin the row was written with.
+                _note(skips, "twice-pin-names-both")
+                return None
+            if named and s[1] not in ERASABLE and any(n in fold for n in named):
+                _note(skips, "twice-pin-not-erasable")   # a multi-variable pin holds the folded local
+                return None
     edits = sorted(set(edits))
     for (x, y, _), (x2, y2, _) in zip(edits, edits[1:]):
         if x2 < y:

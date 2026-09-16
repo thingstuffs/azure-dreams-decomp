@@ -42,11 +42,20 @@ one: "you can use a workflow, use opus to implement and review then you do a fin
   together; now default on): screen 5 + 5 rows at 0 after a one-line accounting fix (`register T v ASM_REG("$N") = p;` was
   refused `local-written-twice`), lane_eval 10 of 10, one more in the forced sweeps. `T69_BLOCK_COPY` (the copy in a nested
   block): 88 rows / 7 candidates / 0 at 0, closed.
-- **Next, in order:** (1) the next batch as a Workflow (`r32_t69tail.js`: the three refusals left with pins behind them - a
-  cast-spelled copy 7 pins / 5 rows, `ASM_SET(v)` as the only use before the copy 11 / 3, two locals copying one parameter
-  8 / 8 - plus the DROP_REG residue classified on its 228 missing rows and one t66 composition screened; opus implements
-  and reviews, the parent does the final check: tests, the C diffs, arms, then the round-29 landing pattern); (2) the 37
-  other-mechanism prologue sites and their 12 fences stay with the fence family; (3) packs only from `pools.py`.
+- **The next batch ran as that Workflow (`r32_t69tail.js`, 3 opus agents / 631k tokens / 71 min): three honest negatives.**
+  `T69_CAST_COPY`, `T69_PIN_BEFORE_COPY`, `T69_TWICE` built, tested (85), proved menu-identical with the switches off over
+  all 1,300 pinned rows, 0 verified pins on 35 rows; all three stay off. The reviewer's one major was a false sentence in
+  the report: `T69_TWICE` is the only way t69 reaches a class one register word from retail on 10 rows (`move $7,$4` in
+  retail, `move $7,$19` in the candidate - the argument taken from the incoming register, not the callee-saved copy the
+  ASM_REG holds; the seven-row template family `dungeon/func_80BC1BA8` ... goes 147 -> 2 on the screen). Measurement D: the
+  DROP_REG misses are 65 ordering-only (50 `-move,sw +move,sw` at d=4), 20 colouring-only, 86 both, 55 changed; the t66
+  composition is structurally impossible there. The parent's final check: tests, the diff read, docs; nothing to land.
+- **Next, in order:** (1) the `T69_TWICE` d=2 class composed with a register-assignment lever (`alloc_trace.py`'s per-site
+  reason, t53_reg_state, t66's colouring) on the 10 `reg-rename, subs 1` rows - measure the cheap variant first (lift
+  `param-copied-twice`, each record alone, no subset fold: 11 of the 13 candidates); (2) `sched_map.py` over the 50
+  DROP_REG-miss rows at `-move,sw +move,sw` d=4 - if they are one ordering move, compose the DROP_REG base with t51's
+  statement moves; (3) the 37 other-mechanism prologue sites and their 12 fences stay with the fence family; (4) packs only
+  from `pools.py`.
 
 Thirty-first round (2026-09-16), gated (22 windows MATCH, SLUS SHA-1 MATCH): **6,201 pins in 1,301 rows** (6,264 at start, -63: `t69_prologue` 8 lane
 outputs / 24 pins + 8 pins / 7 rows in the tree sweep, `t64_varset` re-swept over the rows changed since round 29 4 rows / 6 pins,

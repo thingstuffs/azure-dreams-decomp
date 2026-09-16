@@ -444,6 +444,234 @@ class ReviewFixes(unittest.TestCase):
         self.refuse(t, "pointer-vs-scalar", env={"T69_RETYPE_SCALAR": "1"})
 
 
+class TailOpenings(unittest.TestCase):
+    """The three round-33 tail openings of the round-32 refusal table, one test per move and per
+    must-refuse case.  Each is behind its own env switch and closed by default."""
+
+    def refuse(self, text, key, env=None):
+        with mock.patch.dict(os.environ, env or {}):
+            cands, skips = gen(text)
+        self.assertEqual(cands, [], "expected no candidate, got %s" % [l for l, _ in cands])
+        self.assertTrue(skips[key], "expected the %r refusal, got %s" % (key, dict(skips)))
+
+    # --- A. T69_CAST_COPY: the copy spelled through a cast to the LOCAL'S OWN type --------------
+    CASTDECL = fn("void *a_in", "    S *a = (S *)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+    CASTCOPY = fn("void *a_in", "    S *a;\n    a = (S *)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+
+    def test_cast_declaration_is_invisible_by_default(self):
+        # the DECL regex never enumerates it, so there is no record and no refusal of its own
+        self.refuse(self.CASTDECL, "no-entry-copy")
+        self.refuse(self.CASTCOPY, "no-entry-copy")
+
+    def test_cast_declaration_opens_on_request(self):
+        with mock.patch.dict(os.environ, {"T69_CAST_COPY": "1"}):
+            cands, skips = gen(self.CASTDECL)
+        self.assertEqual(len(cands), 1)
+        self.assertTrue(skips["opened-cast-copy"])
+        self.assertIn("void f(S *a)", cands[0][1])
+        self.assertNotIn("(S *)a_in", cands[0][1])       # the cast goes with the declaration
+        self.assertNotIn("a_in", cands[0][1])
+        self.assertEqual(sites_of(cands[0][1]), [])
+
+    def test_cast_copy_statement_opens_on_request(self):
+        with mock.patch.dict(os.environ, {"T69_CAST_COPY": "1"}):
+            cands, skips = gen(self.CASTCOPY)
+        self.assertEqual(len(cands), 1)
+        self.assertTrue(skips["opened-cast-copy"])
+        self.assertIn("void f(S *a)", cands[0][1])
+        self.assertNotIn("(S *)a_in", cands[0][1])       # the cast goes with the copy statement
+        self.assertEqual(sites_of(cands[0][1]), [])
+
+    def test_cast_spelling_is_whitespace_insensitive(self):
+        t = fn("void *a_in", "    S *a = (S*)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_CAST_COPY": "1"}):
+            cands, _ = gen(t)
+        self.assertEqual(len(cands), 1)
+        self.assertIn("void f(S *a)", cands[0][1])
+
+    def test_a_cast_to_another_type_is_not_this_opening(self):
+        t = fn("void *a_in", "    S *a = (T *)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+        self.refuse(t, "cast-type-differs", env={"T69_CAST_COPY": "1"})
+        t2 = fn("void *a_in", "    S *a;\n    a = (T *)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+        self.refuse(t2, "cast-type-differs", env={"T69_CAST_COPY": "1"})
+
+    def test_a_cast_copy_still_obeys_every_type_rule(self):
+        # the cast names the local's own type, but that type still may not reach the parameter
+        t = fn("void *a_in", "    const S *a = (const S *)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+        self.refuse(t, "qualifier-differs", env={"T69_CAST_COPY": "1"})
+        t2 = fn("void *a_in", "    S **a = (S **)a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+        self.refuse(t2, "pointer-depth-differs", env={"T69_CAST_COPY": "1"})
+
+    def test_a_cast_declaration_that_is_not_a_parameter_copy_stays_invisible(self):
+        # `u8 *p = (u8 *)D_80083160;` must not join the enumeration, the `declared-twice` count or
+        # the `nested-scope` note: the opening is additive, not a widening of DECL.
+        t = fn("void *a_in",
+               "    u8 *q = (u8 *)D_80083160;\n    void *a = a_in;\n    ASM_KEEP(a);%s\n"
+               "    g(a, q);\n" % PIN)
+        off = gen(t)
+        with mock.patch.dict(os.environ, {"T69_CAST_COPY": "1"}):
+            on = gen(t)
+        self.assertEqual(off[0], on[0])
+        self.assertEqual(dict(off[1]), dict(on[1]))
+
+    def test_the_bare_copy_always_wins_over_a_cast_copy(self):
+        body = "    a = (S *)x;\n    a = a_in;\n"
+        cm, cast = G._copy_match(body, "a", True)
+        self.assertEqual(cm.group("src"), "a_in")
+        self.assertIsNone(cast)
+
+    # --- B. T69_PIN_BEFORE_COPY: the only earlier use is an erasable pin naming the local -------
+    PINFIRST = fn("void *a_in", "    void *a;\n    ASM_SET(a);%s\n    a = a_in;\n"
+                                "    ASM_KEEP_NV(a);%s\n    g(a);\n" % (PIN, PIN))
+
+    def test_a_pin_before_the_copy_is_closed_by_default(self):
+        self.refuse(self.PINFIRST, "use-before-copy")
+
+    def test_a_pin_before_the_copy_opens_on_request(self):
+        with mock.patch.dict(os.environ, {"T69_PIN_BEFORE_COPY": "1"}):
+            cands, skips = gen(self.PINFIRST)
+        self.assertEqual(len(cands), 1)
+        self.assertTrue(skips["opened-pin-before-copy"])
+        self.assertIn("void f(void *a)\n", cands[0][1])
+        self.assertNotIn("ASM_SET", cands[0][1])
+        self.assertNotIn("ASM_KEEP_NV", cands[0][1])
+        self.assertEqual(sites_of(cands[0][1]), [])
+
+    def test_a_real_use_before_the_copy_keeps_the_refusal(self):
+        t = fn("void *a_in", "    void *a;\n    ASM_SET(a);%s\n    g(a);\n    a = a_in;\n"
+                             "    ASM_KEEP_NV(a);%s\n    g(a);\n" % (PIN, PIN))
+        self.refuse(t, "use-before-copy", env={"T69_PIN_BEFORE_COPY": "1"})
+
+    def test_a_multi_variable_pin_before_the_copy_keeps_the_refusal(self):
+        # src/dungeon/func_800B4318.c: `ASM_KEEP_NV(render); ASM_KEEP_DEP_NV(page, render);` before
+        # the copy - the second pin names two variables, so it is not erasable and its mention of
+        # the local is a use the merge cannot remove.
+        t = fn("void *a_in", "    void *a;\n    void *page;\n    ASM_KEEP_NV(a);%s\n"
+                             "    page = 0;\n    ASM_KEEP_DEP_NV(page, a);%s\n    a = a_in;\n"
+                             "    g(a, page);\n" % (PIN, PIN))
+        self.refuse(t, "use-before-copy", env={"T69_PIN_BEFORE_COPY": "1"})
+
+    def test_a_pin_naming_another_variable_before_the_copy_is_not_a_use(self):
+        t = fn("void *a_in, void *b_in", "    void *a;\n    void *b = b_in;\n    ASM_KEEP(b);%s\n"
+                                         "    a = a_in;\n    ASM_KEEP(a);%s\n    g(a, b);\n" % (PIN, PIN))
+        cands, _ = gen(t)                       # no occurrence of `a` before its copy at all
+        self.assertTrue(cands)
+
+    # --- C. T69_TWICE: two locals copying the same parameter ARE the parameter ------------------
+    TWICE = fn("void *a_in",
+               "    void *a = a_in;\n    void *b = a_in;\n    ASM_KEEP(a);%s\n    ASM_KEEP(b);%s\n"
+               "    g(a, b);\n" % (PIN, PIN))
+
+    def test_the_second_copy_is_refused_by_default(self):
+        cands, skips = gen(self.TWICE)
+        self.assertTrue(skips["param-copied-twice"])
+        self.assertEqual([l for l, _ in cands], ["prologue:f:a"])
+        self.assertEqual(len(sites_of(cands[0][1])), 1)     # ASM_KEEP(b) survives on the local copy
+
+    def test_both_copies_merge_on_request(self):
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            cands, skips = gen(self.TWICE)
+        self.assertTrue(skips["opened-twice"])
+        self.assertEqual(cands[0][0], "prologue:f:a+b")
+        best = cands[0][1]
+        self.assertIn("void f(void *a)", best)
+        self.assertNotIn("a_in", best)
+        self.assertNotIn("void *b", best)
+        self.assertIn("g(a, a);", best)
+        self.assertEqual(sites_of(best), [])
+        self.assertIn("prologue:f:b", [l for l, _ in cands])   # the subsets are still offered
+
+    def test_two_locals_of_different_types_are_refused(self):
+        t = fn("void *a_in",
+               "    S *a = a_in;\n    T *b = a_in;\n    ASM_KEEP(a);%s\n    ASM_KEEP(b);%s\n"
+               "    g(a, b);\n" % (PIN, PIN))
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["twice-types-differ"])
+        self.assertNotIn("prologue:f:a+b", [l for l, _ in cands])
+
+    def test_a_pin_naming_both_locals_refuses_the_joint_candidate(self):
+        # src/dungeon/func_80BC1BA8.c: `ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base)`
+        # would name one variable twice after the fold - a second set of it, not the row's pin.
+        t = fn("void *a_in",
+               "    void *a = a_in;\n    void *b = a_in;\n    ASM_KEEP_DEP_NV(a, b);%s\n"
+               "    ASM_KEEP(b);%s\n    g(a, b);\n" % (PIN, PIN))
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["twice-pin-names-both"])
+        self.assertNotIn("prologue:f:a+b", [l for l, _ in cands])
+
+    def test_a_multi_variable_pin_on_the_folded_local_refuses_the_joint_candidate(self):
+        t = fn("void *a_in",
+               "    void *a = a_in;\n    void *b = a_in;\n    void *c;\n    c = 0;\n"
+               "    ASM_KEEP_DEP_NV(b, c);%s\n    ASM_KEEP(a);%s\n    g(a, b, c);\n" % (PIN, PIN))
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            cands, skips = gen(t)
+        self.assertTrue(skips["twice-pin-not-erasable"])
+        self.assertNotIn("prologue:f:a+b", [l for l, _ in cands])
+
+    def test_the_parameter_may_take_the_second_local_alone(self):
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            cands, _ = gen(self.TWICE)
+        best = dict((l, t) for l, t in cands)["prologue:f:b"]
+        self.assertIn("void f(void *b)", best)
+        self.assertIn("void *a = b;", best)      # the other copy survives as a local-to-local copy
+
+    # --- round-33 review fixes ------------------------------------------------------------------
+    def test_a_folded_register_local_hands_its_storage_class_to_the_parameter(self):
+        # review defect 2 (rev_synthetics C6/C6b): the fold used to drop a folded local's `register`
+        # while `entry_copies` journalled `register-local-carried` for it.  Either local carrying
+        # the keyword makes the merged parameter `register`, whichever one leads.
+        c6 = fn("void *a_in",
+                "    void *a = a_in;\n    register void *b = a_in;\n    ASM_KEEP(a);%s\n"
+                "    ASM_KEEP(b);%s\n    g(a, b);\n" % (PIN, PIN))
+        c6b = fn("void *a_in",
+                 "    register void *a = a_in;\n    void *b = a_in;\n    ASM_KEEP(a);%s\n"
+                 "    ASM_KEEP(b);%s\n    g(a, b);\n" % (PIN, PIN))
+        for t in (c6, c6b):
+            with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+                cands, skips = gen(t)
+            best = dict(cands)["prologue:f:a+b"]
+            self.assertTrue(skips["register-local-carried"])
+            self.assertIn("void f(register void *a)", best)
+            self.assertNotIn("register void *b", best)
+            self.assertEqual(sites_of(best), [])
+
+    def test_an_asm_reg_pinned_folded_local_does_not_hand_over_its_register(self):
+        # the `register` of `register T v ASM_REG("$N")` is the pin's syntax, not the source's
+        t = fn("void *a_in",
+               "    void *a = a_in;\n    register void *b ASM_REG(\"$19\") = a_in;%s\n"
+               "    ASM_KEEP(a);%s\n    g(a, b);\n" % (PIN, PIN))
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            cands, _ = gen(t)
+        best = dict(cands)["prologue:f:a+b"]
+        self.assertIn("void f(void *a)", best)
+        self.assertNotIn("register", best)
+
+    def test_the_second_local_alone_is_not_in_the_menu_without_the_switch(self):
+        # review defect 1: the single-inner-local candidate is NOT a fold and NOT something t69
+        # offers with the opening closed - `param-copied-twice` drops the record before any subset
+        # is enumerated, so no candidate names the second local at all.
+        off = labels(self.TWICE)
+        self.assertEqual(off, ["prologue:f:a"])
+        with mock.patch.dict(os.environ, {"T69_TWICE": "1"}):
+            on = labels(self.TWICE)
+        self.assertIn("prologue:f:b", on)
+        self.assertNotIn("prologue:f:b", off)
+
+    # --- all three together leave every other menu alone ---------------------------------------
+    def test_the_three_openings_do_not_change_a_menu_without_their_shapes(self):
+        env = {"T69_CAST_COPY": "1", "T69_PIN_BEFORE_COPY": "1", "T69_TWICE": "1"}
+        for t in (TWO, DECLINIT,
+                  fn("void *a_in", "    S *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n    h(a_in, 1);\n" % PIN),
+                  fn("void *a_in", "    register void *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)):
+            off = gen(t)
+            with mock.patch.dict(os.environ, env):
+                on = gen(t)
+            self.assertEqual(off[0], on[0])
+            self.assertEqual(dict(off[1]), dict(on[1]))
+
+
 class Contract(unittest.TestCase):
     def test_class_shape(self):
         self.assertEqual(G.T.name, "t69_prologue")
