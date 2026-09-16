@@ -141,7 +141,7 @@ its own journal: the refusal it opens keeps its old key when the switch is OFF, 
     T66_SHADOW (default 1)            shadowed-inner-local, 32 pairs in 5 rows.  See `_shadow_inners`
         and `_shadow_retry`.
     T66_COMPOUND (default 1)          compound-assign-cast, 17 pairs in 9 rows.  See `_cast_edits`.
-    T66_TRY_INTERFERENCE (default 0)  interference, 224 pairs in 43 rows.  A pair whose lifetimes
+    T66_TRY_INTERFERENCE (default 1 since round 31; shipped 0 in round 30)  interference, 224 pairs in 43 rows.  A pair whose lifetimes
         clash at the C level is offered ANYWAY, with the ordinary rename/cast forms, and the screen
         and `vf` decide.  The argument: both variables are bound to ONE hard register in a row that
         is byte-exact today, so the compiled program never holds both values at once.  A clash in the
@@ -1459,7 +1459,7 @@ def pairs_of(text, skips=None, _shadow=True):
         return out
     pp = _pp_regions(text)
     macro_ok = _env_on("T66_MACRO_ARGS")
-    try_interf = _env_on("T66_TRY_INTERFERENCE", "0")
+    try_interf = _env_on("T66_TRY_INTERFERENCE", "1")   # default 1 since round 31: 37 of 43 rows exact under vf in round 30
     refuse = _stringify_macros(text)
     mtable = _macro_table(text)
     midx = _MacroIdx(t.m, mtable)

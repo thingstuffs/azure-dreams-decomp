@@ -1861,6 +1861,14 @@ Measured first (CPU, before any tool was commissioned; the owner: "progress is r
   KEEP 19, REG 5, SCHED_BARRIER 5). 87 of the 89 pins sit nine or more lines below the function's first body line: the
   pin is not at the top; it holds an ordinary statement whose instructions the second scheduler would otherwise lift
   above the stack adjust. That is round 31's workflow item (`work/native_lane/r31_prologue/rows/`).
+- **The rest of the census, bounded the same morning.** The EARLY moved class (cse 149, loop 95, combine 116, rtl 24) is
+  not a reorder at the pass level: `sched_map.py` finds no insn whose ORDER changed in 350 of 384 (`no-moved-insn`) - the
+  dump differs by substitution (a load folded, a copy replaced), the round-18 ops/wiring classes t64/t66/t53 serve. The
+  ops-change residues other than address materialisation (439 sites) have no pattern above 36: an extra copy in the
+  erased text 36, `move+ori -> ori` 27, a copy propagated into a branch 18, `lbu -> andi+lbu` 13, `lbu+sll+sra -> lb` 13
+  (a signed load of a u8-typed value: t36/t37/t39's width class), an offset folded into a load/store 11 + 11, `addiu+la ->
+  la` 9. Nothing there is a generator's population. `T66_TRY_INTERFERENCE` now defaults to 1 in the module (the cascade
+  runs it; round 30's sweep used it explicitly). `t64_varset` re-swept over the 173 rows changed since round 29.
 
 ## Round 30 (2026-09-15, evening): the lone-erasure census, t66's remaining refusals, the address class
 
