@@ -88,6 +88,15 @@ flips, now t69) are the ones that paid. Before building a family mode into a gen
 move kind that applies the move to every eligible site of the function at once, screened beside the singles on the near
 band, counting sites where the joint form reaches 0 and no single does.
 
+Round 32 measured that rule with `tools/lanes/family_measure.py` (a fresh `erase_census.py` census -> the near band -> per
+move kind one folded joint candidate beside the singles): dropcopy 1 row of 281, `inline_def` 0 of 1,436 bases, `retype_ptr`
+0 of 382 - the family mode pays only where the sites share one mechanism (t69's parameter copies), so measure the population
+ceiling text-only first (`scratch/population.py` in `work/native_lane/r32_family/`) and the joint's "worse than the best
+single" column beside its "reaches 0" column. A refusal table is read the same way: a `Detail` counter (`t69_prologue.Detail`)
+ties each refusal to the local it was about, so the pins BEHIND a refusal can be counted and the largest opening screened in
+seconds (`scratch/dropreg_screen.py`) before any verify - and the order of a generator's refusals matters, because a test
+that fires before the class test (t69's `declared-twice`) counts records that were never the generator's.
+
 ## Before launch: give it everything it would otherwise fetch or rebuild
 
 1. **GCC sources for every cell.** `bash tools/fetch_gcc_src.sh` writes `toolchain/gcc-src/<version>/`

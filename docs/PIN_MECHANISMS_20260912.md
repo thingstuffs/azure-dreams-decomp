@@ -1835,6 +1835,47 @@ nothing points at a session scratchpad.
   of every landed row were compared before and after both landings (9 + 5 rows carry `__mips__`): none differ. `probe4`'s seven outputs were stale by the time
   the landing ran (the sweep had rewritten every one of its rows) and the ledger credits the rows to the generator.
 
+## Round 32 (2026-09-16): the family mode measured, and t69's refusals read with the pins behind them
+
+All CPU, no model (the owner's next-batch instruction - a Workflow with opus implementing and reviewing, the parent's final
+check - applies from the batch after this one). Lane `work/native_lane/r32_family/` (REPORT.md there has the tables).
+- **The family mode has no opening on the three largest one-site populations.** `tools/lanes/family_measure.py` (new) is the
+  round-31 LANE_KIT rule as a tool: on a fresh lone-erasure census (6,208 sites; near band d0 1-4 = 2,062 sites in 771 rows)
+  it builds, per move kind, one candidate that applies the move at EVERY eligible site of the function at once (each step
+  re-read on the current text) and screens it beside the singles against the pinned listing. The population ceiling first,
+  text only: 281 near-band rows carry two or more droppable copies, `inline_def` has two or more eligible webs on 986
+  single-erasure bases and 451 all-erased bases, `retype_ptr` 283 / 99. Then the compiles (395 s at 8 processes): the joint
+  reaches 0 where no single does on **1 row for dropcopy and 0 for inline and retype**; inline's joint is farther from
+  retail than its best single on 951 of 1,436 bases (the singles sit at 2, the joint adds residue); retype's joint equals
+  its single on every base (a retype with its casts dropped is invisible to cc1, singly or jointly). The one dropcopy row
+  is `dungeon/func_8008557C`, four parameter copies - t69's class, refused by t69 for a REG-pinned local, and it landed
+  through the opening below. The joint-move lesson stays the parameter-copy class where the copies share one mechanism;
+  a family mode in `natural.dropcopy` or `t64_varset` would pay 0. Not fold-able under the measure: t51's statement moves
+  (the joint of all independent moves is the region reschedule, round 31's 312 of 402) and t53's `decl-swap`.
+- **t69's refusal table, with the pins behind each refusal.** `t69_prologue.Detail` (a `Counter` that records `(refusal,
+  local)`; `_note` and `entry_copies` set it) lets `scratch/t69_refusals.py` count, per refusal, the ERASABLE sites naming the
+  refused local. Two corrections to round 31's table: `declared-twice` and `nested-scope` are tested BEFORE t69 knows the
+  local is an entry copy, so round 31's "declared-twice 485" was ordinary block locals - the real declared-twice opening is 2
+  pins in 1 row (T66_SHADOW's precedent does not transfer); and the silent skips (an initialiser that is not a bare
+  identifier, a copy that is not `v = p;`) hold 98 pins behind `v = f(p)` computations and 43 behind `v = p->field` loads -
+  real work, not copies - and 7 pins behind a copy spelled through a cast. The largest genuine refusal is
+  **`reg-pinned-local`: 384 records / 278 rows, 95 keeps behind it in 78 rows** (`register T v ASM_REG("$N") = p;`, a
+  KEEP on v below); then `copy-not-in-the-declaration-block` 27 keeps / 21 rows; everything else under 12 pins.
+- **Two openings, screened then verified.** `T69_DROP_REG=1` drops the copy together with its ASM_REG (the parameter's own
+  pseudo takes whatever register the allocator gives it; the pin's `register` keyword does not move onto the parameter; a
+  REG site alone counts as a removed pin). Screen 278 rows / 134 with a candidate / 5 at 0; lane_eval 5 of 5 hit, 6 pins.
+  The screen exposed an accounting gap - the declaration-initialiser form `register T v ASM_REG("$N") = p;` has its write
+  where `_writes` cannot see it and was refused `local-written-twice` - fixed, second screen 274 / 233 / 5 more at 0,
+  lane_eval 5 of 5, 10 pins; the two forced sweeps over the other 244 candidate rows found one more (`dungeon/func_80CC1724`,
+  2 -> 0, the one row this round where the screen's rank and vf disagree). **11 rows / 18 pins.** `T69_BLOCK_COPY=1` (the copy
+  in a nested block, every occurrence of the local inside it): 88 rows / 7 candidates / 0 at 0 - a clean negative, the flag
+  documented and closed. `T69_DROP_REG` now defaults to 1 (the sweeps cost 56 s and 46 s for 134 and 110 rows; the
+  cascade runs t69 over changed rows only); `T69_RETYPE_SCALAR` and `T69_BLOCK_COPY` stay off.
+- **Left with pins behind them:** `use-before-copy` where the use is `ASM_SET(v)` (11 pins / 3 rows, all REG-pinned),
+  `param-copied-twice` (8 pins / 8 rows, one template family), the cast-spelled copy (7 pins / 5 rows) - the next batch,
+  by the owner's instruction a Workflow (opus implements, opus reviews, the parent checks); the 37 other-mechanism prologue
+  sites and their 12 fences stay with the fence family.
+
 ## Round 31 (2026-09-16): the scheduling residue mapped to C
 
 Measured first (CPU, before any tool was commissioned; the owner: "progress is real. Start the next phase"):

@@ -23,6 +23,31 @@ Launched after the gate: astra on 3 argmove rows (`work/native_lane/argmove_astr
 escalation after luna and sol) and luna on 12 more fake-evidence rows (`work/native_lane/fakedep4/`).
 Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#ifndef NON_MATCHING`
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
+Thirty-second round (2026-09-16, morning), gated (16 windows MATCH, SLUS SHA-1 MATCH): **6,181 pins in 1,298 rows** (6,201 at start,
+-20: `t69_prologue` with the new `T69_DROP_REG` opening 11 rows / 18 pins - 10 through the lane, 1 through the forced sweep - and the
+cascade t48 1, t53 1; arms identical on all 11 changed rows). All CPU, no model. The owner's instruction for the batch after this
+one: "you can use a workflow, use opus to implement and review then you do a final check" - the script is
+`tools/lanes/workflows/r32_t69tail.js`, its lane `work/native_lane/r32_t69tail/` (row lists frozen). **Read
+`docs/PIN_MECHANISMS_20260912.md` "Round 32" and `work/native_lane/r32_family/REPORT.md`; the verdicts:**
+- **The family mode has no opening on dropcopy, inline or retype.** `tools/lanes/family_measure.py` (new) measures the round-31
+  LANE_KIT rule: on the near band (a fresh census, 2,062 sites / 771 rows) one folded joint candidate per move kind beside the
+  singles. The population ceiling was large (281 dropcopy rows, 986 inline bases with two or more eligible sites); the joint
+  reaches 0 where no single does on 1 dropcopy row and 0 inline / retype bases, and inline's joint is farther from retail than
+  its best single on 951 of 1,436. The one row is t69's class under a REG-pinned local. Do not build a family mode into
+  `natural.dropcopy` or `t64_varset`; the lesson stays the parameter-copy class.
+- **t69's refusal table, with the pins behind each refusal** (`t69_prologue.Detail`, `scratch/t69_refusals.py`): round 31's
+  "declared-twice 485" was ordinary block locals (the test fires before the copy test) - the real opening is 2 pins; the silent
+  skips are computations and loads, not copies (7 pins behind a cast-spelled copy). The largest genuine refusal,
+  `reg-pinned-local` (384 records, 95 keeps behind it in 78 rows), opened as `T69_DROP_REG` (the copy and its ASM_REG go
+  together; now default on): screen 5 + 5 rows at 0 after a one-line accounting fix (`register T v ASM_REG("$N") = p;` was
+  refused `local-written-twice`), lane_eval 10 of 10, one more in the forced sweeps. `T69_BLOCK_COPY` (the copy in a nested
+  block): 88 rows / 7 candidates / 0 at 0, closed.
+- **Next, in order:** (1) the next batch as a Workflow (`r32_t69tail.js`: the three refusals left with pins behind them - a
+  cast-spelled copy 7 pins / 5 rows, `ASM_SET(v)` as the only use before the copy 11 / 3, two locals copying one parameter
+  8 / 8 - plus the DROP_REG residue classified on its 228 missing rows and one t66 composition screened; opus implements
+  and reviews, the parent does the final check: tests, the C diffs, arms, then the round-29 landing pattern); (2) the 37
+  other-mechanism prologue sites and their 12 fences stay with the fence family; (3) packs only from `pools.py`.
+
 Thirty-first round (2026-09-16), gated (22 windows MATCH, SLUS SHA-1 MATCH): **6,201 pins in 1,301 rows** (6,264 at start, -63: `t69_prologue` 8 lane
 outputs / 24 pins + 8 pins / 7 rows in the tree sweep, `t64_varset` re-swept over the rows changed since round 29 4 rows / 6 pins,
 the cascade t53k 6, t16 4, t63 3, t53 1, t59 1, and 10 more from cascade transforms that do not journal pin counts - t48, t2,
