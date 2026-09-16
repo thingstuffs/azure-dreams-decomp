@@ -1868,7 +1868,28 @@ Measured first (CPU, before any tool was commissioned; the owner: "progress is r
   erased text 36, `move+ori -> ori` 27, a copy propagated into a branch 18, `lbu -> andi+lbu` 13, `lbu+sll+sra -> lb` 13
   (a signed load of a u8-typed value: t36/t37/t39's width class), an offset folded into a load/store 11 + 11, `addiu+la ->
   la` 9. Nothing there is a generator's population. `T66_TRY_INTERFERENCE` now defaults to 1 in the module (the cascade
-  runs it; round 30's sweep used it explicitly). `t64_varset` re-swept over the 173 rows changed since round 29.
+  runs it; round 30's sweep used it explicitly). `t64_varset` re-swept over the 173 rows changed since round 29. (4 rows / 6 pins.)
+- **The workflow (`r31_prologue.js`, 3 agents / 613k tokens / 86 min) found the mechanism one pass EARLIER than the census
+  named it.** The census's "first differing pass" is a wiring measure; the order already differs at sched1 on most of the
+  class (the reviewer counted the disagreement at 66 of 89). sched.c's `adjust_priority` promotes a producer to
+  LAUNCH_PRIORITY when `birthing_insn_p` holds - a live destination with `reg_n_sets == 1` - and `ASM_KEEP(x)`
+  (`"=r"(x) : "0"(x)`) is a SECOND set of x, so the kept copy is never promoted; erase the keep and the backward scheduler
+  picks the copy first, emits it last, and after reload the callee-saved store paired with it travels with it - the
+  "prologue" residue is that consequence. Measured on the 89 sites: erasing the pin promotes exactly one more insn on 46
+  (42 of them the kept variable's producer, 34 of the form `local = identifier;`), loses a promotion on 6, and 37 are
+  another mechanism (all 12 SCHED_BARRIER sites among them: a fence has no variable to set). The producers are m2c's
+  entry copies `x = x_arg;` - retail's C had no such local, the parameter IS x. **The lever works only jointly**: on
+  `dungeon/func_809F4F90` erasing the four keeps screens at 2, dropping one copy at 132, dropping all four at 0 -
+  `natural.dropcopy` (one copy per candidate) and t36's "dropping the copies left the residue unchanged" both stood in
+  that valley. `t69_prologue` drops a function's redundant parameter copies together (the parameter carries the local's
+  name and, for a pointer, its type; every subset tried, most pins first): 8 of 45 rows / 24 pins in evaluation (47% of
+  the 17 rows that produced a candidate), the reviewer's 20 held-out rows 0 (13 ineligible, 7 miss). Review: two majors -
+  directive lines rewritten by the rename, a retype with no guard on the parameter's surviving uses - and five smaller
+  holes, all fixed (directive mask, macro-name collision, a use guard that allows a pointer retype only where every
+  surviving use is a bare value and a scalar retype only with none, a `register` storage class carried not dropped,
+  scalar-vs-pointer refused), 59 tests; the fixes cost none of the 8 outputs. The owner's reading of the joint result -
+  "any mechanism looking at one pin at a time may miss the whole picture" - is now a LANE_KIT rule and the next round's
+  first measurement (a family mode per generator, measured on the near band before it is built).
 
 ## Round 30 (2026-09-15, evening): the lone-erasure census, t66's remaining refusals, the address class
 
