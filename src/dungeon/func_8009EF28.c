@@ -19,8 +19,8 @@ s32 func_800A4688(s32 world_x, s32 world_y, s32 world_z, u32 direction, s32 disa
     u16 sector;
     s32 height;
     s32 sample_z;
-    s32 neighbor_x;
-    s32 neighbor_y;
+    u16 neighbor_x;
+    u16 neighbor_y;
     register s32 result;
 
     tile_x = (u32)(world_x & 0xFFFF) >> 6;
@@ -43,7 +43,6 @@ s32 func_800A4688(s32 world_x, s32 world_y, s32 world_z, u32 direction, s32 disa
     y_offset = D_8006CCE8[sector];
     neighbor_x = x_offset + tile_x;
     neighbor_y = y_offset + tile_y;
-    ASM_USE2(neighbor_x, neighbor_y);
     height = func_800BCB04(
         ((((neighbor_x) & 0xFFFF) << 6) + 0x20) & 0xFFE0,
         ((((neighbor_y) & 0xFFFF) << 6) + 0x20) & 0xFFE0,

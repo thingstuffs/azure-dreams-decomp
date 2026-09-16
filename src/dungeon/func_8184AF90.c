@@ -64,7 +64,6 @@ typedef struct S_80024790_4 {
 s32 func_80024790(S_80024790_1 *origin, s32 index) {
     s32 signed_index;
     s32 index_high;
-    register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s16 scale;
     s32 frame_dividend;
     register s32 color_index ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -117,11 +116,9 @@ s32 func_80024790(S_80024790_1 *origin, s32 index) {
         position = ((S_80024790_0 *)effect)->unk_08;
         position->unk_02 = (s16) (((S_80024790_0 *)effect)->unk_20 + ((s32) (func_800644B8(state->unk_08) * 2) >> 8));
         position->unk_06 = (s16) (state->unk_02 + ((s32) (func_80064584(state->unk_08) * 2) >> 8));
-        result = (s32) effect;
         height = state->unk_04 - (index * 8);
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         position->unk_0A = (u16) height;
-        return;
+        return (s32) effect;
     }
     return 0;
 }

@@ -71,8 +71,8 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
     s16 vertex_coord;
     register s32 y_third ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 y_fourth ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    u16 x_edge;
-    register u16 x_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 x_edge;
+    register s32 x_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 z_third ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *position;
     register s32 y_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -97,7 +97,6 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         ((S_81876014_0 *)effect)->unk_62 = vertex_coord;
         x_base = x_edge;
         x_edge += 0x10;
-        ASM_KEEP(x_edge);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_81876014_0 *)effect)->unk_52 = x_edge;
         ((S_81876014_0 *)effect)->unk_54 = x_base;
         x_edge = x_base;

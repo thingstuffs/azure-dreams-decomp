@@ -22,9 +22,9 @@ extern s32 func_800AA5E4(void *, s32, s32, void *);
 
 /* Resolve a ranged random check, apply its effects, and return the outcome. */
 s32 func_800CC18C(void *entity, s32 forwarded_1, s32 forwarded_2, s32 forwarded_3) {
-    register s32 roll ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 roll;
     s32 random_value;
-    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 remainder;
     s16 outcome;
     s32 feedback_kind;
     s32 feedback_or_result;

@@ -1,0 +1,119 @@
+{
+  "baseline_commit": "b1f3617476327fd850cfde6bf53fea5ad93e6bae",
+  "baseline_pins": 6148,
+  "baseline_rows": 1295,
+  "compiler_policy": "unchanged per-row recipes",
+  "rows": [
+    {
+      "id": "dungeon/func_8009ED80",
+      "lane": "r35_parent",
+      "in_sha": "b19ecb9eed076b1223cdfc2baf74560a091aea3f01f259ce01e98076f737fd0c",
+      "out_sha": "7ff013abb541a6c859a53ef43708e5569069393c80f9327a67ed7d5f2ab4964b",
+      "pins_before": 1,
+      "pins_after": 0,
+      "cfg": "2.7.2-cdk-G0",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    },
+    {
+      "id": "dungeon/func_8009EF28",
+      "lane": "r35_parent",
+      "in_sha": "a402b181213cc3126269a24d49971b67be4a11c94b13e59cf8df0ccaa6151016",
+      "out_sha": "627ed942d644b87b632346f787932bcbef310a5bf057b548af1747417ff531a0",
+      "pins_before": 3,
+      "pins_after": 2,
+      "cfg": "2.7.2-cdk-G0",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    },
+    {
+      "id": "dungeon/func_800C6A2C",
+      "lane": "r35_parent",
+      "in_sha": "014caef07b4c4c104aa7f360c6bb3fc9ffa3dded71e1bfdc3dab9b60693b9c27",
+      "out_sha": "c4702d79ac1357745777690812997c231131f98fc60cab4e1cf0e493a603cee3",
+      "pins_before": 2,
+      "pins_after": 0,
+      "cfg": "2.8.1-G0",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    },
+    {
+      "id": "dungeon/func_800C8FE8",
+      "lane": "r35_parent",
+      "in_sha": "5990c9bb86fd2dad55b3fcaefe220b91e96ac46a8b81113cf25d1c2851475256",
+      "out_sha": "62704c5c6486a287b4e476317d85c0ba013a8b3657bb01306f166aa8fe89a192",
+      "pins_before": 2,
+      "pins_after": 0,
+      "cfg": "2.7.2-cdk-G0",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    },
+    {
+      "id": "dungeon/func_81876014",
+      "lane": "r35_parent",
+      "in_sha": "69b0d508f0a312b2d5ed8aae7ab6fc7290032be454ec3e9cff601a61a6530b0c",
+      "out_sha": "a02131cbc7d77e65f79a75fedbe91cfa36438ac06a674435a558228a6a78a248",
+      "pins_before": 11,
+      "pins_after": 10,
+      "cfg": "2.8.1-G0 -fno-schedule-insns",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    },
+    {
+      "id": "dungeon/func_818C2FAC",
+      "lane": "r35_parent",
+      "in_sha": "cf29bb00dc56492213ca3f06b482d27e9dc655568e0accb5dd38e1ae05cdaefe",
+      "out_sha": "c282dd9f38e222dbfce6bf4b2db53cb3375f19c38f4320545ed562941ad9bddc",
+      "pins_before": 3,
+      "pins_after": 2,
+      "cfg": "2.7.2-cdk-G0",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    },
+    {
+      "id": "dungeon/func_8184AF90",
+      "lane": "r35_sol_far",
+      "in_sha": "fedc10f538ce33d2b56f9a1257b9e948dfd67683184f5d4c247b3290c3979258",
+      "out_sha": "236f636b083c551e59ab506a7497b53c1e950c41daf4eb6880ed26ee4ddb7b59",
+      "pins_before": 5,
+      "pins_after": 3,
+      "cfg": "2.7.2-cdk-G0",
+      "unscored_arms_unchanged": true,
+      "hidden_asm_not_increased": true
+    }
+  ],
+  "experiments": {
+    "joint": {
+      "rows": 47,
+      "screens": 483,
+      "screen_hit_rows": 2
+    },
+    "family": {
+      "rows": 505,
+      "screens": 17596,
+      "screen_hit_rows": 6
+    },
+    "copy": {
+      "rows": 103,
+      "screens": 1395,
+      "screen_hit_rows": 2
+    },
+    "cross": {
+      "rows": 425,
+      "screens": 8285,
+      "screen_hit_rows": 5
+    }
+  },
+  "removed": 10,
+  "pins_now": 6138,
+  "pinned_rows_now": 1292,
+  "gates": {
+    "overlay_changed_match": 6,
+    "overlay_cached_current": 2169,
+    "overlay_seconds": 154,
+    "overlay_retries": 0,
+    "slus_sha1": "MATCH",
+    "slus_tus": 884,
+    "row_database": "OK"
+  }
+}
