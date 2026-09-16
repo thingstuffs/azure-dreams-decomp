@@ -46,8 +46,8 @@ extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
-void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor, s32 move_state) {
-    register s32 state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor, s16 move_state) {
+    s16 state;
     s32 direction_offset;
     s32 next_x;
     s32 next_y;

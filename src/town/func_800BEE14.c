@@ -69,14 +69,14 @@ typedef struct S_800BC574_5 {
 } S_800BC574_5;   /* (void *) tail_v0 in func_800BC574 */
 
 /* Creates an effect at the supplied position with directional motion and initializes its sprite. */
-s32 func_800BC574(void *position, s32 angle) {
+s32 func_800BC574(void *position, s16 angle) {
     s32 position_z;
     S_800BC574_4 *sprite;
     S_800BC574_0 *effect;
     S_800BC574_2 *source_pos = position;
     u8 *world_state = (u8 *) &D_80083160;
     S_800BC574_1 *data_ptr;
-    register s32 saved_angle ASM_REG("$19");
+    s16 saved_angle;
 
     effect = func_8003FD64(0x312, &D_80083498);
     if (effect != NULL) {
@@ -91,7 +91,7 @@ s32 func_800BC574(void *position, s32 angle) {
         data_ptr = effect->unk_08;
         position_z = source_pos->unk_08;
         {
-            register s32 angle_short ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            s16 angle_short;
 
             angle_short = (s16) saved_angle;
             data_ptr->unk_08 = position_z;

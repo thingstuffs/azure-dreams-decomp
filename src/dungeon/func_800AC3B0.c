@@ -95,13 +95,13 @@ void *func_800B1434();
 extern M2C_UNK D_800B14FC;
 extern M2C_UNK D_800B06F0;
 
-void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5) {
+void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
     u16 subroutine_arg4;
     S_800B1B10_4 *arg0_s5 = arg0;
     register s32 arg1_s0 ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 arg2_s1 = arg2;
     s32 arg3_s4 = arg3;
-    s32 raw_arg4 = arg4;
+    s16 raw_arg4 = arg4;
     u16 arg5_t0 = arg5;
     register s16 temp_s8;
     M2C_UNK var_a1;
@@ -186,7 +186,6 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, u16 arg5)
                 var_a1 = (s16) tail_v0;
                 goto block_shared;
             }
-            ASM_KEEP(raw_arg4);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             var_a1 = 0x8A;
 block_shared:
             func_800B1320((void *) arg2_s1, var_a1, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) arg2_s1))->unk_03.u) - 0xE));

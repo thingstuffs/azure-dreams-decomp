@@ -65,7 +65,7 @@ extern void func_800BA2A0(void);
 extern void func_800BA308(void);
 extern s32 func_800BA33C(s32);
 extern void func_800B1768(s32, s32, s32, s32, s32, s32);
-extern void func_800B1B10(void *, s32, s32, s32, s32, s32);
+extern void func_800B1B10(void *, s32, s32, s32, s16, s32);
 
 extern s32 D_80045340;
 extern u8 D_80045C34[];

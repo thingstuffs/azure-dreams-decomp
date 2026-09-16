@@ -47,14 +47,55 @@ database OK. This is progress, not a plateau; the goal remains active.
 Artifacts: `work/native_lane/r36_width/`, `r36_returns/`, `r36_proto/`,
 `r36_struct/`. The return lane's report gives every tested negative and result.
 
-## Next concrete hypotheses
+## Round 37 (gated)
 
-1. The four failed return repairs changed branch/epilogue layout. Test the actual
-   return-value representation, with range evidence: a function returning only
-   0/1 may have had a narrow scalar return type. Compare return-width changes
-   jointly with the explicit-return repair before scaling anything.
-2. Transfer the width-pair mechanism to functions outside the pilot's size/local
-   limits only with a concrete value relation or range argument. Avoid repeating
-   the same capped candidate prefix and counting that as a new experiment.
-3. If those fail, select a different semantic/structural cause. Do not declare a
-   plateau while a new source-repair family is still producing verified wins.
+- The boolean-return-width probe on `80094A20` failed: ten candidates all total9.
+  Sol reconstructed the tail-failure/shared-return join in `800A21EC`; nine
+  reasoned candidates and two full verifiers split the required features:
+  shared joins preserve layout but miss allocation (11), direct returns recover
+  allocation but invert the branch layout (5). No return repair landed here.
+- A fresh width-pair fix in `81084D04` narrows `tile_y` and `next_y` to `u16`,
+  removing the latter's binding. `tile_y` is unpinned, so the earlier pinned-only
+  pairs excluded it. Either narrowing alone fails (41/2), both exact. Direct
+  local-copy transfer:182 rows /2,436 screens, only this exemplar exact.
+- Parameter/local copies are more productive: change both ends together.
+  Separate-assignment pilot118 rows /1,150 screens found 10 exact rows. The
+  bound-initializer spelling adds52 rows /462 screens (164 unique total),
+  finding5 more. Composing on these15 winners adds10 pins in 79 screens,
+  including one plain binding erasure unlocked by the width repair. Final
+  parameter lane:27 pins in 15 rows. All candidate outputs fully byte-verified.
+- Source-range review: narrowed values feed 16-bit stores/casts/masks/shifts.
+  One Sol agent independently reviewed all 15 rows and the composed coordinates.
+  Same-file prototypes follow parameter changes; definite cross-TU declarations
+  are being checked separately, with overlay identity established before edits.
+- Standard landing accepted all 16 functions /28 pins; changed-row cascade added
+  two more (`80BAF094` binding and `800BEE14` angle-copy width). All20 changed
+  overlay windows MATCH in 249 seconds; SLUS MATCH; row database OK. That first gate covered 30 removals. Caller review then required withdrawing
+  `80287768` (one pin): its caller's compatible prototype could not stay exact,
+  even after eight bounded caller/callee repairs. Nine other caller declarations
+  were corrected exactly; all nine correction windows and SLUS MATCH (247 seconds); row database OK. Retained wave:
+  **29 pins removed in 15 functions, six newly pin-free. Current: 6,103
+  pins in 1,284 rows; cumulative goal progress 35/500.**
+- `tools/xform/t70_copywidth.py` encodes the parameter/local repair. Five focused
+  tests pass; it reproduces all 15 independently verified initial candidates.
+  The automatic sweep refuses unreviewed signature changes; `candidates()`
+  supports a batch whose callers are checked. No recipes, compiler flags,
+  assembly, or replacement scaffolding changed.
+
+Artifacts: `work/native_lane/r37_bool/`, `r37_param/`, `r37_returns/`.
+
+## Round 38 follow-ups (in progress)
+
+- Beyond the pilot size limit: all six eligible functions /60 screens, no hits.
+- Coherent groups of direct parameter/local copies: 71 rows /426 screens, no hits.
+- Explicit short-cast parameter copies: 6 rows /7 screens, no hits.
+- Caller/callee return-type repair together with a pinned result local's width:
+  3 eligible rows /3 screens, no hits. This tested the reverse edge of the
+  paired argument repair, with actual callee definitions as evidence.
+- Sol is auditing void definitions that definite same-image callers use for a
+  value. Only strong return-dataflow cases warrant compiling a candidate.
+
+The successful direct-copy width family is now measured through its natural
+extensions. Further work follows source evidence; no forecast that the remaining
+pins are all removable, and no claim of mathematical impossibility if these
+bounded approaches plateau.

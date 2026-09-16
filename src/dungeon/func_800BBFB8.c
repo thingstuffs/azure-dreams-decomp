@@ -44,7 +44,7 @@ extern void func_80042B68(void *obj, s8 index);
 extern void func_80041E70(void *obj);
 extern void func_800AD568(void *obj);
 extern void func_800BC0A8(s16 x, s16 y, s16 z, s16 angle,
-                          s32 height, s32 depth, s32 color, s32 offset);
+                          s16 height, s16 depth, s32 color, s16 offset);
 
 /* Updates a three-stage visual effect, restoring objects and fading the rendered effect. */
 void func_800C1718(DungeonState *state, RenderSource *render_source, u8 *effect_data) {

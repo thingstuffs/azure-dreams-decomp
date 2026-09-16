@@ -26,7 +26,7 @@ extern void func_800A5F38(void *, s32);
 extern void func_800A6480(void *, s32, s16);
 extern s32 func_800AD6FC(void *, s32, s32);
 extern void func_800B4C7C(s32, void *, s32, s32);
-extern void func_800C4D78(s32, s32);
+extern void func_800C4D78(s32, s16);
 
 
 

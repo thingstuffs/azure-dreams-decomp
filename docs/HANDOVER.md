@@ -1,5 +1,20 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**Active 500-pin goal, round 37 (2026-09-16): 6,103 pins in 1,284 rows (-29).**
+Cumulative progress **35/500** from `500808e2` (6,138). Read
+[PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md). Jointly narrowing a parameter and
+its saved local found 15 exact rows in 164 unique rows /1,612 screens; compositions
+and the cleanup cascade added more. One exact removal was deliberately withdrawn
+because its caller could not adopt the matching parameter type byte-exactly.
+Nine other caller declarations were aligned, checked by actual overlay identity.
+Final retained work:29 pins in 15 functions, six newly pin-free, plus9 caller
+prototype fixes. All20 initial windows and9 correction windows MATCH, SLUS MATCH,
+row database OK. `t70_copywidth.candidates()` reproduces the mechanism; automatic
+sweeps refuse signature changes without a caller-reviewed batch (5 tests pass).
+Follow-ons beyond the pilot, coherent copy groups, cast copies, and return-local
+pairs produced no more wins. Two void/scalar return contradictions are now under
+bounded Sol investigation; the goal remains active, no plateau declared yet.
+
 **Active 500-pin goal, round 36 (2026-09-16): 6,132 pins in 1,290 rows (-6).**
 Baseline for this goal is round 35 commit `500808e2` (6,138); progress is **6/500**,
 or stop when measured removals plateau across viable approaches. Read

@@ -53,7 +53,7 @@ extern void func_80067E2C(void *, void *);
 
 
 /* Draws at a page-adjusted position with clipping commands and an optional black rectangle. */
-void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s32 draw_param)
+void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
     u16 clear_enabled;
@@ -61,7 +61,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     s32 rect_y;
     u8 *clip_packet;
     register u8 *page_ptr ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 saved_param ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 saved_param;
     u32 tag_mask;
     u8 *pos_or_ot;
     u8 *order_table;

@@ -81,8 +81,8 @@ extern u8 D_80083780[];
 extern u8 D_800DEC70[];
 
 /* Spawns a sprite effect with randomized position and motion based on the source direction. */
-void func_8196B4A4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s32 offset_x, s32 offset_y,
-                   s32 offset_z)
+void func_8196B4A4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s32 offset_x, s16 offset_y,
+                   s16 offset_z)
 {
     LocalPoints direction_points;
     void *effect;
@@ -93,8 +93,8 @@ void func_8196B4A4(S_8196B4A4_5 *source, s32 unused_1, s32 unused_2, s32 offset_
     LocalPoint *directions;
     LocalPoint *direction;
     s32 direction_index;
-    register s32 spawn_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 spawn_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s16 spawn_y = offset_y;
+    s16 spawn_z = offset_z;
 
     direction_points = D_80024004;
     directions = (LocalPoint *)&direction_points;

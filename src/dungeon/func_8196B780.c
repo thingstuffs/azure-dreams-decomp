@@ -81,8 +81,8 @@ extern u8 D_80083780[];
 extern u8 D_800DECF8[];
 
 /* Spawns an effect with randomized position and direction-based motion. */
-void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s32 y,
-                   s32 z)
+void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s16 y,
+                   s16 z)
 {
     LocalPoints points;
     void *effect;
@@ -93,8 +93,8 @@ void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s32 
     LocalPoint *point_base;
     LocalPoint *point;
     s32 point_index;
-    register s32 offset_y ASM_REG("$19") = y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 offset_z ASM_REG("$20") = z;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s16 offset_y = y;
+    s16 offset_z = z;
 
     points = D_80024004;
     point_base = (LocalPoint *)&points;

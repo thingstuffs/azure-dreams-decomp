@@ -74,11 +74,11 @@ extern u8 D_801712C4[];
 /* Creates an offset effect, advances it ten steps, and assigns a random color. */
 void func_80171498(
     void *parent, s16 initial_14, s32 unused, s16 initial_32,
-    s32 offset_x, s32 offset_y, s32 offset_z)
+    s16 offset_x, s16 offset_y, s16 offset_z)
 {
-    s32 held_offset_x = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 held_offset_y = offset_y;
-    s32 held_offset_z = offset_z;
+    s16 held_offset_x = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 held_offset_y = offset_y;
+    s16 held_offset_z = offset_z;
     volatile u16 source_offset_x;
     volatile u16 source_offset_y;
     volatile u16 source_offset_z;
@@ -99,9 +99,6 @@ void func_80171498(
             ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_06 + held_offset_y;
         ((S_80171498_4 *)(((S_80171498_0 *)effect)->unk_08))->unk_0A =
             ((S_80171498_5 *)(((S_80171498_1 *)parent)->unk_08))->unk_0A + held_offset_z;
-        ASM_KEEP(held_offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
         source_data = ((S_80171498_1 *)parent)->unk_0C;
         if (func_8003DE58(((S_80171498_2 *)source_data)->unk_08, source_data, &source_offset_x, 0) != 0) {

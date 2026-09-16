@@ -63,7 +63,7 @@ s32 func_80172504(void *action_state, void *transfer_data, void *origin, void *a
     s16 *delta_y;
     register s32 step_count ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 tile_x;
-    s32 tile_y;
+    u16 tile_y;
     s32 signed_x;
     s32 signed_y;
     s32 direction_offset;
@@ -153,7 +153,7 @@ loop:
     }
     } while (check_result != 0);
     {
-        register s32 next_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        u16 next_y;
 
         step_count++;
         initial_direction = (u32)(tile_x + (u16)*delta_x);

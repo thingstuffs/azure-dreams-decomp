@@ -24,11 +24,11 @@ extern u8 D_80024734[];
 
 /* Spawn and initialize an object at a randomized offset from its parent. */
 void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 state_32_value,
-                   s32 x_offset, s32 y_offset, s32 z_offset) {
+                   s16 x_offset, s16 y_offset, s16 z_offset) {
     Object *parent = source;
-    s32 held_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 held_y_offset = y_offset;
-    s32 held_z_offset = z_offset;
+    s16 held_x_offset = x_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 held_y_offset = y_offset;
+    s16 held_z_offset = z_offset;
     s32 state_14 = state_14_value;
     Object *spawned;
     Data *position;
@@ -56,8 +56,5 @@ void func_80024798(Object *source, s32 state_14_value, s32 state_08_value, s32 s
         *(s16 *)(state + 0x32) = state_32_value;
         func_8004491C(spawned, D_800244E4, position);
         *(s32 *)(state + 8) = state_08_value;
-        ASM_KEEP(held_x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_z_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }
