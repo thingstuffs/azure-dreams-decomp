@@ -236,7 +236,7 @@ typedef struct S_func_8190B2D0_9 {
 } S_func_8190B2D0_9;
 
 /* Updates a moving effect, its target animation, and cleanup state. */
-void func_80024AD0(void *effect_arg, void *motion_arg, void *sprite_arg)
+void func_80024AD0(S_func_8190B2D0_0 *effect, void *motion_arg, void *sprite_arg)
 {
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4,
@@ -250,12 +250,10 @@ void func_80024AD0(void *effect_arg, void *motion_arg, void *sprite_arg)
     u32 owner_base;
     register u32 source_pos;
     s32 state;
-    register S_func_8190B2D0_0 *effect ASM_REG("$19") = effect_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_func_8190B2D0_3 *target_pos;
     S_func_8190B2D0_4 *motion_or_child = motion_arg;
     S_func_8190B2D0_5 *sprite = sprite_arg;
 
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     owner = effect->unk_0;
     capture_rect = D_80024038;
     directions = D_80024064;

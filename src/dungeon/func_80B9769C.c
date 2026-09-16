@@ -97,11 +97,8 @@ extern M2C_UNK D_80174F08;
 extern M2C_UNK D_80174F10;
 
 /* Updates entity actions, facing, and animation from state and terrain. */
-void func_80170E9C(void *entity_arg, M2C_UNK context_arg, void *sprite_arg, void *state_arg) {
+void func_80170E9C(void *entity, M2C_UNK context, void *sprite, void *state) {
     static void *const action_labels[] = { &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12 };
-    void *entity = entity_arg;
-    M2C_UNK context = context_arg;
-    void *sprite = sprite_arg;
     M2C_UNK direction_aux;
     M2C_UNK *resume_handler;
     void *reference_entity;
@@ -114,7 +111,6 @@ void func_80170E9C(void *entity_arg, M2C_UNK context_arg, void *sprite_arg, void
     s8 terrain_index;
     u8 current_mode;
     u16 action_flags;
-    register void *state ASM_REG("$18") = state_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 idle_mode;
 
     if (!(D_80083462 & 0x1000)) {
@@ -124,13 +120,12 @@ void func_80170E9C(void *entity_arg, M2C_UNK context_arg, void *sprite_arg, void
     func_80171B58(entity);
     return;
 block_3:
-    ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     if (((S_80170E9C_1 *)state)->unk_25 != 0) {
         goto block_7;
     }
     func_800AA79C(entity, context, sprite, state);
     if (((S_80170E9C_2 *)sprite)->unk_2C == &D_80174F00) {
-        goto block_63;
+        return;
     }
     (*(M2C_UNK **)((u8 *)sprite + 0x2C)) = &D_80174EF8;
     func_80047784(sprite, *(u8 *)((((s32)(D_80083228 + ((S_80170E9C_1 *)state)->unk_2A + 0x100) >> 9) & 7) + (u32)&D_80174EF8), 0);

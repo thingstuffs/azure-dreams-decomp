@@ -54,9 +54,8 @@ extern u8 D_80176338[];
 extern u8 D_80176340[];
 
 /* Updates the actor's movement animation and finishes the timed action. */
-void func_80174F24(void *action, void *motion_arg, void *unit_arg, void *actor)
+void func_80174F24(void *action, void *motion_arg, void *unit, void *actor)
 {
-    register void *unit ASM_REG("$19") = unit_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 direction_aux;
     u8 move_state;
 
@@ -190,6 +189,5 @@ update_actor:
             ((S_80174F24_0 *)action)->unk_8C = &D_80173B98;
             func_800A9A04(actor);
         }
-        ASM_KEEP(unit);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
 }

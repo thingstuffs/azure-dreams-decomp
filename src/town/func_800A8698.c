@@ -52,13 +52,12 @@ extern u8 D_800FE488[];
 extern u8 D_800A5FDC[];
 
 /* Updates the actor effect and eases scene values before advancing the state. */
-void func_800A5DF8(void *state_arg, S_800A5DF8_0 *actor, M2C_UNK context) {
+void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     s16 threshold;
     s16 angle;
     s32 next_offset;
     u16 ticks_left;
     u8 *position;
-    register S_800A5DF8_4 *state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *scene_state;
     register u8 *effect_data;
 
@@ -66,7 +65,6 @@ void func_800A5DF8(void *state_arg, S_800A5DF8_0 *actor, M2C_UNK context) {
     func_80095C80(actor);
     effect_data = D_800FE488;
     threshold = func_80095978(actor, effect_data);
-    state = state_arg;
     if (actor->unk_0A >= threshold) {
         func_80095A94(actor, threshold, effect_data);
     } else if (((S_800A5DF8_1 *)(&D_800CFCEF))->unk_00 != 0) {

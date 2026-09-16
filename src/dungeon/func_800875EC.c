@@ -46,8 +46,7 @@ extern u8 D_800DCFB8[];
 extern u8 D_800DD018[];
 
 /* Checks the next tile and updates the actor's movement state and directional animation. */
-void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, void *actor_data, s32 move_state) {
-    register S_8008CD4C_2 *actor ASM_REG("$20") = actor_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0 *sprite, S_8008CD4C_2 *actor, s32 move_state) {
     register s32 state ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 direction_offset;
     s32 next_x;
@@ -103,5 +102,4 @@ void func_8008CD4C(Rec_func_8008ACDC_arg0 *action, M2C_UNK context, S_8008CD4C_0
         sprite->unk_2C
             [((D_80083228[0] + actor->unk_2A.u + 0x100) >> 9) & 7],
         0, 1);
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
