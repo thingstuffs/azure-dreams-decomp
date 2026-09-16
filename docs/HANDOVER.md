@@ -25,7 +25,10 @@ Harvest both, then one gate. `erase_many(clean_notes=True)` now drops emptied `#
 blocks. Seven older ones in 5 files are left for the next landing to tidy (preprocessor only).
 Thirty-first round (2026-09-16), gated (22 windows MATCH, SLUS SHA-1 MATCH): **6,201 pins in 1,301 rows** (6,264 at start, -63: `t69_prologue` 8 lane
 outputs / 24 pins + 8 pins / 7 rows in the tree sweep, `t64_varset` re-swept over the rows changed since round 29 4 rows / 6 pins,
-the cascade t53k 6, t16 4, t63 3, t53 1, t59 1). The owner: "progress is real. Start the next phase", and on the workflow's interim result: "any
+the cascade t53k 6, t16 4, t63 3, t53 1, t59 1, and 10 more from cascade transforms that do not journal pin counts - t48, t2,
+t37, t54 - on the same rows; 24 + 8 + 6 + 15 + 10 = 63). One lane output was NOT landed: `dungeon/func_8180DC88`, a
+scalar-narrowed signature the reviewer produced under `T69_RETYPE_SCALAR=1` (the fixed guard refuses that form); it sits
+in `work/native_lane/r31_prologue/scratch/not_landed/` and must not be landed by hand. The owner: "progress is real. Start the next phase", and on the workflow's interim result: "any
 mechanism looking at one pin at a time may miss the whole picture ... something to ponder over other pin mechanisms".
 **Read `docs/PIN_MECHANISMS_20260912.md` "Round 31"; the verdicts:**
 - **The census maps residues to C now.** `tools/lanes/sched_map.py` compiles both texts with `-g -da` (gcc 2.x keeps its

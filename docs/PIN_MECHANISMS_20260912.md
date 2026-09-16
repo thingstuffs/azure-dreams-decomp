@@ -1860,7 +1860,10 @@ Measured first (CPU, before any tool was commissioned; the owner: "progress is r
   a callee-saved store (15), at sched2 (53: KEEP 36, KEEP_NV 8, SCHED_BARRIER 7) or moved into a delay slot at dbr (36:
   KEEP 19, REG 5, SCHED_BARRIER 5). 87 of the 89 pins sit nine or more lines below the function's first body line: the
   pin is not at the top; it holds an ordinary statement whose instructions the second scheduler would otherwise lift
-  above the stack adjust. That is round 31's workflow item (`work/native_lane/r31_prologue/rows/`).
+  above the stack adjust. That is round 31's workflow item (`work/native_lane/r31_prologue/rows/`). (Corrected by the
+  workflow: the census's "first differing pass" is the wiring measure; the instruction ORDER already differs at sched1 on
+  most of the class - the reviewer counted the disagreement at 66 of 89 - and sched2/dbr are where reload's consequence
+  shows. The mechanism paragraph below is the one to read.)
 - **The rest of the census, bounded the same morning.** The EARLY moved class (cse 149, loop 95, combine 116, rtl 24) is
   not a reorder at the pass level: `sched_map.py` finds no insn whose ORDER changed in 350 of 384 (`no-moved-insn`) - the
   dump differs by substitution (a load folded, a copy replaced), the round-18 ops/wiring classes t64/t66/t53 serve. The
