@@ -1886,14 +1886,19 @@ every report, running the tests and the diffs, and making one fix of its own. La
   (retype_void's cast spelling, local_alias's straight-run form): a pointee type or a block-local copy alone is never a
   cause. The parameter copy's near residues are a sched2 effect (46 of 70 first differ at sched2), the width change's are
   decided before the schedulers (421 of 421 at rtl).
-- **The buckets, with bucket a split by the sweep journals (the advisor's warning, confirmed).** a 584 rows / 4,200
-  pins: `a_missed:noop` 359 / 2,915 (the named generator ran on this text and did not recognise the site - a COMPOSITION
-  target), `a_missed:refused` 167 / 1,020 (it declined by a named rule - a REFUSAL TABLE), `a_unseen` 57 / 264 (sweep).
-  By generator: t51 244 noop / 0 refused (1,779 pins) - t51 never sees these sites; t69_prologue 0 noop / 90 refused (574)
-  - it sees every one and declines; t29/t54 80 / 62 (967 / 360). The covered key `MOVED|3-4|-move,sw +move,sw` (109 pins)
-  is 71 of 71 bucket-a rows a_missed for t69: round 32's DROP_REG misses from a third side. weak (L0 only) 710 rows /
-  1,982 pins; c 6 rows. The catalogue's causes are evidence of a compatible MECHANISM, not of the move (oracle 45%,
-  calibration 28%): a brief built on one must say so.
+- **The buckets, with bucket a split by the sweep journals (the advisor's warning, confirmed - and the journal's
+  vocabulary read against `tools/sweep.py`, which corrected the runner's reading).** a 588 rows / 4,219 pins
+  (`rows/match3/`): `a_missed` 530 rows (the named generator has a record on the current text and did not apply),
+  `a_unseen` 57 / 264 (no record: sweep). `sweep.py`'s `refused` is BOTH a textual refusal AND "candidates produced,
+  none verified" (`no candidate exact at the recorded cell`); `noop` is "no candidate". With the reason strings:
+  t69_prologue 94 rows / 593 pins = 72 candidates MISSED (round 32's DROP_REG-miss population; 71 of 71 bucket-a rows at
+  `MOVED|3-4|-move,sw +move,sw` are among them), 15 `no redundant parameter copy`, 7 `no buildable candidate` - the
+  register-lever composition target, not a refusal table; t29/t54 152 rows / 1,388 pins = t29 unseen on the current text
+  on 105 rows, t29 refused 47 (31 missed, 16 textual), t54 noop 121 / refused 15 - a sweep first, then the composition
+  with a copy drop and the 16 textual refusals; t51 244 rows / 1,779 pins all noop - it never sees the site, and the
+  re-matched pairs do not ground a composition (a kind pair is the top cause on 14 of 1,965 sites): the region-reschedule
+  mechanism of round 31, for the lanes. weak (L0 only) 706 rows / 1,963 pins; c 6 rows. The catalogue's causes are
+  evidence of a compatible MECHANISM, not of the move (oracle 45%, calibration 28%): a brief built on one must say so.
 - **Rules learned (LANE_KIT):** run the text oracle before sizing a widening (it named the shapes in 3 min; the compile
   gate could not); report a kind's zero-instance rate on its own generator's rows beside any coverage number; never quote
   a coverage number without the band, and never beyond the band where the key covers the catalogue itself; split "a

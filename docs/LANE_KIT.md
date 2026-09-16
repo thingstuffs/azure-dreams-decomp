@@ -106,8 +106,10 @@ landed, does a kind on the landed text reproduce the pre-landing text minus its 
 it named the missing shapes the compile gate could not); **report a kind's zero-instance rate on its own generator's rows
 beside any coverage number** (48 of 152 rows had a reversing kind that produced nothing); **never quote coverage without the
 band, and never beyond the band where the key covers the catalogue's own other half** (L1 means something at d <= 4 only);
-**split "a cause with a generator" by the journals before opening a refusal table** - 359 of 584 bucket-a rows are rows the
-generator already ran on and nooped (a composition target), 167 are named refusals (the table to open).
+**split "a cause with a generator" by the journals before opening a refusal table, and read the journal's words against
+`tools/sweep.py`** - `noop` is "no candidate", `refused` is a textual refusal OR "candidates produced, none verified" (the
+reason string says which): t69's 94 bucket-a rows are 72 missed candidates (a composition target, not a table), t29's
+47 are 31 missed + 16 textual, and 105 of the address rows had never been offered to t29 at their current text (a sweep).
 
 ## Before launch: give it everything it would otherwise fetch or rebuild
 

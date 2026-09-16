@@ -67,31 +67,39 @@ and `report_run.txt` (the first run). The verdicts:**
   +ori` 70). A further single-move widening is bidding for 382 pins (ceiling: near band 56.5% -> 75%) - and for the
   instrument: d 5-8 self-coverage went 18% -> 41% on this widening; one more of comparable size likely takes 793 sites past
   the 50% bar.
-- **Bucket a is two lists, not a backlog, and the sweep journals separate them cleanly.** 584 rows / 4,200 pins have a
-  covered site whose top cause names a generator. Of those, `a_missed:noop` 359 rows / 2,915 pins - the generator RAN on
-  this very text and found nothing (it does not recognise the site: a COMPOSITION target); `a_missed:refused` 167 rows /
-  1,020 pins - it saw the site and declined by a named rule (a REFUSAL TABLE to open, as DROP_REG was); `a_unseen` 57 rows /
-  264 pins (no record on the current text: sweep). By generator: t51 244 noop / 0 refused / 45 unseen (1,779 / 0 / 192
-  pins); t29/t54 80 noop / 62 refused / 8 unseen (967 / 360 / 53); t69_prologue 0 / 90 / 0 (0 / 574 / 0); t64 14 / 0 / 2.
-  The round-32 lead reads the same from a third side: `MOVED|3-4|-move,sw +move,sw` (109 pins) is now covered, top cause
-  param_copy, and 71 of 71 of its bucket-a rows are a_missed for t69_prologue - the DROP_REG-miss rows. Bucket weak (L0
-  only) 710 rows / 1,982 pins, bucket c 6 rows; at L1 4,940 sites are uncovered, 4,021 of them in bands where the
-  instrument cannot see.
+- **Bucket a is two lists, not a backlog, and the sweep journals separate them - once the journal's words are read
+  right.** 588 rows / 4,219 pins (`rows/match3/`) have a covered site whose top cause names a generator; `a_missed`
+  means the generator has a record on the CURRENT text and did not apply (530 rows), `a_unseen` no record (57). The
+  runner read `refused` as "declined by a textual rule"; `tools/sweep.py` says otherwise: `refused` is ALSO the outcome
+  when `apply_verified` produced candidates and none verified (`no candidate exact at the recorded cell`), and `noop` is
+  "no candidate at all". Read with the reason strings (`rows/wave_t69_rows.txt`, `rows/wave_addr_rows.txt`, the parent's
+  scan): **t69_prologue 94 rows / 593 pins = 72 rows where its candidate was produced and MISSED (the DROP_REG-miss
+  population, round 32's measurement D), 15 `no redundant parameter copy`, 7 `no buildable candidate`** - not a refusal
+  table but the register-lever composition target; 71 of 71 bucket-a rows at `MOVED|3-4|-move,sw +move,sw` are among
+  them. **t29/t54 152 rows / 1,388 pins = t29 UNSEEN on the current text on 105 rows** (its sweeps ran in rounds 2-5,
+  the texts changed since), t29 refused 47 (31 candidates missed, 16 textual: `no pinned address-literal variable`, `no
+  rewritable variable: ... not-operand / port-arm`), t54 noop 121 / refused 15. **t51 244 rows / 1,779 pins all noop**
+  (it never sees the site) - and the re-matched pairs do NOT ground a composition there: a kind pair is the top cause
+  on 14 of 1,965 sites on t51's rows (in the top three on 389); the singles are adjacent_swap 624, addr_literal 377,
+  merge 277, param_copy 252 - a mechanism reading (the region reschedule of round 31), not a move. Bucket weak (L0 only)
+  706 rows / 1,963 pins, bucket c 6 rows; at L1 4,928 sites are uncovered, most in bands where the instrument cannot see.
+  The catalogue's causes are evidence of a compatible MECHANISM, not of the move (oracle 45%): every brief must say so.
 - **Round 34 plan (steps 3-4 of the round-32 plan, with the buckets as measured):**
   1. **Done at the close of round 33:** the pairs catalogue re-run with the `__typeof__` scanner fix
      (`work/perturb_catalog/pairs_1000_3.jsonl`, 74,909 pairs, NOBUILD 5.6% -> 0.1%; hoist-first pairs 23.5% -> 0.2%) and
      the re-match (`rows/match3/`, the CURRENT match: L1 20.4%, near band 75.1% at 1-2 / 40.6% at 3-4, the compositions
      present for the first time). Read `rows/match3/` for step 3's row lists, `report_run2.txt` for the reading.
-  2. **The refusal tables (a_missed:refused, 1,020 pins):** t69_prologue 90 rows / 574 pins - EVERY t69 bucket-a row is a
-     refusal, and round 32 already read its table: what is left is the `T69_TWICE` d=2 class composed with a register
-     lever (handover item 4 of round 32, still open); then t29_addrsym / t54 62 rows / 360 pins - t29's refusal table with
-     the pins behind it, opened as DROP_REG was (a Workflow: opus implements and reviews, the parent's final check).
-  3. **The compositions (a_missed:noop, 2,915 pins):** t51 x adjacent_swap 239 rows / 1,748 pins - t51 nooped on every
-     one; the two-move catalogue (now unblocked) names which second move makes the pair independent (stmt_shift or
-     adjacent_swap beside param_copy / local_alias, i.e. a t69/dropcopy move AND a t51 move verified TOGETHER - the valley
-     round 31 named); t29/t54 x addr_literal 80 rows / 967 pins - address materialisation composed with a register copy or
-     recolour (`-move,ori +ori`, `-addiu +move,ori`, `RECOLOURED -addiu,lui`): a symbol naming AND a copy drop, jointly.
-     Build each as a composition generator (the first move's candidate, then the second generator's menu, vf on the pair).
+  2. **t69's 72 missed rows (the register-lever composition, round 32's item 4, `rows/wave_t69_rows.txt`):** t69's best
+     candidate (`T69_DROP_REG` on, `T69_TWICE` on for the d=2 class) sits one register word or one `move,sw` ordering
+     from retail; compose it with a register lever - the cheap no-fold variant first, then `alloc_trace.py`'s per-site
+     reason, t53_reg_state's per-site rewrites, t66's colouring - `lane_eval` on the 72 rows, vf decides. The 15 + 7
+     textual rows are t69's real refusal table and it is small.
+  3. **The address family (`rows/wave_addr_rows.txt`, 152 rows / 1,388 pins):** FIRST a plain sweep of t29_addrsym (and
+     t54/t59) over the 105 rows it has never seen at the current text - CPU, no build; then t29's 31 missed candidates
+     composed with a copy drop (the re-matched keys `-move,ori +ori`, `-addiu +move,ori`, `RECOLOURED -addiu,lui` are an
+     address materialisation beside a register copy) and its 16 textual refusals opened behind a switch with a `Detail`
+     counter, screened text-only first as DROP_REG was; t54's 121 noop rows read for the shape it does not recognise.
+     The t51 noop class (1,779 pins) is NOT a composition target on the evidence (item above): leave it to the lanes.
   4. **The model lanes (step 3c):** the rows the instrument cannot explain - bucket weak/c at L1 plus the far band - served
      by packs from the existing builders with the new admission rule (unexplained at L1, ranked by pins), sol first, opus on
      what sol misses, every brief carrying the row's fingerprint (`scratch/census_fp2.jsonl`) and the catalogue's nearest
