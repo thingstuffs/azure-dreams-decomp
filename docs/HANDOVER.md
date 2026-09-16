@@ -50,12 +50,53 @@ one: "you can use a workflow, use opus to implement and review then you do a fin
   ASM_REG holds; the seven-row template family `dungeon/func_80BC1BA8` ... goes 147 -> 2 on the screen). Measurement D: the
   DROP_REG misses are 65 ordering-only (50 `-move,sw +move,sw` at d=4), 20 colouring-only, 86 both, 55 changed; the t66
   composition is structurally impossible there. The parent's final check: tests, the diff read, docs; nothing to land.
-- **Next, in order:** (1) the `T69_TWICE` d=2 class composed with a register-assignment lever (`alloc_trace.py`'s per-site
-  reason, t53_reg_state, t66's colouring) on the 10 `reg-rename, subs 1` rows - measure the cheap variant first (lift
-  `param-copied-twice`, each record alone, no subset fold: 11 of the 13 candidates); (2) `sched_map.py` over the 50
-  DROP_REG-miss rows at `-move,sw +move,sw` d=4 - if they are one ordering move, compose the DROP_REG base with t51's
-  statement moves; (3) the 37 other-mechanism prologue sites and their 12 fences stay with the fence family; (4) packs only
-  from `pools.py`.
+- **Why the next wave, by this method, would be small (the owner's question, 2026-09-16).** Rounds 28-32 removed 356, 377,
+  209, 63, 20: one class with one mechanism per round, exhausted each time, and round 31's census found no residue pattern
+  above 36 sites. Where the 6,181 pins sit (this morning's census, `work/native_lane/r32_family/rows/census_summary.txt`):
+  6% are lone pins, 36% in rows of 2-6, 40% in rows of 7-20, 19% in rows of 21+ - six in ten pins are in rows where pins
+  interact; by lone-erasure distance 2,062 sites are within 4 listing lines (the only band any generator has fed on), 2,637
+  at 5-29, 1,488 at 30+ of which 1,006 are ASM_REG (erasing one recolours the function); 274 rows / 478 pins have no site
+  within 12. The whole-function approach has been run twice: the CPU search is menu-limited (1 lane-won text in 9 at depth
+  2), and the model lanes (sol/opus/astra on whole functions) are where most of 7,206 -> 6,181 came from - REG lanes 30% of
+  served rows, KEEP 54%, FENCE 18% (`tools/lanes/ledger.py --by family`) - with every remaining stratum closed under 20%
+  (`pools.py`). A wave of 100 served rows on closed strata is 15-40 pins. What is not measured is the CAUSE of each
+  residue: the census fingerprints every pin's residue, and nothing maps a fingerprint to the C move that produces it.
+- **Round 33 plan, agreed with the owner: the forward catalogue, then a targeted wave (model lanes included).**
+  1. **The forward catalogue (CPU, new `tools/lanes/perturb_catalog.py`).** Ground truth we hold and have never used: ~5,400
+     byte-exact rows with no pins. To each, apply ONE m2c-style perturbation at a time - the inverse of a generator's move,
+     so the catalogue speaks the generators' language: an entry copy of a parameter into a local (t69's inverse), a
+     sub-expression hoisted into a temporary (varset inline's inverse), a declaration reorder (t53 decl-swap, symmetric), an
+     untyped pointer with casts at its uses (retype_ptr's inverse), a lifetime split or merge (varset split/merge), a width
+     change (t36/t37, symmetric), two independent adjacent statements swapped (t51), a global or page base copied into a
+     local (t54/t59's inverse), a while loop as m2c's goto loop (t41's inverse). Compile each with `screen.compile_s`
+     (25 ms) and record: perturbation kind and parameters, `sdiff`, and the residue FINGERPRINT the way
+     `r32_t69tail/scratch/dropreg_residue.py` (the order-aware version) and `erase_census.py --diff` read it - class
+     (moved / recoloured / both / changed), the opcode-multiset shape (`-move,sw +move,sw`), the register pairs - plus the
+     first differing pass (`sched_map.py` / `phase_census`) on the near residues only. Start with 1,000 rows stratified by
+     container and size (~10 instances a row, ~5 min at 8 processes); the full 5,400 is ~40 min. Then a two-move
+     catalogue on 200 rows (every pair of perturbations, ~100 a row) so compositions have fingerprints too. Output under
+     `work/perturb_catalog/` behind a `.ignore` (the JSONL is large), the summary table in the lane's `rows/`.
+     **Gate before step 2:** coverage = the share of pinned sites whose fingerprint occurs in the catalogue five or more
+     times. Under ~50% after the first 1,000 rows, widen the perturbation set (and the two-move catalogue) before widening
+     the rows; the uncovered fingerprints ARE the finding (residues no single move produces).
+  2. **The match: every pinned site gets its ranked causes.** For each site of the census, the perturbation kinds that
+     produce its fingerprint, ranked by how much of that fingerprint's catalogue mass each explains, and for each cause
+     whether a generator already spells its inverse. Three buckets, per row: (a) a cause with a generator - read that
+     generator's refusal table with the pins behind it (`t69_prologue.Detail`, `r32_family/scratch/t69_refusals.py`) and
+     open the spelling, as DROP_REG was; (b) a cause with no generator - build one (a Workflow, opus implements and
+     reviews, the parent's final check, as `r32_t69tail.js`); (c) no single cause and no two-move composition matches -
+     the row needs the rewrites only a model makes.
+  3. **The targeted wave.** (a) and (b) by CPU sweeps and Workflows. (c) by packs from the existing builders
+     (`build_*_lanes.py`) with a new admission rule - rows whose fingerprint the catalogue could not explain, ranked by
+     pins - served to sol first, opus on the rows sol misses (the escalation rule stands: luna -> sol -> astra last), every
+     brief carrying the catalogue's nearest hypotheses and the row's fingerprint (LANE_KIT: give it everything). The
+     ledger's closed-groups rule stays, measured per BUCKET this time (`ledger.py --closed 0.2`): if bucket (c) rows pay
+     under 20% too, the remaining pins in them are the ones we cannot yet name, and that number is the honest floor.
+  4. **The two leads already in hand ride along as the wave's first (a)/(b) items:** the `T69_TWICE` d=2 class (10 rows one
+     register word from retail: compose with `alloc_trace.py`'s per-site reason / t53 / t66's colouring; measure the
+     cheap no-fold variant first) and the 50 DROP_REG-miss rows at `-move,sw +move,sw` d=4 (`sched_map.py` first; if one
+     ordering move, the DROP_REG base composed with t51's statement moves). The 37 other-mechanism prologue sites and
+     their 12 fences stay with the fence family.
 
 Thirty-first round (2026-09-16), gated (22 windows MATCH, SLUS SHA-1 MATCH): **6,201 pins in 1,301 rows** (6,264 at start, -63: `t69_prologue` 8 lane
 outputs / 24 pins + 8 pins / 7 rows in the tree sweep, `t64_varset` re-swept over the rows changed since round 29 4 rows / 6 pins,
