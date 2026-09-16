@@ -1,0 +1,65 @@
+{
+  "goal_baseline": "500808e2",
+  "baseline_pins": 6138,
+  "current_pins": 6132,
+  "pins_removed": 6,
+  "goal_progress": 6,
+  "current_pinned_rows": 1290,
+  "rows": [
+    {
+      "row": "dungeon/func_80086E64",
+      "pins_before": 2,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_81084D04",
+      "pins_before": 7,
+      "pins_after": 5
+    },
+    {
+      "row": "town/func_80097340",
+      "pins_before": 1,
+      "pins_after": 0
+    },
+    {
+      "row": "town/func_800C49C4",
+      "pins_before": 4,
+      "pins_after": 3
+    }
+  ],
+  "gate": {
+    "changed_windows": 5,
+    "matches": 5,
+    "seconds": 244,
+    "slus": "MATCH",
+    "row_db": "OK"
+  },
+  "width": {
+    "rows": 234,
+    "screens": 28499,
+    "exact_rows": 1,
+    "capped_rows": 11
+  },
+  "width_transfer": {
+    "rows": 5,
+    "screens": 1227,
+    "exact_rows": 0
+  },
+  "return_audit": {
+    "rows": 7,
+    "candidate_screens": 34,
+    "verifier_calls": 40,
+    "exact_rows": 3
+  },
+  "prototype": {
+    "rows": 249,
+    "screens": 3313,
+    "verifier_calls": 11,
+    "exact_rows": 0
+  },
+  "aggregate_copy": {
+    "forms": 10,
+    "exact_rows": 0
+  },
+  "cascade_added_pins": 1
+}

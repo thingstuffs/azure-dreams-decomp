@@ -68,7 +68,7 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
     s32 target_result;
     s32 direction_offset;
     s32 result;
-    register u32 tail_page ASM_REG("$3");
+    u32 tail_page;
     s32 tail_result;
     s32 mode;
     register s32 target_kind;
@@ -97,13 +97,11 @@ s32 func_8008C5C4(S_8008C5C4_2 *action, void *unused, S_8008C5C4_1 *position, Re
                         } else {
                             tail_result = 0;
                         }
-                        ASM_KEEP(tail_result);
                         tail_page = (u32)D_80080000;
                         ((S_8008C5C4_4 *)((void *)tail_page))->unk_1484 = 0;
-                        tail_page = (u32)&D_8008ACDC;
                         action->unk_124 = 0;
-                        action->unk_8C.p = (void *)tail_page;
-                        return;
+                        action->unk_8C.p = (void *)((u32)&D_8008ACDC);
+                        return tail_result;
                     }
                 }
                 target = action->unk_124;
