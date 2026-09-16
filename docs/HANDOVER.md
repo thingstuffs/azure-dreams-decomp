@@ -1,5 +1,15 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**Active 500-pin goal, round 36 (2026-09-16): 6,132 pins in 1,290 rows (-6).**
+Baseline for this goal is round 35 commit `500808e2` (6,138); progress is **6/500**,
+or stop when measured removals plateau across viable approaches. Read
+[PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) for results and next hypotheses.
+Proper width-pair extension found 2 pins in one row; Sol's complete seven-row
+bare-return audit found 3, and the changed-row cascade added 1. Five windows and
+SLUS MATCH; row database OK. Prototype correction (249 rows) and aggregate-copy
+probes yielded no exact result. Next: bounded return representation / branch-join
+repairs, then reevaluate the evidence. No recipe, compiler, or assembler change.
+
 **Round 35 independent bounded wave (2026-09-16): 6,138 pins in 1,292 rows (-10 pins,
 7 changed functions, 3 newly pin-free).** Parent source diagnosis plus four CPU width/erasure
 cohorts (27,759 candidate screens, ~124 s combined elapsed) removed 8 pins in 6 rows;
