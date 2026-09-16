@@ -265,6 +265,11 @@ class Refusals(unittest.TestCase):
         self.assertIn(reason, skips, dict(skips))
 
     def test_overlapping_lifetimes(self):
+        # the clash is a refusal only with the round-31 default off: T66_TRY_INTERFERENCE ships 1 now
+        with mock.patch.dict(os.environ, {"T66_TRY_INTERFERENCE": "0"}):
+            self._overlapping_lifetimes()
+
+    def _overlapping_lifetimes(self):
         self.refuses(HEAD + '''void func_test(s32 *arg0) {
     register s32 first ASM_REG("$3");   /* pin */
     register s32 second ASM_REG("$3");   /* pin */
@@ -1139,8 +1144,14 @@ class TryInterference(unittest.TestCase):
     def on(self):
         return mock.patch.dict(os.environ, {"T66_TRY_INTERFERENCE": "1"})
 
-    def test_off_by_default(self):
+    def test_on_by_default_since_round_31(self):
         out, skips = gen(OVERLAP)
+        self.assertEqual(len(out), 2)
+        self.assertEqual(skips["interference-reopened"], 2)
+
+    def test_off_when_switched_off(self):
+        with mock.patch.dict(os.environ, {"T66_TRY_INTERFERENCE": "0"}):
+            out, skips = gen(OVERLAP)
         self.assertEqual(out, [])
         self.assertEqual(skips["interference"], 2)
 
