@@ -70,9 +70,10 @@ list is frozen in rows/):
      tools/lanes/erase_census.py's --diff records let round 30 do it: the same instructions MOVED (order only), the same
      instructions RECOLOURED (registers differ, opcodes and operands otherwise equal), an operation CHANGED (anything else).
      Report the table (class x count, and the five most common residue shapes in each class with a row each). Then, on the
-     RECOLOURED rows only, screen ONE composition: the best DROP_REG candidate followed by tools/xform/t66_sameregmerge.py's
-     candidates (its own menu function; read the module for its name and contract) and report how many reach 0 (screen
-     only; do not verify). If the composition reaches 0 on three or more rows, say so and stop: that is the next round's
+     RECOLOURED rows only, screen ONE composition: the best DROP_REG candidate followed by each candidate of
+     tools/xform/t66_sameregmerge.py's menu function \`sameregmerge_candidates(text, skips=None, cap=MENU_CAP)\` ->
+     [(label, text)] applied to that candidate text, every result screened with compile_s/sdiff against the PINNED listing
+     (the same distance as everywhere else), and report how many rows reach 0 (screen only; do not verify). If the composition reaches 0 on three or more rows, say so and stop: that is the next round's
      item, not yours.
 DELIVERABLES, in order:
   1. The three openings (A, B, C) in tools/xform/t69_prologue.py, each behind its env switch (default OFF), with the refusals
@@ -114,10 +115,12 @@ least two synthetic must-refuse cases per opening and show what the tool does wi
 a qualifier inside the cast; a real read of the local before its copy next to the pin; a pin naming two variables; the
 parameter written after the second copy; the two locals with different types; the second local used before its copy). Rerun
 the menu-identity proof on 40 rows of YOUR choice. Rerun lane_eval yourself on each opening's row list with a new tag
-(cast_r, usebefore_r, twice_r) and report the exact counts you read from the evidence (final.exact), independently of the
-implementer's numbers. Check that all three switches default OFF and that with them off the whole-tree text scan
-(work/native_lane/r32_family/scratch/t69_refusals.py, run into a scratch file of your own) reproduces
-work/native_lane/r32_family/rows/t69_refusals.txt exactly. Check measurement D's classification on five rows by reading the
+(cast_r, usebefore_r, twice_r), WITH that opening's env switch set for the run (without it the run reports 0 hits and proves
+nothing), and report the exact counts you read from the evidence (final.exact), independently of the implementer's numbers.
+Check that all three switches default OFF and that with them off the whole-tree text scan
+(work/native_lane/r32_t69tail/scratch/t69_refusals.py, which writes work/native_lane/r32_t69tail/rows/t69_refusals.txt)
+reproduces work/native_lane/r32_t69tail/rows/t69_refusals_baseline.txt exactly (the baseline was made with the shipped tool on
+the current tree just before this run; the implementer must not have changed it). Check measurement D's classification on five rows by reading the
 listings yourself. Do not fix anything. Return only defects you demonstrated with evidence, and the exact-row count you
 confirmed.`
 

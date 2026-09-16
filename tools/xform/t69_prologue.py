@@ -421,8 +421,9 @@ def entry_copies(text, fn, skips=None):
         if _bare(pnames[p]) != ty and not _retype_safe(masked, b0, b1, p, _bare(pnames[p]), ty,
                                                        surv, pasting, skips):
             continue
-        if m.group("reg"):
+        if m.group("reg") and not m.group("asm"):
             _note(skips, "register-local-carried")    # the storage class moves with the declaration
+            # (a `register T v ASM_REG(..)` local's keyword is the pin's and goes with it: not carried)
         if any(r[0] == p for r in out):
             _note(skips, "param-copied-twice")
             continue
