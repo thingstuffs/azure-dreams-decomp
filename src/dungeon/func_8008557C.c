@@ -122,7 +122,7 @@ extern s8 D_800E3CD0[9];
 extern s32 D_800E4940;
 
 /* Handles actor commands, movement, and facing updates. */
-void func_8008ACDC(void *actor, void *motion_raw, void *sprite_raw, void *stats_raw) {
+void func_8008ACDC(void *actor, void *motion, register void *sprite, void *stats) {
     s16 input_angle;
     s16 status_count;
     s32 target_angle;
@@ -152,9 +152,6 @@ void func_8008ACDC(void *actor, void *motion_raw, void *sprite_raw, void *stats_
     u8 action_state;
     void *command;
     void *target;
-    void *motion;
-    register void *sprite;
-    register void *stats ASM_REG("$18"); /* MATCH: internal gotos extend live ranges; keep stats in retail s2. */
     void *action_actor;
     void *call_actor;
     void *call_motion;
@@ -163,9 +160,6 @@ void func_8008ACDC(void *actor, void *motion_raw, void *sprite_raw, void *stats_
     u8 *input;
     u8 *dungeon_status;
 
-    motion = motion_raw;
-    sprite = sprite_raw;
-    stats = stats_raw;
     input = D_80083160;
     action_state = ((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8;
     if (action_state != 0xE) {

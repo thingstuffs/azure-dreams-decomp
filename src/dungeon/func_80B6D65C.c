@@ -93,26 +93,18 @@ extern u8 D_80173D44[];
 extern u8 D_80173D4C[];
 
 /* Update actor behavior, facing, and animation from dungeon state. */
-void func_80170E5C(void *actor_in, void *context_in, void *sprite_in, void *status_in)
+void func_80170E5C(void *actor, void *context, void *sprite, void *status)
 {
-    void *actor;
-    register void *context ASM_REG("$16");
-    void *sprite;
-    void *status;
     u8 *anim_table;
     s32 room_id;
     s32 direction_aux;
     s16 anim_ticks;
     u32 initial_flags = D_80083462;
 
-    actor = actor_in;
-    context = context_in;
-    sprite = sprite_in;
-    status = status_in;
 
     if (initial_flags & 0x1000) {
         ((S_80170E5C_0 *)actor)->unk_9A = 0xE;
-        func_801713D4(actor_in, context_in, sprite_in, status_in);
+        func_801713D4(actor, context, sprite, status);
         do {
             return;
         } while (0);

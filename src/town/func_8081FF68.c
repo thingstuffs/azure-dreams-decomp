@@ -159,14 +159,12 @@ typedef struct S_80022768_14 {
 } S_80022768_14;   /* ((S_80022768_4 *)obj)->unk_08.p in func_80022768 */
 
 /* Updates slot machine bets, reel stops, winning lines, and coin payouts. */
-void func_80022768(void *machine_state, void *position_input)
+void func_80022768(State8081FF68 *state, void *position)
 {
     static void *const state_labels[] = {
         &&sw_0, &&sw_1, &&sw_2, &&sw_3,
         &&sw_4, &&sw_5, &&sw_6, &&sw_7
     };
-    State8081FF68 *state = machine_state;
-    register void *position ASM_REG("$21") = position_input;
     u8 *input = D_80083160;
     u8 *payout_callback;
     register s32 half_delta ASM_REG("$7");

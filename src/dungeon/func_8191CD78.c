@@ -210,10 +210,8 @@ typedef struct S_func_80024578_13 {
 #define DELTA(i) (((S_func_80024578_13 *)scratch)->unk_18[(i)])
 
 /* Updates effect movement, target spinning, and completion across animation states. */
-void func_80024578(void *effect_data, void *position_data, void *render_data)
+void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void *render_data)
 {
-    S_func_80024578_1 *effect = effect_data;
-    register S_func_80024578_2 *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register S_func_80024578_3 *actor;
     register S_func_80024578_4 *render = render_data;
     void **state_table;
@@ -249,7 +247,6 @@ void func_80024578(void *effect_data, void *position_data, void *render_data)
     frame = effect->unk_10.u16;
     state = effect->unk_0A.s16;
     actor = effect->unk_00;
-    position = position_data;
     effect->unk_10.u16 = (u16)(frame + 1);
     if ((u32)state >= 16U) {
         goto finish;

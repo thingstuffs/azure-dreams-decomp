@@ -138,7 +138,49 @@ class Refusals(unittest.TestCase):
 
     def test_register_pinned_local(self):
         t = fn("void *a_in", '    register void *a ASM_REG("$18") = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n' % PIN)
-        self.refuse(t, "reg-pinned-local")
+        with mock.patch.dict(os.environ, {"T69_DROP_REG": "0"}):
+            self.refuse(t, "reg-pinned-local")
+
+    def test_register_pin_drops_with_the_copy_by_default(self):
+        # T69_DROP_REG (round 32, default on): the copy AND its ASM_REG go; the pin's `register` does not
+        # move onto the parameter (it was the pin's syntax), and the REG site alone counts as a removed pin.
+        t = fn("void *a_in", '    register void *a ASM_REG("$18") = a_in;\n    g(a);\n')
+        with mock.patch.dict(os.environ, {"T69_DROP_REG": "1"}):
+            cands, skips = gen(t)
+        self.assertEqual(len(cands), 1)
+        self.assertTrue(skips["opened-drop-reg"])
+        self.assertIn("void f(void *a)\n", cands[0][1])
+        self.assertNotIn("ASM_REG", cands[0][1])
+        self.assertEqual(sites_of(cands[0][1]), [])
+        # a plain `register` local still carries its storage class (round-31 rule, unchanged)
+        t2 = fn("void *a_in", "    register void *a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN)
+        with mock.patch.dict(os.environ, {"T69_DROP_REG": "1"}):
+            cands2, _ = gen(t2)
+        self.assertIn("void f(register void *a)", cands2[0][1])
+
+    def test_copy_in_a_nested_block_is_closed_by_default_and_opens_on_request(self):
+        # the local is a block snapshot of a never-written parameter: every occurrence inside the block
+        body = ("    void *a;\n    if (x) {\n        a = a_in;\n        ASM_KEEP(a);%s\n        g(a);\n    }\n" % PIN)
+        self.refuse(fn("void *a_in", body), "copy-not-in-the-declaration-block")
+        with mock.patch.dict(os.environ, {"T69_BLOCK_COPY": "1"}):
+            cands, skips = gen(fn("void *a_in", body))
+        self.assertEqual(len(cands), 1)
+        self.assertTrue(skips["opened-block-copy"])
+        self.assertIn("void f(void *a)\n", cands[0][1])
+        self.assertNotIn("a = a_in", cands[0][1])
+        self.assertNotIn("ASM_KEEP", cands[0][1])
+        # an occurrence outside the copy's block keeps the refusal even with the opening
+        with mock.patch.dict(os.environ, {"T69_BLOCK_COPY": "1"}):
+            self.refuse(fn("void *a_in", body + "    h(a);\n"), "copy-not-in-the-declaration-block")
+
+    def test_detail_counter_names_the_local_of_each_refusal(self):
+        t = fn("void *a_in", "    void *a = a_in;\n    ASM_KEEP(a);%s\n    a = 0;\n    g(a);\n" % PIN)
+        skips = G.Detail()
+        for f in G.functions(t):
+            G.entry_copies(t, f, skips)
+        self.assertIn(("local-written-twice", "a"), skips.detail)
+        self.assertEqual(skips["local-written-twice"], 1)
+        self.assertIn(("no-entry-copy", None), skips.detail)
 
     def test_scalar_retype_is_closed_by_default(self):
         self.refuse(fn("s32 a_in", "    s16 a = a_in;\n    ASM_KEEP(a);%s\n    g(a);\n" % PIN),

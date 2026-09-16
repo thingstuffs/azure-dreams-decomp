@@ -66,6 +66,19 @@ QUAL = re.compile(r"\b(const|volatile)\b")
 def _note(skips, key):
     if skips is not None:
         skips[key] += 1
+        detail = getattr(skips, "detail", None)
+        if detail is not None:          # a Detail counter: the refusal with the local it was about
+            detail.append((key, getattr(skips, "cur", None)))
+
+
+class Detail(collections.Counter):
+    """A skips counter that also records (refusal, local) pairs, for a refusal table with the pins
+    behind each refusal (the local a record was about is what its keeps name)."""
+
+    def __init__(self, *a, **k):
+        super().__init__(*a, **k)
+        self.detail = []
+        self.cur = None
 
 
 def _mask(t):
@@ -329,6 +342,8 @@ def entry_copies(text, fn, skips=None):
         v, ty = m.group("var"), m.group("type").strip()
         if v in pnames or v in seen or ty.split()[0] in NOTYPE:
             continue
+        if hasattr(skips, "cur"):
+            skips.cur = v
         if dep[m.start()] <= dep[b0]:
             continue                              # not inside this function's body
         if len([1 for d in DECL.finditer(masked, b0, b1) if d.group("var") == v]) != 1:
@@ -353,17 +368,37 @@ def entry_copies(text, fn, skips=None):
                 continue
             p = cm.group(1)
             if dep[b0 + cm.start()] != dep[m.start()] or b0 + cm.start() < m.end():
-                _note(skips, "copy-not-in-the-declaration-block")
-                continue
+                # T69_BLOCK_COPY=1: the copy sits in a nested block (`if (..) { v = p; .. ASM_KEEP(v)`)
+                # and every occurrence of the local lies inside that block - the local is a block
+                # snapshot of a parameter that is never written (checked below), so the merge is the
+                # same C.  Round-32 refusal table: 27 keeps in 21 rows behind this refusal.
+                opened = False
+                if os.getenv("T69_BLOCK_COPY", "0") == "1" and b0 + cm.start() >= m.end() \
+                        and dep[b0 + cm.start()] > dep[m.start()]:
+                    ba, bb = _block_span(masked, dep, b0 + cm.start())
+                    occ = [a for a, _ in _occurrences(masked, v, m.end(), b1)]
+                    opened = bool(occ) and all(ba <= a < bb for a in occ)
+                if not opened:
+                    _note(skips, "copy-not-in-the-declaration-block")
+                    continue
+                _note(skips, "opened-block-copy")
             copy_span = (b0 + cm.start(), b0 + cm.end() + 1)
             first = re.search(r"(?<![\w.])%s\b" % re.escape(v), body[m.end() - b0:])
             if first and m.end() - b0 + first.start() < cm.start():
                 _note(skips, "use-before-copy")
                 continue
         if m.group("asm"):
-            _note(skips, "reg-pinned-local")      # a hard-register pin cannot move onto a parameter
-            continue
-        if _writes(body, v) != 1:
+            # a hard-register pin cannot move onto a parameter.  T69_DROP_REG (default 1 since round
+            # 32) drops the copy AND its ASM_REG (the parameter's own pseudo takes whatever register the
+            # allocator gives it): the round-32 refusal table's largest entry (384 records / 278 rows,
+            # 95 keeps behind them), 11 rows / 18 pins under the byte verdict; T69_DROP_REG=0 closes it.
+            if os.getenv("T69_DROP_REG", "1") != "1":
+                _note(skips, "reg-pinned-local")
+                continue
+            _note(skips, "opened-drop-reg")
+        # `register T v ASM_REG("$N") = p;` - the initialiser is a write `_writes` cannot see (the
+        # pin sits between the name and the `=`); it is the one write this record expects.
+        if _writes(body, v) + (1 if init and m.group("asm") else 0) != 1:
             _note(skips, "local-written-twice")
             continue
         if _writes(body, p) != 0:
@@ -393,6 +428,8 @@ def entry_copies(text, fn, skips=None):
             continue
         seen.add(v)
         out.append((p, pnames[p], pspan[p], v, ty, (m.start(), m.end()), copy_span))
+    if hasattr(skips, "cur"):
+        skips.cur = None
     if not out:
         _note(skips, "no-entry-copy")
     return out
@@ -437,14 +474,19 @@ def merge(text, fn, chosen, skips=None):
     ren = {r[0]: r[3] for r in chosen}
     rety = {r[0]: r[4] for r in chosen if _bare(r[1]) != r[4]}
     edits = []
+    dropped_reg = False
     for p, pty, ps, v, lty, dspan, cspan in chosen:
         edits.append((dspan[0], dspan[1], ""))
         if cspan:
             edits.append((cspan[0], cspan[1], ""))
         # a `register` local keeps its storage class when it becomes the parameter, and a `register`
         # parameter keeps its own (legal C; the round-31 reviewer's case 5: dropping it silently
-        # changed what the source said, and the retype path used to drop it too)
-        reg = (bool(re.match(r"[ \t]*register\b", masked[dspan[0]:dspan[1]]))
+        # changed what the source said, and the retype path used to drop it too).  A local declared
+        # `register T v ASM_REG(..)` (the T69_DROP_REG opening) is the exception: that `register` is
+        # the pin's syntax, not the source's, and goes with the pin.
+        asm_pinned = "ASM_REG" in masked[dspan[0]:dspan[1]]
+        dropped_reg = dropped_reg or asm_pinned
+        reg = ((not asm_pinned and bool(re.match(r"[ \t]*register\b", masked[dspan[0]:dspan[1]])))
                or bool(re.match(r"register\b", pty)))
         newty = lty if p in rety else pty
         if reg and not re.match(r"register\b", newty):
@@ -496,10 +538,11 @@ def merge(text, fn, chosen, skips=None):
             kept = True
     if kept:
         _note(skips, "pin-shape-not-erasable")
-    if not pins:
+    if not pins and not dropped_reg:
         _note(skips, "no-pin-removed")
         return None
-    t = erase_many(t, pins, clean_notes=True)
+    if pins:
+        t = erase_many(t, pins, clean_notes=True)
     if unscored_text(t) != unscored_text(text):
         _note(skips, "arm-edit")
         return None

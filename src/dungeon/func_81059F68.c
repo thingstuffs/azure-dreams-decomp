@@ -33,11 +33,8 @@ extern s32 D_80083460;
 extern s8 D_800E2970[];
 
 /* Updates actor movement, choosing a direction and recording its path. */
-void func_80171768(u8 *move_work_in, void *entry_context, u8 *position_in, u8 *actor_in)
+void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
 {
-    register u8 *move_work ASM_REG("$21") = move_work_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *position ASM_REG("$19") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 limit_turn;
     s16 step_index;
     s16 *angle_steps;
@@ -52,7 +49,6 @@ void func_80171768(u8 *move_work_in, void *entry_context, u8 *position_in, u8 *a
 
     state = (u8 *)&D_80083460;
     state_flags = U16_AT(state, 2);
-    ASM_KEEP(move_work);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     limit_turn = 0;
 
     if (state_flags & 0x4000) {

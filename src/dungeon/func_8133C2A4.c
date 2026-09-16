@@ -65,13 +65,10 @@ extern u8 *D_80175DC4;
 extern s16 D_80175DC8;
 
 /* Advances the entity action script and updates its animation, facing, and timed events. */
-s32 func_801732A4(Entity *input_entity, s32 action_param, Aux *input_aux)
+s32 func_801732A4(Entity *entity, s32 action_value, Aux *aux)
 {
     s32 angle_out[2];
-    Entity *entity;
-    register s32 action_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    Aux *aux;
-    register Entity *actor ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    Entity *actor;
     u8 *script;
     s32 command;
     s32 command_byte;
@@ -90,11 +87,7 @@ s32 func_801732A4(Entity *input_entity, s32 action_param, Aux *input_aux)
     u16 old_flags;
     s32 turn_opcode;
 
-    entity = input_entity;
-    action_value = action_param;
-    aux = input_aux;
     actor = entity;
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 top:
     if (aux->flags14 & 0x40) {
         return 0;
