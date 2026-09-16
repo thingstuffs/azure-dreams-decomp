@@ -47,11 +47,11 @@ typedef struct S_800CBB98_4 {
 } S_800CBB98_4;   /* global_base in func_800CBB98 */
 
 /* Creates an effect at the tile center, links it to its owner, and increments the effect count. */
-void *func_800CBB98(s16 tile_x, s32 tile_y, s16 height, void *owner) {
+void *func_800CBB98(s16 tile_x, u16 tile_y, s16 height, void *owner) {
     s16 saved_height = height;
     S_800CBB98_3 *saved_owner = owner;
     u16 saved_tile_x = tile_x;
-    register s32 saved_tile_y ASM_REG("$18") = tile_y;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 saved_tile_y = tile_y;
     S_800CBB98_2 *sprite;
     S_800CBB98_0 *effect;
     S_800CBB98_1 *position;
@@ -77,7 +77,6 @@ void *func_800CBB98(s16 tile_x, s32 tile_y, s16 height, void *owner) {
         effect->unk_20 = saved_owner;
         saved_owner->unk_14 = (s32) (saved_owner->unk_14 | 0x100000);
         func_800A56E0(0x614);
-        ASM_KEEP(saved_tile_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         effect_state = D_80083460;
         ((S_800CBB98_4 *)effect_state)->unk_0A = (u16) (((S_800CBB98_4 *)effect_state)->unk_0A + 1);
     }

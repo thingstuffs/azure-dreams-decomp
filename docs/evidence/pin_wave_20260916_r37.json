@@ -1,0 +1,168 @@
+{
+  "baseline_commit": "85f57ff1",
+  "pins_before": 6132,
+  "pins_after": 6103,
+  "pins_removed": 29,
+  "goal_baseline": "500808e2",
+  "goal_removed": 35,
+  "pinned_rows_after": 1284,
+  "new_pin_free_rows": 6,
+  "rows": [
+    {
+      "row": "dungeon/func_800875EC",
+      "pins_before": 1,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800AC3B0",
+      "pins_before": 6,
+      "pins_after": 5
+    },
+    {
+      "row": "dungeon/func_800B4914",
+      "pins_before": 0,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800B6948",
+      "pins_before": 3,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800BA09C",
+      "pins_before": 3,
+      "pins_after": 3
+    },
+    {
+      "row": "dungeon/func_800BA28C",
+      "pins_before": 0,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800BBFB8",
+      "pins_before": 0,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800BDCE0",
+      "pins_before": 0,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800BF618",
+      "pins_before": 1,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800C6438",
+      "pins_before": 2,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_800C6540",
+      "pins_before": 3,
+      "pins_after": 3
+    },
+    {
+      "row": "dungeon/func_80285E80",
+      "pins_before": 7,
+      "pins_after": 7
+    },
+    {
+      "row": "dungeon/func_80286684",
+      "pins_before": 5,
+      "pins_after": 3
+    },
+    {
+      "row": "dungeon/func_80BAF094",
+      "pins_before": 7,
+      "pins_after": 4
+    },
+    {
+      "row": "dungeon/func_80D65810",
+      "pins_before": 5,
+      "pins_after": 3
+    },
+    {
+      "row": "dungeon/func_80EDFC98",
+      "pins_before": 3,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_81084D04",
+      "pins_before": 5,
+      "pins_after": 4
+    },
+    {
+      "row": "dungeon/func_818ED25C",
+      "pins_before": 3,
+      "pins_after": 2
+    },
+    {
+      "row": "dungeon/func_81940F98",
+      "pins_before": 3,
+      "pins_after": 0
+    },
+    {
+      "row": "dungeon/func_81941338",
+      "pins_before": 11,
+      "pins_after": 11
+    },
+    {
+      "row": "dungeon/func_8196B4A4",
+      "pins_before": 3,
+      "pins_after": 1
+    },
+    {
+      "row": "dungeon/func_8196B780",
+      "pins_before": 3,
+      "pins_after": 1
+    },
+    {
+      "row": "town/func_800BEE14",
+      "pins_before": 3,
+      "pins_after": 1
+    },
+    {
+      "row": "town/func_800C1FCC",
+      "pins_before": 0,
+      "pins_after": 0
+    }
+  ],
+  "param_copy_pilot": {
+    "unique_rows": 164,
+    "screens": 1612,
+    "exact_rows": 15,
+    "withdrawn_exact_rows": 1,
+    "retained_candidate_pins": 26,
+    "composition_screens": 79
+  },
+  "local_copy_pilot": {
+    "rows": 182,
+    "screens": 2436,
+    "exact_rows": 1,
+    "pins_removed": 1
+  },
+  "cascade_pins": 2,
+  "withdrawal": {
+    "row": "dungeon/func_80287768",
+    "reason": "Caller signature compatibility could not be restored byte-exactly; original callee and pin restored."
+  },
+  "caller_prototype_repairs": 9,
+  "gates": [
+    {
+      "windows": 20,
+      "matches": 20,
+      "seconds": 249,
+      "slus": "MATCH"
+    },
+    {
+      "windows": 9,
+      "matches": 9,
+      "seconds": 247,
+      "slus": "MATCH"
+    }
+  ],
+  "row_db": "OK",
+  "generator_tests": 5
+}

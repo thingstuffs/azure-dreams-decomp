@@ -55,14 +55,14 @@ extern u8 D_8015CED8[];
 extern u8 D_8015CF00[];
 extern void func_80158A98(void);
 
-void *func_80158894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void *func_80158894(s16 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    register void *result ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *result;
     void *created;
     void *position;
     s32 part_or_arg3;
-    register s32 actor_or_arg2 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 saved_arg0;
+    s32 actor_or_arg2;
+    s16 saved_arg0;
     register s32 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 original_arg0;
     register s32 create_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -79,7 +79,6 @@ void *func_80158894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     ASM_KEEP_DEP_NV(part_or_arg3, create_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     actor_or_arg2 = arg2;
     created = func_8003FD64(create_kind, create_data);
-    ASM_KEEP4_NV(saved_arg0, saved_arg1, part_or_arg3, actor_or_arg2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     original_arg0 = saved_arg0;
     if (created == 0) {
         goto done;

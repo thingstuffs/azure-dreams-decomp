@@ -48,10 +48,10 @@ typedef struct S_800BC0A8_3 {
 } S_800BC0A8_3;   /* temp_a0 in func_800BC0A8 */
 
 /* Creates an object and initializes its position, angle, and state. */
-void *func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s32 value_50, s32 value_58, s32 state_word, s32 value_48) {
-    register s32 saved_value_50 ASM_REG("$21") = value_50;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_value_58 ASM_REG("$23") = value_58;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_value_48 ASM_REG("$22") = value_48;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+void *func_800BC0A8(s16 x, s16 y, s16 z, s16 angle, s16 value_50, s16 value_58, s32 state_word, s16 value_48) {
+    s16 saved_value_50 = value_50;
+    s16 saved_value_58 = value_58;
+    s16 saved_value_48 = value_48;
     S_800BC0A8_3 *transform;
     S_800BC0A8_2 *state;
     void *object;

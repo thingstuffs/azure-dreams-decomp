@@ -23,9 +23,9 @@ extern s32 D_801BEE40[4];
 extern s32 D_801C4640[4];
 
 /* Loads an object into the alternate buffer and optionally activates it. */
-s32 func_80019684(s16 object_index, s16 mode, s32 activate) {
-    register s32 activate_flag ASM_REG("$18") = activate;
-    u16 saved_index = ({ ASM_KEEP_NV(activate_flag); 0; });
+s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
+    s16 activate_flag = activate;
+    u16 saved_index = ({  0; });
     register s16 saved_object_index = object_index;
     s16 saved_mode = mode;
     s16 activate_tail = (s16)activate_flag;

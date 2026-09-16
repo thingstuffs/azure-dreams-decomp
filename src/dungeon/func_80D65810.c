@@ -72,12 +72,12 @@ extern void func_80045340(void);
 extern void func_80170D34(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
-void func_80D65810(s32 unused_0, void *origin_ptr, s32 unused_2, u16 offset_x, s32 offset_y, s32 offset_z) {
+void func_80D65810(s32 unused_0, void *origin_ptr, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
     u16 render_flags;
     S_80D65810_4 *origin;
     u16 x;
-    register s32 y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 z ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 y;
+    s16 z;
     s32 size;
     S_80D65810_2 *render;
     S_80D65810_5 *sprite;
