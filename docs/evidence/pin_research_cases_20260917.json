@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6070,
-    "pinned_rows": 1278,
-    "basis": "STATUS.md after gated round42 Record68 repair; town_scene and SLUS MATCH, row database OK"
+    "pins": 6060,
+    "pinned_rows": 1276,
+    "basis": "STATUS.md after round44 typed registry lookup; full dungeon_engine and SLUS MATCH, row database OK"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -1607,6 +1607,168 @@
         "success_criterion": "Fewer genuine pins with exact complete bytes and reviewed source semantics.",
         "failure_criterion": "The supported relationship leaves the same schedule; retain the specific residual as unresolved.",
         "bounds": "One causal setup-region audit; no more aggregate spelling variants or arbitrary flag search."
+      }
+    },
+    {
+      "id": "dungeon/func_8008E714",
+      "title": "Typed registry lookup replaces pinned integer address staging",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Ordinary typed lookup removes the last pin at the recorded stock recipe; no API, qualifier or copy change."
+      },
+      "source": {
+        "path": "src/dungeon/func_8008E714.c",
+        "sha256": "d9d14f90649801cadb6ac441ea6c796c5c830beebfbb5679e8089d4ace1c109d"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8008E714, runtime func_80093E74, file offset 714516, 440 bytes",
+          "confidence": "high",
+          "basis": "Registered extent and strict linked comparison at the true runtime address"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe, exact baseline and candidate; exactness does not uniquely establish historical release"
+        }
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r44_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r44_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r44_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r44_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      },
+      "candidate": {
+        "path": "src/dungeon/func_8008E714.c",
+        "sha256": "d9d14f90649801cadb6ac441ea6c796c5c830beebfbb5679e8089d4ace1c109d",
+        "base_source_sha256": "a82072ab0182abdc3f2391a3a756b055498694fc62eea619f211855e0f3ad3bc",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can ordinary typed indexing replace the keep that forces table-base staging?",
+        "prediction": "Single typed indexing emits the base before the shift and restores retail base/result register roles."
+      },
+      "evidence": [
+        {
+          "id": "r44_proof",
+          "kind": "positive_candidate",
+          "summary": "110/110 strict exact, one pin to zero; erasure-only misses by five substitutions. Full dungeon_engine and SLUS MATCH. Ten inspected transfer near matches yield no additional eligible row.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round44_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Replace kept table plus shift/add/integer dereference with record_table[saved_index] and remove dead integer local",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "Exact complete row and affected full image; no replacement scaffold",
+            "remaining_question": "Independent transferable member and unique historical release remain unproven"
+          }
+        },
+        {
+          "id": "r44_review",
+          "kind": "observation",
+          "summary": "Independent strict-byte, masked-index, ordinary registry, unchanged-copy and caller review; no hidden or relocated pins.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_registry_lookup_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null
+    },
+    {
+      "id": "dungeon/func_8009DB44",
+      "title": "Detach140 outer slot-scan invariants",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Whole aggregate reproduces the copy and tail; surrounding scan invariant placement remains nonexact across three grounded candidates."
+      },
+      "source": {
+        "path": "src/dungeon/func_8009DB44.c",
+        "sha256": "f3acb93cea1f88453315cc091ed21259b86ef261d9e30c54799b1890bc798b7a"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8009DB44, runtime func_800A32A4, 536 bytes",
+          "confidence": "high",
+          "basis": "Complete 134-word retail map and exact baseline"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded stock CDK and compatible retail fingerprint; not unique release attribution"
+        }
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      },
+      "causal": {
+        "question": "Which real slot-scan structure hoists the copy limit and mask but leaves the two flag constants inside?",
+        "prediction": "Recovered object layout and loop membership will explain selective invariant motion without manufactured live uses."
+      },
+      "evidence": [
+        {
+          "id": "r44_bounds",
+          "kind": "bounded_negative",
+          "summary": "Aggregate retaining bindings: distance6; erasing bindings:11; ordinary do/while scan:21. Complete transfer matches in the erased candidate; hoisting and outer allocation differ. No candidate promoted.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round44_20260917.json"
+          },
+          "bounds": {
+            "tested": "Three grounded source candidates at recorded CDK after exact baseline and full retail map",
+            "untested": "Whole slot-array/scan reconstruction and independently exact sibling with the same invariant pattern"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Recover the world slot-array layout and an exact scan sibling before rewriting the outer loop.",
+        "measurement": "Trace membership of mask, source+128 limit and two flag constants through loop RTL; compare all 134 words.",
+        "success_criterion": "Fewer genuine pins, exact full bytes, reviewed ordinary-memory access contract and unchanged return/callers.",
+        "failure_criterion": "The grounded scan still hoists the wrong set; preserve the residual and seek missing source or provenance evidence.",
+        "bounds": "One real layout/sibling audit, then at most two predicted source forms; no synthetic lifetime expressions."
       }
     }
   ]
