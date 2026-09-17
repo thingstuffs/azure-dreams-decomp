@@ -107,6 +107,17 @@ with allocation/cursor residues; a 17-pin partial control misses13 substitutions
 No snapshot source or replacement constraint was promoted. See
 [PIN_RESEARCH_ROUND46.md](PIN_RESEARCH_ROUND46.md).
 
+Round 47 gated result: **6,039 pins in 1,273 rows (-10; -64 cumulative)**.
+Two constructors become pin-free at unchanged stock 2.8.1-G0 after replacing
+false external noreturn calls with their real local null returns, together
+with direct static addresses. The sibling is an exact transfer of the same
+repair. Both row-local bases are promoted by strict proof recompiles. The
+broader table-only cohort and caller erasures remain bounded negatives.
+Snapshot140 now has a quantitative allocator explanation; its best ordinary
+candidate is 181 words, distance 30. See
+[PIN_RESEARCH_ROUND47.md](PIN_RESEARCH_ROUND47.md).
+
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

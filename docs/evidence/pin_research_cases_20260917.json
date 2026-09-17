@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6049,
-    "pinned_rows": 1275,
-    "basis": "STATUS.md after round46 direct table helper transfer; strict callee/caller, both covering windows and SLUS MATCH; row database OK"
+    "pins": 6039,
+    "pinned_rows": 1273,
+    "basis": "Round 47 live census: 6,039 pins in 1,273 rows. Two local-return reconstructions, strict row proofs, full covering window and SLUS MATCH; row database OK."
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -1211,7 +1211,7 @@
       "status": "experiment_ready",
       "claim": {
         "level": "bounded_negative",
-        "summary": "Actual indexed buffer use naturally hoists HIGH and restores frame56 with zero pins. Removing inherited dead cursor code yields181/181,total35 but swaps input/HIGH roles; partial first-loop repair retains17pins and misses13 register substitutions. No snapshot source promoted."
+        "summary": "Natural HIGH hoist is reproduced. Exact compiler priority explains input/HIGH swap; typed record and registry controls remain nonexact. Input reference-array access improves the zero-pin source to181/181,total30, while its input/HIGH order remains wrong. No snapshot source promoted."
       },
       "source": {
         "path": "src/dungeon/func_8008EE88.c",
@@ -1230,8 +1230,8 @@
         }
       },
       "causal": {
-        "question": "Which real cursor/record source relationships recover allocation order and displacement bases after the natural HIGH hoist?",
-        "prediction": "A typed larger record with a140-byte prefix can separate stable record and block-copy roles; minimally live indexed source exposes input/HIGH allocation without dead setup constraints."
+        "question": "What real source relationship recovers input/HIGH lifetime order and the remaining cursor bases without dead setup or artificial uses?",
+        "prediction": "A source model must change actual expansion or live-range statistics: merely naming a zero-offset prefix or pointer registry does not split the pseudos, and indexed input references strength-reduce to the old cursor."
       },
       "evidence": [
         {
@@ -1277,14 +1277,26 @@
             "tested": "Five grounded zero-pin source controls, one prior-save-view dump, exact compiler binary cost inspection, three retained-pin hybrids",
             "untested": "Typed larger-record prefix with separate stable record/block source; minimal-live-source allocator priority and actual cursor reconstruction"
           }
+        },
+        {
+          "id": "r47_allocation",
+          "kind": "bounded_negative",
+          "summary": "Typed record/prefix13; typedregistry13; removing later index/dest bindings37; all savedbindings38; pairedflags/page keeps38. Typedinput refs giveszero-pin181/181,total30 but inputpriority1157 remains belowHIGH1176. CDK executable/dumps explain logarithmic reference factor and already-used hard-register preference.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round47_20260917.json"
+          },
+          "bounds": {
+            "tested": "Six bounded source/removal controls, existing allocator dumps and exact compiler binary/source corroboration",
+            "untested": "Grounded four-byte entry traversal derived from initializer/reader evidence; independent allocation-null/address and compiler provenance facts outside these candidates"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Represent the real larger record with a named140-byte prefix and compare stable-record versus block-copy RTL; separately trace input/HIGH priority on the minimally live indexed candidate.",
-        "measurement": "First-loop s1=record,s3=entry,s4=buffer witha2copy source; input/HIGHs6/s7 and real cursor displacement selection; full181-word strict result.",
-        "success_criterion": "Fewer genuine pins with complete exact bytes, no new constraints, and semantic/caller/image review.",
-        "failure_criterion": "Record and block source still coalesce or priorities/IV bases differ; attribute the pass decision before another source form.",
-        "bounds": "One typed-record control and one allocator-priority trace; retain existing pins only, no new hard binding, dead setup, volatile or literal page."
+        "action": "Audit the actual four-byte entry type from its initializer/readers, then reconstruct its first-loop traversal in the minimally live indexed source if the field/layout evidence supports it.",
+        "measurement": "Track first-loop index/record/entry/buffer roles and input/HIGH refs/live priorities through expansion and global allocation; compare all181words.",
+        "success_criterion": "A grounded entry representation improves the missing relationships and reaches fewer-pin exact full bytes without invented lifetime constraints.",
+        "failure_criterion": "The entry representation lowers identically or does not improve the needed roles; retain the bounded result and route to another independently supported source/provenance question.",
+        "bounds": "One entry-layout audit before at most one representation probe; no repeated prefix/table spelling menu, dead setup or added pins."
       },
       "verification": {
         "exact_bytes": {
@@ -1907,6 +1919,186 @@
           "state": "pass",
           "evidence_refs": [
             "r46_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_818A4A64",
+      "title": "Ordinary local null return removes constructor scaffold",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Removes all 4 pins through local null-return CFG and direct static addresses, exact at unchanged 2.8.1-G0."
+      },
+      "source": {
+        "path": "src/dungeon/func_818A4A64.c",
+        "sha256": "b673c83118b2f3aca66cd32d0b581cd53c6983bc48e99658cf19d5806320d12b"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_818A4A64, runtime 0x80024264, file 0x18C4A64, 220 bytes",
+          "confidence": "high",
+          "basis": "Local epilogue jump; contiguous callbacks; same-bank header and proven neighbors; fresh discriminating strict recompile"
+        },
+        "recipe": {
+          "value": "2.8.1-G0",
+          "confidence": "medium",
+          "basis": "Unchanged stock recipe; delay-slot stores support CDK/2.8 family, unique historical release not established"
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_818A4A64.c",
+        "sha256": "b673c83118b2f3aca66cd32d0b581cd53c6983bc48e99658cf19d5806320d12b",
+        "base_source_sha256": "b066b08f3d37bdc96ae4ccd9933f832c633ebed514736048de8da931135f23c7",
+        "recipe": "2.8.1-G0"
+      },
+      "causal": {
+        "question": "Are the noreturn callees actually local return epilogues whose incorrect CFG required coupled register/address constraints?",
+        "prediction": "Positive allocation arm plus ordinary return-zero and direct static addresses removes the entire scaffold."
+      },
+      "evidence": [
+        {
+          "id": "r47_proof",
+          "kind": "positive_candidate",
+          "summary": "Full linked-strict byte equality, zero pins, covering window and SLUS MATCH; row database OK.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round47_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Ordinary local null return and direct callback/table addresses with resident helper contracts",
+            "recipe": "2.8.1-G0",
+            "result": "4 pins removed; zero remain",
+            "remaining_question": "Transfer yield outside these two constructors remains unmeasured."
+          }
+        },
+        {
+          "id": "r47_review",
+          "kind": "observation",
+          "summary": "Independent complete retail, identity, source semantics, bounded caller and port compilation review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_constructor_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_818A4948",
+      "title": "Ordinary local null return removes constructor scaffold",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Removes all 6 pins through local null-return CFG and direct static addresses, exact at unchanged 2.8.1-G0."
+      },
+      "source": {
+        "path": "src/dungeon/func_818A4948.c",
+        "sha256": "bf671e430ec20abe02425aa1649fbff609b7c5f2290d7d4625f3a2c18651bb88"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_818A4948, runtime 0x80024148, file 0x18C4948, 232 bytes",
+          "confidence": "high",
+          "basis": "Local epilogue jump; contiguous callbacks; same-bank header and proven neighbors; fresh discriminating strict recompile"
+        },
+        "recipe": {
+          "value": "2.8.1-G0",
+          "confidence": "medium",
+          "basis": "Unchanged stock recipe; delay-slot stores support CDK/2.8 family, unique historical release not established"
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_818A4948.c",
+        "sha256": "bf671e430ec20abe02425aa1649fbff609b7c5f2290d7d4625f3a2c18651bb88",
+        "base_source_sha256": "1dd060bfec268ed0a652574ddc24658641b62528902a4d78da4e3e6b916bfc04",
+        "recipe": "2.8.1-G0"
+      },
+      "causal": {
+        "question": "Are the noreturn callees actually local return epilogues whose incorrect CFG required coupled register/address constraints?",
+        "prediction": "Positive allocation arm plus ordinary return-zero and direct static addresses removes the entire scaffold."
+      },
+      "evidence": [
+        {
+          "id": "r47_proof",
+          "kind": "positive_candidate",
+          "summary": "Full linked-strict byte equality, zero pins, covering window and SLUS MATCH; row database OK.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round47_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Ordinary local null return and direct callback/table addresses with resident helper contracts",
+            "recipe": "2.8.1-G0",
+            "result": "6 pins removed; zero remain",
+            "remaining_question": "Transfer yield outside these two constructors remains unmeasured."
+          }
+        },
+        {
+          "id": "r47_review",
+          "kind": "observation",
+          "summary": "Independent complete retail, identity, source semantics, bounded caller and port compilation review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_constructor_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r47_proof"
           ],
           "kind": "overlay_window"
         }

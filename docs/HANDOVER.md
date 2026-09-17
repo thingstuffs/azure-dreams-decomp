@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,049 pins in 1,275 rows,
-54 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,039 pins in 1,273 rows,
+64 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -63,17 +63,35 @@ remains strict 319/319; callee strict 67/67, both windows, SLUS and row database
 pass. The finite15-member effect-cluster audit found this one cheap transfer;
 the Position144 shape itself is unique.
 
-Next: Snapshot140's HIGH hoist is now reproduced by ordinary indexed buffer
-use, which increases its genuine lifetime/benefit. The exact CDK binary gives
-call-loop threshold 30; reducing instructions alone stopped at32 and failed.
-The minimally live indexed source is181/181, total 35, with input/HIGH roles
-swapped and two cursors rebased by strength reduction. Do not retain dead
-cursor setup to improve allocation. A separate partial repair keeps17original
-pins and matches words 80–180; only13 first-loop register substitutions remain.
-Next test a typed larger record with a 140-byte prefix and inspect stable-record
-versus block-copy RTL, then allocator priorities. Never add a new flags binding.
-The final Position144 sentinel pin also remains open (ordinary controls six
-indels). No missing-source or compiler residue has an impossibility verdict.
+[Round 47](PIN_RESEARCH_ROUND47.md) removes **ten** more pins: two constructors
+(`818A4A64`, four; `818A4948`, six) become ordinary pin-free C at unchanged
+2.8.1-G0. Their alleged noreturn calls are local return-zero epilogues at the
+existing solved bases. Correcting that CFG together with direct static
+addresses removes the entire coupled scaffold. The same repair transfers to
+the sibling. Both row-local bases are promoted through strict recompiles.
+The broader 96-row helper-family audit and caller erasures have bounded
+negative results; table-only changes had missed these two coupled repairs.
+
+Snapshot140's natural HIGH hoist is established. Its input/HIGH priority swap
+is now explained by the exact compiler's logarithmic reference factor:
+removing dead setup changes HIGH refs3->4 and priority428->1176. Typed input
+references improve the zero-pin source to181/181,total30, but strength reduction
+keeps input refs7 and priority1157. The real prefix and pointer-registry probes
+do not fix the partial candidate's13 substitutions. Removing existing later
+bindings changes earlier register reuse but remains nonexact.
+
+Next, run a small whole-function transfer batch from the local-return inventory
+(32 rows / 328 candidate pins, not guaranteed removals) with the now-proven
+constructor recipe; use Luna or Gemini for bounded source
+reconstruction and retain local exact verification and independent review.
+Reserve expensive diagnosis for shared blockers. `agy` Gemini pilot on
+`818B15F4` finished in 243 seconds: independently exact local-return CFG,
+one table pin remains, no landing. Five candidate sources and the brief are
+archived in the round 47 receipt; do not repeat them. Snapshot's next source question
+is the real four-byte entry traversal, but pause that open-ended lane while
+measuring cheaper transfer yield. Do not repeat its zero-offset prefix or
+registry spelling tests, preserve dead setup, or manipulate reference counts.
+The Position144 sentinel pin remains open. No failure proves a minimum.
 
 Keep mechanical repetition in the existing aggregate generator/probe and
 erasure/verification tools. Generalize a new rewrite only with actual semantic

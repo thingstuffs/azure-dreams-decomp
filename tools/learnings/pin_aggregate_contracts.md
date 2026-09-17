@@ -122,3 +122,37 @@ exact at old/new recipes and portassembly identity. Caller parameter/return
 declaration correction is independently exact. The measured effect cluster
 contains 15 members, ten previously unpinned; the 144-byte shape has no sibling.
 See `docs/PIN_RESEARCH_ROUND46.md`.
+
+## Round47 global allocation effects across regions
+
+Snapshot140's zero-offset typed prefix folds back into the same record pointer;
+a typed registry only commutes two address additions. Neither solves the
+13-substitution partial candidate. Do not repeat these names as new shapes.
+Retained hard-register bindings in later regions enter the already-used set
+that global allocation prefers, and can change earlier region roles. Removing
+them is a valid counterfactual but did not produce an exact repair here.
+
+The fully ordinary input/HIGH swap is explained by
+`floor_log2(refs) * refs / live_length * 10000 * size`. Eliminating dead setup
+raises HIGH references3->4, changing the logarithmic multiplier1->2. The
+minimally live input's typed two-element ref array still becomes a separate
+strength-reduced cursor: seven input references, priority1157 versus HIGH1176.
+It improves real schedule, not allocation order. Seek an actual source/lifetime
+relationship; never add fake uses or retain dead setup merely for priority.
+
+The initial table-only follow-ups missed all three selected candidates among
+96 additional allocator/helper rows. This was not exhaustion of the family:
+two candidates had false noreturn calls to their own epilogues. At the already
+solved bases, ordinary positive allocation arms ending in return-object and
+falling through to return-zero match exactly at 2.8.1-G0. Direct callback/table
+addresses then need neither global v0 binding nor keep/use fences: four and
+six pins removed, independently exact 55/55 and 58/58. The callback keep had
+been a real scheduler barrier, but diagnosing that barrier alone missed the
+larger CFG error. Resolve branch destinations before tuning delay-slot source.
+
+Two contiguous callback/function chains, nearby proven functions and the bank
+header corroborate the local bases. Promote only the proven row extents.
+The ordinary early-null-return spelling has distance 5 from branch layout;
+the positive allocation arm is exact. This is measured at 2.8.1-G0, not a claim
+of a unique original release. Seven single erasures in the corrected caller
+still miss. See the round 47 receipt for all bounds and endpoint hashes.
