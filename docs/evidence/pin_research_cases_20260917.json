@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6060,
+    "pins": 6050,
     "pinned_rows": 1276,
-    "basis": "STATUS.md after round44 typed registry lookup; full dungeon_engine and SLUS MATCH, row database OK"
+    "basis": "STATUS.md after round45 typed Position144 reconstruction; both covering windows and SLUS MATCH, row database OK"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -1207,11 +1207,11 @@
     },
     {
       "id": "dungeon/func_8008EE88",
-      "title": "Snapshot140 buffer-page lifetime",
+      "title": "Snapshot140 invariant HIGH profitability",
       "status": "experiment_ready",
       "claim": {
         "level": "bounded_negative",
-        "summary": "Two aggregate copies and a four-byte unaligned aggregate reach distance 40 with zero pins, but frame and second-loop address lifetimes remain wrong."
+        "summary": "CDK recognizes the second-loop HIGH as invariant but rejects its hoist for profitability: life one, savings one, 36 instructions. Ordinary shared full base restores frame56 but not retail partial-address lifetime; zero-pin candidate still nonexact."
       },
       "source": {
         "path": "src/dungeon/func_8008EE88.c",
@@ -1230,8 +1230,8 @@
         }
       },
       "causal": {
-        "question": "What real global-object/address relationship keeps the snapshot buffer page live across the second loop?",
-        "prediction": "Recovering the shared high-page/low-address model will restore the 56-byte frame and s7 lifetime before body scheduling is revisited."
+        "question": "Which real loop structure or independently supported compiler decision makes the invariant HIGH profitable to hoist?",
+        "prediction": "Reducing artificial argument staging may change actual loop cost or HIGH lifetime enough for normal invariant motion, before allocation."
       },
       "evidence": [
         {
@@ -1253,14 +1253,26 @@
           "artifact": {
             "path": "docs/evidence/pin_research_snapshot140_review_20260917.md"
           }
+        },
+        {
+          "id": "r45_cause",
+          "kind": "bounded_negative",
+          "summary": "RTL identifies profitability rejection before allocation. Actual helper contract unchanged40; ordinary full-base sharing43/frame56; fixed addresses47/frame48; independent indexing83/frame72; grounded save view74/frame64; old recipe92/frame48. Logical save layout corroborated by inverse and initializer; original declaration unproven.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round45_20260917.json"
+          },
+          "bounds": {
+            "tested": "Six bounded source/recipe controls plus baseline, two dump-enabled address traces and independent saved-layout audit",
+            "untested": "Minimal real-loop RTL after eliminating artificial argument staging; independently established historical loop-cost behavior"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Trace high-page sharing for the snapshot buffer and recover the surrounding global layout and index-array views.",
-        "measurement": "Compare page/low-address RTL lifetimes and frame allocation first, then strict 181-word bytes.",
-        "success_criterion": "A genuine object/address model restores the frame and full exact bytes while reducing pins.",
-        "failure_criterion": "The supported model still lacks the page lifetime; document the responsible compiler decision without substituting a new pin.",
-        "bounds": "One address-lifetime trace and layout audit before further body probes."
+        "action": "Model the minimal real second loop and remove artificial argument staging; inspect RTL profitability before proposing another source form.",
+        "measurement": "Measure loop real-instruction count, invariant HIGH savings/lifetime and forcing cases; then frame, partial address and strict181-word equality.",
+        "success_criterion": "Ordinary supported source produces the retail partial hoist and reduces pins with full exact bytes and semantic/caller review.",
+        "failure_criterion": "Measured cost remains below hoisting threshold; seek independent provenance evidence, not synthetic page liveness.",
+        "bounds": "One minimal real-loop RTL comparison before another bounded source probe; no page keep, fake use or compiler cost patch."
       },
       "verification": {
         "exact_bytes": {
@@ -1467,15 +1479,15 @@
     },
     {
       "id": "dungeon/func_813315CC",
-      "title": "Position144 prologue ordering under aggregate expansion",
-      "status": "experiment_ready",
+      "title": "Position144 complete typed operation: ten pins removed, one unresolved",
+      "status": "resolved",
       "claim": {
-        "level": "bounded_negative",
-        "summary": "Aggregate preserves all 210 instructions, frame and roles at CDK but emits the s3 save/move pair early: four indels. No repair landed."
+        "level": "verified_repair",
+        "summary": "Typed table, object roles, real three-argument helper and held-source alias remove ten of eleven pins. Existing position/sentinel binding remains unresolved; no minimum established."
       },
       "source": {
         "path": "src/dungeon/func_813315CC.c",
-        "sha256": "6f115b6841623640bf0600711154404aec9db48eca4acf84a269e50da61fde88"
+        "sha256": "56c497f34be4466c8fb60a4d05ea137c4af240a1186d18a62f0535d25f65da91"
       },
       "retail": {
         "identity": {
@@ -1484,27 +1496,35 @@
           "basis": "Registered extent, true runtime address and exact baseline control"
         },
         "recipe": {
-          "value": "2.8.1-G0",
+          "value": "2.7.2-cdk-G0",
           "confidence": "medium",
-          "basis": "Recorded stock recipe and byte signatures; exactness is not unique historical attribution"
+          "basis": "Reviewed whole-source/recipe transition with exact old and new endpoints and compatible CDK/2.8 signatures; unique historical release unproven"
         }
       },
       "verification": {
         "exact_bytes": {
-          "state": "pending",
-          "evidence_refs": []
+          "state": "pass",
+          "evidence_refs": [
+            "r45_proof"
+          ]
         },
         "semantic_review": {
-          "state": "pending",
-          "evidence_refs": []
+          "state": "pass",
+          "evidence_refs": [
+            "r45_review"
+          ]
         },
         "caller_review": {
-          "state": "pending",
-          "evidence_refs": []
+          "state": "pass",
+          "evidence_refs": [
+            "r45_review"
+          ]
         },
         "publication_gate": {
-          "state": "pending",
-          "evidence_refs": [],
+          "state": "pass",
+          "evidence_refs": [
+            "r45_proof"
+          ],
           "kind": "overlay_window"
         }
       },
@@ -1527,14 +1547,36 @@
             "tested": "One argument-role/site-map audit before another source probe; existing assignment, initializer and pointer staging negatives are retained.",
             "untested": "Compare the binding-free argument-role control with the retained-binding expansion; seek a real source relationship in the caller or sibling."
           }
+        },
+        {
+          "id": "r45_proof",
+          "kind": "positive_candidate",
+          "summary": "Exact 210/210 linked strict bytes, both covering windows and SLUS MATCH; eleven pins become one.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round45_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Complete typed aggregate/object reconstruction, true helper arity, normal held-source alias, s32 input with explicit local u16 conversion",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "Ten pins removed; live row and complete publication gates exact",
+            "remaining_question": "Final position/sentinel pin and inherited volatility remain unresolved; no independently proven general transfer or unique historical release."
+          }
+        },
+        {
+          "id": "r45_review",
+          "kind": "observation",
+          "summary": "Independent semantic, caller and exact-byte review. Unchanged caller passes s32; explicit callee u16 conversion fixes old width disagreement without byte changes.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_position144_review_20260917.md"
+          }
         }
       ],
-      "next_experiment": {
-        "action": "Compare the binding-free argument-role control with the retained-binding expansion; seek a real source relationship in the caller or sibling.",
-        "measurement": "Track entry move, copy address/alignment RTL and saved-register schedule before touching body ordering.",
-        "success_criterion": "Fewer genuine pins with exact complete bytes and reviewed source semantics.",
-        "failure_criterion": "The supported relationship leaves the same schedule; retain the specific residual as unresolved.",
-        "bounds": "One argument-role/site-map audit before another source probe; existing assignment, initializer and pointer staging negatives are retained."
+      "next_experiment": null,
+      "candidate": {
+        "path": "src/dungeon/func_813315CC.c",
+        "sha256": "56c497f34be4466c8fb60a4d05ea137c4af240a1186d18a62f0535d25f65da91",
+        "base_source_sha256": "6f115b6841623640bf0600711154404aec9db48eca4acf84a269e50da61fde88",
+        "recipe": "2.7.2-cdk-G0"
       }
     },
     {
