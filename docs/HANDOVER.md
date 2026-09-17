@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,050 pins in 1,276 rows,
-53 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,049 pins in 1,275 rows,
+54 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -56,15 +56,24 @@ with an explicit local u16 conversion. One existing position/sentinel binding
 remains unresolved. Independent strict210/210, both covering windows, SLUS and
 row database pass. See [the durable receipt](evidence/pin_research_round45_20260917.json).
 
-Next: the final Position144 pin concerns the -1 materialization and two stores;
-ordinary scalar and unbound-register controls still differ by six indels.
-Snapshot140's missing saved HIGH is now traced to invariant-motion profitability
-(life one, savings one, 36-instruction call loop), before allocation. Its logical
-save layout is corroborated by inverse and initializer, while the original
-declaration remains uncertain. Compare minimal real-loop RTL without artificial
-argument staging, then inspect measured cost/lifetime before more C probes.
-The ordinary shared full-base control restores frame56 but not the partial HIGH.
-Do not invent a page variable or patch compiler costs to force that lifetime.
+[Round46](PIN_RESEARCH_ROUND46.md) removes **one** from `8132E5EC` by using
+the actual render table directly. The old source is exact at old/new recipes,
+and the new source at CDK. Its caller declaration now agrees (void/s32) and
+remains strict 319/319; callee strict 67/67, both windows, SLUS and row database
+pass. The finite15-member effect-cluster audit found this one cheap transfer;
+the Position144 shape itself is unique.
+
+Next: Snapshot140's HIGH hoist is now reproduced by ordinary indexed buffer
+use, which increases its genuine lifetime/benefit. The exact CDK binary gives
+call-loop threshold 30; reducing instructions alone stopped at32 and failed.
+The minimally live indexed source is181/181, total 35, with input/HIGH roles
+swapped and two cursors rebased by strength reduction. Do not retain dead
+cursor setup to improve allocation. A separate partial repair keeps17original
+pins and matches words 80–180; only13 first-loop register substitutions remain.
+Next test a typed larger record with a 140-byte prefix and inspect stable-record
+versus block-copy RTL, then allocator priorities. Never add a new flags binding.
+The final Position144 sentinel pin also remains open (ordinary controls six
+indels). No missing-source or compiler residue has an impossibility verdict.
 
 Keep mechanical repetition in the existing aggregate generator/probe and
 erasure/verification tools. Generalize a new rewrite only with actual semantic

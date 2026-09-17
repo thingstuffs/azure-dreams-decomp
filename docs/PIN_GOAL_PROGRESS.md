@@ -98,6 +98,15 @@ save layout; no new pin removal there. Mechanical tools are reused for bounded
 repetition, with no unproven generic rewrite. See
 [PIN_RESEARCH_ROUND45.md](PIN_RESEARCH_ROUND45.md).
 
+Round46 gated result: **6,049 pins in 1,275 rows (-1; -54 cumulative)**.
+One direct-table helper transfer removes a pin and arm split at a controlled
+CDK transition. Its caller declaration is aligned; strict rows, both covering
+windows, SLUS and row database pass. Snapshot140 now naturally hoists its HIGH
+through actual indexed buffer use. The minimally live source remains nonexact
+with allocation/cursor residues; a 17-pin partial control misses13 substitutions.
+No snapshot source or replacement constraint was promoted. See
+[PIN_RESEARCH_ROUND46.md](PIN_RESEARCH_ROUND46.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

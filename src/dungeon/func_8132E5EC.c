@@ -23,7 +23,7 @@ typedef struct Object {
     void *callback;
 } Object;
 
-extern void func_8003DB94(Sprite *, void *, s32);
+extern void func_8003DB94(Sprite *, void *, s16);
 extern Object *func_8003FC64(s32);
 extern void func_8004491C(Object *, void *);
 extern u8 D_80045340;
@@ -31,7 +31,6 @@ extern u8 D_800DE870[];
 extern u8 D_80165580;
 
 void func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {
-    u8 *call_data;
     Object *obj;
     Sprite *sprite;
     s32 z_fixed;
@@ -51,13 +50,6 @@ void func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offs
 
             position = obj->position;
             *(s32 *)((u8 *)position + 0) = *(s32 *)((u8 *)source_position + 0);
-#ifndef NON_MATCHING
-            call_data = (u8 *)0x800E0000;
-            ASM_KEEP(call_data);
-            call_data -= 0x1790;
-#else
-            call_data = D_800DE870;
-#endif
             *(volatile s32 *)((u8 *)position + 4) = *(s32 *)((u8 *)source_position + 4);
             x = *(u16 *)((u8 *)position + 2);
             z_fixed = *(s32 *)((u8 *)source_position + 8);
@@ -74,6 +66,6 @@ void func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offs
         sprite->colorE = 0x80;
         sprite->colorD = 0x80;
         sprite->colorC = 0x80;
-        func_8003DB94(sprite, call_data, 0);
+        func_8003DB94(sprite, D_800DE870, 0);
     }
 }

@@ -97,3 +97,28 @@ the stricter automatic cell-switch path or claim unique historical attribution.
 The existing generator/probe and comparator automate repetition; this combined
 semantic repair still needs an independent positive before generic transfer.
 See `docs/PIN_RESEARCH_ROUND45.md` and its source-hash-bound evidence.
+
+## Round46 shared symbolic address from actual indexed use
+
+Snapshot140's mutable source cursor hid repeated symbolic access. Replacing
+only its second-copy source with the actual D_800E3E48[slot_index]140-byte
+aggregate gives HIGH lifetime 8/savings 3. CDK naturally hoists it and reuses the
+partial address for the lookup. Frame56 returns without page scaffolding.
+The exact Sony executable's call-loop threshold is30; staged-call simplification
+36->34->33->32 could not pass with life 1/savings 1. More real reuse matters more
+than fewer operations. This is measured compiler behavior, not proof of the
+original source or release.
+
+The closer182/181 source retained dead old cursor initialization. Removing it
+yields181/181 but swaps input/HIGH allocation. Do not keep dead setup as a
+constraint. Cursor rebasing is separately visible in loop's induction-variable
+combination. A partial first-loop transfer has 17 pins and13 register differences;
+retaining its original record binding damages aggregate copy source roles.
+The next source question is a real larger record containing the 140-byte prefix.
+
+Independent cheap transfer: 8132E5EC's port arm already used the true helper
+table. Direct table argument removes its only keep at stock CDK, with old source
+exact at old/new recipes and portassembly identity. Caller parameter/return
+declaration correction is independently exact. The measured effect cluster
+contains 15 members, ten previously unpinned; the 144-byte shape has no sibling.
+See `docs/PIN_RESEARCH_ROUND46.md`.

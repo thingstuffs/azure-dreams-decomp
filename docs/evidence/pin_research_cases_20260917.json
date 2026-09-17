@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6050,
-    "pinned_rows": 1276,
-    "basis": "STATUS.md after round45 typed Position144 reconstruction; both covering windows and SLUS MATCH, row database OK"
+    "pins": 6049,
+    "pinned_rows": 1275,
+    "basis": "STATUS.md after round46 direct table helper transfer; strict callee/caller, both covering windows and SLUS MATCH; row database OK"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -1207,11 +1207,11 @@
     },
     {
       "id": "dungeon/func_8008EE88",
-      "title": "Snapshot140 invariant HIGH profitability",
+      "title": "Snapshot140 natural partial HIGH; cursor and allocator roles unresolved",
       "status": "experiment_ready",
       "claim": {
         "level": "bounded_negative",
-        "summary": "CDK recognizes the second-loop HIGH as invariant but rejects its hoist for profitability: life one, savings one, 36 instructions. Ordinary shared full base restores frame56 but not retail partial-address lifetime; zero-pin candidate still nonexact."
+        "summary": "Actual indexed buffer use naturally hoists HIGH and restores frame56 with zero pins. Removing inherited dead cursor code yields181/181,total35 but swaps input/HIGH roles; partial first-loop repair retains17pins and misses13 register substitutions. No snapshot source promoted."
       },
       "source": {
         "path": "src/dungeon/func_8008EE88.c",
@@ -1230,8 +1230,8 @@
         }
       },
       "causal": {
-        "question": "Which real loop structure or independently supported compiler decision makes the invariant HIGH profitable to hoist?",
-        "prediction": "Reducing artificial argument staging may change actual loop cost or HIGH lifetime enough for normal invariant motion, before allocation."
+        "question": "Which real cursor/record source relationships recover allocation order and displacement bases after the natural HIGH hoist?",
+        "prediction": "A typed larger record with a140-byte prefix can separate stable record and block-copy roles; minimally live indexed source exposes input/HIGH allocation without dead setup constraints."
       },
       "evidence": [
         {
@@ -1265,14 +1265,26 @@
             "tested": "Six bounded source/recipe controls plus baseline, two dump-enabled address traces and independent saved-layout audit",
             "untested": "Minimal real-loop RTL after eliminating artificial argument staging; independently established historical loop-cost behavior"
           }
+        },
+        {
+          "id": "r46_cause",
+          "kind": "bounded_negative",
+          "summary": "Three real simplifications reduce cost36->34->33->32 but HIGH remains unprofitable. ExactCDK static threshold30 explains them. Indexed source creates life8/savings3, hoists naturally at39insns;182/181,total27. Dead-setup removal181/181,total35. Three partial controls14/23/13; last101words exact in best partial.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round46_20260917.json"
+          },
+          "bounds": {
+            "tested": "Five grounded zero-pin source controls, one prior-save-view dump, exact compiler binary cost inspection, three retained-pin hybrids",
+            "untested": "Typed larger-record prefix with separate stable record/block source; minimal-live-source allocator priority and actual cursor reconstruction"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Model the minimal real second loop and remove artificial argument staging; inspect RTL profitability before proposing another source form.",
-        "measurement": "Measure loop real-instruction count, invariant HIGH savings/lifetime and forcing cases; then frame, partial address and strict181-word equality.",
-        "success_criterion": "Ordinary supported source produces the retail partial hoist and reduces pins with full exact bytes and semantic/caller review.",
-        "failure_criterion": "Measured cost remains below hoisting threshold; seek independent provenance evidence, not synthetic page liveness.",
-        "bounds": "One minimal real-loop RTL comparison before another bounded source probe; no page keep, fake use or compiler cost patch."
+        "action": "Represent the real larger record with a named140-byte prefix and compare stable-record versus block-copy RTL; separately trace input/HIGH priority on the minimally live indexed candidate.",
+        "measurement": "First-loop s1=record,s3=entry,s4=buffer witha2copy source; input/HIGHs6/s7 and real cursor displacement selection; full181-word strict result.",
+        "success_criterion": "Fewer genuine pins with complete exact bytes, no new constraints, and semantic/caller/image review.",
+        "failure_criterion": "Record and block source still coalesce or priorities/IV bases differ; attribute the pass decision before another source form.",
+        "bounds": "One typed-record control and one allocator-priority trace; retain existing pins only, no new hard binding, dead setup, volatile or literal page."
       },
       "verification": {
         "exact_bytes": {
@@ -1811,6 +1823,96 @@
         "success_criterion": "Fewer genuine pins, exact full bytes, reviewed ordinary-memory access contract and unchanged return/callers.",
         "failure_criterion": "The grounded scan still hoists the wrong set; preserve the residual and seek missing source or provenance evidence.",
         "bounds": "One real layout/sibling audit, then at most two predicted source forms; no synthetic lifetime expressions."
+      }
+    },
+    {
+      "id": "dungeon/func_8132E5EC",
+      "title": "Direct render table argument replaces pinned address",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "One pin and matching/port address split removed; direct real table argument exact at stockCDK. Caller return and parameter declaration made consistent and exact."
+      },
+      "source": {
+        "path": "src/dungeon/func_8132E5EC.c",
+        "sha256": "932b55b5946d52ebf55aa1fc94582460ffb66c67b7858e082a68f5b5d0297e59"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8132E5EC, runtime801655EC, file offset20243948,268bytes",
+          "confidence": "high",
+          "basis": "Complete67-word retail map and independently linked-strict endpoint"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Original source exact at old and new cells; candidate exactCDK. Call-delay stores supportCDK/2.8 family but unique historical release unproven"
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_8132E5EC.c",
+        "sha256": "932b55b5946d52ebf55aa1fc94582460ffb66c67b7858e082a68f5b5d0297e59",
+        "base_source_sha256": "b8c8357dace5485c4c991b849c0f18255050ae7277fe1285176fcf6ca124e09a",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can the static table address already used by the port arm replace artificial page liveness under the retail-compatible compiler family?",
+        "prediction": "Direct table argument naturally emits the split helper address without a keep."
+      },
+      "evidence": [
+        {
+          "id": "r46_proof",
+          "kind": "positive_candidate",
+          "summary": "Strict callee67/67 and correctedcaller319/319; both covering windows andSLUS MATCH; rowdatabaseOK. Normal automaticcell controls and portcodegen identity pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round46_20260917.json"
+          },
+          "candidate": {
+            "source_change": "DirectD_800DE870 table argument, real helper index type, consistent void/s32caller declaration",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "Onepin removed, nowzero; fullrow/imagegates pass",
+            "remaining_question": "Uniquehistorical release and transfer beyond auditedeffect cluster remain unproven."
+          }
+        },
+        {
+          "id": "r46_review",
+          "kind": "observation",
+          "summary": "Independent full retail, semantics, caller and portarm review. No substituted constraints.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_direct_helper_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r46_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r46_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r46_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r46_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
       }
     }
   ]
