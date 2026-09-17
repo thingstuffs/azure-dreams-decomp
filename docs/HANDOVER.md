@@ -1,5 +1,17 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+[Round 51](PIN_RESEARCH_ROUND51.md) leaves **6,028 pins / 1,271 rows**. Bounded
+Gemini (`agy`) and Luna function workers plus root residual analysis expose a
+stale global `noreturn` entry: maspsx changed a correct `jal` into `j`. Removing
+only `func_8002626C` makes the saved ordinary-switch candidate strict 334/334;
+it still has one barrier, so no pin removal is claimed. Both live rows, both
+covering windows, SLUS and row database pass. The audit finds 935 previously
+stale names, 114 with textual references across 132 files; these are advisory
+populations, not removable pins. Next: alias-aware caller indexing and at most
+eight controlled metadata cases. Luna's five-pin transition is one zero-copy
+instruction away; points traversal exposes a measured local/global allocation
+tradeoff. All candidates and bounded negatives are preserved in the receipt.
+
 **Active zero-pin research objective (2026-09-17): 6,028 pins in 1,271 rows,
 75 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.

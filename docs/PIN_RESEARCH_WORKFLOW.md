@@ -76,6 +76,16 @@ release. Do not ignore contradictory evidence merely because pinned C matches.
 
 ## Status meanings
 
+Before attributing a residual to C, compare raw compiler assembly with processed
+assembler input. Round 51 found a correct `jal` rewritten to `j` by a stale global
+`noreturn` census entry. The current declaration census is advisory: absence of a
+declaration alone does not authorize pruning. Check returning definitions,
+callers and semantic aliases, then compare the same source under old and narrowly
+filtered metadata with complete linked bytes. Preserve candidate-owned local
+declarations. Gate all covering windows before retaining a metadata correction.
+The [round 51 receipt](evidence/pin_research_round51_20260917.json) contains the
+single-name controls and the broader audit; it claims no pin removal.
+
 | Status | Required evidence |
 |---|---|
 | `unresolved` | Current identity, causal question/prediction, and a concrete bounded next experiment. |

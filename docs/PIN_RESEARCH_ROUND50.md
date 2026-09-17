@@ -7,7 +7,7 @@ includes source pairs, controls, allocation evidence and independent reviews.
 
 The points routine `819A764C` has an independently reviewed reconstruction that
 removes three of five pins. It replaces three fake external epilogue calls with
-ordinary returns, uses the actual message symbol, and addresses the global flag
+ordinary returns, uses the actual registration-identifier symbol, and addresses the global flag
 word directly. Its interface and real helper calls are unchanged.
 
 The old source is exact at `2.7.2 -fno-strength-reduce`; the new source is exact
@@ -16,7 +16,7 @@ distance five; natural globals/plain has distance thirteen and two extra words.
 This follows the reviewed whole-function reconstruction route. The stricter
 automatic cell-correction rule is unchanged.
 
-CDK's natural symbol lowering supplies the concrete mechanism: the message low
+CDK's natural symbol lowering supplies the concrete mechanism: the registration symbol low
 half fits the call delay slot, and the global flag high half fits a branch delay
 slot. Exact bytes establish the reproducible recipe. They do not prove the
 historical compiler release. No compiler or assembler behavior was modified.
