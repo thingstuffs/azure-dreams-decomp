@@ -1,5 +1,17 @@
 # Pin-removal research: zero pins
 
+[Round 53](PIN_RESEARCH_ROUND53.md) removes **four pins: 6,024 / 1,270 rows**.
+A bounded Sol whole-function reconstruction makes town_map_set pin-free by
+recovering one genuine index lifetime across allocation and initialization.
+The unchanged recipe matches all 104 words; independent semantic/caller review,
+full town_scene window, host syntax, SLUS and row database pass. The exact CDK
+zero-cache trace explains its branch/label lifetime and HI/SI discriminator;
+two counter-type probes remain nonexact. Two independent zero-binding controls
+show reuse at different pass boundaries, not a demonstrated universal fix.
+The installed agy CLI/model list work; this round's three-minute Gemini review
+timed out with empty partial output. Keep bounded function packs and immediate
+checkpoints. No new independent repair transfer or impossibility is claimed.
+
 [Round 52](PIN_RESEARCH_ROUND52.md) keeps **6,028 pins / 1,271 rows**. Eight
 reviewed stale noreturn entries are removed; 15 rows, 18 windows, SLUS and row
 DB pass. The alias-aware index narrows 934 stale names to 29 called names in

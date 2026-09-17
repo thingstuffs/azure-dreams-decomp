@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6028,
-    "pinned_rows": 1271,
-    "basis": "Round 50 live census: four removals, both strict rows and covering windows exact; host syntax, SLUS and row database pass."
+    "pins": 6024,
+    "pinned_rows": 1270,
+    "basis": "Round53 town_map_set four-pin removal; full source census and publication gates pass."
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -2635,7 +2635,7 @@
       "status": "experiment_ready",
       "claim": {
         "level": "bounded_negative",
-        "summary": "Six Luna hypotheses and two root loop-header/lifetime hypotheses; five-pin best 224 words/one substitution, root controls 22 substitutions."
+        "summary": "Five-pin best remains224words/one substitution. Exact cache lifetime and mode counterfactual measured; two new local counter probes fail full comparison."
       },
       "source": {
         "path": "src/dungeon/func_8195F0BC.c",
@@ -2677,14 +2677,26 @@
           "artifact": {
             "path": "docs/evidence/pin_research_round52_20260917.json"
           }
+        },
+        {
+          "id": "r53_cache",
+          "kind": "bounded_negative",
+          "summary": "Runtime cache lifetime localized; HI mode avoids zero reuse but bound/unbound row counters remain nonexact at17/64 edits.",
+          "bounds": {
+            "tested": "Two explicit local counter-type/binding hypotheses; exact-CDK baseline and HI cache traces.",
+            "untested": "Other genuine control-flow/lifetime shapes preserving register roles; no impossibility conclusion."
+          },
+          "artifact": {
+            "path": "docs/evidence/pin_research_round53_20260917.json"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Trace zero-value cache recording/invalidation across actual traversal joins, then select at most two genuine source lifetimes that preserve retail allocation and avoid the cached copy.",
-        "measurement": "Exact CDK reload-CSE cache trace, global register order and complete224-word linked comparison.",
-        "success_criterion": "Five or fewer pins, complete exact bytes and preserved helper/entry semantics.",
-        "failure_criterion": "A remaining copy or role swap is a bounded negative, not an impossibility.",
-        "bounds": "One pass investigation and at most two new source hypotheses."
+        "action": "Use the town_map_set repair to inspect real shared counter lifetimes; require an RTL/allocation prediction before any new transition source probe. Separately localize B89C0 late zero reuse before grouping exact pass owners.",
+        "measurement": "Complete linked bytes and pass boundary, preserving baseline recipe and real helper interfaces.",
+        "success_criterion": "Fewer pins and exact complete body, independently reviewed semantics and gates.",
+        "failure_criterion": "Bounded negative with precise residual owner; no impossible label.",
+        "bounds": "At most two evidence-supported source hypotheses after a new causal fact; no spelling menu."
       },
       "verification": {
         "exact_bytes": {
@@ -2786,6 +2798,96 @@
         "publication_gate": {
           "state": "pending",
           "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_8008DEF4",
+      "title": "Ordinary paired allocation and shared initialization index",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Four pins removed;104/104words exact at unchanged2.8.0-G0. Zero pins remain in this function."
+      },
+      "source": {
+        "path": "src/town/func_8008DEF4.c",
+        "sha256": "e48038942fc15d880ed9a38bca4d65a77558757f16b965ab74f45f755f384020"
+      },
+      "retail": {
+        "identity": {
+          "value": "town/func_8008DEF4, runtime8008B654, file0xDEF4,416bytes",
+          "confidence": "high",
+          "basis": "Full retail decode, linked-strict exact and covering town_scene gate."
+        },
+        "recipe": {
+          "value": "2.8.0-G0",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe unchanged; family fingerprint consistent, no unique historical release claim."
+        }
+      },
+      "candidate": {
+        "path": "src/town/func_8008DEF4.c",
+        "sha256": "e48038942fc15d880ed9a38bca4d65a77558757f16b965ab74f45f755f384020",
+        "base_source_sha256": "7958e89933cd45eb1a596f62e5bae2fca8d817756fa1369a388e74e750b70d07",
+        "recipe": "2.8.0-G0"
+      },
+      "causal": {
+        "question": "Can the actual paired-allocation and initialization lifetimes supply all required register roles naturally?",
+        "prediction": "Reusing one index and initializing it before cursors yields retail roles without hard registers or keeps."
+      },
+      "evidence": [
+        {
+          "id": "r53_proof",
+          "kind": "positive_candidate",
+          "summary": "104words exact; covering window, host syntax, SLUS and rowDB pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round53_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Structured allocation with real shared index lifetime",
+            "recipe": "2.8.0-G0",
+            "result": "Four pins removed",
+            "remaining_question": "Independent mechanical transfer not yet established."
+          }
+        },
+        {
+          "id": "r53_review",
+          "kind": "observation",
+          "summary": "Independent full source, rollback, helper and caller review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_town_map_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r53_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r53_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r53_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r53_proof"
+          ],
           "kind": "overlay_window"
         }
       },
