@@ -1,0 +1,70 @@
+{
+  "schema": "zero-init-fixtures-v1",
+  "provenance": "R54 ordinary-zero screen; frozen inputs, no runtime work dependency",
+  "results_sha256": "d08744d90e71e7ff51f2c5e3054f14aa8b61a831274fd1ee09685bc691eb1696",
+  "rows": [
+    {
+      "row": "dungeon/func_800AAF90",
+      "fixture": "dungeon__func_800AAF90.c",
+      "baseline_sha256": "5a2644437d0632cfed859f55ffc5c64ed2b1a91a6dee9af5fe2a1b7d37d5929c",
+      "candidate_sha256": "0ff0182f9c660c80f07a5cbff806d22051772ebb69b030ef849413f0ce10844f",
+      "bindings": 1
+    },
+    {
+      "row": "dungeon/func_80AE9000",
+      "fixture": "dungeon__func_80AE9000.c",
+      "baseline_sha256": "833dcccf8bda7fe884718deacaa62e9da93c12601aaec915639ff3240da1aa52",
+      "candidate_sha256": "c2021578f484fe84d88041e2176501895b8a4f64c9f3a424975be1f0cd7b6a57",
+      "bindings": 1
+    },
+    {
+      "row": "dungeon/func_8187B1F4",
+      "fixture": "dungeon__func_8187B1F4.c",
+      "baseline_sha256": "5d06bc61e9e26942d48d5101a591b479c564b4f48c0c4d335d1438c91bf4e164",
+      "candidate_sha256": "9111af14d811d0c9fb328f422b673a34350e3e209bcecbe62284a490af6f7d29",
+      "bindings": 1
+    },
+    {
+      "row": "town/func_80878714",
+      "fixture": "town__func_80878714.c",
+      "baseline_sha256": "b69bb4cd627f714b4e89d32c1e557e5c5f518b66af5cdfa11399ebedbaba17c0",
+      "candidate_sha256": "9f4aa590c09b5a819323cf3da1e5e930a3225303dda00d0e6d1ae1e38445ba67",
+      "bindings": 2
+    },
+    {
+      "row": "dungeon/func_807B0B3C",
+      "fixture": "dungeon__func_807B0B3C.c",
+      "baseline_sha256": "c4bbce85e7ba24b18204f2844119a3c8819b73dd536d66734d114569cbc82e2a",
+      "candidate_sha256": "7564d2dff31a93e1a91283f6671b7db7ba06d73c2d1dc590e2d2738910ea525b",
+      "bindings": 1
+    },
+    {
+      "row": "dungeon/func_80ADD000",
+      "fixture": "dungeon__func_80ADD000.c",
+      "baseline_sha256": "2a515d7513754eddcc4e87a67388baf0620f2ee4e786d9e6b153d38e6e754703",
+      "candidate_sha256": "c9064c09f2ac4fa18f25db97d5f9eae08f28b2746bef1ff8872b021221244ca5",
+      "bindings": 1
+    },
+    {
+      "row": "dungeon/func_80AEF12C",
+      "fixture": "dungeon__func_80AEF12C.c",
+      "baseline_sha256": "0b6fa32070311df6f8d129170045b4df21e3632475c5a61db7d698fdbfdf3d40",
+      "candidate_sha256": "b9ac309e02d176176be01cadf3801c638a91b35275826dd10392cbea3cc44e1a",
+      "bindings": 1
+    },
+    {
+      "row": "dungeon/func_80F90E88",
+      "fixture": "dungeon__func_80F90E88.c",
+      "baseline_sha256": "f443ec1fd713e780f261924a78cbab57e4b207b53271a64196e72b42e62cd4a7",
+      "candidate_sha256": "9622523a62f01008c524721abd75ddd5c6771abc0615b78d550195e1c94ab50c",
+      "bindings": 2
+    },
+    {
+      "row": "dungeon/func_80AD7000",
+      "fixture": "dungeon__func_80AD7000.c",
+      "baseline_sha256": "3daf1b01fe30944b25c92d1daab9637c91d83a69175208d78646d5231a48132d",
+      "candidate_sha256": "e622973c7b5d006d2e5cd3056d8f0caf6be47c01b5c36597851b30fa9fa654c3",
+      "bindings": 1
+    }
+  ]
+}

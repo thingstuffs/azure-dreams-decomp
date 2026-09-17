@@ -152,7 +152,7 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
 #ifdef NON_MATCHING
     s32 hard_zero = 0;
 #else
-    s32 hard_zero = 0;
+    register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #endif
 
     global_value = *(volatile u32 *)&global_addr->value;

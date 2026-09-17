@@ -41,7 +41,6 @@ s32 CheckBuildBuildingLandNo(s32 entry_id, s8 *slots_out) {
 
         entry_id = entry[3];
         dispatch_addr = entry_id - 1;
-           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (dispatch_addr >= 16) {
             goto case_default;
         }
@@ -88,7 +87,6 @@ case_4_8:
         slot_table_base = (u8 *)0x80010000;
         slot = 0;
         filter_entry = selected_entry;
-        ASM_KEEP_NV(filter_entry);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         do {
             slot_offset = slot & 0xFF;
             slot_offset *= 2;

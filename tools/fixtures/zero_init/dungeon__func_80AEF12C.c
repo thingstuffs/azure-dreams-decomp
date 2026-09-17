@@ -146,7 +146,7 @@ s32 func_80AEF12C(Input0 *object_data, Input1 *position_data) {
         }
         (*(Context **)context_addr)->field_8D0 = scratch->next;
         {
-            s32 return_zero = 0;
+            register s32 return_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
             return_zero = 0;
 #endif

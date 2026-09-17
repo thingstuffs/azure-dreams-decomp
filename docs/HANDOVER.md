@@ -1,5 +1,14 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+[Round 54](PIN_RESEARCH_ROUND54.md) removes **twelve pins: 6,012 / 1,269 rows**.
+An initialized-zero rewrite transfers across nine functions, removing eleven
+bindings at unchanged recipes. A measured GCSE pointer-copy decision accounts
+for one further removal with a controlled stock flag change; three other rows
+show no transfer of that flag repair. All ten covering windows, strict row
+bytes, host syntax, SLUS and row database pass. The guarded rewrite makes this
+family reusable. Whole-function and compiler probes remain bounded; none
+establish impossibility. The campaign has removed 91 pins from 6,103.
+
 [Round 53](PIN_RESEARCH_ROUND53.md) removes **four pins: 6,024 / 1,270 rows**.
 A bounded Sol whole-function reconstruction makes town_map_set pin-free by
 recovering one genuine index lifetime across allocation and initialization.
@@ -36,8 +45,8 @@ eight controlled metadata cases. Luna's five-pin transition is one zero-copy
 instruction away; points traversal exposes a measured local/global allocation
 tradeoff. All candidates and bounded negatives are preserved in the receipt.
 
-**Active zero-pin research objective (2026-09-17): 6,024 pins in 1,270 rows,
-79 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,012 pins in 1,269 rows,
+91 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and

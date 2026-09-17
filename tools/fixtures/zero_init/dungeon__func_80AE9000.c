@@ -113,6 +113,7 @@ next_object:
         *(s32 *)(packet + 4) = packet_start;
         red = *(volatile u8 *)(packet + 4);
         green = *(volatile u8 *)(packet + 5);
+           /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         blue = *(volatile u8 *)(packet + 6);
         ASM_KEEP(blue);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         green = pinned_zero;
@@ -158,7 +159,7 @@ next_object:
     }
     (*(Context **)context_addr)->field_8D0 = scratch->next;
     {
-        s32 return_zero = 0;
+        register s32 return_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         return_zero = 0;
 #endif

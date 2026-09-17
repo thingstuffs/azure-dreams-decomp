@@ -1,5 +1,14 @@
 # Pin-removal research: zero pins
 
+[Round 54](PIN_RESEARCH_ROUND54.md) removes **twelve pins: 6,012 / 1,269 rows**.
+An initialized-zero rewrite transfers across nine functions, removing eleven
+bindings at unchanged recipes. A measured GCSE pointer-copy decision accounts
+for one further removal with a controlled stock flag change; three other rows
+show no transfer of that flag repair. All ten covering windows, strict row
+bytes, host syntax, SLUS and row database pass. The guarded rewrite makes this
+family reusable. Whole-function and compiler probes remain bounded; none
+establish impossibility. The campaign has removed 91 pins from 6,103.
+
 [Round 53](PIN_RESEARCH_ROUND53.md) removes **four pins: 6,024 / 1,270 rows**.
 A bounded Sol whole-function reconstruction makes town_map_set pin-free by
 recovering one genuine index lifetime across allocation and initialization.

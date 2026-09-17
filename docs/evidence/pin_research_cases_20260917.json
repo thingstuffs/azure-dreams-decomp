@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6024,
-    "pinned_rows": 1270,
-    "basis": "Round53 town_map_set four-pin removal; full source census and publication gates pass."
+    "pins": 6012,
+    "pinned_rows": 1269,
+    "basis": "Round54 removes twelve pins; live-source census excluding owner-parked ovmovie and all publication gates pass."
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -2692,11 +2692,11 @@
         }
       ],
       "next_experiment": {
-        "action": "Use the town_map_set repair to inspect real shared counter lifetimes; require an RTL/allocation prediction before any new transition source probe. Separately localize B89C0 late zero reuse before grouping exact pass owners.",
-        "measurement": "Complete linked bytes and pass boundary, preserving baseline recipe and real helper interfaces.",
-        "success_criterion": "Fewer pins and exact complete body, independently reviewed semantics and gates.",
-        "failure_criterion": "Bounded negative with precise residual owner; no impossible label.",
-        "bounds": "At most two evidence-supported source hypotheses after a new causal fact; no spelling menu."
+        "action": "Require a new genuine traversal/lifetime fact before further transition probes; B89C0 owner is now independently traced to reload CSE after greg.",
+        "measurement": "Full aligned bytes and causal intermediate RTL at recorded recipes.",
+        "success_criterion": "Fewer pins with exact complete bytes and reviewed semantics.",
+        "failure_criterion": "Record bounded residual ownership without an impossibility claim.",
+        "bounds": "At most two hypotheses supported by new evidence; no spelling or flag sweep."
       },
       "verification": {
         "exact_bytes": {
@@ -2888,6 +2888,986 @@
           "evidence_refs": [
             "r53_proof"
           ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_800AAF90",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 5 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_800AAF90.c",
+        "sha256": "66dfcc568f437a367728e68aa1145b497fcdbb8cb7f0f9a12aa655509afeba41"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_800AAF90, true symbol func_800B06F0, file offset 0xcaf90, 1264 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_800AAF90.c",
+        "sha256": "66dfcc568f437a367728e68aa1145b497fcdbb8cb7f0f9a12aa655509afeba41",
+        "base_source_sha256": "5a2644437d0632cfed859f55ffc5c64ed2b1a91a6dee9af5fe2a1b7d37d5929c",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_80AE9000",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 12 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_80AE9000.c",
+        "sha256": "777967bc3ac0edcd80a8a07f99194486e8031431db82f277c6c9b91d3f2c7e06"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80AE9000, true symbol func_8014C800, file offset 0xb09000, 644 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80AE9000.c",
+        "sha256": "777967bc3ac0edcd80a8a07f99194486e8031431db82f277c6c9b91d3f2c7e06",
+        "base_source_sha256": "833dcccf8bda7fe884718deacaa62e9da93c12601aaec915639ff3240da1aa52",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_8187B1F4",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 12 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_8187B1F4.c",
+        "sha256": "f011eeb9802e7191c19814884075b537b59d0000b9a3ba8f52f8ccd80b6f046e"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8187B1F4, true symbol func_800249F4, file offset 0x189b1f4, 844 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_8187B1F4.c",
+        "sha256": "f011eeb9802e7191c19814884075b537b59d0000b9a3ba8f52f8ccd80b6f046e",
+        "base_source_sha256": "5d06bc61e9e26942d48d5101a591b479c564b4f48c0c4d335d1438c91bf4e164",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_80878714",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "2 pins removed; 0 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/town/func_80878714.c",
+        "sha256": "88b3ef95eebfbca365007f83aa0b5bc544aa88879a32377e5794e16d19462706"
+      },
+      "retail": {
+        "identity": {
+          "value": "town/func_80878714, true symbol func_80702714, file offset 0x7f8714, 96 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/town/func_80878714.c",
+        "sha256": "88b3ef95eebfbca365007f83aa0b5bc544aa88879a32377e5794e16d19462706",
+        "base_source_sha256": "b69bb4cd627f714b4e89d32c1e557e5c5f518b66af5cdfa11399ebedbaba17c0",
+        "recipe": "2.7.2"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2",
+            "result": "2 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_807B0B3C",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 49 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_807B0B3C.c",
+        "sha256": "7564d2dff31a93e1a91283f6671b7db7ba06d73c2d1dc590e2d2738910ea525b"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_807B0B3C, true symbol func_800F833C, file offset 0x7d0b3c, 1660 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk -fno-rerun-cse-after-loop",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_807B0B3C.c",
+        "sha256": "7564d2dff31a93e1a91283f6671b7db7ba06d73c2d1dc590e2d2738910ea525b",
+        "base_source_sha256": "c4bbce85e7ba24b18204f2844119a3c8819b73dd536d66734d114569cbc82e2a",
+        "recipe": "2.7.2-cdk -fno-rerun-cse-after-loop"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk -fno-rerun-cse-after-loop",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_80ADD000",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 8 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_80ADD000.c",
+        "sha256": "dadde8bc36b82f0a40cb0f119dfc585eda7fc6ae014fdda7c0ef357059a94641"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80ADD000, true symbol func_80158800, file offset 0xafd000, 644 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80ADD000.c",
+        "sha256": "dadde8bc36b82f0a40cb0f119dfc585eda7fc6ae014fdda7c0ef357059a94641",
+        "base_source_sha256": "2a515d7513754eddcc4e87a67388baf0620f2ee4e786d9e6b153d38e6e754703",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_80AEF12C",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 16 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_80AEF12C.c",
+        "sha256": "fd153c0bdd204f073e5b438709d584f63b3605d2806c521c9a9c4eb3f5189c29"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80AEF12C, true symbol func_8017092C, file offset 0xb0f12c, 480 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80AEF12C.c",
+        "sha256": "fd153c0bdd204f073e5b438709d584f63b3605d2806c521c9a9c4eb3f5189c29",
+        "base_source_sha256": "0b6fa32070311df6f8d129170045b4df21e3632475c5a61db7d698fdbfdf3d40",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_80F90E88",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "2 pins removed; 20 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_80F90E88.c",
+        "sha256": "6b94c776ef9dfbf4d39017811e9519e65e9dbb3fb559e4e0285d0b613f08f921"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80F90E88, true symbol func_8016E688, file offset 0xfb0e88, 980 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.8.1-G0 -mno-split-addresses",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80F90E88.c",
+        "sha256": "6b94c776ef9dfbf4d39017811e9519e65e9dbb3fb559e4e0285d0b613f08f921",
+        "base_source_sha256": "f443ec1fd713e780f261924a78cbab57e4b207b53271a64196e72b42e62cd4a7",
+        "recipe": "2.8.1-G0 -mno-split-addresses"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.8.1-G0 -mno-split-addresses",
+            "result": "2 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_80AD7000",
+      "title": "Ordinary initialized zero",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 8 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/dungeon/func_80AD7000.c",
+        "sha256": "c9f4ac5f0583a70960016c52195515695cd008ee69bbcfa6223b58dc54c39b9e"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80AD7000, true symbol func_8015E800, file offset 0xaf7000, 644 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded recipe unchanged."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80AD7000.c",
+        "sha256": "c9f4ac5f0583a70960016c52195515695cd008ee69bbcfa6223b58dc54c39b9e",
+        "base_source_sha256": "3daf1b01fe30944b25c92d1daab9637c91d83a69175208d78646d5231a48132d",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can a defined ordinary zero replace the architectural zero binding?",
+        "prediction": "A local initialized to zero preserves the true value while allowing fixed-recipe retail codegen."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Initialize ordinary s32 locals to zero in place of hardware-zero bindings",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Other bindings require separate evidence; nine independently reviewed rows establish this guarded rewrite family."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_800BAE88",
+      "title": "GCSE pointer copy propagation removes filter-entry move",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 pins removed; 10 remain. This case resolves only the recorded repair."
+      },
+      "source": {
+        "path": "src/town/func_800BAE88.c",
+        "sha256": "c6406b3efcf678c438b3d6a0bfb670961f135957531aa5f6f51e6cb5d69fbe18"
+      },
+      "retail": {
+        "identity": {
+          "value": "town/func_800BAE88, true symbol func_800B85E8, file offset 0x3ae88, 588 bytes",
+          "confidence": "high",
+          "basis": "Frozen ledger identity, full linked-strict score and all covering windows."
+        },
+        "recipe": {
+          "value": "2.91.66-G0 -fno-gcse",
+          "confidence": "medium",
+          "basis": "Old source exact at both stock recipes; candidate exact with -fno-gcse, nonexact with GCSE; no unique historical release claim."
+        }
+      },
+      "candidate": {
+        "path": "src/town/func_800BAE88.c",
+        "sha256": "c6406b3efcf678c438b3d6a0bfb670961f135957531aa5f6f51e6cb5d69fbe18",
+        "base_source_sha256": "459b950f0fdf258f53b1e3f2d3a4ccc4af88e563c013300ab78dd9b827b1c208",
+        "recipe": "2.91.66-G0 -fno-gcse"
+      },
+      "causal": {
+        "question": "Which pass removes the pointer move needed at the case-1 filter loop?",
+        "prediction": "Disabling observed GCSE propagation of reg105 into reg104 preserves the ordinary filter_entry copy."
+      },
+      "evidence": [
+        {
+          "id": "r54_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete linked-strict bytes, all covering windows, syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Remove filter_entry keep and disable GCSE at the existing stock compiler",
+            "recipe": "2.91.66-G0 -fno-gcse",
+            "result": "1 pins removed, complete retail bytes exact",
+            "remaining_question": "Ten pins remain; three independently tested rows yielded no transfer repair."
+          }
+        },
+        {
+          "id": "r54_review",
+          "kind": "observation",
+          "summary": "Independent source/value/caller review binds baseline, screened and final publication hashes; no interface change.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r54_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_800B89C0",
+      "title": "Reload CSE zero reuse and fallback-context lifetime",
+      "status": "unresolved",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Four whole-function hypotheses and one genuine boolean-local probe remain nonexact. The three-pin control still misses one substitution; four live pins remain. No impossibility is established."
+      },
+      "source": {
+        "path": "src/dungeon/func_800B89C0.c",
+        "sha256": "0689df13aad31d477ae73c6e38079f1a464a8c5bfa5753513a1882e5177d54a2"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_800B89C0, runtime func_800BE120, 576 bytes",
+          "confidence": "high",
+          "basis": "Root runtime retail map and complete aligned baseline in round54 receipt."
+        },
+        "recipe": {
+          "value": "2.8.1",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe; no version sweep or unique historical-release claim."
+        }
+      },
+      "causal": {
+        "question": "Can real stored/context lifetimes preserve return and fallback register roles without hard bindings?",
+        "prediction": "Changing cached-zero mode prevents the early copy, but complete byte equality also requires the real context lifetimes to preserve later moves."
+      },
+      "evidence": [
+        {
+          "id": "r54_owner",
+          "kind": "observation",
+          "summary": "Exact compiler runtime trace shows reload_cse_simplify_set changes UID42 SI zero to cached s0; pass is after greg and visible at sched2. Traced and ordinary assembly agree; independent review passes.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          }
+        },
+        {
+          "id": "r54_shapes",
+          "kind": "bounded_negative",
+          "summary": "Four unpinned whole-function probes score 34,19,19,51 edits. The u8 stored probe prevents early zero reuse but leaves five substitutions.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round54_20260917.json"
+          },
+          "bounds": {
+            "tested": "Four specified source/lifetime hypotheses and one local boolean-width probe at fixed 2.8.1, with full aligned scores.",
+            "untested": "Other evidence-supported context lifetimes or recovered source types; no architectural limit is demonstrated."
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Recover the actual fallback message/context lifetime and predict its v0/a1/s0 allocation before proposing another source change.",
+        "measurement": "Full aligned bytes, branch-slot copies and fallback call argument/lifetime RTL.",
+        "success_criterion": "An ordinary-C candidate reduces genuine pins and matches complete bytes with independent semantic/caller review.",
+        "failure_criterion": "Record a bounded negative with concrete residual owner; do not label impossible.",
+        "bounds": "At most two hypotheses supported by new source or compiler evidence; do not repeat the u8 stored probe."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
           "kind": "overlay_window"
         }
       },
