@@ -1,13 +1,13 @@
 #include "common.h"
 
 extern s32 func_8009F6E4(void);
-extern s32 func_8009FB2C();
+extern void *func_8009FB2C();
 
 /* set_item_w0: Packs four item parameter bytes and dispatches according to slot availability. */
-s32 set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3) {
+void *set_item_w0(s8 item_byte_0, s8 item_byte_1, s8 item_byte_2, s8 item_byte_3) {
     s8 item_bytes[4];
     s32 slot;
-    s32 result;
+    void *result;
     s8 *item_bytes_ptr;
 
     slot = func_8009F6E4();

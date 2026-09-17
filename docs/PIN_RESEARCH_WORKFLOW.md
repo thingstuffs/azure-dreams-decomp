@@ -8,8 +8,8 @@ limit is demonstrated and independently reproduced.
 
 The case ledger is
 [`docs/evidence/pin_research_cases_20260917.json`](evidence/pin_research_cases_20260917.json).
-It starts with the three active investigations and records no landed win; an
-exact, reviewed allocator repair remains below the publication gate.
+It records the current individual repairs and unresolved investigations, with
+live source hashes and publication receipts for each completed repair.
 [`tools/pin_research.py`](../tools/pin_research.py) validates the ledger against
 the live source tree and enforces the evidence gates below. It does not compile,
 edit source, or promote candidates.
@@ -136,3 +136,34 @@ Before marking a real case resolved, also run the repository's normal independen
 row verifier, affected overlay-window or SLUS gate, row database check, and any
 caller-specific windows required by the change. Put those durable receipts in the
 case rather than replacing them with the CLI's validation result.
+
+## Whole-function reconstruction with a different stock recipe
+
+The automatic `apply_candidates --cells` / `pin_cells_land` path remains for
+simple cell corrections: both the original pinned source and the candidate
+must be exact at the proposed cell. Do not weaken that check or call a matching
+recipe proof of the original compiler release.
+
+A full reconstruction is a different reviewed change. Artificial source and
+recipe choices can have evolved together, so neither cross-combination needs
+to be exact. Acceptance requires both valid endpoints: current source at its
+recorded recipe and reconstructed ordinary C at the proposed stock recipe.
+Record the cross-combinations as diagnostic controls, not as publication gates.
+Use full verifier summaries for length and score; a truncated diff listing is
+not a complete endpoint check.
+
+For a reviewed reconstruction, bind old/new source hashes, old/new recipes,
+retail identity/hash, compiler mechanism evidence, and semantic/caller reviews.
+The new source must remove the claimed pins without substitute asm, volatile
+accesses, fake dependencies, literal platform bindings or ABI shortcuts. Report
+historical lineage uncertainty separately from the reproducible build recipe.
+
+After independent verification and review, apply the hash-bound source and
+recipe together through `common.set_row_cfgs`, journal the explicit
+`whole_c_reconstruction` transition, and immediately verify the live row using
+the exported recipe. Coordinate shared exports with other compiler lanes.
+Complete every affected overlay/SLUS and caller gate plus the row database
+check. If live verification or a required gate fails, restore both the source
+and its prior recipe and verify the restored endpoint. A low-level setter is
+not an approval substitute: retain the review and exact endpoint receipts in
+the journal and research case. This path does not enable unreviewed flag search.

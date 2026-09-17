@@ -1,34 +1,39 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,098 pins in 1,282 rows,
-five gated removals from the new 6,103-pin baseline.** The owner superseded the old plateau stopping rule: adapt the
-approach until zero, or demonstrate an unavoidable minimum. No failed search or
-unexplained compiler behavior is an impossibility proof. Read the current
-objective in [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and the research
-contract in [PIN_RESEARCH_WORKFLOW.md](PIN_RESEARCH_WORKFLOW.md).
-Round 39 combines whole-function reconstruction, causal allocator explanations,
-compiler/assembler provenance and controlled family transfer. It explicitly
-uses the successful historical rubber-duck playbook. The entries below are
-historical checkpoints; their “closed” and “no active lane” statements describe
-those checkpoints, not the current research objective.
-The first repair removes the input-register pin and inherited volatile table
-pointer in `81811388`, fixes its missing scalar return, and uses stock CDK
-address generation. Exact 14/14 words; the original pinned source is also exact
-at CDK. Affected window and SLUS MATCH, row database OK. Read
-[PIN_RESEARCH_ROUND39.md](PIN_RESEARCH_ROUND39.md) for evidence and the limits
-of the still-unproved family transfer.
-Round 40 removes both pins in `town/func_80878974`: an authentic 52-byte
-record assignment replaces the manual copy/barrier, embedded format strings
-recover the variadic logger interface, and the established old-ASPSX convention
-replaces the missed unsigned zero-register carrier. All 56 words and the full
-window match. Read [PIN_RESEARCH_ROUND40.md](PIN_RESEARCH_ROUND40.md); the
-shared global-layout portability debt remains explicit. The independent 84-byte `800A23CC` transfer removes two more pins at its
-unchanged CDK recipe; the full town_scene window matches. The 68/88-byte controls
-expose different allocation. The strongest next lead is `8080E838`: the same
-aggregate at stock 2.7.2-G0 recovers the retail register partition and misses
-only two words, but its pinned-source recipe-switch control fails. Investigate
-source lifetimes and provenance together; do not infer historical release from
-score. The 24-byte Pair transfer remains untested.
+**Active zero-pin research objective (2026-09-17): 6,071 pins in 1,279 rows,
+32 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
+Failed searches and unexplained compiler behavior do not prove impossibility.
+Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
+[PIN_RESEARCH_WORKFLOW.md](PIN_RESEARCH_WORKFLOW.md). Historical entries below
+retain their original stopping language; it does not govern this objective.
+
+The four changes are implemented: whole-function reconstruction with the
+historical rubber-duck method, causal allocator explanations, compiler/assembler
+provenance audits, and independently controlled family research. Round 39 removes
+one pin; round 40 removes four through 52-byte and 84-byte record assignments.
+[Round 41](PIN_RESEARCH_ROUND41.md) removes **27**: two complete initializers
+(`8080E838`, 19; `8081DD70`, six) and the real entry return in `800A23CC` (two).
+All three are now pin-free. The two caller corrections, all affected windows,
+SLUS and row database pass. Source hashes and recipe transitions are retained in
+[the durable receipt](evidence/pin_research_round41_20260917.json).
+
+The new productive direction is explaining complete operations and lifetimes,
+including the stock recipe under which the recovered C naturally lowers to
+retail. Whole-C source/recipe transitions have explicit old/new exact endpoints,
+semantic/caller reviews and publication gates. The stricter automatic erasure
+cell-switch rule is unchanged, and an exact cell is not proof of historical
+release. No new pins or pointer-narrowing substitutes were introduced.
+
+Next: build a bounded initializer cohort using copy extents and real helper/
+callback relationships; establish each layout and recipe independently. The
+24-byte Pair control (`800AB37C`) has six negative probes: its ordinary suffix
+matches, but page/source address pseudos differ in the prefix (best total eight).
+Investigate actual global-object identity and split-address lifetime, not more
+aggregate spellings. The dungeon `8180B064` allocation competition and SLUS
+`80041CBC` frame-sync object provenance remain open. Current case hashes and
+next experiments are validated by `python3 tools/pin_research.py validate`.
+No case has an impossibility verdict.
 
 **500-pin continuation closed at a measured plateau (2026-09-16): 6,103 pins
 in 1,284 rows. Net -35 from `500808e2`; the 500-pin threshold was not reached.**

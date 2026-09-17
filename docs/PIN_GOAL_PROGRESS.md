@@ -45,6 +45,17 @@ rows remain nonexact, and the 88-byte lineage probe is two words away at stock
 2.7.2 with unresolved recipe-transition evidence. See
 [PIN_RESEARCH_ROUND40.md](PIN_RESEARCH_ROUND40.md).
 
+Round 41 gated result: **6,071 pins in 1,279 rows (-27; -32 cumulative)**.
+Two complete initializer reconstructions remove 19 and six pins with real
+88-byte/24-byte aggregate assignments and reviewed stock recipe transitions.
+Recovering the actual entry return removes the last two pins in `800A23CC`;
+its wrapper and direct caller contracts are aligned. All five changed rows
+are exact, all four affected windows and SLUS MATCH, row database OK.
+The ordinary source and stock recipe must be considered together for whole
+reconstructions; the generic automatic cell-switch rule stays unchanged.
+The Pair24 control remains nonexact with a specific page/source lifetime
+question. See [PIN_RESEARCH_ROUND41.md](PIN_RESEARCH_ROUND41.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,
