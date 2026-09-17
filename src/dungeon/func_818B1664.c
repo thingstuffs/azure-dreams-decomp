@@ -106,7 +106,7 @@ extern s32 D_8008346C[3];
 extern void func_800240EC(u8 *, u8 *, DrawInfo *);
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
 extern void func_8004491C(void *, void *);
-extern void func_80024DF4(void);
+extern s32 func_80024DF4(void *, void *, void *);
 extern s32 func_800A44E0(s32, s32, s32, s32);
 extern s32 func_800BCB04(s32, s32, s32);
 extern void func_800241F8(State *, Motion *);
@@ -114,15 +114,6 @@ extern void func_800A56E0(s32);
 extern Effect *func_8002443C(State *, Motion *, s16, s16);
 extern void func_80024050(void *, u8);
 
-#ifdef NON_MATCHING
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
-#define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
-#else
-#define LOAD_TABLE_X_BASE(v) \
-    do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
-#define LOAD_TABLE_Y_BASE(v) \
-    do { (v) = 0x80070000;  (v) -= 0x3318; } while (0)
-#endif
 
 /* Updates movement toward a child or terrain target and animates the associated effects. */
 void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)

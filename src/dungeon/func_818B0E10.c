@@ -30,12 +30,12 @@ typedef struct
 } GlobalState;
 extern GlobalState D_80083160;
 /* Draw 16 shaded line segments and link them into the ordering table by depth. */
-s32 func_818B0E10(s32 unused_0, void *origin, s32 unused_2, s32 point_scale, s32 plane_z, s32 points_addr, u8 intensity, u16 color_phase)
+s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
   register u8 *globals_page ASM_REG("$4") = D_80080000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   s32 segment = 15;
   u32 coord_scale = (s16) point_scale;
-  s32 point_base = points_addr;
+  s32 *point_base = points_addr;
   s32 initial_z = plane_z;
   s16 phase = (s16) color_phase;
   void *projection_aux = (void *) 0x1F800084;

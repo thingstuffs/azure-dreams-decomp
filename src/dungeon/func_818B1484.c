@@ -7,7 +7,7 @@
 
 typedef s32 M2C_UNK;
 
-extern M2C_UNK func_80024610();
+extern s32 func_80024610(void *, void *, void *, s32, s32, s32 *, u8, s32);
 extern s32 func_800644B8();
 extern s32 func_80064584();
 
@@ -35,7 +35,7 @@ typedef struct S_818B1484_3 {
 } S_818B1484_3;   /* arg1 in func_818B1484 */
 
 /* Builds a trigonometric lookup table and processes the remaining effect entries. */
-s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, M2C_UNK context) {
+s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, void *context) {
     void *effect_arg;
     s32 wave_table[34];
     s32 *table_ptr;

@@ -18,13 +18,13 @@ typedef struct S_818B11B4_2 {
 } S_818B11B4_2;   /* arg1 in func_818B11B4 */
 
 
-extern s32 func_80024610();
+extern s32 func_80024610(void *, void *, void *, s32, s32, s32 *, u8, s32);
 extern s32 func_800644B8();
 extern s32 func_80064584();
 
 
 /* Builds a trigonometric table and processes up to eight height-offset segments. */
-s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, s32 segment_param) {
+s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, void *context) {
     s32 trig_table[34];
     s32 *trig_buffer;
     s32 *trig_cursor;
@@ -79,7 +79,7 @@ s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, s32 segment_pa
             height_cursor = (u8 *)height_cursor + 2;
             scaled_segment = segment_index << 0x11;
             segment_index++;
-            func_80024610(segment_source, height_ref, segment_param, angle,
+            func_80024610(segment_source, height_ref, context, angle,
                          (u32)(s16)(height_ref->unk_0A - height),
                          trig_buffer, 0xFF, scaled_segment >> 0x10);
         } while (segment_index < segment_limit);
