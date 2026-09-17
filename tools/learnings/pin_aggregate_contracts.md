@@ -44,3 +44,29 @@ Receipts and next experiments: `docs/PIN_RESEARCH_ROUND43.md` and the linked
 source-hash-bound reviews. The round-42 mechanical generator remains advisory
 and deliberately refuses runtime alignment arms; no recognizer expansion was
 necessary to prove these new source relationships.
+
+## Round 44 transfer bounds and typed registry access
+
+`80D137FC` independently reproduces the 48-byte aggregate plus real two-argument
+helper at 404 words, but its unrelated action pin remains. Erasing that pin
+rotates saved arguments throughout the function. An exact copy transfer is not
+automatically a pin-removal transfer.
+
+The six-helper audit finds 35 over-arity sites in 893 currently pinned DUNGEON
+files. Seven direct argument/pin-overlap rows all miss when real arity is paired
+with related pin erasure. Two argument-only controls are exact without reducing
+pins. Do not expand argument pruning into a blind erasure sweep on this evidence.
+The known positive required correcting the whole copy operation as well.
+
+Around an already ordinary Copy140, `8008E714` still kept a `void **` table alive
+while spelling its subscript as integer shift/add/dereference. Replacing that
+sequence with `record_table[saved_index]` removes the last pin and is exact at
+recorded CDK, 110 words. Bare erasure misses by five substitutions: typed indexing
+changes address expansion order and the base/result register roles. The existing
+masked index and actual pointer registry establish the source relationship.
+No aggregate, interface, qualifier or recipe change is involved.
+
+A bounded inventory of ten lexical near matches finds no additional direct
+member; it does not audit all semantic table accesses. Preserve the type and
+element scale, and reject page-address or unknown-layout cases before transfer.
+Full evidence and next questions: `docs/PIN_RESEARCH_ROUND44.md`.

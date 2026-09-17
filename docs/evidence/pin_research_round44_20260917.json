@@ -1,0 +1,1768 @@
+{
+  "baseline": {
+    "commit": "2f90d64d",
+    "pins": 6061,
+    "pinned_rows": 1277
+  },
+  "registry": {
+    "id": "dungeon/func_8008E714",
+    "pins_before": 1,
+    "pins_after": 0,
+    "strict": {
+      "aligned": {
+        "indels": 0,
+        "substitutions": 0,
+        "total": 0
+      },
+      "as_flags": "--fill-shadowed-return-delay",
+      "build_status": "ok",
+      "byte_exact": true,
+      "comparison_mode": "linked-strict",
+      "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "compiler_assembly": {
+        "bytes": 2953,
+        "path": "../work/native_lane/r44_snapshot_registry/typed_lookup_final.s",
+        "sha256": "43354178efbb51b15ebbeb69e1cc4f930eb44398abcbd78d2006f09015ecf324"
+      },
+      "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+      "config": "2.7.2-cdk-G0",
+      "exact": true,
+      "function": "func_8008E714",
+      "length_bytes": {
+        "generated": 440,
+        "target": 440
+      },
+      "length_words": {
+        "generated": 110,
+        "target": 110
+      },
+      "maspsx_assembly": {
+        "bytes": 3668,
+        "path": "../work/native_lane/r44_snapshot_registry/typed_lookup_final.maspsx.s",
+        "sha256": "ddead83bbbcd52a86a84c0dd8e24df6840b7419131b85bd3f1e7ae8c4804bc84"
+      },
+      "positional_words_off": 0,
+      "regional_alignment": {
+        "aligned": {
+          "indels": 0,
+          "substitutions": 0,
+          "total": 0
+        },
+        "candidate_words": 110,
+        "mask_relocations": false,
+        "region_map_sha256": "a01ed059f6ee18df61ad47ea41399a623d8514a9c880cb28adc63d35994d2fde",
+        "regions": [
+          {
+            "candidate_span": [
+              0,
+              27
+            ],
+            "id": "R0",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              0,
+              27
+            ]
+          },
+          {
+            "candidate_span": [
+              27,
+              55
+            ],
+            "id": "R1",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              27,
+              55
+            ]
+          },
+          {
+            "candidate_span": [
+              55,
+              82
+            ],
+            "id": "R2",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              55,
+              82
+            ]
+          },
+          {
+            "candidate_span": [
+              82,
+              110
+            ],
+            "id": "R3",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              82,
+              110
+            ]
+          }
+        ],
+        "schema": "azure-clean.regional-alignment.v1",
+        "target_words": 110,
+        "vector": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "reloc_suspect": false,
+      "reloc_suspect_near_0_9": false,
+      "reloc_suspect_ratio": 0.0,
+      "residue": {
+        "class": "match",
+        "confidence": "high",
+        "signals": []
+      },
+      "schema": "azure-clean.compiler-oracle.v1",
+      "source": "<repo>/work/native_lane/r44_snapshot_registry/typed_lookup_final.c",
+      "source_sha": "d9d14f90649801cadb6ac441ea6c796c5c830beebfbb5679e8089d4ace1c109d",
+      "status": "MATCH",
+      "target_sha": "dd25a70f4d6e6239484459a6aceee90653c91b4ad59cde314264a04ebef18813",
+      "tool": "work/g3/overlay_func_compare.py",
+      "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+      "warnings": [
+        "rowbase: linked at true base 0x80093E74 (region xfer_dungeon_A3000, delta 0x7FFE5760)"
+      ],
+      "words_off": 0
+    },
+    "erasure_only": {
+      "aligned": {
+        "indels": 0,
+        "substitutions": 5,
+        "total": 5
+      },
+      "as_flags": "--fill-shadowed-return-delay",
+      "build_status": "ok",
+      "byte_exact": false,
+      "comparison_mode": "linked-strict",
+      "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+      "compiler_assembly": {
+        "bytes": 2945,
+        "path": "../work/native_lane/r44_snapshot_registry/erase_only.s",
+        "sha256": "6dd0fbc2cfc800964478b2de92f1f218c5ab360d236bfb1b5b37e726ef3b8461"
+      },
+      "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+      "config": "2.7.2-cdk-G0",
+      "exact": false,
+      "function": "func_8008E714",
+      "length_bytes": {
+        "generated": 440,
+        "target": 440
+      },
+      "length_words": {
+        "generated": 110,
+        "target": 110
+      },
+      "maspsx_assembly": {
+        "bytes": 3660,
+        "path": "../work/native_lane/r44_snapshot_registry/erase_only.maspsx.s",
+        "sha256": "36bbb49ff76693f359c9165500962277139930ce85aba1fb70c3dac92ac7ae9a"
+      },
+      "positional_words_off": 5,
+      "regional_alignment": {
+        "aligned": {
+          "indels": 0,
+          "substitutions": 5,
+          "total": 5
+        },
+        "candidate_words": 110,
+        "mask_relocations": false,
+        "region_map_sha256": "a01ed059f6ee18df61ad47ea41399a623d8514a9c880cb28adc63d35994d2fde",
+        "regions": [
+          {
+            "candidate_span": [
+              0,
+              27
+            ],
+            "id": "R0",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              0,
+              27
+            ]
+          },
+          {
+            "candidate_span": [
+              27,
+              55
+            ],
+            "id": "R1",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              27,
+              55
+            ]
+          },
+          {
+            "candidate_span": [
+              55,
+              82
+            ],
+            "id": "R2",
+            "indels": 0,
+            "substitutions": 5,
+            "target_span": [
+              55,
+              82
+            ]
+          },
+          {
+            "candidate_span": [
+              82,
+              110
+            ],
+            "id": "R3",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              82,
+              110
+            ]
+          }
+        ],
+        "schema": "azure-clean.regional-alignment.v1",
+        "target_words": 110,
+        "vector": [
+          0,
+          0,
+          0,
+          0,
+          5,
+          0,
+          0,
+          0
+        ]
+      },
+      "reloc_suspect": false,
+      "reloc_suspect_near_0_9": false,
+      "reloc_suspect_ratio": 0.045454545454545456,
+      "residue": {
+        "class": "const-remat",
+        "confidence": "med",
+        "signals": [
+          "remat=1"
+        ]
+      },
+      "schema": "azure-clean.compiler-oracle.v1",
+      "source": "<repo>/work/native_lane/r44_snapshot_registry/erase_only.c",
+      "source_sha": "354f203088b631409ed72c38b8bbed08e42926440a416284175b837aa5fae6c4",
+      "status": "NOMATCH",
+      "target_sha": "dd25a70f4d6e6239484459a6aceee90653c91b4ad59cde314264a04ebef18813",
+      "tool": "work/g3/overlay_func_compare.py",
+      "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+      "warnings": [
+        "rowbase: linked at true base 0x80093E74 (region xfer_dungeon_A3000, delta 0x7FFE5760)"
+      ],
+      "words_off": 5
+    },
+    "review": "docs/evidence/pin_research_registry_lookup_review_20260917.md"
+  },
+  "detach140": {
+    "id": "dungeon/func_8009DB44",
+    "baseline_sha": "f3acb93cea1f88453315cc091ed21259b86ef261d9e30c54799b1890bc798b7a",
+    "recorded_recipe": "2.7.2-cdk-G0",
+    "scores": {
+      "base": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 134,
+        "tgt_words": 134,
+        "class": "match",
+        "signals": [],
+        "secs": 0.8,
+        "err": null
+      },
+      "aggregate": {
+        "status": "ok",
+        "exact": false,
+        "subs": 5,
+        "indels": 1,
+        "total": 6,
+        "gen_words": 133,
+        "tgt_words": 134,
+        "class": "slot-rotation",
+        "signals": [
+          "swaps=1",
+          "length-words=133/134"
+        ],
+        "secs": 0.86,
+        "err": null
+      },
+      "aggregate_erased": {
+        "status": "ok",
+        "exact": false,
+        "subs": 9,
+        "indels": 2,
+        "total": 11,
+        "gen_words": 132,
+        "tgt_words": 134,
+        "class": "length-drift",
+        "signals": [
+          "length-words=132/134"
+        ],
+        "secs": 0.84,
+        "err": null
+      }
+    },
+    "structured_loop": {
+      "status": "ok",
+      "exact": false,
+      "subs": 17,
+      "indels": 4,
+      "total": 21,
+      "gen_words": 135,
+      "tgt_words": 134,
+      "class": "li-expansion",
+      "signals": [
+        "swaps=1",
+        "lui_delta=-1"
+      ],
+      "secs": 0.83,
+      "err": null
+    },
+    "report": "# Detach140: complete retail map and bounded probes\n\nRow `dungeon/func_8009DB44`, runtime `func_800A32A4`: 134 words.\nThe recorded stock recipe is `2.7.2-cdk-G0`. The frozen baseline is exact.\nThe complete `retail.dis` was read before candidate compilation.\n\n## Retail map\n\nThe frame is 32 bytes; s0 holds the record, s1 the update mode and s2 the entry.\nWords 0\u201322 remove three effect types, test record flag 29 and call the detach\nhelper. Words 23\u201337 prepare and scan four slots: v1 is the index, a2 the global\npage, a3 the flag mask, t2 the registry, t1 the snapshot array and t0 the copy\nlimit at record + 128. Words 38\u201358 clear flags and ownership, load the entry,\nclear bit 5, and reload the world pointer before clearing its slot at offset D0.\n\nWords 59\u201371 extract the entry's low five bits, compute index * 140, publish the\ndestination in the registry and place source/destination in a3/a2. Words 72\u201382\ncopy eight 16-byte blocks with v0/v1/a0/a1 as scratch. Words 83\u201389 copy the final\n12 bytes, with the last store in the jump delay slot. Final copy cursors are\ndead. Words 90\u201392 close the scan, 93\u2013117 update counters/mode, 118\u2013126 conditionally\ncall the update helper and return the entry, and 127\u2013133 restore the frame.\n\n## Prediction and result\n\nThe existing `S_800E3E48` is 140 bytes with alignment four. A whole assignment\nshould reproduce the block and tail operations. The isolated volatile tail is\nnot supported by the surrounding ordinary RAM declarations; this diagnostic\nremoves it, but any future landing still needs a completed source-access review.\nNo candidate here was promoted.\n\n| Candidate | Pins | Words | Distance |\n| --- | ---: | ---: | ---: |\n| Frozen source | 2 | 134 | 0 |\n| Whole aggregate, bindings retained | 2 | 133 | 6 |\n| Whole aggregate, bindings erased | 0 | 132 | 11 |\n| Whole aggregate, ordinary do/while scan | 0 | 135 | 21 |\n\nThe zero-pin aggregate reproduces the entire copy and tail. Its residual is\noutside the transfer: the flag mask and copy limit move inside the slot scan,\nmode/source moves reorder, and a commutative address add reverses its operands.\nThe natural do/while scan hoists the mask and limit as predicted, but also hoists\ntwo record-flag constants that retail leaves inside, changing allocation.\n\nThe next question is the original scan and world-object model, particularly why\nthose invariants have different loop membership. Recover the real slot arrays\nor an independently exact sibling before another source probe. Do not invent\n`end - 128` uses or dependencies merely to keep the limit alive. This is a bounded\nnegative for three specific candidates, not an impossibility claim.\n"
+  },
+  "copy48_transfer": {
+    "id": "dungeon/func_80D137FC",
+    "report": "# Round 44 bounded copy result\n\nThe nine-row named inventory found no remaining untested alignment-2,\ntwo-path table copy. This statement is limited to the supplied cohort; it is\nnot a claim about all DUNGEON sources.\n\nOne grounded transfer was tested: `dungeon/func_80D137FC`. Its retail\n48-byte mover has the same source, destination, scratch-register, loop, and\ndelay-slot fingerprint as the exact Round 43 aggregate family. The frozen\nbaseline is exact at recorded `2.7.2-cdk-G0`, 404/404 words.\n\nThe first probe replaced the manual loop with a real 48-byte aggregate,\nrestored the real two-argument registration call, and removed the sole pin. It\nkept the retail copy-loop shape but rotated the three saved argument roles\nthroughout the function, scoring 51 (43 substitutions, 8 indels).\n\nThe second and final probe kept the unrelated `action` pin while applying the\nsame transfer and helper correction. It is byte-exact, 404/404 words with zero\nsubstitutions and indels, but still contains one pin and therefore provides no\npin-removal gain. No broader source search or allocator grind was started.\n\nThis checkpoint is a bounded negative for production repair. No output was\nprepared for application, and no source, configuration, ledger, or build-root\nfile was changed.\n",
+    "inventory": "# Round 44 bounded DUNGEON copy inventory\n\nThis audit covers only the nine remaining named rows from\n`work/native_lane/r42_initializers/dungeon_copy_inventory.json` after the\nRound 44 exclusions. It makes no claim about the rest of DUNGEON.\n\n| Row | Current copy shape | Decision |\n| --- | --- | --- |\n| `dungeon/func_8008E714` | The complete 140-byte record is already `Copy140` aggregate assignment. | No remaining manual aggregate operation. |\n| `dungeon/func_8008F228` | One direct packed four-byte assignment; the declared copy cursors are not an active transfer. | No manual fixed copy. |\n| `dungeon/func_8009F8EC` | 128-byte loop plus 12-byte tail, total 140 bytes. | Excluded: campaign owner controls the snapshot-140 family. |\n| `dungeon/func_800B1364` | 128-byte loop plus 12-byte tail, total 140 bytes. | Excluded: campaign owner controls the snapshot-140 family. |\n| `dungeon/func_80AC7A30` | Three aligned 16-byte blocks, total 48 bytes, with five broader-function pins. | Eligible shape but not selected under the one-row bound. |\n| `dungeon/func_80D137FC` | Three aligned 16-byte blocks from an existing sprite to a freshly allocated effect sprite. | Selected: grounded real two-argument helper and only one unrelated pin. |\n| `dungeon/func_80D150D0` | Three aligned 16-byte mesh blocks, total 48 bytes, inside a nineteen-pin allocator-sensitive body. | Eligible shape but lower-priority than the selected row. |\n| `dungeon/func_80DBD3EC` | Three aligned 16-byte render blocks inside a particle loop, with three broader-function pins. | Eligible shape but not selected under the one-row bound. |\n| `dungeon/func_818EC800` | Repeated 40-byte aligned stack/packet transfers followed by volatile and byte-field updates. | Multi-operation render staging, not the requested single fixed-table transfer. |\n\nNo untested alignment-2, runtime-two-arm copy remains in this small named\ncohort. The alignment-2 rows in the supplied inventory were already excluded\nor assigned elsewhere.\n",
+    "verification": {
+      "schema": 1,
+      "row": "dungeon/func_80D137FC",
+      "recorded_recipe": "2.7.2-cdk-G0",
+      "source_sha": "7026c355f43512e00e9827224048e6634e9d660ce6e5c4c6d252c75411c49e29",
+      "baseline": {
+        "status": "ok",
+        "exact": true,
+        "class": "match",
+        "total": 0,
+        "subs": 0,
+        "indels": 0,
+        "gen_words": 404,
+        "tgt_words": 404
+      },
+      "probes": [
+        {
+          "label": "aggregate-real-call-zero-pin",
+          "path": "raw/probe1.c",
+          "candidate_sha": "1749fc97cdd09e23bab2dac9faf899cbcd35cf58648de1c74ffb1281c24e000e",
+          "pins": 0,
+          "status": "ok",
+          "exact": false,
+          "class": "broad",
+          "total": 51,
+          "subs": 43,
+          "indels": 8,
+          "gen_words": 404,
+          "tgt_words": 404,
+          "cause": "removing the unrelated action keep rotates saved argument roles s3/s4/s5 throughout the function; the copy loop instruction shape itself is preserved"
+        },
+        {
+          "label": "aggregate-real-call-keep-action",
+          "path": "raw/probe2_keep_action.c",
+          "candidate_sha": "e0d8736f9922d30cf02d31ee6bc224b7a54dc07286785cdcdb02f3cce41cc19d",
+          "pins": 1,
+          "status": "ok",
+          "exact": true,
+          "class": "match",
+          "total": 0,
+          "subs": 0,
+          "indels": 0,
+          "gen_words": 404,
+          "tgt_words": 404
+        }
+      ],
+      "unscored_arms_unchanged": true,
+      "exported": false,
+      "outcome": "bounded-negative-for-pin-removal"
+    }
+  },
+  "typed_lookup_inventory": {
+    "schema": "r44-typed-lookup-inventory-v1",
+    "mode": "read-only bounded source review",
+    "reference": {
+      "row": "dungeon/func_8008E714",
+      "current_source": "src/dungeon/func_8008E714.c",
+      "current_source_sha256": "a82072ab0182abdc3f2391a3a756b055498694fc62eea619f211855e0f3ad3bc",
+      "candidate_source": "work/native_lane/r44_snapshot_registry/typed_lookup_final.c",
+      "candidate_source_sha256": "d9d14f90649801cadb6ac441ea6c796c5c830beebfbb5679e8089d4ace1c109d",
+      "recipe": "2.7.2-cdk-G0",
+      "fingerprint": "kept typed pointer table; integer index scaled by four; table base added to integer address; one pointer dereference"
+    },
+    "scope": {
+      "directory": "src/dungeon",
+      "registered_pinned_rows_only": true,
+      "promising_files_inspected": 10,
+      "maximum_promising_files": 10,
+      "exclusions": [
+        "root-owned dungeon/func_8009DB44",
+        "literal or page-addressed bases",
+        "stack allocation",
+        "unknown table layout",
+        "scale unequal to the declared pointee size"
+      ],
+      "coverage_note": "This is a bounded review of ten strongest lexical near matches, not a complete DUNGEON census."
+    },
+    "eligible": [],
+    "eligible_count_in_inspected_cohort": 0,
+    "near_matches": [
+      {
+        "row": "dungeon/func_8009B70C",
+        "true_name": "func_800A0E6C",
+        "source": "src/dungeon/func_8009B70C.c",
+        "source_sha256": "5c2ef1892d339cfd44389069e1ecedceb70a9a034877f1772b83f5751d33f549",
+        "recipe": "2.8.1-G0",
+        "size": 1728,
+        "pin_count": 10,
+        "decision": "reject",
+        "reason": "Elem index arithmetic has the right four-byte stride, but the Elem table base is not locally kept; nearby keeps own unrelated values."
+      },
+      {
+        "row": "dungeon/func_81989558",
+        "true_name": "func_80024D58",
+        "source": "src/dungeon/func_81989558.c",
+        "source_sha256": "f3d5c1d8f89139986693f04550948bc0c7748e4d1011e320ed6e48f05d41bcc9",
+        "recipe": "2.7.2-cdk -fno-strength-reduce",
+        "size": 1356,
+        "pin_count": 7,
+        "decision": "reject",
+        "reason": "The scaled address operations target arrays in a local Frame; stack-backed storage is outside the transfer contract."
+      },
+      {
+        "row": "dungeon/func_8028516C",
+        "true_name": "func_8001816C",
+        "source": "src/dungeon/func_8028516C.c",
+        "source_sha256": "de0e4ff79e37b1bd39ebb43e80df8d7fbea3d951da568401926bf87da61b5d82",
+        "recipe": "2.7.2-cdk-G0",
+        "size": 408,
+        "pin_count": 11,
+        "decision": "reject",
+        "reason": "The kept base is synthesized from literal page 0x800E0000 and typed s8*, while the record index uses a 20-byte stride."
+      },
+      {
+        "row": "dungeon/func_81331C88",
+        "true_name": "func_80168C88",
+        "source": "src/dungeon/func_81331C88.c",
+        "source_sha256": "a3e984ce76ceb5c55b721174096272b2dac81ec51d53c4c9837c3e00bb1cfdf6",
+        "recipe": "2.7.2-cdk-G0",
+        "size": 1104,
+        "pin_count": 17,
+        "decision": "reject",
+        "reason": "This is multi-axis byte-pointer coordinate arithmetic with keeps on computed endpoints and indices, not one kept typed table lookup."
+      },
+      {
+        "row": "dungeon/func_810332A4",
+        "true_name": "func_80174AA4",
+        "source": "src/dungeon/func_810332A4.c",
+        "source_sha256": "f4f46d2cf6353b0136001a27f063a968410a6b1fee25021b207db252cc8df73d",
+        "recipe": "2.8.1-G0",
+        "size": 2544,
+        "pin_count": 15,
+        "decision": "reject",
+        "reason": "The four-byte lookup converts D_8017610C to an s32 base; local keeps are on effect and dependent values, not the table base."
+      },
+      {
+        "row": "dungeon/func_807B0B3C",
+        "true_name": "func_800F833C",
+        "source": "src/dungeon/func_807B0B3C.c",
+        "source_sha256": "c4bbce85e7ba24b18204f2844119a3c8819b73dd536d66734d114569cbc82e2a",
+        "recipe": "2.7.2-cdk -fno-rerun-cse-after-loop",
+        "size": 1660,
+        "pin_count": 50,
+        "decision": "reject",
+        "reason": "The kept void** is dereferenced directly; the later depth-times-four offset indexes an opaque byte-addressed render state and is not table[index]."
+      },
+      {
+        "row": "dungeon/func_80F90E88",
+        "true_name": "func_8016E688",
+        "source": "src/dungeon/func_80F90E88.c",
+        "source_sha256": "f443ec1fd713e780f261924a78cbab57e4b207b53271a64196e72b42e62cd4a7",
+        "recipe": "2.8.1-G0 -mno-split-addresses",
+        "size": 980,
+        "pin_count": 22,
+        "decision": "reject",
+        "reason": "The relevant indexed points live in a local frame, and the kept bases also mix literal/global page construction."
+      },
+      {
+        "row": "dungeon/func_8187C45C",
+        "true_name": "func_80025C5C",
+        "source": "src/dungeon/func_8187C45C.c",
+        "source_sha256": "96bdfd0dccf8e3dbe20838fa2756f15d6bf796cee903c1089ed896488f5ef1cc",
+        "recipe": "2.7.2-cdk-G0",
+        "size": 3288,
+        "pin_count": 43,
+        "decision": "reject",
+        "reason": "The four-byte direction lookup is into local direction_steps storage; other table keeps construct literal 0x80020000 pages."
+      },
+      {
+        "row": "dungeon/func_8180C3C0",
+        "true_name": "func_800253C0",
+        "source": "src/dungeon/func_8180C3C0.c",
+        "source_sha256": "42c2f6252852ff1257d7347fa7a3d3a32e91a9014ce1c80ebc759767f9fdb99d",
+        "recipe": "2.7.2-cdk-G0",
+        "size": 3124,
+        "pin_count": 31,
+        "decision": "reject",
+        "reason": "The object-index-times-four expression overlays a large synthetic struct at sequence+offset; the base is not locally kept and the array layout is unproven."
+      },
+      {
+        "row": "dungeon/func_818C3B90",
+        "true_name": "func_80025390",
+        "source": "src/dungeon/func_818C3B90.c",
+        "source_sha256": "851d7794bca8febb63c4c0b9fdadaf804b52da6f9d00f2778e8704bbb74f813e",
+        "recipe": "2.7.2-cdk -fno-strength-reduce",
+        "size": 1792,
+        "pin_count": 18,
+        "decision": "reject",
+        "reason": "The s16 lookup has a matching two-byte scale but its kept base is repeatedly built from literal page 0x80070000."
+      }
+    ],
+    "generated_date": "2026-09-17"
+  },
+  "helper_inventory": {
+    "schema_version": 1,
+    "generated_date": "2026-09-17",
+    "audit": {
+      "mode": "read_only_source_inventory",
+      "scope": "Direct calls to six named resident helpers in current src/dungeon files for registered dungeon rows that contain at least one current pin.",
+      "registered_dungeon_rows_considered": 2743,
+      "current_pinned_source_files_scanned": 893,
+      "helper_names": [
+        "func_8003FC64",
+        "func_8003FD64",
+        "func_8003DB94",
+        "func_80047784",
+        "func_8004491C",
+        "func_80042B68"
+      ],
+      "overarity_sites_found": 35,
+      "strong_sites_selected": 10,
+      "selection": "Prefer a side-effect-free extra local whose value is named by a pin; retain two post-copy cursor sites as round-43-style transfer controls. Selection is an opportunity inventory, not an exactness or semantic result.",
+      "scanner": "Balanced direct-call scan of current source text; comments and literals were skipped and comma splitting respected nested delimiters. No macro expansion or preprocessing was attempted.",
+      "compiles_run": 0
+    },
+    "helpers": [
+      {
+        "name": "func_8003FC64",
+        "definition_path": "src/slus/w_8003FC64.c",
+        "definition_line": 24,
+        "definition_signature": "void *func_8003FC64(s32 flags)",
+        "return_type": "void *",
+        "parameter_types": [
+          "s32"
+        ],
+        "arity": 1,
+        "current_definition_sha256": "9c2e993fcab79019c7bf9438a8427874cac912f78ca1d85d305f81307f476e8b",
+        "registered_ledger_row": "slus/w_8003FC64",
+        "registered_cfg": "2.7.2",
+        "overarity_sites_in_scope": 0,
+        "selected_sites": 0
+      },
+      {
+        "name": "func_8003FD64",
+        "definition_path": "src/slus/w_8003FD64.c",
+        "definition_line": 26,
+        "definition_signature": "void *func_8003FD64(s32 flags, S_80081490 **list_head)",
+        "return_type": "void *",
+        "parameter_types": [
+          "s32",
+          "S_80081490 **"
+        ],
+        "arity": 2,
+        "current_definition_sha256": "0ee6cde147b029ae4a51526d70934761e8a5626af71f1608c5583e42e0b2df45",
+        "registered_ledger_row": "slus/w_8003FD64",
+        "registered_cfg": "2.7.2",
+        "overarity_sites_in_scope": 2,
+        "selected_sites": 1
+      },
+      {
+        "name": "func_8003DB94",
+        "definition_path": "src/slus/code.c",
+        "definition_line": 56,
+        "definition_signature": "void func_8003DB94(struct Dst *state, struct Elem *entries, short index)",
+        "return_type": "void",
+        "parameter_types": [
+          "struct Dst *",
+          "struct Elem *",
+          "short"
+        ],
+        "arity": 3,
+        "current_definition_sha256": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+        "registered_ledger_row": "slus/code",
+        "registered_cfg": "2.7.2",
+        "overarity_sites_in_scope": 4,
+        "selected_sites": 1
+      },
+      {
+        "name": "func_80047784",
+        "definition_path": "src/slus/w_80047784.c",
+        "definition_line": 22,
+        "definition_signature": "void func_80047784(S_80047784 *object, s16 table_index, s16 entry_index)",
+        "return_type": "void",
+        "parameter_types": [
+          "S_80047784 *",
+          "s16",
+          "s16"
+        ],
+        "arity": 3,
+        "current_definition_sha256": "daa2b73193b14d066011911e3a2ad6ecd741936e8e6675b757ee2b3f8100d8e5",
+        "registered_ledger_row": "slus/w_80047784",
+        "registered_cfg": "2.7.2",
+        "overarity_sites_in_scope": 8,
+        "selected_sites": 1
+      },
+      {
+        "name": "func_8004491C",
+        "definition_path": "src/slus/w_8004491C.c",
+        "definition_line": 15,
+        "definition_signature": "s32 func_8004491C(RegistrationNode *entry, s32 registration_id)",
+        "return_type": "s32",
+        "parameter_types": [
+          "RegistrationNode *",
+          "s32"
+        ],
+        "arity": 2,
+        "current_definition_sha256": "d22f0309f5be1a66c6a53402a6be4c3cd059b5a3f20d794969c18b953a74a46d",
+        "registered_ledger_row": "slus/w_8004491C",
+        "registered_cfg": "2.7.2-cdk",
+        "overarity_sites_in_scope": 21,
+        "selected_sites": 7
+      },
+      {
+        "name": "func_80042B68",
+        "definition_path": "src/slus/w_80042B68.c",
+        "definition_line": 18,
+        "definition_signature": "void func_80042B68(SlotOwner *owner, s8 match_type)",
+        "return_type": "void",
+        "parameter_types": [
+          "SlotOwner *",
+          "s8"
+        ],
+        "arity": 2,
+        "current_definition_sha256": "e454bd9398a13a501571fb3dfb302e4666d89d14b62cf3ece9f474a9bb80672e",
+        "registered_ledger_row": "slus/w_80042B68",
+        "registered_cfg": "2.7.2",
+        "overarity_sites_in_scope": 0,
+        "selected_sites": 0
+      }
+    ],
+    "sites": [
+      {
+        "id": "dungeon/func_800944F8:102:func_8004491C",
+        "row_id": "dungeon/func_800944F8",
+        "source_path": "src/dungeon/func_800944F8.c",
+        "source_sha256": "4b535a6502e25b04ff6d4c307d9fbe8df3f0dfd56dca4634ef5af7e1381256a8",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 2,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 4,
+        "call_span": {
+          "start_line": 102,
+          "start_column": 9,
+          "end_line": 102,
+          "end_column_exclusive": 60,
+          "char_offset_start": 2840,
+          "char_offset_end_exclusive": 2891
+        },
+        "call_text": "func_8004491C(particle, &D_80045340, color, sprite)",
+        "arguments": [
+          "particle",
+          "&D_80045340",
+          "color",
+          "sprite"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "color",
+            "local_type": "s32",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_KEEP",
+                "variable": "color",
+                "line": 93,
+                "relationship": "direct"
+              }
+            ]
+          },
+          {
+            "position": 4,
+            "expression": "sprite",
+            "local_type": "void *",
+            "side_effect_free_expression": true,
+            "pin_relationship": []
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_800944F8:143:func_8004491C",
+        "row_id": "dungeon/func_800944F8",
+        "source_path": "src/dungeon/func_800944F8.c",
+        "source_sha256": "4b535a6502e25b04ff6d4c307d9fbe8df3f0dfd56dca4634ef5af7e1381256a8",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 2,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 4,
+        "call_span": {
+          "start_line": 143,
+          "start_column": 13,
+          "end_line": 143,
+          "end_column_exclusive": 64,
+          "char_offset_start": 4667,
+          "char_offset_end_exclusive": 4718
+        },
+        "call_text": "func_8004491C(particle, &D_80045340, color, sprite)",
+        "arguments": [
+          "particle",
+          "&D_80045340",
+          "color",
+          "sprite"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "color",
+            "local_type": "s32",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_KEEP",
+                "variable": "color",
+                "line": 134,
+                "relationship": "direct"
+              }
+            ]
+          },
+          {
+            "position": 4,
+            "expression": "sprite",
+            "local_type": "void *",
+            "side_effect_free_expression": true,
+            "pin_relationship": []
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_800AC008:108:func_8003FD64",
+        "row_id": "dungeon/func_800AC008",
+        "source_path": "src/dungeon/func_800AC008.c",
+        "source_sha256": "70e151561ebc92a4e92582a3c8b2ecda9949705a077680cfb38e7a3a0377f5be",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 3,
+        "helper": "func_8003FD64",
+        "actual_arity": 2,
+        "call_argument_count": 3,
+        "call_span": {
+          "start_line": 108,
+          "start_column": 11,
+          "end_line": 108,
+          "end_column_exclusive": 57,
+          "char_offset_start": 2461,
+          "char_offset_end_exclusive": 2507
+        },
+        "call_text": "func_8003FD64(0x12, D_80083498, (s32)arg2_reg)",
+        "arguments": [
+          "0x12",
+          "D_80083498",
+          "(s32)arg2_reg"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "(s32)arg2_reg",
+            "local_type": "register u8 *",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_REG",
+                "variable": "arg2_reg",
+                "register": "$21",
+                "line": 87,
+                "relationship": "direct"
+              }
+            ]
+          }
+        ],
+        "priority": "direct_hard_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_80BC1528:141:func_8004491C",
+        "row_id": "dungeon/func_80BC1528",
+        "source_path": "src/dungeon/func_80BC1528.c",
+        "source_sha256": "f7293210b732da87e3b6eb187a67536453360202ad4f5d5db80aef3ed8ea9cb5",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 13,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 3,
+        "call_span": {
+          "start_line": 141,
+          "start_column": 9,
+          "end_line": 141,
+          "end_column_exclusive": 50,
+          "char_offset_start": 5469,
+          "char_offset_end_exclusive": 5510
+        },
+        "call_text": "func_8004491C(effect, D_80170884, step_x)",
+        "arguments": [
+          "effect",
+          "D_80170884",
+          "step_x"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "step_x",
+            "local_type": "s32",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_KEEP",
+                "variable": "step_x",
+                "line": 112,
+                "relationship": "direct"
+              }
+            ]
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_80C96F24:165:func_8004491C",
+        "row_id": "dungeon/func_80C96F24",
+        "source_path": "src/dungeon/func_80C96F24.c",
+        "source_sha256": "a4320a0fb43ebb996f28797789dd14809bf8196b236cb4b8c16497c6abd16973",
+        "registered_cfg": "2.8.1-G0 -fno-strength-reduce",
+        "current_pin_count": 13,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 3,
+        "call_span": {
+          "start_line": 165,
+          "start_column": 17,
+          "end_line": 165,
+          "end_column_exclusive": 65,
+          "char_offset_start": 5177,
+          "char_offset_end_exclusive": 5225
+        },
+        "call_text": "func_8004491C(effect_arg, D_80174320, owner_ref)",
+        "arguments": [
+          "effect_arg",
+          "D_80174320",
+          "owner_ref"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "owner_ref",
+            "local_type": "void *",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_SET",
+                "variable": "owner_ref",
+                "line": 159,
+                "relationship": "direct"
+              },
+              {
+                "macro": "ASM_KEEP_NV",
+                "variable": "owner_ref",
+                "line": 161,
+                "relationship": "direct"
+              }
+            ]
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_80D137FC:250:func_8004491C",
+        "row_id": "dungeon/func_80D137FC",
+        "source_path": "src/dungeon/func_80D137FC.c",
+        "source_sha256": "7026c355f43512e00e9827224048e6634e9d660ce6e5c4c6d252c75411c49e29",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 1,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 4,
+        "call_span": {
+          "start_line": 250,
+          "start_column": 17,
+          "end_line": 250,
+          "end_column_exclusive": 71,
+          "char_offset_start": 7645,
+          "char_offset_end_exclusive": 7699
+        },
+        "call_text": "func_8004491C(effect, &D_80045340, copy_dst, copy_src)",
+        "arguments": [
+          "effect",
+          "&D_80045340",
+          "copy_dst",
+          "copy_src"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "copy_dst",
+            "local_type": "Copy16 *",
+            "side_effect_free_expression": true,
+            "pin_relationship": []
+          },
+          {
+            "position": 4,
+            "expression": "copy_src",
+            "local_type": "Copy16 *",
+            "side_effect_free_expression": true,
+            "pin_relationship": []
+          }
+        ],
+        "priority": "copy_cursor_transfer_control",
+        "assignment": {
+          "owner": "mechanical_copy",
+          "probe_from_this_lane": false
+        },
+        "note": "The row's sole current pin is ASM_KEEP_NV(action), not a cursor pin. The site is retained because the post-copy cursor pair matches the round-43 mechanism shape."
+      },
+      {
+        "id": "dungeon/func_80EB751C:161:func_80047784",
+        "row_id": "dungeon/func_80EB751C",
+        "source_path": "src/dungeon/func_80EB751C.c",
+        "source_sha256": "84a333fba9f58c2a60e6ed0413c4a744e73c9e29c2b69565bc6596691e86983f",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 6,
+        "helper": "func_80047784",
+        "actual_arity": 3,
+        "call_argument_count": 4,
+        "call_span": {
+          "start_line": 161,
+          "start_column": 17,
+          "end_line": 161,
+          "end_column_exclusive": 93,
+          "char_offset_start": 6416,
+          "char_offset_end_exclusive": 6492
+        },
+        "call_text": "func_80047784((void *)part_or_half_speed, anim_id, anim_frame, sprite_flags)",
+        "arguments": [
+          "(void *)part_or_half_speed",
+          "anim_id",
+          "anim_frame",
+          "sprite_flags"
+        ],
+        "extra_arguments": [
+          {
+            "position": 4,
+            "expression": "sprite_flags",
+            "local_type": "s32",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_KEEP",
+                "variable": "sprite_flags",
+                "line": 150,
+                "relationship": "direct"
+              }
+            ]
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_8132E2FC:151:func_8004491C",
+        "row_id": "dungeon/func_8132E2FC",
+        "source_path": "src/dungeon/func_8132E2FC.c",
+        "source_sha256": "d58055b32b814ada940490df20664941479c43ca14d4ed27992df46846889258",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 9,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 3,
+        "call_span": {
+          "start_line": 151,
+          "start_column": 9,
+          "end_line": 151,
+          "end_column_exclusive": 54,
+          "char_offset_start": 6060,
+          "char_offset_end_exclusive": 6105
+        },
+        "call_text": "func_8004491C(object, D_80164BC4, quotient_x)",
+        "arguments": [
+          "object",
+          "D_80164BC4",
+          "quotient_x"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "quotient_x",
+            "local_type": "s32",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_KEEP",
+                "variable": "quotient_x",
+                "line": 123,
+                "relationship": "direct"
+              }
+            ]
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      },
+      {
+        "id": "dungeon/func_81339700:97:func_8004491C",
+        "row_id": "dungeon/func_81339700",
+        "source_path": "src/dungeon/func_81339700.c",
+        "source_sha256": "84c2f47b2dcfea72e83d17da0687004505c749ab0de92838c9540ed3830e45fa",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 1,
+        "helper": "func_8004491C",
+        "actual_arity": 2,
+        "call_argument_count": 4,
+        "call_span": {
+          "start_line": 97,
+          "start_column": 9,
+          "end_line": 97,
+          "end_column_exclusive": 63,
+          "char_offset_start": 2189,
+          "char_offset_end_exclusive": 2243
+        },
+        "call_text": "func_8004491C(object, &D_80045340, copy_dst, copy_src)",
+        "arguments": [
+          "object",
+          "&D_80045340",
+          "copy_dst",
+          "copy_src"
+        ],
+        "extra_arguments": [
+          {
+            "position": 3,
+            "expression": "copy_dst",
+            "local_type": "void *",
+            "side_effect_free_expression": true,
+            "pin_relationship": []
+          },
+          {
+            "position": 4,
+            "expression": "copy_src",
+            "local_type": "void *",
+            "side_effect_free_expression": true,
+            "pin_relationship": []
+          }
+        ],
+        "priority": "copy_cursor_transfer_control",
+        "note": "The row's hard $4 pin is call_obj and does not overlap either extra argument."
+      },
+      {
+        "id": "dungeon/func_818B0C3C:96:func_8003DB94",
+        "row_id": "dungeon/func_818B0C3C",
+        "source_path": "src/dungeon/func_818B0C3C.c",
+        "source_sha256": "715e5e8e2ab6d0135c0d783f90b524e5c686713dd3bc99c612652fed9c7ca699",
+        "registered_cfg": "2.8.1-G0",
+        "current_pin_count": 4,
+        "helper": "func_8003DB94",
+        "actual_arity": 3,
+        "call_argument_count": 4,
+        "call_span": {
+          "start_line": 96,
+          "start_column": 9,
+          "end_line": 96,
+          "end_column_exclusive": 84,
+          "char_offset_start": 3435,
+          "char_offset_end_exclusive": 3510
+        },
+        "call_text": "func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index)",
+        "arguments": [
+          "sprite",
+          "&D_800DEC70",
+          "(s16)frame_index % 16",
+          "(s16)frame_index"
+        ],
+        "extra_arguments": [
+          {
+            "position": 4,
+            "expression": "(s16)frame_index",
+            "local_type": "s16",
+            "side_effect_free_expression": true,
+            "pin_relationship": [
+              {
+                "macro": "ASM_KEEP",
+                "variable": "frame_index",
+                "line": 74,
+                "relationship": "direct"
+              }
+            ]
+          }
+        ],
+        "priority": "direct_pin_overlap"
+      }
+    ],
+    "ownership_exclusions": [
+      {
+        "row_id": "dungeon/func_8009DB44",
+        "owner": "root",
+        "result": "No over-arity direct call to any of the six bounded helpers was found in its current pinned source.",
+        "probe_from_this_lane": false
+      },
+      {
+        "row_id": "dungeon/func_80D137FC",
+        "owner": "mechanical_copy",
+        "result": "One transfer-control site is inventoried above.",
+        "probe_from_this_lane": false
+      }
+    ],
+    "required_next_gate": [
+      "Verify each selected helper definition against linked retail behavior and the call site's effective declaration before treating argument removal as a semantic repair.",
+      "Remove only side-effect-free extra expressions; reject calls containing assignment, increment/decrement, function calls, volatile reads, or otherwise observable evaluation.",
+      "Compile the unchanged baseline and one isolated removal at the row's registered recipe; require strict full-function bytes, not a relocation-masked score.",
+      "Review callers, value lifetime changes, and any remaining pins before a source landing; then run the applicable full window and SLUS gates."
+    ],
+    "claims_not_made": [
+      "No selected removal has been compiled or shown exact in this audit.",
+      "Wrong arity alone does not prove that deleting an argument evaluation is safe.",
+      "The 35-site count is bounded to current pinned registered dungeon source and these six names; it is not a repository-wide population claim.",
+      "Zero over-arity sites for func_8003FC64 and func_80042B68 is a bounded negative, not impossibility."
+    ]
+  },
+  "helper_pilot": {
+    "compilation": "recorded recipe only",
+    "generated_utc": "2026-09-17T03:06:15.635715+00:00",
+    "promotion": "not_performed",
+    "rows": [
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_800944F8_args_only.c",
+          "pin_count": 2,
+          "score": {
+            "class": "reg-rename",
+            "exact": false,
+            "gen_words": 147,
+            "indels": 0,
+            "secs": 0.88,
+            "signals": [
+              "regmap=2"
+            ],
+            "status": "ok",
+            "subs": 22,
+            "tgt_words": 147,
+            "total": 22
+          },
+          "sha256": "4f05147f959f253077b8275d9bff3f1bafc5c2d3a06e9bc8d764848c1ec0b7f7"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 147,
+          "indels": 0,
+          "secs": 0.82,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 147,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_800944F8.c",
+          "pin_count": 0,
+          "pins_erased": [
+            {
+              "arg": "color",
+              "line": 93,
+              "macro": "ASM_KEEP"
+            },
+            {
+              "arg": "color",
+              "line": 134,
+              "macro": "ASM_KEEP"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "extern void func_8004491C(void *, u8 *);",
+              "old": "extern void func_8004491C(void *, u8 *, s32, void *);"
+            },
+            {
+              "count": 2,
+              "new": "func_8004491C(particle, &D_80045340)",
+              "old": "func_8004491C(particle, &D_80045340, color, sprite)"
+            }
+          ],
+          "score": {
+            "class": "const-remat",
+            "exact": false,
+            "gen_words": 147,
+            "indels": 16,
+            "secs": 0.89,
+            "signals": [
+              "remat=2",
+              "addressing=3"
+            ],
+            "status": "ok",
+            "subs": 23,
+            "tgt_words": 147,
+            "total": 39
+          },
+          "sha256": "6f009c0fb212c313e1e106d6a17d274f6f74023450de7bd86d1bf389fc5fe71d"
+        },
+        "id": "dungeon/func_800944F8",
+        "recorded_recipe": "2.8.1-G0",
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_800944F8.c",
+        "source_pin_count": 2,
+        "source_sha256": "4b535a6502e25b04ff6d4c307d9fbe8df3f0dfd56dca4634ef5af7e1381256a8"
+      },
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_800AC008_args_only.c",
+          "pin_count": 3,
+          "score": {
+            "class": "match",
+            "exact": true,
+            "gen_words": 234,
+            "indels": 0,
+            "secs": 0.85,
+            "signals": [],
+            "status": "ok",
+            "subs": 0,
+            "tgt_words": 234,
+            "total": 0
+          },
+          "sha256": "170a0ffb6678006bc0562dd93f6194de2ad8397b00563661f9b870da04ac6117"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 234,
+          "indels": 0,
+          "secs": 0.86,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 234,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_800AC008.c",
+          "pin_count": 2,
+          "pins_erased": [
+            {
+              "arg": "21",
+              "line": 87,
+              "macro": "ASM_REG"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "extern AcObject *func_8003FD64(s32, void *);",
+              "old": "extern AcObject *func_8003FD64(s32, void *, s32);"
+            },
+            {
+              "count": 1,
+              "new": "func_8003FD64(0x12, D_80083498)",
+              "old": "func_8003FD64(0x12, D_80083498, (s32)arg2_reg)"
+            }
+          ],
+          "score": {
+            "class": "addressing",
+            "exact": false,
+            "gen_words": 234,
+            "indels": 0,
+            "secs": 0.9,
+            "signals": [
+              "addressing=2"
+            ],
+            "status": "ok",
+            "subs": 21,
+            "tgt_words": 234,
+            "total": 21
+          },
+          "sha256": "d9d6e8652c1a6844a78ae832e7ff792f983e557b36f79eb9eb545dd08124833f"
+        },
+        "id": "dungeon/func_800AC008",
+        "recorded_recipe": "2.8.1-G0",
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_800AC008.c",
+        "source_pin_count": 3,
+        "source_sha256": "70e151561ebc92a4e92582a3c8b2ecda9949705a077680cfb38e7a3a0377f5be"
+      },
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_80BC1528_args_only.c",
+          "pin_count": 13,
+          "score": {
+            "class": "length-drift",
+            "exact": false,
+            "gen_words": 128,
+            "indels": 1,
+            "secs": 0.83,
+            "signals": [
+              "length-words=128/129"
+            ],
+            "status": "ok",
+            "subs": 12,
+            "tgt_words": 129,
+            "total": 13
+          },
+          "sha256": "1ca428ac1d417c07f280a4a83565d3e404bbb7b9c24750cc85dff6a0c6131344"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 129,
+          "indels": 0,
+          "secs": 0.78,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 129,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_80BC1528.c",
+          "pin_count": 12,
+          "pins_erased": [
+            {
+              "arg": "step_x",
+              "line": 112,
+              "macro": "ASM_KEEP"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "func_8004491C(effect, D_80170884)",
+              "old": "func_8004491C(effect, D_80170884, step_x)"
+            }
+          ],
+          "score": {
+            "class": "length-drift",
+            "exact": false,
+            "gen_words": 126,
+            "indels": 9,
+            "secs": 0.83,
+            "signals": [
+              "indels=12(ins6/del6)",
+              "drift-ins:+nop,+srl,+addu",
+              "drift-del:-addu,-sra,-sw",
+              "length-words=126/129"
+            ],
+            "status": "ok",
+            "subs": 11,
+            "tgt_words": 129,
+            "total": 20
+          },
+          "sha256": "8b1d97f6f28aa4380f4a2644a8b0de78eb950876c7bf7059bf5685461a8ad74a"
+        },
+        "id": "dungeon/func_80BC1528",
+        "recorded_recipe": "2.7.2-cdk-G0",
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_80BC1528.c",
+        "source_pin_count": 13,
+        "source_sha256": "f7293210b732da87e3b6eb187a67536453360202ad4f5d5db80aef3ed8ea9cb5"
+      },
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_80C96F24_args_only.c",
+          "pin_count": 13,
+          "score": {
+            "class": "code-motion",
+            "exact": false,
+            "gen_words": 262,
+            "indels": 4,
+            "secs": 0.91,
+            "signals": [
+              "indels=4(ins2/del2)",
+              "drift-ins:+li,+sh",
+              "drift-del:-li,-sh"
+            ],
+            "status": "ok",
+            "subs": 3,
+            "tgt_words": 262,
+            "total": 7
+          },
+          "sha256": "950bcc4d61e5e200353980af1aabdf439027d022e4b4df2f7a3ef29ed3389386"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 262,
+          "indels": 0,
+          "secs": 0.88,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 262,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_80C96F24.c",
+          "pin_count": 11,
+          "pins_erased": [
+            {
+              "arg": "owner_ref",
+              "line": 159,
+              "macro": "ASM_SET"
+            },
+            {
+              "arg": "owner_ref",
+              "line": 161,
+              "macro": "ASM_KEEP_NV"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "extern void func_8004491C(void *, void *);",
+              "old": "extern void func_8004491C(void *, void *, void *);"
+            },
+            {
+              "count": 1,
+              "new": "func_8004491C(effect_arg, D_80174320)",
+              "old": "func_8004491C(effect_arg, D_80174320, owner_ref)"
+            }
+          ],
+          "score": {
+            "class": "reg-rename",
+            "exact": false,
+            "gen_words": 262,
+            "indels": 0,
+            "secs": 0.93,
+            "signals": [
+              "regmap=1"
+            ],
+            "status": "ok",
+            "subs": 2,
+            "tgt_words": 262,
+            "total": 2
+          },
+          "sha256": "1707955a0b8a96924aa76665ba7d87f57ccd02a1653b97702831e47453d3591a"
+        },
+        "id": "dungeon/func_80C96F24",
+        "recorded_recipe": "2.7.2-cdk-G0 -fno-strength-reduce",
+        "retail_feature_observation": {
+          "evidence_path": "work/native_lane/r44_helper_inventory/pilot/func_80C96F24_relevant_diff.txt",
+          "limit": "This identifies the remaining register-colouring residue; it does not establish a source repair.",
+          "observation": "The two full-candidate substitutions are the same owner value addressed through a3 in generated code versus a2 in retail at aligned words 44 and 46; instruction count and order are unchanged."
+        },
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_80C96F24.c",
+        "source_pin_count": 13,
+        "source_sha256": "a4320a0fb43ebb996f28797789dd14809bf8196b236cb4b8c16497c6abd16973"
+      },
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_80EB751C_args_only.c",
+          "pin_count": 6,
+          "score": {
+            "class": "reg-rename",
+            "exact": false,
+            "gen_words": 312,
+            "indels": 0,
+            "secs": 0.95,
+            "signals": [
+              "regmap=2"
+            ],
+            "status": "ok",
+            "subs": 23,
+            "tgt_words": 312,
+            "total": 23
+          },
+          "sha256": "bf90fbc50020369904caa862b94e621394554256417089f31a67e634c533656f"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 312,
+          "indels": 0,
+          "secs": 0.9,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 312,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_80EB751C.c",
+          "pin_count": 5,
+          "pins_erased": [
+            {
+              "arg": "sprite_flags",
+              "line": 150,
+              "macro": "ASM_KEEP"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "func_80047784((void *)part_or_half_speed, anim_id, anim_frame)",
+              "old": "func_80047784((void *)part_or_half_speed, anim_id, anim_frame, sprite_flags)"
+            }
+          ],
+          "score": {
+            "class": "broad",
+            "exact": false,
+            "gen_words": 312,
+            "indels": 0,
+            "secs": 0.98,
+            "signals": [],
+            "status": "ok",
+            "subs": 23,
+            "tgt_words": 312,
+            "total": 23
+          },
+          "sha256": "0470f4852640905628277303e0679da2e9b70bf48bb6b284de4c7c2aa84adb3a"
+        },
+        "id": "dungeon/func_80EB751C",
+        "recorded_recipe": "2.8.1-G0",
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_80EB751C.c",
+        "source_pin_count": 6,
+        "source_sha256": "84a333fba9f58c2a60e6ed0413c4a744e73c9e29c2b69565bc6596691e86983f"
+      },
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_8132E2FC_args_only.c",
+          "pin_count": 9,
+          "score": {
+            "class": "length-drift",
+            "exact": false,
+            "gen_words": 124,
+            "indels": 1,
+            "secs": 0.84,
+            "signals": [
+              "length-words=124/125"
+            ],
+            "status": "ok",
+            "subs": 12,
+            "tgt_words": 125,
+            "total": 13
+          },
+          "sha256": "6742ea381610e40cb43b45ec6498de2b70b5113910d5c9b825fd4c491197288f"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 125,
+          "indels": 0,
+          "secs": 0.85,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 125,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_8132E2FC.c",
+          "pin_count": 8,
+          "pins_erased": [
+            {
+              "arg": "quotient_x",
+              "line": 123,
+              "macro": "ASM_KEEP"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "func_8004491C(object, D_80164BC4)",
+              "old": "func_8004491C(object, D_80164BC4, quotient_x)"
+            }
+          ],
+          "score": {
+            "class": "length-drift",
+            "exact": false,
+            "gen_words": 122,
+            "indels": 9,
+            "secs": 0.88,
+            "signals": [
+              "indels=12(ins6/del6)",
+              "drift-ins:+nop,+srl,+addu",
+              "drift-del:-addu,-sra,-sw",
+              "length-words=122/125"
+            ],
+            "status": "ok",
+            "subs": 11,
+            "tgt_words": 125,
+            "total": 20
+          },
+          "sha256": "9683e3f69fb23715284e9cab7b248ec4671b11cf84ece12d423791cb75ac5979"
+        },
+        "id": "dungeon/func_8132E2FC",
+        "recorded_recipe": "2.7.2-cdk-G0",
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_8132E2FC.c",
+        "source_pin_count": 9,
+        "source_sha256": "d58055b32b814ada940490df20664941479c43ca14d4ed27992df46846889258"
+      },
+      {
+        "args_only_control": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_818B0C3C_args_only.c",
+          "pin_count": 4,
+          "score": {
+            "class": "match",
+            "exact": true,
+            "gen_words": 117,
+            "indels": 0,
+            "secs": 0.79,
+            "signals": [],
+            "status": "ok",
+            "subs": 0,
+            "tgt_words": 117,
+            "total": 0
+          },
+          "sha256": "6b72a0a6e44a7227f1a724e44d3f63a8d514cec4052a5c917a44ded61e8ad25c"
+        },
+        "baseline": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 117,
+          "indels": 0,
+          "secs": 0.78,
+          "signals": [],
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 117,
+          "total": 0
+        },
+        "full_candidate": {
+          "path": "work/native_lane/r44_helper_inventory/pilot/candidates/func_818B0C3C.c",
+          "pin_count": 3,
+          "pins_erased": [
+            {
+              "arg": "frame_index",
+              "line": 74,
+              "macro": "ASM_KEEP"
+            }
+          ],
+          "replacements": [
+            {
+              "count": 1,
+              "new": "func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16)",
+              "old": "func_8003DB94(sprite, &D_800DEC70, (s16)frame_index % 16, (s16)frame_index)"
+            }
+          ],
+          "score": {
+            "class": "reorder-only",
+            "exact": false,
+            "gen_words": 117,
+            "indels": 4,
+            "secs": 0.84,
+            "signals": [
+              "same-multiset",
+              "indels=4(ins2/del2)",
+              "drift-ins:+sw,+move",
+              "drift-del:-sw,-move"
+            ],
+            "status": "ok",
+            "subs": 0,
+            "tgt_words": 117,
+            "total": 4
+          },
+          "sha256": "5c7e6832e207ea63a1dcddf084fbd46abe8a52229f0455d82938436af6416c34"
+        },
+        "id": "dungeon/func_818B0C3C",
+        "recorded_recipe": "2.8.1-G0",
+        "semantic_scope": "Only pure trailing argument reads/casts were removed; explicit local prototypes dropped only matching trailing parameters and retained existing return/retained parameter spellings.",
+        "source_hash_rechecked": true,
+        "source_path": "src/dungeon/func_818B0C3C.c",
+        "source_pin_count": 4,
+        "source_sha256": "715e5e8e2ab6d0135c0d783f90b524e5c686713dd3bc99c612652fed9c7ca699"
+      }
+    ],
+    "schema": 1,
+    "scope": "seven distinct rows from the direct extra-argument/pin-overlap inventory",
+    "summary": {
+      "args_only_controls_exact": 2,
+      "args_only_exact_rows": [
+        "dungeon/func_800AC008",
+        "dungeon/func_818B0C3C"
+      ],
+      "baselines_exact": 7,
+      "full_candidates_exact": 0,
+      "full_positive_rows": [],
+      "interpretation": "No pin-removing candidate was exact. Exact args-only controls show byte-neutral call-contract cleanup while leaving the implicated pin in place; they do not reduce the pin census."
+    }
+  },
+  "helper_closest_residual": "    [42] sh zero,38(s4)               | sh zero,38(s4)\n    [43] sh s5,42(s4)                 | sh s5,42(s4)\n! [44] lw a3,64(sp)                 | lw a2,64(sp)  raw 0x4000a78f vs 0x4000a68f\n    [45] lui a1,0x8017                | lui a1,0x8017\n! [46] lhu v1,164(a3)               | lhu v1,164(a2)  raw 0xa400e394 vs 0xa400c394\n    [47] addiu a1,a1,17184            | addiu a1,a1,17184\n    [48] subu v0,v0,v1                | subu v0,v0,v1\n",
+  "landings": [
+    {
+      "id": "dungeon/func_8008E714",
+      "transform": "r44_typed_registry",
+      "in_sha": "a82072ab0182abdc3f2391a3a756b055498694fc62eea619f211855e0f3ad3bc",
+      "size": 440,
+      "source": "out",
+      "exact": true,
+      "status": "ok",
+      "class": "match",
+      "total": 0,
+      "secs": 0.76,
+      "outcome": "applied",
+      "out_sha": "d9d14f90649801cadb6ac441ea6c796c5c830beebfbb5679e8089d4ace1c109d",
+      "lines_delta": -4,
+      "at": "2026-09-17T03:07:41Z"
+    }
+  ],
+  "result": {
+    "pins": 6060,
+    "pinned_rows": 1276,
+    "removed": 1,
+    "cumulative_since_6103": 43
+  },
+  "publication": {
+    "overlay_gates": [
+      {
+        "window": "dungeon_engine",
+        "container": "dungeon_engine",
+        "result": "MATCH",
+        "bytes": 393216,
+        "detail": "MATCH: rebuilt overlay window byte-identical (393216 bytes)",
+        "secs": 153.1,
+        "inputs_sha": "492c4c63d6dbbfd6b64897a49896f7f600d0f2fca9b824411571a9c9be065e1a",
+        "at": "2026-09-17T03:10:25Z"
+      }
+    ],
+    "slus": {
+      "at": "2026-09-17T03:10:35Z",
+      "result": "MATCH",
+      "tus": 884,
+      "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+      "recipe_vs_pinned": "identical",
+      "secs": 0,
+      "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+    },
+    "row_database": "OK"
+  },
+  "final_sources": {
+    "src/dungeon/func_8008E714.c": "d9d14f90649801cadb6ac441ea6c796c5c830beebfbb5679e8089d4ace1c109d"
+  }
+}

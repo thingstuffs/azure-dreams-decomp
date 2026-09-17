@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,061 pins in 1,277 rows,
-42 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,060 pins in 1,276 rows,
+43 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -40,7 +40,18 @@ helper contract (`8132B300`, now pin-free). All three affected DUNGEON windows,
 SLUS and row database pass. The existing erasure cascade adds no further win.
 See [the durable receipt](evidence/pin_research_round43_20260917.json).
 
-Next: preserve the true aggregate alignment when extending copies with runtime
+[Round 44](PIN_RESEARCH_ROUND44.md) removes **one** through an ordinary typed
+registry lookup in `8008E714`; erasure alone fails. Full DUNGEON engine and SLUS
+MATCH; row database and research ledger pass. The bounded mechanical follow-up
+finds no additional eligible typed lookup among ten near matches, and no exact
+pin removal in seven helper-arity/pin-overlap probes. The 48-byte copy transfers
+exactly to `80D137FC` while retaining its unrelated action pin. The 140-byte
+detach copy now reproduces fully; outer scan invariant placement is its residue.
+See [the durable receipt](evidence/pin_research_round44_20260917.json).
+
+Next: return to whole operation and argument-role reconstruction on the higher-pin
+cases, incorporating these source contracts. Expand mechanical transfer only
+after a new positive. Preserve the true aggregate alignment for runtime
 alignment branches. The 144-byte case `813315CC` has identical instructions
 but a retained input binding moves its prologue pair early; saved RTL explains
 the phase ordering. The second 48-byte case `81339700` has one late argument

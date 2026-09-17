@@ -76,7 +76,6 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
     u8 effect_x;
     u8 effect_y;
     s32 record_index;
-    s32 record_slot_addr;
     s16 saved_index;
     void **record_table;
     void **record_slot;
@@ -116,10 +115,7 @@ void func_80093E74(s32 slot_table, void *unused_arg1, void *unused_arg2, S_80093
     *record_slot = record_storage;
     *(Copy140 *) record_storage = *(Copy140 *) source_record;
     record_table = D_800E3DF0;
-    ASM_KEEP(record_table);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    record_slot_addr = saved_index << 2;
-    record_slot_addr += (s32)record_table;
-    stored_record = *(void **)record_slot_addr;
+    stored_record = record_table[saved_index];
     stored_record->unk_14 = (s32) (stored_record->unk_14 & ~0x4000);
     ((S_80093E74_7 *)(((owner->unk_8A * 4) + slot_table)))->unk_D0.u = 0;
     owner_state = owner->unk_60;

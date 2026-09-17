@@ -76,6 +76,17 @@ Two related copies now have isolated scheduling residues, and the field case
 has a concrete combine explanation. No new parser or compiler patch was needed.
 See [PIN_RESEARCH_ROUND43.md](PIN_RESEARCH_ROUND43.md).
 
+Round 44 gated result: **6,060 pins in 1,276 rows (-1; -43 cumulative)**.
+A typed pointer-table subscript replaces a pinned integer address calculation
+at its recorded CDK recipe. Independent strict bytes and semantic/caller review,
+full DUNGEON engine, SLUS, row database and research-ledger validation pass.
+Mechanical follow-ups are bounded negatives: ten typed-lookup near matches yield
+no direct member, and seven real-helper-arity/pin-overlap candidates yield no
+exact removal. The copy repair transfers exactly elsewhere but leaves an
+unrelated argument pin. Return to complete operation/argument-role reconstruction
+with these measured contracts, then transfer the next demonstrated mechanism.
+See [PIN_RESEARCH_ROUND44.md](PIN_RESEARCH_ROUND44.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,
