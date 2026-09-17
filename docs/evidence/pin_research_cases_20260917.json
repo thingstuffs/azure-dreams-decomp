@@ -1086,17 +1086,29 @@
             "path": "docs/evidence/pin_research_field_init_20260917.md"
           },
           "bounds": {
-            "tested": "Baseline and erased pass dumps, embedded payload reconstruction, and one genuine owner-recovery expression at recorded 2.8.1-G0.",
+            "tested": "Baseline and erased pass dumps, embedded payload reconstruction, and one genuine owner-recovery expression at recorded 2.8.1.",
             "untested": "Trace the combine acceptance and address costs for the two owner/payload expressions; use actual caller layout evidence."
+          }
+        },
+        {
+          "id": "r43_combine",
+          "kind": "bounded_negative",
+          "summary": "Compiler source and dumps identify REG_DEAD-gated folding. Three natural source probes still fold the add; owner control retains it but its wrong load base already exists in initial RTL.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_field_round43_20260917.md"
+          },
+          "bounds": {
+            "tested": "Ordinary register local, union view and named owner at recorded 2.8.1; negative compiler-listing screens, not claimed full byte matches.",
+            "untested": "An independent ordinary exact sibling retaining a one-use payload base, or newly supported compiler provenance."
           }
         }
       ],
       "next_experiment": {
-        "action": "Trace the combine acceptance and address costs for the two owner/payload expressions; use actual caller layout evidence.",
-        "measurement": "Compare the payload add and data-load base before and after combine, then verify complete 45-word bytes.",
-        "success_criterion": "One supported ordinary source produces all 45 exact words with fewer pins.",
-        "failure_criterion": "The observed costs still select the wrong base; retain the explicit one-substitution residue.",
-        "bounds": "One causal combine audit before a new source probe; no register-coloring menu."
+        "action": "Find an independent exact sibling or compiler-provenance fact that distinguishes retention of the one-use payload base.",
+        "measurement": "Compare the real operation and initial RTL through combine; identify a difference beyond the already-proven REG_DEAD predicate.",
+        "success_criterion": "A supported ordinary source preserves the payload add while loading through object+12 and produces all 45 exact words.",
+        "failure_criterion": "No new distinguishing source or compiler fact is found; leave the one-substitution residue unresolved.",
+        "bounds": "One sibling/provenance audit before further C probes; do not re-log the known predicate without a new question."
       },
       "verification": {
         "exact_bytes": {
@@ -1271,6 +1283,330 @@
       },
       "transfer": {
         "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_8132B300",
+      "title": "Render48 and actual two-argument registration helper",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "One pin removed: ordinary 48-byte aggregate and removal of unused extra helper arguments are exact at CDK with both unchanged-source cell controls."
+      },
+      "source": {
+        "path": "src/dungeon/func_8132B300.c",
+        "sha256": "28948b23db5fb310f79bc40107deed00b19013f0663ad9e0cd4ff651a0da984a"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8132B300, file offset 20230912, 456 bytes",
+          "confidence": "high",
+          "basis": "Registered extent, true runtime address and exact baseline control"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe and byte signatures; exactness is not unique historical attribution"
+        }
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      },
+      "candidate": {
+        "path": "src/dungeon/func_8132B300.c",
+        "sha256": "28948b23db5fb310f79bc40107deed00b19013f0663ad9e0cd4ff651a0da984a",
+        "base_source_sha256": "132d02176aab823864fa24c45ec8b12d0073bbae42e8d550d6cdc91eefb27377",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "causal": {
+        "question": "Can the real complete aggregate and callee contract replace manual transfer lifetimes and alignment scaffolding?",
+        "prediction": "The existing aggregate alignment and actual live helper arguments will let stock block expansion generate the retail copy naturally."
+      },
+      "evidence": [
+        {
+          "id": "r43_proof",
+          "kind": "positive_candidate",
+          "summary": "One pin removed: ordinary 48-byte aggregate and removal of unused extra helper arguments are exact at CDK with both unchanged-source cell controls. All affected windows and SLUS MATCH.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round43_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Render48 and actual two-argument registration helper",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "Exact row and full affected image gates; no replacement scaffolding",
+            "remaining_question": "Unique historical compiler release remains unresolved; unrelated remaining pins are outside this copy repair."
+          }
+        },
+        {
+          "id": "r43_review",
+          "kind": "observation",
+          "summary": "Independent extent, alignment, non-overlap and interface review with strict linked byte equality.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy48_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null
+    },
+    {
+      "id": "dungeon/func_819C0000",
+      "title": "Points36 aggregate recreates alignment-sensitive block copy",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Eight copy pins removed at the recorded recipe; three unrelated pins remain. Real halfword alignment reproduces both retail paths and tail."
+      },
+      "source": {
+        "path": "src/dungeon/func_819C0000.c",
+        "sha256": "24fe10483994f2a6d2efae72cb66923dd4af581e8250809d6347bd87f45284d7"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_819C0000, file offset 27131904, 1256 bytes",
+          "confidence": "high",
+          "basis": "Registered extent, true runtime address and exact baseline control"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0 -fno-expensive-optimizations",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe and byte signatures; exactness is not unique historical attribution"
+        }
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_review"
+          ]
+        },
+        "caller_review": {
+          "state": "not_applicable",
+          "evidence_refs": [
+            "r43_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r43_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      },
+      "candidate": {
+        "path": "src/dungeon/func_819C0000.c",
+        "sha256": "24fe10483994f2a6d2efae72cb66923dd4af581e8250809d6347bd87f45284d7",
+        "base_source_sha256": "faf687e357bd74feecece863f0b65331af2718e610bdcd54480f16c15dca8134",
+        "recipe": "2.7.2-cdk-G0 -fno-expensive-optimizations"
+      },
+      "causal": {
+        "question": "Can the real complete aggregate and callee contract replace manual transfer lifetimes and alignment scaffolding?",
+        "prediction": "The existing aggregate alignment and actual live helper arguments will let stock block expansion generate the retail copy naturally."
+      },
+      "evidence": [
+        {
+          "id": "r43_proof",
+          "kind": "positive_candidate",
+          "summary": "Eight copy pins removed at the recorded recipe; three unrelated pins remain. Real halfword alignment reproduces both retail paths and tail. All affected windows and SLUS MATCH.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round43_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Points36 aggregate recreates alignment-sensitive block copy",
+            "recipe": "2.7.2-cdk-G0 -fno-expensive-optimizations",
+            "result": "Exact row and full affected image gates; no replacement scaffolding",
+            "remaining_question": "Unique historical compiler release remains unresolved; unrelated remaining pins are outside this copy repair."
+          }
+        },
+        {
+          "id": "r43_review",
+          "kind": "observation",
+          "summary": "Independent extent, alignment, non-overlap and interface review with strict linked byte equality.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_points36_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null
+    },
+    {
+      "id": "dungeon/func_813315CC",
+      "title": "Position144 prologue ordering under aggregate expansion",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Aggregate preserves all 210 instructions, frame and roles at CDK but emits the s3 save/move pair early: four indels. No repair landed."
+      },
+      "source": {
+        "path": "src/dungeon/func_813315CC.c",
+        "sha256": "6f115b6841623640bf0600711154404aec9db48eca4acf84a269e50da61fde88"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_813315CC, file offset 20256204, 840 bytes",
+          "confidence": "high",
+          "basis": "Registered extent, true runtime address and exact baseline control"
+        },
+        "recipe": {
+          "value": "2.8.1-G0",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe and byte signatures; exactness is not unique historical attribution"
+        }
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      },
+      "causal": {
+        "question": "Which ordinary input role or real operation boundary recovers the prologue order without retaining or replacing an input binding?",
+        "prediction": "A complete argument-role reconstruction can change entry coalescing and scheduler dependencies without inventing a dead use."
+      },
+      "evidence": [
+        {
+          "id": "r43_bounds",
+          "kind": "bounded_negative",
+          "summary": "Aggregate preserves all 210 instructions, frame and roles at CDK but emits the s3 save/move pair early: four indels. No repair landed.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_position144_causal_20260917.md"
+          },
+          "bounds": {
+            "tested": "One argument-role/site-map audit before another source probe; existing assignment, initializer and pointer staging negatives are retained.",
+            "untested": "Compare the binding-free argument-role control with the retained-binding expansion; seek a real source relationship in the caller or sibling."
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Compare the binding-free argument-role control with the retained-binding expansion; seek a real source relationship in the caller or sibling.",
+        "measurement": "Track entry move, copy address/alignment RTL and saved-register schedule before touching body ordering.",
+        "success_criterion": "Fewer genuine pins with exact complete bytes and reviewed source semantics.",
+        "failure_criterion": "The supported relationship leaves the same schedule; retain the specific residual as unresolved.",
+        "bounds": "One argument-role/site-map audit before another source probe; existing assignment, initializer and pointer staging negatives are retained."
+      }
+    },
+    {
+      "id": "dungeon/func_81339700",
+      "title": "Render48 next-call argument move",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Real helper contract plus aggregate reaches 78 words and identical instructions, but move a0,s0 is late: two indels. Actual next-helper prototype does not change it."
+      },
+      "source": {
+        "path": "src/dungeon/func_81339700.c",
+        "sha256": "84c2f47b2dcfea72e83d17da0687004505c749ab0de92838c9540ed3830e45fa"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_81339700, file offset 20289280, 312 bytes",
+          "confidence": "high",
+          "basis": "Registered extent, true runtime address and exact baseline control"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded stock recipe and byte signatures; exactness is not unique historical attribution"
+        }
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      },
+      "causal": {
+        "question": "Why does the renderer argument move occur after the global byte load instead of before its address formation?",
+        "prediction": "A genuine use or alias relationship in renderer setup should expose the earlier argument dependency in RTL."
+      },
+      "evidence": [
+        {
+          "id": "r43_bounds",
+          "kind": "bounded_negative",
+          "summary": "Real helper contract plus aggregate reaches 78 words and identical instructions, but move a0,s0 is late: two indels. Actual next-helper prototype does not change it.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy48_round43_20260917.md"
+          },
+          "bounds": {
+            "tested": "One causal setup-region audit; no more aggregate spelling variants or arbitrary flag search.",
+            "untested": "Compare the renderer setup memory/argument relationships with the actual helper and an exact sibling using the same template pointer."
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Compare the renderer setup memory/argument relationships with the actual helper and an exact sibling using the same template pointer.",
+        "measurement": "Inspect initial RTL and scheduling dependencies for the a0 move, lbu and table-pointer store; require the same complete 78 words.",
+        "success_criterion": "Fewer genuine pins with exact complete bytes and reviewed source semantics.",
+        "failure_criterion": "The supported relationship leaves the same schedule; retain the specific residual as unresolved.",
+        "bounds": "One causal setup-region audit; no more aggregate spelling variants or arbitrary flag search."
       }
     }
   ]

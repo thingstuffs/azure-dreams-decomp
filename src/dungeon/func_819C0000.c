@@ -48,24 +48,16 @@ extern u8 *D_800814A8;
 void func_80025800(void *effect_in, void *position_in, void *visual_in)
 {
     LocalPoints offsets;
-    register u8 *copy_src ASM_REG("$6");
-    register u8 *source_page ASM_REG("$2");
-    register u8 *copy_dst ASM_REG("$7");
-    u8 *copy_end;
+    u8 *copy_src;
     u8 *owner;
     u8 *owner_pos;
     u8 *owner_visual;
     u8 *world;
-    s32 word_0;
-    s32 word_1;
-    s32 word_2;
-    s32 word_3;
     s32 fade;
     s32 half_tile;
     u16 flags;
     s32 state;
     s32 rise_speed;
-    u32 misalignment;
     s16 column;
     s16 row;
     s16 next_tick;
@@ -73,49 +65,12 @@ void func_80025800(void *effect_in, void *position_in, void *visual_in)
     s32 anim_ticks;
     LocalPoint *point;
 
-    copy_dst = (u8 *)&offsets;
 #ifdef NON_MATCHING
     copy_src = (u8 *)&D_80024004;
 #else
-    source_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(source_page);
-    copy_src = source_page + 0x4004;
+    copy_src = (u8 *)&D_80024004;
 #endif
-    ASM_KEEP_NV(copy_src);
-    misalignment = (u32)copy_src & 3;
-    if (misalignment) {
-        copy_end = copy_src + 0x20;
-        do {
-            word_0 = PACKED_AT(copy_src, 0);
-            word_1 = PACKED_AT(copy_src, 4);
-            word_2 = PACKED_AT(copy_src, 8);
-            word_3 = PACKED_AT(copy_src, 0xC);
-            PACKED_AT(copy_dst, 0) = word_0;
-            PACKED_AT(copy_dst, 4) = word_1;
-            PACKED_AT(copy_dst, 8) = word_2;
-            PACKED_AT(copy_dst, 0xC) = word_3;
-            ASM_SCHED_BARRIER();
-            copy_src += 0x10;
-            copy_dst += 0x10;
-        } while (copy_src != copy_end);
-    } else {
-        copy_end = copy_src + 0x20;
-        do {
-            word_0 = S32_AT(copy_src, 0);
-            word_1 = S32_AT(copy_src, 4);
-            word_2 = S32_AT(copy_src, 8);
-            word_3 = S32_AT(copy_src, 0xC);
-            S32_AT(copy_dst, 0) = word_0;
-            S32_AT(copy_dst, 4) = word_1;
-            S32_AT(copy_dst, 8) = word_2;
-            S32_AT(copy_dst, 0xC) = word_3;
-            ASM_SCHED_BARRIER();
-            copy_src += 0x10;
-            copy_dst += 0x10;
-        } while (copy_src != copy_end);
-    }
-    PACKED_AT(copy_dst, 0) = PACKED_AT(copy_src, 0);
-    ASM_SCHED_BARRIER();
+    offsets = *(LocalPoints *)copy_src;
 
     D_8002992E[0] = 1;
     half_tile = 0x20;
