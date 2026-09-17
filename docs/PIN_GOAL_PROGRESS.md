@@ -56,6 +56,17 @@ reconstructions; the generic automatic cell-switch rule stays unchanged.
 The Pair24 control remains nonexact with a specific page/source lifetime
 question. See [PIN_RESEARCH_ROUND41.md](PIN_RESEARCH_ROUND41.md).
 
+Round 42 gated result: **6,070 pins in 1,278 rows (-1; -33 cumulative)**.
+The previously nonexact Record68 source is exact at stock CDK; the old pinned
+source is exact there too, so the standard controlled cell transition applies.
+Independent caller review, strict row bytes, full town scene window, SLUS and
+row database pass. Local allocation timing explains the copy register change.
+A bounded mechanical copy generator/probe workflow reproduces the 68-byte and
+84-byte repairs plus a pin-free control; it refuses two complex historical
+initializers. The TOWN cohort audit finds no new trivial member. Field, group and snapshot
+initializers have specific unresolved compiler decisions rather than an
+impossibility verdict. See [PIN_RESEARCH_ROUND42.md](PIN_RESEARCH_ROUND42.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

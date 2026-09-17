@@ -1,0 +1,130 @@
+{
+  "schema": "azure-clean.r42-initializer-cohort.v1",
+  "date": "2026-09-17",
+  "mode": "read_only_no_compiles",
+  "scope": "named allocator initializers plus bounded registered pinned src/town fixed-copy scan",
+  "references": [
+    {
+      "id": "town/func_8080E838",
+      "sha256": "b43f43d88ed13ca9df37ba3714c7a4673254bff1ab803504ce18b92361bdb6be",
+      "cfg": "2.7.2-G0",
+      "pins": 0,
+      "copy_extents": [88, 24],
+      "allocator": "func_800373DC",
+      "initializer": "func_8003BC18",
+      "callback": "func_80529594",
+      "setup_helper": "func_8023FA58"
+    },
+    {
+      "id": "town/func_8081DD70",
+      "sha256": "00e5f850c3d20827125c648ccaf1ddf225c7e5a990f668701235fdf927dea3b3",
+      "cfg": "2.7.2-cdk-G0",
+      "pins": 0,
+      "copy_extents": [88, 24],
+      "allocator": "func_8003FC64",
+      "initializer": "func_8004491C",
+      "callback": "func_800206D0",
+      "setup_helper": "func_8008F074"
+    }
+  ],
+  "initializer_audit": [
+    {
+      "id": "town/func_8080E59C",
+      "sha256": "3123c3ca5d9ee43ef3eb6de0084da7ba86f999cbb822bb07ed00fcd3438a7b04",
+      "cfg": "2.6.3-G0",
+      "pins": 6,
+      "copy_extent": 24,
+      "classification": "semantic_allocator_handoff",
+      "mechanical_eligible": false,
+      "reason": "third source word is explicitly volatile",
+      "owner": "allocator_explain"
+    },
+    {
+      "id": "town/func_808216B0",
+      "sha256": "6ea7379afd060703ccf07d4a29ec5d8c5702e10f9e8b3b726760912f69782130",
+      "cfg": "2.7.2-cdk-G0",
+      "pins": 6,
+      "copy_extent": null,
+      "classification": "update_callback_no_record_copy",
+      "installed_by": "town/func_8081FCE0"
+    },
+    {
+      "id": "town/func_80813368",
+      "sha256": "cf2533a699a126c6cedd9cf704cd6f07e0a5f1a8b527ab0df9836a43e813a366",
+      "cfg": "2.6.3-G0",
+      "pins": 3,
+      "copy_extent": null,
+      "classification": "update_callback_no_record_copy",
+      "installed_by": "town/func_808119EC"
+    },
+    {
+      "id": "town/func_8081FCE0",
+      "sha256": "fb3ca27a5376f2804291456e0b9afb4dc994797fa13701b5cbacd62c536e93a7",
+      "cfg": "2.7.2-cdk-G0",
+      "pins": 4,
+      "copy_extent": null,
+      "classification": "parent_initializer_no_record_copy"
+    },
+    {
+      "id": "town/func_8081B4A4",
+      "sha256": "c38b56fd32d53d66b62d3fa03c371b8d50a1cfa78375883d8fa34c7e234e7380",
+      "cfg": "2.7.2-cdk-G0",
+      "pins": 4,
+      "copy_extent": null,
+      "classification": "multi_object_builder_two_byte_fanout"
+    }
+  ],
+  "callback_link_sources": [
+    {
+      "id": "town/func_808119EC",
+      "sha256": "d07acea7d50df3a720b6c1a85c6e54dbf28d285b69b9b8b12b6adf6de01fc1b0",
+      "installs": "D_8052DF68"
+    },
+    {
+      "id": "town/func_8081FCE0",
+      "sha256": "fb3ca27a5376f2804291456e0b9afb4dc994797fa13701b5cbacd62c536e93a7",
+      "installs": "D_80023EB0"
+    }
+  ],
+  "mechanical_scan": {
+    "required_pin_kinds": ["ASM_KEEP", "ASM_SCHED_BARRIER", "ASM_MEM_BARRIER"],
+    "new_eligible_targets": [],
+    "bounded_result": "no new eligible registered pinned TOWN row beyond the prior round-40 five",
+    "positive_shape_controls": [
+      {
+        "id": "town/func_808834DC",
+        "sha256": "43a4bc05077937bf5c408ef0636c0cbf177b234f8a4012c3287004088eab2707",
+        "pins": 0,
+        "extent": 52
+      },
+      {
+        "id": "town/func_8080BFFC",
+        "sha256": "7afb4be371ce369a2383a3465ba1e302ce34bb0eb1a71a7e90e0d4ed0e135ab5",
+        "pins": 0,
+        "extent": 48
+      },
+      {
+        "id": "town/func_800A29F0",
+        "sha256": "53d1dd63cb2ee478be8999be6c75e09c02046bc6f8fbbf4c95a724abaeac8f62",
+        "pins": 0,
+        "extent": 84
+      }
+    ],
+    "negative_control": {
+      "id": "town/func_800B6A28",
+      "sha256": "05f0c5f79646a60f2c9ac7ba3f740b25d9a73e8866049e7e5ff8f6f5e99b43d2",
+      "cfg": "2.95.2-G0",
+      "pins": 5,
+      "visible_extents": [48, 12],
+      "refusal": "runtime alignment branch, disjoint sources, and hard-register pins only"
+    },
+    "prior_known_example": {
+      "id": "town/func_800B0994",
+      "sha256": "3bf86be542490cf9eda15fb9dbc48c09b551869ee85257aca3dc2433255aff35",
+      "pins": 1,
+      "extent": 68,
+      "round": 40
+    }
+  },
+  "claim_limit": "bounded source-shape audit; no population-wide exhaustion or impossibility claim"
+}

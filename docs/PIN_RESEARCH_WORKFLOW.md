@@ -167,3 +167,33 @@ check. If live verification or a required gate fails, restore both the source
 and its prior recipe and verify the restored endpoint. A low-level setter is
 not an approval substitute: retain the review and exact endpoint receipts in
 the journal and research case. This path does not enable unreviewed flag search.
+
+## Mechanical fixed-copy probes
+
+Use `tools/aggregate_copy.py` to recognize and generate a small set of ordinary
+aggregate assignments from canonical fixed 16-byte copy loops and contiguous
+word tails. This is an advisory candidate generator, not a C semantics proof.
+Its measured population and refusal controls are in the round-42 report.
+Object extent, non-overlap, effective type, actual callers and the meaning of
+removed barriers still require review. Unknown or refused shapes are research
+handoffs, not impossible cases.
+
+`tools/aggregate_copy_probe.py` takes a JSON manifest selecting each row,
+source and stock recipe explicitly. It accepts at most five rows and four
+recipes per row, including the recorded recipe. It generates at most four
+candidates per row, records source hashes and complete byte-comparison
+summaries, and tests the unchanged source at every selected recipe. Historical
+source snapshots remain visibly distinct from live source. An exact candidate
+stays unreviewed; this command never promotes it or edits production source,
+recipes or ledgers.
+
+```sh
+python3 tools/aggregate_copy_probe.py path/to/manifest.json --output work/native_lane/new_copy_probe
+.venv/bin/python -m pytest -q tools/tests/test_aggregate_copy.py tools/tests/test_aggregate_copy_probe.py
+```
+
+Use a fresh output lane. Generated candidate files go beneath its ignored
+`raw/` directory. Promote only after the normal independent source/caller review,
+hash checks, exact verification and affected publication gates. Mechanize the
+recognized repetition; spend reconstruction effort on refused or nonexact
+cases only when a concrete new source or compiler fact motivates the next probe.

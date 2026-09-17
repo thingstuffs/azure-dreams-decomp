@@ -1,0 +1,199 @@
+{
+  "date": "2026-09-17",
+  "baseline": {
+    "commit": "cfbab7cd",
+    "pins": 6071,
+    "pinned_rows": 1279
+  },
+  "result": {
+    "pins": 6070,
+    "pinned_rows": 1278,
+    "pins_removed": 1
+  },
+  "landing": {
+    "id": "town/func_800B0994",
+    "transform": "r42_record68",
+    "in_sha": "3bf86be542490cf9eda15fb9dbc48c09b551869ee85257aca3dc2433255aff35",
+    "size": 84,
+    "source": "out",
+    "exact": true,
+    "status": "ok",
+    "class": "match",
+    "total": 0,
+    "secs": 0.67,
+    "cell_from": "2.8.1-G0",
+    "cell_to": "2.7.2-cdk-G0",
+    "outcome": "applied",
+    "out_sha": "feb688e460fab8599bb9779a498ab5c6670a2bb0d97cefdfcd291c1e3223074f",
+    "lines_delta": -31,
+    "at": "2026-09-17T02:03:01Z"
+  },
+  "independent_candidate": {
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    },
+    "build_status": "ok",
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+    "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+    "config": "2.7.2-cdk-G0",
+    "exact": true,
+    "function": "func_800B0994",
+    "length_bytes": {
+      "generated": 84,
+      "target": 84
+    },
+    "length_words": {
+      "generated": 21,
+      "target": 21
+    },
+    "positional_words_off": 0,
+    "regional_alignment": {
+      "aligned": {
+        "indels": 0,
+        "substitutions": 0,
+        "total": 0
+      },
+      "candidate_words": 21,
+      "mask_relocations": false,
+      "region_map_sha256": "de4781ee0a01f652a7b4fcfa5dbb3c0ea128c94c74be3cdd6d21cfade1340140",
+      "regions": [
+        {
+          "candidate_span": [
+            0,
+            5
+          ],
+          "id": "R0",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            0,
+            5
+          ]
+        },
+        {
+          "candidate_span": [
+            5,
+            10
+          ],
+          "id": "R1",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            5,
+            10
+          ]
+        },
+        {
+          "candidate_span": [
+            10,
+            15
+          ],
+          "id": "R2",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            10,
+            15
+          ]
+        },
+        {
+          "candidate_span": [
+            15,
+            21
+          ],
+          "id": "R3",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            15,
+            21
+          ]
+        }
+      ],
+      "schema": "azure-clean.regional-alignment.v1",
+      "target_words": 21,
+      "vector": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "reloc_suspect": false,
+    "reloc_suspect_near_0_9": false,
+    "reloc_suspect_ratio": 0.0,
+    "residue": {
+      "class": "match",
+      "confidence": "high",
+      "signals": []
+    },
+    "schema": "azure-clean.compiler-oracle.v1",
+    "source": "work/native_lane/r42_copy68/aggregate.c",
+    "source_sha": "feb688e460fab8599bb9779a498ab5c6670a2bb0d97cefdfcd291c1e3223074f",
+    "status": "MATCH",
+    "target_sha": "87bd937eb90c188eed7733752bcdc49e1b57ddb62f9928e3a15d5e2003557c60",
+    "tool": "work/g3/overlay_func_compare.py",
+    "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+    "warnings": [
+      "rowbase: linked at true base 0x800AE0F4 (region xfer_town_B000, delta 0x8007D760)"
+    ],
+    "words_off": 0
+  },
+  "recorded_baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 21,
+    "tgt_words": 21,
+    "class": "match",
+    "signals": [],
+    "secs": 0.68,
+    "err": null
+  },
+  "new_cell_baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 21,
+    "tgt_words": 21,
+    "class": "match",
+    "signals": [],
+    "secs": 0.68,
+    "err": null
+  },
+  "overlay_gate": {
+    "window": "town_scene",
+    "container": "town",
+    "result": "MATCH",
+    "bytes": 335872,
+    "detail": "MATCH: rebuilt overlay window byte-identical (335872 bytes)",
+    "secs": 245.9,
+    "inputs_sha": "c03b28dbb90f8b4377314487245a5a6e8132359e6062616963ed851dfe835bf5",
+    "at": "2026-09-17T02:11:47Z"
+  },
+  "slus_gate": {
+    "at": "2026-09-17T02:05:49Z",
+    "result": "MATCH",
+    "tus": 884,
+    "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+    "recipe_vs_pinned": "identical",
+    "secs": 0,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "row_database": "OK",
+  "semantic_review": "docs/evidence/pin_research_copy68_review_20260917.md",
+  "mechanism": "docs/evidence/pin_research_copy68_mechanism_20260917.md",
+  "historical_release": "not uniquely established by exact source/recipe pair"
+}

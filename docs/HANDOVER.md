@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,071 pins in 1,279 rows,
-32 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,070 pins in 1,278 rows,
+33 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -25,13 +25,23 @@ semantic/caller reviews and publication gates. The stricter automatic erasure
 cell-switch rule is unchanged, and an exact cell is not proof of historical
 release. No new pins or pointer-narrowing substitutes were introduced.
 
-Next: build a bounded initializer cohort using copy extents and real helper/
-callback relationships; establish each layout and recipe independently. The
-24-byte Pair control (`800AB37C`) has six negative probes: its ordinary suffix
-matches, but page/source address pseudos differ in the prefix (best total eight).
-Investigate actual global-object identity and split-address lifetime, not more
-aggregate spellings. The dungeon `8180B064` allocation competition and SLUS
-`80041CBC` frame-sync object provenance remain open. Current case hashes and
+[Round 42](PIN_RESEARCH_ROUND42.md) removes one more pin: the 68-byte copy
+`800B0994` becomes exact at stock CDK using its existing ordinary reconstruction.
+The old source is also exact there; the standard automatic cell-transition
+controls and full town scene/SLUS gates pass. Compiler evidence distinguishes
+early local scratch allocation from later reload allocation. The new bounded
+copy generator and explicit-cell probe automate repetition; semantic and caller
+reviews remain required before promotion.
+
+Next: extend the measured copy inventory to DUNGEON only where a concrete
+pattern exists. The TOWN audit found no additional trivial member beyond the
+previous cohort. `800BEA7C` is one base/offset substitution away after owner
+recovery; investigate combine's address choice. Snapshot `8008EE88` has 24 pins,
+two real 140-byte copies and a narrowed buffer-page lifetime question; recover
+that object/address model before more body tuning. Pair24's template bytes and
+extent are recovered, but three more grounded source forms still miss; original
+global definition/linkage remains open. `8080E59C` also needs real alias/helper
+information. Durable reports retain the tested bounds. Current case hashes and
 next experiments are validated by `python3 tools/pin_research.py validate`.
 No case has an impossibility verdict.
 
