@@ -6,7 +6,6 @@ extern void *func_800A04F0(void *, u8, u8, s16);
 extern s32 func_800A6D30(void);
 extern s16 func_800A70E4(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
-extern void func_8015EADC() __attribute__((noreturn));
 
 extern s32 D_80010248[];
 extern s32 D_8001029C[];
@@ -132,10 +131,10 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 
                 item_ptr = (u8 *)(item_offset + 0x80010248);
                 item_data = *(s32 *)item_ptr;
-                shared_base = (s32 *)0x80160000;
-                shared_base[3065] = item_data;
-                ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                shared_base += 3065;
+                shared_base = D_80162FE4;
+                shared_base[0] = item_data;
+
+
                 func_80098B38(item_ptr, item_base);
                 return (s32)shared_base;
             }
@@ -157,15 +156,14 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 #endif
         s32 item_data;
 
-        shared_base = (s32 *)0x80160000;
-        ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        shared_base = D_80162FE4;
+
         item_data = *(s32 *)((u8 *)target + 0x48);
-        shared_slot = shared_base + 3065;
-        shared_base[3065] = item_data;
-        ASM_KEEP(shared_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        shared_slot = shared_base;
+        shared_base[0] = item_data;
+
         *(s32 *)((u8 *)target + 0x48) = 0;
-        func_8015EADC(item_data, target);
-        __builtin_unreachable();
+        return (s32)shared_slot;
     }
 entry_zero:
 return_zero:

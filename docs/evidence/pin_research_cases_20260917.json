@@ -2196,6 +2196,186 @@
       "transfer": {
         "enabled": false
       }
+    },
+    {
+      "id": "dungeon/func_80E9D000",
+      "title": "Shared-slot return removes three coupled keeps",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Three of six pins removed through the real local return and shared-slot symbols. Three pins remain unresolved; whole 189-word composite row exact."
+      },
+      "source": {
+        "path": "src/dungeon/func_80E9D000.c",
+        "sha256": "acb7370849fd75e76a014744431c9bebac577c814fe5ae438fff93466759afc5"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80E9D000, file 0xEBD000, row base 0x8015E800, 264-byte data prefix and 492-byte body",
+          "confidence": "high",
+          "basis": "Existing proven rowbase, complete body decode, local return value and full strict/gated bytes"
+        },
+        "recipe": {
+          "value": "2.8.0",
+          "confidence": "medium",
+          "basis": "Unchanged recorded cell; actual body has split-store and jump-slot-store evidence for CDK/2.8 family. Exact historical release not established."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80E9D000.c",
+        "sha256": "acb7370849fd75e76a014744431c9bebac577c814fe5ae438fff93466759afc5",
+        "base_source_sha256": "96de91ec8bc7e4323d66c71f33681f6abfd69f3f34dd722395ba52236031a000",
+        "recipe": "2.8.0"
+      },
+      "causal": {
+        "question": "Does the fake external epilogue edge plus manual shared-page construction require coupled keep constraints?",
+        "prediction": "Returning the actual shared-slot pointer and using its symbol in the two later paths removes three keeps while preserving all bytes."
+      },
+      "evidence": [
+        {
+          "id": "r49_proof",
+          "kind": "positive_candidate",
+          "summary": "189/189 linked-strict and 756-byte covering window exact; SLUS, row database and host syntax pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round49_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Ordinary local return with actual shared-slot symbols in later paths",
+            "recipe": "2.8.0",
+            "result": "3 pins removed; 3 remain",
+            "remaining_question": "First-branch store order and two loop bindings remain unresolved; six isolated twin erasures fail."
+          }
+        },
+        {
+          "id": "r49_review",
+          "kind": "observation",
+          "summary": "Independent complete body, shared-address, unchanged caller interface and no-new-constraint review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_twins_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_80EA3000",
+      "title": "Shared-slot return removes three coupled keeps",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Three of six pins removed through the real local return and shared-slot symbols. Three pins remain unresolved; whole 189-word composite row exact."
+      },
+      "source": {
+        "path": "src/dungeon/func_80EA3000.c",
+        "sha256": "80db96ed6ee511b3b0b4098e7f640fffbc7d8bc6d716d1bf5df6547ff5d81f85"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_80EA3000, file 0xEC3000, row base 0x80158800, 264-byte data prefix and 492-byte body",
+          "confidence": "high",
+          "basis": "Existing proven rowbase, complete body decode, local return value and full strict/gated bytes"
+        },
+        "recipe": {
+          "value": "2.8.0",
+          "confidence": "medium",
+          "basis": "Unchanged recorded cell; actual body has split-store and jump-slot-store evidence for CDK/2.8 family. Exact historical release not established."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_80EA3000.c",
+        "sha256": "80db96ed6ee511b3b0b4098e7f640fffbc7d8bc6d716d1bf5df6547ff5d81f85",
+        "base_source_sha256": "9b1571480959039bfbd277a4e28cb9c69db466e4dadd828943249dee9e71feb3",
+        "recipe": "2.8.0"
+      },
+      "causal": {
+        "question": "Does the fake external epilogue edge plus manual shared-page construction require coupled keep constraints?",
+        "prediction": "Returning the actual shared-slot pointer and using its symbol in the two later paths removes three keeps while preserving all bytes."
+      },
+      "evidence": [
+        {
+          "id": "r49_proof",
+          "kind": "positive_candidate",
+          "summary": "189/189 linked-strict and 756-byte covering window exact; SLUS, row database and host syntax pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round49_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Ordinary local return with actual shared-slot symbols in later paths",
+            "recipe": "2.8.0",
+            "result": "3 pins removed; 3 remain",
+            "remaining_question": "First-branch store order and two loop bindings remain unresolved; six isolated twin erasures fail."
+          }
+        },
+        {
+          "id": "r49_review",
+          "kind": "observation",
+          "summary": "Independent complete body, shared-address, unchanged caller interface and no-new-constraint review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_twins_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r49_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
     }
   ]
 }

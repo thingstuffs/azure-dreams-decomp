@@ -127,6 +127,15 @@ bounded whole-function targets remain nonexact; their probes are archived,
 not classified impossible. See [PIN_RESEARCH_ROUND48.md](PIN_RESEARCH_ROUND48.md).
 
 
+Round 49 gated result: **6,032 pins in 1,272 rows (-6; -71 cumulative)**.
+The item-return repair removes three keeps from each of two bank copies,
+with unchanged stock recipe, full strict/gated bytes and independent review.
+Six twin erasures and three motion erasures add no gain. Current routing
+distinguishes 16 epilogue targets from 40 internal targets in 29 rows. Gemini's
+timeout yields one exact but still-three-pin motion return repair; it is not
+landed. See [PIN_RESEARCH_ROUND49.md](PIN_RESEARCH_ROUND49.md).
+
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

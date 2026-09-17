@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,038 pins in 1,272 rows,
-65 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,032 pins in 1,272 rows,
+71 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -101,6 +101,20 @@ that open-ended lane paused while measuring transfer yield. Do not repeat its
 zero-offset prefix or registry spelling tests, preserve dead setup, or manipulate
 reference counts. The Position144 sentinel remains open. No failure proves a
 minimum.
+
+[Round 49](PIN_RESEARCH_ROUND49.md) removes six pins: three each from the
+item-return twins `80E9D000` and `80EA3000`. Real local returns and actual shared
+slot symbols remove coupled keeps at unchanged 2.8.0. Both strict whole rows,
+covering windows, SLUS, host syntax and independent review pass. Three pins
+remain in each twin; the first store-order repair and six isolated erasures fail.
+
+The refreshed local-jump route list now has 29 rows / 56 targets: 16 epilogues
+and 40 internal targets. Seven rows are epilogue-only. Start the next bounded
+whole-function batch with `819A764C` and `818B78E8`, combining return repair with
+actual global relationships. Gemini's five-minute motion trial timed out despite
+exit code zero; its one saved `8182D698` return repair is independently exact,
+but all three pins remain and their erasures fail. It is unlanded and preserved
+in the round 49 receipt. Do not repeat those probes or count a CLI exit as completion.
 
 Keep mechanical repetition in the existing aggregate generator/probe and
 erasure/verification tools. Generalize a new rewrite only with actual semantic
