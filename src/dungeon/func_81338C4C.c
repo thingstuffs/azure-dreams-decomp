@@ -74,7 +74,7 @@ s32 func_80069EF8();
 u16 func_800A0818(u8, u8, u8, u8, s32 *);
 M2C_UNK func_800A56E0();
 M2C_UNK func_80164ED0();
-M2C_UNK func_801655EC(void *, s16, s16, s16);
+void func_801655EC(void *, s32, s32, s32);
 extern u8 D_80082E80[64];
 extern s16 D_80083228[8];
 extern u8 *D_800E3D7C[3];

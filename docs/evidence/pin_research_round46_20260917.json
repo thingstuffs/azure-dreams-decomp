@@ -1,0 +1,1096 @@
+{
+  "baseline": {
+    "commit": "04d596dc",
+    "pins": 6050,
+    "pinned_rows": 1276
+  },
+  "snapshot140": {
+    "source_sha256": "e1e8b2857ae1036d4b253d062848c89d0608906aa11edebed7d510304122cb0d",
+    "controls": [
+      {
+        "name": "direct_arguments",
+        "path": "work/native_lane/r46_snapshot140/direct_arguments.c",
+        "sha256": "699fec4374456b19504706a03005b23b32b0fe72948a2f345d8ce1d8275b896f",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   \n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       \n                       \n                    *copy_dst = *copy_src;\n                       \n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               \n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        u8 *dst_cursor;   \n        u8 *index_cursor;   \n        Global1004C *slot_fields;\n        u8 *buffer_page;   \n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           \n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n           \n        buffer_addr = D_800E3E48;\n           \n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n               \n            index_cursor[0x2238] = func_800422A8(\n                *(s32 *)((u8 *)slot_fields + 0x29C), (void *)0x80010248, 4, 20);\n            copy_dst = (Blob140 *)(dst_cursor + 0x2260);\n            copy_src = (Blob140 *)src_cursor;\n               \n            *copy_dst = *copy_src;\n               \n               \n               \n               \n               \n            lookup_ptr = *record_slot;\n               \n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n            index_cursor[0x224C] = func_800422A8(lookup_ptr, D_800E3E48, 0x8C, 20);\n               \n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *src_cursor;   \n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n           \n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n               \n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "status": "ok",
+          "exact": false,
+          "subs": 21,
+          "indels": 19,
+          "total": 40,
+          "gen_words": 180,
+          "tgt_words": 181,
+          "class": "const-remat",
+          "signals": [
+            "remat=2",
+            "frame=-48/-56,saved=15/17",
+            "addressing=1",
+            "dead-word=3",
+            "length-words=180/181"
+          ],
+          "secs": 0.84,
+          "err": null
+        },
+        "loop_diagnostics": "197 to 291: 34 real insns.\nInsn 262: regno 147 (life 1), move-insn savings 1 not desirable\nInsn 248: possible biv, reg 125, const = -4\nInsn 251: possible biv, reg 126, const = -140\nInsn 254: possible biv, reg 127, const = -140\nInsn 257: possible biv, reg 129, const = -4\nInsn 260: possible biv, reg 82, const = -1\nInsn 280: possible biv, reg 128, const = -1\nReg 128: biv verified\nReg 82: biv verified\nReg 129: biv verified\nReg 127: biv verified\nReg 126: biv verified\nReg 125: biv verified\nInsn 223: giv reg 132 src reg 127 benefit 2 used 1 lifetime 1 replaceable mult 1 add 8800\nInsn 233: giv reg 145 src reg 126 benefit 2 used 1 lifetime 5 replaceable mult 1 add 128\nbiv 128 can be eliminated.\ngiv at 220 combined with giv at 277\ngiv at 277 reduced to (reg:SI 165)\ngiv at 220 reduced to (plus:SI (reg:SI 165)\nbiv 128 was eliminated.\nReg 128: biv eliminated\nFinal biv value for 82, biv dead after loop exit.\nCannot eliminate biv 82: biv used in insn 285.\nbiv 129 can be eliminated.\ngiv at 205 combined with giv at 208\ngiv at 205 combined with giv at 208\ngiv at 208 reduced to (reg:SI 166)\ngiv at 205 reduced to (plus:SI (reg:SI 166)\ngiv at 205 reduced to (plus:SI (reg:SI 166)\nbiv 129 was eliminated.\nReg 129: biv eliminated\nbiv 127 can be eliminated.\ngiv of insn 223 not worth while, 0 vs 34.\nCannot eliminate biv 126: biv used in insn 231.\ngiv of insn 233 not worth while, 0 vs 34.\nCannot eliminate biv 125: biv used in insn 245.",
+        "loop_sha256": "42d480e1d99a1dc85ea3aea108eccf6015ef1245e93f6d105f1d752c8b1cbdf3",
+        "assembly_sha256": "638155f5f88089386ca11ecaf0c38e38a8c9d1fdc348dc7aa755c6037fc318d7",
+        "frame": ".frame\t$sp,48,$31\t\t# vars= 0, regs= 8/0, args= 16, extra= 0"
+      },
+      {
+        "name": "direct_copy",
+        "path": "work/native_lane/r46_snapshot140/direct_copy.c",
+        "sha256": "39841cf62ed08d86167283a24d0e0b839ce4a748c5fc34824fdb314f99846052",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   \n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       \n                       \n                    *copy_dst = *copy_src;\n                       \n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               \n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        u8 *dst_cursor;   \n        u8 *index_cursor;   \n        Global1004C *slot_fields;\n        u8 *buffer_page;   \n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           \n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n           \n        buffer_addr = D_800E3E48;\n           \n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n               \n            index_cursor[0x2238] = func_800422A8(\n                *(s32 *)((u8 *)slot_fields + 0x29C), (void *)0x80010248, 4, 20);\n            *(Blob140 *)(dst_cursor + 0x2260) = *(Blob140 *)src_cursor;\n            lookup_ptr = *record_slot;\n               \n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n            index_cursor[0x224C] = func_800422A8(lookup_ptr, D_800E3E48, 0x8C, 20);\n               \n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *src_cursor;   \n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n           \n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n               \n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "status": "ok",
+          "exact": false,
+          "subs": 21,
+          "indels": 19,
+          "total": 40,
+          "gen_words": 180,
+          "tgt_words": 181,
+          "class": "const-remat",
+          "signals": [
+            "remat=2",
+            "frame=-48/-56,saved=15/17",
+            "addressing=1",
+            "dead-word=3",
+            "length-words=180/181"
+          ],
+          "secs": 0.84,
+          "err": null
+        },
+        "loop_diagnostics": "197 to 285: 33 real insns.\nInsn 256: regno 147 (life 1), move-insn savings 1 not desirable\nInsn 242: possible biv, reg 125, const = -4\nInsn 245: possible biv, reg 126, const = -140\nInsn 248: possible biv, reg 127, const = -140\nInsn 251: possible biv, reg 129, const = -4\nInsn 254: possible biv, reg 82, const = -1\nInsn 274: possible biv, reg 128, const = -1\nReg 128: biv verified\nReg 82: biv verified\nReg 129: biv verified\nReg 127: biv verified\nReg 126: biv verified\nReg 125: biv verified\nInsn 227: giv reg 145 src reg 126 benefit 2 used 1 lifetime 5 replaceable mult 1 add 128\nbiv 128 can be eliminated.\ngiv at 220 combined with giv at 271\ngiv at 271 reduced to (reg:SI 165)\ngiv at 220 reduced to (plus:SI (reg:SI 165)\nbiv 128 was eliminated.\nReg 128: biv eliminated\nFinal biv value for 82, biv dead after loop exit.\nCannot eliminate biv 82: biv used in insn 279.\nbiv 129 can be eliminated.\ngiv at 205 combined with giv at 208\ngiv at 205 combined with giv at 208\ngiv at 208 reduced to (reg:SI 166)\ngiv at 205 reduced to (plus:SI (reg:SI 166)\ngiv at 205 reduced to (plus:SI (reg:SI 166)\nbiv 129 was eliminated.\nReg 129: biv eliminated\nCannot eliminate biv 127: biv used in insn 223.\nCannot eliminate biv 126: biv used in insn 225.\ngiv of insn 227 not worth while, 0 vs 33.\nCannot eliminate biv 125: biv used in insn 239.",
+        "loop_sha256": "c6886d62559a48618327d658154a17e8fd8a33aaaa2d0afb207763ae16cb2552",
+        "assembly_sha256": "24b67b23263f4265e194f861fae137d659e8b301f3e0165fecb7d5125882ecec",
+        "frame": ".frame\t$sp,48,$31\t\t# vars= 0, regs= 8/0, args= 16, extra= 0"
+      },
+      {
+        "name": "direct_lookup",
+        "path": "work/native_lane/r46_snapshot140/direct_lookup.c",
+        "sha256": "264471e1b60a92ebc83ff8dbd4e61d98e1b0bd7a9fedb10e7ca340279598ddc9",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   \n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       \n                       \n                    *copy_dst = *copy_src;\n                       \n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               \n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        u8 *dst_cursor;   \n        u8 *index_cursor;   \n        Global1004C *slot_fields;\n        u8 *buffer_page;   \n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           \n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n           \n        buffer_addr = D_800E3E48;\n           \n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n               \n            index_cursor[0x2238] = func_800422A8(\n                *(s32 *)((u8 *)slot_fields + 0x29C), (void *)0x80010248, 4, 20);\n            *(Blob140 *)(dst_cursor + 0x2260) = *(Blob140 *)src_cursor;\n            index_cursor[0x224C] = func_800422A8(*record_slot, D_800E3E48, 0x8C, 20);\n               \n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n\n               \n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *src_cursor;   \n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n           \n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n               \n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "status": "ok",
+          "exact": false,
+          "subs": 22,
+          "indels": 11,
+          "total": 33,
+          "gen_words": 180,
+          "tgt_words": 181,
+          "class": "const-remat",
+          "signals": [
+            "remat=2",
+            "frame=-48/-56,saved=15/17",
+            "addressing=2",
+            "length-words=180/181"
+          ],
+          "secs": 0.87,
+          "err": null
+        },
+        "loop_diagnostics": "197 to 282: 32 real insns.\nInsn 238: regno 147 (life 1), move-insn savings 1 not desirable\nInsn 256: possible biv, reg 125, const = -4\nInsn 259: possible biv, reg 126, const = -140\nInsn 262: possible biv, reg 127, const = -140\nInsn 265: possible biv, reg 129, const = -4\nInsn 268: possible biv, reg 82, const = -1\nInsn 271: possible biv, reg 128, const = -1\nReg 128: biv verified\nReg 82: biv verified\nReg 129: biv verified\nReg 127: biv verified\nReg 126: biv verified\nReg 125: biv verified\nInsn 227: giv reg 145 src reg 126 benefit 2 used 1 lifetime 5 replaceable mult 1 add 128\nbiv 128 can be eliminated.\ngiv at 220 combined with giv at 253\ngiv at 253 reduced to (reg:SI 165)\ngiv at 220 reduced to (plus:SI (reg:SI 165)\nbiv 128 was eliminated.\nReg 128: biv eliminated\nFinal biv value for 82, biv dead after loop exit.\nCannot eliminate biv 82: biv used in insn 276.\nbiv 129 can be eliminated.\ngiv at 205 combined with giv at 208\ngiv at 205 combined with giv at 208\ngiv at 208 reduced to (reg:SI 166)\ngiv at 205 reduced to (plus:SI (reg:SI 166)\ngiv at 205 reduced to (plus:SI (reg:SI 166)\nbiv 129 was eliminated.\nReg 129: biv eliminated\nCannot eliminate biv 127: biv used in insn 223.\nCannot eliminate biv 126: biv used in insn 225.\ngiv of insn 227 not worth while, 0 vs 32.\nCannot eliminate biv 125: biv used in insn 241.",
+        "loop_sha256": "3944649683710497e221992729e33981a8c4125daad6c9138d872e65247418f6",
+        "assembly_sha256": "6cc9eba3753be5f9258c449b49547074a1a2a50117bd101a601e03468c9fbff5",
+        "frame": ".frame\t$sp,48,$31\t\t# vars= 0, regs= 8/0, args= 16, extra= 0"
+      },
+      {
+        "name": "indexed_copy_source",
+        "path": "work/native_lane/r46_snapshot140/indexed_copy_source.c",
+        "sha256": "1ad81e966d484db43a10606bee08c18661f3cb48bf0b962c81f5479517e2bc6e",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   \n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       \n                       \n                    *copy_dst = *copy_src;\n                       \n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               \n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        u8 *dst_cursor;   \n        u8 *index_cursor;   \n        Global1004C *slot_fields;\n        u8 *buffer_page;   \n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           \n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n           \n        buffer_addr = D_800E3E48;\n           \n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n               \n            index_cursor[0x2238] = func_800422A8(\n                *(s32 *)((u8 *)slot_fields + 0x29C), (void *)0x80010248, 4, 20);\n            *(Blob140 *)(dst_cursor + 0x2260) = ((Blob140 *)D_800E3E48)[slot_index];\n            index_cursor[0x224C] = func_800422A8(*record_slot, D_800E3E48, 0x8C, 20);\n               \n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n\n               \n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *src_cursor;   \n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n           \n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n               \n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "status": "ok",
+          "exact": false,
+          "subs": 13,
+          "indels": 14,
+          "total": 27,
+          "gen_words": 182,
+          "tgt_words": 181,
+          "class": "const-remat",
+          "signals": [
+            "remat=1",
+            "indels=14(ins7/del7)",
+            "drift-ins:+lui,+ori,+addiu",
+            "drift-del:-move,-lui,-ori",
+            "dead-word=1"
+          ],
+          "secs": 0.87,
+          "err": null
+        },
+        "loop_diagnostics": "197 to 295: 39 real insns.\nInsn 222: regno 144 (life 8), move-insn savings 3  moved to 418\nInsn 223: regno 143 (life 6), move-insn forces 222 savings 1  moved to 420\nInsn 251: regno 156 (life 1), done move-insn matches 222 \nInsn 269: possible biv, reg 125, const = -4\nInsn 275: possible biv, reg 127, const = -140\nInsn 278: possible biv, reg 129, const = -4\nInsn 281: possible biv, reg 82, const = -1\nInsn 284: possible biv, reg 128, const = -1\nReg 128: biv verified\nReg 82: biv verified\nReg 129: biv verified\nReg 127: biv verified\nReg 125: biv verified\nInsn 226: giv reg 146 src reg 82 benefit 2 used 1 lifetime 1 replaceable mult 8 add 0\nInsn 228: giv reg 147 src reg 82 benefit 4 used 1 lifetime 1 replaceable mult 9 add 0\nInsn 229: giv reg 148 src reg 82 benefit 6 used 1 lifetime 1 replaceable mult 36 add 0\nInsn 231: giv reg 149 src reg 82 benefit 8 used 1 lifetime 1 replaceable mult 35 add 0\nInsn 232: giv reg 150 src reg 82 benefit 10 used 1 lifetime 1 replaceable mult 140 add 0\nInsn 234: giv reg 151 src reg 82 benefit 12 used 1 lifetime 2 replaceable mult 140 add (reg:SI 143)\nbiv 128 can be eliminated.\ngiv at 220 combined with giv at 266\ngiv at 266 reduced to (reg:SI 175)\ngiv at 220 reduced to (plus:SI (reg:SI 175)\nbiv 128 was eliminated.\nReg 128: biv eliminated\nFinal biv value for 82, biv dead after loop exit.\nbiv 82 can be eliminated.\ngiv of insn 226 not worth while, 0 vs 39.\ngiv at 234 reduced to (reg:SI 176)\ngiv at 232 reduced to (reg:SI 177)\ngiv at 231 reduced to (reg:SI 178)\ngiv at 229 reduced to (reg:SI 179)\ngiv at 228 reduced to (reg:SI 180)\nbiv 129 can be eliminated.\ngiv at 205 combined with giv at 208\ngiv at 205 combined with giv at 208\ngiv at 208 reduced to (reg:SI 181)\ngiv at 205 reduced to (plus:SI (reg:SI 181)\ngiv at 205 reduced to (plus:SI (reg:SI 181)\nbiv 129 was eliminated.\nReg 129: biv eliminated\nCannot eliminate biv 127: biv used in insn 236.\nCannot eliminate biv 125: biv used in insn 254.",
+        "loop_sha256": "44720540658033599214a32c9b971af21be3bbc3f3bc2c18bbe2cccd23090772",
+        "assembly_sha256": "b99d7d937dcd31ebf85e8ea5c933e9c2e6542e40ee07de4e870fe14d7071fb1a",
+        "frame": ".frame\t$sp,56,$31\t\t# vars= 0, regs= 9/0, args= 16, extra= 0"
+      },
+      {
+        "name": "indexed_copy_live_only",
+        "path": "work/native_lane/r46_snapshot140/indexed_copy_live_only.c",
+        "sha256": "3952517bd11cae973a4634e98619cba79e8c0910aa2358317f7840807e45c88b",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   \n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           \n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       \n                       \n                    *copy_dst = *copy_src;\n                       \n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               \n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *dst_cursor;   \n        u8 *index_cursor;   \n        Global1004C *slot_fields;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           \n        record_slot = (s32 *)buffer_addr + 0x13;\n           \n           \n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n               \n            index_cursor[0x2238] = func_800422A8(\n                *(s32 *)((u8 *)slot_fields + 0x29C), (void *)0x80010248, 4, 20);\n            *(Blob140 *)(dst_cursor + 0x2260) = ((Blob140 *)D_800E3E48)[slot_index];\n            index_cursor[0x224C] = func_800422A8(*record_slot, D_800E3E48, 0x8C, 20);\n               \n            record_slot -= 1;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n\n               \n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *src_cursor;   \n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n           \n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n               \n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "status": "ok",
+          "exact": false,
+          "subs": 19,
+          "indels": 16,
+          "total": 35,
+          "gen_words": 181,
+          "tgt_words": 181,
+          "class": "addressing",
+          "signals": [
+            "addressing=2",
+            "dead-word=1"
+          ],
+          "secs": 0.84,
+          "err": null
+        },
+        "loop_diagnostics": "188 to 283: 39 real insns.\nInsn 213: regno 141 (life 8), move-insn savings 3  moved to 406\nInsn 214: regno 140 (life 6), move-insn forces 213 savings 1  moved to 408\nInsn 242: regno 153 (life 1), done move-insn matches 213 \nInsn 260: possible biv, reg 125, const = -4\nInsn 263: possible biv, reg 126, const = -140\nInsn 266: possible biv, reg 128, const = -4\nInsn 269: possible biv, reg 82, const = -1\nInsn 272: possible biv, reg 127, const = -1\nReg 127: biv verified\nReg 82: biv verified\nReg 128: biv verified\nReg 126: biv verified\nReg 125: biv verified\nInsn 217: giv reg 143 src reg 82 benefit 2 used 1 lifetime 1 replaceable mult 8 add 0\nInsn 219: giv reg 144 src reg 82 benefit 4 used 1 lifetime 1 replaceable mult 9 add 0\nInsn 220: giv reg 145 src reg 82 benefit 6 used 1 lifetime 1 replaceable mult 36 add 0\nInsn 222: giv reg 146 src reg 82 benefit 8 used 1 lifetime 1 replaceable mult 35 add 0\nInsn 223: giv reg 147 src reg 82 benefit 10 used 1 lifetime 1 replaceable mult 140 add 0\nInsn 225: giv reg 148 src reg 82 benefit 12 used 1 lifetime 2 replaceable mult 140 add (reg:SI 140)\nbiv 127 can be eliminated.\ngiv at 211 combined with giv at 257\ngiv at 257 reduced to (reg:SI 172)\ngiv at 211 reduced to (plus:SI (reg:SI 172)\nbiv 127 was eliminated.\nReg 127: biv eliminated\nFinal biv value for 82, biv dead after loop exit.\nbiv 82 can be eliminated.\ngiv of insn 217 not worth while, 0 vs 39.\ngiv at 225 reduced to (reg:SI 173)\ngiv at 223 reduced to (reg:SI 174)\ngiv at 222 reduced to (reg:SI 175)\ngiv at 220 reduced to (reg:SI 176)\ngiv at 219 reduced to (reg:SI 177)\nbiv 128 can be eliminated.\ngiv at 196 combined with giv at 199\ngiv at 196 combined with giv at 199\ngiv at 199 reduced to (reg:SI 178)\ngiv at 196 reduced to (plus:SI (reg:SI 178)\ngiv at 196 reduced to (plus:SI (reg:SI 178)\nbiv 128 was eliminated.\nReg 128: biv eliminated\nCannot eliminate biv 126: biv used in insn 227.\nCannot eliminate biv 125: biv used in insn 245.",
+        "loop_sha256": "cf851bda60cac6ecd4b50a92724f8fb9f3a434c4d5745b5119ddb8ccd60ceadb",
+        "assembly_sha256": "7ca68361104b4e48caa4e69946f119876ed5d100d2b81d4666f84602bc47c88e",
+        "frame": ".frame\t$sp,56,$31\t\t# vars= 0, regs= 9/0, args= 16, extra= 0"
+      }
+    ],
+    "fingerprint": "== lineage fingerprint: func_8008EE88 (overlay dungeon, 181 words) ==\n$at macro stores             0   \ncompiler-split stores        2   [152] lui $v0,0x8001 + [155] sh $v1, 0x3624($v0); [152] lui $v0,0x8001 + [156] sh $a0, 0x209c($v0)\nheld-page bases (s-reg)      0   \nstore in jal/j slot          1   [167] jal 0xa9160 + [168] sb $v1, 0x2d6d($v0)\ntwo-reg split la             3   [16] lui $v0, 0x800e + [17] addiu $s5, $v0, 0x3df0; [18] lui $v0, 0x800e + [19] addiu $s4, $v0, 0x3e48; [86] lui $s7, 0x800e + [87] addiu $v0, $s7, 0x3e48\nzero-equiv copies            0   \nreturn-copy after call       0   \n$gp refs                     0\nVERDICT: cdk/2.8.x-family store emission/cse habits; compiler-filled call/jump slots (impossible under macro emission); SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage)\nclaimed 'cdk' is consistent with the byte evidence\n",
+    "threshold_report": "# Snapshot140 CDK loop-hoist threshold\n\n## Result\n\nThe effective ordinary loop-invariant-motion threshold for this CDK target is\n**30** in a loop containing a call.  The compiler's own executable establishes\nthe rule and the register count:\n\n```text\nn_non_fixed_regs = 29\nthreshold = (loop_has_call ? 1 : 2) * (1 + n_non_fixed_regs)\ncall-loop threshold = 1 * (1 + 29) = 30\nordinary move when threshold * savings * lifetime >= insn_count\n```\n\nFor the natural `HIGH(D_800E3E48)` with `savings 1` and `life 1`, equality is\naccepted: a loop with at most 30 real instructions passes the ordinary cost\narm, while a loop with 31 or more fails it.  The bounded source simplifications\ntherefore behaved exactly as this threshold predicts:\n\n| candidate | second-loop real instructions | HIGH evidence | distance |\n|---|---:|---|---:|\n| `aggregate_copy4.c` | 36 | life 1, savings 1, rejected | 40 |\n| `direct_arguments.c` | 34 | life 1, savings 1, rejected | 40 |\n| `direct_copy.c` | 33 | life 1, savings 1, rejected | 40 |\n| `direct_lookup.c` | 32 | life 1, savings 1, rejected | 33 |\n\nThus the smallest control remained two counted instructions above the boundary.\nThis quantifies the old failure; it does not require reducing the loop to reach\nretail.  The subsequent grounded `indexed_copy_source.c` changes the value\ngraph instead.  Its loop has 39 real instructions, but its shared symbol HIGH\nhas `life 8`, `savings 3`, and is moved because `30 * 3 * 8 = 720 >= 39`.\nThe second lookup HIGH matches that moved invariant:\n\n```text\nLoop from 197 to 295: 39 real insns.\nInsn 222: regno 144 (life 8), move-insn savings 3  moved to 418\nInsn 223: regno 143 (life 6), move-insn forces 222 savings 1  moved to 420\nInsn 251: regno 156 (life 1), done move-insn matches 222\n```\n\nThat is the actionable distinction.  Reconstructing the actual indexed buffer\nsource made the HIGH serve multiple real loop uses, so it crossed the cost test\nthrough lifetime and savings rather than through arbitrary loop shrinking.  It\nrestores the 56-byte frame and saved roles without a pin and improves the result\nto 182/181 words, distance 27.  The remaining extra move and strength-reduced\ncursor offsets are downstream shape questions, not evidence that CDK rejected\nthe page hoist.\n\n## Direct CDK evidence\n\nThe compiler is the unstripped executable\n`toolchain/compilers/gcc-2.7.2-cdk/cc1`, SHA-256\n`90db2db7bcfe372244ca4d9785a7bfbf7613d711f69ee3bfe6c91d82a85e611d`.\nIts symbols and code make this more than an analogy to retained FSF source:\n\n- `initial_fixed_regs` is 76 bytes at `0x08318920`; `fixed_regs` is 76 bytes\n  at `0x0832d9a0`; and `n_non_fixed_regs` is at `0x0832d92c`.\n- The initial table fixes registers 0, 1, 26, 27, 28, 29, 31, and 71.\n- `init_reg_sets_1` at `0x08153833` tests target flag `0x100`.  On the enabled\n  branch it fixes registers 32 through 63 and 67 through 74.  It then iterates\n  through indices 0 through 75 and increments `n_non_fixed_regs` for each zero\n  `fixed_regs` byte.\n- The emitted assemblies identify `-msoft-float` as enabled.  The retained MIPS\n  definition independently identifies `0x100` as `MASK_SOFT_FLOAT`.\n- After overlap at register 71, the runtime fixed set has 47 entries:\n  7 fixed GPRs + 1 initially fixed extra register + 32 FPRs + 7 newly fixed\n  registers in 67..74.  Therefore `76 - 47 = 29` entries are counted non-fixed.\n  The candidates contain no global hard-register declaration that could later\n  decrement this compiler-global count.\n- `scan_loop` at `0x0811f09c..0x0811f0c0` selects multiplier 1 when\n  `loop_has_call` is true (2 otherwise), loads `n_non_fixed_regs`, adds 1,\n  multiplies, and stores the threshold passed to `move_movables`.\n- `move_movables` at `0x0812172f..0x08121743` multiplies threshold by savings\n  and the movable's lifetime, compares that product with `insn_count`, and\n  takes the accepted path when `insn_count <= product`.  Its alternate accepted\n  arms cover an already-required move and a forcing dependency.  The relevant\n  candidate dumps report the ordinary `not desirable` result instead.\n\nThe count of 29 is a static reconstruction from the exact CDK executable and\nthe option recorded by that executable, rather than a debugger observation of\nthe initialized integer.  The full initialization loop and all mutations of\nthe fixed table are visible in this unstripped binary, so a runtime compiler\nrun would only repeat this calculation.\n\n## Version and target provenance\n\nThe retained FSF `loop.c` trees for 2.7.2, 2.8.0, 2.8.1, and 2.95.2 all use the\nsame ordinary threshold formula.  No local evidence supports a GCC release\nchange to this decision for Snapshot140.  GCC 2.95.2 adds other acceptance\nmachinery, including `flag_move_all_movables`, but its ordinary cost arm is\nunchanged and does not explain this CDK dump.\n\nThere is a real target-table change: retained FSF 2.7.2 has 68 hard-register\nslots, while retained FSF 2.8.0 and later have 76.  The Sony CDK executable also\nhas 76, despite its 2.7.2 lineage string, but its initial fixed entry is register\n71 rather than FSF 2.8's final register 75.  Because the soft-float/ISA branch\nalso fixes 67 through 74, that Sony placement leaves one additional entry\ncounted non-fixed and raises the call-loop threshold to 30.  Using FSF 2.7.2's\n68-register table would incorrectly predict 29.  This is a Sony target-port\nproperty, not evidence for a different invariant-motion algorithm.\n\n## Evidence bindings\n\n- Natural loop dump:\n  `../r42_snapshot140/raw/address_diag/aggregate_copy4.c.loop`, SHA-256\n  `a9f1dfdc99986ceaf2975b0a0940f63b2000c127cb3d3bcfe65abd7b2a89e6e8`.\n- Direct-argument loop dump:\n  `../r46_snapshot140/raw/direct_arguments.c.loop`, SHA-256\n  `42d480e1d99a1dc85ea3aea108eccf6015ef1245e93f6d105f1d752c8b1cbdf3`.\n- Direct-copy loop dump:\n  `../r46_snapshot140/raw/direct_copy.c.loop`, SHA-256\n  `c6886d62559a48618327d658154a17e8fd8a33aaaa2d0afb207763ae16cb2552`.\n- Direct-lookup loop dump:\n  `../r46_snapshot140/raw/direct_lookup.c.loop`, SHA-256\n  `3944649683710497e221992729e33981a8c4125daad6c9138d872e65247418f6`.\n- Indexed-source loop dump:\n  `../r46_snapshot140/raw/indexed_copy_source.c.loop`, SHA-256\n  `44720540658033599214a32c9b971af21be3bbc3f3bc2c18bbe2cccd23090772`.\n- Indexed-source candidate:\n  `../r46_snapshot140/indexed_copy_source.c`, SHA-256\n  `1ad81e966d484db43a10606bee08c18661f3cb48bf0b962c81f5479517e2bc6e`.\n- Indexed-source verification:\n  `../r46_snapshot140/indexed_copy_source_verify.json`, SHA-256\n  `949a67351ac445dd150bd7c79fd6c589a8759817c2ae88a428fb266df6b35ee8`.\n\nNo compile, C source edit, production edit, recipe change, export, or gate was\nperformed for this threshold audit.\n",
+    "next_question": "Natural partial-HIGH is now reproduced. Remove inherited dead cursor state; explain global allocator input/HIGH order and real cursor addressing before more source changes. No synthetic liveness or hard register substitute.",
+    "report": "# Round46 Snapshot140: genuine partial address lifetime\n\nDirect real arguments reduce the second loop36->34; direct aggregate addresses\nreduce34->33; calling directly on the slot before pure cursor decrements reduces\n33->32. The HIGH remains life1/savings1 and rejected. Full verifiers40,40,33;\nall retain frame48 and fail Gate0. No further loop shrinking is justified by\nthose reductions alone.\n\nUsing the actual buffer subscript `((Blob140 *)D_800E3E48)[slot_index]` at the\nsecond copy introduces a second real loop use of the symbol. Loop cost grows\nto39, but HIGH lifetime8/savings3 makes hoisting profitable; the lookup HIGH\nthen matches the moved invariant. No literal page, keep or fake dependency was\nintroduced. Frame56/all saved roles recover, first80 retail words match;\ncomplete score182/181,total27. This is a causal positive, not a landing.\n\nThat candidate still contains dead inherited cursor initialization/update.\nRemoving them also removes the unwanted `move s7,v0`, and yields181/181,total35.\nNow input/HIGH use s7/s6 rather than s6/s7: greg allocation order places HIGH141\nbefore input81, whereas the earlier candidate placed input81 before HIGH144.\nThe unmodified remaining first-loop and tail operations expose the swap.\nThis is an allocation consequence of eliminating dead source, not evidence that\nthe dead source should be retained as a constraint.\n\nThe two index cursors are also rebased by strength reduction: the two byte\nindices use base8001225F with offsets-20/0 instead of80010013+2238/224C;\nCopy4/entry refs use800102E8 with offsets-84/8012/0 instead of8001004C+\n248/21E8/29C. Loop diagnostics explicitly eliminate these original induction\nvariables and combine their derived addresses. The addresses refer to the same\nobjects, but emission differs. The independent SaveState audit proves layout,\nnot those artificial biased source cursors.\n\nNext, reconstruct those cursor operations from the real four-array layout and\ntrace allocator priorities on the minimally live indexed source. The old\nquestion of whether ordinary C can retain the partial HIGH is answered yes.\nA full exact unpinned function and original compiler release remain open.\n",
+    "partial_report": "# Round46 Snapshot140 partial aggregate transfer\n\n## Result\n\nThe tested hybrids do not produce an exact partial repair.  The best bounded\ncontrol, `hybrid_first_flags_keep.c`, is the correct 181 words with zero\nindels, but thirteen register substitutions remain in the first loop.  It\nremoves seven of the current twenty-four pin sites and leaves words 80-180\nexact.  It is useful causal evidence, not a landing candidate.\n\nThe failure is localized.  Ordinary aggregate assignment reproduces the\nretail 140-byte `a3/a2/t0` block-copy partition when its source pointer is\nunbound.  Removing the first-loop constraints leaves three long-lived saved\nroles underconstrained: the record-buffer base, entry cursor, and selected\nrecord rotate among `s1`, `s3`, and `s4`.  Restoring the existing bottom-of-loop\nentry-cursor keep changes that permutation but does not recover retail's\nassignment.  Retaining the old hard binding on the record is counterproductive:\nCDK then mutates `s1` as the block-copy cursor instead of copying it to `a2`.\n\nNo production source, recipe, configuration, ledger, export, or build root was\nchanged.\n\n## Baseline and bounded controls\n\nAll results below use unmodified stock `2.7.2-cdk-G0`, the complete retail\nextent, and aligned substitutions plus indels.  The row links at true runtime\naddress `0x800945E8`.\n\n| Source | Pin sites | Words | Subs | Indels | Total | Causal result |\n|---|---:|---:|---:|---:|---:|---|\n| `copy_only_cdk.c` | 24 | 182/181 | 19 | 6 | 25 | Existing control: frame and saved set match, but the first copy uses the pinned record as its cursor and the retained second destination keep adds a move. |\n| `hybrid_first_ordinary.c` | 17 | 182/181 | 12 | 2 | 14 | Fully ordinary first loop; exact copy lowering, but record and entry-cursor roles swap `s1`/`s3`. The retained second destination keep causes the extra word. |\n| `hybrid_first_partial.c` | 17 | 180/181 | 20 | 3 | 23 | Retaining the existing record `$s1` binding restores the surrounding roles but makes the aggregate copy mutate `s1`; this loses retail's `a2/t0` copy roles. |\n| `hybrid_first_flags_keep.c` | 17 | 181/181 | 13 | 0 | 13 | Retains only the existing first-loop bottom keep and removes the existing second copy-destination keep. Words 80-180 become exact; the first loop has a three-register role cycle. |\n\nThe source and proof hashes are:\n\n| Artifact | SHA-256 |\n|---|---|\n| Production-derived base | `e1e8b2857ae1036d4b253d062848c89d0608906aa11edebed7d510304122cb0d` |\n| Existing `copy_only_cdk.c` control | `6b8df77fdbc706e4cb739d248163430d42fc2e8458aeec40545c553bbb8f1132` |\n| Fully ordinary first-loop hybrid | `90c3a05aa6d8300c6c30930afedb4547b3fc6c752f15a56718bd8be0287c646d` |\n| Record-binding control | `259687ef355c5d95dd5fce490506440ce1b364def9220535dfd75d13bf9ee0fb` |\n| Best flag-keep control | `d5c2d0554ca2925bc1d316db8ee00869e0f7fe2d34f15d4f55b8afdd59479b78` |\n| Fully ordinary strict receipt | `e6ac4a544ede6748454dda99651eee8b4926d94ff6d6b2aabc782126505966b5` |\n| Record-binding strict receipt | `0e09661919d9bf2dd997e70fce5e7fad255303df51da97328d6f5b9b1b536d63` |\n| Best flag-keep strict receipt | `796dc3ab22f401987ca1328e2e840d2abd254635c90d019ce79594e7abe72fc9` |\n\nThe best strict receipt records target SHA-256\n`ae091bfe85a71aea5127ca696b1dcfb5d1bc5167ae485dfe8599a461fa27b438`,\ncompiler SHA-256\n`7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b`,\nand comparator SHA-256\n`54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce`.\nIt reports no relocation suspicion.\n\n## Instruction-level comparison\n\nThe original `copy_only_cdk.c` differs in two independent copy regions.\nAt words 48-67, the hard-bound record remains the copy induction value rather\nthan being moved into retail's `a2`; at the second copy setup, the destination\nkeep materializes the address in `v1` and adds `move a3,v1`.  The latter move\nalso changes the loop-back displacement and pushes the final return-slot `nop`\npast the 181-word target extent.\n\n`hybrid_first_ordinary.c` removes all seven first-loop pin sites and uses the\nordinary symbolic table and buffer objects.  Its prologue, `s5` table base,\n`s4` buffer base, index arithmetic, helper call, complete block-copy sequence,\ntable update, and all instructions after the first loop retain retail's shape.\nThe first-loop difference is a pure two-role coloring swap:\n\n```text\nrole                 retail   hybrid_first_ordinary\nentry flag cursor      s3              s1\nselected record        s1              s3\nrecord buffer base     s4              s4\n```\n\nIts only later structural difference is the pre-existing second-copy\ndestination keep described above.\n\nThe record-binding control tests the obvious partial fallback.  It is a\nnegative: once `record` is fixed in `s1`, aggregate expansion uses `s1` itself\nas the source cursor and increments it by sixteen.  Retail instead keeps `s1`\nstable and uses `a2`, with `t0` as the end.  The control therefore explains why\nretaining that particular old pin cannot accompany the natural aggregate\ncopy.\n\nThe final authorized control restores only the original\n`ASM_KEEP(entry_flags_ptr)` at the first-loop bottom and removes only the\noriginal `ASM_KEEP_NV(copy_dst)` tied to the second aggregate.  The result has\nthe exact frame, instruction count, branches, both aggregate-copy partitions,\nsecond loop, two-reference loop, state tail, and epilogue.  Its thirteen\ndifferences are confined to words 19-79 and form this three-role cycle:\n\n```text\nrole                 retail   hybrid_first_flags_keep\nrecord buffer base     s4              s1\nentry flag cursor      s3              s4\nselected record        s1              s3\n```\n\nThis shows that the keep changes lifetime pressure without recovering the\nretail coloring.  The tested cells and source shapes do not make that\npermutation evidence for an additional binding.\n\n## Pin accounting and semantic boundary\n\n`tools.pin_census.sites_of` reports 24 sites in `base.c` and 17 in each\nhybrid.  The best control removes six sites from the first region (the record\nbinding, two literal-page keeps, two copy-pointer keeps, and record-index keep),\nretains the existing entry-cursor keep, and removes the second copy-destination\nkeep.  It introduces no pin, literal page, dead-use scaffold, compiler flag,\nor alternate code arm.  All remaining sites are inherited verbatim from the\nproduction source.\n\nThe ordinary copy itself is semantically admissible under the Round42 review.\nIt copies exactly the 140-byte record prefix.  The first source and destination\nare either disjoint or the same typed slot; the second source and destination\nare disjoint RAM regions.  `D_800E3E48` is ordinary mutable snapshot storage,\nand sibling `func_8008E714` already expresses the same prefix as a nonvolatile\naggregate.  No MMIO or synchronization-qualified access was removed.\n\nThe independent zero-pin indexed-source controls in\n`work/native_lane/r46_snapshot140` answer the complementary second-loop\nquestion.  Meaningful indexing creates two symbolic `D_800E3E48` uses and\nnaturally hoists the high page, recovering the 56-byte frame; removing dead\ncursor initialization preserves that natural high-page result but remains\nnonexact.  This report does not repeat those probes or treat their temporary\ndead initialization as a source solution.\n\n## Next source/RTL question\n\nThe next bounded experiment should target the first-loop value graph rather\nthan another compiler cell or an erasure menu.  A typed larger record with a\nnamed 140-byte prefix member is the concrete source question: it can preserve\nthe record base used by the byte `0xA8`/`0x13` update while presenting a\ndistinct aggregate source expression for the copy.  Initial RTL should then\nbe checked for separate stable-record and block-copy pseudos before scoring.\nThe required success condition is the natural retail mapping `s1=record`,\n`s3=flags`, `s4=buffer`, with the aggregate source copied to `a2`; adding a new\nhard register binding or dead use would not answer that question.\n",
+    "partial_controls": {
+      "hybrid_first_ordinary": {
+        "sha256": "90c3a05aa6d8300c6c30930afedb4547b3fc6c752f15a56718bd8be0287c646d",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n                       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */\n                    *copy_dst = *copy_src;\n                       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        register u8 *dst_cursor ASM_REG(\"$20\");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        register u8 *index_cursor ASM_REG(\"$19\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n        Global1004C *slot_fields;\n        register u8 *buffer_page ASM_REG(\"$23\");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n        ASM_KEEP_NV(buffer_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        buffer_addr = buffer_page + 0x3E48;\n        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n            ASM_SET(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            lookup_ptr = *(s32 *)((u8 *)slot_fields + 0x29C);\n            entry_count = 0x14;\n            index_cursor[0x2238] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            copy_dst = (Blob140 *)(dst_cursor + 0x2260);\n            copy_src = (Blob140 *)src_cursor;\n            ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            *copy_dst = *copy_src;\n            ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(record_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(dst_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(slot_fields);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            lookup_base = buffer_page + 0x3E48;\n            entry_size = 0x8C;\n            entry_count = 0x14;\n            lookup_ptr = *record_slot;\n            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n            index_cursor[0x224C] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            ASM_KEEP(index_cursor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */\n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        register u8 *src_cursor ASM_REG(\"$16\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "aligned": {
+            "indels": 2,
+            "substitutions": 12,
+            "total": 14
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": false,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+          "compiler_assembly": {
+            "bytes": 4993,
+            "path": "../work/native_lane/r46_snapshot_partial/raw/hybrid_first_ordinary_strict.s",
+            "sha256": "dba5a52db43e2ebb82bf03497c66a9e95241a3aab4fb5df1509ae3323869a483"
+          },
+          "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+          "config": "2.7.2-cdk-G0",
+          "exact": false,
+          "function": "func_8008EE88",
+          "length_bytes": {
+            "generated": 728,
+            "target": 724
+          },
+          "length_words": {
+            "generated": 182,
+            "target": 181
+          },
+          "maspsx_assembly": {
+            "bytes": 5528,
+            "path": "../work/native_lane/r46_snapshot_partial/raw/hybrid_first_ordinary_strict.maspsx.s",
+            "sha256": "31b9dd69b237c781172f86c3de614b4712cee72f1cf9a92e26866d03a02d37ff"
+          },
+          "positional_words_off": 87,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 2,
+              "substitutions": 12,
+              "total": 14
+            },
+            "candidate_words": 181,
+            "mask_relocations": false,
+            "region_map_sha256": "0853c021f5fea3d141cb18321ff49bb54c8bbf50b531f10a6b8dbf4babfa2c78",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  45
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 8,
+                "target_span": [
+                  0,
+                  45
+                ]
+              },
+              {
+                "candidate_span": [
+                  45,
+                  90
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 2,
+                "target_span": [
+                  45,
+                  90
+                ]
+              },
+              {
+                "candidate_span": [
+                  90,
+                  136
+                ],
+                "id": "R2",
+                "indels": 1,
+                "substitutions": 1,
+                "target_span": [
+                  90,
+                  135
+                ]
+              },
+              {
+                "candidate_span": [
+                  136,
+                  181
+                ],
+                "id": "R3",
+                "indels": 1,
+                "substitutions": 1,
+                "target_span": [
+                  135,
+                  181
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 181,
+            "vector": [
+              8,
+              0,
+              2,
+              0,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": null,
+          "residue": {
+            "class": "const-remat",
+            "confidence": "med",
+            "signals": [
+              "remat=1"
+            ]
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r46_snapshot_partial/hybrid_first_ordinary.c",
+          "source_sha": "90c3a05aa6d8300c6c30930afedb4547b3fc6c752f15a56718bd8be0287c646d",
+          "status": "NOMATCH",
+          "target_sha": "ae091bfe85a71aea5127ca696b1dcfb5d1bc5167ae485dfe8599a461fa27b438",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x800945E8 (region xfer_dungeon_A3000, delta 0x7FFE5760)"
+          ],
+          "words_off": 87
+        }
+      },
+      "hybrid_first_partial": {
+        "sha256": "259687ef355c5d95dd5fce490506440ce1b364def9220535dfd75d13bf9ee0fb",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        register u8 *record ASM_REG(\"$17\");   /* Retained existing binding: keeps the live record in the retail s1 role. */\n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n                       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */\n                    *copy_dst = *copy_src;\n                       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        register u8 *dst_cursor ASM_REG(\"$20\");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        register u8 *index_cursor ASM_REG(\"$19\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n        Global1004C *slot_fields;\n        register u8 *buffer_page ASM_REG(\"$23\");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n        ASM_KEEP_NV(buffer_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        buffer_addr = buffer_page + 0x3E48;\n        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n            ASM_SET(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            lookup_ptr = *(s32 *)((u8 *)slot_fields + 0x29C);\n            entry_count = 0x14;\n            index_cursor[0x2238] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            copy_dst = (Blob140 *)(dst_cursor + 0x2260);\n            copy_src = (Blob140 *)src_cursor;\n            *copy_dst = *copy_src;\n            ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(record_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(dst_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(slot_fields);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            lookup_base = buffer_page + 0x3E48;\n            entry_size = 0x8C;\n            entry_count = 0x14;\n            lookup_ptr = *record_slot;\n            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n            index_cursor[0x224C] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            ASM_KEEP(index_cursor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */\n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        register u8 *src_cursor ASM_REG(\"$16\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "aligned": {
+            "indels": 3,
+            "substitutions": 20,
+            "total": 23
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": false,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+          "compiler_assembly": {
+            "bytes": 4963,
+            "path": "../work/native_lane/r46_snapshot_partial/raw/hybrid_first_partial_strict.s",
+            "sha256": "f7762430acca04b7ac4f19bea97c3a72b7e0757440c284e3e1cfde3cb8ce160f"
+          },
+          "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+          "config": "2.7.2-cdk-G0",
+          "exact": false,
+          "function": "func_8008EE88",
+          "length_bytes": {
+            "generated": 720,
+            "target": 724
+          },
+          "length_words": {
+            "generated": 180,
+            "target": 181
+          },
+          "maspsx_assembly": {
+            "bytes": 5508,
+            "path": "../work/native_lane/r46_snapshot_partial/raw/hybrid_first_partial_strict.maspsx.s",
+            "sha256": "5117b5b68614fec493932feb0cd440707f3181fe733338687da319e5985e5fbb"
+          },
+          "positional_words_off": 135,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 3,
+              "substitutions": 20,
+              "total": 23
+            },
+            "candidate_words": 180,
+            "mask_relocations": false,
+            "region_map_sha256": "0853c021f5fea3d141cb18321ff49bb54c8bbf50b531f10a6b8dbf4babfa2c78",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  45
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 2,
+                "target_span": [
+                  0,
+                  45
+                ]
+              },
+              {
+                "candidate_span": [
+                  45,
+                  89
+                ],
+                "id": "R1",
+                "indels": 3,
+                "substitutions": 18,
+                "target_span": [
+                  45,
+                  90
+                ]
+              },
+              {
+                "candidate_span": [
+                  89,
+                  134
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  90,
+                  135
+                ]
+              },
+              {
+                "candidate_span": [
+                  134,
+                  180
+                ],
+                "id": "R3",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  135,
+                  181
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 181,
+            "vector": [
+              2,
+              0,
+              18,
+              3,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": null,
+          "residue": {
+            "class": "addressing",
+            "confidence": "med",
+            "signals": [
+              "addressing=8",
+              "length-words=180/181"
+            ]
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r46_snapshot_partial/hybrid_first_partial.c",
+          "source_sha": "259687ef355c5d95dd5fce490506440ce1b364def9220535dfd75d13bf9ee0fb",
+          "status": "NOMATCH",
+          "target_sha": "ae091bfe85a71aea5127ca696b1dcfb5d1bc5167ae485dfe8599a461fa27b438",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x800945E8 (region xfer_dungeon_A3000, delta 0x7FFE5760)"
+          ],
+          "words_off": 135
+        }
+      },
+      "hybrid_first_flags_keep": {
+        "sha256": "d5c2d0554ca2925bc1d316db8ee00869e0f7fe2d34f15d4f55b8afdd59479b78",
+        "source": "#include \"common.h\"\n\ntypedef struct { u8 bytes[4]; } Copy4;\n\ntypedef struct {\n    u8 pad0000[0x248];\n    Copy4 copy_src;\n    u8 pad024c[0x21E8 - 0x24C];\n    Copy4 copy_dst;\n} Global1004C;\n\ntypedef struct {\n    u32 word[35];\n} Blob140;\n\nextern s32 D_800E3DF0[];\nextern u8 D_800E3E48[];\n\nextern void func_800422DC(void *, void *);\nextern s8 func_800422A8(s32, void *, s32, s32);\nextern s32 func_80042900(void *, s32);\nextern void func_800A9160(u16);\n\n/* Snapshot records and state fields, converting stored pointers to table indices. */\nvoid func_800945E8(void *input_state) {\n    void *state;\n    s32 slot_index;\n\n    state = input_state;\n    func_800422DC((void *)0x80012194, state);\n\n    {\n        s32 record_index;\n        u8 entry_flags;\n        u8 *entry_flags_ptr;\n        u8 *record;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        s32 *record_table;\n        u8 *record_buffer;\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        unsigned long record_offset;\n        s32 *record_slot;\n\n        slot_index = 0x13;\n        buffer_addr = (u8 *)0x800E0000;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_table = D_800E3DF0;\n        buffer_addr = (u8 *)0x800E0000;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_buffer = D_800E3E48;\n        entry_flags_ptr = (u8 *)0x8001024B;\n        do {\n            if (entry_flags_ptr[-2] == 0x13) {\n                entry_flags = entry_flags_ptr[0];\n                if ((entry_flags & 0x20) != 0) {\n                    record_index = entry_flags & 0x1F;\n                    record = (u8 *)record_table[record_index];\n                    if ((func_80042900(record, 0xA) << 0x10) != 0) {\n                        record[0x13] = record[0xA8];\n                    }\n                    record_offset = record_index * 0x8C;\n                    copy_dst = (Blob140 *)(record_offset + (unsigned long)record_buffer);\n                    copy_src = (Blob140 *)record;\n                       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n                       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */\n                    *copy_dst = *copy_src;\n                       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n                    record_slot = (s32 *)((record_index << 2) + (unsigned long)record_table);\n                    *record_slot = (s32)((record_index * 0x8C) + (unsigned long)record_buffer);\n                }\n            }\n               /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(entry_flags_ptr);   /* Retained existing lifetime: keeps the outer flag cursor live through the first-loop body. */\n            slot_index -= 1;\n            entry_flags_ptr += 4;\n        } while (slot_index >= 0);\n    }\n\n    {\n        s32 *record_slot;\n        u8 *src_cursor;\n        register u8 *dst_cursor ASM_REG(\"$20\");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        register u8 *index_cursor ASM_REG(\"$19\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n        Global1004C *slot_fields;\n        register u8 *buffer_page ASM_REG(\"$23\");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */\n        Blob140 *copy_src;\n        Blob140 *copy_dst;\n        u8 *buffer_addr;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 0x13;\n        index_cursor = (u8 *)0x80010013;\n        buffer_addr = (u8 *)&D_800E3DF0;\n           /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        record_slot = (s32 *)buffer_addr + 0x13;\n        buffer_page = (u8 *)0x800E0000;\n        ASM_KEEP_NV(buffer_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        buffer_addr = buffer_page + 0x3E48;\n        ASM_KEEP_NV(buffer_addr);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        src_cursor = buffer_addr + 0xA64;\n        dst_cursor = (u8 *)0x80010A64;\n        slot_fields = (Global1004C *)0x8001004C;\n        do {\n            slot_fields->copy_dst = slot_fields->copy_src;\n            ASM_SET(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            lookup_ptr = *(s32 *)((u8 *)slot_fields + 0x29C);\n            entry_count = 0x14;\n            index_cursor[0x2238] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            copy_dst = (Blob140 *)(dst_cursor + 0x2260);\n            copy_src = (Blob140 *)src_cursor;\n            *copy_dst = *copy_src;\n            ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(record_slot);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(dst_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            ASM_KEEP(slot_fields);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            lookup_base = buffer_page + 0x3E48;\n            entry_size = 0x8C;\n            entry_count = 0x14;\n            lookup_ptr = *record_slot;\n            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            record_slot -= 1;\n            src_cursor -= 0x8C;\n            dst_cursor -= 0x8C;\n            slot_fields = (Global1004C *)((u8 *)slot_fields - 4);\n            slot_index -= 1;\n            index_cursor[0x224C] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            ASM_KEEP(index_cursor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */\n            index_cursor -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        register u8 *src_cursor ASM_REG(\"$16\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        u8 *index_cursor;\n        s32 lookup_ptr;\n        void *lookup_base;\n        s32 entry_size;\n        s32 entry_count;\n\n        slot_index = 1;\n        index_cursor = (u8 *)0x80010000;\n        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */\n        src_cursor = (u8 *)state + 4;\n        do {\n            lookup_base = (void *)0x80010248;\n            entry_size = 4;\n            entry_count = 0x14;\n            lookup_ptr = *(s32 *)(src_cursor + 0xD0);\n            ASM_KEEP4_NV(lookup_ptr, lookup_base, entry_size, entry_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n            src_cursor -= 4;\n            index_cursor[slot_index + 0x2D52] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);\n            slot_index -= 1;\n        } while (slot_index >= 0);\n    }\n\n    {\n        u8 *state_base;\n        u32 field_value;\n        u32 saved_setting;\n\n        state_base = (u8 *)0x80010000;\n        field_value = *(u16 *)(state_base + 0x3626);\n        saved_setting = *(u16 *)(state_base + 0x209E);\n        *(u16 *)(state_base + 0x3624) = field_value;\n        *(u16 *)(state_base + 0x209C) = saved_setting;\n        field_value = *(u16 *)((u8 *)state + 0xF8);\n        *(u16 *)(state_base + 0x2D50) = field_value;\n        field_value = *(s32 *)((u8 *)state + 0xFC);\n        *(s32 *)(state_base + 0x2D58) = field_value;\n        field_value = ((u8 *)state)[0xFA];\n        state_base[0x2D6C] = field_value;\n        field_value = ((u8 *)state)[0xFB];\n        state_base[0x2D6D] = field_value;\n        func_800A9160(saved_setting);\n    }\n}\n",
+        "verification": {
+          "aligned": {
+            "indels": 0,
+            "substitutions": 13,
+            "total": 13
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": false,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+          "compiler_assembly": {
+            "bytes": 4983,
+            "path": "../work/native_lane/r46_snapshot_partial/raw/hybrid_first_flags_keep_strict.s",
+            "sha256": "5c709d747d39319e5bcbaabb38da43cd067cf7090c31bccea6f06e2e7513f130"
+          },
+          "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+          "config": "2.7.2-cdk-G0",
+          "exact": false,
+          "function": "func_8008EE88",
+          "length_bytes": {
+            "generated": 724,
+            "target": 724
+          },
+          "length_words": {
+            "generated": 181,
+            "target": 181
+          },
+          "maspsx_assembly": {
+            "bytes": 5513,
+            "path": "../work/native_lane/r46_snapshot_partial/raw/hybrid_first_flags_keep_strict.maspsx.s",
+            "sha256": "165c897f1db11b4c5e23020896bdc20b7547a71247d1b0c64a1250d629c827d6"
+          },
+          "positional_words_off": 13,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 0,
+              "substitutions": 13,
+              "total": 13
+            },
+            "candidate_words": 181,
+            "mask_relocations": false,
+            "region_map_sha256": "0853c021f5fea3d141cb18321ff49bb54c8bbf50b531f10a6b8dbf4babfa2c78",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  45
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 9,
+                "target_span": [
+                  0,
+                  45
+                ]
+              },
+              {
+                "candidate_span": [
+                  45,
+                  90
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 4,
+                "target_span": [
+                  45,
+                  90
+                ]
+              },
+              {
+                "candidate_span": [
+                  90,
+                  135
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  90,
+                  135
+                ]
+              },
+              {
+                "candidate_span": [
+                  135,
+                  181
+                ],
+                "id": "R3",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  135,
+                  181
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 181,
+            "vector": [
+              9,
+              0,
+              4,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": 0.0718232044198895,
+          "residue": {
+            "class": "reg-rename",
+            "confidence": "high",
+            "secondary": "const-remat",
+            "signals": [
+              "regmap=3",
+              "remat=1"
+            ]
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r46_snapshot_partial/hybrid_first_flags_keep.c",
+          "source_sha": "d5c2d0554ca2925bc1d316db8ee00869e0f7fe2d34f15d4f55b8afdd59479b78",
+          "status": "NOMATCH",
+          "target_sha": "ae091bfe85a71aea5127ca696b1dcfb5d1bc5167ae485dfe8599a461fa27b438",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x800945E8 (region xfer_dungeon_A3000, delta 0x7FFE5760)"
+          ],
+          "words_off": 13
+        }
+      }
+    }
+  },
+  "result": {
+    "pins_removed": 1,
+    "pins": 6049,
+    "pinned_rows": 1275,
+    "removed_since_6103": 54,
+    "goal": "active; no architectural minimum established"
+  },
+  "direct_helper": {
+    "inventory": {
+      "scope": "nonrecursive src/dungeon/*.c, regular files below 4 MiB",
+      "files_scanned": 2743,
+      "exact_D_8016484C_users": [
+        "func_813315CC.c"
+      ],
+      "exact_s16_8x3x3_shape_users": [
+        "func_813315CC.c"
+      ],
+      "allocator_and_helper_users": 111,
+      "same_image_8132_8133_cluster": [
+        {
+          "file": "func_813292EC.c",
+          "pins": 0
+        },
+        {
+          "file": "func_813295CC.c",
+          "pins": 0
+        },
+        {
+          "file": "func_8132A960.c",
+          "pins": 0
+        },
+        {
+          "file": "func_8132AAF0.c",
+          "pins": 0
+        },
+        {
+          "file": "func_8132B4C8.c",
+          "pins": 2
+        },
+        {
+          "file": "func_8132B744.c",
+          "pins": 0
+        },
+        {
+          "file": "func_8132E5EC.c",
+          "pins": 1
+        },
+        {
+          "file": "func_8132F204.c",
+          "pins": 4
+        },
+        {
+          "file": "func_813306CC.c",
+          "pins": 0
+        },
+        {
+          "file": "func_813307FC.c",
+          "pins": 0
+        },
+        {
+          "file": "func_81330A98.c",
+          "pins": 0
+        },
+        {
+          "file": "func_81330C74.c",
+          "pins": 9
+        },
+        {
+          "file": "func_813315CC.c",
+          "pins": 1
+        },
+        {
+          "file": "func_81331914.c",
+          "pins": 0
+        },
+        {
+          "file": "func_813320D8.c",
+          "pins": 0
+        }
+      ],
+      "transfer_target": "func_8132E5EC.c",
+      "next_relationship": "func_81331914.c independently confirms D_80175DD8[][8][2][3] and the allocator/render/helper object path, but already has zero pins. The other pinned cluster members carry branch, offset, or large callback allocation constraints rather than the transferred entry-table address relation."
+    },
+    "report": "# Round 46 position/object transfer audit\n\n## Result\n\nOne narrow sibling transfer is exact.  `candidate_8132E5EC_direct_helper.c`\nremoves the sole `ASM_KEEP`, removes the scored/port conditional, passes the\nentry table `D_800DE870` directly to the real three-argument helper, and gives\nthat helper its recovered signed-short third parameter.  At stock\n`2.7.2-cdk-G0` it matches all 67 retail words with zero substitutions and zero\nindels.  The current pinned source remains independently exact at both its\nrecorded plain `2.7.2` recipe and stock `2.7.2-cdk-G0`.\n\nThe direct-global candidate requires the CDK recipe: at recorded plain\n`2.7.2-G0` it is 68/67 words and distance 4 (two substitutions, two indels).\nBecause the old pinned source is also exact at CDK, a future transition can be\nstaged without an unmatched intermediate endpoint: change and verify the\nrecipe first, then apply and verify the pin-free source.  No production source,\nledger, shared recipe, export, or build root was changed.\n\n## Finite inventory\n\n`inventory.json` records the complete nonrecursive `src/dungeon/*.c` scan:\n2,743 files below 4 MiB.  The exact `D_8016484C` symbol and exact\n`s16[8][3][3]` shape occur only in landed `func_813315CC.c`; there is no second\n144-byte snapshot transfer.  There are 111 files containing both\n`func_8003FC64` and `func_8003DB94`.  Restricting those to the same-image\n`func_8132*.c`/`func_8133*.c` effect cluster gives fifteen files.\n\nTen of the fifteen are already unpinned.  `func_81331914.c` is the strongest\nsemantic sibling: it independently declares `D_80175DD8[][8][2][3]`, allocates\nthe same `0x212` object family, initializes its render state, calls the helper\nwith three arguments, and copies the neighboring vertex planes.  It has no pin\nto transfer.  The other pinned cluster members concern variant lifetime,\noffset preservation, or the much larger trail callback; they do not contain\nthe proven entry-table address relationship and are not cheap mechanical\ntransfers from Round 45.\n\n`func_8132E5EC.c` is the sole useful transfer.  It already has typed object and\nrender views and calls `func_8003DB94` with three semantic arguments.  Its only\npin constructs `0x800DE870` in a local across unrelated position stores, while\nits port arm names `D_800DE870` directly.  That makes removing the local a real\nsource correction rather than a spelling search.\n\n## Retail and lineage evidence\n\n`retail_8132E5EC.dis` contains the complete 67-word function, summarized in\n`SITE_MAP.md`.  Retail words 32 and 35 form `D_800DE870` directly in helper\nargument register `a1`; words 49--57 reload and initialize the render state and\ncall `func_8003DB94(render, D_800DE870, 0)`.  The recovered definition in\n`src/slus/code.c` takes exactly `(render state *, entry table *, short)`.\n\n`fingerprint_8132E5EC.txt` was generated before the source candidate.  Two\nnon-stack stores occupy call delay slots, which conflicts with the recorded\nplain-2.7.2 attribution and supports the CDK/2.8 compiler family.  The\nfingerprint does not identify a unique historical release.  The resulting\nprediction was made before compilation: remove only the pinned address\nconstruction, use the direct global argument already present in the port arm,\nand compile at stock CDK.\n\n## Semantic and caller review\n\nThe candidate does not change `func_801655EC`'s own four-word ABI.  Its sole\nsame-image caller, `func_81338C4C.c`, passes an entity position plus three\nsigned coordinate offsets; those values continue to arrive in the same four\nargument registers and the callee performs the same coordinate copies and\nlow-halfword additions.  The production caller's prototyped `s16` parameters\nrequire conversion of each argument to `s16` before the call; default argument\npromotions do not apply to prototyped parameters.  That declaration is\nincompatible with the callee definition's `s32` parameters even though both\nforms occupy one target ABI word.\n\n`caller_s32.c` changes only that local declaration to\n`func_801655EC(void *, s32, s32, s32)`, matching the unchanged candidate\ncallee definition.  It remains exact for all 319 words at the caller's\nrecorded `2.8.1-G0` recipe.  The caller's actual values are already held as\nsigned 32-bit expressions or sign-extended `s16` locals, so widening the\nprototype removes the narrowing conversion without changing retail code.  A\nfallback experiment with `s16` callee formals was therefore neither necessary\nnor run.  The consistent proposed pair is the pin-free `s32`-formal callee and\nthe caller with the widened local declaration.\n\nThe removed `call_data` local never escapes and exists only to manufacture the\nsame address later passed as helper argument two.  `D_800DE870` has static\nstorage duration and the direct array-to-pointer conversion yields the same\naddress.  Correcting the helper's third local prototype parameter from `s32`\nto the recovered `s16` is ABI-neutral at this call because the argument is the\nconstant zero.  Object allocation, null handling, callback registration,\nvolatile middle-coordinate store, render initialization, and call order are\nunchanged.  The candidate contains no `ASM_REG`, `ASM_KEEP`, hidden asm,\n`NON_MATCHING`, literal platform address, or replacement constraint.\n\n## Evidence and provenance\n\n- Current exact source SHA-256: `b8c8357dace5485c4c991b849c0f18255050ae7277fe1285176fcf6ca124e09a`.\n- Candidate SHA-256: `932b55b5946d52ebf55aa1fc94582460ffb66c67b7858e082a68f5b5d0297e59`.\n- Retail bytes SHA-256: `671ca41c4015b7ae595ba97059d412e6d70dde613db1693ebfcecd5abaae7891`.\n- Fingerprint SHA-256: `656c0db9686c2e8059bc767d1da16044345a22e5f9d8d5de234e1a05d2d9a58c`.\n- Current-endpoint receipt: `gate0_8132E5EC.json`, SHA-256 `27c1e9b8c1f4ac53907d2b2738f90a3dad0573abac014a50a9ffb22d90459873`.\n- CDK candidate receipt: `candidate_8132E5EC_score.json`, SHA-256 `27c1e9b8c1f4ac53907d2b2738f90a3dad0573abac014a50a9ffb22d90459873`.\n- Plain-2.7.2 cross-control receipt: `candidate_at_recorded_recipe.json`, SHA-256 `2f60b2d58e27eae801a1445dce492e95f70cad0da2b1a325fad5a039595c1808`.\n- Old pinned source at CDK receipt: `base_at_cdk_score.json`, SHA-256 `92429bd2c025d3b3f4d5315cd32f948eb5eda48efd640a11a23e80144b5d6f0a`.\n- Consistent caller scratch SHA-256: `f7ea567d8d68670ca078b5d05b0eadda2eed27eb24f72f70af9e686ea58a6c91`.\n- Consistent caller receipt: `caller_s32_score.json`, SHA-256 `9207c9caa9c69f750562edf2c06ef132cbeccdaeeb1f7e579b5866a68cbce706`.\n- CDK `cc1` SHA-256: `90db2db7bcfe372244ca4d9785a7bfbf7613d711f69ee3bfe6c91d82a85e611d`.\n- Plain 2.7.2 `cc1` SHA-256: `0359379289db8e3904b8ed3b25b422ca631c8d71ab2f543d533c39ed2967764f`.\n\nThe equal SHA of the two exact JSON receipts is expected: both contain the\nsame normalized verifier result, while the source/recipe identities are bound\nby the source and compiler hashes above.\n",
+    "independent_review": {
+      "path": "docs/evidence/pin_research_direct_helper_review_20260917.md",
+      "sha256": "81fcbbd4bf48539e8626d454ed02443bf60a83236f22b137c5cca4740c330557"
+    },
+    "receipts": {
+      "independent_strict": {
+        "sha256": "83df20d72dc1f8fc52bfa3b9b5478bc6c65872310551744c6fd8350b86b1e9d0",
+        "receipt": {
+          "aligned": {
+            "indels": 0,
+            "substitutions": 0,
+            "total": 0
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": true,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+          "compiler_assembly": {
+            "bytes": 2360,
+            "path": "../work/native_lane/r46_position_transfer/independent.s",
+            "sha256": "c177c1c93411b6df55f842bafdde49e1b9cdb90aa5950f4901b447852ccdea82"
+          },
+          "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+          "config": "2.7.2-cdk-G0 -I../include",
+          "exact": true,
+          "function": "func_8132E5EC",
+          "length_bytes": {
+            "generated": 268,
+            "target": 268
+          },
+          "length_words": {
+            "generated": 67,
+            "target": 67
+          },
+          "maspsx_assembly": {
+            "bytes": 2450,
+            "path": "../work/native_lane/r46_position_transfer/independent.maspsx.s",
+            "sha256": "8c684165595f7bc8a3ed93c71c182cf930f66ebb3f4047200eaed337af2302bb"
+          },
+          "positional_words_off": 0,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 0,
+              "substitutions": 0,
+              "total": 0
+            },
+            "candidate_words": 67,
+            "mask_relocations": false,
+            "region_map_sha256": "6ed434325ad95ce63c049a23aa75f38d07d11d8fe8eeba181545f4d3447acded",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  16
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  0,
+                  16
+                ]
+              },
+              {
+                "candidate_span": [
+                  16,
+                  33
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  16,
+                  33
+                ]
+              },
+              {
+                "candidate_span": [
+                  33,
+                  50
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  33,
+                  50
+                ]
+              },
+              {
+                "candidate_span": [
+                  50,
+                  67
+                ],
+                "id": "R3",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  50,
+                  67
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 67,
+            "vector": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": 0.0,
+          "residue": {
+            "class": "match",
+            "confidence": "high",
+            "signals": []
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r46_position_transfer/candidate_8132E5EC_direct_helper.c",
+          "source_sha": "932b55b5946d52ebf55aa1fc94582460ffb66c67b7858e082a68f5b5d0297e59",
+          "status": "MATCH",
+          "target_sha": "671ca41c4015b7ae595ba97059d412e6d70dde613db1693ebfcecd5abaae7891",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x801655EC (region xfer_dungeon_134D800, delta 0x7EE17000)"
+          ],
+          "words_off": 0
+        }
+      },
+      "caller_independent_strict": {
+        "sha256": "28c233b870bb9a98c634623f253dfad8b84eec02586522bcf3689fafbca1da76",
+        "receipt": {
+          "aligned": {
+            "indels": 0,
+            "substitutions": 0,
+            "total": 0
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": true,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.8.1/gcc",
+          "compiler_assembly": {
+            "bytes": 7652,
+            "path": "../work/native_lane/r46_position_transfer/caller_independent.s",
+            "sha256": "ecfdbcac3d778ed82bf3433197e20e2f7f06a07c62cb059b5456b838492b5b3d"
+          },
+          "compiler_sha": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02",
+          "config": "2.8.1-G0 -I../include",
+          "exact": true,
+          "function": "func_81338C4C",
+          "length_bytes": {
+            "generated": 1276,
+            "target": 1276
+          },
+          "length_words": {
+            "generated": 319,
+            "target": 319
+          },
+          "maspsx_assembly": {
+            "bytes": 9088,
+            "path": "../work/native_lane/r46_position_transfer/caller_independent.maspsx.s",
+            "sha256": "7d33ffab5b7d32a6512cbc5b11c27d30516b20b0290afd6175689b8fd48e93ce"
+          },
+          "positional_words_off": 0,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 0,
+              "substitutions": 0,
+              "total": 0
+            },
+            "candidate_words": 319,
+            "mask_relocations": false,
+            "region_map_sha256": "c1dd03b9ad3718253fd853e99770761ee55edc96ed21c35ff3be038ff11d173e",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  79
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  0,
+                  79
+                ]
+              },
+              {
+                "candidate_span": [
+                  79,
+                  159
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  79,
+                  159
+                ]
+              },
+              {
+                "candidate_span": [
+                  159,
+                  239
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  159,
+                  239
+                ]
+              },
+              {
+                "candidate_span": [
+                  239,
+                  319
+                ],
+                "id": "R3",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  239,
+                  319
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 319,
+            "vector": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": 0.0,
+          "residue": {
+            "class": "match",
+            "confidence": "high",
+            "signals": []
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r46_position_transfer/caller_consistent.c",
+          "source_sha": "3fbd470c18bdb54a21e3c9ddd6e2841f104f99f9a471a4f37ca0fc50fab808ff",
+          "status": "MATCH",
+          "target_sha": "1fa7e466c75739984fe84161869471be6739579820014ce5018b9107b270da0c",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x8016FC4C (region xfer_dungeon_134D800, delta 0x7EE17000)"
+          ],
+          "words_off": 0
+        }
+      },
+      "gate0_8132E5EC": {
+        "sha256": "27c1e9b8c1f4ac53907d2b2738f90a3dad0573abac014a50a9ffb22d90459873",
+        "receipt": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 67,
+          "tgt_words": 67,
+          "class": "match",
+          "signals": [],
+          "secs": 0.77,
+          "err": null
+        }
+      },
+      "base_at_cdk_score": {
+        "sha256": "92429bd2c025d3b3f4d5315cd32f948eb5eda48efd640a11a23e80144b5d6f0a",
+        "receipt": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 67,
+          "tgt_words": 67,
+          "class": "match",
+          "signals": [],
+          "secs": 0.8,
+          "err": null
+        }
+      },
+      "candidate_at_recorded_recipe": {
+        "sha256": "2f60b2d58e27eae801a1445dce492e95f70cad0da2b1a325fad5a039595c1808",
+        "receipt": {
+          "status": "ok",
+          "exact": false,
+          "subs": 2,
+          "indels": 2,
+          "total": 4,
+          "gen_words": 68,
+          "tgt_words": 67,
+          "class": "code-motion",
+          "signals": [
+            "indels=2(ins1/del1)",
+            "drift-ins:+nop",
+            "drift-del:-lui"
+          ],
+          "secs": 0.82,
+          "err": null
+        }
+      },
+      "caller_consistent_verify": {
+        "sha256": "e7e4ea4cd166885c919a5f1abbf45b861f5944d66f128374beb1db8ec6619bc4",
+        "receipt": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 319,
+          "tgt_words": 319,
+          "class": "match",
+          "signals": [],
+          "secs": 0.85,
+          "err": null
+        }
+      },
+      "landing_checks": {
+        "sha256": "b4596b118535c1fa27d187879704d98582a48a56b9a6f0d05b4ec1f77c0dd782",
+        "receipt": {
+          "landing_refusal": null,
+          "pins_before": 1,
+          "pins_after": 0,
+          "port_view_equal": false,
+          "port_asm_equal_at_old_recipe": true
+        }
+      }
+    },
+    "gates": [
+      {
+        "window": "dungeon_deep_t8_1357",
+        "container": "dungeon",
+        "result": "MATCH",
+        "bytes": 5828,
+        "detail": "MATCH: rebuilt overlay window byte-identical (5828 bytes)",
+        "secs": 6.1,
+        "inputs_sha": "d72b38e93895962d1a0d4590451fe1643ad7477f942740b53e22488deee652d9",
+        "at": "2026-09-17T04:01:44Z"
+      },
+      {
+        "window": "dungeon_deep_t8b_134e",
+        "container": "dungeon",
+        "result": "MATCH",
+        "bytes": 1308,
+        "detail": "MATCH: rebuilt overlay window byte-identical (1308 bytes)",
+        "secs": 1.7,
+        "inputs_sha": "d8ac8ac497f2aae1e40c426430a33a405f68cad2fef13428f4e6b750cace087f",
+        "at": "2026-09-17T04:01:39Z"
+      }
+    ],
+    "slus": {
+      "at": "2026-09-17T04:01:59Z",
+      "result": "MATCH",
+      "tus": 884,
+      "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+      "recipe_vs_pinned": "identical",
+      "secs": 0,
+      "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+    },
+    "row_database": "OK",
+    "gate_inputs_current": true,
+    "landing": [
+      {
+        "id": "dungeon/func_81338C4C",
+        "transform": "r46_direct_helper",
+        "in_sha": "2f4c03454bf02ae3ad74c06d973a55d8567fb9766ca322ebb94e83ac0bf9859c",
+        "size": 1276,
+        "source": "land",
+        "exact": true,
+        "status": "ok",
+        "class": "match",
+        "total": 0,
+        "secs": 0.84,
+        "outcome": "applied",
+        "out_sha": "3fbd470c18bdb54a21e3c9ddd6e2841f104f99f9a471a4f37ca0fc50fab808ff",
+        "lines_delta": 0,
+        "at": "2026-09-17T04:01:13Z"
+      },
+      {
+        "id": "dungeon/func_8132E5EC",
+        "transform": "r46_direct_helper",
+        "in_sha": "b8c8357dace5485c4c991b849c0f18255050ae7277fe1285176fcf6ca124e09a",
+        "size": 268,
+        "source": "land",
+        "exact": true,
+        "status": "ok",
+        "class": "match",
+        "total": 0,
+        "secs": 0.76,
+        "cell_from": "2.7.2",
+        "cell_to": "2.7.2-cdk-G0",
+        "outcome": "applied",
+        "out_sha": "932b55b5946d52ebf55aa1fc94582460ffb66c67b7858e082a68f5b5d0297e59",
+        "lines_delta": -8,
+        "at": "2026-09-17T04:01:12Z"
+      }
+    ],
+    "sources": {
+      "func_8132E5EC": {
+        "path": "src/dungeon/func_8132E5EC.c",
+        "sha256": "932b55b5946d52ebf55aa1fc94582460ffb66c67b7858e082a68f5b5d0297e59",
+        "text": "#include \"common.h\"\n\ntypedef struct Sprite {\n    u8 pad0[6];\n    s16 field6;\n    u8 pad8[4];\n    u8 colorC;\n    u8 colorD;\n    u8 colorE;\n    u8 padF;\n    s16 field10;\n    u8 pad12[2];\n    u16 flags14;\n    u8 pad16[6];\n    s16 scale1C;\n    s16 scale1E;\n} Sprite;\n\ntypedef struct Object {\n    u8 pad0[8];\n    void *position;\n    Sprite *sprite;\n    void *callback;\n} Object;\n\nextern void func_8003DB94(Sprite *, void *, s16);\nextern Object *func_8003FC64(s32);\nextern void func_8004491C(Object *, void *);\nextern u8 D_80045340;\nextern u8 D_800DE870[];\nextern u8 D_80165580;\n\nvoid func_801655EC(void *source_position, s32 x_offset, s32 y_offset, s32 z_offset) {\n    Object *obj;\n    Sprite *sprite;\n    s32 z_fixed;\n    u16 x;\n    u16 y;\n\n    obj = func_8003FC64(0x212);\n    if (obj != 0) {\n        obj->callback = &D_80165580;\n        func_8004491C(obj, &D_80045340);\n        sprite = obj->sprite;\n        sprite->field10 = 0x20;\n        sprite->field6 = 6;\n        sprite->flags14 |= 0xC;\n        {\n            void *position;\n\n            position = obj->position;\n            *(s32 *)((u8 *)position + 0) = *(s32 *)((u8 *)source_position + 0);\n            *(volatile s32 *)((u8 *)position + 4) = *(s32 *)((u8 *)source_position + 4);\n            x = *(u16 *)((u8 *)position + 2);\n            z_fixed = *(s32 *)((u8 *)source_position + 8);\n            *(u16 *)((u8 *)position + 2) = (u16)(x + x_offset);\n            y = *(u16 *)((u8 *)position + 6);\n            *(s32 *)((u8 *)position + 8) = z_fixed;\n            z_fixed = *(u16 *)((u8 *)position + 0xA) + z_offset;\n            *(u16 *)((u8 *)position + 6) = (u16)(y + y_offset);\n            *(u16 *)((u8 *)position + 0xA) = (u16)z_fixed;\n        }\n        sprite = obj->sprite;\n        sprite->scale1E = 0x800;\n        sprite->scale1C = 0x800;\n        sprite->colorE = 0x80;\n        sprite->colorD = 0x80;\n        sprite->colorC = 0x80;\n        func_8003DB94(sprite, D_800DE870, 0);\n    }\n}\n"
+      },
+      "func_81338C4C": {
+        "path": "src/dungeon/func_81338C4C.c",
+        "sha256": "3fbd470c18bdb54a21e3c9ddd6e2841f104f99f9a471a4f37ca0fc50fab808ff",
+        "text": "/* cfail-repair: tf7-phase1-cache-v3 */\n#include \"common.h\"\n#include \"m2c_compat.h\"\nextern u8 D_80170000[];\nextern u8 D_80080000[];\n\ntypedef struct S_8016FC4C_0 {\n    u8 pad_00[0xAC];\n    void * unk_AC;\n} S_8016FC4C_0;   /* var_a0 in func_8016FC4C */\n\ntypedef struct S_8016FC4C_1_pre {\n    void * unk_00;\n    u8 pad_04[0x10];\n} S_8016FC4C_1_pre;   /* the 0x14 bytes before temp_v0 in func_8016FC4C, addressed as temp_v0[-1] */\n\ntypedef struct S_8016FC4C_2 {\n    u8 pad_00[0x14];\n    u16 unk_14;\n} S_8016FC4C_2;   /* temp_v1 in func_8016FC4C */\n\ntypedef struct S_8016FC4C_3 {\n    u8 pad_00[0x94];\n    s16 unk_94;\n    u16 unk_96;\n    u8 pad_98[0x2];\n    u8 unk_9A;\n} S_8016FC4C_3;   /* arg0 in func_8016FC4C */\n\ntypedef struct S_8016FC4C_4 {\n    u8 pad_00[0x2A];\n    u16 unk_2A;\n} S_8016FC4C_4;   /* temp_s5 in func_8016FC4C */\n\ntypedef struct S_8016FC4C_5 {\n    u8 pad_00[0x4];\n    s8 unk_04;\n    u8 pad_05[0xF];\n    u16 unk_14;\n    u8 pad_16[0x6];\n    u16 unk_1C;\n    union { u16 s; volatile u16 u; } unk_1E;   /* accessed as both */\n    u8 pad_20[0x4];\n    u8 unk_24;\n    u8 unk_25;\n    u8 pad_26[0x6];\n    u8 * unk_2C;\n} S_8016FC4C_5;   /* object in func_8016FC4C */\n\ntypedef struct S_8016FC4C_6 {\n    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */\n    union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_04;   /* overlapping accesses */\n    u8 pad_08[0x4];\n    s32 unk_0C;\n    s32 unk_10;\n} S_8016FC4C_6;   /* entity in func_8016FC4C */\n\ntypedef struct S_8016FC4C_7 {\n    s16 unk_00;\n    s16 unk_02;\n} S_8016FC4C_7;   /* (u8 *)table_ptr in func_8016FC4C */\n\ntypedef struct S_8016FC4C_8 {\n    u8 pad_00[0x3228];\n    s16 unk_3228;\n    u8 pad_322A[0x2B26];\n    void * unk_5D50;\n} S_8016FC4C_8;   /* (u8 *)common_page in func_8016FC4C */\n\n\nvoid func_80047738();\nvoid func_800478B8();\ns32 func_80069EF8();\nu16 func_800A0818(u8, u8, u8, u8, s32 *);\nM2C_UNK func_800A56E0();\nM2C_UNK func_80164ED0();\nvoid func_801655EC(void *, s32, s32, s32);\nextern u8 D_80082E80[64];\nextern s16 D_80083228[8];\nextern u8 *D_800E3D7C[3];\nextern s16 D_80173AFC[16];\nextern void *D_80175D50[3];\n\n/* Updates the effect phases, particle bursts, movement, and directional sprite. */\nvoid func_8016FC4C(void *effect, void *entity_data, void *object_data) {\n    M2C_UNK distance;\n    s32 burst_y;\n    s16 sustain_y;\n    s32 direction;\n    s16 burst_x;\n    s16 sustain_x;\n    s32 random_bits;\n    s32 count;\n    s32 phase_active;\n    s32 rounded_step;\n    u16 height;\n    u16 burst_ticks;\n    u16 width;\n    u16 sustain_ticks;\n    u16 turn_ticks;\n    u16 move_ticks;\n    s16 turned_angle;\n    register u16 angle ASM_REG(\"$4\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n    u8 phase;\n    S_8016FC4C_4 *heading;\n    S_8016FC4C_6 *entity;\n    register S_8016FC4C_5 *object ASM_REG(\"$20\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n    void *linked_entity;\n    S_8016FC4C_2 *linked_object;\n    void *link_slot;\n    void *shrink_source;\n    void *burst_source;\n    u32 common_page;\n    u32 table_page;\n    u16 table_angle;\n    u32 table_ptr;\n    u8 turn_phase;\n\n    entity = entity_data;\n    object = object_data;\n    count = 1;\n    heading = D_80175D50[0] + 0x20;\n    link_slot = D_800E3D7C[0] + 4;\n    do {\n        linked_entity = ((S_8016FC4C_0 *)link_slot)->unk_AC;\n        if (linked_entity != NULL) {\n            linked_object = ((S_8016FC4C_1_pre *)linked_entity)[-1].unk_00;\n            linked_object->unk_14 = (u16)(linked_object->unk_14 & 0xFFBF);\n        }\n        count -= 1;\n        link_slot -= 4;\n    } while (count >= 0);\n    phase = ((S_8016FC4C_3 *)effect)->unk_9A;\n    switch (phase) {\n    case 0: {\n        s32 shrink_step;\n        s32 scaled_step;\n        heading->unk_2A = func_800A0818(\n            object->unk_24, object->unk_25,\n            D_80082E80[0x24], D_80082E80[0x25], &distance);\n        ((S_8016FC4C_3 *)effect)->unk_96 = (u16)(((S_8016FC4C_3 *)effect)->unk_96 + 1);\n        height = object->unk_1E.s;\n        height = (u16)(height - 0x14);\n        object->unk_1E.s = height;\n        width = object->unk_1C;\n        scaled_step = object->unk_1E.u;\n        width = (u16)(width - 0x14);\n        scaled_step <<= 6;\n        scaled_step = 0 - scaled_step;\n        object->unk_1C = width;\n        if (scaled_step < 0) scaled_step += 0xFFF;\n        rounded_step = scaled_step;\n        count = 0;\n        shrink_step = rounded_step >> 0xC;\n        shrink_source = effect - 0x20;\n        do {\n            func_80164ED0(shrink_source, 0xFFFFFF, 0xE, 0, 0, shrink_step);\n            count += 1;\n            shrink_source = effect - 0x20;\n        } while (count < 6);\n        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 == 1) func_800A56E0(0xB1);\n        phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 120);\n        goto advance_phase;\n    }\n    case 1: {\n        s32 burst_step;\n        s32 scaled_step;\n        heading->unk_2A = func_800A0818(\n            object->unk_24, object->unk_25,\n            D_80082E80[0x24], D_80082E80[0x25], &distance);\n        ASM_CLOBBER(\"$16\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        scaled_step = 0 - (object->unk_1E.s << 6);\n        count = 0;\n        if (scaled_step < 0) scaled_step += 0xFFF;\n        burst_step = scaled_step >> 0xC;\n        burst_source = effect - 0x20;\n        do {\n            func_80164ED0(burst_source, 0xFFFFFF, 0xE, 0, 0, burst_step);\n            count += 1;\n            burst_source = effect - 0x20;\n        } while (count < 6);\n        burst_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;\n        ((S_8016FC4C_3 *)effect)->unk_96 = burst_ticks;\n        if (!(burst_ticks & 1)) {\n            burst_x = (func_80069EF8(burst_source) & 0x1F) - 0xF;\n            burst_x = (s16)(((s32)burst_x << 16) >> 16);\n            burst_y = (s16)((func_80069EF8() & 0x1F) - 0xF);\n            func_801655EC(entity, burst_x, burst_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));\n        }\n        if (!(((S_8016FC4C_3 *)effect)->unk_96 & 7)) func_800A56E0(0x817);\n        phase_active = ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 20);\n        goto advance_phase;\n    }\n    case 2:\n        sustain_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;\n        ((S_8016FC4C_3 *)effect)->unk_96 = sustain_ticks;\n        if (!(sustain_ticks & 7)) func_800A56E0(0x817);\n        if (!(((S_8016FC4C_3 *)effect)->unk_96 & 1)) {\n            random_bits = func_80069EF8();\n            sustain_x = (random_bits & 0x1F) - 0xF;\n            sustain_x = (s16)(((s32)sustain_x << 16) >> 16);\n            sustain_y = (func_80069EF8() & 0x1F) - 0xF;\n            sustain_y = (s16)(((s32)sustain_y << 16) >> 16);\n            func_801655EC(entity, sustain_x, sustain_y, (s16)((0 - (func_80069EF8() & 0x1F)) - 0xA));\n            goto update_sprite;\n        }\n        goto update_sprite;\n    case 4:\n        turn_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;\n        ((S_8016FC4C_3 *)effect)->unk_96 = turn_ticks;\n        if (((s16)turn_ticks == 3) || ((s16)turn_ticks == 6) || ((s16)turn_ticks == 9) || ((s16)turn_ticks == 0xC)) {\n            angle = heading->unk_2A;\n            turned_angle = angle - 0x200;\n            ASM_KEEP(angle);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */\n            if (turned_angle < 0) angle = turned_angle + 0x1000;\n            else angle = turned_angle;\n            heading->unk_2A = angle;\n        }\n        if ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 0xE) goto update_sprite;\n        turn_phase = ((S_8016FC4C_3 *)effect)->unk_9A;\n        ASM_KEEP(turn_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n        table_page = 0x80170000U;\n        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n        ((S_8016FC4C_3 *)effect)->unk_96 = 0U;\n        ASM_KEEP(turn_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */\n        turn_phase = (u8)(turn_phase + 1);\n        ((S_8016FC4C_3 *)effect)->unk_9A = turn_phase;\n        table_angle = heading->unk_2A;\n        table_page += 0x3AFC;\n        table_ptr = ((table_angle >> 7) & 0x1C);\n        table_ptr += table_page;\n        entity->unk_0C = (s32)(((S_8016FC4C_7 *)((u8 *)table_ptr))->unk_00 * 0x30000);\n        table_ptr = (((u16)heading->unk_2A >> 7) & 0x1C);\n        table_ptr += table_page;\n        entity->unk_10 = (s32)(((S_8016FC4C_7 *)((u8 *)table_ptr))->unk_02 * 0x30000);\n        goto update_sprite;\n    case 5:\n        entity->unk_00.at00.v = (s32)(entity->unk_00.at00.v + entity->unk_0C);\n        entity->unk_04.at00.v = (s32)(entity->unk_04.at00.v + entity->unk_10);\n        move_ticks = ((S_8016FC4C_3 *)effect)->unk_96 + 1;\n        ((S_8016FC4C_3 *)effect)->unk_96 = move_ticks;\n        if ((s16)move_ticks < 6) goto update_sprite;\n        ((S_8016FC4C_3 *)effect)->unk_96 = 0U;\n        ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);\n        goto update_sprite;\n    advance_phase:\n        if (phase_active != 0) goto update_sprite;\n        ((S_8016FC4C_3 *)effect)->unk_9A = (u8)(((S_8016FC4C_3 *)effect)->unk_9A + 1);\n        ((S_8016FC4C_3 *)effect)->unk_96 = 0U;\n        goto update_sprite;\n    case 7:\n        object->unk_14 = (u16)(object->unk_14 | 0x80);\n        entity->unk_04.at02.v = 1;\n        entity->unk_00.at02.v = 1;\n        goto update_sprite;\n    default:\n        goto update_sprite;\n    }\nupdate_sprite:\n    if (((S_8016FC4C_8 *)D_80170000)->unk_5D50 != 0) {\n        s16 sprite_direction;\n        s32 old_direction;\n        common_page = (u32)(s32)((S_8016FC4C_8 *)D_80080000)->unk_3228;\n        direction = (((s32)common_page + (s16)heading->unk_2A + 0x100) >> 9) & 7;\n        old_direction = ((S_8016FC4C_3 *)effect)->unk_94;\n        sprite_direction = direction;\n        if (old_direction != sprite_direction) {\n            func_80047738(object, *(object->unk_2C + sprite_direction), object->unk_04);\n            ((S_8016FC4C_3 *)effect)->unk_94 = direction;\n        }\n        func_800478B8(object);\n    }\n}\n"
+      }
+    }
+  },
+  "validation": {
+    "research_ledger": "OK: 19 cases; source hashes current; 11 landable",
+    "row_database": "OK",
+    "census": "6,049 pins in 1,275 rows",
+    "source_files_changed": [
+      "src/dungeon/func_8132E5EC.c",
+      "src/dungeon/func_81338C4C.c"
+    ]
+  }
+}
