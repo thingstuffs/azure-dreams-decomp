@@ -1,0 +1,414 @@
+{
+  "schema_version": 1,
+  "created": "2026-09-17",
+  "baseline": {
+    "pins": 6103,
+    "pinned_rows": 1284,
+    "target_pins": 0,
+    "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
+  },
+  "observed_current": {
+    "pins": 6102,
+    "pinned_rows": 1283,
+    "basis": "STATUS.md post-exemplar census after dungeon/func_81811388 publication gates"
+  },
+  "policy": {
+    "failed_search": "unresolved or bounded_negative within its recorded bounds",
+    "impossibility": "requires an independently reproduced architecture or instruction-set limitation",
+    "landable": "resolved status after exact bytes, semantic and caller review, publication gate, and any transfer controls pass"
+  },
+  "cases": [
+    {
+      "id": "dungeon/func_81811388",
+      "title": "Input allocation versus table qualification and row recipe",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "The individual ordinary-C repair is exact, reviewed, landed, and window-gated at an admissible stock CDK cell. It makes no historical-release or family-transfer claim."
+      },
+      "source": {
+        "path": "src/dungeon/func_81811388.c",
+        "sha256": "0cbca3cba8b36063bad36020fae7ef2973f5b31f18afb0435faaddbabe9c07ae"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon row func_81811388, true symbol func_80026388, file offset 0x1831388, 56 retail bytes",
+          "confidence": "high",
+          "basis": "ledger/rows.jsonl and config/overlays/dungeon_deep_t8_1830.overlay.yaml"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk, no extra compiler flags, default assembler flags",
+          "confidence": "medium",
+          "basis": "ordinary candidate and existing pinned text are both exact at this stock cell, satisfying the established cell-switch rule; historical release within the split-address family is unresolved"
+        }
+      },
+      "causal": {
+        "question": "Why does erasing the input binding fail for the inherited volatile source at plain 2.7.2 while ordinary source matches retail at CDK?",
+        "prediction": "CDK will split the ordinary relocatable array address into high/lo_sum RTL before allocation and reproduce the retail registers; plain 2.7.2 will retain a different symbolic-load shape and miss."
+      },
+      "evidence": [
+        {
+          "id": "return_contract_negative",
+          "kind": "bounded_negative",
+          "summary": "Four explicit scalar-return repairs at fixed 2.7.2 all scored distance 5: they corrected the real three-caller return contract but left the input register colouring wrong.",
+          "artifact": {
+            "path": "work/native_lane/r38_void_returns/REPORT.md",
+            "anchor": "#dungeonfunc_81811388"
+          },
+          "bounds": {
+            "tested": "four reasoned return forms, eight full verifiers across the two void/scalar definitions; this row's best result was 14/14 words at distance 5",
+            "untested": "table qualification, alternate natural stock cells, allocator pass inputs, and source/recipe attribution controls"
+          }
+        },
+        {
+          "id": "combined_candidate_alt_cells",
+          "kind": "positive_candidate",
+          "summary": "The final ordinary returning function directly loads D_800294F8[lookup_index] and is 14/14 exact at stock 2.7.2-cdk; the non-returning plain-load form is also exact at 2.8.0, 2.8.1, and 2.95.2. Historical release provenance remains qualified.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_allocator_20260917.json"
+          },
+          "candidate": {
+            "source_change": "replace the pinned void wrapper with an ordinary s32 return of func_80049DE8(target, input_value, D_800294F8[lookup_index])",
+            "recipe": "2.7.2-cdk, no extra compiler flags",
+            "result": "14/14 retail words exact; independent landing dry run passed",
+            "remaining_question": "historical release provenance and any family transfer; the exact wrapper has no release-discriminating byte signature"
+          }
+        },
+        {
+          "id": "fixed_recipe_controls",
+          "kind": "observation",
+          "summary": "At plain 2.7.2, pin erasure leaves a five-word register mismatch and ordinary C gives 13/14 words, total 6. At CDK, both ordinary returning C and the existing pinned text are exact, so the candidate satisfies the established cell-switch control rather than a new acceptance shortcut.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_allocator_20260917.json"
+          }
+        },
+        {
+          "id": "allocator_mechanism",
+          "kind": "observation",
+          "summary": "Plain 2.7.2 gives the short-lived table-address quantity priority 10000 and v0 before the saved input quantity at priority 2000. CDK splits the global address into high/lo_sum RTL before allocation and ordinary source receives the retail registers.",
+          "artifact": {
+            "path": "docs/PIN_RESEARCH_ROUND39.md",
+            "anchor": "#allocator-exemplar-dungeonfunc_81811388"
+          }
+        },
+        {
+          "id": "semantic_caller_review",
+          "kind": "observation",
+          "summary": "The table is ordinary RAM with one relocatable byte load; helper func_80049DE8 is defined as integer-returning, and all three identified same-image callers consume s32 with unchanged argument types.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_allocator_20260917.json"
+          }
+        },
+        {
+          "id": "landing_receipt",
+          "kind": "observation",
+          "summary": "The ordinary candidate landed exact through apply_candidates --cells at 2.7.2-cdk, changing the source from the recorded baseline hash to the candidate hash.",
+          "artifact": {
+            "path": "ledger/sweeps/r39_split_address.jsonl"
+          }
+        },
+        {
+          "id": "publication_receipt",
+          "kind": "observation",
+          "summary": "The affected dungeon_deep_t8_1830 window matches in the latest gate record.",
+          "artifact": {
+            "path": "ledger/gate.jsonl"
+          }
+        },
+        {
+          "id": "slus_gate_receipt",
+          "kind": "observation",
+          "summary": "The latest SLUS SHA-1 gate matches after the exemplar landing.",
+          "artifact": {
+            "path": "ledger/gate_slus.jsonl"
+          }
+        },
+        {
+          "id": "post_gate_census",
+          "kind": "observation",
+          "summary": "The post-gate census is 6102 pins in 1283 pinned rows.",
+          "artifact": {
+            "path": "STATUS.md"
+          }
+        },
+        {
+          "id": "family_transfer_negative",
+          "kind": "bounded_negative",
+          "summary": "A reviewed split-address cohort found no independent exact positive. The closest transfer reaches total 2 and the negative ownership/safety controls reject a blanket de-volatile/de-pin rule, so the exemplar does not establish a family repair.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_transfer_20260917.md",
+            "anchor": "#transfer-cohort"
+          },
+          "bounds": {
+            "tested": "three ordinary symbol/table rows, one direct-table row, one absolute-address negative, and one added bounds-table row across relevant stock cells",
+            "untested": "future rows with the same single ordinary-symbol, short-lived split-address quantity and independently proven volatile safety"
+          }
+        }
+      ],
+      "candidate": {
+        "path": "src/dungeon/func_81811388.c",
+        "sha256": "0cbca3cba8b36063bad36020fae7ef2973f5b31f18afb0435faaddbabe9c07ae",
+        "base_source_sha256": "ea1ab4d234ba70a50284417d5a2a29088815f6225fc1813e8c644cd623fbb074",
+        "recipe": "2.7.2-cdk"
+      },
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "combined_candidate_alt_cells",
+            "fixed_recipe_controls"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "semantic_caller_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "semantic_caller_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "publication_receipt",
+            "slus_gate_receipt",
+            "post_gate_census"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_8180B064",
+      "title": "Whole-region terrain face reconstruction",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "unresolved",
+        "summary": "Selective vertex3 pointer/y lifetime splitting materially improves the fully depinned row while preserving retail length and frame, but the 33-point allocator, colouring, and scheduling residue remains non-exact."
+      },
+      "source": {
+        "path": "src/dungeon/func_8180B064.c",
+        "sha256": "3cd53e5b2929f62e310788c4f18618c6d42412929b76ee413f0be0fbe8a5ec29"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon row func_8180B064, true symbol func_80026864, file offset 0x182b064, 1720 retail bytes",
+          "confidence": "high",
+          "basis": "ledger/rows.jsonl and config/overlays/dungeon_deep_t8b_1829800.overlay.yaml"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk -G0, default assembler flags",
+          "confidence": "high",
+          "basis": "ledger/rows.jsonl fixed recorded recipe"
+        }
+      },
+      "causal": {
+        "question": "Which staged vertex lifetime and expression dependency makes height0 complete before xy2 work while separately giving the cell induction pseudo priority over the vertex-base pseudo?",
+        "prediction": "The vertex3-only split plus a real embedded height0 dependence will preserve the now-aligned field-load sites and move only the four local scheduling indels; a later independent lifetime/reuse change must reverse pseudo 88 versus 354 without perturbing the exact post-terrain region."
+      },
+      "evidence": [
+        {
+          "id": "historical_foldload_screen",
+          "kind": "observation",
+          "summary": "A prior foldload probe for vert0_y compiled and changed this row, but the saved campaign record does not establish a byte-exact repair or whole-region cause.",
+          "artifact": {
+            "path": "docs/evidence/pin_search_restart_20260912.json"
+          }
+        },
+        {
+          "id": "height_expression_negative",
+          "kind": "bounded_negative",
+          "summary": "Removing the height keep and spelling the subtraction as one signed expression gives total 4 with all 430 words present; the remaining difference is reorder-only because vert3 y work moves ahead of height completion.",
+          "artifact": {
+            "path": "work/native_lane/catalog_near1/REPORT.md",
+            "anchor": "#dungeonfunc_8180b064-unreached"
+          },
+          "bounds": {
+            "tested": "one signed compound height expression at fixed 2.7.2-cdk -G0, plus the supplied single-statement scheduling negatives",
+            "untested": "a complete typed reconstruction of the vertex/height region and its coupled far allocation sites"
+          }
+        },
+        {
+          "id": "region_owner_observation",
+          "kind": "observation",
+          "summary": "The current source aliases vertex pointers, packed coordinates, and y values across long live ranges; the near scheduler symptom sits inside the same region as several coupled colouring pins.",
+          "artifact": {
+            "path": "src/dungeon/func_8180B064.c"
+          }
+        },
+        {
+          "id": "zero_pin_control",
+          "kind": "bounded_negative",
+          "summary": "Erasing all six pins without reshaping the C yields all 430 retail words and the exact 0x80 frame/save set at 2.7.2-cdk -G0, but scores total 55. The remaining connected owners are the s4/s5 vertex/cell allocation and the vertex expression region.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_rebuild_20260917.md",
+            "anchor": "#zero-pin-control-and-compiler-cell-receipt"
+          },
+          "bounds": {
+            "tested": "fully depinned inherited C at the recorded recipe plus all recognized stock cells; CDK total 55 is the best tested natural-source cell",
+            "untested": "ordinary lifetime/reuse reconstructions that alter the allocator and ready order without changing the retail frame"
+          }
+        },
+        {
+          "id": "four_pointer_refutation",
+          "kind": "bounded_negative",
+          "summary": "Four simultaneously live typed Vert pointers worsen the function to 443 words, frame 0x98, and total 358, refuting that broad reconstruction at the frame gate.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_rebuild_20260917.md",
+            "anchor": "#mechanism-led-synthesis-results"
+          },
+          "bounds": {
+            "tested": "one four-pointer whole-region reconstruction at fixed 2.7.2-cdk -G0",
+            "untested": "staged pointers with unequal short lifetimes and source-level expression dependencies"
+          }
+        },
+        {
+          "id": "split_vertex3_support",
+          "kind": "observation",
+          "summary": "Splitting only vertex3's pointer and signed-y lifetimes improves the fully depinned control from total 55 to 33 while retaining 430 words and the exact 0x80 frame. It aligns the index/pointer/field-load region but leaves global s4/s5 order, xy1 colouring, and four scheduling indels; it supports a lifetime mechanism without proving original source.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_rebuild_20260917.md",
+            "anchor": "#updated-staged-reuse-result"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Starting from the vertex3-only lifetime split, test an embedded height0 assignment/store shape that creates a real dependence or pseudo death before xy2 construction; keep the global s4/s5 allocator issue separate until local order stabilizes.",
+        "measurement": "At fixed 2.7.2-cdk -G0, compare exact bytes and the word-117-148 access/order map, ensuring the frame and already aligned index/pointer/field-load sites remain unchanged; then inspect the relevant scheduler dependency/ready state.",
+        "success_criterion": "Candidate words 139-148 move into retail order without changing the exact word-117-138 access sites, 430-word length, or 0x80 frame.",
+        "failure_criterion": "The embedded form leaves the four scheduling indels or perturbs the proven access sites/frame; record that form as a bounded negative and retain the separate pseudo-88 versus pseudo-354 allocator route.",
+        "bounds": "One embedded height0 family on the hash-recorded vertex3 split at fixed CDK, with a no-embed control; no broad declaration or compiler-cell search."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "slus/w_80041CBC",
+      "title": "Empty asm effect on GCC delay-branch reorganization",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "unresolved",
+        "summary": "GCC dbr/reorg ownership is proven with genuine and independent controls, and a literal-address diagnostic proves how to retain the nop, but that diagnostic is semantically unacceptable and no honest C repair is exact."
+      },
+      "source": {
+        "path": "src/slus/w_80041CBC.c",
+        "sha256": "01159e8a631c4096f086d2d7148ca528fd96a2a590efb368c7f4b30b2f8500ef"
+      },
+      "retail": {
+        "identity": {
+          "value": "SLUS translation-unit row w_80041CBC anchored by func_80041CBC at 0x80041CBC, 3880 retail bytes",
+          "confidence": "high",
+          "basis": "ledger/rows.jsonl and src/slus/INDEX.md"
+        },
+        "recipe": {
+          "value": "2.8.1 -G0, default assembler flags",
+          "confidence": "high",
+          "basis": "ledger/rows.jsonl fixed recorded recipe"
+        }
+      },
+      "causal": {
+        "question": "Can a real value lifetime at the fallthrough head create the dependency that keeps the symbolic HIGH out of GCC's branch delay SEQUENCE without losing relocations or port semantics?",
+        "prediction": "Reusing frame_ticks, sync_flags, or the loaded byte across the outer condition will create a dump-visible dependency at the fallthrough head; a successful form retains symbolic HI16/LO16 relocations, all 91 retail instructions, and the nop without new runtime work."
+      },
+      "evidence": [
+        {
+          "id": "natural_c_menu_negative",
+          "kind": "bounded_negative",
+          "summary": "Six local symbolic/control-flow reconstructions and a volatile symbolic byte read all compile like the pinless source at 121/122, total 26. Full symbolic and grouped-object reconstructions are also non-exact across named stock cells.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_assembler_20260917.md",
+            "anchor": "#natural-full-source-results"
+          },
+          "bounds": {
+            "tested": "six local branch/control shapes, volatile symbolic read, full symbolic source, grouped page-base source, and nine named stock cells",
+            "untested": "real cross-condition value reuse and an authentic contiguous-object declaration with distinct relocation semantics"
+          }
+        },
+        {
+          "id": "gcc_dbr_reorg_observation",
+          "kind": "observation",
+          "summary": "The empty asm creates an output dependency before GCC's delayed-branch pass. Without it, .dbr contains a branch/HIGH SEQUENCE and GCC emits the filled slot in noreorder mode before either assembler stage.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_assembler_20260917.md",
+            "anchor": "#corrected-owner-of-the-missing-delay-nop"
+          }
+        },
+        {
+          "id": "independent_pipeline_controls",
+          "kind": "observation",
+          "summary": "An isolated fallthrough-head control and compatible genuine GCC/ASPSX reproduce the same branch choice. Fifteen exact SLUS controls legitimately fill a delay slot with symbolic HIGH, rejecting a global assembler suppression rule.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_assembler_20260917.md",
+            "anchor": "#independent-and-genuine-tool-controls"
+          }
+        },
+        {
+          "id": "literal_address_diagnostic",
+          "kind": "observation",
+          "summary": "A hardcoded absolute byte read is linked-byte exact because its multiword macro cannot fill one delay slot, proving the mechanism. It is rejected as a repair because it loses symbolic relocations, embeds the PS1 address, and harms port semantics.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_assembler_20260917.md",
+            "anchor": "#literal-address-diagnostic-rejected-as-a-repair"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "At fixed 2.8.1 -G0, reuse frame_ticks, sync_flags, and the loaded byte one at a time across the outer condition and D_80080A85 test; inspect .greg and .dbr before scoring each candidate.",
+        "measurement": "For each form: dependency at the fallthrough head, membership of symbolic HIGH in the delay SEQUENCE, symbolic relocation retention, runtime instruction count, and final linked bytes.",
+        "success_criterion": "One honest form keeps HIGH out of the delay SEQUENCE, retains HI16/LO16 relocations and port behavior, adds no runtime instruction, and matches all 91 linked retail instructions.",
+        "failure_criterion": "All three real reuse forms still allow HIGH into the delay SEQUENCE or perturb other bytes; record the three-form bound and proceed to authentic contiguous-object declaration evidence.",
+        "bounds": "Exactly three value-reuse candidates at the recorded recipe, with the current pinless form and isolated fallthrough-head probe as controls."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "slus_image"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    }
+  ]
+}
