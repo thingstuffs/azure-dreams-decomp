@@ -87,6 +87,17 @@ unrelated argument pin. Return to complete operation/argument-role reconstructio
 with these measured contracts, then transfer the next demonstrated mechanism.
 See [PIN_RESEARCH_ROUND44.md](PIN_RESEARCH_ROUND44.md).
 
+Round 45 gated result: **6,050 pins in 1,276 rows (-10; -53 cumulative)**.
+Complete typed Position144 reconstruction, a real helper contract and ordinary
+held-source alias recover the copy, argument roles and prologue. One existing
+position/sentinel binding remains unresolved. The caller's s32 contract stays
+unchanged; an explicit local u16 conversion keeps exact bytes. Independent
+linked210/210, both covering windows, SLUS and row database pass. Snapshot140
+now has a specific invariant-hoisting profitability diagnosis and corroborated
+save layout; no new pin removal there. Mechanical tools are reused for bounded
+repetition, with no unproven generic rewrite. See
+[PIN_RESEARCH_ROUND45.md](PIN_RESEARCH_ROUND45.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

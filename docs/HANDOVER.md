@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,060 pins in 1,276 rows,
-43 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,050 pins in 1,276 rows,
+53 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -49,18 +49,30 @@ exactly to `80D137FC` while retaining its unrelated action pin. The 140-byte
 detach copy now reproduces fully; outer scan invariant placement is its residue.
 See [the durable receipt](evidence/pin_research_round44_20260917.json).
 
-Next: return to whole operation and argument-role reconstruction on the higher-pin
-cases, incorporating these source contracts. Expand mechanical transfer only
-after a new positive. Preserve the true aggregate alignment for runtime
-alignment branches. The 144-byte case `813315CC` has identical instructions
-but a retained input binding moves its prologue pair early; saved RTL explains
-the phase ordering. The second 48-byte case `81339700` has one late argument
-move. Diagnose those specific dependencies before another spelling menu.
-The field initializer's one-use payload add is demonstrably folded by combine;
-seek independent sibling/compiler evidence rather than re-logging that known
-predicate. Snapshot140 and Pair24 still need real object/address information.
-The copy tool remains advisory; false post-copy helper arguments require actual
-callee evidence before removal. No case has an impossibility verdict.
+[Round 45](PIN_RESEARCH_ROUND45.md) removes **ten** from `813315CC`: complete
+typed Position144/object roles, the true helper contract and ordinary source
+alias recover the allocation and prologue. The s32 caller contract is kept
+with an explicit local u16 conversion. One existing position/sentinel binding
+remains unresolved. Independent strict210/210, both covering windows, SLUS and
+row database pass. See [the durable receipt](evidence/pin_research_round45_20260917.json).
+
+Next: the final Position144 pin concerns the -1 materialization and two stores;
+ordinary scalar and unbound-register controls still differ by six indels.
+Snapshot140's missing saved HIGH is now traced to invariant-motion profitability
+(life one, savings one, 36-instruction call loop), before allocation. Its logical
+save layout is corroborated by inverse and initializer, while the original
+declaration remains uncertain. Compare minimal real-loop RTL without artificial
+argument staging, then inspect measured cost/lifetime before more C probes.
+The ordinary shared full-base control restores frame56 but not the partial HIGH.
+Do not invent a page variable or patch compiler costs to force that lifetime.
+
+Keep mechanical repetition in the existing aggregate generator/probe and
+erasure/verification tools. Generalize a new rewrite only with actual semantic
+prerequisites and an independent positive; no need for another framework.
+Preserve true aggregate alignment and verify actual helper contracts. The
+second 48-byte case still has one late argument move; the field initializer's
+combine predicate is already explained. Seek missing source or provenance
+evidence for those residues. No case has an impossibility verdict.
 
 **500-pin continuation closed at a measured plateau (2026-09-16): 6,103 pins
 in 1,284 rows. Net -35 from `500808e2`; the 500-pin threshold was not reached.**

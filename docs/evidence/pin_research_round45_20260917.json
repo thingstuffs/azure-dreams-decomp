@@ -1,0 +1,890 @@
+{
+  "baseline": {
+    "commit": "ddd8a328",
+    "pins": 6060,
+    "pinned_rows": 1276
+  },
+  "snapshot140": {
+    "source_sha": "e1e8b2857ae1036d4b253d062848c89d0608906aa11edebed7d510304122cb0d",
+    "row": {
+      "id": "dungeon/func_8008EE88",
+      "container": "dungeon",
+      "func": "func_8008EE88",
+      "true_name": "func_800945E8",
+      "cfg": "2.95.2-G0",
+      "cell": "2.95.2",
+      "flags": "-G0",
+      "size": 724,
+      "foff": 716424,
+      "c_path": "overlays/dungeon/first_pass_matched/func_8008EE88.c",
+      "exists": true,
+      "src_sha": "282e956a20dce13bb02994e8fe993cb79a94c34753f02c6e72824bea04d446b1",
+      "gate_config": "config/overlays/dungeon_engine.overlay.yaml",
+      "instances": 1,
+      "row_asflags": null,
+      "stock": true,
+      "kind": "overlay"
+    },
+    "controls": {
+      "initial_controls": {
+        "baseline": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 181,
+          "tgt_words": 181,
+          "class": "match",
+          "signals": [],
+          "secs": 0.81,
+          "err": null
+        },
+        "ordinary_281": {
+          "status": "ok",
+          "exact": false,
+          "subs": 51,
+          "indels": 41,
+          "total": 92,
+          "gen_words": 180,
+          "tgt_words": 181,
+          "class": "const-remat",
+          "signals": [
+            "remat=2",
+            "frame=-48/-56,saved=15/17",
+            "addressing=1",
+            "dead-word=3",
+            "length-words=180/181"
+          ],
+          "secs": 0.89,
+          "err": null
+        }
+      },
+      "indexed_verify": {
+        "status": "ok",
+        "exact": false,
+        "subs": 52,
+        "indels": 31,
+        "total": 83,
+        "gen_words": 198,
+        "tgt_words": 181,
+        "class": "li-expansion",
+        "signals": [
+          "lui_delta=-2",
+          "remat=3",
+          "frame=-72/-56,saved=19/17",
+          "addressing=10",
+          "indels=46(ins23/del23)",
+          "drift-ins:+lui,+ori,+lui",
+          "drift-del:-sw,-lui,-ori",
+          "dead-word=2",
+          "length-words=198/181"
+        ],
+        "secs": 0.84,
+        "err": null
+      },
+      "actual_index_contract_verify": {
+        "status": "ok",
+        "exact": false,
+        "subs": 21,
+        "indels": 19,
+        "total": 40,
+        "gen_words": 180,
+        "tgt_words": 181,
+        "class": "const-remat",
+        "signals": [
+          "remat=2",
+          "frame=-48/-56,saved=15/17",
+          "addressing=1",
+          "dead-word=3",
+          "length-words=180/181"
+        ],
+        "secs": 0.84,
+        "err": null
+      },
+      "shared_buffer_root_verify": {
+        "status": "ok",
+        "exact": false,
+        "subs": 27,
+        "indels": 16,
+        "total": 43,
+        "gen_words": 181,
+        "tgt_words": 181,
+        "class": "const-remat",
+        "signals": [
+          "remat=2",
+          "addressing=3",
+          "dead-word=3"
+        ],
+        "secs": 0.84,
+        "err": null
+      },
+      "absolute_objects_verify": {
+        "status": "ok",
+        "exact": false,
+        "subs": 26,
+        "indels": 21,
+        "total": 47,
+        "gen_words": 178,
+        "tgt_words": 181,
+        "class": "const-remat",
+        "signals": [
+          "remat=2",
+          "frame=-48/-56,saved=15/17",
+          "addressing=1",
+          "dead-word=3",
+          "length-words=178/181"
+        ],
+        "secs": 0.86,
+        "err": null
+      },
+      "save_state_view_verify": {
+        "status": "ok",
+        "exact": false,
+        "subs": 53,
+        "indels": 21,
+        "total": 74,
+        "gen_words": 192,
+        "tgt_words": 181,
+        "class": "li-expansion",
+        "signals": [
+          "lui_delta=-2",
+          "remat=1",
+          "frame=-64/-56,saved=19/17",
+          "addressing=14",
+          "dead-word=2",
+          "length-words=192/181"
+        ],
+        "secs": 0.84,
+        "err": null
+      }
+    },
+    "candidate_sources": {
+      "indexed_snapshot.c": {
+        "path": "work/native_lane/r45_snapshot140/indexed_snapshot.c",
+        "sha256": "18b376e1b17b2dccb9963a62a6ae55045099651a58f935a8ef02ea3dccd432c2"
+      },
+      "actual_index_contract.c": {
+        "path": "work/native_lane/r45_snapshot140/actual_index_contract.c",
+        "sha256": "79b2fee17f9f0821ccf3f10110edce608dd1de49a69660870f541f7053fa8b69"
+      },
+      "shared_buffer_root.c": {
+        "path": "work/native_lane/r45_snapshot140/shared_buffer_root.c",
+        "sha256": "ef672498ba493e5870e38c2f13285c3c232b3adc797d99d0eee7ef09d8fb8039"
+      },
+      "absolute_objects.c": {
+        "path": "work/native_lane/r45_snapshot140/absolute_objects.c",
+        "sha256": "78e8761e9956bd7b2c3e7210afa97a4f503de87ab98bd431ed9b3edab0b8759d"
+      },
+      "save_state_view.c": {
+        "path": "work/native_lane/r45_snapshot140/save_state_view.c",
+        "sha256": "a2f6ea73bc84d5bb6e004494bef393dfbab4923cca532ceb16b704ea5f794ed6"
+      }
+    },
+    "layout_review": "# Save-state layout behind row `0x8008EE88`\n\n## Identity and evidence boundary\n\nThe registered row `dungeon/func_8008EE88` is represented by\n`src/dungeon/func_8008EE88.c`, whose current symbol is `func_800945E8`.\nThe inverse is `src/dungeon/func_8008F228.c`, symbol `func_80094988`; the\nfilename and the runtime symbol must not be interchanged.  This audit is\nread-only at commit `ddd8a328cb405a3832f3797dc3cf16c713852c3f`.\n\nThe primary evidence is the complete retail map in\n`work/native_lane/r42_snapshot140/retail.dis`, the forward and inverse C,\nand the paired SLUS helpers `func_800422DC`/`func_80041E28`.  Three bounded\nrelated sources were used to check the interpretation:\n\n1. `src/dungeon/func_80284068.c` (`func_80017068`) initializes the same\n   saved arrays and uses the same two index conversions.\n2. `src/dungeon/func_80286648.c` (`func_80019648`) indexes the persisted\n   four-byte array at `0x800121E8` with a saved slot number.\n3. `src/dungeon/func_8008E714.c` (`func_80093E74`) shows that\n   `D_800E3DF0[i]` is a pointer registry for the 140-byte backing record\n   `D_800E3E48[i]`, and copies a live record into that backing slot.\n\nSource SHA-256 values used here are:\n\n```text\ne1e8b2857ae1036d4b253d062848c89d0608906aa11edebed7d510304122cb0d  src/dungeon/func_8008EE88.c\n441f0e08d8eb6ba1b44368a7e21219c9712f2319f8131de737768453374f7d25  src/dungeon/func_8008F228.c\n4cf64ce9c7243f08d7c92d380949fc5376699d9fa2cae691b6ba186eba29a55a  src/slus/w_800422DC.c\n77a25f9e266baf9b76c0fb09baed354236e9da959c57241c476f74a74a6aa1c6  src/slus/w_80041E28.c\n```\n\n## Confirmed persisted layout\n\nThe logical saved record is rooted at `0x80012194`. These regions are contiguous;\nthey are not fields of a page object rooted at `0x80010000` or\n`0x8001004C`.\n\n| Save offset | Address | Size | Meaning and proof |\n|---:|---:|---:|---|\n| `0x000` | `0x80012194` | `0x54` | Encoded 84-byte entity prefix written by `func_800422DC` and consumed by `func_80041E28` plus the inverse's two reference fixups. |\n| `0x054` | `0x800121E8` | `20 * 4 = 0x50` | Opaque four-byte live slot values copied from `0x80010248[20]`.  The inverse copies them back to that exact base. |\n| `0x0A4` | `0x80012238` | `20` | For each live `0x8001029C[i]`, its index in `0x80010248[20]`, or `0xFF` for null/not found.  The inverse rebuilds `0x8001029C[i]` from it. |\n| `0x0B8` | `0x8001224C` | `20` | For each `D_800E3DF0[i]`, its index in `D_800E3E48[20]`, or `0xFF`.  The inverse rebuilds the registry pointer from it. |\n| `0x0CC` | `0x80012260` | `20 * 0x8C = 0xAF0` | Twenty 140-byte backing records copied from `D_800E3E48[20]`.  The final byte is at `0x80012D4F`. |\n| `0xBBC` | `0x80012D50` | `2` | `state + 0xF8` (`u16`); the inverse restores it to `arg0 + 0xF8`. |\n| `0xBBE` | `0x80012D52` | `2` | Two `u8` indices encoding `state + 0xD0` and `state + 0xD4` references into `0x80010248[20]`; the inverse reconstructs those two pointers. |\n| `0xBC4` | `0x80012D58` | `4` | `state + 0xFC` (`s32`); the inverse restores it to `arg0 + 0xFC`. |\n| `0xBD8` | `0x80012D6C` | `1` | Forward stores `state + 0xFA`.  No inverse assignment was found in `func_80094988`, so this is a save-related tail global, not yet proven to be a member of the same C declaration. |\n| `0xBD9` | `0x80012D6D` | `1` | Forward stores `state + 0xFB`; `func_80091430` later reads it directly.  Like `0x80012D6C`, physical adjacency does not alone prove declaration membership. |\n\nThe gaps `0x80012D54..0x80012D57` and\n`0x80012D5C..0x80012D6B` have no type evidence in the audited functions.\nThey must remain opaque rather than being assigned invented semantic fields.\n\nThe prefix has a more precise internal contract. `func_800422DC` copies 19\nwords (`0x4C` bytes), stores table indices at saved offsets `0x4C` and\n`0x4D`, and stores the source's field `+0x54` at saved offset `0x50`.\nThe inverse helper copies the first `0x4C` bytes, maps saved `+0x50` back to\ndestination `+0x54`, and initializes the destination.  `func_80094988`\nseparately reads absolute `0x800121E0` and `0x800121E1` (saved offsets\n`0x4C`/`0x4D`) and resolves them through the live slot array.  Bytes\n`+0x4E..+0x4F` are not written by the forward helper, so \u201c84-byte prefix\u201d\ndescribes its span, not a blind 84-byte copy.\n\n## The two live table pairs are separate from the save object\n\nThe live slot region and live record region have distinct roles:\n\n```text\n0x80010248  opaque 4-byte slot value[20]\n0x8001029C  pointer/reference-to-slot[20]\n\nD_800E3DF0  Blob140 *record_registry[20]\nD_800E3E48  Blob140 record_storage[20]\n```\n\nThe inverse also clears the word at `0x800102EC`, immediately after the 20\nentries of `0x8001029C`; this is consistent with a terminating live pointer\nslot and is outside the persisted 20-element index stream.  The eight-byte\ngap between the end of `D_800E3DF0[20]` and `D_800E3E48` likewise prevents\ntreating those live globals as one packed save structure.\n\nThe retail forward loop proves one common logical slot index even though its\nallocated cursors obscure it.  On the first iteration (`i = 19`):\n\n```text\ns0 + 0x248 = 0x80010294 = live_slot[19]\ns0 + 0x21E8 = 0x80012234 = save.slot_value[19]\ns0 + 0x29C = 0x800102E8 = live_slot_ref[19]\ns3 + 0x2238 = 0x8001224B = save.slot_ref_index[19]\ns1 = D_800E3E48 + 19 * 0x8C\ns4 + 0x2260 = 0x80012CC4 = save.record[19]\ns5 = D_800E3DF0 + 19 * 4\ns3 + 0x224C = 0x8001225F = save.record_ref_index[19]\n```\n\nThe loop then subtracts 4, 1, or `0x8C` from each cursor as appropriate and\nruns through index zero.  `s0 = 0x8001004C`, `s3 = 0x80010013`, and\n`s4 = 0x80010A64` are compiler-selected cursor biases for those final\nelements.  They are not source object bases.  In particular, the existing\n`Global1004C` type models an allocation artifact and invents a huge page\nobject that neither the inverse nor the initializer supports.\n\n## Source-level model for the shared loop\n\nA layout-safe model should keep the four-byte slot value opaque (and, if\nneeded for exact unaligned emission, explicitly packed) while giving the\nsaved region its real base:\n\n```c\ntypedef struct __attribute__((packed)) { u8 byte[4]; } SavedSlotValue;\ntypedef struct { u8 byte[0x8C]; } Blob140;\n\ntypedef struct SaveState {\n    u8 prefix[0x54];                 /* +0x000 */\n    SavedSlotValue slot_value[20];   /* +0x054 */\n    u8 slot_ref_index[20];           /* +0x0A4 */\n    u8 record_ref_index[20];         /* +0x0B8 */\n    Blob140 record[20];              /* +0x0CC */\n    u16 state_f8;                    /* +0xBBC */\n    u8 state_d0_index[2];            /* +0xBBE */\n    u8 unknown_bc0[4];\n    s32 state_fc;                    /* +0xBC4 */\n} SaveState;\n```\n\nThe evidence-backed C relationship for the second loop is therefore:\n\n```c\nSaveState *save = (SaveState *)0x80012194;\n\nfor (i = 19; i >= 0; i--) {\n    save->slot_value[i] = live_slot_value[i];\n    save->slot_ref_index[i] =\n        func_800422A8(live_slot_ref[i], live_slot_value, 4, 20);\n    save->record[i] = D_800E3E48[i];\n    save->record_ref_index[i] =\n        func_800422A8(D_800E3DF0[i], D_800E3E48, sizeof(Blob140), 20);\n}\n```\n\n`func_80017068` independently performs these same four operations for the\ninitial state, including the bases `0x800121E8`, `0x80012238`,\n`0x8001224C`, and `0x80012260`.  The inverse performs the exact reverse\nmapping.  This makes a single descending `i` the real source relationship\nfor all four cursors.  It avoids both the synthetic `Global1004C` page view\nand a synthetic absolute-page object while retaining the guest-pointer\nindex encoding and `0xFF` sentinel behavior.\n\nThis audit establishes layout and expression ownership only.  It does not\nclaim that the shown spelling alone reproduces the retail register\nallocation or instruction schedule.\n\nThe recovered layout is a defensible save-format view. The original C declaration,\nits packing, and whether every adjacent region shared one declared object remain\nunproven; a matching C layout is not evidence of historical declaration identity.\n",
+    "address_cause": "# Snapshot140 address cause: invariant `HIGH` rejected before allocation\n\n## Result\n\n`aggregate_copy4.c` does not give GCC one shared page value for the two uses of `D_800E3E48` in the second outer loop. Expansion creates one `HIGH`/`LO_SUM` chain before the loop for the descending copy cursor and a second chain inside the loop for argument 2 of `func_800422A8`. The first `HIGH` dies as soon as it forms the full address. The second `HIGH` is a legal loop invariant, but the CDK `loop` pass explicitly refuses to move it:\n\n```text\nLoop from 197 to 310: 36 real insns.\nInsn 256: regno 146 (life 1), move-insn savings 1 not desirable\n```\n\nThat is the new causal distinction for this candidate. The missing `s7` is not caused by reload failing to preserve an already-hoisted page, nor by a call clobber forcing a page reload. `loop.c` never creates the across-loop page lifetime. Later passes only allocate the short-lived in-loop address pair they receive. This does not mean the original C had to name a page explicitly: a smaller or differently staged real loop could change the invariant-motion profitability decision before allocation.\n\nThis diagnosis used the stock `2.7.2-cdk-G0` compiler and the existing zero-pin `aggregate_copy4.c` (SHA-256 `d08e16fa44bb3cdb210de36dbf2b00eff054090d235297f6969db08c7f47a519`). Its existing byte result remains 180/181 words, total 40, frame 48 with no `s7`. No C candidate, production file, recipe, export or gate was changed.\n\n## Natural candidate trace\n\nAt initial RTL, the preheader source-cursor expression is already a complete address chain:\n\n- [`aggregate_copy4.c.rtl`](../r42_snapshot140/raw/address_diag/aggregate_copy4.c.rtl), insns 185/186/189: pseudo 139 receives `high(D_800E3E48)`, pseudo 133 receives `lo_sum(139,D_800E3E48)`, and pseudo 126 receives `133 + 2660`.\n- The loop begins after that chain. Pseudo 126 is the value carried and decremented by 140. The page pseudo 139 is not carried into the loop.\n- Later in the loop, insns 256/257 independently create `high(D_800E3E48)` in pseudo 146 and the full address in pseudo 135 for the lookup call.\n\nThe [`loop` dump](../r42_snapshot140/raw/address_diag/aggregate_copy4.c.loop) preserves the preheader chain at lines 500\u2013516 and places the second `HIGH` at lines 670\u2013679. Its diagnostic at lines 22\u201324 identifies the exact decision: the loop has 36 real instructions, while moving pseudo 146 would save one instruction whose current lifetime is one, so the invariant is \u201cnot desirable.\u201d It was recognized as movable; the failure is profitability, not safety.\n\nThe observed message agrees with the retained FSF 2.7.2 `loop.c`, which says invariant motion is desirable when `threshold * savings * lifetime >= insn_count` (or one of two forcing cases applies). Its threshold is lower for a loop containing a call because it uses the `loop_has_call ? 1 : 2` multiplier. CDK has no public source, so this source is corroboration only; the CDK dump's own decision is the primary evidence.\n\nAfter that refusal:\n\n- [`combine`](../r42_snapshot140/raw/address_diag/aggregate_copy4.c.combine), lines 621\u2013669, deletes the separate full-address assignment and folds the `LO_SUM` directly into the assignment of hard argument register `a1`. Pseudo 146 is marked dead at that use.\n- [`lreg`](../r42_snapshot140/raw/address_diag/aggregate_copy4.c.lreg), lines 895\u2013905, still has the one-use `HIGH` pseudo followed immediately by `a1 = LO_SUM(pseudo 146, symbol)`. There is no page pseudo spanning either call.\n- [`greg`](../r42_snapshot140/raw/address_diag/aggregate_copy4.c.greg), lines 734\u2013744, assigns both operations to hard `a1`: `a1 = HIGH`, then `a1 = LO_SUM(a1, symbol)`.\n- The resulting [assembly](../r42_snapshot140/raw/address_diag/aggregate_copy4.s), lines 201\u2013207, rematerializes `lui a1,%hi(D_800E3E48)` plus `addiu a1,a1,%lo(D_800E3E48)` immediately before the second call on every iteration.\n\nThe preheader use therefore does not compete as a reusable page. It has already become the full address and then the mutable source cursor in `s3`; recovering the page from that cursor would not be equivalent after the cursor is decremented.\n\n## Retail contrast\n\nRetail has a different value graph, not merely a different register choice. In [`retail.dis`](../r42_snapshot140/retail.dis):\n\n- word 86 loads `s7 = HIGH(D_800E3E48)` once;\n- words 87\u201388 form the low address through `v0` and derive the initial copy cursor in `s1`;\n- word 125 forms `a1 = s7 + 0x3e48` inside the loop.\n\nThus retail keeps an independent high-page value across the loop and calls while separately mutating the full copy cursor. Natural `aggregate_copy4.c` only names the complete symbol address at each source use, so expansion makes separate `HIGH` pseudos and leaves partial sharing to loop invariant motion. CDK declines that partial hoist by its cost test.\n\nThe earlier controls supplied by the root lane support pass ownership rather than a recipe or prototype explanation: 2.8.1 still has frame 48/no `s7`, and correcting the actual `func_800422A8` declaration leaves CDK at the same 180/181, total 40.\n\n## Grounded source controls after the RTL diagnosis\n\nThree subsequent root controls separate an ordinary shared object root, absolute constants, and the recovered save layout. They do not change the observed `loop.c` decision in `aggregate_copy4.c`.\n\n### Existing full buffer root\n\n[`shared_buffer_root.c`](shared_buffer_root.c) changes only the second lookup base from a fresh `D_800E3E48` expression to the existing `buffer_addr` local that also derives `src_cursor`. It is ordinary C with no page local or keep. The candidate has SHA-256 `ef672498ba493e5870e38c2f13285c3c232b3adc797d99d0eee7ef09d8fb8039`; its [verification](shared_buffer_root_verify.json) is 181/181 words, total 43.\n\nThis source does preserve a meaningful full address across the loop and calls. GCC assigns the full base to `s6`, moves the input to `s7`, and restores the 56-byte frame. It proves that ordinary value sharing is sufficient to recover the saved-register count without an asm pin. It remains distinct from retail: the lookup passes the already-complete base with `move a1,s6`, while retail retains only `HIGH` in `s7` and forms `a1 = s7 + 0x3e48`. The control therefore separates \u201cmake a base live across calls\u201d from \u201cproduce retail's partial symbolic address.\u201d\n\n### Absolute object addresses\n\n[`absolute_objects.c`](absolute_objects.c) spells the real object addresses as integer constants, including `0x800E3E48`, rather than relocatable `D_800E...` symbols. Its SHA-256 is `78e8761e9956bd7b2c3e7210afa97a4f503de87ab98bd431ed9b3edab0b8759d`; [verification](absolute_objects_verify.json) is 178/181 words, total 47, frame 48.\n\nCDK lowers these constants as `lui`/`ori` pairs. Retail uses symbol-style split addresses with `addiu` for the low relocation. The absolute spelling neither creates the saved page nor matches the relocation arithmetic, so the observed bytes support retaining relocatable `D_800E3DF0`/`D_800E3E48` objects. This is a source-representation result, not proof of a particular declaration.\n\n### Grounded save-state view\n\n[`save_state_view.c`](save_state_view.c) uses the independently recovered `SaveState` layout described in [`SAVE_LAYOUT.md`](SAVE_LAYOUT.md). Its SHA-256 is `a2f6ea73bc84d5bb6e004494bef393dfbab4923cca532ceb16b704ea5f794ed6`; [verification](save_state_view_verify.json) is 192/181 words, total 74, frame 64.\n\nThe layout is semantically grounded, but this direct indexed spelling gives GCC independent array induction values rather than retail's compact shared cursor graph. The larger frame and 11 extra words are a lowering negative for this spelling. They do not invalidate the recovered object layout and do not answer the partial-`HIGH` decision.\n\n## Why the prior page-keep control is only diagnostic\n\nThe second and final diagnostic compile traced `diagnostic_page_keep.c`. Its initial RTL creates pseudo 130 as the literal `0x800e0000` before the loop and immediately routes it through `ASM_KEEP_NV`. That same pseudo forms both `page + 0x48ac` for the copy cursor and `page + 0x3e48` for the call inside the loop. The [`lreg` dump](../r42_snapshot140/raw/address_diag/page_keep/diagnostic_page_keep.c.lreg), lines 655\u2013671 and 893\u2013896, shows this shared pseudo directly; [`greg`](../r42_snapshot140/raw/address_diag/page_keep/diagnostic_page_keep.c.greg), lines 496\u2013512 and 734\u2013736, gives it `s6`. The [assembly](../r42_snapshot140/raw/address_diag/page_keep/diagnostic_page_keep.s), lines 23\u201339 and 140\u2013147, consequently restores a 56-byte frame and the ninth saved register.\n\nThat control bypasses the failed invariant-motion decision. It creates the cross-loop value during expansion with an asm-tied lifetime; GCC does not discover a shared `HIGH` from two natural symbol references. Its total 41 result and wrong saved-role assignment remain a negative for landing, while its frame change confirms that a shared page-root lifetime is sufficient to cause the saved-register expansion.\n\n## Next diagnostic and limits\n\nBefore more C variants, reconstruct the minimal real second-loop RTL from the retail-backed operations and remove artificial argument staging from the model. Then compare the loop's real-instruction count and the `HIGH` pseudo's lifetime/savings with the observed rejection. The retained FSF 2.7.2 rule is:\n\n```text\nthreshold = (1 + n_non_fixed_regs) * (loop_has_call ? 1 : 2)\nordinary profitability arm: threshold * savings * lifetime >= insn_count\n```\n\n`loop.c` also has already-moved and forcing cases; none is reported for candidate insn 256. If the grounded loop becomes cheap enough to pass the ordinary inequality, symbolic source may produce the retail partial hoist without naming a page. If its measured RTL remains on the rejected side, the next independent question is compiler provenance: whether the historical compiler used a different loop-cost decision. These are separable tests; another C-shape menu would not identify either cause.\n\nThis is a pass-level cause for the current candidate and compiler. It does not prove a unique historical compiler, prove the original source, require an explicit page variable, or show that the address family is impossible. The exact remaining register and schedule differences still depend on the surrounding record views.\n\n## Captured evidence\n\nExactly two dump-enabled diagnostic compiles were run: the natural candidate and the existing page-keep negative. Only source, assembly, initial RTL, `loop`, `combine` where needed, `lreg`, and `greg` were retained under [`raw/address_diag`](../r42_snapshot140/raw/address_diag/). [`SHA256SUMS`](../r42_snapshot140/raw/address_diag/SHA256SUMS) binds every retained artifact. The compiler identifies itself as `cygnus-2.7.2-970404 SN32.3.7.0004 (SonyPSX)` in both assemblies.\n",
+    "fingerprint": "== lineage fingerprint: func_8008EE88 (overlay dungeon, 181 words) ==\n$at macro stores             0   \ncompiler-split stores        2   [152] lui $v0,0x8001 + [155] sh $v1, 0x3624($v0); [152] lui $v0,0x8001 + [156] sh $a0, 0x209c($v0)\nheld-page bases (s-reg)      0   \nstore in jal/j slot          1   [167] jal 0xa9160 + [168] sb $v1, 0x2d6d($v0)\ntwo-reg split la             3   [16] lui $v0, 0x800e + [17] addiu $s5, $v0, 0x3df0; [18] lui $v0, 0x800e + [19] addiu $s4, $v0, 0x3e48; [86] lui $s7, 0x800e + [87] addiu $v0, $s7, 0x3e48\nzero-equiv copies            0   \nreturn-copy after call       0   \n$gp refs                     0\nVERDICT: cdk/2.8.x-family store emission/cse habits; compiler-filled call/jump slots (impossible under macro emission); SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage)\nclaimed 'cdk' is consistent with the byte evidence\n"
+  },
+  "position144": {
+    "scores": {
+      "gate0.json": {
+        "control@2.8.1-G0": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 210,
+          "tgt_words": 210,
+          "class": "match",
+          "signals": [],
+          "secs": 0.8,
+          "err": null
+        },
+        "aggregate_pinned@2.7.2-cdk-G0": {
+          "status": "ok",
+          "exact": false,
+          "subs": 0,
+          "indels": 4,
+          "total": 4,
+          "gen_words": 210,
+          "tgt_words": 210,
+          "class": "reorder-only",
+          "signals": [
+            "same-multiset",
+            "indels=4(ins2/del2)",
+            "drift-ins:+sw,+move",
+            "drift-del:-sw,-move"
+          ],
+          "secs": 0.86,
+          "err": null
+        }
+      },
+      "candidate1_score.json": {
+        "status": "ok",
+        "exact": false,
+        "subs": 44,
+        "indels": 18,
+        "total": 62,
+        "gen_words": 211,
+        "tgt_words": 210,
+        "class": "const-remat",
+        "signals": [
+          "remat=1"
+        ],
+        "secs": 0.85,
+        "err": null
+      },
+      "candidate2_score.json": {
+        "status": "ok",
+        "exact": false,
+        "subs": 6,
+        "indels": 10,
+        "total": 16,
+        "gen_words": 210,
+        "tgt_words": 210,
+        "class": "code-motion",
+        "signals": [
+          "indels=10(ins5/del5)",
+          "drift-ins:+sw,+lhu,+li",
+          "drift-del:-sw,-move,-li"
+        ],
+        "secs": 0.89,
+        "err": null
+      },
+      "candidate3_score.json": {
+        "status": "ok",
+        "exact": false,
+        "subs": 22,
+        "indels": 6,
+        "total": 28,
+        "gen_words": 211,
+        "tgt_words": 210,
+        "class": "const-remat",
+        "signals": [
+          "remat=1"
+        ],
+        "secs": 0.86,
+        "err": null
+      },
+      "control_alias_only_score.json": {
+        "status": "ok",
+        "exact": false,
+        "subs": 0,
+        "indels": 6,
+        "total": 6,
+        "gen_words": 210,
+        "tgt_words": 210,
+        "class": "code-motion",
+        "signals": [
+          "indels=6(ins3/del3)",
+          "drift-ins:+li,+sh,+sh",
+          "drift-del:-li,-sh,-sh"
+        ],
+        "secs": 0.85,
+        "err": null
+      },
+      "coordinate_scalar_verify.json": {
+        "status": "ok",
+        "exact": false,
+        "subs": 0,
+        "indels": 6,
+        "total": 6,
+        "gen_words": 210,
+        "tgt_words": 210,
+        "class": "code-motion",
+        "signals": [
+          "indels=6(ins3/del3)",
+          "drift-ins:+li,+sh,+sh",
+          "drift-del:-li,-sh,-sh"
+        ],
+        "secs": 0.89,
+        "err": null
+      },
+      "coordinate_register_hint_verify.json": {
+        "status": "ok",
+        "exact": false,
+        "subs": 0,
+        "indels": 6,
+        "total": 6,
+        "gen_words": 210,
+        "tgt_words": 210,
+        "class": "code-motion",
+        "signals": [
+          "indels=6(ins3/del3)",
+          "drift-ins:+li,+sh,+sh",
+          "drift-del:-li,-sh,-sh"
+        ],
+        "secs": 0.88,
+        "err": null
+      },
+      "retained_position_binding_verify.json": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 210,
+        "tgt_words": 210,
+        "class": "match",
+        "signals": [],
+        "secs": 0.84,
+        "err": null,
+        "note": "Earlier u16-formal candidate verification; final s32-formal API is bound by final_receipts and publication."
+      }
+    },
+    "fingerprint": "== lineage fingerprint: func_813315CC (overlay dungeon, 210 words) ==\n$at macro stores             0   \ncompiler-split stores        0   \nheld-page bases (s-reg)      0   \nstore in jal/j slot          2   [66] jal 0x4491c + [67] sw $v0, 0x10($s1); [164] jal 0x3db94 + [165] sw $v0, 0x64($s0)\ntwo-reg split la             2   [6] lui $v0, 0x8016 + [7] addiu $a2, $v0, 0x484c; [167] lui $v0, 0x8017 + [168] addiu $t6, $v0, 0x5dd8\nzero-equiv copies            1   [169] move $t3, $t5 ($t5 known zero)\nreturn-copy after call       1   [53] move $s1, $v0 after call\n$gp refs                     0\nVERDICT: cdk/2.8.x-family store emission/cse habits; compiler-filled call/jump slots (impossible under macro emission); SPLIT_ADDRESSES two-reg la (cdk/4.1-lineage); return-copy habit (plain-2.7.2 trait)\nclaimed 'cdk' is consistent with the byte evidence\n",
+    "candidate_sources": {
+      "candidate2_typed_roles.c": {
+        "path": "work/native_lane/r45_position144/candidate2_typed_roles.c",
+        "sha256": "bc04fa8c777d33a33ad19e1cb124645a5da1aa802fb0e816aed4fd9e1a365214",
+        "text": "#include \"common.h\"\n\n#ifndef NULL\n#define NULL 0\n#endif\n\n#define VS16_AT(p, o) (*(volatile s16 *)((u8 *)(p) + (o)))\n#define VPTR_AT(p, o) (*(void * volatile *)((u8 *)(p) + (o)))\n\ntypedef struct {\n    s16 values[8][3][3];\n} LocalPositionTable;\n\ntypedef struct {\n    s32 x;\n    s32 y;\n    s32 z;\n} Vec3;\n\ntypedef struct {\n    u8 pad_00[0x2A];\n    u16 direction;\n} EffectSource;\n\ntypedef struct {\n    u8 pad_00[0x0C];\n    u8 red;\n    u8 green;\n    u8 blue;\n    u8 pad_0F;\n    s16 intensity;\n    u8 pad_12[2];\n    u16 flags;\n    u8 pad_16[6];\n    s16 scale_x;\n    s16 scale_y;\n} RenderState;\n\ntypedef struct {\n    u8 pad_00[0x18];\n    s16 size_x;\n    s16 size_y;\n    u16 color_mode;\n    u8 pad_1E[6];\n    void *effect_data;\n    u8 pad_28[0x34];\n    s32 position[3];\n    u8 pad_68[0x0C];\n    s16 vertices[4][3];\n} EffectPayload;\n\ntypedef struct {\n    u8 pad_00[8];\n    Vec3 *position;\n    RenderState *render;\n    void *callback;\n    u8 pad_14[0x0C];\n    EffectPayload payload;\n} EffectObject;\n\nextern void func_8003DB94(RenderState *, void *, s16);\nextern EffectObject *func_8003FC64(s32);\nextern void func_8004491C(EffectObject *, void *);\n\nextern u8 D_80045340;\nextern u8 D_800DEAE0[];\nextern LocalPositionTable D_8016484C;\nextern u8 D_80167C74[];\nextern s16 D_80175DD8[][8][2][3];\n\n/* Create a direction- and color-selected effect and initialize its vertices. */\nvoid func_801685CC(EffectSource *source, Vec3 *origin, void *unused,\n                   void *effect_data, u16 color_mode)\n{\n    LocalPositionTable positions;\n    EffectObject *object;\n    EffectPayload *payload;\n    RenderState *render;\n    Vec3 *effect_position;\n    s32 mode;\n    u32 intensity;\n    s32 pair_index;\n    s32 vertex_index;\n    s32 axis;\n\n    positions = D_8016484C;\n    object = func_8003FC64(0x212);\n    if (object != NULL) {\n        payload = &object->payload;\n        payload->size_x = 0x50;\n        payload->size_y = 0x50;\n        payload->color_mode = color_mode;\n        payload->effect_data = effect_data;\n        object->callback = D_80167C74;\n        func_8004491C(object, &D_80045340);\n\n        render = object->render;\n        intensity = 0x60;\n        render->intensity = intensity;\n        render->flags |= 0x8C;\n\n        effect_position = object->position;\n        effect_position->x = origin->x;\n        effect_position->y = origin->y;\n        effect_position->z = origin->z;\n\n        VS16_AT(payload, 0x7A) = 1;\n        VS16_AT(payload, 0x86) = 1;\n        VS16_AT(payload, 0x74) = -1;\n        VS16_AT(payload, 0x80) = -1;\n        VS16_AT(payload, 0x78) = -0x14;\n        VS16_AT(payload, 0x7E) = -0x14;\n        VS16_AT(payload, 0x84) = -0x14;\n        VS16_AT(payload, 0x8A) = -0x14;\n\n        render = (RenderState *)VPTR_AT(object, 0xC);\n        VS16_AT(render, 0x1E) = 0x1000;\n        VS16_AT(render, 0x1C) = 0x1000;\n        render->blue = intensity;\n        render->green = intensity;\n        render->red = intensity;\n\n        mode = (s16)color_mode;\n        if (mode == 0) {\n            render->red = 0xC0;\n        }\n        if (mode == 1) {\n            render->green = 0xC0;\n        }\n        if (mode == 2) {\n            render->blue = 0xC0;\n        }\n\n        payload->position[0] =\n            positions.values[(source->direction >> 9) & 7][mode][0] * 0x50000;\n        payload->position[1] =\n            positions.values[(source->direction >> 9) & 7][mode][1] * 0x50000;\n        payload->position[2] =\n            positions.values[(source->direction >> 9) & 7][mode][2] << 19;\n        func_8003DB94(render, D_800DEAE0, 0);\n\n        pair_index = 0;\n        do {\n            vertex_index = 0;\n            do {\n                axis = 0;\n                do {\n                    D_80175DD8[(s16)payload->color_mode]\n                                 [pair_index][vertex_index][axis] =\n                        payload->vertices[vertex_index][axis];\n                    axis++;\n                } while (axis < 3);\n                vertex_index++;\n            } while (vertex_index < 2);\n            pair_index++;\n        } while (pair_index < 8);\n    }\n\n    (void)unused;\n}\n"
+      },
+      "control_alias_only.c": {
+        "path": "work/native_lane/r45_position144/control_alias_only.c",
+        "sha256": "717af5c10aca3c38533ab6f4f362223c7f87aff741da6bcee1159711cddced39",
+        "text": "#include \"common.h\"\n\n#ifndef NULL\n#define NULL 0\n#endif\n\n#define VS16_AT(p, o) (*(volatile s16 *)((u8 *)(p) + (o)))\n#define VPTR_AT(p, o) (*(void * volatile *)((u8 *)(p) + (o)))\n\ntypedef struct {\n    s16 values[8][3][3];\n} LocalPositionTable;\n\ntypedef struct {\n    s32 x;\n    s32 y;\n    s32 z;\n} Vec3;\n\ntypedef struct {\n    u8 pad_00[0x2A];\n    u16 direction;\n} EffectSource;\n\ntypedef struct {\n    u8 pad_00[0x0C];\n    u8 red;\n    u8 green;\n    u8 blue;\n    u8 pad_0F;\n    s16 intensity;\n    u8 pad_12[2];\n    u16 flags;\n    u8 pad_16[6];\n    s16 scale_x;\n    s16 scale_y;\n} RenderState;\n\ntypedef struct {\n    u8 pad_00[0x18];\n    s16 size_x;\n    s16 size_y;\n    u16 color_mode;\n    u8 pad_1E[6];\n    void *effect_data;\n    u8 pad_28[0x34];\n    s32 position[3];\n    u8 pad_68[0x0C];\n    s16 vertices[4][3];\n} EffectPayload;\n\ntypedef struct {\n    u8 pad_00[8];\n    Vec3 *position;\n    RenderState *render;\n    void *callback;\n    u8 pad_14[0x0C];\n    EffectPayload payload;\n} EffectObject;\n\nextern void func_8003DB94(RenderState *, void *, s16);\nextern EffectObject *func_8003FC64(s32);\nextern void func_8004491C(EffectObject *, void *);\n\nextern u8 D_80045340;\nextern u8 D_800DEAE0[];\nextern LocalPositionTable D_8016484C;\nextern u8 D_80167C74[];\nextern s16 D_80175DD8[][8][2][3];\n\n/* Isolated control: Candidate 2 plus only an ordinary source alias. */\nvoid func_801685CC(EffectSource *source, Vec3 *origin, void *unused,\n                   void *effect_data, u16 color_mode)\n{\n    LocalPositionTable positions;\n    EffectObject *object;\n    EffectPayload *payload;\n    RenderState *render;\n    Vec3 *effect_position;\n    register EffectSource *held_source;\n    s32 mode;\n    u32 intensity;\n    s32 pair_index;\n    s32 vertex_index;\n    s32 axis;\n\n    held_source = source;\n    positions = D_8016484C;\n    object = func_8003FC64(0x212);\n    if (object != NULL) {\n        payload = &object->payload;\n        payload->size_x = 0x50;\n        payload->size_y = 0x50;\n        payload->color_mode = color_mode;\n        payload->effect_data = effect_data;\n        object->callback = D_80167C74;\n        func_8004491C(object, &D_80045340);\n\n        render = object->render;\n        intensity = 0x60;\n        render->intensity = intensity;\n        render->flags |= 0x8C;\n\n        effect_position = object->position;\n        effect_position->x = origin->x;\n        effect_position->y = origin->y;\n        effect_position->z = origin->z;\n\n        VS16_AT(payload, 0x7A) = 1;\n        VS16_AT(payload, 0x86) = 1;\n        VS16_AT(payload, 0x74) = -1;\n        VS16_AT(payload, 0x80) = -1;\n        VS16_AT(payload, 0x78) = -0x14;\n        VS16_AT(payload, 0x7E) = -0x14;\n        VS16_AT(payload, 0x84) = -0x14;\n        VS16_AT(payload, 0x8A) = -0x14;\n\n        render = (RenderState *)VPTR_AT(object, 0xC);\n        VS16_AT(render, 0x1E) = 0x1000;\n        VS16_AT(render, 0x1C) = 0x1000;\n        render->blue = intensity;\n        render->green = intensity;\n        render->red = intensity;\n\n        mode = (s16)color_mode;\n        if (mode == 0) {\n            render->red = 0xC0;\n        }\n        if (mode == 1) {\n            render->green = 0xC0;\n        }\n        if (mode == 2) {\n            render->blue = 0xC0;\n        }\n\n        payload->position[0] =\n            positions.values[(held_source->direction >> 9) & 7][mode][0] * 0x50000;\n        payload->position[1] =\n            positions.values[(held_source->direction >> 9) & 7][mode][1] * 0x50000;\n        payload->position[2] =\n            positions.values[(held_source->direction >> 9) & 7][mode][2] << 19;\n        func_8003DB94(render, D_800DEAE0, 0);\n\n        pair_index = 0;\n        do {\n            vertex_index = 0;\n            do {\n                axis = 0;\n                do {\n                    D_80175DD8[(s16)payload->color_mode]\n                                 [pair_index][vertex_index][axis] =\n                        payload->vertices[vertex_index][axis];\n                    axis++;\n                } while (axis < 3);\n                vertex_index++;\n            } while (vertex_index < 2);\n            pair_index++;\n        } while (pair_index < 8);\n    }\n\n    (void)unused;\n}\n"
+      },
+      "retained_position_binding.c": {
+        "path": "src/dungeon/func_813315CC.c",
+        "sha256": "56c497f34be4466c8fb60a4d05ea137c4af240a1186d18a62f0535d25f65da91",
+        "text": "#include \"common.h\"\n\n#ifndef NULL\n#define NULL 0\n#endif\n\n#define VS16_AT(p, o) (*(volatile s16 *)((u8 *)(p) + (o)))\n#define VPTR_AT(p, o) (*(void * volatile *)((u8 *)(p) + (o)))\n\ntypedef struct {\n    s16 values[8][3][3];\n} LocalPositionTable;\n\ntypedef struct {\n    s32 x;\n    s32 y;\n    s32 z;\n} Vec3;\n\ntypedef struct {\n    u8 pad_00[0x2A];\n    u16 direction;\n} EffectSource;\n\ntypedef struct {\n    u8 pad_00[0x0C];\n    u8 red;\n    u8 green;\n    u8 blue;\n    u8 pad_0F;\n    s16 intensity;\n    u8 pad_12[2];\n    u16 flags;\n    u8 pad_16[6];\n    s16 scale_x;\n    s16 scale_y;\n} RenderState;\n\ntypedef struct {\n    u8 pad_00[0x18];\n    s16 size_x;\n    s16 size_y;\n    u16 color_mode;\n    u8 pad_1E[6];\n    void *effect_data;\n    u8 pad_28[0x34];\n    s32 position[3];\n    u8 pad_68[0x0C];\n    s16 vertices[4][3];\n} EffectPayload;\n\ntypedef struct {\n    u8 pad_00[8];\n    Vec3 *position;\n    RenderState *render;\n    void *callback;\n    u8 pad_14[0x0C];\n    EffectPayload payload;\n} EffectObject;\n\nextern void func_8003DB94(RenderState *, void *, s16);\nextern EffectObject *func_8003FC64(s32);\nextern void func_8004491C(EffectObject *, void *);\n\nextern u8 D_80045340;\nextern u8 D_800DEAE0[];\nextern LocalPositionTable D_8016484C;\nextern u8 D_80167C74[];\nextern s16 D_80175DD8[][8][2][3];\n\n/* Create a direction- and color-selected effect and initialize its vertices. */\nvoid func_801685CC(EffectSource *source, Vec3 *origin, void *unused,\n                   void *effect_data, s32 input_color_mode)\n{\n    LocalPositionTable positions;\n    EffectObject *object;\n    EffectPayload *payload;\n    RenderState *render;\n    /* Retained legacy pin: retail reuses this pointer register for the -1\n       vertex sentinel. Ordinary scalar forms move the sentinel stores. */\n    register Vec3 *effect_position ASM_REG(\"$3\");\n    register EffectSource *held_source;\n    s32 mode;\n    u32 intensity;\n    s32 pair_index;\n    s32 vertex_index;\n    s32 axis;\n    u16 color_mode;\n\n    color_mode = (u16)input_color_mode;\n    held_source = source;\n    positions = D_8016484C;\n    object = func_8003FC64(0x212);\n    if (object != NULL) {\n        payload = &object->payload;\n        payload->size_x = 0x50;\n        payload->size_y = 0x50;\n        payload->color_mode = color_mode;\n        payload->effect_data = effect_data;\n        object->callback = D_80167C74;\n        func_8004491C(object, &D_80045340);\n\n        render = object->render;\n        intensity = 0x60;\n        render->intensity = intensity;\n        render->flags |= 0x8C;\n\n        effect_position = object->position;\n        effect_position->x = origin->x;\n        effect_position->y = origin->y;\n        effect_position->z = origin->z;\n\n        effect_position = (Vec3 *)-1;\n        VS16_AT(payload, 0x7A) = 1;\n        VS16_AT(payload, 0x86) = 1;\n        VS16_AT(payload, 0x74) = (s32)effect_position;\n        VS16_AT(payload, 0x80) = (s32)effect_position;\n        VS16_AT(payload, 0x78) = -0x14;\n        VS16_AT(payload, 0x7E) = -0x14;\n        VS16_AT(payload, 0x84) = -0x14;\n        VS16_AT(payload, 0x8A) = -0x14;\n\n        render = (RenderState *)VPTR_AT(object, 0xC);\n        VS16_AT(render, 0x1E) = 0x1000;\n        VS16_AT(render, 0x1C) = 0x1000;\n        render->blue = intensity;\n        render->green = intensity;\n        render->red = intensity;\n\n        mode = (s16)color_mode;\n        if (mode == 0) {\n            render->red = 0xC0;\n        }\n        if (mode == 1) {\n            render->green = 0xC0;\n        }\n        if (mode == 2) {\n            render->blue = 0xC0;\n        }\n\n        payload->position[0] =\n            positions.values[(held_source->direction >> 9) & 7][mode][0] * 0x50000;\n        payload->position[1] =\n            positions.values[(held_source->direction >> 9) & 7][mode][1] * 0x50000;\n        payload->position[2] =\n            positions.values[(held_source->direction >> 9) & 7][mode][2] << 19;\n        func_8003DB94(render, D_800DEAE0, 0);\n\n        pair_index = 0;\n        do {\n            vertex_index = 0;\n            do {\n                axis = 0;\n                do {\n                    D_80175DD8[(s16)payload->color_mode]\n                                 [pair_index][vertex_index][axis] =\n                        payload->vertices[vertex_index][axis];\n                    axis++;\n                } while (axis < 3);\n                vertex_index++;\n            } while (vertex_index < 2);\n            pair_index++;\n        } while (pair_index < 8);\n    }\n\n    (void)unused;\n}\n"
+      }
+    },
+    "report": "# Round 45 complete-role reconstruction\n\n## Bounded result\n\nNo zero-pin candidate is exact after the three allowed source predictions and\none requested isolated control.  The best result is\n`control_alias_only.c`: 210/210 words, zero substitutions, six indels, regional\ndistance 6 at `2.7.2-cdk-G0`.  It is Candidate 2 plus only an ordinary\n`held_source` alias, with Candidate 2's integer `-1` stores unchanged.  It\nrecovers every retail register role and differs only in the materialization\nand placement of that integer sentinel.\n\nNo `ASM_REG` or `ASM_KEEP` occurs in any Round 45 candidate.  Production\nsource, configuration, compiler, and build files were not changed.\n\n## Gate 0 and pre-probe recipe evidence\n\n`gate0.json` independently reconfirms the current production control is exact\nat its recorded `2.8.1-G0` recipe (210/210, distance 0).  The pinned aggregate\ncontrol at `2.7.2-cdk-G0` reconfirms 210/210 and the known four-indel prologue\nresidual.  The actual reused pre-probe results are in\n`../r43_position144/scores.json`: the scalar control is 62 away at CDK, the\npinned aggregate is 44 away at 2.8.1, and CDK is the only established\naggregate-copy endpoint.  `preprobe_recipe_matrix.json` is only a compact copy\nof that recipe/result matrix plus the repeated Gate 0 controls; it is not a\ncompiler fingerprint and is not lineage evidence.  No separate fingerprint\nartifact exists in the Round 43 lane.  The compiler-binary hashes in\nProvenance identify the two actual compiler inputs.  Round 45 did not rerun a\ncompiler or flag menu.\n\n## Recovered source facts\n\nThe same-image caller `func_81336754.c` calls this function with a direction-\nbearing state, a position/work record, an otherwise unused object argument,\nthe `D_80083780` effect-data pointer, and small color/mode values.  Its local\nprototype still spells the fifth parameter `s32`, while retail callee code\nloads only an unsigned halfword from the incoming stack slot; the candidate's\n`u16` callee parameter follows that machine-code fact and leaves a cross-TU\nprototype cleanup outside this bounded lane.  Retail retains the first\nargument through three unsigned-halfword reads at offset `0x2A`, copies three\nwords from the second argument, and stores the fourth argument as a pointer-\nsized payload field.\n\nThe local 144-byte snapshot is `s16 values[8][3][3]`: direction selects the\nfirst dimension, color/mode selects the second, and the three components feed\npayload offsets `0x5C`, `0x60`, and `0x64`.  The output global's neighboring\ndefinition is `s16 D_80175DD8[][8][2][3]`; retail indexes it by the payload's\nsigned color/mode, pair, vertex, and axis.  `candidate2_typed_roles.c` encodes\nboth arrays directly rather than recreating byte offsets with pinned cursors\nand scalar index temporaries.\n\n`src/slus/code.c` defines\n`func_8003DB94(struct Dst *, struct Elem *, short)` with exactly three\nparameters.  Retail likewise prepares only `a0`, `a1`, and `a2` at the call.\nThe previous fourth `render` argument was false.  All candidates use the real\nthree-argument declaration and call.\n\nThe existing volatile halfword stores and volatile render-pointer reload were\nretained.  This round found no independent evidence that removing them\npreserves the retail store order and reload, so they were not traded for a\nspeculative cleanup.\n\n## Candidate evidence\n\n### Candidate 1: mechanical helper correction\n\n`candidate1_unpinned_3arg.c` applies the three-argument helper contract to the\nexisting fully unpinned aggregate control.  It scores 211/210 and distance 62.\nRemoving the false fourth argument removes the accidental reason for keeping\nthe render pointer in `a3`; the allocator instead keeps the object in `s0`,\npayload in `s1`, and render/effect-position in `a0`.  This establishes why the\nold over-arity call appeared beneficial: it acted as a hidden allocation\nconstraint, not as a real ABI fact.\n\n### Candidate 2: typed argument and table roles\n\n`candidate2_typed_roles.c` rebuilds the body around ordinary structures and\nthe two proven multidimensional tables.  It directly calls the three-argument\nhelper and uses typed loops for the `[color][pair][vertex][axis]` output.\n\nThe result is 210/210 and distance 16.  It recovers:\n\n- allocated object in `s1` and payload (`object + 0x20`) in `s0`;\n- render pointer in `a3`, intensity `0x60` in `a0`, and object-position pointer\n  in `v1`;\n- the retail `move a0,a3` before the three-argument helper;\n- the three repeated direction loads, `a1` mode offset, `a2` local-table base,\n  and all component address arithmetic;\n- the complete nested output loop and all 210 instruction roles.\n\nIts only argument-role error is direct use of the first formal for the long-\nlived source.  Global allocation gives the shorter color live range `s3` and\nthe source `s4`; retail has source `s3` and color `s4`.  The remaining motion\nloads `-1` into `v0` after the two `1` stores, while retail reuses the prior\nobject-position `v1` and loads `-1` before them.  See `candidate2_regions.txt`\nand `raw/candidate2.{rtl,lreg,greg,sched,sched2,s,dbr}`.\n\n### Candidate 3: confounded alias plus sentinel diagnostic\n\n`candidate3_complete_roles.c` simultaneously adds an ordinary `held_source`\nalias and changes Candidate 2's integer sentinel stores into reuse of a pointer\nlocal cast to `-1`.  It scores 211/210 and distance 28.  It fixes the prologue\nand `s3`/`s4` argument roles, while render and the object-position value move to\n`a0`, intensity moves to `v1`, and the retail `move a0,a3` disappears.\n\nBecause both source changes were made together, Candidate 3 cannot attribute\nthose lost roles to the alias.  The pointer-to-`s32` sentinel conversion is not\na supported semantic type relationship; retail's reuse of `v1` is an allocator\noutcome and does not establish that source expression.  Candidate 3 is kept as\na confounded diagnostic, not as a source hypothesis or causal isolation.\n\n### Isolated control: ordinary held source only\n\n`control_alias_only.c` changes Candidate 2 only by declaring and assigning an\nordinary `held_source` alias and using it for the three direction reads.  Its\ninteger `-1` stores are byte-for-byte the Candidate 2 expressions.  The full\nCDK verifier reports 210/210 words, zero substitutions, six indels, and\ndistance 6.\n\nThe isolated alias recovers source in `s3` and color in `s4` while preserving\nthe retail object `s1`, payload `s0`, render `a3`, intensity `a0`, object\nposition `v1`, and `move a0,a3` roles.  Thus the earlier claim that the alias\ncaused Candidate 3's lost render/intensity/position roles was false.  The only\nremaining region is the sentinel motion: generated code materializes `-1` in\n`v0` after the two `1` stores, whereas retail materializes it in `v1` before\nthose stores and then uses `v1` for both `-1` stores.  See\n`control_alias_only_regions.txt` and `control_alias_only_score.json`.\n\n## Checkpoint\n\nThe isolated control supersedes Candidate 2 as the useful zero-pin endpoint,\nbut it is not exact or ready for production.  It shows that an ordinary held\nsource alias recovers the retail source/color pair without sacrificing the\nrender/intensity/effect-position group.  The sole remaining distance is the\ninteger sentinel's register and store order.  No sentinel-only probe was run:\nturning an object-position pointer into an `s32` sentinel would encode a\nregister accident rather than a supported source fact.  Work stops at the\nrequested isolated control; no hard binding, fake use, extra argument,\nvolatile addition, flag change, or literal address was introduced.\n\n## Provenance\n\n- Target row JSON SHA-256: `7960124fa5ddfd1ff2b03ef0c06e182c5c27fb76b3f564e70f48d6acf9398237`.\n- Retail bytes SHA-256: `dea31d5bdf0b909011cb0808a6d2a08954a77ad1fd3904240b94bcf7338f964f`.\n- Exact control SHA-256: `6f115b6841623640bf0600711154404aec9db48eca4acf84a269e50da61fde88`.\n- Candidate 1 SHA-256: `09a1a14acd7aa89b59c368ba1ff55bf6eb96f6d27040ebc558b9ef7aa65b67bc`.\n- Candidate 2 SHA-256: `bc04fa8c777d33a33ad19e1cb124645a5da1aa802fb0e816aed4fd9e1a365214`.\n- Candidate 3 SHA-256: `ed00d02b7d0ebd1f9a92ef06050603e2e8926e95b3dd1302c8b30fe29744e211`.\n- Isolated alias-only control SHA-256: `717af5c10aca3c38533ab6f4f362223c7f87aff741da6bcee1159711cddced39`.\n- Reused Round 43 recipe-results SHA-256: `b59ca2867d714b58367d63d88a098695300f9fdc4e70a64d9f6db96cc9e5aa88`.\n- Helper-definition SHA-256: `1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16`.\n- Same-image caller SHA-256: `981a60c4709bed833e8417a2d83c815fe1bcb23ae87d077b9f40b0e33dd4bdea`.\n- CDK compiler SHA-256: `7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b`.\n- 2.8.1 compiler SHA-256: `451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02`.\n\n## Root follow-up: reviewed partial repair\n\nThe independent alias-only control leaves only the integer sentinel residue.\nA normal s32 coordinate scalar and the same scalar with an unbound register\nhint both retain distance six. Retaining the production position/sentinel\nbinding to $3 instead yields all 210 words exactly and removes ten other pins.\nThe inherited pointer/sentinel conversion remains a documented unresolved\nartifact; it was not justified as newly recovered source semantics.\n\nThe root generated `fingerprint.txt` through the reference lineage tool before\ncompiling that final retained-binding candidate. Its split-address and call-slot\nstore signatures support CDK/2.8-family attribution. This is separate from the\nrecipe matrix above and does not identify a unique historical release.\n\nIndependent review then found an exact ABI-aligned spelling: an s32 fifth\nformal followed by an explicit local u16 conversion. This retains the exact\ncaller without narrowing its declaration. Final review, hashes and endpoint\nreceipts are in `REVIEW.md` and the Round45 durable evidence snapshot.\n",
+    "final_receipts": {
+      "retained_position_binding_strict.json": {
+        "sha256": "8b065ace0a9868c38d864152c9ae751f2377ad92ce5b380b8b5677dd1b6ceaa4",
+        "receipt": {
+          "aligned": {
+            "indels": 0,
+            "substitutions": 0,
+            "total": 0
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": true,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+          "compiler_assembly": {
+            "bytes": 5438,
+            "path": "../work/native_lane/r45_position144/retained_position_binding.s",
+            "sha256": "3598d33cb38a268cc1ffbdd6dfbb14d9192344c7399f1a2ac324f35875c456d7"
+          },
+          "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+          "config": "2.7.2-cdk-G0",
+          "exact": true,
+          "function": "func_813315CC",
+          "length_bytes": {
+            "generated": 840,
+            "target": 840
+          },
+          "length_words": {
+            "generated": 210,
+            "target": 210
+          },
+          "maspsx_assembly": {
+            "bytes": 5566,
+            "path": "../work/native_lane/r45_position144/retained_position_binding.maspsx.s",
+            "sha256": "298f77e79c24506015acaf24890d24e3a449526f35c388582e825ffe930cfdd0"
+          },
+          "positional_words_off": 0,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 0,
+              "substitutions": 0,
+              "total": 0
+            },
+            "candidate_words": 210,
+            "mask_relocations": false,
+            "region_map_sha256": "e8fbeaa8e27cfd0bc2ed762d9571e4c75472a85a6d038a52d9234b34170304b4",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  52
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  0,
+                  52
+                ]
+              },
+              {
+                "candidate_span": [
+                  52,
+                  105
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  52,
+                  105
+                ]
+              },
+              {
+                "candidate_span": [
+                  105,
+                  157
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  105,
+                  157
+                ]
+              },
+              {
+                "candidate_span": [
+                  157,
+                  210
+                ],
+                "id": "R3",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  157,
+                  210
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 210,
+            "vector": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": 0.0,
+          "residue": {
+            "class": "match",
+            "confidence": "high",
+            "signals": []
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r45_position144/retained_position_binding.c",
+          "source_sha": "56c497f34be4466c8fb60a4d05ea137c4af240a1186d18a62f0535d25f65da91",
+          "status": "MATCH",
+          "target_sha": "dea31d5bdf0b909011cb0808a6d2a08954a77ad1fd3904240b94bcf7338f964f",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x801685CC (region xfer_dungeon_134D800, delta 0x7EE17000)"
+          ],
+          "words_off": 0
+        }
+      },
+      "candidate_at_old_recipe_strict.json": {
+        "sha256": "ea4a7608b5c4a7c0d8e454abf56a2c46445c05cc6b90e97943760aaa4a92acb8",
+        "receipt": {
+          "aligned": {
+            "indels": 8,
+            "substitutions": 57,
+            "total": 65
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": false,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.8.1/gcc",
+          "compiler_sha": "451e6521d860fc6ff49000567d94d983125263bb0ae2149f89d95eaed34b3a02",
+          "config": "2.8.1-G0",
+          "exact": false,
+          "function": "func_813315CC",
+          "length_bytes": {
+            "generated": 824,
+            "target": 840
+          },
+          "length_words": {
+            "generated": 206,
+            "target": 210
+          },
+          "positional_words_off": 79,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 8,
+              "substitutions": 57,
+              "total": 65
+            },
+            "candidate_words": 206,
+            "mask_relocations": false,
+            "region_map_sha256": "e8fbeaa8e27cfd0bc2ed762d9571e4c75472a85a6d038a52d9234b34170304b4",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  52
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 35,
+                "target_span": [
+                  0,
+                  52
+                ]
+              },
+              {
+                "candidate_span": [
+                  52,
+                  105
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 1,
+                "target_span": [
+                  52,
+                  105
+                ]
+              },
+              {
+                "candidate_span": [
+                  105,
+                  157
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 0,
+                "target_span": [
+                  105,
+                  157
+                ]
+              },
+              {
+                "candidate_span": [
+                  157,
+                  206
+                ],
+                "id": "R3",
+                "indels": 8,
+                "substitutions": 21,
+                "target_span": [
+                  157,
+                  210
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 210,
+            "vector": [
+              35,
+              0,
+              1,
+              0,
+              0,
+              0,
+              21,
+              8
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": null,
+          "residue": {
+            "class": "length-drift",
+            "confidence": "high",
+            "signals": [
+              "length-words=206/210"
+            ]
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r45_position144/retained_position_binding.c",
+          "source_sha": "56c497f34be4466c8fb60a4d05ea137c4af240a1186d18a62f0535d25f65da91",
+          "status": "NOMATCH",
+          "target_sha": "dea31d5bdf0b909011cb0808a6d2a08954a77ad1fd3904240b94bcf7338f964f",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x801685CC (region xfer_dungeon_134D800, delta 0x7EE17000)"
+          ],
+          "words_off": 79
+        }
+      },
+      "base_independent_verify.json": {
+        "sha256": "3951a3c243a21c8176c1f184d252653e372b975798d3b0bfc0fd6c745d7f2d24",
+        "receipt": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 210,
+          "tgt_words": 210,
+          "class": "match",
+          "signals": [],
+          "secs": 0.82,
+          "err": null
+        }
+      },
+      "caller_base_verify.json": {
+        "sha256": "a2a91875bdb613361a339bb8a1391805875e8f789988e5ee6ccddb7720a7f9c2",
+        "receipt": {
+          "status": "ok",
+          "exact": true,
+          "subs": 0,
+          "indels": 0,
+          "total": 0,
+          "gen_words": 219,
+          "tgt_words": 219,
+          "class": "match",
+          "signals": [],
+          "secs": 0.8,
+          "err": null
+        }
+      },
+      "caller_u16_strict.json": {
+        "sha256": "21bc8bb269b1b0c546216b292c8ad36b36ab3cf309deb371b00ddca36f722304",
+        "receipt": {
+          "aligned": {
+            "indels": 0,
+            "substitutions": 53,
+            "total": 53
+          },
+          "as_flags": "--fill-shadowed-return-delay",
+          "build_status": "ok",
+          "byte_exact": false,
+          "comparison_mode": "linked-strict",
+          "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+          "compiler_assembly": {
+            "bytes": 6432,
+            "path": "../work/native_lane/r45_position144/caller_u16.s",
+            "sha256": "6dd9bff410647167eb0254926af822d2401638aaf76ee3f5009260907dda35be"
+          },
+          "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+          "config": "2.7.2-cdk-G0",
+          "exact": false,
+          "function": "func_81336754",
+          "length_bytes": {
+            "generated": 876,
+            "target": 876
+          },
+          "length_words": {
+            "generated": 219,
+            "target": 219
+          },
+          "maspsx_assembly": {
+            "bytes": 6481,
+            "path": "../work/native_lane/r45_position144/caller_u16.maspsx.s",
+            "sha256": "2146eef73f07ac7f8e03d731f6fa5f1d4d6a5c8018c49685b89ae4d98b56515a"
+          },
+          "positional_words_off": 53,
+          "regional_alignment": {
+            "aligned": {
+              "indels": 0,
+              "substitutions": 53,
+              "total": 53
+            },
+            "candidate_words": 219,
+            "mask_relocations": false,
+            "region_map_sha256": "fcf994cb7ddb35080f5f1bb714dc79c4c7ef70a4ece73150dea80d4da3271880",
+            "regions": [
+              {
+                "candidate_span": [
+                  0,
+                  54
+                ],
+                "id": "R0",
+                "indels": 0,
+                "substitutions": 11,
+                "target_span": [
+                  0,
+                  54
+                ]
+              },
+              {
+                "candidate_span": [
+                  54,
+                  109
+                ],
+                "id": "R1",
+                "indels": 0,
+                "substitutions": 15,
+                "target_span": [
+                  54,
+                  109
+                ]
+              },
+              {
+                "candidate_span": [
+                  109,
+                  164
+                ],
+                "id": "R2",
+                "indels": 0,
+                "substitutions": 13,
+                "target_span": [
+                  109,
+                  164
+                ]
+              },
+              {
+                "candidate_span": [
+                  164,
+                  219
+                ],
+                "id": "R3",
+                "indels": 0,
+                "substitutions": 14,
+                "target_span": [
+                  164,
+                  219
+                ]
+              }
+            ],
+            "schema": "azure-clean.regional-alignment.v1",
+            "target_words": 219,
+            "vector": [
+              11,
+              0,
+              15,
+              0,
+              13,
+              0,
+              14,
+              0
+            ]
+          },
+          "reloc_suspect": false,
+          "reloc_suspect_near_0_9": false,
+          "reloc_suspect_ratio": 0.2420091324200913,
+          "residue": {
+            "class": "hold-set",
+            "confidence": "low",
+            "secondary": "addressing",
+            "signals": [
+              "frame=-56/-56,saved=12/13",
+              "addressing=3"
+            ]
+          },
+          "schema": "azure-clean.compiler-oracle.v1",
+          "source": "<repo>/work/native_lane/r45_position144/caller_u16.c",
+          "source_sha": "d918d6b98a08e18d2aeb5e3c9904227e759eb068db2ce510935212eea8f98e2c",
+          "status": "NOMATCH",
+          "target_sha": "7bf9886697806f88dd2368fadff094487587b0aed049cffd0c6872665d860098",
+          "tool": "work/g3/overlay_func_compare.py",
+          "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+          "warnings": [
+            "rowbase: linked at true base 0x8016D754 (region xfer_dungeon_134D800, delta 0x7EE17000)"
+          ],
+          "words_off": 53
+        }
+      },
+      "preprobe_recipe_matrix.json": {
+        "sha256": "013d18232d50e4bce5746f2a94da1622df6c0239055192d070b9f8bb6b4ac8c7",
+        "receipt": {
+          "source": "work/native_lane/r43_position144/scores.json plus repeated Round 45 Gate 0 controls",
+          "recorded_recipe": "2.8.1-G0",
+          "control_2_8_1": 0,
+          "control_2_7_2_cdk": 62,
+          "pinned_aggregate_2_8_1": 44,
+          "pinned_aggregate_2_7_2_cdk": 4,
+          "fully_unpinned_aggregate_four_arg_2_8_1": 84,
+          "fully_unpinned_aggregate_four_arg_2_7_2_cdk": 43,
+          "interpretation": "This is a compiler-recipe result matrix, not a compiler fingerprint. 2.8.1 is the exact scalar control; CDK is the only established aggregate-copy endpoint. No compiler or flag menu was rerun in Round 45."
+        }
+      }
+    },
+    "independent_review": {
+      "path": "docs/evidence/pin_research_position144_review_20260917.md",
+      "sha256": "ba597b0960f3db2f7319428fa562f7ac88c9b6efff4fded658ab268bf6be63bb"
+    },
+    "publication": {
+      "id": "dungeon/func_813315CC",
+      "transform": "r45_whole_c_reconstruction",
+      "transition_kind": "whole_c_reconstruction",
+      "in_sha": "6f115b6841623640bf0600711154404aec9db48eca4acf84a269e50da61fde88",
+      "out_sha": "56c497f34be4466c8fb60a4d05ea137c4af240a1186d18a62f0535d25f65da91",
+      "cfg_from": "2.8.1-G0",
+      "cfg_to": "2.7.2-cdk-G0",
+      "pins_from": 11,
+      "pins_to": 1,
+      "semantic_caller_review": "docs/evidence/pin_research_position144_review_20260917.md",
+      "independent_strict_receipt_sha": "8b065ace0a9868c38d864152c9ae751f2377ad92ce5b380b8b5677dd1b6ceaa4",
+      "lineage": "CDK/2.8-family signatures; unique historical compiler release unresolved",
+      "outcome": "publication_gated",
+      "exact": true,
+      "live_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 210,
+        "tgt_words": 210,
+        "class": "match",
+        "signals": [],
+        "secs": 0.8,
+        "err": null
+      },
+      "at": "2026-09-17T03:46:55Z",
+      "gates": [
+        {
+          "window": "dungeon_deep_1356",
+          "container": "dungeon",
+          "result": "MATCH",
+          "bytes": 4096,
+          "detail": "MATCH: rebuilt overlay window byte-identical (4096 bytes)",
+          "secs": 2.1,
+          "inputs_sha": "2e4a297f8980e0fa5a116e1e370f02d32f259e298101199511fac65a47002043",
+          "at": "2026-09-17T03:42:33Z"
+        },
+        {
+          "window": "dungeon_deep_t8b_1350c74",
+          "container": "dungeon",
+          "result": "MATCH",
+          "bytes": 13756,
+          "detail": "MATCH: rebuilt overlay window byte-identical (13756 bytes)",
+          "secs": 3.4,
+          "inputs_sha": "2e2ce225e5411ae77b67be4e25eee6710b71b70c65806f16d7da498a5d6a3ed1",
+          "at": "2026-09-17T03:42:34Z"
+        }
+      ],
+      "slus": {
+        "at": "2026-09-17T03:45:33Z",
+        "result": "MATCH",
+        "tus": 884,
+        "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+        "recipe_vs_pinned": "identical",
+        "secs": 0,
+        "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+      },
+      "row_database": "OK",
+      "pins_current": 6050,
+      "pinned_rows_current": 1276
+    },
+    "unresolved": "One existing position/sentinel binding plus inherited volatile accesses and pointer-derived -1; integer-only zero-pin controls remain nonexact. Unique historical release unproven."
+  },
+  "result": {
+    "pins_removed": 10,
+    "pins": 6050,
+    "pinned_rows": 1276,
+    "removed_since_6103": 53,
+    "goal": "active; zero or demonstrated architectural minimum; no impossibility established"
+  },
+  "mechanization": {
+    "reused": [
+      "tools/aggregate_copy.py",
+      "tools/aggregate_copy_probe.py",
+      "existing pin erasure and strict verification"
+    ],
+    "new_generic_rule": false,
+    "reason": "This repair combines actual aggregate, object, argument and caller contracts; no independently positive transfer yet. Automate compile/score repetition, not presumed semantics."
+  },
+  "validation": {
+    "row_database": "OK",
+    "research_ledger": "OK: 18 cases; source hashes current; 10 landable",
+    "census": "6,050 pins in 1,276 rows",
+    "gate_inputs_current": true
+  }
+}

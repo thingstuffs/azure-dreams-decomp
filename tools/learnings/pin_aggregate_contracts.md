@@ -70,3 +70,30 @@ A bounded inventory of ten lexical near matches finds no additional direct
 member; it does not audit all semantic table accesses. Preserve the type and
 element scale, and reject page-address or unknown-layout cases before transfer.
 Full evidence and next questions: `docs/PIN_RESEARCH_ROUND44.md`.
+
+## Round 45 complete typed roles and caller conversion
+
+Position144 (`813315CC`) becomes exact at stock CDK with ten of eleven pins
+removed when the aggregate is embedded in a complete typed reconstruction:
+real position/output dimensions, object fields, actual three-argument render
+helper and ordinary held-source alias. Copy replacement alone left the prologue
+wrong. The alias-only control recovers argument roles and prologue; an earlier
+probe changed alias and pointer/sentinel reuse together and wrongly blamed the
+alias. Isolate one proposed cause before encoding it as a rule.
+
+One existing position/sentinel binding is retained; ordinary integer sentinel
+and unbound-register controls remain six indels away. Its pointer-derived -1
+and inherited volatile accesses are unresolved legacy artifacts, not required
+source facts. No new pin, volatile, fake use or extra argument replaces removals.
+
+The actual caller passes s32 mode. Narrowing its declaration to u16 changes
+allocation and misses53. Keeping the callee formal s32 with an explicit local
+u16 conversion is exact and restores width agreement. Review real caller and
+callee contracts together; matching one isolated body is insufficient.
+
+The old source/2.8.1 and reconstructed source/CDK are exact endpoints of a
+reviewed whole-C transition. Cross-controls are nonexact. Do not feed this into
+the stricter automatic cell-switch path or claim unique historical attribution.
+The existing generator/probe and comparator automate repetition; this combined
+semantic repair still needs an independent positive before generic transfer.
+See `docs/PIN_RESEARCH_ROUND45.md` and its source-hash-bound evidence.
