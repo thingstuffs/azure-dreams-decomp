@@ -41,7 +41,7 @@ typedef struct S_8009FB2C_2 {
 } S_8009FB2C_2;   /* temp_v1 in func_8009FB2C */
 
 /* Copies an entry into a slot, creating an associated record for type 0x13. */
-void func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
+void *func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
     u8 *copy_src;
     s32 record_index;
@@ -50,7 +50,6 @@ void func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
     void *detail_src;
     S_8009FB2C_2 *slot;
     void *slot_base;
-    register void *stored_entry ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     entry = func_800B2344();
     entry->unk_00 = (u8) source_entry->unk_00;
@@ -74,13 +73,10 @@ void func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
         detail_src = func_8003C06C(entry->unk_00);
         *(Copy10 *)detail_dst = *(Copy10 *)detail_src;
         entry->unk_03 = (u8) ((entry->unk_03 & 0xC0) | record_index);
-        ASM_KEEP(entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        stored_entry = entry;
-    } else {
-        stored_entry = entry;
     }
     slot_base = (void *)0x80010000;
     slot = (slot_index * 4) + slot_base;
-    slot->unk_29C = stored_entry;
+    slot->unk_29C = entry;
     slot->unk_2A0 = 0;
+    return entry;
 }

@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6098,
-    "pinned_rows": 1282,
-    "basis": "STATUS.md after both gated round40 record-copy repairs"
+    "pins": 6071,
+    "pinned_rows": 1279,
+    "basis": "STATUS.md after round41: all four affected overlay windows MATCH, SLUS MATCH, row database OK"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -545,15 +545,15 @@
     },
     {
       "id": "town/func_800A23CC",
-      "title": "Independent 84-byte aggregate-copy repair",
-      "status": "repair_verified",
+      "title": "Record84 copy and actual entry return recovered",
+      "status": "resolved",
       "claim": {
         "level": "verified_repair",
-        "summary": "Two copy pins removed at the unchanged compiler recipe; individually exact, semantically reviewed, and full-window gated. The later entry-store pins remain unresolved."
+        "summary": "Both remaining entry-store pins removed by returning the real entry pointer and eliminating the redundant join; paired wrapper and direct caller declarations agree. All three rows exact and all affected windows gated."
       },
       "source": {
         "path": "src/town/func_800A23CC.c",
-        "sha256": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de"
+        "sha256": "58956832077315631e9dadc3ffb98127deea6ed38435b681c675ea86cada655b"
       },
       "retail": {
         "identity": {
@@ -568,13 +568,13 @@
         }
       },
       "causal": {
-        "question": "Can the real Record84 assignment replace both manual-copy ordering and source-buffer register binding?",
-        "prediction": "An opaque 16-byte block loop plus four-byte tail will preserve copy order and permit the source lifetime to allocate naturally across the fill call."
+        "question": "Why does erasure allocate the redundant entry join in a0 while retail leaves the stored entry in v0 through exit?",
+        "prediction": "Returning the actual allocated entry pointer makes the existing value live in the return register and removes both predecessor copies without a binding or keep."
       },
       "candidate": {
         "path": "src/town/func_800A23CC.c",
-        "sha256": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de",
-        "base_source_sha256": "f1d878c504858fe9c462ab50c7e36c22a1c4d52a8c032943dbed293a4986d15c",
+        "sha256": "58956832077315631e9dadc3ffb98127deea6ed38435b681c675ea86cada655b",
+        "base_source_sha256": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de",
         "recipe": "2.7.2-cdk-G0"
       },
       "evidence": [
@@ -607,39 +607,323 @@
           "artifact": {
             "path": "ledger/sweeps/r40_record_copy_transfer.jsonl"
           }
+        },
+        {
+          "id": "r41_proof",
+          "kind": "positive_candidate",
+          "summary": "Entry 113/113, wrapper 30/30, direct caller 11/11 exact; town_scene and caller window MATCH",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round41_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Return entry pointer; store entry directly; delete redundant join, register binding and keep; align wrapper/direct-caller return contracts",
+            "recipe": "2.7.2-cdk-G0 unchanged",
+            "result": "Entry 113/113, wrapper 30/30, direct caller 11/11 exact; town_scene and caller window MATCH",
+            "remaining_question": "Existing VM function-pointer reconstruction remains separate type debt; this row has zero pins"
+          }
+        },
+        {
+          "id": "r41_review",
+          "kind": "observation",
+          "summary": "Trusted global allocator trace identifies the synthetic join conflict; definite same-image callers consume the pointer-or-null return. No pointer narrowing.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_entry_return_20260917.md"
+          }
         }
       ],
-      "next_experiment": {
-        "action": "Explain the remaining stored_entry register binding and ASM_KEEP(entry) at the post-copy entry-store join, using the current two-pin source as the exact baseline.",
-        "measurement": "Trace the erased binding and compare the real entry value lifetime across the conditional; inspect why removing the keep drops an instruction before proposing a source reconstruction.",
-        "success_criterion": "A source-level join representing the actual entry value removes another pin and matches all 113 words at the unchanged recipe.",
-        "failure_criterion": "The observed allocation or missing copy remains unexplained; retain it as an unresolved compiler/source question with the exact trace evidence.",
-        "bounds": "One individual erasure per remaining site for diagnosis, followed by at most two reconstructions predicted from the trace; no declaration-order sweep."
-      },
+      "next_experiment": null,
       "verification": {
         "exact_bytes": {
           "state": "pass",
           "evidence_refs": [
-            "copy_proof"
+            "r41_proof"
           ]
         },
         "semantic_review": {
           "state": "pass",
           "evidence_refs": [
-            "copy_review"
+            "r41_review"
           ]
         },
         "caller_review": {
           "state": "pass",
           "evidence_refs": [
-            "copy_review"
+            "r41_review"
           ]
         },
         "publication_gate": {
           "state": "pass",
           "evidence_refs": [
-            "copy_proof"
+            "r41_proof"
           ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_8080E838",
+      "title": "Whole initializer reconstructed with 88-byte payload and 24-byte initial record",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "All 19 pins removed by reviewed ordinary aggregate/field C at a stock recipe; old/new endpoints and full window exact. Historical release remains unresolved."
+      },
+      "source": {
+        "path": "src/town/func_8080E838.c",
+        "sha256": "b43f43d88ed13ca9df37ba3714c7a4673254bff1ab803504ce18b92361bdb6be"
+      },
+      "retail": {
+        "identity": {
+          "value": "TOWN file offset 0x78e838, runtime func_80529438, 348 bytes",
+          "confidence": "high",
+          "basis": "Registered retail extent, independent unmasked row verification and same-image caller/handler review"
+        },
+        "recipe": {
+          "value": "2.7.2-G0",
+          "confidence": "medium",
+          "basis": "Independent exact whole-C reconstruction at stock recipe; old source exact at old recipe; nonmatching cross controls retained. Historical release not inferred."
+        }
+      },
+      "causal": {
+        "question": "Can complete aggregate operations and actual object roles recover copy register allocation and scheduling across initialization without local instruction pins?",
+        "prediction": "Whole 88-byte and 24-byte copies lower to retail block/tail operations; ordinary allocation/table staging and typed field updates recover the remaining lifetimes."
+      },
+      "candidate": {
+        "path": "src/town/func_8080E838.c",
+        "sha256": "b43f43d88ed13ca9df37ba3714c7a4673254bff1ab803504ce18b92361bdb6be",
+        "base_source_sha256": "a261d783e75d340a921329340d331c02fdf1f8a05f8556bad649a1a48eba3eb5",
+        "recipe": "2.7.2-G0"
+      },
+      "evidence": [
+        {
+          "id": "r41_proof",
+          "kind": "positive_candidate",
+          "summary": "87/87 exact before and after live recipe export; zero pins/hidden asm; affected full window MATCH",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round41_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Replace manual copy temporaries and scaffolding with two aggregate assignments, typed object fields, scalar resource table and actual callback",
+            "recipe": "2.7.2-G0",
+            "result": "87/87 exact before and after live recipe export; zero pins/hidden asm; affected full window MATCH",
+            "remaining_question": "Unique historical compiler release and existing project guest-pointer/prototype debt remain separate questions"
+          }
+        },
+        {
+          "id": "r41_review",
+          "kind": "observation",
+          "summary": "Independent copy-extent, nonoverlap, scalar-resource, callback and same-image caller review; rejects new pointer narrowing and unproved allocator contracts",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy88_review_20260917.md"
+          }
+        },
+        {
+          "id": "r41_recipe",
+          "kind": "observation",
+          "summary": "Reviewed old/new exact source-and-recipe endpoints with cross controls; generic automatic cell rule unchanged",
+          "artifact": {
+            "path": "docs/evidence/pin_research_recipe_transition_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_8081DD70",
+      "title": "Whole initializer reconstructed with 88-byte payload and 24-byte initial record",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "All 6 pins removed by reviewed ordinary aggregate/field C at a stock recipe; old/new endpoints and full window exact. Historical release remains unresolved."
+      },
+      "source": {
+        "path": "src/town/func_8081DD70.c",
+        "sha256": "00e5f850c3d20827125c648ccaf1ddf225c7e5a990f668701235fdf927dea3b3"
+      },
+      "retail": {
+        "identity": {
+          "value": "TOWN file offset 0x79dd70, 352 bytes; runtime 0x80020570 established by image adjacency and definite callers; catalog true_name remains null",
+          "confidence": "high",
+          "basis": "Registered retail extent, independent unmasked row verification and same-image caller/handler review"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Independent exact whole-C reconstruction at stock recipe; old source exact at old recipe; nonmatching cross controls retained. Historical release not inferred."
+        }
+      },
+      "causal": {
+        "question": "Can complete aggregate operations and actual object roles recover copy register allocation and scheduling across initialization without local instruction pins?",
+        "prediction": "Whole 88-byte and 24-byte copies lower to retail block/tail operations; ordinary allocation/table staging and typed field updates recover the remaining lifetimes."
+      },
+      "candidate": {
+        "path": "src/town/func_8081DD70.c",
+        "sha256": "00e5f850c3d20827125c648ccaf1ddf225c7e5a990f668701235fdf927dea3b3",
+        "base_source_sha256": "9c369347519663478a166ae5b520c615934ead681ddc8f1beff0dd8c88a25e21",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "evidence": [
+        {
+          "id": "r41_proof",
+          "kind": "positive_candidate",
+          "summary": "88/88 exact before and after live recipe export; zero pins/hidden asm; affected full window MATCH",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round41_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Replace manual copy temporaries and scaffolding with two aggregate assignments, typed object fields, scalar resource table and actual callback",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "88/88 exact before and after live recipe export; zero pins/hidden asm; affected full window MATCH",
+            "remaining_question": "Unique historical compiler release and existing project guest-pointer/prototype debt remain separate questions"
+          }
+        },
+        {
+          "id": "r41_review",
+          "kind": "observation",
+          "summary": "Independent copy-extent, nonoverlap, scalar-resource, callback and same-image caller review; rejects new pointer narrowing and unproved allocator contracts",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy88_twin_review_20260917.md"
+          }
+        },
+        {
+          "id": "r41_recipe",
+          "kind": "observation",
+          "summary": "Reviewed old/new exact source-and-recipe endpoints with cross controls; generic automatic cell rule unchanged",
+          "artifact": {
+            "path": "docs/evidence/pin_research_recipe_transition_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r41_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_800AB37C",
+      "title": "Pair24 copy prefix needs distinct page and source lifetimes",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Six ordinary reconstructions miss; the best staged Vec3 pair matches the copy suffix but differs in page/source address lifetime. No impossibility claim."
+      },
+      "source": {
+        "path": "src/town/func_800AB37C.c",
+        "sha256": "8a20ccbd54212b560f465add7c004a2f82b66d3b458b009ee8c923ca566ad5e6"
+      },
+      "retail": {
+        "identity": {
+          "value": "TOWN func_800AB37C, true symbol func_800A8ADC, 188 bytes",
+          "confidence": "high",
+          "basis": "Registered row and exact 47-word baseline receipt"
+        },
+        "recipe": {
+          "value": "2.7.2",
+          "confidence": "medium",
+          "basis": "Recorded exact baseline; CDK diagnostic control also misses; original global-object model remains unresolved"
+        }
+      },
+      "causal": {
+        "question": "Why does retail keep a page address in v0 and a derived copy source in a2, while ordinary Pair24 copying coalesces the source address?",
+        "prediction": "Recovering the actual global object and its real address uses will expose two legitimate address lifetimes before block expansion rather than one symbolic BLK operand."
+      },
+      "evidence": [
+        {
+          "id": "pair_bounds",
+          "kind": "bounded_negative",
+          "summary": "Six ordinary source reconstructions; best total eight, correct suffix after word 18. CDK diagnostic total 13. No source landed.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_pair24_20260917.md"
+          },
+          "bounds": {
+            "tested": "Six whole/staged copy forms at recorded 2.7.2 and one diagnostic CDK control; trusted baseline and erased/generated RTL address roles compared",
+            "untested": "Recovered global object identity with real additional address uses; provenance-supported alternatives to the current address model"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Recover the 24-byte global object identity and definite address uses from its same-image callers/helper; reconstruct the page and source lifetimes.",
+        "measurement": "Compare expand/global RTL page/source pseudos against pinned p74 to v0 and p75 to a2, then inspect the first 18 words.",
+        "success_criterion": "Ordinary source reproduces both address lifetimes and all 47 words with fewer pins, plus semantic/caller review.",
+        "failure_criterion": "The proposed real object model still yields a single source pseudo or does not match; record that bounded result and remaining missing source fact.",
+        "bounds": "One object-identity audit followed by at most three predicted reconstructions; no spelling or declaration-order sweep."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
           "kind": "overlay_window"
         }
       },

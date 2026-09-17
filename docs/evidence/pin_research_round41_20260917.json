@@ -1,0 +1,241 @@
+{
+  "date": "2026-09-17",
+  "baseline": {
+    "commit": "9e573bb0",
+    "pins": 6098,
+    "pinned_rows": 1282
+  },
+  "result": {
+    "pins": 6071,
+    "pinned_rows": 1279,
+    "pins_removed": 27,
+    "newly_pin_free_rows": 3
+  },
+  "whole_c_transitions": [
+    {
+      "id": "town/func_8080E838",
+      "transform": "r41_whole_c_reconstruction",
+      "method": "whole_c_reconstruction",
+      "in_sha": "a261d783e75d340a921329340d331c02fdf1f8a05f8556bad649a1a48eba3eb5",
+      "out_sha": "b43f43d88ed13ca9df37ba3714c7a4673254bff1ab803504ce18b92361bdb6be",
+      "cfg_from": "2.95.2-G0 -mno-split-addresses",
+      "cfg_to": "2.7.2-G0",
+      "pins_before": 19,
+      "pins_after": 0,
+      "baseline_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 87,
+        "tgt_words": 87,
+        "class": "match",
+        "signals": [],
+        "secs": 0.7,
+        "err": null
+      },
+      "candidate_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 87,
+        "tgt_words": 87,
+        "class": "match",
+        "signals": [],
+        "secs": 0.7,
+        "err": null
+      },
+      "live_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 87,
+        "tgt_words": 87,
+        "class": "match",
+        "signals": [],
+        "secs": 0.69,
+        "err": null
+      },
+      "review": "work/native_lane/r41_copy88/SEMANTIC_REVIEW.md",
+      "recipe_review": "docs/evidence/pin_research_recipe_transition_20260917.md",
+      "historical_release": "unresolved; stock recipe and lowering mechanism demonstrated",
+      "outcome": "applied",
+      "publication_gate": "pass",
+      "at": "2026-09-17T01:41:39Z",
+      "publication_evidence": "docs/evidence/pin_research_round41_20260917.json"
+    },
+    {
+      "id": "town/func_8081DD70",
+      "transform": "r41_whole_c_reconstruction",
+      "method": "whole_c_reconstruction",
+      "in_sha": "9c369347519663478a166ae5b520c615934ead681ddc8f1beff0dd8c88a25e21",
+      "out_sha": "00e5f850c3d20827125c648ccaf1ddf225c7e5a990f668701235fdf927dea3b3",
+      "cfg_from": "2.95.2-G0 -fno-expensive-optimizations",
+      "cfg_to": "2.7.2-cdk-G0",
+      "pins_before": 6,
+      "pins_after": 0,
+      "baseline_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 88,
+        "tgt_words": 88,
+        "class": "match",
+        "signals": [],
+        "secs": 0.69,
+        "err": null
+      },
+      "candidate_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 88,
+        "tgt_words": 88,
+        "class": "match",
+        "signals": [],
+        "secs": 0.69,
+        "err": null
+      },
+      "live_verification": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 88,
+        "tgt_words": 88,
+        "class": "match",
+        "signals": [],
+        "secs": 0.69,
+        "err": null
+      },
+      "review": "work/native_lane/r41_copy88_twin/SEMANTIC_REVIEW.md",
+      "recipe_review": "docs/evidence/pin_research_recipe_transition_20260917.md",
+      "historical_release": "unresolved; stock recipe and lowering mechanism demonstrated",
+      "outcome": "applied",
+      "publication_gate": "pass",
+      "at": "2026-09-17T01:41:39Z",
+      "publication_evidence": "docs/evidence/pin_research_round41_20260917.json"
+    }
+  ],
+  "entry_return_changes": [
+    {
+      "id": "town/func_800A23CC",
+      "transform": "r41_entry_return",
+      "in_sha": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de",
+      "size": 452,
+      "source": "out",
+      "exact": true,
+      "status": "ok",
+      "class": "match",
+      "total": 0,
+      "secs": 0.73,
+      "outcome": "applied",
+      "out_sha": "58956832077315631e9dadc3ffb98127deea6ed38435b681c675ea86cada655b",
+      "lines_delta": -4,
+      "at": "2026-09-17T01:34:28Z"
+    },
+    {
+      "id": "town/func_800A2590",
+      "transform": "r41_entry_return",
+      "in_sha": "d64bf5d52bd64ffeef3082d23708d6af8ff367f838e7108a0218b7a35a229860",
+      "size": 120,
+      "source": "out",
+      "exact": true,
+      "status": "ok",
+      "class": "match",
+      "total": 0,
+      "secs": 0.68,
+      "outcome": "applied",
+      "out_sha": "112f18b63c939eba80d247d30e578ad8dea25f6f5d0bbeebf57018b34104ddcb",
+      "lines_delta": 0,
+      "at": "2026-09-17T01:34:28Z"
+    },
+    {
+      "id": "town/func_800CA9C0",
+      "transform": "r41_entry_return",
+      "in_sha": "11de632e0cd9334259ad9cfaaa1442605d38a14995ddb9553023d16149b86e9f",
+      "size": 44,
+      "source": "out",
+      "exact": true,
+      "status": "ok",
+      "class": "match",
+      "total": 0,
+      "secs": 0.67,
+      "outcome": "applied",
+      "out_sha": "6150bce8cf9c9720669b4ce237a0adf6e8dc3e38b1dee4af119d8d86c34231dd",
+      "lines_delta": 0,
+      "at": "2026-09-17T01:34:29Z"
+    }
+  ],
+  "overlay_gates": [
+    {
+      "window": "town_deep_t8b_022590",
+      "container": "town",
+      "result": "MATCH",
+      "bytes": 120,
+      "detail": "MATCH: rebuilt overlay window byte-identical (120 bytes)",
+      "secs": 1.1,
+      "inputs_sha": "7eb98d8f0c17590ba9079f7879da4dc4a6221f220ddff1bb759ad4a3dad47d44",
+      "at": "2026-09-17T01:42:05Z"
+    },
+    {
+      "window": "town_deep_t8b_79cdc8",
+      "container": "town",
+      "result": "MATCH",
+      "bytes": 11364,
+      "detail": "MATCH: rebuilt overlay window byte-identical (11364 bytes)",
+      "secs": 2.3,
+      "inputs_sha": "2259c0418b04e2ff63938f97fba349ffc096cf1843d4519d93dddaf6022a8080",
+      "at": "2026-09-17T01:42:05Z"
+    },
+    {
+      "window": "town_deep_t8b_78e59c",
+      "container": "town",
+      "result": "MATCH",
+      "bytes": 10512,
+      "detail": "MATCH: rebuilt overlay window byte-identical (10512 bytes)",
+      "secs": 3.3,
+      "inputs_sha": "0154515211943b19a295c966b29b555849d6c89b95f9ed4cd6c5ad81f2f96888",
+      "at": "2026-09-17T01:42:06Z"
+    },
+    {
+      "window": "town_scene",
+      "container": "town",
+      "result": "MATCH",
+      "bytes": 335872,
+      "detail": "MATCH: rebuilt overlay window byte-identical (335872 bytes)",
+      "secs": 242.7,
+      "inputs_sha": "84f42846ae4ebc17e500cbb687d3347e768d5b58f1a2ee212a2a10546eb24077",
+      "at": "2026-09-17T01:46:05Z"
+    }
+  ],
+  "slus_gate": {
+    "at": "2026-09-17T01:42:04Z",
+    "result": "MATCH",
+    "tus": 884,
+    "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+    "recipe_vs_pinned": "identical",
+    "secs": 0,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "row_database": "row database OK",
+  "retail_sha256": {
+    "town/func_8080E838": "e26bae4069712ca725505b297b86ae99abe50bbe541a0d78b539454d229b0cec",
+    "town/func_8081DD70": "a6036b99fcbc051ea6bc838eb948376f1251ac5c7263f9990b31381732fc59c0"
+  },
+  "limitations": [
+    "Exact stock recipes do not establish unique historical compiler releases.",
+    "Existing target pointer layouts and global reconstructed helper/VM prototype debt are documented in semantic reviews.",
+    "Two initializer positives support a bounded follow-up cohort, not a population-wide transfer rule."
+  ]
+}
