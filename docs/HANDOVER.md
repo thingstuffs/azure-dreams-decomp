@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,070 pins in 1,278 rows,
-33 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,061 pins in 1,277 rows,
+42 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -33,17 +33,23 @@ early local scratch allocation from later reload allocation. The new bounded
 copy generator and explicit-cell probe automate repetition; semantic and caller
 reviews remain required before promotion.
 
-Next: extend the measured copy inventory to DUNGEON only where a concrete
-pattern exists. The TOWN audit found no additional trivial member beyond the
-previous cohort. `800BEA7C` is one base/offset substitution away after owner
-recovery; investigate combine's address choice. Snapshot `8008EE88` has 24 pins,
-two real 140-byte copies and a narrowed buffer-page lifetime question; recover
-that object/address model before more body tuning. Pair24's template bytes and
-extent are recovered, but three more grounded source forms still miss; original
-global definition/linkage remains open. `8080E59C` also needs real alias/helper
-information. Durable reports retain the tested bounds. Current case hashes and
-next experiments are validated by `python3 tools/pin_research.py validate`.
-No case has an impossibility verdict.
+[Round 43](PIN_RESEARCH_ROUND43.md) removes **nine** more: eight from a
+36-byte halfword aggregate snapshot (`819C0000`, three unrelated pins remain),
+and one from a 48-byte aggregate plus the actual two-argument registration
+helper contract (`8132B300`, now pin-free). All three affected DUNGEON windows,
+SLUS and row database pass. The existing erasure cascade adds no further win.
+See [the durable receipt](evidence/pin_research_round43_20260917.json).
+
+Next: preserve the true aggregate alignment when extending copies with runtime
+alignment branches. The 144-byte case `813315CC` has identical instructions
+but a retained input binding moves its prologue pair early; saved RTL explains
+the phase ordering. The second 48-byte case `81339700` has one late argument
+move. Diagnose those specific dependencies before another spelling menu.
+The field initializer's one-use payload add is demonstrably folded by combine;
+seek independent sibling/compiler evidence rather than re-logging that known
+predicate. Snapshot140 and Pair24 still need real object/address information.
+The copy tool remains advisory; false post-copy helper arguments require actual
+callee evidence before removal. No case has an impossibility verdict.
 
 **500-pin continuation closed at a measured plateau (2026-09-16): 6,103 pins
 in 1,284 rows. Net -35 from `500808e2`; the 500-pin threshold was not reached.**

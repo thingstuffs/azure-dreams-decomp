@@ -83,6 +83,10 @@ typedef struct {
     s32 words[4];
 } CopyBlock;
 
+typedef struct {
+    u32 words[12];
+} Copy48;
+
 /* Creates a child effect with copied position and sprite data and direction-dependent appearance. */
 void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_template) {
     s32 parent_object;
@@ -93,11 +97,6 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
     s8 *view_state;
     CopyBlock *copy_dst;
     CopyBlock *copy_src;
-    CopyBlock *copy_end;
-    s32 word0;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 word1;
-    s32 word2;
-    s32 word3;
     u16 template_1c;
     s32 direction_index;
     s32 parent_angle;
@@ -114,24 +113,9 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         copy_src = (CopyBlock *) sprite_template;
         ((S_80172B00_0 *)effect_data)->unk_2A = (u16) ((S_80172B00_2 *)parent_data)->unk_2A.s;
         sprite = ((S_80172B00_1 *)effect_object)->unk_0C;
-        copy_end = (CopyBlock *) (sprite_template + 0x30);
         copy_dst = (CopyBlock *) sprite;
-        loop_0: {
-            word0 = copy_src->words[0];
-            word1 = copy_src->words[1];
-            word2 = copy_src->words[2];
-            word3 = copy_src->words[3];
-   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            copy_dst->words[0] = word0;
-            copy_dst->words[1] = word1;
-            copy_dst->words[2] = word2;
-            copy_dst->words[3] = word3;
-            ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            copy_src++;
-            copy_dst++;
-        } if (copy_src != copy_end) goto loop_0;
-        func_8004491C(effect_object, &D_80045340, copy_dst, copy_src);
+        *(Copy48 *)copy_dst = *(Copy48 *)copy_src;
+        func_8004491C(effect_object, &D_80045340);
         ((S_80172B00_3 *)sprite)->unk_2C = D_80174C74;
         view_state = D_80083160;
         func_80047784(sprite, D_80174C74[((s32) (((S_80172B00_4 *)view_state)->unk_C8 + (s16) ((S_80172B00_2 *)parent_data)->unk_2A.s + 0x100) >> 9) & 7], 0);
@@ -158,6 +142,3 @@ void func_80172B00(void *parent_data, S_80172B00_6 *source_pos, void *sprite_tem
         func_800BC26C(effect_object, setup_mode, sprite + 0x2C, effect_data + 0x2A);
     }
 }
-/* MECHANISM: The 0x30 frame follows seven held callee-saved roles, including a reused &D_80083160 base.
-   The 16-byte loop pins a3/a2/t0 and v0/v1/a0/a1 roles; guarded seams preserve load-all/store-all order.
-   Byte-table types plus pinned call arguments and split v1 accumulator updates close the tail exactly. */

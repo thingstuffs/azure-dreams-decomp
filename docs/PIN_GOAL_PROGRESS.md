@@ -67,6 +67,15 @@ initializers. The TOWN cohort audit finds no new trivial member. Field, group an
 initializers have specific unresolved compiler decisions rather than an
 impossibility verdict. See [PIN_RESEARCH_ROUND42.md](PIN_RESEARCH_ROUND42.md).
 
+Round 43 gated result: **6,061 pins in 1,277 rows (-9; -42 cumulative)**.
+An alignment-2 aggregate snapshot removes eight pins at its recorded CDK recipe;
+correcting a real two-argument helper contract together with a 48-byte copy
+removes one at a controlled CDK transition. Three affected windows and SLUS
+MATCH; row database OK. The changed-row erasure cascade finds no more.
+Two related copies now have isolated scheduling residues, and the field case
+has a concrete combine explanation. No new parser or compiler patch was needed.
+See [PIN_RESEARCH_ROUND43.md](PIN_RESEARCH_ROUND43.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

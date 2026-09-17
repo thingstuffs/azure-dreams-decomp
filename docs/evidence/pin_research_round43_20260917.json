@@ -1,0 +1,414 @@
+{
+  "baseline": {
+    "commit": "1f808e00",
+    "pins": 6070,
+    "pinned_rows": 1278
+  },
+  "result": {
+    "pins": 6061,
+    "pinned_rows": 1277,
+    "removed": 9,
+    "cumulative_since_6103": 42
+  },
+  "landings": [
+    {
+      "id": "dungeon/func_819C0000",
+      "transform": "r43_copy_contracts",
+      "in_sha": "faf687e357bd74feecece863f0b65331af2718e610bdcd54480f16c15dca8134",
+      "size": 1256,
+      "source": "out",
+      "exact": true,
+      "status": "ok",
+      "class": "match",
+      "total": 0,
+      "secs": 0.86,
+      "outcome": "applied",
+      "out_sha": "24fe10483994f2a6d2efae72cb66923dd4af581e8250809d6347bd87f45284d7",
+      "lines_delta": -45,
+      "at": "2026-09-17T02:42:26Z"
+    },
+    {
+      "id": "dungeon/func_8132B300",
+      "transform": "r43_copy_contracts",
+      "in_sha": "132d02176aab823864fa24c45ec8b12d0073bbae42e8d550d6cdc91eefb27377",
+      "size": 456,
+      "source": "out",
+      "exact": true,
+      "status": "ok",
+      "class": "match",
+      "total": 0,
+      "secs": 0.79,
+      "cell_from": "2.8.1-G0",
+      "cell_to": "2.7.2-cdk-G0",
+      "outcome": "applied",
+      "out_sha": "4c2e98b3ab10551a7b789261d6c565d9848717cdd0f50dd227d3b69b0afecf2e",
+      "lines_delta": -13,
+      "at": "2026-09-17T02:42:26Z"
+    }
+  ],
+  "copy48_controls": {
+    "schema": 1,
+    "row": "dungeon/func_8132B300",
+    "source": "src/dungeon/func_8132B300.c",
+    "source_sha": "132d02176aab823864fa24c45ec8b12d0073bbae42e8d550d6cdc91eefb27377",
+    "candidate": "work/native_lane/r43_dungeon_copy/out/dungeon/func_8132B300.c",
+    "candidate_sha": "4c2e98b3ab10551a7b789261d6c565d9848717cdd0f50dd227d3b69b0afecf2e",
+    "pins_source": 1,
+    "pins_candidate": 0,
+    "unscored_arms_unchanged": true,
+    "landing_refusal": null,
+    "checks": {
+      "source_recorded_2.8.1-G0": {
+        "status": "ok",
+        "exact": true,
+        "class": "match",
+        "total": 0,
+        "subs": 0,
+        "indels": 0,
+        "gen_words": 114,
+        "tgt_words": 114
+      },
+      "source_control_2.7.2-cdk-G0": {
+        "status": "ok",
+        "exact": true,
+        "class": "match",
+        "total": 0,
+        "subs": 0,
+        "indels": 0,
+        "gen_words": 114,
+        "tgt_words": 114
+      },
+      "candidate_recorded_2.8.1-G0": {
+        "status": "ok",
+        "exact": false,
+        "class": "reg-rename",
+        "total": 14,
+        "subs": 14,
+        "indels": 0,
+        "gen_words": 114,
+        "tgt_words": 114,
+        "signals": [
+          "regmap=7"
+        ]
+      },
+      "candidate_control_2.7.2-cdk-G0": {
+        "status": "ok",
+        "exact": true,
+        "class": "match",
+        "total": 0,
+        "subs": 0,
+        "indels": 0,
+        "gen_words": 114,
+        "tgt_words": 114
+      }
+    },
+    "cell_switch_controls_pass": true,
+    "apply_candidates_dry_run": "applied",
+    "exported": true
+  },
+  "points36_strict": {
+    "aligned": {
+      "indels": 0,
+      "substitutions": 0,
+      "total": 0
+    },
+    "as_flags": "--fill-shadowed-return-delay",
+    "build_status": "ok",
+    "byte_exact": true,
+    "comparison_mode": "linked-strict",
+    "compiler": "toolchain/compilers/gcc-2.7.2-cdk/gcc",
+    "compiler_assembly": {
+      "bytes": 7050,
+      "path": "../work/native_lane/r43_points36/aggregate_clean.s",
+      "sha256": "049a65d6b1db7738b56ba55e9579ff42e5e0825895d1c3dc4ae0d244232560d7"
+    },
+    "compiler_sha": "7a571911a97cef0c6b7b5d4174e89ac54f9806ce3d4b233c0f8620e3503c672b",
+    "config": "2.7.2-cdk-G0 -fno-expensive-optimizations",
+    "exact": true,
+    "function": "func_819C0000",
+    "length_bytes": {
+      "generated": 1256,
+      "target": 1256
+    },
+    "length_words": {
+      "generated": 314,
+      "target": 314
+    },
+    "maspsx_assembly": {
+      "bytes": 9398,
+      "path": "../work/native_lane/r43_points36/aggregate_clean.maspsx.s",
+      "sha256": "5608fe9823a7ebb981e4cd65286b130c31eebaa819e3c747d6afd2fbdf81a37e"
+    },
+    "positional_words_off": 0,
+    "regional_alignment": {
+      "aligned": {
+        "indels": 0,
+        "substitutions": 0,
+        "total": 0
+      },
+      "candidate_words": 314,
+      "mask_relocations": false,
+      "region_map_sha256": "436c663f5c3ce338c788207d63f9f8d22f3f2940b983a2b88a39388cf009753c",
+      "regions": [
+        {
+          "candidate_span": [
+            0,
+            78
+          ],
+          "id": "R0",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            0,
+            78
+          ]
+        },
+        {
+          "candidate_span": [
+            78,
+            157
+          ],
+          "id": "R1",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            78,
+            157
+          ]
+        },
+        {
+          "candidate_span": [
+            157,
+            235
+          ],
+          "id": "R2",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            157,
+            235
+          ]
+        },
+        {
+          "candidate_span": [
+            235,
+            314
+          ],
+          "id": "R3",
+          "indels": 0,
+          "substitutions": 0,
+          "target_span": [
+            235,
+            314
+          ]
+        }
+      ],
+      "schema": "azure-clean.regional-alignment.v1",
+      "target_words": 314,
+      "vector": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "reloc_suspect": false,
+    "reloc_suspect_near_0_9": false,
+    "reloc_suspect_ratio": 0.0,
+    "residue": {
+      "class": "match",
+      "confidence": "high",
+      "signals": []
+    },
+    "schema": "azure-clean.compiler-oracle.v1",
+    "source": "work/native_lane/r43_points36/aggregate_clean.c",
+    "source_sha": "24fe10483994f2a6d2efae72cb66923dd4af581e8250809d6347bd87f45284d7",
+    "status": "MATCH",
+    "target_sha": "4d0c0e0373e9bc87a1e7f8131aec2bd229e908b5173ae83b6961c3eb6f2f6b46",
+    "tool": "work/g3/overlay_func_compare.py",
+    "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+    "warnings": [
+      "rowbase: linked at true base 0x80025800 (region img_19deb98_80024398, delta 0x7E645800)"
+    ],
+    "words_off": 0
+  },
+  "points36_independent": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 314,
+    "tgt_words": 314,
+    "class": "match",
+    "signals": [],
+    "secs": 0.85,
+    "err": null
+  },
+  "points36_cascade": {
+    "info": {
+      "erased": 0,
+      "tried": 3,
+      "left": 3,
+      "kept": [
+        [
+          "ASM_REG",
+          "4",
+          "reg-rename"
+        ],
+        [
+          "ASM_REG",
+          "5",
+          "reorder-only"
+        ],
+        [
+          "ASM_KEEP_NV",
+          "point",
+          "code-motion"
+        ]
+      ]
+    },
+    "verifiers": [
+      {
+        "status": "ok",
+        "exact": false,
+        "subs": 5,
+        "indels": 0,
+        "total": 5,
+        "gen_words": 314,
+        "tgt_words": 314,
+        "class": "reg-rename",
+        "signals": [
+          "regmap=2"
+        ],
+        "secs": 0.97,
+        "err": null
+      },
+      {
+        "status": "ok",
+        "exact": false,
+        "subs": 0,
+        "indels": 4,
+        "total": 4,
+        "gen_words": 314,
+        "tgt_words": 314,
+        "class": "reorder-only",
+        "signals": [
+          "same-multiset",
+          "indels=4(ins2/del2)",
+          "drift-ins:+lhu,+addu",
+          "drift-del:-lhu,-addu"
+        ],
+        "secs": 0.9,
+        "err": null
+      },
+      {
+        "status": "ok",
+        "exact": false,
+        "subs": 1,
+        "indels": 2,
+        "total": 3,
+        "gen_words": 314,
+        "tgt_words": 314,
+        "class": "code-motion",
+        "signals": [
+          "indels=2(ins1/del1)",
+          "drift-ins:+move",
+          "drift-del:-move",
+          "dead-word=1"
+        ],
+        "secs": 0.89,
+        "err": null
+      }
+    ]
+  },
+  "gates": [
+    {
+      "window": "dungeon_deep_t8b_134b",
+      "container": "dungeon",
+      "result": "MATCH",
+      "bytes": 5084,
+      "detail": "MATCH: rebuilt overlay window byte-identical (5084 bytes)",
+      "secs": 2.2,
+      "inputs_sha": "3b34e8243e0be7dc61680b11475640e1b23dcade67237f5929584ca640cf0794",
+      "at": "2026-09-17T02:49:06Z"
+    },
+    {
+      "window": "dungeon_deep_19deb98_truebase_80024398",
+      "container": "dungeon",
+      "result": "MATCH",
+      "bytes": 9240,
+      "detail": "MATCH: rebuilt overlay window byte-identical (9240 bytes)",
+      "secs": 4.1,
+      "inputs_sha": "ff7901c3d0c15d5fad26daab64fc6ccec1b1a65d182170fcc194fd16e1ee4600",
+      "at": "2026-09-17T02:43:04Z"
+    },
+    {
+      "window": "dungeon_deep_t8b_19df888",
+      "container": "dungeon",
+      "result": "MATCH",
+      "bytes": 4056,
+      "detail": "MATCH: rebuilt overlay window byte-identical (4056 bytes)",
+      "secs": 2.3,
+      "inputs_sha": "d0373f5819557fb685da6737780b440f2d298a29abfada615ce380ab20b8f4c7",
+      "at": "2026-09-17T02:43:04Z"
+    }
+  ],
+  "slus_gate": {
+    "at": "2026-09-17T02:43:38Z",
+    "result": "MATCH",
+    "tus": 884,
+    "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+    "recipe_vs_pinned": "identical",
+    "secs": 0,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "row_database": "OK",
+  "helper_control": {
+    "status": "ok",
+    "exact": true,
+    "obj_sha": "3a4e53898ac90709a7330e6a4bcd827b4ff4e348b2d75264d727b9d404f5de7b",
+    "secs": 0.12
+  },
+  "reviews": [
+    "docs/evidence/pin_research_copy48_review_20260917.md",
+    "docs/evidence/pin_research_points36_review_20260917.md"
+  ],
+  "cleanup": {
+    "id": "dungeon/func_8132B300",
+    "transform": "r43_copy_cleanup",
+    "in_sha": "4c2e98b3ab10551a7b789261d6c565d9848717cdd0f50dd227d3b69b0afecf2e",
+    "size": 456,
+    "source": "cleanup",
+    "exact": true,
+    "status": "ok",
+    "class": "match",
+    "total": 0,
+    "secs": 0.77,
+    "outcome": "applied",
+    "out_sha": "28948b23db5fb310f79bc40107deed00b19013f0663ad9e0cd4ff651a0da984a",
+    "lines_delta": -6,
+    "at": "2026-09-17T02:49:03Z"
+  },
+  "cleanup_verify": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 114,
+    "tgt_words": 114,
+    "class": "match",
+    "signals": [],
+    "secs": 0.8,
+    "err": null
+  },
+  "final_source_sha": {
+    "dungeon/func_819C0000": "24fe10483994f2a6d2efae72cb66923dd4af581e8250809d6347bd87f45284d7",
+    "dungeon/func_8132B300": "28948b23db5fb310f79bc40107deed00b19013f0663ad9e0cd4ff651a0da984a"
+  }
+}
