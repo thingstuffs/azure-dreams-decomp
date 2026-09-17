@@ -34,6 +34,13 @@ row database OK. See [PIN_RESEARCH_ROUND39.md](PIN_RESEARCH_ROUND39.md). The fir
 small transfer cohort has no independent positive yet, so this is a verified
 individual repair, not a demonstrated population-wide rule.
 
+Round 40 gated result: **6,100 pins in 1,282 rows (-2; -3 cumulative)**.
+The rubber-duck reconstruction recovers `80878974` as a 52-byte record copy and
+three diagnostic calls. GCC's aggregate block-move RTL naturally preserves the
+copy-tail schedule; the old-ASPSX constant convention removes the unsigned
+zero-register carrier. Semantic review, exact row, full TOWN window, SLUS, and
+row database pass. See [PIN_RESEARCH_ROUND40.md](PIN_RESEARCH_ROUND40.md).
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,
