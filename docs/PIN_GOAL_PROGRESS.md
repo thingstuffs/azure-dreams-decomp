@@ -118,6 +118,15 @@ candidate is 181 words, distance 30. See
 [PIN_RESEARCH_ROUND47.md](PIN_RESEARCH_ROUND47.md).
 
 
+Round 48 gated result: **6,038 pins in 1,272 rows (-1; -65 cumulative)**.
+Gemini's whole-switch candidate becomes exact at a controlled stock-CDK
+transition, with the complete callback chain corrected and reviewed. The
+covering window, separately emitted eight-entry table, SLUS and row database
+pass; six host syntax checks pass. Ten erasure follow-ups yield zero. Two more
+bounded whole-function targets remain nonexact; their probes are archived,
+not classified impossible. See [PIN_RESEARCH_ROUND48.md](PIN_RESEARCH_ROUND48.md).
+
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

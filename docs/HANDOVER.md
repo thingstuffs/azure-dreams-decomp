@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,039 pins in 1,273 rows,
-64 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,038 pins in 1,272 rows,
+65 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -80,18 +80,27 @@ keeps input refs7 and priority1157. The real prefix and pointer-registry probes
 do not fix the partial candidate's13 substitutions. Removing existing later
 bindings changes earlier register reuse but remains nonexact.
 
-Next, run a small whole-function transfer batch from the local-return inventory
-(32 rows / 328 candidate pins, not guaranteed removals) with the now-proven
-constructor recipe; use Luna or Gemini for bounded source
-reconstruction and retain local exact verification and independent review.
-Reserve expensive diagnosis for shared blockers. `agy` Gemini pilot on
-`818B15F4` finished in 243 seconds: independently exact local-return CFG,
-one table pin remains, no landing. Five candidate sources and the brief are
-archived in the round 47 receipt; do not repeat them. Snapshot's next source question
-is the real four-byte entry traversal, but pause that open-ended lane while
-measuring cheaper transfer yield. Do not repeat its zero-offset prefix or
-registry spelling tests, preserve dead setup, or manipulate reference counts.
-The Position144 sentinel pin remains open. No failure proves a minimum.
+[Round 48](PIN_RESEARCH_ROUND48.md) removes one more pin from `818B15F4`.
+The `agy` Gemini ordinary-switch candidate becomes fully exact at controlled
+stock CDK; six-file callback contracts, true-name registration, emitted table
+bytes and full publication gates pass. All six host syntax checks pass after
+removing dead malformed macros in the registration caller. Ten helper/callee
+erasures add no further removals.
+
+The second Gemini function (`8195AB84`, six probes/308 seconds) remains 19
+substitutions away; another worker's `81844F2C` exhausts eight probes without
+an exact reduction. Briefs, sources and negatives are archived in the round 48
+receipt. Do not repeat those menus. Split the 32-row/328-pin candidate inventory
+into epilogues, loop edges and switches before bounded whole-function delegation;
+these are candidate pins, not promised removals or distinct patterns. Audit
+Gemini's local-jump/compiler-fingerprint contradiction before trusting its
+attribution claim. Reserve expensive work for shared allocation residuals.
+
+Snapshot140's next source question is real four-byte entry traversal; keep
+that open-ended lane paused while measuring transfer yield. Do not repeat its
+zero-offset prefix or registry spelling tests, preserve dead setup, or manipulate
+reference counts. The Position144 sentinel remains open. No failure proves a
+minimum.
 
 Keep mechanical repetition in the existing aggregate generator/probe and
 erasure/verification tools. Generalize a new rewrite only with actual semantic

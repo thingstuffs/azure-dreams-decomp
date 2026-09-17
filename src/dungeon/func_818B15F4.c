@@ -1,44 +1,39 @@
 #include "common.h"
 
-extern void func_800249B4(void *arg0);
-extern void func_80024B34(void);
-extern void func_80024C84(void *arg0, s32 arg1, s32 arg2);
-extern void func_80024E54(void) __attribute__((noreturn));
-extern void *D_80024008[];
+struct S_818B11B4_0;
+struct S_818B11B4_2;
+struct S_818B1334_1;
+struct S_818B1334_3;
+struct S_818B1484_1;
+struct S_818B1484_3;
+extern s32 func_800249B4(struct S_818B11B4_0 *, struct S_818B11B4_2 *, void *);
+extern s32 func_80024B34(struct S_818B1334_1 *, struct S_818B1334_3 *, void *);
+extern s32 func_80024C84(struct S_818B1484_1 *, struct S_818B1484_3 *, void *);
 
 typedef struct {
     u8 pad00[0xA];
     s16 state;
 } Func818B15F4Arg;
 
-s32 func_818B15F4(Func818B15F4Arg *arg0, s32 arg1, s32 arg2)
+s32 func_80024DF4(void *arg0, void *arg1, void *arg2)
 {
-    static void *const keepalive[] __attribute__((used)) = {
-        &&case_0, &&case_1, &&case_2, &&done,
-        &&done, &&done, &&done, &&done
-    };
-    s32 state = *(s16 *)((u8 *)arg0 + 0xA);
-
-    if (state >= 0 && state < 8) {
-        s32 index = state << 2;
-        void **table = D_80024008;
-        ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        goto *(*(void **)(index + (u32)table));
-    }
-    (void)keepalive;
-    goto done;
-
-case_0:
-        func_800249B4(arg0);
-        func_80024E54();
-
-case_1:
-        func_80024B34();
-        func_80024E54();
-
-case_2:
+    switch (((Func818B15F4Arg *)arg0)->state) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 7:
+    default:
+        break;
+    case 4:
+        func_800249B4(arg0, arg1, arg2);
+        break;
+    case 5:
+        func_80024B34(arg0, arg1, arg2);
+        break;
+    case 6:
         func_80024C84(arg0, arg1, arg2);
-
-done:
+        break;
+    }
     return 0;
 }
