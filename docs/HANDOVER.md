@@ -1,5 +1,23 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**Active zero-pin research objective (2026-09-17): 6,102 pins in 1,283 rows,
+one gated removal from the new 6,103-pin baseline.** The owner superseded the old plateau stopping rule: adapt the
+approach until zero, or demonstrate an unavoidable minimum. No failed search or
+unexplained compiler behavior is an impossibility proof. Read the current
+objective in [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and the research
+contract in [PIN_RESEARCH_WORKFLOW.md](PIN_RESEARCH_WORKFLOW.md).
+Round 39 combines whole-function reconstruction, causal allocator explanations,
+compiler/assembler provenance and controlled family transfer. It explicitly
+uses the successful historical rubber-duck playbook. The entries below are
+historical checkpoints; their “closed” and “no active lane” statements describe
+those checkpoints, not the current research objective.
+The first repair removes the input-register pin and inherited volatile table
+pointer in `81811388`, fixes its missing scalar return, and uses stock CDK
+address generation. Exact 14/14 words; the original pinned source is also exact
+at CDK. Affected window and SLUS MATCH, row database OK. Read
+[PIN_RESEARCH_ROUND39.md](PIN_RESEARCH_ROUND39.md) for evidence and the limits
+of the still-unproved family transfer.
+
 **500-pin continuation closed at a measured plateau (2026-09-16): 6,103 pins
 in 1,284 rows. Net -35 from `500808e2`; the 500-pin threshold was not reached.**
 Two gated implementation commits: `85f57ff1` (-6) and `a6cb5c82` (-29). The initial

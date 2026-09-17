@@ -1,4 +1,40 @@
-# Pin-removal goal: 500 new removals or an evidence-based plateau
+# Pin-removal research: zero pins
+
+## Active objective (2026-09-17)
+
+The owner has superseded the 500-pin/plateau stopping rule below. The objective
+is **zero genuine C pins**, or a demonstrated unavoidable minimum with a clear
+explanation. Failed searches, current compiler coverage and unexplained C shapes
+remain unresolved research questions; they do not establish impossibility.
+
+Starting point: **6,103 pins in 1,284 rows**, commit `bd28d6cf`.
+Four changes are being implemented together: whole-function reconstruction from
+retail register roles and control flow; causal compiler-decision explanations;
+compiler/assembler provenance audits; and independently controlled family
+transfer. The historical rubber-duck method is part of reconstruction: explain
+the compiler decision in ordinary language, ask what real source would produce
+it, predict an intermediate effect, then compile a small discriminating probe.
+Existing allocator traces and counterfactual tools are reused, not replaced.
+
+Recipe reconsideration is allowed when supported by mechanism and provenance
+evidence. A matching compiler cell is not, by itself, proof of historical
+lineage. Exact retail bytes, source semantics, caller consistency and full
+affected gates remain required; function-specific toolchain substitutions and
+replacement pin scaffolding do not count as removals.
+
+See [PIN_RESEARCH_WORKFLOW.md](PIN_RESEARCH_WORKFLOW.md) for the research and
+transfer contract. The campaign history below records the previous objective.
+
+Round 39 first gated result: **6,102 pins in 1,283 rows (-1)**. Ordinary returning
+C for `dungeon/func_81811388` becomes exact when the inherited volatile table
+pointer is removed together with its input binding, using stock CDK split-address
+generation. The old pinned source is exact at CDK too. Same-image callers and
+helper definition substantiate the return repair. Affected window and SLUS MATCH;
+row database OK. See [PIN_RESEARCH_ROUND39.md](PIN_RESEARCH_ROUND39.md). The first
+small transfer cohort has no independent positive yet, so this is a verified
+individual repair, not a demonstrated population-wide rule.
+
+## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,
 transfer it cheaply, adapt to results; stop after 500 new pins are removed or
