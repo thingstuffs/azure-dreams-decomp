@@ -2655,7 +2655,7 @@
       },
       "causal": {
         "question": "Which genuine traversal lifetime avoids copying a counter known to be zero without swapping s1/s2?",
-        "prediction": "The earliest zero-equivalence decision should explain the one-word residual; separating a compiler register web must be measurable before another source candidate."
+        "prediction": "Exact CDK reload_cse_simplify_set chooses cached register19 for UID362 literal zero; a real source lifetime/control-flow change must remove that cached equivalence while retaining s1/s2 allocation."
       },
       "evidence": [
         {
@@ -2669,11 +2669,19 @@
           "artifact": {
             "path": "docs/evidence/pin_research_round51_20260917.json"
           }
+        },
+        {
+          "id": "r52_reload",
+          "kind": "observation",
+          "summary": "Literal zero survives lreg; read-only exact-binary trace proves reload_cse_simplify_set substitutes s3. Traced and ordinary assembly equal. Row-entry reset changes counter stats33/148 to30/145 and swaps allocation order.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round52_20260917.json"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Trace zero initialization and traversal counter webs through the earliest pass divergence, then test one fact-backed source form.",
-        "measurement": "First zero-equivalence/role divergence and full 224-word score.",
+        "action": "Trace zero-value cache recording/invalidation across actual traversal joins, then select at most two genuine source lifetimes that preserve retail allocation and avoid the cached copy.",
+        "measurement": "Exact CDK reload-CSE cache trace, global register order and complete224-word linked comparison.",
         "success_criterion": "Five or fewer pins, complete exact bytes and preserved helper/entry semantics.",
         "failure_criterion": "A remaining copy or role swap is a bounded negative, not an impossibility.",
         "bounds": "One pass investigation and at most two new source hypotheses."
@@ -2727,7 +2735,7 @@
       },
       "causal": {
         "question": "Which actual case-zero dependence preserves the retail state-store and child-flags-load schedule without a barrier?",
-        "prediction": "The one-word jal-to-j error is metadata-owned and disappears with the one-name correction; the barrier-free length/schedule mismatch remains C-owned pending first-pass attribution."
+        "prediction": "Exact CDK sched dumps show aggregate memory classification restores global-store dependence, but child pointer still hoists. The real object/global relationship must explain the remaining ordering without a manufactured dependency."
       },
       "evidence": [
         {
@@ -2741,11 +2749,23 @@
           "artifact": {
             "path": "docs/evidence/pin_research_round51_20260917.json"
           }
+        },
+        {
+          "id": "r52_sched",
+          "kind": "bounded_negative",
+          "summary": "First-scheduler attribution; one unsized-array source hypothesis improves to333/334,total9; no-first-scheduling controls fail both endpoints. Array extent unproven.",
+          "bounds": {
+            "tested": "Scalar/free/barrier pass comparison, fixed-recipe unsized-array diagnostic, two first-scheduling-disabled controls.",
+            "untested": "Actual object/global layout and genuine source aliases that preserve the remaining retail load stall."
+          },
+          "artifact": {
+            "path": "docs/evidence/pin_research_round52_20260917.json"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Compare barrier and free-case scheduling dumps to identify the first changed memory/control dependence before two genuine source hypotheses.",
-        "measurement": "First differing compiler pass, full 334-word linked bytes and actual jump-table bytes.",
+        "action": "Recover actual global/object memory relationship using same-bank data/callers; then run az-c-rebuild on at most two fact-backed source hypotheses.",
+        "measurement": "Memory dependence edges and full334-word linked score, followed by actual jump-table bytes for any exact candidate.",
         "success_criterion": "Zero pins, exact function and table bytes, independent semantic review.",
         "failure_criterion": "An unexplained schedule/length difference stays unresolved; same-pin switch exactness is not a pin removal.",
         "bounds": "One pass investigation and at most two source hypotheses; fixed recipe."

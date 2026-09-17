@@ -1,5 +1,17 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+[Round 52](PIN_RESEARCH_ROUND52.md) keeps **6,028 pins / 1,271 rows**. Eight
+reviewed stale noreturn entries are removed; 15 rows, 18 windows, SLUS and row
+DB pass. The alias-aware index narrows 934 stale names to 29 called names in
+31 files; the eight-case batch unlocks zero pins, including all-pin-erased
+controls. Metadata investigation should now follow concrete pipeline mismatches.
+The switch's scalar/aggregate memory classification explains part of its
+barrier residue (zero-pin diagnostic improves 23 to 9 edits), but the sibling
+array extent is likely historical size scaffolding, not established layout.
+For the transition's one-word residual, a read-only trace of the exact CDK
+compiler proves post-allocation reload CSE substitutes cached s3 for literal
+zero. Next work targets that cache and genuine traversal lifetimes.
+
 [Round 51](PIN_RESEARCH_ROUND51.md) leaves **6,028 pins / 1,271 rows**. Bounded
 Gemini (`agy`) and Luna function workers plus root residual analysis expose a
 stale global `noreturn` entry: maspsx changed a correct `jal` into `j`. Removing
