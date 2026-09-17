@@ -1,0 +1,408 @@
+{
+  "candidate_limit_per_row": 4,
+  "finished": "2026-09-17T02:26:03.342308+00:00",
+  "promotion": "not_performed",
+  "purpose": "Historical reproduction and current pin-free control; no new removals or promotion",
+  "row_limit": 5,
+  "rows": [
+    {
+      "baseline": {
+        "2.7.2-cdk-G0": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 21,
+          "indels": 0,
+          "secs": 0.7,
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 21,
+          "total": 0
+        },
+        "2.8.1-G0": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 21,
+          "indels": 0,
+          "secs": 0.67,
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 21,
+          "total": 0
+        }
+      },
+      "candidates": [
+        {
+          "byte_controls": {
+            "2.7.2-cdk-G0": {
+              "baseline_exact_at_selected_cell": true,
+              "candidate_exact_at_selected_cell": true,
+              "same_recipe_exact": true,
+              "standard_cell_switch_controls_pass": false
+            },
+            "2.8.1-G0": {
+              "baseline_exact_at_selected_cell": true,
+              "candidate_exact_at_selected_cell": false,
+              "same_recipe_exact": false,
+              "standard_cell_switch_controls_pass": false
+            }
+          },
+          "candidate_sha": "7d3e085fe0bdc115341c78b871c13cb9fa0c491b9fbdc756eb438177f504b0a7",
+          "label": "aggregate:68:goto",
+          "path": "raw/town/func_800B0994/01_aggregate_68_goto.c",
+          "promotion": "not_performed",
+          "review_required": true,
+          "review_state": "unreviewed",
+          "scores": {
+            "2.7.2-cdk-G0": {
+              "class": "match",
+              "exact": true,
+              "gen_words": 21,
+              "indels": 0,
+              "secs": 0.67,
+              "status": "ok",
+              "subs": 0,
+              "tgt_words": 21,
+              "total": 0
+            },
+            "2.8.1-G0": {
+              "class": "broad",
+              "exact": false,
+              "gen_words": 21,
+              "indels": 4,
+              "secs": 0.71,
+              "status": "ok",
+              "subs": 13,
+              "tgt_words": 21,
+              "total": 17
+            }
+          }
+        }
+      ],
+      "historical_source": true,
+      "id": "town/func_800B0994",
+      "live_source_matches_input": false,
+      "live_source_sha": "feb688e460fab8599bb9779a498ab5c6670a2bb0d97cefdfcd291c1e3223074f",
+      "promotion_eligible": false,
+      "recognizer": {
+        "matches": [
+          {
+            "alias_vars": [
+              "D_80082A38",
+              "base",
+              "dst",
+              "record",
+              "src"
+            ],
+            "attached_pins": 1,
+            "dst": "dst",
+            "end": 1039,
+            "limit": "end",
+            "loop_bytes": 64,
+            "needs_typedef": true,
+            "required_reviews": [
+              "copy extent",
+              "source/destination non-overlap",
+              "four-byte alignment and effective type",
+              "callers/object layout",
+              "compiler recipe"
+            ],
+            "review_required": true,
+            "review_state": "unreviewed",
+            "src": "src",
+            "start": 477,
+            "style": "goto",
+            "tail_bytes": 4,
+            "total_bytes": 68,
+            "type_name": null
+          }
+        ],
+        "refusals": {}
+      },
+      "recorded_recipe": "2.7.2-cdk-G0",
+      "review_refs": [
+        "work/native_lane/r42_copy68/REVIEW.md"
+      ],
+      "review_state": "unreviewed",
+      "source": "work/native_lane/r42_copy68/base.c",
+      "source_sha": "3bf86be542490cf9eda15fb9dbc48c09b551869ee85257aca3dc2433255aff35"
+    },
+    {
+      "baseline": {
+        "2.7.2-cdk-G0": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 113,
+          "indels": 0,
+          "secs": 0.68,
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 113,
+          "total": 0
+        }
+      },
+      "candidates": [
+        {
+          "byte_controls": {
+            "2.7.2-cdk-G0": {
+              "baseline_exact_at_selected_cell": true,
+              "candidate_exact_at_selected_cell": true,
+              "same_recipe_exact": true,
+              "standard_cell_switch_controls_pass": false
+            }
+          },
+          "candidate_sha": "bb426a58d4ac80aadcdb9b2f0a4f3c5ff42cf96b5ee7917b51b38d1b35e3a915",
+          "label": "aggregate:84:do",
+          "path": "raw/town/func_800A23CC/01_aggregate_84_do.c",
+          "promotion": "not_performed",
+          "review_required": true,
+          "review_state": "unreviewed",
+          "scores": {
+            "2.7.2-cdk-G0": {
+              "class": "match",
+              "exact": true,
+              "gen_words": 113,
+              "indels": 0,
+              "secs": 0.7,
+              "status": "ok",
+              "subs": 0,
+              "tgt_words": 113,
+              "total": 0
+            }
+          }
+        }
+      ],
+      "historical_source": true,
+      "id": "town/func_800A23CC",
+      "live_source_matches_input": false,
+      "live_source_sha": "58956832077315631e9dadc3ffb98127deea6ed38435b681c675ea86cada655b",
+      "promotion_eligible": false,
+      "recognizer": {
+        "matches": [
+          {
+            "alias_vars": [
+              "copy_dst",
+              "copy_src",
+              "record_buffer"
+            ],
+            "attached_pins": 1,
+            "dst": "copy_dst",
+            "end": 2796,
+            "limit": "copy_end",
+            "loop_bytes": 80,
+            "needs_typedef": false,
+            "required_reviews": [
+              "copy extent",
+              "source/destination non-overlap",
+              "four-byte alignment and effective type",
+              "callers/object layout",
+              "compiler recipe"
+            ],
+            "review_required": true,
+            "review_state": "unreviewed",
+            "src": "copy_src",
+            "start": 2565,
+            "style": "do",
+            "tail_bytes": 4,
+            "total_bytes": 84,
+            "type_name": "Record84"
+          }
+        ],
+        "refusals": {}
+      },
+      "recorded_recipe": "2.7.2-cdk-G0",
+      "review_refs": [
+        "docs/evidence/pin_research_copy_transfer_20260917.md"
+      ],
+      "review_state": "unreviewed",
+      "source": "work/native_lane/r40_copy_transfer/candidates/base/func_800A23CC.c",
+      "source_sha": "f1d878c504858fe9c462ab50c7e36c22a1c4d52a8c032943dbed293a4986d15c"
+    },
+    {
+      "baseline": {
+        "2.7.2-G0": {
+          "class": "addressing",
+          "exact": false,
+          "gen_words": 92,
+          "indels": 5,
+          "secs": 0.74,
+          "status": "ok",
+          "subs": 20,
+          "tgt_words": 87,
+          "total": 25
+        },
+        "2.95.2-G0 -mno-split-addresses": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 87,
+          "indels": 0,
+          "secs": 0.69,
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 87,
+          "total": 0
+        }
+      },
+      "candidates": [],
+      "historical_source": true,
+      "id": "town/func_8080E838",
+      "live_source_matches_input": false,
+      "live_source_sha": "b43f43d88ed13ca9df37ba3714c7a4673254bff1ab803504ce18b92361bdb6be",
+      "promotion_eligible": false,
+      "recognizer": {
+        "matches": [],
+        "refusals": {
+          "nonlocal-copy-scratch": 1
+        }
+      },
+      "recorded_recipe": "2.7.2-G0",
+      "review_refs": [
+        "docs/evidence/pin_research_copy88_review_20260917.md"
+      ],
+      "review_state": "unreviewed",
+      "source": "work/native_lane/r41_copy88/base.c",
+      "source_sha": "a261d783e75d340a921329340d331c02fdf1f8a05f8556bad649a1a48eba3eb5"
+    },
+    {
+      "baseline": {
+        "2.7.2-cdk-G0": {
+          "class": "const-remat",
+          "exact": false,
+          "gen_words": 92,
+          "indels": 12,
+          "secs": 0.74,
+          "status": "ok",
+          "subs": 49,
+          "tgt_words": 88,
+          "total": 61
+        },
+        "2.95.2-G0 -fno-expensive-optimizations": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 88,
+          "indels": 0,
+          "secs": 0.71,
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 88,
+          "total": 0
+        }
+      },
+      "candidates": [],
+      "historical_source": true,
+      "id": "town/func_8081DD70",
+      "live_source_matches_input": false,
+      "live_source_sha": "00e5f850c3d20827125c648ccaf1ddf225c7e5a990f668701235fdf927dea3b3",
+      "promotion_eligible": false,
+      "recognizer": {
+        "matches": [],
+        "refusals": {
+          "nonlocal-copy-scratch": 1
+        }
+      },
+      "recorded_recipe": "2.7.2-cdk-G0",
+      "review_refs": [
+        "docs/evidence/pin_research_copy88_review_20260917.md"
+      ],
+      "review_state": "unreviewed",
+      "source": "work/native_lane/r40_copy_transfer/return_probe/base/town/func_8081DD70.c",
+      "source_sha": "9c369347519663478a166ae5b520c615934ead681ddc8f1beff0dd8c88a25e21"
+    },
+    {
+      "baseline": {
+        "2.7.2": {
+          "class": "match",
+          "exact": true,
+          "gen_words": 18,
+          "indels": 0,
+          "secs": 0.7,
+          "status": "ok",
+          "subs": 0,
+          "tgt_words": 18,
+          "total": 0
+        }
+      },
+      "candidates": [
+        {
+          "byte_controls": {
+            "2.7.2": {
+              "baseline_exact_at_selected_cell": true,
+              "candidate_exact_at_selected_cell": true,
+              "same_recipe_exact": true,
+              "standard_cell_switch_controls_pass": false
+            }
+          },
+          "candidate_sha": "e37da6fa92a3d0bb269431cb9a629e2980d19bb1acacde05300d71007352c098",
+          "label": "aggregate:52:do",
+          "path": "raw/town/func_808834DC/01_aggregate_52_do.c",
+          "promotion": "not_performed",
+          "review_required": true,
+          "review_state": "unreviewed",
+          "scores": {
+            "2.7.2": {
+              "class": "match",
+              "exact": true,
+              "gen_words": 18,
+              "indels": 0,
+              "secs": 0.66,
+              "status": "ok",
+              "subs": 0,
+              "tgt_words": 18,
+              "total": 0
+            }
+          }
+        }
+      ],
+      "historical_source": false,
+      "id": "town/func_808834DC",
+      "live_source_matches_input": true,
+      "live_source_sha": "43a4bc05077937bf5c408ef0636c0cbf177b234f8a4012c3287004088eab2707",
+      "promotion_eligible": false,
+      "recognizer": {
+        "matches": [
+          {
+            "alias_vars": [
+              "D_80700000",
+              "dst",
+              "source",
+              "src"
+            ],
+            "attached_pins": 0,
+            "dst": "dst",
+            "end": 455,
+            "limit": "end",
+            "loop_bytes": 48,
+            "needs_typedef": true,
+            "required_reviews": [
+              "copy extent",
+              "source/destination non-overlap",
+              "four-byte alignment and effective type",
+              "callers/object layout",
+              "compiler recipe"
+            ],
+            "review_required": true,
+            "review_state": "unreviewed",
+            "src": "src",
+            "start": 339,
+            "style": "do",
+            "tail_bytes": 4,
+            "total_bytes": 52,
+            "type_name": null
+          }
+        ],
+        "refusals": {}
+      },
+      "recorded_recipe": "2.7.2",
+      "review_refs": [],
+      "review_state": "unreviewed",
+      "source": "src/town/func_808834DC.c",
+      "source_sha": "43a4bc05077937bf5c408ef0636c0cbf177b234f8a4012c3287004088eab2707"
+    }
+  ],
+  "schema": 1,
+  "semantic_review": "required",
+  "started": "2026-09-17T02:25:54.893687+00:00",
+  "verified_tool_hashes": {
+    "tools/aggregate_copy.py": "25d6b07bac7e81d77f0cc2ae4b7e8a54567028f498c4f2efad3535d0e6b48d87",
+    "tools/aggregate_copy_probe.py": "90669b572e7147b94018f9f912682c67bbe11404b733ddef6cc0816321ad0d04"
+  }
+}

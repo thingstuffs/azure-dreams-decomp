@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6071,
-    "pinned_rows": 1279,
-    "basis": "STATUS.md after round41: all four affected overlay windows MATCH, SLUS MATCH, row database OK"
+    "pins": 6070,
+    "pinned_rows": 1278,
+    "basis": "STATUS.md after gated round42 Record68 repair; town_scene and SLUS MATCH, row database OK"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -865,7 +865,7 @@
       "status": "experiment_ready",
       "claim": {
         "level": "bounded_negative",
-        "summary": "Six ordinary reconstructions miss; the best staged Vec3 pair matches the copy suffix but differs in page/source address lifetime. No impossibility claim."
+        "summary": "Six round-41 and three grounded round-42 reconstructions miss. The best staged Vec3 pair matches the suffix but differs in page/source address lifetime. No impossibility claim."
       },
       "source": {
         "path": "src/town/func_800AB37C.c",
@@ -899,14 +899,356 @@
             "tested": "Six whole/staged copy forms at recorded 2.7.2 and one diagnostic CDK control; trusted baseline and erased/generated RTL address roles compared",
             "untested": "Recovered global object identity with real additional address uses; provenance-supported alternatives to the current address model"
           }
+        },
+        {
+          "id": "pair_object42",
+          "kind": "bounded_negative",
+          "summary": "Template extent and contents recovered; three grounded const/object probes all total 15, matching the suffix. No other recognized direct address use found in the scanned same-image window.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_pair24_round42_20260917.md"
+          },
+          "bounds": {
+            "tested": "Const Pair, const Vec3[2], const s32[6] aggregate forms at recorded 2.7.2; exact baseline and bounded direct-address scan",
+            "untested": "Indirect/table-based uses and original translation-unit definition/linkage effects"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Recover the 24-byte global object identity and definite address uses from its same-image callers/helper; reconstruct the page and source lifetimes.",
-        "measurement": "Compare expand/global RTL page/source pseudos against pinned p74 to v0 and p75 to a2, then inspect the first 18 words.",
-        "success_criterion": "Ordinary source reproduces both address lifetimes and all 47 words with fewer pins, plus semantic/caller review.",
-        "failure_criterion": "The proposed real object model still yields a single source pseudo or does not match; record that bounded result and remaining missing source fact.",
-        "bounds": "One object-identity audit followed by at most three predicted reconstructions; no spelling or declaration-order sweep."
+        "action": "Recover original global-definition or translation-unit context for the 24-byte template, using known bytes and neighboring symbols.",
+        "measurement": "Compare address expansion when actual object ownership/linkage is reconstructed; preserve exact data/layout evidence as well as function bytes.",
+        "success_criterion": "A supported source model generates retail page/source pseudos and all 47 words with fewer pins.",
+        "failure_criterion": "No source/TU evidence supports a distinct lifetime, or the supported form still emits one symbolic BLK source; retain as unresolved.",
+        "bounds": "One provenance/data-owner audit before any new C probe; no further extern-const spelling menu."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_800B0994",
+      "title": "Record68 aggregate and early scratch allocation",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "One pin removed by existing ordinary Record68 assignment at stock CDK; original pinned source exact there too. Standard cell-change path, strict independent verification, caller review and full window pass."
+      },
+      "source": {
+        "path": "src/town/func_800B0994.c",
+        "sha256": "feb688e460fab8599bb9779a498ab5c6670a2bb0d97cefdfcd291c1e3223074f"
+      },
+      "retail": {
+        "identity": {
+          "value": "TOWN offset 0x30994, runtime func_800AE0F4, 84 bytes / 21 words",
+          "confidence": "high",
+          "basis": "Registered extent and true-base-aware linked-strict comparison; retail hash retained in proof"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Old/new source exact at stock CDK; aggregate source distinguishes allocation and address reuse. Historical release remains qualified."
+        }
+      },
+      "causal": {
+        "question": "Why does the same Record68 aggregate allocate pointer and scratch registers differently at 2.8.1 and CDK?",
+        "prediction": "Earlier allocation of the four BLK scratch registers will force global source/destination/end into retail a2/a3/t0; split address reuse will avoid plain 2.7 extra scalar-load instruction."
+      },
+      "candidate": {
+        "path": "src/town/func_800B0994.c",
+        "sha256": "feb688e460fab8599bb9779a498ab5c6670a2bb0d97cefdfcd291c1e3223074f",
+        "base_source_sha256": "3bf86be542490cf9eda15fb9dbc48c09b551869ee85257aca3dc2433255aff35",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "evidence": [
+        {
+          "id": "copy68_proof",
+          "kind": "positive_candidate",
+          "summary": "21/21 exact, zero pins; old source exact at both cells; standard landing and full town_scene MATCH",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy68_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Replace four 16-byte scalar groups and 4-byte tail with one Record68 assignment",
+            "recipe": "2.7.2-cdk-G0",
+            "result": "21/21 exact; full 335,872-byte town_scene MATCH",
+            "remaining_question": "Unique historical compiler release and wider family coverage remain unresolved"
+          }
+        },
+        {
+          "id": "copy68_review",
+          "kind": "observation",
+          "summary": "Fresh node destination bounds and disjoint global 68-byte field independently established from actual caller and neighboring initializer",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy68_review_20260917.md"
+          }
+        },
+        {
+          "id": "copy68_mechanism",
+          "kind": "observation",
+          "summary": "Identical pointer lifetimes/order; CDK binds BLK scratch registers during lreg whereas 2.8.1 defers them until reload",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy68_mechanism_20260917.md"
+          }
+        },
+        {
+          "id": "copy68_causal_trace",
+          "kind": "observation",
+          "summary": "Trusted 2.8.1 trace rules out constraint rejection and capacity; compiler source changes instruction-node mutation into side-table recording, explaining the allocation-stage difference.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy68_causal_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy68_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy68_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy68_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy68_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_800BEA7C",
+      "title": "Payload address folding in combine",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "The best ordinary owner-recovery expression restores all 45 words and registers but leaves one base/offset substitution; neither tested reconstruction is exact."
+      },
+      "source": {
+        "path": "src/town/func_800BEA7C.c",
+        "sha256": "52440b6983b0b608d7e2d93340fb7e12add706986c1c5a743fb50586ddb1afaf"
+      },
+      "retail": {
+        "identity": {
+          "value": "town/func_800BEA7C, file offset 256636, 180 retail bytes",
+          "confidence": "high",
+          "basis": "Registered ledger extent and exact baseline control retained in the round-42 lane"
+        },
+        "recipe": {
+          "value": "2.8.1",
+          "confidence": "medium",
+          "basis": "Recorded byte-exact pinned baseline; original historical compiler lineage remains qualified"
+        }
+      },
+      "causal": {
+        "question": "Why does combine fold the payload address in the erased source, while owner recovery instead uses the payload base for the data load?",
+        "prediction": "A real object relationship or understood combine cost will retain the payload pointer and load data through the original owner without a keep."
+      },
+      "evidence": [
+        {
+          "id": "r42_bounds",
+          "kind": "bounded_negative",
+          "summary": "The best ordinary owner-recovery expression restores all 45 words and registers but leaves one base/offset substitution; neither tested reconstruction is exact.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_field_init_20260917.md"
+          },
+          "bounds": {
+            "tested": "Baseline and erased pass dumps, embedded payload reconstruction, and one genuine owner-recovery expression at recorded 2.8.1-G0.",
+            "untested": "Trace the combine acceptance and address costs for the two owner/payload expressions; use actual caller layout evidence."
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Trace the combine acceptance and address costs for the two owner/payload expressions; use actual caller layout evidence.",
+        "measurement": "Compare the payload add and data-load base before and after combine, then verify complete 45-word bytes.",
+        "success_criterion": "One supported ordinary source produces all 45 exact words with fewer pins.",
+        "failure_criterion": "The observed costs still select the wrong base; retain the explicit one-substitution residue.",
+        "bounds": "One causal combine audit before a new source probe; no register-coloring menu."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_8080E59C",
+      "title": "Group initializer alias and helper contract",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "The best tested aggregate candidate has distance 19 across 167 words and still retains three loop keeps. No repair landed."
+      },
+      "source": {
+        "path": "src/town/func_8080E59C.c",
+        "sha256": "3123c3ca5d9ee43ef3eb6de0084da7ba86f999cbb822bb07ed00fcd3438a7b04"
+      },
+      "retail": {
+        "identity": {
+          "value": "town/func_8080E59C, file offset 7923100, 668 retail bytes",
+          "confidence": "high",
+          "basis": "Registered ledger extent and exact baseline control retained in the round-42 lane"
+        },
+        "recipe": {
+          "value": "2.6.3-G0",
+          "confidence": "medium",
+          "basis": "Recorded byte-exact pinned baseline; original historical compiler lineage remains qualified"
+        }
+      },
+      "causal": {
+        "question": "What real alias or helper/object relationship preserves the six source values and forms helper addresses before block-copy scratch allocation?",
+        "prediction": "Recovered semantics will explain the early a0/a1 addresses and a3/t0 copy temporaries without volatile or register scaffolding."
+      },
+      "evidence": [
+        {
+          "id": "r42_bounds",
+          "kind": "bounded_negative",
+          "summary": "The best tested aggregate candidate has distance 19 across 167 words and still retains three loop keeps. No repair landed.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_group_init_20260917.md"
+          },
+          "bounds": {
+            "tested": "Four initial aggregate probes, one nonvolatile scalar-union probe and two three-argument helper probes, with baseline/candidate RTL and sibling call review.",
+            "untested": "Locate the helper in its correct resident image and establish its actual memory/argument contract before revising the copy source."
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Locate the helper in its correct resident image and establish its actual memory/argument contract before revising the copy source.",
+        "measurement": "Check real helper reads and pointer roles against early argument formation and the six-word copy schedule.",
+        "success_criterion": "A supported alias/operation yields a smaller-pin exact initializer with consistent helper ABI.",
+        "failure_criterion": "No supported alias or ABI fact changes the lowering; retain the allocation/schedule mismatch as unresolved.",
+        "bounds": "One helper-image/provenance audit; do not infer retail RTL from the pinned baseline."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_8008EE88",
+      "title": "Snapshot140 buffer-page lifetime",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Two aggregate copies and a four-byte unaligned aggregate reach distance 40 with zero pins, but frame and second-loop address lifetimes remain wrong."
+      },
+      "source": {
+        "path": "src/dungeon/func_8008EE88.c",
+        "sha256": "e1e8b2857ae1036d4b253d062848c89d0608906aa11edebed7d510304122cb0d"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8008EE88, file offset 716424, 724 retail bytes",
+          "confidence": "high",
+          "basis": "Registered ledger extent and exact baseline control retained in the round-42 lane"
+        },
+        "recipe": {
+          "value": "2.95.2-G0",
+          "confidence": "medium",
+          "basis": "Recorded byte-exact pinned baseline; original historical compiler lineage remains qualified"
+        }
+      },
+      "causal": {
+        "question": "What real global-object/address relationship keeps the snapshot buffer page live across the second loop?",
+        "prediction": "Recovering the shared high-page/low-address model will restore the 56-byte frame and s7 lifetime before body scheduling is revisited."
+      },
+      "evidence": [
+        {
+          "id": "r42_bounds",
+          "kind": "bounded_negative",
+          "summary": "Two aggregate copies and a four-byte unaligned aggregate reach distance 40 with zero pins, but frame and second-loop address lifetimes remain wrong.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_snapshot140_20260917.md"
+          },
+          "bounds": {
+            "tested": "Six bounded source/recipe/control configurations, including old-cell aggregate, CDK symbolic aggregate, Copy4, retained-pin controls and one diagnostic page keep.",
+            "untested": "Trace high-page sharing for the snapshot buffer and recover the surrounding global layout and index-array views."
+          }
+        },
+        {
+          "id": "snapshot_semantics",
+          "kind": "observation",
+          "summary": "Sibling snapshot and clear paths support ordinary nonvolatile RAM. Second transfer is disjoint; recognized writers support disjoint or exact-self first copies. Full record extends past the 140-byte prefix; common type and indirect-writer contract remain open.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_snapshot140_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Trace high-page sharing for the snapshot buffer and recover the surrounding global layout and index-array views.",
+        "measurement": "Compare page/low-address RTL lifetimes and frame allocation first, then strict 181-word bytes.",
+        "success_criterion": "A genuine object/address model restores the frame and full exact bytes while reducing pins.",
+        "failure_criterion": "The supported model still lacks the page lifetime; document the responsible compiler decision without substituting a new pin.",
+        "bounds": "One address-lifetime trace and layout audit before further body probes."
       },
       "verification": {
         "exact_bytes": {
