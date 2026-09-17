@@ -136,6 +136,18 @@ timeout yields one exact but still-three-pin motion return repair; it is not
 landed. See [PIN_RESEARCH_ROUND49.md](PIN_RESEARCH_ROUND49.md).
 
 
+Round 50 gated result: **6,028 pins in 1,271 rows (-4; -75 cumulative)**.
+Natural symbols and real local returns remove three points-routine pins through
+a reviewed whole-C/CDK transition. Luna's six-probe counter/dispatch reconstruction
+becomes pin-free when the inherited helper call is corrected to its actual
+one-pointer contract; unchanged stock recipe, all 186 words exact. Both covering
+windows, SLUS, host syntax, independent reviews and row database pass. Five tests
+cover the local compiler-fingerprint correction. The two remaining points pins
+have a measured global-allocation explanation and bounded record-traversal route;
+no direct erasure cascade gain or impossibility claim. See
+[PIN_RESEARCH_ROUND50.md](PIN_RESEARCH_ROUND50.md).
+
+
 ## Previous objective: 500 new removals or a measured plateau
 
 Objective completed at the measured plateau: continue small, hypothesis-driven waves; prove a source fix,

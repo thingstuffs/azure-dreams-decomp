@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6039,
-    "pinned_rows": 1273,
-    "basis": "Round 47 live census: 6,039 pins in 1,273 rows. Two local-return reconstructions, strict row proofs, full covering window and SLUS MATCH; row database OK."
+    "pins": 6028,
+    "pinned_rows": 1271,
+    "basis": "Round 50 live census: four removals, both strict rows and covering windows exact; host syntax, SLUS and row database pass."
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -2369,6 +2369,186 @@
           "state": "pass",
           "evidence_refs": [
             "r49_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_819A764C",
+      "title": "Natural symbols and local returns remove three points-routine pins",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "5 to 2 pins. Two input pins remain; allocation trace and four-hypothesis record-traversal route are retained in the receipt."
+      },
+      "source": {
+        "path": "src/dungeon/func_819A764C.c",
+        "sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_819A764C, file 0x19C764C, 520 bytes",
+          "confidence": "high",
+          "basis": "Proven runtime base, full retail decode and linked-strict plus all covering-window proof."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk -fno-strength-reduce",
+          "confidence": "medium",
+          "basis": "Whole-function exact endpoints with scope-controlled compiler evidence; historical compiler release not established."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_819A764C.c",
+        "sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927",
+        "base_source_sha256": "060076f5de8fb24367104c6ad2bbf3dcf8f111d70c06a35267d3aa91dc15bbf8",
+        "recipe": "2.7.2-cdk -fno-strength-reduce"
+      },
+      "causal": {
+        "question": "Do false epilogue calls and manual page construction hide ordinary symbol lowering?",
+        "prediction": "Actual global symbols and local returns at stock CDK remove three pins with exact complete bytes."
+      },
+      "evidence": [
+        {
+          "id": "r50_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete strict and covering windows exact; host syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round50_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Natural symbols and local returns remove three points-routine pins",
+            "recipe": "2.7.2-cdk -fno-strength-reduce",
+            "result": "3 pins removed",
+            "remaining_question": "Two input pins remain; allocation trace and four-hypothesis record-traversal route are retained in the receipt."
+          }
+        },
+        {
+          "id": "r50_review",
+          "kind": "observation",
+          "summary": "Independent complete source, retail, helper/caller contract and no-new-constraint review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_points_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_818B78E8",
+      "title": "Real helper contract closes the zero-pin counter/dispatch reconstruction",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "1 to 0 pins. No pins remain in this function."
+      },
+      "source": {
+        "path": "src/dungeon/func_818B78E8.c",
+        "sha256": "8e33f4d2fc40fb4c7f631a20b7df54d167f86e38a8568e35c0237995c481c219"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_818B78E8, file 0x18D78E8, 744 bytes",
+          "confidence": "high",
+          "basis": "Proven runtime base, full retail decode and linked-strict plus all covering-window proof."
+        },
+        "recipe": {
+          "value": "2.8.1-G0",
+          "confidence": "medium",
+          "basis": "Whole-function exact endpoints with scope-controlled compiler evidence; historical compiler release not established."
+        }
+      },
+      "candidate": {
+        "path": "src/dungeon/func_818B78E8.c",
+        "sha256": "8e33f4d2fc40fb4c7f631a20b7df54d167f86e38a8568e35c0237995c481c219",
+        "base_source_sha256": "471ab36b2a584827ddd44e61ef719c1b7226919943ce53e52d58ac132c943e07",
+        "recipe": "2.8.1-G0"
+      },
+      "causal": {
+        "question": "Does the inherited three-expression helper call constrain the counter schedule?",
+        "prediction": "The real one-pointer helper contract closes the two-indel whole-C candidate at the recorded recipe."
+      },
+      "evidence": [
+        {
+          "id": "r50_proof",
+          "kind": "positive_candidate",
+          "summary": "Complete strict and covering windows exact; host syntax, SLUS and row database pass.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round50_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Real helper contract closes the zero-pin counter/dispatch reconstruction",
+            "recipe": "2.8.1-G0",
+            "result": "1 pins removed",
+            "remaining_question": "No pins remain in this function."
+          }
+        },
+        {
+          "id": "r50_review",
+          "kind": "observation",
+          "summary": "Independent complete source, retail, helper/caller contract and no-new-constraint review.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_epilogue_review_20260917.md"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "r50_proof"
           ],
           "kind": "overlay_window"
         }

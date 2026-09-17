@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,032 pins in 1,272 rows,
-71 gated removals from the new 6,103-pin baseline.** The owner superseded the old
+**Active zero-pin research objective (2026-09-17): 6,028 pins in 1,271 rows,
+75 gated removals from the new 6,103-pin baseline.** The owner superseded the old
 plateau stopping rule: adapt until zero, or demonstrate an unavoidable minimum.
 Failed searches and unexplained compiler behavior do not prove impossibility.
 Read [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and
@@ -109,12 +109,38 @@ covering windows, SLUS, host syntax and independent review pass. Three pins
 remain in each twin; the first store-order repair and six isolated erasures fail.
 
 The refreshed local-jump route list now has 29 rows / 56 targets: 16 epilogues
-and 40 internal targets. Seven rows are epilogue-only. Start the next bounded
-whole-function batch with `819A764C` and `818B78E8`, combining return repair with
-actual global relationships. Gemini's five-minute motion trial timed out despite
+and 40 internal targets. Seven rows were epilogue-only before round 50. The next bounded
+whole-function batch selected `819A764C` and `818B78E8`, combining return repair
+with actual global relationships. Gemini's five-minute motion trial timed out despite
 exit code zero; its one saved `8182D698` return repair is independently exact,
 but all three pins remain and their erasures fail. It is unlanded and preserved
 in the round 49 receipt. Do not repeat those probes or count a CLI exit as completion.
+
+[Round 50](PIN_RESEARCH_ROUND50.md) removes four more pins. `819A764C` loses
+three through local returns and natural message/global symbols at a reviewed
+stock-CDK reconstruction; two input pins remain. Its global allocation trace
+explains the self/index/cursor role cycle. Next, investigate genuine traversal
+of its five eight-byte point records, bounded to four source hypotheses, using
+that trace instead of altering reference counts artificially.
+
+Luna's six-probe `818B78E8` reconstruction reached zero pins with one instruction
+reordered. Root verified that its real helper takes one pointer, not three;
+correcting the call closes all 186 words at unchanged 2.8.1-G0. It is now pin-free.
+Both complete rows, both covering windows, host syntax, SLUS and row database
+pass; independent reviews and every source/negative are in the round-50 receipt.
+
+Use repository-local `tools/lineage_fingerprint.py` with explicit `--overlay` and
+measured body bounds. A plain-2.7.2 ordinary pointer probe disproves the inherited
+claim that any local delay-slot store requires CDK. The corrected heuristic keeps
+these stores visible without making them a family verdict. Five tests pass.
+The archived Gemini `8195AB84` follow-up still misses 19 substitutions at CDK;
+its two-register address split remains a clue, not an exact release attribution.
+
+Continue bounded whole-function Luna/Gemini packs with verified helper contracts.
+`agy` and `~/agy_lane/` are available; the wave did not need another Gemini run.
+Do not repeat the archived motion erasures or six Luna probes. This wave's simple
+erasure cascade adds zero; remaining pin sites are not a census of distinct
+patterns. Root handles shared facts and final proof; workers propose ordinary C.
 
 Keep mechanical repetition in the existing aggregate generator/probe and
 erasure/verification tools. Generalize a new rewrite only with actual semantic

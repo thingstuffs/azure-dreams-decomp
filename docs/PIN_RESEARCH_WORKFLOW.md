@@ -58,6 +58,22 @@ a time. Compiler walls remain owner-level conclusions. This ledger adds durable
 identity and state gates so that later family work can reuse a causal result
 without inheriting an untested story.
 
+## Compiler fingerprint scope
+
+Use the repository-local `tools/lineage_fingerprint.py` with an explicit
+`--overlay`. Run it with an available Capstone-enabled Python environment;
+the reference checkout's virtualenv provides one. For a data-prefixed row,
+provide its measured `--body-offset` and `--body-size`. Never treat bank data
+as compiler instructions.
+
+A store in a call/jump delay slot is scheduling evidence, not by itself compiler
+family evidence: ordinary object-local stores can occupy such slots under plain
+2.7.2. Round 50 preserves a pin-free compiler probe proving this. Check the
+actual access form and address provenance before inferring macro versus split
+symbol emission. The tool's remaining signatures are heuristics requiring
+instruction-level review; no score or family hint proves an exact historical
+release. Do not ignore contradictory evidence merely because pinned C matches.
+
 ## Status meanings
 
 | Status | Required evidence |
@@ -197,3 +213,26 @@ Use a fresh output lane. Generated candidate files go beneath its ignored
 hash checks, exact verification and affected publication gates. Mechanize the
 recognized repetition; spend reconstruction effort on refused or nonexact
 cases only when a concrete new source or compiler fact motivates the next probe.
+
+## Bounded whole-function workers
+
+Gemini is available through the local `agy` CLI; the existing launcher and
+harvester live in `~/agy_lane/`. Use a fresh, frozen function pack rather than
+reusing an old live-source batch. The round-48 and round-49 receipts record
+actual Gemini results and timeout behavior. A zero CLI exit after a print timeout
+is not proof that the worker completed its experiment.
+
+Give Luna or Gemini one complete function, its full retail map, baseline source
+hash, proven runtime identity, recorded recipe, actual helper signatures and
+object relationships. Ask for an explanation of the operation and at most six
+source hypotheses. Save every candidate and full score immediately, then return
+the best candidate and a concrete unresolved compiler question. Workers must not
+edit production source, recipes, shared exports or gates. Enforce the time bound
+in the launcher and preserve partial artifacts if it fires.
+
+Root review checks callee contracts and residual ownership before adding probes.
+Round 50 illustrates the division: Luna reached a zero-pin source with two
+reorder indels; the real one-argument helper signature closed the remaining
+schedule difference in one source change. Root then performed independent
+review and publication gates. This is evidence that bounded delegation can
+contribute useful C reconstruction, not a measured success rate for all pins.
