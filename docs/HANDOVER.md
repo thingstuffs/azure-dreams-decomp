@@ -1,7 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Active zero-pin research objective (2026-09-17): 6,100 pins in 1,282 rows,
-three gated removals from the new 6,103-pin baseline.** The owner superseded the old plateau stopping rule: adapt the
+**Active zero-pin research objective (2026-09-17): 6,098 pins in 1,282 rows,
+five gated removals from the new 6,103-pin baseline.** The owner superseded the old plateau stopping rule: adapt the
 approach until zero, or demonstrate an unavoidable minimum. No failed search or
 unexplained compiler behavior is an impossibility proof. Read the current
 objective in [PIN_GOAL_PROGRESS.md](PIN_GOAL_PROGRESS.md) and the research
@@ -22,8 +22,13 @@ record assignment replaces the manual copy/barrier, embedded format strings
 recover the variadic logger interface, and the established old-ASPSX convention
 replaces the missed unsigned zero-register carrier. All 56 words and the full
 window match. Read [PIN_RESEARCH_ROUND40.md](PIN_RESEARCH_ROUND40.md); the
-shared global-layout portability debt remains explicit. Independent copy-family
-probes are the next phase, not a claimed general success.
+shared global-layout portability debt remains explicit. The independent 84-byte `800A23CC` transfer removes two more pins at its
+unchanged CDK recipe; the full town_scene window matches. The 68/88-byte controls
+expose different allocation. The strongest next lead is `8080E838`: the same
+aggregate at stock 2.7.2-G0 recovers the retail register partition and misses
+only two words, but its pinned-source recipe-switch control fails. Investigate
+source lifetimes and provenance together; do not infer historical release from
+score. The 24-byte Pair transfer remains untested.
 
 **500-pin continuation closed at a measured plateau (2026-09-16): 6,103 pins
 in 1,284 rows. Net -35 from `500808e2`; the 500-pin threshold was not reached.**

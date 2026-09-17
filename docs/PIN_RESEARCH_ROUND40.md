@@ -1,5 +1,8 @@
 # Round 40: recover the record copy and its diagnostic interface
 
+Final gated count: **6,098 pins in 1,282 rows**. Round 40 removes four pins;
+rounds 39–40 together remove five from the 6,103-pin research baseline.
+
 This investigation follows the owner's rubber-duck suggestion. The target is
 `town/func_80878974`, a 224-byte function with two pins. The old C manually
 copies three 16-byte blocks and one final word, keeps the destination alive with
@@ -44,8 +47,8 @@ historical assembler release. No function-specific assembler patch is added.
 
 `tools/orzero_aspsx.py` now handles signed and unsigned 32-bit carriers,
 preserves port/dead arms during scored-only rewriting, and checks all uses
-before deleting conditional declarations. Twelve focused tests include unsafe
-non-OR uses and mismatched fallback types. A registry-selected inventory found
+before deleting conditional declarations. Thirteen focused tests include unsafe
+non-OR uses, self-referential statement expressions, and mismatched fallback types. A registry-selected inventory found
 only this remaining unsigned OR-zero candidate; that narrow fix alone is not
 a new large removal population.
 
@@ -78,3 +81,33 @@ copy extent and real object/callback contracts before any rewrite. Keep the
 430-word allocator case and GCC delay-slot case open with their newly narrowed
 questions; neither failed source probes nor this individual success establish
 a general solution or an unavoidable minimum.
+
+## First independent transfer
+
+`town/func_800A23CC` (true symbol `func_8009FB2C`) independently matches all
+113 words at its existing 2.7.2-cdk-G0 recipe after replacing a manual 84-byte
+copy with its already declared `Record84` assignment. This removes both the
+copy memory barrier and the source-buffer register binding. Its two entry-store
+pins remain; erasing the keep changes the instruction count and scores 9.
+The source and destination records are disjoint, the 0x54-byte stride confirms
+the extent, and the later ten-byte overwrite keeps its original order.
+
+The small transfer cohort now has one independent exact positive and three
+informative negatives: 68- and 88-byte assignments reproduce aggregate copy
+structure but change pointer/scratch allocation. This supports a guided family
+repair, with independent exact checking for every member, rather than a blind
+text rewrite. Read the [transfer evidence](evidence/pin_research_copy_transfer_20260917.md).
+The existing 24-byte Pair case is next; allocation traces for the three negatives
+should explain their register partition before more source probes.
+
+The complete transfer window also passes: `town_scene`, 335,872 bytes. The
+four new round-40 removals are fully gated; row database and SLUS checks pass.
+All 65 relevant tests pass (42 allocator, 10 research workflow, 13 OR-zero).
+
+A subsequent four-control lineage test moves the unchanged `8080E838`
+aggregate from 18 differing copy-register words at 2.95.2 to only two total
+word differences at 2.7.2-G0. Both 2.7-era variants recover the retail register
+partition. The old pinned source misses at those recipes, so neither historical
+attribution nor a recipe-switch approval follows automatically. This interaction
+is the highest-value next reconstruction lead, ahead of further equivalent
+aggregate spellings. See the transfer evidence for exact differences and bounds.

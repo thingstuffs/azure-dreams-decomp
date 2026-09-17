@@ -25,6 +25,13 @@ class OrZeroTypeTests(unittest.TestCase):
         source = 'sink(({ register u32 z ASM_REG("$0"); ASM_KEEP(z); z | (47); }));\n'
         self.assertEqual(orzero.rewrite(source), 'sink(47);\n')
 
+    def test_self_referential_statement_expression_is_preserved(self):
+        for typ in ("s32", "u32"):
+            with self.subTest(typ=typ):
+                source = f'sink(({{ register {typ} z ASM_REG("$0"); z | (z); }}));\n'
+                self.assertEqual(orzero.rewrite(source), source)
+                self.assertEqual(orzero.rewrite(source, scored_only=True), source)
+
     def test_signed_declaration_remains_supported(self):
         source = '''register s32 zero ASM_REG("$0");
 value = zero | 47;
