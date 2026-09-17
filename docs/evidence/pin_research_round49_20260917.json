@@ -1,0 +1,2456 @@
+{
+  "schema": "azure-clean.pin-research-round49.v1",
+  "baseline": {
+    "commit": "2f7d8ff0",
+    "pins": 6038,
+    "pinned_rows": 1272
+  },
+  "result": {
+    "pins_removed": 6,
+    "pins": 6032,
+    "pinned_rows": 1272,
+    "cumulative_from_6103": 71
+  },
+  "sources": [
+    {
+      "id": "dungeon/func_80E9D000",
+      "recipe": "2.8.0",
+      "old_pins": 6,
+      "new_pins": 3,
+      "old": {
+        "path": "work/native_lane/r49_twins/func_80E9D000_base.c",
+        "sha256": "96de91ec8bc7e4323d66c71f33681f6abfd69f3f34dd722395ba52236031a000",
+        "text": "#include \"common.h\"\n#include \"m2c_compat.h\"\n\nextern void func_80098B38(void *, void *);\nextern void *func_800A04F0(void *, u8, u8, s16);\nextern s32 func_800A6D30(void);\nextern s16 func_800A70E4(s16, s16, s16);\nextern s32 func_800C8310(void *, void *);\nextern void func_8015EADC() __attribute__((noreturn));\n\nextern s32 D_80010248[];\nextern s32 D_8001029C[];\nextern u8 D_8006CCD8[];\nextern u8 D_8006CCE8[];\nextern s32 D_800E3548[];\nextern s32 D_800E3D7C[];\nextern s32 D_80162FE4[];\n\n#ifdef __mips__\nstatic const u32 identity_bank[] __asm__(\"func_80E9D000\")\n    __attribute__((section(\".text.func_80E9D000\"), aligned(4))) = {\n    0x8015EAF4, 0x8015ECC8, 0x8015F504, 0x8015F504,\n    0x8015F504, 0x8015F530, 0x8015F4B0, 0x8015F4B0,\n    0x8015F4B0, 0x8015F430, 0x8015F484, 0x8015F468,\n    0x8015F530, 0x8015F4F4, 0x80160D30, 0x80160FF4,\n    0x80161074, 0x801610B8, 0x8016111C, 0x801611E8,\n    0x80161294, 0x801613F0, 0x801613F0, 0x801613F0,\n    0x801613F0, 0x801613F0, 0x801613F0, 0x801613F0,\n    0x801613F0, 0x801613F0, 0x80161304, 0x00000000,\n    0x80160DEC, 0x80160DE4, 0x80160DDC, 0x80160DF4,\n    0x80160D98, 0x80160D90, 0x80160D88, 0x93824081,\n    0x8F829482, 0x85828C82, 0x00000000, 0x94828982,\n    0x8D828582, 0x00004081, 0x00004981, 0x83824081,\n    0x95828F82, 0x84828C82, 0x66818E82, 0x40819482,\n    0x94829382, 0x81828582, 0x40818C82, 0x88829482,\n    0x40818582, 0x94828982, 0x8D828582, 0x00004481,\n    0x801624B8, 0x80162558, 0x801625E8, 0x80162674,\n    0x801626E4, 0x801627C4,\n};\n__asm__(\".type func_80E9D000,@function\\n.size func_80E9D000,756\\n\");\n#define BODY_NAME composite_body\n#define BODY_STORAGE static\n#define BODY_ATTR __attribute__((used, section(\".text.func_80E9D000\")))\n#else\n#define BODY_NAME func_80E9D000\n#define BODY_STORAGE\n#define BODY_ATTR\n#endif\n\nBODY_STORAGE s32 BODY_NAME(void *, void *) BODY_ATTR;\n/* Moves an eligible item from a nearby slot or target into the shared item slot. */\nBODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {\n    u8 *origin_bytes = (u8 *)origin;\n    u8 *actor_bytes = (u8 *)actor;\n    s32 direction_offset;\n    s16 tile_slot;\n    void *target;\n    s32 item_offset;\n    u8 *item_base;\n    u8 *item_ptr;\n\n    direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;\n    tile_slot = func_800A70E4(\n        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(D_8006CCD8 + direction_offset)),\n        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(D_8006CCE8 + direction_offset)),\n        *(s16 *)(actor_bytes + 0x88));\n    if (tile_slot >= 0) {\n#ifdef __mips__\n        s32 *shared_base;\n        s32 *shared_slot;\n#else\n        s32 *shared_base;\n        s32 *shared_slot;\n#endif\n        s32 item_data;\n\n        shared_base = (s32 *)0x80160000;\n        ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n        item_data = D_800E3548[tile_slot];\n        shared_slot = shared_base + 3065;\n        shared_base[3065] = item_data;\n        D_800E3548[tile_slot] = 0;\n        return (s32)shared_slot;\n    }\n\n    target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),\n                          *(s16 *)(actor_bytes + 0x2A));\n    if (target == NULL) {\n        goto return_zero;\n    }\n    if (target == (void *)D_800E3D7C[0]) {\n        if (func_800C8310(target, target) != 0) {\n            return 0;\n        }\n        {\n#ifdef __mips__\n            register s32 slot_index ASM_REG(\"$5\");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            s16 item_count;\n            register s32 *slot_scan ASM_REG(\"$4\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n#else\n            s32 slot_index;\n            s16 item_count;\n            s32 *slot_scan;\n#endif\n            slot_index = 0;\n            item_count = slot_index;\n            slot_scan = (s32 *)0x80010000;\n            do {\n                if (slot_scan[167] != 0) {\n                    item_count++;\n                }\n                slot_scan++;\n            } while (++slot_index < 20);\n            if (item_count == 0) {\n                return 0;\n            }\n            item_offset =\n                (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);\n            item_base = (u8 *)(item_offset + 0x80010000);\n            if (*(u8 *)(item_base + 0x249) == 0) {\n                goto return_zero;\n            }\n            if (*(u8 *)(item_base + 0x249) == 0x13) {\n                return 0;\n            }\n            if (*(u8 *)(item_base + 0x24B) & 0x20) {\n                goto entry_zero;\n            }\n            {\n                s32 item_data;\n                s32 *shared_base;\n\n                item_ptr = (u8 *)(item_offset + 0x80010248);\n                item_data = *(s32 *)item_ptr;\n                shared_base = (s32 *)0x80160000;\n                shared_base[3065] = item_data;\n                ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n                shared_base += 3065;\n                func_80098B38(item_ptr, item_base);\n                return (s32)shared_base;\n            }\n        }\n    }\n    if (*(u8 *)((u8 *)target + 0x49) == 0) {\n        return 0;\n    }\n    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {\n        return 0;\n    }\n    {\n#ifdef __mips__\n        s32 *shared_base;\n        s32 *shared_slot;\n#else\n        s32 *shared_base;\n        s32 *shared_slot;\n#endif\n        s32 item_data;\n\n        shared_base = (s32 *)0x80160000;\n        ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n        item_data = *(s32 *)((u8 *)target + 0x48);\n        shared_slot = shared_base + 3065;\n        shared_base[3065] = item_data;\n        ASM_KEEP(shared_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        *(s32 *)((u8 *)target + 0x48) = 0;\n        func_8015EADC(item_data, target);\n        __builtin_unreachable();\n    }\nentry_zero:\nreturn_zero:\n    return 0;\n}\n"
+      },
+      "new": {
+        "path": "src/dungeon/func_80E9D000.c",
+        "sha256": "acb7370849fd75e76a014744431c9bebac577c814fe5ae438fff93466759afc5",
+        "text": "#include \"common.h\"\n#include \"m2c_compat.h\"\n\nextern void func_80098B38(void *, void *);\nextern void *func_800A04F0(void *, u8, u8, s16);\nextern s32 func_800A6D30(void);\nextern s16 func_800A70E4(s16, s16, s16);\nextern s32 func_800C8310(void *, void *);\n\nextern s32 D_80010248[];\nextern s32 D_8001029C[];\nextern u8 D_8006CCD8[];\nextern u8 D_8006CCE8[];\nextern s32 D_800E3548[];\nextern s32 D_800E3D7C[];\nextern s32 D_80162FE4[];\n\n#ifdef __mips__\nstatic const u32 identity_bank[] __asm__(\"func_80E9D000\")\n    __attribute__((section(\".text.func_80E9D000\"), aligned(4))) = {\n    0x8015EAF4, 0x8015ECC8, 0x8015F504, 0x8015F504,\n    0x8015F504, 0x8015F530, 0x8015F4B0, 0x8015F4B0,\n    0x8015F4B0, 0x8015F430, 0x8015F484, 0x8015F468,\n    0x8015F530, 0x8015F4F4, 0x80160D30, 0x80160FF4,\n    0x80161074, 0x801610B8, 0x8016111C, 0x801611E8,\n    0x80161294, 0x801613F0, 0x801613F0, 0x801613F0,\n    0x801613F0, 0x801613F0, 0x801613F0, 0x801613F0,\n    0x801613F0, 0x801613F0, 0x80161304, 0x00000000,\n    0x80160DEC, 0x80160DE4, 0x80160DDC, 0x80160DF4,\n    0x80160D98, 0x80160D90, 0x80160D88, 0x93824081,\n    0x8F829482, 0x85828C82, 0x00000000, 0x94828982,\n    0x8D828582, 0x00004081, 0x00004981, 0x83824081,\n    0x95828F82, 0x84828C82, 0x66818E82, 0x40819482,\n    0x94829382, 0x81828582, 0x40818C82, 0x88829482,\n    0x40818582, 0x94828982, 0x8D828582, 0x00004481,\n    0x801624B8, 0x80162558, 0x801625E8, 0x80162674,\n    0x801626E4, 0x801627C4,\n};\n__asm__(\".type func_80E9D000,@function\\n.size func_80E9D000,756\\n\");\n#define BODY_NAME composite_body\n#define BODY_STORAGE static\n#define BODY_ATTR __attribute__((used, section(\".text.func_80E9D000\")))\n#else\n#define BODY_NAME func_80E9D000\n#define BODY_STORAGE\n#define BODY_ATTR\n#endif\n\nBODY_STORAGE s32 BODY_NAME(void *, void *) BODY_ATTR;\n/* Moves an eligible item from a nearby slot or target into the shared item slot. */\nBODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {\n    u8 *origin_bytes = (u8 *)origin;\n    u8 *actor_bytes = (u8 *)actor;\n    s32 direction_offset;\n    s16 tile_slot;\n    void *target;\n    s32 item_offset;\n    u8 *item_base;\n    u8 *item_ptr;\n\n    direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;\n    tile_slot = func_800A70E4(\n        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(D_8006CCD8 + direction_offset)),\n        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(D_8006CCE8 + direction_offset)),\n        *(s16 *)(actor_bytes + 0x88));\n    if (tile_slot >= 0) {\n#ifdef __mips__\n        s32 *shared_base;\n        s32 *shared_slot;\n#else\n        s32 *shared_base;\n        s32 *shared_slot;\n#endif\n        s32 item_data;\n\n        shared_base = (s32 *)0x80160000;\n        ASM_KEEP(shared_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n        item_data = D_800E3548[tile_slot];\n        shared_slot = shared_base + 3065;\n        shared_base[3065] = item_data;\n        D_800E3548[tile_slot] = 0;\n        return (s32)shared_slot;\n    }\n\n    target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),\n                          *(s16 *)(actor_bytes + 0x2A));\n    if (target == NULL) {\n        goto return_zero;\n    }\n    if (target == (void *)D_800E3D7C[0]) {\n        if (func_800C8310(target, target) != 0) {\n            return 0;\n        }\n        {\n#ifdef __mips__\n            register s32 slot_index ASM_REG(\"$5\");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            s16 item_count;\n            register s32 *slot_scan ASM_REG(\"$4\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n#else\n            s32 slot_index;\n            s16 item_count;\n            s32 *slot_scan;\n#endif\n            slot_index = 0;\n            item_count = slot_index;\n            slot_scan = (s32 *)0x80010000;\n            do {\n                if (slot_scan[167] != 0) {\n                    item_count++;\n                }\n                slot_scan++;\n            } while (++slot_index < 20);\n            if (item_count == 0) {\n                return 0;\n            }\n            item_offset =\n                (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);\n            item_base = (u8 *)(item_offset + 0x80010000);\n            if (*(u8 *)(item_base + 0x249) == 0) {\n                goto return_zero;\n            }\n            if (*(u8 *)(item_base + 0x249) == 0x13) {\n                return 0;\n            }\n            if (*(u8 *)(item_base + 0x24B) & 0x20) {\n                goto entry_zero;\n            }\n            {\n                s32 item_data;\n                s32 *shared_base;\n\n                item_ptr = (u8 *)(item_offset + 0x80010248);\n                item_data = *(s32 *)item_ptr;\n                shared_base = D_80162FE4;\n                shared_base[0] = item_data;\n\n\n                func_80098B38(item_ptr, item_base);\n                return (s32)shared_base;\n            }\n        }\n    }\n    if (*(u8 *)((u8 *)target + 0x49) == 0) {\n        return 0;\n    }\n    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {\n        return 0;\n    }\n    {\n#ifdef __mips__\n        s32 *shared_base;\n        s32 *shared_slot;\n#else\n        s32 *shared_base;\n        s32 *shared_slot;\n#endif\n        s32 item_data;\n\n        shared_base = D_80162FE4;\n\n        item_data = *(s32 *)((u8 *)target + 0x48);\n        shared_slot = shared_base;\n        shared_base[0] = item_data;\n\n        *(s32 *)((u8 *)target + 0x48) = 0;\n        return (s32)shared_slot;\n    }\nentry_zero:\nreturn_zero:\n    return 0;\n}\n"
+      },
+      "host_syntax": {
+        "exit": 0,
+        "stderr": "<repo>/src/dungeon/func_80E9D000.c: In function \u2018func_80E9D000\u2019:\n<repo>/src/dungeon/func_80E9D000.c:82:16: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\n   82 |         return (s32)shared_slot;\n      |                ^\n<repo>/src/dungeon/func_80E9D000.c:90:19: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]\n   90 |     if (target == (void *)D_800E3D7C[0]) {\n      |                   ^\n<repo>/src/dungeon/func_80E9D000.c:118:25: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]\n  118 |             item_base = (u8 *)(item_offset + 0x80010000);\n      |                         ^\n<repo>/src/dungeon/func_80E9D000.c:132:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]\n  132 |                 item_ptr = (u8 *)(item_offset + 0x80010248);\n      |                            ^\n<repo>/src/dungeon/func_80E9D000.c:139:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\n  139 |                 return (s32)shared_base;\n      |                        ^\n<repo>/src/dungeon/func_80E9D000.c:166:16: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\n  166 |         return (s32)shared_slot;\n      |                ^\n"
+      }
+    },
+    {
+      "id": "dungeon/func_80EA3000",
+      "recipe": "2.8.0",
+      "old_pins": 6,
+      "new_pins": 3,
+      "old": {
+        "path": "work/native_lane/r49_twins/func_80EA3000_base.c",
+        "sha256": "9b1571480959039bfbd277a4e28cb9c69db466e4dadd828943249dee9e71feb3",
+        "text": "#include \"common.h\"\n#include \"m2c_compat.h\"\n\n#define M2C_BREAK() ((void)0)\n#define M2C_SYNC() ((void)0)\n\nextern void func_80098B38(void *, void *);\nextern void *func_800A04F0(void *, u8, u8, s16);\nextern s32 func_800A6D30(void);\nextern s16 func_800A70E4(s16, s16, s16);\nextern s32 func_800C8310(void *, void *);\nextern void func_80158ADC() __attribute__((noreturn));\nextern s32 D_80010248[];\nextern s32 D_8001029C[];\nextern u8 D_8006CCD8[];\nextern u8 D_8006CCE8[];\nextern s32 D_800E3548[];\nextern s32 D_800E3D7C[];\nextern s32 D_8015CFE4[];\n\n#ifdef __mips__\nstatic const u32 identity_bank[] __asm__(\"func_80EA3000\")\n    __attribute__((section(\".text.func_80EA3000\"), aligned(4))) = {\n    0x80158AF4, 0x80158CC8, 0x80159504, 0x80159504,\n    0x80159504, 0x80159530, 0x801594B0, 0x801594B0,\n    0x801594B0, 0x80159430, 0x80159484, 0x80159468,\n    0x80159530, 0x801594F4, 0x8015AD30, 0x8015AFF4,\n    0x8015B074, 0x8015B0B8, 0x8015B11C, 0x8015B1E8,\n    0x8015B294, 0x8015B3F0, 0x8015B3F0, 0x8015B3F0,\n    0x8015B3F0, 0x8015B3F0, 0x8015B3F0, 0x8015B3F0,\n    0x8015B3F0, 0x8015B3F0, 0x8015B304, 0x00000000,\n    0x8015ADEC, 0x8015ADE4, 0x8015ADDC, 0x8015ADF4,\n    0x8015AD98, 0x8015AD90, 0x8015AD88, 0x93824081,\n    0x8F829482, 0x85828C82, 0x00000000, 0x94828982,\n    0x8D828582, 0x00004081, 0x00004981, 0x83824081,\n    0x95828F82, 0x84828C82, 0x66818E82, 0x40819482,\n    0x94829382, 0x81828582, 0x40818C82, 0x88829482,\n    0x40818582, 0x94828982, 0x8D828582, 0x00004481,\n    0x8015C4B8, 0x8015C558, 0x8015C5E8, 0x8015C674,\n    0x8015C6E4, 0x8015C7C4,\n};\n__asm__(\".type func_80EA3000,@function\\n.size func_80EA3000,756\\n\");\n#define BODY_NAME composite_body\n#define BODY_STORAGE static\n#define BODY_ATTR __attribute__((used, section(\".text.func_80EA3000\")))\n#else\n#define BODY_NAME func_80EA3000\n#define BODY_STORAGE\n#define BODY_ATTR\n#endif\n\nBODY_STORAGE s32 BODY_NAME(void *, void *) BODY_ATTR;\n/* Removes a nearby or carried item and passes it to the item handler. */\nBODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {\n    u8 *origin_bytes = (u8 *)origin;\n    u8 *actor_bytes = (u8 *)actor;\n    s32 direction_offset;\n    s16 ground_slot;\n    void *target;\n    s32 item_offset;\n    u8 *inventory_base;\n    u8 *item_ptr;\n\n    direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;\n    ground_slot = func_800A70E4(\n        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(D_8006CCD8 + direction_offset)),\n        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(D_8006CCE8 + direction_offset)),\n        *(s16 *)(actor_bytes + 0x88));\n    if (ground_slot >= 0) {\n#ifdef __mips__\n        s32 *item_dest;\n        s32 *item_slot;\n#else\n        s32 *item_dest;\n        s32 *item_slot;\n#endif\n        s32 item_data;\n\n        item_dest = (s32 *)0x80160000;\n        ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n        item_data = D_800E3548[ground_slot];\n        item_slot = item_dest - 3079;\n        item_dest[-3079] = item_data;\n        D_800E3548[ground_slot] = 0;\n        return (s32)item_slot;\n    }\n\n    target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),\n                          *(s16 *)(actor_bytes + 0x2A));\n    if (target == NULL) {\n        goto return_zero;\n    }\n    if (target == (void *)D_800E3D7C[0]) {\n        if (func_800C8310(target, target) != 0) {\n            return 0;\n        }\n        {\n#ifdef __mips__\n            register s32 slot_index ASM_REG(\"$5\");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            s16 occupied_count;\n            register s32 *inventory_scan ASM_REG(\"$4\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n#else\n            s32 slot_index;\n            s16 occupied_count;\n            s32 *inventory_scan;\n#endif\n            slot_index = 0;\n            occupied_count = slot_index;\n            inventory_scan = (s32 *)0x80010000;\n            do {\n                if (inventory_scan[167] != 0) {\n                    occupied_count++;\n                }\n                inventory_scan++;\n            } while (++slot_index < 20);\n            if (occupied_count == 0) {\n                return 0;\n            }\n            item_offset = (s32)((((func_800A6D30() & 0xFFFF) % occupied_count) << 16) >> 14);\n            inventory_base = (u8 *)(item_offset + 0x80010000);\n            if (*(u8 *)(inventory_base + 0x249) == 0) {\n                goto return_zero;\n            }\n            if (*(u8 *)(inventory_base + 0x249) == 0x13) {\n                return 0;\n            }\n            if (*(u8 *)(inventory_base + 0x24B) & 0x20) {\n                goto entry_zero;\n            }\n            {\n                s32 item_data;\n                s32 *item_dest;\n#ifdef __mips__\n                s16 item_slot_addr;\n#else\n                s32 item_slot_addr;\n#endif\n                item_ptr = (u8 *)(item_offset + 0x80010248);\n                item_data = *(s32 *)item_ptr;\n                item_dest = (s32 *)0x80160000;\n                item_dest[-3079] = item_data;\n                ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n                item_dest -= 3079;\n                func_80098B38(item_ptr, inventory_base);\n                return (s32)item_dest;\n            }\n        }\n    }\n    if (*(u8 *)((u8 *)target + 0x49) == 0) {\n        return 0;\n    }\n    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {\n        return 0;\n    }\n    {\n#ifdef __mips__\n        s32 *item_dest;\n        s32 *item_slot;\n#else\n        s32 *item_dest;\n        s32 *item_slot;\n#endif\n        s32 item_data;\n\n        item_dest = (s32 *)0x80160000;\n        ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n        item_data = *(s32 *)((u8 *)target + 0x48);\n        item_slot = item_dest - 3079;\n        item_dest[-3079] = item_data;\n        ASM_KEEP(item_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n        *(s32 *)((u8 *)target + 0x48) = 0;\n        func_80158ADC(item_data, target);\n        __builtin_unreachable();\n    }\nentry_zero:\nreturn_zero:\n    return 0;\n}\n"
+      },
+      "new": {
+        "path": "src/dungeon/func_80EA3000.c",
+        "sha256": "80db96ed6ee511b3b0b4098e7f640fffbc7d8bc6d716d1bf5df6547ff5d81f85",
+        "text": "#include \"common.h\"\n#include \"m2c_compat.h\"\n\n#define M2C_BREAK() ((void)0)\n#define M2C_SYNC() ((void)0)\n\nextern void func_80098B38(void *, void *);\nextern void *func_800A04F0(void *, u8, u8, s16);\nextern s32 func_800A6D30(void);\nextern s16 func_800A70E4(s16, s16, s16);\nextern s32 func_800C8310(void *, void *);\nextern s32 D_80010248[];\nextern s32 D_8001029C[];\nextern u8 D_8006CCD8[];\nextern u8 D_8006CCE8[];\nextern s32 D_800E3548[];\nextern s32 D_800E3D7C[];\nextern s32 D_8015CFE4[];\n\n#ifdef __mips__\nstatic const u32 identity_bank[] __asm__(\"func_80EA3000\")\n    __attribute__((section(\".text.func_80EA3000\"), aligned(4))) = {\n    0x80158AF4, 0x80158CC8, 0x80159504, 0x80159504,\n    0x80159504, 0x80159530, 0x801594B0, 0x801594B0,\n    0x801594B0, 0x80159430, 0x80159484, 0x80159468,\n    0x80159530, 0x801594F4, 0x8015AD30, 0x8015AFF4,\n    0x8015B074, 0x8015B0B8, 0x8015B11C, 0x8015B1E8,\n    0x8015B294, 0x8015B3F0, 0x8015B3F0, 0x8015B3F0,\n    0x8015B3F0, 0x8015B3F0, 0x8015B3F0, 0x8015B3F0,\n    0x8015B3F0, 0x8015B3F0, 0x8015B304, 0x00000000,\n    0x8015ADEC, 0x8015ADE4, 0x8015ADDC, 0x8015ADF4,\n    0x8015AD98, 0x8015AD90, 0x8015AD88, 0x93824081,\n    0x8F829482, 0x85828C82, 0x00000000, 0x94828982,\n    0x8D828582, 0x00004081, 0x00004981, 0x83824081,\n    0x95828F82, 0x84828C82, 0x66818E82, 0x40819482,\n    0x94829382, 0x81828582, 0x40818C82, 0x88829482,\n    0x40818582, 0x94828982, 0x8D828582, 0x00004481,\n    0x8015C4B8, 0x8015C558, 0x8015C5E8, 0x8015C674,\n    0x8015C6E4, 0x8015C7C4,\n};\n__asm__(\".type func_80EA3000,@function\\n.size func_80EA3000,756\\n\");\n#define BODY_NAME composite_body\n#define BODY_STORAGE static\n#define BODY_ATTR __attribute__((used, section(\".text.func_80EA3000\")))\n#else\n#define BODY_NAME func_80EA3000\n#define BODY_STORAGE\n#define BODY_ATTR\n#endif\n\nBODY_STORAGE s32 BODY_NAME(void *, void *) BODY_ATTR;\n/* Removes a nearby or carried item and passes it to the item handler. */\nBODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {\n    u8 *origin_bytes = (u8 *)origin;\n    u8 *actor_bytes = (u8 *)actor;\n    s32 direction_offset;\n    s16 ground_slot;\n    void *target;\n    s32 item_offset;\n    u8 *inventory_base;\n    u8 *item_ptr;\n\n    direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;\n    ground_slot = func_800A70E4(\n        (s16)(*(u8 *)(origin_bytes + 0x24) + *(u16 *)(D_8006CCD8 + direction_offset)),\n        (s16)(*(u8 *)(origin_bytes + 0x25) + *(u16 *)(D_8006CCE8 + direction_offset)),\n        *(s16 *)(actor_bytes + 0x88));\n    if (ground_slot >= 0) {\n#ifdef __mips__\n        s32 *item_dest;\n        s32 *item_slot;\n#else\n        s32 *item_dest;\n        s32 *item_slot;\n#endif\n        s32 item_data;\n\n        item_dest = (s32 *)0x80160000;\n        ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n        item_data = D_800E3548[ground_slot];\n        item_slot = item_dest - 3079;\n        item_dest[-3079] = item_data;\n        D_800E3548[ground_slot] = 0;\n        return (s32)item_slot;\n    }\n\n    target = func_800A04F0(actor, *(u8 *)(origin_bytes + 0x24), *(u8 *)(origin_bytes + 0x25),\n                          *(s16 *)(actor_bytes + 0x2A));\n    if (target == NULL) {\n        goto return_zero;\n    }\n    if (target == (void *)D_800E3D7C[0]) {\n        if (func_800C8310(target, target) != 0) {\n            return 0;\n        }\n        {\n#ifdef __mips__\n            register s32 slot_index ASM_REG(\"$5\");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */\n            s16 occupied_count;\n            register s32 *inventory_scan ASM_REG(\"$4\");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */\n#else\n            s32 slot_index;\n            s16 occupied_count;\n            s32 *inventory_scan;\n#endif\n            slot_index = 0;\n            occupied_count = slot_index;\n            inventory_scan = (s32 *)0x80010000;\n            do {\n                if (inventory_scan[167] != 0) {\n                    occupied_count++;\n                }\n                inventory_scan++;\n            } while (++slot_index < 20);\n            if (occupied_count == 0) {\n                return 0;\n            }\n            item_offset = (s32)((((func_800A6D30() & 0xFFFF) % occupied_count) << 16) >> 14);\n            inventory_base = (u8 *)(item_offset + 0x80010000);\n            if (*(u8 *)(inventory_base + 0x249) == 0) {\n                goto return_zero;\n            }\n            if (*(u8 *)(inventory_base + 0x249) == 0x13) {\n                return 0;\n            }\n            if (*(u8 *)(inventory_base + 0x24B) & 0x20) {\n                goto entry_zero;\n            }\n            {\n                s32 item_data;\n                s32 *item_dest;\n#ifdef __mips__\n                s16 item_slot_addr;\n#else\n                s32 item_slot_addr;\n#endif\n                item_ptr = (u8 *)(item_offset + 0x80010248);\n                item_data = *(s32 *)item_ptr;\n                item_dest = D_8015CFE4;\n                item_dest[0] = item_data;\n\n\n                func_80098B38(item_ptr, inventory_base);\n                return (s32)item_dest;\n            }\n        }\n    }\n    if (*(u8 *)((u8 *)target + 0x49) == 0) {\n        return 0;\n    }\n    if (*(u8 *)((u8 *)target + 0x4B) & 0x20) {\n        return 0;\n    }\n    {\n#ifdef __mips__\n        s32 *item_dest;\n        s32 *item_slot;\n#else\n        s32 *item_dest;\n        s32 *item_slot;\n#endif\n        s32 item_data;\n\n        item_dest = D_8015CFE4;\n\n        item_data = *(s32 *)((u8 *)target + 0x48);\n        item_slot = item_dest;\n        item_dest[0] = item_data;\n\n        *(s32 *)((u8 *)target + 0x48) = 0;\n        return (s32)item_slot;\n    }\nentry_zero:\nreturn_zero:\n    return 0;\n}\n"
+      },
+      "host_syntax": {
+        "exit": 0,
+        "stderr": "<repo>/src/dungeon/func_80EA3000.c:4: warning: \"M2C_BREAK\" redefined\n    4 | #define M2C_BREAK() ((void)0)\n      | \nIn file included from <repo>/src/dungeon/func_80EA3000.c:2:\ninclude/m2c_compat.h:43: note: this is the location of the previous definition\n   43 | #define M2C_BREAK() (0)\n      | \n<repo>/src/dungeon/func_80EA3000.c:5: warning: \"M2C_SYNC\" redefined\n    5 | #define M2C_SYNC() ((void)0)\n      | \ninclude/m2c_compat.h:44: note: this is the location of the previous definition\n   44 | #define M2C_SYNC() (0)\n      | \n<repo>/src/dungeon/func_80EA3000.c: In function \u2018func_80EA3000\u2019:\n<repo>/src/dungeon/func_80EA3000.c:84:16: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\n   84 |         return (s32)item_slot;\n      |                ^\n<repo>/src/dungeon/func_80EA3000.c:92:19: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]\n   92 |     if (target == (void *)D_800E3D7C[0]) {\n      |                   ^\n<repo>/src/dungeon/func_80EA3000.c:119:30: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]\n  119 |             inventory_base = (u8 *)(item_offset + 0x80010000);\n      |                              ^\n<repo>/src/dungeon/func_80EA3000.c:137:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]\n  137 |                 item_ptr = (u8 *)(item_offset + 0x80010248);\n      |                            ^\n<repo>/src/dungeon/func_80EA3000.c:144:24: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\n  144 |                 return (s32)item_dest;\n      |                        ^\n<repo>/src/dungeon/func_80EA3000.c:171:16: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]\n  171 |         return (s32)item_slot;\n      |                ^\n"
+      }
+    }
+  ],
+  "initial_controls": {
+    "func_80E9D000_base.c": {
+      "status": "ok",
+      "exact": true,
+      "subs": 0,
+      "indels": 0,
+      "total": 0,
+      "gen_words": 189,
+      "tgt_words": 189,
+      "class": "match",
+      "signals": [],
+      "secs": 0.81,
+      "err": null
+    },
+    "return_only.c": {
+      "status": "ok",
+      "exact": false,
+      "subs": 11,
+      "indels": 0,
+      "total": 11,
+      "gen_words": 189,
+      "tgt_words": 189,
+      "class": "const-remat",
+      "signals": [
+        "remat=1"
+      ],
+      "secs": 0.85,
+      "err": null
+    }
+  },
+  "direct_shared_negative": {
+    "status": "ok",
+    "exact": false,
+    "subs": 0,
+    "indels": 4,
+    "total": 4,
+    "gen_words": 189,
+    "tgt_words": 189,
+    "class": "reorder-only",
+    "signals": [
+      "same-multiset",
+      "indels=4(ins2/del2)",
+      "drift-ins:+sw,+j",
+      "drift-del:-j,-sw"
+    ],
+    "secs": 0.85,
+    "err": null
+  },
+  "retained_first_positive": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 189,
+    "tgt_words": 189,
+    "class": "match",
+    "signals": [],
+    "secs": 0.8,
+    "err": null
+  },
+  "transfer_and_cascade": {
+    "func_80E9D000": {
+      "initial": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 189,
+        "tgt_words": 189,
+        "class": "match",
+        "signals": [],
+        "secs": 0.81,
+        "err": null
+      },
+      "cascade": [
+        {
+          "source": "work/native_lane/r49_twins/func_80E9D000_erase0.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 14,
+            "indels": 2,
+            "total": 16,
+            "gen_words": 189,
+            "tgt_words": 189,
+            "class": "slot-rotation",
+            "signals": [
+              "swaps=2"
+            ],
+            "secs": 0.85,
+            "err": null
+          }
+        },
+        {
+          "source": "work/native_lane/r49_twins/func_80E9D000_erase1.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 9,
+            "indels": 3,
+            "total": 12,
+            "gen_words": 188,
+            "tgt_words": 189,
+            "class": "length-drift",
+            "signals": [
+              "length-words=188/189"
+            ],
+            "secs": 0.85,
+            "err": null
+          }
+        },
+        {
+          "source": "work/native_lane/r49_twins/func_80E9D000_erase2.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 6,
+            "indels": 0,
+            "total": 6,
+            "gen_words": 189,
+            "tgt_words": 189,
+            "class": "reg-rename",
+            "signals": [
+              "regmap=2"
+            ],
+            "secs": 0.86,
+            "err": null
+          }
+        }
+      ],
+      "cascade_info": {
+        "erased": 0,
+        "tried": 3,
+        "left": 3,
+        "kept": [
+          [
+            "ASM_KEEP",
+            "shared_base",
+            "slot-rotation"
+          ],
+          [
+            "ASM_REG",
+            "5",
+            "length-drift"
+          ],
+          [
+            "ASM_REG",
+            "4",
+            "reg-rename"
+          ]
+        ]
+      }
+    },
+    "func_80EA3000": {
+      "initial": {
+        "status": "ok",
+        "exact": true,
+        "subs": 0,
+        "indels": 0,
+        "total": 0,
+        "gen_words": 189,
+        "tgt_words": 189,
+        "class": "match",
+        "signals": [],
+        "secs": 0.81,
+        "err": null
+      },
+      "cascade": [
+        {
+          "source": "work/native_lane/r49_twins/func_80EA3000_erase0.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 14,
+            "indels": 2,
+            "total": 16,
+            "gen_words": 189,
+            "tgt_words": 189,
+            "class": "slot-rotation",
+            "signals": [
+              "swaps=2"
+            ],
+            "secs": 0.83,
+            "err": null
+          }
+        },
+        {
+          "source": "work/native_lane/r49_twins/func_80EA3000_erase1.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 9,
+            "indels": 3,
+            "total": 12,
+            "gen_words": 188,
+            "tgt_words": 189,
+            "class": "length-drift",
+            "signals": [
+              "length-words=188/189"
+            ],
+            "secs": 0.83,
+            "err": null
+          }
+        },
+        {
+          "source": "work/native_lane/r49_twins/func_80EA3000_erase2.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 6,
+            "indels": 0,
+            "total": 6,
+            "gen_words": 189,
+            "tgt_words": 189,
+            "class": "reg-rename",
+            "signals": [
+              "regmap=2"
+            ],
+            "secs": 0.88,
+            "err": null
+          }
+        }
+      ],
+      "cascade_info": {
+        "erased": 0,
+        "tried": 3,
+        "left": 3,
+        "kept": [
+          [
+            "ASM_KEEP",
+            "item_dest",
+            "slot-rotation"
+          ],
+          [
+            "ASM_REG",
+            "5",
+            "length-drift"
+          ],
+          [
+            "ASM_REG",
+            "4",
+            "reg-rename"
+          ]
+        ]
+      }
+    }
+  },
+  "strict": {
+    "func_80E9D000": {
+      "aligned": {
+        "indels": 0,
+        "substitutions": 0,
+        "total": 0
+      },
+      "as_flags": "--fill-shadowed-return-delay",
+      "build_status": "ok",
+      "byte_exact": true,
+      "comparison_mode": "linked-strict",
+      "compiler": "toolchain/compilers/gcc-2.8.0/gcc",
+      "compiler_sha": "2dfa41a50f60ce63ff82b57cd07701213c3a5e96cd8324b32328d49cd9ccf174",
+      "config": "2.8.0 -I../include",
+      "exact": true,
+      "function": "func_80E9D000",
+      "length_bytes": {
+        "generated": 756,
+        "target": 756
+      },
+      "length_words": {
+        "generated": 189,
+        "target": 189
+      },
+      "positional_words_off": 0,
+      "regional_alignment": {
+        "aligned": {
+          "indels": 0,
+          "substitutions": 0,
+          "total": 0
+        },
+        "candidate_words": 189,
+        "mask_relocations": false,
+        "region_map_sha256": "d049af9af0aea3cac8c04cef03ff2da00ae6c98fde08c1d07f37f553dbcbbd7e",
+        "regions": [
+          {
+            "candidate_span": [
+              0,
+              47
+            ],
+            "id": "R0",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              0,
+              47
+            ]
+          },
+          {
+            "candidate_span": [
+              47,
+              94
+            ],
+            "id": "R1",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              47,
+              94
+            ]
+          },
+          {
+            "candidate_span": [
+              94,
+              141
+            ],
+            "id": "R2",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              94,
+              141
+            ]
+          },
+          {
+            "candidate_span": [
+              141,
+              189
+            ],
+            "id": "R3",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              141,
+              189
+            ]
+          }
+        ],
+        "schema": "azure-clean.regional-alignment.v1",
+        "target_words": 189,
+        "vector": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "reloc_suspect": false,
+      "reloc_suspect_near_0_9": false,
+      "reloc_suspect_ratio": 0.0,
+      "residue": {
+        "class": "match",
+        "confidence": "high",
+        "signals": []
+      },
+      "schema": "azure-clean.compiler-oracle.v1",
+      "source": "<repo>/src/dungeon/func_80E9D000.c",
+      "source_sha": "acb7370849fd75e76a014744431c9bebac577c814fe5ae438fff93466759afc5",
+      "status": "MATCH",
+      "target_sha": "23a4d6f4a2a487f26ad1099defa2e64d40a8d73a3d466473f622ed3722e0bbe9",
+      "tool": "work/g3/overlay_func_compare.py",
+      "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+      "warnings": [
+        "rowbase: linked at true base 0x8015E800 (region sweep_0EBD000, delta 0x7F2A1800)"
+      ],
+      "words_off": 0
+    },
+    "func_80EA3000": {
+      "aligned": {
+        "indels": 0,
+        "substitutions": 0,
+        "total": 0
+      },
+      "as_flags": "--fill-shadowed-return-delay",
+      "build_status": "ok",
+      "byte_exact": true,
+      "comparison_mode": "linked-strict",
+      "compiler": "toolchain/compilers/gcc-2.8.0/gcc",
+      "compiler_sha": "2dfa41a50f60ce63ff82b57cd07701213c3a5e96cd8324b32328d49cd9ccf174",
+      "config": "2.8.0 -I../include",
+      "exact": true,
+      "function": "func_80EA3000",
+      "length_bytes": {
+        "generated": 756,
+        "target": 756
+      },
+      "length_words": {
+        "generated": 189,
+        "target": 189
+      },
+      "positional_words_off": 0,
+      "regional_alignment": {
+        "aligned": {
+          "indels": 0,
+          "substitutions": 0,
+          "total": 0
+        },
+        "candidate_words": 189,
+        "mask_relocations": false,
+        "region_map_sha256": "d049af9af0aea3cac8c04cef03ff2da00ae6c98fde08c1d07f37f553dbcbbd7e",
+        "regions": [
+          {
+            "candidate_span": [
+              0,
+              47
+            ],
+            "id": "R0",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              0,
+              47
+            ]
+          },
+          {
+            "candidate_span": [
+              47,
+              94
+            ],
+            "id": "R1",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              47,
+              94
+            ]
+          },
+          {
+            "candidate_span": [
+              94,
+              141
+            ],
+            "id": "R2",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              94,
+              141
+            ]
+          },
+          {
+            "candidate_span": [
+              141,
+              189
+            ],
+            "id": "R3",
+            "indels": 0,
+            "substitutions": 0,
+            "target_span": [
+              141,
+              189
+            ]
+          }
+        ],
+        "schema": "azure-clean.regional-alignment.v1",
+        "target_words": 189,
+        "vector": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "reloc_suspect": false,
+      "reloc_suspect_near_0_9": false,
+      "reloc_suspect_ratio": 0.0,
+      "residue": {
+        "class": "match",
+        "confidence": "high",
+        "signals": []
+      },
+      "schema": "azure-clean.compiler-oracle.v1",
+      "source": "<repo>/src/dungeon/func_80EA3000.c",
+      "source_sha": "80db96ed6ee511b3b0b4098e7f640fffbc7d8bc6d716d1bf5df6547ff5d81f85",
+      "status": "MATCH",
+      "target_sha": "0918b8c8d7b40547721bd752ffe5f33ea0b9fe7ab504a72de7b38868258f74ff",
+      "tool": "work/g3/overlay_func_compare.py",
+      "tool_sha": "54b4b6488120f2e418f3083080b814a52f7e64be57ef5b07b3fd341343af83ce",
+      "warnings": [
+        "rowbase: linked at true base 0x80158800 (region sweep_0EC3000, delta 0x7F295800)"
+      ],
+      "words_off": 0
+    }
+  },
+  "gates": [
+    {
+      "window": "dungeon_deep_t8b_ebd000",
+      "container": "dungeon",
+      "result": "MATCH",
+      "bytes": 756,
+      "detail": "MATCH: rebuilt overlay window byte-identical (756 bytes)",
+      "secs": 1.1,
+      "inputs_sha": "028581fc1beae5e49f933081bae738d0a0b3175e59d70a8295e5b18b14397564",
+      "at": "2026-09-17T05:19:37Z"
+    },
+    {
+      "window": "dungeon_deep_t8b_ec3000",
+      "container": "dungeon",
+      "result": "MATCH",
+      "bytes": 756,
+      "detail": "MATCH: rebuilt overlay window byte-identical (756 bytes)",
+      "secs": 1.1,
+      "inputs_sha": "7c984353ae7359f43a8b82721ad597bb0b46f22bfefae9c9a87e8ae12179eb66",
+      "at": "2026-09-17T05:19:38Z"
+    }
+  ],
+  "slus": {
+    "at": "2026-09-17T05:20:26Z",
+    "result": "MATCH",
+    "tus": 884,
+    "recipe_sha256": "79e7709432dbf01cb5a979426fe2134d570909893e03cdd6495c1bc04b2878b7",
+    "recipe_vs_pinned": "identical",
+    "secs": 0,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "row_database": "row database OK\n",
+  "site_map": {
+    "path": "work/native_lane/r49_twins/SITE_MAP.md",
+    "sha256": "1a320f175f91b2901175c71c18e01d4289233b2fb23da4bd223e0edeadb2dca8",
+    "text": "# Twin item-return bodies\n\nEach row contains 264 bytes of bank data followed by a 492-byte body. The bank\nwords, symbol and section spelling, and layout are unchanged. Both whole-row\nbaselines and final candidates match all 189 words. The first body starts at\n0x8015E908, within row base 0x8015E800. The twin subtracts 0x6000 from local\naddresses. The complete retail body was read; see retail.dis.\n\n## Roles and complete control flow\n\nThe frame is 0x20 bytes, with ra/s0/s1 saved. Register s0 holds origin, then the\noccupied count or shared-result pointer; s1 holds actor. The function queries a\nneighbor slot from origin XY and actor direction/elevation. Success copies the\nsource word into the shared slot, clears the source and returns the slot address\nin v0. Otherwise it queries a target; null returns zero.\n\nFor the distinguished target, a condition helper decides whether to proceed.\nCount 20 nonnull slots, take a random remainder, reject empty/forbidden/flagged\nentries, copy the selected entry to the shared slot, invoke the removal helper,\nand return the shared slot address. For any other target, reject empty/flagged\nentries, copy and clear its word at +0x48, and return the shared slot address.\n\nAll exits join 0x8015EADC: restore ra/s1/s0/sp, then jr ra and nop. This sequence\ndoes not change v0. The old final noreturn pseudo-call names this local epilogue.\nThe existing v0 is the shared-slot address, not either pseudo-call argument.\n\n## Controlled source changes\n\nThe first shared symbol is 0x80162FE4 = 0x80160000 + 3065 * 4. Its twin is\n0x8015CFE4 = 0x80160000 - 3079 * 4. Direct declared symbols replace the two later\nliteral-page calculations and their keeps. The last block returns its slot\npointer through the existing s32 interface. No new constraint is introduced.\n\nThe first branch's existing keep and page calculation remain. Using the natural\nsymbol there moved the shared store into the jump delay slot in place of the\nsource clear. This is an unresolved scheduling dependence, not impossibility.\nThe return-only control misses eleven register substitutions: target in a0\nversus retail a1, plus shared-page/item-word role changes. Direct shared symbols\nrestore those roles. Retaining the first block makes the complete row exact.\n\nTwo original loop bindings remain. Individual erasures change register roles or\ninstruction count; six erasures across the twins yield no additional removals.\n\n## Attribution and interface limits\n\nThe stock 2.8.0 recipe is unchanged. The whole-row fingerprint reports insufficient\nevidence because decoding starts in bank data and stops early. Running the same\nscan on the actual 123-word body finds an allocated split store and two stores\nin local-jump delay slots, consistent with the CDK/2.8 family. No unique historical\nrelease is established. The a1 return copy alone does not override store evidence.\n\nThe interface remains s32(void *, void *). Existing pointer-to-word return casts\nremain; no narrowing or signature trick was introduced. The previously valid\nreturn paths already return this slot word or zero; the last target path now does\nso too, matching retail v0. A current DUNGEON C search found no direct references\nto the two actual body entries or synthetic row names outside their own files.\nThat does not prove absence of indirect callers. No external helper contract\nchanged. The unchanged bank-data prefix remains separate from this C-pin repair.\n"
+  },
+  "retail_body": {
+    "path": "work/native_lane/r49_twins/retail.dis",
+    "sha256": "6a2badfe4c3a1dbf31dad41281fd2900ac415dc9aea6fac513abb3642e87a30b",
+    "text": "8015E908 addiu    $sp, $sp, -0x20\n8015E90C sw       $s0, 0x10($sp)\n8015E910 move     $s0, $a0\n8015E914 sw       $s1, 0x14($sp)\n8015E918 move     $s1, $a1\n8015E91C lui      $v0, 0x8007\n8015E920 addiu    $v0, $v0, -0x3328\n8015E924 sw       $ra, 0x18($sp)\n8015E928 lhu      $v1, 0x2a($s1)\n8015E92C lbu      $a0, 0x24($s0)\n8015E930 lh       $a2, 0x88($s1)\n8015E934 srl      $v1, $v1, 8\n8015E938 andi     $v1, $v1, 0xe\n8015E93C addu     $v0, $v1, $v0\n8015E940 lhu      $v0, ($v0)\n8015E944 lbu      $a1, 0x25($s0)\n8015E948 addu     $a0, $a0, $v0\n8015E94C sll      $a0, $a0, 0x10\n8015E950 lui      $v0, 0x8007\n8015E954 addiu    $v0, $v0, -0x3318\n8015E958 addu     $v1, $v1, $v0\n8015E95C lhu      $v0, ($v1)\n8015E960 sra      $a0, $a0, 0x10\n8015E964 addu     $a1, $a1, $v0\n8015E968 sll      $a1, $a1, 0x10\n8015E96C jal      0x800a70e4\n8015E970 sra      $a1, $a1, 0x10\n8015E974 sll      $v0, $v0, 0x10\n8015E978 sra      $v1, $v0, 0x10\n8015E97C bltz     $v1, 0x8015e9a8\n8015E980 lui      $a1, 0x8016\n8015E984 lui      $v0, 0x800e\n8015E988 addiu    $v0, $v0, 0x3548\n8015E98C sll      $v1, $v1, 2\n8015E990 addu     $v1, $v1, $v0\n8015E994 lw       $a0, ($v1)\n8015E998 addiu    $v0, $a1, 0x2fe4\n8015E99C sw       $a0, 0x2fe4($a1)\n8015E9A0 j        0x8015eadc\n8015E9A4 sw       $zero, ($v1)\n8015E9A8 lbu      $a1, 0x24($s0)\n8015E9AC lbu      $a2, 0x25($s0)\n8015E9B0 lh       $a3, 0x2a($s1)\n8015E9B4 jal      0x800a04f0\n8015E9B8 move     $a0, $s1\n8015E9BC move     $a1, $v0\n8015E9C0 beqz     $a1, 0x8015ead8\n8015E9C4 lui      $v0, 0x800e\n8015E9C8 lw       $v0, 0x3d7c($v0)\n8015E9CC nop      \n8015E9D0 bne      $a1, $v0, 0x8015ea9c\n8015E9D4 nop      \n8015E9D8 jal      0x800c8310\n8015E9DC move     $a0, $a1\n8015E9E0 bnez     $v0, 0x8015eadc\n8015E9E4 move     $v0, $zero\n8015E9E8 move     $a1, $zero\n8015E9EC move     $v1, $a1\n8015E9F0 lui      $a0, 0x8001\n8015E9F4 lw       $v0, 0x29c($a0)\n8015E9F8 nop      \n8015E9FC beqz     $v0, 0x8015ea08\n8015EA00 nop      \n8015EA04 addiu    $v1, $v1, 1\n8015EA08 addiu    $a1, $a1, 1\n8015EA0C slti     $v0, $a1, 0x14\n8015EA10 bnez     $v0, 0x8015e9f4\n8015EA14 addiu    $a0, $a0, 4\n8015EA18 sll      $v0, $v1, 0x10\n8015EA1C sra      $s0, $v0, 0x10\n8015EA20 beqz     $s0, 0x8015eadc\n8015EA24 move     $v0, $zero\n8015EA28 jal      0x800a6d30\n8015EA2C nop      \n8015EA30 andi     $v0, $v0, 0xffff\n8015EA34 div      $zero, $v0, $s0\n8015EA38 mfhi     $v1\n8015EA3C lui      $v0, 0x8001\n8015EA40 sll      $v1, $v1, 0x10\n8015EA44 sra      $v1, $v1, 0xe\n8015EA48 addu     $a1, $v1, $v0\n8015EA4C lbu      $a0, 0x249($a1)\n8015EA50 nop      \n8015EA54 beqz     $a0, 0x8015ead8\n8015EA58 addiu    $v0, $zero, 0x13\n8015EA5C beq      $a0, $v0, 0x8015eadc\n8015EA60 move     $v0, $zero\n8015EA64 lbu      $v0, 0x24b($a1)\n8015EA68 nop      \n8015EA6C andi     $v0, $v0, 0x20\n8015EA70 bnez     $v0, 0x8015ead8\n8015EA74 lui      $a0, 0x8001\n8015EA78 ori      $a0, $a0, 0x248\n8015EA7C addu     $a0, $v1, $a0\n8015EA80 lw       $v0, ($a0)\n8015EA84 lui      $s0, 0x8016\n8015EA88 sw       $v0, 0x2fe4($s0)\n8015EA8C jal      0x80098b38\n8015EA90 addiu    $s0, $s0, 0x2fe4\n8015EA94 j        0x8015eadc\n8015EA98 move     $v0, $s0\n8015EA9C lbu      $v0, 0x49($a1)\n8015EAA0 nop      \n8015EAA4 beqz     $v0, 0x8015eadc\n8015EAA8 move     $v0, $zero\n8015EAAC lbu      $v0, 0x4b($a1)\n8015EAB0 nop      \n8015EAB4 andi     $v0, $v0, 0x20\n8015EAB8 bnez     $v0, 0x8015eadc\n8015EABC move     $v0, $zero\n8015EAC0 lui      $v1, 0x8016\n8015EAC4 lw       $a0, 0x48($a1)\n8015EAC8 addiu    $v0, $v1, 0x2fe4\n8015EACC sw       $a0, 0x2fe4($v1)\n8015EAD0 j        0x8015eadc\n8015EAD4 sw       $zero, 0x48($a1)\n8015EAD8 move     $v0, $zero\n8015EADC lw       $ra, 0x18($sp)\n8015EAE0 lw       $s1, 0x14($sp)\n8015EAE4 lw       $s0, 0x10($sp)\n8015EAE8 addiu    $sp, $sp, 0x20\n8015EAEC jr       $ra\n8015EAF0 nop      \n"
+  },
+  "body_fingerprint": {
+    "body_offset": 264,
+    "words": 123,
+    "evidence": {
+      "at_macro": [],
+      "split_store": [
+        "[110] lui $v1,0x8016 + [113] sw $a0, 0x2fe4($v1)"
+      ],
+      "held_page": [],
+      "slot_store": [
+        "[38] j 0x15eadc + [39] sw $zero, ($v1)",
+        "[114] j 0x15eadc + [115] sw $zero, 0x48($a1)"
+      ],
+      "split_la": [],
+      "zero_copy": [
+        "[57] move $v1, $a1 ($a1 known zero)"
+      ],
+      "ret_copy": [
+        "[45] move $a1, $v0 after call"
+      ]
+    },
+    "held": [],
+    "gp": 0
+  },
+  "whole_row_fingerprint": {
+    "path": "work/native_lane/r49_twins/fingerprint.txt",
+    "sha256": "f5969955674b387a9a3e40acfa6e6eaa5fab5cf0b17fd3ec9c6c14fc25ad0fc1",
+    "text": "== lineage fingerprint: func_80E9D000 (overlay dungeon, 189 words) ==\n$at macro stores             0   \ncompiler-split stores        0   \nheld-page bases (s-reg)      0   \nstore in jal/j slot          0   \ntwo-reg split la             0   \nzero-equiv copies            0   \nreturn-copy after call       0   \n$gp refs                     2\nVERDICT: insufficient store-emission evidence (few globals?)\n"
+  },
+  "independent_review": {
+    "path": "work/native_lane/r49_jump_routes/TWIN_REVIEW.md",
+    "sha256": "319c4201178bc5525a1c5fdb6f2021e9f2c2c95bc01e6832b53f053dd9f96fd3",
+    "text": "# Independent review: twin item-return candidates\n\nVerdict: no semantic or constraint blocker found for `func_80E9D000_final.c` or `func_80EA3000_final.c`.\n\nThe only functional edits are the intended ones. Each candidate removes the synthetic local-epilogue declaration/call, uses the already-declared shared-slot symbol in the two later store paths, returns that slot through the existing `s32` result, and removes three `ASM_KEEP` sites. The old pointer-to-`s32` return transport is unchanged. The first literal-page path and its keep remain, as do the two existing `ASM_REG` bindings. No signature, type, section, bank initializer, compiler recipe, or new constraint changes. This review makes no claim that indirect callers are absent.\n\nThe shared addresses are exact: `0x80160000 + 3065 * 4 = 0x80162FE4`, and `0x80160000 - 3079 * 4 = 0x8015CFE4`. The retail last path loads the item word, forms the corresponding shared address in `v0`, stores the word, clears `target+0x48` in the jump delay slot, and enters the restore-only epilogue. Replacing the fake jump with `return (s32)shared_slot` therefore preserves the retail return value. The common epilogue does not modify `v0`.\n\nThe 264-byte data prefix is unchanged; the reviewed body is the following 123 words. Current `strict.json` records linked-strict 189/189 whole-row matches with zero substitutions, indels, positional words off, or relocation masking for both twins. It binds directly to final/current source hashes `acb7370849fd75e76a014744431c9bebac577c814fe5ae438fff93466759afc5` and `80db96ed6ee511b3b0b4098e7f640fffbc7d8bc6d716d1bf5df6547ff5d81f85`. Each production source is byte-identical to its corresponding `*_final.c`; both 756-byte covering-window checks in `gates.json` also report `MATCH`.\n\nThe negative controls are discriminating. `return_only.c` misses 11 register substitutions; `direct_shared.c` is a four-indel store/jump reorder. The three typed erasures per twin all fail (slot rotation, one-word length drift, and register rename), leaving exactly one keep and two register constraints in each final source.\n\nThis was a read-only source and artifact review; no compile was run here. The supplied strict, covering-gate, and host-syntax results cover the current candidate files.\n"
+  },
+  "jump_routing": {
+    "schema": "r49-jump-routes-v1",
+    "generated_utc": "2026-09-17T05:22:24+00:00",
+    "inputs": {
+      "r47_inventory": "work/native_lane/r47_local_return_inventory/inventory.json",
+      "r47_inventory_sha256": "2bee0e1a84f4ef0957afdf1f8fe7ffc82ef7e007abe592a35c15c8f4884d8ab3",
+      "retail": "build_ovl/work/s3_splat/extract/DUNGEON_DUNGEON.BIN",
+      "retail_sha256": "3b94aaa7b4f54f2fa9486b2b5ce419a8a399e6957b3452b113723460c71ce537",
+      "rowbase": "config/overlays/dungeon.rowbase.jsonl",
+      "rowbase_sha256": "538f66607af8bbe2dfcc265b010d85e41927a7333285e146244b31aa386d97cc",
+      "capstone": "MIPS32 little-endian"
+    },
+    "method": {
+      "straight_line_epilogue": "From the exact target, the first control transfer is jr $ra and every instruction through its delay slot is only a stack/register restore, move, stack-pointer restore, or nop.",
+      "internal_control_flow": "The exact target begins body work or reaches another control transfer before a restore-only jr $ra.",
+      "undecided": "Reserved for undecodable targets or restore-like prefixes whose return cannot be established.",
+      "snippet_policy": "Epilogues include the full target-through-return sequence and delay slot. Internal snippets include the exact target prefix; any displayed control transfer includes its delay slot."
+    },
+    "summary": {
+      "current_rows": 29,
+      "current_targets": 56,
+      "target_classifications": {
+        "straight-line-epilogue": 16,
+        "internal-control-flow": 40,
+        "undecided": 0
+      },
+      "row_classifications": {
+        "epilogue-only": 7,
+        "internal-only": 13,
+        "mixed": 9
+      },
+      "composite_data_prefixed_rows": 5,
+      "prior_negative_rows": 2,
+      "excluded_rows": 3
+    },
+    "excluded": [
+      {
+        "row": "dungeon/func_818B15F4",
+        "reason": "landed-pin-free",
+        "current_source_sha256": "b6b1c3ec3d3512e0a96c0804bdbdf88c4e8c1fdbce2f59032792e542ce4f527d",
+        "prior_source_sha256": "b1d48cb0f928607952319ab6b0507a0940b2ca535b2b6892bd2f664695a6bfaf",
+        "current_pins": 0,
+        "prior_targets": [
+          "func_80024E54"
+        ]
+      },
+      {
+        "row": "dungeon/func_80E9D000",
+        "reason": "no-longer-declares-or-calls-in-row-noreturn-target",
+        "current_source_sha256": "acb7370849fd75e76a014744431c9bebac577c814fe5ae438fff93466759afc5",
+        "prior_source_sha256": "96de91ec8bc7e4323d66c71f33681f6abfd69f3f34dd722395ba52236031a000",
+        "current_pins": 3,
+        "prior_targets": [
+          "func_8015EADC"
+        ]
+      },
+      {
+        "row": "dungeon/func_80EA3000",
+        "reason": "no-longer-declares-or-calls-in-row-noreturn-target",
+        "current_source_sha256": "80db96ed6ee511b3b0b4098e7f640fffbc7d8bc6d716d1bf5df6547ff5d81f85",
+        "prior_source_sha256": "9b1571480959039bfbd277a4e28cb9c69db466e4dadd828943249dee9e71feb3",
+        "current_pins": 3,
+        "prior_targets": [
+          "func_80158ADC"
+        ]
+      }
+    ],
+    "epilogue_only_candidates": [
+      {
+        "row": "dungeon/func_8182D698",
+        "size": 404,
+        "pins": 3,
+        "targets": [
+          "func_80025010"
+        ]
+      },
+      {
+        "row": "dungeon/func_819A764C",
+        "size": 520,
+        "pins": 5,
+        "targets": [
+          "func_80025038"
+        ]
+      },
+      {
+        "row": "dungeon/func_818B78E8",
+        "size": 744,
+        "pins": 1,
+        "targets": [
+          "func_800253B0"
+        ]
+      },
+      {
+        "row": "dungeon/func_8195F0BC",
+        "size": 896,
+        "pins": 6,
+        "targets": [
+          "func_80024C08"
+        ]
+      },
+      {
+        "row": "dungeon/func_819C0C18",
+        "size": 1336,
+        "pins": 1,
+        "targets": [
+          "func_80026924"
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "row": "dungeon/func_81844F2C",
+        "source": "src/dungeon/func_81844F2C.c",
+        "source_sha256": "452f9aad53d331506759196c5c412551e8ec6497157bf30dbf3a847db42388ed",
+        "source_sha256_at_r47": "452f9aad53d331506759196c5c412551e8ec6497157bf30dbf3a847db42388ed",
+        "source_changed_since_r47": false,
+        "size": 316,
+        "pins": 4,
+        "foff": "0x1864F2C",
+        "true_base": "0x8002472C",
+        "rowbase_region": "row_1864f2c_8002472c",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "0f91bf7fb3e29d242e192b1413b6b19c0ae77ead9c05d07bba336b6863388ae9",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": true,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_80024808",
+            "target_offset": "0xDC",
+            "retail_jump_offsets": [
+              "0xAC"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lh at 0x80024808), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024808 2a00a284 lh $v0, 0x2a($a1)",
+              "8002480C 00000000 nop",
+              "80024810 1300401c bgtz $v0, 0x80024860",
+              "80024814 03000324 addiu $v1, $zero, 3 [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024860",
+            "target_offset": "0x134",
+            "retail_jump_offsets": [
+              "0x6C",
+              "0x80",
+              "0xF8",
+              "0x10C"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024860 0800e003 jr $ra",
+              "80024864 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818B6AFC",
+        "source": "src/dungeon/func_818B6AFC.c",
+        "source_sha256": "f3332efd23ec4094b43812bdeaf7231bed684f1a8d125a22359e7e28655c2a8e",
+        "source_sha256_at_r47": "f3332efd23ec4094b43812bdeaf7231bed684f1a8d125a22359e7e28655c2a8e",
+        "source_changed_since_r47": false,
+        "size": 1172,
+        "pins": 28,
+        "foff": "0x18D6AFC",
+        "true_base": "0x800242FC",
+        "rowbase_region": "row_18d6afc_800242fc",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "5974c1ecc9b35604e8ddbe04dd4d5590b2284f687b0d8130649dbc5d689dcc43",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_8002473C",
+            "target_offset": "0x440",
+            "retail_jump_offsets": [
+              "0x1B0"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (mflo at 0x8002473C), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "8002473C 12600000 mflo $t4",
+              "80024740 e0910008 j 0x80024780",
+              "80024744 0e006ca1 sb $t4, 0xe($t3) [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024780",
+            "target_offset": "0x484",
+            "retail_jump_offsets": [
+              "0x2C0",
+              "0x444"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024780 1000bf8f lw $ra, 0x10($sp)",
+              "80024784 1800bd27 addiu $sp, $sp, 0x18",
+              "80024788 0800e003 jr $ra",
+              "8002478C 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818B78E8",
+        "source": "src/dungeon/func_818B78E8.c",
+        "source_sha256": "471ab36b2a584827ddd44e61ef719c1b7226919943ce53e52d58ac132c943e07",
+        "source_sha256_at_r47": "471ab36b2a584827ddd44e61ef719c1b7226919943ce53e52d58ac132c943e07",
+        "source_changed_since_r47": false,
+        "size": 744,
+        "pins": 1,
+        "foff": "0x18D78E8",
+        "true_base": "0x800250E8",
+        "rowbase_region": "row_18d78e8_800250e8",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "e8b45bf8fc034a37300d056f7cbd80b9d4a7c908d6971cba0afe39143734cbcd",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_800253B0",
+            "target_offset": "0x2C8",
+            "retail_jump_offsets": [
+              "0xBC",
+              "0xD8",
+              "0x28C"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800253B0 2000bf8f lw $ra, 0x20($sp)",
+              "800253B4 1c00b38f lw $s3, 0x1c($sp)",
+              "800253B8 1800b28f lw $s2, 0x18($sp)",
+              "800253BC 1400b18f lw $s1, 0x14($sp)",
+              "800253C0 1000b08f lw $s0, 0x10($sp)",
+              "800253C4 2800bd27 addiu $sp, $sp, 0x28",
+              "800253C8 0800e003 jr $ra",
+              "800253CC 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8186EDA8",
+        "source": "src/dungeon/func_8186EDA8.c",
+        "source_sha256": "4d2c2623c7cb1490c7dda4d8424f7f607027421b2cb42ff8628ff5bfc742b198",
+        "source_sha256_at_r47": "4d2c2623c7cb1490c7dda4d8424f7f607027421b2cb42ff8628ff5bfc742b198",
+        "source_changed_since_r47": false,
+        "size": 796,
+        "pins": 1,
+        "foff": "0x188EDA8",
+        "true_base": "0x800245A8",
+        "rowbase_region": "row_188eda8_800245a8",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "2df462492ade46ce905e47533c4391196d47f48429d2711b2e9cc039b9c19962",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80024710",
+            "target_offset": "0x168",
+            "retail_jump_offsets": [
+              "0x148"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x80024710), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024710 0a002296 lhu $v0, 0xa($s1)",
+              "80024714 00000000 nop",
+              "80024718 23104400 subu $v0, $v0, $a0",
+              "8002471C 0a0022a6 sh $v0, 0xa($s1)"
+            ]
+          },
+          {
+            "target": "func_80024874",
+            "target_offset": "0x2CC",
+            "retail_jump_offsets": [
+              "0xA8",
+              "0xC0",
+              "0x1B0",
+              "0x1C8",
+              "0x288"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x80024874), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024874 14004296 lhu $v0, 0x14($s2)",
+              "80024878 00000000 nop",
+              "8002487C 00804230 andi $v0, $v0, 0x8000",
+              "80024880 09004010 beqz $v0, 0x800248a8",
+              "80024884 0880033c lui $v1, 0x8008 [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8195AB84",
+        "source": "src/dungeon/func_8195AB84.c",
+        "source_sha256": "e80964082dd6d5615646236406275a274b6c3ce6d4252b5742a2a0e773c0e9f8",
+        "source_sha256_at_r47": "e80964082dd6d5615646236406275a274b6c3ce6d4252b5742a2a0e773c0e9f8",
+        "source_changed_since_r47": false,
+        "size": 452,
+        "pins": 9,
+        "foff": "0x197AB84",
+        "true_base": "0x80026384",
+        "rowbase_region": "row_197ab84_80026384",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "95389d6ad87544c5b254c471f475c6934b916f0d9eae4d49c3c1e1edb5b42c8b",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": true,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_800263FC",
+            "target_offset": "0x78",
+            "retail_jump_offsets": [
+              "0x6C"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (jal at 0x800263FC), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800263FC 59ff000c jal 0x8003fd64",
+              "80026400 12000424 addiu $a0, $zero, 0x12 [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_800264F0",
+            "target_offset": "0x16C",
+            "retail_jump_offsets": [
+              "0x124"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (addiu at 0x800264F0), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800264F0 01001026 addiu $s0, $s0, 1",
+              "800264F4 1200022a slti $v0, $s0, 0x12",
+              "800264F8 baff4014 bnez $v0, 0x800263e4",
+              "800264FC 04003126 addiu $s1, $s1, 4 [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_819611CC",
+        "source": "src/dungeon/func_819611CC.c",
+        "source_sha256": "a21ab14d72fa77ddd8dcd443e7637ff3af0936fcbb27885667c20ad0ec9a25c4",
+        "source_sha256_at_r47": "a21ab14d72fa77ddd8dcd443e7637ff3af0936fcbb27885667c20ad0ec9a25c4",
+        "source_changed_since_r47": false,
+        "size": 476,
+        "pins": 12,
+        "foff": "0x19811CC",
+        "true_base": "0x800269CC",
+        "rowbase_region": "row_19811cc_800269cc",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "5bae5a1e99f776ff4a767094280c4a5a187cd0d3506ca2f051483389bc2456a5",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80026A18",
+            "target_offset": "0x4C",
+            "retail_jump_offsets": [
+              "0x19C"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lw at 0x80026A18), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80026A18 1000628e lw $v0, 0x10($s3)",
+              "80026A1C 00000000 nop",
+              "80026A20 700042ae sw $v0, 0x70($s2)",
+              "80026A24 1800628e lw $v0, 0x18($s3)"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8182D698",
+        "source": "src/dungeon/func_8182D698.c",
+        "source_sha256": "285b59ec4f4f225d113a5e78e6bc597f3295ad44a4f2ff1a8ecb66da7789b6ff",
+        "source_sha256_at_r47": "285b59ec4f4f225d113a5e78e6bc597f3295ad44a4f2ff1a8ecb66da7789b6ff",
+        "source_changed_since_r47": false,
+        "size": 404,
+        "pins": 3,
+        "foff": "0x184D698",
+        "true_base": "0x80024E98",
+        "rowbase_region": "row_184d698_80024e98",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "654ac301edb7ef89dcd8c6fa2e2b3419c4020695a9628519a58987c4de165cf7",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_80025010",
+            "target_offset": "0x178",
+            "retail_jump_offsets": [
+              "0xB0",
+              "0xEC",
+              "0x158"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80025010 1c00bf8f lw $ra, 0x1c($sp)",
+              "80025014 1800b28f lw $s2, 0x18($sp)",
+              "80025018 1400b18f lw $s1, 0x14($sp)",
+              "8002501C 1000b08f lw $s0, 0x10($sp)",
+              "80025020 2000bd27 addiu $sp, $sp, 0x20",
+              "80025024 0800e003 jr $ra",
+              "80025028 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81934C5C",
+        "source": "src/dungeon/func_81934C5C.c",
+        "source_sha256": "55ab070a87b14d804376b3fae9bd103638febf4a641d7b2ce13623d6fa74e8ab",
+        "source_sha256_at_r47": "55ab070a87b14d804376b3fae9bd103638febf4a641d7b2ce13623d6fa74e8ab",
+        "source_changed_since_r47": false,
+        "size": 740,
+        "pins": 4,
+        "foff": "0x1954C5C",
+        "true_base": "0x8002445C",
+        "rowbase_region": "img_1954928_80024128",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "12a091561f8a5026915f8926a8825b621f822fa2f8c0e1da7a8bdbc410b584ba",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_8002468C",
+            "target_offset": "0x230",
+            "retail_jump_offsets": [
+              "0xD0"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x8002468C), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "8002468C 4c004296 lhu $v0, 0x4c($s2)",
+              "80024690 00000000 nop",
+              "80024694 01004224 addiu $v0, $v0, 1",
+              "80024698 c9910008 j 0x80024724",
+              "8002469C 4c0042a6 sh $v0, 0x4c($s2) [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024724",
+            "target_offset": "0x2C8",
+            "retail_jump_offsets": [
+              "0x60",
+              "0x78",
+              "0x23C",
+              "0x2A0"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024724 1c00bf8f lw $ra, 0x1c($sp)",
+              "80024728 1800b28f lw $s2, 0x18($sp)",
+              "8002472C 1400b18f lw $s1, 0x14($sp)",
+              "80024730 1000b08f lw $s0, 0x10($sp)",
+              "80024734 2000bd27 addiu $sp, $sp, 0x20",
+              "80024738 0800e003 jr $ra",
+              "8002473C 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81875C70",
+        "source": "src/dungeon/func_81875C70.c",
+        "source_sha256": "a9067fb35555818193bde4d5ad2ec4c49a5fece555be299fae9dbaedf62565f6",
+        "source_sha256_at_r47": "a9067fb35555818193bde4d5ad2ec4c49a5fece555be299fae9dbaedf62565f6",
+        "source_changed_since_r47": false,
+        "size": 932,
+        "pins": 3,
+        "foff": "0x1895C70",
+        "true_base": "0x80025470",
+        "rowbase_region": "jtbl_1895C70",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "c45b942570cdf956bab46a65501abac3658ba2954b9c022f6b37870539eae409",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_800256AC",
+            "target_offset": "0x23C",
+            "retail_jump_offsets": [
+              "0x2B8"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (jal at 0x800256AC), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800256AC bea7010c jal 0x80069ef8",
+              "800256B0 01009426 addiu $s4, $s4, 1 [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818390F8",
+        "source": "src/dungeon/func_818390F8.c",
+        "source_sha256": "edaba992d7e93eda744fb1e24d356d1b47cffdb1292b14cc247f3bf7efb4fd09",
+        "source_sha256_at_r47": "edaba992d7e93eda744fb1e24d356d1b47cffdb1292b14cc247f3bf7efb4fd09",
+        "source_changed_since_r47": false,
+        "size": 608,
+        "pins": 5,
+        "foff": "0x18590F8",
+        "true_base": "0x800248F8",
+        "rowbase_region": "row_18590f8_800248f8",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "47633f099e9a333d1dfb4f79b34240217225757a722a194ac1bc9ba7b24ced95",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80024934",
+            "target_offset": "0x3C",
+            "retail_jump_offsets": [
+              "0x224"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x80024934), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024934 0200a294 lhu $v0, 2($a1)",
+              "80024938 2190a002 move $s2, $s5",
+              "8002493C 1000a2a7 sh $v0, 0x10($sp)",
+              "80024940 0600a294 lhu $v0, 6($a1)"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81958F28",
+        "source": "src/dungeon/func_81958F28.c",
+        "source_sha256": "411e7d60f9b9951d754c3f37cfca100ee7b44fc88965bb4c6e18cf88356eaa02",
+        "source_sha256_at_r47": "411e7d60f9b9951d754c3f37cfca100ee7b44fc88965bb4c6e18cf88356eaa02",
+        "source_changed_since_r47": false,
+        "size": 1964,
+        "pins": 1,
+        "foff": "0x1978F28",
+        "true_base": "0x80024728",
+        "rowbase_region": "row_1978f28_80024728",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "b0fec88c2f32451086ce88e43d19f57c9d86c7d47be5f4896a96242dd48f0918",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_80024C30",
+            "target_offset": "0x508",
+            "retail_jump_offsets": [
+              "0x3C8"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x80024C30), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024C30 34002296 lhu $v0, 0x34($s1)",
+              "80024C34 00000000 nop",
+              "80024C38 01004230 andi $v0, $v0, 1",
+              "80024C3C 9e004010 beqz $v0, 0x80024eb8",
+              "80024C40 00000000 nop [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024EB8",
+            "target_offset": "0x790",
+            "retail_jump_offsets": [
+              "0x5C",
+              "0x70",
+              "0x560",
+              "0x6D4"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024EB8 4c00bf8f lw $ra, 0x4c($sp)",
+              "80024EBC 4800b28f lw $s2, 0x48($sp)",
+              "80024EC0 4400b18f lw $s1, 0x44($sp)",
+              "80024EC4 4000b08f lw $s0, 0x40($sp)",
+              "80024EC8 5000bd27 addiu $sp, $sp, 0x50",
+              "80024ECC 0800e003 jr $ra",
+              "80024ED0 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81984754",
+        "source": "src/dungeon/func_81984754.c",
+        "source_sha256": "972bd44be14319c29af3066b35dd11904a7184b1e20b5bfc3f3b84b98de6e988",
+        "source_sha256_at_r47": "972bd44be14319c29af3066b35dd11904a7184b1e20b5bfc3f3b84b98de6e988",
+        "source_changed_since_r47": false,
+        "size": 748,
+        "pins": 7,
+        "foff": "0x19A4754",
+        "true_base": "0x80025F54",
+        "rowbase_region": "row_19a4754_80025f54",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "6e0b5aa54adfeeb21c9e4888f9249ba3a59774028553e194c2547a59baa3421f",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80025FD4",
+            "target_offset": "0x80",
+            "retail_jump_offsets": [
+              "0x74"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (jal at 0x80025FD4), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80025FD4 59ff000c jal 0x8003fd64",
+              "80025FD8 02000424 addiu $a0, $zero, 2 [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8199AAD4",
+        "source": "src/dungeon/func_8199AAD4.c",
+        "source_sha256": "2d814a274731e1230082eacb1a8d959417132fe3f85ef6bd8f3019d80827871e",
+        "source_sha256_at_r47": "2d814a274731e1230082eacb1a8d959417132fe3f85ef6bd8f3019d80827871e",
+        "source_changed_since_r47": false,
+        "size": 1056,
+        "pins": 10,
+        "foff": "0x19BAAD4",
+        "true_base": "0x800242D4",
+        "rowbase_region": "img_19baad4_800242d4",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "5432752b441bc066ff1eaeb3ae58e85064b6f95981a1b5f4249b44ad2ff41917",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_80024464",
+            "target_offset": "0x190",
+            "retail_jump_offsets": [
+              "0x168"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (addiu at 0x80024468), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024464 00000000 nop",
+              "80024468 01004224 addiu $v0, $v0, 1",
+              "8002446C b1910008 j 0x800246c4",
+              "80024470 280022a6 sh $v0, 0x28($s1) [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_800246C4",
+            "target_offset": "0x3F0",
+            "retail_jump_offsets": [
+              "0x60",
+              "0x74",
+              "0x198",
+              "0x1F4"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800246C4 6000bf8f lw $ra, 0x60($sp)",
+              "800246C8 5c00b78f lw $s7, 0x5c($sp)",
+              "800246CC 5800b68f lw $s6, 0x58($sp)",
+              "800246D0 5400b58f lw $s5, 0x54($sp)",
+              "800246D4 5000b48f lw $s4, 0x50($sp)",
+              "800246D8 4c00b38f lw $s3, 0x4c($sp)",
+              "800246DC 4800b28f lw $s2, 0x48($sp)",
+              "800246E0 4400b18f lw $s1, 0x44($sp)",
+              "800246E4 4000b08f lw $s0, 0x40($sp)",
+              "800246E8 6800bd27 addiu $sp, $sp, 0x68",
+              "800246EC 0800e003 jr $ra",
+              "800246F0 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_819A764C",
+        "source": "src/dungeon/func_819A764C.c",
+        "source_sha256": "060076f5de8fb24367104c6ad2bbf3dcf8f111d70c06a35267d3aa91dc15bbf8",
+        "source_sha256_at_r47": "060076f5de8fb24367104c6ad2bbf3dcf8f111d70c06a35267d3aa91dc15bbf8",
+        "source_changed_since_r47": false,
+        "size": 520,
+        "pins": 5,
+        "foff": "0x19C764C",
+        "true_base": "0x80024E4C",
+        "rowbase_region": "row_19c764c_80024e4c",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "1863f0ead0916ed71e975671e02b9d69fc457c12bd6a95f7615964c90d744d66",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_80025038",
+            "target_offset": "0x1EC",
+            "retail_jump_offsets": [
+              "0x154",
+              "0x168",
+              "0x1C4"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80025038 2400bf8f lw $ra, 0x24($sp)",
+              "8002503C 2000b28f lw $s2, 0x20($sp)",
+              "80025040 1c00b18f lw $s1, 0x1c($sp)",
+              "80025044 1800b08f lw $s0, 0x18($sp)",
+              "80025048 2800bd27 addiu $sp, $sp, 0x28",
+              "8002504C 0800e003 jr $ra",
+              "80025050 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_80BD3BA8",
+        "source": "src/dungeon/func_80BD3BA8.c",
+        "source_sha256": "9b94021afb4ce5a7239c3cd217ca027b21194a086c721874c83409502e39ab15",
+        "source_sha256_at_r47": "9b94021afb4ce5a7239c3cd217ca027b21194a086c721874c83409502e39ab15",
+        "source_changed_since_r47": false,
+        "size": 1588,
+        "pins": 10,
+        "foff": "0xBF3BA8",
+        "true_base": "0x8015F3A8",
+        "rowbase_region": "img_bf3060_8015e860",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "aaf01b664e198bd123e26f692145de838bd4f28f05709579450378aac116f000",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_8015F7E4",
+            "target_offset": "0x43C",
+            "retail_jump_offsets": [
+              "0x3E8"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (andi at 0x8015F7E4), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "8015F7E4 08008430 andi $a0, $a0, 8",
+              "8015F7E8 49008014 bnez $a0, 0x8015f910",
+              "8015F7EC 900023ae sw $v1, 0x90($s1) [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_8015F910",
+            "target_offset": "0x568",
+            "retail_jump_offsets": [
+              "0x3CC",
+              "0x4A0"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lw at 0x8015F910), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "8015F910 1c00638e lw $v1, 0x1c($s3)",
+              "8015F914 0040023c lui $v0, 0x4000",
+              "8015F918 24106200 and $v0, $v1, $v0",
+              "8015F91C 1b004010 beqz $v0, 0x8015f98c",
+              "8015F920 ffbf023c lui $v0, 0xbfff [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818BC9CC",
+        "source": "src/dungeon/func_818BC9CC.c",
+        "source_sha256": "82291e2bb2b1994601057cfe1ef8076a3f73c82a5234fcb90a6c5db7895cea14",
+        "source_sha256_at_r47": "82291e2bb2b1994601057cfe1ef8076a3f73c82a5234fcb90a6c5db7895cea14",
+        "source_changed_since_r47": false,
+        "size": 1508,
+        "pins": 3,
+        "foff": "0x18DC9CC",
+        "true_base": "0x800241CC",
+        "rowbase_region": "row_18dc9cc_800241cc",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "e59ff86026df3f9a4fe5444c485e53dc999fe740ea9d71d356cbe8fec1808aca",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80024504",
+            "target_offset": "0x338",
+            "retail_jump_offsets": [
+              "0x220",
+              "0x288"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (sh at 0x80024504), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024504 800043a6 sh $v1, 0x80($s2)",
+              "80024508 780043a6 sh $v1, 0x78($s2)",
+              "8002450C 64004426 addiu $a0, $s2, 0x64",
+              "80024510 6c004526 addiu $a1, $s2, 0x6c"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81862C28",
+        "source": "src/dungeon/func_81862C28.c",
+        "source_sha256": "e68cc73e8ffa592a6f3a8f0dec7286a9415328672c725b4c6ceeab9b13667a33",
+        "source_sha256_at_r47": "e68cc73e8ffa592a6f3a8f0dec7286a9415328672c725b4c6ceeab9b13667a33",
+        "source_changed_since_r47": false,
+        "size": 688,
+        "pins": 6,
+        "foff": "0x1882C28",
+        "true_base": "0x80024428",
+        "rowbase_region": "row_1882c28_80024428",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "eb12992e808a0b35693b920b9c7c98839bc7eae15e21d1979412e3759de6f34e",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_80024694",
+            "target_offset": "0x26C",
+            "retail_jump_offsets": [
+              "0x1B4"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (addiu at 0x80024694), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024694 01005226 addiu $s2, $s2, 1",
+              "80024698 0800422a slti $v0, $s2, 8",
+              "8002469C a3ff4014 bnez $v0, 0x8002452c",
+              "800246A0 0200b526 addiu $s5, $s5, 2 [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_800246A4",
+            "target_offset": "0x27C",
+            "retail_jump_offsets": [
+              "0xF0"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800246A4 3400bf8f lw $ra, 0x34($sp)",
+              "800246A8 3000be8f lw $fp, 0x30($sp)",
+              "800246AC 2c00b78f lw $s7, 0x2c($sp)",
+              "800246B0 2800b68f lw $s6, 0x28($sp)",
+              "800246B4 2400b58f lw $s5, 0x24($sp)",
+              "800246B8 2000b48f lw $s4, 0x20($sp)",
+              "800246BC 1c00b38f lw $s3, 0x1c($sp)",
+              "800246C0 1800b28f lw $s2, 0x18($sp)",
+              "800246C4 1400b18f lw $s1, 0x14($sp)",
+              "800246C8 1000b08f lw $s0, 0x10($sp)",
+              "800246CC 3800bd27 addiu $sp, $sp, 0x38",
+              "800246D0 0800e003 jr $ra",
+              "800246D4 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8195F0BC",
+        "source": "src/dungeon/func_8195F0BC.c",
+        "source_sha256": "d3fd444cf07c4fbd3cde51bfbe9586a6e9f21b0ec27baca4b0d8f0fb2b9c942c",
+        "source_sha256_at_r47": "d3fd444cf07c4fbd3cde51bfbe9586a6e9f21b0ec27baca4b0d8f0fb2b9c942c",
+        "source_changed_since_r47": false,
+        "size": 896,
+        "pins": 6,
+        "foff": "0x197F0BC",
+        "true_base": "0x800248BC",
+        "rowbase_region": "row_197f0bc_800248bc",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "d78cab8fddfb132a7b0b66f0ee9ce834766836316f05544c1655a8e158a5631d",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_80024C08",
+            "target_offset": "0x34C",
+            "retail_jump_offsets": [
+              "0x308"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024C08 4400bf8f lw $ra, 0x44($sp)",
+              "80024C0C 4000be8f lw $fp, 0x40($sp)",
+              "80024C10 3c00b78f lw $s7, 0x3c($sp)",
+              "80024C14 3800b68f lw $s6, 0x38($sp)",
+              "80024C18 3400b58f lw $s5, 0x34($sp)",
+              "80024C1C 3000b48f lw $s4, 0x30($sp)",
+              "80024C20 2c00b38f lw $s3, 0x2c($sp)",
+              "80024C24 2800b28f lw $s2, 0x28($sp)",
+              "80024C28 2400b18f lw $s1, 0x24($sp)",
+              "80024C2C 2000b08f lw $s0, 0x20($sp)",
+              "80024C30 4800bd27 addiu $sp, $sp, 0x48",
+              "80024C34 0800e003 jr $ra",
+              "80024C38 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8197CEC0",
+        "source": "src/dungeon/func_8197CEC0.c",
+        "source_sha256": "f948c1f9e0a6d829a218470a38fa56c847887fde70bb1ca727abb565bba19765",
+        "source_sha256_at_r47": "f948c1f9e0a6d829a218470a38fa56c847887fde70bb1ca727abb565bba19765",
+        "source_changed_since_r47": false,
+        "size": 1272,
+        "pins": 3,
+        "foff": "0x199CEC0",
+        "true_base": "0x800246C0",
+        "rowbase_region": "row_199cec0_800246c0",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "b881438905fc9e087448221aac6b7ddd9bf8ffc4b6c9cb3d84a64f4fae621111",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_8002497C",
+            "target_offset": "0x2BC",
+            "retail_jump_offsets": [
+              "0x98",
+              "0x1BC"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x8002497C), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "8002497C 4800a296 lhu $v0, 0x48($s5)",
+              "80024980 4800a396 lhu $v1, 0x48($s5)",
+              "80024984 03004230 andi $v0, $v0, 3",
+              "80024988 40110200 sll $v0, $v0, 5"
+            ]
+          },
+          {
+            "target": "func_80024AC8",
+            "target_offset": "0x408",
+            "retail_jump_offsets": [
+              "0x3DC"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (jal at 0x80024AC8), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024AC8 bea7010c jal 0x80069ef8",
+              "80024ACC 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81904990",
+        "source": "src/dungeon/func_81904990.c",
+        "source_sha256": "445484f4392e7cfad531119f398f93748f2fcb6122f30571770f8c7e3033600b",
+        "source_sha256_at_r47": "445484f4392e7cfad531119f398f93748f2fcb6122f30571770f8c7e3033600b",
+        "source_changed_since_r47": false,
+        "size": 2524,
+        "pins": 17,
+        "foff": "0x1924990",
+        "true_base": "0x80024190",
+        "rowbase_region": "row_1924990_80024190",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "5d012c593aa6d461bee0d1c4ec2b8dac11ab54f8e4438c78d42910488c394bfd",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80024390",
+            "target_offset": "0x200",
+            "retail_jump_offsets": [
+              "0x920"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lbu at 0x80024390), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024390 0000a292 lbu $v0, ($s5)",
+              "80024394 00000000 nop",
+              "80024398 20004230 andi $v0, $v0, 0x20",
+              "8002439C b6014014 bnez $v0, 0x80024a78",
+              "800243A0 00000000 nop [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_800244B0",
+            "target_offset": "0x320",
+            "retail_jump_offsets": [
+              "0x2F4"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (sh at 0x800244B0), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "800244B0 8a0042a6 sh $v0, 0x8a($s2)",
+              "800244B4 820042a6 sh $v0, 0x82($s2)",
+              "800244B8 70004426 addiu $a0, $s2, 0x70",
+              "800244BC 78004526 addiu $a1, $s2, 0x78"
+            ]
+          },
+          {
+            "target": "func_80024AA0",
+            "target_offset": "0x910",
+            "retail_jump_offsets": [
+              "0x8E0"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lb at 0x80024AA0), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80024AA0 0000a282 lb $v0, ($s5)",
+              "80024AA4 00000000 nop",
+              "80024AA8 03004004 bltz $v0, 0x80024ab8",
+              "80024AAC 0c001026 addiu $s0, $s0, 0xc [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_819C0C18",
+        "source": "src/dungeon/func_819C0C18.c",
+        "source_sha256": "4a9303d048c233784e11880122d5697a75917ec03189d46aad90b2d234ae5e0f",
+        "source_sha256_at_r47": "4a9303d048c233784e11880122d5697a75917ec03189d46aad90b2d234ae5e0f",
+        "source_changed_since_r47": false,
+        "size": 1336,
+        "pins": 1,
+        "foff": "0x19E0C18",
+        "true_base": "0x80026418",
+        "rowbase_region": "jtbl_19E0C18",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "81db658d100661fc70078817c233ded432145d110bb1ceb6c106e56e88cf6101",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_80026924",
+            "target_offset": "0x50C",
+            "retail_jump_offsets": [
+              "0x398",
+              "0x48C",
+              "0x494"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80026924 6c00bf8f lw $ra, 0x6c($sp)",
+              "80026928 6800b68f lw $s6, 0x68($sp)",
+              "8002692C 6400b58f lw $s5, 0x64($sp)",
+              "80026930 6000b48f lw $s4, 0x60($sp)",
+              "80026934 5c00b38f lw $s3, 0x5c($sp)",
+              "80026938 5800b28f lw $s2, 0x58($sp)",
+              "8002693C 5400b18f lw $s1, 0x54($sp)",
+              "80026940 5000b08f lw $s0, 0x50($sp)",
+              "80026944 7000bd27 addiu $sp, $sp, 0x70",
+              "80026948 0800e003 jr $ra",
+              "8002694C 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818F2800",
+        "source": "src/dungeon/func_818F2800.c",
+        "source_sha256": "74fc356f6c72432cd896af38d81a6c66e8ff2c0bbad1c972809f1f1ed267a353",
+        "source_sha256_at_r47": "74fc356f6c72432cd896af38d81a6c66e8ff2c0bbad1c972809f1f1ed267a353",
+        "source_changed_since_r47": false,
+        "size": 2200,
+        "pins": 40,
+        "foff": "0x1912800",
+        "true_base": "0x80024000",
+        "rowbase_region": "row_1912800_80024000",
+        "rowbase_confidence": "solved",
+        "retail_slice_sha256": "9def7e64132a1e487b9b641c57c319ca5abca740bc34227c212c93d2ee3cd9ff",
+        "composite_data_prefix_bytes": 76,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80024248",
+            "target_offset": "0x248",
+            "retail_jump_offsets": [
+              "0x21C"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lbu at 0x80024248), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024248 0b004292 lbu $v0, 0xb($s2)",
+              "8002424C 00000000 nop",
+              "80024250 42100200 srl $v0, $v0, 1",
+              "80024254 140022ae sw $v0, 0x14($s1)"
+            ]
+          },
+          {
+            "target": "func_8002431C",
+            "target_offset": "0x31C",
+            "retail_jump_offsets": [
+              "0x304"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (sh at 0x8002431C), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "8002431C 880022a6 sh $v0, 0x88($s1)",
+              "80024320 780022a6 sh $v0, 0x78($s1)",
+              "80024324 00004292 lbu $v0, ($s2)",
+              "80024328 24002396 lhu $v1, 0x24($s1)"
+            ]
+          },
+          {
+            "target": "func_800243E4",
+            "target_offset": "0x3E4",
+            "retail_jump_offsets": [
+              "0x364",
+              "0x390",
+              "0x3B8"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (sh at 0x800243E4), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "800243E4 8a0022a6 sh $v0, 0x8a($s1)",
+              "800243E8 820022a6 sh $v0, 0x82($s1)",
+              "800243EC 70002426 addiu $a0, $s1, 0x70",
+              "800243F0 78002526 addiu $a1, $s1, 0x78"
+            ]
+          },
+          {
+            "target": "func_80024650",
+            "target_offset": "0x650",
+            "retail_jump_offsets": [
+              "0x634"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x80024650), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024650 0c002396 lhu $v1, 0xc($s1)",
+              "80024654 08002296 lhu $v0, 8($s1)",
+              "80024658 00000000 nop",
+              "8002465C 21186200 addu $v1, $v1, $v0"
+            ]
+          },
+          {
+            "target": "func_800246A0",
+            "target_offset": "0x6A0",
+            "retail_jump_offsets": [
+              "0x694"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (sh at 0x800246A4), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "800246A0 00000000 nop",
+              "800246A4 120002a6 sh $v0, 0x12($s0)",
+              "800246A8 14002396 lhu $v1, 0x14($s1)",
+              "800246AC 08002296 lhu $v0, 8($s1)"
+            ]
+          },
+          {
+            "target": "func_80024838",
+            "target_offset": "0x838",
+            "retail_jump_offsets": [
+              "0x808"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lb at 0x80024838), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024838 00004282 lb $v0, ($s2)",
+              "8002483C 00000000 nop",
+              "80024840 50fe4104 bgez $v0, 0x80024184",
+              "80024844 0c005226 addiu $s2, $s2, 0xc [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818EC800",
+        "source": "src/dungeon/func_818EC800.c",
+        "source_sha256": "2615310db95d9a502c7a49b9cfa6905c45f9f503a2dc193db9d88731132905a6",
+        "source_sha256_at_r47": "2615310db95d9a502c7a49b9cfa6905c45f9f503a2dc193db9d88731132905a6",
+        "source_changed_since_r47": false,
+        "size": 2652,
+        "pins": 22,
+        "foff": "0x190C800",
+        "true_base": "0x80024000",
+        "rowbase_region": "row_190c800_80024000",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "4703622c91bf5fd901b812f1d56db60ddb23a998cb95ee7de1f2379e97795144",
+        "composite_data_prefix_bytes": 148,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80024298",
+            "target_offset": "0x298",
+            "retail_jump_offsets": [
+              "0x9A0"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lbu at 0x80024298), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024298 0000c293 lbu $v0, ($fp)",
+              "8002429C 00000000 nop",
+              "800242A0 20004230 andi $v0, $v0, 0x20",
+              "800242A4 b0014014 bnez $v0, 0x80024968",
+              "800242A8 00000000 nop [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024990",
+            "target_offset": "0x990",
+            "retail_jump_offsets": [
+              "0x960"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lb at 0x80024990), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024990 0000c283 lb $v0, ($fp)",
+              "80024994 00000000 nop",
+              "80024998 03004004 bltz $v0, 0x800249a8",
+              "8002499C 0c00b526 addiu $s5, $s5, 0xc [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_8197C800",
+        "source": "src/dungeon/func_8197C800.c",
+        "source_sha256": "d8556402b56df4c997b41ca3d46235b5ec272726de422f887bd9a1bd67e4ff3c",
+        "source_sha256_at_r47": "d8556402b56df4c997b41ca3d46235b5ec272726de422f887bd9a1bd67e4ff3c",
+        "source_changed_since_r47": false,
+        "size": 1728,
+        "pins": 18,
+        "foff": "0x199C800",
+        "true_base": "0x80024000",
+        "rowbase_region": "jtbl_199C800",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "9c2f482c124a4992905fe26db2ee8e1f5fc826fdc9dbfaa1b90e58e8fe1e642a",
+        "composite_data_prefix_bytes": 28,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_8002468C",
+            "target_offset": "0x68C",
+            "retail_jump_offsets": [
+              "0x5D8",
+              "0x61C"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "8002468C 4c00bf8f lw $ra, 0x4c($sp)",
+              "80024690 4800be8f lw $fp, 0x48($sp)",
+              "80024694 4400b78f lw $s7, 0x44($sp)",
+              "80024698 4000b68f lw $s6, 0x40($sp)",
+              "8002469C 3c00b58f lw $s5, 0x3c($sp)",
+              "800246A0 3800b48f lw $s4, 0x38($sp)",
+              "800246A4 3400b38f lw $s3, 0x34($sp)",
+              "800246A8 3000b28f lw $s2, 0x30($sp)",
+              "800246AC 2c00b18f lw $s1, 0x2c($sp)",
+              "800246B0 2800b08f lw $s0, 0x28($sp)",
+              "800246B4 5000bd27 addiu $sp, $sp, 0x50",
+              "800246B8 0800e003 jr $ra",
+              "800246BC 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818761D8",
+        "source": "src/dungeon/func_818761D8.c",
+        "source_sha256": "e0dc340f3f6e8b5d107e3b6a050bfbac397fad1e024b5fb18f6156a12b69a629",
+        "source_sha256_at_r47": "e0dc340f3f6e8b5d107e3b6a050bfbac397fad1e024b5fb18f6156a12b69a629",
+        "source_changed_since_r47": false,
+        "size": 3164,
+        "pins": 20,
+        "foff": "0x18961D8",
+        "true_base": "0x800259D8",
+        "rowbase_region": "jtbl_1895C70",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "3e4d83d0499d500f9cb5bb14ac898ef7dd3e915e7dda77d23632fb496f5df8b5",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "internal-only",
+        "targets": [
+          {
+            "target": "func_80026430",
+            "target_offset": "0xA58",
+            "retail_jump_offsets": [
+              "0xA94"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (jal at 0x80026430), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80026430 bea7010c jal 0x80069ef8",
+              "80026434 0100b526 addiu $s5, $s5, 1 [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81850800",
+        "source": "src/dungeon/func_81850800.c",
+        "source_sha256": "3160e0c9fb62be5d844d3bca1e1ae2aec985792e411ca0bb5f0716458bf1d583",
+        "source_sha256_at_r47": "3160e0c9fb62be5d844d3bca1e1ae2aec985792e411ca0bb5f0716458bf1d583",
+        "source_changed_since_r47": false,
+        "size": 2012,
+        "pins": 29,
+        "foff": "0x1870800",
+        "true_base": "0x80024000",
+        "rowbase_region": "row_1870800_80024000",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "bd149ebae152708cb16b685fd935009b586328425b3ed69f814b3d295ef6260e",
+        "composite_data_prefix_bytes": 4,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_800241F0",
+            "target_offset": "0x1F0",
+            "retail_jump_offsets": [
+              "0x19C"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (bgez at 0x800241F0), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "800241F0 02006106 bgez $s3, 0x800241fc",
+              "800241F4 21906002 move $s2, $s3 [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_8002426C",
+            "target_offset": "0x26C",
+            "retail_jump_offsets": [
+              "0x230"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lhu at 0x8002426C), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "8002426C 5000c297 lhu $v0, 0x50($fp)",
+              "80024270 00000000 nop",
+              "80024274 feff4224 addiu $v0, $v0, -2",
+              "80024278 5000c2a7 sh $v0, 0x50($fp)"
+            ]
+          },
+          {
+            "target": "func_8002427C",
+            "target_offset": "0x27C",
+            "retail_jump_offsets": [
+              "0x240",
+              "0x264"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lw at 0x8002427C), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "8002427C 2000a88f lw $t0, 0x20($sp)",
+              "80024280 00000000 nop",
+              "80024284 18001301 mult $t0, $s3",
+              "80024288 12480000 mflo $t1"
+            ]
+          },
+          {
+            "target": "func_800246DC",
+            "target_offset": "0x6DC",
+            "retail_jump_offsets": [
+              "0x6C4"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lw at 0x800246DC), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "800246DC 5400a88f lw $t0, 0x54($sp)",
+              "800246E0 00000000 nop",
+              "800246E4 0000028d lw $v0, ($t0)",
+              "800246E8 0c00048d lw $a0, 0xc($t0)"
+            ]
+          },
+          {
+            "target": "func_800247A8",
+            "target_offset": "0x7A8",
+            "retail_jump_offsets": [
+              "0xA4",
+              "0xC0",
+              "0x1E8",
+              "0x700",
+              "0x754",
+              "0x770"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "800247A8 4c00bf8f lw $ra, 0x4c($sp)",
+              "800247AC 4800be8f lw $fp, 0x48($sp)",
+              "800247B0 4400b78f lw $s7, 0x44($sp)",
+              "800247B4 4000b68f lw $s6, 0x40($sp)",
+              "800247B8 3c00b58f lw $s5, 0x3c($sp)",
+              "800247BC 3800b48f lw $s4, 0x38($sp)",
+              "800247C0 3400b38f lw $s3, 0x34($sp)",
+              "800247C4 3000b28f lw $s2, 0x30($sp)",
+              "800247C8 2c00b18f lw $s1, 0x2c($sp)",
+              "800247CC 2800b08f lw $s0, 0x28($sp)",
+              "800247D0 5000bd27 addiu $sp, $sp, 0x50",
+              "800247D4 0800e003 jr $ra",
+              "800247D8 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_818E6800",
+        "source": "src/dungeon/func_818E6800.c",
+        "source_sha256": "a1385ebb5d63467d8fc6e23e1a865947928442e277a4ba2fb89dc2105797ed59",
+        "source_sha256_at_r47": "a1385ebb5d63467d8fc6e23e1a865947928442e277a4ba2fb89dc2105797ed59",
+        "source_changed_since_r47": false,
+        "size": 1944,
+        "pins": 21,
+        "foff": "0x1906800",
+        "true_base": "0x80024000",
+        "rowbase_region": "row_1906800_80024000",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "6445f222e398c2637aeecbb4d71aae33922de15ddc6f95a49f4beb57cca4498a",
+        "composite_data_prefix_bytes": 28,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_800240D0",
+            "target_offset": "0xD0",
+            "retail_jump_offsets": [
+              "0x90",
+              "0xAC",
+              "0xBC",
+              "0xC4"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (bltz at 0x800240D4), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "800240D0 21988000 move $s3, $a0",
+              "800240D4 4e006006 bltz $s3, 0x80024210",
+              "800240D8 12030424 addiu $a0, $zero, 0x312 [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024388",
+            "target_offset": "0x388",
+            "retail_jump_offsets": [
+              "0x330"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (addiu at 0x80024388), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024388 e0ffa426 addiu $a0, $s5, -0x20",
+              "8002438C 0280053c lui $a1, 0x8002",
+              "80024390 9847a524 addiu $a1, $a1, 0x4798",
+              "80024394 0800c38f lw $v1, 8($fp)"
+            ]
+          },
+          {
+            "target": "func_80024724",
+            "target_offset": "0x724",
+            "retail_jump_offsets": [
+              "0x590"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (addiu at 0x80024724), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024724 01004224 addiu $v0, $v0, 1",
+              "80024728 d9910008 j 0x80024764",
+              "8002472C 0a00a2a6 sh $v0, 0xa($s5) [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024728",
+            "target_offset": "0x728",
+            "retail_jump_offsets": [
+              "0x4FC",
+              "0x668"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (j at 0x80024728), not a restore-only return",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024728 d9910008 j 0x80024764",
+              "8002472C 0a00a2a6 sh $v0, 0xa($s5) [delay-slot]"
+            ]
+          },
+          {
+            "target": "func_80024764",
+            "target_offset": "0x764",
+            "retail_jump_offsets": [
+              "0x240",
+              "0x254",
+              "0x278",
+              "0x28C",
+              "0x640",
+              "0x6EC",
+              "0x710",
+              "0x728"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": true,
+            "snippet": [
+              "80024764 4400bf8f lw $ra, 0x44($sp)",
+              "80024768 4000be8f lw $fp, 0x40($sp)",
+              "8002476C 3c00b78f lw $s7, 0x3c($sp)",
+              "80024770 3800b68f lw $s6, 0x38($sp)",
+              "80024774 3400b58f lw $s5, 0x34($sp)",
+              "80024778 3000b48f lw $s4, 0x30($sp)",
+              "8002477C 2c00b38f lw $s3, 0x2c($sp)",
+              "80024780 2800b28f lw $s2, 0x28($sp)",
+              "80024784 2400b18f lw $s1, 0x24($sp)",
+              "80024788 2000b08f lw $s0, 0x20($sp)",
+              "8002478C 4800bd27 addiu $sp, $sp, 0x48",
+              "80024790 0800e003 jr $ra",
+              "80024794 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_81905FD0",
+        "source": "src/dungeon/func_81905FD0.c",
+        "source_sha256": "54cccbbf27f71b1adfbc7c4ec3e983e3296f8c67f6f356bb569c5a0ea12a0017",
+        "source_sha256_at_r47": "54cccbbf27f71b1adfbc7c4ec3e983e3296f8c67f6f356bb569c5a0ea12a0017",
+        "source_changed_since_r47": false,
+        "size": 3984,
+        "pins": 24,
+        "foff": "0x1925FD0",
+        "true_base": "0x800257D0",
+        "rowbase_region": "jtbl_1925FD0",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "4c28d13dadc41cb76cc4ff1573bacb22b83af7a31c785815f4975cc21416a9c5",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "mixed",
+        "targets": [
+          {
+            "target": "func_80025B70",
+            "target_offset": "0x3A0",
+            "retail_jump_offsets": [
+              "0x384"
+            ],
+            "classification": "internal-control-flow",
+            "reason": "target begins executable body work (lh at 0x80025B70), not a restore-only return",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80025B70 7e00a286 lh $v0, 0x7e($s5)",
+              "80025B74 3800a327 addiu $v1, $sp, 0x38",
+              "80025B78 80100200 sll $v0, $v0, 2",
+              "80025B7C 21106200 addu $v0, $v1, $v0"
+            ]
+          },
+          {
+            "target": "func_80026730",
+            "target_offset": "0xF60",
+            "retail_jump_offsets": [
+              "0x450",
+              "0x620",
+              "0x63C",
+              "0x670",
+              "0xCB8",
+              "0xE18",
+              "0xE5C",
+              "0xEF4",
+              "0xF54"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "80026730 7800bf8f lw $ra, 0x78($sp)",
+              "80026734 7400b78f lw $s7, 0x74($sp)",
+              "80026738 7000b68f lw $s6, 0x70($sp)",
+              "8002673C 6c00b58f lw $s5, 0x6c($sp)",
+              "80026740 6800b48f lw $s4, 0x68($sp)",
+              "80026744 6400b38f lw $s3, 0x64($sp)",
+              "80026748 6000b28f lw $s2, 0x60($sp)",
+              "8002674C 5c00b18f lw $s1, 0x5c($sp)",
+              "80026750 5800b08f lw $s0, 0x58($sp)",
+              "80026754 8000bd27 addiu $sp, $sp, 0x80",
+              "80026758 0800e003 jr $ra",
+              "8002675C 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      },
+      {
+        "row": "dungeon/func_80FB176C",
+        "source": "src/dungeon/func_80FB176C.c",
+        "source_sha256": "99bdd57d7700ae2d9efc173c20db7052adf365c23d799deec88e1a63f23f6770",
+        "source_sha256_at_r47": "99bdd57d7700ae2d9efc173c20db7052adf365c23d799deec88e1a63f23f6770",
+        "source_changed_since_r47": false,
+        "size": 2468,
+        "pins": 2,
+        "foff": "0xFD176C",
+        "true_base": "0x80170F6C",
+        "rowbase_region": "sweep_0FD1000",
+        "rowbase_confidence": "proven",
+        "retail_slice_sha256": "39189fe194c9e9fa132e270b9eb957309c83ec7261b020c949b049f734270ce8",
+        "composite_data_prefix_bytes": 0,
+        "prior_negative": false,
+        "row_classification": "epilogue-only",
+        "targets": [
+          {
+            "target": "func_801718EC",
+            "target_offset": "0x980",
+            "retail_jump_offsets": [
+              "0x48",
+              "0xC8",
+              "0x120",
+              "0x298",
+              "0x2F8",
+              "0x4D0",
+              "0x5B8",
+              "0x634",
+              "0x7CC",
+              "0x820",
+              "0x84C",
+              "0x868"
+            ],
+            "classification": "straight-line-epilogue",
+            "reason": "target reaches jr $ra with only stack/register restores or moves; return delay slot included",
+            "inside_executable_body_after_prefix": null,
+            "snippet": [
+              "801718EC 3400bf8f lw $ra, 0x34($sp)",
+              "801718F0 3000b48f lw $s4, 0x30($sp)",
+              "801718F4 2c00b38f lw $s3, 0x2c($sp)",
+              "801718F8 2800b28f lw $s2, 0x28($sp)",
+              "801718FC 2400b18f lw $s1, 0x24($sp)",
+              "80171900 2000b08f lw $s0, 0x20($sp)",
+              "80171904 3800bd27 addiu $sp, $sp, 0x38",
+              "80171908 0800e003 jr $ra",
+              "8017190C 00000000 nop [delay-slot]"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "routing_report": {
+    "path": "work/native_lane/r49_jump_routes/REPORT.md",
+    "sha256": "abefb4f7b52fa28cf311f72ccf2e911dcadba3963d82657160e64ee7b6b41d80",
+    "text": "# R49 in-row jump routing\n\nThis bounded read-only refinement rechecked the R47 inventory against current sources, current rowbase resolutions, and the unchanged retail binary. `func_818B15F4` is excluded because it is now landed and pin-free. The two twin sources `func_80E9D000` and `func_80EA3000` changed during the refinement and no longer declare or call their former in-row `noreturn` targets, so they are also excluded from the still-current totals; their current hashes are recorded in `routes.json`.\n\nA target is an epilogue only when decoding from that exact address reaches `jr $ra` using only register/stack restores or moves, with the return delay slot included. A later return elsewhere is not evidence. Exact byte-bearing snippets for all targets are in `routes.json`.\n\nThe 56 current targets classify as **16 straight-line epilogues**, **40 internal control-flow targets**, and **0 undecided**. At row level, there are 7 epilogue-only, 9 mixed, and 13 internal-only rows.\n\n5 current rows carry data before their compiled body. Their measured prefixes are recorded per row; every audited target lies after its prefix, so no data word was treated as an instruction target.\n\n## Small epilogue-only routes\n\n| Row | Bytes | Pins | Target |\n|---|---:|---:|---|\n| `dungeon/func_8182D698` | 404 | 3 | `func_80025010` |\n| `dungeon/func_819A764C` | 520 | 5 | `func_80025038` |\n| `dungeon/func_818B78E8` | 744 | 1 | `func_800253B0` |\n| `dungeon/func_8195F0BC` | 896 | 6 | `func_80024C08` |\n| `dungeon/func_819C0C18` | 1336 | 1 | `func_80026924` |\n\nThese five are routing leads only. The classification does not prove a source repair, pin removal, or impossibility result.\n\n## Marked negatives\n\n`dungeon/func_81844F2C` and `dungeon/func_8195AB84` remain marked prior negatives and are excluded from the lead list. Their bytes also confirm non-epilogue local entries: the former is mixed (`func_80024808` branches internally; `func_80024860` returns), while both targets in the latter perform constructor/loop work.\n\nThe JSON binds this result to the current inventory, retail, rowbase, source, and per-row retail-slice SHA-256 hashes.\n"
+  },
+  "gemini": {
+    "run": {
+      "model": "gemini-3.8-flash-high",
+      "seconds": 307.4,
+      "returncode": 0
+    },
+    "completion": "print timeout with unfinished turn; exit zero is not a completion proof",
+    "log": "[agy] print timeout after 5m0s with turn in progress; returning partial output\n",
+    "brief": {
+      "path": "work/native_lane/r49_gemini_motion/BRIEF.md",
+      "sha256": "68b495e766977a11e05c23d44da8ea3d6500aaba51057f16409d49348923a97e",
+      "text": "Bounded whole-function reconstruction: dungeon/func_8182D698, 404 bytes, 3 pins.\nWork only work/native_lane/r49_gemini_motion/. Current source and complete row metadata are func_8182D698_base.c and func_8182D698.json. Read all retail instructions first. The apparent external noreturn func_80025010 is an in-row epilogue; prove it. Reconstruct ordinary motion update/control flow, retaining existing pins only if needed. Remove the inherited volatile when testing a truly ordinary motion update; do not introduce replacement constraints.\n\nFirst verify baseline using python3 tools/verify.py dungeon/func_8182D698 ABSOLUTE_C_PATH --include-root include. Recipe is 2.8.1-G0. Fingerprint using <reference-repo>/.venv/bin/python <reference-repo>/tools/lineage_fingerprint.py func_8182D698 --overlay dungeon --claimed 2.8.1. If conflict, STOP and report the specific instruction evidence; an exact pinned baseline does NOT refute a fingerprint. No recipe changes. Decode retail by seek/read from work/disc/containers/DUNGEON_DUNGEON.BIN using metadata and reference venv capstone.\n\nUp to six meaningful source probes, about four minutes. Explain one causal prediction per probe, frame/roles first; stop after two unexplained stalls. Full verifier summary owns lengths; regions only locates residuals. No assembly, new pins, volatile, fake use, literal-page replacement constraints, pointer narrowing, signature tricks or backend modifications. Preserve semantic operations and caller contracts. Existing fake-call arguments are not evidence of actual helper interfaces. Save each candidate and full verifier output, then compact REPORT.md with hashes, precise result, semantic caveats and next discriminating action. Partial reduction is useful only if whole-row exact. Do not call it landable.\n\nNo production source/config/ledger/git edits, shared exports/gates, network, credentials or other agents. All rg --max-filesize 4M and narrow paths; never search repo root, work root or home recursively. Do not read campaign history. Baseline and six probes are the entire compile budget.\n"
+    },
+    "base": {
+      "path": "work/native_lane/r49_gemini_motion/func_8182D698_base.c",
+      "sha256": "285b59ec4f4f225d113a5e78e6bc597f3295ad44a4f2ff1a8ecb66da7789b6ff",
+      "text": "#include \"common.h\"\n#include \"m2c_compat.h\"\n\n#define M2C_BREAK() ((void)0)\n#define M2C_SYNC() ((void)0)\n\n#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))\n\n/* cfail-repair: tf7-phase1-cache-v3 */\nextern u8 D_80045340[];\nextern s32 D_800814A0[];\nextern void func_80025010(void) __attribute__((noreturn));\ns32 func_800478B8();\ns32 func_80069EF8();\n\ntypedef struct {\n    s32 x;\n    s32 y;\n    s32 z;\n    s32 dx;\n    s32 dy;\n    s32 dz;\n} Motion;\n\ntypedef struct {\n    void *child;\n    u8 pad[0x44];\n    u16 count;\n    u16 pad4a;\n    s16 kind;\n} Object;\n\ntypedef struct {\n    u8 pad[0x0C];\n    u8 limit;\n    u8 value_d;\n    u8 value_e;\n    u8 pad_f[5];\n    u16 flags;\n} Effect;\n\n/* Advance motion with damping and downward acceleration, then count down or fade the effect. */\nvoid func_8182D698(Object *object, Motion *motion, Effect *effect) {\n    s16 state;\n\n    ((s32 *)object->child)[3] |= 0x8000;\n    {\n        s32 y;\n        s32 y_velocity;\n        register s32 x ASM_REG(\"$2\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n\n        {\n            s32 x_velocity;\n\n            x = motion->x;\n            x_velocity = motion->dx;\n            y = motion->y;\n            y_velocity = motion->dy;\n            x += x_velocity;\n            motion->x = x;\n        }\n        {\n            s32 z_velocity;\n            volatile s32 *x_velocity_addr = &motion->dx;\n            s32 x_drag;\n            s32 random_value;\n            s32 z_jitter;\n            s32 falling_velocity;\n\n            x = motion->z;\n            z_velocity = motion->dz;\n            y += y_velocity;\n            motion->y = y;\n            random_value = *x_velocity_addr;\n            x += z_velocity;\n            x_drag = random_value >> 3;\n            motion->z = x;\n            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            {\n\n                x = y_velocity;\n                ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n                motion->dx = random_value - x_drag;\n                motion->dy = x - (x >> 3);\n            }\n            random_value = func_80069EF8(x_drag, y_velocity);\n            z_jitter = random_value * 4;\n            falling_velocity = motion->dz;\n            falling_velocity -= 0x4000;\n            motion->dz = falling_velocity - z_jitter;\n        }\n    }\n\n    state = object->kind;\n    if (state == 0) {\n        goto countdown;\n    }\n    if (state == 1) {\n        goto fade;\n    }\n    func_80025010();\n\ncountdown: {\n        u16 ticks_left = object->count - 1;\n        object->count = ticks_left;\n        if ((ticks_left << 0x10) <= 0) {\n            func_8004491C((u8 *)object - 0x20, D_80045340);\n            object->kind++;\n            func_80025010();\n        }\n    }\n    return;\n\nfade:\n        func_800478B8(effect);\n        if (effect->flags & 0x6000) {\n            effect->pad[4] = 0;\n            effect->pad[5] = 0;\n        }\n        {\n            s32 fade_step = (func_80069EF8() & 0xF) + 4;\n            if (fade_step >= effect->limit) {\n                *(s32 *)((u8 *)effect + 0xC) = 0;\n                *((u16 *)((u8 *)object - 2)) |= 0x8000;\n                D_800814A0[0] |= 0x8000;\n                func_80025010();\n            } else {\n                u8 fade_value = effect->value_e - fade_step;\n                effect->value_e = fade_value;\n                effect->value_d = fade_value;\n                effect->limit = fade_value;\n            }\n        }\n}\n"
+    },
+    "candidate": {
+      "path": "work/native_lane/r49_gemini_motion/candidate_probe1.c",
+      "sha256": "fc28f27083686fefccfc3be3286a3053064064c43ee9f6d537986e6babb32181",
+      "text": "#include \"common.h\"\n#include \"m2c_compat.h\"\n\n#define M2C_BREAK() ((void)0)\n#define M2C_SYNC() ((void)0)\n\n#define FIELD(p, type, off) (*(type *)((u8 *)(p) + (off)))\n\n/* cfail-repair: tf7-phase1-cache-v3 */\nextern u8 D_80045340[];\nextern s32 D_800814A0[];\ns32 func_800478B8();\ns32 func_80069EF8();\n\ntypedef struct {\n    s32 x;\n    s32 y;\n    s32 z;\n    s32 dx;\n    s32 dy;\n    s32 dz;\n} Motion;\n\ntypedef struct {\n    void *child;\n    u8 pad[0x44];\n    u16 count;\n    u16 pad4a;\n    s16 kind;\n} Object;\n\ntypedef struct {\n    u8 pad[0x0C];\n    u8 limit;\n    u8 value_d;\n    u8 value_e;\n    u8 pad_f[5];\n    u16 flags;\n} Effect;\n\n/* Advance motion with damping and downward acceleration, then count down or fade the effect. */\nvoid func_8182D698(Object *object, Motion *motion, Effect *effect) {\n    s16 state;\n\n    ((s32 *)object->child)[3] |= 0x8000;\n    {\n        s32 y;\n        s32 y_velocity;\n        register s32 x ASM_REG(\"$2\");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */\n\n        {\n            s32 x_velocity;\n\n            x = motion->x;\n            x_velocity = motion->dx;\n            y = motion->y;\n            y_velocity = motion->dy;\n            x += x_velocity;\n            motion->x = x;\n        }\n        {\n            s32 z_velocity;\n            volatile s32 *x_velocity_addr = &motion->dx;\n            s32 x_drag;\n            s32 random_value;\n            s32 z_jitter;\n            s32 falling_velocity;\n\n            x = motion->z;\n            z_velocity = motion->dz;\n            y += y_velocity;\n            motion->y = y;\n            random_value = *x_velocity_addr;\n            x += z_velocity;\n            x_drag = random_value >> 3;\n            motion->z = x;\n            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n            {\n\n                x = y_velocity;\n                ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */\n                motion->dx = random_value - x_drag;\n                motion->dy = x - (x >> 3);\n            }\n            random_value = func_80069EF8(x_drag, y_velocity);\n            z_jitter = random_value * 4;\n            falling_velocity = motion->dz;\n            falling_velocity -= 0x4000;\n            motion->dz = falling_velocity - z_jitter;\n        }\n    }\n\n    state = object->kind;\n    if (state == 0) {\n        goto countdown;\n    }\n    if (state == 1) {\n        goto fade;\n    }\n    return;\n\ncountdown: {\n        u16 ticks_left = object->count - 1;\n        object->count = ticks_left;\n        if ((ticks_left << 0x10) <= 0) {\n            func_8004491C((u8 *)object - 0x20, D_80045340);\n            object->kind++;\n            return;\n        }\n    }\n    return;\n\nfade:\n        func_800478B8(effect);\n        if (effect->flags & 0x6000) {\n            effect->pad[4] = 0;\n            effect->pad[5] = 0;\n        }\n        {\n            s32 fade_step = (func_80069EF8() & 0xF) + 4;\n            if (fade_step >= effect->limit) {\n                *(s32 *)((u8 *)effect + 0xC) = 0;\n                *((u16 *)((u8 *)object - 2)) |= 0x8000;\n                D_800814A0[0] |= 0x8000;\n                return;\n            } else {\n                u8 fade_value = effect->value_e - fade_step;\n                effect->value_e = fade_value;\n                effect->value_d = fade_value;\n                effect->limit = fade_value;\n            }\n        }\n}\n"
+    },
+    "independent_verification": {
+      "status": "ok",
+      "exact": true,
+      "subs": 0,
+      "indels": 0,
+      "total": 0,
+      "gen_words": 101,
+      "tgt_words": 101,
+      "class": "match",
+      "signals": [],
+      "secs": 0.78,
+      "err": null
+    },
+    "erasure_followup": {
+      "probes": [
+        {
+          "source": "work/native_lane/r49_gemini_motion/erase0.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 9,
+            "indels": 18,
+            "total": 27,
+            "gen_words": 101,
+            "tgt_words": 101,
+            "class": "code-motion",
+            "signals": [
+              "indels=18(ins9/del9)",
+              "drift-ins:+lw,+lw,+lw",
+              "drift-del:-lw,-addu,-sra"
+            ],
+            "secs": 0.83,
+            "err": null
+          }
+        },
+        {
+          "source": "work/native_lane/r49_gemini_motion/erase1.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 0,
+            "indels": 2,
+            "total": 2,
+            "gen_words": 101,
+            "tgt_words": 101,
+            "class": "reorder-only",
+            "signals": [
+              "same-multiset",
+              "indels=2(ins1/del1)",
+              "drift-ins:+sra",
+              "drift-del:-sra"
+            ],
+            "secs": 0.85,
+            "err": null
+          }
+        },
+        {
+          "source": "work/native_lane/r49_gemini_motion/erase2.c",
+          "result": {
+            "status": "ok",
+            "exact": false,
+            "subs": 0,
+            "indels": 4,
+            "total": 4,
+            "gen_words": 101,
+            "tgt_words": 101,
+            "class": "code-motion",
+            "signals": [
+              "indels=4(ins2/del2)",
+              "drift-ins:+sra,+subu",
+              "drift-del:-sra,-subu"
+            ],
+            "secs": 0.86,
+            "err": null
+          }
+        }
+      ],
+      "info": {
+        "erased": 0,
+        "tried": 3,
+        "left": 3,
+        "kept": [
+          [
+            "ASM_REG",
+            "2",
+            "code-motion"
+          ],
+          [
+            "ASM_SCHED_BARRIER",
+            "",
+            "reorder-only"
+          ],
+          [
+            "ASM_KEEP",
+            "x",
+            "code-motion"
+          ]
+        ]
+      }
+    },
+    "pins_removed": 0,
+    "landed": false,
+    "token_usage": "not reported"
+  }
+}

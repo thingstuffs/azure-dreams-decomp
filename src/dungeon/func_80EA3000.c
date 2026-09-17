@@ -9,7 +9,6 @@ extern void *func_800A04F0(void *, u8, u8, s16);
 extern s32 func_800A6D30(void);
 extern s16 func_800A70E4(s16, s16, s16);
 extern s32 func_800C8310(void *, void *);
-extern void func_80158ADC() __attribute__((noreturn));
 extern s32 D_80010248[];
 extern s32 D_8001029C[];
 extern u8 D_8006CCD8[];
@@ -137,10 +136,10 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 #endif
                 item_ptr = (u8 *)(item_offset + 0x80010248);
                 item_data = *(s32 *)item_ptr;
-                item_dest = (s32 *)0x80160000;
-                item_dest[-3079] = item_data;
-                ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                item_dest -= 3079;
+                item_dest = D_8015CFE4;
+                item_dest[0] = item_data;
+
+
                 func_80098B38(item_ptr, inventory_base);
                 return (s32)item_dest;
             }
@@ -162,15 +161,14 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
 #endif
         s32 item_data;
 
-        item_dest = (s32 *)0x80160000;
-        ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        item_dest = D_8015CFE4;
+
         item_data = *(s32 *)((u8 *)target + 0x48);
-        item_slot = item_dest - 3079;
-        item_dest[-3079] = item_data;
-        ASM_KEEP(item_slot);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        item_slot = item_dest;
+        item_dest[0] = item_data;
+
         *(s32 *)((u8 *)target + 0x48) = 0;
-        func_80158ADC(item_data, target);
-        __builtin_unreachable();
+        return (s32)item_slot;
     }
 entry_zero:
 return_zero:
