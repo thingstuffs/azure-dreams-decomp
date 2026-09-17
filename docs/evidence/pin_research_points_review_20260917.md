@@ -32,3 +32,13 @@ No compiler, export, gate, production source, recipe, ledger, or rowbase mutatio
 ## Publication addendum (root, after independent review)
 
 The accepted live source is `src/dungeon/func_819A764C.c`, SHA-256 `b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927`. The sole change after review is the proven runtime definition spelling `func_80024E4C`; rowbase promotion and clean-ledger true-name registration are complete. Fresh full verification, linked-strict bytes, all covering windows, host syntax, SLUS and row database pass. The durable source pair, complete controls and gate records are in [the round-50 receipt](pin_research_round50_20260917.json). Earlier references to live/base source and pending gates describe the pre-publication review snapshot.
+
+## Round 51 semantic naming clarification
+
+The earlier message terminology is inaccurate. The resident definition in
+`src/slus/w_8004491C.c` registers a node under a 32-bit identifier; it does not
+consume message text. The same-bank `D_80024B20` address corresponds to the
+adjacent renderer. This corrects the interpretation, not the reviewed exact
+address substitution or source hashes. Cross-file callback typing remains
+open; round 51 introduces no source or prototype change. The original round 50
+receipt is preserved as historical evidence.

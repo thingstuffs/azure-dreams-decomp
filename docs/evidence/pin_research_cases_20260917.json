@@ -2556,6 +2556,222 @@
       "transfer": {
         "enabled": false
       }
+    },
+    {
+      "id": "dungeon/func_819A764C:input-lifetime",
+      "title": "Five-vector traversal lifetime and allocation",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Two zero-pin source forms and baseline/indexed strength-reduction cross-controls; none exact."
+      },
+      "source": {
+        "path": "src/dungeon/func_819A764C.c",
+        "sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_819A764C",
+          "confidence": "high",
+          "basis": "Current clean ledger identity, full retail read, exact current baseline; round51 receipt retains source and row data."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk -fno-strength-reduce",
+          "confidence": "medium",
+          "basis": "Recorded exact baseline cell, held fixed except the explicit points strength-reduction control; no historical-release claim."
+        }
+      },
+      "causal": {
+        "question": "Can the real index/cursor lifetime preserve local saved-register occupancy while retaining the induction cursor?",
+        "prediction": "The indexed form naturally assigns input s2, but enabling strength reduction moves all three roles to global allocation. A useful source change must predictably alter that classification."
+      },
+      "evidence": [
+        {
+          "id": "r51_probe_receipt",
+          "kind": "bounded_negative",
+          "summary": "Two zero-pin source forms and baseline/indexed strength-reduction cross-controls; none exact.",
+          "bounds": {
+            "tested": "Two zero-pin source forms and baseline/indexed strength-reduction cross-controls; none exact.",
+            "untested": "Other genuine source lifetimes supported by sibling code; no further spelling or flag menu authorized by these results."
+          },
+          "artifact": {
+            "path": "docs/evidence/pin_research_round51_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Inspect actual sibling traversal lifetimes and one causal allocation difference before two source probes.",
+        "measurement": "Earliest local/global pass difference and full 130-word linked score.",
+        "success_criterion": "Correct induction addressing and retail s2/s0/s1 roles with fewer pins and exact complete bytes.",
+        "failure_criterion": "No predicted allocation change or any nonexact full result leaves the hypothesis open.",
+        "bounds": "At most two evidence-backed source hypotheses; no flag sweep."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_8195F0BC",
+      "title": "Transition zero equivalence and traversal register webs",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Six Luna hypotheses and two root loop-header/lifetime hypotheses; five-pin best 224 words/one substitution, root controls 22 substitutions."
+      },
+      "source": {
+        "path": "src/dungeon/func_8195F0BC.c",
+        "sha256": "d3fd444cf07c4fbd3cde51bfbe9586a6e9f21b0ec27baca4b0d8f0fb2b9c942c"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_8195F0BC",
+          "confidence": "high",
+          "basis": "Current clean ledger identity, full retail read, exact current baseline; round51 receipt retains source and row data."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded exact baseline cell, held fixed except the explicit points strength-reduction control; no historical-release claim."
+        }
+      },
+      "causal": {
+        "question": "Which genuine traversal lifetime avoids copying a counter known to be zero without swapping s1/s2?",
+        "prediction": "The earliest zero-equivalence decision should explain the one-word residual; separating a compiler register web must be measurable before another source candidate."
+      },
+      "evidence": [
+        {
+          "id": "r51_probe_receipt",
+          "kind": "bounded_negative",
+          "summary": "Six Luna hypotheses and two root loop-header/lifetime hypotheses; five-pin best 224 words/one substitution, root controls 22 substitutions.",
+          "bounds": {
+            "tested": "Six Luna hypotheses and two root loop-header/lifetime hypotheses; five-pin best 224 words/one substitution, root controls 22 substitutions.",
+            "untested": "Source lifetimes that split the actual compiler web; a coherent full helper ABI reconstruction."
+          },
+          "artifact": {
+            "path": "docs/evidence/pin_research_round51_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Trace zero initialization and traversal counter webs through the earliest pass divergence, then test one fact-backed source form.",
+        "measurement": "First zero-equivalence/role divergence and full 224-word score.",
+        "success_criterion": "Five or fewer pins, complete exact bytes and preserved helper/entry semantics.",
+        "failure_criterion": "A remaining copy or role swap is a bounded negative, not an impossibility.",
+        "bounds": "One pass investigation and at most two new source hypotheses."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "dungeon/func_819C0C18",
+      "title": "Ordinary switch unblocked by stale noreturn correction",
+      "status": "experiment_ready",
+      "claim": {
+        "level": "bounded_negative",
+        "summary": "Gemini partial run with two candidates; root runtime rename, barrier erasure and positive guard; filtered-census ordinary switch exact but still one pin."
+      },
+      "source": {
+        "path": "src/dungeon/func_819C0C18.c",
+        "sha256": "4a9303d048c233784e11880122d5697a75917ec03189d46aad90b2d234ae5e0f"
+      },
+      "retail": {
+        "identity": {
+          "value": "dungeon/func_819C0C18",
+          "confidence": "high",
+          "basis": "Current clean ledger identity, full retail read, exact current baseline; round51 receipt retains source and row data."
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0",
+          "confidence": "medium",
+          "basis": "Recorded exact baseline cell, held fixed except the explicit points strength-reduction control; no historical-release claim."
+        }
+      },
+      "causal": {
+        "question": "Which actual case-zero dependence preserves the retail state-store and child-flags-load schedule without a barrier?",
+        "prediction": "The one-word jal-to-j error is metadata-owned and disappears with the one-name correction; the barrier-free length/schedule mismatch remains C-owned pending first-pass attribution."
+      },
+      "evidence": [
+        {
+          "id": "r51_probe_receipt",
+          "kind": "bounded_negative",
+          "summary": "Gemini partial run with two candidates; root runtime rename, barrier erasure and positive guard; filtered-census ordinary switch exact but still one pin.",
+          "bounds": {
+            "tested": "Gemini partial run with two candidates; root runtime rename, barrier erasure and positive guard; filtered-census ordinary switch exact but still one pin.",
+            "untested": "Correct source dependence for case-zero scheduling and full ordinary-switch table publication proof."
+          },
+          "artifact": {
+            "path": "docs/evidence/pin_research_round51_20260917.json"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Compare barrier and free-case scheduling dumps to identify the first changed memory/control dependence before two genuine source hypotheses.",
+        "measurement": "First differing compiler pass, full 334-word linked bytes and actual jump-table bytes.",
+        "success_criterion": "Zero pins, exact function and table bytes, independent semantic review.",
+        "failure_criterion": "An unexplained schedule/length difference stays unresolved; same-pin switch exactness is not a pin removal.",
+        "bounds": "One pass investigation and at most two source hypotheses; fixed recipe."
+      },
+      "verification": {
+        "exact_bytes": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "semantic_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "caller_review": {
+          "state": "pending",
+          "evidence_refs": []
+        },
+        "publication_gate": {
+          "state": "pending",
+          "evidence_refs": [],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
     }
   ]
 }
