@@ -1,0 +1,131 @@
+{
+  "schema": "azure-clean.pin-research-record-copy.v1",
+  "row": "town/func_80878974",
+  "base_sha256": "a49ce9ec327ef655db47654c1671762dd5285b0b45b2fcb01bf419f12cd3738e",
+  "source_sha256": "a2f43febd8306933d2a0648013a17fb94b078c5442df816f5c04e5de35ab0db6",
+  "retail_sha256": "66834386175298a800d09426671d4866c3c2a38534cc8c78f0650576f4dd13f8",
+  "pins_before": 2,
+  "pins_after": 0,
+  "recipe": {
+    "compiler": "2.7.2",
+    "as_flags": "--aspsx-version=2.40",
+    "provenance": "pre2.50 immediate materialization family, not unique historical release"
+  },
+  "controls": [
+    {
+      "source": "base",
+      "source_sha": "a49ce9ec327ef655db47654c1671762dd5285b0b45b2fcb01bf419f12cd3738e",
+      "aspsx": "2.56",
+      "error": null,
+      "exact": true,
+      "size": 224,
+      "diff_words": []
+    },
+    {
+      "source": "base",
+      "source_sha": "a49ce9ec327ef655db47654c1671762dd5285b0b45b2fcb01bf419f12cd3738e",
+      "aspsx": "2.40",
+      "error": null,
+      "exact": true,
+      "size": 224,
+      "diff_words": []
+    },
+    {
+      "source": "zero_plain",
+      "source_sha": "58c7ee550116e08b11a25804179b2fff87a1f9015106913ac63efaef5f680e73",
+      "aspsx": "2.56",
+      "error": null,
+      "exact": false,
+      "size": 224,
+      "diff_words": [
+        50
+      ]
+    },
+    {
+      "source": "zero_plain",
+      "source_sha": "58c7ee550116e08b11a25804179b2fff87a1f9015106913ac63efaef5f680e73",
+      "aspsx": "2.40",
+      "error": null,
+      "exact": true,
+      "size": 224,
+      "diff_words": []
+    }
+  ],
+  "format_evidence": {
+    "retail": {
+      "container": "TOWN_TOWN.BIN",
+      "foff": "0x7f8974",
+      "size": 224,
+      "sha256": "66834386175298a800d09426671d4866c3c2a38534cc8c78f0650576f4dd13f8"
+    },
+    "strings": [
+      {
+        "address": "0x807028b0",
+        "file_offset": "0x7f88b0",
+        "text": "%s = %d\n"
+      },
+      {
+        "address": "0x807028bc",
+        "file_offset": "0x7f88bc",
+        "text": "p->kind"
+      },
+      {
+        "address": "0x807028c4",
+        "file_offset": "0x7f88c4",
+        "text": "ov_work.kind"
+      },
+      {
+        "address": "0x807028d4",
+        "file_offset": "0x7f88d4",
+        "text": "mark: %s line %d\n"
+      },
+      {
+        "address": "0x807028e8",
+        "file_offset": "0x7f88e8",
+        "text": "sn_main.c"
+      }
+    ],
+    "mapping_note": "String addresses independently encoded in the target; byte locations agree with sn_main.c assertion evidence. This does not upgrade the registered synthetic code base."
+  },
+  "production_baseline": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 56,
+    "tgt_words": 56,
+    "class": "match",
+    "signals": [],
+    "secs": 0.68,
+    "err": null
+  },
+  "production_candidate": {
+    "status": "ok",
+    "exact": true,
+    "subs": 0,
+    "indels": 0,
+    "total": 0,
+    "gen_words": 56,
+    "tgt_words": 56,
+    "class": "match",
+    "signals": [],
+    "secs": 0.68,
+    "err": null
+  },
+  "rtl": {
+    "observation": "The aggregate copy remains mem:BLK parallel operations through RTL, scheduling, and local allocation, including the four-byte tail. Tail load/store emits together; assembler supplies load-delay nop. No source asm remains.",
+    "artifact": "work/native_lane/r40_callback/aggregate_final_observe.json"
+  },
+  "semantic_review": "docs/evidence/pin_research_record_copy_review_20260917.md",
+  "landing": "ledger/sweeps/r40_record_copy.jsonl",
+  "gates": {
+    "town_deep_t8b_7f8974": "MATCH 564 bytes",
+    "SLUS": "SHA-1 MATCH, 884 TUs"
+  },
+  "limitations": [
+    "Inherited interior-field address expression and overlapping global declarations remain shared-layout portability debt.",
+    "The precise historical assembler release is unproven.",
+    "Aggregate-copy transfer is being tested independently; this row alone establishes no family success."
+  ]
+}

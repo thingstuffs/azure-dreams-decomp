@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6102,
-    "pinned_rows": 1283,
-    "basis": "STATUS.md post-exemplar census after dungeon/func_81811388 publication gates"
+    "pins": 6100,
+    "pinned_rows": 1282,
+    "basis": "STATUS.md after gated round40 record-copy repair"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -134,14 +134,23 @@
         {
           "id": "family_transfer_negative",
           "kind": "bounded_negative",
-          "summary": "A reviewed split-address cohort found no independent exact positive. The closest transfer reaches total 2 and the negative ownership/safety controls reject a blanket de-volatile/de-pin rule, so the exemplar does not establish a family repair.",
+          "summary": "The reviewed round-39 split-address cohort found no independent exact positive. Its closest zero-pin transfer reaches total 2, and the ownership/safety controls reject a blanket de-volatile/de-pin rule, so the exemplar alone does not establish a family repair.",
           "artifact": {
             "path": "docs/evidence/pin_research_transfer_20260917.md",
             "anchor": "#transfer-cohort"
           },
           "bounds": {
-            "tested": "three ordinary symbol/table rows, one direct-table row, one absolute-address negative, and one added bounds-table row across relevant stock cells",
-            "untested": "future rows with the same single ordinary-symbol, short-lived split-address quantity and independently proven volatile safety"
+            "tested": "the round-39 callback-table, direct-table, absolute-address, arithmetic-colouring, and bounds-table source forms across their recorded relevant stock cells",
+            "untested": "different source reconstructions or recipes, including the separately tracked round-40 whole-struct candidate for town/func_80878974, and future rows with the same single ordinary-symbol, short-lived split-address quantity and independently proven volatile safety"
+          }
+        },
+        {
+          "id": "r40_80878974_pending",
+          "kind": "observation",
+          "summary": "A separate round-40 town/func_80878974 repair uses a whole 52-byte struct copy with ASPSX 2.40, is zero-pin and byte-exact, has landed, and passed semantic review. Its publication gate is still running, so it is not yet resolved; its distinct record-copy mechanism is not an independent positive transfer control for this round-39 split-address case.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_transfer_20260917.md",
+            "anchor": "#post-round-39-follow-up-boundary"
           }
         }
       ],
@@ -211,8 +220,8 @@
         }
       },
       "causal": {
-        "question": "Which staged vertex lifetime and expression dependency makes height0 complete before xy2 work while separately giving the cell induction pseudo priority over the vertex-base pseudo?",
-        "prediction": "The vertex3-only split plus a real embedded height0 dependence will preserve the now-aligned field-load sites and move only the four local scheduling indels; a later independent lifetime/reuse change must reverse pseudo 88 versus 354 without perturbing the exact post-terrain region."
+        "question": "Which ordinary lifetime, reuse, or preference makes the cell induction pseudo outrank the vertex-base pseudo while preserving the exact post-terrain region, and do the four local scheduling indels then resolve with that hard-register assignment?",
+        "prediction": "A source relationship grounded in the original owner or a sibling will lower vertex-base priority below 6428, raise cell-pointer priority above 6846, or create a relevant preference without perturbing words 295-429; with the retail s4/s5 assignment restored, the remaining local scheduling difference can be tested as a potentially co-adapted effect."
       },
       "evidence": [
         {
@@ -273,19 +282,32 @@
         {
           "id": "split_vertex3_support",
           "kind": "observation",
-          "summary": "Splitting only vertex3's pointer and signed-y lifetimes improves the fully depinned control from total 55 to 33 while retaining 430 words and the exact 0x80 frame. It aligns the index/pointer/field-load region but leaves global s4/s5 order, xy1 colouring, and four scheduling indels; it supports a lifetime mechanism without proving original source.",
+          "summary": "Splitting only vertex3's pointer and signed-y lifetimes improves the fully depinned control from total 55 to 33 while retaining 430 words and the exact 0x80 frame. It aligns the index/pointer/field-load region but leaves global s4/s5 order, xy1 colouring, and four scheduling indels; it supports a lifetime mechanism without proving original source. The measured allocator trace identifies vertex-base pseudo 88 at priority 6846 ahead of cell-pointer pseudo 355 at 6428, with no relevant preference.",
           "artifact": {
             "path": "docs/evidence/pin_research_rebuild_20260917.md",
             "anchor": "#updated-staged-reuse-result"
           }
+        },
+        {
+          "id": "final_mechanism_probe_bounds",
+          "kind": "bounded_negative",
+          "summary": "The predicted embedded height, vertex-1 split, cell-source, control-flow, and nearby reuse spellings do not repair the 33-point v20 residue. Several are byte-neutral while broader merges worsen length, frame, colouring, or scheduling. CDK remains better than the tested 2.8 cells.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_rebuild_20260917.md",
+            "anchor": "#allocator-trace-and-final-mechanism-probes"
+          },
+          "bounds": {
+            "tested": "v20 allocator tracing; signed/direct/embedded height forms; vertex-1 split and signedness forms; bias/height reuse; typed and explicit cell forms; inner-loop control form; and 2.8.0/2.8.1 lineage checks",
+            "untested": "an evidence-backed ordinary lifetime or preference that crosses the measured 6846/6428 threshold while preserving the exact post-terrain region, followed by the four potentially co-adapted sched2 indels"
+          }
         }
       ],
       "next_experiment": {
-        "action": "Starting from the vertex3-only lifetime split, test an embedded height0 assignment/store shape that creates a real dependence or pseudo death before xy2 construction; keep the global s4/s5 allocator issue separate until local order stabilizes.",
-        "measurement": "At fixed 2.7.2-cdk -G0, compare exact bytes and the word-117-148 access/order map, ensuring the frame and already aligned index/pointer/field-load sites remain unchanged; then inspect the relevant scheduler dependency/ready state.",
-        "success_criterion": "Candidate words 139-148 move into retail order without changing the exact word-117-138 access sites, 430-word length, or 0x80 frame.",
-        "failure_criterion": "The embedded form leaves the four scheduling indels or perturbs the proven access sites/frame; record that form as a bounded negative and retain the separate pseudo-88 versus pseudo-354 allocator route.",
-        "bounds": "One embedded height0 family on the hash-recorded vertex3 split at fixed CDK, with a no-embed control; no broad declaration or compiler-cell search."
+        "action": "Starting from zero-pin v20, recover and test one evidence-backed ordinary lifetime, reuse, or preference that can lower the vertex-base priority below 6428, raise the cell-pointer priority above 6846, or otherwise make the cell pointer precede the vertex base; preserve the exact post-terrain region, then remeasure the four local sched2 indels under the corrected hard-register assignment.",
+        "measurement": "At fixed 2.7.2-cdk -G0, capture allocator refs, live length, calls crossed, priority, global order, preferences, assigned s4/s5 roles, exact bytes, 430-word length, 0x80 frame, words 104-172, and the already exact words 295-429.",
+        "success_criterion": "The natural source relationship gives the cell pointer s4 and vertex base s5 through the measured allocator mechanism without perturbing words 295-429, length, or frame; subsequent scheduling analysis reduces or explains the four indels without pins.",
+        "failure_criterion": "The candidate does not cross the measured allocator threshold or changes the exact post-terrain region, frame, or length; record only that source family as a bounded negative and keep the case unresolved.",
+        "bounds": "One small source-lifetime/preference family justified by owner or sibling evidence on hash-recorded v20 at fixed CDK; do not repeat the completed height, vertex-1, cell-loop, or broad compiler-cell forms."
       },
       "verification": {
         "exact_bytes": {
@@ -335,8 +357,8 @@
         }
       },
       "causal": {
-        "question": "Can a real value lifetime at the fallthrough head create the dependency that keeps the symbolic HIGH out of GCC's branch delay SEQUENCE without losing relocations or port semantics?",
-        "prediction": "Reusing frame_ticks, sync_flags, or the loaded byte across the outer condition will create a dump-visible dependency at the fallthrough head; a successful form retains symbolic HI16/LO16 relocations, all 91 retail instructions, and the nop without new runtime work."
+        "question": "Does the original 16-byte frame-sync object have an authentic update/read relationship that keeps the symbolic HIGH out of GCC's branch delay SEQUENCE, or does this site expose a delayed-branch candidate-selection difference in the recovered compiler?",
+        "prediction": "A real cross-field dependency recovered from the defining object context will retain symbolic HI16/LO16 relocations and all 91 retail instructions while keeping HIGH out of the delay SEQUENCE; if no such relationship exists, a pass-level comparison should identify a site-specific recovered-versus-rebuilt 2.8.1 selection difference rather than a global assembler rule."
       },
       "evidence": [
         {
@@ -349,7 +371,7 @@
           },
           "bounds": {
             "tested": "six local branch/control shapes, volatile symbolic read, full symbolic source, grouped page-base source, and nine named stock cells",
-            "untested": "real cross-condition value reuse and an authentic contiguous-object declaration with distinct relocation semantics"
+            "untested": "a richer authentic update/read relationship within the 16-byte object and a site-specific recovered-versus-rebuilt delayed-branch implementation difference"
           }
         },
         {
@@ -378,14 +400,27 @@
             "path": "docs/evidence/pin_research_assembler_20260917.md",
             "anchor": "#literal-address-diagnostic-rejected-as-a-repair"
           }
+        },
+        {
+          "id": "reuse_context_negative",
+          "kind": "bounded_negative",
+          "summary": "The three value-lifetime probes and two authentic 16-byte declaration spellings are complete negatives. Each reuse probe still places branch and symbolic HIGH in one .dbr delay SEQUENCE; the array and struct context forms remain 121/122 at total 26.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_assembler_20260917.md",
+            "anchor": "#next-bounded-source-experiment"
+          },
+          "bounds": {
+            "tested": "reuse_zero, frame_ticks reuse, sync_flags reuse, authentic 16-byte array extent, and authentic 16-byte fielded struct at fixed 2.8.1 -G0 with raw .greg/.dbr and linked scoring",
+            "untested": "the defining TU/linker declaration plus an authentic cross-field update/read relationship, and a pass-source comparison for a site-specific compiler candidate-selection difference"
+          }
         }
       ],
       "next_experiment": {
-        "action": "At fixed 2.8.1 -G0, reuse frame_ticks, sync_flags, and the loaded byte one at a time across the outer condition and D_80080A85 test; inspect .greg and .dbr before scoring each candidate.",
-        "measurement": "For each form: dependency at the fallthrough head, membership of symbolic HIGH in the delay SEQUENCE, symbolic relocation retention, runtime instruction count, and final linked bytes.",
-        "success_criterion": "One honest form keeps HIGH out of the delay SEQUENCE, retains HI16/LO16 relocations and port behavior, adds no runtime instruction, and matches all 91 linked retail instructions.",
-        "failure_criterion": "All three real reuse forms still allow HIGH into the delay SEQUENCE or perturb other bytes; record the three-form bound and proceed to authentic contiguous-object declaration evidence.",
-        "bounds": "Exactly three value-reuse candidates at the recorded recipe, with the current pinless form and isolated fallthrough-head probe as controls."
+        "action": "Trace the defining TU/linker declaration and original update/read sequence for the 16-byte frame-sync object, then reproduce only an authentic cross-field dependency at this tail. If provenance supplies no such relationship, compare the recovered GCC/SN cc1 delayed-branch candidate selection with the rebuilt 2.8.1 pass at this site.",
+        "measurement": "Record declaration and same-image provenance, source-level dependency, raw .greg and .dbr state, delay-SEQUENCE membership, symbolic relocations, runtime instruction count, and all 91 linked retail instructions; for the fallback, record the exact pass-source decision and divergent state.",
+        "success_criterion": "An authentic source relationship keeps HIGH out of the delay SEQUENCE, preserves relocations and port behavior, adds no runtime instruction, and matches all 91 instructions; alternatively, pass evidence demonstrates the precise site-specific compiler selection difference.",
+        "failure_criterion": "No authentic relationship changes the sequence and no pass-level difference is demonstrated; retain unresolved status, because this bounded failure is not an architecture or instruction-set impossibility.",
+        "bounds": "One provenance-led reconstruction from same-image/linker evidence for the 16-byte object, followed if needed by one focused recovered-versus-rebuilt delayed-branch pass comparison; do not repeat the completed reuse or declaration-spelling probes."
       },
       "verification": {
         "exact_bytes": {
@@ -404,6 +439,104 @@
           "state": "pending",
           "evidence_refs": [],
           "kind": "slus_image"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_80878974",
+      "title": "Whole-record copy and variadic diagnostic interface",
+      "status": "resolved",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Both pins removed by ordinary aggregate-copy C and historically supported old-ASPSX immediate convention; individually reviewed and publication-gated. Family transfer remains unproved."
+      },
+      "source": {
+        "path": "src/town/func_80878974.c",
+        "sha256": "a2f43febd8306933d2a0648013a17fb94b078c5442df816f5c04e5de35ab0db6"
+      },
+      "retail": {
+        "identity": {
+          "value": "TOWN offset 0x7f8974, 224 bytes, synthetic row 80878974 / runtime 80702974",
+          "confidence": "high",
+          "basis": "Registered extent, full retail hash, and assertion-site/string evidence; no rowbase configuration changed"
+        },
+        "recipe": {
+          "value": "2.7.2, ASPSX2.40 convention",
+          "confidence": "medium",
+          "basis": "Pinned and ordinary source exact at this convention; immediate word 50 and neighboring old-ASPSX island identify the family, not a unique release"
+        }
+      },
+      "causal": {
+        "question": "Did the manual loop and artificial fourth callback argument obscure a compiler-generated aggregate copy?",
+        "prediction": "A whole 52-byte assignment will preserve the tail as a mem:BLK operation through scheduling and emit the retail load-delay sequence without ASM_USE."
+      },
+      "candidate": {
+        "path": "src/town/func_80878974.c",
+        "sha256": "a2f43febd8306933d2a0648013a17fb94b078c5442df816f5c04e5de35ab0db6",
+        "base_source_sha256": "a49ce9ec327ef655db47654c1671762dd5285b0b45b2fcb01bf419f12cd3738e",
+        "recipe": "2.7.2 --aspsx-version=2.40"
+      },
+      "evidence": [
+        {
+          "id": "copy_proof",
+          "kind": "positive_candidate",
+          "summary": "Full 56-word strict match, production pinned control, block-move RTL observation, format strings, and gate receipts.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_record_copy_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Whole 52-byte record assignment, consistent variadic logger, ordinary RAM table, plain line constant",
+            "recipe": "2.7.2 --aspsx-version=2.40",
+            "result": "56/56 unmasked linked words exact; full TOWN window and SLUS MATCH",
+            "remaining_question": "Independent aggregate-copy family transfer and inherited shared-global layout debt"
+          }
+        },
+        {
+          "id": "copy_review",
+          "kind": "observation",
+          "summary": "52-byte interval, real kind field, three-argument variadic logger, ordinary RAM table and unchanged external ABI reviewed; inherited interior-label/overlapping-global portability debt explicit.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_record_copy_review_20260917.md"
+          }
+        },
+        {
+          "id": "copy_landed",
+          "kind": "observation",
+          "summary": "Candidate landed through standard apply_candidates with current base hash and zero source pins.",
+          "artifact": {
+            "path": "ledger/sweeps/r40_record_copy.jsonl"
+          }
+        }
+      ],
+      "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_proof"
+          ],
+          "kind": "overlay_window"
         }
       },
       "transfer": {
