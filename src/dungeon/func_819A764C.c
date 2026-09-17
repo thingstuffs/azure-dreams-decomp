@@ -41,22 +41,14 @@ typedef struct S_819A764C_3 {
     u32 unk_14A0;
 } S_819A764C_3;   /* (void *)page_base in func_819A764C */
 
-
-
 extern u8 D_80024B20[];
-#ifndef NON_MATCHING
-extern u8 D_80020000[];
-__asm__(".set D_80020000, 0x80020000");
-#else
-#define D_80020000 (D_80024B20 - 0x4B20)
-#endif
-extern void func_80025038(void) __attribute__((noreturn));
+extern s32 D_800814A0[3];
 extern void func_8004491C();
 extern s16 func_8006649C();
 extern s32 func_80069EF8(void);
 
 /* Update randomized intermediate points and advance the effect state. */
-void func_819A764C(void *effect_data)
+void func_80024E4C(void *effect_data)
 {
     s16 point_step[3];
     s32 state;
@@ -64,11 +56,10 @@ void func_819A764C(void *effect_data)
     void *point_slot;
     void *object_base;
     S_819A764C_1 *linked_object;
-    register u32 page_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *message;
-    register void *self ASM_REG("$18") = effect_data;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *self ASM_REG("$18") = effect_data;
+    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     linked_object = ((S_819A764C_0 *)self)->unk_00;
     linked_object->unk_52 |= 0x8000;
 
@@ -102,18 +93,17 @@ void func_819A764C(void *effect_data)
     if (state == 0) {
         goto state_zero;
     }
-    func_80025038();
+    return;
 
 high_states:
     if (state == 2) {
         goto state_two;
     }
-    func_80025038();
+    return;
 
 state_zero:
-    message = D_80020000;
-    ASM_KEEP(message);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    message += 0x4B20;
+    message = D_80024B20;
+
     func_8004491C(object_base, message);
 
 state_one:
@@ -121,11 +111,10 @@ state_one:
     ((S_819A764C_0 *)self)->unk_38 += 0xFFF7F7F8;
     ((S_819A764C_0 *)self)->unk_42 = func_8006649C((func_80069EF8() & 0xF) << 4, 0x1F8);
     ((S_819A764C_0 *)self)->unk_3C.u++;
-    func_80025038();
+    return;
 
 state_two:
-    page_base = 0x80080000;
-    ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+
     ((S_819A764C_0_pre *)self)[-1].unk_00 |= 0x8000;
-    ((S_819A764C_3 *)((void *)page_base))->unk_14A0 |= 0x8000;
+    D_800814A0[0] |= 0x8000;
 }
