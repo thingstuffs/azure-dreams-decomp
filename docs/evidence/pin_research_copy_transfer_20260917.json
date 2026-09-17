@@ -1,0 +1,65 @@
+{
+  "schema": "azure-clean.pin-copy-transfer.v1",
+  "row": "town/func_800A23CC",
+  "base_sha256": "f1d878c504858fe9c462ab50c7e36c22a1c4d52a8c032943dbed293a4986d15c",
+  "source_sha256": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de",
+  "recipe": "2.7.2-cdk-G0 unchanged",
+  "pins_before": 4,
+  "pins_after": 2,
+  "removed": [
+    "record_buffer ASM_REG($17)",
+    "ASM_MEM_BARRIER"
+  ],
+  "remaining": [
+    "stored_entry ASM_REG($2)",
+    "ASM_KEEP(entry)"
+  ],
+  "extent_bytes": 84,
+  "exact_words": 113,
+  "proof": "docs/evidence/pin_research_copy_transfer_20260917.md",
+  "landing": "ledger/sweeps/r40_record_copy_transfer.jsonl",
+  "publication_gate": {
+    "window": "town_scene",
+    "state": "MATCH",
+    "bytes": 335872,
+    "seconds": 243.5
+  },
+  "negative_controls": [
+    {
+      "row": "town/func_800B0994",
+      "base_exact": true,
+      "candidates": 4,
+      "best_total": 17,
+      "mechanism": "Correct aggregate-copy structure, different global pointer allocation."
+    },
+    {
+      "row": "town/func_8080E838",
+      "base_exact": true,
+      "candidates": 3,
+      "best_total": 18,
+      "mechanism": "Opaque BLK copy groups correctly, different address/scratch register partition."
+    },
+    {
+      "row": "town/func_8081DD70",
+      "base_exact": true,
+      "candidates": 1,
+      "best_total": 28,
+      "mechanism": "Same register partition difference, also perturbs subsequent copy."
+    }
+  ],
+  "lineage_followup": {
+    "row": "town/func_8080E838",
+    "candidates": "Same existing Copy88 source, no additional C variants",
+    "results": {
+      "2.7.2-G0": {
+        "pinned_base_total": 30,
+        "aggregate_total": 2
+      },
+      "2.7.2-cdk-G0": {
+        "pinned_base_total": 29,
+        "aggregate_total": 5
+      }
+    },
+    "finding": "Both older aggregate builds recover the retail pointer/scratch partition; neither is exact, and existing pinned source is not exact at either alternate cell. Historical release and admissible recipe transition remain unresolved."
+  }
+}

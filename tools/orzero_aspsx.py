@@ -123,7 +123,11 @@ def rewrite(t, scored_only=False):
     """scored_only: never touch a NON_MATCHING port arm (the lint's unscored_text); the port-only
     leftovers go in a second, codegen-identical tidy pass (the full rewrite of the landed text)."""
     safe = {m.group(1) for m in DECL.finditer(t) if _or_only(t, m.group(1), scored_only)}
-    t = _map_code_lines(t, lambda line: SX.sub(lambda m: m.group(2), line), scored_only)
+
+    def rewrite_sx(m):
+        # The replacement drops the local declaration, so its RHS must not retain that name.
+        return m.group(0) if re.search(r'\b' + re.escape(m.group(1)) + r'\b', m.group(2)) else m.group(2)
+    t = _map_code_lines(t, lambda line: SX.sub(rewrite_sx, line), scored_only)
     if scored_only:
         def scored_ifndef(m):
             return m.group(1) if m.group(2) in safe else m.group(0)

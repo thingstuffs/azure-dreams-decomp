@@ -16,10 +16,6 @@ typedef struct {
 } Record84;
 extern Record84 D_80100AF8;
 
-typedef struct Copy16 {
-    s32 words[4];
-} Copy16;
-
 typedef struct Copy10 {
     s8 bytes[10];
 } __attribute__((packed)) Copy10;
@@ -48,9 +44,7 @@ typedef struct S_8009FB2C_2 {
 void func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
     u8 *copy_dst;
     u8 *copy_src;
-    s32 unused_value;
     s32 record_index;
-    u8 *copy_end;
     void *detail_dst;
     S_8009FB2C_0 *entry;
     void *detail_src;
@@ -68,21 +62,14 @@ void func_8009FB2C(s32 slot_index, S_8009FB2C_1 *source_entry) {
         func_80042640(&D_80100A10, entry->unk_00);
         func_800423C0(&D_80100A10, entry->unk_00, 0);
         {
-            register u8 *record_buffer ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            u8 *record_buffer;
             record_buffer = (u8 *)&D_80100AF8;
             copy_src = record_buffer;
             func_800422DC(record_buffer, &D_80100A10);
         }
         record_index = func_8009F970((void *)0x800102F0, 0x14);
         copy_dst = (record_index * 0x54) + (u8 *)0x800102F0;
-        copy_end = copy_src + 0x50;
-        do {
-            *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
-            copy_src += 0x10;
-            copy_dst += 0x10;
-        } while (copy_src != copy_end);
-        *(s32 *)copy_dst = *(s32 *)copy_src;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        *(Record84 *)copy_dst = *(Record84 *)copy_src;
         detail_dst = (record_index * 0x54) + (u8 *)0x80010324;
         detail_src = func_8003C06C(entry->unk_00);
         *(Copy10 *)detail_dst = *(Copy10 *)detail_src;

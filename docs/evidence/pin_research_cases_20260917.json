@@ -8,9 +8,9 @@
     "basis": "docs/PIN_GOAL_PROGRESS.md round 37/38 census; the former plateau is a bounded negative, not a stopping rule"
   },
   "observed_current": {
-    "pins": 6100,
+    "pins": 6098,
     "pinned_rows": 1282,
-    "basis": "STATUS.md after gated round40 record-copy repair"
+    "basis": "STATUS.md after both gated round40 record-copy repairs"
   },
   "policy": {
     "failed_search": "unresolved or bounded_negative within its recorded bounds",
@@ -512,6 +512,110 @@
         }
       ],
       "next_experiment": null,
+      "verification": {
+        "exact_bytes": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_proof"
+          ]
+        },
+        "semantic_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_review"
+          ]
+        },
+        "caller_review": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_review"
+          ]
+        },
+        "publication_gate": {
+          "state": "pass",
+          "evidence_refs": [
+            "copy_proof"
+          ],
+          "kind": "overlay_window"
+        }
+      },
+      "transfer": {
+        "enabled": false
+      }
+    },
+    {
+      "id": "town/func_800A23CC",
+      "title": "Independent 84-byte aggregate-copy repair",
+      "status": "repair_verified",
+      "claim": {
+        "level": "verified_repair",
+        "summary": "Two copy pins removed at the unchanged compiler recipe; individually exact, semantically reviewed, and full-window gated. The later entry-store pins remain unresolved."
+      },
+      "source": {
+        "path": "src/town/func_800A23CC.c",
+        "sha256": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de"
+      },
+      "retail": {
+        "identity": {
+          "value": "TOWN offset 0x223cc, true function func_8009FB2C, 452 bytes",
+          "confidence": "high",
+          "basis": "Registered extent, independent strict row verification, full town_scene byte identity"
+        },
+        "recipe": {
+          "value": "2.7.2-cdk-G0 unchanged",
+          "confidence": "high",
+          "basis": "Recorded row recipe; old and new source exact without a cell or assembler change"
+        }
+      },
+      "causal": {
+        "question": "Can the real Record84 assignment replace both manual-copy ordering and source-buffer register binding?",
+        "prediction": "An opaque 16-byte block loop plus four-byte tail will preserve copy order and permit the source lifetime to allocate naturally across the fill call."
+      },
+      "candidate": {
+        "path": "src/town/func_800A23CC.c",
+        "sha256": "78d6d82f634b6f75b0781fbc071b68ff9aa0e51ff5110a6b88d110addcd8f0de",
+        "base_source_sha256": "f1d878c504858fe9c462ab50c7e36c22a1c4d52a8c032943dbed293a4986d15c",
+        "recipe": "2.7.2-cdk-G0"
+      },
+      "evidence": [
+        {
+          "id": "copy_proof",
+          "kind": "positive_candidate",
+          "summary": "113/113 exact, two copy pins removed, full 335872-byte town_scene gate MATCH.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy_transfer_20260917.json"
+          },
+          "candidate": {
+            "source_change": "Replace five manual chunks and one-word tail with Record84 assignment; remove memory barrier and record_buffer register binding",
+            "recipe": "2.7.2-cdk-G0 unchanged",
+            "result": "113/113 exact; full town_scene window MATCH",
+            "remaining_question": "The two unrelated entry-store pins and other family members remain unresolved"
+          }
+        },
+        {
+          "id": "copy_review",
+          "kind": "observation",
+          "summary": "Existing Record84 and 0x54-byte stride establish extent; source/destination disjoint; later 10-byte overwrite and external ABI unchanged.",
+          "artifact": {
+            "path": "docs/evidence/pin_research_copy_transfer_20260917.md"
+          }
+        },
+        {
+          "id": "copy_landed",
+          "kind": "observation",
+          "summary": "Two-pin reduction landed through apply_candidates with checked base hash and unchanged recipe.",
+          "artifact": {
+            "path": "ledger/sweeps/r40_record_copy_transfer.jsonl"
+          }
+        }
+      ],
+      "next_experiment": {
+        "action": "Explain the remaining stored_entry register binding and ASM_KEEP(entry) at the post-copy entry-store join, using the current two-pin source as the exact baseline.",
+        "measurement": "Trace the erased binding and compare the real entry value lifetime across the conditional; inspect why removing the keep drops an instruction before proposing a source reconstruction.",
+        "success_criterion": "A source-level join representing the actual entry value removes another pin and matches all 113 words at the unchanged recipe.",
+        "failure_criterion": "The observed allocation or missing copy remains unexplained; retain it as an unresolved compiler/source question with the exact trace evidence.",
+        "bounds": "One individual erasure per remaining site for diagnosis, followed by at most two reconstructions predicted from the trace; no declaration-order sweep."
+      },
       "verification": {
         "exact_bytes": {
           "state": "pass",
