@@ -27,14 +27,14 @@ s32 func_80702714(s32 flag_index)
             flag_word = (s32 *)word_address;
             return value & *flag_word;
         } else {
-            register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            s32 zero = 0;
 #ifdef NON_MATCHING
             zero = 0;
 #endif
             return zero + 1;
         }
     } else {
-        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        s32 zero = 0;
 #ifdef NON_MATCHING
         zero = 0;
 #endif

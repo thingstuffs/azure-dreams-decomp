@@ -681,7 +681,7 @@ loop_setup_b:
         goto next_object_loop;
     }
     {
-        register s32 zero_result ASM_REG("$0");
+        s32 zero_result = 0;
 
         return zero_result;
     }

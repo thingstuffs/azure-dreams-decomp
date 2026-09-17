@@ -152,7 +152,7 @@ next_node:
         goto next_node;
     }
     {
-        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 zero = 0;
 
 #ifdef NON_MATCHING
         zero = 0;

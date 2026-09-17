@@ -312,7 +312,7 @@ draw_side:
             goto setup_quad;
         }
         {
-            register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            s32 hard_zero = 0;
 #ifdef NON_MATCHING
             hard_zero = 0;
 #else
@@ -380,7 +380,7 @@ advance_object:
     goto draw_object;
 return_zero:
     {
-        register s32 hard_zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        s32 hard_zero = 0;
 #ifdef NON_MATCHING
         hard_zero = 0;
 #else
