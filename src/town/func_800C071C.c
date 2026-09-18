@@ -23,8 +23,8 @@ void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
     /* MATCH: Preserve retail's source register after making call arguments explicit. */
     register s32 *source ASM_REG("$17");
     /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
-    register S_800BDE7C_0 *call_arg0 ASM_REG("$4") = arg0;
-    register S_800BDE7C_1 *call_arg2 ASM_REG("$6") = arg2;
+    S_800BDE7C_0 *call_arg0 = arg0;
+    S_800BDE7C_1 *call_arg2 = arg2;
 
     state = arg0->unk_68.s;
     source = arg0->unk_A0;
