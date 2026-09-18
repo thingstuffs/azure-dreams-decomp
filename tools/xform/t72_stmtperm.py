@@ -287,6 +287,7 @@ class T:
     @classmethod
     def apply_verified(cls, text, row, census, vf):
         pins_in, listings, verifies, steps, cur = len(sites_of(text)), 0, 0, [], text
+        best = None                                   # (distance, perm) of the nearest non-exact order seen
         target = screen.compile_s(row, text)
         if target is None:
             return None, {"refused": ["pinned text does not build to a listing"], "pins_in": pins_in, "pins_out": pins_in}
@@ -307,8 +308,13 @@ class T:
                         continue
                     cand = build(cur, run, perm, set(erase))
                     lst = screen.compile_s(row, cand); listings += 1
-                    if lst is not None and dist(target, lst) == 0:
+                    if lst is None:
+                        continue
+                    d = dist(target, lst)
+                    if d == 0:
                         exact.append((perm, cand))
+                    elif best is None or d < best[0]:
+                        best = (d, "".join(map(str, perm)), run[0].first + 1)
                 for perm, cand in exact:
                     if verifies >= MAX_VERIFY:
                         break
@@ -321,7 +327,7 @@ class T:
                         break
                 if found:
                     break
-        info = {"listings": listings, "tried": verifies, "pins_in": pins_in, "pins_out": len(sites_of(cur))}
+        info = {"listings": listings, "tried": verifies, "pins_in": pins_in, "pins_out": len(sites_of(cur)), "best": best}
         if not steps:
             return None, info
         return cur, dict(info, step="+".join(steps))
