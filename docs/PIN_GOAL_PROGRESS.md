@@ -2,8 +2,8 @@
 
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 
-[Round 56](PIN_RESEARCH_ROUND56.md), the charter's first round, lands **7 pins: 5,958 / 1,264
-rows** and repays **11 per-row recipe deviations** (clause 4b, reported separately): the
+[Round 56](PIN_RESEARCH_ROUND56.md), the charter's first round, lands **10 pins: 5,955 / 1,264
+rows** (56c: three more from the resumed joint flag modes) and repays **11 per-row recipe deviations** (clause 4b, reported separately): the
 uncapped joint flag scan (5), a Gemini pack on never-served rows (1 of 12; the codex pack 0
 of 12), and a keep that dies at its module recipe (1). Three coherence tools score candidates
 at the module census recipe (pin subsets, the cascade generators, the round-33 catalogue
@@ -11,7 +11,9 @@ moves with a calibrated cc1-listing screen); ten pin-free rows and one pinned ro
 byte-exact there by ordinary moves. Compiler probe: 2.7.2-cdk always splits symbol
 addresses, FSF 2.7.2 never does, so FSF-only rows inside cdk modules are merged translation
 units, not shapes. Round 56b re-recorded 1,414 rows at their module recipe byte-neutrally (297 windows
-MATCH). Next: the weak-module census, then a sched2 `move` placement probe.
+MATCH). In flight: the weak-module census (177 modules; `work/native_lane/r55_census/run_weak.sh`,
+resumable per module); then its silent switches and coherence repairs, then a sched2 `move`
+placement probe.
 
 [Round 55](PIN_RESEARCH_ROUND55.md) removes **46 pins: 5,966 / 1,265 rows**, CPU-only
 (zero model tokens). The four lone-erasure rescans were 654 rows stale; rerun, they
