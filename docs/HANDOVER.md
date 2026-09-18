@@ -1,17 +1,19 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Round 56 in progress (2026-09-18, under the charter).** Uncapped flag scan over 1,068
-pinned rows (`ledger/pins_joint_custom.jsonl`, joint subsets, eleven codegen flags): two
-rows / 5 pins, landing as recorded trades (lane `work/native_lane/r55_uncapped`). Model
-capacity probed and journaled (`ledger/model_capacity.jsonl`): codex luna and Gemini both
-answer; quota for a full pack unknown, so ONE keep pack of 12 never-served rows
-(`work/native_lane/r56_unserved1`, pool of 126 never-served rows / 240 pins in the
-scratchpad's `unserved_pool.txt`, rebuild with `tools/lanes/served.py`) launches on luna
-after the gate; harvest with `land_lanes.sh r56 r56_unserved1`. Census by-product, not
-acted on: 140 pinned rows recorded off their module recipe whose pinned text is exact at it
-(byte-neutral recipe-reduction switches for the owner's later goal); no pinned row has a
-pin dying at exactly its module recipe. If this session died: check `lane.pid`,
-`last_message.txt`, then land, gate, document, commit.
+**Round 56 in progress (2026-09-18, under the charter; 5,960 pins / 1,265 rows at 63a39190).**
+Landed so far: two uncapped joint flag trades (5 pins). Running: codex pack `r56_unserved1`
+(luna, 12 never-served rows; codex quota resets ~2026-09-19 06:00 UTC, no more codex packs
+before that) and Gemini pack `r56_unserved2`; behind them, chained in one shell:
+`land_lanes.sh r56 r56_unserved1 r56_unserved2` then `land_coherence.sh r56 r56_coherence`
+(charter clause 4b: seven coherence repairs, one of them a pin, staged from
+`coherence_scan.py` / `coherence_perturb.py`; the lander verifies before it switches).
+Measured this round: the coherence family (pin subsets, cascade generators, catalogue moves at
+depth 1-2, erase-then-perturb, all scored at the module recipe) yields 1 pin + 6 recipe
+repairs; the cross-recipe listing screen has a two-line false-negative band (rescoring runs,
+tags band2/band2e); 2.7.2-cdk always splits symbol addresses while FSF 2.7.2 never does, so the
+53 FSF-only rows inside cdk modules are merged translation units, not shapes (contiguous runs
+in c_server 80019A10..8001B2C8 and town/main.c). If this session died: check `lane.pid`s and
+the chain log, then land, gate, document, commit.
 
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 

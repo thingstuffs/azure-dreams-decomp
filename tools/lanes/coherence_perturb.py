@@ -50,8 +50,21 @@ def with_cfg(row, cfg):
 
 
 def scan_row(job):
-    row, recipe, module, kinds, depth, near_max, near_k, erase_subsets = job
+    row, recipe, module, kinds, depth, near_max, near_k, erase_subsets, band, cap = job
     t0 = time.time()
+    budget = [cap]
+
+    def confirm(d, new):
+        """True when the candidate is byte-exact at the recipe: d == 0 always goes to the scorer; 0 < d <= band too,
+        while the per-row budget lasts (the listing screen has a false-negative band: byte-exact recipe pairs differ
+        by two listing lines in 41% of 150 calibration rows, delay-slot spelling)."""
+        if d > band or (d > 0 and budget[0] <= 0):
+            return False
+        if d > 0:
+            budget[0] -= 1
+        with tempfile.TemporaryDirectory() as td:
+            pth = Path(td) / Path(row["c_path"]).name; pth.write_text(new)
+            return bool(verify(with_cfg(row, f"{recipe} {INC}"), pth).get("exact"))
     text = clean_path(row).read_text(errors="replace")
     rec = {"id": row["id"], "cfg": row["cfg"], "in_sha": sha_text(text), "pins": len(sites_of(text)), "module": module,
            "module_recipe": recipe, "candidates": 0, "screen_hits": 0, "hits": [], "nearest": None, "secs": 0.0}
@@ -76,13 +89,10 @@ def scan_row(job):
                 if s is None:
                     continue
                 d = sdiff(target, s)
-                if d == 0:
+                if d <= band:
                     rec["screen_hits"] += 1
-                    with tempfile.TemporaryDirectory() as td:
-                        p = Path(td) / Path(row["c_path"]).name; p.write_text(new)
-                        v = verify(with_cfg(row, f"{recipe} {INC}"), p)
-                    if v.get("exact"):
-                        rec["hits"].append({"kind": kind, "params": params})
+                    if confirm(d, new):
+                        rec["hits"].append({"kind": kind, "params": params, "screen_d": d})
                         d0 = ROOT / "work/native_lane/coherence_perturb/out" / row["container"]; d0.mkdir(parents=True, exist_ok=True)
                         (ROOT / "work/native_lane/coherence_perturb/.ignore").write_text("*\n")
                         (d0 / Path(row["c_path"]).name).write_text(new)
@@ -114,13 +124,10 @@ def scan_row(job):
                     if s is None:
                         continue
                     d = sdiff(target, s)
-                    if d == 0:
+                    if d <= band:
                         rec["screen_hits"] += 1
-                        with tempfile.TemporaryDirectory() as td:
-                            pth = Path(td) / Path(row["c_path"]).name; pth.write_text(new)
-                            v = verify(with_cfg(row, f"{recipe} {INC}"), pth)
-                        if v.get("exact"):
-                            rec["hits"].append({"erased": list(idx), "kind": kind, "params": params})
+                        if confirm(d, new):
+                            rec["hits"].append({"erased": list(idx), "kind": kind, "params": params, "screen_d": d})
                             d0 = ROOT / "work/native_lane/coherence_perturb/out" / row["container"]; d0.mkdir(parents=True, exist_ok=True)
                             (d0 / Path(row["c_path"]).name).write_text(new)
                             (d0 / (Path(row["c_path"]).name + ".base_sha")).write_text(rec["in_sha"])
@@ -158,13 +165,10 @@ def scan_row(job):
                         if s is None:
                             continue
                         d = sdiff(target, s)
-                        if d == 0:
+                        if d <= band:
                             rec["screen_hits"] += 1
-                            with tempfile.TemporaryDirectory() as td:
-                                pth = Path(td) / Path(row["c_path"]).name; pth.write_text(new)
-                                v = verify(with_cfg(row, f"{recipe} {INC}"), pth)
-                            if v.get("exact"):
-                                rec["hits"].append({"depth": 2, "first": {"kind": k1, "params": p1}, "kind": kind, "params": params})
+                            if confirm(d, new):
+                                rec["hits"].append({"depth": 2, "first": {"kind": k1, "params": p1}, "kind": kind, "params": params, "screen_d": d})
                                 d0 = ROOT / "work/native_lane/coherence_perturb/out" / row["container"]; d0.mkdir(parents=True, exist_ok=True)
                                 (d0 / Path(row["c_path"]).name).write_text(new)
                                 (d0 / (Path(row["c_path"]).name + ".base_sha")).write_text(rec["in_sha"])
@@ -185,6 +189,8 @@ def main():
     ap.add_argument("--near-k", type=int, default=12, help="depth 2: seeds per row")
     ap.add_argument("--tag", default="", help="ledger suffix (a depth-2 run keeps its own journal)")
     ap.add_argument("--erase-subsets", action="store_true", help="pinned rows: each pin subset erased, then every kind at depth 1 on the erased text")
+    ap.add_argument("--rescore-band", type=int, default=0, help="also send candidates with 0 < listing distance <= N to the byte scorer")
+    ap.add_argument("--rescore-cap", type=int, default=40, help="per-row cap on such scorer calls")
     a = ap.parse_args()
     keep = set(a.only.split(",")) if a.only else None
     kinds = [(k, f) for k, f in KINDS if not a.kinds or k in a.kinds.split(",")]
@@ -203,7 +209,7 @@ def main():
         sha = sha_text(clean_path(r).read_text(errors="replace"))
         if (r["id"], sha, info[0]) in done:
             continue
-        jobs.append((r, info[0], info[1], kinds, a.depth, a.near_max, a.near_k, a.erase_subsets))
+        jobs.append((r, info[0], info[1], kinds, a.depth, a.near_max, a.near_k, a.erase_subsets, a.rescore_band, a.rescore_cap))
     jobs.sort(key=lambda j: j[0].get("size") or 0)
     print(f"{len(pop)} nonconforming rows, {len(jobs)} to search with {len(kinds)} kinds", flush=True)
     lock, n, nh, t0 = threading.Lock(), 0, 0, time.time()
