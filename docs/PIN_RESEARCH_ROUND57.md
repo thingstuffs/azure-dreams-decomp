@@ -35,6 +35,8 @@ Recipes in use afterwards (overlay/main rows): 2.7.2-cdk-G0 4,751; 2.8.1-G0 219;
 
 Coherence scan over the 31 newly nonconforming pinned rows of the small modules: 0. Coherence perturbation over the small modules: 1 of 199 pin-free rows, 2 of 510 pinned (erase-then-perturb), both landed as repairs above. Joint cells scan after the switches: 0 of 204. Lone cells scan 0 of 332, flags2 0 of 318. The forced cascade's generators refuse the switched rows for the same shape reasons as at their old recipes.
 
+The prologue copy-order class (`MOVED|3-4|-move,sw +move,sw`, 99 sites) was probed the same way on `dungeon/func_80A23000`: the MIPS prologue is RTL in 2.7.2 (`prologue` expander unconditional), so the save/copy pairs are scheduled by the same tie rule, and retail keeps the parameter copies at their statement position in statement order while the erased text keeps the compiler's entry copies in parameter order. No C spelling found moves them: wider or narrower locals add extensions, dead writes to the parameters, copies after the call and dropping the copies all screen at the plain erasure's distance. The class stays with the register allocator (t69's "which copies are parameters"), a bounded negative.
+
 ## Next
 
 1. The t72 misses with a run but no listing-exact order (about 570 rows) now journal their nearest order; a near-miss table (distance 1-2 lines) names where the run boundary or the dependence guard is the limit (statements across an `if`, loads across a call).
