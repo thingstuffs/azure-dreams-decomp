@@ -30,6 +30,13 @@ A pin is removed only when all of these hold:
    appended first to `ledger/recipe_trades.jsonl` (site, macro, fingerprint, recipe from and to,
    module-neighbour numbers). The module recipe census (`ledger/module_recipe_census.jsonl`)
    is the instrument for paying the loans back later on cleaner source.
+   4b. **Coherence repairs** (added 2026-09-18, round 56): a switch *toward* the row's module
+   census recipe, with a new text that is byte-exact there, is admissible even though the
+   current text is not exact at the new recipe (rule 2's purpose, no byte evidence lost, holds
+   because the new text reproduces retail; the old text and recipe stay in git and in the trade
+   ledger). It lands through `tools/lanes/land_coherence.sh`, which verifies before it switches
+   and restores the recipe if the candidate does not land, and it is reported separately from
+   pin removals. The owner may veto the clause; until then it applies.
 5. **The counter is sacred.** Changing the census, the scorer, the gate or the parked set to
    move the number needs the owner's explicit sign-off in the round document.
 

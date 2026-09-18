@@ -17,8 +17,9 @@ sys.path.insert(0, "tools")
 from common import rows, clean_path, set_row_cfg, sha_text
 from pin_census import sites_of
 D, tag = sys.argv[1], sys.argv[2]
+from pathlib import Path
 by = {r["id"]: r for r in rows()}
-trades = []
+trades = []; switched = []
 for line in open(f"{D}/cells.jsonl"):
     e = json.loads(line); rid = e["id"]; row = by[rid]; c, n = rid.split("/")
     cand = open(f"{D}/out/{c}/{n}.c").read(); base = open(f"{D}/out/{c}/{n}.c.base_sha").read().strip()
@@ -27,7 +28,21 @@ for line in open(f"{D}/cells.jsonl"):
         print("skip stale", rid); continue
     if row["cfg"] == e["to"]:
         print("skip same recipe", rid); continue
-    set_row_cfg(rid, e["to"], note=f"{tag}: coherence repair - new text exact at the module recipe ({e.get('coherence')})")
+    # verify the candidate at the target recipe BEFORE touching the row's recipe: a refusal must leave the baseline exact
+    import tempfile
+    from verify import verify
+    from pin_census import landing_refusal
+    from common import parse_cfg
+    with tempfile.TemporaryDirectory() as td:
+        f = Path(td) / f"{n}.c"; f.write_text(cand)
+        v = verify(dict(row, cfg=e["to"], cell=parse_cfg(e["to"])[0], flags=" ".join(parse_cfg(e["to"])[1])), f, include_root=Path("include").resolve())
+    if not v.get("exact"):
+        print("skip not exact at target", rid, e["to"], v.get("status"), v.get("total")); continue
+    bad = landing_refusal(cand, cur, f"src/{rid}.c", row=row)
+    if bad:
+        print("skip landing refusal", rid, bad[:100]); continue
+    set_row_cfg(rid, e["to"], note=f"{tag}: coherence repair - new text exact at the module recipe ({e.get('coherence')}); charter clause 4b")
+    switched.append(rid)
     trades.append({"round": 56, "date": "2026-09-18", "id": rid, "cfg_from": row["cfg"], "cfg_to": e["to"], "kind": "coherence",
                    "how": e.get("coherence"), "pins_before": len(sites_of(cur)), "pins_after": len(sites_of(cand)),
                    "source_sha_before": base, "candidate_sha": sha_text(cand),
@@ -37,8 +52,24 @@ for line in open(f"{D}/cells.jsonl"):
 with open("ledger/recipe_trades.jsonl", "a") as f:
     for t in trades: f.write(json.dumps(t) + "\n")
 print("trades recorded", len(trades))
+open(f"{D}/switched.txt", "w").write("\n".join(switched) + "\n")
 EOF
 python3 tools/apply_candidates.py $D/out --transform coherence_$TAG --workers 2 2>&1 | tail -2
+# every switched row must have landed; otherwise restore its recipe so the baseline stays exact
+python3 - "$D" "$TAG" <<'EOF'
+import json, sys
+sys.path.insert(0, "tools")
+from common import rows, set_row_cfg, read_jsonl, LEDGER, clean_path, sha_text
+D, tag = sys.argv[1], sys.argv[2]
+by = {r["id"]: r for r in rows()}
+applied = {r["id"] for r in read_jsonl(LEDGER / "sweeps" / f"coherence_{tag}.jsonl") if r.get("outcome") == "applied"}
+for rid in [l.strip() for l in open(f"{D}/switched.txt") if l.strip()]:
+    if rid not in applied:
+        old = next(json.loads(l)["cfg_from"] for l in reversed(open("ledger/recipe_trades.jsonl").read().splitlines()) if json.loads(l)["id"] == rid and json.loads(l).get("kind") == "coherence")
+        set_row_cfg(rid, old, note=f"{tag}: coherence candidate did not land; recipe restored")
+        print("RESTORED recipe of", rid, "->", old)
+print("switched", len(open(f"{D}/switched.txt").read().split()), "applied", len(applied))
+EOF
 IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
 if [ -n "$IDS" ]; then
   echo "== t2 on changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 4 2>&1 | tail -1
