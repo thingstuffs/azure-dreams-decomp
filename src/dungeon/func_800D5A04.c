@@ -30,7 +30,7 @@ extern s32 D_800814A0;
 
 /* Updates a timed effect's animation and motion, marking it for removal when finished. */
 void func_800DB164(void *effect, void *motion, void *visual) {
-    s16 phase;
+    s32 phase;
     s32 ticks_left;
     s32 next_phase;
 
