@@ -67,3 +67,5 @@ The third pack (`r58_order3`, eight `MOVED|3-4` prologue-copy rows and four `CHA
 The fifth pack (`r58_order5`, twelve 1-2-pin rows of `CHANGED|5-8`) resolved 5 rows: **5,834 pins in 1,232 rows**, 8 windows and SLUS MATCH. Briefed packs: 19 of 60 rows. A sixth pack (the rest of the small `CHANGED` rows) runs next; the class pool of 1-2-pin rows is the model lanes' working set while the CPU side is exhausted.
 
 Pack 6 (`r58_order6`, the remaining small `CHANGED|3-4`/`5-8` rows) resolved 4 rows: **5,831 pins in 1,229 rows**, 4 windows and SLUS MATCH. Briefed packs: 23 of 72 rows. Pack 7 (`CHANGED|9-16`) runs next; the pack builder is the scratchpad's `build_pack.py <lane> <classes>`.
+
+Pack 7 (`r58_order7`, `CHANGED|9-16`) resolved 1 row: **5,830 pins in 1,228 rows**. The yield falls with the residue size (small `CHANGED` classes 1 in 2 to 1 in 3, 9-16 words 1 in 12): the remaining 1-2-pin pool is mostly larger residues. Briefed packs: 24 of 84 rows.

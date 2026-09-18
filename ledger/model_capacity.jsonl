@@ -8,3 +8,4 @@
 {"date": "2026-09-18T17:30Z", "gemini": {"model": "gemini-3.8-flash-high", "ok": true, "pack": "r58_order3", "result": "1 of 12 rows (MOVED|3-4 prologue copy-order class resists; CHANGED|1-2 1 of 4)"}, "note": "briefed packs 14 of 48 rows; pack 5 (CHANGED|5-8) launching"}
 {"date": "2026-09-18T18:40Z", "gemini": {"model": "gemini-3.8-flash-high", "ok": true, "pack": "r58_order5", "result": "5 of 12 rows (CHANGED|5-8)"}, "note": "briefed packs 19 of 60 rows; pack 6 running"}
 {"date": "2026-09-18T19:30Z", "gemini": {"model": "gemini-3.8-flash-high", "ok": true, "pack": "r58_order6", "result": "4 of 12 rows"}, "note": "briefed packs 23 of 72 rows; pack 7 running"}
+{"date": "2026-09-18T20:30Z", "gemini": {"model": "gemini-3.8-flash-high", "ok": true, "pack": "r58_order7", "result": "1 of 12 rows (CHANGED|9-16: the larger residues pay less)"}, "note": "briefed packs 24 of 84 rows; pack 8 running"}
