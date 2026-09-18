@@ -15,7 +15,6 @@ extern TownRecord D_80100AA0[20];
 /* Inserts a record into the first free slot, discarding the first record if full. */
 void func_800A0404(TownRecord *record) {
     TownRecord *dst;
-    TownRecord *src;
     s32 slot;
 
     slot = 0;
@@ -30,18 +29,9 @@ loop:
     }
 
     if (slot == 20) {
-        register TownRecord *base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-
-        slot = 0;
-        base = D_80100AA0;
-        dst = base;
-        src = base + 1;
-        do {
-            *dst = *src;
-            src++;
-            slot++;
-            dst++;
-        } while (slot < 19);
+        for (slot = 0; slot < 19; slot++) {
+            D_80100AA0[slot] = D_80100AA0[slot + 1];
+        }
     }
 
     D_80100AA0[slot].bytes.unk0 = record->bytes.unk0;
