@@ -144,7 +144,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 height_addr = (u8 *)(u32)entity->kind;
                 target_height = entity->height;
                 height_addr += (u32)((u8 *)&D_800DDC40);
-                ASM_KEEP_NV(height_addr);
                 height_base = (u8 *)(u32)*height_addr;
                 target_height -= (s32)(u32)height_base;
                 if (entity->flags & 0x40000) {
@@ -170,7 +169,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *left;
                 objects_page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(objects_page);
                 left = (*(GlobalObj **)(objects_page + 0x3D7C))->left;
                 if (func_800BA33C(left)) {
                     status_page = (u8 *)0x80080000;
@@ -193,7 +191,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 GlobalObj *object;
                 Entity *right;
                 objects_page = (u8 *)0x800E0000;
-                ASM_KEEP_NV(objects_page);
                 right = (*(GlobalObj **)(objects_page + 0x3D7C))->right;
                 if (func_800BA33C(right)) {
                     status_page = (u8 *)0x80080000;

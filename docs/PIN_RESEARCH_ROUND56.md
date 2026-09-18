@@ -1,6 +1,6 @@
 # Pin research round 56: the charter's first round, the coherence family, two model packs
 
-Round 56 (2026-09-18, 03:30 to 07:45 UTC) is the first round under [the campaign charter](PIN_CAMPAIGN_CHARTER.md). It moved the count from **5,960 pins / 1,265 rows to 5,958 pins / 1,264 rows** and repaid **11 per-row recipe deviations** (reported separately, per clause 4b). Model spend: one codex luna pack and one Gemini pack (lane packs, no Workflow tokens). Receipt: `docs/evidence/pin_research_round56_20260918.json`.
+Round 56 (2026-09-18, 03:30 to 07:45 UTC) is the first round under [the campaign charter](PIN_CAMPAIGN_CHARTER.md). It moved the count from **5,960 pins / 1,265 rows to 5,947 pins / 1,262 rows** (with its 56c-56e follow-ups) and repaid **20 per-row recipe deviations** plus 3,310 byte-neutral recipe switches (reported separately, per clause 4b). Model spend: one codex luna pack and one Gemini pack (lane packs, no Workflow tokens). Receipt: `docs/evidence/pin_research_round56_20260918.json`.
 
 ## Pins
 
@@ -66,3 +66,9 @@ With the cap lifted the joint scan's flag modes (stopped in round 55 at 725 of 8
 ## Round 56d: the weak-module census
 
 The census over the 177 weak-confidence modules with five or more rows (3,130 rows, 3,051 pins; `run_weak.sh`, resumable per module) validates most of the grouping: 156 modules have one stock recipe exact on at least 90% of their pin-free rows, none below 50%. Best recipes: 2.7.2-cdk-G0 for 147 modules, 2.8.0-G0 for 14 dungeon modules, 2.6.3(-G0) for 7 town modules. Nonconforming: 268 rows (73 pin-free, 195 pinned carrying 1,226 pins); byte-neutral switches available: 1,694 pin-free and 202 pinned rows (613 pins). The whole census now covers 242 modules / 5,261 rows: 490 nonconforming rows carry 1,621 of 4,116 pins. The coherence tools run over the new nonconforming rows, then the switches land.
+
+## Round 56e: coherence over the weak-module nonconforming rows
+
+The coherence tools over the 288 pinned and 73 pin-free nonconforming rows of the completed census (rows the earlier coherence landings had already fixed are filtered out: the census files predate them): the scan frees five pins on four pinned rows at their module recipe (`dungeon/func_81961A04` to zero, `func_800B5448` 2 to 1, `func_800AA49C` 21 to 20, `func_800B4318` 23 to 21), erase-then-perturb frees `town/func_80819F6C` (1 to 0, leaving gcc 2.95.2 with a width change), and the perturbation search repairs four pin-free rows (two merges, one of them dropping two flags; a hoist to 2.6.3-G0; a condition temporary). All nine landed under clause 4b; T2 at the new recipes took two more pins. **5,947 pins in 1,262 rows**; 10 windows and SLUS MATCH, row database and case ledger OK, port/dead arms identical. Round 56 in total: **18 pins** (5,960 to 5,947), 20 recipe repairs, 3,310 byte-neutral recipe switches.
+
+Remaining after the whole census: about 190 pinned nonconforming rows (some 1,200 pins) whose pins do not fall at their module recipe by any subset or catalogue move, and the FSF-only contiguous runs that the module grouping should split so their rows get the right oracle.

@@ -9,10 +9,10 @@
    "pinned_rows": 1265
   },
   "after": {
-   "pins": 5958,
-   "pinned_rows": 1264
+   "pins": 5947,
+   "pinned_rows": 1262
   },
-  "pins_removed": 2
+  "pins_removed": 13
  },
  "pins": {
   "uncapped_joint_flag_scan": {
@@ -153,6 +153,96 @@
    "pins_after": 0,
    "source_sha_before": "54dca7026685a048d41c5558e140f2d6be6c0574ea2f7dfa1189c15d51028831",
    "candidate_sha": "1d78dfa0d610eaa6f6f17722c73348cff38c2b68547f0ad921cedce98acef5b9"
+  },
+  {
+   "id": "dungeon/func_81961A04",
+   "cfg_from": "2.8.1-G0 -fno-rerun-cse-after-loop",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "scan: pins [0] erased",
+   "pins_before": 1,
+   "pins_after": 0,
+   "source_sha_before": "cefaa35a756ca015601e7f719af1d81ce3fd0b397efe170cba709edaed54bc61",
+   "candidate_sha": "5fb8f369d6719c1bc694ccc0febffc840da254c158bed87b6cf0da7a6e4f70e2"
+  },
+  {
+   "id": "dungeon/func_800B5448",
+   "cfg_from": "2.8.1-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "scan: pins [1] erased",
+   "pins_before": 2,
+   "pins_after": 1,
+   "source_sha_before": "06d243a2510a0ab79e7c540a2f2a7f3dba889b42000e27e5b70a4091e853da1d",
+   "candidate_sha": "2d7494b08410965e8f025f55fefa3913baa9f0e0e73d537d90c806256bd3c17f"
+  },
+  {
+   "id": "dungeon/func_800AA49C",
+   "cfg_from": "2.8.1-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "scan: pins [20] erased",
+   "pins_before": 21,
+   "pins_after": 20,
+   "source_sha_before": "d261d28f2439087be6db818f004c7df2aab468227f1a8af32c12234b2604a279",
+   "candidate_sha": "f4ea90c903b860fa6e7748c6921e6bf6d47d4618cbadd437a4d37f95bbefadc9"
+  },
+  {
+   "id": "dungeon/func_800B4318",
+   "cfg_from": "2.7.2",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "scan: pins [7, 9] erased",
+   "pins_before": 23,
+   "pins_after": 21,
+   "source_sha_before": "b1d5280378cc5726e988596a36c5e28ef09233954a2b0af9f71fa9ee8ef1fba3",
+   "candidate_sha": "2c7b90f3a58571d2bc5834fb6396efed683f66e14f68d8b8118f3bcc9147b266"
+  },
+  {
+   "id": "town/func_80819F6C",
+   "cfg_from": "2.95.2-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "erase[0]+width_change",
+   "pins_before": 1,
+   "pins_after": 0,
+   "source_sha_before": "5ebee53e293583b3712b82e2beacc3c3e80fae3908dd43984ba4cff17deaeb89",
+   "candidate_sha": "0bd67080f48a297971d501b429b44a81edb4e7c7b962e5ffad49292b3ec9fc2c"
+  },
+  {
+   "id": "town/func_8008DADC",
+   "cfg_from": "2.7.2+-fno-schedule-insns",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "merge",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "39b43241bb1e7315019b122c1697c6ba87d72db28782602e492a5de4ec97be4f",
+   "candidate_sha": "080089cc01a6ed1e82b59f4c24d1840ea08ba9ff5f7d23959c31e63c0572f743"
+  },
+  {
+   "id": "town/func_80814610",
+   "cfg_from": "2.7.2-G0",
+   "cfg_to": "2.6.3-G0",
+   "how": "hoist",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "6b459af570c3e8257d54f7f46a37497260886710764cec46057a75d7c8b25eeb",
+   "candidate_sha": "1d0a3d5bd0da1afda8f201edce9f5b65228512eba37a1a15bad2f7bc028674c6"
+  },
+  {
+   "id": "town/func_806D7918",
+   "cfg_from": "2.7.2-cdk-G0 -fno-schedule-insns -fno-expensive-optimizations",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "merge",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "80cebedf5e6a36aa8e602b425e6fcc3de1fda1a5815a03f88ac27c58c6b13df8",
+   "candidate_sha": "ddcfd80caeeca1b2387065bb00cfeae62ecfd5426308f73c6dcd4b1bc25a4922"
+  },
+  {
+   "id": "town/func_800AE614",
+   "cfg_from": "2.7.2 -fno-rerun-cse-after-loop",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "cond_temp",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "56d9c17200f14894f698440f1938a66e11ca7a11f584fedee5a046635acc3d1f",
+   "candidate_sha": "ab64025f988c970e9884ad01c5ab34794cfbd183cb92d97cc4ce3427df23bc3f"
   }
  ],
  "tools": [

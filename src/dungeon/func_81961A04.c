@@ -79,7 +79,7 @@ void *func_81961A04(void *position)
     void *object;
     s16 slot_offset;
     s16 control_value;
-    register u16 control_scale ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 control_scale;
     u16 pos_x;
     u16 pos_y;
     u16 pos_z;

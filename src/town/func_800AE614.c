@@ -36,6 +36,7 @@ void func_800ABD74(void *source) {
     s32 effect_count;
     s32 angle_step;
     s32 effects_spawned;
+    __typeof__(effect_count != 0) cond_1;
 
     origin = source;
     effect_count = (rand() & 7) | 4;
@@ -46,7 +47,8 @@ void func_800ABD74(void *source) {
     angle = rand();
     effect.z = origin->unk_0A;
     effect.c = -4;
-    if (effect_count != 0) {
+    cond_1 = effect_count != 0;
+    if (cond_1) {
         do {
             effects_spawned += 1;
             effect.x = (origin->unk_02 + (rand() & 0x1F)) - 0x10;
