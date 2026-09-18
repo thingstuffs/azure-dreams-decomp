@@ -48,7 +48,7 @@ s32 func_80099978();
 M2C_UNK func_800A5720();
 M2C_UNK func_800A5F38();
 M2C_UNK func_800A6480();
-s32 func_800A6D30();
+s32 func_800A6D30(void);
 M2C_UNK func_800A7A7C();
 s32 func_800AD6FC();
 extern M2C_UNK D_80089378;
@@ -70,8 +70,7 @@ s32 func_800C08A4(u8 *source, u8 *target, s16 action, M2C_UNK context) {
     entity = source;
     if (action == 0xD) {
         if (((S_800C08A4_0 *)((u8 *)entity - 0x18))->unk_2B == 0x16) {
-            ASM_KEEP_NV(action); /* MATCH: retain the existing a2 value across the argument setup. */
-            if ((func_800A6D30(target, target, action, context) & 1) == 0) {
+            if ((func_800A6D30() & 1) == 0) {
                 goto main_path;
             }
         }
