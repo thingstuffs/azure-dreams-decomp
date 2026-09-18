@@ -53,8 +53,11 @@ CUSTOM_FLAGS = list(FLAGS3)
 LATE = pcs.LATE
 
 
+TAG = [""]
+
+
 def out_path(mode):
-    return LEDGER / f"pins_joint_{mode}.jsonl"
+    return LEDGER / f"pins_joint_{mode}{TAG[0]}.jsonl"
 
 
 def pool_for(row, mode):
@@ -170,6 +173,7 @@ def cmd_scan(a):
             done[r["id"]] = r
     keep = set(a.only.split(",")) if a.only else None
     fl = MODES[a.mode]
+    TAG[0] = f"_{a.tag}" if a.tag else ""
     if a.flags_list:
         CUSTOM_FLAGS[:] = a.flags_list.split()
     todo = []
@@ -205,6 +209,7 @@ def cmd_scan(a):
 
 
 def cmd_build(a):
+    TAG[0] = f"_{a.tag}" if getattr(a, "tag", "") else ""
     by = {r["id"]: r for r in rows()}
     d = Path(a.dir); d.mkdir(parents=True, exist_ok=True)
     cells, stale, pins = [], 0, 0
@@ -239,7 +244,9 @@ def main():
     s.add_argument("--exhaustive-pins", type=int, default=10, help="every subset on rows with at most this many pins")
     s.add_argument("--flags-list", help="custom mode: the flags to add to the recorded recipe, space-separated")
     s.add_argument("--min-pins", type=int, default=2, help="custom mode may take 1 (singles are then the lone scan)")
+    s.add_argument("--tag", default="", help="ledger suffix, so custom runs with different flag lists keep separate journals")
     b = sub.add_parser("build"); b.add_argument("dir"); b.add_argument("--mode", default="cells", choices=sorted(MODES))
+    b.add_argument("--tag", default="")
     a = ap.parse_args()
     {"scan": cmd_scan, "build": cmd_build}[a.cmd](a)
 

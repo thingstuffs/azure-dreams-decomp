@@ -13,7 +13,12 @@
    "pins": 5989,
    "pinned_rows": 1266
   },
-  "removed": 23
+  "removed": 23,
+  "after_switch_landing": {
+   "pins": 5966,
+   "pinned_rows": 1265
+  },
+  "removed_total": 46
  },
  "rescans": {
   "stale_before": {
@@ -415,5 +420,34 @@
    "SLUS SHA-1 gate: MATCH (884 TUs, recipe identical to the pinned copy, 0s)",
    "GATE_RC=0"
   ]
+ },
+ "switch_landing": {
+  "owner_decision": "2026-09-18: pin-for-flag trade is positive; two-flag cap lifted; record every trade for the later flag/compiler reduction",
+  "lane": "work/native_lane/r55_switch",
+  "rows": 12,
+  "staged_pins": 13,
+  "follow_up_pins_at_new_recipe": 10,
+  "trades_ledger": "ledger/recipe_trades.jsonl",
+  "gate": "12 windows MATCH (246 s), SLUS SHA-1 MATCH, row database OK, case ledger OK, non-mips arms identical"
+ },
+ "module_census": {
+  "ledger": "ledger/module_recipe_census.jsonl",
+  "modules": 74,
+  "rows": 2420,
+  "modules_with_90pct_pin_free_coverage_at_one_recipe": 60,
+  "best_by_container": {
+   "dungeon": "2.7.2-cdk-G0 (26 of 27)",
+   "town": "2.7.2-cdk-G0 (30 of 33)",
+   "slus": "2.6.3 (9 of 9)",
+   "main": "2.6.3 (3 of 5)"
+  },
+  "nonconforming_rows": 290,
+  "nonconforming_pin_free": 197,
+  "nonconforming_pinned": 93,
+  "pins_on_nonconforming": 395,
+  "pins_in_modules": 1133,
+  "pin_free_exact_at_no_stock_cell": 130,
+  "pin_free_exact_at_other_cell": 67,
+  "pinned_rows_with_lone_hit_at_module_recipe": 13
  }
 }

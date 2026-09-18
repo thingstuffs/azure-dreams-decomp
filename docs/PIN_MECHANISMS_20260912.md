@@ -2212,7 +2212,7 @@ Measured first, all CPU or text:
 
 ## Round 55 (2026-09-18): joint erasure, the stale rescans, recipe coherence
 
-Gated (11 windows MATCH, SLUS MATCH): **5,989 pins in 1,266 rows** (-23), CPU-only.
+Gated twice (11 + 12 windows MATCH, SLUS MATCH): **5,966 pins in 1,265 rows** (-46), CPU-only.
 
 - **Joint erasure** (`tools/lanes/joint_scan.py`): pins that hold one mechanism fall only together (round 31). T2 walks
   singles and `pin_sites.py --subsets` measured the 09-12 tree at the recorded recipe only. Every subset of a row's pins
@@ -2221,7 +2221,8 @@ Gated (11 windows MATCH, SLUS MATCH): **5,989 pins in 1,266 rows** (-23), CPU-on
   carry a pair or triple exact at the recorded recipe that no single erasure reaches (20 pins landed). The prefilter
   agrees with the lone scan's single-site hits 10 of 10; its gap is `-g` (listing equal, bytes not).
 - **The stale rescans**: the four `pin_cells_scan` modes key on in_sha and 654 of 1,271 pinned rows had changed since
-  09-13. Rerun: 24 pins, every one behind a cell or flag switch - all HELD (see below).
+  09-13. Rerun: 24 pins, every one behind a cell or flag switch - held first, then landed after the owner ruled the
+  trade positive and lifted the cap (13 + 10 follow-up pins at the new recipes; every trade in ledger/recipe_trades.jsonl).
 - **Recipe coherence** (the owner's question): scoring each proposed switch's module neighbours at the recorded and the
   proposed recipe shows most switches break pin-free rows that are exact today (32 of 42 for `-O1` on item_menu; 8 of
   11 for a 2.8.0 cell). A pin-free exact row carries no compensation, so this is the strongest evidence available that

@@ -104,7 +104,6 @@ void func_800AEBC4(void *vector_data, S_800AEBC4_4 *config, S_800AEBC4_1 *positi
     position_data->unk_04 = value;
 
     value = ((S_800AEBC4_0 *)template_base)->unk_08;
-    ASM_UNDEF(data_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     data_ptr = (u8 *)D_8002E5E8 + 0x1A18;
 #else
@@ -124,8 +123,7 @@ void func_800AEBC4(void *vector_data, S_800AEBC4_4 *config, S_800AEBC4_1 *positi
     value = ((S_800AEBC4_2 *)data_ptr)->unk_08;
     secondary_data->unk_08 = value;
 
-    config->unk_08 = secondary_data;
-    ASM_UNDEF(data_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    (*(void **)((u8 *)config + 8)) = secondary_data;
     data_ptr = secondary_data;
     ASM_KEEP(data_ptr);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     value = -0x400;

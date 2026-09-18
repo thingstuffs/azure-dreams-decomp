@@ -1,16 +1,20 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-[Round 55](PIN_RESEARCH_ROUND55.md) removes **23 pins: 5,989 / 1,266 rows**, CPU-only
+[Round 55](PIN_RESEARCH_ROUND55.md) removes **46 pins: 5,966 / 1,265 rows**, CPU-only
 (zero model tokens). The four lone-erasure rescans were 654 rows stale; rerun, they
 found 24 pins behind recipe switches. A new joint-erasure scan (subsets of a row's
 pins erased together, cc1-listing prefilter) found 20 pins at unchanged recipes in
 eight rows, and the never-run cascade over the rounds 35-54 rows two more. Every
-recipe switch is **held for the owner**: scoring each switch's module neighbours
-shows most break pin-free rows that are exact today (32 of 42 for one -O1 switch),
+recipe switch was first held, then landed after the owner ruled a pin-for-flag trade
+positive and lifted the two-flag cap (every trade recorded in ledger/recipe_trades.jsonl;
+module neighbours show most switches break pin-free rows exact today, 32 of 42 for -O1),
 and a census of the 260-row c_server module (224 proven / 36 strong rows) shows one stock recipe covers
 206 rows while its per-row recipes span six cells and eight flag variants. Per-row
-recipes were never provenance; the nonconforming rows are the new target list. The
-module census over the 74 strong/proven modules is the in-flight long job.
+recipes were never provenance. The census over 74 strong/proven modules (2,420 rows):
+60 have one recipe exact on 90%+ of pin-free rows (overlays 2.7.2-cdk-G0, SLUS 2.6.3);
+290 nonconforming rows carry 395 pins and are the provenance-grounded target list
+(ledger/module_recipe_census.jsonl). An uncapped flag scan over every pinned row is
+the in-flight job.
 
 [Round 54](PIN_RESEARCH_ROUND54.md) removes **twelve pins: 6,012 / 1,269 rows**.
 An initialized-zero rewrite transfers across nine functions, removing eleven

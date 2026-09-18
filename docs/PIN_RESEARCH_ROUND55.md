@@ -1,6 +1,6 @@
 # Pin research round 55: the stale rescans, joint erasure, and the recipe-coherence question
 
-Round 55 (2026-09-18) is CPU-only: no model tokens were spent. It removed **23 pins: 5,989 / 1,266 rows** (from 6,012 / 1,269), all at unchanged recipes, and it held every recipe switch it found for the owner's decision. The receipt is `docs/evidence/pin_research_round55_20260918.json`.
+Round 55 (2026-09-18) is CPU-only: no model tokens were spent. Its first landing removed **23 pins: 5,989 / 1,266 rows** (from 6,012 / 1,269), all at unchanged recipes, holding every recipe switch for the owner; after the owner's decision (addendum) the switches landed too: **46 pins for the round, 5,966 / 1,265 rows**. The receipt is `docs/evidence/pin_research_round55_20260918.json`.
 
 ## Why this round is CPU-only
 
@@ -53,8 +53,15 @@ The c_server census makes the point independently of any switch. It is a 260-row
 
 The remaining fifteen `ASM_REG("$0")` sites refuse the round-54 zero rewrite (0 of 7 admitted candidates exact). The fifteen flags nobody had screened are either inert on gcc 2.x at -O2 for these rows (`-O3`, inlining, struct-return conventions, `-fno-defer-pop`, `-fomit-frame-pointer`, `-mno-gpopt`, `-fshort-enums`, `-fcaller-saves`) or break almost every pinned row (`-fvolatile`, `-mlong-calls`, `-fno-delayed-branch`); none frees a pin on the 90-row pilot. Thirteen rows with more than 30 pins have no joint erasure at any admissible cell. The joint scan's flag modes were stopped at 725 of 847 rows to free the scorer for the gate; their ledger resumes.
 
+## Addendum (later on 2026-09-18): the owner's decision and the module census
+
+The owner ruled that trading a pin for a compiler flag is a positive (the pin says where, the flag says which pass; both are leads for the real C difference), lifted the two-flag cap, and asked that nothing be lost for the later goal of reducing flags and compilers on a cleaner source. Every trade is therefore recorded first in `ledger/recipe_trades.jsonl` (site, macro, argument, line, lone-erasure distance, residue fingerprint, recipe from and to, module-neighbour numbers), and the 12 held switch rows (13 pins) were landed through the standard cell-switch path. All twelve landed (the lane refused nothing), and the cascade plus T2 at the new recipes removed ten more pins on those rows (t54_pagebase three, t53k_keep one, t37b_localwidth_keep one, T2 five): **5,989 to 5,966 pins in 1,265 rows**. All 12 covering windows MATCH (246 s), the SLUS SHA-1 gate MATCHES, the row database and the case ledger validate, and the non-mips arms of every changed row are identical. The follow-up pins are recorded in the trade ledger too.
+
+The module recipe census ran over the 74 strong/proven modules with ten or more rows (2,420 rows; `ledger/module_recipe_census.jsonl`, `work/native_lane/r55_census/`). Per container the best single stock recipe is uniform: 2.7.2-cdk-G0 for 56 of 60 overlay modules, 2.6.3 for 9 of 9 SLUS modules and 3 of 5 main modules. 60 of the 74 modules have one recipe exact on at least 90% of their pin-free rows, while their recorded per-row recipes run to 24 variants in one module. The 290 nonconforming rows (197 pin-free, 93 pinned carrying 395 of the modules' 1,133 pins) are the provenance-grounded target list: 130 of the pin-free ones are exact at no stock cell at all (their recorded recipes carry a flag: the flag-reduction population), 67 are exact at another cell (cell-fitted), and 13 pinned rows already have a lone-erasure hit at their module's recipe (a pin that dies under coherence). Three SLUS modules (message_script, town_movie, map_transition) have low coverage at every recipe and are probably several translation units under one name.
+
 ## Next
 
 1. Owner decision on recipe switches, with the neighbour table as the evidence standard for any future one.
 2. The module census over the strong and proven modules, then the nonconforming rows as the reconstruction target list, oracle: exact at the module's recipe.
-3. Resume the joint scan's flag modes only if switches are allowed.
+3. The uncapped flag scan (every pinned row, the eleven known codegen flags, joint subsets) runs after the switch landing; its hits are trades, recorded the same way.
+4. Flag reduction: the 130 pin-free rows exact at no stock cell, oracle = exact at the module recipe.

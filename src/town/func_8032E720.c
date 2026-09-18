@@ -100,7 +100,7 @@ s32 func_80018F20(s32 *slot_list)
 
     free_slot = 0;
     if (used_slots[0] != 0) {
-        register u8 *scan_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        u8 *scan_base;
 
         scan_base = used_slots;
         do {

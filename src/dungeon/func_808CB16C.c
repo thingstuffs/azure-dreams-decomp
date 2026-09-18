@@ -80,7 +80,6 @@ void func_80123604(void) {
         do {
             record = (Record *)((u8 *)record + 0x6A18);
         } while (0);
-        ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         current->part_8->value_6 = record[12].value_4;
         slots->slots[12]->part_8->value_8 = record[12].value_6;
         slots->slots[13]->part_8->value_6 = record[13].value_4;

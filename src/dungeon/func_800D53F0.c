@@ -174,7 +174,6 @@ fade_out:
         D_800814A0[0] |= 0x8000;
     }
 
-    ASM_USE_NV(color_step); /* MATCH: keep a0 live so the subtraction uses a0 after the a1 copy. */
 
 update_angle:
     phase_value = ((S_800DAB50_0 *)effect_data)->unk_02.u;
