@@ -23,15 +23,10 @@ s32 func_800C7FFC(u8 *entity) {
             slot_index--;
             slot -= 4;
         }
-        return 0;
+    } else {
+        if (*(u32 *)(entity + 0x54) & 0x20000000) {
+            return 1;
+        }
     }
-
-    slot = *(u32 *)(entity + 0x54);
-    entity = (u8 *)0x20000000;
-    slot &= (u32)entity;
-    if (!slot) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        return 0;
-    }
-    return 1;
+    return 0;
 }
