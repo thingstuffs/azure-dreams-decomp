@@ -5,21 +5,14 @@ extern u8 D_800E3DB0[];
 s32 func_800A15B0(s16 entry_id) {
     s16 match_id = entry_id;
     u8 *entry = D_800E3DB0;
-    s16 index = 0;
-    s16 next_index;
+    s16 index;
 
     if (entry_id == 0x39) match_id = 2;
-    do {
+    for (index = 0; index < 6; index++, entry += 8) {
         if (entry[1] != match_id) {
-            next_index = index + 1;
-            index = next_index;
-            entry += 8;
-        } else {
-            return 1;
+            continue;
         }
-    } while (next_index < 6);
-    do {
-        ASM_KEEP(index);
-    } while (0);
+        return 1;
+    }
     return 0;
 }
