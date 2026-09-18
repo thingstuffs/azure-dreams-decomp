@@ -29,14 +29,11 @@ void func_800A4E1C(TownTransition *state) {
 
     target = state->target;
     if (target != state->previous_target) {
-        Vec3i *new_target = target;
-
-        ASM_KEEP(new_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         state->steps = 9;
         state->unk14 = 0;
         state->unk18 = 0;
         state->unk1C = 0;
-        state->previous_target = new_target;
+        state->previous_target = state->target;
         func_800A4D4C(state, state);
         return;
     }

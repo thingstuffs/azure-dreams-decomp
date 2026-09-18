@@ -8,17 +8,16 @@ extern char D_8001B9E0[];
 extern char D_8001C6D0[];
 extern char D_80020E44[];
 
-extern s32 func_80016CE4(s32, s32);
+extern s32 func_80016CE4(long long);
 extern s32 func_80016D18(void);
 extern char *func_80016E48(s32);
 
 /* Select event data, using fallback data when an event handler returns null. */
-char *func_8001747C(s32 forwarded_arg, s32 forwarded_aux, s32 event_id)
+char *func_8001747C(long long forwarded_arg, s32 event_id)
 {
     s32 result_addr;
     u32 case_index;
     void **dispatch_table;
-    register s32 selector ASM_REG("$6") = event_id;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     static void *const case_labels[] = {
         &&case_19,
         &&case_18,
@@ -36,7 +35,7 @@ char *func_8001747C(s32 forwarded_arg, s32 forwarded_aux, s32 event_id)
     goto *dispatch_table[case_index];
 
 case_19:
-    result_addr = func_80016CE4(forwarded_arg, forwarded_aux);
+    result_addr = func_80016CE4(forwarded_arg);
     D_8001B16C[0] = result_addr;
     if (result_addr != 0) {
         goto return_result;
@@ -57,7 +56,7 @@ case_18_zero:
     return D_80020E44;
 
 case_52:
-    return func_80016E48(selector);
+    return func_80016E48(event_id);
 
 case_12:
     return D_8001C6D0;
