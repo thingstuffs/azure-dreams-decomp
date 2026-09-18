@@ -2139,3 +2139,4 @@
 {"id":"dungeon/func_8008C2D8","transform":"t16_absidiom","in_sha":"85b378b70309d2080b231f730ac8924c62fb8ff0d1fc40fda74f4583cc80fa77","from_clean":true,"size":292,"outcome":"refused","reason":"no live pin site","at":"2026-09-18T15:25:30Z"}
 {"id":"dungeon/func_800D7198","transform":"t16_absidiom","in_sha":"33116eca7aeb2e3665b53ba1f4b608e7015e199bfb2d6bbaf9fed6b7d2d22012","from_clean":true,"size":144,"outcome":"refused","reason":"no live pin site","at":"2026-09-18T15:25:30Z"}
 {"id":"dungeon/func_8180CFF4","transform":"t16_absidiom","in_sha":"56f276bfd0ac04aa35ee5f9b09c5ca941caa8f58e0e0e0debb6e7b1f984ac0e4","from_clean":true,"size":232,"outcome":"refused","reason":"no live pin site","at":"2026-09-18T15:25:30Z"}
+{"id":"dungeon/func_80087BE4","transform":"t16_absidiom","in_sha":"19aa572b5be3e13ee57cd8a2dd4b3d8134495577bcfcac42fd1765e57a055776","from_clean":true,"size":36,"outcome":"refused","reason":"no live pin site","at":"2026-09-18T16:03:58Z"}
