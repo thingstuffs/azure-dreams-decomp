@@ -73,3 +73,5 @@ Pack 7 (`r58_order7`, `CHANGED|9-16`) resolved 1 row: **5,830 pins in 1,228 rows
 Pack 8 (`r58_order8`, `CHANGED|9-16` and `BOTH|9-16`) resolved 3 rows: **5,827 pins in 1,225 rows**. Briefed packs: 27 of 96 rows. Packs 9 (the remaining `MOVED|1-2` rows) and 10 (the small `CHANGED` and `RECOLOURED` residues) run next.
 
 Packs 9 and 10: the remaining `MOVED|1-2` rows (non-argument moves) 0 of 12; the small `CHANGED`/`RECOLOURED` residues 5 of 12: **5,822 pins in 1,220 rows**, 11 windows and SLUS MATCH. Briefed packs: 32 of 120 rows. Pack 11 (three-pin rows of the small classes) runs next.
+
+Pack 11 (`r58_order11`, three-pin rows of the small `MOVED`/`CHANGED` classes) resolved 5 rows, 15 pins: **5,807 pins in 1,215 rows**. Three-pin rows of the paying classes pay as well as one-pin rows; the pool by pin count is the next dimension. Briefed packs: 37 of 132 rows.

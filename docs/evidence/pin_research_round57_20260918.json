@@ -9,10 +9,10 @@
    "pinned_rows": 1262
   },
   "after": {
-   "pins": 5822,
-   "pinned_rows": 1220
+   "pins": 5807,
+   "pinned_rows": 1215
   },
-  "pins_removed": 125
+  "pins_removed": 140
  },
  "mechanism": {
   "source": "toolchain/gcc-src/2.7.2/sched.c (schedule_block, priority, rank_for_schedule, sched_analyze_1) + calls.c expand_call",
