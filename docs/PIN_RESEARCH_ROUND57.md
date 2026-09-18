@@ -61,3 +61,5 @@ Detector audit of the seven Gemini wins (round 14's lesson: a lane row is a dete
 t38b over its 239 eligible pinned rows: 0 exact (the shape lives on the one Gemini row); it stays in the cascade for rows that reach it after other moves.
 
 The fourth pack (`r58_order4`, twelve 1-2-pin rows of the `CHANGED|3-4` class) resolved 6 rows / 6 pins (7 reported, one not landable): **5,840 pins in 1,238 rows**, 8 windows and SLUS MATCH. Mechanism-briefed Gemini packs so far: 13 of 36 rows.
+
+The third pack (`r58_order3`, eight `MOVED|3-4` prologue-copy rows and four `CHANGED|1-2`) resolved 1 row: the prologue copy-order class resists a model as it resisted the probes; **5,839 pins in 1,237 rows**. Briefed packs: 14 of 48 rows; the class matters more than the model.
