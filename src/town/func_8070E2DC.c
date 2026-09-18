@@ -10,7 +10,7 @@ extern char D_8001B9E0[];
 extern char D_80020E44[];
 extern char D_8001C6D0[];
 
-extern char *func_80016CE4(s32, s32);
+extern char *func_80016CE4(long long);
 extern char *func_80016D18(void);
 extern char *func_80016E48(s32);
 extern void func_8001A554(s32);
@@ -18,17 +18,16 @@ extern s32 func_8001A64C(s32);
 extern s32 func_80019880(s32, s32);
 
 /* Selects town text and runs the selected handler's fallback actions. */
-char *func_800172DC(s32 lookup_a, s32 lookup_b, s32 text_selector)
+char *func_800172DC(long long lookup, s32 text_selector)
 {
     u32 index;
-    register s32 selector ASM_REG("$6") = text_selector;
     static void *const keepalive[] = {
         &&L_first, &&L_second, &&L_third, &&L_fourth, &&L_default
     };
 
     (void)keepalive;
 
-    index = selector - 12;
+    index = text_selector - 12;
     if (index >= 43) {
         goto L_default;
     }
@@ -36,7 +35,7 @@ char *func_800172DC(s32 lookup_a, s32 lookup_b, s32 text_selector)
 
 L_first:
     {
-        char *text = func_80016CE4(lookup_a, lookup_b);
+        char *text = func_80016CE4(lookup);
         D_8001B16C[0] = text;
         if (text != 0) {
             return text;
@@ -60,7 +59,7 @@ L_second:
     }
 
 L_third:
-    return func_80016E48(selector);
+    return func_80016E48(text_selector);
 
 L_fourth:
     return D_8001C6D0;
