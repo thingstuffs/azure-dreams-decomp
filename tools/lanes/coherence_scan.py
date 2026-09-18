@@ -106,8 +106,8 @@ def cmd_scan(a):
         if r["container"] in ("slus", "ovmovie") or not r.get("stock") or (keep and r["id"] not in keep):
             continue
         info = mr.get(r["id"])
-        if not info or r["id"] not in info[2]:
-            continue                                                   # conforming, or no census
+        if not info or r["id"] not in info[2] or r["cfg"] == info[0]:
+            continue                                                   # conforming, no census, or already at the module recipe (the census file predates a landing)
         p = clean_path(r)
         if not p.exists():
             continue

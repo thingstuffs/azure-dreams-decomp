@@ -30,7 +30,10 @@ INCLUDE = ROOT / "include"
 CASCADE = ("t36_paramwidth t37_localwidth t37b_localwidth_keep t38_unstage t39_signbit t41_gotoloop t41b_gotoloop_while "
            "t41c_gotoloop_greedy t42_sinkcopy t44_doloop_greedy t48_gotoreturn t49_looptest t16_absidiom t16b_fieldabs "
            "t51_sched_order t53_reg_state t53k_keep t54_pagebase t57_keepafterstore t57b_keepafternext t59_offsetsym "
-           "t63_memdep t66_sameregmerge t69_prologue t2_pins").split()
+           "t63_memdep t66_sameregmerge t69_prologue t71_updateaftercall t72_stmtperm t2_pins").split()
+
+
+BY = {r["id"]: r for r in rows()}
 
 
 def nonconforming(pinned):
@@ -42,7 +45,7 @@ def nonconforming(pinned):
         if not x:
             continue
         for n in x["nonconforming"]:
-            if n["id"] == rid and (pinned or n["pins"] == 0):
+            if n["id"] == rid and (pinned or n["pins"] == 0) and BY.get(rid, {}).get("cfg") != x["best_recipe"]:   # skip rows already at the module recipe (the census file predates a landing)
                 out[rid] = (x["best_recipe"], key[1], n["pins"], n.get("dist_at_best"))
     return out
 

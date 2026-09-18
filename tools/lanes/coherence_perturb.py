@@ -31,6 +31,9 @@ INC = f"-I{(ROOT / 'include').resolve()}"
 KINDS = list(perturb_basic.PERTURBATIONS) + list(perturb_struct.PERTURBATIONS)
 
 
+BY = {r["id"]: r for r in rows()}
+
+
 def nonconforming(pinned):
     mods = {m["id"]: (m["container"], m["module"]) for m in read_jsonl(LEDGER / "modules.jsonl")}
     cen = {(x["container"], x["module"]): x for x in read_jsonl(LEDGER / "module_recipe_census.jsonl")}
@@ -40,7 +43,7 @@ def nonconforming(pinned):
         if not x:
             continue
         for n in x["nonconforming"]:
-            if n["id"] == rid and (pinned or n["pins"] == 0):
+            if n["id"] == rid and (pinned or n["pins"] == 0) and BY.get(rid, {}).get("cfg") != x["best_recipe"]:   # skip rows already at the module recipe (the census file predates a landing)
                 out[rid] = (x["best_recipe"], key[1], n["pins"], n.get("dist_at_best"))
     return out
 
