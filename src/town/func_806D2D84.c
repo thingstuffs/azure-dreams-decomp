@@ -14,7 +14,7 @@ s32 func_80016584(S_80016584_0 *record) {
     s32 flag_set;
 
     flag_set = 0;
-    if (func_80016D78(D_800160B2) == 0) {
+    if (func_80016D78((*(__typeof__(D_800160B2) *)0x800160B2)) == 0) {
         flag_set = func_80016D78(record->unk_18) != 0;
     }
     return flag_set;

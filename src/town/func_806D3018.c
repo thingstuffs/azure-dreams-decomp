@@ -28,7 +28,7 @@ s32 func_80016818(S_80016818_0 *context) {
     s32 callback_index;
 
     if ((((s32) context->unk_00 >> 0x17) & 1) ||
-        (func_80016D78(D_800160B2[0]) == 0)) {
+        (func_80016D78((*(__typeof__(D_800160B2) *)0x800160B2)[0]) == 0)) {
         func_800167B4(context->unk_14,
                       context->unk_1A);
     }

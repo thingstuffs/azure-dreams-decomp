@@ -1,21 +1,17 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
-**Round 56 in progress (2026-09-18, under the charter; 5,960 pins / 1,265 rows at 63a39190).**
-Landed so far: two uncapped joint flag trades (5 pins). Running: codex pack `r56_unserved1`
-(luna, 12 never-served rows; codex quota resets ~2026-09-19 06:00 UTC, no more codex packs
-before that) and Gemini pack `r56_unserved2`; behind them, chained in one shell:
-`land_lanes.sh r56 r56_unserved1 r56_unserved2` then `land_coherence.sh r56 r56_coherence`
-(charter clause 4b: seven coherence repairs, one of them a pin, staged from
-`coherence_scan.py` / `coherence_perturb.py`; the lander verifies before it switches).
-Measured this round: the coherence family (pin subsets, cascade generators, catalogue moves at
-depth 1-2, erase-then-perturb, all scored at the module recipe) yields 1 pin + 6 recipe
-repairs; the cross-recipe listing screen has a two-line false-negative band (rescoring runs,
-tags band2/band2e); 2.7.2-cdk always splits symbol addresses while FSF 2.7.2 never does, so the
-53 FSF-only rows inside cdk modules are merged translation units, not shapes (contiguous runs
-in c_server 80019A10..8001B2C8 and town/main.c). If this session died: check `lane.pid`s and
-the chain log, then land, gate, document, commit.
-
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
+
+[Round 56](PIN_RESEARCH_ROUND56.md), the charter's first round, lands **7 pins: 5,958 / 1,264
+rows** and repays **11 per-row recipe deviations** (clause 4b, reported separately): the
+uncapped joint flag scan (5), a Gemini pack on never-served rows (1 of 12; the codex pack 0
+of 12), and a keep that dies at its module recipe (1). Three coherence tools score candidates
+at the module census recipe (pin subsets, the cascade generators, the round-33 catalogue
+moves with a calibrated cc1-listing screen); ten pin-free rows and one pinned row became
+byte-exact there by ordinary moves. Compiler probe: 2.7.2-cdk always splits symbol
+addresses, FSF 2.7.2 never does, so FSF-only rows inside cdk modules are merged translation
+units, not shapes. Next: the byte-neutral recipe reduction (1,415 rows exact at their module
+recipe but recorded elsewhere), then a sched2 `move` placement probe.
 
 [Round 55](PIN_RESEARCH_ROUND55.md) removes **46 pins: 5,966 / 1,265 rows**, CPU-only
 (zero model tokens). The four lone-erasure rescans were 654 rows stale; rerun, they

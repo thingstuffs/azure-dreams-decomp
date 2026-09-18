@@ -2232,3 +2232,21 @@ Gated twice (11 + 12 windows MATCH, SLUS MATCH): **5,966 pins in 1,265 rows** (-
   74 strong/proven modules.
 - Bounded negatives: zero_init on the remaining 15 `$0` sites 0/7; 15 never-screened flags 0/90 (ten inert, three
   break nearly all rows); 13 rows over 30 pins no joint erasure.
+
+
+## Round 56 (2026-09-18): coherence repairs, the cdk address probe
+
+Gated four times (2 + 5 + 4 windows MATCH, SLUS MATCH): **5,958 pins in 1,264 rows** (-7) and 11 recipe repairs.
+
+- **Coherence as an oracle.** Scoring candidates at the row's MODULE recipe (round 55's census) instead of the recorded
+  one reopens rows the recorded recipe had closed: `coherence_scan.py` (pin subsets), `coherence_sweep.py` (cascade
+  generators; pin-driven, so a clean negative on pin-free rows), `coherence_perturb.py` (catalogue moves screened by the
+  cc1 listing at the module recipe against the current text's listing at the recorded recipe; depth 1-2; erase-then-
+  perturb; a two-line rescore band because byte-exact recipe pairs differ by two listing lines in 41% of cases). One
+  pin and ten recipe repairs; the address-literal spelling makes cdk reproduce three FSF-only rows' bytes.
+- **cdk always splits symbol addresses** (eleven probe contexts) and FSF 2.7.2 never does; cdk has no switch for it.
+  A `$at` expansion in retail bytes rules cdk out for that row: the FSF-only nonconforming rows are merged TUs
+  (contiguous runs), which the module grouping should split rather than the C be reshaped.
+- **Never-served small rows** (126 rows / 240 pins) resolve at the served rows' rate: codex luna 0/12, Gemini 1/12.
+- Byte-neutral recipe switches available: 1,415 rows exact at their module recipe but recorded elsewhere
+  (`tools/lanes/land_recipe_switch.sh`).

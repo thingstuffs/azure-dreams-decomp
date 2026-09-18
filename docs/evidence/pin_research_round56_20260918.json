@@ -1,0 +1,233 @@
+{
+ "schema": "azure-clean.pin-research-round56.v1",
+ "round": 56,
+ "date": "2026-09-18",
+ "charter": "docs/PIN_CAMPAIGN_CHARTER.md (clause 4b added this round)",
+ "counts": {
+  "before": {
+   "pins": 5960,
+   "pinned_rows": 1265
+  },
+  "after": {
+   "pins": 5958,
+   "pinned_rows": 1264
+  },
+  "pins_removed": 2
+ },
+ "pins": {
+  "uncapped_joint_flag_scan": {
+   "rows": [
+    "dungeon/func_80FED000",
+    "dungeon/func_81892C5C"
+   ],
+   "pins": 5,
+   "ledger": "ledger/pins_joint_custom.jsonl"
+  },
+  "gemini_pack_r56_unserved2": {
+   "rows": [
+    "dungeon/func_800BB144"
+   ],
+   "pins": 1,
+   "of_rows": 12
+  },
+  "codex_pack_r56_unserved1": {
+   "rows": [],
+   "pins": 0,
+   "of_rows": 12,
+   "notes": "work/native_lane/r56_unserved1/last_message.txt"
+  },
+  "coherence_scan": {
+   "rows": [
+    "dungeon/func_800C6828"
+   ],
+   "pins": 1
+  }
+ },
+ "coherence_repairs": [
+  {
+   "id": "main/func_80013FB4",
+   "cfg_from": "2.7.2",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb:width_change",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "802533e4ef0c47b9575e276ce2fdfb6016ab232ad1618cf761c6b06a535ee008",
+   "candidate_sha": "db34582605bc1cf58333b96c466221916725338d4c9373353709909ccd8561e7"
+  },
+  {
+   "id": "dungeon/func_800A7E08",
+   "cfg_from": "2.95.2",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb:hoist",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "912c94b2ce245e81faf48546b66d20ce472c5e9146b96b159b8f1636e16885f1",
+   "candidate_sha": "cb3b44b62b29b2a14b620ecd4dc1b429fa1a7a3d3737614e469b1d6b43ea752d"
+  },
+  {
+   "id": "dungeon/func_800942BC",
+   "cfg_from": "2.7.2-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb:width_change",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "11f0322d7da63ca00271724be1d6d2f327f87cdcb772c4e85012bdfbb17e9a61",
+   "candidate_sha": "dd4b22143919d0874875f3475d3b177d96a861bcf63aaf24ef5062b1330b3662"
+  },
+  {
+   "id": "town/func_800A00A8",
+   "cfg_from": "2.8.1-G0 -fno-strength-reduce",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb:dup_tail",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "82de42e5b5ffbde7bf4dff1b68ffe228d7c55f63a9ae20050b00fd3f7a9f2816",
+   "candidate_sha": "2542fa4a4985b75aa4af201dacac6f1a65dbaa6d60a376192c0c968f5139c0a1"
+  },
+  {
+   "id": "dungeon/func_800C6828",
+   "cfg_from": "2.7.2-cdk-G0 -fno-schedule-insns",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "scan:pin erased",
+   "pins_before": 1,
+   "pins_after": 0,
+   "source_sha_before": "0110371f85e79b09b9c3161725ce437fa133af9308b631508505169b7db92873",
+   "candidate_sha": "584c8848b25e07b17bbcd75be8ee431cfca4af8d6cbab697b0816309a6273822"
+  },
+  {
+   "id": "dungeon/func_7FFEDADC",
+   "cfg_from": "2.7.2+-fno-schedule-insns",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb depth2:param_copy>merge",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "5b80cae8a858a2a3ecc6af4ff6ede8dadb12f570f2347964f291cf35e1a194d9",
+   "candidate_sha": "bab894c8274f9db408fe7e0dbe310d7d2a006a39b26d876f8789b9a008472109"
+  },
+  {
+   "id": "dungeon/func_80095AFC",
+   "cfg_from": "2.7.2",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb depth2:param_copy>stmt_shift",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "6d12a862c5bc097196815f0e88ed1d6fea93b76b5729c483caafb7fe03342199",
+   "candidate_sha": "db841340a99dd071ebe7894200c80391ec93ee15dc845d32b73e4d9a8671c837"
+  },
+  {
+   "id": "dungeon/func_8009A364",
+   "cfg_from": "2.7.2-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb band2:addr_literal",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "c50820c875c3848dce50d8a155248c4b380eb6fa8a5a8fe8981ffe5add5ed76b",
+   "candidate_sha": "6a2a8beb57acccb57e117a30a44be3c3c070c7f73508e962cb9fa6d54a59fc6c"
+  },
+  {
+   "id": "town/func_806D2D84",
+   "cfg_from": "2.7.2-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb band2:addr_literal",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "75508b8af5ace82cb1a4a0df1212091fabf13064569abdc4d7bd82694a8dfefd",
+   "candidate_sha": "48b3ce029e550ce9eb68b5c747760c11e9f3403b1315afd0b9faddb1c1661ecc"
+  },
+  {
+   "id": "town/func_806D3018",
+   "cfg_from": "2.7.2",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb band2:addr_literal",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "b199e8cbb7e4a50ac914def493bdd801037c2140c92c673c8b8575fe8eb4a4c6",
+   "candidate_sha": "0cd33266fd01519b52a9e244ed702a128bfd2f682844a5ffb62a3026a9c1cfa0"
+  },
+  {
+   "id": "dungeon/func_800D5A04",
+   "cfg_from": "2.95.2-G0",
+   "cfg_to": "2.7.2-cdk-G0",
+   "how": "perturb band2:width_change",
+   "pins_before": 0,
+   "pins_after": 0,
+   "source_sha_before": "54dca7026685a048d41c5558e140f2d6be6c0574ea2f7dfa1189c15d51028831",
+   "candidate_sha": "1d78dfa0d610eaa6f6f17722c73348cff38c2b68547f0ad921cedce98acef5b9"
+  }
+ ],
+ "tools": [
+  "tools/lanes/coherence_scan.py",
+  "tools/lanes/coherence_sweep.py",
+  "tools/lanes/coherence_perturb.py",
+  "tools/lanes/land_coherence.sh",
+  "tools/lanes/land_recipe_switch.sh",
+  "tools/tests/test_joint_scan.py"
+ ],
+ "ledgers": [
+  "ledger/pins_coherence.jsonl",
+  "ledger/coherence_sweep.jsonl",
+  "ledger/coherence_perturb.jsonl",
+  "ledger/coherence_perturb_depth2.jsonl",
+  "ledger/coherence_perturb_erase.jsonl",
+  "ledger/coherence_perturb_band2.jsonl",
+  "ledger/coherence_perturb_band2e.jsonl",
+  "ledger/module_recipe_census.jsonl",
+  "ledger/model_capacity.jsonl",
+  "ledger/recipe_trades.jsonl"
+ ],
+ "compiler_probe": {
+  "question": "when does 2.7.2-cdk emit the macro (la/$at) address form",
+  "answer": "never: cdk splits every symbol address into lui+%lo with a real register in all eleven probe contexts; FSF 2.7.2 never splits; cdk rejects -mno-split-addresses and -mno-gas",
+  "consequence": "the 53 FSF-only nonconforming rows inside cdk-G0 modules are merged translation units (contiguous runs), not shapes"
+ },
+ "screen_calibration": {
+  "rows": 150,
+  "distance_between_two_byte_exact_recipes": {
+   "0": 83,
+   "2": 62,
+   "3": 2,
+   "6": 2,
+   "9": 1
+  }
+ },
+ "bounded_negatives": {
+  "uncapped_scan_90_row_rescan": 0,
+  "coherence_sweep_generators_on_pin_free_rows": "refused: pin-driven",
+  "erase_then_perturb_93_pinned_rows": "7,704 candidates, 0 new",
+  "nearest_misses_within_two_listing_lines": []
+ },
+ "silent_recipe_switches_available": {
+  "rows_pin_free": 1304,
+  "rows_pinned": 111,
+  "pins_on_pinned": 313,
+  "list": "scratchpad silent_switches.json (rebuild from work/native_lane/r55_census)"
+ },
+ "model_capacity": [
+  {
+   "date": "2026-09-18T03:35Z",
+   "probe": "trivial prompt, reply OK",
+   "codex": {
+    "model": "gpt-5.6-luna",
+    "ok": true,
+    "tokens": 3786
+   },
+   "gemini": {
+    "model": "gemini-3.8-flash-high",
+    "ok": true
+   },
+   "note": "owner 09-18: codex usage basically gone; a trivial call still works, quota for a lane pack unknown - try one small pack and journal"
+  },
+  {
+   "date": "2026-09-18T04:00Z",
+   "codex": {
+    "note": "owner: quota nearly used up; resets ~2026-09-19T06:00Z (26 h from 04:00Z). One pack r56_unserved1 is the probe; queue no more codex packs before the reset"
+   },
+   "gemini": {
+    "note": "available; use for lane packs meanwhile (agy mode of launch_lane.sh)"
+   }
+  }
+ ],
+ "publication": {
+  "gates": "lane harvest 2 windows MATCH; coherence 5 windows MATCH; coherence2 see land_r56b log; SLUS MATCH each time; row database OK; case ledger OK; port/dead arms identical"
+ }
+}
