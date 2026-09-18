@@ -166,6 +166,7 @@ def scan_row(job):
 
 
 def cmd_scan(a):
+    TAG[0] = f"_{a.tag}" if a.tag else ""
     path = out_path(a.mode)
     done = {}
     if path.exists():
@@ -173,7 +174,6 @@ def cmd_scan(a):
             done[r["id"]] = r
     keep = set(a.only.split(",")) if a.only else None
     fl = MODES[a.mode]
-    TAG[0] = f"_{a.tag}" if a.tag else ""
     if a.flags_list:
         CUSTOM_FLAGS[:] = a.flags_list.split()
     todo = []
