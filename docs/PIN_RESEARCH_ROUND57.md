@@ -63,3 +63,5 @@ t38b over its 239 eligible pinned rows: 0 exact (the shape lives on the one Gemi
 The fourth pack (`r58_order4`, twelve 1-2-pin rows of the `CHANGED|3-4` class) resolved 6 rows / 6 pins (7 reported, one not landable): **5,840 pins in 1,238 rows**, 8 windows and SLUS MATCH. Mechanism-briefed Gemini packs so far: 13 of 36 rows.
 
 The third pack (`r58_order3`, eight `MOVED|3-4` prologue-copy rows and four `CHANGED|1-2`) resolved 1 row: the prologue copy-order class resists a model as it resisted the probes; **5,839 pins in 1,237 rows**. Briefed packs: 14 of 48 rows; the class matters more than the model.
+
+The fifth pack (`r58_order5`, twelve 1-2-pin rows of `CHANGED|5-8`) resolved 5 rows: **5,834 pins in 1,232 rows**, 8 windows and SLUS MATCH. Briefed packs: 19 of 60 rows. A sixth pack (the rest of the small `CHANGED` rows) runs next; the class pool of 1-2-pin rows is the model lanes' working set while the CPU side is exhausted.
