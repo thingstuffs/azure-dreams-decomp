@@ -45,7 +45,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 end_y;
     register s16 *scratch ASM_REG("$18") = (s16 *)0x1F800000;
     register void *view ASM_REG("$8");
-    register State_80083160 *state ASM_REG("$2");
+    State_80083160 *state;
     void *state_dep;
     volatile s16 start_angle;
     void *segment_data;
@@ -235,7 +235,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         State_80083160 *final_state;
         final_state = ((D_80083160_t *)view)->state;
         result = 0;
-        ASM_KEEP_NV(result);
         final_state->value = last_result;
     }
     return result;

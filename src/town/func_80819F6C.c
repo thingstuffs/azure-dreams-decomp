@@ -18,7 +18,7 @@ extern s32 D_800814A0;
 /* Wait for the linked object to clear, then reduce the level and set completion flags. */
 void func_80023F6C(void *entry) {
     void *object;
-    s16 state;
+    s32 state;
     u16 prev_state;
     s32 level;
 
@@ -46,5 +46,5 @@ void func_80023F6C(void *entry) {
         break;
     }
 
-    ASM_KEEP(entry); /* Retains the register allocation required for a byte-exact match. */
+     /* Retains the register allocation required for a byte-exact match. */
 }

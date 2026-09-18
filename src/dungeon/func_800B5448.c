@@ -169,7 +169,6 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
     ((S_800BABA8_1 *)(*(DungeonRoot **)root_slot))->unk_8D0 = packet_cursor;
     {
         s32 result = 0;
-        ASM_KEEP_NV(result); /* MATCH: Initialize the return value before the epilogue restores. */
         return result;
     }
 }

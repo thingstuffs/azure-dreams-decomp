@@ -29,10 +29,12 @@ extern s32 D_80084D5C;
 void func_80814610(void *object, void *motion, void *visual) {
     s32 velocity;
     u8 brightness;
+    __typeof__(((S_80814610_0 *)motion)->unk_08) hoisted_1;
 
     velocity = ((S_80814610_0 *)motion)->unk_14;
     if (velocity != 0) {
-        ((S_80814610_0 *)motion)->unk_08 = (s32) (((S_80814610_0 *)motion)->unk_08 + velocity);
+        hoisted_1 = ((S_80814610_0 *)motion)->unk_08;
+        ((S_80814610_0 *)motion)->unk_08 = (s32) (hoisted_1 + velocity);
         ((S_80814610_0 *)motion)->unk_14 = (s32) (((S_80814610_0 *)motion)->unk_14 + 0x18000);
         brightness = ((S_80814610_1 *)visual)->unk_0E - 0x20;
         ((S_80814610_1 *)visual)->unk_0E = brightness;
