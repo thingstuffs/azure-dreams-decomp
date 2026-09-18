@@ -62,3 +62,7 @@ The uncapped flag scan's 90-row rescan with the lifted cap: 0. Erase-then-pertur
 ## Round 56c: the joint flag-mode scans resumed
 
 With the cap lifted the joint scan's flag modes (stopped in round 55 at 725 of 847 rows) ran to the end: flags 174 rows / 1 hit, flags2 699 / 1, stack 122 / 0. Two rows, three `ASM_REG` pins, landed as recorded trades (`-fno-cse-skip-blocks` on `dungeon/func_80092138`, `-fno-cse-follow-jumps` on `town/func_800C071C`): **5,955 pins in 1,264 rows**, 2 windows and SLUS MATCH. The flag space of every scan (lone, joint, uncapped, coherence) is now exhausted on the current text.
+
+## Round 56d: the weak-module census
+
+The census over the 177 weak-confidence modules with five or more rows (3,130 rows, 3,051 pins; `run_weak.sh`, resumable per module) validates most of the grouping: 156 modules have one stock recipe exact on at least 90% of their pin-free rows, none below 50%. Best recipes: 2.7.2-cdk-G0 for 147 modules, 2.8.0-G0 for 14 dungeon modules, 2.6.3(-G0) for 7 town modules. Nonconforming: 268 rows (73 pin-free, 195 pinned carrying 1,226 pins); byte-neutral switches available: 1,694 pin-free and 202 pinned rows (613 pins). The whole census now covers 242 modules / 5,261 rows: 490 nonconforming rows carry 1,621 of 4,116 pins. The coherence tools run over the new nonconforming rows, then the switches land.
