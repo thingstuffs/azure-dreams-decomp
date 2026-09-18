@@ -50,7 +50,7 @@ def with_cfg(row, cfg):
 
 
 def scan_row(job):
-    row, recipe, module, kinds, depth, near_max, near_k = job
+    row, recipe, module, kinds, depth, near_max, near_k, erase_subsets = job
     t0 = time.time()
     text = clean_path(row).read_text(errors="replace")
     rec = {"id": row["id"], "cfg": row["cfg"], "in_sha": sha_text(text), "pins": len(sites_of(text)), "module": module,
@@ -91,6 +91,42 @@ def scan_row(job):
                 elif nearest is None or d < nearest[0]:
                     nearest = (d, kind, params.get("label") if isinstance(params, dict) else str(params)[:80])
         rec["nearest"] = nearest
+        if erase_subsets and rec["pins"]:
+            from coherence_scan import subsets as pin_subsets
+            from pin_sites import erase_many
+            sites = sites_of(text)
+            rec["erase_subsets"] = 0
+            for idx in pin_subsets(sites, 8):
+                base_t = erase_many(text, [sites[i] for i in idx], clean_notes=True)
+                rec["erase_subsets"] += 1
+                s0 = compile_s(with_cfg(row, recipe), base_t)
+                texts = [(("erase", list(idx)), base_t)]
+                for kind, fn in kinds:
+                    try:
+                        texts += [((kind, params), new) for params, new in fn(base_t, collections.Counter())]
+                    except Exception:                                  # noqa: BLE001
+                        continue
+                for (kind, params), new in texts:
+                    rec["candidates"] += 1
+                    if unscored_text(new) != unscored_text(base_t):
+                        continue
+                    s = compile_s(with_cfg(row, recipe), new)
+                    if s is None:
+                        continue
+                    d = sdiff(target, s)
+                    if d == 0:
+                        rec["screen_hits"] += 1
+                        with tempfile.TemporaryDirectory() as td:
+                            pth = Path(td) / Path(row["c_path"]).name; pth.write_text(new)
+                            v = verify(with_cfg(row, f"{recipe} {INC}"), pth)
+                        if v.get("exact"):
+                            rec["hits"].append({"erased": list(idx), "kind": kind, "params": params})
+                            d0 = ROOT / "work/native_lane/coherence_perturb/out" / row["container"]; d0.mkdir(parents=True, exist_ok=True)
+                            (d0 / Path(row["c_path"]).name).write_text(new)
+                            (d0 / (Path(row["c_path"]).name + ".base_sha")).write_text(rec["in_sha"])
+                            rec["secs"] = round(time.time() - t0, 1); return rec
+                    elif rec["nearest"] is None or d < rec["nearest"][0]:
+                        rec["nearest"] = (d, f"erase{list(idx)}+{kind}", params.get("label", "") if isinstance(params, dict) else str(params)[:60])
         if depth >= 2 and nearest is not None and nearest[0] <= near_max:
             # depth 2: every kind applied to each of the K nearest depth-1 texts (round-28 lesson: ranking is a valley,
             # so K is generous); still screened by listing, confirmed by the scorer
@@ -148,6 +184,7 @@ def main():
     ap.add_argument("--depth", type=int, default=1); ap.add_argument("--near-max", type=int, default=4, help="depth 2 only on rows whose nearest depth-1 listing distance is at most this")
     ap.add_argument("--near-k", type=int, default=12, help="depth 2: seeds per row")
     ap.add_argument("--tag", default="", help="ledger suffix (a depth-2 run keeps its own journal)")
+    ap.add_argument("--erase-subsets", action="store_true", help="pinned rows: each pin subset erased, then every kind at depth 1 on the erased text")
     a = ap.parse_args()
     keep = set(a.only.split(",")) if a.only else None
     kinds = [(k, f) for k, f in KINDS if not a.kinds or k in a.kinds.split(",")]
@@ -166,7 +203,7 @@ def main():
         sha = sha_text(clean_path(r).read_text(errors="replace"))
         if (r["id"], sha, info[0]) in done:
             continue
-        jobs.append((r, info[0], info[1], kinds, a.depth, a.near_max, a.near_k))
+        jobs.append((r, info[0], info[1], kinds, a.depth, a.near_max, a.near_k, a.erase_subsets))
     jobs.sort(key=lambda j: j[0].get("size") or 0)
     print(f"{len(pop)} nonconforming rows, {len(jobs)} to search with {len(kinds)} kinds", flush=True)
     lock, n, nh, t0 = threading.Lock(), 0, 0, time.time()
