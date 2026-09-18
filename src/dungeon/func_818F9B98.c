@@ -126,7 +126,6 @@ void func_80025398(void *effect, void *unused, void *primitive)
     ((S_80025398_0 *)effect)->unk_9A = 0x64;
     next_state = ((S_80025398_0 *)effect)->unk_00.u + 1;
     if (state != 0) {
-        render_source = &source;
         if (state == 1) {
             goto render;
         }
@@ -134,11 +133,10 @@ void func_80025398(void *effect, void *unused, void *primitive)
     } else {
         ((S_80025398_0 *)effect)->unk_00.p = next_state;
         ((S_80025398_1 *)output)->unk_14 &= 0xFF7F;
-        ASM_SCHED_BARRIER();
-        render_source = &source;
     }
 
 render:
+    render_source = &source;
     derived_ptr = &derived;
     derived.x = source.x + ((s16)source.z >> 1);
     one = 1;
