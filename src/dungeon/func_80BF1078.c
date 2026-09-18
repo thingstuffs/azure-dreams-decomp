@@ -101,10 +101,9 @@ void *func_8016A878(s16 init_flags, s16 tile_x, s16 tile_y, s16 object_id)
         state->unk_14 = flags_14;
         state->unk_1C = flags_1c;
     } else if (((init_flags & ~3) << 0x10) == 0) {
-        register void *query_object ASM_REG("$4") = object;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
         if (!(state->unk_14 & 0x200)) {
-            if (func_800A6D30(query_object) & 1) {
-                func_800A48F0(state, 1, (func_800A6D30(query_object) & 0x3F) | 0x20);
+            if (func_800A6D30() & 1) {
+                func_800A48F0(state, 1, (func_800A6D30() & 0x3F) | 0x20);
                 placement->unk_2C = &D_8016E25C;
             }
         }

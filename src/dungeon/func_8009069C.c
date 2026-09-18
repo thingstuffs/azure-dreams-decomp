@@ -64,13 +64,11 @@ void func_80095DFC(Actor *actor, s32 context_a, s32 context_b, s32 target_arg) {
         }
         if (!(entry[3] & 0x40)) {
 
-            s32 call_actor;
             s32 cursor;
             s32 buffer_start;
             s32 patch_pos;
             s32 entry_pos;
-            ASM_SET(call_actor);
-            cursor = func_800990FC(call_actor);
+            cursor = func_800990FC();
             buffer_start = cursor;
             cursor = func_80099978(func_80099194(D_800E0B39, func_8009929C(8, cursor)));
             patch_pos = cursor - 2;
