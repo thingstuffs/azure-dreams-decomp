@@ -184,8 +184,6 @@ loop:
             u8 *mid_vertex = scratch + 0x6C;
             u8 *end_vertex = scratch + 0x74;
             u8 *screen_start = scratch + 0xD8;
-            ASM_KEEP_DEP_NV(end_vertex, end_y_scaled);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP4_NV(start_vertex, mid_vertex, end_vertex, screen_start);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_81892C5C_0 *)scratch)->unk_B4.s = func_80065530(
                 start_vertex, mid_vertex, end_vertex, screen_start, scratch + 0xDC, scratch + 0xE0,
                 scratch + 0x84, scratch + 0x88);

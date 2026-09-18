@@ -145,7 +145,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     s16 saved_placement;
     s8 saved_grid_y;
     DungeonSub2 *placement;
-    register void *node_data ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *node_data;
     DungeonNode *node;
     DungeonSub1 *state;
     DungeonSub1 *init_state;
@@ -161,9 +161,6 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     call_target = &D_80083498;
     saved_placement = placement_value;
     saved_grid_y = grid_y;
-    ASM_KEEP_DEP_NV(saved_grid_x, call_count);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(saved_placement, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(saved_grid_y, call_target);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     unused_byte_a64 = (s32) *(s8 *)0xA64;
     unused_byte_neg_d58 = (s32) *(s8 *)-0xD58;
     node = func_8003FD64(call_count, call_target);
