@@ -2418,3 +2418,4 @@
 {"id":"town/func_800A76BC","transform":"t48_gotoreturn","in_sha":"e487edd3d1f6b7a0bb61cd13f4dcc23905179ca38125280da01dc2fabb963b64","from_clean":true,"size":304,"outcome":"refused","reason":"no pin sites","at":"2026-09-18T17:01:57Z"}
 {"id":"town/func_8070E2DC","transform":"t48_gotoreturn","in_sha":"fbb4c982a057616ff6bb35f7abc21e5537bae0fecc5fdfdd45995a5db1a91722","from_clean":true,"size":260,"outcome":"refused","reason":"no pin sites","at":"2026-09-18T17:01:57Z"}
 {"id":"town/func_8070E47C","transform":"t48_gotoreturn","in_sha":"00ed1cbc6e4ea0220d5a8ad405a617bc6e6a151d3494960b49e07c0e30637472","from_clean":true,"size":184,"outcome":"refused","reason":"no pin sites","at":"2026-09-18T17:01:57Z"}
+{"id":"town/func_8081C09C","transform":"t48_gotoreturn","in_sha":"9631b0acdb33c5fb170a7de102f6f3d359a9700ec093292012efdcbfca7de8ec","from_clean":true,"size":176,"outcome":"refused","reason":"no pin sites","at":"2026-09-18T17:26:26Z"}

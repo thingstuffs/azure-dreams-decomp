@@ -7,23 +7,12 @@ extern s32 D_800814A0;
 void func_8002609C(u8 *effect, u8 *motion, u8 *visual)
 {
     s32 velocity;
-    s32 acceleration;
-    s32 next_velocity;
-    s32 position;
     u8 shade;
 
     velocity = *(s32 *)(motion + 0x14);
     if (velocity != 0) {
-        acceleration = 0x18000;
-        next_velocity = velocity;
-        ASM_KEEP(next_velocity);
-        position = *(s32 *)(motion + 8);
-        next_velocity += acceleration;
-        *(s32 *)(motion + 0x14) = next_velocity;
-        do {
-            position += velocity;
-        } while (0);
-        *(s32 *)(motion + 8) = position;
+        *(s32 *)(motion + 8) += velocity;
+        *(s32 *)(motion + 0x14) += 0x18000;
 
         shade = visual[0xE] - 0x20;
         visual[0xE] = shade;
