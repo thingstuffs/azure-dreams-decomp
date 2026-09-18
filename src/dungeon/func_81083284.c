@@ -51,7 +51,7 @@ typedef struct S_80170A84_2 {
 /* Updates monster facing, callbacks, movement, and floor contact. */
 void func_80170A84(void *entity, S_80170A84_2 *motion, void *monster)
 {
-    register void *actor ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *actor = entity;
     s32 direction;
     s16 direction_copy;
     s16 old_direction;
@@ -66,7 +66,6 @@ void func_80170A84(void *entity, S_80170A84_2 *motion, void *monster)
     if (D_80083462[0] & 0x2000) {
         Callback early_callback = (*(Callback *)((u8 *)entity + 0x8C));
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if (early_callback == (Callback)&D_80170E94) {
             early_callback(entity, motion, monster, entity);
         } else {
@@ -75,7 +74,6 @@ void func_80170A84(void *entity, S_80170A84_2 *motion, void *monster)
         return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
     old_direction_raw <<= 24;
     old_direction = (s32)old_direction_raw >> 24;

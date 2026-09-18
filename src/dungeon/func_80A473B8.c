@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80080000[];
 
 
 typedef void (*Callback)(void *, void *, void *, void *);
@@ -77,7 +78,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     register u8 *part ASM_REG("$20");   /* Byte-exact pin. */
     s32 state_index;
     u32 global_flags;
-    u16 *global_flags_ptr = (u16 *)0x80080000;
+    u16 *global_flags_ptr = (u16 *)D_80080000;
     u8 *part_base;
     Callback callback;
     u16 entity_flags;
@@ -91,11 +92,8 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     register s32 ground_offset ASM_REG("$5");   /* Byte-exact pin. */
     register s32 direction ASM_REG("$16");   /* Byte-exact pin. */
 
-    ASM_KEEP(global_flags_ptr);   /* Byte-exact pin. */
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
-    ASM_KEEP(part_base);   /* Byte-exact pin. */
     global_flags = global_flags_ptr[0x1A31];
-    ASM_SCHED_BARRIER();   /* Byte-exact pin. */
     part = part_base + 0x20;
 
     ASM_KEEP(actor);   /* Byte-exact pin. */

@@ -1,5 +1,17 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+[Round 55](PIN_RESEARCH_ROUND55.md) removes **23 pins: 5,989 / 1,266 rows**, CPU-only
+(zero model tokens). The four lone-erasure rescans were 654 rows stale; rerun, they
+found 24 pins behind recipe switches. A new joint-erasure scan (subsets of a row's
+pins erased together, cc1-listing prefilter) found 20 pins at unchanged recipes in
+eight rows, and the never-run cascade over the rounds 35-54 rows two more. Every
+recipe switch is **held for the owner**: scoring each switch's module neighbours
+shows most break pin-free rows that are exact today (32 of 42 for one -O1 switch),
+and a census of the proven 260-row c_server module shows one stock recipe covers
+206 rows while its per-row recipes span six cells and eight flag variants. Per-row
+recipes were never provenance; the nonconforming rows are the new target list. The
+module census over the 74 strong/proven modules is the in-flight long job.
+
 [Round 54](PIN_RESEARCH_ROUND54.md) removes **twelve pins: 6,012 / 1,269 rows**.
 An initialized-zero rewrite transfers across nine functions, removing eleven
 bindings at unchanged recipes. A measured GCSE pointer-copy decision accounts

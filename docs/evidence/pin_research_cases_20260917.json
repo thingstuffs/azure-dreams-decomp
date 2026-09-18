@@ -2387,7 +2387,7 @@
       },
       "source": {
         "path": "src/dungeon/func_819A764C.c",
-        "sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927"
+        "sha256": "6ef101d5f27c124776738b7f8d2dfa9a0c52c3ed9e7d97c25fbd5c8faa1456f6"
       },
       "retail": {
         "identity": {
@@ -2403,8 +2403,8 @@
       },
       "candidate": {
         "path": "src/dungeon/func_819A764C.c",
-        "sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927",
-        "base_source_sha256": "060076f5de8fb24367104c6ad2bbf3dcf8f111d70c06a35267d3aa91dc15bbf8",
+        "sha256": "6ef101d5f27c124776738b7f8d2dfa9a0c52c3ed9e7d97c25fbd5c8faa1456f6",
+        "base_source_sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927",
         "recipe": "2.7.2-cdk -fno-strength-reduce"
       },
       "causal": {
@@ -2433,6 +2433,14 @@
           "artifact": {
             "path": "docs/evidence/pin_research_points_review_20260917.md"
           }
+        },
+        {
+          "id": "r55_mechanical_landing",
+          "kind": "observation",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round55_20260918.json"
+          },
+          "summary": "Round 55 (2026-09-18): t69_prologue (cascade) dropped the redundant parameter copy self and its keep together, 2 pins, at the recorded recipe. The live source moved from b971d27cfb7a to 6ef101d5f27c through a gated mechanical landing at the recorded recipe (strict row bytes, covering windows, SLUS). Earlier evidence items describe the previous text."
         }
       ],
       "next_experiment": null,
@@ -2567,7 +2575,7 @@
       },
       "source": {
         "path": "src/dungeon/func_819A764C.c",
-        "sha256": "b971d27cfb7a10748b9dfabf7bba834855b626ffe055f45f4ba44051a7b64927"
+        "sha256": "6ef101d5f27c124776738b7f8d2dfa9a0c52c3ed9e7d97c25fbd5c8faa1456f6"
       },
       "retail": {
         "identity": {
@@ -2597,6 +2605,14 @@
           "artifact": {
             "path": "docs/evidence/pin_research_round51_20260917.json"
           }
+        },
+        {
+          "id": "r55_mechanical_landing",
+          "kind": "observation",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round55_20260918.json"
+          },
+          "summary": "Round 55 (2026-09-18): t69_prologue (cascade) dropped the redundant parameter copy self and its keep together, 2 pins, at the recorded recipe. The live source moved from b971d27cfb7a to 6ef101d5f27c through a gated mechanical landing at the recorded recipe (strict row bytes, covering windows, SLUS). Earlier evidence items describe the previous text."
         }
       ],
       "next_experiment": {

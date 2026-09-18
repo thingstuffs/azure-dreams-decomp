@@ -169,7 +169,7 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     u8 *clip_flags;
     register u8 *scratch ASM_REG("$17");
     u8 *global_page;
-    register u8 **root_ptr ASM_REG("$23");
+    u8 **root_ptr;
     register u8 *page_reg ASM_REG("$2");
     u8 *matrix;
     u8 *packet;
@@ -226,7 +226,6 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
     clip_flags = (u8 *)((u32)clip_flags | 0x94);
     ((S_800BC4D4_1 *)scratch)->unk_00 = world_x;
     world_y = ((S_800BC4D4_3 *)position)->unk_06;
-    ASM_CLOBBER("$23");
     root_ptr = (u8 **)(global_page + 0x3160);
     ((S_800BC4D4_1 *)scratch)->unk_02 = world_y;
     ((S_800BC4D4_1 *)scratch)->unk_04 = world_z;

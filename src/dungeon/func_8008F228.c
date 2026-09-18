@@ -194,7 +194,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     u32 dispatch_idx;
     s32 sign_temp;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 signed_index;
-    register s32 scaled_index ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 scaled_index;
 
     page = (u8 *)0x80010000;
     sp30 = (s16)((S_80094988_0 *)page)->unk_3714 & 2;
@@ -346,10 +346,8 @@ loop_1:
                                     temp_s1_2->unk_D0 = var_s2;
                                     ((S_80094988_9 *)var_s4)->unk_00 =
                                         (u8)(((S_80094988_9 *)var_s4)->unk_00 | 0x20);
-                                    ASM_KEEP(var_s4);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                                     addr_temp =
                                         (u8 *)&D_800E3D74 + scaled_index;
-                                    ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                                     ((S_80094988_14 *)addr_temp)->unk_00 = 0;
                                     if (temp_v0_2->unk_25 == 0) {
                                         temp_v0_2->unk_1C =

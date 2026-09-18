@@ -49,7 +49,7 @@ typedef struct S_80171320_2 {
 /* Runs entity callbacks, updates monster facing, and applies motion and floor collision. */
 void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
 {
-    register void *actor ASM_REG("$18") = entity;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    void *actor = entity;
     register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s32 direction_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -62,7 +62,6 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
     if (D_80083462 & 0x2000) {
         Callback early_callback;
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         early_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (early_callback == (Callback)&D_80171728) {
             early_callback(entity, motion, monster, entity);
@@ -72,7 +71,6 @@ void func_80171320(void *entity, S_80171320_2 *motion, void *monster)
         return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     direction_value = (s32)(*(volatile u8 *)((u8 *)entity + 0x6D)) << 24;
     direction = direction_value >> 24;

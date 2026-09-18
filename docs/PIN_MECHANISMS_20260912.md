@@ -2208,3 +2208,26 @@ Measured first, all CPU or text:
   revert. The order was still wrong: a sweep of a module a fix agent is editing starts only after the workflow returns.
   The non-mips preprocessor arms of every changed row were compared before and after: none differ. Since the morning's
   7,206: **-733 in one day**, of which one mechanism family (same-register merges and their openings) is ~520.
+
+
+## Round 55 (2026-09-18): joint erasure, the stale rescans, recipe coherence
+
+Gated (11 windows MATCH, SLUS MATCH): **5,989 pins in 1,266 rows** (-23), CPU-only.
+
+- **Joint erasure** (`tools/lanes/joint_scan.py`): pins that hold one mechanism fall only together (round 31). T2 walks
+  singles and `pin_sites.py --subsets` measured the 09-12 tree at the recorded recipe only. Every subset of a row's pins
+  (exhaustive to ten pins; whole set, same-macro, same-variable groups and pairs above) is screened by the cc1 listing at
+  the recorded recipe and at each admissible cell, then byte-confirmed. 847 rows, 66,062 subsets, 23 minutes: 9 rows
+  carry a pair or triple exact at the recorded recipe that no single erasure reaches (20 pins landed). The prefilter
+  agrees with the lone scan's single-site hits 10 of 10; its gap is `-g` (listing equal, bytes not).
+- **The stale rescans**: the four `pin_cells_scan` modes key on in_sha and 654 of 1,271 pinned rows had changed since
+  09-13. Rerun: 24 pins, every one behind a cell or flag switch - all HELD (see below).
+- **Recipe coherence** (the owner's question): scoring each proposed switch's module neighbours at the recorded and the
+  proposed recipe shows most switches break pin-free rows that are exact today (32 of 42 for `-O1` on item_menu; 8 of
+  11 for a 2.8.0 cell). A pin-free exact row carries no compensation, so this is the strongest evidence available that
+  the TU was not built that way. The c_server census (proven 260-row TU, recorded at six cells and eight flag variants)
+  finds ONE stock recipe exact on 206 rows: per-row recipes were fitted, never provenance. The 54 nonconforming rows
+  (24 pins) are the provenance-grounded target list; `work/native_lane/r55_census/run_all.sh` extends the census to the
+  74 strong/proven modules.
+- Bounded negatives: zero_init on the remaining 15 `$0` sites 0/7; 15 never-screened flags 0/90 (ten inert, three
+  break nearly all rows); 13 rows over 30 pins no joint erasure.
