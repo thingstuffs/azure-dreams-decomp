@@ -45,9 +45,6 @@ class T(unittest.TestCase):
         self.assertEqual(len(pool), len(joint_scan.CUSTOM_FLAGS) - 1)
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class TCoherence(unittest.TestCase):
     def test_coherence_subsets_include_whole_groups_pairs_and_singles(self):
@@ -57,4 +54,8 @@ class TCoherence(unittest.TestCase):
         self.assertIn((0, 1, 2, 3), subs); self.assertIn((0, 1), subs); self.assertIn((2, 3), subs)
         self.assertIn((0,), subs); self.assertEqual(len(subs), len(set(subs)))
         big = coherence_scan.subsets(sites, pair_pins=2)
-        self.assertNotIn((0,), big); self.assertIn((0, 1, 2, 3), big)
+        self.assertNotIn((0, 3), big); self.assertIn((0, 1, 2, 3), big)   # no pairs above --pair-pins; groups stay
+
+
+if __name__ == "__main__":
+    unittest.main()
