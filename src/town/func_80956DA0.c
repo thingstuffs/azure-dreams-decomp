@@ -59,13 +59,10 @@ void func_80956DA0(s32 user_data) {
     object = func_8003FC64(0x15);
     if (object != NULL) {
         ((S_80956DA0_0 *)object)->unk_10 = &D_80023E64;
-        func_8004491C(object, &D_80044BB0);
         color = 0x800000;
-        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        render_state = ((S_80956DA0_0 *)object)->unk_0C;
-        ASM_KEEP(render_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         instance_data = (u8 *)object + 0x20;
-        ASM_KEEP(instance_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        func_8004491C(object, &D_80044BB0);
+        render_state = ((S_80956DA0_0 *)object)->unk_0C;
         instance_data->unk_04 = user_data;
         ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_02 = 0xF0;
         ((S_80956DA0_4 *)(((S_80956DA0_3 *)object)->unk_08))->unk_06 = 0xAC;

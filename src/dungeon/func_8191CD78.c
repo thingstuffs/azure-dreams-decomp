@@ -358,10 +358,8 @@ case_1_entry:
     }
 
     index = 0;
-    map_data = work_base->unk_0C;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    map_data = (*(void **)((u8 *)work_base + 0xC));
     page_base = 0x80070000;
-    ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         s32 tile_x;
         s32 tile_y;
@@ -376,11 +374,10 @@ case_1_entry:
         s32 y_adjust;
         s16 *x_adjust_table;
 
-        tile_x = map_data->unk_24;
         tile_y = map_data->unk_25;
-        last_tile_x = tile_x;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        tile_x = map_data->unk_24;
         last_tile_y = (u16)tile_y;
+        last_tile_x = tile_x;
         do {
             signed_tile_x = (s16)tile_x;
             signed_tile_y = (s16)tile_y;

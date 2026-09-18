@@ -457,11 +457,10 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                 (*(s32 *)((u8 *)packet_field + -3)) = ((S_800BC4D4_2 *)sprite)->unk_0C;
                 ((S_800BC4D4_5 *)packet_field)->unk_00 = 0x2E;
                 packet_field += 0x28;
-                ASM_KEEP_NV(packet_field);
-                packet_field += 0xC;
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +
                                   ((S_800BC4D4_1 *)scratch)->unk_C0 * 4,
                               packet);
+                packet_field += 0xC;
                 packet += 0x28;
                 func_80067EF4(packet, 1, 0);
                 func_8006658C(((S_800BC4D4_1 *)scratch)->unk_20 +

@@ -216,11 +216,10 @@ loop:
         ((S_800255B8_3 *)effect_state)->unk_3C = color_first;
         ((S_800255B8_3 *)effect_state)->unk_40 = color_first;
         color_second = color_table[0x25];
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        piece_index++;
-        ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
         ((S_800255B8_3 *)effect_state)->unk_3E = color_second;
+        ((S_800255B8_3 *)effect_state)->unk_42 = color_second;
         object_slot++;
+        piece_index++;
         if (piece_index < 12) {
             goto loop;
         }

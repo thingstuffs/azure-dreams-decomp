@@ -22,7 +22,7 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     s32 outer_x;
     s32 inner_count;
     s32 inner_dir;
-    register s32 outer_count ASM_REG("$19");
+    s32 outer_count;
     u32 outer_dir;
     s16 call_dir;
     register s32 call_x ASM_REG("$4");
@@ -140,9 +140,7 @@ scan_outer:
     addr = (u32)D_800DCE8C;
     dy = (u16 *)(outer_offset + addr);
     call_x = *dx;
-    ASM_KEEP_NV(call_x);
     call_y = *dy;
-    ASM_KEEP_NV(call_y);
     call_x = (s16)(base_x + call_x - 1);
     call_y = (s16)(base_y + call_y);
     if (((func_8009A350(call_x, call_y, distance_z, flags_ptr) << 0x10) == 0) || (tile_flags & 0x8820)) {

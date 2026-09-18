@@ -8,11 +8,10 @@ extern u8 D_800DD294[];
 
 void func_80097898(void *arg0, M2C_UNK arg1, void *arg2, void *arg3) {
     /* MATCH: retain retail's a0 table base after the explicit argument call. */
-    register u8 *temp ASM_REG("$4");
+    u8 *temp;
     /* MATCH: save a2 then a3 before loading the state-byte constant. */
     void *saved2 = arg2;
     void *saved = arg3;
-    ASM_KEEP_DEP_NV(saved2, saved);
     M2C_FIELD(arg0, s8 *, 0x9A) = 0x39;
     M2C_FIELD(arg0, s8 *, 0x9B) = 0;
     M2C_FIELD(arg0, s32 *, 0x8C) = 0;

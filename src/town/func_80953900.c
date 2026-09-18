@@ -287,10 +287,9 @@ state_3:
         quantity = entity->quantity;
         scaled_quantity = quantity * first_factor;
         second_factor = prices[(s16)*(u16 *)((u8 *)selected_pair + 2)];
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        D_80113158 = option_ids.value[entity->selection];
         total_factor = scaled_quantity * second_factor;
         D_8011315C = total_factor * 100;
+        D_80113158 = option_ids.value[entity->selection];
         func_80033B9C(0x592);
         func_800B1DBC(D_80024300[0]);
         entity->state = 0x100;

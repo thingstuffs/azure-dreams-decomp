@@ -130,7 +130,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     s32 target_flags;
     s32 target_elements;
     u32 attack_elements;
-    register s32 message_start ASM_REG("$21");
+    s32 message_start;
     s32 attack_bonus;
     s8 attacker_kind;
     s32 half_delta;

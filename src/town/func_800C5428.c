@@ -12,7 +12,6 @@ s16 func_800C2B88(s32 x, s32 y, void *origin) {
 
     clamped_x_delta = (s32)0x80010000;
     x <<= 16;
-    ASM_KEEP(clamped_x_delta);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     x_delta = x - *(s32 *)((u8 *)origin + 0);
     y_delta = (y << 16) - *(s32 *)((u8 *)origin + 4);
     minimum = clamped_x_delta;

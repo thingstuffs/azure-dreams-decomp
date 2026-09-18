@@ -426,13 +426,12 @@ state_1:
             s32 direction;
             s32 particle_color;
             register s32 intensity ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            particle_count_m++;
             random_intensity = func_80069EF8();
             color_mode = (s32)((u8 *)effect - 0x20);
             particle_color = 0xF04040;
-            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             intensity = (random_intensity & 0xFF) | 0x80;
-            ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            particle_count_m++;
             direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
             func_80024758((void *)color_mode, direction, particle_color, intensity, 0, 0, 0);
         } if (particle_count_m < 4) goto loop_0;

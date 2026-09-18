@@ -176,7 +176,7 @@ extern u8 *D_80083160;
 /* Builds and queues textured and shaded quads for an effect and advances to the next object. */
 s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     u8 *scratch;
-    register u8 *colors ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *colors;
     u8 *verts;
     register u32 addr_mask;
     u8 *effect;
@@ -185,8 +185,8 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     StackLocals stack;
     register u32 draw_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 vertex_index;
-    register s32 depth ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 bucket_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 depth;
+    s32 bucket_offset;
     register s32 gray ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     void *prim_arg;
     s32 tex_coord;
@@ -207,12 +207,9 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
 
     (void)&object;
     scratch = (u8 *)0x1F800000;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     colors = scratch;
-    ASM_KEEP_NV(colors);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    colors = (u8 *)((u32)colors | 0x40);
     verts = scratch;
-    ASM_KEEP_NV(verts);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    colors = (u8 *)((u32)colors | 0x40);
     verts = (u8 *)((u32)verts | 0x80);
     render_slot_m = (u8 **)(0x66666667);
     addr_mask = 0xFFFFFF;
@@ -349,7 +346,6 @@ set_depth:
             rounded_depth = depth + 3;
         }
         depth = rounded_depth >> 2;
-        ASM_KEEP_NV(depth);
     }
 
     {
@@ -492,13 +488,11 @@ angle_high:
 angle_0:
     ((S_807B0B3C_12 *)colors)->unk_08.u = 0x808080;
     ((S_807B0B3C_12 *)colors)->unk_00.u = 0x808080;
-    component = ((S_807B0B3C_1 *)effect)->unk_02.u;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    component = (*(u16 *)((u8 *)effect + 2));
     {
         u8 *vertex_ptr;
 
         vertex_ptr = scratch + 0x10;
-        ASM_KEEP_NV(vertex_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_807B0B3C_13 *)vertex_ptr)->unk_02 = component;
     }
     ((S_807B0B3C_14 *)scratch)->unk_02 = component;
@@ -515,14 +509,12 @@ angle_400:
 angle_800:
     ((S_807B0B3C_12 *)colors)->unk_0C.u = 0x808080;
     ((S_807B0B3C_12 *)colors)->unk_04.u = 0x808080;
-    component = ((S_807B0B3C_1 *)effect)->unk_02.u;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    component = (*(u16 *)((u8 *)effect + 2));
     {
         u8 *vertex_ptr;
 
         vertex_ptr = scratch + 0x18;
-        ASM_KEEP_NV(vertex_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_807B0B3C_13 *)vertex_ptr)->unk_02 = component;
+        (*(u16 *)((u8 *)vertex_ptr + 2)) = component;
     }
     ((S_807B0B3C_14 *)scratch)->unk_0A = component;
     goto loop_setup_a;
@@ -555,7 +547,7 @@ loop_setup_b:
 
     if ((u32)depth < 0x1E0U) {
         s32 blend_mode;
-        s32 page_x;
+        u16 page_x;
         s32 page_y;
 
         {
@@ -624,11 +616,9 @@ loop_setup_b:
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             render_slot_m = &D_80083160;
             ASM_KEEP_NV(render_slot_m);
-            ((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 = bucket_tag;
+            (*(u32 *)((u8 *)bucket_ptr_m + 0xB0)) = bucket_tag;
             bucket_ptr_m = *render_slot_m;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_x = draw_value;
-            ASM_KEEP_NV(page_x);
             prim = *(u8 **)(bucket_ptr_m + 0x8D0);
             page_y = draw_value;
             *(u8 **)(bucket_ptr_m + 0x8D0) = prim + 0xC;

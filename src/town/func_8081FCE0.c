@@ -125,14 +125,13 @@ void func_800224E0(void)
 
     obj = func_8003FC64(0x136);
     if (obj != NULL) {
+        render_state = obj + 0x28;
         func_8004491C(obj, D_80046398);
         neutral_color = 0x00808080;
-        render_state = obj + 0x28;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800224E0_0 *)obj)->unk_10 = D_80023DE0;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         value = 0x1000;
-        ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         prim = ((S_800224E0_0 *)obj)->unk_08;
         draw_state = ((S_800224E0_0 *)obj)->unk_0C;
         ((S_800224E0_0 *)obj)->unk_20.at00.v = parent_state;

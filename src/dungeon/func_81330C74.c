@@ -159,9 +159,9 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 clamp_axis_offset;
     s32 copy_axis_offset;
     s32 object_axis_offset;
-    register void *effect_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *effect_object;
     s32 color_weight;
-    register s32 particle_life ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 particle_life;
     s32 step_y;
     s32 delta_x;
     s32 delta_z;
@@ -327,8 +327,7 @@ update_positions:
             clamp_index = clamp_row * 0x60;
             clamp_index = clamp_index + (s32)clamp_base;
             clamp_index = clamp_pair_offset + clamp_index;
-            clamp_index = clamp_axis_offset + clamp_index;
-            clamp_coord = (s16 *)clamp_index;
+            clamp_coord = (s16 *)(clamp_axis_offset + clamp_index);
             if (*clamp_coord < -0x190) {
                 clamp_min = -0x190;
                 ASM_KEEP(clamp_min);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -390,11 +389,6 @@ copy_pairs:
             step_x = sum_x / particle_count;
             effect_object = effect_data - 0x20;
             particle_life = 0xA;
-            ASM_KEEP_NV(particle_life);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            sum_z += delta_z;
-            sum_y += delta_y;
-            sum_x += delta_x;
-            history_index += 1;
             interp_row = (((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (u8 *)D_80175DD8;
             interp_y0 = ((S_80167C74_10 *)interp_row)->unk_1A;
             interp_y1 = ((S_80167C74_10 *)interp_row)->unk_20;
@@ -403,6 +397,10 @@ copy_pairs:
             interp_x0 = ((S_80167C74_10 *)interp_row)->unk_18;
             interp_z1 = ((S_80167C74_10 *)interp_row)->unk_22;
             func_80165018(effect_object, color->unk_0C.at00.v, particle_life, (s16) (interp_x0 + interp_x1 + step_x), (s32) (s16) (interp_y0 + interp_y1 + step_y), (s32) (s16) (interp_z0 + interp_z1 + step_z));
+            sum_z += delta_z;
+            sum_y += delta_y;
+            sum_x += delta_x;
+            history_index += 1;
         } while (history_index < (particle_count + 1));
     }
     object_table_base = (u8 *)&D_80175DD8;

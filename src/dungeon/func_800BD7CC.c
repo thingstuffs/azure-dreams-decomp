@@ -33,10 +33,9 @@ s32 func_800C2F2C(void *actor, u8 *item, s16 action) {
                                F(actor, s16, 0x88), -1, *item);
     if (object_addr != 0) {
         func_800A56E0(0x60D);
+        object_fields = (u8 *)object_addr + 0x20;
         entry_index = func_800B60B8(F(entity, u8, 0x24), F(entity, u8, 0x25),
                                    F(actor, s16, 0x88), 5, object_addr);
-        object_fields = (u8 *)object_addr + 0x20;
-        ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         entries = D_800E39C8;
         F(object_fields, s16, 0x20) = entry_index;
         F(entries + entry_index * 0x18, s32, 8) = 0;
