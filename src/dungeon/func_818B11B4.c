@@ -74,14 +74,13 @@ s32 func_818B11B4(S_818B11B4_0 *source, S_818B11B4_2 *height_ref, void *context)
             angle = (func_800644B8((phase - ((biased_phase >> 4) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(segment_index << 9);
             segment_source = source;
-            ASM_KEEP(segment_source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             height = ((S_818B11B4_1 *)height_cursor)->unk_1A;
-            height_cursor = (u8 *)height_cursor + 2;
             scaled_segment = segment_index << 0x11;
-            segment_index++;
             func_80024610(segment_source, height_ref, context, angle,
                          (u32)(s16)(height_ref->unk_0A - height),
                          trig_buffer, 0xFF, scaled_segment >> 0x10);
+            height_cursor = (u8 *)height_cursor + 2;
+            segment_index++;
         } while (segment_index < segment_limit);
     }
     return 0;

@@ -298,9 +298,8 @@ spawn_copy:
     ASM_KEEP4_NV(copy_call_entity, copy_call_zero,
                  scale, spawned);
     entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
-    ASM_SET(flags_mask);
-    ((S_800A504C_2 *)entity_data)->unk_1C = scale;
     ((S_800A504C_2 *)entity_data)->unk_1E = scale;
+    ((S_800A504C_2 *)entity_data)->unk_1C = scale;
     flags_mask = -8;
     ((S_800A504C_4 *)spawned)->unk_14 &= flags_mask;
     ((S_800A504C_4 *)spawned)->unk_1C &= flags_mask;

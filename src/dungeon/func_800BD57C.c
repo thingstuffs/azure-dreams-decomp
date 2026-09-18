@@ -91,11 +91,10 @@ s32 func_800C2CDC(void *actor, u8 *object_data, s16 action_type) {
     }
 
     func_800A56E0(0x816);
+    object_fields = object + 0x20;
     entry_index = func_800B60B8(entity->unk_24,
                           entity->unk_25,
                           ((S_800C2CDC_0 *)actor)->unk_88, 6, object);
-    object_fields = object + 0x20;
-    ASM_KEEP(object_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     entries = D_800E39C8;
     ((S_800C2CDC_2 *)object_fields)->unk_20 = entry_index;
     ((S_800C2CDC_3 *)(entries + (entry_index * 24)))->unk_08 = 0;

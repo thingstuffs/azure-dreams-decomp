@@ -55,7 +55,7 @@ typedef struct S_800249F0_5 {
 void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data, s32 render_param, s32 render_x, s32 render_y, s32 render_mode) {
     u16 flags;
     u16 flags_copy;
-    register s32 render_param_copy ASM_REG("$2");
+    s16 render_param_copy;
     S_800249F0_3 *position;
     void *render_state;
     S_800249F0_0 *state;
@@ -75,9 +75,8 @@ void *func_800249F0(void *source, s32 unused_1, s32 unused_2, void *packed_data,
         flags_copy = flags;
         ASM_KEEP(flags_copy);
         render_param_copy = render_param;
-        ((S_800249F0_1 *)render_state)->unk_14 = (u16) (flags_copy | 0x80);
-        ASM_KEEP(render_param_copy);
         ((S_800249F0_1 *)render_state)->unk_10 = (s16) (render_param_copy << 5);
+        ((S_800249F0_1 *)render_state)->unk_14 = (u16) (flags_copy | 0x80);
         source_position = ((S_800249F0_2_pre *)source)[-1].unk_00;
         position = (*(void **)((u8 *)object + 8));
         position->unk_00 = (s32) source_position->unk_00;

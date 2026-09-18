@@ -142,14 +142,12 @@ initialize:
         PTR(sprite, 8) = sprite_copy;
     }
     table_value = (void **)(u32)U16(owner, 0x2A);
-    ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     offset_value = (void *)1;
     S16(busy_base, 0x694C) = (u32)offset_value;
     offset_value = (void *)(u32)U16(effect, 0xA);
-    ASM_KEEP_NV(offset_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     table_value = (void **)(((u32)table_value >> 9) & 7);
-    offset_value = (void *)((u32)offset_value + 1);
     U16(effect, 0x7E) = (u32)table_value;
+    offset_value = (void *)((u32)offset_value + 1);
     U16(effect, 0xA) = (u32)offset_value;
 
     origin_sprite = PTR(object, 0xC);

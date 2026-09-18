@@ -67,12 +67,11 @@ s32 func_818B1334(S_818B1334_1 *source, S_818B1334_3 *target, void *context) {
         radius = (func_800644B8((phase - ((phase_bias >> 4) * 0x10)) << 9) >> 9) + 0x20;
         func_80064584(entry_index << 0xA);
         source_arg = source;
-        ASM_KEEP(source_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         angle_offset = ((S_818B1334_2 *)offset_cursor)->unk_1A;
-        offset_cursor += 2;
         entry_angle = entry_index << 0x11;
-        entry_index += 1;
         func_80024610(source_arg, target, context, radius, (s32) (s16) (target->unk_0A - angle_offset), circle_table, 0xFF, entry_angle >> 0x10);
+        offset_cursor += 2;
+        entry_index += 1;
     } while (entry_index < 8);
     return 0;
 }

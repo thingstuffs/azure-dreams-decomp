@@ -140,7 +140,7 @@ void func_801730AC(void *actor_input, void *motion_input, void *sprite_input) {
     s32 tail_test;
     u32 tail_state;
     u8 *tail_sprite;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *particle_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    void *particle_a0;
     s32 particle_color;
     s32 particle_variation;
     s32 particle_random;
@@ -431,19 +431,17 @@ jt_c15:
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
     sprite_angle_base = D_80083228;
     sprite_angle_delta = beldo->unk_2A.s;
-    wait_particle_count = particle_color;
-    ASM_KEEP_NV(wait_particle_count);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    wait_particle_mode = 1;
     func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7], particle_color);
+    wait_particle_count = particle_color;
     func_800A56E0(0x706);
+    wait_particle_mode = 1;
 loop_66:
-    wait_particle_count += 1;
     particle_random = func_80069EF8();
     particle_a0 = (u8 *)actor - 0x20;
     particle_color = 0x8080FF;
     particle_variation = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, wait_particle_mode);
+    wait_particle_count += 1;
     if (wait_particle_count < 0x14) {
         goto loop_66;
     }
@@ -491,23 +489,20 @@ block_74:
     particle_a0 = sprite;
     ASM_SET(sprite);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     particle_color = 0;
-    ASM_KEEP_NV(particle_color);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     *(u8 **)((u8 *)sprite + 0x2C) = D_80174C6C;
     sprite_angle_base = D_80083228;
     sprite_angle_delta = beldo->unk_2A.s;
-    move_particle_count = particle_color;
-    ASM_KEEP_NV(move_particle_count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    move_particle_mode = 1;
     func_80047784(particle_a0, D_80174C6C[((s32) (sprite_angle_base + sprite_angle_delta + 0x100) >> 9) & 7], particle_color);
+    move_particle_count = particle_color;
     func_800A56E0(0x706);
+    move_particle_mode = 1;
 loop_76:
-    move_particle_count += 1;
     particle_random = func_80069EF8();
     particle_a0 = (u8 *)actor - 0x20;
     particle_color = 0x8080FF;
     particle_variation = (particle_random & 0xFF) | 0x80;
-    ASM_KEEP4(particle_a0, particle_color, particle_variation, beldo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_80171A10(particle_a0, beldo->unk_2A.s, particle_color, particle_variation, move_particle_mode);
+    move_particle_count += 1;
     if (move_particle_count < 0x14) {
         goto loop_76;
     }

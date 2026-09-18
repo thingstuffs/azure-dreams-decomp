@@ -68,13 +68,12 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         ((S_80024A64_2 *)scratch)->unk_38 = raised_z;
         {
             s32 phase_scale = effect->unk_06;
-            register s32 inner_scale ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 inner_scale;
             s32 outer_scale;
             inner_scale = phase_scale * 2;
             outer_scale = (inner_scale + phase_scale) * 2;
-            ASM_USE(inner_scale);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            inner_radius = inner_scale;
             outer_radius = outer_scale;
+            inner_radius = inner_scale;
         }
         tip_radius = effect->unk_06 / 2;
         jitter_count = tip_radius + 1;

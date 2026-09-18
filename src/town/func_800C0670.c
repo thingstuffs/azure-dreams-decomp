@@ -37,9 +37,8 @@ void func_800BDDD0(s32 start_x, s16 start_y) {
             x_limit = end_x;
             while (y < (start_y + 4)) {
                 cell_value = (x - origin_x) + 1;
-                cell_value += (y - start_y) * 4;
-                ASM_KEEP(cell_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 wrapped_y = y & ((S_800BDDD0_0 *)grid)->unk_1A;
+                cell_value += (y - start_y) * 4;
                 y += 1;
                 *((s16 *) (((s32) (((((S_800BDDD0_0 *)grid)->unk_18 & x) + (wrapped_y << ((S_800BDDD0_0 *)grid)->unk_14)) << 0x10) >> 0xF) + cells_addr)) = cell_value;
             }

@@ -113,7 +113,7 @@ delay:
 fade: {
     register s32 step_or_duration ASM_REG("$4") = position->field_0C;
     s32 coordinate = position->field_00;
-    register s32 step ASM_REG("$2") = step_or_duration;
+    s32 step = step_or_duration;
     coordinate += step_or_duration;
     position->field_00 = coordinate;
     ASM_KEEP(step);

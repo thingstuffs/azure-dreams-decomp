@@ -97,14 +97,11 @@ void func_80D65810(s32 unused_0, void *origin_ptr, s32 unused_2, u16 offset_x, s
         ((S_80D65810_1 *)effect)->unk_10 = func_80170D34;
         func_8004491C(effect, func_80045340);
         render = ((S_80D65810_1 *)effect)->unk_0C;
-        render->unk_06 = 0;
         render->unk_14 |= 0xC;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        render_flags = render->unk_14;
-        ASM_KEEP(render_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         size = 0x60;
-        ASM_KEEP(size);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         render->unk_10 = size;
+        render->unk_06 = 0;
+        render_flags = render->unk_14;
         render->unk_14 = (u16)(render_flags | 2);
         position = ((S_80D65810_1 *)effect)->unk_08;
         position->unk_00.at02.v = x;

@@ -92,11 +92,10 @@ void func_80173904(
     (void)unused_3;
     source = origin;
     target = (void *)0x212;
-    depth_delta = depth_offset;
+    object = func_8003FC64((s32)target);
     ASM_KEEP_NV(angle);
     ASM_KEEP_NV(source);
-    ASM_KEEP_NV(source);
-    object = func_8003FC64((s32)target);
+    depth_delta = depth_offset;
     if (object != NULL) {
         angle_work = angle;
         target_2 = object;

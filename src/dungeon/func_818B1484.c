@@ -76,14 +76,13 @@ s32 func_818B1484(S_818B1484_1 *effect, S_818B1484_3 *target, void *context) {
             entry_scale = (func_800644B8((phase - ((phase_rounded >> 4) * 0x10)) << 9) >> 9) + 0x20;
             func_80064584(entry_index << 9);
             effect_arg = effect;
-            ASM_KEEP(effect_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             entry_offset = ((S_818B1484_2 *)entry_ptr)->unk_1A;
-            entry_ptr += 2;
             entry_arg = entry_index << 0x11;
-            entry_index += 1;
             func_80024610(effect_arg, target, context, entry_scale,
                          (s32) (s16) (target->unk_0A - entry_offset),
                          table_ptr, 0xFF, entry_arg >> 0x10);
+            entry_ptr += 2;
+            entry_index += 1;
         } while (entry_index < 8);
     }
     return 0;

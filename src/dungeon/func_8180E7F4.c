@@ -538,14 +538,9 @@ next_ability:
 apply_abilities:
         scan_index = 2;
         if ((ability_count << 0x10) == 0) {
-            u8 *default_table = (u8 *) 0x80030000;
             s32 default_index;
-            ASM_KEEP_NV(default_table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             default_index = ((S_800277F4_0 *)result)->unk_13;
-            ASM_KEEP(default_index);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            default_table -= 0x784C;
-            ASM_KEEP_NV(default_table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            default_index += (s32) default_table;
+            default_index += (s32)D_800287B4;
             merged_abilities[0] = *(u8 *) default_index;
             merged_abilities[2] = 1;
         }

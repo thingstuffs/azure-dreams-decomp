@@ -49,7 +49,7 @@ void *func_81984C44(void *source_entity)
     S_81984C44_4 *owner;
 
     initial_globals = (u8 *)0x80080000;
-    ASM_KEEP(initial_globals);   /* retained from the base: preserves the split initial page/limit roles */
+       /* retained from the base: preserves the split initial page/limit roles */
     node = ((S_81984C44_0 *)initial_globals)->unk_14A8;
     initial_limit = 0x100;
     if (((S_81984C44_1 *)source_entity)->unk_26 < 0) {

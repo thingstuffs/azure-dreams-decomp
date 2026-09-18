@@ -539,12 +539,11 @@ animate_objects:
                             register void *source_object ASM_REG("$16") = ((S_800253C0_12 *)final_slot)->unk_AC;
                             register void *child ASM_REG("$5") = ((S_800253C0_16_pre *)source_object)[-1].unk_00;
                             u16 child_y = ((S_800253C0_17 *)child)->unk_12.u;
-                            object_index++;
                             ((S_800253C0_17 *)child)->unk_10 = sprite_x;
                             ((S_800253C0_17 *)child)->unk_14.s = sprite_flags;
-                            ASM_SCHED_BARRIER();
                             ((S_800253C0_17 *)child)->unk_12.s = child_y - 128;
                             final_slot = (u8 *)final_slot + 4;
+                            object_index++;
                         } while (object_index < 2);
                     }
                     next_state = ((S_800253C0_0 *)sequence)->unk_9B.n;

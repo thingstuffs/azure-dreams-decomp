@@ -16,7 +16,6 @@ void func_80026F1C(s32 call_value, s32 call_option, s16 call_mode)
     u16 x;
     u32 state;
 
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     scratch[0x104 / 2] = 0;
     state = (u32)&D_80083160;
     x = *(u16 *)(state + 0xC4);
