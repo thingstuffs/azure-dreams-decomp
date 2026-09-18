@@ -17,9 +17,6 @@ typedef struct S_8009CEE8_0 {
 
 /* Builds the entry list and processes each entry's items at its coordinates. */
 void func_8009CEE8(void) {
-    register u16 *call_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 call_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 call_y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     M2C_UNK setup_a[2];
     M2C_UNK setup_b[2];
     s32 *item_cursor;
@@ -41,18 +38,11 @@ void func_8009CEE8(void) {
                 coord_x = entry->unk_00;
                 coord_y = entry->unk_02;
                 while (*item_cursor != 0) {
-                    call_base = base;
-                    call_x = (s16)coord_x;
-                    call_y = (s16)coord_y;
-                    func_8009DA50(*item_cursor++, call_base, call_x, call_y);
+                    func_8009DA50(*item_cursor, base, (s16)coord_x, (s16)coord_y);
+                    item_cursor++;
                 }
             }
             entry_cursor = (void **)((s8 *)((void **)((s8 *)entry_cursor + 4)));
         } while (*entry_cursor != NULL);
     }
 }
-
-/* MECHANISM: Two sibling 8-byte stack arrays force the retail 0x38 frame and save contract.
-   Held D_80082D08 plus the split D_801007F8 call/traversal live ranges recover s4/s0/s1.
-   Nested guards keep raw u16 coordinates until the sentinel branch, avoiding two load nops.
-   Guarded a1/a2/a3 call-register lives pipeline the exact inner-loop argument/delay order. */
