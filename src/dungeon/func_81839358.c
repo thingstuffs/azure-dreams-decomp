@@ -62,7 +62,7 @@ void func_81839358(void *effect, void *motion, void *sprite) {
     s32 rounded_x;
     s32 rounded_y;
     s32 vel_y;
-    s32 vel_z;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 vel_z;
     s32 pos_x;
     s32 vel_x;
     s32 sprite_word;
@@ -100,23 +100,17 @@ void func_81839358(void *effect, void *motion, void *sprite) {
     state = ((S_81839358_1 *)effect)->unk_4C.s;
     timer = ((S_81839358_1 *)effect)->unk_48 - 1;
     ((S_81839358_1 *)effect)->unk_48 = timer;
-    if (state == 1) {
+    switch (state) {
+    case 1:
         goto state_1;
-    }
-    if (state >= 2) {
-        goto state_ge_2;
-    }
-    timer_shift = timer << 0x10;
-    if (state == 0) {
+    case 0:
+        timer_shift = timer << 0x10;
         goto state_0;
-    }
-    return;
-state_ge_2:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    if (state == 2) {
+    case 2:
         goto update_sprite;
+    default:
+        return;
     }
-    return;
 state_0:
     if (timer_shift > 0) {
         return;
@@ -131,9 +125,7 @@ state_1:
             ((S_81839358_3 *)sprite)->unk_04 = 0;
             ((S_81839358_3 *)sprite)->unk_05 = 0;
         }
-        red_level = ((S_81839358_3 *)sprite)->unk_0C.at00.v;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        if (((S_81839358_1 *)effect)->unk_4A >= (s32) red_level) {
+        if (((S_81839358_3 *)sprite)->unk_0C.at00.v <= ((S_81839358_1 *)effect)->unk_4A) {
             ((S_81839358_0 *)motion)->unk_0C.n = (s32) (((S_81839358_0 *)motion)->unk_0C.n * 5);
             ((S_81839358_0 *)motion)->unk_10.n = (s32) (((S_81839358_0 *)motion)->unk_10.n * 5);
             ((S_81839358_0 *)motion)->unk_14.n = (s32) (((S_81839358_0 *)motion)->unk_14.n * 8);

@@ -108,8 +108,7 @@ s32 func_818B6F90(s32 texture_index, u8 *color_source)
     u8 *packet;
     u8 *scratch;
     s32 texture_u;
-    s32 texture_v;
-    register s16 texture_id ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s16 texture_id;
     u32 *ot_read;
     u32 *ot_write;
     u32 depth_index;
@@ -141,15 +140,12 @@ s32 func_818B6F90(s32 texture_index, u8 *color_source)
     transform_flags = scratch + 0x0C;
 
     ((S_818B6F90_2 *)packet)->unk_1A = texture_id;
-    texture_id = 0x7DCF;
-    texture_v = 0x40;
-    ASM_KEEP_NV(texture_v);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_818B6F90_2 *)packet)->unk_0E = texture_id;
-    ((S_818B6F90_2 *)packet)->unk_18 = texture_u | 7;
-    ((S_818B6F90_2 *)packet)->unk_24 = texture_u | 7;
+    ((S_818B6F90_2 *)packet)->unk_0E = 0x7DCF;
     ((S_818B6F90_2 *)packet)->unk_0C = texture_u;
-    ((S_818B6F90_2 *)packet)->unk_0D = texture_v;
-    ((S_818B6F90_2 *)packet)->unk_19 = texture_v;
+    ((S_818B6F90_2 *)packet)->unk_0D = 0x40;
+    ((S_818B6F90_2 *)packet)->unk_18 = texture_u | 7;
+    ((S_818B6F90_2 *)packet)->unk_19 = 0x40;
+    ((S_818B6F90_2 *)packet)->unk_24 = texture_u | 7;
     ((S_818B6F90_2 *)packet)->unk_25 = 0x7F;
     ((S_818B6F90_2 *)packet)->unk_30 = texture_u;
     ((S_818B6F90_2 *)packet)->unk_31 = 0x7F;

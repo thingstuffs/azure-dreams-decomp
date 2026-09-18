@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-18T11:29:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-18T12:17:51Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -24,7 +24,7 @@ Baseline NOT exact: 0 rows
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 10 | 7,368 | 0.3% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2870 | 1,359,592 | 53.1% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1250 | 1,086,692 | 42.5% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1246 | 1,084,668 | 42.4% |
 | goto | 1545 | 1,318,412 | 51.5% | 1603 | 1,367,368 | 53.5% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 281 | 232,316 | 9.1% |
@@ -37,7 +37,7 @@ Baseline NOT exact: 0 rows
 | local address-named struct | 633 | 346,988 | 13.6% | 3176 | 1,619,588 | 63.3% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2907 | 501,904 | 19.6% |
 
-Pin sites now: 5,854 in 1,248 rows; REG 2,670, KEEP 1,509, KEEP_NV 711, SCHED_BARRIER 313, USE_NV 125, KEEP_DEP_NV 106, USE 78, MEM_BARRIER 56.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 5,846 in 1,244 rows; REG 2,668, KEEP 1,508, KEEP_NV 708, SCHED_BARRIER 312, USE_NV 125, KEEP_DEP_NV 106, USE 78, MEM_BARRIER 55.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 10, hand-written asm in function bodies 5 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 437.
 

@@ -26,25 +26,23 @@ extern M2C_UNK D_800D5040;
 extern M2C_UNK D_800D5058;
 
 /* Selects state data, invokes the object callback, and updates motion data and flags. */
-void func_800C321C(s32 obj_addr, s32 callback_arg, void *motion_data) {
+void func_800C321C(TargetObj *obj, s32 callback_arg, void *motion_data) {
     s32 table_index;
     u8 state;
-    register TargetObj *obj ASM_REG("$17") = (TargetObj *)obj_addr;
+    
     void *motion = motion_data;
 
-    u32 state_data;
     u32 motion_flags;
 
     state = obj->state70;
     if (state == 0) {
-        state_data = (u32)&D_800D5028;
+        obj->field0c = &D_800D5028;
     } else if (state == 1) {
-        state_data = (u32)&D_800D5040;
+        obj->field0c = &D_800D5040;
     } else {
-        state_data = (u32)&D_800D5058;
+        obj->field0c = &D_800D5058;
     }
-    obj->field0c = (void *)state_data;
-    ASM_KEEP_NV(obj);
+
     obj->callback(obj, callback_arg, motion);
     if (!(*(u16 *)((u8 *)obj - 2) & 0x8000)) {
         table_index = func_800C2E1C(obj->field72, obj->field64);
