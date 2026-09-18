@@ -50,7 +50,7 @@ def with_cfg(row, cfg):
 
 
 def scan_row(job):
-    row, recipe, module, kinds = job
+    row, recipe, module, kinds, depth, near_max, near_k = job
     t0 = time.time()
     text = clean_path(row).read_text(errors="replace")
     rec = {"id": row["id"], "cfg": row["cfg"], "in_sha": sha_text(text), "pins": len(sites_of(text)), "module": module,
@@ -91,6 +91,50 @@ def scan_row(job):
                 elif nearest is None or d < nearest[0]:
                     nearest = (d, kind, params.get("label") if isinstance(params, dict) else str(params)[:80])
         rec["nearest"] = nearest
+        if depth >= 2 and nearest is not None and nearest[0] <= near_max:
+            # depth 2: every kind applied to each of the K nearest depth-1 texts (round-28 lesson: ranking is a valley,
+            # so K is generous); still screened by listing, confirmed by the scorer
+            pool = []
+            for kind, fn in kinds:
+                try:
+                    for params, new in fn(text, collections.Counter()):
+                        if unscored_text(new) != usig:
+                            continue
+                        s = compile_s(with_cfg(row, recipe), new)
+                        if s is not None:
+                            pool.append((sdiff(target, s), kind, params, new))
+                except Exception:                                      # noqa: BLE001
+                    continue
+            pool.sort(key=lambda x: x[0])
+            rec["depth2_seeds"] = 0
+            for d1, k1, p1, t1 in pool[:near_k]:
+                rec["depth2_seeds"] += 1
+                for kind, fn in kinds:
+                    try:
+                        cands = fn(t1, collections.Counter())
+                    except Exception:                                  # noqa: BLE001
+                        continue
+                    for params, new in cands:
+                        rec["candidates"] += 1
+                        if unscored_text(new) != usig:
+                            continue
+                        s = compile_s(with_cfg(row, recipe), new)
+                        if s is None:
+                            continue
+                        d = sdiff(target, s)
+                        if d == 0:
+                            rec["screen_hits"] += 1
+                            with tempfile.TemporaryDirectory() as td:
+                                pth = Path(td) / Path(row["c_path"]).name; pth.write_text(new)
+                                v = verify(with_cfg(row, f"{recipe} {INC}"), pth)
+                            if v.get("exact"):
+                                rec["hits"].append({"depth": 2, "first": {"kind": k1, "params": p1}, "kind": kind, "params": params})
+                                d0 = ROOT / "work/native_lane/coherence_perturb/out" / row["container"]; d0.mkdir(parents=True, exist_ok=True)
+                                (d0 / Path(row["c_path"]).name).write_text(new)
+                                (d0 / (Path(row["c_path"]).name + ".base_sha")).write_text(rec["in_sha"])
+                                rec["secs"] = round(time.time() - t0, 1); return rec
+                        elif d < rec["nearest"][0]:
+                            rec["nearest"] = (d, f"{k1}+{kind}", (p1.get("label", "") if isinstance(p1, dict) else "") + " | " + (params.get("label", "") if isinstance(params, dict) else ""))
     except Exception as e:                                             # noqa: BLE001
         rec["error"] = repr(e)[:200]
     rec["secs"] = round(time.time() - t0, 1)
@@ -101,10 +145,16 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--workers", type=int, default=12); ap.add_argument("--only"); ap.add_argument("--pinned", action="store_true")
     ap.add_argument("--kinds"); ap.add_argument("--max-dist", type=int, default=10**6, help="skip rows whose current distance at the module recipe exceeds this")
+    ap.add_argument("--depth", type=int, default=1); ap.add_argument("--near-max", type=int, default=4, help="depth 2 only on rows whose nearest depth-1 listing distance is at most this")
+    ap.add_argument("--near-k", type=int, default=12, help="depth 2: seeds per row")
+    ap.add_argument("--tag", default="", help="ledger suffix (a depth-2 run keeps its own journal)")
     a = ap.parse_args()
     keep = set(a.only.split(",")) if a.only else None
     kinds = [(k, f) for k, f in KINDS if not a.kinds or k in a.kinds.split(",")]
     pop = nonconforming(a.pinned)
+    global OUT
+    if a.tag:
+        OUT = LEDGER / f"coherence_perturb_{a.tag}.jsonl"
     done = {(r["id"], r["in_sha"], r["module_recipe"]) for r in read_jsonl(OUT)} if OUT.exists() else set()
     jobs = []
     for r in rows():
@@ -116,7 +166,7 @@ def main():
         sha = sha_text(clean_path(r).read_text(errors="replace"))
         if (r["id"], sha, info[0]) in done:
             continue
-        jobs.append((r, info[0], info[1], kinds))
+        jobs.append((r, info[0], info[1], kinds, a.depth, a.near_max, a.near_k))
     jobs.sort(key=lambda j: j[0].get("size") or 0)
     print(f"{len(pop)} nonconforming rows, {len(jobs)} to search with {len(kinds)} kinds", flush=True)
     lock, n, nh, t0 = threading.Lock(), 0, 0, time.time()
