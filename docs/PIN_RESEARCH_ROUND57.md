@@ -39,7 +39,7 @@ The prologue copy-order class (`MOVED|3-4|-move,sw +move,sw`, 99 sites) was prob
 
 ## Next
 
-1. The t72 misses with a run but no listing-exact order (about 570 rows) now journal their nearest order; a near-miss table (distance 1-2 lines) names where the run boundary or the dependence guard is the limit (statements across an `if`, loads across a call).
+1. ~~The t72 near-miss table~~ measured (lane `r58_t72near`, 570 rows, 0 exact): 27 rows at listing distance 1 are orders where an instruction vanished (a copy or constant load folded away), 182 at distance 2 are one instruction moved, the erasure's own distance; the metric does not separate them from the plain erasure, so within-run permutation is exhausted on the current text. What remains of the class needs a run that crosses control flow, or the original statement order from a model reading the mechanism.
 2. The prologue copy-order class (`MOVED|3-4|-move,sw +move,sw`, 99 sites, callee-saved parameter copies) is the next class to read from the source: `assign_parms` order versus sched's tie rule.
 3. Split the FSF-only contiguous runs into their own modules (round 56's finding) so their pinned rows get the right oracle.
 
@@ -47,3 +47,7 @@ The prologue copy-order class (`MOVED|3-4|-move,sw +move,sw`, 99 sites) was prob
 
 - The forced cascade over the 312 pinned rows whose recipe changed in rounds 56b/56d (their sweep journals keyed on `(id, in_sha)` had silently skipped them), T2, one gate; then the lone and joint scans at the new recipes; then the module census over the small modules that had none (349 modules / 600 rows / 1,503 pins were uncensused, 227 of them singletons).
 - The coherence tools skip rows already at their module recipe (the census files predate the coherence landings).
+
+## Round 58 (same day): the mechanism as a model brief
+
+The re-census of the 30 modules changed by round 57 (365 modules, no new switch) and the t71/t72 coherence sweep at the module recipes (0 of 1,016 jobs) closed the CPU side. A Gemini pack (`work/native_lane/r58_order`, 12 rows with one or two pins from the argument-load classes, brief = the scheduler's tie rule plus the t71 worked examples) resolved **3 rows, 5 pins** before its 90-minute print timeout: `dungeon/func_800CC978` (an int-typed expression before a narrowing, `(s8)(x + 0)`; `- 0` and `>> 0` are exact too, every type-cast spelling is not: the original had real arithmetic there), `dungeon/func_818F9B98` (a copy written in both `if` arms moved after the `if`, the fence dropped), `dungeon/func_80094A20` (a result variable and a flag update restructured). Landed with 3 windows and SLUS MATCH: **5,854 pins in 1,248 rows**. The second pack (`r58_order2`, the other twelve pool rows) runs next; codex stays held until its reset.
