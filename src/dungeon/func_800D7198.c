@@ -9,22 +9,11 @@ extern void func_800DC724(void *);
 /* Runs callbacks for slots 1 through 7, then processes the object and its final callback. */
 void func_800DC8F8(u8 *object) {
     s32 slot;
-    Func *callback_table;
-    Func *callback_cursor;
-    Func callback;
     FinalFunc final_callback;
 
-    slot = 1;
-    callback_table = D_800E2934;
-    callback_cursor = callback_table + 1;
-    do {
-        u8 *callback_object = object;
-
-        ASM_KEEP(callback_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        callback = *callback_cursor++;
-        callback(callback_object, *(s32 *)(object + 0x3C) + slot * 0x10);
-        slot++;
-    } while (slot < 8);
+    for (slot = 1; slot < 8; slot++) {
+        D_800E2934[slot](object, *(s32 *)(object + 0x3C) + slot * 0x10);
+    }
     func_800DC724(object);
     final_callback = *(FinalFunc *)(object + 0x4C);
     if (final_callback != 0) {

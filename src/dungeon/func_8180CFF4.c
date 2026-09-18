@@ -11,20 +11,17 @@ extern void func_800B8FC8(void *, u16 *, u16 *, s32, s32);
 void func_80025FF4(void *left_object, void *right_object) {
     u16 coords[6];
     s32 x_offset;
-    s32 width;
     DungeonNode *node;
     s32 saved_value;
     void *object;
     u8 *node_slot;
     s16 x;
 
-    x_offset = 0x40;
     coords[1] = 0x100;
-    width = x_offset;
-    ASM_KEEP_NV(width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    coords[2] = width;
+    coords[2] = 0x40;
     coords[3] = 0x80;
     coords[5] = 0x13C;
+    x_offset = coords[2];
     do {
         x = x_offset + 0x340;
         coords[0] = x;
