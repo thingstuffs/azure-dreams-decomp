@@ -80,22 +80,11 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
         render->f1C = 0x400;
         func_8004491C(obj, D_80045C34);
         dst = (DungeonSource *)obj->data;
-        ASM_KEEP_NV(dst);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+
         result = obj;
-        ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-        copy0_2 = arg1->word[0];
-        copy1_2 = arg1->word[1];
-        copy2 = arg1->word[2];
-        copy3 = arg1->word[3];
-        dst->word[0] = copy0_2;
-        dst->word[1] = copy1_2;
-        dst->word[2] = copy2;
-        dst->word[3] = copy3;
-        copy0 = arg1->word[4];
-        copy1 = arg1->word[5];
-        dst->word[4] = copy0;
-        dst->word[5] = copy1;
-        return result;
+
+        *dst = *arg1;
+        return obj;
     }
     return 0;
     return result;
