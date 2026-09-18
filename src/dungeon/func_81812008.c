@@ -10,8 +10,7 @@ typedef struct {
 } Entry19;
 
 /* Copy up to eight selected entries into a packed buffer of 18-byte records. */
-s32 func_80027008(s32 entry_set, s32 position, s32 entry_count) {
-    register s32 held_entry_set ASM_REG("$22") = entry_set;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+s32 func_80027008(s32 held_entry_set, s32 position, s32 entry_count) {
     s32 start_entry;
     s32 buffer;
     s32 entry_index;
@@ -32,7 +31,6 @@ s32 func_80027008(s32 entry_set, s32 position, s32 entry_count) {
     if (copy_count >= 9) {
         copy_count = 8;
     }
-    ASM_KEEP(held_entry_set);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entry_index = func_80026EC0(held_entry_set, start_entry);
     copied_count = 0;
     if (copy_count > 0) {

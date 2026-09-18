@@ -39,9 +39,7 @@ s32 func_80016730(s32 object, s32 check_value, s32 selection) {
         call_table = response_table;
         ASM_KEEP(call_table);
         func_80019880(call_table);
-        address_page = (s32)0x80020000;
-        ASM_KEEP(address_page);
-        response = address_page + 0x11DC;
+        response = &D_800211DC;
     }
     if (func_80019A04(response_table, object, selection) != 0) {
         response = func_8001628C(object, check_value, selection);
