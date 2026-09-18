@@ -72,7 +72,8 @@ extern void func_80045340(void);
 extern void func_80170D34(void);
 
 /* Creates an effect relative to the origin and initializes its motion and appearance. */
-void func_80D65810(s32 unused_0, void *origin_ptr, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
+void func_80D65810(s32 unused_0, void *origin_ptr_in, s32 unused_2, u16 offset_x, s16 offset_y, s16 offset_z) {
+    void *origin_ptr;
     u16 render_flags;
     S_80D65810_4 *origin;
     u16 x;
@@ -84,6 +85,7 @@ void func_80D65810(s32 unused_0, void *origin_ptr, s32 unused_2, u16 offset_x, s
     S_80D65810_0 *motion;
     S_80D65810_3 *position;
     void *effect;
+    origin_ptr = origin_ptr_in;
 
     origin = origin_ptr;
     x = offset_x;
