@@ -2225,7 +2225,7 @@ Gated (11 windows MATCH, SLUS MATCH): **5,989 pins in 1,266 rows** (-23), CPU-on
 - **Recipe coherence** (the owner's question): scoring each proposed switch's module neighbours at the recorded and the
   proposed recipe shows most switches break pin-free rows that are exact today (32 of 42 for `-O1` on item_menu; 8 of
   11 for a 2.8.0 cell). A pin-free exact row carries no compensation, so this is the strongest evidence available that
-  the TU was not built that way. The c_server census (proven 260-row TU, recorded at six cells and eight flag variants)
+  the TU was not built that way. The c_server census (260 rows, 224 proven / 36 strong, recorded at six cells and eight flag variants)
   finds ONE stock recipe exact on 206 rows: per-row recipes were fitted, never provenance. The 54 nonconforming rows
   (24 pins) are the provenance-grounded target list; `work/native_lane/r55_census/run_all.sh` extends the census to the
   74 strong/proven modules.

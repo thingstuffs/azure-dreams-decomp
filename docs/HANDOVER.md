@@ -7,7 +7,7 @@ pins erased together, cc1-listing prefilter) found 20 pins at unchanged recipes 
 eight rows, and the never-run cascade over the rounds 35-54 rows two more. Every
 recipe switch is **held for the owner**: scoring each switch's module neighbours
 shows most break pin-free rows that are exact today (32 of 42 for one -O1 switch),
-and a census of the proven 260-row c_server module shows one stock recipe covers
+and a census of the 260-row c_server module (224 proven / 36 strong rows) shows one stock recipe covers
 206 rows while its per-row recipes span six cells and eight flag variants. Per-row
 recipes were never provenance; the nonconforming rows are the new target list. The
 module census over the 74 strong/proven modules is the in-flight long job.
