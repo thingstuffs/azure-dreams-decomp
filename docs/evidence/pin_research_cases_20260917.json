@@ -3281,7 +3281,7 @@
       },
       "source": {
         "path": "src/dungeon/func_807B0B3C.c",
-        "sha256": "7564d2dff31a93e1a91283f6671b7db7ba06d73c2d1dc590e2d2738910ea525b"
+        "sha256": "8549644d877f4a15a0ce3a1d1573e5ca9d4db9e5a8d7f65b48885367ef0f642f"
       },
       "retail": {
         "identity": {
@@ -3297,8 +3297,8 @@
       },
       "candidate": {
         "path": "src/dungeon/func_807B0B3C.c",
-        "sha256": "7564d2dff31a93e1a91283f6671b7db7ba06d73c2d1dc590e2d2738910ea525b",
-        "base_source_sha256": "c4bbce85e7ba24b18204f2844119a3c8819b73dd536d66734d114569cbc82e2a",
+        "sha256": "8549644d877f4a15a0ce3a1d1573e5ca9d4db9e5a8d7f65b48885367ef0f642f",
+        "base_source_sha256": "7564d2dff31a93e1a91283f6671b7db7ba06d73c2d1dc590e2d2738910ea525b",
         "recipe": "2.7.2-cdk -fno-rerun-cse-after-loop"
       },
       "causal": {
@@ -3327,6 +3327,14 @@
           "artifact": {
             "path": "docs/evidence/pin_research_round54_20260917.json"
           }
+        },
+        {
+          "id": "r55_mechanical_landing",
+          "kind": "observation",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round57_20260918.json"
+          },
+          "summary": "Round 57 (2026-09-18): t72_stmtperm statement-order landing (round 57), three pins fell on dungeon/func_807B0B3C. The live source moved from 7564d2dff31a to 8549644d877f through a gated mechanical landing at the recorded recipe (strict row bytes, covering windows, SLUS). Earlier evidence items describe the previous text."
         }
       ],
       "next_experiment": null,

@@ -2,6 +2,16 @@
 
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 
+[Round 57](PIN_RESEARCH_ROUND57.md) removes **88 pins: 5,859 / 1,251 rows**, zero model
+tokens, by reading gcc 2.7.2's `sched.c`: the old list scheduler fills blocks in reverse and
+breaks priority ties by original insn order, so the C statement order between calls decides the
+instruction order, and an increment written after a call is hoisted above it. Two generators
+follow (t71: loop updates moved after the call, t72: every dependence-preserving order of the
+statement run around a pin, screened by the cc1 listing; 30 rows landed), plus the forced cascade
+over the 312 recipe-switched rows (9), six lone-scan flag trades, 203 byte-neutral switches in the
+newly censused small modules and two coherence repairs (census now 364 modules). Next: the t72
+near-miss table, the prologue copy-order class read from `assign_parms`, the FSF-only module splits.
+
 [Round 56](PIN_RESEARCH_ROUND56.md), the charter's first round, lands **18 pins: 5,947 / 1,262
 rows** (56c-56e: the resumed joint flag modes and the coherence tools over the weak-module census) and repays **11 per-row recipe deviations** (clause 4b, reported separately): the
 uncapped joint flag scan (5), a Gemini pack on never-served rows (1 of 12; the codex pack 0

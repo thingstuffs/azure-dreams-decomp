@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-18T09:26:10Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-18T09:27:39Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -41,7 +41,7 @@ Pin sites now: 5,859 in 1,251 rows; REG 2,670, KEEP 1,513, KEEP_NV 711, SCHED_BA
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 10, hand-written asm in function bodies 5 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 437.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 293 rows carry one flag, 40 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 292 rows carry one flag, 40 carry two or more.
 
 ## Cleanliness levels (bytes at or above each level)
 
