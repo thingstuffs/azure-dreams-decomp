@@ -13,8 +13,7 @@ typedef struct {
 extern void func_8004B1A4(void *items);
 
 /* Copy leading item values to the fixed output buffer and zero the remaining slots. */
-void func_800B2A38(S_800B52D8 *source, void *unused) {
-    register S_800B52D8 *table ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+void func_800B2A38(S_800B52D8 *table, void *unused) {
     u32 values[64];
     UA32 *item;
     UA32 *value_write;
@@ -24,7 +23,6 @@ void func_800B2A38(S_800B52D8 *source, void *unused) {
     s32 read_index;
     register s32 write_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-    table = source;
     if (table->items != 0) {
         read_index = 0;
         if (table->count > 0) {

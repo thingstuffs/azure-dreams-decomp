@@ -37,13 +37,9 @@ void func_800C321C(s32 obj_addr, s32 callback_arg, void *motion_data) {
 
     state = obj->state70;
     if (state == 0) {
-        state_data = 0x800d0000;
-        ASM_KEEP_NV(state_data);
-        state_data += 0x5028;
+        state_data = (u32)&D_800D5028;
     } else if (state == 1) {
-        state_data = 0x800d0000;
-        ASM_KEEP_NV(state_data);
-        state_data += 0x5040;
+        state_data = (u32)&D_800D5040;
     } else {
         state_data = (u32)&D_800D5058;
     }

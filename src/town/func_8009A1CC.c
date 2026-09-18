@@ -95,15 +95,13 @@ void *func_8009792C(S_8009792C_2 *source, u32 angle) {
 #else
         callback_page = (u8 *)0x800B0000;
 #endif
-        ASM_KEEP_NV(callback_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         motion = ((S_8009792C_0 *)effect)->unk_08;
         appearance = ((S_8009792C_0 *)effect)->unk_0C;
         ((S_8009792C_0 *)effect)->unk_10 =
-            (M2C_UNK *)(callback_page - 0x44E0);
+            (M2C_UNK *)&D_800ABB20;
         func_8004491C(init_object, init_data);
-        offset_index = direction * 2;
         x_offsets = (s16 *)&D_8006CCD8;
-        ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        offset_index = direction * 2;
         y_offset = (s16 *)((u8 *)&D_8006CCE8 + offset_index);
         motion->unk_02 =
             (s16)(source->unk_02 -

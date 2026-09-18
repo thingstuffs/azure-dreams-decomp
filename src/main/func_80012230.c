@@ -23,8 +23,7 @@ void func_80025230(s8 *state) {
         func_80023004(owner);
 #ifndef NON_MATCHING
         next_state = (s32 *)0x80020000;
-        ASM_KEEP(next_state);
-        next_state = (s32 *)((u8 *)next_state + 0x4F7C);
+        next_state = &D_80024F7C;
 #else
         next_state = &D_80024F7C;
 #endif
