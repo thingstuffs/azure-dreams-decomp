@@ -48,7 +48,7 @@ extern s16 func_8006649C();
 extern s32 func_80069EF8(void);
 
 /* Update randomized intermediate points and advance the effect state. */
-void func_80024E4C(void *effect_data)
+void func_80024E4C(void *self)
 {
     s16 point_step[3];
     s32 state;
@@ -57,8 +57,6 @@ void func_80024E4C(void *effect_data)
     void *object_base;
     S_819A764C_1 *linked_object;
     u8 *message;
-    register void *self ASM_REG("$18") = effect_data;
-    ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     linked_object = ((S_819A764C_0 *)self)->unk_00;
     linked_object->unk_52 |= 0x8000;

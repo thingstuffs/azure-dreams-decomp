@@ -420,12 +420,10 @@ restore_sprite:
         active_child = child;
         ASM_KEEP(active_child);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         pool_flags = *(volatile s32 *)(pool_page + 0x14A0);
-        ASM_KEEP(pool_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ((S_80172FC0_0 *)anim)->unk_AC = 0;
         ((S_80172FC0_0 *)anim)->unk_A4 = 0;
         ((S_80172FC0_0 *)anim)->unk_90.at00.v = 0;
         child_flags = ((S_80172FC0_7 *)active_child)->unk_1E;
-        ASM_KEEP(child_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         pool_flags |= 0x8000;
         child_flags |= 0x8000;
         *(volatile s32 *)(pool_page + 0x14A0) = pool_flags;

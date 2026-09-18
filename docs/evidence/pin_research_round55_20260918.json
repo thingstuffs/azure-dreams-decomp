@@ -1,0 +1,419 @@
+{
+ "schema": "azure-clean.pin-research-round55.v1",
+ "round": 55,
+ "date": "2026-09-18",
+ "method": "CPU-only: the four lone erasure rescans (pin_cells_scan cells/flags/flags2/stack) over every row whose text changed since 2026-09-13; a new joint-erasure scan (tools/lanes/joint_scan.py) with a cc1 listing prefilter; two pilots (zero_init on the remaining $0 sites, fifteen never-screened flags on 90 rows); the generator cascade over the 37 rows edited in rounds 35-54; a module-neighbour test of every recipe switch; a module recipe census pilot on main/c_server.c.",
+ "llm_tokens": 0,
+ "counts": {
+  "before": {
+   "pins": 6012,
+   "pinned_rows": 1269
+  },
+  "after": {
+   "pins": 5989,
+   "pinned_rows": 1266
+  },
+  "removed": 23
+ },
+ "rescans": {
+  "stale_before": {
+   "rows": 654,
+   "pins": 4262,
+   "basis": "560 stale + 94 missing of 1,271 pinned rows against ledger/pins_cells_admissible.jsonl in_sha"
+  },
+  "cells": {
+   "rows_scanned": 564,
+   "hits": 7,
+   "wall_s": 810,
+   "workers": 16,
+   "landable_rows": 2,
+   "landable_pins": 7,
+   "cell": "2.8.0"
+  },
+  "flags": {
+   "rows_scanned": 640,
+   "hits": 13,
+   "wall_s": 1829,
+   "workers": 16,
+   "built_rows": 9,
+   "built_pins": 13
+  },
+  "flags2": {
+   "rows_scanned": 466,
+   "hits": 3,
+   "wall_s": 512,
+   "workers": 16,
+   "built_rows": 2,
+   "built_pins": 3
+  },
+  "stack": {
+   "rows_scanned": 93,
+   "hits": 1,
+   "wall_s": 435,
+   "workers": 16,
+   "built_rows": 1,
+   "built_pins": 1
+  }
+ },
+ "joint_scan": {
+  "tool": "tools/lanes/joint_scan.py",
+  "tests": "tools/tests/test_joint_scan.py",
+  "cells_mode": {
+   "rows": 847,
+   "subsets_tested": 66062,
+   "screen_hits": 38,
+   "rows_with_hits": 10,
+   "rows_with_multi_site_hit": 9,
+   "wall_s": 1382,
+   "workers": 6,
+   "single_site_agreement_with_lone_scan": "10 of 10 rows"
+  },
+  "big_rows": {
+   "rows": 13,
+   "max_pins": 80,
+   "hits": 0
+  },
+  "flag_modes": "started, stopped at 725/847 of the flags mode to free the scorer for the gate; resumable (ledger/pins_joint_flags.jsonl)",
+  "prefilter_caveat": "a listing identical to the pinned listing at the recipe implies identical bytes except under -g, where 22 listing hits on two rows had no byte confirmation; -g is not used as a lever"
+ },
+ "pilots": {
+  "zero_init_remaining_sites": {
+   "sites": 15,
+   "files": 15,
+   "admitted_candidates": 7,
+   "exact": 0,
+   "nearest": "three candidates two listing lines away (town/func_80096134, town/func_800AE78C, dungeon/func_800B89C0)"
+  },
+  "flag_discovery": {
+   "rows": 90,
+   "pins": 317,
+   "flags": 15,
+   "hits": 0,
+   "inert_on_89_of_90": [
+    "-O3",
+    "-finline-functions",
+    "-fno-inline",
+    "-fpcc-struct-return",
+    "-freg-struct-return",
+    "-fno-defer-pop",
+    "-fomit-frame-pointer",
+    "-mno-gpopt",
+    "-fshort-enums",
+    "-fcaller-saves"
+   ],
+   "admissible_88_of_90": [
+    "-g"
+   ],
+   "break_nearly_all": {
+    "-fvolatile": 7,
+    "-mlong-calls": 5,
+    "-fno-delayed-branch": 1
+   },
+   "ledger": "ledger/pins_joint_custom.jsonl"
+  }
+ },
+ "cascade_rounds_35_54": {
+  "rows": 37,
+  "pins_on_them": 194,
+  "applied": [
+   {
+    "row": "dungeon/func_819A764C",
+    "transform": "t69_prologue",
+    "pins_removed": 2,
+    "note": "the redundant parameter copy `self` and its keep dropped together; the parameter itself carries the role"
+   }
+  ]
+ },
+ "held_recipe_switches": [
+  {
+   "row": "dungeon/func_800969CC",
+   "to": "2.8.0",
+   "hits": 6,
+   "mode": "cells"
+  },
+  {
+   "row": "dungeon/func_80E657E4",
+   "to": "2.8.0",
+   "hits": 1,
+   "mode": "cells"
+  },
+  {
+   "row": "dungeon/func_800969CC",
+   "to": "2.7.2 -fno-cse-skip-blocks",
+   "hits": 1,
+   "mode": "flags"
+  },
+  {
+   "row": "dungeon/func_800D53F0",
+   "to": "2.8.1-G0 -fno-strength-reduce -fno-expensive-optimizations",
+   "hits": 1,
+   "mode": "flags"
+  },
+  {
+   "row": "dungeon/func_808CB16C",
+   "to": "2.7.2-G0 -fno-strength-reduce -fno-schedule-insns -fno-rerun-cse-after-loop",
+   "hits": 1,
+   "mode": "flags"
+  },
+  {
+   "row": "dungeon/func_819C04E8",
+   "to": "2.7.2-cdk-G0 -fno-expensive-optimizations",
+   "hits": 2,
+   "mode": "flags"
+  },
+  {
+   "row": "main/func_80012848",
+   "to": "2.8.1-G0 -fno-expensive-optimizations",
+   "hits": 3,
+   "mode": "flags"
+  },
+  {
+   "row": "main/func_80014684",
+   "to": "2.7.2 -fno-expensive-optimizations",
+   "hits": 1,
+   "mode": "flags"
+  },
+  {
+   "row": "town/func_800B1464",
+   "to": "2.8.1 -O1",
+   "hits": 2,
+   "mode": "flags"
+  },
+  {
+   "row": "town/func_8032E720",
+   "to": "2.6.3-G0 -fno-schedule-insns2 -fno-rerun-cse-after-loop -fno-strength-reduce",
+   "hits": 1,
+   "mode": "flags"
+  },
+  {
+   "row": "town/func_8087514C",
+   "to": "2.7.2 -fno-schedule-insns -fno-schedule-insns2 -O1",
+   "hits": 1,
+   "mode": "flags"
+  },
+  {
+   "row": "dungeon/func_80FB7000",
+   "to": "2.7.2-cdk-G0 -fno-cse-follow-jumps",
+   "hits": 1,
+   "mode": "flags2"
+  },
+  {
+   "row": "town/func_800B1464",
+   "to": "2.8.1 -fno-schedule-insns -fno-schedule-insns2",
+   "hits": 2,
+   "mode": "flags2"
+  },
+  {
+   "row": "dungeon/func_800D53F0",
+   "to": "2.8.1-G0 -fno-strength-reduce -fno-expensive-optimizations",
+   "hits": 1,
+   "mode": "stack"
+  },
+  {
+   "row": "dungeon/func_80E657E4",
+   "to": "2.8.0",
+   "hits": 1,
+   "mode": "joint cells"
+  },
+  {
+   "row": "dungeon/func_8009F190",
+   "to": "2.8.0",
+   "hits": 2,
+   "mode": "joint cells"
+  }
+ ],
+ "neighbour_test": [
+  "dungeon/func_800969CC: 2.7.2 -> 2.8.0 | neighbours 11 exact@recorded 3 exact@new 3 broken 2 ['dungeon/func_800975F8', 'dungeon/func_80097C20'] fixed 2 ['dungeon/func_800966CC', 'dungeon/func_80096898']",
+  "dungeon/func_80E657E4: 2.7.2-cdk-G0 -> 2.8.0 | neighbours 14 exact@recorded 11 exact@new 4 broken 8 ['dungeon/func_80E61558', 'dungeon/func_80E61AA8', 'dungeon/func_80E6334C', 'dungeon/func_80E63794', 'dungeon/func_80E639C8', 'dungeon/func_80E640B8'] fixed 1 ['dungeon/func_80E65598']",
+  "dungeon/func_800D53F0: 2.8.1-G0 -fno-strength-reduce -> 2.8.1-G0 -fno-strength-reduce -fno-expensive-optimizations | neighbours 10 exact@recorded 5 exact@new 3 broken 2 ['dungeon/func_800D5794', 'dungeon/func_800D5CC0'] fixed 0 []",
+  "dungeon/func_808CB16C: 2.7.2-G0 -fno-strength-reduce -fno-schedule-insns -> 2.7.2-G0 -fno-strength-reduce -fno-schedule-insns -fno-rerun-cse-after-loop | neighbours 9 exact@recorded 0 exact@new 0 broken 0 [] fixed 0 []",
+  "dungeon/func_819C04E8: 2.7.2-cdk-G0 -> 2.7.2-cdk-G0 -fno-expensive-optimizations | neighbours 5 exact@recorded 4 exact@new 1 broken 3 ['dungeon/func_819BE800', 'dungeon/func_819BEB98', 'dungeon/func_819BEFC0'] fixed 0 []",
+  "main/func_80012848: 2.8.1-G0 -> 2.8.1-G0 -fno-expensive-optimizations | neighbours 259 exact@recorded 168 exact@new 151 broken 17 ['main/func_8000D9C4', 'main/func_8000E68C', 'main/func_8000F3B4', 'main/func_8000F524', 'main/func_8000FC48', 'main/func_8000FCD8'] fixed 0 []",
+  "main/func_80014684: 2.7.2 -> 2.7.2 -fno-expensive-optimizations | neighbours 259 exact@recorded 121 exact@new 118 broken 3 ['main/func_8000F3B4', 'main/func_8000F488', 'main/func_80019948'] fixed 0 []",
+  "town/func_800B1464: 2.8.1 -> 2.8.1 -O1 | neighbours 61 exact@recorded 42 exact@new 11 broken 32 ['town/func_800B0CB4', 'town/func_800B0D34', 'town/func_800B0DB8', 'town/func_800B0DD4', 'town/func_800B0DF0', 'town/func_800B0E58'] fixed 1 ['town/func_800B143C']",
+  "town/func_8032E720: 2.6.3-G0 -fno-schedule-insns2 -fno-rerun-cse-after-loop -> 2.6.3-G0 -fno-schedule-insns2 -fno-rerun-cse-after-loop -fno-strength-reduce | neighbours 13 exact@recorded 8 exact@new 9 broken 0 [] fixed 1 ['town/func_8032EBF4']",
+  "town/func_8087514C: 2.7.2 -fno-schedule-insns -fno-schedule-insns2 -> 2.7.2 -fno-schedule-insns -fno-schedule-insns2 -O1 | neighbours 15 exact@recorded 3 exact@new 3 broken 0 [] fixed 0 []",
+  "dungeon/func_80FB7000: 2.7.2-cdk-G0 -> 2.7.2-cdk-G0 -fno-cse-follow-jumps | neighbours 0 exact@recorded 0 exact@new 0 broken 0 [] fixed 0 []"
+ ],
+ "module_census_pilot": {
+  "module": "main/c_server.c",
+  "rows": 260,
+  "pin_free": 237,
+  "pinned": 23,
+  "pins": 43,
+  "best_stock_recipe": "2.7.2-cdk-G0",
+  "exact_at_best": 206,
+  "pin_free_exact_at_best": 196,
+  "not_exact_at_best": 54,
+  "pins_on_nonconforming": 24,
+  "exact_at_no_stock_recipe": 15,
+  "artifact": "work/native_lane/r55_census/census_c_server.json",
+  "wall_s": 326
+ },
+ "landing": {
+  "lane": "work/native_lane/r55_same",
+  "log_excerpt": [
+   "== lane wins (staged in <tmp>)",
+   "keep r55_same dungeon/func_8008F228 pins 10 -> 7",
+   "keep r55_same dungeon/func_800B6D74 pins 19 -> 17",
+   "keep r55_same dungeon/func_80A473B8 pins 20 -> 18",
+   "keep r55_same dungeon/func_80AC5B20 pins 9 -> 6",
+   "keep r55_same dungeon/func_80B97298 pins 3 -> 1",
+   "keep r55_same dungeon/func_80E0F7C0 pins 7 -> 5",
+   "keep r55_same dungeon/func_80E61AA8 pins 3 -> 0",
+   "keep r55_same dungeon/func_81083284 pins 3 -> 0",
+   "done 8 in 4s: {'applied': 8}",
+   "== cascade: the cheap generators over every changed row until a pass applies nothing",
+   "pass 1 applied 1",
+   "pass 2 applied 0",
+   "== tidy empty NON_MATCHING blocks",
+   "tidied 0 files",
+   "== t2 on 9 changed rows",
+   "done 0 in 0s: {}",
+   "== gate",
+   "gate root: <repo>/build_ovl",
+   "11 windows to gate (2164 up to date), 8 workers",
+   "done 11 (+0 serial retries) in 153s: {'MATCH': 11}",
+   "SLUS SHA-1 gate: MATCH (884 TUs, recipe identical to the pinned copy, 0s)",
+   "GATE_RC=0",
+   "Pin sites now: 5,989 in 1,266 rows",
+   "== done"
+  ]
+ },
+ "rows": [
+  {
+   "id": "dungeon/func_8008F228",
+   "cfg": "2.7.2-cdk-G0",
+   "pins_before_lane": 10,
+   "pins_after_lane": 7,
+   "pins_now": 7,
+   "source_sha256": "3ba480350c59de9a1e63c30775f012e41c5421b7254727d73c1701263731574e"
+  },
+  {
+   "id": "dungeon/func_800B6D74",
+   "cfg": "2.8.1-G0 -fno-strength-reduce",
+   "pins_before_lane": 19,
+   "pins_after_lane": 17,
+   "pins_now": 17,
+   "source_sha256": "1d51c0154c6a80513514b84f6147684c3027351ae583cb573e40bedcb487e2d2"
+  },
+  {
+   "id": "dungeon/func_80A473B8",
+   "cfg": "2.7.2-cdk-G0",
+   "pins_before_lane": 20,
+   "pins_after_lane": 18,
+   "pins_now": 17,
+   "source_sha256": "c2550a389ed9493bf4ad8a6ec487383726f2a9e143a6ad1fe450df903eabc53c"
+  },
+  {
+   "id": "dungeon/func_80AC5B20",
+   "cfg": "2.8.1-G0",
+   "pins_before_lane": 9,
+   "pins_after_lane": 6,
+   "pins_now": 6,
+   "source_sha256": "28279e861ec390f3a8bf99b407c71cf011f5f1ae207043b555d2e4a29390effa"
+  },
+  {
+   "id": "dungeon/func_80B97298",
+   "cfg": "2.7.2-cdk-G0",
+   "pins_before_lane": 3,
+   "pins_after_lane": 1,
+   "pins_now": 1,
+   "source_sha256": "ea41b3feab8fa593d9ae6c4340f580fde156cbce1f7c9ad33e340a78e1a5ad5d"
+  },
+  {
+   "id": "dungeon/func_80E0F7C0",
+   "cfg": "2.8.1-G0",
+   "pins_before_lane": 7,
+   "pins_after_lane": 5,
+   "pins_now": 5,
+   "source_sha256": "c0872bab9d4fc77362a409cde0d3998dd03073468c2fcd769dddf363bcf2c037"
+  },
+  {
+   "id": "dungeon/func_80E61AA8",
+   "cfg": "2.7.2-cdk-G0",
+   "pins_before_lane": 3,
+   "pins_after_lane": 0,
+   "pins_now": 0,
+   "source_sha256": "429fecab69e9715f6fe86c8871bde83fcd9e1e0ff54703186e95adea84704f83"
+  },
+  {
+   "id": "dungeon/func_81083284",
+   "cfg": "2.8.1-G0",
+   "pins_before_lane": 3,
+   "pins_after_lane": 0,
+   "pins_now": 0,
+   "source_sha256": "dcbcd868e2bb0b6cc3b165ea7641e75521435248d626b4ab5d9bf1bfe2d9f126"
+  },
+  {
+   "id": "dungeon/func_819A764C",
+   "cfg": "2.7.2-cdk -fno-strength-reduce",
+   "via": "t69_prologue cascade",
+   "pins_now": 0,
+   "source_sha256": "6ef101d5f27c124776738b7f8d2dfa9a0c52c3ed9e7d97c25fbd5c8faa1456f6"
+  }
+ ],
+ "publication": {
+  "gate_tail": [
+   {
+    "window": "dungeon_deep_t8b_10a3000",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:27Z"
+   },
+   {
+    "window": "dungeon_deep_10a3060_truebase_80170860",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:28Z"
+   },
+   {
+    "window": "dungeon_deep_t8b_a67000",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:28Z"
+   },
+   {
+    "window": "dungeon_deep_t8b_bb7000",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:28Z"
+   },
+   {
+    "window": "dungeon_deep_t8b_ae5000",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:28Z"
+   },
+   {
+    "window": "dungeon_deep_t8b_e81aa8",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:29Z"
+   },
+   {
+    "window": "dungeon_deep_t8b_e2f498",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:29Z"
+   },
+   {
+    "window": "dungeon_deep_e812fc_truebase_80170afc",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:30Z"
+   },
+   {
+    "window": "dungeon_deep_e2f004_truebase_80172804",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:30Z"
+   },
+   {
+    "window": "dungeon_deep_t8_19c0",
+    "result": "MATCH",
+    "at": "2026-09-18T02:04:31Z"
+   },
+   {
+    "window": "dungeon_engine",
+    "result": "MATCH",
+    "at": "2026-09-18T02:06:58Z"
+   }
+  ],
+  "slus": [
+   "SLUS SHA-1 gate: MATCH (884 TUs, recipe identical to the pinned copy, 0s)",
+   "GATE_RC=0"
+  ]
+ }
+}
