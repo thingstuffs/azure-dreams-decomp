@@ -4,7 +4,7 @@
 void func_80026FB4(void *object) {
     u8 *object_bytes = object;
     s32 *global_base;
-    u16 object_flags;
+    u32 object_flags;
     s32 global_flags;
 
     global_base = (s32 *)0x80080000;

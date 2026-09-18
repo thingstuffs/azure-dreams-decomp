@@ -71,7 +71,7 @@ s32 func_80099A1C(void *object, S_80099A1C_1 *position, S_80099A1C_2 *offset_dat
 
         {
             s32 half_offset;
-            u16 adjusted_coord;
+            u32 adjusted_coord;
 
             half_offset = ((S_80099A1C_3 *)object)->unk_00;
             adjusted_coord = ((S_80099A1C_0 *)scratch)->unk_B8;

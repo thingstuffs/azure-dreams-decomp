@@ -18,7 +18,8 @@ extern s32 func_8009A350(s16, s16, s32, u16 *);
 extern s32 func_800A41F0(Node *);
 
 /* Finds an eligible node at the target coordinates with a value difference below 64. */
-void *func_8009B25C(Node *node, s16 x, s16 y, s16 value) {
+void *func_8009B25C(Node *node, s16 x, s16 y_in, s16 value) {
+    s16 y;
     u16 flags;
     Node *sentinel;
     Owner *owner;
@@ -28,6 +29,7 @@ void *func_8009B25C(Node *node, s16 x, s16 y, s16 value) {
 
     target_x = x;
     target_value = value;
+    y = y_in;
     if ((s16)func_8009A350((s16)(x - 1), y, 0, &flags) == 0) {
         return 0;
     }

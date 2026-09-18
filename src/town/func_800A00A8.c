@@ -86,7 +86,9 @@ void func_8009D808(void *points, S_8009D808_2 *max_point, S_8009D808_1 *min_poin
             if (y_for_min < 0) {
                 min_point->unk_02 = 0U;
             }
+            point += 8;
+        } else {
+            point += 8;
         }
-        point += 8;
     } while ((s32) point < (s32) (points + 0x20));
 }
