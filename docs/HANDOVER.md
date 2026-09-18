@@ -1,5 +1,7 @@
 # Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
 
+**Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
+
 [Round 55](PIN_RESEARCH_ROUND55.md) removes **46 pins: 5,966 / 1,265 rows**, CPU-only
 (zero model tokens). The four lone-erasure rescans were 654 rows stale; rerun, they
 found 24 pins behind recipe switches. A new joint-erasure scan (subsets of a row's
