@@ -3,7 +3,7 @@
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 
 [Round 57](PIN_RESEARCH_ROUND57.md) removes **88 pins: 5,859 / 1,251 rows**, zero model
-tokens (round 58, same note: two mechanism-briefed Gemini packs add 13 pins, **5,846 / 1,244 rows**, 7 of 24 rows against 1 of 12 unbriefed; a third pack is queued after the Gemini quota reset, codex after its reset), by reading gcc 2.7.2's `sched.c`: the old list scheduler fills blocks in reverse and
+tokens (round 58, same note: three mechanism-briefed Gemini packs add 19 pins, **5,840 / 1,238 rows**, 13 of 36 rows against 1 of 12 unbriefed; packs 3 and 5 are queued behind the Gemini quota, a codex sol pack on the residues after codex's reset), by reading gcc 2.7.2's `sched.c`: the old list scheduler fills blocks in reverse and
 breaks priority ties by original insn order, so the C statement order between calls decides the
 instruction order, and an increment written after a call is hoisted above it. Two generators
 follow (t71: loop updates moved after the call, t72: every dependence-preserving order of the
