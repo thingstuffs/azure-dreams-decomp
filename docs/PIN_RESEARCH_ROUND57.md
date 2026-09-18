@@ -77,3 +77,5 @@ Packs 9 and 10: the remaining `MOVED|1-2` rows (non-argument moves) 0 of 12; the
 Pack 11 (`r58_order11`, three-pin rows of the small `MOVED`/`CHANGED` classes) resolved 5 rows, 15 pins: **5,807 pins in 1,215 rows**. Three-pin rows of the paying classes pay as well as one-pin rows; the pool by pin count is the next dimension. Briefed packs: 37 of 132 rows.
 
 Pack 12 (`r58_order12`, the recoloured and mixed 5-16-word residues) resolved 3 rows: **5,804 pins in 1,212 rows**. Briefed packs: 40 of 144 rows.
+
+Pack 13 (`r58_order13`, three-to-four-pin rows of the small classes) resolved 3 rows, 9 pins: **5,795 pins in 1,209 rows**. Briefed packs: 43 of 156 rows.
