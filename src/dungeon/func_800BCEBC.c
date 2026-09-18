@@ -61,17 +61,15 @@ s32 func_800C261C(Entity *entity, s32 item, s16 action_type) {
             return 0;
         }
         {
-            register Entity *name_entity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 text_cursor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register s32 message ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 text_buffer;
+            s32 original_value;
+            s32 current_value;
+            s32 adjusted_value;
 
-            text_buffer = func_800990FC();
-            name_entity = entity;
-            text_cursor = text_buffer;
-            message = text_cursor;
-            func_80099290(func_80099194(D_80089384, func_80099368(item, func_80099194(D_800E1677, func_80099734(name_entity, text_cursor)))));
-            func_800A5720(message);
+            adjusted_value = func_80099734(entity, current_value = func_800990FC());
+            original_value = current_value;
+            current_value = adjusted_value;
+            func_80099290(func_80099194(D_80089384, func_80099368(item, func_80099194(D_800E1677, current_value))));
+            func_800A5720(original_value);
             func_800A5F38(entity, item);
         }
         return 1;
