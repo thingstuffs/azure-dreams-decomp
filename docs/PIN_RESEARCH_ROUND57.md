@@ -65,3 +65,5 @@ The fourth pack (`r58_order4`, twelve 1-2-pin rows of the `CHANGED|3-4` class) r
 The third pack (`r58_order3`, eight `MOVED|3-4` prologue-copy rows and four `CHANGED|1-2`) resolved 1 row: the prologue copy-order class resists a model as it resisted the probes; **5,839 pins in 1,237 rows**. Briefed packs: 14 of 48 rows; the class matters more than the model.
 
 The fifth pack (`r58_order5`, twelve 1-2-pin rows of `CHANGED|5-8`) resolved 5 rows: **5,834 pins in 1,232 rows**, 8 windows and SLUS MATCH. Briefed packs: 19 of 60 rows. A sixth pack (the rest of the small `CHANGED` rows) runs next; the class pool of 1-2-pin rows is the model lanes' working set while the CPU side is exhausted.
+
+Pack 6 (`r58_order6`, the remaining small `CHANGED|3-4`/`5-8` rows) resolved 4 rows: **5,831 pins in 1,229 rows**, 4 windows and SLUS MATCH. Briefed packs: 23 of 72 rows. Pack 7 (`CHANGED|9-16`) runs next; the pack builder is the scratchpad's `build_pack.py <lane> <classes>`.
