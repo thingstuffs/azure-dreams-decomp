@@ -71,3 +71,5 @@ Pack 6 (`r58_order6`, the remaining small `CHANGED|3-4`/`5-8` rows) resolved 4 r
 Pack 7 (`r58_order7`, `CHANGED|9-16`) resolved 1 row: **5,830 pins in 1,228 rows**. The yield falls with the residue size (small `CHANGED` classes 1 in 2 to 1 in 3, 9-16 words 1 in 12): the remaining 1-2-pin pool is mostly larger residues. Briefed packs: 24 of 84 rows.
 
 Pack 8 (`r58_order8`, `CHANGED|9-16` and `BOTH|9-16`) resolved 3 rows: **5,827 pins in 1,225 rows**. Briefed packs: 27 of 96 rows. Packs 9 (the remaining `MOVED|1-2` rows) and 10 (the small `CHANGED` and `RECOLOURED` residues) run next.
+
+Packs 9 and 10: the remaining `MOVED|1-2` rows (non-argument moves) 0 of 12; the small `CHANGED`/`RECOLOURED` residues 5 of 12: **5,822 pins in 1,220 rows**, 11 windows and SLUS MATCH. Briefed packs: 32 of 120 rows. Pack 11 (three-pin rows of the small classes) runs next.
