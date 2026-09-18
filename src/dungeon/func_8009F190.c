@@ -114,8 +114,6 @@ insert_entry:
             retry_id = retry_id_shift >> 24;
 
             ASM_KEEP_NV(retry_id_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(lowest_id);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_NV(retry_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             if (retry_id < lowest_id) {
                 goto replace_entry;
             }

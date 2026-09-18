@@ -15,7 +15,7 @@ void func_8087514C(void) {
     do {
         register s32 bit_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 bit_value;
-        register s32 slot_offset ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 slot_offset;
         s32 word_addr;
         s32 bitmap_word;
         s32 *word_ptr;

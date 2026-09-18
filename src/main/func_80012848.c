@@ -19,7 +19,6 @@ void func_80025848(void *state) {
     s32 table_entry;
 
     data_ptr = (u8 *)0x80080000;
-    ASM_KEEP(data_ptr);
     table_entry = *(s32 *)((u8 *)state + 0x28);
     data_ptr += 0x3E98;
     table_entry <<= 7;
@@ -31,7 +30,6 @@ void func_80025848(void *state) {
         void *update_data;
 
         data_ptr = (u8 *)0x80020000;
-        ASM_KEEP(data_ptr);
         data_ptr += 0x5788;
         update_data = (u8 *)state + 0x38;
         ASM_MEM_BARRIER();
@@ -40,7 +38,6 @@ void func_80025848(void *state) {
         data_ptr = (u8 *)0x80020000;
     } else {
         data_ptr = (u8 *)0x80020000;
-        ASM_KEEP(data_ptr);
         data_ptr += 0x593C;
         *(u8 **)((u8 *)state + 0x34) = data_ptr;
         func_800230A4(object);

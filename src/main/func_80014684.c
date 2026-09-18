@@ -16,7 +16,6 @@ void func_80027684(void *object) {
     guard_value = (u8 *)(u32)*(s32 *)((s8 *)object + 0x3C);
     if (guard_value != 0) {
         dispatch_result = (u8 *)0x80020000;
-        ASM_KEEP(dispatch_result);
         dispatch_result += 0x789C;
         func_800276d0();
     }

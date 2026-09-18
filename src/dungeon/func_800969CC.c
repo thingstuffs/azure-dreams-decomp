@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_800E0000[];
 
 #define M2C_BREAK() 0
 
@@ -127,7 +128,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     s16 message_state;
     s32 direction_offset;
     s32 target_flags;
-    register s32 target_elements ASM_REG("$19");
+    s32 target_elements;
     u32 attack_elements;
     register s32 message_start ASM_REG("$21");
     s32 attack_bonus;
@@ -138,15 +139,15 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     register s32 opposite_offset ASM_REG("$3");
     s32 effect_elements;
     u32 effect_flags;
-    register s32 message_cursor ASM_REG("$16");
-    register s32 modifier ASM_REG("$18");
+    register u32 message_cursor ASM_REG("$16");
+    s32 modifier;
     s32 element_match;
     s32 element_check;
     register s32 scaled_modifier ASM_REG("$2");
     s32 signed_value;
     u16 *attack_script;
     u16 target_traits;
-    register u8 kind_check ASM_REG("$4");
+    u8 kind_check;
     S_8009C12C_4 *target_data;
     register s16 *opposite_x_ptr ASM_REG("$5");
     register u16 direction_value ASM_REG("$12");
@@ -395,8 +396,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         }
     }
     effect_flags = 0xDFFFFFFF;
-    target_data = (void *)0x800E0000;
-    ASM_KEEP_DEP_NV(target_data, effect_flags);
+    target_data = (S_8009C12C_4 *)D_800E0000;
     target_flags = ((S_8009C12C_3 *)target)->unk_1C & effect_flags;
     target_data = target_data->unk_3D7C;
     ((S_8009C12C_3 *)target)->unk_1C = target_flags;
@@ -412,7 +412,6 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     }
     func_800B4C7C(3, target, damage, 0);
     message_cursor = 0x800E0000;
-    ASM_KEEP(message_cursor);
     opposite_offset = (s32)((void **)0x80080000);
     if (target == ((S_8009C12C_5 *)((void *)message_cursor))->unk_3D7C) {
         func_80094E34();

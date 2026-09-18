@@ -93,7 +93,7 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
 void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
 {
-    register void *work ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *work;
     void *obj;
     register s32 object_type ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *object_pool ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */

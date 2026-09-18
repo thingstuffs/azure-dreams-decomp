@@ -89,7 +89,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     Copy32 direction_offsets;
     u8 *table_page;
     register Copy32 *offset_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 object_index;
+    u32 object_index;
     Object **slot;
     Object *new_object;
     Object *cleanup_object;
@@ -185,7 +185,6 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         }
         slot_offset = object_index - 1;
         object_index = slot_offset;
-        ASM_KEEP(slot_offset);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         if ((s32)((u32)slot_offset << 16) >= 0) {
             do {
                 slot_offset = (s32)((u32)object_index << 16);
@@ -209,7 +208,6 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
         continue_loop:
         slot_offset = object_index + 1;
         object_index = slot_offset;
-        ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     } while ((s16)slot_offset < 21);
     return (s32)objects[0];
 }
