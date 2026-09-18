@@ -10,8 +10,8 @@ at the module census recipe (pin subsets, the cascade generators, the round-33 c
 moves with a calibrated cc1-listing screen); ten pin-free rows and one pinned row became
 byte-exact there by ordinary moves. Compiler probe: 2.7.2-cdk always splits symbol
 addresses, FSF 2.7.2 never does, so FSF-only rows inside cdk modules are merged translation
-units, not shapes. Next: the byte-neutral recipe reduction (1,415 rows exact at their module
-recipe but recorded elsewhere), then a sched2 `move` placement probe.
+units, not shapes. Round 56b re-recorded 1,414 rows at their module recipe byte-neutrally (297 windows
+MATCH). Next: the weak-module census, then a sched2 `move` placement probe.
 
 [Round 55](PIN_RESEARCH_ROUND55.md) removes **46 pins: 5,966 / 1,265 rows**, CPU-only
 (zero model tokens). The four lone-erasure rescans were 654 rows stale; rerun, they
