@@ -100,3 +100,5 @@ Two Opus agents (model routing validated by each quoting its own model line): on
 ## Round 59 plan: class-grouped codex packs with solved exemplars
 
 The owner's direction after this wave: groups of 10-20 rows sharing a residue class, briefed with the diffs that made rows of that class byte-exact this week (121 solved rows indexed with their classes), to luna for the small classes and sol for the mid, large and far residues; capacity probed before each launch, every lane landed through the locked pipeline and its port-arm-repaired twin. Five packs are built and queued behind the residues pack: `r59_luna_changed_small`, `r59_luna_moved`, `r59_sol_mid`, `r59_sol_large`, `r59_sol_far`.
+
+Pack 16 (Gemini, the mid classes' 3-6-pin rows, briefed with the solved-exemplar diffs): 0 of 12. The Gemini queue stops here: its small-residue pool is drained and multi-pin mid residues do not pay with the flash model; the class packs go to codex sol after its reset.
