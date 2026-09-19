@@ -47,7 +47,6 @@ void func_8017284C(S_8017284C_0 *action, Rec_D_800E3D7C *motion, Rec_D_80082E80 
     s32 speed_component;
     s32 facing;
     s32 state;
-    register u8 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     state = action->unk_9B;
     if (state == 1) {
@@ -92,9 +91,9 @@ state0:
     func_80047784(sprite,
         (*(u8 *)((u8 *)(&D_80174140) + (((D_80083228[0] + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7))),
         0);
-    next_state = action->unk_9B;
     action->unk_96.s = 0;
-    goto increment_state;
+    action->unk_9B += 1;
+    goto done;
 
 state1:
     x_velocity = motion->unk_0C.as_s32;
@@ -106,9 +105,9 @@ state1:
         func_80047784(sprite,
             (*(u8 *)((u8 *)(&D_80174170) + (((D_80083228[0] + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7))),
             0);
-        next_state = action->unk_9B;
         action->unk_96.s = 0x14;
-        goto increment_state;
+        action->unk_9B += 1;
+        goto done;
     }
     goto done;
 
@@ -152,14 +151,9 @@ state2:
 
     if ((action->unk_96.s <= 0) ||
         (sprite->unk_14.at00_u16.v & 0x8000)) {
-        next_state = action->unk_9B;
-        goto increment_state;
+        action->unk_9B += 1;
+        goto done;
     }
-    goto done;
-
-increment_state:
-    next_state++;
-    action->unk_9B = next_state;
     goto done;
 
 state3:

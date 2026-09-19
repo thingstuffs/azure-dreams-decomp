@@ -76,7 +76,6 @@ typedef struct S_800240F0_8 {
 /* Updates an effect that follows its source, arcs to a target, then grows and brightens. */
 void func_800240F0(void *effect, void *motion, void *sprite)
 {
-    u16 prev_state;
     u16 offset[3];
     s32 state;
 
@@ -133,10 +132,9 @@ state_one:
         u16 travel_frames;
 
         travel_frames = 10;
-        ASM_KEEP_NV(travel_frames);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        prev_state = ((S_800240F0_0 *)effect)->unk_0C.v;
         ((S_800240F0_0 *)effect)->unk_10.u = travel_frames;
-        goto advance_state;
+        ((S_800240F0_0 *)effect)->unk_0C.n2 += 1;
+        goto tick;
     }
     goto tick;
 
@@ -189,11 +187,8 @@ state_two:
     ((S_800240F0_2 *)motion)->unk_00.at00.v = ((S_800240F0_2 *)motion)->unk_0C;
     ((S_800240F0_2 *)motion)->unk_04.at00.v = ((S_800240F0_2 *)motion)->unk_10;
     ((S_800240F0_2 *)motion)->unk_08.at00.v = ((S_800240F0_2 *)motion)->unk_14;
-    prev_state = ((S_800240F0_0 *)effect)->unk_0C.n2;
     ((S_800240F0_0 *)effect)->unk_10.u = state;
-
-advance_state:
-    ((S_800240F0_0 *)effect)->unk_0C.n2 = prev_state + 1;
+    ((S_800240F0_0 *)effect)->unk_0C.n2 += 1;
     goto tick;
 
 state_three:
