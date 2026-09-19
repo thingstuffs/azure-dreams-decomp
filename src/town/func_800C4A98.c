@@ -29,17 +29,11 @@ typedef struct S_800C21F8_0 {
 s32 func_800C21F8(S_800C21F8_0 *object) {
     s32 y_distance;
     s32 x_distance;
-    register s32 axis_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 axis_delta;
 
-    x_distance = object->unk_04;
-    axis_delta = D_80083780.x;
-    y_distance = D_80083780.y;
-    x_distance -= axis_delta;
-    x_distance = abs(x_distance);
-    axis_delta = object->unk_06;
+    x_distance = abs(object->unk_04 - D_80083780.x);
+    y_distance = abs(object->unk_06 - D_80083780.y);
     x_distance = (s32)((u32)x_distance << 16);
-    axis_delta -= y_distance;
-    y_distance = abs(axis_delta);
     if ((object->unk_0C < (x_distance >> 16)) ||
         ((s16)y_distance > object->unk_0E)) {
         town_sd_sq_callagain(y_distance);

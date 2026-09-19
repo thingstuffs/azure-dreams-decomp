@@ -40,10 +40,8 @@ void *func_80025874(s32 state_value, Copy24 *source_data, s16 initial_setting) {
     void *obj;
     S_80025874_1 *fields;
     void *object_data;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FC64(0x212);
-    result = 0;
     if (obj != 0) {
         ((S_80025874_0 *)obj)->unk_10 = &D_800253F4;
         fields = obj + 0x20;
@@ -61,8 +59,8 @@ void *func_80025874(s32 state_value, Copy24 *source_data, s16 initial_setting) {
         fields->unk_41 = 0;
         fields->unk_14 = initial_setting;
         object_data = ((S_80025874_0 *)obj)->unk_08;
-        result = obj;
         *(Copy24 *)object_data = *source_data;
+        return obj;
     }
-    return result;
+    return 0;
 }
