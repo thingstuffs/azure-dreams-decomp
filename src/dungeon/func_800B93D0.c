@@ -56,7 +56,6 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
     u32 choice_index;
     s32 call_context = context;
     s32 value_arg;
-    register u8 *data_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *counter_base;
     s32 result_value;
     u8 item_type;
@@ -95,7 +94,6 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
         value = action_value;
         item_type = item[1];
         if (item_type != 0xF) {
-            data_arg = item;
             if (item_type != 0x10) {
                 goto other;
             }
@@ -116,24 +114,15 @@ s32 func_800BEB30(u32 target, u8 *action, s16 action_kind, s32 context) {
                 value_arg = value;
                 value = result_value;
                 func_800998C0(choice_index, value_arg);
-                data_arg = D_80089368;
-                value_arg = value;
-                value = func_80099194(data_arg, value_arg);
+                value = func_80099194(D_80089368, value);
                 goto shared_tail;
             }
-            result_value = func_80099368(item, action_value);
-            data_arg = D_800E112A;
-            goto result;
+            value = func_80099194(D_800E112A, func_80099368(item, action_value));
+            goto shared_tail;
         }
 
 other:
-        value_arg = value;
-        result_value = func_80099368(data_arg, value_arg);
-        data_arg = D_800E1156;
-result:
-        value_arg = result_value;
-message:
-        value = func_80099194(data_arg, value_arg);
+        value = func_80099194(D_800E1156, func_80099368(item, value));
         shared_tail:
         func_80099290(value);
         func_800A5720(action_value);
@@ -148,3 +137,4 @@ decrement:
     func_80098B38(action);
     return 1;
 }
+
