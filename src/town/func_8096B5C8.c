@@ -26,12 +26,12 @@ void func_80123A60(void *object_data) {
     s16 clear_rect[4];
     ImageEntry *image_entry;
     u8 *loop_image_base;
-    s32 first_image_id;
     s32 second_image_id;
     s32 image_id;
     s32 slot;
     s16 grid_category;
     s32 category;
+    u8 test_category;
 
     clear_rect[0] = 0x180;
     clear_rect[1] = 0x80;
@@ -41,21 +41,19 @@ void func_80123A60(void *object_data) {
     func_801239B8(&D_8011ACD8, 0x192, 0xD0);
     func_80067014(0);
     category = object->unk_0F;
+    test_category = category;
     slot = 0;
-    if (category == 3) {
-        ASM_KEEP(category);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    if (test_category == 3) {
         slot = category;
-        do {
-            first_image_id = slot * 0x10;
-        } while (0);
-        if (func_80123200(first_image_id & 0xF0) & 0xFF) {
+        second_image_id = slot * 0x10;
+        if (func_80123200(second_image_id & 0xF0) & 0xFF) {
             u8 *image_base = (u8 *)D_80126E98;
             void **image_ptr;
-            image_ptr = (void **)((((slot << 5) + first_image_id) << 2) +
+            image_ptr = (void **)((((slot << 5) + second_image_id) << 2) +
                                   (u32)image_base);
             func_80123928(*image_ptr, 0x180, 0x80);
         }
-        second_image_id = first_image_id + 1;
+        second_image_id += 1;
         if (func_80123200(second_image_id & 0xFF) & 0xFF) {
             func_80123928(D_80126E98[second_image_id].image, 0x1A4, 0xA0);
         }
