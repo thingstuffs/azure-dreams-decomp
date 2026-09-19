@@ -138,6 +138,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
         do {
             effect = func_8003FC64(0x136);
             if (effect != 0) {
+                effect_state = effect + 0x20;
                 PTR(effect, 0x10) = D_80026748;
                 func_8004491C(effect, D_80045340);
                 effect_position = PTR(effect, 8);
@@ -145,9 +146,7 @@ void func_8002614C(void *state_data, void *position_data, void *sprite_data)
                 S32(effect_position, 0) = position[0];
                 S32(effect_position, 4) = position[1];
                 S32(effect_position, 8) = position[2];
-                effect_state = effect + 0x20;
                 S32(effect_state, 4) = S32(state, 4);
-                ASM_KEEP(effect_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 PTR(effect, 0x20) = object;
                 S16(effect_sprite, 0x1E) = 0x1000;
                 S16(effect_sprite, 0x1C) = 0x1000;
