@@ -59,7 +59,7 @@ void func_80170A5C(void)
     u16 source_z;
     u16 object_y;
     S_func_81339A5C_1 *source_pos;
-    register S_func_81339A5C_2 *object_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_func_81339A5C_2 *object_data;
     void *source_data;
     S_func_81339A5C_0 *object;
     S_func_81339A5C_3 *render_flags;
@@ -71,9 +71,9 @@ void func_80170A5C(void)
     object = func_8003FD64(0x12, D_80175D50);
     if (object != NULL) {
         object->unk_10 = &D_8017085C;
+        object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
         func_8004491C(object, &D_80045340);
         render_flags = object->unk_0C;
-        object_data = (S_func_81339A5C_2 *)((u8 *)object + 0x20);
         render_flags->unk_14 =
             (u16)(render_flags->unk_14 & 0xFFF3);
         object_data->unk_24 = source_data;
@@ -104,6 +104,5 @@ void func_80170A5C(void)
     }
 }
 
-/* MECHANISM: A guarded s2 object-base pin preserves the 40-byte ra/s3/s2/s1/s0 frame contract.
-   Volatile halfword copy/read locals retain the retail reload and load-delay nop sequence.
-   Direct signed /0x40 coordinate expressions coalesce each result into retail's v0 web. */
+/* MECHANISM: Computing object_data before the callback makes its natural live range cross the call;
+   the scheduler sinks the addiu back after the call while allocation retains the retail s2/s3 frame. */
