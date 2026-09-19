@@ -18,11 +18,8 @@ extern s16 func_800BCB04(u16, u16, s16);
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 /* Runs actor callbacks, advances motion, and updates ground contact and rendering. */
-void func_800B274C(void *actor_data, void *motion_data, void *render_data) {
+void func_800B274C(u8 *actor, u8 *motion, u8 *render) {
     u16 global_flags = D_80083462;
-    u8 *actor = actor_data;
-    u8 *motion = motion_data;
-    u8 *render = render_data;
     u8 *actor_alias = actor;
     s16 old_state;
     ActorCallback callback;
@@ -71,7 +68,6 @@ void func_800B274C(void *actor_data, void *motion_data, void *render_data) {
     U8_AT(actor, 0x9D)++;
 
 update_height:
-    ASM_USE_NV(actor_alias);
     S32_AT(actor, 0x90) += S32_AT(motion, 0x14);
 
     if (U16_AT(actor, 0x98) & 4) {

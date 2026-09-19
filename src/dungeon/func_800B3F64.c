@@ -56,16 +56,13 @@ void func_800B96C4(void *state, void *position_arg, void *marker_arg) {
 
     {
         void *tracked_target = F(F(state, void *, 0), void *, 0);
-        u32 color;
         if (tracked_target == 0) {
-            color = 0x808080;
+            F(marker_arg, s32, 0xC) = 0x808080;
         } else if (tracked_target == F(D_800E3D7C[0], void *, 0xAC)) {
-            color = 0x101080;
+            F(marker_arg, s32, 0xC) = 0x101080;
         } else {
-            ASM_SCHED_BARRIER();
-            color = 0x801010;
+            F(marker_arg, s32, 0xC) = 0x801010;
         }
-        F(marker_arg, s32, 0xC) = color;
     }
     target = D_800DF364[0];
     target_pos = F((char *)target - 0x18, void *, 0);

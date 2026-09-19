@@ -106,19 +106,16 @@ void func_8017139C(void *controller, void *context, void *entity, void *path_sta
     if (move_result == 3) {
         if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000)) {
             func_80171D3C(controller, context, entity, state);
-            ((S_8017139C_2 *)controller)->unk_8C = 0;
         } else {
             ((S_8017139C_2 *)controller)->unk_9A = 0xF;
-            ((S_8017139C_2 *)controller)->unk_8C = 0;
         }
     } else {
         control_flags = ((S_8017139C_2 *)controller)->unk_98;
         ((S_8017139C_2 *)controller)->unk_9A = 0xF;
         control_flags &= ~8;
         ((S_8017139C_2 *)controller)->unk_98 = control_flags;
-        ASM_KEEP(control_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_8017139C_2 *)controller)->unk_8C = 0;
     }
+    ((S_8017139C_2 *)controller)->unk_8C = 0;
     (*(s32 *)((u8 *)state + (0x1C))) |= 0x40000000;
     if (D_80083462 & 0x80) {
         ((S_8017139C_2 *)controller)->unk_96 = 0;
