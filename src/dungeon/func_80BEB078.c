@@ -55,17 +55,16 @@ extern u8 D_80171014[];
 extern u8 D_8017420C[];
 extern u8 D_8017425C[];
 
-void *func_80170878(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+void *func_80170878(s16 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     void *result = 0;
     void *created;
-    register void *position ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *position;
     S_80170878_3 *part_b;
     S_80170878_4 *actor;
     s16 saved_arg1;
     s32 saved_arg3;
     s16 saved_arg2;
-    register s32 saved_arg0 = (s32)arg0;
     s16 original_arg0;
     void *call_a0;
     void *call_a1;
@@ -75,7 +74,7 @@ void *func_80170878(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     saved_arg3 = arg3;
     saved_arg2 = arg2;
     created = func_8003FD64(0x112, D_80083498);
-    original_arg0 = saved_arg0;
+    original_arg0 = arg0;
     if (created == 0) {
         goto done;
     }
@@ -88,7 +87,7 @@ void *func_80170878(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     position = ((S_80170878_0 *)created)->unk_08;
     ((S_80170878_2 *)position)->unk_0A = saved_arg3;
     part_b = ((S_80170878_0 *)created)->unk_0C;
-    kind = saved_arg0 & 3;
+    kind = arg0 & 3;
     part_b->unk_25 = saved_arg2;
     actor = result;
     part_b->unk_2C = D_8017420C;
@@ -106,7 +105,7 @@ void *func_80170878(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
     call_a0 = created;
-    if (((saved_arg0 & ~3) << 16) == 0) {
+    if (((arg0 & ~3) << 16) == 0) {
         if (!(((S_80170878_1 *)result)->unk_14 & 0x200)) {
             call_a1 = position;
             if (func_800A6D30() & 1) {

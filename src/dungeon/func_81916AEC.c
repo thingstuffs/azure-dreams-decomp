@@ -63,10 +63,9 @@ void *func_800242EC(s32 object_id, void *initial_data, S_800242EC_2 *source)
     void *object;
     S_800242EC_1 *state;
     Copy6 *object_data;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *result;
 
     object = func_8003FC64(0x212);
-    result = NULL;
     if (object != NULL) {
         state = (u8 *)object + 0x20;
         ((S_800242EC_0 *)object)->unk_10 = &D_800241E4;
@@ -90,6 +89,7 @@ void *func_800242EC(s32 object_id, void *initial_data, S_800242EC_2 *source)
         object_data = ((S_800242EC_0 *)object)->unk_08;
         result = object;
         *object_data = *(Copy6 *)initial_data;
+        return object;
     }
-    return result;
+    return NULL;
 }
