@@ -125,7 +125,8 @@ extern void func_8006671C();
 /* Projects depth strips and queues visible textured quad pairs with distance shading. */
 s32 func_800AFFB4(void *origin, void *unused, void *render_data_in, u8 *packet_buffer, volatile ShortArg texture_arg) {
     s32 depth_step;
-    register s32 shade_uv ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 shade_uv;
+    s32 shade_uv_2;
     s32 raw_height;
     register s32 shade_u ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 near_shade;
@@ -204,8 +205,8 @@ next_strip:
         }
         visible_right = 0;
         x_in_bounds = (u32)((((S_800AFFB4_1 *)render_data_in)->unk_FC.at00.v + 0x20) & 0xFFFF) < 0x181U;
-        shade_uv = visible_near | visible_left;
-        visible_left = shade_uv;
+        shade_uv_2 = visible_near | visible_left;
+        visible_left = shade_uv_2;
         if (x_in_bounds) {
             screen_y = ((S_800AFFB4_1 *)render_data_in)->unk_FC.at02.v + 0x20;
             visible_right = screen_y < 0x121U;
@@ -342,8 +343,7 @@ next_strip:
                 (*(volatile s16 *)((u8 *)uv_end + -0xD)) = coord_bits;
                 vertex_value = ((S_800AFFB4_1 *)render_data_in)->unk_14.u16;
                 coord_bits = ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v;
-                shade_uv = ((S_800AFFB4_1 *)render_data_in)->unk_10.u16;
-                ASM_KEEP(coord_bits);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                shade_uv = (*(u16 *)((u8 *)render_data_in + 0x10));
                 coord_bits -= 1;
                 vertex_value += shade_uv;
                 ((S_800AFFB4_4_pre *)uv_end)[-1].unk_00.v2 = coord_bits;
