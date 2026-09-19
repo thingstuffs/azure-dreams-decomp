@@ -15,7 +15,9 @@ CANDIDATES  per pin site: the run of simple statements around it (the RUN statem
             (identifier read/write sets; memory accesses and calls stay ordered among themselves, a statement
             over locals only may cross a call) compiled to the cc1 listing at the row's recipe and compared
             with the pinned text's listing (retail's order).  Listing-exact orders go to `vf` (the byte
-            scorer); the first exact one lands.  A permutation that changes the program cannot produce
+            scorer); the first exact one lands.  Guard review (Opus, round 58): `<<=`/`>>=` are writes,
+            an increment anywhere in a statement writes its variable, a named global is memory, an indirect
+            call is a call, and two casts of one base do not get the field refinement.  A permutation that changes the program cannot produce
             retail's bytes where the compiler keeps dependent statements in order; the dependence guard
             prunes, the scorer decides.
 """
@@ -79,7 +81,7 @@ def top_assign(s):
             depth -= 1
         elif ch == "=" and depth == 0:
             prev, nxt = s[i - 1] if i else "", s[i + 1] if i + 1 < len(s) else ""
-            if nxt == "=" or prev in "=!<>":
+            if nxt == "=" or (prev in "=!<>" and s[i - 2:i] not in ("<<", ">>")):
                 continue
             j = i
             op = ""
@@ -99,7 +101,7 @@ class Stmt:
             s = s[:-1].rstrip()
         self.text = s
         nocast = CAST.sub(" ", s)
-        self.call = bool(re.search(r"\b[A-Za-z_]\w*\s*\(", nocast))
+        self.call = bool(re.search(r"\b[A-Za-z_]\w*\s*\(", nocast)) or bool(re.search(r"[\)\]]\s*\(", nocast))
         deref = bool(re.search(r"->|\.|\[|(?<![\w)\]])\s*\*", nocast))
         self.w, self.r, self.memw, self.memr = set(), set(), False, False
         a = top_assign(s)
@@ -125,6 +127,12 @@ class Stmt:
                 self.w = {a[0]}
             if re.search(r"(?<![\w])(?:\+\+|--)\s*[A-Za-z_]|[A-Za-z_]\w*\s*(?:\+\+|--)", s):
                 self.w |= ids(s)
+        inc = {g1 or g2 for g1, g2 in re.findall(r"(?:\+\+|--)\s*([A-Za-z_]\w*)|([A-Za-z_]\w*)\s*(?:\+\+|--)", nocast)}
+        self.w |= inc; self.r |= inc                              # an increment anywhere in the statement writes its variable
+        if (self.w | self.r) - locals_:
+            self.memr = True                                       # a named global (or volatile local) is memory: a store through a pointer may alias it
+        if self.w - locals_:
+            self.memw = True
         used = self.r | self.w
         self.pure = (not self.call and not self.memw and not self.memr and used <= locals_ and not (used & taken)
                      and not deref)
@@ -139,6 +147,8 @@ class Stmt:
             else:
                 self.loads = set(keys)
             self.fielded = bool(self.stores) if self.memw else (bool(self.loads) and not re.search(r"\[|(?<![\w)\]])\s*\*", nocast))
+            if re.search(r"\(\s*[A-Za-z_][\w \t]*\*+\s*\)\s*[A-Za-z_(]", s) and re.search(r"\)\s*->", s):
+                self.fielded = False                               # `((T *)p)->f`: two casts of one base may name one field
         else:
             self.fielded = False
 
