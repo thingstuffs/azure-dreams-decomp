@@ -25,13 +25,10 @@ unsigned int func_800CEE0C(void *object, s16 entry_index)
     } else {
 #ifdef NON_MATCHING
         state_page = D_80083460 - 0x3460;
-#else
-        state_page = (u8 *)0x80080000;
 #endif
+        state = (u16 *)D_80083460;
         entries = D_800E3648;
-        ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         entry = (u8 *)(((s32)(entry_index << 0x10) >> 0xE) + (u32)entries);
-        state = (u16 *)(state_page + 0x3460);
         if ((s16)(state[14] + *(s8 *)(entry + 2)) >= 0x21) {
             *(u8 *)(entry + 2) = 0x20 - *(u8 *)&state[14];
         }
