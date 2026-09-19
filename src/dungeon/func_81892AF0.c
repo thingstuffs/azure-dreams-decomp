@@ -57,10 +57,8 @@ void *func_81892AF0(s32 state_value, Copy24 *source_transform, s16 variant) {
     S_81892AF0_2 *sprite;
     void *object;
     S_81892AF0_1 *state;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     object = func_8003FC64(0x212);
-    result = NULL;
     if (object != NULL) {
         ((S_81892AF0_0 *)object)->unk_10 = &D_8002420C;
         state = object + 0x20;
@@ -76,10 +74,10 @@ void *func_81892AF0(s32 state_value, Copy24 *source_transform, s16 variant) {
         sprite->unk_1C = 0x1800;
         func_8004491C(object, &D_80045340);
         transform = ((S_81892AF0_0 *)object)->unk_08;
-        result = object;
         *transform = *source_transform;
         ((S_81892AF0_3 *)transform)->unk_14 = 0x10000;
         ((S_81892AF0_3 *)transform)->unk_08 += 0xFD010000;
+        return object;
     }
-    return result;
+    return NULL;
 }
