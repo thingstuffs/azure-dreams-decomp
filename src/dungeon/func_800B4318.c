@@ -1,4 +1,6 @@
 #include "common.h"
+extern u8 D_800E0000[];
+extern u8 D_80080000[];
 
 typedef struct Entity {
     u8 pad00[0x13];
@@ -91,7 +93,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
     s32 height_step;
     s32 trig_value;
     u32 input;
-    register u8 *height_addr ASM_REG("$3");
+    u8 *height_addr;
+    Entity *entity;
 
     ASM_KEEP_NV(render);
     controls_page = (u8 *)0x80080000;
@@ -107,21 +110,16 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
         if (work->timer != 0) {
             work->cur_x += (target_pos[0] - work->cur_x) / work->timer;
             work->cur_y += (target_pos[1] - work->cur_y) / work->timer;
-            if (work->mode != 2) {
+            if ((*(s16 *)((u8 *)work + 0x12)) != 2) {
                 u8 *height_base;
-                register Entity *height_entity ASM_REG("$4");
                 s32 current_height;
                 trig_value = func_800644B8(work->timer << 8);
                 height_base = (u8 *)work->node;
                 current_height = work->y.whole;
-                height_entity = ((Node *)height_base)->entity;
-                height_base = (u8 *)0x800E0000;
-                ASM_KEEP_NV(height_base);
-                height_entity = (Entity *)(u32)height_entity->kind;
-                height_base -= 0x23C0;
-                height_entity = (Entity *)((u8 *)height_entity + (u32)height_base);
-                ASM_KEEP_NV(height_entity);
-                height_step = (target_pos[2] - ((s32)*(u8 *)height_entity << 16) - current_height) / work->timer;
+                entity = ((Node *)height_base)->entity;
+                entity = (Entity *)(u32)entity->kind;
+                entity = (Entity *)((u8 *)entity + (u32)D_800DDC40);
+                height_step = (target_pos[2] - ((s32)*(u8 *)entity << 16) - current_height) / (*(s16 *)((u8 *)work + 0xE));
                 height_step -= (trig_value * work->timer) << 6;
                 work->y.whole += height_step;
                 if (work->node->entity->flags & 0x80000) {
@@ -137,7 +135,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             work->cur_y = target_pos[1];
             if (work->mode != 2) {
                 u8 *height_base;
-                Entity *entity;
                 s32 target_height;
                 height_base = (u8 *)work->node;
                 entity = ((Node *)height_base)->entity;
@@ -163,19 +160,16 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
     if (work->state == 0) {
         if (work->timer == 0) {
             if ((*(u32 *)(controls + 0x10) & 2) != 0) {
-                u8 *objects_page;
                 u8 *status_page;
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *left;
-                objects_page = (u8 *)0x800E0000;
-                left = (*(GlobalObj **)(objects_page + 0x3D7C))->left;
+                left = (*(GlobalObj **)D_800E3D7C)->left;
                 if (func_800BA33C(left)) {
-                    status_page = (u8 *)0x80080000;
-                    ASM_KEEP_NV(status_page);
+                    status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->left != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)(objects_page + 0x3D7C);
+                        object = *(GlobalObj **)D_800E3D7C;
                         work->timer = new_timer;
                         work->node = (Node *)&object->left;
                         if (work->mode == 2) {
@@ -185,19 +179,16 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
                 }
             }
             if ((*(u32 *)(controls + 0x10) & 1) != 0) {
-                u8 *objects_page;
                 u8 *status_page;
                 s32 new_timer;
                 GlobalObj *object;
                 Entity *right;
-                objects_page = (u8 *)0x800E0000;
-                right = (*(GlobalObj **)(objects_page + 0x3D7C))->right;
+                right = (*(GlobalObj **)D_800E3D7C)->right;
                 if (func_800BA33C(right)) {
-                    status_page = (u8 *)0x80080000;
-                    ASM_KEEP_NV(status_page);
+                    status_page = D_80080000;
                     if ((*(GlobalObj **)(status_page + 0x14A8))->right != work->node->entity) {
                         new_timer = 8;
-                        object = *(GlobalObj **)(objects_page + 0x3D7C);
+                        object = *(GlobalObj **)D_800E3D7C;
                         work->timer = new_timer;
                         work->node = (Node *)&object->right;
                         if (work->mode == 2) {
@@ -223,28 +214,21 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             work->state = 1;
             if (work->mode == 0) {
                 if (work->node->entity->kind == 0) {
-                    u8 *objects_page;
                     s32 action;
-                    register s32 amount ASM_REG("$6");
+                    s32 amount;
                     GlobalObj *object;
-                    result = func_80098C80(work->handle);
+                    result = func_80098C80(((Work *)work)->handle);
                     action = 0x48;
-                    ASM_KEEP_DEP_NV(action, result);
                     result = (s32)((u32)result << 16);
                     amount = result >> 16;
-                    objects_page = (u8 *)0x800E0000;
-                    ASM_KEEP_DEP_NV(objects_page, amount);
-                    object = *(GlobalObj **)(objects_page + 0x3D7C);
+                    object = *(GlobalObj **)D_800E3D7C;
                     func_8009F644(object, action, amount, 0);
                 } else {
-                    u8 *objects_page;
-                    register s32 amount ASM_REG("$7");
+                    s32 amount;
                     GlobalObj *object;
-                    result = func_80098C80(work->handle);
+                    result = func_80098C80((*(s32 *)((u8 *)work + 0x2C)));
                     amount = (s16)result;
-                    objects_page = (u8 *)0x800E0000;
-                    ASM_KEEP_DEP_NV(objects_page, amount);
-                    object = *(GlobalObj **)(objects_page + 0x3D7C);
+                    object = *(GlobalObj **)D_800E3D7C;
                     func_8009F644(object, 0x50,
                                    work->node->entity == object->right, amount);
                 }
@@ -258,10 +242,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             s32 *target_pos;
             count = 8;
             ASM_KEEP_NV(count);
-            state_node = work->node;
-            ASM_SCHED_BARRIER();
-            counter_base = (u8 *)0x800E0000;
-            ASM_KEEP_NV(counter_base);
+            state_node = (*(Node **)((u8 *)work + 0));
+            counter_base = (u8 *)D_800E0000;
             entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)entity - 0x18);
             func_800C77D0((u8 *)entity - 0x20, target_pos, count,
@@ -280,11 +262,9 @@ finish:
         {
             u8 *flags_page;
             u16 work_flags;
-            work_flags = ((u16 *)work)[-1];
-            ASM_KEEP(work_flags);
+            work_flags = (*(u16 *)((u8 *)work + -2));
             flags_page = (u8 *)0x80080000;
-            ASM_KEEP_NV(flags_page);
-            ((u16 *)work)[-1] = work_flags | 0x8000;
+            (*(u16 *)((u8 *)work + -2)) = work_flags | 0x8000;
             *(u32 *)(flags_page + 0x14A0) |= 0x8000;
         }
         return;
