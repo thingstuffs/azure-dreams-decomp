@@ -17,3 +17,4 @@
 {"date": "2026-09-19T02:40Z", "gemini": {"model": "gemini-3.8-flash-high", "ok": true, "pack": "r58_order15", "result": "landed rows of the 17-32-word classes (see commit); briefed packs continue"}, "note": "Gemini queue drained; codex class packs queued for the reset"}
 {"date": "2026-09-19T03:00Z", "gemini": {"model": "gemini-3.8-flash-high", "ok": true, "pack": "r58_order16", "result": "0 of 12 (3-6-pin rows of the 9-16-word classes, exemplar-briefed)"}, "note": "Gemini queue stopped: small-residue pool drained, multi-pin mid residues do not pay with flash; codex sol takes the mid/large/far packs after its reset"}
 {"date": "2026-09-19T06:05Z", "probe": "codex sol reply OK after the reset", "codex": {"model": "gpt-5.6-sol", "ok": true}, "note": "pack r59_sol_residues launched"}
+{"date": "2026-09-19T06:55Z", "codex": {"pack": "r59_luna_changed_small", "candidates": 0}, "note": "class-grouped pack with solved exemplars"}
