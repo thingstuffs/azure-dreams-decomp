@@ -61,6 +61,7 @@ typedef struct S_8017472C_6 {
 
 
 extern s32 func_8003F270();
+extern int abs(int);
 extern void func_80047784();
 extern void *func_800A05A4();
 extern void func_800A2B04();
@@ -197,17 +198,10 @@ record_setup:
             ((S_8017472C_1 *)actor)->unk_2A,
             0x10);
         ((S_8017472C_1 *)actor)->unk_60 = target;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        target_x = ((S_8017472C_1 *)actor)->unk_72.u;
-        target_y = ((S_8017472C_1 *)actor)->unk_73.u;
-        if (target_x < 0) {
-            target_x = -target_x;
-        }
-        if (target_y < 0) {
-            target_y = -target_y;
-        }
-        ((S_8017472C_1 *)actor)->unk_72.s = target_x;
-        ((S_8017472C_1 *)actor)->unk_73.s = target_y;
+        ((S_8017472C_1 *)actor)->unk_72.s =
+            abs(((S_8017472C_1 *)actor)->unk_72.u);
+        ((S_8017472C_1 *)actor)->unk_73.s =
+            abs(((S_8017472C_1 *)actor)->unk_73.u);
 
 move_setup:
         if (func_800A94A0(actor, move, use_player_target,

@@ -64,57 +64,56 @@ void func_80089588(void) {
     {
         s32 cmd_value;
         cmd_value = 0x2A000000;
-        ((S_80089588_1 *)packet)->unk_04 = cmd_value;
+        (*(s32 *)((u8 *)packet + 4)) = cmd_value;
         cmd_value = 1;
-        ((S_80089588_1 *)packet)->unk_10 = cmd_value;
-        ((S_80089588_1 *)packet)->unk_08 = cmd_value;
+        (*(s16 *)((u8 *)packet + 0x10)) = cmd_value;
+        (*(s16 *)((u8 *)packet + 8)) = cmd_value;
         cmd_value = 0x100;
-        ((S_80089588_1 *)packet)->unk_14 = cmd_value;
-        ((S_80089588_1 *)packet)->unk_0C.s = cmd_value;
+        (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
+        (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
     context_slot = (u32) &D_80083160;
     saved_alternate = alternate_buffer;
     {
         register s32 strip_top;
         if (alternate_buffer != 0) {
-            ASM_SCHED_BARRIER(); /* MATCH: keep the width arms separate so the shared store has a jump. */
-            ((S_80089588_1 *)packet)->unk_0E = 0xE0;
+            (*(u16 *)((u8 *)packet + 0xE)) = 0xE0;
         } else {
-            ((S_80089588_1 *)packet)->unk_0E = 0x1C0;
+            (*(u16 *)((u8 *)packet + 0xE)) = 0x1C0;
         }
     }
-    strip_y = ((S_80089588_1 *)packet)->unk_0E;
-    ((S_80089588_1 *)packet)->unk_03 = 5;
-    ((S_80089588_1 *)packet)->unk_0A = strip_y;
-    ((S_80089588_1 *)packet)->unk_16 = strip_y + 0xE;
-    ((S_80089588_1 *)packet)->unk_12 = strip_y + 0xE;
+    strip_y = (*(u16 *)((u8 *)packet + 0xE));
+    (*(s8 *)((u8 *)packet + 3)) = 5;
+    (*(u16 *)((u8 *)packet + 0xA)) = strip_y;
+    (*(s16 *)((u8 *)packet + 0x16)) = strip_y + 0xE;
+    (*(s16 *)((u8 *)packet + 0x12)) = strip_y + 0xE;
     func_8006658C(((S_80089588_2 *)context_slot)->unk_00 + 0x830, packet);
     packet += 0x18;
     {
         s32 cmd_value;
         cmd_value = 0x2A000000;
-        ((S_80089588_1 *)packet)->unk_04 = cmd_value;
+        (*(s32 *)((u8 *)packet + 4)) = cmd_value;
         cmd_value = 1;
-        ((S_80089588_1 *)packet)->unk_10 = cmd_value;
-        ((S_80089588_1 *)packet)->unk_08 = cmd_value;
+        (*(s16 *)((u8 *)packet + 0x10)) = cmd_value;
+        (*(s16 *)((u8 *)packet + 8)) = cmd_value;
         cmd_value = 0x100;
-        ((S_80089588_1 *)packet)->unk_14 = cmd_value;
-        ((S_80089588_1 *)packet)->unk_0C.u = cmd_value;
+        (*(s16 *)((u8 *)packet + 0x14)) = cmd_value;
+        (*(s16 *)((u8 *)packet + 0xC)) = cmd_value;
     }
     {
         s32 strip_top;
         strip_top = saved_alternate;
         if (strip_top != 0) {
-            ((S_80089588_1 *)packet)->unk_0E = 0xE0;
+            (*(u16 *)((u8 *)packet + 0xE)) = 0xE0;
         } else {
-            ((S_80089588_1 *)packet)->unk_0E = 0x1C0;
+            (*(u16 *)((u8 *)packet + 0xE)) = 0x1C0;
         }
     }
-    other_strip_y = ((S_80089588_1 *)packet)->unk_0E;
-    ((S_80089588_1 *)packet)->unk_03 = 5;
-    ((S_80089588_1 *)packet)->unk_0A = other_strip_y;
-    ((S_80089588_1 *)packet)->unk_16 = other_strip_y + 0xE;
-    ((S_80089588_1 *)packet)->unk_12 = other_strip_y + 0xE;
+    other_strip_y = (*(u16 *)((u8 *)packet + 0xE));
+    (*(s8 *)((u8 *)packet + 3)) = 5;
+    (*(u16 *)((u8 *)packet + 0xA)) = other_strip_y;
+    (*(s16 *)((u8 *)packet + 0x16)) = other_strip_y + 0xE;
+    (*(s16 *)((u8 *)packet + 0x12)) = other_strip_y + 0xE;
     func_8006658C(((S_80089588_2 *)context_slot)->unk_00 + 0x7B0, packet);
     packet += 0x18;
     func_80067EF4(packet, 0, 1);
