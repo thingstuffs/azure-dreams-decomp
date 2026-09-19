@@ -82,15 +82,12 @@ active:
 
     upload_rect = &texture_rect;
     texture_pixels = D_8012E998;
-    ASM_KEEP(texture_pixels);
     texture_height = 0x80;
     texture_rect.x = (((S_80124DB0_0 *)loader)->unk_16 << 6) + 0x240;
     texture_rect.y = texture_height;
     texture_rect.w = 0x40;
     texture_rect.h = texture_height;
-    do {
-        func_800672D8(upload_rect, texture_pixels, texture_height);
-    } while (0);
+    func_800672D8(upload_rect, texture_pixels);
 
     ((S_80124DB0_1 *)((u8 *)loader + ((S_80124DB0_0 *)loader)->unk_16))->unk_17 =
         ((S_80124DB0_0 *)loader)->unk_13;
@@ -100,6 +97,5 @@ active:
     ((S_80124DB0_0 *)loader)->unk_06 = 0x19;
 }
 
-/* MECHANISM: Sibling 8-byte Rect locals force the 0x30 frame, while the true-space
-   definition recovers the non-state-0/1 jump as the shared local epilogue. A saved
-   one-value plus short a0/a1/a2 ABI pins close the final call setup at cdk-G0. */
+/* MECHANISM: The real two-argument upload ABI leaves texture_height naturally in a2,
+   so the rectangle stores and call setup share it without a pin or an a3 copy. */
