@@ -1215,7 +1215,7 @@
       },
       "source": {
         "path": "src/dungeon/func_8008EE88.c",
-        "sha256": "e1e8b2857ae1036d4b253d062848c89d0608906aa11edebed7d510304122cb0d"
+        "sha256": "50e7ca01bcbf557a156fcddb7f4e910db7ef2f8607c007f8d438727610b8c5bd"
       },
       "retail": {
         "identity": {
@@ -1289,6 +1289,14 @@
             "tested": "Six bounded source/removal controls, existing allocator dumps and exact compiler binary/source corroboration",
             "untested": "Grounded four-byte entry traversal derived from initializer/reader evidence; independent allocation-null/address and compiler provenance facts outside these candidates"
           }
+        },
+        {
+          "id": "r55_mechanical_landing",
+          "kind": "observation",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round57_20260918.json"
+          },
+          "summary": "Round 58 (2026-09-19): t74_multiset landing (round 58): a chained assignment split, one pin fell on dungeon/func_80F90E88. The live source moved from e1e8b2857ae1 to 50e7ca01bcbf through a gated mechanical landing at the recorded recipe (strict row bytes, covering windows, SLUS). Earlier evidence items describe the previous text."
         }
       ],
       "next_experiment": {
@@ -3559,7 +3567,7 @@
       },
       "source": {
         "path": "src/dungeon/func_80F90E88.c",
-        "sha256": "6b94c776ef9dfbf4d39017811e9519e65e9dbb3fb559e4e0285d0b613f08f921"
+        "sha256": "3972b533feafa2d15c3a03ee6b98522e6b37d19d4bbe7e4c88947bd938caafe4"
       },
       "retail": {
         "identity": {
@@ -3575,8 +3583,8 @@
       },
       "candidate": {
         "path": "src/dungeon/func_80F90E88.c",
-        "sha256": "6b94c776ef9dfbf4d39017811e9519e65e9dbb3fb559e4e0285d0b613f08f921",
-        "base_source_sha256": "f443ec1fd713e780f261924a78cbab57e4b207b53271a64196e72b42e62cd4a7",
+        "sha256": "3972b533feafa2d15c3a03ee6b98522e6b37d19d4bbe7e4c88947bd938caafe4",
+        "base_source_sha256": "6b94c776ef9dfbf4d39017811e9519e65e9dbb3fb559e4e0285d0b613f08f921",
         "recipe": "2.8.1-G0 -mno-split-addresses"
       },
       "causal": {
@@ -3605,6 +3613,14 @@
           "artifact": {
             "path": "docs/evidence/pin_research_round54_20260917.json"
           }
+        },
+        {
+          "id": "r55_mechanical_landing",
+          "kind": "observation",
+          "artifact": {
+            "path": "docs/evidence/pin_research_round57_20260918.json"
+          },
+          "summary": "Round 58 (2026-09-19): t74_multiset landing (round 58): a chained assignment split, one pin fell on dungeon/func_80F90E88. The live source moved from 6b94c776ef9d to 3972b533feaf through a gated mechanical landing at the recorded recipe (strict row bytes, covering windows, SLUS). Earlier evidence items describe the previous text."
         }
       ],
       "next_experiment": null,
