@@ -70,7 +70,7 @@ extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(s32);
 extern void func_800A56E0(s32);
-extern void func_800A6508(s32, s32, s32, s32);
+extern void func_800A6508();
 extern s32 func_800A6D30(void *, s32, s32, s32);
 
 extern u8 D_80045340;
@@ -166,16 +166,7 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
     }
 
     if (((S_800CD004_0 *)source)->unk_13 == 0) {
-        s32 fallback_arg_0;
-        s32 fallback_arg_1;
-        s32 fallback_arg_2;
-        s32 fallback_arg_3;
-
-        ASM_SET(fallback_arg_0);
-        ASM_SET(fallback_arg_1);
-        ASM_SET(fallback_arg_2);
-        ASM_SET(fallback_arg_3);
-        func_800A6508(fallback_arg_0, fallback_arg_1, fallback_arg_2, fallback_arg_3);
+        func_800A6508();
     }
     return 1;
 

@@ -34,8 +34,8 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     u8 *loop_y_table;
 
     found = 0;
-    direction = (heading >> 9) & 7;
-    ASM_KEEP_NV(direction);
+    direction = (heading >> 9);
+    direction &= 7;
     signed_limit = (u8 *)D_8006CCD8;
     offset_or_x_step = direction * 2;
     x_step = signed_limit + offset_or_x_step;

@@ -145,7 +145,7 @@ void func_801757E0(void *actor, void *motion, void *animation, void *entity)
     void *particle_transform;
     void *owner;
     Pair16 *directions;
-    register s32 spin_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 spin_angle;
 
 #define motion motion
 
@@ -194,7 +194,8 @@ state_1:
         if (particle != 0) {
             register Pair16 *particle_directions ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-            particle_work = (u8 *)particle + 0x20;
+            particle_work = (u8 *)particle;
+            particle_work += 0x20;
             ((S_801757E0_3 *)particle_work)->unk_1E = 0x28;
             ((S_801757E0_4 *)particle)->unk_10 = D_80170B48;
             func_8004491C(particle, &D_80045340);
@@ -371,8 +372,8 @@ state_3:
         ((S_801757E0_0 *)actor)->unk_96.u = spin_timer;
         if ((spin_timer & 3) == 0) {
 
-            spin_angle = ((S_801757E0_8 *)entity)->unk_2A.s + 0x200;
-            ASM_KEEP(spin_angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            spin_angle = ((S_801757E0_8 *)entity)->unk_2A.s;
+            spin_angle += 0x200;
 
             if (spin_angle >= 0x1000) {
                 spin_angle -= 0x1000;
@@ -440,8 +441,8 @@ state_7:
         ((S_801757E0_0 *)actor)->unk_96.u = spin_timer;
         if ((spin_timer & 3) == 0) {
 
-            spin_angle = ((S_801757E0_8 *)entity)->unk_2A.s + 0x200;
-            ASM_KEEP(spin_angle);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            spin_angle = ((S_801757E0_8 *)entity)->unk_2A.s;
+            spin_angle += 0x200;
 
             if (spin_angle >= 0x1000) {
                 spin_angle -= 0x1000;

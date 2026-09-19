@@ -1,19 +1,16 @@
 #include "common.h"
-
 #ifdef NON_MATCHING
 #define ASM_KEEP(value) ((void)0)
 static volatile s32 hidden_v1;
 #elif __GNUC__ < 3
-#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
-register s32 hidden_v1 ASM_REG("$3");
 #else
-s32 hidden_v1;
 #endif
 
 /* Set two entry bytes to complementary values derived from the amount. */
 void *func_800B512C(void *entry, s16 amount) {
     u8 *base = entry;
     s32 remaining;
+    s32 hidden_v1;
 
     if (amount < 300) {
         s32 quotient = amount / 4;

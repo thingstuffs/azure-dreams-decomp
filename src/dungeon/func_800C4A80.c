@@ -59,6 +59,7 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     u16 *offset_y;
     u16 height;
     register u32 bounds_page ASM_REG("$2");
+    u32 bounds_page_2;
     s32 early_result;
     u32 scaled_y;
     register u32 scaled_x ASM_REG("$3");
@@ -75,13 +76,12 @@ s32 func_800CA1E0(u32 action_flags, void *position, void *volatile object, u32 h
     lookup_arg = (action_flags >> 9) & 7;
     direction = lookup_arg;
     ASM_KEEP_NV(direction);
-    bounds_page = (u32)((s32)(D_8006CCD8));
-    direction_offset = direction << 1;
-    ASM_KEEP_NV(direction_offset);
-    step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page);
+    bounds_page_2 = (u32)((s32)(D_8006CCD8));
+    direction_offset = direction;
+    direction_offset <<= 1;
+    step_x = (u16 *)((u32)direction_offset + (u32)(u16 *)(s32)bounds_page_2);
     coord_value = coords->unk_24.s;
     bounds_page = (u32)(*step_x);
-    ASM_KEEP_NV(direction);
     saved_height_offset = entry_height_offset;
     lookup_arg = direction;
     target_x = coord_value + (s32)bounds_page;

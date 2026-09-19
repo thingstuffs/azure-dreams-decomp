@@ -139,7 +139,7 @@ void BODY_NAME(void *root_data, void *position_data, void *target_data)
     S_81263000_6 *motion_part;
     s8 phase;
     s16 shade_a;
-    register s32 reverse_phase ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 reverse_phase;
 
     owner = ((S_81263000_0 *)root)->unk_AC;
     position_data = owner->unk_0C;
@@ -195,7 +195,8 @@ void BODY_NAME(void *root_data, void *position_data, void *target_data)
     if (((S_81263000_0 *)root)->unk_B6 == 2) {
         phase = ((S_81263000_2 *)position_data)->unk_04.s8;
         if (phase < 8) {
-            reverse_phase = 7 - phase;
+            reverse_phase = 7;
+            reverse_phase -= phase;
         } else {
             reverse_phase = phase - 8;
         }

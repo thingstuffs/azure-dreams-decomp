@@ -143,8 +143,8 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_in_tick >> 31;
         {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  }
-        cycle_quotient = ((product_result + cycle_value) >> 2) - div_adjust;
-        ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        cycle_quotient = ((product_result + cycle_value) >> 2);
+        cycle_quotient -= div_adjust;
         cycle_value = cycle_value - (cycle_quotient * 7);
         cycle_value = cycle_value + 1;
         packed_channel = (s32) ((u32) cycle_value << 16);
@@ -192,8 +192,8 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) hold_tick >> 31;
         {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  }
-        cycle_quotient = ((product_result + cycle_value) >> 2) - div_adjust;
-        ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        cycle_quotient = ((product_result + cycle_value) >> 2);
+        cycle_quotient -= div_adjust;
         cycle_value = cycle_value - (cycle_quotient * 7);
         cycle_value = cycle_value + 1;
         cycle_value = (s32) ((u32) cycle_value << 16);
@@ -231,8 +231,8 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_out_tick >> 31;
         {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  }
-        cycle_quotient = ((product_result + fade_out_remainder) >> 2) - div_adjust;
-        ASM_KEEP_NV(cycle_quotient);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        cycle_quotient = ((product_result + fade_out_remainder) >> 2);
+        cycle_quotient -= div_adjust;
         fade_out_remainder = fade_out_remainder - (cycle_quotient * 7);
         fade_out_remainder = fade_out_remainder + 1;
         packed_color = (s32) ((u32) fade_out_remainder << 16);
@@ -242,12 +242,11 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
             fade_work = fade_out_color + 3;
         }
         fade_out_red = fade_work >> 2;
-        fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
         fade_work = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
-        ASM_KEEP_NV(fade_work);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         end_frame = 0x30;
-        ASM_KEEP_NV(end_frame);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         fade_work = end_frame - fade_work;
+        ASM_KEEP_NV(end_frame);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
         product_result = M2C_MUL_LO(fade_out_red, fade_work << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
         ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */

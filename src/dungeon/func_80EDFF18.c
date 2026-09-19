@@ -70,8 +70,8 @@ void *func_80171718(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         goto done;
     }
 
-    result = (u8 *)object + 0x20;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    result = (u8 *)object;
+    result += 0x20;
     ((S_80171718_0 *)object)->unk_10 = D_801718E0;
     ((S_80171718_1 *)result)->unk_13 = 34;
     func_8004491C(object, &D_80045340);

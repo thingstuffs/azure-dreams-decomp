@@ -42,7 +42,7 @@ s32 func_8005947C(S_80085FA8 *stream)
     s16 status;
     register s32 first_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 second_data;
-    register s32 data_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 data_count;
     s32 input_byte;
     register s32 event_byte ASM_REG("$4");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     u32 status_group;
@@ -61,7 +61,8 @@ s32 func_8005947C(S_80085FA8 *stream)
         }
         stream->f49 = 0;
     }
-    status_group = (u32)status >> 4;
+    status_group = (u32)status;
+    status_group >>= 4;
     data_count = D_800737DC[status_group & 0xF];
     if (data_count != 0) {
         if (stream->f49 != 0) {

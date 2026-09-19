@@ -211,8 +211,8 @@ void func_80025374(State *state_arg, Vec12 *position_arg, Graphic *graphic_arg)
     ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     state_index = state->stateA;
     ASM_KEEP(state_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    data_base = (u8 *)entity - 0x20;
-    ASM_KEEP_NV(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    data_base = (u8 *)entity;
+    data_base -= 0x20;
     dispatch = (u32)state_index < 5;
     source_or_spawn = ((EntityHeader *)data_base)->source8;
     if (!dispatch) {

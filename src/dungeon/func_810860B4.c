@@ -59,9 +59,8 @@ typedef struct S_801738B4_4 {
 } S_801738B4_4;   /* global in func_801738B4 */
 
 /* Advances an actor's item-use sequence and resets its state when the action ends. */
-void func_801738B4(void *action_ctx, void *scene_object, void *entity_arg, void *actor_arg)
+void func_801738B4(void *action_ctx, void *scene_object, void *entity, void *actor_arg)
 {
-    register void *entity ASM_REG("$18") = entity_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$17") = actor_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     static void *const keep_cases[] = {
         &&case_1, &&case_2, &&case_3, &&case_4,
@@ -142,7 +141,8 @@ item_2:
     goto have_item;
 case_1:
 item_1:
-    item = (u8 *)actor + 8;
+    item = (u8 *)actor;
+    item += 8;
     goto have_item;
 case_4:
 no_item:
@@ -286,6 +286,5 @@ state_3:
 done:
 epilogue:
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return;
 }

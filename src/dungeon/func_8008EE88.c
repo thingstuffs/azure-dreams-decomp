@@ -204,8 +204,8 @@ void func_800945E8(void *input_state) {
 
         slot_index = 1;
         index_cursor = (u8 *)0x80010000;
-        ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        src_cursor = (u8 *)state + 4;
+        src_cursor = (u8 *)state;
+        src_cursor += 4;
         do {
             lookup_base = (void *)0x80010248;
             entry_size = 4;

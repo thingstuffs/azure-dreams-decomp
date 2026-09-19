@@ -55,8 +55,8 @@ S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
   }
   else
   {
-    ASM_KEEP_NV(entries);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    slot_data = (u8 *) entries + 8;
+    slot_data = (u8 *) entries;
+    slot_data += 8;
     if (payload != 0)
     {
       slot_data = (u8 *) (write_index * 24 + (u32) slot_data);
