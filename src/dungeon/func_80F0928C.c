@@ -52,10 +52,7 @@ void func_80170A8C(void *entity_state, void *entity_motion, void *entity_part)
 
         early_callback = CB_AT(entity_state, 0x8C);
         if (early_callback == (EntityCallback)D_80170F74) {
-            register void *incoming_state ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            ASM_KEEP(incoming_state);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(incoming_state, entity_motion, entity_part, incoming_state);
+            early_callback(entity_state, entity_motion, entity_part, entity_state);
         } else {
             U8_AT(entity_state, 0x71) &= 0x7F;
         }

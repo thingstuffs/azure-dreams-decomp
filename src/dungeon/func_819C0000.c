@@ -174,19 +174,14 @@ state_two:
                 do {
                     s32 point_offset;
                     s32 offset_x;
-                    register u32 tile_x ASM_REG("$5");
+                    u32 tile_x;
                     u16 tile_y;
                     point_offset = column * sizeof(LocalPoint) +
                                    row * 3 * sizeof(LocalPoint);
                     point = (LocalPoint *)((u8 *)&offsets + point_offset);
-                    ASM_KEEP_NV(point);
-                    tile_x = point->x;
-                    tile_y = point->y;
-                    tile_x = (base_x + tile_x) & 0xFFFF;
-                    tile_y = base_y + tile_y;
                     func_80025710(world,
-                                  tile_x,
-                                  tile_y,
+                                  (tile_x = point->x, tile_x = (base_x + tile_x) & 0xFFFF),
+                                  (tile_y = base_y + point->y),
                                   S16_AT(position_in, 0xA),
                                   (s16)(U16_AT(position_in, 0xA) - 0x40));
                     offset_x = S16_AT(point, 0);
@@ -196,8 +191,7 @@ state_two:
                                   S16_AT(position_in, 0xA), S16_AT(position_in, 0x16));
                     row++;
                 } while (row < 3);
-                column++;
-            } while (column < 3);
+            } while (++column < 3);
 
             next_tick = U16_AT(effect_in, 0x30) + 1;
             U16_AT(effect_in, 0x30) = next_tick;
