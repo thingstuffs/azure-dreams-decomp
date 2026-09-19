@@ -90,7 +90,7 @@ void func_8016EB14(void)
     void *owner_object;
     S_8016EB14_5 *source_pos;
     S_8016EB14_6 *owner_state;
-    register void *object_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    void *object_state;
     void *spawned_object;
     S_8016EB14_2 *render_part;
     S_8016EB14_4 *spawn_pos;
@@ -103,10 +103,10 @@ void func_8016EB14(void)
     spawned_object = func_8003FC64(0x12);
     if (spawned_object != 0) {
         ((S_8016EB14_1 *)spawned_object)->unk_10 = &D_8016E528;
+        object_state = (u8 *)spawned_object + 0x20;
         func_8004491C(spawned_object, &D_80045340);
         render_part = ((S_8016EB14_1 *)spawned_object)->unk_0C;
         render_part->unk_14 &= 0xFFF3;
-        object_state = (u8 *)spawned_object + 0x20;
         ((S_8016EB14_3 *)object_state)->unk_24 = owner_state;
         spawn_pos = ((S_8016EB14_1 *)spawned_object)->unk_08;
         spawn_pos->unk_02 = source_pos->unk_02.s;
