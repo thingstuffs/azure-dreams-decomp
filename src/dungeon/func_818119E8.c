@@ -15,21 +15,14 @@ extern Vec3 D_8002E5E8;
 s32 func_800269E8(void *object)
 {
     Vec3 *initial_pos;
-    s32 handle;
     s32 success = 0;
 
-    handle = func_80048EE4((s8 *)object + 0x74, 4);
-    *(s32 *)((s8 *)object + 0x70) = handle;
-    if (handle != 0) {
-        register s32 call_arg ASM_REG("$4") = handle;
-
-        do {
-        } while (0);
+    if ((*(s32 *)((s8 *)object + 0x70) = func_80048EE4((s8 *)object + 0x74, 4)) != 0) {
         initial_pos = &D_8002E5E8;
         *(s32 *)((s8 *)object + 0x54) = initial_pos->x;
         *(s32 *)((s8 *)object + 0x58) = initial_pos->y;
         *(s32 *)((s8 *)object + 0x5C) = initial_pos->z;
-        func_800491CC(call_arg, (s8 *)object + 0x54, 4);
+        func_800491CC(*(s32 *)((s8 *)object + 0x70), (s8 *)object + 0x54, 4);
         success = 1;
     }
     return success;
