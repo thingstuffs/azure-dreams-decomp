@@ -9,6 +9,9 @@
 # Moved from the session scratchpad (land20.sh ... land25.sh) in round 24.
 set -u
 cd "$(dirname "$0")/../.."
+# one landing at a time: two concurrent landings (an orchestrator's and a hand-queued one) both rewrite src/ and
+# gate; the second waits here on a cross-process lock (2026-09-19)
+mkdir -p build_ovl/work; exec 9>build_ovl/work/land.lock; flock 9
 TAG=${1:?tag}; shift
 LANES="$*"; [ -n "$LANES" ] || { echo "usage: land_lanes.sh <tag> <lane>..."; exit 1; }
 if pgrep -f "[c]odex exec" >/dev/null; then echo "a codex lane is running: wait for it"; exit 1; fi
