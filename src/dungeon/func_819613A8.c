@@ -107,8 +107,8 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         object->field10 = height_row;
         func_8004491C((TempObj *)y_or_color, &D_800269CC);
         column = (s16) tile_x;
-        x_offset = (column - 3) << 6;
-        ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        x_offset = (column - 3);
+        x_offset <<= 6;
         row_or_bottom_y = (s16) row_offset;
         height_row = D_8002745C;
         row_offset = row_or_bottom_y * 0x10;

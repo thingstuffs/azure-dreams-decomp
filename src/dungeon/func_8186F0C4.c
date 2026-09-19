@@ -67,8 +67,8 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     copy_page = (u8 *)0x80020000;
 #endif
     ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    copy_source = copy_page + 0x4038;
-    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    copy_source = copy_page;
+    copy_source += 0x4038;
     memcpy(direction_offsets, copy_source, 12);
     memcpy((u8 *)direction_offsets + 12, copy_source + 12, 12);
     memcpy((u8 *)direction_offsets + 24, copy_source + 24, 8);
@@ -240,7 +240,7 @@ state1:
             u32 raw_timer = U8_AT(effect_data, 0x7B);
             s32 timer_copy;
             s32 duration_squared;
-            register s16 raw_reload ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s16 raw_reload;
             s32 timer_reload;
             s32 next_state;
 
@@ -252,7 +252,8 @@ state1:
             *(volatile s16 *)(effect_data + 0x82) = 0;
             raw_reload = *(volatile u8 *)(effect_data + 0x7B);
             next_state = U16_AT(effect_data, 0x0A);
-            timer_reload = (s32)(raw_reload << 24) >> 24;
+            timer_reload = (s32)(raw_reload << 24);
+            timer_reload >>= 24;
             next_state++;
             S16_AT(effect_data, 0x0A) = next_state;
             S16_AT(effect_data, 0x88) = timer_reload;

@@ -288,8 +288,8 @@ draw_object:
         midpoint_x >>= 1;
         projection_scratch = midpoint_x;
         side = 1;
-        bottom_y = max_xy >> 0x10;
-        ASM_USE(bottom_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        bottom_y = max_xy;
+        bottom_y >>= 0x10;
         ot_offset = depth * 4;
         tag_mask = 0xFF000000;
 draw_side:

@@ -15,11 +15,11 @@ extern void func_8016EED8(void);
 extern void func_8016EF00(void);
 extern void func_8016AA98(void);
 
-u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
+u8 *func_8016A894(s32 arg0, u8 arg1, u16 arg2, s16 arg3)
 {
     register u8 byte_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 half_arg3 ASM_REG("$17") = arg3;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u8 byte_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 half_arg3 = arg3;
+    u8 byte_arg2 = arg2;
     u8 *result;
     u8 *allocation;
     u8 *part_a;
@@ -35,7 +35,8 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u8 arg2, s16 arg3)
     }
 
     saved_arg0 = arg0;
-    result = allocation + 0x20;
+    result = allocation;
+    result += 0x20;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     result[0x13] = 14;
     func_8004491C(allocation, func_80045340);

@@ -240,11 +240,11 @@ allocate_effect:
     ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     call_data = (u8 *)call_data + 0x3498;
     effect = func_8003FD64((s32)call_target, call_data);
-    effect_body = (u8 *)effect + 0x20;
+    effect_body = (u8 *)effect;
+    effect_body += 0x20;
     if (effect == 0) {
         goto next_effect;
     }
-    ASM_KEEP(effect_body);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ((S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
     ((S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
     ((S_801748D0_4 *)effect)->unk_10 = D_80170AD0;

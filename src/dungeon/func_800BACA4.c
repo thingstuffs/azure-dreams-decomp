@@ -95,7 +95,8 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     render_state_slot = &D_80083160;
     render_state = *render_state_slot;
     prim = (Primitive *)render_state->nextPrim;
-    prim_list = (u8 *)render_state + 0x8B0;
+    prim_list = (u8 *)render_state;
+    prim_list += 0x8B0;
     first_prim = prim;
     render_state->nextPrim = (u8 *)prim + 0xC;
     buffer_diff = (u32)render_state ^ (u32)D_801C9E40;
@@ -104,7 +105,6 @@ void func_800C0404(DungeonObject *obj, MotionState *motion, EffectState *effect)
     use_alt_buffer = buffer_diff != 0;
     func_80067E2C(first_prim, call_state, render_state);
     func_8006658C(prim_list, prim);
-    ASM_USE_NV(prim_list);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     if (obj->count > 0) {
         index_or_phase = 0;

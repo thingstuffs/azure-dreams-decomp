@@ -44,8 +44,8 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     v_s3 = func_8003FD64(alloc_kind, alloc_data);
     v_s7 = v_s2;
     if (v_s3 != 0) {
-        v_s0 = v_s3 + 0x20;
-        ASM_KEEP_NV(v_s0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        v_s0 = v_s3;
+        v_s0 += 0x20;
         *(u8 *)(v_s0 + 0x13) = 0x1C;
         func_8004491C(v_s3, func_80045340);
 

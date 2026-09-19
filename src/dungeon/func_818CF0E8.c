@@ -382,10 +382,10 @@ after_axes:
             ((S_818CF0E8_5 *)obj)->unk_10 = D_800245C8;
             func_8004491C(obj, D_80045340);
             p = ((S_818CF0E8_5 *)obj)->unk_0C;
-            flags = ((S_818CF0E8_6 *)p)->unk_14.s | 0xC;
+            flags = ((S_818CF0E8_6 *)p)->unk_14.s;
+            flags |= 0xC;
             ((S_818CF0E8_6 *)p)->unk_10 = 0x60;
             ((S_818CF0E8_6 *)p)->unk_14.s = flags;
-            ASM_SET(flags);
             ((S_818CF0E8_6 *)p)->unk_14.u = flags | 2;
             p = ((S_818CF0E8_5 *)obj)->unk_08;
             {

@@ -18,8 +18,8 @@ u8 func_800B2918(void) {
 
 #ifndef NON_MATCHING
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    global = page - 0x6D98;
-    ASM_KEEP(global);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    global = page;
+    global -= 0x6D98;
 #endif
     first = global[0];
     second = global[1];

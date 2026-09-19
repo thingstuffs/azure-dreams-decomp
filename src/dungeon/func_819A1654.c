@@ -190,8 +190,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
     copy_page = (u8 *)0x80020000;
     ASM_KEEP(copy_page);
-    copy_source = copy_page + 0x4054;
-    ASM_KEEP(copy_source);
+    copy_source = copy_page;
+    copy_source += 0x4054;
     *(Blob12 *)&points = *(Blob12 *)copy_source;
     *(Blob12 *)((u8 *)&points + 12) = *(Blob12 *)(copy_source + 12);
     *(Blob8 *)((u8 *)&points + 24) = *(Blob8 *)(copy_source + 24);
@@ -362,7 +362,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                     if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
                         s32 path_point;
                         register Entity *path_entity ASM_REG("$5");
-                        register s32 path_half ASM_REG("$4");
+                        s32 path_half;
+                        s32 path_half_2;
                         register s32 path_saved_base ASM_REG("$3");
                         u32 dim_color;
                         path_point = path_pair * 2;
@@ -382,14 +383,13 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                         path_entity->path[1] = entity->y / 2 + (origin_path->y - entity->base[1]) / 2;
                         {
                             copy_page = (u8 *)((u16)entity->z);
-                            path_half = entity->base[2];
+                            path_half_2 = entity->base[2];
                             copy_page = (u8 *)(((u32)copy_page) << (16));
                             path_saved_base = (s32)(u32)copy_page >> 16;
                             copy_page = (u8 *)(((u32)copy_page) >> (31));
                             path_saved_base += (u32)copy_page;
-                            ASM_USE2(path_saved_base, copy_page);
-                            copy_page = (u8 *)((s32)origin_path->z - path_half);
                             path_saved_base >>= 1;
+                            copy_page = (u8 *)((s32)origin_path->z - path_half_2);
                             copy_page = (u8 *)((s32)(u32)copy_page / 2);
                             path_saved_base += (s32)(u32)copy_page;
                             copy_page = (u8 *)((path_point * 3) * 2);
@@ -735,10 +735,10 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                 ASM_SCHED_BARRIER();
                 copy_page = (u8 *)0x80020000;
                 ASM_KEEP(copy_page);
-                copy_source = copy_page + 0x6198;
+                copy_source = copy_page;
+                copy_source += 0x6198;
                 ASM_KEEP(copy_source);
                 *(Blob12 *)task->data = *(Blob12 *)copy_source;
-                ASM_KEEP(copy_page);
                 copy_page += 0x6198;
                 *(Blob12 *)(task->data + 12) = *(Blob12 *)(copy_page + 12);
                 ASM_KEEP(copy_page);

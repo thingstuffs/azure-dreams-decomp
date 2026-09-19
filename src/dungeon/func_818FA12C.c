@@ -401,8 +401,9 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             {
                 s32 scale_y;
                 frames_squared = (s32)(render_data);
-                angle = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1A + 0x400;
-                ASM_KEEP(angle);   /* retained: removing it changes the angle register */
+                angle = ((S_818FA12C_1 *)(u8 *)frames_squared)->unk_1A;
+                angle += 0x400;
+                   /* retained: removing it changes the angle register */
                 if (angle >= 0x1001) {
                     angle -= 0x1000;
                 }

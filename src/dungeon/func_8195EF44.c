@@ -93,12 +93,12 @@ void *func_8195EF44(s16 world_x, s16 world_y, s16 world_z, s16 coord_60)
     obj = func_8003FC64(2);
     page = (u8 *)0x80080000;
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    map = page + 0x333C;
+    map = page;
+    map += 0x333C;
     if (obj == NULL) {
         goto done;
     }
 
-    ASM_KEEP(map);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     work = (*(void * *)((u8 *)obj + 0xC));
     shifted_coord = (s32)((u32)(u16)saved_x << 16);
     cell_x = shifted_coord >> 16;

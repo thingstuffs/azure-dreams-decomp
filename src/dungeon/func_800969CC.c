@@ -351,7 +351,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         ((S_8009C12C_3 *)target)->unk_64.n = -1;
     }
     modifier = func_80042900(target, 0x1D);
-    signed_value = message_state << 0x10;
+    signed_value = message_state;
+    signed_value <<= 0x10;
     if (signed_value == 0) {
         message_cursor = func_80099734(target, message_cursor);
         {
@@ -426,7 +427,6 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
         opposite_x_ptr = (s16 *)(4);
         effect_flags &= 0x2000;
         effect_flags <<= 0x10;
-        ASM_KEEP(effect_flags);
         effect_flags >>= 0x10;
         func_8009BF7C(effect_flags, (s32)opposite_x_ptr);
     }

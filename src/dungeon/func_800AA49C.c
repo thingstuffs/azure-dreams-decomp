@@ -111,8 +111,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         scaled_coord = func_800644B8(angle) * 6;
         coord = scaled_coord - offset_y;
         for (;;) {
-            next_angle = angle_step + 0x80;
-            ASM_KEEP(next_angle);
+            next_angle = angle_step;
+            next_angle += 0x80;
             angle = (s16)next_angle;
             scratch[0x80 / 2] = start_x;
             scratch[0x70 / 2] = start_x;

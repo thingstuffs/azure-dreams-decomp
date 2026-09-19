@@ -290,8 +290,8 @@ case_0:
         u8 *effect_page = D_80026484;
         u8 *effect_params;
 #endif
-        effect_params = effect_page + 0x6484;
-        ASM_KEEP(effect_params);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        effect_params = effect_page;
+        effect_params += 0x6484;
         ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00.v = color;
         ((S_FUNC_8188C800_BODY_2 *)part)->unk_1E = 0x555;
         ((S_FUNC_8188C800_BODY_2 *)part)->unk_1C = 0x555;

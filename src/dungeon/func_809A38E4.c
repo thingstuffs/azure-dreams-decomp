@@ -118,7 +118,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
+             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             angle += 0x80;
             prev_sin = sin_angle;
             sin_angle = func_80064584(angle) >> 4;
@@ -157,7 +157,8 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             submit_prim = prim;
             func_8006658C(draw_bucket, submit_prim);
             prim += sizeof(Block);
-            next_segment = segment + 1;
+            next_segment = segment;
+            next_segment += 1;
             vertex_data += sizeof(Block);
             segment = next_segment;
         } while (((s32)(u32)next_segment << 16) < ((s32)(u32)segment_limit << 16));

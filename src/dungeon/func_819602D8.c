@@ -62,8 +62,8 @@ row_loop:
         col = 0;
         shifted_y = tile_y << 16;
         signed_y = shifted_y >> 16;
-        world_y = signed_y << 6;
-        ASM_KEEP_NV(world_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        world_y = signed_y;
+        world_y <<= 6;
         sample_y = world_y + 0x20;
         ASM_KEEP_NV(world_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         sample_ptr = (u16 *)sample_row;

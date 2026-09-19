@@ -321,7 +321,8 @@ interpolate_axis:
 
             do {
                 coord = 0;
-                source_side = one - side;
+                source_side = one;
+                source_side -= side;
                 ASM_KEEP_NV(source_side);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 source_index = source_side * 2;
                 source_index += source_side;
@@ -345,7 +346,6 @@ copy_coord:
                 endpoint += 0xC;
                 endpoint = (u8 *)((s32)source_offset + (s32)endpoint);
                 far_coord = (u8 *)((s32)coord_offset + (s32)endpoint);
-                ASM_KEEP_NV(far_coord);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 *far_vertex = ((S_80168C88_14 *)far_coord)->unk_00;
                 far_vertex += 1;
                 if (coord < 3) {

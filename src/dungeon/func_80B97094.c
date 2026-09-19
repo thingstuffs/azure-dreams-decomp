@@ -83,8 +83,8 @@ void *func_80170894(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
         register void *part_b;
         void *actor;
 
-        work = (u8 *)obj + 0x20;
-        ASM_KEEP_NV(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        work = (u8 *)obj;
+        work += 0x20;
         ((S_80170894_0 *)work)->unk_13 = 0xE;
         func_8004491C(obj, &D_80045340);
 
