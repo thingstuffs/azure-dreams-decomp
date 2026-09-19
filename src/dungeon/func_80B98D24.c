@@ -89,11 +89,11 @@ jt_c3:
     }
     func_8009C12C(actor, sprite, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
     {
-        register u16 move_duration ASM_REG("$3") = 6;   /* Pin preserves register allocation. */
-        phase = ((S_80172524_0 *)action)->unk_9B.v;
+        u16 move_duration = 6;
         ((S_80172524_0 *)action)->unk_96.u = move_duration;
     }
-    goto store_next_phase;
+    ((S_80172524_0 *)action)->unk_9B.n += 1;
+    return;
 check_animation:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
         goto done;
@@ -132,9 +132,7 @@ check_move_done:
     (*(M2C_UNK **)((u8 *)sprite + (0x2C))) = (M2C_UNK *)&D_80174F40;
     func_80047784(sprite, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)&D_80174F40), 0);
 advance_phase:
-    phase = ((S_80172524_0 *)action)->unk_9B.n;
-store_next_phase:
-    ((S_80172524_0 *)action)->unk_9B.n = phase + 1;
+    ((S_80172524_0 *)action)->unk_9B.n += 1;
     return;
 jt_c5:
     settle_ticks = ((S_80172524_0 *)action)->unk_96.u - 1;
