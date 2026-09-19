@@ -114,13 +114,11 @@ state_0:
         angle = ((S_80025160_0 *)effect)->unk_1C.s;
         effect_param = ((S_80025160_0 *)effect)->unk_16;
         damped_value = damped_value - ((s32)(damped_value << 16) >> 19);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        ((S_80025160_0 *)effect)->unk_18.u = damped_value;
         angle = angle + 0x80;
         owner = (u8 *)effect - 0x20;
         ((S_80025160_0 *)effect)->unk_1C.u = angle;
         angle_shifted = angle << 16;
-        ((S_80025160_0 *)effect)->unk_18.u = damped_value;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         func_8002569C(context, effect_param, ((S_80025160_0 *)effect)->unk_18.p,
                      angle_shifted >> 16, owner);
     }
