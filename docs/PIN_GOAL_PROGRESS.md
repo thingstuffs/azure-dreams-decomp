@@ -3,7 +3,7 @@
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 
 [Round 57](PIN_RESEARCH_ROUND57.md) removes **88 pins: 5,859 / 1,251 rows**, zero model
-tokens (round 58, same note: eight mechanism-briefed Gemini packs add 32 pins, **5,827 / 1,225 rows**, 27 of 96 rows against 1 of 12 unbriefed, the yield falling with the residue size; packs 9-10 are queued, a codex sol pack on the residues after codex's reset), by reading gcc 2.7.2's `sched.c`: the old list scheduler fills blocks in reverse and
+tokens (round 58, same note: thirteen mechanism-briefed Gemini packs add 51 pins (46 of 156 rows against 1 of 12 unbriefed, the yield falling with the residue size), and an Opus pass over the corpus of 128 lane reports ([the audit](PIN_LANE_RULES_AUDIT_20260919.md)) paid the same day: t74_multiset 48 pins, a lane-harvest audit 5 rows, an arity repair from an Opus variety lane (t76), the symbol-class analysis (t77); **5,737 / 1,206 rows**, packs 14-15 and a codex sol pack queued), by reading gcc 2.7.2's `sched.c`: the old list scheduler fills blocks in reverse and
 breaks priority ties by original insn order, so the C statement order between calls decides the
 instruction order, and an increment written after a call is hoisted above it. Two generators
 follow (t71: loop updates moved after the call, t72: every dependence-preserving order of the
