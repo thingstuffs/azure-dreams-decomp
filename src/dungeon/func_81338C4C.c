@@ -100,7 +100,7 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
     u16 turn_ticks;
     u16 move_ticks;
     s16 turned_angle;
-    register u16 angle ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 angle;
     u8 phase;
     S_8016FC4C_4 *heading;
     S_8016FC4C_6 *entity;
@@ -168,10 +168,9 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         heading->unk_2A = func_800A0818(
             object->unk_24, object->unk_25,
             D_80082E80[0x24], D_80082E80[0x25], &distance);
-        ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         scaled_step = 0 - (object->unk_1E.s << 6);
-        count = 0;
         if (scaled_step < 0) scaled_step += 0xFFF;
+        count = 0;
         burst_step = scaled_step >> 0xC;
         burst_source = effect - 0x20;
         do {
@@ -211,22 +210,17 @@ void func_8016FC4C(void *effect, void *entity_data, void *object_data) {
         if (((s16)turn_ticks == 3) || ((s16)turn_ticks == 6) || ((s16)turn_ticks == 9) || ((s16)turn_ticks == 0xC)) {
             angle = heading->unk_2A;
             turned_angle = angle - 0x200;
-            ASM_KEEP(angle);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-            if (turned_angle < 0) angle = turned_angle + 0x1000;
-            else angle = turned_angle;
+            angle = turned_angle;
+            if (turned_angle < 0) angle += 0x1000;
             heading->unk_2A = angle;
         }
         if ((s16)((S_8016FC4C_3 *)effect)->unk_96 < 0xE) goto update_sprite;
         turn_phase = ((S_8016FC4C_3 *)effect)->unk_9A;
-        ASM_KEEP(turn_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        table_page = 0x80170000U;
-        ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ((S_8016FC4C_3 *)effect)->unk_96 = 0U;
-        ASM_KEEP(turn_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        table_page = (u32)D_80173AFC;
         turn_phase = (u8)(turn_phase + 1);
         ((S_8016FC4C_3 *)effect)->unk_9A = turn_phase;
         table_angle = heading->unk_2A;
-        table_page += 0x3AFC;
         table_ptr = ((table_angle >> 7) & 0x1C);
         table_ptr += table_page;
         entity->unk_0C = (s32)(((S_8016FC4C_7 *)((u8 *)table_ptr))->unk_00 * 0x30000);
