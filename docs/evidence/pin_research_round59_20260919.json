@@ -35,7 +35,7 @@
     ]
    }
   ],
-  "note": "Gemini residue rows with mechanism notes; the luna_moved keep line is this same row"
+  "note": "Gemini residue rows with mechanism notes; both r59_sol_residues/out and r59_luna_moved/out hold a candidate for this row (luna went outside its pack); it is counted once, here"
  },
  "packs": [
   {
@@ -394,7 +394,7 @@
  },
  "yield": {
   "sol_class_packs": "23 of 135 rows",
-  "luna_class_packs": "0 of 28 rows (3-8-pin CHANGED small / MOVED; the one luna_moved candidate was the residues row)",
+  "luna_class_packs": "0 of 28 pack rows (3-8-pin CHANGED small / MOVED); luna_moved wrote one candidate for dungeon/func_81887960, a row outside its pack (the residues pack row, same fix, counted once under residues_pack)",
   "per_slice_trend": {
    "large": [
     4,
