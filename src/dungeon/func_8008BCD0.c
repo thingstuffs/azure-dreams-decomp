@@ -118,19 +118,14 @@ begin_selection:
         if (selection_ready != 0) {
             func_8004DCE0(2);
             func_8004DCEC();
-            {
-                register void *message ASM_REG("$4"); /* MATCH: merge the message address in the retail argument register. */
-
-                if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
-                    if (D_80012D6D == 0) {
-                        message = &D_80088904;
-                    } else {
-                        message = &D_80088934;
-                    }
+            if ((*(s16 *)((u8 *)state + 0x120)) == 0) {
+                if (D_80012D6D == 0) {
+                    func_8004DD2C(&D_80088904);
                 } else {
-                    message = &D_80088970;
+                    func_8004DD2C(&D_80088934);
                 }
-                func_8004DD2C(message);
+            } else {
+                func_8004DD2C(&D_80088970);
             }
             (*(u8 *)((u8 *)state + 0x9B)) = (u8) ((*(u8 *)((u8 *)state + 0x9B)) + 1);
             goto update_selection;
