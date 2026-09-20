@@ -107,7 +107,12 @@ then starts at entry), split an over-used local (refs fall, life lengthens), dep
 narrowing.  A simulator (`sim.py`) reproduces the real register dispositions on all 14 studied builds, so it is a free
 gate ahead of the listing screen.  Two rows byte-exact by the levers (`town/func_800AC3CC`, `dungeon/func_8009AB4C`, 4
 pins); two more have the colouring solved with an emission residue (6, 18); two are the preference family
-(`set_preference`), not order.  A generator on this rule (t85_allocorder, simulator-gated) is being built.
+(`set_preference`), not order.  The generator on this rule, `t85_allocorder` (levers a/b/d, each candidate compiled once with `-dl -dg`, the
+disposition simulator `tools/alloc_sim.py` as a population and candidate gate, listing from the same dump), finds both study
+rows by itself and sweeps the tree in 32 s: 453 rows with a callee-saved `ASM_REG`, 350 textually eligible, 78 genuine
+order sites (272 rows fail the APPEARS test: dispositions not a permutation, or the preference family), 0 new exact rows.
+On fresh rows every best candidate is a type change and the redundant-copy / split-meaning shapes are rare; 11 rows have
+the colouring right with a residue elsewhere (the study's d=6/d=18 class).  Not in the cascade (nothing to add there yet).
 
 **t80's near band** (77 rows at listing distance <= 4): 45 are one instruction moved where the up-move is
 listing-neutral (those pins hold scheduler tie-breaks and delay-slot fills), 10 are one `lui`/`li` fewer (the
