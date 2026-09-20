@@ -52,7 +52,9 @@ extern void func_80024094(void *, s32, void *, s32);
 extern void func_80067E2C(void *, void *);
 
 
-/* Draws at a page-adjusted position with clipping commands and an optional black rectangle. */
+/* Draws at a page-adjusted position with clipping commands and an optional black rectangle.
+ * Keeping the page pointer live across setup and spelling the sign extension as one expression
+ * reproduce the retail allocation and call-argument order. */
 void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen_pos, u16 clear_rect, s16 draw_param)
 {
     u16 draw_pos[2];
@@ -60,7 +62,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     s32 draw_y;
     s32 rect_y;
     u8 *clip_packet;
-    register u8 *page_ptr ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *page_ptr;
     s16 saved_param;
     u32 tag_mask;
     u8 *pos_or_ot;
@@ -80,6 +82,7 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
     ((S_80024A5C_0 *)draw_page)->unk_8D0 = clip_packet + 0xC;
     saved_param = draw_param;
     clear_enabled = clear_rect;
+    page_ptr = (u8 *)&D_80083160;
     func_80067E2C(clip_packet, D_80083160.p);
     tag_mask = 0xFF000000U;
 
@@ -89,7 +92,6 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
                              ((u32)clip_packet & 0x00FFFFFFU);
 
     draw_pos[0] = ((S_80024A5C_2 *)pos_or_ot)->unk_00;
-    page_ptr = (u8 *)&D_80083160;
     draw_y = ((S_80024A5C_2 *)pos_or_ot)->unk_02;
     pos_or_ot = (u8 *)draw_page + 0x8B0;
     order_table = pos_or_ot;
@@ -97,11 +99,9 @@ void func_80024A5C(volatile s32 draw_data, S_80024A5C_5 *clip_rect, void *screen
         draw_y -= 0xE0;
     }
     call_pos = draw_pos;
-    call_param = (s32)((u32)saved_param << 16);
+    call_param = (s32)((u32)saved_param << 16) >> 16;
     call_order_table = order_table;
-    ASM_KEEP_NV(call_pos);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_data = draw_data;
-    call_param >>= 16;
     draw_pos[1] = draw_y;
     func_80024094(call_pos, call_data, call_order_table, call_param);
 

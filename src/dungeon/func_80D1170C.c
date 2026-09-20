@@ -57,10 +57,10 @@ void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
 
     color_product = effect->unk_00 * effect->unk_32.unk_32;
     red = color_product / effect->unk_34;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    effect->unk_04.bytes.unk_04 = red;
     color_product = effect->unk_01 * effect->unk_32.unk_32;
     green = color_product / effect->unk_34;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    effect->unk_04.bytes.unk_05 = green;
     color_product = effect->unk_02 * effect->unk_32.unk_32;
     blue = color_product / effect->unk_34;
 
@@ -68,8 +68,6 @@ void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
     life_left = effect->unk_32.unk_32_u;
     life_left -= 1;
     effect->unk_32.unk_32_u = life_left;
-    effect->unk_04.bytes.unk_04 = red;
-    effect->unk_04.bytes.unk_05 = green;
     effect->unk_04.bytes.unk_06 = blue;
     effect->unk_08 = effect->unk_04.unk_04;
 
@@ -81,6 +79,5 @@ void func_80170F0C(S_func_80D1170C_1 *effect, S_func_80D1170C_2 *position)
     }
 }
 
-/* MECHANISM: Frameless leaf; a separate color_product temp keeps mflo in v0 while
-   quotient lifetimes color a2/a1/a0, with memory barriers forcing each lh reload.
-   Split u16 decrement selects addiu; kept 0x80080000 flag_page emits lone lui + 0x14a0. */
+/* MECHANISM: Storing red and green immediately after their divisions invalidates
+   the shared scale/divisor loads before scheduling; the stores then schedule late. */
