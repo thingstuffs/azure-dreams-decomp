@@ -104,30 +104,17 @@ void func_800DAEF4(void *source_owner, void *spawn_params)
             ((S_800DAEF4_0 *)object)->unk_10 = &D_800DB164;
             func_8004491C(object, D_80045340);
             node = ((S_800DAEF4_0 *)object)->unk_0C;
-            work = (u8 *)object + 0x20;
+            work = (u8 *)object;
+            work += 0x20;
 
             offset_roll_a = func_80069EF8();
             {
                 const s32 offset_roll_b = func_80069EF8();
-                register s32 roll_remainder ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                s32 biased_roll;
-                register s32 offset_sum ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
+                s32 offset_sum;
                 part = ((S_800DAEF4_0 *)object)->unk_08;
-                roll_remainder = offset_roll_a;
-                if (offset_roll_a < 0) {
-                    roll_remainder = offset_roll_a + 63;
-                }
-                biased_roll = offset_roll_b;
-                offset_sum = (roll_remainder >> 6) << 6;
-                roll_remainder = offset_roll_a - offset_sum;
-                if (offset_roll_b < 0) {
-                    biased_roll = offset_roll_b + 63;
-                }
-                offset_sum = (biased_roll >> 6) << 6;
-                offset_sum = roll_remainder + (offset_roll_b - offset_sum) - 64;
-                   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                ((S_800DAEF4_1 *)part)->unk_02 = ((S_800DAEF4_2 *)spawn_params)->unk_02 + offset_sum / 2;
+                offset_sum = offset_roll_a % 64 + offset_roll_b % 64 - 64;
+                ((S_800DAEF4_1 *)part)->unk_02 =
+                    ((S_800DAEF4_2 *)spawn_params)->unk_02 + offset_sum / 2;
             }
 
             spread_roll_a = func_80069EF8();
