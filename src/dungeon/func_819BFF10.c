@@ -36,20 +36,19 @@ void func_80025710(void *list_head, s32 x, s32 y, s16 upper_bound, s32 lower_bou
     u16 flags;
     S_func_819BFF10_2 *range_data;
     S_func_819BFF10_3 *position_data;
-    void *next_entry;
     S_func_819BFF10_0 *entry;
     S_func_819BFF10_1 *list_link;
-    register void *head ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *head;
 
     list_link = list_head;
     head = list_link;
-    next_entry = list_link->unk_5C;
-    list_link = next_entry + 0x20;
+    list_head = list_link->unk_5C;
+    list_link = list_head + 0x20;
+    list_head = list_link;
     if (list_link != head) {
-        ASM_KEEP(list_link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         upper_limit = (s16)upper_bound;
         lower_limit = (s16)lower_bound;
-        entry = (void *)list_link - 0x20;
+        entry = (void *)list_head - 0x20;
         do {
             void *next_entry;
             position_data = ((S_func_819BFF10_0 *)((u8 *)list_link - 0x20))->unk_0C;
