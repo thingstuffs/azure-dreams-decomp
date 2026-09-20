@@ -33,10 +33,9 @@ void *func_800B544C(void *output, void *object)
     ASM_KEEP_NV(prefix_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     prefix = (Text5 *)(prefix_page - 0x6D24);
     copy_word = prefix->word;
-    ASM_KEEP_NV(copy_word);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     copy_tail = prefix->tail;
-    ASM_KEEP_NV(copy_tail);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((Text5 *)output)->word = copy_word;
+    ASM_KEEP_NV(copy_tail);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((Text5 *)output)->tail = copy_tail;
     strcat(output, func_8004E634(1, format_buf));
     raw_count = func_80043868(object);

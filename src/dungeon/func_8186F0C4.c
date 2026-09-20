@@ -214,15 +214,14 @@ state1:
 
             {
                 s32 owner_axis = S8_AT(owner, 0x72);
-                register u32 sprite_axis ASM_REG("$3") = U8_AT(sprite, 0x24);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                u32 sprite_axis = U8_AT(sprite, 0x24);
 
                 if (owner_axis != sprite_axis) {
-                    delta = owner_axis - sprite_axis;
                 } else {
                     owner_axis = S8_AT(owner, 0x73);
                     sprite_axis = U8_AT(sprite, 0x25);
-                    delta = owner_axis - sprite_axis;
                 }
+                delta = owner_axis - sprite_axis;
             }
             delta = abs(delta);
             U8_AT(effect_data, 0x7B) = (u8)((delta * 2) - 1);

@@ -46,10 +46,9 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
   if (effect != 0)
   {
     register u32 entry_addr ASM_REG("$4");
+    handler = &D_801718E4;
     table_base = (u8 *)__builtin_alloca(0);
     ASM_KEEP(table_base);
-    handler = &D_801718E4;
-    ASM_KEEP_DEP_NV(direction, handler);
     entry_addr = direction >> 7;
     *((M2C_UNK **) (((s8 *) effect) + 0x10)) = handler;
     *((u16 *) (((s8 *) (*((void **) (((s8 *) effect) + 8)))) + 2)) = (u16) (*((u16 *) (((s8 *) (*((void **) (((s8 *) source) + 8)))) + 2)));

@@ -205,10 +205,9 @@ rise:
     ((S_80025C80_1 *)sprite)->unk_0C.at02.v = next_brightness;
     ((S_80025C80_1 *)sprite)->unk_0C.at01.v = next_brightness;
     frame_toggle = ((u16) ((S_80025C80_0 *)effect_in)->unk_30.n ^ 1) & 1;
-    rise_ticks = ((S_80025C80_0 *)effect_in)->unk_30.v - 1;
-    ASM_KEEP(frame_toggle);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80025C80_0 *)effect_in)->unk_30.n = rise_ticks;
     ((S_80025C80_0 *)effect_in)->unk_32 = frame_toggle;
+    rise_ticks = ((S_80025C80_0 *)effect_in)->unk_30.v - 1;
+    ((S_80025C80_0 *)effect_in)->unk_30.n = rise_ticks;
     if (((rise_ticks << 0x10) <= 0) && (((S_80025C80_1 *)sprite)->unk_14 & 0x4000)) {
         end_frame = 8;
         source_data_2 = D_800E3D7C;

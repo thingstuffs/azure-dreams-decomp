@@ -109,10 +109,9 @@ void func_80174D48(void *source, Rec_func_800AD058_arg2 *record, void *appearanc
         ASM_KEEP(active_object);
         ((S_80174D48_1 *)data_base)->unk_A8 = record_byte;
         record_byte = record->unk_25;
-        ASM_KEEP(record_byte);
+        ((S_80174D48_1 *)data_base)->unk_AA = record_byte;
         zero = 0;
         ASM_KEEP(zero);
-        ((S_80174D48_1 *)data_base)->unk_AA = record_byte;
         (*(unaligned_s32 *)((u8 *)object_data + 0x48)) = (*(unaligned_s32 *)((u8 *)appearance + 0x48));
         func_800BC26C(active_object, zero, zero, zero);
         ((S_80174D48_0 *)object)->unk_10 = D_80174978;

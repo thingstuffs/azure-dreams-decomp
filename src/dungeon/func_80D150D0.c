@@ -318,10 +318,9 @@ allocate_effect:
         call_value = (s32)frame.p[2];
         frame.pos[0] = mesh_flags;
         mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_06;
-        ASM_KEEP(mesh_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        frame.pos[1] = mesh_flags;
         copy_src = height_out;
         ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        frame.pos[1] = mesh_flags;
         mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_0A;
         height_delta = (s32)linked_body;
         frame.pos[2] = mesh_flags;

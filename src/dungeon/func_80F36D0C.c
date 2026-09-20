@@ -299,14 +299,12 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         entity->callback = func_80170E94;
         D_80083460[0].count--;
         func_800A4ACC(object);
+        data_page = (u8 *)0x800E0000;
         if (object->flag6D == 0) {
-            data_page = (u8 *)0x800E0000;
             object->flags &= 0x7FFF;
         } else {
-            data_page = (u8 *)0x800E0000;
             ASM_KEEP_NV(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             object_base = (u8 *)object - 0x20;
-            ASM_KEEP_NV(object_base);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             *(void **)(data_page + 0x3DE8) = object_base;
         }
         break;

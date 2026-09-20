@@ -225,10 +225,9 @@ case1:
         ASM_KEEP(player_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         player_x = ((S_81978428_4 *)copy_page)->unk_3780;
         player = *(u8 **)(player_page + 0x14A8);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        position[0] = player_x;
         copy_page += 0x3780;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        position[0] = player_x;
         position[1] = ((S_81978428_4 *)copy_page)->unk_04;
         position[2] = (s32)((S_81978428_5 *)player)->unk_88.s << 16;
         spawn_angle = ((S_81978428_5 *)player)->unk_2A.s;

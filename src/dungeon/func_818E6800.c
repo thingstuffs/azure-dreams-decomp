@@ -64,7 +64,7 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) 
     u8 *actor_header;
     u8 *particle;
     u8 *render_data;
-    register u8 *particle_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *particle_data;
     register u32 count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 state;
     s32 tile_x;
@@ -127,9 +127,9 @@ set_distance:
                                              (func_80069EF8() & 0x1ff) - 256);
                 U16(S32(particle, 8), 6) = (u16)(U16(motion, 6) +
                                              (func_80069EF8() & 0x1ff) - 256);
+                particle_data = particle + 32;
                 U16(S32(particle, 8), 10) = (u16)(U16(motion, 10) +
                                               (func_80069EF8() & 0xf) - 8);
-                particle_data = particle + 32;
                 S32(particle_data, 28) = S32(motion, 0);
                 S32(particle_data, 32) = S32(motion, 4);
                 S32(particle_data, 36) = S32(motion, 8);
@@ -242,12 +242,10 @@ mode_0: {
                     distance = delta_x;
                 }
                 original_count -= abs_y;
+                abs_y = original_count;
                 if (original_count < 0) {
-                    abs_y = original_count;
-                    ASM_KEEP_NV(abs_y);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     abs_y = -abs_y;
                 } else {
-                    abs_y = original_count;
                 }
                 if (distance < abs_y) distance = abs_y;
                 if (distance < 4) distance = 4;

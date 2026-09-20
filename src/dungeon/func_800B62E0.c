@@ -85,10 +85,9 @@ void *func_800BBA40(s32 tile_x, s32 tile_y, s32 pos_z, M2C_UNK transform_data, s
         render_data->unk_1C = 0x1000;
         render_data->unk_0C = 0x808080;
         render_data->unk_06 = 8;
+        setup_base = effect + 0x20;
         func_8003DB94(effect + 0x2C, held_transform, 0);
         ASM_KEEP(held_transform);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        setup_base = effect + 0x20;
-        ASM_KEEP(setup_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         setup_cursor = setup_base;
         ((S_800BBA40_3 *)setup_cursor)->unk_2A = (s16) scale;
         ((S_800BBA40_3 *)setup_cursor)->unk_28 = (s16) scale;

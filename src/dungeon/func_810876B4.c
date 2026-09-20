@@ -2,6 +2,8 @@
 #include "records/Rec_func_800AA258_arg2.h"
 #include "records/Rec_D_800E3D7C.h"
 
+typedef struct { s32 word[4]; } Copy16;
+
 typedef struct S_80174EB4_0 {
     u8 pad_00[0x8];
     void * unk_08;
@@ -88,26 +90,13 @@ s32 func_80174EB4(s32 priority, Rec_D_800E3D7C *source_state, Rec_func_800AA258_
         {
             S_80174EB4_6 *query_data = render_data;
             u16 *offset_out;
-            s32 copy_word_0;
             s32 copy_word_1;
-            s32 copy_word_1_2;
-            s32 copy_word_2;
-            s32 copy_word_3;
 
             ASM_KEEP(query_data);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             state = ((S_80174EB4_0 *)object)->unk_08;
-            ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            *(Copy16 *)state = *(Copy16 *)source_state;
             offset_out = offsets;
             ASM_KEEP(offset_out);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-
-            copy_word_0 = source_state->unk_00.at00_s32.v;
-            copy_word_1_2 = source_state->unk_04.at00_s32.v;
-            copy_word_2 = source_state->unk_08.at00_s32.v;
-            copy_word_3 = source_state->unk_0C.as_s32;
-            state->unk_00.at00.v = copy_word_0;
-            state->unk_04.at00.v = copy_word_1_2;
-            state->unk_08.at00.v = copy_word_2;
-            state->unk_0C = copy_word_3;
             copy_word_1 = source_state->unk_14.as_s32;
             state->unk_10 = source_state->unk_10.at00_s32.v;
             state->unk_14 = copy_word_1;

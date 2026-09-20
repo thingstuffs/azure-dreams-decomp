@@ -84,7 +84,7 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     S_8017390C_4 *spawned_transform;
     void *update_actor;
     void *init_obj;
-    register s32 angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 angle;
 
     state = actor->unk_9B;
     if (state == 1) {
@@ -125,10 +125,10 @@ active:
             spawned_transform->unk_0C = 0;
             spawned_transform->unk_14 = 0xFFEE0000;
             spawned_transform->unk_08 = pos_z;
+            angle = 0xC90;
             func_8004491C(init_obj, &D_80045340, pos_z);
             spawned_render->unk_0C = 0x808080;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            angle = 0xC90;
             spawned_render->unk_1E = angle;
             spawned_data = (u8 *)spawned_obj + 0x20;
             spawned_render->unk_1C = angle;

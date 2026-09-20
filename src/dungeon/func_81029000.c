@@ -101,9 +101,8 @@ void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
     saved_arg3 = arg3;
     saved_arg2 = arg2;
     obj = func_8003FD64(0x112, &D_80083498);
+    final_arg0 = arg0;
     if (obj != NULL) {
-        final_arg0 = arg0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         work = obj + 0x20;
         ((S_81029000_0 *)obj)->unk_10 = &D_8014CA78;
         work->unk_13 = 0x29;
