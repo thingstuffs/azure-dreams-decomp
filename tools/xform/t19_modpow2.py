@@ -4,7 +4,18 @@ APPEARS     a bias `if (t < 0)` (no else arm) whose arm is `b = x + K;`, `b += K
             `b = (x + K) >> n;` with K = 2^n - 1, and, within a few statements, a remainder that
             subtracts the rounded quotient from the dividend: `x - ((b >> n) << n)`, or
             `x - (q << n)` / `x - q * 2^n` once the quotient q is shifted (`b >>= n`, `q = b >> n`,
-            or the arm's own shift).  x is the tested value, or what b was copied from.
+            or the arm's own shift).  x is the tested value, or what b was copied from.  Since round
+            60 also the NAMED-quotient spelling, where the rounded quotient lands in a local of its
+            own and a later statement subtracts it (dungeon/func_800D5794, lane r59_sol_large7):
+                roll_remainder = offset_roll_a;
+                if (offset_roll_a < 0) { roll_remainder = offset_roll_a + 63; }
+                offset_sum = (roll_remainder >> 6) << 6;        <- s = (b >> n) << n
+                roll_remainder = offset_roll_a - offset_sum;    <- r = x - s, read once below
+            The rounded local must be dead after the subtraction, and where the remainder is the
+            whole right-hand side of `r = x - s;` and r is read exactly once at the same brace depth
+            with x unchanged in between, the `%` FOLDS into that reader and `r = ...;` goes - that
+            fold is what makes func_800D5794 byte-exact (`offset_sum = (offset_roll_a % 64) +
+            (offset_roll_b % 64) - 64;`, both idioms jointly, the `$5` ASM_REG erased, the `$2` kept).
 RESOLVES    expand_divmod (expmed.c) lowers `x % 2^n` as `t1 = copy_to_mode_reg (x); if (t1 < 0)
             t1 += 2^n-1; q = t1 >> n; r = x - (q << n)`: its copy is a fresh pseudo cse cannot
             collapse into x.  Where the hand spelling's arm READS A COPY (the lane's
@@ -86,9 +97,16 @@ def _uses(masked, pos, var, skip):
     return False
 
 
-def _remainder(seg, d, q, n, shifted):
-    """(start, end) inside seg of `d - (q << n)` (shifted) or `d - ((q >> n) << n)`, or None."""
+def _remainder(seg, d, q, n, shifted, named=None):
+    """(start, end) inside seg of `d - (q << n)` (shifted), `d - ((q >> n) << n)`, or - once the
+    rounded quotient has landed in a named local s (`s = (q >> n) << n;`) - of `d - s`."""
     k = 1 << n
+    if named:
+        for m in re.finditer(r"(?<![.>\w])%s\s*-\s*%s(?![\w])" % (re.escape(d), re.escape(named)), seg):
+            if not OK_BEFORE.search(seg[:m.start()]) or re.match(r"\s*[*/%]", seg[m.end():]):
+                continue
+            return m.start(), m.end()
+        return None
     if shifted:
         pat = r"(?<![.>\w])%s\s*-\s*\(\s*%s\s*(?:<<\s*(?P<a>%s)|\*\s*(?P<m>%s))\s*\)" % (re.escape(d), re.escape(q), NUM, NUM)
     else:
@@ -101,6 +119,44 @@ def _remainder(seg, d, q, n, shifted):
         if not OK_BEFORE.search(seg[:m.start()]) or re.match(r"\s*[*/%]", seg[m.end():]):
             continue                       # `a + x - (...)` is `(a + x) - (...)`: not a whole operand
         return m.start(), m.end()
+    return None
+
+
+def _named_dead(masked, named, rem_piece, skip):
+    """Is the rounded value dead after the statement that consumes it (its own statement rewrites
+    it, or nothing reads it before the next plain assignment)?"""
+    head = re.match(r"^(%s)\s*=(?!=)" % ID, rem_piece[2])
+    return bool(head and head.group(1) == named) or not _uses(masked, rem_piece[1], named, skip)
+
+
+def _fold_use(masked, d, rem, rem_piece):
+    """(start, end) of the single later read of `r` when the remainder is the whole right-hand side
+    of `r = <remainder>;` - the reader takes the `%` and the statement goes."""
+    head = re.fullmatch(r"\s*([A-Za-z_]\w*)\s*=\s*", masked[rem_piece[0]:rem[0]])
+    if not head or masked[rem[1]:rem_piece[1]].strip() != ";":
+        return None
+    r = head.group(1)
+    if r == d:
+        return None
+    for p in PIECE_RE.finditer(masked, rem_piece[1]):
+        core = p.group(0).strip()
+        if not core or core in "{}" or PIN_STMT_RE.match(core):
+            continue
+        hits = [u for u in re.finditer(r"(?<![.>\w])%s\b" % re.escape(r), p.group(0))]
+        if not hits:
+            if re.search(r"(?<![.>\w])%s\s*(?:[-+*/%%&|^]|<<|>>)?=(?!=)|&\s*%s\b|\b%s\s*(?:\+\+|--)"
+                         % ((re.escape(d),) * 3), p.group(0)):
+                return None                # d changes before the read: the `%` cannot move down
+            continue
+        if len(hits) != 1 or re.match(r"^%s\s*(?:[-+*/%%&|^]|<<|>>)?=(?!=)" % re.escape(r), core) or \
+                re.search(r"&\s*%s\b|\b%s\s*(?:\+\+|--)" % ((re.escape(r),) * 2), p.group(0)):
+            return None
+        between = masked[rem_piece[1]:p.start() + hits[0].start()]
+        if between.count("{") != between.count("}") or "goto" in between:
+            return None                    # the read must sit in the same block, at the same depth
+        if _uses(masked, p.end(), r, []):
+            return None                    # read again later: the statement has to stay
+        return p.start() + hits[0].start(), p.start() + hits[0].end()
     return None
 
 
@@ -148,34 +204,55 @@ def idioms(text):
                 continue
             skip.append((pre[0], pre[1]))
         shift_stmt, rem, gap = None, None, 0
+        named, round_stmt, rem_piece = None, None, None
         for p in PIECE_RE.finditer(masked, m.end()):
             core = p.group(0).strip()
             if not core or core in "{}" or PIN_STMT_RE.match(core):
                 continue
-            if not shifted:
+            if not shifted and named is None:
+                # the rounded quotient in a NAMED local: `s = (b >> n) << n;` (dungeon/func_800D5794)
+                nm = re.fullmatch(r"(%s)\s*=\s*\(\s*%s\s*>>\s*(%s)\s*\)\s*<<\s*(%s)\s*;"
+                                  % (ID, re.escape(q), NUM, NUM), core)
+                if nm and _num(nm.group(2)) == n and _num(nm.group(3)) == n and nm.group(1) not in (b, d, t):
+                    named = nm.group(1)
+                    round_stmt = (p.start() + p.group(0).index(core[0]), p.end())
+                    skip.append(round_stmt)
+                    continue
                 sm = re.fullmatch(r"(%s)\s*>>=\s*(%s)\s*;" % (re.escape(q), NUM), core) or \
                     re.fullmatch(r"(%s)\s*=\s*%s\s*>>\s*(%s)\s*;" % (ID, re.escape(q), NUM), core)
                 if sm and _num(sm.group(2)) == n:
                     shift_stmt, q, shifted = (p.start() + p.group(0).index(core[0]), p.end()), sm.group(1), True
                     skip.append(shift_stmt)
                     continue
-            r = _remainder(p.group(0), d, q, n, shifted)
+            r = _remainder(p.group(0), d, q, n, shifted, named)
             if r:
                 rem = (p.start() + r[0], p.start() + r[1])
+                rem_piece = (p.start() + p.group(0).index(core[0]), p.end(), core)
                 break
             gap += 1
             if gap > MAX_GAP:
                 break
         if rem is None:
             continue
+        if named and not _named_dead(masked, named, rem_piece, skip):
+            continue                       # the rounded value is read again: its statement must stay
+        if named:                          # `(x - s)` -> `(x % 2^n)`: the spare parentheses go too
+            lhs, rhs = masked[:rem[0]].rstrip(), masked[rem[1]:]
+            if lhs.endswith("(") and rhs.lstrip().startswith(")"):
+                rem = (len(lhs) - 1, rem[1] + len(rhs) - len(rhs.lstrip()) + 1)
         mod = [(rem[0], rem[1], f"({d} % {1 << n})")]
         skip.append(rem)
         full = list(mod) + [(m.start(), m.end(), "")]
         q_live = _uses(masked, m.end(), q, skip + [(m.start(), m.end())])
-        for span in ([pre[:2]] if pre else []) + ([shift_stmt] if shift_stmt else []):
-            full.append((span[0], span[1], f"{q} = {d} / {1 << n};" if q_live else ""))
+        for span in ([pre[:2]] if pre else []) + ([shift_stmt] if shift_stmt else []) + ([round_stmt] if named else []):
+            full.append((span[0], span[1], f"{q} = {d} / {1 << n};" if q_live and span is not round_stmt else ""))
+        plain = list(full)
+        use = _fold_use(masked, d, rem, rem_piece) if named else None
+        if use:                            # `r = x - s;` read once below: the `%` goes to the reader
+            full = [(m.start(), m.end(), ""), (rem_piece[0], rem_piece[1], ""),
+                    (use[0], use[1], f"({d} % {1 << n})"), (round_stmt[0], round_stmt[1], "")]
         out.append({"start": m.start(), "end": m.end(), "d": b, "vars": {b, d, q, t}, "arm": arm,
-                    "n": n, "full": full, "mod": mod})
+                    "n": n, "named": named, "full": full, "plain": plain, "mod": mod})
     return out
 
 
@@ -198,7 +275,10 @@ def _apply(text, edits):
 
 
 def spell_one(text, it):
-    return [("mod", _apply(text, it["full"])), ("modonly", _apply(text, it["mod"]))]
+    out = [("mod", _apply(text, it["full"]))]
+    if it.get("plain") and it["plain"] != it["full"]:
+        out.append(("nofold", _apply(text, it["plain"])))
+    return out + [("modonly", _apply(text, it["mod"]))]
 
 
 def spell_all(text, its):
