@@ -30,6 +30,20 @@ CANDIDATES  per call site, nearest the function end first: each admissible deriv
             between the call and the assignment nor in the call statement, and no operand is written by
             the call statement or by a statement in between.  Sole-body statements of an unbraced
             if/else/for/while are never moved and never moved onto (t71's rule).
+SECOND STEP a bounded second step runs only where the first found nothing listing-exact at a site and
+            its best listing distance is within NEAR2: the assignment moved DOWN past 1..MAX_DOWN of
+            the statements that follow it (dungeon/func_800C9858 - `quad = (u8 *)&D_801E7C00;` written
+            three statements later, the `ASM_KEEP_MEM_NV` gone, 36 -> 35 pins), then 2..MAX_UP
+            statements further UP, then the pinned assignment moved JOINTLY with a second derived
+            assignment of the same call site (relative order kept, so each statement crosses exactly
+            what it crossed alone).  The DOWN move (`d0` is the assignment left where it is, only the
+            pin group erased) runs whenever the first step found nothing listing-exact; the further-UP
+            and joint moves only when the first step's best distance is within NEAR2, since the near
+            band measured them out.  Measured on the round-60 near band (77 rows whose best distance
+            was <= 4): the residual is a single instruction in a different slot (45 rows, the same
+            multiset) or one instruction fewer than retail (10 rows, two equal constants the candidate
+            shares and retail materialises twice), and the up-move itself is listing-neutral on 74 of
+            them - the down move is the one of these steps that reaches a byte-exact row.
 """
 import re, sys
 from pathlib import Path
@@ -57,9 +71,12 @@ MAX_SITES = 6
 MAX_AFTER = 8            # statements after the call that are scanned for the derived assignment
 MAX_MERGES = 2
 MERGE_SPAN = 10          # lines a split shift pair may straddle
-MAX_LISTINGS = 400
+MAX_LISTINGS = 600
 MAX_VERIFY = 6
 NEAR = 2                 # listing distance still worth one scorer run when nothing is listing-exact
+NEAR2 = 6                # best distance of the first step that still earns the second step
+MAX_DOWN = 4             # statements the assignment may be moved DOWN past (the second step)
+MAX_UP = 3               # slots above the call the assignment may be moved to (the second step)
 
 ASSIGN = re.compile(r"^(?P<ind>[ \t]*)(?P<p>[A-Za-z_]\w*)\s*=(?!=)\s*(?P<e>[^;{}]+);[ \t]*$")
 CAST = re.compile(r"\(\s*(?:(?:const|volatile|unsigned|signed|struct|union|enum)\s+)*"
@@ -124,6 +141,21 @@ def prev_stmt_line(mlines, i, first):
     return k
 
 
+def next_stmt_line(mlines, i, last):
+    """Index of the single-line ordinary statement right below line i, or None."""
+    k = i + 1
+    while k < last and not mlines[k].strip():
+        k += 1
+    if k >= last:
+        return None
+    ln = mlines[k]
+    if ("{" in ln or "}" in ln or CONTROL_TAIL.match(ln) or LABEL.match(ln) or JUMP.match(ln)
+            or PIN_LINE.match(ln) or DECL_LINE.match(ln) or not ln.rstrip().endswith(";")
+            or ln.count("(") != ln.count(")")):
+        return None
+    return k
+
+
 def sole_body_above(mlines, i, first):
     """Is line i the sole (unbraced) body of a control statement just above it?"""
     k = i - 1
@@ -176,24 +208,55 @@ def sites_in(text):
                 n += 1
                 k = e + 1
             if assigns and not sole_body_above(mlines, i, first):
-                out.append({"i": i, "j": j, "ind": ind, "first": first, "assigns": assigns})
+                out.append({"i": i, "j": j, "ind": ind, "first": first, "last": last, "assigns": assigns})
     return out
+
+
+def _crossable(site, a_lines, crossed):
+    """May every moved assignment cross these lines (neither its name nor an operand touched)?"""
+    byline = {a[0]: a for a in site["assigns"]}
+    for k in a_lines:
+        _, p, _, ops = byline[k]
+        for c in crossed:
+            if re.search(r"(?<![\w.>])%s\b" % re.escape(p), c) or (ops & written_names(c)):
+                return False
+    return True
+
+
+def moved_lines(text, site, a_lines, slot):
+    """The assignment lines (ascending) moved to `slot` ordinary statements above the call."""
+    mlines = mask_comments(text).split("\n")
+    dest, crossed = site["i"], []
+    for _ in range(slot):
+        d = prev_stmt_line(mlines, dest, site["first"])
+        if d is None:
+            return None
+        crossed.append(mlines[d])
+        dest = d
+    if not _crossable(site, a_lines, crossed) or sole_body_above(mlines, dest, site["first"]):
+        return None
+    lines, keep = text.split("\n"), set(a_lines)
+    moved = [lines[k] for k in a_lines]                 # every a_line is BELOW dest, so dest holds
+    rest = [ln for i, ln in enumerate(lines) if i not in keep]
+    return "\n".join(rest[:dest] + moved + rest[dest:]), dest
 
 
 def moved_text(text, site, a_line, slot):
     """The assignment line moved to slot 0 (before the call) or 1 (one statement further up)."""
+    return moved_lines(text, site, [a_line], slot)
+
+
+def moved_down(text, site, a_line, k):
+    """The assignment line moved DOWN past k of the ordinary statements that follow it."""
     mlines = mask_comments(text).split("\n")
-    dest = site["i"]
-    if slot:
-        dest = prev_stmt_line(mlines, site["i"], site["first"])
-        if dest is None:
+    dest, crossed = a_line, []
+    for _ in range(k):
+        d = next_stmt_line(mlines, dest, site.get("last", len(mlines)))
+        if d is None:
             return None
-        crossed = mlines[dest]
-        p = next(a[1] for a in site["assigns"] if a[0] == a_line)
-        ops = next(a[3] for a in site["assigns"] if a[0] == a_line)
-        if re.search(r"(?<![\w.>])%s\b" % re.escape(p), crossed) or (ops & written_names(crossed)):
-            return None
-    if sole_body_above(mlines, dest, site["first"]):
+        crossed.append(mlines[d])
+        dest = d
+    if not _crossable(site, [a_line], crossed):
         return None
     lines = text.split("\n")
     s = lines[a_line]
@@ -245,9 +308,10 @@ def merge_pairs(text):
 
 
 def erase_plans(text, p, lo, hi):
-    """Pin groups to try: naming p, the window jointly, both, each singly, the whole function."""
+    """Pin groups to try: naming p (one name or several), the window jointly, both, singly, all."""
+    ps = {p} if isinstance(p, str) else set(p)
     pins = sites_of(text)
-    onp = [s for s in pins if names_var(s, {p})]
+    onp = [s for s in pins if names_var(s, ps)]
     win = [s for s in pins if lo <= s[5] <= hi]
     both = sorted(set(onp) | set(win), key=lambda s: s[3])
     plans, seen = [], set()
@@ -302,34 +366,63 @@ class T:
                     break
                 if not cls._pinned(cur, p, site["i"], a_line + 2):
                     continue
-                cands, near, seen = [], [], set()
-                best = None
-                for slot in (0, 1):
+                cands, near, seen, best = [], [], set(), [None]
+
+                def offer(label, vtext, ps, lo, hi):
+                    """Screen every pin group of one rewritten text; collect the exact and the near."""
+                    nonlocal listings
+                    for group in erase_plans(vtext, ps, lo, hi):
+                        if listings >= MAX_LISTINGS:
+                            return
+                        cand = erase_many(vtext, group, clean_notes=True)
+                        gone = len(sites_of(cur)) - len(sites_of(cand))
+                        if gone <= 0 or cand in seen:
+                            continue
+                        seen.add(cand)
+                        listings += 1
+                        d = screen.sdiff(target, screen.compile_s(row, cand))
+                        if d is not None and (best[0] is None or d < best[0]):
+                            best[0] = d
+                        if d == 0:
+                            cands.append((gone, label, cand))
+                        elif d is not None and d <= NEAR:
+                            near.append((d, -gone, label, cand))
+
+                def with_merges(label, base, dest):
+                    """`base` alone and composed with the nearest merged shift pairs."""
+                    offer(label, base, [p], dest, site["j"] + 3)
+                    for lb, mt in sorted(merge_pairs(base),
+                                         key=lambda x: abs(int(x[0][2:]) - site["i"]))[:MAX_MERGES]:
+                        offer("%s+%s" % (label, lb), mt, [p], dest, site["j"] + 3)
+
+                for slot in (0, 1):                                    # the first step
                     mv = moved_text(cur, site, a_line, slot)
-                    if mv is None:
-                        continue
-                    base, dest = mv
-                    variants = [("s%d" % slot, base)] + [("s%d+%s" % (slot, lb), mt)
-                                                         for lb, mt in sorted(merge_pairs(base),
-                                                                  key=lambda x: abs(int(x[0][2:]) - site["i"]))[:MAX_MERGES]]
-                    for label, vtext in variants:
-                        lo, hi = dest, site["j"] + 3
-                        for group in erase_plans(vtext, p, lo, hi):
-                            if listings >= MAX_LISTINGS:
-                                break
-                            cand = erase_many(vtext, group, clean_notes=True)
-                            gone = len(sites_of(cur)) - len(sites_of(cand))
-                            if gone <= 0 or cand in seen:
+                    if mv is not None:
+                        with_merges("s%d" % slot, mv[0], mv[1])
+                # the second step, where the first step found nothing listing-exact.  The DOWN move
+                # is not gated on the first step's distance: it is a different transform, and on
+                # dungeon/func_800C9858 the up-move's listing is far while `d3` is byte-exact.
+                if not cands:
+                    for k in range(0, MAX_DOWN + 1):                   # written further DOWN instead
+                        mv = (cur, a_line) if k == 0 else moved_down(cur, site, a_line, k)
+                        if mv is None:
+                            break
+                        offer("d%d" % k, mv[0], [p], site["i"], mv[1] + 2)
+                if not cands and best[0] is not None and best[0] <= NEAR2:
+                    for slot in range(2, MAX_UP + 1):                  # further UP
+                        mv = moved_lines(cur, site, [a_line], slot)
+                        if mv is None:
+                            break
+                        with_merges("s%d" % slot, mv[0], mv[1])
+                    for b_line, q, _, _ in site["assigns"]:            # two pointers moved jointly
+                        if b_line == a_line or listings >= MAX_LISTINGS:
+                            continue
+                        pair = sorted([a_line, b_line])
+                        for slot in (0, 1):
+                            mv = moved_lines(cur, site, pair, slot)
+                            if mv is None:
                                 continue
-                            seen.add(cand)
-                            listings += 1
-                            d = screen.sdiff(target, screen.compile_s(row, cand))
-                            if d is not None and (best is None or d < best):
-                                best = d
-                            if d == 0:
-                                cands.append((gone, label, cand))
-                            elif d is not None and d <= NEAR:
-                                near.append((d, -gone, label, cand))
+                            offer("s%d/j" % slot, mv[0], [p, q], mv[1], site["j"] + 3)
                 cands.sort(key=lambda c: -c[0])
                 near.sort()
                 # the listing screen is a ranking heuristic, not a rejection proof (screen.py): when
@@ -342,8 +435,8 @@ class T:
                         cur, hit = cand, True
                         steps.append("%s@%d-%d" % (label, a_line + 1, gone))
                         break
-                if best is not None and (best_d is None or best < best_d):
-                    best_d = best
+                if best[0] is not None and (best_d is None or best[0] < best_d):
+                    best_d = best[0]
         info = {"listings": listings, "tried": verifies, "pins_in": pins_in, "pins_out": len(sites_of(cur)),
                 "sites": len(sites), "best_d": best_d}
         if not steps:

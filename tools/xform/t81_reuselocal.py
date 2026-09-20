@@ -27,8 +27,20 @@ RESOLVES    town/func_8081DED0 byte-exact (lane r59_sol_large5, 2026-09-20): `s3
             natural.host_candidates is the narrower ancestor: it renames onto an existing local too, but
             fires only where the pin is an ASM_REG ON the variable's own declaration, so it never saw this
             shape (the pin here is an ASM_CLOBBER three lines above).
-CANDIDATES  per pinned block, each (v, host w) pair - hosts in declaration order as host_candidates orders
-            them, at most six: `v` renamed to `w` throughout the block, `v`'s declaration deleted, and
+WINDOWS     round 61: the window a value is confined to need not be braced.  418 of the r60 sweep's
+            refusals had no braced window at all - the pin stands directly in the function body, or in
+            an unbraced `case X:` region of a switch - so two more windows are read from the text:
+            the CASE REGION of a pin inside a switch (from its `case X:` / `default:` label to the next
+            depth-0 `case` / `default`, its depth-0 `break;`, or the switch's closing brace), and, for a
+            pin standing in the function body, the STATEMENT RUN around it (the maximal run of lines
+            between the control-flow boundaries on either side - a label, a `case`, a control head, a
+            jump or a brace - never reaching above the body's declarations, so `v` stays function-scope
+            and its initialiser merges into the host as before).  The rule on top of a window is
+            unchanged: `v` mentioned only inside it, the host of the same declared type not named in it
+            and next mentioned after it by a plain write or not at all.  Braced windows are offered
+            first, so a row that had one is screened exactly as in r60.
+CANDIDATES  per pinned window, each (v, host w) pair - hosts in declaration order as host_candidates orders
+            them, at most six: `v` renamed to `w` throughout the window, `v`'s declaration deleted, and
             `v`'s initialiser merged into `w`'s declaration (a function-scope `v`) or left behind as a
             plain assignment (a block-scope `v`); then the block's pins erased jointly, then singly.
             Candidates are ranked by cc1 listing distance to the pinned text and only the nearest reach
@@ -36,6 +48,7 @@ CANDIDATES  per pinned block, each (v, host w) pair - hosts in declaration order
             an array, a parameter, a different declared type, a `w` mentioned inside the block or read
             (not written) after it, two initialisers, and any rewrite that would change another pin's text.
 """
+import os
 import difflib, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -51,7 +64,7 @@ except ImportError:
 MAX_WINDOWS = 6
 MAX_VARS = 4
 MAX_HOSTS = 6
-MAX_LISTINGS = 80
+MAX_LISTINGS = 120
 MAX_VERIFY = 6
 
 ID = r"[A-Za-z_]\w*"
@@ -64,6 +77,90 @@ DECL_RE = re.compile(r"^(?P<i>[ \t]*)(?P<q>(?:(?:register|const|volatile|static|
 DECLISH_RE = re.compile(r"^[ \t]*(?:(?:register|const|volatile|static|unsigned|signed|struct|union|enum)[ \t]+)*"
                         r"%s(?:[ \t]*\*+[ \t]*|[ \t]+)\**%s" % (ID, ID))
 WRITE_RE = re.compile(r"^[ \t]*(?P<n>%s)[ \t]*=(?!=)" % ID)
+CASE_RE = re.compile(r"^[ \t]*(?:case\b[^:]*|default[ \t]*):")
+BREAK_RE = re.compile(r"^[ \t]*break[ \t]*;[ \t]*$")
+LABEL_RE = re.compile(r"^[ \t]*%s[ \t]*:[ \t]*;?[ \t]*$" % ID)
+BOUNDARY_RE = re.compile(r"^[ \t]*(?:goto|return|break|continue|case|default|if|while|for|do|switch|else)\b")
+
+
+def _depth0(t, o, c):
+    """The lines of block (o, c) at the block's own nesting depth (not inside a nested brace)."""
+    out, depth = [], 0
+    for k in range(o + 1, c):
+        if depth == 0:
+            out.append(k)
+        depth = max(0, depth + t.m[k].count("{") - t.m[k].count("}"))
+    return out
+
+
+def first_statement(t, o, c):
+    """The first line of block (o, c) that is not a declaration (where block_decls stops)."""
+    k = o + 1
+    while k < c:
+        ln = t.m[k]
+        if not ln.strip() or ln.lstrip().startswith("#"):
+            k += 1
+            continue
+        m = DECL_RE.match(ln)
+        if m and m.group("base") not in KEYWORDS:
+            k += 1
+            continue
+        if DECLISH_RE.match(ln) and not ln.rstrip().endswith(";") and "(" not in ln.split("=")[0]:
+            while k < c and not t.m[k].rstrip().endswith(";"):
+                k += 1
+            k += 1
+            continue
+        break
+    return k
+
+
+def case_window(t, blk, k):
+    """(o, c) of the unbraced `case` region of a switch body holding line k: from its label to the next
+    depth-0 `case` / `default`, its depth-0 `break;`, or the switch's closing brace."""
+    o, c = blk
+    lines = _depth0(t, o, c)
+    if not any(CASE_RE.match(t.m[j]) for j in lines):
+        return None                                                  # not a switch body
+    start = max([j for j in lines if j < k and CASE_RE.match(t.m[j])] + [-1])
+    if start < 0:
+        return None
+    end = min([j for j in lines if j > k and (CASE_RE.match(t.m[j]) or BREAK_RE.match(t.m[j]))] + [c])
+    return (start, end) if start < k < end else None
+
+
+def run_window(t, blk, k):
+    """(o, c) of the statement run around line k in block (o, c): the maximal run between the
+    control-flow boundaries on either side, never reaching above the block's declarations."""
+    o, c = blk
+
+    def boundary(j):
+        ln = t.m[j]
+        return bool(BOUNDARY_RE.match(ln) or LABEL_RE.match(ln) or "{" in ln or "}" in ln)
+
+    lines = _depth0(t, o, c)
+    start = max([j for j in lines if j < k and boundary(j)] + [o, first_statement(t, o, c) - 1])
+    end = min([j for j in lines if j > k and boundary(j)] + [c])
+    return (start, end) if start < k < end else None
+
+
+def windows(t, fn, pinlines):
+    """[(o, c, kind)] for one function, braced first: the innermost braced block of each pin, then the
+    unbraced case region of a pin in a switch, then the statement run of a pin in the function body."""
+    braced, extra, seen = [], [], set()
+    for k in pinlines:
+        if not (fn.a < k < fn.b):
+            continue
+        blk = fn.inner.get(k) or fn.body
+        if blk != fn.body and blk not in seen:
+            seen.add(blk)
+            braced.append((blk[0], blk[1], "braced"))
+        win, kind = case_window(t, blk, k), "case"
+        if win is None and blk == fn.body:
+            win, kind = run_window(t, blk, k), "run"
+        if win and win not in seen:
+            seen.add(win)
+            extra.append((win[0], win[1], kind))
+    return braced + extra
 
 
 def block_decls(t, o, c):
@@ -111,32 +208,27 @@ def candidates(text):
             if blk:
                 decls[blk] = block_decls(t, *blk)
         params = {d["name"] for d in fn.params}
-        wins, seen = [], set()
-        for s in sites_of(text):
-            k = s[5] - 1
-            if not (fn.a < k < fn.b):
-                continue
-            blk = fn.inner.get(k)
-            if blk and blk != body and blk not in seen:
-                seen.add(blk)
-                wins.append(blk)
-        for win in wins[:MAX_WINDOWS]:
-            o, c = win
+        wins = windows(t, fn, [s[5] - 1 for s in sites_of(text)])
+        for o, c, kind in wins[:MAX_WINDOWS]:
+            win = (o, c)
             scope = [d for d in decls.get(body, ()) if d["ok"]] + [d for d in decls.get(win, ()) if d["ok"]]
             free = [d for d in scope if d["name"] not in taken and d["name"] not in params]
             vs = []
             for d in free:
                 ms = _mentions(t, d["name"], fn.a, fn.b, skip={d["line"]})
                 if ms and all(o < k < c for k in ms):
-                    vs.append(d)
-            for v in vs[:MAX_VARS]:
+                    vs.append((d, ms))
+            for v, ms in vs[:MAX_VARS]:
+                # a statement run holds no control flow, so `v` is live only over its own mentions: the
+                # host must be dead over THAT much of the run, not over the whole of it
+                lo, hi = (max(o, min(ms) - 1), min(c, max(ms) + 1)) if kind == "run" else (o, c)
                 hosts = []
                 for w in free:
                     if w["name"] == v["name"] or w["ty"] != v["ty"] or w["pinned"]:
                         continue
-                    if _mentions(t, w["name"], o, c, skip={w["line"]}):
+                    if _mentions(t, w["name"], lo, hi, skip={w["line"]}):
                         continue
-                    after = _mentions(t, w["name"], c, fn.b, skip={w["line"]})
+                    after = _mentions(t, w["name"], hi, fn.b, skip={w["line"]})
                     if after and not (WRITE_RE.match(t.m[after[0]]) and WRITE_RE.match(t.m[after[0]]).group("n") == w["name"]):
                         continue
                     if v["init"] and w["init"]:
@@ -238,8 +330,9 @@ class T:
                 break
         if best is None:
             rest.sort(key=lambda x: (x[0], x[1]))
-            for d, _, cand, label in rest[:2]:
-                if verifies >= min(MAX_VERIFY, 2):
+            NEAR_VERIFY = int(os.environ.get('NEAR_VERIFY', '4'))        # round 61: the near band (d <= 2) gets four scorer runs
+            for d, _, cand, label in [x for x in rest if x[0] <= 2][:NEAR_VERIFY]:
+                if verifies >= min(MAX_VERIFY, NEAR_VERIFY):
                     break
                 verifies += 1
                 if vf(cand).get("exact"):

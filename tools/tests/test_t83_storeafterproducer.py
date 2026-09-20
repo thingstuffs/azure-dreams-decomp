@@ -143,5 +143,95 @@ class Refusals(unittest.TestCase):
         self.assertEqual(M.T.eligible(T.replace("    ASM_MEM_BARRIER();\n", "", 2), {}, {}), "no pins")
 
 
+RUN = '''#include "common.h"
+void f(S *out, S *in)
+{
+    s32 lo;
+    s32 hi;
+    s32 mid;
+
+    lo = in->unk_00;
+    hi = in->unk_04;
+    ASM_MEM_BARRIER();
+    mid = in->unk_08;
+    out->unk_00 = 0;
+    out->unk_10 = lo;
+    out->unk_14 = hi;
+    out->unk_18 = mid;
+}
+'''
+
+BROKEN = RUN.replace("    out->unk_14 = hi;\n", "    hi = hi + 1;\n    out->unk_14 = hi;\n")
+
+ABOVE = '''#include "common.h"
+void f(S *out, S *in)
+{
+    s32 lo;
+
+    ASM_SCHED_BARRIER();
+    lo = in->unk_00;
+    out->unk_20 = 1;
+    out->unk_24 = 2;
+    out->unk_10 = lo;
+}
+'''
+
+STORES = ["    out->unk_10 = lo;", "    out->unk_14 = hi;", "    out->unk_18 = mid;"]
+
+
+class Runs(unittest.TestCase):
+    def test_run_of_adjacent_stores(self):
+        rs = M.runs(RUN)
+        self.assertEqual(len(rs), 1)
+        lines = RUN.split("\n")
+        self.assertEqual([v for _, _, v, _ in rs[0]], ["lo", "hi", "mid"])
+        for prod, store, v, _ in rs[0]:
+            self.assertIn(v + " =", lines[prod])                        # a real producer, not a reload
+            self.assertTrue(lines[store].rstrip().endswith("= %s;" % v))
+
+    def test_run_moves_as_one_unit_after_its_last_producer(self):
+        plans = M.run_plans(RUN, M.runs(RUN)[0])
+        self.assertTrue(plans)
+        out = plans[0][1].split("\n")
+        i = out.index("    mid = in->unk_08;")                          # the LAST of the three producers
+        self.assertEqual(out[i + 1:i + 4], STORES)                      # the run, in its own order
+        self.assertEqual(sorted(out), sorted(RUN.split("\n")))         # lines moved, none added or lost
+
+    def test_no_member_lands_above_its_own_producer(self):
+        for _, moved in M.run_plans(RUN, M.runs(RUN)[0]):
+            out = moved.split("\n")
+            for v, off in (("lo", "00"), ("hi", "04"), ("mid", "08")):
+                self.assertLess(out.index("    %s = in->unk_%s;" % (v, off)),
+                                out.index([x for x in STORES if x.endswith("= %s;" % v)][0]))
+
+    def test_a_statement_inside_the_run_breaks_it(self):
+        self.assertEqual(M.runs(BROKEN), [])
+
+    def test_sub_runs_are_offered_too(self):
+        gs = M.run_groups(RUN)
+        self.assertEqual(sorted({len(g) for g in gs}), [2, 3])          # the run and its contiguous parts
+        self.assertLessEqual(len(gs), M.MAX_RUNS)
+        for g in gs:                                                    # every sub-run is contiguous
+            self.assertEqual([p[1] for p in g], list(range(g[0][1], g[0][1] + len(g))))
+
+
+class Windows(unittest.TestCase):
+    def test_producer_below_the_pin_is_still_in_the_window(self):
+        from pin_census import sites_of
+        sites = sites_of(ABOVE)
+        prod, store, _, _ = M.pairs(ABOVE)[0]
+        self.assertLess(sites[0][5] - 1, prod)                          # the pin sits ABOVE the producer
+        self.assertEqual(M.window_pins(sites, prod, store), [0])        # and still in the pair's window
+        self.assertIsNone(M.T.eligible(ABOVE, {}, {}))
+
+    def test_a_pin_far_from_the_store_is_no_window(self):
+        from pin_census import sites_of
+        sites = sites_of(ABOVE)
+        self.assertEqual(M.window_pins(sites, 60 - M.MAX_SPAN, 60), [])
+        self.assertEqual(M.T.eligible(ABOVE.replace("    ASM_SCHED_BARRIER();\n", "").replace(
+            "    s32 lo;\n", "    s32 lo;\n    ASM_SCHED_BARRIER();\n" + "\n" * (M.MAX_SPAN + 4)), {}, {}),
+            "no pair in a pinned window")
+
+
 if __name__ == "__main__":
     unittest.main()

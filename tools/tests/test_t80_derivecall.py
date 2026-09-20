@@ -131,6 +131,68 @@ class Sites(unittest.TestCase):
         self.assertIn("r", assigns)
 
 
+DEEP = '''#include "common.h"
+void f(u8 *base, s32 n) {
+    u8 *p;
+    u8 *q;
+    s32 a;
+    s32 b;
+
+    a = n;
+    b = n;
+    k(base);
+    p = base + 4;
+    q = base + 8;
+    m(p, q, a, b);
+}
+'''
+
+
+class Compose(unittest.TestCase):
+    """The second step: the assignment written further down, further up, or moved jointly."""
+
+    def site(self, text, call):
+        return [s for s in M.sites_in(text) if call in text.split("\n")[s["i"]]][0]
+
+    def test_move_down(self):
+        site = self.site(DEEP, "k(base)")
+        a = [x for x in site["assigns"] if x[1] == "p"][0]
+        new, dest = M.moved_down(DEEP, site, a[0], 1)
+        lines = [l.strip() for l in new.split("\n")]
+        self.assertEqual(lines[dest - 1], "q = base + 8;")            # q now comes first
+        self.assertEqual(lines[dest], "p = base + 4;")
+        self.assertIsNone(M.moved_down(DEEP, site, a[0], 2))          # `m(p, ...)` names p
+
+    def test_move_down_refuses_a_writer(self):
+        text = DEEP.replace("    q = base + 8;", "    base = 0;")
+        site = self.site(text, "k(base)")
+        a = [x for x in site["assigns"] if x[1] == "p"][0]
+        self.assertIsNone(M.moved_down(text, site, a[0], 1))          # the operand is written
+
+    def test_deeper_slot(self):
+        site = self.site(DEEP, "k(base)")
+        a = [x for x in site["assigns"] if x[1] == "p"][0]
+        new, dest = M.moved_lines(DEEP, site, [a[0]], 2)
+        lines = [l.strip() for l in new.split("\n")]
+        self.assertEqual(lines[dest], "p = base + 4;")
+        self.assertEqual(lines[dest + 1], "a = n;")                   # two statements above the call
+        self.assertEqual(lines[dest + 3], "k(base);")
+
+    def test_joint_move(self):
+        site = self.site(DEEP, "k(base)")
+        lines_of = {x[1]: x[0] for x in site["assigns"]}
+        new, dest = M.moved_lines(DEEP, site, sorted([lines_of["p"], lines_of["q"]]), 0)
+        lines = [l.strip() for l in new.split("\n")]
+        self.assertEqual(lines[dest:dest + 3], ["p = base + 4;", "q = base + 8;", "k(base);"])
+        self.assertEqual(new.count("p = base + 4;"), 1)               # moved, not copied
+
+    def test_erase_plans_takes_several_names(self):
+        text = DEEP.replace("    u8 *p;", "    register u8 *p ASM_REG(\"$4\");").replace(
+            "    u8 *q;", "    register u8 *q ASM_REG(\"$5\");")
+        plans = M.erase_plans(text, ["p", "q"], 1, 1)
+        self.assertTrue(any(len(g) == 2 for g in plans))               # both ASM_REGs in one group
+
+
 class Merge(unittest.TestCase):
     def test_merge_pair(self):
         out = M.merge_pairs(MERGE)
