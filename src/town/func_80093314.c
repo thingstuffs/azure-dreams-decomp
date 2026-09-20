@@ -50,7 +50,8 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
     s32 action_result;
     s32 interaction_result;
     u8 *page_base;
-    register u8 *shared_data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *height_data;
+    u8 *shared_data;
     u8 *input_state = D_80083160;
 
     func_80095C80(record);
@@ -58,11 +59,8 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
     {
         void *height_record = record;
 
-        ASM_KEEP(height_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        page_base = (u8 *)0x80100000;
-        ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        shared_data = page_base - 0x1B78;
-        height = func_80095978(height_record, shared_data);
+        height_data = D_800FE488;
+        height = func_80095978(height_record, height_data);
     }
     if ((height - record->unk_08.at02_s16.v) >= 4) {
         if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
@@ -70,7 +68,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
             return;
         }
     } else if (((S_80090A74_1 *)(&D_800CFCEF))->unk_00 == 0) {
-        func_80095A94(record, height, shared_data);
+        func_80095A94(record, height, height_data);
     }
     if (((S_80090A74_2 *)input_state)->unk_10 & 0x10) {
         func_800942B0(actor, record, context);
@@ -91,9 +89,7 @@ void func_80090A74(Rec_func_8009431C_arg0 *actor, Rec_D_800E3D7C *record, M2C_UN
             return;
         }
     } else {
-        page_base = (u8 *)0x800D0000;
-        ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        shared_data = page_base - 0x34C;
+        shared_data = (u8 *)&D_800CFCB4;
         interaction_result = func_8009567C(shared_data);
         if (interaction_result != 0) {
             if (interaction_result == -1) {
