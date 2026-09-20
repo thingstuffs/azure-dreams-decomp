@@ -134,8 +134,8 @@ void func_80170A78(void *input_obj, void *input_motion, void *input_part)
                 ((S_80170A78_1 *)part)->unk_04);
             (*(s16 *)((u8 *)obj + 0x94)) = input_motion;
         }
-        direction_flag = D_8006CCF8[mode_or_dir];
-        ASM_KEEP(mode_or_dir);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        value_bits = (u32)&D_8006CCF8[mode_or_dir];
+        direction_flag = *(u8 *)value_bits;
         if (direction_flag != 0) {
             value_bits = *(volatile u16 *)((u8 *)part + 0x14) | 1;
         } else {
