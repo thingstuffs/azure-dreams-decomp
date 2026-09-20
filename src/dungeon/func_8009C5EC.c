@@ -173,7 +173,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 prev_step;
             s32 base_stat;
             s32 old_scaled;
-            register s32 new_stat ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 new_stat;
             s32 stat;
             s32 old_value;
             prev_step = level - 1;
@@ -192,7 +192,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             if (stat_gain_m < 0) {
                 stat_gain_m += 0x3F;
             }
-            new_stat = base_stat + (stat_gain_m >> 6);
+            old_scaled = stat_gain_m >> 6;
+            new_stat = base_stat + old_scaled;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
@@ -215,7 +216,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 stat_gain_m += 0x3F;
             }
                /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            new_stat = base_stat + (stat_gain_m >> 6);
+            old_scaled = stat_gain_m >> 6;
+            new_stat = base_stat + old_scaled;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
@@ -236,7 +238,8 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
                 stat_gain_m += 0x3FF;
             }
                /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            new_stat = base_stat + (stat_gain_m >> 0xA);
+            old_scaled = stat_gain_m >> 0xA;
+            new_stat = base_stat + old_scaled;
             stat += new_stat - old_stat;
             if ((u32) stat >= 0x100) {
                 stat = 0xFF;
