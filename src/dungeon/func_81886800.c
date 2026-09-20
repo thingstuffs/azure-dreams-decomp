@@ -273,7 +273,7 @@ extern s32 set_item_w0(s32, s32, s32, s32);
 extern void func_800A56E0(s32);
 extern s32 func_800A45D8(s32, s32, s32);
 extern void func_80065F90(s32, s32);
-extern void *func_80024C80(void *, void *, s32);
+extern void *func_80024C80(void *, void *, s32, void *);
 extern void func_800262B8(void *, s32, void *);
 
 extern void *D_80024008[];
@@ -641,13 +641,13 @@ case_2:
     func_80065F90(motion->unk_0C.parts.unk_0E.s16, motion->unk_10.parts.unk_12.s16);
     {
 #ifdef __mips__
-        register S_func_81886800_8 *target_object ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        S_func_81886800_8 *target_object;
 #else
         S_func_81886800_8 *target_object;
 #endif
+        target_object = owner->unk_60;
         effect->unk_28 = func_80024C80(
-            effect, motion, (target_object = owner->unk_60,
-                            target_object->unk_88.s16));
+            effect, motion, target_object->unk_88.s16, target_object);
         if (effect->unk_28 == 0) {
             goto end;
         }
