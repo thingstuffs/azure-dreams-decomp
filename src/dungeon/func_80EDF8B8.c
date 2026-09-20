@@ -7,8 +7,6 @@
 void func_801710B8(void *motion, void *position)
 {
     s32 target_delta;
-    s32 z_accel;
-
     S32_AT(position, 0x0) += S32_AT(motion, 0x40);
     S32_AT(position, 0x4) += S32_AT(motion, 0x44);
     S32_AT(position, 0x8) += S32_AT(motion, 0x48);
@@ -70,10 +68,9 @@ void func_801710B8(void *motion, void *position)
             target_delta = -target_delta;
         }
         if (target_delta >= 17) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            z_accel = 0x10000;
+            S32_AT(motion, 0x54) = 0x10000;
         } else {
-            z_accel = 0x1000;
+            S32_AT(motion, 0x54) = 0x1000;
         }
     } else {
         target_delta = S16_AT(motion, 0x62) - S16_AT(position, 0xa);
@@ -81,11 +78,10 @@ void func_801710B8(void *motion, void *position)
             target_delta = -target_delta;
         }
         if (target_delta >= 17) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            z_accel = -0x10000;
+            S32_AT(motion, 0x54) = -0x10000;
         } else {
-            z_accel = -0x1000;
+            S32_AT(motion, 0x54) = -0x1000;
         }
     }
-    S32_AT(motion, 0x54) = z_accel;
+
 }
