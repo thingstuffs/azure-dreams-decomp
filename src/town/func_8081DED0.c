@@ -67,8 +67,7 @@ void func_800206D0(void *pickup, void *motion, void *sprite)
     void *source_object = ((S_800206D0_0 *)pickup)->unk_04;
     Vec3 reward_units = D_80020020;
     s32 timer;
-    s32 reward;
-    s32 divisor = 1;
+    s32 reward = 1;
     u32 state;
 
     if (((S_800206D0_1 *)source_object)->unk_20 & 8) {
@@ -87,22 +86,21 @@ state0:
         s32 denomination;
         s32 scaled_count;
 
-        ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         denomination = ((S_800206D0_0 *)pickup)->unk_54;
         switch (denomination) {
         case 1:
-            divisor = 10;
+            reward = 10;
             goto state0_compute;
         case 2:
-            divisor = 100;
+            reward = 100;
             break;
         default:
             goto state0_compute;
         }
 state0_compute:
-        scaled_count = ((S_800206D0_1 *)source_object)->unk_1E / divisor;
-        divisor = scaled_count % 10;
-        if (((S_800206D0_0 *)pickup)->unk_56 < divisor) {
+        scaled_count = ((S_800206D0_1 *)source_object)->unk_1E / reward;
+        reward = scaled_count % 10;
+        if (((S_800206D0_0 *)pickup)->unk_56 < reward) {
             ((S_800206D0_2 *)sprite)->unk_14 &= 0xFF7F;
         } else {
             ((S_800206D0_2 *)sprite)->unk_14 |= 0x80;
