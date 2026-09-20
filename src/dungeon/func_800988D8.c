@@ -110,7 +110,7 @@ void func_8009E038(S_func_8009E038_0 *transition, S_func_8009E038_1 *center, S_f
     s16 reset_remaining;
     s16 hold_remaining;
     s32 state;
-    register s16 move_remaining ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 move_remaining;
     s32 current_scale;
     s32 height_step;
     s32 flags;
@@ -296,9 +296,9 @@ jt_c16:
     transition->unk_06 = (s16) ((u16) transition->unk_06 + top_step);
     transition->unk_08 = (s16) ((u16) transition->unk_08 + ((s32) (transition->unk_10 - transition->unk_08) / (s16) transition->unk_1C));
     height_step = (s32) (transition->unk_12 - transition->unk_0A) / (s16) transition->unk_1C;
+    transition->unk_0A = (s16) ((u16) transition->unk_0A + height_step);
     move_remaining = (u16) transition->unk_1C - 1;
     transition->unk_1C = move_remaining;
-    transition->unk_0A = (s16) ((u16) transition->unk_0A + height_step);
     if ((move_remaining << 0x10) > 0) {
         goto check_scale_input;
     }

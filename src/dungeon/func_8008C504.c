@@ -60,8 +60,7 @@ void func_80091C64(void *motion, void *position, void *entity, void *actor) {
     M2C_UNK *action_tracker;
     s16 frames_left;
     u8 phase;
-    u8 completed_phase;
-    register u16 return_duration ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 return_duration;
     s32 target_x;
     s32 current_x;
     s32 y_work;
@@ -104,20 +103,18 @@ tick_hop:
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD058;
     func_80048A44(entity, D_800DD058[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    completed_phase = ((S_80091C64_0 *)motion)->unk_9B;
     ((S_80091C64_0 *)motion)->unk_92 = 0;
-    goto advance_phase;
+    ((S_80091C64_0 *)motion)->unk_9B++;
+    return;
 jt_c2:
     if (D_8008346C != 0) {
         goto done;
     }
     (*(u8 **)((u8 *)entity + 0x2C)) = D_800DD038;
     func_80048A44(entity, D_800DD038[((s32) (D_80083228 + ((S_80091C64_1 *)actor)->unk_2A + 0x100) >> 9) & 7], 0, 1);
-    completed_phase = ((S_80091C64_0 *)motion)->unk_9B;
     return_duration = 8U;
     ((S_80091C64_0 *)motion)->unk_96.s = return_duration;
-advance_phase:
-    ((S_80091C64_0 *)motion)->unk_9B = (u8) (completed_phase + 1);
+    ((S_80091C64_0 *)motion)->unk_9B++;
     return;
 jt_c3:
     frames_left = (s16) ((S_80091C64_0 *)motion)->unk_96.s;
