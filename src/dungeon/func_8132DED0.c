@@ -67,10 +67,8 @@ typedef struct S_80164ED0_1 {
 } S_80164ED0_1;   /* temp_s0 in func_80164ED0 */
 
 /* Creates an effect relative to its parent with randomized motion and initial state values. */
-void func_80164ED0(Rec_D_800E3D7C *parent, s32 state_value, s16 pair_value, s32 offset_x, s32 offset_y, s32 offset_z)
+void func_80164ED0(Rec_D_800E3D7C *parent, s32 state_value, s16 pair_value, s16 offset_x, s16 offset_y, s16 offset_z)
 {
-    register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80164ED0_1 *effect_data;
     void *effect;
 
@@ -80,9 +78,9 @@ void func_80164ED0(Rec_D_800E3D7C *parent, s32 state_value, s16 pair_value, s32 
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_02 = (s16)
             (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_02 + offset_x);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_06 = (s16)
-            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_06 + saved_offset_y);
+            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_06 + offset_y);
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_0A + saved_offset_z);
+            (((S_80164ED0_5 *)(parent->unk_08.at00_pv.v))->unk_0A + offset_z);
         ((S_80164ED0_6 *)(((S_80164ED0_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_80164ED0_4 *)(((S_80164ED0_2 *)effect)->unk_08))->unk_0C = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 6);

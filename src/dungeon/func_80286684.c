@@ -39,7 +39,7 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
     Object *header_object;
     Object *load_object;
     u32 header;
-    register u32 buffer_addr ASM_REG("$2");
+    u32 buffer_addr;
     register u32 mask ASM_REG("$3");
     u32 mask_2;
     if (*slot == buffers[D_80080AFC]) {
@@ -80,7 +80,8 @@ s32 func_80019684(s16 object_index, s16 mode, s16 activate) {
                 buffer_addr = (u32)D_801BEE40;
             }
             buffer_addr &= mask;
-            buffer_addr = header | buffer_addr;
+            header |= buffer_addr;
+            buffer_addr = header;
         }
         {
             register s32 reload_left;

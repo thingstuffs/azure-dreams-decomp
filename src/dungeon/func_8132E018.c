@@ -65,10 +65,8 @@ extern u8 D_80164DA4[];
 
 
 /* Create an effect at a randomized offset from its parent and initialize its state. */
-void func_80165018(Rec_D_800E3D7C *parent, s32 effect_value, s16 effect_size, s32 offset_x, s32 offset_y,
-                   s32 offset_z) {
-    register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+void func_80165018(Rec_D_800E3D7C *parent, s32 effect_value, s16 effect_size, s16 offset_x, s16 offset_y,
+                   s16 offset_z) {
     void *effect;
     S_80165018_2 *state;
     S_80165018_4 *effect_data;
@@ -85,12 +83,12 @@ void func_80165018(Rec_D_800E3D7C *parent, s32 effect_value, s16 effect_size, s3
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_02 = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_06 + saved_offset_y;
+        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_06 + offset_y;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_06 = (s16)coordinate;
         jitter = rand() & 7;
-        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_0A + saved_offset_z;
+        coordinate = ((S_80165018_5 *)(parent->unk_08.at00_pv.v))->unk_0A + offset_z;
         coordinate -= 3;
         coordinate += jitter;
         ((S_80165018_6 *)(((S_80165018_0 *)effect)->unk_08))->unk_0A = (s16)coordinate;
