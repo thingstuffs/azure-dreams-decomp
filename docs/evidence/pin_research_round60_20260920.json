@@ -1,0 +1,409 @@
+{
+ "schema": "azure-clean.pin-research-round60.v1",
+ "round": 60,
+ "date": "2026-09-20",
+ "charter": "docs/PIN_CAMPAIGN_CHARTER.md",
+ "counts": {
+  "before": {
+   "pins": 5682,
+   "pinned_rows": 1175
+  },
+  "after": {
+   "pins": 5612,
+   "pinned_rows": 1157
+  },
+  "pins_removed": 70
+ },
+ "chain_F_sol_slices_1_3_pins": [
+  {
+   "lane": "r59_sol_large5",
+   "rows": 15,
+   "pool_at_build": 74,
+   "landed": [
+    {
+     "id": "town/func_8081DED0",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_mid4",
+   "rows": 15,
+   "pool_at_build": 40,
+   "landed": [
+    {
+     "id": "dungeon/func_8008BCD0",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_8008D084",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_80E0D894",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_large6",
+   "rows": 15,
+   "pool_at_build": 59,
+   "landed": [
+    {
+     "id": "dungeon/func_80EDF8B8",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_819BFF10",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "town/func_8032D6E4",
+     "pins": [
+      2,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_mid5",
+   "rows": 15,
+   "pool_at_build": 25,
+   "landed": [
+    {
+     "id": "dungeon/func_80D1170C",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_818ED25C",
+     "pins": [
+      2,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_large7",
+   "rows": 15,
+   "pool_at_build": 44,
+   "landed": [
+    {
+     "id": "dungeon/func_800D5794",
+     "pins": [
+      2,
+      1
+     ]
+    },
+    {
+     "id": "dungeon/func_81087524",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_8133A5D0",
+     "pins": [
+      2,
+      1
+     ]
+    },
+    {
+     "id": "dungeon/func_818C2FAC",
+     "pins": [
+      2,
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_mid6",
+   "rows": 10,
+   "pool_at_build": 10,
+   "landed": [
+    {
+     "id": "dungeon/func_8008C504",
+     "pins": [
+      2,
+      1
+     ]
+    },
+    {
+     "id": "dungeon/func_800988D8",
+     "pins": [
+      2,
+      1
+     ]
+    },
+    {
+     "id": "dungeon/func_80D68D0C",
+     "pins": [
+      2,
+      1
+     ]
+    },
+    {
+     "id": "dungeon/func_813374E8",
+     "pins": [
+      2,
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_large8",
+   "rows": 15,
+   "pool_at_build": 29,
+   "landed": [
+    {
+     "id": "dungeon/func_8133C2A4",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "town/func_8096CB00",
+     "pins": [
+      2,
+      0
+     ]
+    }
+   ]
+  },
+  {
+   "lane": "r59_sol_large9",
+   "rows": 14,
+   "pool_at_build": 14,
+   "landed": [
+    {
+     "id": "dungeon/func_8009B140",
+     "pins": [
+      3,
+      2
+     ]
+    },
+    {
+     "id": "dungeon/func_80286684",
+     "pins": [
+      3,
+      2
+     ]
+    },
+    {
+     "id": "dungeon/func_80AC854C",
+     "pins": [
+      3,
+      2
+     ]
+    }
+   ]
+  }
+ ],
+ "miss_analysis": {
+  "source": "REPORT.md of r59_sol_large5..7, mid4..5 (~60 unsolved rows)",
+  "groups": [
+   "function-wide register role swaps (about half; every spelling coalesces to the same RTL)",
+   "named residues at listing distance 1-5 (zero copy-propagated, lui order, lui/ori vs lui/addiu page constant, move+addiu combined, prologue sw/move pair order)",
+   "fence pins between repeated loads and later stores (cse)",
+   "partial repairs leaving a two-register swap"
+  ],
+  "screen_calibration": {
+   "rows": 235,
+   "solved": 40,
+   "RECOLOURED_erase_ge_0.3_insns": "18 served / 0 solved -> screened in build_pack2.py",
+   "RECOLOURED_lt_0.15": "26 / 8",
+   "rows_le_60_insns": "44 / 4",
+   "rows_gt_250_insns": "44 / 11",
+   "file": "<scratchpad>/served_calib.json"
+  }
+ },
+ "dispatch_row": {
+  "id": "town/func_8032D6E4",
+  "what": "sol's byte-exact labelled dispatch, refused for flattening the NON_MATCHING split; rewritten by hand with the port arm intact",
+  "landed": [
+   {
+    "id": "town/func_8032D6E4",
+    "pins": [
+     2,
+     0
+    ]
+   }
+  ],
+  "flag": "labels outside a loop: owner has not ruled; t48_gotoreturn is the precedent"
+ },
+ "sprite_spawn_family": {
+  "rows": [
+   "dungeon/func_8132DED0",
+   "dungeon/func_8132E6F8",
+   "dungeon/func_8132E018",
+   "dungeon/func_8132ED0C"
+  ],
+  "mechanism": "function.c assign_parms: a parameter narrower than its passed mode gets a real pseudo with an entry conversion copy (no REG_EQUIV mem), so it crosses the call and global.c allocates it callee-saved; all three offsets s16 restores the allocno order too",
+  "probe_distances": {
+   "erased": 44,
+   "y,z s16": 16,
+   "x,y,z s16": 0,
+   "x,y,z u16": 0,
+   "state too": 6,
+   "s8": 28
+  },
+  "callers_in_src": 0
+ },
+ "families_bounded": {
+  "item_target (80A9D4E8, 80DBBFC8, 810318E4)": "volatile s8 loads: order and registers right, but 2.8.0 expands a volatile QImode load as lbu+sll/sra (distance 8); (s32) cast 8; s8 locals 16; pointer local 21",
+  "raw_height (80D66164, 80E0D2E8)": "u16 raw_height 20; + volatile signed load 34/20; u32/s32 with volatile height 56/28"
+ },
+ "generators": {
+  "t78_aggcopy": {
+   "lane": "r60_t78_aggcopy",
+   "eligible": 9,
+   "exact_rows": 2,
+   "staged_pins": 2,
+   "landed": [],
+   "landed_arms": [],
+   "refused_at_landing": []
+  },
+  "t80_derivecall": {
+   "lane": "r60_t80_derivecall",
+   "eligible": 218,
+   "exact_rows": 6,
+   "staged_pins": 6,
+   "landed": [],
+   "landed_arms": [],
+   "refused_at_landing": []
+  },
+  "t81_reuselocal": {
+   "lane": "r60_t81_reuselocal",
+   "eligible": 294,
+   "exact_rows": 5,
+   "staged_pins": 5,
+   "landed": [],
+   "landed_arms": [],
+   "refused_at_landing": []
+  },
+  "t82_armsink": {
+   "lane": "r60_t82_armsink",
+   "eligible": 151,
+   "exact_rows": 3,
+   "staged_pins": 3,
+   "landed": [],
+   "landed_arms": [],
+   "refused_at_landing": [
+    {
+     "id": "dungeon/func_818E6800",
+     "reason": "stale candidate: its row changed after it was cut (.base_sha)"
+    }
+   ]
+  },
+  "t83_storeafterproducer": {
+   "lane": "r60_t83_storeafterproducer",
+   "eligible": 131,
+   "exact_rows": 6,
+   "staged_pins": 6,
+   "landed": [],
+   "landed_arms": [],
+   "refused_at_landing": []
+  },
+  "t84_narrowparams": {
+   "lane": "r60_t84_narrowparams",
+   "eligible": 36,
+   "exact_rows": 5,
+   "staged_pins": 17,
+   "landed": [
+    {
+     "id": "dungeon/func_8132DED0",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_8132E018",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_8132E6F8",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_8132ED0C",
+     "pins": [
+      2,
+      0
+     ]
+    },
+    {
+     "id": "slus/w_8004A330",
+     "pins": [
+      9,
+      0
+     ]
+    }
+   ],
+   "landed_arms": [],
+   "refused_at_landing": []
+  },
+  "t19_modpow2 (extended)": {
+   "lane": "r60_t19_modpow2",
+   "eligible": 19,
+   "exact_rows": 0,
+   "staged_pins": 0,
+   "landed": [],
+   "landed_arms": [],
+   "refused_at_landing": []
+  }
+ },
+ "tools": [
+  "tools/lanes/gen_drive.py",
+  "tools/xform/t78_aggcopy.py",
+  "tools/xform/t80_derivecall.py",
+  "tools/xform/t81_reuselocal.py",
+  "tools/xform/t82_armsink.py",
+  "tools/xform/t83_storeafterproducer.py",
+  "tools/xform/t84_narrowparams.py",
+  "tools/xform/t19_modpow2.py (named rounded-quotient spelling)",
+  "<scratchpad>/build_pack2.py (residue screen, --dry-run)",
+  "<scratchpad>/codex59f.sh, codex59g.sh, land_r60.sh, land_r60b.sh, add_cascade.sh"
+ ],
+ "model_spend": {
+  "opus_agents": 4,
+  "tokens": "160k + 167k + 193k + 196k (agents' own reports)",
+  "codex_sol_lanes": 8
+ },
+ "queued": {
+  "chain_G": "sol on 4-8-pin rows by class with the screen (pools large 64 / mid 17 / far 95); a kind stops after a zero-candidate slice; log <scratchpad-9a1c6519>/codex59g.log, sentinel CODEX59G_END"
+ }
+}
