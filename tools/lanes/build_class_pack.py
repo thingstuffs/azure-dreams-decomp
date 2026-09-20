@@ -1,5 +1,5 @@
 """Build a class-grouped, exemplar-briefed model pack with the round-60 residue screen (moved from the session scratchpad; inputs in ledger/pack_inputs/).
-    python3 tools/lanes/build_class_pack.py <lane> <L0 class,class> [n] --pins A-B --exemplars N [--solved "N of M rows"] [--dry-run]  python3 build_pack.py <lane> <class,class> [n] [--solved 'N of M rows']"""
+    python3 tools/lanes/build_class_pack.py <lane> <L0 class,class> [n] --pins A-B --exemplars N [--solved "N of M rows"] [--only-served-by r58_order] [--dry-run]  python3 build_pack.py <lane> <class,class> [n] [--solved 'N of M rows']"""
 import json, sys, difflib, shutil, glob; sys.path.insert(0,'tools'); sys.path.insert(0,'tools/xform'); sys.path.insert(0,'tools/lanes')
 from pathlib import Path
 from common import rows, clean_path, sha_text
@@ -21,13 +21,19 @@ def screened(rid, r):
     # 2026-09-20 calibration over 235 served sol rows: RECOLOURED with erase distance >= 0.3 x instruction count = 18 served, 0 solved
     return ccls.get(rid)=='RECOLOURED' and r['size'] and dmax.get(rid,0)/(r['size']//4 or 1) >= 0.3
 screened_out=0
-served=set()
+served={}
 for f in glob.glob('work/native_lane/r[56]*_*/rows.md'):
     for l in open(f):
-        if l.startswith('## '): served.add(l[3:].strip())
+        if l.startswith('## '): served.setdefault(l[3:].strip(), set()).add(f.split('/')[2])
+# --only-served-by PREFIX: a RETRY pool = rows every serving lane of which starts with PREFIX (e.g. r58_order = Gemini only)
+only_by=sys.argv[sys.argv.index('--only-served-by')+1] if '--only-served-by' in sys.argv else None
+def admissible(rid):
+    lanes=served.get(rid, set())
+    if only_by: return bool(lanes) and all(l.startswith(only_by) for l in lanes)
+    return not lanes
 cand=[]
 for rid,r in by.items():
-    if r['container'] in ('slus','ovmovie') or rid in served or not clean_path(r).exists(): continue
+    if r['container'] in ('slus','ovmovie') or not admissible(rid) or not clean_path(r).exists(): continue
     t=clean_path(r).read_text(errors='replace'); k=len(sites_of(t))
     if pmin<=k<=pmax and cls.get(rid) in classes:
         if screened(rid, r): screened_out+=1; continue
