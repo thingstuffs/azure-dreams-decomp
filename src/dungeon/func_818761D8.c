@@ -621,13 +621,12 @@ L1_calc:
         register void *p0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 p1;
         register s32 c2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        register s32 a3v ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         p0 = (u8 *)arg0 - 0x20;
         c2 = 0x00E02020;
-        a3v = (value & 0xFF) | 0x80;
+        result = (value & 0xFF) | 0x80;
         p1 = ((S_800259D8_0 *)arg0)->unk_80;
         ASM_USE2(p0, c2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_80025338(p0, p1, c2, a3v, 0, 0, 0);
+        func_80025338(p0, p1, c2, result, 0, 0, 0);
         }
         if (i < 4) {
             ASM_USE(i);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

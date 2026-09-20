@@ -202,11 +202,10 @@ apply_effect:
         if (D_8006DE24[*effect_id * 0x14 + 0x12] == 2) {
             effect = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
             if (effect != 0) {
-                register void *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 copy_effect:
-                owner = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
-                ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = ((S_80172FC0_3 *)owner)->unk_24;
-                ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = ((S_80172FC0_3 *)owner)->unk_25;
+                main_actor = ((S_80172FC0_2_pre *)effect)[-1].unk_00;
+                ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = ((S_80172FC0_3 *)main_actor)->unk_24;
+                ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = ((S_80172FC0_3 *)main_actor)->unk_25;
             }
         } else {
             (*(void *volatile *)((u8 *)actor + 0x60)) = func_800A05A4(

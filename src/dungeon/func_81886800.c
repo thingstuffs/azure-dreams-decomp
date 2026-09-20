@@ -465,20 +465,19 @@ case_0:
             {
 #ifdef __mips__
                 s32 owner_tile;
-                register s32 target_tile ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 #else
                 s32 owner_tile;
-                s32 target_tile;
+                s32 state;
 #endif
                 s32 tile_distance;
                 owner_tile = owner->unk_70.parts.unk_72.s8;
-                target_tile = target_data->unk_24;
-                if (owner_tile == target_tile) {
+                state = target_data->unk_24;
+                if (owner_tile == state) {
                     owner_tile = owner->unk_70.parts.unk_73.s8;
-                    target_tile = target_data->unk_25;
-                    tile_distance = owner_tile - target_tile;
+                    state = target_data->unk_25;
+                    tile_distance = owner_tile - state;
                 } else {
-                    tile_distance = owner_tile - target_tile;
+                    tile_distance = owner_tile - state;
                 }
                 tile_distance = abs(tile_distance);
                 effect->unk_14 = tile_distance + 1;

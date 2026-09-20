@@ -182,11 +182,10 @@ void func_8080E59C(void)
             void *handler;
             void *setup_table;
 
+            setup_target = (u8 *)object + 0x28;
             func_8003BC18(object, D_8003D588);
             color = 0x808080;
             ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            setup_target = (u8 *)object + 0x28;
-            ASM_KEEP(setup_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             handler = D_8052AE20;
             ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             object_state = ((S_8080E59C_0 *)object)->unk_08;

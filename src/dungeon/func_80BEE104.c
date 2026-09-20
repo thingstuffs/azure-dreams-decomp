@@ -148,9 +148,8 @@ void func_80173904(
         display->unk_1C = 0x1000;
         ASM_SCHED_BARRIER();
         value = 0x40;
-        ASM_KEEP(value);
         display->unk_0C = value;
-        ASM_SCHED_BARRIER();
+        ASM_KEEP(value);
         factor = value;
         display->unk_0E = value;
         value = 0xC0;

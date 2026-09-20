@@ -562,7 +562,7 @@ sw_7:
             void *payout_obj;
             u8 *primitive;
             u8 *sprite;
-            register u8 *payout_state ASM_REG("$18");
+            u8 *payout_state;
             if (coin == NULL) {
                 return;
             }
@@ -578,11 +578,11 @@ sw_7:
             ((S_80022768_8 *)primitive)->unk_10 = 0;
             ((S_80022768_8 *)primitive)->unk_0C = 0;
             ((S_80022768_14 *)(((S_80022768_4 *)coin)->unk_08.p))->unk_14 = 0x40000;
+            payout_state = (u8 *)coin + 0x20;
             func_8004491C(payout_obj, D_80045340);
             sprite = ((S_80022768_4 *)coin)->unk_0C;
             ((S_80022768_9 *)sprite)->unk_1E = 0x1000;
             ((S_80022768_9 *)sprite)->unk_1C = 0x1000;
-            payout_state = (u8 *)coin + 0x20;
             if (digits[2] != 0) {
                 digits[2]--;
                 ((S_80022768_10 *)payout_state)->unk_54 = 2;

@@ -35,7 +35,6 @@ void func_80041CBC(void)
     s32 copied_value;
     void *current_buffer;
     u8 *buffer_page;
-    register u8 *vsync_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u8 *next_buffer;
     void *ordering_table;
     s32 frame_ticks;
@@ -105,8 +104,8 @@ void func_80041CBC(void)
 #ifdef NON_MATCHING
             VSync((D_80080A84 != 1) * 2);
 #else
-            vsync_page = (u8 *)0x80080000;
-            VSync((vsync_page[0xA84] != 1) * 2);
+            next_buffer = (u8 *)0x80080000;
+            VSync((next_buffer[0xA84] != 1) * 2);
 #endif
         }
     }

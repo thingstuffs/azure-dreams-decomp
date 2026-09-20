@@ -240,7 +240,6 @@ case_20: {
         s32 y;
         register s32 vy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         register s32 floor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 below_floor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         register u16 timer;
 
         floor_motion = motion;
@@ -262,8 +261,8 @@ case_20: {
             ((S_800BCE78_1 *)motion)->unk_14 = x_m;
         }
         floor = func_800C2AE8(floor_motion);
-        below_floor = floor < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
-        if (below_floor) {
+        state = floor < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
+        if (state) {
             ((S_800BCE78_1 *)motion)->unk_08.at02.v = floor;
             timer = ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 - 1;
             ((Rec_D_80082D58 *)actor)->unk_6C.as_u16 = timer;
