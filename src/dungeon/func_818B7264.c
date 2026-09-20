@@ -155,12 +155,9 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
         s32 scaled_x;
         s32 outer_x;
         wave_x = func_800644B8(effect->unk_0E);
-        scaled_x = wave_x >> 4;
-        ASM_KEEP_DEP_NV(radial_offset, scaled_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        radial_offset = (s16)radial_offset;
-        radial_offset = (s16)outer_radius + radial_offset;
         outer_x = center->unk_00 +
-            ((scaled_x * radial_offset) << 8);
+            (((wave_x >> 4) * ((s16)outer_radius + (s16)radial_offset)) << 8);
+        radial_offset = (s16)outer_radius + (s16)radial_offset;
         ((S_80024A64_2 *)scratch)->unk_30 = outer_x;
         first_outer_x = outer_x;
     }
