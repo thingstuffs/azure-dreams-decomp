@@ -1,0 +1,440 @@
+{
+ "schema": "azure-clean.pin-research-round59.v1",
+ "round": 59,
+ "date": "2026-09-19",
+ "charter": "docs/PIN_CAMPAIGN_CHARTER.md",
+ "counts": {
+  "before": {
+   "pins": 5709,
+   "pinned_rows": 1197,
+   "note": "after round 58 (Gemini queue drained, pack 16 negative)"
+  },
+  "after": {
+   "pins": 5682,
+   "pinned_rows": 1175
+  },
+  "pins_removed": 27
+ },
+ "method": {
+  "claim": "class-grouped codex packs: 13-15 rows sharing an erase-census residue class (L0 = cls|band), 1-3 pins (luna packs 3-8), briefed with the sched tie rule (round 57/58 brief) plus exemplars.md = six diffs that made rows of the same classes byte-exact this week (solved_exemplars.json, 121 rows at build, 144 after the sol rows were appended on 2026-09-20)",
+  "pipeline": "capacity probe -> launch_lane.sh -> land_lanes.sh (cascade, tidy, T2, window + SLUS gate under the landing lock) -> arm_restore.py -> land <lane>_arms; autocommit every 10 min when the lock is free",
+  "builder": "<scratchpad>/build_pack.py <lane> <classes> 15 --pins 1-3 --exemplars 6 --solved ..."
+ },
+ "residues_pack": {
+  "lane": "r59_sol_residues",
+  "model": "gpt-5.6-sol",
+  "launched": "2026-09-19T06:05Z",
+  "rows": 8,
+  "candidates": 1,
+  "landed": [
+   {
+    "id": "dungeon/func_81887960",
+    "pins": [
+     2,
+     0
+    ]
+   }
+  ],
+  "note": "Gemini residue rows with mechanism notes; the luna_moved keep line is this same row"
+ },
+ "packs": [
+  {
+   "lane": "r59_luna_changed_small",
+   "model": "gpt-5.6-luna",
+   "launched": "2026-09-19T06:55Z",
+   "rows": 13,
+   "classes": {
+    "CHANGED|1-2": 5,
+    "CHANGED|3-4": 5,
+    "CHANGED|5-8": 3
+   },
+   "candidates": 0,
+   "landed": [],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_luna_moved",
+   "model": "gpt-5.6-luna",
+   "launched": "2026-09-19T07:44Z",
+   "rows": 15,
+   "classes": {
+    "MOVED|3-4": 6,
+    "MOVED|1-2": 9
+   },
+   "candidates": 1,
+   "landed": [
+    {
+     "id": "dungeon/func_81887960",
+     "pins": [
+      2,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_mid",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T08:14Z",
+   "rows": 15,
+   "classes": {
+    "BOTH|9-16": 4,
+    "CHANGED|9-16": 6,
+    "RECOLOURED|9-16": 5
+   },
+   "candidates": 2,
+   "landed": [
+    {
+     "id": "dungeon/func_80F0928C",
+     "pins": [
+      3,
+      1
+     ]
+    },
+    {
+     "id": "dungeon/func_819C0000",
+     "pins": [
+      3,
+      2
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_large",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T08:46Z",
+   "rows": 15,
+   "classes": {
+    "RECOLOURED|17-32": 2,
+    "BOTH|17-32": 4,
+    "CHANGED|17-32": 9
+   },
+   "candidates": 4,
+   "landed": [
+    {
+     "id": "dungeon/func_81912074",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "town/func_800B28C4",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "town/func_800C4A98",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "town/func_8096B5C8",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_far",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T09:11Z",
+   "rows": 15,
+   "classes": {
+    "RECOLOURED|33+": 3,
+    "CHANGED|33+": 9,
+    "BOTH|33+": 3
+   },
+   "candidates": 1,
+   "landed": [
+    {
+     "id": "dungeon/func_81892AF0",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_large2",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T09:51Z",
+   "rows": 15,
+   "classes": {
+    "CHANGED|17-32": 7,
+    "BOTH|17-32": 7,
+    "RECOLOURED|17-32": 1
+   },
+   "candidates": 3,
+   "landed": [
+    {
+     "id": "dungeon/func_8008715C",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_81339A5C",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "town/func_8096C918",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_mid2",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T10:25Z",
+   "rows": 15,
+   "classes": {
+    "CHANGED|9-16": 10,
+    "RECOLOURED|9-16": 4,
+    "BOTH|9-16": 1
+   },
+   "candidates": 3,
+   "landed": [
+    {
+     "id": "dungeon/func_800B93D0",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_80E11860",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_80E8EA34",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_large3",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T11:02Z",
+   "rows": 15,
+   "classes": {
+    "BOTH|33+": 5,
+    "CHANGED|33+": 5,
+    "BOTH|17-32": 2,
+    "CHANGED|17-32": 2,
+    "RECOLOURED|17-32": 1
+   },
+   "candidates": 5,
+   "landed": [
+    {
+     "id": "dungeon/func_800ACFEC",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_800B3F64",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_809C9B9C",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_80BEB078",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_81916AEC",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_far2",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T11:33Z",
+   "rows": 15,
+   "classes": {
+    "RECOLOURED|33+": 4,
+    "CHANGED|33+": 9,
+    "BOTH|33+": 2
+   },
+   "candidates": 1,
+   "landed": [
+    {
+     "id": "dungeon/func_81327314",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_large4",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T11:58Z",
+   "rows": 15,
+   "classes": {
+    "BOTH|17-32": 8,
+    "CHANGED|17-32": 3,
+    "RECOLOURED|17-32": 1,
+    "BOTH|33+": 3
+   },
+   "candidates": 1,
+   "landed": [
+    {
+     "id": "town/func_8081C14C",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  },
+  {
+   "lane": "r59_sol_mid3",
+   "model": "gpt-5.6-sol",
+   "launched": "2026-09-19T12:26Z",
+   "rows": 15,
+   "classes": {
+    "CHANGED|5-8": 4,
+    "BOTH|9-16": 5,
+    "RECOLOURED|9-16": 4,
+    "CHANGED|9-16": 1,
+    "RECOLOURED|5-8": 1
+   },
+   "candidates": 3,
+   "landed": [
+    {
+     "id": "dungeon/func_80A7304C",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_80B98D24",
+     "pins": [
+      1,
+      0
+     ]
+    },
+    {
+     "id": "dungeon/func_8194C8F0",
+     "pins": [
+      1,
+      0
+     ]
+    }
+   ],
+   "exemplars": "exemplars.md (six solved diffs of the pack classes)"
+  }
+ ],
+ "sol_by_band": {
+  "mid": {
+   "rows": 45,
+   "landed": 8,
+   "pins": 9
+  },
+  "large": {
+   "rows": 60,
+   "landed": 13,
+   "pins": 13
+  },
+  "far": {
+   "rows": 30,
+   "landed": 2,
+   "pins": 2
+  }
+ },
+ "yield": {
+  "sol_class_packs": "23 of 135 rows",
+  "luna_class_packs": "0 of 28 rows (3-8-pin CHANGED small / MOVED; the one luna_moved candidate was the residues row)",
+  "per_slice_trend": {
+   "large": [
+    4,
+    3,
+    5,
+    1
+   ],
+   "mid": [
+    2,
+    3,
+    3
+   ],
+   "far": [
+    1,
+    1
+   ]
+  }
+ },
+ "bounded_negatives": {
+  "gemini_pack16_mid_3-6_pins_with_exemplars": "0/12 (round 58 close)",
+  "luna_changed_small_3-5_pins": "0/13",
+  "luna_moved_3-8_pins": "0/15",
+  "sol_far_33+": "2/30",
+  "arm_restore_twins": "0 candidates on every r59 lane"
+ },
+ "queued": {
+  "chain_F": "self-feeding sol slices, large (17-32) then mid (9-16) alternating, 1-3 pins, six exemplars; stops on an empty pool or six failed hourly capacity probes; log <scratchpad-9a1c6519>/codex59f.log, sentinel CODEX59F_END",
+  "pools_at_queue_time": {
+   "large": "74 unserved 1-3-pin rows at the large5 build",
+   "mid": "reported at the mid4 build in codex59f.log"
+  }
+ },
+ "gates": "every landing: covering windows MATCH + SLUS SHA-1 MATCH (chain logs codex59b-e.log); commits 9b114667, 012d5635, b76b8f0e, 6504c1e1, 13d0bf7c",
+ "tools": [
+  "tools/lanes/launch_lane.sh",
+  "tools/lanes/land_lanes.sh",
+  "tools/lanes/arm_restore.py",
+  "<scratchpad>/build_pack.py",
+  "<scratchpad>/add_exemplars.py",
+  "<scratchpad>/codex59b.sh .. codex59f.sh",
+  "<scratchpad>/autocommit.sh"
+ ]
+}
