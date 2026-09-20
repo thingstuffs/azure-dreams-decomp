@@ -160,19 +160,16 @@ state_0:
         ((S_8017450C_3 *)actor)->unk_88 = 0;
     }
     {
-        register u16 state_or_height ASM_REG("$2") = ((S_8017450C_0 *)state)->unk_9B;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u16 next_state = ((S_8017450C_0 *)state)->unk_9B;
+        u16 state_or_height;
         s32 height_offset = ((S_8017450C_0 *)state)->unk_90.at02.v;
         s32 *sound_flags = &D_800E296C;
-        s32 sound_bits;
-
         ((S_8017450C_0 *)state)->unk_A0 = 0;
-        ((S_8017450C_0 *)state)->unk_9B = state_or_height + 1;
+        ((S_8017450C_0 *)state)->unk_9B = next_state + 1;
         state_or_height = ((S_8017450C_4 *)motion)->unk_0A;
-        sound_bits = *sound_flags;
         state_or_height += height_offset;
-        sound_bits |= 0x40;
         ((S_8017450C_0 *)state)->unk_B6 = state_or_height;
-        *sound_flags = sound_bits;
+        *sound_flags |= 0x40;
         func_800A56E0(0x807);
     }
 

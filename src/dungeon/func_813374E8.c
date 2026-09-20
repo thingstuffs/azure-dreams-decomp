@@ -90,7 +90,6 @@ extern Data12 D_80173B4C;
 void func_8016E4E8(void *animation, s32 *origin, void *color)
 {
     s32 bottom_y;
-    register s32 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u16 effect_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 tick_count;
     s32 frame_count;
@@ -140,14 +139,14 @@ jt_c1:
         if (((S_8016E4E8_0 *)animation)->unk_18.s < 20) {
             goto common;
         }
-        next_state = ((S_8016E4E8_0 *)animation)->unk_12.u;
         ((S_8016E4E8_0 *)animation)->unk_18.u = 0;
-        goto increment_state_loaded;
+        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        goto common;
 
 jt_c2:
-        next_state = ((S_8016E4E8_0 *)animation)->unk_12.u;
         ((S_8016E4E8_0 *)animation)->unk_18.u = 20;
-        goto increment_state_loaded;
+        ((S_8016E4E8_0 *)animation)->unk_12.u++;
+        goto common;
 
 jt_c3:
         ((S_8016E4E8_0 *)animation)->unk_18.u--;
@@ -161,10 +160,7 @@ jt_c3:
             goto common;
         }
 increment_state_reload:
-        next_state = ((S_8016E4E8_0 *)animation)->unk_12.u;
-increment_state_loaded:
-        next_state++;
-        ((S_8016E4E8_0 *)animation)->unk_12.u = next_state;
+        ((S_8016E4E8_0 *)animation)->unk_12.u++;
         goto common;
 
 jt_c4:
