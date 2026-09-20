@@ -80,9 +80,15 @@ five generator lanes in one transaction between chain G's codex lanes (t83 6 row
 
 **Round total so far: 5,682 -> 5,612, 70 pins** (chain F 29, the dispatch row 2, t84 17, the five generators 22), with chain G's first 4-8-pin slice landing 4 rows (4 pins, 5,608) as this note is written; the receipt's `after` count includes that slice.
 
-Debt named, not fixed: the two other PORT_COMPILE refusals of 09-19 (`dungeon/func_800A21EC`, `800C96AC`) are a different arm-restore gap (the candidate dropped a declaration the port arm still names), byte-exact on the scored side; rows whose fences t83 removed keep a stale `/* MECHANISM: ... barriers ... */` comment (readability-later rule).  The pack builder now lives in `tools/lanes/build_class_pack.py` with its inputs in `ledger/pack_inputs/` (chain G still runs the scratchpad copy).  Next lever for the swap class: read `global.c`'s allocno ordering (`allocno_compare`: refs, live length, size) against the inputs `tools/alloc_trace.py` / `alloc_probe.py` already dump under gdb - the way `sched.c` paid in round 57.
+Debt named, not fixed: of the two other PORT_COMPILE refusals of 09-19, `dungeon/func_800C96AC` has since landed pin-free by the Opus symbol lane, and `dungeon/func_800A21EC` (3 -> 1 pins, byte-exact) is a port-arm question for the owner, not a tool gap: the current port arm stores the page base `0x800A0000` where the scored arm stores `0x800A0000 + 0x77AC`, the candidate writes `&D_800A77AC` for both, and the landing rule refuses any change to the port build's code (clause: port codegen identity); a human review of that port arm lands it; rows whose fences t83 removed keep a stale `/* MECHANISM: ... barriers ... */` comment (readability-later rule).  The pack builder now lives in `tools/lanes/build_class_pack.py` with its inputs in `ledger/pack_inputs/` (chain G still runs the scratchpad copy).  Next lever for the swap class: read `global.c`'s allocno ordering (`allocno_compare`: refs, live length, size) against the inputs `tools/alloc_trace.py` / `alloc_probe.py` already dump under gdb - the way `sched.c` paid in round 57.
 
 ## Chain G: sol on 4-8-pin rows (untested there; luna and Gemini paid nothing)
 
-Queued behind chain F: 15-row slices by residue class with the screen, large (64 rows) / mid (17) / far (95),
-a kind stops after a slice that lands nothing.
+Ran 08:30Z-14:16Z behind chain F: 15-row slices by residue class with the screen, a kind stopping after a slice
+that lands nothing.  Sol pays on 4-8-pin rows, thinly: large 4 of 15 then 0 of 15 (stopped, 35 rows left in that
+pool); mid 1 + 1 rows (7 pins; the pool of 17 is spent); far 1, 2, 2, 3, 1, 1 rows over six slices then 0 of the
+last 5.  Eleven slices, 16 rows, 25 pins: **5,608 -> 5,586 / 1,156**, committed by the snapshot loop (df289cd4).
+Chain G ended itself (`CODEX59G_END`).  The far band on 4-8 pins paid one row in eight, better than far on 1-3 pins
+(2 of 30): multi-pin rows carry more of the same mechanism, so one found move pays twice.
+
+Round 60 close: **5,682 -> 5,586 / 1,156, 96 pins** (chain F 29, dispatch 2, t84 17, five generators 22, chain G 25).
