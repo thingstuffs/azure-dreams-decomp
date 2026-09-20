@@ -115,7 +115,11 @@ candidate CSEs two identical page constants retail materialises twice: a SYMBOL_
 territory, the clearest lead), the rest small.  A down-move step (0-4 statements) added one row
 (`dungeon/func_800C9858`); deeper up-slots and joint moves paid nothing.
 
-**t83 joint store runs and t81 unbraced-case windows**: _(pending)_.
+**t83 joint store runs and t81 run/case windows**: both increments built and regression-checked on the recovered r60
+inputs (6 of 6, 5 of 5), 0 new rows over 219 and 356 eligible; the "unbraced case" class is 7 rows in practice (pins in
+the function body are the real remainder, now covered by a statement-run window).  Widening the scorer fallback to four
+runs at listing distance <= 2 also found nothing: the screen's near band hides no byte-exact texts here.
 
 **Chain H** (sol, from 23:05Z): retry slices on the rows only Gemini has served (mid classes 53 rows, MOVED/CHANGED-small
-46) and the never-served far band at 1-3 pins (105), built by `tools/lanes/build_class_pack.py --only-served-by r58_order`.
+46) and the never-served far band at 1-3 pins (105), built by `tools/lanes/build_class_pack.py --only-served-by r58_order`.  First result: the mid-class retry landed 0 of 15
+(sol does not recover what Gemini missed in those classes; the kind stopped itself).
