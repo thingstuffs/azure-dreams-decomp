@@ -13,10 +13,11 @@ extern s32 *D_800D1038[];
 
 /* Returns the table entry for a group and record, with a special-case override. */
 s32 func_800A9B2C(s32 group_id, void *record) {
-    register s32 table_index ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 table_index;
     register s32 **table_slot;
     s32 **tables;
     s32 row_index;
+    s32 column;
     s32 result;
 
     table_index = func_800A9878(group_id);
@@ -31,16 +32,15 @@ s32 func_800A9B2C(s32 group_id, void *record) {
                 }
                 return 0;
             } else {
-                record = (void *)3;
+                column = 3;
             }
         } else {
-            record = (void *)func_800A9A38(record);
+            column = func_800A9A38(record);
         }
         row_index = func_800A99D8(table_index);
         tables = D_800D1038;
         table_slot = (s32 **)((table_index * 4) + (s32)tables);
-        ASM_KEEP(table_index);
-        result = (table_slot[0] + (row_index * 4))[(s32)record];
+        result = (table_slot[0] + (row_index * 4))[column];
         return result;
     }
     return 0;

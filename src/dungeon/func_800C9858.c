@@ -292,16 +292,15 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
             rotation_y = ((S_800CEFB8_1 *)sprite_data)->unk_18;
             SP16(0x102) = (s16) ((((u16) SP32(0x38) + 0x100) & 0x1FF) + (s16) (rotation_y - 0x100));
             screen_out = (u8 *)0x1F800000;
-            ASM_KEEP(screen_out);
             origin_x = ((S_800CEFB8_1 *)sprite_data)->unk_20;
             screen_out = (u8 *)((u32)screen_out | 0xD0);
             SP32(0xE4) = (s32) origin_x;
             SP16(0x108) = origin_x;
             origin_y = ((S_800CEFB8_1 *)sprite_data)->unk_22;
-            quad = packet_next + 4;
             SP32(0xE8) = (s32) origin_y;
             SP16(0x10A) = origin_y;
             func_80065820((void *)scratch_base, screen_out);
+            quad = packet_next + 4;
         }
         {
             s32 scale_x;
@@ -490,7 +489,7 @@ continuation_texture:
                 ((S_800CEFB8_8 *)quad)->unk_12 = coord_work;
                 {
                     s32 left_x;
-                    register u16 packed_uv ASM_REG("$3");
+                    s32 packed_uv;
                     s32 right_uv;
                     ((S_800CEFB8_8 *)quad)->unk_18.at00.v = (s16) (SP16(0x14) | SP16(0x08));
                     left_x = ((S_800CEFB8_8 *)quad)->unk_04.s;
