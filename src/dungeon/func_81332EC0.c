@@ -84,7 +84,7 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     void *data = data_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor = owner_arg;
     register s16 initial_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register u32 state_bits ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 state_bits;
     Callback special_callback;
     Callback update_callback;
     s32 terrain_height;
@@ -166,7 +166,8 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         u16 frame_status;
         u16 cleared_status;
         state_bits = (u32)(D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
-        initial_state = ((s32)state_bits >> 9) & 7;
+        state_bits = (s32)state_bits >> 9;
+        initial_state = state_bits & 7;
         if ((*(s16 *)((u8 *)owner_arg + (0x94))) != initial_state) {
             u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (facing_steps != NULL) {
