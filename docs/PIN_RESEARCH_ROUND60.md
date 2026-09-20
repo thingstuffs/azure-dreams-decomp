@@ -92,3 +92,30 @@ Chain G ended itself (`CODEX59G_END`).  The far band on 4-8 pins paid one row in
 (2 of 30): multi-pin rows carry more of the same mechanism, so one found move pays twice.
 
 Round 60 close: **5,682 -> 5,586 / 1,156, 96 pins** (chain F 29, dispatch 2, t84 17, five generators 22, chain G 25).
+
+## Round 61 openers (the night of 2026-09-20/21, three Opus agents on the named levers)
+
+**The allocation-order rule** (`work/native_lane/r61_alloc_study/NOTE.md`): a function-wide register role swap is a
+one-position error in `global.c`'s allocno sort, not a colouring mystery.  A pin is a missing allocno (a `register x
+ASM_REG` decl is a hard register, not a pseudo); erasing it adds one allocno and everything below slides one register
+down.  The sort key is `allocno_compare` (2.7.2 `global.c:586-608`): `floor_log2(n_refs)*n_refs/live_length*10000*size`,
+descending, ties by allocno number = declaration order; `find_reg` (`:904-985`) hands call-crossing values `$s0, $s1, ...`
+strictly in rank order (no `REG_ALLOC_ORDER` on MIPS).  Why the packs' 10-20 variants all coalesced: `reg_live_length`
+is measured after scheduling, and reordering independent statements changes nothing (60 legal permutations of one
+prologue give two live-length vectors).  Levers that move the key: delete a redundant copy of a formal (the live range
+then starts at entry), split an over-used local (refs fall, life lengthens), dependency-crossing moves, type
+narrowing.  A simulator (`sim.py`) reproduces the real register dispositions on all 14 studied builds, so it is a free
+gate ahead of the listing screen.  Two rows byte-exact by the levers (`town/func_800AC3CC`, `dungeon/func_8009AB4C`, 4
+pins); two more have the colouring solved with an emission residue (6, 18); two are the preference family
+(`set_preference`), not order.  A generator on this rule (t85_allocorder, simulator-gated) is being built.
+
+**t80's near band** (77 rows at listing distance <= 4): 45 are one instruction moved where the up-move is
+listing-neutral (those pins hold scheduler tie-breaks and delay-slot fills), 10 are one `lui`/`li` fewer (the
+candidate CSEs two identical page constants retail materialises twice: a SYMBOL_REF-vs-CONST_INT spelling, t29
+territory, the clearest lead), the rest small.  A down-move step (0-4 statements) added one row
+(`dungeon/func_800C9858`); deeper up-slots and joint moves paid nothing.
+
+**t83 joint store runs and t81 unbraced-case windows**: _(pending)_.
+
+**Chain H** (sol, from 23:05Z): retry slices on the rows only Gemini has served (mid classes 53 rows, MOVED/CHANGED-small
+46) and the never-served far band at 1-3 pins (105), built by `tools/lanes/build_class_pack.py --only-served-by r58_order`.
