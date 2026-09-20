@@ -9,10 +9,10 @@
    "pinned_rows": 1175
   },
   "after": {
-   "pins": 5612,
+   "pins": 5608,
    "pinned_rows": 1157
   },
-  "pins_removed": 70
+  "pins_removed": 74
  },
  "chain_F_sol_slices_1_3_pins": [
   {
@@ -286,7 +286,22 @@
    "eligible": 9,
    "exact_rows": 2,
    "staged_pins": 2,
-   "landed": [],
+   "landed": [
+    {
+     "id": "dungeon/func_8108726C",
+     "pins": [
+      3,
+      2
+     ]
+    },
+    {
+     "id": "dungeon/func_810876B4",
+     "pins": [
+      3,
+      2
+     ]
+    }
+   ],
    "landed_arms": [],
    "refused_at_landing": []
   },
@@ -295,7 +310,50 @@
    "eligible": 218,
    "exact_rows": 6,
    "staged_pins": 6,
-   "landed": [],
+   "landed": [
+    {
+     "id": "dungeon/func_800B62E0",
+     "pins": [
+      3,
+      2
+     ]
+    },
+    {
+     "id": "dungeon/func_80F3610C",
+     "pins": [
+      5,
+      4
+     ]
+    },
+    {
+     "id": "dungeon/func_8132A210",
+     "pins": [
+      15,
+      14
+     ]
+    },
+    {
+     "id": "dungeon/func_818E6800",
+     "pins": [
+      21,
+      20
+     ]
+    },
+    {
+     "id": "town/func_8080E59C",
+     "pins": [
+      6,
+      5
+     ]
+    },
+    {
+     "id": "town/func_8081FF68",
+     "pins": [
+      9,
+      8
+     ]
+    }
+   ],
    "landed_arms": [],
    "refused_at_landing": []
   },
@@ -304,7 +362,43 @@
    "eligible": 294,
    "exact_rows": 5,
    "staged_pins": 5,
-   "landed": [],
+   "landed": [
+    {
+     "id": "dungeon/func_80E0F7C0",
+     "pins": [
+      5,
+      4
+     ]
+    },
+    {
+     "id": "dungeon/func_818761D8",
+     "pins": [
+      20,
+      19
+     ]
+    },
+    {
+     "id": "dungeon/func_81886800",
+     "pins": [
+      7,
+      6
+     ]
+    },
+    {
+     "id": "slus/w_80041CBC",
+     "pins": [
+      5,
+      4
+     ]
+    },
+    {
+     "id": "town/func_800BF718",
+     "pins": [
+      8,
+      7
+     ]
+    }
+   ],
    "landed_arms": [],
    "refused_at_landing": []
   },
@@ -313,7 +407,29 @@
    "eligible": 151,
    "exact_rows": 3,
    "staged_pins": 3,
-   "landed": [],
+   "landed": [
+    {
+     "id": "dungeon/func_80F36D0C",
+     "pins": [
+      26,
+      25
+     ]
+    },
+    {
+     "id": "dungeon/func_8186F0C4",
+     "pins": [
+      19,
+      18
+     ]
+    },
+    {
+     "id": "dungeon/func_818E6800",
+     "pins": [
+      21,
+      20
+     ]
+    }
+   ],
    "landed_arms": [],
    "refused_at_landing": [
     {
@@ -327,7 +443,50 @@
    "eligible": 131,
    "exact_rows": 6,
    "staged_pins": 6,
-   "landed": [],
+   "landed": [
+    {
+     "id": "dungeon/func_80BEE104",
+     "pins": [
+      13,
+      12
+     ]
+    },
+    {
+     "id": "dungeon/func_80D150D0",
+     "pins": [
+      18,
+      17
+     ]
+    },
+    {
+     "id": "dungeon/func_80E8F548",
+     "pins": [
+      3,
+      2
+     ]
+    },
+    {
+     "id": "dungeon/func_8195A480",
+     "pins": [
+      6,
+      5
+     ]
+    },
+    {
+     "id": "dungeon/func_81978428",
+     "pins": [
+      23,
+      22
+     ]
+    },
+    {
+     "id": "town/func_800B7CEC",
+     "pins": [
+      7,
+      6
+     ]
+    }
+   ],
    "landed_arms": [],
    "refused_at_landing": []
   },
