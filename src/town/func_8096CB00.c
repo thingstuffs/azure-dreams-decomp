@@ -110,9 +110,10 @@ decrement_loop:
 
             packed_index = state->index;
             index_bits = packed_index;
-            ASM_KEEP(index_bits);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state->digit0 = packed_index >> 4;
-            state->digit1 = (index_bits >> 3) & 1;
+            packed_index >>= 4;
+            index_bits >>= 3;
+            state->digit0 = packed_index;
+            state->digit1 = index_bits & 1;
             state->digit2 = state->index & 7;
         }
 
@@ -173,9 +174,10 @@ increment_loop:
 
             packed_index = state->index;
             index_bits = packed_index;
-            ASM_KEEP(index_bits);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            state->digit0 = packed_index >> 4;
-            state->digit1 = (index_bits >> 3) & 1;
+            packed_index >>= 4;
+            index_bits >>= 3;
+            state->digit0 = packed_index;
+            state->digit1 = index_bits & 1;
             state->digit2 = state->index & 7;
         }
 
