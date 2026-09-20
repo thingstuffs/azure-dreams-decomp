@@ -275,12 +275,9 @@ case_F8_state1:
         if ((s16)timer < 0x28) {
             goto common;
         }
-        next_phase = 2;
-        sequence = D_801739B0;
-        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        entity->animation = 2;
         angle_base = &D_80083228;
-        entity->animation = next_phase;
-        (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
+        sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B0);
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
@@ -337,12 +334,9 @@ case_E0_state1:
         if ((s16)entity->timer < 0x2C) {
             goto common;
         }
-        next_phase = 3;
-        sequence = D_801739B8;
-        ASM_KEEP(sequence);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        entity->animation = 3;
         angle_base = &D_80083228;
-        entity->animation = next_phase;
-        (*(u8 **)((u8 *)aux + 0x2C)) = sequence;
+        sequence = ((*(u8 **)((u8 *)aux + 0x2C)) = D_801739B8);
         sequence_index = ((*angle_base + actor->angle + 0x100) >> 9) & 7;
         SEQUENCE_INDEX_ADVANCE(sequence_index, sequence);
         func_80047784(aux, SEQUENCE_INDEX_BYTE(sequence_index, sequence), 0);
