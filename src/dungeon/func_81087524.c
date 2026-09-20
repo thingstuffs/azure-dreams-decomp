@@ -47,10 +47,8 @@ void func_80174D24(void *state, void *output, void *target)
     u16 offsets[3];
     void *object;
     Copy24 *source;
-    s32 copy_word_a;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 copy_word_a;
     s32 copy_word_b;
-    register s32 copy_word_c ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 copy_word_d ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 offset_mode;
     s32 object_id;
     s32 phase;
@@ -65,20 +63,7 @@ void func_80174D24(void *state, void *output, void *target)
     }
 
     source = ((S_80174D24_0 *)state)->unk_04;
-    copy_word_a = source->words[0];
-    copy_word_b = source->words[1];
-    copy_word_c = source->words[2];
-    copy_word_d = source->words[3];
-   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80174D24_1 *)output)->unk_00.at00.v = copy_word_a;
-    ((S_80174D24_1 *)output)->unk_04.at00.v = copy_word_b;
-    ((S_80174D24_1 *)output)->unk_08.at00.v = copy_word_c;
-    ((S_80174D24_1 *)output)->unk_0C = copy_word_d;
-    copy_word_a = source->words[4];
-    copy_word_b = source->words[5];
-    ((S_80174D24_1 *)output)->unk_10 = copy_word_a;
-    ((S_80174D24_1 *)output)->unk_14 = copy_word_b;
+    *(Copy24 *)output = *source;
 
     object = ((S_80174D24_0 *)state)->unk_08;
     offset_mode = 0;

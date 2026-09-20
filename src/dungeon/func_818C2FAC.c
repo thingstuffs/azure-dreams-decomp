@@ -2,6 +2,8 @@
 
 typedef unsigned long uptr;
 typedef long long s64_local;
+typedef struct { s32 word[6]; } Copy24;
+
 typedef union {
     s64_local all;
     struct {
@@ -63,7 +65,7 @@ typedef struct S_818C2FAC_2 {
 } S_818C2FAC_2;   /* (void *)temp in func_818C2FAC */
 
 /* Creates an effect with a selected appearance, random rotation, and a directional offset. */
-s32 func_818C2FAC(void *data_addr, void *position_addr, s32 direction)
+s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
 {
     s32 variant_seed;
     s16 variant;
@@ -82,7 +84,7 @@ s32 func_818C2FAC(void *data_addr, void *position_addr, s32 direction)
     s32 position_word_3;
     s32 position_word_4;
     s32 object_type;
-    register s16 offset_angle ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s16 offset_angle;
     uptr effect;
     register uptr render_or_radius ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s16 render_arg_low;
@@ -171,16 +173,8 @@ s32 func_818C2FAC(void *data_addr, void *position_addr, s32 direction)
         func_8004491C((void *)effect, D_80045340);
 
         data_addr = ((S_818C2FAC_0 *)((void *)effect))->unk_08;
-        position_xy = (*(s64_local *)((u8 *)((void *)position_addr) + 0));
-        position_z = (*(s32 *)((u8 *)((void *)position_addr) + 8));
-        position_word_3 = (*(s32 *)((u8 *)((void *)position_addr) + 0xC));
-        (*(s64_local *)((u8 *)((void *)data_addr) + 0)) = position_xy;
-        (*(s32 *)((u8 *)((void *)data_addr) + 8)) = position_z;
-        (*(s32 *)((u8 *)((void *)data_addr) + 0xC)) = position_word_3;
-        position_word_4 = (*(s32 *)((u8 *)((void *)position_addr) + 0x10));
-        divisor_reciprocal = (*(s32 *)((u8 *)((void *)position_addr) + 0x14));
-        (*(s32 *)((u8 *)((void *)data_addr) + 0x10)) = position_word_4;
-        (*(s32 *)((u8 *)((void *)data_addr) + 0x14)) = divisor_reciprocal;
+        divisor_reciprocal = (s32)position_addr;
+        *(Copy24 *)data_addr = *(Copy24 *)divisor_reciprocal;
 
         random_value = func_80069EF8();
         divisor_reciprocal = 0x78787879;

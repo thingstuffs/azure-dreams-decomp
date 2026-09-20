@@ -82,7 +82,7 @@ void func_801715D0(void) {
     S_801715D0_5 *owner_pos;
     u8 *direction;
     u8 *direction_table;
-    register S_801715D0_3 *object_state ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    S_801715D0_3 *object_state;
     void *object;
     S_801715D0_2 *render_flags;
     register S_801715D0_8 *sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -92,9 +92,9 @@ void func_801715D0(void) {
     object = func_8003FD64(0x12, D_80175D54);
     if (object != NULL) {
         ((S_801715D0_1 *)object)->unk_10 = &D_801714AC;
+        object_state = object + 0x20;
         func_8004491C(object, &D_80045340);
         render_flags = ((S_801715D0_1 *)object)->unk_0C;
-        object_state = object + 0x20;
         render_flags->unk_14 = (u16) ((render_flags->unk_14 & 0xFFF3) | 0x80);
         object_state->unk_24 = owner_state;
         object_pos = ((S_801715D0_1 *)object)->unk_08;
