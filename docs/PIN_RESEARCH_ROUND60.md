@@ -1,0 +1,86 @@
+# Round 60 (2026-09-20): the sol misses read, six generators from the wave's exact rows, a clone family solved by one type
+
+Start: 5,682 pins / 1,175 rows (after round 59's class packs, [round 57-59 note](PIN_RESEARCH_ROUND57.md)).
+Charter: [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md).  Receipt: `docs/evidence/pin_research_round60_20260920.json`.
+
+## Chain F: the last 1-3-pin sol slices (self-feeding, 04:00Z-08:30Z)
+
+| slice | rows | landed | pins | note |
+|---|---:|---:|---:|---|
+| large5 | 15 | 1 | 1 | |
+| mid4 | 15 | 3 | 3 | |
+| large6 | 15 | 2 | 4 | a third row byte-exact but refused (below) |
+| mid5 | 15 | 2 | 4 | |
+| large7 | 15 | 4 | 5 | three of the four kept one pin (2 -> 1) |
+| mid6 | 10 | 4 | 4 | the mid pool's last rows |
+| large8 | 15 | 2 | 4 | |
+| large9 | 14 | 2 | 3 | the large pool's last rows |
+
+5,682 -> 5,653 / 1,163 over the nine slices (19 rows, 29 pins), every landing gated (covering windows + SLUS MATCH), committed by the
+ten-minute snapshot loop.  Two-pin rows paid better than one-pin rows (large7: 4 of 15).
+
+## Why the misses miss (the five lane reports, ~60 rows)
+
+1. **Function-wide register role swaps** (about half): two long-lived values take each other's callee-saved or argument
+   registers from prologue to epilogue; every spelling coalesces to the same RTL.  Includes the four-row sprite-spawn
+   family (solved below, by a type, not a spelling), the three-row item-target family and the raw-height pair.
+2. **Named residues at listing distance 1-5**: a literal zero copy-propagated where retail copies a register (two rows);
+   two initial `lui` in the other order; a page constant folded lui/ori where retail has lui/addiu (a symbol address
+   spelled as an integer); `move; addiu` combined into one addiu; a prologue `sw/move` pair one slot early (three rows,
+   the known prologue copy-order class).
+3. **Fence pins between repeated loads and later stores**: cse drops a reload retail keeps; solved once by moving an
+   existing store next to its producer (t83 below), unsolved twice where no such store exists.
+4. **Partial repairs**: disjoint-local reuse, u16 narrowing or folding assign-then-add gets the listing halfway and
+   leaves a group-1 swap.
+
+**Calibration of a residue screen** (every served sol row of rounds 59-60, 235 rows / 40 solved, `served_calib.json`):
+RECOLOURED residues whose erase distance is at least 0.3 of the row's instruction count: 18 served, 0 solved;
+RECOLOURED under 0.15: 26 served, 8 solved.  Rows of at most 60 instructions paid worst (4 of 44); rows over 250
+paid 11 of 44.  The pack builder now screens the first group (`build_pack2.py`); nothing else separated cleanly.
+
+**One byte-exact candidate refused**: `town/func_8032D6E4`, the model rewrote a three-way dispatch with labels and dropped
+the `#ifdef NON_MATCHING` split; the arm-restore twin did not compile (nested `#ifndef` blocks).  Rewritten by hand with
+the port arm intact: exact, landing rule satisfied, lane `r60_dispatch`.  A labelled dispatch outside a loop is a
+spelling the owner has not ruled on (t48_gotoreturn is the precedent); flagged.
+
+## The sprite-spawn family, solved: `s16` parameters (t84_narrowparams)
+
+`dungeon/func_8132DED0`, `8132E6F8`, `8132E018`, `8132ED0C` (CHANGED|17-32, two `ASM_REG` copies of the 5th/6th
+parameters each): retail loads the stack-passed offsets into $19/$20 in the prologue and holds them across the
+allocation call; the erased build reloads them at each use.  gcc 2.7.2 `function.c assign_parms`: a parameter
+narrower than the mode it is passed in gets a real pseudo with an entry conversion copy, not a REG_EQUIV memory it can
+be reloaded from, so it crosses the call and `global.c` gives it a callee-saved register.  `offset_y, offset_z` as
+`s16`: listing 44 -> 16 (prologue loads back, allocation order still wrong); all three offsets `s16` (or `u16`):
+byte-exact, no scaffolding, all four rows, 8 pins.  The sol pack had measured every placement variant at 26-30 and never
+a type.  Generator `tools/xform/t84_narrowparams.py` (parameter groups narrowed jointly, copies dropped, listing
+screen): 4 of 4 family rows and `slus/w_8004A330` (4 pins); 32 eligible rows in the tree.  None of the five functions
+has a textual caller in `src/` (table-called), so the signature change has nothing to reconcile.
+
+Bounded the same way (`family_notes.md`): the item-target family (volatile byte loads fix order and registers but 2.8.0
+expands a volatile QImode load as lbu+sll/sra: distance 8) and the raw-height pair (u16: 20; volatile signed load: worse).
+
+## Six generators from the wave's exact rows (Opus agents, one family each; `tools/lanes/gen_drive.py` validates on the lanes' pre-landing texts)
+
+| generator | what it restores | exemplars (byte-exact) | tree sweep: eligible / exact rows / pins |
+|---|---|---|---|
+| t78_aggcopy | a scalarized whole-object copy as one aggregate assignment (`*(CopyN *)dst = *src`) | 81087524, 818B7E14 (818C2FAC stops at 6: its pins are on other variables) | 9 / 2 / 2 (siblings of 81087524); the family is nearly spent |
+| t80_derivecall | a pure derived assignment (`p = base + 0x20`, `p = &sym`) moved from after a call to before it, so the pseudo crosses the call; plus the split-shift merge | 8133A5D0, 818ED25C | 218 / 6 / 6; misses' median listing distance 9 |
+| t81_reuselocal | an arm-confined local hosted on a dead same-typed function-scope local, initialiser merged; generalises natural.host_candidates to any pin kind | 8081DED0 (8081791C reaches 8, as the lane did) | 294 / 5 / 5; 418 rows have no braced window (unbraced `case` regions: the next increment) |
+| t82_armsink | a join local's consumer sunk into the arms, or a statement repeated in every arm hoisted out | 8008D084, 8008BCD0, 80EDF8B8 | 151 / 3 / 3 (two leave an empty `if` arm; spelling-trade rule) |
+| t83_storeafterproducer | an existing store moved next to its producer (invalidates cse before scheduling) | 80D1170C (both stores jointly) | 131 / 6 / 6; misses at distance 1-4 want a joint move of a store run |
+| t84_narrowparams | pinned `s32` copies of `s32` parameters dropped by declaring the parameter group `s16`/`u16` | the four spawn rows | 32 / 5 / 12 (the slus row carried 9 pins) |
+| t19_modpow2 (extended) | the remainder tree with a named rounded quotient, folded into its reader | 800D5794 | 19 / 0 new (one other row of the spelling, no fold) |
+
+Model spend: four Opus agents, 160k-196k tokens each, one generator family per agent, validated on the lanes'
+pre-landing texts through `tools/lanes/gen_drive.py` (`--base-from <lane>`; stages into `work/native_lane/r60_<gen>/out`,
+never writes `src/`).  All seven are in the landing cascade (`land_lanes.sh`, `coherence_sweep.py`).
+
+Landed (`land_r60*.log`): the dispatch row (2 pins), the t84 lane (5 rows, 17 pins: 5,653 -> 5,634 / 1,157), then the
+five generator lanes in one transaction between chain G's codex lanes (t83 6 rows, t80 6, t81 5, t82 3, t78 2; one row shared by t80 and t82 landed once and the cascade took the second pin): **5,634 -> 5,612 / 1,157**, 21 windows + SLUS MATCH.
+
+**Round total so far: 5,682 -> 5,612, 70 pins** (chain F 29, the dispatch row 2, t84 17, the five generators 22), with chain G's first 4-8-pin slice landing 4 rows as this note is written.
+
+## Chain G: sol on 4-8-pin rows (untested there; luna and Gemini paid nothing)
+
+Queued behind chain F: 15-row slices by residue class with the screen, large (64 rows) / mid (17) / far (95),
+a kind stops after a slice that lands nothing.
