@@ -307,10 +307,8 @@ state_4:
         }
     }
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
-    next_state = ((S_80172A48_0 *)action)->unk_9B;
-    ASM_KEEP(next_state); /* MATCH: keep each state load distinct before its delay-slot increment. */
-    next_state++;
-    goto store_next_state;
+    ((S_80172A48_0 *)action)->unk_9B++;
+    goto end;
 
 state_5:
     ((S_80172A48_3 *)actor)->unk_14 |= 0x800;
