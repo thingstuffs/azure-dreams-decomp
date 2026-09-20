@@ -8,11 +8,15 @@
    "pins": 5682,
    "pinned_rows": 1175
   },
-  "after": {
+  "round_close": {
+   "pins": 5612,
+   "pinned_rows": 1157,
+   "pins_removed": 70
+  },
+  "after_including_chain_G_so_far": {
    "pins": 5608,
    "pinned_rows": 1157
-  },
-  "pins_removed": 74
+  }
  },
  "chain_F_sol_slices_1_3_pins": [
   {

@@ -14,7 +14,7 @@ Charter: [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md).  Receipt: `docs/evi
 | large7 | 15 | 4 | 5 | three of the four kept one pin (2 -> 1) |
 | mid6 | 10 | 4 | 4 | the mid pool's last rows |
 | large8 | 15 | 2 | 4 | |
-| large9 | 14 | 2 | 3 | the large pool's last rows |
+| large9 | 14 | 3 | 3 | the large pool's last rows |
 
 5,682 -> 5,653 / 1,163 over the nine slices (19 rows, 29 pins), every landing gated (covering windows + SLUS MATCH), committed by the
 ten-minute snapshot loop.  Two-pin rows paid better than one-pin rows (large7: 4 of 15).
@@ -68,17 +68,19 @@ expands a volatile QImode load as lbu+sll/sra: distance 8) and the raw-height pa
 | t81_reuselocal | an arm-confined local hosted on a dead same-typed function-scope local, initialiser merged; generalises natural.host_candidates to any pin kind | 8081DED0 (8081791C reaches 8, as the lane did) | 294 / 5 / 5; 418 rows have no braced window (unbraced `case` regions: the next increment) |
 | t82_armsink | a join local's consumer sunk into the arms, or a statement repeated in every arm hoisted out | 8008D084, 8008BCD0, 80EDF8B8 | 151 / 3 / 3 (two leave an empty `if` arm; spelling-trade rule) |
 | t83_storeafterproducer | an existing store moved next to its producer (invalidates cse before scheduling) | 80D1170C (both stores jointly) | 131 / 6 / 6; misses at distance 1-4 want a joint move of a store run |
-| t84_narrowparams | pinned `s32` copies of `s32` parameters dropped by declaring the parameter group `s16`/`u16` | the four spawn rows | 32 / 5 / 12 (the slus row carried 9 pins) |
+| t84_narrowparams | pinned `s32` copies of `s32` parameters dropped by declaring the parameter group `s16`/`u16` | the four spawn rows | 32 / 5 / 17 (the slus row carried 9 pins) |
 | t19_modpow2 (extended) | the remainder tree with a named rounded quotient, folded into its reader | 800D5794 | 19 / 0 new (one other row of the spelling, no fold) |
 
 Model spend: four Opus agents, 160k-196k tokens each, one generator family per agent, validated on the lanes'
 pre-landing texts through `tools/lanes/gen_drive.py` (`--base-from <lane>`; stages into `work/native_lane/r60_<gen>/out`,
 never writes `src/`).  All seven are in the landing cascade (`land_lanes.sh`, `coherence_sweep.py`).
 
-Landed (`land_r60*.log`): the dispatch row (2 pins), the t84 lane (5 rows, 17 pins: 5,653 -> 5,634 / 1,157), then the
+Landed (`land_r60*.log`): the dispatch row (2 pins, 5,653 -> 5,651), the t84 lane (5 rows, 17 pins, 5,651 -> 5,634 / 1,157), then the
 five generator lanes in one transaction between chain G's codex lanes (t83 6 rows, t80 6, t81 5, t82 3, t78 2; one row shared by t80 and t82 landed once and the cascade took the second pin): **5,634 -> 5,612 / 1,157**, 21 windows + SLUS MATCH.
 
-**Round total so far: 5,682 -> 5,612, 70 pins** (chain F 29, the dispatch row 2, t84 17, the five generators 22), with chain G's first 4-8-pin slice landing 4 rows as this note is written.
+**Round total so far: 5,682 -> 5,612, 70 pins** (chain F 29, the dispatch row 2, t84 17, the five generators 22), with chain G's first 4-8-pin slice landing 4 rows (4 pins, 5,608) as this note is written; the receipt's `after` count includes that slice.
+
+Debt named, not fixed: the two other PORT_COMPILE refusals of 09-19 (`dungeon/func_800A21EC`, `800C96AC`) are a different arm-restore gap (the candidate dropped a declaration the port arm still names), byte-exact on the scored side; rows whose fences t83 removed keep a stale `/* MECHANISM: ... barriers ... */` comment (readability-later rule).  The pack builder now lives in `tools/lanes/build_class_pack.py` with its inputs in `ledger/pack_inputs/` (chain G still runs the scratchpad copy).  Next lever for the swap class: read `global.c`'s allocno ordering (`allocno_compare`: refs, live length, size) against the inputs `tools/alloc_trace.py` / `alloc_probe.py` already dump under gdb - the way `sched.c` paid in round 57.
 
 ## Chain G: sol on 4-8-pin rows (untested there; luna and Gemini paid nothing)
 
