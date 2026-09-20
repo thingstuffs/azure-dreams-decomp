@@ -71,9 +71,8 @@ extern void func_80171010(void *, void *, void *, s32, s32, s32);
 extern s32 func_8017165C(s32);
 
 /* Advances the entity animation sequence and relocates it to a distant tile. */
-void func_80175594(void *motion, void *position, void *entity_in, void *object_in)
+void func_80175594(void *motion, void *position, void *entity, void *object_in)
 {
-    register void *entity ASM_REG("$19") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *object ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 particle_index;
     s32 tries_left;
@@ -91,7 +90,6 @@ void func_80175594(void *motion, void *position, void *entity_in, void *object_i
     u8 *reference_entity;
     u8 *animations;
 
-    ASM_KEEP(entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     {
         static void *const state_labels[] = {
@@ -100,11 +98,10 @@ void func_80175594(void *motion, void *position, void *entity_in, void *object_i
         };
         u32 state = ((S_80175594_0 *)motion)->unk_9B;
 
+        object = object_in;
         if (state >= 8) {
             return;
         }
-        object = object_in;
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         (void)state_labels;
         goto *D_80170920[state];
     }
@@ -236,9 +233,9 @@ case_7:
     old_x = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;
     old_y = ((Rec_func_800D6DC0_arg2 *)entity)->unk_25;
     do {
-        do {
+        loop_3: {
             tile_result = func_800A4E2C((u8 *)entity + 0x24, (u8 *)entity + 0x25);
-        } while (tile_result < 0);
+        } if (tile_result < 0) goto loop_3;
 
         dx = reference_entity[0x24];
         dy = ((Rec_func_800D6DC0_arg2 *)entity)->unk_24;

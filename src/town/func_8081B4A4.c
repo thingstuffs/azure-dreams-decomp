@@ -110,9 +110,9 @@ extern void tw_sd_sq_ld_call(s32, s32);
 /* Creates a parent object, three children, paired display rows, and a final display element. */
 s32 func_800254A4(void)
 {
-    void *left_data[2];
-    void *right_data[2];
     register u8 *parent_state ASM_REG("$21") = NULL;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *left_data[2] = {D_8002012C, D_80020134};
+    void *right_data[2] = {D_8002013C, D_80020140};
     void *object;
     S_800254A4_3 *child_state;
     S_800254A4_5 *left_state;
@@ -126,7 +126,7 @@ s32 func_800254A4(void)
     void *callback;
     void *child_data;
     void **child_slot;
-    u8 *initial_data;
+    u8 *initial_data = D_80020144;
     u8 *src_byte;
     u8 *first_dst_byte;
     u8 *second_dst_byte;
@@ -135,15 +135,6 @@ s32 func_800254A4(void)
     s32 final_color;
     register s32 final_extent ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 row_y;
-
-    do {
-        left_data[0] = D_8002012C;
-    } while (0);
-    left_data[1] = D_80020134;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    right_data[0] = D_8002013C;
-    right_data[1] = D_80020140;
-    initial_data = D_80020144;
 
     tw_sd_sq_ld_call(0x24, 0x200);
     func_80026CE4(0x5A);
