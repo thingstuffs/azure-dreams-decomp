@@ -212,12 +212,10 @@ state_one:
             effect_prim->unk_02 = (sprite->unk_24 << 6) + 0x20;
             effect_prim->unk_06 = (sprite->unk_25 << 6) + 0x20;
 
+            effect = (u8 *)effect_obj + 0x20;
             if (sprite->unk_14.at00_u16.v & 0x8000) {
-                effect = (u8 *)effect_obj + 0x20;
                 effect_prim->unk_0A = actor->unk_88 - 0x50;
             } else {
-                effect = (u8 *)effect_obj + 0x20;
-                ASM_KEEP(effect);   /* Pin: removal changes the address form (%hi/%lo vs base+offset). */
                 effect_prim->unk_02 += offset[0];
                 effect_prim->unk_06 += offset[1];
                 tail_value = offset[2];

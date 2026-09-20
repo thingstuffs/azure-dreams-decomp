@@ -257,9 +257,9 @@ jt_c9:
 
 jt_c8:
         if (((S_80171094_1 *)stats)->unk_1C & 0x400) {
-            register s32 behavior_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 behavior_state;
             behavior_state = ((S_80171094_1 *)stats)->unk_14;
-            if (behavior_state >= 0) {
+            if ((behavior_state & 0x80000000) == 0) {
                 behavior_state |= 0x80000000;
                 ((S_80171094_1 *)stats)->unk_14 = behavior_state;
                 ((S_80171094_1 *)stats)->unk_2A.u += (func_800A6D30() & 7) << 9;
