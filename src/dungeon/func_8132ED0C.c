@@ -70,20 +70,18 @@ typedef struct S_80165D0C_4 {
 } S_80165D0C_4;   /* ((S_80165D0C_0 *)arg0)->unk_08 in func_80165D0C */
 
 /* Spawn an effect relative to the source with randomized motion and sprite size. */
-void func_80165D0C(S_80165D0C_0 *source, s16 duration, s32 scale, s32 offset_x, s32 offset_y, s32 offset_z, s32 velocity_z) {
+void func_80165D0C(S_80165D0C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z, s32 velocity_z) {
     s32 sprite_scale;
     S_80165D0C_2 *sprite;
     S_80165D0C_1 *effect_state;
     void *effect;
-    register s32 held_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 held_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     effect = func_8003FC64(0x12);
     if (effect != NULL) {
         (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_80165AB8;
         ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_02 + offset_x);
-        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_06 + held_offset_y);
-        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_0A + held_offset_z);
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_06 + offset_y);
+        ((S_80165D0C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A = (s16) (((S_80165D0C_4 *)(source->unk_08))->unk_0A + offset_z);
         effect_state = effect + 0x20;
         effect_state->unk_42 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((S_80165D0C_4 *)(source->unk_08))->unk_06;

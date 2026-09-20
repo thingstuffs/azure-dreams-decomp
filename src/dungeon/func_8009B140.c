@@ -141,18 +141,14 @@ void func_800A08A0(s32 spawn_mode) {
         if (*(u32 *)((u8 *)monster + 0x18) >= limits[((u8 *)monster)[0x11]]) {
             u32 *level_thresholds;
             u32 next_level_exp;
-            level_monster = monster;
             level_thresholds = limits;
             do {
-                func_800A1D4C(level_monster, 0);
+                func_800A1D4C(monster, 0);
                 next_level_exp = level_thresholds[((u8 *)monster)[0x11]];
-                level_monster = monster;
             } while (*(u32 *)((u8 *)monster + 0x18) >= next_level_exp);
-        } else {
-            level_monster = monster;
         }
-        ASM_USE_NV(level_monster); /* MATCH: Keep both threshold arms' argument assignments live. */
-        if (((u8 *)monster)[0x49] != 0) {
+        level_monster = monster;
+        if (((u8 *)level_monster)[0x49] != 0) {
             return;
         }
         *(s32 *)((u8 *)monster + 0x48) = func_800A9230(monster);

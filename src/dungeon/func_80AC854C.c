@@ -77,7 +77,7 @@ void func_80173D4C(void *action_in, void *context_in, void *sprite_in, void *act
     void *sprite;
     void *actor;
     s32 state;
-    register void *actor_to_check ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    void *actor_to_check;
     u8 *status;
     s32 actor_flags;
     register u8 *counter_base_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -168,10 +168,12 @@ active:
     if ((func_80042900(actor, 1) << 16) != 0) {
         s8 coordinate = ((S_80173D4C_1 *)sprite)->unk_26;
         u8 *origin = D_80082E80;
+        s32 probe_result;
 
         if ((coordinate != ((S_80173D4C_6 *)origin)->unk_26) || (coordinate < 0)) {
-            if (func_8009FD40(origin, sprite) >= 2) {
-                actor_to_check = actor;
+            probe_result = func_8009FD40(origin, sprite);
+            actor_to_check = actor;
+            if (probe_result >= 2) {
                 goto final_check_call;
             }
             if (!(func_800A6D30(actor) & 7)) {

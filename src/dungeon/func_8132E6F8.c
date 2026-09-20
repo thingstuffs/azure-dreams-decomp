@@ -69,11 +69,9 @@ typedef struct S_801656F8_1 {
 } S_801656F8_1;   /* temp_s0 in func_801656F8 */
 
 /* Creates an effect offset from its source with randomized motion. */
-void func_801656F8(Rec_D_800E3D7C *source, s16 effect_param, s32 state_value, s32 offset_x, s32 offset_y,
-                   s32 offset_z, s32 motion_z)
+void func_801656F8(Rec_D_800E3D7C *source, s16 effect_param, s32 state_value, s16 offset_x, s16 offset_y,
+                   s16 offset_z, s32 motion_z)
 {
-    register s32 held_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 held_offset_z ASM_REG("$20") = offset_z;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_801656F8_1 *effect_state;
     void *effect;
 
@@ -83,9 +81,9 @@ void func_801656F8(Rec_D_800E3D7C *source, s16 effect_param, s32 state_value, s3
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_02 = (s16)
             (((S_801656F8_5 *)(source->unk_08.at00_pv.v))->unk_02 + offset_x);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_06 = (s16)
-            (((S_801656F8_5 *)(source->unk_08.at00_pv.v))->unk_06 + held_offset_y);
+            (((S_801656F8_5 *)(source->unk_08.at00_pv.v))->unk_06 + offset_y);
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0A = (s16)
-            (((S_801656F8_5 *)(source->unk_08.at00_pv.v))->unk_0A + held_offset_z);
+            (((S_801656F8_5 *)(source->unk_08.at00_pv.v))->unk_0A + offset_z);
         ((S_801656F8_6 *)(((S_801656F8_2 *)effect)->unk_0C))->unk_06 = 6;
         ((S_801656F8_4 *)(((S_801656F8_2 *)effect)->unk_08))->unk_0C = (s32)
             (((rand() & 0x7FFF) - 0x4000) << 4);

@@ -35,16 +35,12 @@ __asm__(".set D_800814A0_load, 0x800814A0");
 #endif
 
 /* Allocate and initialize an entity with a resource buffer and position targets. */
-S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 target_x,
-                                  s32 target_y, s32 width, s32 flags, s32 content_id) {
+S_8004A330_Entity *func_8004A330(s32 style_flags, s16 start_x, s16 start_y, s16 target_x,
+                                  s16 target_y, s16 width, s32 flags, s32 content_id) {
     S_8004A330_Entity *entity;
     S_8004A330_Sub20 *state;
     s32 buffer_addr;
     s32 saved_style_flags = style_flags;
-    register s32 saved_start_y ASM_REG("$20") = start_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register s32 saved_target_x ASM_REG("$18") = target_x;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register s32 saved_target_y ASM_REG("$19") = target_y;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    register s32 saved_width ASM_REG("$21") = width;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u16 entity_flags;
     s32 global_flags;
 #ifndef NON_MATCHING
@@ -58,16 +54,11 @@ S_8004A330_Entity *func_8004A330(s32 style_flags, s32 start_x, s32 start_y, s32 
         state->field8 = (void *)buffer_addr;
         if (buffer_addr != 0) {
             state->field0 = (u16)flags;
-            state->x = (s16)(saved_target_x - 0xA0);
-            state->y = (s16)(saved_target_y - 0x80);
+            state->x = (s16)(target_x - 0xA0);
+            state->y = (s16)(target_y - 0x80);
             func_8004A24C(state, saved_style_flags, content_id, (s16)start_x,
-                          (s16)saved_start_y,
-                          (s16)saved_width);
-            ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_start_y);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_target_x);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_target_y);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP(saved_width);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+                          (s16)start_y,
+                          (s16)width);
             entity->field_c = &entity->sub50;
             func_8004491C(entity, func_8004CAA0);
             entity->update_fn = func_80049F2C;
