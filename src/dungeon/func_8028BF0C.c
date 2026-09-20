@@ -73,7 +73,7 @@ __asm__(".set D_800835E8, 0x800835E8");
 #define PAGE_8008 ((u8 *)0x80080000)
 #endif
 
-/* Restore saved spawns and place random traps within the floor budget. */
+/* Restores saved spawns and places random traps within the floor budget. */
 void func_8001EF0C(void) {
     u8 x;
     u8 y;
@@ -121,11 +121,8 @@ void func_8001EF0C(void) {
                     initial_value = initial[(s8)meta[slot].unk2];
                     object->unk_18 = initial_value;
                     if (initial_value >= (u32)limits[object->unk_11]) {
-                        u8 *loop_page;
                         s32 *loop_limits;
-                        loop_page = PAGE_8008;
-                        ASM_KEEP_NV(loop_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                        loop_limits = (s32 *)(loop_page + 0x35E8);
+                        loop_limits = D_800835E8;
                         do {
                             func_800A1D4C(object, 0);
                         } while ((u32)loop_limits[object->unk_11] <=
