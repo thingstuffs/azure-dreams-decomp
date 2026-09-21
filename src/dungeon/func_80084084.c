@@ -26,10 +26,10 @@ extern Callback D_800DCFA4;
 extern s32 D_800E296C;
 extern u8 D_800E0000[];
 
-/* Dispatch eligible entry callbacks according to the current mode. */
+/* Dispatch eligible entry_m callbacks according to the current mode. */
 void func_800897E4(void)
 {
-    register Entry *entry_m ASM_REG("$17");
+    Entry *entry_m;
     Callback callback;
     if (D_800E296C & 0x02000000) {
         register Callback *callback_slot ASM_REG("$16");
@@ -86,7 +86,6 @@ first_advance:
         Callback *special_scan;
 
         register Entry **entry_slot;
-        register Entry *entry;
         void *callback_data;
         s32 callback_arg1;
         s32 callback_arg2;
@@ -101,32 +100,32 @@ first_advance:
 loop_second:
         callback = *callback_slot;
         if (callback != 0) {
-            entry = *entry_slot;
-            if (entry != 0) {
-                if (!(entry->flags & 0x800)) {
+            entry_m = *entry_slot;
+            if (entry_m != 0) {
+                if (!(entry_m->flags & 0x800)) {
                     callback_data = *(Callback *)(D_800E0000 - 0x3080);
                     special_scan = special_start + 1;
                     if (callback_data != callback) {
                         goto second_scan_check;
                     }
-                    entry = &D_80083498;
-                    if (entry->active != 0) {
-                        callback_data = entry->data;
-                        callback_arg1 = entry->arg1;
+                    entry_m = &D_80083498;
+                    if (entry_m->active != 0) {
+                        callback_data = entry_m->data;
+                        callback_arg1 = entry_m->arg1;
                         do {
-                            callback_arg2 = entry->arg2;
+                            callback_arg2 = entry_m->arg2;
                         } while (0);
-                        saved = entry->saved;
-                        entry->saved = 0;
+                        saved = entry_m->saved;
+                        entry_m->saved = 0;
                         callback(callback_data, callback_arg1, callback_arg2);
                         ASM_KEEP(callback_base);
                         ASM_KEEP(entry_slot);
-                        entry->saved = saved;
+                        entry_m->saved = saved;
                         goto second_next;
                     }
                     goto second_next;
 loop_0: {
-                    callback(entry->data, entry->arg1, entry->arg2);
+                    callback(entry_m->data, entry_m->arg1, entry_m->arg2);
                     callback_slot++;
                     goto second_advance;
 second_scan_check: ;

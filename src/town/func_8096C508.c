@@ -158,8 +158,8 @@ matched_five:
             (*(volatile s16 *)&object->field_4) = selection_value;
             selection_value = object->field_11;
             previous_selection = selection_value;
-            ASM_KEEP(previous_selection);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            *(volatile u8 *)&object->field_11 = selection_value + 7;
+            selection_value += 7;
+            *(volatile u8 *)&object->field_11 = selection_value;
             object->field_6 = 4;
             (*(volatile u8 *)&object->field_11) &= 7;
             object->field_12 = previous_selection;
@@ -177,17 +177,16 @@ matched_five:
     {
         u32 selection_value;
         s32 previous_selection;
-        register s32 start_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        start_step = 1;
+        input_flags = 1;
         if (object->field_F == 3) {
             goto reset_four;
         }
         selection_value = object->field_11;
         previous_selection = selection_value;
-        ASM_KEEP(previous_selection);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        *(volatile u8 *)&object->field_11 = selection_value + 1;
-        object->field_4 = start_step;
+        selection_value += 1;
+            *(volatile u8 *)&object->field_11 = selection_value;
+        object->field_4 = input_flags;
         (*(volatile u8 *)&object->field_11) &= 7;
         object->field_12 = previous_selection;
     }

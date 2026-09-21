@@ -74,6 +74,11 @@ typedef union {
     } half;
 } PackedDelta;
 
+static __inline__ s32 first_delta_s32_s32(s32 end, s32 start)
+{
+    return end - start;
+}
+
 /* Interpolate and shade a line, project its endpoints, and add it to the ordering table. */
 s32 func_800248C8(void *line_data)
 {
@@ -169,12 +174,8 @@ s32 func_800248C8(void *line_data)
     }
 
 case_early:
-    end_coord = ((S_800248C8_0 *)scratch)->unk_6C;
-#ifdef __mips__
-    ASM_KEEP(end_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-#endif
-    coord_xz = ((S_800248C8_0 *)scratch)->unk_64;
-    end_coord -= coord_xz;
+    end_coord = first_delta_s32_s32(((S_800248C8_0 *)scratch)->unk_6C,
+                                      (coord_xz = ((S_800248C8_0 *)scratch)->unk_64));
     coord_delta.word = end_coord << 16;
     coord_delta.word >>= 3;
     coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 + 1;
@@ -227,12 +228,8 @@ case_middle:
     goto shared;
 
 case_late:
-    end_coord = ((S_800248C8_0 *)scratch)->unk_6C;
-#ifdef __mips__
-    ASM_KEEP(end_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-#endif
-    coord_xz = ((S_800248C8_0 *)scratch)->unk_64;
-    end_coord -= coord_xz;
+    end_coord = first_delta_s32_s32(((S_800248C8_0 *)scratch)->unk_6C,
+                                      (coord_xz = ((S_800248C8_0 *)scratch)->unk_64));
     coord_delta.word = end_coord << 16;
     coord_delta.word >>= 3;
     coord_delta.word *= ((S_800248C8_3 *)line)->unk_10 - 7;

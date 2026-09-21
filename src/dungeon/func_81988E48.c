@@ -45,7 +45,7 @@ typedef struct ChildObject {
     u32 color;
     u16 life;
     u8 pad12[2];
-    volatile u16 flags;
+    u16 flags;
     u8 pad16[6];
     s16 scale_x;
     s16 scale_y;
@@ -61,6 +61,8 @@ typedef struct EffectObject {
     u8 pad24[0x48];
     s16 state;
 } EffectObject;
+
+typedef volatile u16 VolatileState;
 
 typedef struct EffectTail {
     void *owner;
@@ -155,11 +157,9 @@ state_1:
             obj->z -= func_800644B8((obj->age << 11) / 10) << 9;
         }
         if (obj->age >= 10) {
-            register u16 old_state ASM_REG("$2") = obj->state;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            register u16 new_timer ASM_REG("$3") = 0x10;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-            ASM_USE_NV(old_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            obj->timer = new_timer;
+            u16 old_state = *(VolatileState *)&obj->state;
+            state = 0x10;
+            obj->timer = state;
             func_80024908();
             return;
         }

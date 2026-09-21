@@ -214,8 +214,7 @@ check_status:
         }
         if (!(((S_8008ACDC_3 *)dungeon_status)->unk_02 & 4)) {
             if (((S_8008ACDC_4 *)stats)->unk_1C & 0x20) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                if (!(D_80013714 & 1) && (((S_8008ACDC_5 *)input)->unk_08 & 0x80)) {
+                if (!((*(u16 *)0x80013714) & 1) && (((S_8008ACDC_5 *)input)->unk_08 & 0x80)) {
                     ((S_8008ACDC_4 *)stats)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(actor, motion, sprite, &D_8004F5F4);
@@ -241,8 +240,7 @@ check_status:
                     direction &= 0xFF;
                     target_angle = direction << 9;
                     angle_bits = old_angle & 0xFFF;
-                    requested_angle = target_angle;
-                    ASM_KEEP_NV(requested_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    requested_angle = ((u32)direction << 10) >> 1;
                     ((S_8008ACDC_4 *)stats)->unk_2A.s = angle_bits;
                     if (angle_bits != requested_angle) {
                         normalized = old_angle & 0x800;
@@ -319,17 +317,15 @@ handle_action:
                         u8 target_cmd;
                         s32 target_slot_addr;
                         s32 action_kind;
-                        register void *slot_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                        void *slot_target;
 
                         target_cmd = ((S_8008ACDC_6 *)command)->unk_00;
                         target_slot_addr = target_cmd & 0x60;
                         command = (void *) ((u32) target_slot_addr >> 5);
-                        slot_target = func_8009FADC(target_cmd & 0x1F, old_angle);
+                        
                         action_kind = 0x15;
-                        ASM_KEEP_NV(action_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        target_slot_addr = (s32) command << 2;
-                        target_slot_addr = target_slot_addr + (s32) actor;
-                        if (func_80098920(((S_8008ACDC_7 *)((void *) target_slot_addr))->unk_AC, slot_target, action_kind, 0) >= 0) {
+                        
+                        if (func_80098920(((S_8008ACDC_7 *)((((s32)command << 2) + (s32)actor)))->unk_AC, func_8009FADC(target_cmd & 0x1F, old_angle), action_kind, 0) >= 0) {
                             goto epilogue;
                         }
                     }
@@ -470,8 +466,7 @@ check_buttons:
                             }
                         } else {
 update_idle:
-                            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                            if (D_80013714 & 9) {
+                                                    if ((*(u16 *)0x80013714) & 9) {
                                 ((Rec_func_8008ACDC_arg0 *)actor)->unk_A4.as_u16 = 0U;
                             }
                             if (((Rec_func_8008ACDC_arg0 *)actor)->unk_9A.as_u8 == 0xE) {

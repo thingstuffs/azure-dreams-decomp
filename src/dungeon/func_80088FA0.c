@@ -94,8 +94,7 @@ update:
     }
 
     if ((*(s32 *)(entity + 0x1C) & 0x300000) == 0x100000) {
-        ASM_SCHED_BARRIER();
-        if (!(D_80013714[0] & 1)) {
+        if (!((*(u16 *)0x80013714) & 1)) {
             effect_id = func_8009AF18(*(s16 *)(entity + 0x2A), motion, sprite, 8);
             if ((effect_id << 16) != 0) {
                 child = *(u8 **)(action + 0x124);
