@@ -1,0 +1,29 @@
+# Generators passed to tools/lanes/land_lanes.sh as EXTRA_T by tools/lanes/land_gap.sh (and by any
+# hand landing: EXTRA_T="$(grep -v '^#' tools/lanes/cascade_extra.txt | tr '\n' ' ')").
+#
+# ONE place for the list.  Until round 68 every session scratchpad lander carried its own copy of
+# this string (land_r63.sh ... land_r68.sh, pool.sh, codex59j.sh, clone_watch.sh), and each copy was
+# a different prefix of it: a lane landed by the older script simply did not get the newer
+# generators swept over its changed rows.
+#
+# A generator belongs here as soon as it has landed a row and until it is added to the built-in
+# cascade of land_lanes.sh (tools/lanes/add_cascade rules: an entry in both lists is harmless, it
+# just sweeps twice).  land_lanes.sh's own list is the permanent home; coherence_sweep.py keeps a
+# separate list of its own which this file does NOT feed - extend that one by hand.
+t78_aggcopy
+t80_derivecall
+t81_reuselocal
+t82_armsink
+t83_storeafterproducer
+t84_narrowparams
+t86_symaddr
+t87_lifetimemerge
+t88_castshift
+t89_lifetimesplit
+t90_lifetimemerge_far
+t90_callunnest
+t91_absfresh
+t92_pagerun
+t93_scopemerge
+t94_castsplit
+t95_runjoint

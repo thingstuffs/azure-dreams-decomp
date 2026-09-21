@@ -8,7 +8,14 @@
 --base-from <lane2>  take a row's input text from work/native_lane/<lane2>/base/<id>.c when that file exists
                      (the pre-landing text of a model lane's rows): the way to check a new generator against the
                      exemplar rows a lane solved, whose src/ copy is already pin-free.
-Journal: work/native_lane/<lane>/journal.jsonl (resumable on (id, in_sha)).  A scorer run during a gate can
+--fresh              ignore the journal's done set and TRUNCATE the lane's journal.jsonl, out/ and cells.jsonl
+                     first: a re-sweep of a CHANGED generator over rows it already refused or missed (round 68;
+                     rounds 60-67 deleted the lane directory by hand, which also threw away its staged wins).
+--journal-refusals   also journal the rows `T.eligible()` refused, as
+                     {"outcome": "refused", "reason": ...}: the refusal table a generator's next version is
+                     written from (round 32's t69 table).  Off by default, so a lane's journal is unchanged.
+Journal: work/native_lane/<lane>/journal.jsonl (resumable on (id, in_sha); refused records never mark a row
+done, so they do not change what a later run sweeps).  A scorer run during a gate can
 misreport (verify.py scores inside build_ovl, which mk_ovl_root.sh replaces): rerun the misses after the gate.
 """
 import sys, json, tempfile, threading, time, importlib
@@ -23,6 +30,9 @@ from verify import verify
 def arg(name, default=None):
     return sys.argv[sys.argv.index(name) + 1] if name in sys.argv else default
 
+def flag(name):
+    return name in sys.argv
+
 gen, lane = sys.argv[1], sys.argv[2]
 try:
     M = importlib.import_module('xform.' + gen)          # the package form: generators with relative imports
@@ -32,19 +42,36 @@ only = set(arg('--only').split(',')) if arg('--only') else None
 workers = int(arg('--workers', 12)); limit = int(arg('--limit', 0))
 containers = set(arg('--containers', 'town,dungeon,main,slus').split(','))
 base_from = arg('--base-from')
+fresh = flag('--fresh'); journal_refusals = flag('--journal-refusals')
 OUT = ROOT / 'work/native_lane' / lane; (OUT / 'out').mkdir(parents=True, exist_ok=True); (OUT / '.ignore').write_text('*\n')
-J = OUT / 'journal.jsonl'; done = {(r['id'], r['in_sha']) for r in read_jsonl(J)} if J.exists() else set()
+J = OUT / 'journal.jsonl'
+if fresh:                                                   # a changed generator over the same rows
+    import shutil
+    for _p in (J, OUT / 'cells.jsonl'): _p.unlink(missing_ok=True)
+    shutil.rmtree(OUT / 'out', ignore_errors=True); (OUT / 'out').mkdir(parents=True, exist_ok=True)
+    print('--fresh: journal, out/ and cells.jsonl truncated', flush=True)
+# a refused record never marks a row done: the next run re-asks the (possibly rewritten) eligible()
+done = {(r['id'], r['in_sha']) for r in read_jsonl(J) if r.get('outcome') != 'refused'} if J.exists() else set()
 cen = {c['id']: c for c in read_jsonl(ROOT / 'ledger/census.jsonl')}
-todo = []
+todo = []; refusals = []
 for r in rows():
     if only and r['id'] not in only: continue
     if r['container'] not in containers or not clean_path(r).exists(): continue
     p = ROOT / 'work/native_lane' / base_from / 'base' / (r['id'] + '.c') if base_from else None
     t = (p if p and p.exists() else clean_path(r)).read_text(errors='replace')
     if not sites_of(t) or (r['id'], sha_text(t)) in done: continue
-    if M.T.eligible(t, r, cen.get(r['id'], {})): continue
+    why = M.T.eligible(t, r, cen.get(r['id'], {}))
+    if why:
+        if journal_refusals:
+            refusals.append({'id': r['id'], 'in_sha': sha_text(t), 'cfg': r['cfg'], 'outcome': 'refused',
+                             'reason': (why if isinstance(why, str) else repr(why))[:200]})
+        continue
     todo.append((r, t))
     if limit and len(todo) >= limit: break
+if refusals:
+    with J.open('a') as f:
+        for rec in refusals: f.write(json.dumps(rec) + '\n')
+    print(len(refusals), 'rows refused by eligible(), journalled', flush=True)
 print(len(todo), 'eligible rows', flush=True)
 lock = threading.Lock()
 

@@ -257,3 +257,117 @@ every earlier run (checked by building the same class pack with both versions):
 
 Textual unit tests: `tools/tests/test_duck_brief.py` (note regex, both REPORT.md shapes, the
 distance-sentence filter, the fall-together rule, the mechanism table's "unknown" default).
+
+## Orchestration kit (round 68)
+
+The pipeline below ran for three days out of a session scratchpad: `pool.sh`, `codex59f.sh ...
+codex59m.sh`, `land_r63.sh ... land_r68.sh`, `land_t91.sh`, `clone_watch.sh`, `autocommit.sh`,
+`add_exemplars.py`, `add_cascade.sh` - rewritten every few hours, lost with the session, and each
+copy carrying a different, silently stale generator list. It is now in `tools/lanes/`. Start from
+these instead of writing new ones; when one is not good enough, change it here.
+
+**The round as it runs.** A census class or a big-row list -> a duck-briefed pack -> an astra/sol
+pool -> ONE landing transaction when the pool drains -> an Opus harvest of the lanes' REPORT.md
+moves into generators -> a `gen_drive` sweep of each new generator -> gap landing -> clone transfer
+onto the siblings -> refreshed exemplars for the next pack.
+
+| Tool | One line |
+|---|---|
+| `tools/lanes/pool.py` | `python3 tools/lanes/pool.py big --model sol -c 3 --rows-json rows.json --paragraphs big_rows,new_findings [--dry-run]` - build the packs, probe capacity, run N lanes at a time, journal each lane's candidate count, land the winners together |
+| `tools/lanes/land_gap.sh` | `bash tools/lanes/land_gap.sh <tag> <lane>...` - wait for a codex gap, one `land_lanes.sh` transaction with the cascade extras, then the `arm_restore` twins |
+| `tools/lanes/cascade_extra.txt` | the ONE list of generators passed as `EXTRA_T`; add a generator here the day it lands its first row |
+| `tools/lanes/refresh_exemplars.py` | `python3 tools/lanes/refresh_exemplars.py` - rebuild `ledger/pack_inputs/solved_exemplars.json` from every r5*/r6* lane (2026-09-21: 144 -> 434 rows), with each row's `lane` and the `move` that solved it |
+| `tools/lanes/brief_paragraphs/` | named paragraphs appended to a pack brief: `build_class_pack.py ... --paragraphs big_rows,new_findings` (`class_question.md` is a template to fill by hand) |
+| `tools/lanes/clone_watch.sh` | `nohup bash tools/lanes/clone_watch.sh &` - every 25 min, replay finished lanes' moves on their clone siblings and gap-land what comes out exact |
+| `tools/lanes/autocommit.sh` | `nohup bash tools/lanes/autocommit.sh &` - commit `src`/`STATUS.md`/`ledger` whenever the landing lock is free and no gate runs |
+| `tools/lanes/gen_drive.py` | `--fresh` re-sweeps a CHANGED generator over rows its journal already answered; `--journal-refusals` writes the refusal table its next version is written from |
+
+**Landing contention is the rule that shapes all of it.** `land_lanes.sh` refuses to run while any
+`codex exec` lane or any `sweep.py` is running (`verify.py` scores inside `build_ovl`, which
+`mk_ovl_root.sh` replaces under it), and it holds `build_ovl/work/land.lock` from apply through gate.
+So a lane that finishes while its siblings are still thinking cannot land, and a pool's whole point
+is to do ONE landing when they have all exited. `land_gap.sh` is the only thing that should wait for
+that gap: it queues on `build_ovl/work/land_gap.lock`, so two landers take the floor in turn instead
+of refusing each other (round 61's chain H lanes were refused under contention and re-landed by
+hand), and it RETRIES a refusal until its deadline instead of leaving the lanes staged.  That
+contention rule is the default; `LAND_ISOLATED=1` (added to `land_lanes.sh` alongside this kit) lifts
+it by gating in `build_ovl_gate`, and `land_gap.sh` passes it through and then stops waiting.
+
+**The pkill/pgrep self-match trap** (three orchestrator shells killed on 2026-09-19/21, and one lane
+chain that sat fifteen hours). `pgrep -f`/`pkill -f` match the WHOLE command line of every process,
+including the shell that is doing the matching and the `bash -c "... > my_sweep.py.log"` wrapper that
+started it - the redirect is part of that command line. So:
+
+- wait on PIDs you own: `work/native_lane/<lane>/lane.pid` with `kill -0`, or `$!`, never a pattern
+  (`pool.py` waits with `os.kill(pid, 0)` on the pids it launched, and adopts a lane that is already
+  running instead of launching a second codex on the same pack);
+- for foreign processes only, use the bracket trick - `pgrep -f "[c]odex exec"` - so the pattern
+  cannot match the text of the pattern;
+- never name a log file after a process something greps for;
+- never `pkill -f` from a shell whose own command line contains the pattern.
+
+**Exemplars are the strongest lever in a pack and they go stale silently.** `build_class_pack.py
+--exemplars N` cites the solved diffs of the pack's own residue classes and the brief tells the model
+to try each one first. The index had not been rebuilt for a day and a half while ~250 rows were
+solved. Rebuild it at the start of a round (`refresh_exemplars.py`, ~30 s); it keeps a timestamped
+backup, carries forward the hand-maintained rows no lane covers, and refuses candidates that edit a
+NON_MATCHING arm, grow scaffolding or were exact only at another stock recipe (a `cells.jsonl`
+switch is not a C move), so a pack is never briefed with a move that would be refused at landing.
+
+Tests: `tools/tests/test_pool_plan.py` (plan and `--dry-run`, no launches), `test_land_gap.py` (a
+fake `land_lanes.sh` records the tag, lanes, `EXTRA_T`, the twins, the queue lock and the max wait),
+`test_refresh_exemplars.py` (base recovery, the legitimacy rules, the per-row pick, the carry
+forward), `test_gen_drive_flags.py` (`--fresh`, `--journal-refusals`, with a stub generator that
+refuses everything so nothing compiles).
+
+## Isolated landing (round 68)
+
+Until round 68 a landing and a lane could not overlap: `land_lanes.sh` gates by running
+`tools/build/mk_ovl_root.sh`, which does `rm -rf build_ovl/tools` + `cp -rL tools/gate/.` and
+rewrites `build_ovl/work/g3/overlay_func_compare.py` and the exported row tables - **inside the very
+root a lane's `tools/verify.py` is scoring in**. A scorer that loses `match.py` or
+`overlay_func_compare.py` for those seconds does not crash the lane, it returns HARNESS-ERROR /
+"not exact": a false negative on real work. Hence the refusal at the top of `land_lanes.sh` ("a
+codex lane is running: wait for it") and the wait loop in `land_gap.sh`. With six lanes around the
+clock, finished work waited hours for a gap.
+
+What is actually shared is smaller than the refusal assumed:
+
+- the **scorer** (`verify.py` -> `tools/aligned_score.py`, run with `cwd=build_ovl`) resolves
+  everything from its own root and compiles the candidate in a temp dir. It never reads `src/`:
+  a lane scores one candidate FILE against retail bytes, so a landing rewriting other rows cannot
+  move its verdict;
+- the **window gate** (`overlay_local_gate.py`) is the only thing that reads `src/`, through
+  `<root>/overlays/<ov>/first_pass_matched -> src/<ov>`, and builds in `<root>/work/s3_splat/<window>/build`
+  under a per-window `fcntl` lock inside that root (`.gate.lock`), so two gates in the same root
+  already queue;
+- `gate_all.py`'s `inputs_sha` reads `src/` directly, so **the verdict does not depend on which root
+  ran it**.
+
+So the gate can simply run somewhere else. `LAND_ISOLATED=1`:
+
+    LAND_ISOLATED=1 bash tools/lanes/land_gap.sh <tag> <lane>...      # or land_lanes.sh directly
+
+- `land_lanes.sh` skips the "a codex lane is running" refusal (lanes score throughout) and gates with
+  `EXP=gate SRCROOT=$PWD/src bash tools/build/mk_ovl_root.sh` +
+  `GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py`; `build_ovl` is never touched.
+  `build_ovl_gate` costs ~250 MB and ~1 s to (re)make - the window build dirs are `--clean`ed per run
+  anyway, so nothing is lost by gating in a fresh root;
+- a second landing **queues** on `build_ovl/work/land.lock` instead of exiting, and a sweep that is
+  not this landing's own no longer refuses the landing: it is waited for (`LAND_POLL`,
+  `LAND_WAIT_MAX`). The self-match filter excludes this shell, its ancestors (the wrapper whose
+  command line names a `*sweep.py*` log) and its descendants (the cascade's own sweeps);
+- `land_gap.sh`'s `busy()` returns "free" at once under `LAND_ISOLATED=1`: there is no gap to wait for;
+- `GATE_BUILD_ROOT` also steers `tools/build/container_check.py`, whose whole-container statement
+  reads the `.window.bin` files the gate left behind.
+
+Without the variable every one of these files behaves exactly as before (that is what
+`tools/tests/test_land_isolated.py` pins). Rollback is `unset LAND_ISOLATED`; `rm -rf build_ovl_gate`
+reclaims the disk.
+
+Two things to keep in mind. A landing still rewrites `src/` under a running lane, so a lane holding a
+row the landing changes loses that row at landing time ("stale base" - the `.base_sha` guard, which is
+what keeps the tree honest); keep a round's pending landings and its live packs on disjoint rows where
+possible. And an isolated landing no longer refreshes `build_ovl`, so if `tools/gate/*` changes,
+`build_ovl/tools` goes stale (the landing prints a note when it does): run
+`bash tools/build/mk_ovl_root.sh` in the next real lane gap.

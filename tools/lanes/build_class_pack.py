@@ -3,7 +3,11 @@
 Round 62 adds two flags, both off by default (the flagless output is byte-identical to every earlier run):
     --rows id,id,...   build a pack of exactly these rows, whatever their class, pin count or served history
                        (a whole-function or family pack); rows.md then notes which lanes already served each row
-    --duck             append each row's rubber-duck brief (tools/lanes/duck_brief.py) under its rows.md section"""
+    --duck             append each row's rubber-duck brief (tools/lanes/duck_brief.py) under its rows.md section
+Round 68 adds one more, also off by default:
+    --paragraphs a,b   append tools/lanes/brief_paragraphs/<a>.md ... to BRIEF.md after the standard brief
+                       (big_rows, new_findings, a filled copy of class_question): the blocks rounds 63-67
+                       pasted onto each BRIEF.md by hand out of the session scratchpad"""
 import json, sys, difflib, shutil, glob; sys.path.insert(0,'tools'); sys.path.insert(0,'tools/xform'); sys.path.insert(0,'tools/lanes')
 from pathlib import Path
 from common import rows, clean_path, sha_text
@@ -14,7 +18,7 @@ import screen
 from served import served_rows as _sr
 SERVED_BASE=_sr()
 S='ledger/pack_inputs'; MY=S
-VALOPTS={'--solved','--pins','--exemplars','--only-served-by','--rows','--notes'}
+VALOPTS={'--solved','--pins','--exemplars','--only-served-by','--rows','--notes','--paragraphs'}
 def opt(name, default=None):
     return sys.argv[sys.argv.index(name)+1] if name in sys.argv else default
 lane=sys.argv[1]
@@ -32,6 +36,7 @@ nex=int(opt('--exemplars',0))
 only_rows=[x.strip() for x in opt('--rows','').split(',') if x.strip()]
 duck_on='--duck' in sys.argv
 note_files=[x.strip() for x in opt('--notes','').split(',') if x.strip()]   # hand probe notes quoted in the ducks
+paragraphs=[x.strip() for x in opt('--paragraphs','').split(',') if x.strip()]  # tools/lanes/brief_paragraphs/<name>.md
 by={r['id']:r for r in rows()}
 census=[json.loads(l) for l in open(f'{S}/erase_r56.jsonl')]
 cls={}; dmax={}; ccls={}
@@ -111,5 +116,10 @@ if only_rows or duck_on:
     if only_rows: head=f"# Lane: {lane} - {len(ids)} rows chosen by hand (a family / whole-function pack, not a class pool)"
     b=head+'\n\n'+dp.rstrip()+'\n'+rest
     p=p.rstrip('\n')+"\nBefore compiling anything for a row, restate that row's DUCK brief in `rows.md` in your own words (state, issue, what must happen), and end REPORT.md with the duck answered per row: what was tried, the distances reached, which pins fell, and what you would need to know next.\n"
+for name in paragraphs:                                             # LANE_KIT "Orchestration kit": named brief paragraphs
+    pf=Path('tools/lanes/brief_paragraphs')/(name+'.md')
+    if not pf.exists(): print('WARNING: no brief paragraph', pf); continue
+    if '<<' in pf.read_text(): print('WARNING:', pf, 'still has unfilled <<...>> slots')
+    b=b.rstrip('\n')+'\n\n\n'+pf.read_text().strip('\n')+'\n'
 (L/'BRIEF.md').write_text(b); (L/'PROMPT.txt').write_text(p)
 print('built', lane, len(ids), 'pool', len(cand))
