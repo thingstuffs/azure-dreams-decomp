@@ -109,8 +109,8 @@ s16 func_8008DA80(s32 query_x, s32 query_y, s32 query_z)
     scratch->origin_z = query_z;
     grid_data = D_80083160;
     grid = (Grid80090320 *)(grid_data + 0x1DC);
-    ASM_USE(query_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    scratch->result = (query_x &= 0x3F);
+    scratch->result = query_x & 0x3F;
+    query_x &= 0x3F;
     scratch->saved_y = query_y & 0x3F;
     scratch->height_data = grid->height_data;
     occupancy = ((S_8008DA80_0 *)grid_data)->unk_1DC;
