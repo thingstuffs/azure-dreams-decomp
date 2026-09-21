@@ -187,8 +187,7 @@ await_launch:
         U8(sprite, 0xD) = (u32)table_value;
         U8(sprite, 0xC) = (u32)table_value;
         U8(sprite, 0xE) = (u32)depth_value;
-        offset_value = (void *)((u32)offset_value | 0xC);
-        U16(sprite, 0x14) = (u32)offset_value;
+        U16(sprite, 0x14) = (u32)((void *)((u32)offset_value | 0xC));
         U8(effect, 0x7A) |= 4;
     }
 
@@ -208,10 +207,8 @@ await_launch:
         table_value = (void **)&D_8006CCD8;
         U16(effect, 0x78) = (u32)offset_value;
         offset_value = (void *)(s32)S16(effect, 0x7E);
-        ASM_KEEP(offset_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         owner_sprite = PTR(owner, -0x14);
-        ASM_KEEP(owner_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        offset_value = (void *)((s32)offset_value * 2);
+        offset_value = (void *)((s32)offset_value << 1);
         offset_value = (u8 *)offset_value + (u32)table_value;
         table_value = (void **)(u32)U8(owner_sprite, 0x24);
         offset_value = (void *)(u32)U8(offset_value, 0);
