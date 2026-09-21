@@ -65,7 +65,7 @@ extern s32 D_800814A0;
 extern s32 D_80083498;
 
 /* Create 18 linked objects at the given position and angle, marking them for cleanup on failure. */
-void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
+void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
 {
     void *objects[18];
     s32 object_index;
@@ -78,8 +78,8 @@ void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
     u8 *state_page;
     register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s16 saved_x;
-    register s16 saved_y ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register s16 saved_z ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 saved_y;
+    s16 saved_z;
     s16 saved_angle;
     register void *callback_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 transform_flags;
@@ -97,12 +97,11 @@ void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
     object_index = 0;
     if (scratch != 0) {
         scratch = (s32)0x80030000;
-        ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        entry_table = (u8 *)scratch - 0x7D98;
+        entry_table = D_80028268;
         state_page = (u8 *)0x80080000;
         objects_base = objects;
         slot = objects_base;
-        do {
+        loop_0: {
             scratch = (s32)0x80080000;
             if (object_index != 0) {
                 call_context = objects[0];
@@ -134,7 +133,6 @@ void *func_8195AB84(s16 x, s16 y, s16 z, s16 angle)
                 scratch = (s32)*slot;
                 object_state = (u8 *)scratch + 0x20;
                 if (object_index != 0) {
-                    ASM_KEEP(object_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
                     object_state->unk_20 = objects[0];
                 }
                 object_state->unk_30 = 0x10;
@@ -164,7 +162,7 @@ fail_return:
 loop_continue:
             object_index++;
             slot++;
-        } while (object_index < 18);
+        } if (object_index < 18) goto loop_0;
         func_80025B5C(objects[0], saved_angle);
         return objects[0];
     } else {

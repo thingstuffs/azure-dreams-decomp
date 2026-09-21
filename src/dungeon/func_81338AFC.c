@@ -64,8 +64,8 @@ void func_8016FAFC(s32 variant)
     u8 *obj;
     u8 *part;
     u8 *call_obj;
-    register u8 *sprite ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *sprite;
+    u8 *copy_src;
     u8 *sprite_vector;
     u8 *coords;
 
@@ -94,26 +94,16 @@ void func_8016FAFC(s32 variant)
         ((S_8016FAFC_1 *)sprite)->unk_0C = 0x80;
 
         if (variant == 0) {
-            register u8 *copy_page;
 
-            copy_page = (u8 *)0x80170000;
-            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            copy_src = copy_page + 0x3B1C;
-            ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            copy_src = D_80173B1C;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
-            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_8016FAFC_3 *)D_80170000)->unk_5D58 = obj;
         } else {
-            register u8 *copy_page;
 
-            copy_page = (u8 *)0x80170000;
-            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            copy_src = copy_page + 0x3B28;
-            ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            copy_src = D_80173B28;
             (*(PackedVec3 *)((u8 *)obj + 0x48)) =
                 (*(PackedVec3 *)((u8 *)copy_src + 0));
-            ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_8016FAFC_3 *)D_80170000)->unk_5D5C = obj;
         }
         sprite_vector = part + 0x28;

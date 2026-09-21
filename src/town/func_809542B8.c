@@ -199,8 +199,7 @@ s32 func_800212B8(void) {
         u8 *sprite_handler;
         register s16 sprite_scale ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *grid_sprite;
-        ASM_KEEP(handler_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        sprite_handler = (u8 *)(handler_page + 0x3158);
+        sprite_handler = D_80023158;
         sprite_scale = 0x1000;
         loop_3: {
             obj = func_8003FC64(0x136);

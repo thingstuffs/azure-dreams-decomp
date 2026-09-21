@@ -74,8 +74,7 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
     value_or_part_b = part_a_value;
     byte_or_work = part_b_byte_25;
     ASM_KEEP_NV(alloc_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(alloc_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    obj = func_8003FD64(alloc_code, alloc_data);
+    obj = func_8003FD64(alloc_code, (void *)&D_80083498);
     if (obj != 0) {
         init_mode = saved_mode;
         work = (u8 *)obj + 0x20;

@@ -13,17 +13,14 @@ void func_8067F5C4(u8 *entries) {
     s32 marker;
     s32 tail_offset;
     u8 *copy_page;
-    register u8 *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *copy_source;
     u8 *entry;
     u8 *tail_base;
     register u8 *tail ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     copy_page = (u8 *)0x80020000;
-    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    copy_source = copy_page - 0x7780;
-    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    copy_source = (u8 *)&D_80018880;
     *(PackedWord *)entries = *(PackedWord *)copy_source;
-    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     index = 1;
     marker = 0x18;
     entry = entries + 4;

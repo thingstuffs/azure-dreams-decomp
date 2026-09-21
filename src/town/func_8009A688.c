@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80082660[];
 
 typedef void (*Callback)(s32, void *, void *, void *);
 
@@ -28,8 +29,7 @@ void func_80097DE8(s32 arg0, void *arg1, void *arg2, void *arg3) {
     }
 
     carrier = (void *)0x80080000;
-    ASM_KEEP(carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    state = (u8 *)carrier + 0x2660;
+    state = D_80082660;
     status = *(s8 *)(state + 8);
     if (status >= 2) {
         call_arg0 = arg0;

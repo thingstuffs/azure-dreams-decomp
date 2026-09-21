@@ -48,14 +48,13 @@ void *func_81959E04(s16 arg0, s16 arg1, s16 arg2) {
     register s16 var_s6 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 var_s7 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 var_fp;
-    register S_81959E04_2 *temp_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_81959E04_2 *temp_v1;
     void *call_arg1;
 
     var_s6 = arg0;
     var_s7 = arg1;
     var_fp = arg2;
     var_s3 = 0;
-    ASM_KEEP_NV(var_s3);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     var_s5 = -0x800;
     var_s4 = 0x20;
     var_s0 = var_s3;
@@ -68,13 +67,10 @@ loop_1:
         call_arg1 = D_800C95C0;
 #else
         call_arg1 = (void *)0x800D0000;
-        ASM_KEEP_NV(call_arg1);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        call_arg1 = D_800C95C0;
 #endif
         call_arg0 = temp_v0;
         field_ptr = &D_80025528;
-#ifndef NON_MATCHING
-        call_arg1 = (u8 *)call_arg1 - 0x6A40;
-#endif
         ((S_81959E04_0 *)temp_v0)->unk_10 = field_ptr;
         func_8004491C(call_arg0, call_arg1);
         temp_s1 = ((S_81959E04_0 *)temp_v0)->unk_08;
@@ -93,8 +89,7 @@ loop_1:
         }
         temp_s1->unk_14 = 0xFFFE0000;
         temp_v1 = temp_v0 + 0x20;
-        ASM_KEEP_NV(temp_v1);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ((S_81959E04_0 *)temp_v0)->unk_20 = var_s4;
+        (*(s16 *)((u8 *)temp_v0 + 0x20)) = var_s4;
         temp_v1->unk_02 = var_s4;
         temp_v1->unk_04 = 1;
         temp_v1->unk_06 = 0;

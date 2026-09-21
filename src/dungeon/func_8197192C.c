@@ -183,7 +183,7 @@ typedef struct S_8197192C_14 {
 typedef struct S_8197192C_15 {
     u8 pad_00[0x60];
     void * unk_60;
-} S_8197192C_15;   /* ((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv in func_8197192C */
+} S_8197192C_15;   /* ((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv in func_8197192C */
 
 
 
@@ -316,7 +316,7 @@ case_2:
             (u8 *)effect + 0x2E, 0) != 0) {
             step = 0;
             do {
-                func_800248A8((u8 *)((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv - 0x20, 0,
+                func_800248A8((u8 *)((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv - 0x20, 0,
                               0xE04040, (func_80069EF8() & 0x3F) | 0x40,
                               ((S_8197192C_0 *)effect)->unk_2E.s,
                               ((S_8197192C_0 *)effect)->unk_30.s,
@@ -408,17 +408,12 @@ case_3:
             u32 shifted_x;
             s32 origin_x;
             s32 half_x;
-            u32 coord_page;
             shifted_x = ((S_8197192C_0 *)effect)->unk_2E.u;
             origin_x = ((S_8197192C_0 *)effect)->unk_7C.u;
             shifted_x <<= 16;
             half_x = (s32)shifted_x >> 16;
             half_x += shifted_x >> 31;
-            ASM_KEEP(half_x);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            coord_page = 0x80080000;
-            ASM_KEEP(coord_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            world_pos = (u8 *)(coord_page + 0x3780);
-            ASM_KEEP_NV(world_pos);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            world_pos = D_80083780;
             half_x >>= 1;
             ((S_8197192C_9 *)outer_point)->unk_4C = (s16)(half_x +
                 (((S_8197192C_10 *)world_pos)->unk_02 - origin_x) / 2);
@@ -698,7 +693,7 @@ case_4:
         status_page = (u8 *)0x80080000;
         goto case_4_global_use;
     }
-    source_obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)(&D_800814A8))->unk_00.as_pv))->unk_60;
+    source_obj = ((S_8197192C_15 *)(((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv))->unk_60;
     if (source_obj != 0) {
         angle_table = D_800DDC40;
         angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];

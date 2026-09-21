@@ -88,8 +88,8 @@ void func_801730B4(void *actor_in, void *context_in, void *sprite_in, void *enti
     s32 status_flags;
     u16 current_value;
     u16 value_adjustment;
-    register u8 *page_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *global_base ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *page_base;
+    u8 *global_base;
     s32 state;
 
     state = ((S_801730B4_0 *)actor_in)->unk_9B;
@@ -142,8 +142,7 @@ state_one:
     goto assign_callback;
 
 state_one_active:
-    ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    global_base = page_base + 0x3460;
+    global_base = (u8 *)&D_80083460;
     {
         if (((S_801730B4_4 *)global_base)->unk_02 & 0x1000) {
             goto done;

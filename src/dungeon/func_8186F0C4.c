@@ -1,4 +1,6 @@
 #include "common.h"
+
+typedef struct { u8 b[32]; } AggU32;
 extern int abs(int);
 
 typedef struct {
@@ -48,8 +50,8 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     u8 *owner;
     u8 *entity;
     register u8 *source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *copy_page;
+    u8 *copy_source;
     register s16 *flag_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void **jump_table;
     s32 state;
@@ -66,13 +68,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
 #else
     copy_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    copy_source = copy_page;
-    copy_source += 0x4038;
-    memcpy(direction_offsets, copy_source, 12);
-    memcpy((u8 *)direction_offsets + 12, copy_source + 12, 12);
-    memcpy((u8 *)direction_offsets + 24, copy_source + 24, 8);
-    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    *(AggU32 *)direction_offsets = *(AggU32 *)&D_80024038;
     state = S16_AT(effect_data, 0x0A);
     entity = owner - 0x20;
     state_in_range = (u32)state < 9U;
@@ -93,17 +89,13 @@ state0:
     S32_AT(display, 0x0C) = 0x00808080;
     U16_AT(display, 0x1E) = 0x1000;
     U16_AT(display, 0x1C) = 0x1000;
-    ASM_KEEP(display);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     copy_page = D_800252FC - 0x52FC;
 #else
     copy_page = (u8 *)0x80020000;
 #endif
-    ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    copy_source = copy_page + 0x52FC;
-    ASM_KEEP(copy_source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    copy_source = D_800252FC;
     memcpy(effect_data + 0x94, copy_source, 12);
-    ASM_USE_NV(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     {
         u8 *copy_dest = effect_data + 0x94;
         ASM_KEEP(copy_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

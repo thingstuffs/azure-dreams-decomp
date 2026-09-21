@@ -20,13 +20,11 @@ s32 func_80016730(s32 object, s32 check_value, s32 selection) {
         s32 address_page;
 
         address_page = (s32)0x80020000;
-        ASM_KEEP(address_page);
-        return address_page - 0x49C4;
+        return (s32)&D_8001B63C;
     }
     {
         register s32 address_page ASM_REG("$2");
 
-        ASM_CLOBBER("$2");
         address_page = (s32)0x80020000;
         ASM_KEEP(address_page);
         response_table = (void *)(address_page - 0x56AC);

@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_80083498[];
 extern u8 D_80030000[];
 
 
@@ -88,7 +89,6 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     Object *objects[21];
     Copy32 direction_offsets;
     u8 *table_page;
-    register Copy32 *offset_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 object_index;
     Object **slot;
     Object *new_object;
@@ -109,14 +109,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     Object *alloc_parent;
     u8 *alloc_page;
 
-    table_page = (u8 *)0x80020000;
-    ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    offset_source = (Copy32 *)(table_page + 0x4028);
-    ASM_KEEP(offset_source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    direction_offsets.first = offset_source->first;
-    direction_offsets.second = offset_source->second;
-    direction_offsets.third = offset_source->third;
-    ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    *(Copy32 *)&direction_offsets = *(Copy32 *)&D_80024028;
     object_index = 0;
     do {
         if (((u32)(u16)object_index << 16) != 0) {
@@ -125,8 +118,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
             goto call_alloc;
         }
         alloc_page = (u8 *)0x80080000;
-        ASM_KEEP(alloc_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        alloc_parent = (Object *)(alloc_page + 0x3498);
+        alloc_parent = (Object *)D_80083498;
     call_alloc:
         new_object = func_8003FD64(0x12, alloc_parent);
         slot_offset = ((s32)(s16)object_index) << 2;

@@ -58,8 +58,7 @@ s32 func_8001CBD4(s32 x, s32 y, s32 requested_dir)
     tiles_or_shift = (u32)D_800EA000;
 #else
     lookup_value = 0x800F0000;
-    ASM_KEEP_NV(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    tiles_or_shift = lookup_value - 0x6000;
+    tiles_or_shift = (u32)D_800EA000;
 #endif
     tile_or_turn = (s16)tile_or_turn;
     neighbor_x <<= 16;

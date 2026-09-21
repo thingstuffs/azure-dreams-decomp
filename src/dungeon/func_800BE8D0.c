@@ -76,9 +76,8 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
         first_arg = (s32)target;
         ASM_KEEP(first_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         table_base = (u8 *)0x800E0000;
-        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         scratch_value = target->unk_10.at03_u8.v;
-        table_base -= 0x217C;
+        table_base = (u8 *)D_800DDE84;
         second_arg = ((u16 *)table_base)[scratch_value];
         ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         if (func_800AD6FC((void *)first_arg, second_arg & 3, action) == 0) {
@@ -89,12 +88,8 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
         func_8009BF7C(1, 8);
         func_800A56E0(0x80F);
         slot_index = 0;
-        scratch_value = 0x800E0000;
-        ASM_KEEP(scratch_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        slot_data = (u8 *)(scratch_value + 0x36C8);
-        scratch_value = 0x800E0000;
-        ASM_KEEP(scratch_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        slot_state = (u8 *)(scratch_value + 0x3548);
+        slot_data = D_800E36C8;
+        slot_state = D_800E3548;
         do {
             if (slot_state[1] != 0) {
                 first_arg = 0xE;
