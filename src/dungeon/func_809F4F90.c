@@ -85,8 +85,6 @@ typedef struct S_80172790_6 {
     u8 unk_25;
 } S_80172790_6;   /* arg2 in func_80172790 */
 
-
-
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 extern void func_80047784(void *, s32, s32);
@@ -120,8 +118,8 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
     u8 *idle_frames;
     s32 idle_angle;
     s32 idle_direction;
-    register s32 heading_byte ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 heading_byte;
+    s32 direction_offset;
     s32 return_speed;
     s32 return_speed_2;
     s32 state;
@@ -147,14 +145,12 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
     u8 *x_step_entry;
     u8 *x_step_base;
 
-
     heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
     x_step_entry = (u8 *)D_8006CCD8;
-    heading_byte = heading_raw >> 8;
+    heading_byte = (u32)heading_raw >> 8;
     direction_offset = heading_byte & 0xE;
     x_step_base = x_step_entry;
-    x_step_entry = (u8 *)((az_uptr)direction_offset + (az_uptr)x_step_base);
-    x_step = *(s16 *)x_step_entry;
+    x_step = *(s16 *)((u8 *)((az_uptr)direction_offset + (az_uptr)x_step_base));
     y_step = *(s16 *)(direction_offset + (u8 *)D_8006CCE8);
     ((S_80172790_1 *)action)->unk_96.s--;
 
