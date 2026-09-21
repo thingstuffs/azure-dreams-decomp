@@ -26,10 +26,7 @@ typedef struct DungeonGlobals80285E80 {
     s32 state_2090;
 } DungeonGlobals80285E80;
 
-typedef struct DungeonPage80285E80 {
-    u8 pad0000[0x146C];
-    s16 floor_146C;
-} DungeonPage80285E80;
+
 
 #define DUNGEON_GLOBALS ((DungeonGlobals80285E80 *)0x80010000)
 extern s8 D_80080A88[12];
@@ -64,7 +61,6 @@ s32 func_80018E80(void)
     s32 floor_group;
     s32 encounter_status;
     s16 *floor_data;
-    DungeonPage80285E80 *final_page;
     s32 final_floor;
 
     floor_event = 0;
@@ -157,10 +153,7 @@ process_quotient:
 
 finish_state_zero:
         if (skip_floor_setup == 0) {
-            final_page = (DungeonPage80285E80 *)0x80080000;
-            ASM_KEEP_NV(final_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            func_800194C4(final_page->floor_146C);
-            final_page = (DungeonPage80285E80 *)0x80080000;
+            func_800194C4(D_8008146C[0]);
             goto final;
         }
     } else {
@@ -172,7 +165,6 @@ finish_state_zero:
             SD_Call(0x200);
             func_800542BC();
             func_80019684(0, 1, 0);
-            final_page = (DungeonPage80285E80 *)0x80080000;
             goto final;
 
         } else if (state == 2) {
@@ -328,9 +320,8 @@ third_pair:
     }
 
 load_final_page:
-    final_page = (DungeonPage80285E80 *)0x80080000;
 final:
-    final_floor = final_page->floor_146C;
+    final_floor = D_8008146C[0];
     DUNGEON_GLOBALS->floor_0234 = final_floor;
     return floor_event;
 }

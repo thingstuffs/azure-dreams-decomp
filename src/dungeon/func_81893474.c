@@ -67,7 +67,7 @@ extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s16 func_800BCAD0(void *);
 extern s32 func_8009A350(s16, s16, s32, u16 *);
-extern s32 func_800A45D8(u16, u16);
+extern s32 func_800A45D8(s32, s32, s32);
 extern s32 func_800A5690(void);
 extern void func_800A56E0(s32);
 extern void func_800240F8(void *, void *, s16);
@@ -90,7 +90,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
     void *owner_motion;
     Scratch scratch;
     register u8 *origin;
-    register s32 target_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 target_z;
     register s32 height_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 state_id;
     s32 source_z;
@@ -111,14 +111,15 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         {
             register u32 lookup_addr ASM_REG("$2") =
                 (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            register s32 start_x ASM_REG("$4") = U8_AT(lookup_addr, 0x24);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            register s32 start_y ASM_REG("$5") = U8_AT(lookup_addr, 0x25);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+            s32 start_x = U8_AT(lookup_addr, 0x24);
+            s32 start_y = U8_AT(lookup_addr, 0x25);
             u32 origin_x;
             u32 step_x;
             u32 step_y;
 
             step_x = (u32)D_8006CCD8_early;
-            lookup_addr = (u32)D_800814A8_early[0];
+            lookup_addr = (u32)D_800814A8_early - 0x14A8;
+            lookup_addr = *(u32 *)(lookup_addr + 0x14A8);
             step_y = U16_AT(lookup_addr, 0x2A);
             origin_x = origin[0x24];
             step_y = (step_y >> 8) & 0xE;
@@ -154,14 +155,10 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
             U16_AT(motion, 2) += probe[0];
             U16_AT(motion, 6) += probe[1];
-            ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            adjusted_z = U16_AT(motion, 0xA);
-            source_z = U16_AT(probe, 4);
-            adjusted_z += source_z;
+            U16_AT(motion, 0xA) += probe[2];
         } else {
-            adjusted_z = source_z - 0x40;
+            U16_AT(motion, 0xA) = source_z - 0x40;
         }
-        U16_AT(motion, 0xA) = adjusted_z;
         if (!(U16_AT(state->image, 0) & 0x80)) {
             goto done;
         }
@@ -197,7 +194,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         func_8009A350(state->x - 1, state->y, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
             (target_z = S16_AT(target_pos, 0xA), height_valid = target_z < 0x201, !height_valid) ||
-            (func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6)) << 16) != 0 ||
+            (func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
             (func_800A5690() << 16) == 0) {
             state->state = 7;
         } else {

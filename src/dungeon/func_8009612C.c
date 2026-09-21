@@ -14,8 +14,10 @@ extern s32 func_800A0134(void *, void *);
 extern s32 func_800A0548(s32, s32);
 extern s32 func_800BCB04(s32, s32, s32);
 
+static __inline__ s16 offset_tile(u16 center, u16 offset) { return center + offset; }
+
 /* Find an unoccupied valid position at the target or within two tiles. */
-s32 func_8009B88C(u8 *entry, s32 target_x, s32 target_y, s16 *out_x, s16 *out_y) {
+s32 func_8009B88C(u8 *entry, s16 target_x, s16 target_y, s16 *out_x, s16 *out_y) {
     u16 tile_flags;
     u8 *occupied;
     u16 search_seed;
@@ -124,11 +126,15 @@ s32 func_8009B88C(u8 *entry, s32 target_x, s32 target_y, s16 *out_x, s16 *out_y)
     return 1;
 
 found_near:
-    result_dx = near_dx[0];
-    *out_x = target_x + result_dx;
-    result_dy = near_dy[0];
-    *out_y = target_y + result_dy;
+    {
+    s16 near_result_x, near_result_y;
+    near_result_x = near_dx[0];
+    *out_x = target_x + near_result_x;
+    near_result_y = near_dy[0];
+    *out_y = target_y + near_result_y;
     return 1;
+
+    }
 
 found_far:
     result_dx = far_dx[0];
@@ -148,9 +154,6 @@ search_nearby:
     slot = search_seed & 7;
     do {
         near_dir = slot;
-        ASM_USE2(target_x, target_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_USE2(target_x, target_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_USE2(target_y, target_y);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         if (*(occupied + near_dir + 1) == 0) {
             near_dx = D_8006CCD8 + near_dir;
             near_dy = D_8006CCE8 + near_dir;
@@ -177,14 +180,12 @@ search_nearby:
     slot = search_seed & 15;
     do {
         far_dir = slot;
-        ASM_USE2(target_x, target_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_USE2(target_y, target_y);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         if (*(occupied + far_dir + 9) == 0) {
             far_dx = D_800DCE6C + far_dir;
             far_dy = D_800DCE8C + far_dir;
-               /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
             if ((far_offset_x = far_dx[0], far_offset_y = far_dy[0],
-                 func_800A0548((s16)(target_x + far_offset_x), (s16)(target_y + far_offset_y))) == 0 &&
+                 func_800A0548(offset_tile(target_x, far_offset_x), offset_tile(target_y, far_offset_y))) == 0 &&
                 ((tile_offset_x = far_dx[0], tile_offset_y = far_dy[0],
                   func_8009A350((s16)(target_x + tile_offset_x - 1), (s16)(target_y + tile_offset_y), 0, &tile_flags)) << 16) != 0 &&
                 (tile_flags & 0x8000) == 0 &&

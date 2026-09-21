@@ -82,7 +82,6 @@ void func_8017360C(void *action, void *context, void *entity, void *actor)
     static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4, &&state_5
     };
-    u8 *effect_table;
     s32 effect_entry;
     s32 next_state;
     u8 state;
@@ -96,18 +95,19 @@ void func_8017360C(void *action, void *context, void *entity, void *actor)
 
 state_0:
     {
+        u8 *local_table_0;
+    {
         u8 *dungeon_state;
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0xE000) == 0) {
             return;
         }
 
-        effect_table = (u8 *)0x80170000;
-        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_table += 0x40F8;
-        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        local_table_0 = D_801740F8;
+        
+        (*(void * *)((u8 *)entity + 0x2C)) = local_table_0;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
-        effect_entry += (s32)effect_table;
+        effect_entry += (s32)local_table_0;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         dungeon_state = (u8 *)&D_80083460;
         ((S_8017360C_3 *)dungeon_state)->unk_0A--;
@@ -115,25 +115,49 @@ state_0:
         goto store_state;
     }
 
+    }
+
 state_1:
+    {
+        u8 *local_table_1;
         if (((S_8017360C_0 *)action)->unk_92.s != 0) {
             return;
         }
-        effect_table = (u8 *)0x80170000;
-        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_table += 0x4150;
-        goto effect_common;
+        local_table_1 = D_80174150;
+        
+                (*(void * *)((u8 *)entity + 0x2C)) = local_table_1;
+        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry &= 7;
+        effect_entry += (s32)local_table_1;
+        func_80047784(entity, *(u8 *)effect_entry, 0);
+        ((S_8017360C_0 *)action)->unk_96 = 0;
+        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
+        goto store_state;
+
+    }
 
 state_2:
+    {
+        u8 *local_table_2;
         if ((s16)((S_8017360C_0 *)action)->unk_96++ < 2) {
             return;
         }
-        effect_table = (u8 *)0x80170000;
-        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_table += 0x4158;
-        goto effect_common;
+        local_table_2 = D_80174158;
+        
+                (*(void * *)((u8 *)entity + 0x2C)) = local_table_2;
+        effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
+        effect_entry &= 7;
+        effect_entry += (s32)local_table_2;
+        func_80047784(entity, *(u8 *)effect_entry, 0);
+        ((S_8017360C_0 *)action)->unk_96 = 0;
+        next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
+        goto store_state;
+
+    }
 
 state_3:
+    {
+        u8 *local_table_3;
         if ((func_80042900(actor, 1) << 16) != 0) {
             u8 *dungeon_state = (u8 *)&D_80083460;
             s32 actor_flags;
@@ -217,13 +241,12 @@ final_check:
             }
         }
 
-        effect_table = (u8 *)0x80170000;
-        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_table += 0x4160;
-        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        local_table_3 = D_80174160;
+        
+        (*(void * *)((u8 *)entity + 0x2C)) = local_table_3;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
-        effect_entry += (s32)effect_table;
+        effect_entry += (s32)local_table_3;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         if ((((Rec_D_80082E80 *)entity)->unk_14.at00_u16.v & 0x8000) != 0) {
             goto finished;
@@ -235,8 +258,11 @@ final_check:
         }
         goto done;
 
+    }
+
 state_4:
         {
+        u8 *local_table_4;
         u32 phase_flag = 0x40000;
         u32 phase_flags;
 
@@ -244,18 +270,16 @@ state_4:
             return;
         }
 
-        ASM_KEEP(phase_flag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        effect_table = (u8 *)0x80170000;
-        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        local_table_4 = D_801740F8;
         phase_flags = ((S_8017360C_2 *)actor)->unk_1C.u;
-        effect_table += 0x40F8;
+        
         phase_flags |= phase_flag;
         ((S_8017360C_2 *)actor)->unk_1C.u = phase_flags;
 effect_common:
-        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        (*(void * *)((u8 *)entity + 0x2C)) = local_table_4;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
-        effect_entry += (s32)effect_table;
+        effect_entry += (s32)local_table_4;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         ((S_8017360C_0 *)action)->unk_96 = 0;
         next_state = ((S_8017360C_0 *)action)->unk_9B + 1;
@@ -265,33 +289,28 @@ store_state:
         }
 
 state_5:
+    {
+        u8 *local_table_5;
         if ((s16)((S_8017360C_0 *)action)->unk_96++ < 4) {
             return;
         }
 
-        effect_table = (u8 *)0x80170000;
-        ASM_KEEP(effect_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        effect_table += 0x40F0;
-        (*(void * *)((u8 *)entity + 0x2C)) = effect_table;
+        local_table_5 = D_801740F0;
+        
+        (*(void * *)((u8 *)entity + 0x2C)) = local_table_5;
         effect_entry = (D_80083228 + ((S_8017360C_2 *)actor)->unk_2A + 0x100) >> 9;
         effect_entry &= 7;
-        effect_entry += (s32)effect_table;
+        effect_entry += (s32)local_table_5;
         func_80047784(entity, *(u8 *)effect_entry, 0);
         {
             u8 *dungeon_state = (u8 *)&D_80083460;
             ((S_8017360C_3 *)dungeon_state)->unk_0A--;
         }
 
+    }
+
 finished:
         ((S_8017360C_0 *)action)->unk_8C = D_801714D4;
 done:
         return;
 }
-
-/* MECHANISM: retail sets no $a0 for the func_800A6D30 call — on the `bgez` fast path
-   $a0 still holds &D_80082E80 (the func_8009FD40 arg base), and the jal delay slot is a
-   real nop, so the retail source called it ARG-LESS (K&R decl, zero-arg call). Passing
-   arg3 made gcc emit a redundant `move $a0,$s0` into that delay slot (the whole 1-word
-   residue two prior runs plateaued on). Rest of the shape: $5-pinned 0x80170000 page base
-   per effect table, extern jtbl_D_801708D0 computed-goto dispatch, &D_80083460 held base
-   for the 0xA counter RMW. */

@@ -171,12 +171,8 @@ void func_8016FCE4(void *move_state, void *unused, void *position_in, void *acto
                         ((S_8016FCE4_0 *)actor)->unk_2A.u = func_800A0818(((S_8016FCE4_1 *)position)->unk_24.at00.v, ((S_8016FCE4_1 *)position)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25], heading_state);
                     }
                     move_result = func_8009FD7C(((S_8016FCE4_1 *)position)->unk_24.at00.v, ((S_8016FCE4_1 *)position)->unk_24.at01.v, D_80082E80_b[0x24], D_80082E80_b[0x25]);
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    if ((move_result << 0x10) != 0) { limit_turns = 1; }
                     turn_index = 0;
-                    if ((move_result << 0x10) != 0) {
-                        limit_turns = 1;
-                        goto start_turn_search;
-                    }
                     goto start_turn_search;
                 }
                 goto finish_move;

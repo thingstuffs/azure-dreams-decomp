@@ -67,28 +67,29 @@ Ent *func_8009C93C(Ent *a, Pos *b, u32 coordArg, s32 mult, Ent *ent2) {
     coord = coordArg + zero;
     savedMult = mult + zero;
     if (ent2 == 0) {
-        if (a->flags1c & 0x400) {
-            register s32 f ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 f;
+        u32 nc;
 
-            base = (u8 *)a - 0x20;
-            f = a->flags14;
-
-            if (f >= 0) {
-                u32 nc;
-
-                f |= 0x80000000;
-                a->flags14 = f;
-                nc = coordArg + ((func_800A6D30(base, coord, coordArg, mult) & 7) << 9);
-                coord = nc + zero;
-                a->unk2a = nc;
-            }
+        base = (u8 *)a - 0x20;
+        if ((a->flags1c & 0x400) == 0) {
+            goto base_ready;
         }
+        f = a->flags14;
+        if ((f & 0x80000000) != 0) {
+            goto base_ready;
+        }
+        f |= 0x80000000;
+        a->flags14 = f;
+        nc = coordArg + ((func_800A6D30(base, coord, coordArg, mult) & 7) << 9);
+        coord = nc + zero;
+        a->unk2a = nc;
     }
     base = (u8 *)a - 0x20;
+base_ready:
     shifted = coord >> 8;
     tableA = D_800DCEAC;
     off = shifted & 0xE;
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+
     func_800C78A0(base,
                   (b->unk24 << 6) + ((s16)*(u16 *)((u8 *)tableA + off) >> 1) + 0x20,
                   (b->unk25 << 6) + ((s16)*(u16 *)((u8 *)D_800DCEBC + off) >> 1) + 0x20,

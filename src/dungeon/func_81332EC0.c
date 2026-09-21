@@ -106,9 +106,8 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         (*(u8 *)((u8 *)owner_arg + (0x9B))) = 0;
     }
 
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
-    if (D_80013714 & 8) {
+    if ((*(u16 *)0x80013714) & 8) {
         slot_index = 1;
         slot_ptr = D_800E3D7C + 4;
         do {
