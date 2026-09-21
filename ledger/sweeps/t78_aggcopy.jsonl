@@ -39,3 +39,4 @@
 {"id":"town/func_800AC3CC","transform":"t78_aggcopy","in_sha":"2661ceec95d6a2c40ff3f855eabf7ae68a3b14c938278365330e1ea94a2b13f6","from_clean":true,"size":236,"outcome":"refused","reason":"no pins","at":"2026-09-20T23:39:36Z"}
 {"id":"dungeon/func_8009AB4C","transform":"t78_aggcopy","in_sha":"8015e3d16615aa94d8461aa108b3e4dfd81886b7248b0c0b454fe77d7a0ea15d","from_clean":true,"size":280,"outcome":"refused","reason":"no pins","at":"2026-09-20T23:39:36Z"}
 {"id":"dungeon/func_800C9858","transform":"t78_aggcopy","in_sha":"141147851a2acbdca1ae8dc43abcb05c202e58be5564ccd49bcde9185b58832d","from_clean":true,"size":2348,"outcome":"refused","reason":"no scalarized copy run","at":"2026-09-20T23:39:36Z"}
+{"id":"dungeon/func_800BAAD0","transform":"t78_aggcopy","in_sha":"9b5e8e9b6cedd6cb511f0f1933067d6c629870cc89c837fe7b9829a81a409b3c","from_clean":true,"size":468,"outcome":"refused","reason":"no pins","at":"2026-09-21T00:15:25Z"}

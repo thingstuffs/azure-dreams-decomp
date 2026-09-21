@@ -48,8 +48,7 @@ s32 func_800C0230(u8 *entity, s32 event, s16 target_type, s32 target_record) {
         D_80083460->count--;
         goto block_update;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (D_80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
+    if (*(s32 *)0x80012090 == 0 && D_8008146C == 0x28 && func_80033BC0(0xA2) == 0) {
         func_800997FC(D_800E1375);
         D_80083460->count--;
         func_80098B38(event);
