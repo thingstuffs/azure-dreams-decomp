@@ -308,15 +308,13 @@ state0:
             actor->target_x = (s8)(u32)direction;
         }
         {
-            u8 *lookup_base;
             u32 lookup;
             u32 tile;
             direction = (s32)((u8 *)0x80070000);
             ASM_KEEP(direction);
             lookup = (u32)actor->direction << 1;
-            lookup_base = (u8 *)direction - 0x3318;
-            lookup += (u32)lookup_base;
-            ASM_KEEP(lookup);
+            tile = (u32)((u8 *)direction - 0x3318);
+            lookup += (u32)((u8 *)tile);
             tile = aux->tile_y;
             lookup = *(u8 *)lookup;
             tile += lookup;

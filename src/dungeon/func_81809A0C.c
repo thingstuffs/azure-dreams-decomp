@@ -301,12 +301,10 @@ handle_input:
             s32 compare_x;
 
             {
-                u32 angle_steps;
 
-                angle_steps = input_angle >> 9;
+                input_angle = input_angle >> 9;
                 side_index = ((S_8002520C_0 *)menu)->unk_26;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                step_index = angle_steps & 7;
+                step_index = input_angle & 7;
             }
             step_or_cell = step_index * 2;
             side_object = ((S_8002520C_22 *)(((side_index * 4) + menu)))->unk_0C;

@@ -104,7 +104,6 @@ s32 func_8002222C(void *first_entry) {
             s32 page_blend;
             s32 page_x;
             s32 page_y;
-            u8 *packet_end;
             arena = *arena_ptr;
             ASM_KEEP(arena);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_depth = 0;
@@ -122,9 +121,8 @@ s32 func_8002222C(void *first_entry) {
             ASM_KEEP(mode_packet);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_y = page_depth;
             ASM_KEEP(page_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            packet_end = mode_packet + 0xC;
-            ASM_KEEP(packet_end);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            ((S_8002222C_0 *)arena)->unk_8D0 = packet_end;
+            texture_page = (s32)(mode_packet + 0xC);
+            ((S_8002222C_0 *)arena)->unk_8D0 = (u8 *)texture_page;
             texture_page = func_80066460(page_depth, page_blend, page_x, page_y);
         }
         {

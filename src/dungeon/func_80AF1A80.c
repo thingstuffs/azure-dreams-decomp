@@ -86,7 +86,7 @@ void func_80173280(void *actor, void *motion, void *tile_arg, void *action)
     void *target_obj;
     u8 *kind_data;
     s32 state;
-    s32 effect_flags;
+    s16 effect_flags;
     s16 action_dep;
     static void *const kind_labels[] = {
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
@@ -171,7 +171,6 @@ use_kind:
             ((S_80173280_0 *)actor)->unk_98 & 0xFF7F;
         {
             s32 reuse_target = effect_flags;
-            ASM_KEEP(reuse_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             if (reuse_target) {
                 target_obj = D_800814A8;
                 ((S_80173280_1 *)action)->unk_60 = target_obj;
@@ -205,14 +204,14 @@ copy_existing:
             }
         }
 
-        *(void * volatile *)((u8 *)action + 0x60) =
-            func_800A05A4(action, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25,
-                          ((S_80173280_1 *)action)->unk_2A, 0x10);
-        ASM_KEEP(effect_flags);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            s32 x = ((S_80173280_1 *)action)->unk_72.u;
-            s32 y = ((S_80173280_1 *)action)->unk_73.u;
+            s32 x = (s32)func_800A05A4(action, ((S_80173280_3 *)tile_arg)->unk_24, ((S_80173280_3 *)tile_arg)->unk_25,
+                          ((S_80173280_1 *)action)->unk_2A, 0x10);
+            s32 y;
 
+            *(void * volatile *)((u8 *)action + 0x60) = (void *)x;
+            x = ((S_80173280_1 *)action)->unk_72.u;
+            y = ((S_80173280_1 *)action)->unk_73.u;
             if (x < 0) {
                 x = -x;
             }

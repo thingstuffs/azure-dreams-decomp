@@ -191,12 +191,11 @@ L_copy_linked:
                 s32 offset_x;
                 s32 offset_y;
 
-                linked_actor = func_800A05A4(actor,
+                offset_x = (s32)func_800A05A4(actor,
                                        ((Rec_D_80082E80 *)sprite)->unk_24,
                                        ((Rec_D_80082E80 *)sprite)->unk_25,
                                        (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-                (*(void * volatile *)((u8 *)actor + 0x60)) = linked_actor;
-                ASM_USE(linked_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)offset_x;
                 offset_x = (*(s8 *)((u8 *)actor + 0x72));
                 offset_y = (*(s8 *)((u8 *)actor + 0x73));
                 if (offset_x < 0) {

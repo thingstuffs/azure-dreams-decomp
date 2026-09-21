@@ -81,16 +81,17 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
         sprite = ((S_80099C58_0 *)particle)->unk_0C;
         if (flags & 2) {
             texture = D_800DEDB0;
+            (*(void **)((u8 *)sprite + 0)) = texture;
+            color = 0x808080;
         } else if (flags & 4) {
             texture = &D_800DEE38;
+            (*(void **)((u8 *)sprite + 0)) = texture;
+            color = 0x808080;
         } else {
             texture = D_800DE870;
-        }
-        (*(void **)((u8 *)sprite + 0)) = texture;
-        do {
+            (*(void **)((u8 *)sprite + 0)) = texture;
             color = 0x808080;
-        } while (0);
-        ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        }
         texture_data = (*(void * volatile *)((u8 *)sprite + 0));
         texture_data = texture_data->unk_04;
         (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;
@@ -122,16 +123,17 @@ void func_80099C58(s16 x, s16 y, s16 z, s16 flags)
             sprite = ((S_80099C58_0 *)particle)->unk_0C;
             if (flags & 2) {
                 texture = D_800DEDB0;
+                (*(void **)((u8 *)sprite + 0)) = texture;
+                color = 0x808080;
             } else if (flags & 4) {
                 texture = &D_800DEE38;
+                (*(void **)((u8 *)sprite + 0)) = texture;
+                color = 0x808080;
             } else {
                 texture = D_800DE870;
-            }
-            (*(void **)((u8 *)sprite + 0)) = texture;
-            do {
+                (*(void **)((u8 *)sprite + 0)) = texture;
                 color = 0x808080;
-            } while (0);
-            ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            }
             texture_data = (*(void * volatile *)((u8 *)sprite + 0));
             texture_data = texture_data->unk_04;
             (*(u16 *)((u8 *)sprite + 0x14)) |= 0x8C;

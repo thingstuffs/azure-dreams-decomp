@@ -182,12 +182,11 @@ copy_position_object:
     goto call_item;
 
 spawn_object:
-    copy_object = func_800A05A4(actor,
+    target_x = (s32)func_800A05A4(actor,
         ((S_801738B4_2 *)entity)->unk_24,
         ((S_801738B4_2 *)entity)->unk_25,
         (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-    (*(void * volatile *)((u8 *)actor + 0x60)) = copy_object;
-    ASM_USE(copy_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
     target_x = (*(s8 *)((u8 *)actor + 0x72));
     target_y = (*(s8 *)((u8 *)actor + 0x73));
     if (target_x < 0) {

@@ -70,7 +70,7 @@ void func_8017364C(void *action, void *motion, void *sprite, void *actor) {
     s16 effect_count;
     s32 ability_id;
     s32 normal_ability;
-    register s32 use_player ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 use_player;
     u16 effect_ticks;
     u16 finish_ticks;
     u8 *global_state;
@@ -158,7 +158,6 @@ check_ability:
         ((S_8017364C_0 *)action)->unk_98 & 0xFF7F;
     {
         s32 player_target = use_player;
-        ASM_KEEP(player_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (player_target) {
             target = D_800814A8;
             ((S_8017364C_1 *)actor)->unk_60 = target;
@@ -193,15 +192,15 @@ copy_target_position:
     }
     goto target_ready;
 find_target:
-    *(void * volatile *)((u8 *)actor + 0x60) =
-        func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
+    {
+        s32 x = (s32)func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24,
                       ((Rec_D_80082E80 *)sprite)->unk_25,
                       ((S_8017364C_1 *)actor)->unk_2A, 0x10);
-    ASM_KEEP(use_player);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    {
-        s32 x = ((S_8017364C_1 *)actor)->unk_72.u;
-        s32 y = ((S_8017364C_1 *)actor)->unk_73.u;
+        s32 y;
 
+        *(void * volatile *)((u8 *)actor + 0x60) = (void *)x;
+        x = ((S_8017364C_1 *)actor)->unk_72.u;
+        y = ((S_8017364C_1 *)actor)->unk_73.u;
         if (x < 0) {
             x = -x;
         }
@@ -262,14 +261,14 @@ check_effect_window:
         goto done;
     }
     effect_count = 0;
-emit_effect:
+do {
     func_80171020(action - 0x20, 0, 0xC0C0, (func_80069EF8() & 0xFF) | 0x80, 0, 0, 0);
     next_effect = effect_count + 1;
     effect_count = next_effect;
     if (next_effect >= 0xA) {
         return;
     }
-    goto emit_effect;
+    } while (1);
 wait_for_finish:
     global_state = D_80083460;
     if (((S_8017364C_6 *)global_state)->unk_0C != 0) {
