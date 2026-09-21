@@ -60,7 +60,7 @@ extern u8 D_80163258[];
 extern u8 D_80163298[];
 
 
-extern void *func_8015E8A4(s32, s8, s8, s16);
+extern void *func_8015E8A4(s32, s8, s16, s16);
 static const u32 bank_words[] __asm__("func_8015E800")
     __attribute__((section(".text.func_8015E800"), aligned(4))) = {
     (u32)func_8015E8A4, (u32)D_8015EB40, 0x8015F12C, 0x8015F198,
@@ -78,15 +78,15 @@ static const u32 bank_words[] __asm__("func_8015E800")
 __asm__(".globl func_8015E800\n"
         ".size func_8015E800, 832");
 
-void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
     __attribute__((section(".text.func_8015E800")));
 
-void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
 {
     void *work;
     void *obj;
-    register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 call_id;
+    void *call_target;
     S_8015E8A4_3 *part_b;
     void *part_a;
     s16 saved_arg0;
@@ -109,11 +109,9 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
 
     work = 0;
     call_id = 0x112;
-    ASM_USE_NV(call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pin_arg1 = arg1;
     pin_arg3 = arg3;
     call_target = D_80083498;
-    ASM_USE2_NV(pin_arg3, call_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(call_id, call_target);
     saved_arg0 = (s16)arg0;
     if (obj != 0) {

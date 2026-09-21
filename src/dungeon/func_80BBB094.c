@@ -99,6 +99,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             ASM_USE(word14);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             result->unk1C = word1C;
             slot2 = (unsigned long)D_80150ED8;
+            partB->unk2C = (void *)slot2;
         } else if (mode >= 2) {
             result->unk8C = D_8014CE9C;
             ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -110,7 +111,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             ASM_USE2(word14, word1C);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             result->unk1C = word1C;
             slot2 = (unsigned long)D_80150ED8;
-            ASM_KEEP_NV(slot2);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            partB->unk2C = (void *)slot2;
         } else {
             slot2 = arg0 & -4;
             slot2 = (u32)slot2 << 16;
@@ -131,10 +132,9 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                 result->unk8C = (void *)D_8014CE9C;
             }
             slot2 = (unsigned long)D_80150ED8;
+            partB->unk2C = (void *)slot2;
         }
 
-        partB->unk2C = (void *)slot2;
-        ASM_KEEP(partB);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         obj->unk10 = D_8014CA98;
         func_800A9C18(obj, partA, partB, savedArg0);
 

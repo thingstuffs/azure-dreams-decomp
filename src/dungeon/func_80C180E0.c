@@ -177,10 +177,11 @@ state_two:
             goto clear_200;
         }
         {
-            register struct GlobalStruct *globals ASM_REG("$2") = &D_80083460;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register u16 next_count = globals->counter + 1;
-            ASM_KEEP_NV(next_count);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            globals->counter = next_count;
+            register struct GlobalStruct *globals;
+            globals = &D_80083460;
+            entity_flags = globals->counter + 1;
+            ASM_KEEP_NV(entity_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            globals->counter = entity_flags;
         }
         goto advance_state;
     }

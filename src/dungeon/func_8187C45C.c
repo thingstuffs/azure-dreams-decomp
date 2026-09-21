@@ -402,17 +402,15 @@ fade_projectile:
         object_data = (u8 *)object_data + 1;
         particle_color = func_80069EF8();
         {
-            void *task;
             s32 base_color;
             s32 brightness;
-            task = (u8 *)effect - 0x20;
-            ASM_KEEP(task);
+            target = (u8 *)effect - 0x20;
             base_color = 0x0020E0E0;
             ASM_KEEP(base_color);
             particle_color &= 0xFF;
             brightness = particle_color | 0x80;
             ASM_KEEP(brightness);
-            func_800250B0(task, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
+            func_800250B0(target, S16(effect, 0x7E), base_color, brightness, 0, 0, 0);
         }
     } if ((s32)object_data < 4) goto loop_0;
     goto end;

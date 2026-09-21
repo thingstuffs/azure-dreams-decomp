@@ -281,11 +281,10 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                         sprite->field1C = 0x1000;
                         ASM_SCHED_BARRIER();
                         {
-                            s32 color = 0x80;
-                            ASM_KEEP(color);
-                            sprite->b = color;
-                            sprite->g = color;
-                            sprite->r = color;
+                            interp_work = 0x80;
+                            sprite->b = interp_work;
+                            sprite->g = interp_work;
+                            sprite->r = interp_work;
                         }
                         sprite->field16 = (func_80069EF8() & 0xF) << 8;
                         sprite->field18 = (func_80069EF8() & 0xF) << 8;

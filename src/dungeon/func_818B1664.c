@@ -148,7 +148,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     Motion *target;
     s16 *target_cursor;
     s16 *distance_cursor;
-    register s32 target_x ASM_REG("$5");
+    s32 target_x;
     register s32 target_y ASM_REG("$4");
     s32 target_z;
     u16 angle_raw;
@@ -163,7 +163,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s16 *step_x;
     s16 *step_y;
     u16 *update_x;
-    register s32 probe_height ASM_REG("$6");
+    s32 probe_height;
     s32 next_y;
     u32 table_page;
     register s32 tile_x ASM_REG("$20");
@@ -358,7 +358,8 @@ case_0:
         step_x = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_x);
         probe_height -= 32;
-        probe_height = (s16)probe_height;
+        probe_height = (u32)probe_height << 16;
+        probe_height >>= 16;
         table_addr = (s32)D_8006CCE8;
         step_y = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_y);
@@ -371,12 +372,12 @@ case_0:
             break;
         }
 
-        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328;
+        table_addr = (s32)D_8006CCE8 - 0x10;
         update_offset = (s16)state_arg->direction;
         index++;
         update_offset *= 2;
         update_x = (u16 *)(update_offset + table_addr);
-        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318;
+        table_addr = (s32)D_8006CCD8 + 0x10;
         color = (s32)((s16 *)((u16 *)(update_offset + table_addr)));
         ASM_KEEP(color);
         target_y = tile_x + *update_x;
@@ -400,7 +401,8 @@ case_0:
     color = (s32)(D_8006CCE8);
     target_x = target_x + ((axis_step + 1) << 5);
     (*(s16 *)((u8 *)target + 2)) = target_x;
-    target_x = (s16)target_x;
+    target_x = (u32)target_x << 16;
+    target_x >>= 16;
     table_addr = (u16)saved_y;
     direction_index = (s16)state_arg->direction;
     ASM_KEEP_DEP_NV(table_addr, direction_index);

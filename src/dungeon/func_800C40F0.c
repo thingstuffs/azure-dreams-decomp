@@ -17,6 +17,8 @@ typedef struct {
     s8 fA;
 } D80089430_t;
 extern D80089430_t D_80089430;
+/* Eleven copied bytes; the source and destination are word aligned. */
+typedef struct { u8 bytes[11]; } ResultCopy __attribute__((aligned(4)));
 
 extern void *func_8003FD64(s32 a0, void *a1);
 extern u8 func_8009FB34(u8 a0, u8 a1);
@@ -38,11 +40,8 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
     u8 *camera;
     void *state_tail;
     s32 direction_entry;
-    register u8 *result_page ASM_REG("$2");
-    register D80089430_t *result_base ASM_REG("$6");
-    register s32 result_word0 ASM_REG("$3");
+    D80089430_t *result_base;
     register s32 result_word4 ASM_REG("$4");
-    register s32 result_half ASM_REG("$5");
     s32 tint;
     register s32 tint_arg;
 
@@ -73,22 +72,8 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         func_80099FDC(entity);
 #ifdef NON_MATCHING
         result_base = &D_80089430;
-#else
-        result_page = (u8 *)0x80090000;
-        ASM_KEEP_NV(result_page);
-        result_base = (D80089430_t *)(result_page - 0x6BD0);
 #endif
-        ASM_KEEP_NV(result_base);
-        result_word0 = result_base->f0;
-        result_word4 = result_base->f4;
-        result_half = result_base->f8;
-        FLD(entity, s32, 0x54) = result_word0;
-        FLD(entity, s32, 0x58) = result_word4;
-        FLD(entity, s16, 0x5C) = result_half;
-        {
-            result_word0 = result_base->fA;
-            FLD(entity, s8, 0x5E) = result_word0;
-        }
+        *(ResultCopy *)((u8 *)entity + 0x54) = *(ResultCopy *)&D_80089430;
         FLD(state, s32, 0x1C) |= 0x40000000;
         FLD(state, s8, 0x71) = 0;
         state_tail = state;

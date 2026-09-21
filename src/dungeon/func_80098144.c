@@ -107,8 +107,8 @@ next_cell:
                 value = column + 1;
             }
             column = value;
-            ASM_KEEP_NV(value);
-            value = (s16) value;
+            value = (u32)value << 16;
+            value >>= 16;
             width_shift = config->field_14;
             stride_shift = *(volatile u16 *)((u8 *)config + 0x14);
             if (value >= (one << width_shift)) {

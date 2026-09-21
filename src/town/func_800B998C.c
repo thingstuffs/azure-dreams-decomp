@@ -29,6 +29,8 @@ extern u16 D_80111FA8[];
 extern u8 D_8012F004[];
 extern u8 D_8014F004[];
 
+static __inline__ s16 scene_below(s32 scene, s32 bound) { return scene < bound; }
+
 /* Initialize town asset state and load graphics for the current scene. */
 void func_800B70EC(void) {
     s32 special_scene;
@@ -78,8 +80,7 @@ void func_800B70EC(void) {
     single_row = 1;
     special_scene = 0x21;
     if (size != special_scene) {
-        ASM_KEEP(special_scene);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        if ((s32)size < 0x21) {
+        if (scene_below(size, 0x21)) {
             goto common;
         }
         if ((s32)size >= 0x29) {

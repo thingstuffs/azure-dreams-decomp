@@ -86,7 +86,7 @@ void func_801725A4(void *owner_arg, void *motion_arg, void *actor_arg, void *obj
     u32 kind_index;
     void *spawn;
     u8 *action_entry;
-    register u8 *record ASM_REG("$3");
+    u8 *record;
     u8 *action_table;
     u32 action_id;
     void **dispatch_table;
@@ -179,8 +179,10 @@ L_selected:
             }
 L_record:
             record = *(u8 **)((u8 *)spawn - 0x14);
-            ((S_801725A4_1 *)object)->unk_72.s = record[0x24];
-            ((S_801725A4_1 *)object)->unk_73.s = record[0x25];
+            x = record[0x24];
+            ((S_801725A4_1 *)object)->unk_72.s = x;
+            x = record[0x25];
+            ((S_801725A4_1 *)object)->unk_73.s = x;
             goto L_spawn_ready;
         }
 

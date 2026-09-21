@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_D_80016000.h"
+extern u8 D_80018FD0[];
 extern u8 D_80010000[];
 
 
@@ -54,7 +55,7 @@ void func_806D85A0(void) {
     s32 entry_index;
     s32 group_index;
     s32 count_offset;
-    register s32 variant ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 variant;
     s32 second_variant_active;
     s32 initial_x;
     u32 initial_y;
@@ -100,9 +101,7 @@ void func_806D85A0(void) {
         if ((*(s16 *)((u8 *)(&D_80018FE0) + count_offset)) > 0) {
             s16 *entry_counts;
 
-            dispatch_ptr = (void *)0x80020000;
-            ASM_KEEP_NV(dispatch_ptr);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            entry_counts = (s16 *)((s8 *)dispatch_ptr - 0x7020);
+            entry_counts = (s16 *)(D_80018FD0 + 0x10);
 next_entry:
             if (((S_806D85A0_3 *)(group_flags + entry_index))->unk_3640 != 0) {
                 position = func_80017024(group_index, entry_index, variant);

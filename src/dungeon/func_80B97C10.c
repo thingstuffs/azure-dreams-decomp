@@ -49,6 +49,7 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   u8 *actor = actor_arg;
   u8 *state = (u8 *) (&D_80083460);
   s32 actor_flags;
+    register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
   s32 random_turn;
   s16 limit_turn;
   s32 angle;
@@ -118,12 +119,14 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   goto done;
   no_found_actor:
   {
-    register s32 actor_state ASM_REG("$2") = *(s32 *)(actor + 0x14);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 actor_state = *(s32 *)(actor + 0x14);
+    base_angle = 0x80000000;
     if (actor_state < 0)
     {
       goto zero_counter;
     }
-    *(s32 *)(actor + 0x14) = actor_state | 0x80000000;
+    actor_state = base_angle | actor_state;
+    *(s32 *)(actor + 0x14) = actor_state;
   }
 
   random_turn = func_800A6D30();
@@ -251,7 +254,6 @@ void func_80171410(u8 *object_arg, void *entry_context, u8 *tile_arg, u8 *actor_
   {
     s16 turn_index = 0;
     s16 *angle_steps = D_8006CD00;
-    register s32 base_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     loop_body:
     base_angle = *(s16 *)(actor + 0x2A);
 

@@ -193,7 +193,6 @@ s32 func_8080C324(void) {
 
     {
         s32 *content_ptr;
-        s32 content_remaining;
         s16 content_x;
         s32 color_or_content;
         s32 content;
@@ -204,8 +203,7 @@ s32 func_8080C324(void) {
         content_template = D_80526970;
         content_args = &content_record;
         ASM_USE2(content_template, content_args);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        content_remaining = 8;
-        ASM_KEEP_NV(content_remaining);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        clear_addr = 8;
         content_x = 0xE4;
         content_ptr = D_805300BC;
         content_record.f10 = color_or_content;
@@ -235,10 +233,10 @@ s32 func_8080C324(void) {
             content_record.f14 = content_x;
             content_x -= 0x10;
             content_ptr--;
-            content_remaining--;
+            clear_addr--;
             content_record.f4 = content;
             func_80526BFC(entry_template, entry_record);
-        } if (content_remaining >= 0) goto loop_2;
+        } if (clear_addr >= 0) goto loop_2;
 
         content_record.f14 = 0xF4;
         content_record.f16 = 0xB6;

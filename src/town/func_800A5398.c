@@ -73,9 +73,8 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     depth_or_tpage = func_80066460(0, 0, 0x140, 0);
     func_80067F20(draw_mode, 1, 0, (u16)depth_or_tpage, 0);
 
-    length_mask = 0xFF000000;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     texture_depth = 0;
+    length_mask = 0xFF000000;
     texture_y = 0;
     {
         u32 *ot_entry;
@@ -86,13 +85,12 @@ void func_800A2AF8(s32 end_point, s32 start_point)
     {
         s32 ot_index = *(s32 *)(scratch + 0xC4);
         u32 ot_tag = ((u32 *)*(u32 **)(scratch + 0x24))[ot_index];
-        ((u32 *)*(u32 **)(scratch + 0x24))[ot_index] =
+        *(u32 *)((u8 *)*(u32 **)(scratch + 0x24) + ot_index * 4) =
             (ot_tag & length_mask) | ((u32)draw_mode & low_mask);
     }
 
     {
         u32 ot_tag;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ot_tag = ((u32 *)*(u32 **)(scratch + 0x24))[*(s32 *)(scratch + 0xC4)];
         line[0] = (line[0] & length_mask) | (ot_tag & low_mask);
     }

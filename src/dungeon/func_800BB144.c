@@ -103,24 +103,22 @@ main_path:
         entity_value = func_80099734(entity, script);
         event_value = func_80099194(&D_800E13DA, entity_value);
         {
-            s32 node;
             s32 node_offset;
             s32 result;
 
-            node = func_80099978(event_value);
-            result = func_80099194(&D_80089378, node);
-            node_offset = node - 2;
+            external_entity_value = func_80099978(event_value);
+            result = func_80099194(&D_80089378, external_entity_value);
+            node_offset = external_entity_value - 2;
                /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            node = result;
-            result = func_80099368(target, node);
+            external_entity_value = result;
+            result = func_80099368(target, external_entity_value);
             {
 
-                entity_value = node;
-                node = result;
-                ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                entity_value = external_entity_value;
+                external_entity_value = result;
                 func_800998C0(node_offset, entity_value);
             }
-            func_80099290(func_80099194(&D_8008937C, node));
+            func_80099290(func_80099194(&D_8008937C, external_entity_value));
         }
         func_800A5720(script);
         func_80098B38(target);
@@ -130,24 +128,22 @@ main_path:
     external_entity_value = func_80099734(entity, script);
     external_event_value = func_80099194(&D_800E13E9, external_entity_value);
     {
-        s32 node;
         s32 node_offset;
         s32 result;
 
-        node = func_80099978(external_event_value);
-        result = func_80099194(&D_80089378, node);
-        node_offset = node - 2;
+        external_entity_value = func_80099978(external_event_value);
+        result = func_80099194(&D_80089378, external_entity_value);
+        node_offset = external_entity_value - 2;
            /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        node = result;
-        result = func_80099368(target, node);
+        external_entity_value = result;
+        result = func_80099368(target, external_entity_value);
         {
 
-            entity_value = node;
-            node = result;
-            ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            entity_value = external_entity_value;
+            external_entity_value = result;
             func_800998C0(node_offset, entity_value);
         }
-        func_80099290(func_80099194(&D_8008937C, node));
+        func_80099290(func_80099194(&D_8008937C, external_entity_value));
     }
     func_800A5720(script);
 decrement:

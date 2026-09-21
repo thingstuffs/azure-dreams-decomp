@@ -262,6 +262,7 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
     s32 in_range;
     s32 next_state;
     s32 next_timer;
+    s32 page_or_magic;
     s32 t1_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 t2_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 t3_reserve;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -472,7 +473,6 @@ case2:
 {
     void *spawn_type;
 #ifdef __mips__
-    register u8 *spawn_page ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
     u8 *spawn_page;
 #endif
@@ -486,11 +486,11 @@ case2:
         goto done;
     }
     index = 8;
-    spawn_page = (u8 *)0x80080000;
+    page_or_magic = (s32)0x80080000;
     spawn_type = D_80024C40;
 
 case2_spawn_loop:
-    effect = func_8003FD64(0x201, spawn_page + 0x3498);
+    effect = func_8003FD64(0x201, (void *)(page_or_magic + 0x3498));
     if (effect != 0) {
         part = (S_func_81856800_6 *)((u8 *)effect + 32);
         effect->unk_10 = spawn_type;
@@ -517,7 +517,6 @@ case3:
     s32 point_offset;
 #ifdef __mips__
     register S_func_81856800_11 *dst_point ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 modulo_magic ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #else
     S_func_81856800_11 *dst_point;
 #endif
@@ -552,7 +551,7 @@ case3:
     part->unk_46 = 6;
     index = 1;
 #ifdef __mips__
-    modulo_magic = 0x19C2D14F;
+    page_or_magic = 0x19C2D14F;
 #endif
     point_offset = 0;
     dst_point = (S_func_81856800_11 *)((u8 *)part + 8);
@@ -566,7 +565,7 @@ case3:
             s32 mod_quotient;
 
             mod_value = func_80069EF8();
-            product.value = (long long)mod_value * modulo_magic;
+            product.value = (long long)mod_value * page_or_magic;
             mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));
             mod_sign = (mod_quotient << 2) + mod_quotient;
             mod_sign = (mod_sign << 5) - mod_quotient;
@@ -583,7 +582,7 @@ case3:
             s32 mod_quotient;
 
             mod_value = func_80069EF8();
-            product.value = (long long)mod_value * modulo_magic;
+            product.value = (long long)mod_value * page_or_magic;
             point_offset += 8;
             index++;
             mod_quotient = (product.words.hi >> 4) - ((s32)(mod_value >> 31));

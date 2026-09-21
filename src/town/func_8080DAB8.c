@@ -87,22 +87,19 @@ s32 func_8080DAB8(void *first_record) {
     do {
         func_8006BFA0(record + 8, screen_coords, depths, transform_scratch, transform_scratch, 2);
         primitive_cursor = 0;
-        ASM_KEEP_NV(primitive_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         primitive = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        primitive_base = (u8 *)*render_root;
         if (primitive != 0) {
             primitive_end = primitive + 0x14;
-            primitive_base = (u8 *)*render_root;
-            ASM_KEEP_NV(primitive_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             buffer_limit = 0x108D4;
             primitive_cursor = primitive_end & (0 - ((u32)(primitive_base + buffer_limit) >= primitive_end));
         }
         ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = primitive_cursor;
         mode_cursor = 0;
-        ASM_KEEP_NV(mode_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         draw_mode = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        mode_base = (u8 *)*render_root;
         if (draw_mode != 0) {
             mode_end = (u8 *)draw_mode + 0xC;
-            mode_base = (u8 *)*render_root;
             ASM_KEEP_NV(mode_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             buffer_limit = 0x108D4;
             mode_cursor = mode_end & (0 - ((u32)(mode_base + buffer_limit) >= mode_end));

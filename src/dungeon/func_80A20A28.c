@@ -197,18 +197,11 @@ s32 func_80174228(u8 *item_data)
         } if (i >= 0) goto loop_0;
 
         profile_storage = (S_func_80174228_0 *)(storage + 0x28);
-        ASM_KEEP_NV(profile_storage);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        min_xy &= 0xFFFF;
-        max_xy &= 0xFFFF;
-        i = 3;
         setup_source = (u8 *)render_state;
         render_term = ((S_func_80174228_2 *)setup_source)->unk_C8;
-        ASM_USE_NV(render_term);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_func_80174228_0 *)storage)->unk_32 = 0;
         ((S_func_80174228_0 *)storage)->unk_30 = 0;
         setup_source = vertices;
-        scratch_ptr = &TMP;
-        vertex = setup_source + 0x18;
         ((S_func_80174228_0 *)storage)->unk_28 = setup_source;
         ((S_func_80174228_0 *)storage)->unk_2C = setup_source;
         ((S_func_80174228_0 *)storage)->unk_34 = -render_term;
@@ -216,6 +209,13 @@ s32 func_80174228(u8 *item_data)
         ((S_func_80174228_0 *)storage)->unk_40 = 4;
         ((S_func_80174228_0 *)storage)->unk_42 = 0;
         func_800DBA90(profile_storage, left_x, prev_depth, vertex_depth);
+        min_xy &= 0xFFFF;
+        max_xy &= 0xFFFF;
+        i = 3;
+
+        scratch_ptr = &TMP;
+        vertex = setup_source + 0x18;
+
 
         min_xy |= 0x75300000;
         min_xy &= 0xFFFF0000;

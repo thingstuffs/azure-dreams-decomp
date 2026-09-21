@@ -133,9 +133,9 @@ void func_80175CD8(void *action, void *motion, void *sprite, void *actor)
 
 state_0:
     {
-        register u8 *effect_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+        u8 *effect_actor;
         s32 effect_flags;
-        register s32 tile_dx ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 tile_dx;
         s32 tile_dy;
         u8 target_tile_x;
         u8 sprite_tile_x;
@@ -144,23 +144,15 @@ state_0:
 
         effect_actor = actor;
         target_tile = D_80082E80;
-        ASM_KEEP(target_tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect_flags = 0x2000;
-        ASM_KEEP(effect_flags);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         target_tile_x = target_tile[0x24];
         sprite_tile_x = ((Rec_D_80082E80 *)sprite)->unk_24;
         sprite_tile_y = ((Rec_D_80082E80 *)sprite)->unk_25;
-        tile_dx = target_tile_x;
-        tile_dx -= sprite_tile_x;
+        tile_dx = target_tile_x - sprite_tile_x;
         target_tile_y = target_tile[0x25];
-        if (tile_dx < 0) {
-            tile_dx = -tile_dx;
-        }
-        tile_dy = target_tile_y;
-        tile_dy -= sprite_tile_y;
-        if (tile_dy < 0) {
-            tile_dy = -tile_dy;
-        }
+        tile_dx = __builtin_abs(tile_dx);
+        tile_dy = target_tile_y - sprite_tile_y;
+        tile_dy = __builtin_abs(tile_dy);
         ((S_80175CD8_0 *)action)->unk_96.s = ((tile_dx + tile_dy) * 4) + 9;
         ((S_80175CD8_0 *)action)->unk_9B++;
         func_800AD594(effect_actor, effect_flags);

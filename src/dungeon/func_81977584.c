@@ -39,7 +39,7 @@ s32 func_81977584(Record *record) {
     s32 upper_color;
     register s32 lower_color;
     s32 segment;
-    register s32 prev_upper_color ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u32 prev_upper_color;
     s32 lower_shade;
     s32 upper_shade;
 
@@ -138,10 +138,10 @@ shade:
             trig_value = func_80064584(angle);
         }
         {
-            register s32 color_pair ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 color_pair;
             s32 intensity;
             register s32 color_work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 shade_work ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 shade_work;
             s32 end_color;
 
             shade_work = (shade_step * 3) << 3;
@@ -162,9 +162,9 @@ shade:
             scaled_coord = trig_value * color_work;
             ASM_KEEP(intensity);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             intensity &= 0xff;
-            ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            shade_work = (shade_work >> 16) & 0xff;
+            shade_work >>= 16;
+            shade_work &= 0xff;
             color_pair = (intensity << 8) + intensity;
             prev_upper_color = (color_pair << 8) + intensity;
 

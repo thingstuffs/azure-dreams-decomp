@@ -164,10 +164,9 @@ next_object:
         s32 point_offset = ring * 8;
         s32 half_count = 8 - ring;
         u8 *ring_points = source_points + point_offset;
-        ASM_KEEP_NV(ring_points);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         frame.p.f51C = ((S_80024D58_1 *)ring_params)->unk_12;
-        frame.p.f514 = rotated_points + point_offset;
         frame.p.f510 = ring_points;
+        frame.p.f514 = rotated_points + point_offset;
         frame.p.f528 = half_count * 2;
         {
             s32 height = ((S_80024D58_2 *)object)->unk_04;
@@ -214,8 +213,8 @@ next_side:
                 edge_base = span_base;
                 do {
                     s32 next_index;
-                    func_80065420(rotated_points + point_index * 8,
-                                  grid + (((edge_base + (s16) point_count) - (next_index = point_index + 1)) << 6) + (ring * 4),
+                    ring_points = grid + (((edge_base + (s16) point_count) - (next_index = point_index + 1)) << 6) + (ring * 4);
+                    func_80065420(rotated_points + point_index * 8, ring_points,
                                   &frame.p.f530, &frame.p.f534);
                     point_index = next_index;
                     ASM_KEEP_NV(ring);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
