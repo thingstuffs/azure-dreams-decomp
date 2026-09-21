@@ -5,8 +5,11 @@
 typedef struct S_800CABA8_0 {
     u8 pad_00[0x8C];
     M2C_UNK * unk_8C;
-    u8 pad_90[0x6];
-    s16 unk_96;
+    u8 pad_90[4];
+    union {
+        struct { u16 pad_94; s16 ticks; } half;
+        s32 word;
+    } timer;
     u16 unk_98;
     u8 pad_9A[0x1];
     u8 unk_9B;
@@ -98,21 +101,20 @@ jt_c1:
     goto block_9;
 jt_c2:
     effect_base = effect - 0x20;
-    ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->unk_96));
+    ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
     func_800CAFDC(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
     func_800CB4C0(effect_base, 1);
     red = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
-    red_step = (s32) (0xE0 - red) / (s16) ((S_800CABA8_0 *)effect)->unk_96;
+    red_step = (s32) (0xE0 - red) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
     fade_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    fade_ticks = ((S_800CABA8_0 *)effect)->unk_96;
+    fade_ticks = ((S_800CABA8_0 *)effect)->timer.word >> 16;
     ASM_KEEP(fade_ticks);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     green_step_or_effect = (s32) (8 - fade_green) / fade_ticks;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     fade_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
-    blue_step = (s32) (8 - fade_blue) / (s16) ((S_800CABA8_0 *)effect)->unk_96;
-    fade_ticks_left = (u16) ((S_800CABA8_0 *)effect)->unk_96 - 1;
-    ((S_800CABA8_0 *)effect)->unk_96 = fade_ticks_left;
+    blue_step = (s32) (8 - fade_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
+    fade_ticks_left = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks - 1;
+    ((S_800CABA8_0 *)effect)->timer.half.ticks = fade_ticks_left;
     red = (u8) (red + red_step);
     fade_green += green_step_or_effect;
     ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = red;
@@ -126,7 +128,7 @@ jt_c2:
     ASM_KEEP(phase_or_ticks);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     next_duration = 4;
 block_9:
-    ((S_800CABA8_0 *)effect)->unk_96 = next_duration;
+    ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
     return;
@@ -140,7 +142,7 @@ jt_c3:
 block_12:
     rotation_done = 1;
 block_13:
-    restore_ticks = ((S_800CABA8_0 *)effect)->unk_96;
+    restore_ticks = ((S_800CABA8_0 *)effect)->timer.half.ticks;
     if (restore_ticks <= 0) {
         goto block_15;
     }
@@ -148,17 +150,17 @@ block_13:
     restore_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
     restore_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
     ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8) (red + ((s32) (0x40 - red) / restore_ticks));
-    actor_or_green = restore_green + ((s32) (0x40 - restore_green) / (s16) ((S_800CABA8_0 *)effect)->unk_96);
+    actor_or_green = restore_green + ((s32) (0x40 - restore_green) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks);
     ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8) actor_or_green;
-    ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (restore_blue + ((s32) (0x40 - restore_blue) / (s16) ((S_800CABA8_0 *)effect)->unk_96));
+    ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (restore_blue + ((s32) (0x40 - restore_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
     goto block_16;
 block_15:
-    ((S_800CABA8_0 *)effect)->unk_96 = 0;
+    ((S_800CABA8_0 *)effect)->timer.half.ticks = 0;
 block_16:
-    phase_or_ticks = (u16) ((S_800CABA8_0 *)effect)->unk_96;
+    phase_or_ticks = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
     restore_ticks_left = phase_or_ticks - 1;
     phase_or_ticks = rotation_done;
-    ((S_800CABA8_0 *)effect)->unk_96 = restore_ticks_left;
+    ((S_800CABA8_0 *)effect)->timer.half.ticks = restore_ticks_left;
     if (phase_or_ticks == 0) {
         goto block_23;
     }

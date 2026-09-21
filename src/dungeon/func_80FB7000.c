@@ -84,19 +84,19 @@ __asm__(".globl func_80FB7000\n"
 #define BODY_NAME func_80FB7000
 #endif
 
-void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
+void *BODY_NAME(s32 spawn_flags, s8 pos_x, s16 pos_y, s16 part_a_value)
 #ifdef __mips__
     __attribute__((section(".text.func_80FB7000")))
 #endif
     ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
-void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
+void *BODY_NAME(s32 spawn_flags, s8 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
     void *obj;
-    register s32 object_type ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *object_pool ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 object_type;
+    void *object_pool;
     S_80FB7000_3 *part_b;
     void *part_a;
     s16 saved_flags;
@@ -119,11 +119,9 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s8 pos_y, s16 part_a_value)
 
     work = 0;
     object_type = 0x112;
-    ASM_USE_NV(object_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_x = pos_x;
     saved_part_value = part_a_value;
     object_pool = D_80083498;
-    ASM_USE2_NV(saved_part_value, object_pool);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(object_type, object_pool);
     saved_flags = (s16)spawn_flags;
     if (obj != 0) {

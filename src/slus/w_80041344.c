@@ -32,7 +32,7 @@ void func_80041344(s32 data_base, void *scratch)
     u16 *color;
     void *src;
     void *src_addr;
-    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    s32 flags;
     S_80041344 *command;
     void **handlers = jtbl_8002D630;
     static void *const keepalive[] = {
@@ -101,7 +101,8 @@ LF:
         palette_count = entry->u.t.y;
         cmd_index |= 2;
 sign_flags:
-        flags = (s16)cmd_index;
+        flags = (u32)cmd_index << 16;
+        flags >>= 16;
         ASM_KEEP(cmd_index);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
 call_tile:
         func_8003F80C(src, vram_offset, palette_count, flags);

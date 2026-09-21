@@ -78,7 +78,7 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
     Offset3 offset;
     void *object;
     S_80171BEC_1 *render;
-    register u8 *copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register u32 copy_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register PackedWord *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 data_word_0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 data_word_1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -110,14 +110,15 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
         }
 
         render = ((S_80171BEC_0 *)object)->unk_0C;
-        render->unk_1E = 0x800;
-        render->unk_1C = 0x800;
-        render->unk_0E = 0x80;
-        render->unk_0D = 0x80;
-        render->unk_0C = 0x80;
+        copy_page = 0x800;
+        render->unk_1E = copy_page;
+        render->unk_1C = copy_page;
+        copy_page = 0x80;
+        render->unk_0E = copy_page;
+        render->unk_0D = copy_page;
+        render->unk_0C = copy_page;
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        copy_page = (u8 *)0x80170000;
+        copy_page = 0x80170000;
         ASM_KEEP(copy_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         copy_source = (PackedWord *)(copy_page + 0x5EE8);
         data_word_0 = copy_source[0].value;
@@ -131,7 +132,3 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
     }
 }
 
-/* MECHANISM: One Offset3 call-output object yields stack slots 0x10/0x12/0x14
-   and exactly the retail s3/s2/s1/s0 hold set; render is held in a3.
-   A post-store fence and opaque v0 page feed the 0x5EE8 addiu into held a2.
-   PackedWord live ranges in v1/a0/a1 reproduce the six unaligned copy pairs. */

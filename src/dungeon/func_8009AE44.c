@@ -95,11 +95,10 @@ blocked_exit:
     }
 
 start:
-    signed_limit = (s16)limit_or_y_step;
-    ASM_KEEP(limit_or_y_step);
+    signed_limit = (u32)limit_or_y_step << 16;
+    signed_limit >>= 16;
     if ((s32)found < signed_limit) {
         register u16 loop_limit ASM_REG("$8");
-        register s32 signed_loop_limit ASM_REG("$2");
 
         y_step_or_count = 0;
         *(volatile s32 *)&frame_slots[16] = offset_or_x_step;
@@ -163,8 +162,9 @@ start:
                 x += x_delta;
                 y += y_delta;
             }
-            signed_loop_limit = (s16)loop_limit;
-        } while (y_step_or_count < signed_loop_limit);
+            signed_limit = (u32)loop_limit << 16;
+            signed_limit >>= 16;
+        } while (y_step_or_count < signed_limit);
     }
 
     ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = x;

@@ -136,10 +136,10 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
     void *particle_state;
     void *particle_render;
     void *projectile_state;
-    void *projectile_callback;
+
     u8 *effect_list;
     s32 random_offset;
-    u16 frames_left;
+    u32 frames_left;
     u16 projectile_y;
     u16 projectile_z;
 
@@ -259,9 +259,8 @@ void func_801733BC(void *effect_state, void *position, void *render_part, void *
             break;
         }
         func_8004491C(spawned_object, D_80174228);
-        projectile_callback = D_801741A4;
-        ASM_KEEP(projectile_callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_801733BC_2 *)spawned_object)->unk_10 = projectile_callback;
+        frames_left = (u32)D_801741A4;
+        ((S_801733BC_2 *)spawned_object)->unk_10 = (void *)frames_left;
         ((S_801733BC_2 *)spawned_object)->unk_20 = ((S_801733BC_3 *)position)->unk_02;
         projectile_y = ((S_801733BC_3 *)position)->unk_06;
         projectile_state = (u8 *)spawned_object + 0x20;

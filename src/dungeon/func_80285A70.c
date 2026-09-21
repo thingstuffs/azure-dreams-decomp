@@ -96,15 +96,12 @@ void func_80018A70(void) {
     s32 i;
     {
         u8 *xor_base;
-        u8 *xor_page;
         u16 entry_flags;
         s32 a1role;
 
         state = (State13710 *)0x80013710;
-        xor_page = (u8 *)0x80080000;
-        ASM_KEEP(xor_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         entry_flags = state->flags;
-        xor_base = xor_page + 0x3160;
+        xor_base = D_80083160;
 
         if (entry_flags & 2) {
             u32 v0role;
@@ -176,7 +173,7 @@ void func_80018A70(void) {
         state->field6 = 0;
         state->field11 = 0;
         state->field10 = 0;
-        v1role = *(u16 *)(xor_base + 4);
+        v1role = ((State13710 *)xor_base)->flags;
         value |= v0role;
         value ^= v1role;
         *(s32 *)((u8 *)a1role + 0x1468) = value;

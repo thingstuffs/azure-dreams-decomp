@@ -46,7 +46,7 @@ void func_80041588(u32 *stream_ref, u8 *state, s32 execute)
     void **table;
     s32 item_idx;
     s32 color_idx;
-    register s32 flags ASM_REG("$7");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    s32 flags;
     register s32 raw_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
     s32 item_count;
     s32 command_idx;
@@ -140,11 +140,11 @@ case_6:
         do {
             color++;
             color_idx = 1;
-            do {
+            loop_1: {
                 *color |= 0x8000;
                 color_idx++;
                 color++;
-            } while (color_idx < 16);
+            } if (color_idx < 16) goto loop_1;
             item_idx++;
         } while (item_idx < item_count);
     }
@@ -155,8 +155,8 @@ masked_tile:
     tile_count = cmd->y;
     raw_flags |= 2;
 convert_flags:
-    flags = (s16)raw_flags;
-    ASM_KEEP(raw_flags);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    flags = (u32)raw_flags << 16;
+    flags >>= 16;
 call_tile:
     func_8003F80C(src_addr, vram_offset, tile_count, flags);
 sync:

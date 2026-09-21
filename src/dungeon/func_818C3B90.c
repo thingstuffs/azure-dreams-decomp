@@ -206,7 +206,7 @@ jt_c1:
             s32 saved_x;
             Motion *destination;
             s32 coord_aux;
-            register s32 x_work ASM_REG("$5");
+            s32 x_work;
             register s16 *table ASM_REG("$3");
             u8 *delta_iter;
             register s32 table_work ASM_REG("$8");
@@ -214,7 +214,7 @@ jt_c1:
             s16 *table_y_entry;
             u16 *update_x_entry;
             u16 *update_y_entry;
-            register s32 probe_z ASM_REG("$6");
+            s32 probe_z;
             s32 table_offset;
             s16 probe_result;
 
@@ -243,15 +243,16 @@ jt_c1:
                     break;
                 }
 
-                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328;
+                table_work = (s32)D_8006CCE8 - 0x10;
                 table_offset = (s16)action->angle;
                 probe_z = (u16)owner->z;
                 table_offset *= 2;
                 table_x_entry = (s16 *)(table_offset + table_work);
                 ASM_KEEP(table_x_entry);
                 probe_z -= 32;
-                probe_z = (s16)probe_z;
-                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318;
+                probe_z = (u32)probe_z << 16;
+                probe_z >>= 16;
+                table_work = (s32)D_8006CCD8 + 0x10;
                 table_y_entry = (s16 *)(table_offset + table_work);
                 ASM_KEEP(table_y_entry);
                 probe_result = func_800BCB04(
@@ -288,7 +289,8 @@ jt_c1:
             delta_iter = (u8 *)&stack.local + 2;
             x_work += (table[action->angle] + 1) << 5;
             destination->x.h.hi = x_work;
-            x_work = (s16)x_work;
+            x_work = (u32)x_work << 16;
+            x_work >>= 16;
             x_delta = (s32)((u32)(u16)(table_work = stack.accum_y) << 16) >> 10;
             table = D_8006CCE8;
             x_delta += (table[action->angle] + 1) << 5;

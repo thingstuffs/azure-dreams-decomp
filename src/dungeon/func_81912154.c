@@ -306,9 +306,7 @@ scan_tiles:
 #ifdef NON_MATCHING
         lookup_base = D_8006CCD8;
 #else
-        lookup_base = (s16 *) 0x80070000U;
-        ASM_KEEP(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        lookup_base = (s16 *) ((u8 *) lookup_base - 0x3328);
+        lookup_base = (s16 *)((u8 *)D_8006CCE8 - 0x10);
 #endif
         step_direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
         step_count += 1;
@@ -319,9 +317,7 @@ scan_tiles:
 #ifdef NON_MATCHING
         lookup_base = D_8006CCE8;
 #else
-        lookup_base = (s16 *) 0x80070000U;
-        ASM_KEEP(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        lookup_base = (s16 *) ((u8 *) lookup_base - 0x3318);
+        lookup_base = (s16 *)((u8 *)D_8006CCD8 + 0x10);
 #endif
         axis_delta = (s32)((s16 *) ((step_direction << 1) + (u32) lookup_base));
         ASM_KEEP(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

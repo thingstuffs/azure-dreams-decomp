@@ -53,8 +53,8 @@ void func_8016B3A8(void *self, S_8016B3A8_0 *motion, void *sprite)
     void *call_self;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_motion;
     void *call_sprite;
-    s32 height_offset;
-    register u32 height_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 height_offset;
+    u32 height_bits;
     s16 direction;
     s16 floor_height;
     s32 actor_flags;
@@ -207,8 +207,8 @@ airborne_motion:
         (*(s32 *)((u8 *)self + 0xA4)) = 0;
         height_sum += adjustment;
         (*(s32 *)((u8 *)self + 0x90)) = height_sum;
-        height_offset = motion_flags & 8;
-        if (height_offset == 0) {
+        call_self = (void *)(u32)(motion_flags & 8);
+        if (call_self == 0) {
             floor_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -
@@ -240,8 +240,8 @@ airborne_motion:
         (*(s32 *)((u8 *)self + 0xA4)) = 0;
         height_sum -= adjustment;
         (*(s32 *)((u8 *)self + 0x90)) = height_sum;
-        height_offset = motion_flags & 8;
-        if (height_offset == 0) {
+        call_self = (void *)(u32)(motion_flags & 8);
+        if (call_self == 0) {
             floor_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_8016B3A8_2 *)actor_base)->unk_88 - 0x20)) -

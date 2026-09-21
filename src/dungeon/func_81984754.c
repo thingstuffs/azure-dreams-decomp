@@ -98,8 +98,8 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     s32 signed_target;
     s32 angle_bits;
     s32 angle_delta;
-    register u8 *allocation_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u8 *allocation_data;
+    u8 *allocation_page;
+    Object *prev_object;
 
     spawn_angle = angle;
     prev_entity = 0;
@@ -121,14 +121,13 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         allocation_page = (u8 *)0x80080000;
 #endif
         if (object_index != 0) {
-            register Object *prev_object ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             prev_object = object_slot[-1];
             ASM_KEEP(prev_object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             func_80025FD4();
         }
-        allocation_data = allocation_page + 0x3498;
+        prev_object = (Object *)D_80083498;
         ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        *object_slot = func_8003FD64(2, allocation_data);
+        *object_slot = func_8003FD64(2, prev_object);
         (*object_slot)->state = (void (*)(void *))D_80024DAC;
         func_8004491C(*object_slot, D_800C9034);
 

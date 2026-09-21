@@ -399,10 +399,10 @@ loop_setup:
 
             table_offset = (((S_801715F4_1 *)actor_arg)->unk_2A.u >> 8) & 0xE;
             {
-                register u8 *x_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                u8 *x_step;
 
-                x_step = (u8 *)&D_8006CCD8 + table_offset;
-                ASM_KEEP_NV(x_step);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                x_step = (u8 *)&D_8006CCD8;
+                x_step += table_offset;
                 ((S_801715F4_2 *)position_arg)->unk_24.at00.v += *x_step;
             }
             ((S_801715F4_2 *)position_arg)->unk_24.at01.v +=

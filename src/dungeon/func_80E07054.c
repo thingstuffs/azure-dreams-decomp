@@ -7,7 +7,7 @@ extern u8 D_80083498[];
 extern u8 *func_8003FD64(s32 kind, void *data);
 extern void func_8004491C(void *object, Callback callback);
 extern s32 func_800A6D30(void);
-extern void func_800A48F0(void *object, s32 arg1, s32 arg2);
+extern void func_800A48F0(void *object, s32 arg1, s16 arg2);
 extern void func_800A9C18(void *object, void *arg1, void *arg2, s32 arg3);
 extern void func_800AA36C(void *object, void *arg1, void *arg2, void *arg3);
 
@@ -17,7 +17,7 @@ extern void func_80150510(void);
 extern void func_80150538(void);
 extern void func_8014CA58(void);
 
-void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void *func_8014C854(s32 arg0, s32 arg1, s16 arg2, s32 arg3)
 {
     s32 v_s2 = arg0;
     u8 *v_s0 = 0;
@@ -28,7 +28,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     u8 *v_s6;
     s16 v_s7;
     s32 alloc_kind;
-    register u8 *alloc_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *alloc_data;
     u32 callback_page;
     u32 flags0;
     u32 flags1;
@@ -36,11 +36,7 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 random;
 
     alloc_kind = 0x112;
-    ASM_KEEP_NV(alloc_kind);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     alloc_data = D_80083498;
-    v_s1 = arg3;
-    v_s4 = arg2;
-    ASM_KEEP_DEP_NV(v_s4, alloc_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     v_s3 = func_8003FD64(alloc_kind, alloc_data);
     v_s7 = v_s2;
     if (v_s3 != 0) {
@@ -50,9 +46,9 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         func_8004491C(v_s3, func_80045340);
 
         v_s6 = *(u8 **)(v_s3 + 8);
-        *(s16 *)(v_s6 + 0xA) = v_s1;
+        *(s16 *)(v_s6 + 0xA) = arg3;
         v_s1 = (long)*(u8 **)(v_s3 + 0xC);
-        *(u8 *)((u8 *)v_s1 + 0x25) = v_s4;
+        *(u8 *)((u8 *)v_s1 + 0x25) = arg2;
         v_s4 = (long)v_s0;
         *(u8 *)((u8 *)v_s1 + 0x24) = v_s5;
 
@@ -63,11 +59,8 @@ void *func_8014C854(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(Callback *)((u8 *)v_s1 + 0x2C) = func_80150510;
     } else if ((v_s2 & 3) >= 2) {
         *(Callback *)(v_s0 + 0x8C) = func_8014CE5C;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        flags0 = *(u32 *)(v_s0 + 0x14);
-        flags1 = *(u32 *)(v_s0 + 0x1C);
-        flags0 |= 0x2000;
-        flags1 |= 0x2000;
+        flags0 = *(u32 *)(v_s0 + 0x14) | 0x2000;
+        flags1 = *(u32 *)(v_s0 + 0x1C) | 0x2000;
         *(u32 *)(v_s0 + 0x14) = flags0;
         *(u32 *)(v_s0 + 0x1C) = flags1;
         *(Callback *)((u8 *)v_s1 + 0x2C) = func_80150510;

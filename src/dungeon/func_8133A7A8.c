@@ -123,7 +123,6 @@ jt_call_common:
 jt_c4: {
     s16 *camera;
     s16 *height_base;
-    s16 *height;
     u8 *globals;
 
     entity->timer = 0;
@@ -137,11 +136,10 @@ jt_c4: {
     }
     camera_offset = D_801760E0;
     height_base = heights.values - 8;
-    height = &height_base[height_slot];
-    ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    coord_sum = (s32)&height_base[height_slot];
     camera_mode = 1;
     ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    camera_offset[2] = height[8] * 0x200;
+    camera_offset[2] = ((s16 *)coord_sum)[8] * 0x200;
     camera = D_80083780;
     coord_sum = actor->x;
     coord_sum += camera[1];
@@ -165,7 +163,6 @@ jt_case0_tail:
 jt_c6: {
     s16 *camera;
     s16 *height_base;
-    s16 *height;
     u8 *globals;
 
     entity->timer = 0;
@@ -178,11 +175,10 @@ jt_c6: {
         height_slot = phase_slot - 6;
     }
     height_base = heights.values - 8;
-    height = &height_base[height_slot];
-    ASM_KEEP_NV(height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    coord_sum = (s32)&height_base[height_slot];
     camera_mode = 1;
     ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    D_801760E0[2] = height[8] * 0x200;
+    D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
     camera = D_80083780;
     coord_sum = actor->x;
     coord_sum += camera[1];
@@ -203,8 +199,6 @@ jt_c6: {
 jt_c20: {
     s16 *camera;
     s16 *height_base;
-    s16 *height;
-    register s16 selected_slot ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *globals;
 
     if ((entity->timer & 0xF) == 0) {
@@ -212,17 +206,15 @@ jt_c20: {
         D_801760E0[0] = D_800DCE60[0];
         D_801760E0[1] = D_800DCE60[1];
         entity->phase++;
-        phase_slot = height_slot + entity->phase;
-        selected_slot = phase_slot;
-        if (phase_slot >= 8) {
-            selected_slot = phase_slot - 8;
+        height_slot += entity->phase;
+        if (height_slot >= 8) {
+            height_slot -= 8;
         }
         height_base = heights.values - 8;
-        height = &height_base[selected_slot];
-        ASM_KEEP_DEP_NV(height, selected_slot);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        coord_sum = (s32)&height_base[height_slot];
         camera_mode = 1;
         ASM_KEEP(camera_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        D_801760E0[2] = height[8] * 0x200;
+        D_801760E0[2] = ((s16 *)coord_sum)[8] * 0x200;
         camera = D_80083780;
         coord_sum = actor->x;
         coord_sum += camera[1];

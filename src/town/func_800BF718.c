@@ -238,7 +238,6 @@ case_20: {
         void *floor_motion;
         register s32 vx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         s32 y;
-        register s32 vy ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         register s32 floor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u16 timer;
 
@@ -247,13 +246,13 @@ case_20: {
         x_m = ((S_800BCE78_1 *)motion)->unk_00;
         vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
-        vy = ((S_800BCE78_1 *)motion)->unk_14;
+        settle_state = ((S_800BCE78_1 *)motion)->unk_14;
         x_m += vx;
-        y += vy;
+        y += settle_state;
         ((S_800BCE78_1 *)motion)->unk_00 = x_m;
         {
 
-            x_m = vy;
+            x_m = settle_state;
             ASM_KEEP(x_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             ((S_800BCE78_1 *)motion)->unk_08.at00.v = y;
             y = 0x10000;
