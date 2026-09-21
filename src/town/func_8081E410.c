@@ -42,7 +42,14 @@ void func_80020C10(void *state_arg, void *target_arg, void *effect_arg)
     s32 reduced_speed;
     s32 icon_x;
     s32 icon_frame;
-    register s32 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 value_close;
+    s32 value_idle;
+    s32 value_accel;
+    s32 value_sector;
+    s32 value_decel;
+    s32 value_stop;
+    s32 value_draw;
+    s32 value_wrap;
     u32 phase;
     static void *const phase_labels[] = {
         &&idle, &&accelerate, &&spin, &&select_sector,
@@ -75,8 +82,8 @@ close_range:
     S32(state_arg, 0x58) = close_pos[0];
     S32(state_arg, 0x5C) = close_pos[1];
     if (distance < 128) {
-        value = (128 - distance) >> 1;
-        U16(state_arg, 0x62) = U16(state_arg, 0x62) - value;
+        value_close = (128 - distance) >> 1;
+        U16(state_arg, 0x62) = U16(state_arg, 0x62) - value_close;
     }
     goto position_done;
 
@@ -139,19 +146,19 @@ position_done:
     goto *D_80020058[phase];
 
 idle:
-    value = U8(effect_arg, 0xE);
-    value += (128 - value) >> 1;
-    U8(effect_arg, 0xE) = value;
-    U8(effect_arg, 0xD) = value;
-    U8(effect_arg, 0xC) = value;
+    value_idle = U8(effect_arg, 0xE);
+    value_idle += (128 - value_idle) >> 1;
+    U8(effect_arg, 0xE) = value_idle;
+    U8(effect_arg, 0xD) = value_idle;
+    U8(effect_arg, 0xC) = value_idle;
     S32(state_arg, 0x6C) = 0x00080000;
     goto wrap_angle;
 
 accelerate:
     reduced_speed = (S16(state_arg, 0x72) + 16) >> 4;
-    value = U16(state_arg, 0x72) + reduced_speed;
-    U16(state_arg, 0x72) = value;
-    if ((s16)value > speed_limit) {
+    value_accel = U16(state_arg, 0x72) + reduced_speed;
+    U16(state_arg, 0x72) = value_accel;
+    if ((s16)value_accel > speed_limit) {
         U16(state_arg, 0x72) = speed_limit;
         S16(state_arg, 0x70) = 2;
     }
@@ -180,8 +187,8 @@ select_sector:
             break;
         }
     }
-    value = distance & 1;
-    if (value) {
+    value_sector = distance & 1;
+    if (value_sector) {
         S16(spin_data, 0x24) = 1;
     } else {
         S16(spin_data, 0x24) = 2;
@@ -195,8 +202,8 @@ decelerate:
     } else {
         dx = 5;
     }
-    value = S16(state_arg, 0x72) >> dx;
-    reduced_speed = U16(state_arg, 0x72) - value;
+    value_decel = S16(state_arg, 0x72) >> dx;
+    reduced_speed = U16(state_arg, 0x72) - value_decel;
     U16(state_arg, 0x72) = reduced_speed;
     U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
     U16(spin_data, 0x1A) += U16(state_arg, 0x72);
@@ -209,9 +216,9 @@ decelerate:
 stop_spin:
     U16(effect_arg, 0x1A) += U16(state_arg, 0x72);
     U16(spin_data, 0x1A) += U16(state_arg, 0x72);
-    value = U16(state_arg, 0x74) + 1;
-    U16(state_arg, 0x74) = value;
-    if ((value & 3) == 0) {
+    value_stop = U16(state_arg, 0x74) + 1;
+    U16(state_arg, 0x74) = value_stop;
+    if ((value_stop & 3) == 0) {
         U16(state_arg, 0x72) -= 2;
     }
     if (S16(state_arg, 0x72) < 4) {
@@ -240,16 +247,16 @@ icon_loop:
     if (dx < 3) {
         goto icon_loop;
     }
-    value = U16(state_arg, 0x72);
-    U16(state_arg, 0x72) = value + 1;
-    if ((s16)value >= 198) {
+    value_draw = U16(state_arg, 0x72);
+    U16(state_arg, 0x72) = value_draw + 1;
+    if ((s16)value_draw >= 198) {
         S16(state_arg, 0x70) = 0;
     }
 
 wrap_angle:
-    value = U16(effect_arg, 0x1A) & 0xFFF;
-    U16(effect_arg, 0x1A) = value;
-    if ((prev_angle >> 8) != ((u32)value >> 8)) {
+    value_wrap = U16(effect_arg, 0x1A) & 0xFFF;
+    U16(effect_arg, 0x1A) = value_wrap;
+    if ((prev_angle >> 8) != ((u32)value_wrap >> 8)) {
         SD_Call(0x701);
     }
 }
