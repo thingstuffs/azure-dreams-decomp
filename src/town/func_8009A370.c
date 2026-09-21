@@ -29,7 +29,7 @@ typedef struct S_80097AD0_3 {
 
 extern s32 func_800374F4(u16 value);
 extern s32 func_800644B8(s32 value);
-extern s32 func_80064584(s32 value, s32 other);
+extern s32 func_80064584(s32 value);
 extern s32 rand(void);
 extern void *func_8009792C(void *arg0, s16 arg1);
 
@@ -51,7 +51,7 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
     StackRecord record;
     s32 angle;
     s32 angle_step;
-    s32 magnitude;
+    s32 first_trig_value;
     s32 object_index;
     s32 angle_component;
     s32 y;
@@ -77,13 +77,12 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
                      func_800374F4(spread->unk_08.u16)) -
                     (spread->unk_08.s32 / 2);
                 record.y = y;
-                record.fieldC = func_80064584(angle, y) << 5;
-                angle_component = func_800644B8(angle);
+                record.fieldC = func_80064584(angle) << 5;
+                first_trig_value = func_800644B8(angle);
                 {
                     void *record_ptr = &record;
-                    ASM_KEEP(record_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    angle_component <<= 5;
-                    record.field10 = angle_component;
+                    first_trig_value <<= 5;
+                    record.field10 = first_trig_value;
                     object = func_8009792C(record_ptr, angle);
                 }
                 if (object != 0) {
@@ -99,9 +98,3 @@ void func_80097AD0(S_80097AD0_0 *origin, S_80097AD0_1 *spread, s32 count) {
         }
     }
 }
-
-/* MECHANISM:
- * The escaping 0x18-byte record fixes the 0x48 frame and stack fields at 0x10..0x26.
- * A guarded short-lived $a0 record pointer orders addiu &record before the return shift.
- * ASM_KEEP(value) fences that sll before the s16 angle cast; both anchors emit zero words.
- */

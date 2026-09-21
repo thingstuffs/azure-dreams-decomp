@@ -43,14 +43,16 @@ void func_818BC888(void *effect) {
 #ifndef NON_MATCHING
     if (ticks >= 0x20) {
         product = (0x40 - ticks) * scaled_step;
+        scaled_value = product >> 0x10;
     } else {
         product = ticks * scaled_step;
+        scaled_value = product >> 0x10;
     }
 #else
     product = (s16)tick * scaled_step;
-#endif
     scaled_value = product >> 0x10;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+#endif
+
     ((S_818BC888_0 *)effect)->unk_08 = scaled_value;
     phase = ((S_818BC888_0 *)effect)->unk_04.s16;
     if (phase >= 0x40) {

@@ -26,7 +26,6 @@ extern u8 D_800F927E[16];
 extern void D_8016B778(void);
 extern void (*D_80174728[256])(void *, void *, void *, void *);
 
-
 typedef struct S_8016B0E8_0 {
     u8 pad_00[0x11];
     u8 unk_11;
@@ -94,7 +93,6 @@ typedef struct S_8016B0E8_6 {
     u8 pad_00[0x10];
     s32 unk_10;
 } S_8016B0E8_6;   /* temp_v1_2 in func_8016B0E8 */
-
 
 typedef struct S_8016B0E8_8 {
     u8 pad_00[0xAC];
@@ -173,7 +171,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register u8 * direction_animations;
     register s32 actor_flags;
     s32 actor_index;
-    register s32 actors_left ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
     register u32 level_index;
     u16 facing_flags;
     register s16 prior_state;
@@ -265,7 +263,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     }
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     if ((*(u16 *)D_80013714) & 8) {
-        actors_left = 1;
+        actor_index = 1;
         slot_cursor = ((Rec_D_800E3D7C *)(&D_800E3D7C))->unk_00.at00_s32.v + 4;
         do {
             linked_entry = ((S_8016B0E8_8 *)slot_cursor)->unk_AC;
@@ -273,9 +271,9 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 linked_sprite = ((S_8016B0E8_9_pre *)linked_entry)[-1].unk_00;
                 ((S_8016B0E8_10 *)linked_sprite)->unk_14 = (u16) (((S_8016B0E8_10 *)linked_sprite)->unk_14 & 0xFFBF);
             }
-            actors_left -= 1;
+            actor_index -= 1;
             slot_cursor -= 4;
-        } while (actors_left >= 0);
+        } while (actor_index >= 0);
     }
     if (((S_8016B0E8_0 *)entity)->unk_B0.n != 0) {
         countdown = ((S_8016B0E8_0 *)entity)->unk_B1 - 1;
