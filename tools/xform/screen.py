@@ -10,12 +10,24 @@ scorer runs.
 
 Normalisation: only the lines between `.ent` and `.end` (every function in the file), comments and
 `#APP`/`#NO_APP` dropped (an empty volatile asm pin leaves nothing else), `.loc/.frame/.mask/.fmask/
-.set` dropped, whitespace collapsed, `$L` labels renumbered in order of appearance.  Address
+.set` dropped, whitespace collapsed, branch-target labels renumbered in order of appearance.  Address
 constants are reduced to the halves the assembler emits, so two spellings of one address compare
 equal: `li $r,0xNNNN0000` is `lui $r,0xNNNN`; `%hi(D_XXXXXXXX+K)` / `%lo(...)` are the carry-adjusted
 halves of that address (the symbol's name IS its address); `addu $r,$s,IMM` is `addiu`.  Measured
 2026-09-12 on 177 pairs of byte-exact texts (two landing commits): before, 8 compared unequal - 7 of
 them `basesym`/host rewrites that respell an address - and after, only one (a moved `sw $31`).
+
+ASSEMBLER-LOCAL LABELS (2026-09-21, the t91_absfresh family).  A multi-instruction insn template can
+emit numeric local labels instead of `$L` ones: MIPS `abssi2` (mips.md) is `bgez %1,1f; move %0,%1;
+subu %0,$0,%0; 1:` and the zero-division check is `bne %2,$0,1f; break 7; 1:`.  Numbering only the
+`$L` labels made a byte-exact `abs()` rewrite compare 26-74 lines away from the pinned listing it
+assembles identically to: the two `1:` lines differed textually AND the pinned text's two extra `$L`
+labels shifted every later `$L` number.  So the two label spellings now share one space: each `N:`
+definition gets a synthetic name, each `Nf`/`Nb` reference is resolved to the definition the
+assembler would pick (next/previous `N:`), and then ALL labels - `$L` and synthetic alike - are
+renumbered by order of first appearance.  A listing with no numeric local label normalises exactly
+as it did before this change.  The no-op `move $r,$r` is dropped as well (final.c never emits one;
+the rule is there so an insn template that does cannot shift the comparison).
 
 Assembler-side pins are invisible here: erasing `ASM_SCHED_BARRIER`, `ASM_JALDELAY_PIN`,
 `ASM_TAILSLOT_PIN` and the like can leave cc1's listing identical while maspsx's output changes (29
@@ -35,8 +47,8 @@ def _run(args, **kwargs):
     return subprocess.run(args, timeout=float(os.environ.get("PIN_CC_TIMEOUT", "30")), **kwargs)
 
 
-def compile_s(row, text):
-    """Normalised cc1 assembly lines for `text` compiled as `row` (None if it does not build)."""
+def _listing(row, text):
+    """cc1's raw assembly lines for `text` compiled as `row` (None if it does not build)."""
     cell, flags = parse_cfg(row["cfg"])
     D = ROOT / "toolchain/compilers" / ("gcc-" + cell)
     with tempfile.TemporaryDirectory(prefix="screen_") as td:
@@ -51,8 +63,21 @@ def compile_s(row, text):
                            capture_output=True, text=True)
         if r.returncode:
             return None
-        src = (d / "f.s").read_text(errors="replace").splitlines()
-    out, lab, inside = [], {}, False
+        return (d / "f.s").read_text(errors="replace").splitlines()
+
+
+def compile_s(row, text):
+    """Normalised cc1 assembly lines for `text` compiled as `row` (None if it does not build)."""
+    src = _listing(row, text)
+    return None if src is None else normalise(src)
+
+
+_NOOP_MOVE = re.compile(r"^move (\$\w+),\1$")
+
+
+def normalise(src):
+    """The normalisation of a raw cc1 listing (see the module docstring)."""
+    out, inside = [], False
     for ln in src:
         s = ln.split("#")[0].strip()
         if s.startswith(".ent"):
@@ -65,14 +90,40 @@ def compile_s(row, text):
         if not inside or not s or s.startswith((".loc", ".frame", ".mask", ".fmask", ".set")):
             continue
         s = re.sub(r"\s+", " ", s)
-        s = re.sub(r"\$L\d+", lambda m: lab.setdefault(m.group(0), "L%d" % len(lab)), s)
+        if _NOOP_MOVE.match(s):
+            continue
         out.append(_addr(s))
-    return out
+    return _labels(out)
 
 
 _HILO = re.compile(r"%(hi|lo)\(D_([0-9A-Fa-f]{8})\s*([+-]\s*(?:0x[0-9A-Fa-f]+|\d+))?\)")
 _LI = re.compile(r"^li (\$\w+),(-?(?:0x[0-9A-Fa-f]+|\d+))$")
 _ADDU_IMM = re.compile(r"^addu (\$\w+),(\$\w+),(-?(?:0x[0-9A-Fa-f]+|\d+))$")
+_NUMDEF = re.compile(r"^(\d+):$")                     # `1:` - an assembler-local label definition
+_NUMREF = re.compile(r"(?<![\w$.])(\d+)([fb])(?![\w])")   # `1f` / `1b` - forward / backward to it
+_LABEL = re.compile(r"\$L(?:N\d+_\d+|\d+)")           # `$L18` and the synthetic `$LN1_0`
+
+
+def _labels(lines):
+    """Numeric local labels mapped into the `$L` space, then every label renumbered by appearance."""
+    at = {}                                            # number -> [line index of each definition]
+    for i, s in enumerate(lines):
+        m = _NUMDEF.match(s)
+        if m:
+            at.setdefault(m.group(1), []).append(i)
+    if at:
+        syn = {i: "$LN%s_%d" % (num, k) for num, idxs in at.items() for k, i in enumerate(idxs)}
+
+        def ref(m, i=0):
+            idxs = at.get(m.group(1), [])
+            j = ([x for x in idxs if x > i] or [None])[0] if m.group(2) == "f" else \
+                ([x for x in idxs if x < i] or [None])[-1]
+            return m.group(0) if j is None else syn[j]
+
+        lines = [syn[i] + ":" if i in syn else _NUMREF.sub(lambda m, i=i: ref(m, i), s)
+                 for i, s in enumerate(lines)]
+    lab = {}
+    return [_LABEL.sub(lambda m: lab.setdefault(m.group(0), "L%d" % len(lab)), s) for s in lines]
 
 
 def _halves(v):
