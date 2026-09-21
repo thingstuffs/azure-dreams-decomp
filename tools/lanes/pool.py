@@ -351,6 +351,8 @@ def parse(argv=None):
     ap.add_argument("--probe-retries", type=int, default=2)
     ap.add_argument("--probe-wait", type=int, default=1800)
     ap.add_argument("--stop-after-zero", type=int, default=0)
+    ap.add_argument("--wait-for-sentinel", default="", help="FILE:TOKEN - start only once TOKEN appears in FILE")
+    ap.add_argument("--wait-for-pid", type=int, default=0, help="start only once this pid has exited")
     ap.add_argument("--note", default="duck-briefed pool (tools/lanes/pool.py)")
     ap.add_argument("--root", default=str(ROOT))
     return ap.parse_args(argv)
