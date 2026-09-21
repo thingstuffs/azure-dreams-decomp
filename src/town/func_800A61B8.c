@@ -51,15 +51,14 @@ state_zero:
         phase = (s16)(anim->unk_08.s + 0x1BC0);
         anim->unk_06 += 2;
         phase %= 0x1C00;
+        anim->unk_08.u = phase;
     } else {
         phase = (s16)(anim->unk_08.s + 0x1B71);
         anim->unk_06 += 1;
         phase %= 0x1C00;
+        anim->unk_08.u = phase;
     }
-    anim->unk_08.u = phase;
-    do {
-        anim->unk_00++;
-    } while (0);
+    anim->unk_00++;
     if (((S_800A3918_1 *)D_8008274C)->unk_74 == &D_800C5100) {
         anim->unk_02 = 1;
     }
@@ -85,13 +84,13 @@ state_one:
         phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.u);
         anim->unk_06 += 2;
         phase %= 0x1C00;
+        anim->unk_08.u = phase;
     } else {
         phase = (s16)(anim->unk_08.s + 0x1C00 - anim->unk_14.s * 2);
         anim->unk_06 += 1;
         phase %= 0x1C00;
+        anim->unk_08.u = phase;
     }
-    anim->unk_08.u = phase;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     anim->unk_00++;
 
 finish:

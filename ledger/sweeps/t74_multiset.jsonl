@@ -145,3 +145,4 @@
 {"id":"dungeon/func_800BAAD0","transform":"t74_multiset","in_sha":"9b5e8e9b6cedd6cb511f0f1933067d6c629870cc89c837fe7b9829a81a409b3c","from_clean":true,"size":468,"outcome":"refused","reason":"no pins","at":"2026-09-21T00:15:24Z"}
 {"id":"town/func_80090320","transform":"t74_multiset","in_sha":"11c1ff1977e3472153a3d135360e6b67d543aa24b306c6aaca7410a96c2f50e4","from_clean":true,"size":1332,"outcome":"refused","reason":"no pins","at":"2026-09-21T00:46:11Z"}
 {"id":"town/func_8081E410","transform":"t74_multiset","in_sha":"a7c0693850f3f65fa0137db31adf646f68ad03f01eca34a01b976378c40e06f8","from_clean":true,"size":1428,"outcome":"refused","reason":"no pins","at":"2026-09-21T00:46:11Z"}
+{"id":"town/func_800A61B8","transform":"t74_multiset","in_sha":"e829ae828bdeafb880f62ad592316e0e14622519e9a824d6541007fb70550fd6","from_clean":true,"size":516,"outcome":"refused","reason":"no pins","at":"2026-09-21T01:15:24Z"}
