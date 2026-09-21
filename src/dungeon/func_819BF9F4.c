@@ -135,7 +135,6 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     s32 quad_word_2;
     s32 quad_word_3;
     register s32 quad_word_4 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 quad_word_5 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 tile_u;
     s32 tile_v;
     s32 uv_span;
@@ -147,11 +146,11 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
     s32 tile_offset;
     s32 uv_scratch;
     register s32 tile_end_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 tile_max ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 tile_max;
     s16 tile_min;
     s32 signed_z;
     u32 template_x;
-    register u32 template_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 template_y;
     register u32 coord_bits ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *y_position;
     void *z_position;
@@ -183,9 +182,8 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
                 min_x + (position_jitter & 0x3F);
             position_jitter = func_80069EF8();
             template_x = (u16)saved_x;
-            ASM_KEEP(template_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             position_jitter &= 0x3F;
-            template_y = (u16)stack.coord2;
+            template_y = stack.coord2 & 0xFFFF;
             coord_bits = (u16)stack.coord2;
             y_position = ((S_800251F4_1 *)particle)->unk_08;
             ASM_KEEP(y_position);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -208,9 +206,9 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             UNALIGNED(particle, 0x5A) = quad_word_2;
             UNALIGNED(particle, 0x5E) = quad_word_3;
             quad_word_4 = UNALIGNED(quad_template, 0x10);
-            quad_word_5 = UNALIGNED(quad_template, 0x14);
+            template_x = UNALIGNED(quad_template, 0x14);
             UNALIGNED(particle, 0x62) = quad_word_4;
-            UNALIGNED(particle, 0x66) = quad_word_5;
+            UNALIGNED(particle, 0x66) = template_x;
 
             if (((S_800251F4_0 *)particle_work)->unk_3A > ((S_800251F4_0 *)particle_work)->unk_44) {
                 min_u = ((S_800251F4_0 *)particle_work)->unk_44;
@@ -241,7 +239,8 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             tile_offset = tile_offset * tile_size;
             uv_span = end_v - min_v;
             uv_scratch = min_u;
-            tile_max = uv_scratch + tile_end_offset - 1;
+            tile_max = uv_scratch + tile_end_offset;
+            tile_max -= 1;
             ((S_800251F4_0 *)particle_work)->unk_3E = tile_max;
             ((S_800251F4_0 *)particle_work)->unk_3A = tile_max;
             tile_min = uv_scratch + tile_offset;
@@ -257,7 +256,8 @@ void func_800251F4(s32 unused, s32 center_x, s16 center_y, s16 center_z)
             tile_end_offset = uv_scratch * tile_size;
             tile_offset = tile_offset * tile_size;
             uv_scratch = min_v;
-            tile_max = uv_scratch + tile_end_offset - 1;
+            tile_max = uv_scratch + tile_end_offset;
+            tile_max -= 1;
             ((S_800251F4_0 *)particle_work)->unk_47 = tile_max;
             ((S_800251F4_0 *)particle_work)->unk_3F = tile_max;
             tile_min = uv_scratch + tile_offset;

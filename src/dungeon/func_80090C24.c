@@ -82,6 +82,7 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     s32 signed_target;
     s32 signed_angle;
     u32 angle;
+    u32 angle_2;
     s32 next_angle;
     s32 action_bit;
     s32 data_flags;
@@ -183,7 +184,6 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                         turn_angle = wrapped_angle;
                         angle_bits = turn_angle << 16;
                         signed_target = angle_bits >> 16;
-                        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                         signed_angle = ((S_80096384_3 *)actor_data)->unk_2A.s;
                         angle = ((S_80096384_3 *)actor_data)->unk_2A.u;
                         angle_distance = signed_angle - signed_target;
@@ -195,12 +195,12 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                                 ((turn_angle & ~0xFFF) | (angle & 0xFFF));
                         }
                         signed_angle = ((S_80096384_3 *)actor_data)->unk_2A.s;
-                        angle = ((S_80096384_3 *)actor_data)->unk_2A.u;
+                        angle_2 = ((S_80096384_3 *)actor_data)->unk_2A.u;
                         next_angle = signed_target < signed_angle;
                         if (!next_angle) {
-                            next_angle = angle + 0x200;
+                            next_angle = angle_2 + 0x200;
                         } else {
-                            next_angle = angle - 0x200;
+                            next_angle = angle_2 - 0x200;
                         }
                         ((S_80096384_3 *)actor_data)->unk_2A.u = next_angle;
                         func_8009F988(turn_angle, signed_target);

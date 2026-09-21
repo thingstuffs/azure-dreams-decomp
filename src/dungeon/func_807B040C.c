@@ -256,15 +256,14 @@ next_direction:
 move_entity:
     {
         register s32 world_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 tile_origin_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s32 aligned_x;
 
         world_x = ((S_807B040C_1 *)entity)->unk_AA.s16 << 6;
         ASM_KEEP_NV(world_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         world_x += 0x20;
-        tile_origin_y = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
-        ASM_KEEP_NV(tile_origin_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        distance_y = tile_origin_y + 0x20;
+        move_ticks = ((S_807B040C_1 *)entity)->unk_AE.s16 << 6;
+        ASM_KEEP_NV(move_ticks);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        distance_y = move_ticks + 0x20;
         aligned_x = world_x & 0xFFE0;
         ground_height = func_800BCB04(aligned_x, distance_y & 0xFFE0, -0x400);
     }

@@ -100,10 +100,10 @@ void func_8009DAD8(s32 arg0) {
     firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;
+        firstContext = arg0;
+    } else {
+        firstContext = arg0;
     }
-
-    firstContext = arg0;
-    ASM_KEEP(firstContext);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pageOrTwo = 0x80080000;
     ASM_KEEP(pageOrTwo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     playerAndIndex = pageOrTwo + 0x2e80;

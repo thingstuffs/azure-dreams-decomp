@@ -129,7 +129,8 @@ void func_800242D4(void *self, void *coords)
     S_8199AAD4_5 *object_entry;
     S_8199AAD4_9 *created;
     register u8 *table_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u8 *table_start ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *table_start;
+    u8 *table_start_2;
     s32 entry_offset;
     s32 arc_height;
     s32 flags_value;
@@ -226,7 +227,7 @@ state_two:
     ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     table_end = (u8 *)object_entry + 0x4AE0;
     object_entry = ((S_8199AAD4_0 *)self)->unk_04;
-    table_start = table_end - 0x54;
+    table_start_2 = table_end - 0x54;
     start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
     start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
     target_node = object_entry->unk_08;
@@ -272,7 +273,7 @@ state_two:
 
     ((S_8199AAD4_0 *)self)->unk_10.u += 0xC;
     if (((S_8199AAD4_0 *)self)->unk_10.u >= table_end) {
-        ((S_8199AAD4_0 *)self)->unk_10.u = table_start;
+        ((S_8199AAD4_0 *)self)->unk_10.u = table_start_2;
     }
     func_800244DC();
     iteration = (u8 *)iteration + 1;

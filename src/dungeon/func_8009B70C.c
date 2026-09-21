@@ -235,8 +235,7 @@ L_BB24: {
         }
         scan_s0 = (tail >> 9) & 7;
         s0 = scan_s0;
-        bitmap_idx = scan_s0;
-        ASM_KEEP_NV(bitmap_idx);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        bitmap_idx = (s16)scan_s0;
         if (bitmap[bitmap_idx] == 0) {
             bitmap_idx <<= 1;
             bit_next = (u8 *)(bitmap_idx + (s32)x_offsets);

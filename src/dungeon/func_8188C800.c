@@ -229,9 +229,7 @@ typedef struct S_FUNC_8188C800_BODY_23 {
 
 static __inline__ s32 align_effect_coord(s32 coord)
 {
-    coord <<= 6;
-    coord += 32;
-    return coord & 0xFFE0;
+    return ((coord << 6) + 32) & 0xFFE0;
 }
 
 /* Updates a moving effect through initialization, travel, impact, and fading. */
@@ -283,22 +281,11 @@ void FUNC_8188C800_BODY(void *effect_data, void *motion_data, void *part_data)
 case_0:
     {
         s32 scratch[4];
-#ifdef __mips__
         u32 color = 0x00808080;
         u32 init_flags = 0x01000340;
         u32 init_size = 0x00200020;
-        u8 *effect_page = (u8 *)0x80020000;
-        register u8 *effect_params ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(effect_page);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#else
-        u32 color = 0x00808080;
-        u32 init_flags = 0x01000340;
-        u32 init_size = 0x00200020;
-        u8 *effect_page = D_80026484;
         u8 *effect_params;
-#endif
-        effect_params = effect_page;
-        effect_params += 0x6484;
+        effect_params = D_80026484;
         ((S_FUNC_8188C800_BODY_2 *)part)->unk_0C.at00.v = color;
         ((S_FUNC_8188C800_BODY_2 *)part)->unk_1E = 0x555;
         ((S_FUNC_8188C800_BODY_2 *)part)->unk_1C = 0x555;
@@ -310,7 +297,7 @@ case_0:
         ((S_FUNC_8188C800_BODY_7 *)D_800265C4)->unk_00 = 0;
         {
             u16 owner_flags = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_2A;
-            ((S_FUNC_8188C800_BODY_9 *)effect_page)->unk_6484 = 0x1010;
+            *(u16 *)D_80026484 = 0x1010;
             ((S_FUNC_8188C800_BODY_10 *)effect_params)->unk_08 = 0;
             ((S_FUNC_8188C800_BODY_0 *)self)->unk_16.u = (owner_flags >> 9) & 7;
         }
@@ -537,7 +524,6 @@ case_0_count_tail:
             s32 x = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02p.v);
             s32 height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02u.v;
             s32 y;
-            ASM_USE_NV(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             y = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03u.v);
             if ((func_800A45D8(x, y, height) << 16) == 0) {
                 goto done;

@@ -99,10 +99,10 @@ valid_index:
             entry = (u8 *)(found * 12);
             entry += (s32)entry_base;
             func_8009A3D0(entry[0], entry[1], 0x800);
+            ((void **)0x80010248)[index] = *(void **)D_80081470;
+        } else {
+            ((void **)0x80010248)[index] = *(void **)D_80081470;
         }
-
-        ((void **)0x80010248)[index] = *(void **)D_80081470;
-        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         narrowed = (s32)D_800814A8;
         narrowed = *(s32 *)(narrowed + 0xF0);
         *(s32 *)narrowed = 0;

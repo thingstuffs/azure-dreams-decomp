@@ -94,6 +94,7 @@ extern void *jtbl_8002D67C[];
 /* Dispatch entity actions, update flags, and create a replacement entity when requested. */
 void func_80042BDC(S_80042BDC *ent, s16 action) {
     S_80042BDC *spawn_result;
+    S_80042BDC *spawn_result_2;
     S_80042BDC *message_ctx;
     S_80042BDC_child *child;
     s32 action_index;
@@ -224,15 +225,13 @@ L_10: {
             S_80042BDC *resource = func_800A1618(ent->x13, spawn_mode);
             tile_mask = 0x3000;
             {
-                u32 spawn_bit = 0x10000;
-                ASM_KEEP(spawn_bit);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
-                ent->x1C |= spawn_bit;
+                ent->x1C |= ((u32)(0x10000));
             }
             spawn_result = resource;
         }
         is_registered = (ent->x14 >> 14) & 1;
         {
-            register int tile_x ASM_REG("$2") = child->x24;   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
+            int tile_x = child->x24;
             int tile_y = child->x25;
             if (ent->x1C & 0x2000) {
                 tile_mask = 0x300;
@@ -243,21 +242,21 @@ L_10: {
 
         create_entity = func_800A0B94(ent->x13, spawn_result, 1);
         func_8003F320();
-        spawn_result = create_entity(is_registered, child->x24, child->x25, ent->x88);
+        spawn_result_2 = create_entity(is_registered, child->x24, child->x25, ent->x88);
 
-        spawn_result->x14 = 0;
-        spawn_result->x1C = 0;
+        spawn_result_2->x14 = 0;
+        spawn_result_2->x1C = 0;
         has_owner = (ent->x1C >> 19) & 1;
-        func_80042710(spawn_result, ent);
-        func_80042984(spawn_result);
+        func_80042710(spawn_result_2, ent);
+        func_80042984(spawn_result_2);
 
         if (D_80083460.x2 & 0x1000) {
             if (ent->x71 > (s16)ent->x8A) {
                 D_80083460.x8 -= (ent->x71 - ent->x8A);
             }
         }
-        func_800A9A0C(spawn_result);
-        spawn_result->x1C &= ~0x10000;
+        func_800A9A0C(spawn_result_2);
+        spawn_result_2->x1C &= ~0x10000;
 
         if (ent->x14 & 0x4000) {
             u8 *slot_base;
@@ -268,26 +267,26 @@ L_10: {
             slot_base = (u8 *)((s16)slot_index * 4 + (u32)D_800E3D7C[0]);
             slot_data = *(u8 **)(slot_base + 0xD0);
             entity_index = *(u8 *)(slot_data + 3) & 0x1F;
-            D_800E3DF0[entity_index] = spawn_result;
-            *(S_80042BDC **)(slot_base + 0xAC) = spawn_result;
+            D_800E3DF0[entity_index] = spawn_result_2;
+            *(S_80042BDC **)(slot_base + 0xAC) = spawn_result_2;
         }
 
         {
             int attach_owner = has_owner;
             if (attach_owner) {
-                S_80042BDC *owned_ent = spawn_result;
+                S_80042BDC *owned_ent = spawn_result_2;
                 u8 *owner_data;
                 ASM_KEEP_NV(owned_ent);   /* UNRESOLVED C shape (pin): removing it slus-diff; the source shape that makes it unnecessary has not been found */
                 owner_data = D_800E3D7C[0];
-                *(S_80042BDC **)(owner_data + 0x124) = spawn_result;
-                spawn_result->x60 = owner_data;
-                spawn_result->x1C |= 0x80000;
-                func_800AA888(owned_ent, *(int *)((u8 *)spawn_result - 0x18), *(int *)((u8 *)spawn_result - 0x14), spawn_result);
-                func_800AC82C(spawn_result, *(int *)((u8 *)spawn_result - 0x18), *(int *)((u8 *)spawn_result - 0x14), spawn_result);
+                *(S_80042BDC **)(owner_data + 0x124) = spawn_result_2;
+                spawn_result_2->x60 = owner_data;
+                spawn_result_2->x1C |= 0x80000;
+                func_800AA888(owned_ent, *(int *)((u8 *)spawn_result_2 - 0x18), *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
+                func_800AC82C(spawn_result_2, *(int *)((u8 *)spawn_result_2 - 0x18), *(int *)((u8 *)spawn_result_2 - 0x14), spawn_result_2);
             } else {
-                if (spawn_result->x25 == 0) {
+                if (spawn_result_2->x25 == 0) {
                     D_80083460.xA += 1;
-                    spawn_result->x1C &= ~0x8;
+                    spawn_result_2->x1C &= ~0x8;
                 }
             }
         }
@@ -296,7 +295,7 @@ L_10: {
         func_8009A028(ent);
         *(u16 *)((u8 *)ent - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        ent = spawn_result;
+        ent = spawn_result_2;
 
     L_print4B:
         if (ent->x14 & 0x4000) {

@@ -79,8 +79,9 @@ void func_801747F0(void *motion, void *position, void *object)
     s16 frames_left;
     u16 next_scale;
     u16 height;
+    u16 height_2;
     u32 tile_distance;
-    u8 *direction;
+    S_801747F0_3 *direction;
     u8 *directions;
     s32 target_cell_y;
     s32 next_cell_x;
@@ -181,8 +182,8 @@ fall:
     ((S_801747F0_2 *)object)->unk_1E = next_scale;
     ((S_801747F0_2 *)object)->unk_1C = next_scale;
     {
-        register s32 fall_cell_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register s32 fall_cell_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 fall_cell_x;
+        s32 fall_cell_y;
         fall_cell_x = ((S_801747F0_0 *)motion)->unk_50.s;
         fall_cell_y = ((S_801747F0_0 *)motion)->unk_51.s;
         height = ((S_801747F0_1 *)position)->unk_08.at02u.v;
@@ -222,13 +223,13 @@ flight:
         ((S_801747F0_0 *)motion)->unk_58 = velocity_y;
     }
     direction = (((S_801747F0_0 *)motion)->unk_24 * 4) + directions;
-    next_cell_x = ((S_801747F0_0 *)motion)->unk_50.s + ((S_801747F0_3 *)direction)->unk_00;
+    next_cell_x = ((S_801747F0_0 *)motion)->unk_50.s + direction->unk_00;
     x = ((S_801747F0_1 *)position)->unk_00.at02.v;
     if (x < 0) {
         x += 0x3F;
     }
     if (next_cell_x == (x >> 6)) {
-        next_cell_y = ((S_801747F0_0 *)motion)->unk_51.s + ((S_801747F0_3 *)direction)->unk_02;
+        next_cell_y = ((S_801747F0_0 *)motion)->unk_51.s + direction->unk_02;
         y = ((S_801747F0_1 *)position)->unk_04.at02.v;
         if (y < 0) {
             y += 0x3F;
@@ -256,11 +257,11 @@ blocked:
     }
     ((S_801747F0_1 *)position)->unk_08.at00.v += ((S_801747F0_0 *)motion)->unk_5C;
     ((S_801747F0_0 *)motion)->unk_5C += ((S_801747F0_0 *)motion)->unk_68;
-    height = ((S_801747F0_1 *)position)->unk_08.at02u.v;
+    height_2 = ((S_801747F0_1 *)position)->unk_08.at02u.v;
     flight_height = ((S_801747F0_1 *)position)->unk_08.at02.v;
     if ((func_800BCB04((((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
                        (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,
-                       (s16)(height - 0x20)) - 0x10) < flight_height) {
+                       (s16)(height_2 - 0x20)) - 0x10) < flight_height) {
         ((S_801747F0_1 *)position)->unk_08.at02.v = func_800BCB04(
             (((S_801747F0_0 *)motion)->unk_50.s << 6) & 0xFFC0,
             (((S_801747F0_0 *)motion)->unk_51.s << 6) & 0xFFC0,

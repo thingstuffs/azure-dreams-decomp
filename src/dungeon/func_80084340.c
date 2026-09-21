@@ -67,7 +67,6 @@ extern void *D_800E3D7C;
 extern void *D_800E3DE8;
 extern s32 D_800E4948;
 
-
 typedef struct S_80089AA0_0 {
     u8 pad_00[0x10];
     s32 unk_10;
@@ -298,14 +297,13 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     M2C_UNK *turn_status;
     M2C_UNK *loop_status;
     M2C_UNK *input_status;
-    M2C_UNK *callback_page;
     s32 facing;
     s32 state_or_address;
     s16 floor_height;
     s32 *previous_input;
     s32 flags_or_height;
-    register s32 height_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 record_callback;
+    s32 height_limit;
+    s32 height_or_callback;
     s32 turn_sign;
     s32 retry_callback;
     register s32 companion_index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -319,7 +317,6 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     u16 final_flags;
     u16 turn_flags;
     u16 air_flags;
-    u16 previous_height;
     u16 fall_flags;
     u16 phase_flags;
     u16 next_flags;
@@ -524,18 +521,17 @@ update_actor_state:
                                 func_800A4ACC(actor);
                                 current_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
                                 if (current_callback == (Callback4)D_80096384) {
-                                    callback_page = &D_80083460;
+
                                     if ((func_80042900(actor, 0xA) << 0x10) == 0) {
-                                        callback_status = (void *)0x80080000;
-                                        ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+
                                         state_or_address = (s32)&D_8008ACDC;
-                                        callback_status = (u8 *)callback_status + 0x3460;
+                                        callback_status = &D_80083460;
                                         (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
                                         goto mark_callback_change;
                                     }
                                     goto clear_turn_flags;
                                 }
-                                callback_page = (M2C_UNK *)0x80080000;
+
                                 if (current_callback == (Callback4)&D_8008ACDC) {
                                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
                                         callback_status = (u8 *)&D_80083460;
@@ -552,9 +548,8 @@ mark_callback_change:
                             ((S_80089AA0_12 *)callback_status)->unk_02 =
                                 (u16)(((S_80089AA0_12 *)callback_status)->unk_02 | 4);
 clear_turn_flags:
-                            callback_status = (void *)0x80080000;
-                            ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                            callback_status = (u8 *)callback_status + 0x3460;
+
+                            callback_status = &D_80083460;
                             ((S_80089AA0_12 *)callback_status)->unk_02 =
                                 (u16)(((S_80089AA0_12 *)callback_status)->unk_02 & 0xBFFB);
                             (*(u32 *)((u8 *)actor + 0x14)) &= 0x7FFE7FFF;
@@ -697,15 +692,16 @@ store_a2_flags:
 adjust_floor_height:
             flags_or_height = (*(s32 *)((u8 *)actor + 0x1C));
             if (flags_or_height & 0x40000000) {
-                previous_height = (*(u16 *)((u8 *)actor + 0x88));
+
                 state_or_address = flags_or_height & 0xBFFFFFFF;
+                height_or_callback = (*(u16 *)((u8 *)actor + 0x88));
                 (*(s32 *)((u8 *)actor + 0x1C)) = state_or_address;
-                height_limit = previous_height;
+                height_limit = height_or_callback;
                 ASM_KEEP(height_limit);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 height_limit -= 0x20;
                 height_limit <<= 16;
                 height_limit >>= 16;
-                (*(u16 *)((u8 *)actor + 0x8A)) = previous_height;
+                (*(u16 *)((u8 *)actor + 0x8A)) = height_or_callback;
                 flags_or_height = (s16)func_800BCB04((((S_80089AA0_16 *)sprite_or_root)->unk_24 << 6) | 0x20, (((S_80089AA0_16 *)sprite_or_root)->unk_25 << 6) | 0x20, height_limit);
                 (*(s16 *)((u8 *)linked_actor + 0x92)) = (s16) ((u16) (*(s16 *)((u8 *)linked_actor + 0x92)) + ((*(u16 *)((u8 *)actor + 0x88)) - flags_or_height));
                 (*(u16 *)((u8 *)actor + 0x88)) = (u16) flags_or_height;
@@ -827,11 +823,11 @@ clear_linked_flags:
             if (linked_actor != actor) {
                 do {
                     record_or_page = linked_actor - 0x20;
-                    record_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
+                    height_or_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
                     D_800E3DE8 = ((S_80089AA0_19 *)linked_actor)->unk_5C.p;
-                    if (record_callback > 0) {
-                        record_callback |= 0x80000000;
-                        ((M2C_UNK (*)(void *, s32, s32)) record_callback)(linked_actor, ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
+                    if (height_or_callback > 0) {
+                        height_or_callback |= 0x80000000;
+                        ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)(linked_actor, ((S_80089AA0_1 *)record_or_page)->unk_08, ((S_80089AA0_1 *)record_or_page)->unk_0C);
                     }
                     linked_actor = (u8 *)D_800E3DE8 + 0x20;
                 } while (linked_actor != actor);
@@ -912,9 +908,9 @@ run_linked_callback:
                 s32 callback_context;
                 callback_context = ((S_80089AA0_1 *)record_or_page)->unk_08;
                 ASM_KEEP_NV(callback_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                record_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
-                record_callback |= state_or_address;
-                ((M2C_UNK (*)(void *, s32, s32)) record_callback)((u8 *)record_or_page + 0x20, callback_context, ((S_80089AA0_1 *)record_or_page)->unk_0C);
+                height_or_callback = ((S_80089AA0_1 *)record_or_page)->unk_10;
+                height_or_callback |= state_or_address;
+                ((M2C_UNK (*)(void *, s32, s32)) height_or_callback)((u8 *)record_or_page + 0x20, callback_context, ((S_80089AA0_1 *)record_or_page)->unk_0C);
             }
             if (!(((S_80089AA0_1 *)record_or_page)->unk_1E & 0x8000)) {
                 if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {

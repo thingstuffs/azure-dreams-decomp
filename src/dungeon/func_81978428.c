@@ -150,7 +150,10 @@ void func_81978428(State81978428 *state, s32 *position_out)
     u16 timer;
     s32 state_index;
     s16 direction_offset;
-    register s32 tile_step ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 tile_step;
+    s32 tile_step_2;
+    s32 tile_step_3;
+    s32 tile_step_4;
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     timer = self->counter;
@@ -281,8 +284,8 @@ loop:
         tile_step = *(s16 *)((u32)direction_offset + (u32)x_steps);
         ((S_81978428_6 *)target_pos)->unk_02.u += tile_step << 6;
         direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
-        ((S_81978428_6 *)target_pos)->unk_06.u += tile_step << 6;
+        tile_step_2 = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
+        ((S_81978428_6 *)target_pos)->unk_06.u += tile_step_2 << 6;
         ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
     }
     ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
@@ -298,11 +301,11 @@ loop:
 
         player = *(u8 **)(player_page + 0x14A8);
         direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step = *(s16 *)((u32)direction_offset + (u32)x_steps);
-        ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step << 6;
+        tile_step_3 = *(s16 *)((u32)direction_offset + (u32)x_steps);
+        ((S_81978428_6 *)target_pos)->unk_02.u -= tile_step_3 << 6;
         direction_offset = (((S_81978428_5 *)player)->unk_2A.u >> 8) & 0xE;
-        tile_step = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
-        ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step << 6;
+        tile_step_4 = *(s16 *)((u32)direction_offset + (u32)map_or_y_steps);
+        ((S_81978428_6 *)target_pos)->unk_06.u -= tile_step_4 << 6;
         ((S_81978428_6 *)target_pos)->unk_0A.s = ((S_81978428_5 *)player)->unk_88.u;
         ((S_81978428_6 *)target_pos)->unk_0A.s = func_800BCAD0(target_pos);
         if (((S_81978428_6 *)target_pos)->unk_0A.u < 0x201) {

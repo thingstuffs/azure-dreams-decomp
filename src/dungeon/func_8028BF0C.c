@@ -91,7 +91,7 @@ void func_8001EF0C(void) {
     s32 trap_state;
     s16 floor_height;
     u32 initial_value;
-    register u32 flag_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 flag_bits;
     u16 flags;
     u8 trap_type;
     u8 existing_type;
@@ -186,8 +186,8 @@ void func_8001EF0C(void) {
             if (flag_bits != 0x3000) {
                 register u32 shifted_flag_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 register u8 *lookup_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                shifted_flag_bits = flag_bits << 16;
-                ASM_KEEP_NV(shifted_flag_bits);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                flag_bits <<= 16;
+                shifted_flag_bits = flag_bits;
                 lookup_base = (u8 *)(shifted_flag_bits >> 26);
                 trap_cost = (u32)lookup_base + 4;
                 if (trap_budget >= trap_cost) {
@@ -215,11 +215,9 @@ void func_8001EF0C(void) {
                         position[slot].flags = 0;
                         func_8009A21C(x, y, 0x20);
                         {
-                            u32 lookup_index;
-                            lookup_index = trap_type;
+                            flag_bits = trap_type;
                             lookup_base = D_800DF258;
-                            ASM_KEEP_DEP_NV(lookup_index, lookup_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                            value = *(s32 *)(lookup_base + (lookup_index << 2));
+                            value = *(s32 *)(lookup_base + (flag_bits << 2));
                         }
                         if (value < 0) {
                             func_8003DB94(&position[slot], value, 0);

@@ -1,6 +1,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_80070000[];
 extern u8 D_800E0000[];
 
 #define M2C_BREAK() 0
@@ -149,7 +150,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     u16 target_traits;
     u8 kind_check;
     S_8009C12C_4 *target_data;
-    register s16 *opposite_x_ptr ASM_REG("$5");
+    s16 *opposite_x_ptr;
     register u16 direction_value ASM_REG("$12");
     register s32 effect_x ASM_REG("$4");
     register s32 step_distance ASM_REG("$9");
@@ -174,7 +175,6 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
 #endif
     ((S_8009C12C_0 *)attacker_in)->unk_73 = 0;
     ((S_8009C12C_0 *)attacker_in)->unk_72 = 0;
-    ASM_KEEP(direction);
     homes.arg2 = direction;
     target = ((S_8009C12C_0 *)attacker_in)->unk_60;
     message_state = modifier;
@@ -226,8 +226,10 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
                 message_state = 1;
             }
         }
+        ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
+    } else {
+        ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
     }
-    ((S_8009C12C_3 *)target)->unk_14 = (s32) (((S_8009C12C_3 *)target)->unk_14 | 0x01000000);
     if (((S_8009C12C_0 *)attacker_in)->unk_14.s32 & 0x04000000) {
         func_800B4C7C(3, target, -1, 0);
         if (((S_8009C12C_0 *)attacker_in)->unk_13 >= 0) {
@@ -422,9 +424,9 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     ((S_8009C12C_0 *)attacker_in)->unk_60 = target;
     ((S_8009C12C_6 *)(void **)opposite_offset)->unk_3470 = target - 0x20;
     if (((S_8009C12C_0 *)attacker_in)->unk_1C & 0x01000000) {
+        opposite_x_ptr = (s16 *)(4);
         func_800A56E0(0x700);
         effect_flags = ((S_8009C12C_0 *)attacker_in)->unk_14.u16;
-        opposite_x_ptr = (s16 *)(4);
         effect_flags &= 0x2000;
         effect_flags <<= 0x10;
         effect_flags >>= 0x10;
@@ -442,10 +444,8 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     }
     effect_elements = attack_elements << 0x10;
     effect_elements >>= 0x10;
-    opposite_x_ptr = (s16 *)0x80070000;
-    ASM_KEEP(opposite_x_ptr);
     direction_value = homes.arg2;
-    opposite_x_ptr = (s16 *)((s32)opposite_x_ptr - 0x3328);
+    opposite_x_ptr = (s16 *)((s32)D_80070000 - 0x3328);
     opposite_offset = (direction_value >> 9) & 7;
     direction_offset = opposite_offset * 2;
     scaled_modifier = (s32)((s16 *)(direction_offset + (s32)opposite_x_ptr));

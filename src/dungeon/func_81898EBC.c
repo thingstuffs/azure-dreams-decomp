@@ -87,7 +87,6 @@ extern void *func_800D24A8(u8, s16, s16, s16);
 extern void func_80042640(void *, s32);
 extern s32 func_800A6D30(void);
 
-
 /* Update the effect's launch, movement, impact, and cleanup phases. */
 void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *color_part)
 {
@@ -121,23 +120,24 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
         ASM_SCHED_BARRIER();
 
         {
-            register u32 lookup_addr ASM_REG("$2") =
-                (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            register s32 start_x ASM_REG("$4") = U8_AT(lookup_addr, 0x24);
-            register s32 start_y ASM_REG("$5") = U8_AT(lookup_addr, 0x25);
+            register s32 start_x ASM_REG("$4");
+            register s32 start_y ASM_REG("$5");
             u32 origin_x;
             register u32 x_table ASM_REG("$7");
             u32 x_offset;
             u32 y_offset;
 
+            direction_x = (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
+            start_x = U8_AT(direction_x, 0x24);
+            start_y = U8_AT(direction_x, 0x25);
             x_table = (u32)D_8006CCD8_early;
-            lookup_addr = (u32)D_800814A8_early[0];
-            y_offset = U16_AT(lookup_addr, 0x2A);
+            direction_x = (u32)D_800814A8_early[0];
+            y_offset = U16_AT(direction_x, 0x2A);
             origin_x = origin[0x24];
             y_offset = (y_offset >> 8) & 0xE;
             x_offset = y_offset + x_table;
-            lookup_addr = (u32)D_8006CCE8_early;
-            y_offset += lookup_addr;
+            direction_x = (u32)D_8006CCE8_early;
+            y_offset += direction_x;
             x_offset = U16_AT(x_offset, 0);
             y_offset = U16_AT(y_offset, 0);
 

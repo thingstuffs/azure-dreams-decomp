@@ -169,18 +169,17 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                 ((S_80C96F24_4 *)render_state)->unk_14 |= 0x0C;
 
                 {
-                    register void *origin_ref ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                    ASM_SET(origin_ref);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    origin_ref = origin;
-                    ASM_KEEP_NV(origin_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                    ASM_SET(owner_ref);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    owner_ref = origin;
+                    ASM_KEEP_NV(owner_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     position = ((S_80C96F24_3 *)effect)->unk_08;
                     position->unk_00 =
-                        ((S_80C96F24_6 *)origin_ref)->unk_00;
+                        ((S_80C96F24_6 *)owner_ref)->unk_00;
                     position->unk_04 =
-                        ((S_80C96F24_6 *)origin_ref)->unk_04;
+                        ((S_80C96F24_6 *)owner_ref)->unk_04;
                     position->unk_08 =
-                        ((S_80C96F24_6 *)origin_ref)->unk_08 + 0x200000;
+                        ((S_80C96F24_6 *)owner_ref)->unk_08 + 0x200000;
                 }
 
                 render_state = ((S_80C96F24_3 *)effect)->unk_0C;

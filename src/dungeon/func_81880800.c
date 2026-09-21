@@ -77,10 +77,6 @@ void FUNC_81880800_BODY(void *effect_data, void *motion_data, void *part_data)
     s32 position;
     register s32 next_velocity ASM_REG("$4");
     s32 over_limit;
-    s32 x_pos;
-    register s32 x_vel ASM_REG("$5");
-    register s32 y_pos ASM_REG("$3");
-    s32 y_vel;
     s32 z_pos;
     s32 z_delta;
     s32 coord;
@@ -186,13 +182,13 @@ initialize:
             s32 owner_coord;
             s32 tile_distance;
             owner_coord = F(owner, s8, 0x72);
-            y_pos = F(source_data, u8, 0x24);
-            if (owner_coord == y_pos) {
+            z_pos = F(source_data, u8, 0x24);
+            if (owner_coord == z_pos) {
                 owner_coord = F(owner, s8, 0x73);
-                y_pos = F(source_data, u8, 0x25);
-                tile_distance = owner_coord - y_pos;
+                z_pos = F(source_data, u8, 0x25);
+                tile_distance = owner_coord - z_pos;
             } else {
-                tile_distance = owner_coord - y_pos;
+                tile_distance = owner_coord - z_pos;
             }
             if (tile_distance < 0) {
                 tile_distance = -tile_distance;
@@ -345,14 +341,8 @@ spawn_effect:
     goto finish;
 
 fade:
-    x_pos = F(motion, s32, 0);
-    x_vel = F(motion, s32, 0x0C);
-    y_pos = F(motion, s32, 4);
-    y_vel = F(motion, s32, 0x10);
-    x_pos += x_vel;
-    y_pos += y_vel;
-    F(motion, s32, 0) = x_pos;
-    F(motion, s32, 4) = y_pos;
+    F(motion, s32, 0) += F(motion, s32, 0x0C);
+    F(motion, s32, 4) += F(motion, s32, 0x10);
     z_delta = F(self, s16, 0x14) << 16;
     z_pos = F(motion, s32, 8);
     z_delta -= z_pos;

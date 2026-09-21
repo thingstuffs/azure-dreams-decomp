@@ -266,7 +266,6 @@ void func_80024BE8(void *effect_data, void *motion_data, void *sprite_data) {
     register void *source ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs source+offset); the source shape that makes it unnecessary has not been found */
     s32 state;
     void *target_graphics;
-    register void *source_graphics ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 impact_position ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 impact_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 particle_count_m ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -358,22 +357,22 @@ state_0:
                         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                         direction_table = D_8006CCD8;
                         direction_entry = direction_table + direction * 2;
-                        source_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
+                        target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;
                         tile_offset = *direction_entry;
-                        tile_coord = ((S_80024BE8_8 *)source_graphics)->unk_24;
+                        tile_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
                         direction_table = (u8 *)(tile_coord + tile_offset);
                         ((S_80024BE8_0 *)effect)->unk_A2 = (s32)direction_table;
                         direction_table = D_8006CCE8;
                         direction_entry = direction_table + ((S_80024BE8_0 *)effect)->unk_7E.s * 2;
-                        tile_coord = ((S_80024BE8_8 *)source_graphics)->unk_25;
+                        tile_coord = ((S_80024BE8_8 *)target_graphics)->unk_25;
                         tile_offset = *direction_entry;
                         direction_table = (u8 *)(tile_coord + tile_offset);
                         ((S_80024BE8_0 *)effect)->unk_A3 = (s32)direction_table;
                         tile_distance = ((S_80024BE8_3 *)source)->unk_72;
-                        source_coord = ((S_80024BE8_8 *)source_graphics)->unk_24;
+                        source_coord = ((S_80024BE8_8 *)target_graphics)->unk_24;
                         if (tile_distance == source_coord) {
                             tile_distance = ((S_80024BE8_3 *)source)->unk_73;
-                            source_coord = ((S_80024BE8_8 *)source_graphics)->unk_25;
+                            source_coord = ((S_80024BE8_8 *)target_graphics)->unk_25;
                         }
                         tile_distance -= source_coord;
                         if (tile_distance < 0) {
@@ -699,10 +698,10 @@ state_5:
             target = ((S_80024BE8_3 *)source)->unk_60;
             ((S_80024BE8_19 *)target)->unk_1C ^= target_flag;
             current_target = ((S_80024BE8_3 *)source)->unk_60;
-            source_graphics = ((S_80024BE8_20_pre *)current_target)[-1].unk_00;
-            ((S_80024BE8_21 *)source_graphics)->unk_0C = 0x80;
-            ((S_80024BE8_21 *)source_graphics)->unk_0D = 0x80;
-            ((S_80024BE8_21 *)source_graphics)->unk_0E = 0x80;
+            target_graphics = ((S_80024BE8_20_pre *)current_target)[-1].unk_00;
+            ((S_80024BE8_21 *)target_graphics)->unk_0C = 0x80;
+            ((S_80024BE8_21 *)target_graphics)->unk_0D = 0x80;
+            ((S_80024BE8_21 *)target_graphics)->unk_0E = 0x80;
             func_8009CE1C(((S_80024BE8_3 *)source)->unk_60, 0x10, ((S_80024BE8_0 *)effect)->unk_09, 2,
                 (s16)(((S_80024BE8_0 *)effect)->unk_7E.u << 9), source, 2);
         }

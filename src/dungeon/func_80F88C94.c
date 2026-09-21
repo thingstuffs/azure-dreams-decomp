@@ -122,7 +122,9 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 velocity_x;
     s32 velocity_z;
-    register s32 operand ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 operand;
+    s32 operand_4;
+    s32 operand_3;
     s32 operand_2;
     s32 index;
     s32 state;
@@ -181,10 +183,10 @@ void func_80172494(void *action, void *motion, void *map_actor, void *actor_arg)
 
     case 2:
         velocity_x = ((S_80172494_3 *)motion)->unk_0C;
-        operand = ((S_80172494_3 *)motion)->unk_10;
+        operand_3 = ((S_80172494_3 *)motion)->unk_10;
         ((S_80172494_3 *)motion)->unk_0C = velocity_x - (velocity_x >> 3);
         velocity_z = ((S_80172494_3 *)motion)->unk_14;
-        ((S_80172494_3 *)motion)->unk_10 = operand - (operand >> 3);
+        ((S_80172494_3 *)motion)->unk_10 = operand_3 - (operand_3 >> 3);
         ((S_80172494_3 *)motion)->unk_14 = velocity_z - (velocity_z >> 3);
         if ((((S_80172494_1 *)action)->unk_96.u == 4) ||
             (((Rec_D_80082E80 *)map_actor)->unk_14.at00_u16.v & 0x8000)) {
@@ -275,12 +277,12 @@ store_next_state:
                     operand = ((S_80172494_0 *)actor_arg)->unk_2A.s;
                     ((S_80172494_5 *)particle_motion)->unk_48 = 5;
                     ((S_80172494_5 *)particle_motion)->unk_18 = operand;
-                    operand = ((S_80172494_6 *)particle_sprite)->unk_14;
+                    operand_4 = ((S_80172494_6 *)particle_sprite)->unk_14;
                     ((S_80172494_6 *)particle_sprite)->unk_1E = 0x1000;
                     ((S_80172494_6 *)particle_sprite)->unk_1C = 0x1000;
                     ((S_80172494_6 *)particle_sprite)->unk_10 = 0x60;
                     ((S_80172494_6 *)particle_sprite)->unk_00 = particle_texture;
-                    ((S_80172494_6 *)particle_sprite)->unk_14 = operand | 0xC;
+                    ((S_80172494_6 *)particle_sprite)->unk_14 = operand_4 | 0xC;
                     result = ((S_80172494_7 *)particle_texture)->unk_04;
                     setup_value |= 0xC0C0;
                     ((S_80172494_6 *)particle_sprite)->unk_04 = 0;

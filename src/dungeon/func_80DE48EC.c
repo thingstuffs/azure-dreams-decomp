@@ -103,9 +103,8 @@ s32 func_801720EC(void *action_state, s32 update_arg, void *sprite, void *actor)
     }
 
     x_steps = (u8 *)&D_8006CCD8;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    x_delta = (u16 *)(x_steps + (direction << 1));
     delta_offset = direction << 1;
-    x_delta = (u16 *)(x_steps + delta_offset);
     ASM_KEEP_NV(delta_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     y_delta = (u16 *)((u8 *)&D_8006CCE8 + delta_offset);
     {

@@ -60,14 +60,13 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
     s16 forward_height;
     s16 adjacent_height;
     s16 range_height;
-    register s32 *tile_list ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 *tile_list;
     register s32 direction;
     s32 mode;
     register s32 entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 mode_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 forward_steps;
     s32 adjacent_steps;
-    register s32 range_steps ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u32 tile_z;
     u32 tile_x;
     u8 entry_id;
@@ -97,10 +96,10 @@ prepare_update:
         tile_list = &D_800BA6B8;
 update_tiles:
         angle = entity->angle2a;
-        do { D_800DF374 = entity; } while (0);
+        D_800DF374 = entity;
         D_800DF378 = selection;
         D_800DF37A = angle;
-        func_800403BC(tile_list);
+        func_800403BC(&D_800BA6B8);
         mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
         height = entity->height88;
@@ -161,8 +160,8 @@ update_tiles:
         entry_type = D_8006DE24[entry_id].type;
         if (entry_type == 1) {
             entry_value = D_800DF380[entry_id];
-            range_steps = entry_value & 0x1F;
-            if (range_steps > 0) {
+            forward_steps = entry_value & 0x1F;
+            if (forward_steps > 0) {
                 do {
                     range_height = height - 0x20;
                     tile_x += (s16) D_8006CCD8[direction];
@@ -172,8 +171,8 @@ update_tiles:
                         break;
                     }
                     func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFF);
-                    range_steps -= 1;
-                } while (range_steps > 0);
+                    forward_steps -= 1;
+                } while (forward_steps > 0);
             }
         } else if (entry_type == 2) {
             child = entity->child60;

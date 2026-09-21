@@ -103,7 +103,7 @@ void *func_800B0F50(void *owner)
       prim += 0x24;
       *((s32 *) (((s8 *) panel) + 0x60)) = color_or_addr;
       text_id = *((u16 *) (((s8 *) entity) + 0x46));
-      color_or_addr = (s32) (panel + 0x64);
+      color_ptr = (s32 *)((u8 *)panel + 0x64);
       if (text_id & 0x8000)
       {
         *((s32 *) (((s8 *) panel) + 0x7C)) = func_8004DA74(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
@@ -128,8 +128,7 @@ void *func_800B0F50(void *owner)
         func_800B135C(prim, 8);
         prim += 0x30;
       }
-      ASM_KEEP(color_or_addr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-      *((s32 *) color_or_addr) = 0x808080;
+      *color_ptr = 0x808080;
       *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;
       *((u8 *) (((s8 *) prim) + 1)) = 0x38U;
       *((s8 *) (((s8 *) prim) + 2)) = -2;

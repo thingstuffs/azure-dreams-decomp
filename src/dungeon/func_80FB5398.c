@@ -47,6 +47,8 @@ extern void func_800666F4(void *);
 extern void func_80066640(void *, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 
+static __inline__ s32 advance_phase(s32 phase, s32 layer) { phase += 80; return phase + (layer << 2); }
+
 /* Draw layered, wavy textured strips over the projected bounds of linked objects. */
 s32 func_80174B98(void *object_data, void *unused, void *appearance)
 {
@@ -68,10 +70,9 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
   s32 index_or_row;
   s32 min_xy;
   s32 max_xy;
-  register s32 depth_out_or_phase ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  s32 depth_out_or_phase;
   s32 last_y;
   register s32 row_span;
-  register s32 tag_mask ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   register s32 crop_y;
   u8 *render_state;
   (void) unused;
@@ -89,7 +90,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
     s32 camera_z;
     s16 min_y;
     s16 max_y;
-    s16 base_y;
+    s32 base_y;
     s16 height;
     s16 top_page;
     s32 top_page_index;
@@ -192,14 +193,13 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
     }
     while (index_or_row >= 0);
     left_bound = (s16) min_xy;
-    base_y = (s16) (min_xy >> 16);
-    min_y = base_y;
+    min_y = (s16) (min_xy >> 16);
+    base_y = min_y;
     bounds[2] = (s16) (max_xy - min_xy);
     bounds[0] = left_bound;
     depth = depth >> 2;
     if ((*((u8 **) render_state)) != D_801C9E40)
     {
-      ASM_KEEP_NV(base_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       base_y += 0xE0;
     }
     max_y = (s16) (max_xy >> 16);
@@ -233,7 +233,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
         last_y = bottom_page * 0xE0;
       }
       scratch.outer = 4;
-      tag_mask = 0x00FFFFFF;
+      left_bound = 0x00FFFFFF;
       depth_offset = depth << 2;
       do
       {
@@ -257,8 +257,6 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
           {
             u8 *frame;
             u8 *depth_bucket;
-            s32 next_phase;
-            s32 layer_phase;
             s32 texture_width;
             s32 strip_y;
             s32 texture_step;
@@ -267,11 +265,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
             s32 wave_x;
             s32 poly_link;
             s32 bucket_link;
-            layer_phase = scratch.outer << 2;
-            next_phase = depth_out_or_phase + 80;
-            ASM_USE2_NV(depth_out_or_phase, next_phase);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP4_NV(layer_phase, layer_phase, layer_phase, layer_phase);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-            depth_out_or_phase = next_phase + layer_phase;
+            depth_out_or_phase = advance_phase(depth_out_or_phase, scratch.outer);
             frame = *((u8 **) render_state);
             poly = *((u8 **) (frame + 0x8D0));
             *((u8 **) (frame + 0x8D0)) = poly + 40;
@@ -285,7 +279,7 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
             *((s16 *) (((u8 *) poly) + 8)) = (s16) row_span;
             *((u8 *) (((u8 *) poly) + 0x24)) = texture_width;
             *((u8 *) (((u8 *) poly) + 0x1C)) = texture_width;
-            if (((s16) row_span) == 0)
+            if (((u32)row_span << 16) == 0)
             {
               *((u16 *) (((u8 *) poly) + 8)) = (u16) row_count;
             }
@@ -322,10 +316,10 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
             *((s16 *) (((u8 *) poly) + 0x22)) = (s16) strip_y;
             *((s16 *) (((u8 *) poly) + 0x12)) = (s16) strip_y;
             poly_link = *((s32 *) ((u8 *) (depth_offset + ((s32) (*((u8 **) render_state)))) + 0xB0));
-            *((s32 *) (((u8 *) poly) + 0)) = ((*((s32 *) (((u8 *) poly) + 0))) & 0xFF000000) | (poly_link & tag_mask);
+            *((s32 *) (((u8 *) poly) + 0)) = ((*((s32 *) (((u8 *) poly) + 0))) & 0xFF000000) | (poly_link & left_bound);
             depth_bucket = (u8 *) (depth_offset + ((s32) (*((u8 **) render_state))));
             bucket_link = *((s32 *) (((u8 *) depth_bucket) + 0xB0));
-            *((s32 *) (((u8 *) depth_bucket) + 0xB0)) = (bucket_link & 0xFF000000) | (((s32) poly) & tag_mask);
+            *((s32 *) (((u8 *) depth_bucket) + 0xB0)) = (bucket_link & 0xFF000000) | (((s32) poly) & left_bound);
           }
           while (last_y >= index_or_row);
         }

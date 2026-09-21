@@ -322,11 +322,10 @@ void func_80057D20(u8 channel, u8 control, u32 value)
             if (((D_80085458[voice_idx].f06 == channel) && (D_80085458[voice_idx].f1d != 0)) && (D_80085458[voice_idx].f1c & 0x80))
             {
               {
-                register s32 voice_mask ASM_REG("$2");   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                voice_mask = D_80073740[voice_idx];
+                voice_status = D_80073740[voice_idx];
                 pending_voices = stopped_voices;
-                ASM_KEEP_DEP_NV(pending_voices, voice_mask);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
-                pending_voices |= voice_mask;
+                ASM_KEEP_DEP_NV(pending_voices, voice_status);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+                pending_voices |= voice_status;
                 stopped_voices = pending_voices;
               }
               do

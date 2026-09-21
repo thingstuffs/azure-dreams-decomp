@@ -99,7 +99,6 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     s32 visible_3;
     s32 any_visible;
     register u32 addr_mask ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    u16 flags;
     u16 tpage_base;
     u8 *entry;
     u8 *payload;
@@ -107,7 +106,7 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     void **global_slots;
     void *global_base;
     u8 uv_edge;
-    register u8 gpu_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+    u8 gpu_code;
 
     global_slots = D_80083160;
     global_base = global_slots[0];
@@ -339,9 +338,9 @@ next_entry:
 
                 gpu_code = payload[-7];
                 ((S_80045CC4_2 *)sprite)->unk_0F = gpu_code;
-                flags = SP_U16(0x24);
-                if (flags & 8) {
-                    if (flags & 4) {
+                tpage_base = SP_U16(0x24);
+                if (tpage_base & 8) {
+                    if (tpage_base & 4) {
                         x = gpu_code | 2;
                     } else {
                         x = gpu_code & 0xFD;

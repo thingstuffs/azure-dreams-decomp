@@ -106,6 +106,7 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5)
     register s16 temp_s8;
     M2C_UNK var_a1;
     M2C_UNK temp_s2;
+    M2C_UNK temp_s2_2;
     s32 arg3_v0;
     s32 geom_v1;
     s32 call3_a0;
@@ -117,7 +118,7 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5)
     s32 temp_v0_4;
     s32 temp_v0_5;
     s32 tail_v0;
-    register void *temp_s3 ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *temp_s3;
     s32 *temp_s6;
     S_800B1B10_1 *temp_v0_2;
     void *temp_v0_3;
@@ -180,9 +181,9 @@ void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5)
                 arg0_s5 = (void *) temp_v0_5;
                 ((S_800B1B10_0 *)temp_s2)->unk_74 = (s32) arg0_s5 & mask_v1;
             }
-            temp_s2 = func_80069E98(call69_a0) * 4;
+            temp_s2_2 = func_80069E98(call69_a0) * 4;
             if ((raw_arg4 << 0x10) != 0) {
-                tail_v0 = 0x89 - temp_s2;
+                tail_v0 = 0x89 - temp_s2_2;
                 var_a1 = (s16) tail_v0;
                 goto block_shared;
             }
@@ -220,7 +221,7 @@ block_shared:
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_01.n = 0x38U;
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_02 = -0xA;
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_03.s = -0x10;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_0A = (s8) (temp_s2 + 0x18);
+            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_0A = (s8) (temp_s2_2 + 0x18);
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_09 = 0;
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_08 = 0;
             ((S_800B1B10_5 *)((void *) arg2_s1))->unk_0B = 0x14;

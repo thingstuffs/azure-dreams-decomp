@@ -79,6 +79,7 @@ void func_8008B9FC(S_8008B9FC_1 *move_state, s32 actor_id, Rec_D_80082E80 *sprit
     u8 *dungeon_state = D_80083160;
     u8 *alt_anim;
     u16 *flags;
+    u16 *flags_2;
     u16 *check_flags;
     s16 move_result;
     u16 direction_index;
@@ -208,9 +209,8 @@ finish_step:
 update_step:
     actor_flags = actor->unk_1C.as_s32 | update_mask;
     actor->unk_1C.as_s32 = actor_flags;
-    ASM_KEEP(actor_flags);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    flags = D_80083460;
-    flags[1] |= 0x812;
+    flags_2 = D_80083460;
+    flags_2[1] |= 0x812;
     func_800A67F4();
     func_80094ED4(move_state, actor_id, sprite, actor);
     if (!(D_80013714[0] & 8)) {
@@ -219,7 +219,7 @@ update_step:
 
     if (D_800E3544[0] == 0xF0) {
         if (sprite->unk_2C.as_pu8 == D_800DCFC0) {
-            goto halve_flags;
+            flags_2[2] = (s16)flags_2[2] >> 1; return;
         }
         {
             void *turn_sprite;
@@ -232,16 +232,15 @@ update_step:
                               actor->unk_2A.as_s16 + 0x100) >> 9) & 7)),
                 0, 1);
         }
-        ASM_SCHED_BARRIER(); /* MATCH: keep the F0 callback call separate from the F8 arm. */
-        goto halve_flags;
+        flags_2[2] = (s16)flags_2[2] >> 1; return;
     }
 
     if (D_800E3544[0] == 0xF8) {
         alt_anim = D_800DCFB8 + 8;
         move_state->unk_A2 |= 0x100;
-        flags[5]++;
+        flags_2[5]++;
         if (sprite->unk_2C.as_pu8 == alt_anim) {
-            goto halve_flags;
+            flags_2[2] = (s16)flags_2[2] >> 1; return;
         }
         sprite->unk_2C.as_pu8 = alt_anim;
         func_80048A44(
@@ -249,7 +248,7 @@ update_step:
             alt_anim[((s32)(D_80083228[0] + actor->unk_2A.as_s16 +
                                  0x100) >> 9) & 7],
             0, 1);
-        goto halve_flags;
+        flags_2[2] = (s16)flags_2[2] >> 1; return;
     }
 
     if (D_800E3544[0] == 0xE8) {
@@ -264,8 +263,7 @@ update_step:
         sprite->unk_24 -= ((s16 *)(void *)D_8006CCD8)[direction_index / 2] * 2;
         sprite->unk_25 -= ((s16 *)(void *)D_8006CCE8)[direction_index / 2] * 2;
         func_8009A21C(sprite->unk_24, sprite->unk_25, 0x300);
-halve_flags:
-        flags[2] = (s16)flags[2] >> 1;
+        flags_2[2] = (s16)flags_2[2] >> 1;
         return;
     }
 

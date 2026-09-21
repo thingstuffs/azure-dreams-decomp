@@ -59,7 +59,6 @@ s32 func_8009AF18(u32 direction_flags, FuncArg1 *origin, S_8009AF18_0 *start_til
     register s32 direction_offset;
     s32 next_step;
     s32 height_result;
-    s32 shifted_limit;
     s32 check_x;
     register s32 step ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 world_y;
@@ -147,11 +146,10 @@ advance_step:
             s32 shifted_next_step;
 
             tile_dx_reload = (u16 *)((FuncArg1 *)(tile_info[4]));
-            shifted_next_step = next_step << 0x10;
-            ASM_KEEP_NV(shifted_next_step);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            shifted_limit = (s32)(FuncArg1 *)tile_dx_reload << 0x10;
-            ASM_KEEP_DEP_NV(shifted_limit, tile_dx_reload);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            if (shifted_next_step <= shifted_limit) {
+            next_step <<= 0x10;
+            shifted_next_step = next_step;
+            shifted_step = (s32)(FuncArg1 *)tile_dx_reload << 0x10;
+            if (shifted_next_step <= shifted_step) {
                 goto check_tile;
             }
         }

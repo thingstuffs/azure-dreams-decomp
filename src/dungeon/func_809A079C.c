@@ -37,13 +37,11 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
 
     status = *(volatile u8 *)((u8 *)actor + 0x71);
     {
-        S_80171F9C_0 *visual = visual_data;
-        register s32 target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 target;
         u16 *global_flags;
         u8 *flags_page;
 
-        *(volatile u8 *)((u8 *)actor + 0x71) = status & 0x7F;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ((volatile u8 *)actor)[113] = status & 0x7F;
         flags_page = (u8 *)0x80080000;
         global_flags = (u16 *)D_80083460;
         action_mode = 0;
@@ -51,7 +49,7 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
             return -1;
         }
 
-        target = func_800A04F0(actor, visual->unk_24, visual->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
+        target = func_800A04F0(actor, ((S_80171F9C_0 *)(visual_data))->unk_24, ((S_80171F9C_0 *)(visual_data))->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16);
         if ((func_800A2CB8(actor, target) << 16) == 0) {
             return 0;
         }
@@ -90,14 +88,14 @@ check_ready:
             action_state->unk_9B.as_s8 = 0;
             if (selected_mode == 1) {
                 action_state->unk_8C = 0;
-                visual->unk_2C = D_80175E50;
+                ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E50;
                 action_flags = action_state->unk_98;
                 action_state->unk_9A.as_s8 = 0x11;
                 goto set_flag;
             }
             if (selected_mode == 2) {
                 action_state->unk_8C = 0;
-                visual->unk_2C = D_80175E70;
+                ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175E70;
                 action_flags = action_state->unk_98;
                 action_state->unk_9A.as_s8 = 0x17;
 set_flag:
@@ -108,7 +106,7 @@ set_flag:
             }
 
             action_state->unk_8C = 0;
-            visual->unk_2C = D_80175EA8;
+            ((S_80171F9C_0 *)(visual_data))->unk_2C = D_80175EA8;
             action_state->unk_9A.as_s8 = 0x18;
             ((Rec_D_800E3D7C *)actor)->unk_84.as_s8 = 0x7C;
             ((Rec_D_800E3D7C *)actor)->unk_85.as_s8 = 0;
@@ -118,10 +116,10 @@ common:
             {
                 u8 *phase_page;
                 phase_page = (u8 *)0x80080000;
-                func_80047784(visual, visual->unk_2C[((*(s16 *)(phase_page + 0x3228) + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+                func_80047784(((S_80171F9C_0 *)(visual_data)), ((S_80171F9C_0 *)(visual_data))->unk_2C[((*(s16 *)(phase_page + 0x3228) + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
             }
             ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8--;
-            func_8009C93C(actor, visual, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
+            func_8009C93C(actor, ((S_80171F9C_0 *)(visual_data)), ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1, 0);
             stored_amount = action_state->unk_90.at02_u16.v;
             pending_amount = action_state->unk_A0.at02_u16.v;
             action_state->unk_A0.at02_u16.v = 0;

@@ -207,8 +207,8 @@ jt_c3:
 start_delay:
     previous_state = ((S_80095A10_0 *)actor)->unk_9B;
     {
-        register u16 timer ASM_REG("$3") = 0x10U;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        ((S_80095A10_0 *)actor)->unk_96 = timer;
+        animation_flags = 0x10U;
+        ((S_80095A10_0 *)actor)->unk_96 = animation_flags;
         goto store_next_state;
     }
 jt_c4:

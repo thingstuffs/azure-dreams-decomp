@@ -290,10 +290,9 @@ void func_800B6AC4(S_func_800B1364_1 *action, S_func_800B1364_2 *position, S_fun
     }
     (void)state_labels; goto *D_80089310[(u32)(state)];
 align_actor: {
-    register u8 *input_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    input_page = (u8 *)0x80080000;
-    ASM_KEEP_NV(input_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    direction_base = input_page + 0x3160;
+    direction_anim = (u8 *)0x80080000;
+    ASM_KEEP_NV(direction_anim);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    direction_base = direction_anim + 0x3160;
     if ((((s32) (((S_func_800B1364_6 *)direction_base)->unk_C8 + actor->unk_2A + 0x100) >> 9) & 7) != 2) {
         goto turn_actor;
     }

@@ -68,14 +68,13 @@ void func_800BFB8C(void *source)
     u8 *town;
     u8 *kind;
     void *coords;
-    register void *emitter ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *new_object;
     void *object;
     void *callback;
 
     object = source;
-    emitter = object;
-    count_bits = ((S_800BFB8C_0 *)emitter)->unk_0E;
+    source = object;
+    count_bits = ((S_800BFB8C_0 *)source)->unk_0E;
     count_bits <<= 0x10;
     spawn_count = count_bits >> 0x11;
     town = (u8 *)&D_80083160;
@@ -104,8 +103,8 @@ void func_800BFB8C(void *source)
                 ((S_800BFB8C_3 *)coords)->unk_0C = random_coord;
                 ((S_800BFB8C_3 *)coords)->unk_1E = random_coord;
                 coord_term = rand()
-                        % (s16)((S_800BFB8C_0 *)emitter)->unk_0A;
-                base_coord = ((S_800BFB8C_0 *)emitter)->unk_08;
+                        % (s16)((S_800BFB8C_0 *)source)->unk_0A;
+                base_coord = ((S_800BFB8C_0 *)source)->unk_08;
                 fixed_coord = -0x180;
                 ((S_800BFB8C_3 *)coords)->unk_10 = fixed_coord;
                 ((S_800BFB8C_3 *)coords)->unk_26 = fixed_coord;
@@ -118,7 +117,7 @@ void func_800BFB8C(void *source)
             object = (void *)0x202;
         } while (spawn_count >= 0);
     }
-    state = ((S_800BFB8C_0 *)emitter)->unk_0C.s;
+    state = ((S_800BFB8C_0 *)source)->unk_0C.s;
     if (state == 0) {
         goto state_zero;
     }
@@ -131,16 +130,16 @@ state_zero:
     if (func_80033BC0(0xA1) == 0) {
         goto done;
     }
-    next_value = ((S_800BFB8C_0 *)emitter)->unk_0C.u + 1;
-    ((S_800BFB8C_0 *)emitter)->unk_0C.u = next_value;
+    next_value = ((S_800BFB8C_0 *)source)->unk_0C.u + 1;
+    ((S_800BFB8C_0 *)source)->unk_0C.u = next_value;
     goto done;
 
 state_one:
-    next_value = ((S_800BFB8C_0 *)emitter)->unk_0E - 1;
-    ((S_800BFB8C_0 *)emitter)->unk_0E = next_value;
+    next_value = ((S_800BFB8C_0 *)source)->unk_0E - 1;
+    ((S_800BFB8C_0 *)source)->unk_0E = next_value;
     if ((next_value << 0x10) <= 0) {
-        (*(u16 *)((u8 *)emitter + -2)) =
-            (u16)(((S_800BFB8C_0_pre *)emitter)[-1].unk_00 | 0x8000);
+        (*(u16 *)((u8 *)source + -2)) =
+            (u16)(((S_800BFB8C_0_pre *)source)[-1].unk_00 | 0x8000);
         D_800814A0 = D_800814A0 | 0x8000;
     }
 

@@ -79,22 +79,23 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
     s16 right_x;
     s16 top_y;
     s16 bottom_y;
-    register s32 row_or_bottom_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 bottom_heights_addr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 row_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 row_or_bottom_y ASM_REG("$5");
+    register s32 bottom_heights_addr ASM_REG("$7");
+    register s32 row_offset ASM_REG("$16");
     s32 y_offset;
     s32 column;
-    register s32 x_offset ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 x_offset ASM_REG("$10");
     s32 x_or_height;
-    register s32 y_or_color ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 y_or_color ASM_REG("$4");
     s32 height;
-    register s32 height_bl ASM_REG("$13");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 height_br ASM_REG("$14");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 origin_height ASM_REG("$15");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 height_bl ASM_REG("$13");
+    register s32 height_br ASM_REG("$14");
+    register s32 origin_height ASM_REG("$15");
     s32 saved_row;
     s8 *height_row;
-    register void *output ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s16 *top_heights ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register void *output ASM_REG("$6");
+    s16 *top_heights;
+    s16 *top_row;
     s32 height_or_child;
     TempObj *object;
 
@@ -113,8 +114,9 @@ void func_819613A8(s16 tile_x, s32 tile_y, S_819613A8_0 *origin) {
         height_row = D_8002745C;
         row_offset = row_or_bottom_y * 0x10;
         top_heights = (s16 *)(row_offset + (s32)height_row);
+        top_row = top_heights;
         bottom_heights_addr = column * 2;
-        top_heights = (s16 *)(bottom_heights_addr + (s32)top_heights);
+        top_heights = (s16 *)(bottom_heights_addr + (s32)top_row);
         height_row += 0x10;
         height_row = (s8 *)(row_offset + (s32)height_row);
         bottom_heights_addr += (s32)height_row;

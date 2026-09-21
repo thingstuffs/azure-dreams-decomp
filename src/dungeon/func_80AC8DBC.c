@@ -84,13 +84,11 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
     register void *owner_data = ((S_801745BC_0_pre *)head)[-1].unk_04;
     void *next_link = ((S_801745BC_0 *)head)->unk_5C;
     void *position = ((S_801745BC_0_pre *)head)[-1].unk_00;
-    s32 match_y;
     u16 height_arg = target_height;
     register s32 center_height ASM_REG("$20");
 
-    ASM_KEEP(next_link);
     node = (u8 *)next_link + 0x20;
-    match_y = target_y;
+    target_x = target_y;
 
     if (node != head) {
         next_link = (void *)(height_arg << 16);
@@ -102,22 +100,21 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
             s16 height;
 
             if ((node_data->unk_24 == (match_x & 0xFFFF)) &&
-                (node_data->unk_25 == (match_y & 0xFFFF))) {
+                (node_data->unk_25 == (target_x & 0xFFFF))) {
                 height = node_position->unk_0A;
                 if (((center_height + 0x40) >= height) && (target_height < height)) {
                     if ((u32)(((S_801745BC_1 *)node)->unk_13 - 0x33) < 4U) {
-                        s32 message_id;
                         u16 angle;
                         OffsetPair *offset;
 
                         ((S_801745BC_1 *)node)->unk_28 = 0;
                         ((S_801745BC_1 *)node)->unk_64 = -1;
                         func_800419EC(6, 0xC);
-                        message_id = 0x601;
+                        target_y = 0x601;
                         if (((S_801745BC_1 *)node)->unk_13 == 0x34) {
-                            message_id = 0x80B;
+                            target_y = 0x80B;
                         }
-                        func_800A56E0(message_id);
+                        func_800A56E0(target_y);
 
                         angle = ((S_801745BC_4 *)owner)->unk_2A;
                         offset = (OffsetPair *)((u8 *)&offsets +
@@ -141,5 +138,4 @@ void func_801745BC(void *source, s32 target_x, s32 target_y, s32 target_height)
     }
 
     ASM_KEEP(owner_data);
-    ASM_KEEP(match_y);
 }

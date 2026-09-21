@@ -9,7 +9,7 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
     s32 source_y = y;
     s16 probe_result;
     s16 center_result;
-    register s32 center_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 center_delta;
     s32 x_distance;
     s32 y_distance;
     register u32 center_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -22,7 +22,7 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
     u32 probe_x;
     register u32 probe_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u32 coord_work ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 coord_work;
 
     ASM_KEEP_NV(source_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     probe_coord = z;
@@ -52,7 +52,7 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
                 probe_coord = center_x;
                 coord_work = center_x - source_x;
                 center_delta = (s16) coord_work;
-                x_distance = center_delta;
+                x_distance = (s32)(s16)center_delta;
                 if (center_delta < 0) {
                     x_distance = 0 - x_distance;
                 }
@@ -66,7 +66,7 @@ s32 func_800A4778(s32 x, s32 y, s32 z, s32 skip_check) {
                 }
                 coord_work = center_y - source_y;
                 center_delta = (s16) coord_work;
-                y_distance = center_delta;
+                y_distance = (s32)(s16)center_delta;
                 if (center_delta < 0) {
                     y_distance = 0 - y_distance;
                 }

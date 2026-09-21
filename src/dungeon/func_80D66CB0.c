@@ -39,7 +39,6 @@ extern u8 D_800E2348[8];
 void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) {
     s32 tile_mask;
     s16 heading;
-    s32 move_state;
     s32 x;
     s32 y;
 
@@ -65,7 +64,7 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) 
             ((S_801724B0_3 *)((u8 *)move_data + ((S_801724B0_0 *)move_data)->unk_8A.s))->unk_74,
             ((S_801724B0_3 *)((u8 *)move_data + ((S_801724B0_0 *)move_data)->unk_8A.s))->unk_7C,
             (u8 *)motion + 0x98);
-        move_state = (s16)func_8009A66C(heading, actor, move_data, 0x20);
+        x = (s16)func_8009A66C(heading, actor, move_data, 0x20);
 
         ((Rec_D_80082E80 *)actor)->unk_24 =
             ((S_801724B0_3 *)((u8 *)move_data + ((S_801724B0_0 *)move_data)->unk_8A.s))->unk_74;
@@ -84,9 +83,8 @@ void func_801724B0(void *motion, s32 actor_index, void *actor, void *move_data) 
             func_8009A21C(next_x, next_y, tile_mask);
         }
 
-        ASM_KEEP(move_state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         ((S_801724B0_0 *)move_data)->unk_2A = heading;
-        if (move_state == 3) {
+        if (x == 3) {
             if (!(D_80083462 & 0x80) && !(((Rec_D_80082E80 *)actor)->unk_14.at00_u16.v & 0x8000)) {
                 func_80172E0C(motion, actor_index, actor, move_data);
                 ((Rec_func_801724B0_arg0 *)motion)->unk_8C = 0;

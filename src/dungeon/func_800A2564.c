@@ -61,7 +61,6 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
     u8 *transform;
     u8 *matrix_page;
     s32 depth_offset, flags_offset;
-    register u8 *rotation_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u8 *matrix_or_prim ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 angle_z;
     s32 angle_y;
@@ -108,14 +107,12 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                 sort_depth = depth;
             } while (0);
             ASM_KEEP_NV(sort_depth);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_DEP_NV(sort_depth, depth * 4);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            ASM_KEEP_MEMDEP_NV(sort_depth, rotation_arg, U32(view_matrix, 0x1C));   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             U32(view_matrix, 0x1C) = depth * 4;
+            U32(scratch, 0xC0) = sort_depth - 2;
             sort_depth -= 2;
-            U32(scratch, 0xC0) = sort_depth;
             if ((u32)sort_depth < 0x1E0) {
                 func_800649A0();
-                rotation_arg = scratch + 0x100;
+                tex_left = (s32)(scratch + 0x100);
                 matrix_or_prim = rotation_matrix;
                 vertex3 = scratch + 0x88;
                 screen0 = scratch + 0xF0;
@@ -141,7 +138,7 @@ s32 func_800A7CC4(s32 unused0, s32 unused1, void *render_params) {
                 angle_y_offset -= 0x100;
                 angle_y += angle_y_offset;
                 U16(scratch, 0x102) = angle_y;
-                func_80065820(rotation_arg, matrix_or_prim);
+                func_80065820((u8 *)tex_left, matrix_or_prim);
                 func_80064840(view_matrix, rotation_matrix, transform);
                 func_80064D80(transform);
                 func_80064CF0(transform);

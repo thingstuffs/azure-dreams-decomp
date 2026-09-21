@@ -115,9 +115,8 @@ void func_80171C34(void *move_data, void *context, void *position_data, void *ac
     s32 limit_detour = 0;
     s16 detour_check;
     s32 actor_flags;
-    void *target;
     s32 trial_angle;
-    register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 current_angle;
     u16 turn_flags;
     s16 turn_index;
     s16 *turn_table;
@@ -158,13 +157,13 @@ active:
     actor_flags = ((S_80171C34_1 *)actor_data)->unk_1C;
     if (actor_flags & 0x410) {
         if (actor_flags & 0x400) {
-            target = func_800A02AC(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
+            current_angle = (s32)func_800A02AC(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
                                   ((S_80171C34_2 *)position_data)->unk_24.at01.v);
-            if (target != 0) {
+            if (((void *)current_angle) != 0) {
                 s16 target_angle = func_800A0818(
                     ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,
-                    ((S_80171C34_7 *)(((S_80171C34_3_pre *)target)[-1].unk_00))->unk_24,
-                    ((S_80171C34_7 *)(((S_80171C34_3_pre *)target)[-1].unk_00))->unk_25,
+                    ((S_80171C34_7 *)(((S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_24,
+                    ((S_80171C34_7 *)(((S_80171C34_3_pre *)((void *)current_angle))[-1].unk_00))->unk_25,
                     (u8 *)move_data + 0x98);
                 ((S_80171C34_1 *)actor_data)->unk_2A.s = target_angle;
                 ((S_80171C34_1 *)actor_data)->unk_71.u &= 0x7F;
@@ -242,12 +241,12 @@ active:
         goto init_loop;
     }
 
-    target = func_800A04F0(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
+    current_angle = (s32)func_800A04F0(actor_data, ((S_80171C34_2 *)position_data)->unk_24.at00.v,
                           ((S_80171C34_2 *)position_data)->unk_24.at01.v,
                           ((S_80171C34_1 *)actor_data)->unk_2A.s);
-    if (target != 0 &&
-        (((S_80171C34_3 *)target)->unk_1C & 0x2000) &&
-        (s16)func_800A0134(target, actor_data) < 0x81) {
+    if (((void *)current_angle) != 0 &&
+        (((S_80171C34_3 *)((void *)current_angle))->unk_1C & 0x2000) &&
+        (s16)func_800A0134((void *)current_angle, actor_data) < 0x81) {
         if (func_8009A540(
                 ((s16)((S_80171C34_1 *)actor_data)->unk_2A.u >> 9) & 0xFFFF,
                 ((S_80171C34_2 *)position_data)->unk_24.at00.v, ((S_80171C34_2 *)position_data)->unk_24.at01.v,

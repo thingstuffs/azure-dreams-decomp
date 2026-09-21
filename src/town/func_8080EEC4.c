@@ -89,7 +89,9 @@ void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
     register s32 distance ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 step_copy;
-    register s32 case_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 case_value;
+    s32 case_value_2;
+    s32 case_value_3;
     s32 case_x;
     s32 case_delta;
     s32 value;
@@ -223,9 +225,9 @@ case_1:
         goto switch_done;
 
 case_2:
-        case_value = ((S_8080EEC4_0 *)arg2)->unk_1A;
-        case_value += step;
-        ((S_8080EEC4_0 *)arg2)->unk_1A = case_value;
+        case_value_2 = ((S_8080EEC4_0 *)arg2)->unk_1A;
+        case_value_2 += step;
+        ((S_8080EEC4_0 *)arg2)->unk_1A = case_value_2;
         step_copy = step;
         if (distance >= 0xA1 && D_80132AEC > 0x03600000 &&
             ((S_8080EEC4_3 *)work)->unk_18 == 5) {
@@ -272,9 +274,9 @@ case_3:
 case_4:
         ((S_8080EEC4_0 *)arg2)->unk_1A += ((S_8080EEC4_2 *)arg0)->unk_72.u;
         ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)arg0)->unk_72.u;
-        case_value = ((S_8080EEC4_2 *)arg0)->unk_74.u + 1;
-        ((S_8080EEC4_2 *)arg0)->unk_74.u = case_value;
-        if ((case_value & 3) == 0) {
+        case_value_3 = ((S_8080EEC4_2 *)arg0)->unk_74.u + 1;
+        ((S_8080EEC4_2 *)arg0)->unk_74.u = case_value_3;
+        if ((case_value_3 & 3) == 0) {
             ((S_8080EEC4_2 *)arg0)->unk_72.u -= 2;
         }
         if (((S_8080EEC4_2 *)arg0)->unk_72.s < 4) {

@@ -369,7 +369,6 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             void *flash_state;
             void *animation;
             u8 *impact_data;
-            register s32 *impact_pos ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             u8 *clear_cursor;
 
             index = 0;
@@ -448,10 +447,10 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 ((S_818FA12C_9 *)flash_data)->unk_06 = 0;
                 ((S_818FA12C_9 *)flash_data)->unk_14 |= 0x80;
                 target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-                impact_pos = (*(s32 * *)((u8 *)flash + 8));
-                impact_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v;
-                impact_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v;
-                impact_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v;
+                flash_pos = (*(s32 * *)((u8 *)flash + 8));
+                flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v;
+                flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v;
+                flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v;
                 flash_data = (*(u8 * *)((u8 *)flash + 0x0C));
                 ((S_818FA12C_9 *)flash_data)->unk_1E = 0x1000;
                 ((S_818FA12C_9 *)flash_data)->unk_1C = 0x1000;
@@ -490,10 +489,10 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             ((S_818FA12C_8 *)impact_data)->unk_10.s = index;
             ((S_818FA12C_8 *)impact_data)->unk_06 = 6;
             ((S_818FA12C_8 *)impact_data)->unk_14 = flags | 0x80;
-            impact_pos = (*(s32 * *)((u8 *)impact + 8));
-            impact_pos[0] = ((S_818FA12C_4 *)position)->unk_00.at00.v;
-            impact_pos[1] = ((S_818FA12C_4 *)position)->unk_04.at00.v;
-            impact_pos[2] = ((S_818FA12C_4 *)position)->unk_08.at00.v + 0x400000;
+            flash_pos = (*(s32 * *)((u8 *)impact + 8));
+            flash_pos[0] = ((S_818FA12C_4 *)position)->unk_00.at00.v;
+            flash_pos[1] = ((S_818FA12C_4 *)position)->unk_04.at00.v;
+            flash_pos[2] = ((S_818FA12C_4 *)position)->unk_08.at00.v + 0x400000;
             impact_data = (*(u8 * *)((u8 *)impact + 0x0C));
             ((S_818FA12C_8 *)impact_data)->unk_1C = 0x2000;
             ((S_818FA12C_8 *)impact_data)->unk_1E = 0x1800;

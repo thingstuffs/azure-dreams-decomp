@@ -53,7 +53,7 @@ typedef struct S_800A8CA8_2 {
 
 /* Updates three offset points, their projected coordinates, and phase-based intensities. */
 void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *extent) {
-    register S_800A8CA8_1 *source ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_800A8CA8_1 *source;
     u32 phase_bits;
     s32 offset_phase;
     s32 double_phase;
@@ -67,10 +67,8 @@ void func_800A8CA8(void *object, s32 phase, void *source_data, S_800A8CA8_2 *ext
     u16 z_extent;
 
     source = source_data;
-    ASM_DEP(source);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     phase_bits = (u32) phase + 0x800;
-    phase_bits <<= 16;
-    offset_phase = (s32) phase_bits >> 16;
+    offset_phase = (s16)(phase_bits + 0);
     double_phase = offset_phase << 1;
     ((S_800A8CA8_0 *)object)->unk_114 = (s8) ((func_800644B8(source->unk_0E + double_phase) + 0x1000) / 128);
     ((S_800A8CA8_0 *)object)->unk_115 = (s8) ((func_800644B8(source->unk_12 + double_phase) + 0x1000) / 128);

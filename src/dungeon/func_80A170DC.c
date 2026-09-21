@@ -272,15 +272,14 @@ flags_done:
                 {
                     register void *call_part ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     register void *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    register s32 call_one ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                     call_part = part;
                     call_data = D_800D71A8;
-                    call_one = 1;
-                    ASM_KEEP(call_one);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                    address_or_count = (uptr)call_one;
+                    call_zero = 1;
+                    ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    address_or_count = (uptr)call_zero;
                     ((S_8014C8DC_6 *)(void *)saved_kind)->unk_06 = (s16)address_or_count;
-                    func_800478E8(call_part, call_data, call_one);
+                    func_800478E8(call_part, call_data, call_zero);
                 }
                 address_or_count = (uptr)stack.root;
                 table_page = (u8 *)((u8 *)address_or_count + 0x1E);

@@ -76,7 +76,7 @@ s32 func_8008DFB4(s16 query_x, u16 query_y, u16 query_z)
     s16 scan_x;
     s32 block = (s16)(query_x & -0x40);
     Global_80090854 *global = &D_80083160;
-    register Map_80090854 *map ASM_REG("$20");
+    Map_80090854 *map;
     register u16 *tiles ASM_REG("$21");
     register Vec_80090854 *vertices ASM_REG("$19");
 
@@ -273,8 +273,7 @@ finished:
         return 0;
     }
     {
-        s32 result;
-        result = (s16)((u16)scratch->block + (u16)scratch->best);
-        return result;
+        map = (Map_80090854 *)((s16)((u16)scratch->block + (u16)scratch->best));
+        return (s32)map;
     }
 }

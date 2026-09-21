@@ -30,12 +30,13 @@ extern u8 D_800E0000[];
 void func_800897E4(void)
 {
     register Entry *entry_m ASM_REG("$17");
+    Callback callback;
     if (D_800E296C & 0x02000000) {
         register Callback *callback_slot ASM_REG("$16");
         register Callback *callback_base;
         register Callback *special_start;
         Callback *sentinel_scan;
-        register Callback callback;
+
         register Entry **entry_slot;
 
         special_start = D_800DCF80 + 9;
@@ -83,7 +84,7 @@ first_advance:
         register Callback *special_start;
         register u8 *D_800E0000;
         Callback *special_scan;
-        Callback callback;
+
         register Entry **entry_slot;
         register Entry *entry;
         void *callback_data;
@@ -152,7 +153,7 @@ second_advance:
 
     {
         Callback *callback_slot;
-        register Callback callback ASM_REG("$7");
+
         register Entry **entry_slot;
         register s32 slot_index ASM_REG("$19");
         u8 *D_800E0000;

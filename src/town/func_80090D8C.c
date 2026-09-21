@@ -182,35 +182,26 @@ s32 func_8008E4EC(s32 world_x, s32 world_y, u16 world_z)
                         if ((scratch->planes[*(u16 *)(flags_ptr - 6)].y < 0) && !(*(flags_ptr + 1) & 1)) {
                             s32 height;
                             u32 vertex_index;
-                            register s16 quad_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             Scratch *quad_scratch;
                             quad_scratch = scratch;
                             ASM_KEEP(quad_scratch);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
                             vertex_index = *(u16 *)(flags_ptr - 0x12);
-                            quad_coord = vertices[vertex_index].x;
-                            scratch->quad[0] = quad_coord - *(volatile s16 *)&scratch->x;
+                            scratch->quad[0] = ((s16)(vertices[vertex_index].x)) - *(volatile s16 *)&scratch->x;
                             vertex_index = *(u16 *)(flags_ptr - 0x12);
-                            quad_coord = vertices[vertex_index].z;
-                            scratch->quad[1] = quad_coord - *(volatile s16 *)&scratch->z;
+                            scratch->quad[1] = ((s16)(vertices[vertex_index].z)) - *(volatile s16 *)&scratch->z;
                             vertex_index = *(u16 *)(flags_ptr - 0x10);
-                            quad_coord = vertices[vertex_index].x;
-                            scratch->quad[2] = quad_coord - *(volatile s16 *)&scratch->x;
+                            scratch->quad[2] = ((s16)(vertices[vertex_index].x)) - *(volatile s16 *)&scratch->x;
                             vertex_index = *(u16 *)(flags_ptr - 0x10);
-                            quad_coord = vertices[vertex_index].z;
-                            scratch->quad[3] = quad_coord - *(volatile s16 *)&scratch->z;
+                            scratch->quad[3] = ((s16)(vertices[vertex_index].z)) - *(volatile s16 *)&scratch->z;
                             vertex_index = *(u16 *)(flags_ptr - 0x14);
-                            quad_coord = vertices[vertex_index].x;
-                            scratch->quad[4] = quad_coord - *(volatile s16 *)&scratch->x;
+                            scratch->quad[4] = ((s16)(vertices[vertex_index].x)) - *(volatile s16 *)&scratch->x;
                             vertex_index = *(u16 *)(flags_ptr - 0x14);
-                            quad_coord = vertices[vertex_index].z;
-                            scratch->quad[5] = quad_coord - *(volatile s16 *)&scratch->z;
+                            scratch->quad[5] = ((s16)(vertices[vertex_index].z)) - *(volatile s16 *)&scratch->z;
                             vertex_index = record->vertex0;
-                            quad_coord = vertices[vertex_index].x;
-                            scratch->quad[6] = quad_coord - *(volatile s16 *)&scratch->x;
+                            scratch->quad[6] = ((s16)(vertices[vertex_index].x)) - *(volatile s16 *)&scratch->x;
                             vertex_index = record->vertex0;
-                            quad_coord = vertices[vertex_index].z;
-                            scratch->quad[7] = quad_coord - *(volatile s16 *)&scratch->z;
+                            scratch->quad[7] = ((s16)(vertices[vertex_index].z)) - *(volatile s16 *)&scratch->z;
 
                             if (func_8008CE08(quad_scratch) != 0) {
                                 {

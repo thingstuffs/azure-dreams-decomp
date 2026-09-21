@@ -125,7 +125,6 @@ typedef struct S_81814EDC_12_pre {
     u8 pad_08[0x10];
 } S_81814EDC_12_pre;   /* the 0x18 bytes before ((S_81814EDC_0 *)arg0)->unk_30 in func_81814EDC, addressed as ((S_81814EDC_0 *)arg0)->unk_30[-1] */
 
-
 extern u8 D_80045340[];
 extern u8 D_800DE938[];
 extern u8 D_800DE870[9];
@@ -180,8 +179,9 @@ void func_81814EDC(void *effect, void *position) {
             spawn_position = ((S_81814EDC_1 *)particle)->unk_08;
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
-                register void *source ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s32 coordinate = ((S_81814EDC_3 *)source)->unk_02;
+                s32 coordinate;
+                callback = *position_ref;
+                coordinate = ((S_81814EDC_3 *)callback)->unk_02;
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
@@ -189,8 +189,9 @@ void func_81814EDC(void *effect, void *position) {
             }
             {
                 s32 random_offset = func_80069EF8() & 0x1F;
-                register void *source ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s32 coordinate = ((S_81814EDC_3 *)source)->unk_06;
+                s32 coordinate;
+                callback = *position_ref;
+                coordinate = ((S_81814EDC_3 *)callback)->unk_06;
 
                 coordinate -= 0x10;
                 coordinate += random_offset;
@@ -198,8 +199,9 @@ void func_81814EDC(void *effect, void *position) {
             }
             {
                 s32 random_offset = func_80069EF8() & 7;
-                register void *source ASM_REG("$8") = *position_ref;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                s32 coordinate = ((S_81814EDC_3 *)source)->unk_0A;
+                s32 coordinate;
+                callback = *position_ref;
+                coordinate = ((S_81814EDC_3 *)callback)->unk_0A;
 
                 coordinate -= 4;
                 coordinate += random_offset;

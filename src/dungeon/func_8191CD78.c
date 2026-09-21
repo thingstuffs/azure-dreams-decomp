@@ -1,7 +1,6 @@
 #include "common.h"
 extern int abs(int);
 
-
 extern void *jtbl_80024008[];
 __asm__(".set jtbl_80024008, 0x80024008");
 
@@ -223,13 +222,13 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
     s32 state;
     u16 frame;
     s32 index;
-    register s32 delta_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 delta_x;
     s32 abs_delta_x;
     s32 abs_delta_x_2;
     s32 delta_y;
     s32 delta_z;
     u16 copied_z;
-    u16 next_state;
+
     s32 x_base;
     register s32 y_base;
     u8 scratch[32];
@@ -244,7 +243,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
         &&case_4, &&case_5, &&case_6, &&case_7,
         &&case_8, &&case_9, &&case_10, &&case_11,
     };
-    register s32 expanded_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    register s32 expanded_floor ASM_REG("$2");
 
     frame = effect->unk_10.u16;
     state = effect->unk_0A.s16;
@@ -326,7 +325,7 @@ case_1_entry:
             s32 position_z;
             position_z = position->unk_08.parts_0A.unk_0A.s16;
             distance_z = ((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
             delta_cursor = (s16 *)(scratch + 2);
             distance_z -= position_z;
             distance_z = abs(distance_z);
@@ -353,7 +352,7 @@ case_1_entry:
         position->unk_14 =
             (((s32)((S_func_80024578_3 *)(actor->unk_60))->unk_88.s16 << 16) -
              position->unk_08.s32) / effect->unk_12;
-        next_state = (u16)(effect->unk_0A.u16 + 1);
+        effect->unk_0A.u16 = (u16)(effect->unk_0A.u16 + 1);
         goto set_state;
     }
 
@@ -366,7 +365,7 @@ case_1_entry:
         register s32 last_tile_x;
         u16 tile_y_bits;
         s32 floor_x;
-        register s32 floor_limit ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        s32 floor_limit;
         s32 floor_y;
         s32 signed_tile_x;
         s32 signed_tile_y;
@@ -395,7 +394,7 @@ case_1_entry:
                     index++;
                     next_tile_x = tile_x + ((u16 *)D_8006CCD8)[(s16)effect->unk_0E];
                     tile_x = next_tile_x;
-                    ASM_KEEP_NV(tile_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    ASM_KEEP_NV(tile_x);
                     next_tile_y = tile_y + ((u16 *)D_8006CCE8)[(s16)effect->unk_0E];
                     last_tile_y = (u16)next_tile_y;
                     tile_y = next_tile_y;
@@ -410,12 +409,11 @@ case_1_entry:
 
         work_base = (S_func_80024578_5 *)scratch;
         x_base = (last_tile_x << 16) >> 10;
-        floor_x = (x_base + 0x20) & 0xFFE0;
+        floor_x = (x_base + 0x20);
+        floor_x &= 0xFFE0;
         x_adjust_table = (s16 *)D_8006CCD8;
-        ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         floor_limit = -0x400;
-        index = 1;
-        ASM_KEEP(index);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+
         tile_y_bits = last_tile_y;
         y_base = (s32)tile_y_bits << 16;
         y_base >>= 10;
@@ -426,6 +424,7 @@ case_1_entry:
         floor_y &= 0xFFE0;
         work_base->unk_04.parts_06.unk_06.u16 = (u16)(y_base + ((y_adjust + 1) << 5));
         final_floor = func_800BCB04(floor_x, floor_y, floor_limit);
+        index = 1;
         {
             s32 widened_y;
             s32 position_y;
@@ -466,12 +465,11 @@ case_1_entry:
         (work_base->unk_04.s32 - position->unk_04.s32) / effect->unk_12;
     position->unk_14 =
         (work_base->unk_08.s32 - position->unk_08.s32) / effect->unk_12;
-    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    next_state = 11;
+
+    effect->unk_0A.u16 = 11;
 set_state:
-    effect->unk_0A.u16 = next_state;
     effect->unk_10.u16 = 0;
-    ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
     func_800243CC(effect, position);
     goto finish;
 
@@ -528,7 +526,7 @@ case_3:
         S_func_80024578_10 *height_entry;
         u16 max_height;
         S_func_80024578_3 *owner;
-        register s32 effect_size ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 effect_size;
 
         height_base = D_800DDC40;
         owner = effect->unk_1C;
@@ -538,12 +536,11 @@ case_3:
         if (target_pos->unk_08.parts_0A.unk_0A.s16 >=
             effect->unk_16.s16 - height_entry->unk_00) {
             delta_x = 8;
-            ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-            index = 0;
             max_height = effect->unk_16.u16;
             target_pos->unk_08.parts_0A.unk_0A.u16 =
                 (u16)(max_height - height_entry->unk_00);
             func_800419EC(delta_x, effect_size);
+            index = 0;
 case_3_loop:
             func_80024138(effect);
             index++;

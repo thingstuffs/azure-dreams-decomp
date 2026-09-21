@@ -767,12 +767,11 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_data->unk_0A = 0;
                 child_data->unk_0C = 0;
                 {
-                    register S_func_81905FD0_2 *target_motion ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-                    target_motion = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
-                    child_motion->unk_00.u32 = target_motion->unk_00.u32;
-                    child_motion->unk_04.u32 = target_motion->unk_04.u32;
-                    child_motion->unk_08.u32 = target_motion->unk_08.u32;
+                    target_motion_m = ((S_func_81905FD0_5 *)((u8 *)owner->unk_60 - 0x20))->unk_08;
+                    child_motion->unk_00.u32 = target_motion_m->unk_00.u32;
+                    child_motion->unk_04.u32 = target_motion_m->unk_04.u32;
+                    child_motion->unk_08.u32 = target_motion_m->unk_08.u32;
                 }
                 child_render = control_effect->unk_0C;
                 child_render->unk_1E.s16 = 4096;

@@ -302,7 +302,8 @@ state_5:
         } while ((s16)effect_count < 3);
     }
     if ((u32)(((S_80173B08_0 *)action)->unk_96.u - 10) < 7) {
-        register s32 next_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 next_angle;
+        s32 next_angle_2;
 
         mode_or_angle = 0;
         do {
@@ -316,13 +317,13 @@ state_5:
                     func_8017145C((u8 *)action - 0x20, angle);
                     effect_count++;
                 } while ((s16)effect_count <= 0);
-                next_angle = mode_or_angle + 0x200;
-                mode_or_angle = next_angle;
+                next_angle_2 = mode_or_angle + 0x200;
+                mode_or_angle = next_angle_2;
             } else {
-                next_angle = mode_or_angle + 0x200;
-                mode_or_angle = next_angle;
+                next_angle_2 = mode_or_angle + 0x200;
+                mode_or_angle = next_angle_2;
             }
-        } while ((s16)next_angle < 0x1000);
+        } while ((s16)next_angle_2 < 0x1000);
     }
     {
         s16 timer;

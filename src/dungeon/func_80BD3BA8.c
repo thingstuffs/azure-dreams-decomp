@@ -1,7 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_80082E80.h"
 
-
 typedef void (*Callback)(void *, void *, void *, void *);
 
 #define func_8017153C func_8015F53C
@@ -48,7 +47,6 @@ extern u8 D_80162664[8];
 extern u8 D_8016266C[8];
 extern Callback D_801626A0[];
 
-
 typedef struct S_8015F3A8_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_04;   /* overlapping accesses */
@@ -58,7 +56,6 @@ typedef struct S_8015F3A8_0 {
     s32 unk_10;
     s32 unk_14;
 } S_8015F3A8_0;   /* arg1 in func_8015F3A8 */
-
 
 typedef struct S_8015F3A8_2 {
     u8 pad_00[0x1C];
@@ -211,7 +208,7 @@ clear_8000000:
 
         {
             s32 height_sum;
-            register u16 motion_flags ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            s32 motion_flags;
 
             state_check = (*(s32 *)((u8 *)entity + 0xA4));
             height_sum = (*(s32 *)((u8 *)entity + 0x90));
@@ -219,9 +216,8 @@ clear_8000000:
             (*(s16 *)((u8 *)entity + 0xB8)) = 0;
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
             height_sum += state_check;
-            ASM_USE_NV(motion_flags);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             ASM_TAILSLOT_PIN(height_sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_801717E4();
+            func_801717E4(motion_flags);
             return;
         }
     }

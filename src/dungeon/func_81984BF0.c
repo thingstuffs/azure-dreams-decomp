@@ -25,8 +25,8 @@ void func_81984BF0(void)
     link = D_800814A8;
     next = ((S_81984BF0_0 *)link)->unk_5C;
     object = link;
-    link = next + 0x20;
-    ASM_KEEP(link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    next += 0x20;
+    link = next;
     if (link == object) {
         return;
     }
@@ -35,8 +35,8 @@ void func_81984BF0(void)
     do {
         ((S_81984BF0_1 *)object)->unk_1E = ((S_81984BF0_1 *)object)->unk_1E & 0xDFFF;
         object = ((S_81984BF0_0 *)link)->unk_5C;
-        link = object + 0x20;
-        ASM_KEEP(link);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        object += 0x20;
+        link = object;
         object = link - 0x20;
     } while (link != head);
 }

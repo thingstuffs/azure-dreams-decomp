@@ -594,13 +594,11 @@ L1_calc:
         arg2->unk_0C.at02u.v = ((30 - ((S_800259D8_0 *)arg0)->unk_84.s) * 0xE0) / 30;
         if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
             ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-            tail_a = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
+            ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
         } else {
-            tail_a = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
+            ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
             ((S_800259D8_0 *)arg0)->unk_A0 = 0;
         }
-        ((S_800259D8_0 *)arg0)->unk_AA = tail_a;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         i = 0;
         ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         value = func_80069EF8();
@@ -642,7 +640,6 @@ L1_calc:
     {
     void *fade_node;
     void *fade_entry;
-    s32 fade14;
     count = ((S_800259D8_0 *)arg0)->unk_84.u + 1;
     ((S_800259D8_0 *)arg0)->unk_84.u = count;
     fade_node = ((S_800259D8_3 *)obj)->unk_60;
@@ -650,20 +647,13 @@ L1_calc:
     fade_entry = ((S_800259D8_10_pre *)fade_node)[-1].unk_00;
     if (((S_800259D8_0 *)arg0)->unk_84.s >= 36) {
         ((S_800259D8_11 *)fade_entry)->unk_0C += 2;
-        fade14 = ((S_800259D8_11 *)fade_entry)->unk_0E;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        tail_a = ((S_800259D8_11 *)fade_entry)->unk_0D;
-        ((S_800259D8_11 *)fade_entry)->unk_0E = fade14 - 3;
-        tail_a = tail_a + 2;
+        ((S_800259D8_11 *)fade_entry)->unk_0D += 2;
+        ((S_800259D8_11 *)fade_entry)->unk_0E -= 3;
     } else {
         ((S_800259D8_11 *)fade_entry)->unk_0C -= 2;
-        fade14 = ((S_800259D8_11 *)fade_entry)->unk_0E;
-        ASM_SCHED_BARRIER();   /* MATCH: retain the color store before loading the shared green value. */
-        tail_a = ((S_800259D8_11 *)fade_entry)->unk_0D;
-        ((S_800259D8_11 *)fade_entry)->unk_0E = fade14 + 3;
-        tail_a = tail_a - 2;
+        ((S_800259D8_11 *)fade_entry)->unk_0D -= 2;
+        ((S_800259D8_11 *)fade_entry)->unk_0E += 3;
     }
-    ((S_800259D8_11 *)fade_entry)->unk_0D = tail_a;
     if (((S_800259D8_0 *)arg0)->unk_84.s < 71) {
         goto done;
     }

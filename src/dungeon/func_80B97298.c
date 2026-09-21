@@ -69,7 +69,6 @@ void func_80170A98(void *entity, S_80170A98_2 *motion, void *monster)
     if (D_80083462[0] & 0x2000) {
         Callback early_callback;
 
-        ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         early_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (early_callback == (Callback)&D_80170E9C) {
             early_callback(entity, motion, monster, entity);
@@ -112,11 +111,11 @@ void func_80170A98(void *entity, S_80170A98_2 *motion, void *monster)
             if (!(((S_80170A98_0 *)monster)->unk_14 & 0x40)) {
                 func_800478B8(monster);
             }
+            func_800A020C(((S_80170A98_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
         } else {
             ((S_80170A98_0 *)monster)->unk_14 |= 0x7000;
+            func_800A020C(((S_80170A98_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
         }
-
-        func_800A020C(((S_80170A98_1 *)actor)->unk_1C, (u8 *)monster + 0xC);
     } else {
         if (monster_flags & 0x0800) {
             ((S_80170A98_0 *)monster)->unk_14 = monster_flags & 0x8FFF;

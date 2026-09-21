@@ -91,6 +91,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
     void *render_data;
     RootPrefix *root_prefix;
     Lookup *lookup;
+    Lookup *lookup_2;
     Motion *source_motion;
     register Motion *linked_motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *linked_root;
@@ -209,12 +210,10 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         }
 
         steps = 0;
-        lookup = root_prefix->lookup;
-        ASM_USE_NV(lookup);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        lookup_2 = root_prefix->lookup;
         coord_diff = (s32)0x80070000;
-        ASM_USE_NV(coord_diff);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        cell_y = lookup->cell_y;
-        cell_x = lookup->cell_x;
+        cell_y = lookup_2->cell_y;
+        cell_x = lookup_2->cell_x;
         end_x = cell_x;
         end_y = cell_y;
 
