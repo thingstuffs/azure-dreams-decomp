@@ -40,6 +40,36 @@ CANDIDATES  per maximal run (loads and stores of the same temps against two diff
             the run's window
             pins are erased jointly, then singly, then the function's pins jointly; every candidate is ranked
             by its cc1 listing distance to the pinned text's listing and only listing-exact ones reach `vf`.
+
+APPEARS     (round 62, the unaligned form) the same whole-object copy already written as an aggregate
+            assignment, but sourced from a hand-held page constant instead of the object's own symbol:
+                copy_page = (u8 *)0x80020000;
+                ASM_KEEP(copy_page);
+                copy_source = (Copy32 *)(copy_page + 0x4028);
+                ASM_KEEP(copy_source);            /* holds the %hi/%lo vs base+offset address form */
+                direction_offsets.first  = copy_source->first;
+                direction_offsets.second = copy_source->second;
+                direction_offsets.third  = copy_source->third;
+                ASM_KEEP(copy_page);              /* holds the colour of the block move's temporaries */
+            also spelled `memcpy(dst, copy_source, 12); memcpy(dst + 12, copy_source + 12, 12); ...`,
+            `*(Blob12 *)&points = *(Blob12 *)copy_source;` and, for one chunk, `dst = *copy_source;`.
+RESOLVES    dungeon/func_819C04E8 (9 pins -> 5) and dungeon/func_819A1654.  Mechanism: retail materialises
+            the object's address once as `lui %hi` + `addiu %lo` into a register and then runs gcc 2.7.2's
+            mips.c `expand_block_move`, which for a symbol source loads three words then stores them, three
+            then three then two for a 32-byte object (a source address already in a register groups four and
+            four instead: measured, `*page_ptr` vs `&D_80024028` on func_819C04E8 - one of the move registers
+            appears to go to the materialised %hi/%lo base).  The recovered C fakes that base register
+            with a page constant, and the ASM_KEEPs hold the constant, the `addiu` and the base's liveness
+            across the move.  Naming the object - `*(Copy32 *)&D_80024028` - makes cc1 emit the same
+            lui/addiu base by itself (the cdk cell always splits addresses), so the keeps are unnecessary.
+            The block move's grouping only depends on whether the alignment is below a word: a packed
+            struct, `struct { u16 h[N/2]; }` and `struct { u8 b[N]; }` compile identically (lwl/lwr pairs),
+            while an alignment-4 struct switches to `lw`/`sw` - so the inserted type is `u8 b[N]`.
+CANDIDATES  per page run: the derived pointer and the copy statements replaced by one aggregate assignment
+            from `D_<page+offset>` (the file's own unaligned struct type of that size, else an inserted
+            `typedef struct { u8 b[N]; } AggUN;`; `extern u8 D_X[];` inserted when the symbol is new), with
+            the run's pins on the page/source variables dropped and their dead declarations removed, then
+            the window's remaining pins erased jointly and singly - listing-screened and gated as above.
 """
 import difflib, re, sys
 from pathlib import Path
@@ -537,6 +567,424 @@ def plans(text, cand, run, copy_line):
     return out
 
 
+# ------------------------------------------------------------------ page-based unaligned copies (round 62)
+
+MAX_PAGE_RUNS = 4
+PAGE_SPAN = 18
+PAGE_OTHER = 3
+STRUCT_END = r"\}\s*(?:__attribute__\s*\(\([^()]*\)\)\s*)*"
+MEMCPY_RE = re.compile(r"^[ \t]*memcpy\s*\(\s*(?P<d>.+)\s*,\s*(?P<s>.+)\s*,\s*(?P<n>0x[0-9A-Fa-f]+|\d+)\s*\)\s*;[ \t]*$")
+PAGEC_RE = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)\s*=(?!=)\s*(?P<rhs>.+?)\s*;[ \t]*$")
+PLUSEQ_RE = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)\s*(?P<op>\+|-)=\s*(?P<o>0x[0-9A-Fa-f]+|\d+)\s*;[ \t]*$")
+LVNAME_RE = re.compile(r"^[A-Za-z_]\w*(?:\s*(?:\.|->)\s*[A-Za-z_]\w*)*$")
+
+
+def top_op(e):
+    """(position, '+'|'-') of the last top-level additive operator, or (None, None)."""
+    d, out, op = 0, None, None
+    for i, ch in enumerate(e):
+        if ch in "([":
+            d += 1
+        elif ch in ")]":
+            d -= 1
+        elif ch in "+-" and d == 0 and i and e[i - 1] not in "+-(<>=!*/%&|^,":
+            out, op = i, ch
+    return out, op
+
+
+def pbase_off(addr):
+    """(base, offset) for `x`, `x + 0xC`, `(T *)((u8 *)x - 0x10)`; offset is signed."""
+    addr = unwrap(addr)
+    i, op = top_op(addr)
+    off = 0
+    if i is not None:
+        tail = addr[i + 1:].strip()
+        if not re.fullmatch(r"0x[0-9A-Fa-f]+|\d+", tail):
+            return None, None
+        off = int(tail, 0) * (-1 if op == "-" else 1)
+        addr = addr[:i].strip()
+    base = unwrap(addr)
+    return (base or None), off
+
+
+def cast_const(e):
+    """The integer of `(u8 *)0x80020000` / `0x80020000`, else None."""
+    e = unwrap(e)
+    return int(e, 0) if re.fullmatch(r"0x[0-9A-Fa-f]+|\d+", e) else None
+
+
+def struct_text(text, ty):
+    """(body, packed) of a named struct/typedef, or (None, False)."""
+    for pat in (r"typedef\s+struct(?:\s+\w+)?\s*\{(?P<b>[^{}]*)" + STRUCT_END + r"%s\s*;",
+                r"struct\s+%s\s*\{(?P<b>[^{}]*)" + STRUCT_END):
+        m = re.search(pat % re.escape(ty), text)
+        if m:
+            return mask_comments(m.group("b")), "packed" in m.group(0)
+    return None, False
+
+
+def members(text, ty, big, depth=0):
+    """[(name, type, size, offset)] for a named struct, or None."""
+    body, _ = struct_text(text, ty)
+    if body is None or depth > 3:
+        return None
+    out, off = [], 0
+    for part in body.split(";"):
+        part = part.strip()
+        if not part:
+            continue
+        m = MEMBER_RE.match(part + ";")
+        if not m:
+            return None
+        n = 4 if m.group("ptr") else tsize(text, m.group("ty"), big, depth + 1)
+        if n is None:
+            return None
+        n *= int(m.group("arr"), 0) if m.group("arr") else 1
+        out.append((m.group("n"), m.group("ty").strip(), n, off))
+        off += n
+    return out or None
+
+
+def tsize(text, ty, big, depth=0):
+    """Byte size of a type name (builtin, typedef or struct), or None."""
+    ty = re.sub(r"\s+", " ", (ty or "").strip())
+    if ty in big:
+        return 8
+    if ty in SIZES:
+        return SIZES[ty]
+    ms = members(text, ty, big, depth)
+    return sum(m[2] for m in ms) if ms else None
+
+
+def talign(text, ty, big, depth=0):
+    """Natural alignment of a type name (1 for a packed struct), or None."""
+    ty = re.sub(r"\s+", " ", (ty or "").strip())
+    if ty in big:
+        return 8
+    if ty in SIZES:
+        return SIZES[ty]
+    body, packed = struct_text(text, ty)
+    if body is None or depth > 3:
+        return None
+    if packed:
+        return 1
+    ms = members(text, ty, big, depth)
+    if ms is None:
+        return None
+    a = 1
+    for _, mty, _, _ in ms:
+        x = 4 if mty.endswith("*") else talign(text, mty, big, depth + 1)
+        if x is None:
+            return None
+        a = max(a, min(x, 4))
+    return a
+
+
+def unaligned_types(text, big):
+    """{size: name} for the file's struct types whose alignment is below a word."""
+    out = {}
+    for m in re.finditer(STRUCT_END + r"(?P<n>[A-Za-z_]\w*)\s*;", text):
+        n = m.group("n")
+        if n in SIZES or n in out.values():
+            continue
+        s, a = tsize(text, n, big), talign(text, n, big)
+        if s and a and a < 4 and s not in out:
+            out[s] = n
+    return out
+
+
+def agg_forms(text, size, big):
+    """[(type name, typedef text|None)] - unaligned struct types covering `size` bytes."""
+    out = [(n, None) for s, n in unaligned_types(text, big).items() if s == size]
+    name = "AggU%d" % size
+    if not re.search(r"\b%s\b" % name, text):
+        out.append((name, "typedef struct { u8 b[%d]; } %s;" % (size, name)))
+    return out[:2]
+
+
+def addr_expr(lv):
+    """An address expression for an lvalue: `*(T *)p` -> `p`, `a.b` -> `&a.b`."""
+    lv = strip_parens(lv)
+    m = DEREF_RE.match(lv)
+    if m and paren_ok(m.group("addr")):
+        return strip_parens(m.group("addr"))
+    if lv.startswith("*"):
+        rest = strip_parens(lv[1:])
+        return rest if NAME_RE.match(rest) else None
+    if LVNAME_RE.match(lv):
+        return "&" + lv
+    m = IDX_RE.match(lv)
+    return "&" + lv if m else None
+
+
+def elem_of(ln, srcvar, text, big, ptype):
+    """(size, soff, dst_addr, dst_off|None, dst_text, ty) for one copy reading through `srcvar`."""
+    m = MEMCPY_RE.match(ln)
+    if m and paren_ok(m.group("d")) and paren_ok(m.group("s")):
+        b, o = pbase_off(m.group("s"))
+        if b == srcvar and o is not None:
+            return int(m.group("n"), 0), o, m.group("d").strip(), None, None, None
+        return None
+    m = STORE_RE.match(ln) or re.match(r"^(?P<ind>[ \t]*)(?P<lhs>.+?)\s*=(?!=)\s*(?P<v>.+?)\s*;[ \t]*$", ln)
+    if not m:
+        return None
+    lhs, rhs = m.group("lhs").strip(), (m.group("v") if "v" in m.groupdict() else "").strip()
+    if not paren_ok(lhs) or not paren_ok(rhs):
+        return None
+    da = addr_expr(lhs)
+    if da is None:
+        return None
+    r = strip_parens(rhs)
+    dm = DEREF_RE.match(r)
+    if dm and paren_ok(dm.group("addr")):                       # *(T *)(src + off)
+        b, o = pbase_off(dm.group("addr"))
+        n = tsize(text, dm.group("ty"), big)
+        if b == srcvar and o is not None and n and n % 4 == 0:
+            return n, o, da, None, lhs, dm.group("ty")
+        return None
+    if r == "*" + srcvar or re.fullmatch(r"\*\s*%s" % re.escape(srcvar), r):
+        n = tsize(text, ptype, big) if ptype else None
+        return (n, 0, da, None, lhs, ptype) if n else None
+    m2 = IDX_RE.match(r)
+    if m2 and unwrap(r[:r.rindex("[")]) == srcvar and int(m2.group("i"), 0) == 0:
+        n = tsize(text, ptype, big) if ptype else None
+        return (n, 0, da, None, lhs, ptype) if n else None
+    if ptype:                                                   # src->member / src.member
+        mm = re.fullmatch(r"%s\s*->\s*([A-Za-z_]\w*)" % re.escape(srcvar), r)
+        lm = re.fullmatch(r"(?P<p>.+?)\s*(?:\.|->)\s*(?P<m>[A-Za-z_]\w*)", lhs)
+        if mm and lm and lm.group("m") == mm.group(1) and paren_ok(lm.group("p")):
+            pa = addr_expr(lm.group("p").strip())
+            for nm, _, sz, off in (members(text, ptype, big) or []):
+                if nm == mm.group(1) and pa:
+                    return sz, off, pa, off, lhs, None
+    return None
+
+
+def page_runs(text):
+    """Every `page = 0x...; src = page + off; <aggregate copies through src>` run."""
+    masked = mask_comments(text)
+    mlines, out, ppl = masked.split("\n"), [], pp_lines(text)
+    big = big_types(text)
+    for fname, params, b0, b1 in functions(text):
+        lo = masked.count("\n", 0, b0)
+        hi = masked.count("\n", 0, b1)
+        pages = []
+        for k in range(lo + 1, hi):
+            m = PAGEC_RE.match(mlines[k])
+            if m:
+                v = cast_const(m.group("rhs"))
+                pages.append((k, m.group("v"),
+                              v if v is not None and v >= 0x80000000 and not (v & 0xFFFF) else None))
+        if not any(p[2] is not None for p in pages):
+            continue
+        k = lo + 1
+        while k < hi:
+            r = one_page_run(text, mlines, k, lo, hi, params, pages, ppl, big)
+            if r:
+                r["fn"] = fname
+                out.append(r)
+                k = r["last"] + 1
+            else:
+                k += 1
+    return out
+
+
+def one_page_run(text, mlines, start, lo, hi, params, pages, ppl, big):
+    """The run beginning with the derived-pointer assignment on line `start`, or None."""
+    if start in ppl:
+        return None
+    m = PAGEC_RE.match(mlines[start])
+    if not m:
+        return None
+    srcvar = m.group("v")
+    base, off = pbase_off(m.group("rhs"))
+    val = next((v for k, n, v in reversed(pages) if n == base and k < start), None)
+    if val is None or off is None:
+        return None
+    pagevar, addr = base, val + off
+    ptype = ptr_type_of(mlines, lo + 1, hi, params, srcvar)
+    items, copies, foreign, j = [(start, "deriv")], [], 0, start + 1
+    while j < hi and j - start <= PAGE_SPAN:
+        if j in ppl:
+            break
+        ln = mlines[j]
+        m2 = PLUSEQ_RE.match(ln)
+        if m2 and m2.group("v") == srcvar and not copies:
+            addr += int(m2.group("o"), 0) * (-1 if m2.group("op") == "-" else 1)
+            items.append((j, "deriv"))
+            j += 1
+            continue
+        el = elem_of(ln, srcvar, text, big, ptype)
+        if el:
+            items.append((j, "copy"))
+            copies.append(el)
+            j += 1
+            continue
+        if not ln.strip():
+            items.append((j, "blank"))
+            j += 1
+            continue
+        if ASM_LINE.match(ln):
+            items.append((j, "pin"))
+            j += 1
+            continue
+        if copies:
+            break
+        if foreign < PAGE_OTHER and ln.rstrip().endswith(";") and "{" not in ln and "}" not in ln \
+                and not re.match(r"^[ \t]*(?:return|goto|break|continue|case|default)\b", ln) \
+                and not re.search(r"\b%s\b" % re.escape(srcvar), ln):
+            items.append((j, "other"))
+            foreign += 1
+            j += 1
+            continue
+        break
+    if not copies:
+        return None
+    while items[-1][1] in ("blank", "pin", "other"):
+        items.pop()
+    cur, dbase, dstart = 0, None, None
+    for n, so, da, doff, _, _ in copies:
+        if so != cur:
+            return None
+        b, o = (da, doff) if doff is not None else pbase_off(da)
+        if b is None:
+            return None
+        if dbase is None:
+            dbase, dstart = b, o
+        elif b != dbase or o - dstart != cur:
+            return None
+        cur += n
+    if cur % 4 or cur < 8 or addr < 0x80000000:
+        return None
+    k = start - 1                                   # the page constant itself joins the run when it is adjacent
+    pre = []
+    while k > lo and (not mlines[k].strip() or ASM_LINE.match(mlines[k])) and start - k <= 4:
+        pre.append((k, "pin" if ASM_LINE.match(mlines[k]) else "blank"))
+        k -= 1
+    m3 = PAGEC_RE.match(mlines[k]) if k > lo and k not in ppl else None
+    if m3 and m3.group("v") == pagevar and cast_const(m3.group("rhs")) is not None:
+        items = [(k, "deriv")] + sorted(pre) + items
+    return {"first": items[0][0], "last": items[-1][0], "items": items, "copies": copies, "size": cur,
+            "srcvar": srcvar, "pagevar": pagevar, "addr": addr, "dst": copies[0][2], "ptype": ptype,
+            "lo": lo, "hi": hi, "indent": re.match(r"[ \t]*", mlines[start]).group(0)}
+
+
+def sym_names(text, addr):
+    """[(source spelling, extern line|None)] for the object at `addr`."""
+    name = "D_%08X" % addr
+    if re.search(r"\b%s\b" % name, text):
+        return [("&" + name, None), (name, None)]
+    return [(name, "extern u8 %s[];" % name)]
+
+
+def page_forms(text, run, big):
+    """[(label, [statement lines], [extra declarations])] - the copies to try, best first."""
+    out, seen = [], set()
+    for sym, ext in sym_names(text, run["addr"]):
+        one = run["copies"][0]
+        if len(run["copies"]) == 1 and one[5] and one[4]:
+            add_form(out, seen, "same", ["%s = *(%s *)%s;" % (one[4], one[5], sym)], [ext])
+        for ty, td in agg_forms(text, run["size"], big):
+            add_form(out, seen, "agg_" + ty,
+                     ["*(%s *)%s = *(%s *)%s;" % (ty, run["dst"], ty, sym)], [ext, td])
+    return out[:4]
+
+
+def add_form(out, seen, label, stmts, decls):
+    key = tuple(stmts)
+    if key not in seen:
+        seen.add(key)
+        out.append((label, stmts, [d for d in decls if d]))
+
+
+def insert_decls(text, decls):
+    lines = text.split("\n")
+    at = 0
+    for i, ln in enumerate(lines[:80]):
+        if ln.startswith("#include"):
+            at = i + 1
+    return "\n".join(lines[:at] + [""] + list(decls) + lines[at:])
+
+
+def page_rewrite(text, run, stmts, decls, keep_pins):
+    """The run replaced by `stmts`; dead page/source declarations dropped.  (text, 1-based copy line)."""
+    lines, body, done = text.split("\n"), [], False
+    names = (run["srcvar"], run["pagevar"])
+    marker = run["indent"] + stmts[0]
+    for k, kind in run["items"]:
+        if kind == "copy" and not done:
+            body.extend(run["indent"] + s for s in stmts)
+            done = True
+        elif kind in ("copy", "deriv"):
+            continue
+        elif kind == "pin":
+            if keep_pins or not any(re.search(r"\b%s\b" % re.escape(n), lines[k]) for n in names):
+                body.append(lines[k])
+        else:
+            body.append(lines[k])
+    new = lines[:run["first"]] + body + lines[run["last"] + 1:]
+    if decls:
+        new = insert_decls("\n".join(new), decls).split("\n")
+    for name in names:
+        cand = "\n".join(new)
+        masked = mask_comments(cand).split("\n")
+        for _, _, b0, b1 in functions(cand):
+            plo, phi = cand.count("\n", 0, b0), cand.count("\n", 0, b1)
+            dl, single = decl_line_of(masked, plo + 1, phi, name)
+            if dl is None or not single:
+                continue
+            if not [k for k in range(plo + 1, phi)
+                    if k != dl and re.search(r"\b%s\b" % re.escape(name), masked[k])]:
+                new.pop(dl)
+            break
+    return "\n".join(new), new.index(marker) + 1
+
+
+def page_plans(cand, copy_line):
+    """[(label, [sites])] - the pin groups to erase around the new copy."""
+    sites = sites_of(cand)
+    win = [s for s in sites if copy_line - 2 <= s[5] <= copy_line + 4]
+    out, seen = [], set()
+    for label, g in [("none", [])] + ([("win", win)] if len(win) > 1 else []) + \
+            [("win1_%d" % k, [s]) for k, s in enumerate(win)]:
+        key = tuple(s[3] for s in g)
+        if key not in seen:
+            seen.add(key)
+            out.append((label, g))
+    return out[:6]
+
+
+def page_step(row, cur, target, vf, budget):
+    """One page-run rewrite that the byte gate accepts, or None.  budget = [listings, verifies]."""
+    big = big_types(cur)
+    for run in page_runs(cur)[:MAX_PAGE_RUNS]:
+        ranked, pins_in = [], len(sites_of(cur))
+        for label, stmts, decls in page_forms(cur, run, big):
+            for keep in (True, False):
+                base, copy_line = page_rewrite(cur, run, stmts, decls, keep)
+                for pl, group in page_plans(base, copy_line):
+                    if budget[0] >= MAX_LISTINGS:
+                        break
+                    c = erase_many(base, group, clean_notes=True) if group else base
+                    out = len(sites_of(c))
+                    if out >= pins_in:
+                        continue
+                    lst = screen.compile_s(row, c)
+                    budget[0] += 1
+                    d = screen.sdiff(target, lst)
+                    if d is not None:
+                        budget[2] = d if budget[2] is None else min(budget[2], d)
+                        ranked.append((d, out, "%s/%s/%s" % (label, "keep" if keep else "drop", pl), c))
+        ranked.sort(key=lambda x: (x[0], x[1]))
+        for d, out, tag, c in ranked:
+            if budget[1] >= MAX_VERIFY or d:
+                break
+            budget[1] += 1
+            if vf(c).get("exact"):
+                return c, tag
+    return None
+
+
 # ------------------------------------------------------------------ generator
 
 class T:
@@ -553,7 +1001,9 @@ class T:
             return "no pins"
         if "=" not in text:
             return "no statements"
-        return None if runs(text) else "no scalarized copy run"
+        if runs(text) or page_runs(text):
+            return None
+        return "no scalarized copy run"
 
     @classmethod
     def apply_verified(cls, text, row, census, vf):
@@ -602,6 +1052,16 @@ class T:
                     cur, hit = c, True
                     steps.append(tag)
                     break
+        budget = [listings, verifies, None]
+        while budget[0] < MAX_LISTINGS and budget[1] < MAX_VERIFY:
+            got = page_step(row, cur, target, vf, budget)
+            if not got:
+                break
+            cur, tag = got
+            steps.append("page:" + tag)
+        listings, verifies, page_d = budget
+        if page_d is not None:
+            best_d = page_d if best_d is None else min(best_d, page_d)
         info = {"listings": listings, "tried": verifies, "runs": nruns, "best_d": best_d,
                 "pins_in": pins_in, "pins_out": len(sites_of(cur))}
         if not steps:

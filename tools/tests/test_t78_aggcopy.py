@@ -216,5 +216,147 @@ class Typedefs(unittest.TestCase):
         self.assertEqual(out[3], "typedef struct { s32 word[6]; } Copy24;")
 
 
+# ------------------------------------------------------------- the page-based unaligned form (round 62)
+
+PAGE_HEAD = '''#include "common.h"
+
+typedef struct { u8 b[12]; } __attribute__((packed)) Chunk12;
+typedef struct { u8 b[8]; } __attribute__((packed)) Chunk8;
+typedef struct { Chunk12 first; Chunk12 second; Chunk8 third; } __attribute__((packed)) Chunk32;
+typedef struct { s32 w[8]; } Wide32;
+
+extern Chunk32 D_80024028[];
+'''
+
+MEMBERS = PAGE_HEAD + '''
+void f(void)
+{
+    Chunk32 offsets;
+    u8 *table_page;
+    register Chunk32 *offset_source ASM_REG("$6");
+
+    table_page = (u8 *)0x80020000;
+    ASM_KEEP(table_page);
+    offset_source = (Chunk32 *)(table_page + 0x4028);
+    ASM_KEEP(offset_source);
+    offsets.first = offset_source->first;
+    offsets.second = offset_source->second;
+    offsets.third = offset_source->third;
+    ASM_KEEP(table_page);
+    use(&offsets);
+}
+'''
+
+CASTS = PAGE_HEAD + '''
+void f(void)
+{
+    Chunk32 points;
+    u8 *copy_page;
+    u8 *copy_source;
+
+    copy_page = (u8 *)0x80020000;
+    ASM_KEEP(copy_page);
+    copy_source = copy_page;
+    copy_source += 0x4054;
+    *(Chunk12 *)&points = *(Chunk12 *)copy_source;
+    *(Chunk12 *)((u8 *)&points + 12) = *(Chunk12 *)(copy_source + 12);
+    *(Chunk8 *)((u8 *)&points + 24) = *(Chunk8 *)(copy_source + 24);
+    ASM_KEEP(copy_page);
+}
+'''
+
+MEMCPYS = PAGE_HEAD + '''
+void f(u8 *dst)
+{
+    u8 *copy_page;
+    u8 *copy_source;
+
+    copy_page = (u8 *)0x80170000;
+    ASM_KEEP(copy_page);
+    copy_source = (u8 *)(copy_page - 0x57A8);
+    ASM_KEEP(copy_source);
+    memcpy(dst, copy_source, 12);
+    memcpy(dst + 12, copy_source + 12, 12);
+    ASM_KEEP(copy_page);
+}
+'''
+
+
+class PageRuns(unittest.TestCase):
+    def one(self, text):
+        rs = M.page_runs(text)
+        self.assertEqual(len(rs), 1, [r["addr"] for r in rs])
+        return rs[0]
+
+    def test_member_chunks_are_one_run(self):
+        r = self.one(MEMBERS)
+        self.assertEqual((r["addr"], r["size"], len(r["copies"])), (0x80024028, 32, 3))
+        self.assertEqual((r["srcvar"], r["pagevar"], r["dst"]), ("offset_source", "table_page", "&offsets"))
+
+    def test_cast_chunks_and_a_plus_equals_offset(self):
+        r = self.one(CASTS)
+        self.assertEqual((r["addr"], r["size"]), (0x80024054, 32))
+        self.assertEqual(r["dst"], "&points")
+
+    def test_memcpy_chunks_and_a_negative_offset(self):
+        r = self.one(MEMCPYS)
+        self.assertEqual((r["addr"], r["size"]), (0x8016A858, 24))
+        self.assertEqual(r["dst"], "dst")
+
+    def test_a_gap_between_the_chunks_is_refused(self):
+        self.assertEqual(M.page_runs(CASTS.replace("+ 24", "+ 28")), [])
+
+    def test_two_destinations_are_refused(self):
+        self.assertEqual(M.page_runs(MEMBERS.replace("offsets.second", "other.second")), [])
+
+    def test_a_plain_pointer_is_not_a_page_run(self):
+        self.assertEqual(M.page_runs(MEMBERS.replace("(u8 *)0x80020000", "arg")), [])
+
+
+class PageForms(unittest.TestCase):
+    def test_the_symbol_is_the_page_plus_the_offset(self):
+        self.assertEqual(M.sym_names(MEMBERS, 0x80024028), [("&D_80024028", None), ("D_80024028", None)])
+        self.assertEqual(M.sym_names(MEMBERS, 0x80024054),
+                         [("D_80024054", "extern u8 D_80024054[];")])
+
+    def test_only_an_unaligned_type_of_the_right_size_is_offered(self):
+        big = M.big_types(MEMBERS)
+        self.assertEqual(M.agg_forms(MEMBERS, 32, big),
+                         [("Chunk32", None), ("AggU32", "typedef struct { u8 b[32]; } AggU32;")])
+        self.assertEqual(M.talign(MEMBERS, "Wide32", big), 4)
+        self.assertEqual(M.talign(MEMBERS, "Chunk32", big), 1)
+
+    def test_the_run_becomes_one_assignment_from_the_symbol(self):
+        r = M.page_runs(MEMBERS)[0]
+        label, stmts, decls = M.page_forms(MEMBERS, r, M.big_types(MEMBERS))[0]
+        self.assertEqual(stmts, ["*(Chunk32 *)&offsets = *(Chunk32 *)&D_80024028;"])
+        self.assertEqual(decls, [])
+
+    def test_the_rewrite_drops_the_dead_page_declarations_and_their_pins(self):
+        r = M.page_runs(MEMBERS)[0]
+        _, stmts, decls = M.page_forms(MEMBERS, r, M.big_types(MEMBERS))[0]
+        out, line = M.page_rewrite(MEMBERS, r, stmts, decls, False)
+        self.assertIn("*(Chunk32 *)&offsets = *(Chunk32 *)&D_80024028;", out)
+        self.assertNotIn("table_page = (u8 *)0x80020000;", out)   # the page constant joins the run
+        self.assertNotIn("offset_source", out)                    # dead, with its ASM_REG declaration
+        self.assertEqual(out.count("ASM_KEEP("), 1)               # the trailing one, for the erase plans
+        self.assertEqual(out.split("\n")[line - 1].strip(), stmts[0])
+
+    def test_keep_pins_leaves_the_windows_pins_for_the_erase_plans(self):
+        r = M.page_runs(MEMBERS)[0]
+        _, stmts, decls = M.page_forms(MEMBERS, r, M.big_types(MEMBERS))[0]
+        out, _ = M.page_rewrite(MEMBERS, r, stmts, decls, True)
+        self.assertEqual(out.count("ASM_KEEP("), 3)
+
+
+class PageEligible(unittest.TestCase):
+    def test_a_page_run_alone_makes_a_row_eligible(self):
+        self.assertIsNone(M.T.eligible(MEMBERS, {}, {}))
+
+    def test_no_run_of_either_kind_is_refused(self):
+        self.assertEqual(M.T.eligible(PAGE_HEAD + "\nvoid f(void) { s32 a; a = 1; ASM_KEEP(a); }\n", {}, {}),
+                         "no scalarized copy run")
+
+
 if __name__ == "__main__":
     unittest.main()
