@@ -213,7 +213,11 @@ def gate_candidate(row, cfile):
                 if res != "MATCH":
                     return {"gate": res, "window": w, "windows": wins, "detail": detail}
         finally:
-            cp.write_text(before)
+            # restore only what WE put there: a landing that runs while this lane gates
+            # (LAND_ISOLATED=1, docs/LANE_KIT.md) can have written a newer text into this row
+            # through apply_candidates/sweep, and blindly restoring `before` would revert it
+            if cp.read_text(errors="replace") == cand:
+                cp.write_text(before)
     finally:
         for l in reversed(locks): l.__exit__(None, None, None)
     return {"gate": "MATCH", "windows": wins}

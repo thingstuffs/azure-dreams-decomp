@@ -20,13 +20,17 @@ and the built SLUS into work/disc/rebuilt_containers/ (disc layout) and runs
 clean tree, byte-identical or not.
 """
 from __future__ import annotations
-import argparse, hashlib, json, subprocess, sys, time
+import argparse, hashlib, json, os, subprocess, sys, time
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 from common import LEDGER, rows, read_jsonl, append_jsonl, window_map
 
-B = ROOT / "build_ovl"
+# the view root whose window build dirs hold the rebuilt .window.bin files: the root the gate last
+# ran in.  GATE_BUILD_ROOT (default build_ovl, as before) follows tools/build/gate_all.py, so after
+# an isolated landing (LAND_ISOLATED=1, docs/LANE_KIT.md) this reads build_ovl_gate:
+#   GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/container_check.py
+B = ROOT / os.environ.get("GATE_BUILD_ROOT", "build_ovl")
 CONT = {"main": "MAIN_MAIN.BIN", "town": "TOWN_TOWN.BIN", "dungeon": "DUNGEON_DUNGEON.BIN", "ovmovie": "OVMOVIE.BIN"}
 LAYOUT = {"main": "MAIN/MAIN.BIN", "town": "TOWN/TOWN.BIN", "dungeon": "DUNGEON/DUNGEON.BIN", "ovmovie": "OVMOVIE.BIN"}
 

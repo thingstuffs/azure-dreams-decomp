@@ -69,14 +69,19 @@ def window_map():
     (the engine window is a dungeon-container window)."""
     global _WM
     if _WM is None:
-        _WM = {}
+        # built into a LOCAL and published in ONE assignment: this reads 2,000+ YAMLs and the
+        # callers are threaded (gate_all's workers, the sweeps), and a peer that saw the
+        # half-filled map cached a permanently incomplete window table from it - windows whose
+        # rows were then missing from gate_all's inputs_sha (2026-09-21)
+        wm = {}
         for y in sorted((ROOT / "config/overlays").glob("*.overlay.yaml")):
             t = y.read_text(errors="replace")
             tp = re.search(r"target_path:\s*(\S+)", t); fs = re.search(r"file_start:\s*(0x[0-9A-Fa-f]+)", t)
             fe = re.search(r"file_end:\s*(0x[0-9A-Fa-f]+)", t); vs = re.search(r"vram_start:\s*(0x[0-9A-Fa-f]+)", t)
             if not (tp and fs and fe): continue
             cont = Path(tp.group(1)).name.split("_")[0].lower().replace(".bin", "")
-            _WM.setdefault(cont, []).append((y.name, int(fs.group(1), 16), int(fe.group(1), 16), int(vs.group(1), 16) if vs else None))
+            wm.setdefault(cont, []).append((y.name, int(fs.group(1), 16), int(fe.group(1), 16), int(vs.group(1), 16) if vs else None))
+        _WM = wm
     return _WM
 
 def covering_windows(container, foff, size, wm=None):

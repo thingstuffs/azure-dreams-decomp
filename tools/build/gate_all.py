@@ -7,12 +7,23 @@ One line per window in ledger/gate.jsonl: window, container, result (MATCH / NO 
 bytes, first mismatch text, seconds, and the sha256 of the window's C inputs so a later run can
 skip windows whose inputs did not change (--retry re-runs non-MATCH windows regardless).
 Run tools/build/mk_slus_root.sh + `splat split` and tools/build/mk_ovl_root.sh first.
+
+GATE_BUILD_ROOT names the view root to gate in (default build_ovl, exactly as before).  An
+isolated landing (LAND_ISOLATED=1, docs/LANE_KIT.md) gates in build_ovl_gate, built by
+`EXP=gate SRCROOT=<repo>/src bash tools/build/mk_ovl_root.sh`, so that mk_ovl_root.sh never
+replaces the build_ovl the model lanes score in.  Either root reads the SAME src/ (the
+overlays/<ov>/first_pass_matched symlink) and the same window YAMLs, and inputs_sha is read from
+src/ directly, so the verdict does not depend on which root ran it.  GATE_JOURNAL likewise names
+the journal (default ledger/gate.jsonl): a throw-away journal gates every window without touching
+the record of the tree.
 """
-import argparse, hashlib, json, re, subprocess, sys, time
+import argparse, contextlib, hashlib, json, os, re, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
-B = ROOT / "build_ovl"; JOURNAL = ROOT / "ledger/gate.jsonl"
+B = ROOT / os.environ.get("GATE_BUILD_ROOT", "build_ovl")
+JOURNAL = Path(os.environ.get("GATE_JOURNAL", ROOT / "ledger/gate.jsonl"))
+if not JOURNAL.is_absolute(): JOURNAL = ROOT / JOURNAL
 sys.path.insert(0, str(ROOT / "tools"))
 from common import read_jsonl, append_jsonl
 
@@ -48,12 +59,17 @@ def window_rows():
     global _WROWS
     if _WROWS is None:
         from common import window_map
-        _WROWS = {}
+        # built into a LOCAL and published in one assignment: run_window computes inputs_sha in
+        # worker threads, and a half-filled table handed to a peer hashes no src bytes for its
+        # window - the verdict is then journalled under a sha the tree never had, and the final
+        # gate_current() check fails the whole run (seen on 4 windows of a 2,175-window gate)
+        wrows = {}
         rows = [json.loads(l) for l in (ROOT / "ledger/rows.jsonl").read_text().splitlines() if l.strip()]
         for cont, wins in window_map().items():
             crows = sorted((r for r in rows if r["container"] == cont), key=lambda r: r["foff"])
             for name, fs, fe, _ in wins:
-                _WROWS[name] = [r for r in crows if fs <= r["foff"] and r["foff"] + r["size"] <= fe]
+                wrows[name] = [r for r in crows if fs <= r["foff"] and r["foff"] + r["size"] <= fe]
+        _WROWS = wrows
     return _WROWS
 
 def inputs_sha(yaml_path):
@@ -81,23 +97,46 @@ def split_records(cont, yaml_name):
     fs, fe = rng
     return [r for r in _SPLITS[cont] if isinstance(r.get("foff"), int) and fs <= r["foff"] and r["foff"] + (r.get("size") or 0) <= fe]
 
+LANE_ROOT = ROOT / "build_ovl"          # the root the model lanes score in (tools/verify.py)
+ISOLATED = B.resolve() != LANE_ROOT.resolve()
+
+@contextlib.contextmanager
+def window_lock(yaml_name):
+    """In an ISOLATED root, take the same per-window lock tools/verify.py uses
+    (build_ovl/work/<window>.lock, verify.window_lock): a lane running `verify.py --gate` swaps its
+    candidate into src/ under that lock, and a window compiled in the middle of that swap would be
+    gating a text the tree does not hold.  In the default root nothing is taken - unchanged."""
+    if not ISOLATED:
+        yield; return
+    import fcntl
+    p = LANE_ROOT / "work" / f"{yaml_name}.lock"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with open(p, "w") as fh:
+        fcntl.flock(fh, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(fh, fcntl.LOCK_UN)
+
 def run_window(yaml_path):
     t0 = time.time()
-    try:
-        r = subprocess.run(["nice", "-n10", "python3", "tools/overlay_local_gate.py", "--config", str(yaml_path.relative_to(B)), "--clean"],
-                           cwd=B, capture_output=True, text=True, timeout=3600)
-        out = (r.stdout + r.stderr).strip().splitlines()
-        last = next((l for l in reversed(out) if l.startswith(("MATCH", "NO MATCH"))), None)
-        if last is None:
-            res, detail = "ERROR", (out[-1] if out else "")[:200]
-        else:
-            res, detail = ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
-    except subprocess.TimeoutExpired:
-        res, detail = "ERROR", "timeout"
+    with window_lock(yaml_path.name):
+        try:
+            r = subprocess.run(["nice", "-n10", "python3", "tools/overlay_local_gate.py", "--config", str(yaml_path.relative_to(B)), "--clean"],
+                               cwd=B, capture_output=True, text=True, timeout=3600)
+            out = (r.stdout + r.stderr).strip().splitlines()
+            last = next((l for l in reversed(out) if l.startswith(("MATCH", "NO MATCH"))), None)
+            if last is None:
+                res, detail = "ERROR", (out[-1] if out else "")[:200]
+            else:
+                res, detail = ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
+        except subprocess.TimeoutExpired:
+            res, detail = "ERROR", "timeout"
+        sha = inputs_sha(yaml_path)   # under the lock: the sha describes the text that was gated
     detail = detail.replace(str(ROOT), "<repo>").replace(str(Path.home()), "<home>")
     m = re.search(r"\((\d+) bytes\)", detail)
     return {"window": yaml_path.stem.replace(".overlay", ""), "container": container_of(yaml_path.stem), "result": res, "bytes": int(m.group(1)) if m else None,
-            "detail": detail, "secs": round(time.time() - t0, 1), "inputs_sha": inputs_sha(yaml_path), "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+            "detail": detail, "secs": round(time.time() - t0, 1), "inputs_sha": sha, "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 
 def main():
     ap = argparse.ArgumentParser()
