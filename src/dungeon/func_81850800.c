@@ -222,11 +222,9 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 tiles_ahead;
     s32 off_x;
     s32 off_y;
-    register s32 facing ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 dx ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 tile_x;
     s32 tile_y;
     s32 color;
@@ -238,7 +236,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 pixel_offset;
     u16 timer;
     u16 flags;
-    register u8 base_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u32 base_y;
     s16 ground_height;
     S_81850800_1 *caster_data;
     S_81850800_4 *caster_sprite;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -263,14 +261,14 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     magnitude = (u16)caster_data->unk_2A.unk_2A_u16;
     facing_shift = magnitude >> 8;
     caster_sprite = ((S_81850800_2 *)((u8 *)caster_data - 0x14))->unk_00;
-    facing = facing_shift & 0xE;
-    step_x_table = (u8 *)(facing + (s32)step_x_table);
+    base_y = facing_shift & 0xE;
+    step_x_table = (u8 *)(base_y + (s32)step_x_table);
     step_x = *(s16 *)step_x_table;
     step_y_table = (u8 *)&D_8006CCE8;
-    facing = (s32)step_y_table + facing;
+    base_y = (s32)step_y_table + base_y;
     timer = owner->unk_50.unk_50_u16 - 1;
-    facing = *(s16 *)facing;
-    step_y = facing;
+    base_y = *(s16 *)base_y;
+    step_y = base_y;
     work = (S_81850800_8 *)((u8 *)caster_data - 0x20);
     state = owner->unk_0A.unk_0A_s16 ^ (step_x ^ step_x);
     owner->unk_50.unk_50_u16 = timer;
@@ -345,9 +343,9 @@ state_0_tail:
 
     position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
     copy_value = caster_sprite->unk_24;
-    facing = position->unk_24;
+    base_y = position->unk_24;
     facing_shift = position->unk_25;
-    dx = facing - copy_value;
+    dx = base_y - copy_value;
     base_y = caster_sprite->unk_25;
     facing_shift -= base_y;
     if ((position->unk_14.unk_14_u16 & 0x8000) &&
@@ -384,7 +382,7 @@ state_0_tail:
     func_8002426C();
 
 state_0_zero:
-    dx = zero;
+    dx = 0;
     ASM_KEEP(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     facing_shift = 2;
     ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
@@ -393,13 +391,12 @@ state_0_zero:
 
 state_0_one:
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    dx = zero;
+    dx = 0;
     facing_shift = 3;
     state = facing_shift;
     if (caster_data->unk_60 != 0) {
-        state = zero + 1;
+        state = 1;
     }
-    ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     owner->unk_50.unk_50_u16 = state;
     func_8002427C();

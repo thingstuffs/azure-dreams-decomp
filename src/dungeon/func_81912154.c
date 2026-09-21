@@ -380,15 +380,9 @@ build_endpoint:
     axis_delta >>= 0x10;
     ((S_80025954_8 *)destination)->unk_08.at02u.v = motion_value;
     motion_value = ((S_80025954_5 *)motion)->unk_00.at02u.v;
-    ASM_KEEP_DEP_NV(y_delta, motion_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     y_delta = (u32) y_delta << 0x10;
-    ASM_KEEP(y_delta);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     axis_delta -= motion_value;
-    if (axis_delta >= 0) {
-        goto store_end_x_distance;
-    }
-    axis_delta = 0 - axis_delta;
-store_end_x_distance:
+    axis_delta = __builtin_abs(axis_delta);
     stack.distance[0] = axis_delta;
     motion_value = ((S_80025954_5 *)motion)->unk_04.at02u.v;
     y_delta >>= 0x10;

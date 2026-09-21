@@ -364,12 +364,11 @@ next_half:
         }
         {
             s32 part_flags;
-            s32 flip_flags;
+            u16 flip_flags;
             part_flags = ((S_BODY_2 *)part)->unk_00;
-            ASM_USE(part_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            state_flags = *(volatile u16 *)(scratch + 0x24);
             flip_flags = part_flags;
             ASM_KEEP(flip_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            state_flags = *(volatile u16 *)(scratch + 0x24);
             flip_flags ^= state_flags;
             if (flip_flags & 2) {
                 if (half == 0) {

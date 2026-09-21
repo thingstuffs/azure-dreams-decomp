@@ -411,16 +411,17 @@ next_entry:
                 scratch_page->unk_BA = flipped_top_y;
                 scratch_page->unk_B2 = flipped_top_y;
                 bottom_y = flipped_top_y - sprite_size->unk_50;
+                scratch_page->unk_CA = bottom_y;
+                scratch_page->unk_C2 = bottom_y;
             } else {
                 top_y = (0 - sprite_size->unk_50) - scratch_page->unk_AE;
                 scratch_page->unk_BA = top_y;
                 scratch_page->unk_B2 = top_y;
                 coord_offset = sprite_size->unk_50;
                 bottom_y = top_y + coord_offset;
+                scratch_page->unk_CA = bottom_y;
+                scratch_page->unk_C2 = bottom_y;
             }
-            scratch_page->unk_CA = bottom_y;
-            scratch_page->unk_C2 = bottom_y;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_800654B0((u8 *)scratch_page + 0xB0, (u8 *)scratch_page + 0xB8, (u8 *)scratch_page + 0xC0, (u8 *)scratch_page + 0xC8, (u8 *)scratch_page + 0x94, (u8 *)scratch_page + 0x98, (u8 *)scratch_page + 0x9C, (u8 *)scratch_page + 0xA0, (u8 *)scratch_page + 0xD0, (u8 *)scratch_page + 0xD4);
             packet->unk_08 = scratch_page->unk_94 + scratch_page->unk_F8;
             packet->unk_0A = scratch_page->unk_96 + scratch_page->unk_FA;

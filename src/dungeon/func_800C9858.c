@@ -134,7 +134,7 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
     s32 mean_depth;
     s32 depth_offset;
     s32 sort_depth;
-    register s32 coord_work ASM_REG("$2");
+    s32 coord_work;
     register s32 coord_end ASM_REG("$3");
     s32 visible_c;
     s32 visible_a;
@@ -260,21 +260,25 @@ void func_800CEFB8(void *unused, void *endpoints, void *sprite, s16 depth_bias, 
         draw_mode = mode;
         ASM_KEEP(draw_mode);
         func_800649A0();
-        coord_work = ((S_800CEFB8_4 *)scratch)->unk_B8;
-        coord_end = ((S_800CEFB8_4 *)scratch)->unk_BA;
-        coord_work -= 0xA0;
-        ((S_800CEFB8_4 *)scratch)->unk_B8 = coord_work;
-        coord_work = ((S_800CEFB8_4 *)scratch)->unk_F0;
-        coord_end -= 0x78;
-        ((S_800CEFB8_4 *)scratch)->unk_BA = coord_end;
-        coord_work -= 0xA0;
-        ((S_800CEFB8_4 *)scratch)->unk_F0 = coord_work;
-        coord_work = ((S_800CEFB8_4 *)scratch)->unk_F2;
-        camera_rot_x = ((S_800CEFB8_5 *)render_state)->unk_C4;
-        camera_rot_z = ((S_800CEFB8_5 *)render_state)->unk_C6;
-        camera_rot_y = ((S_800CEFB8_5 *)render_state)->unk_C8;
-        coord_work -= 0x78;
-        ((S_800CEFB8_4 *)scratch)->unk_F2 = coord_work;
+        {
+            u16 screen_coord;
+
+            screen_coord = ((S_800CEFB8_4 *)scratch)->unk_B8;
+            coord_end = ((S_800CEFB8_4 *)scratch)->unk_BA;
+            screen_coord -= 0xA0;
+            ((S_800CEFB8_4 *)scratch)->unk_B8 = screen_coord;
+            screen_coord = ((S_800CEFB8_4 *)scratch)->unk_F0;
+            coord_end -= 0x78;
+            ((S_800CEFB8_4 *)scratch)->unk_BA = coord_end;
+            screen_coord -= 0xA0;
+            ((S_800CEFB8_4 *)scratch)->unk_F0 = screen_coord;
+            screen_coord = ((S_800CEFB8_4 *)scratch)->unk_F2;
+            camera_rot_x = ((S_800CEFB8_5 *)render_state)->unk_C4;
+            camera_rot_z = ((S_800CEFB8_5 *)render_state)->unk_C6;
+            camera_rot_y = ((S_800CEFB8_5 *)render_state)->unk_C8;
+            screen_coord -= 0x78;
+            ((S_800CEFB8_4 *)scratch)->unk_F2 = screen_coord;
+        }
         SP32(0x30) = camera_rot_x;
         SP32(0x34) = camera_rot_z;
         SP32(0x38) = camera_rot_y;
@@ -466,7 +470,10 @@ coord_done:
                         goto continuation_coords;
                     }
                     coord_work = (*(u16 *)((u8 *)part_data + 5));
-                    coord_work = texture_override + coord_work;
+                    {
+                        s32 texture_sum = texture_override + coord_work;
+                        coord_work = texture_sum;
+                    }
                     goto continuation_color;
                 }
                 coord_work = (u16) (*(u16 *)((u8 *)part_data + 5));
@@ -479,7 +486,10 @@ continuation_coords:
                 if (texture_override != 0) {
                     coord_work = (*(u16 *)((u8 *)part_data + 3));
                     coord_work &= 0xFF9F;
-                    coord_work = texture_override + coord_work;
+                    {
+                        s32 texture_sum = texture_override + coord_work;
+                        coord_work = texture_sum;
+                    }
                     goto continuation_texture;
                 }
                 coord_work = (u16) (*(u16 *)((u8 *)part_data + 3));

@@ -206,7 +206,7 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     s32 left_x;
     s16 half_left_x;
     s32 first_three_visible;
-    s32 edge_y;
+    s16 edge_y;
     s16 bottom_left_x;
     s32 matrix_xx;
     s32 matrix_yy;
@@ -235,7 +235,7 @@ void func_800D3738(void *unused, void *position_in, void *sprite_in, s16 depth_b
     s32 vertex1_visible;
     s32 vertex3_visible;
     s32 camera_y;
-    register u16 height ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 height;
     u16 coord;
     u16 pivot_x;
     u16 pivot_y;

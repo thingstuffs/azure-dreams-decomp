@@ -218,9 +218,8 @@ state0:
         ASM_USE_NV(copy_page);
     }
     {
-        u8 *copy_dest = (u8 *)actor + 0x94;
-        ASM_KEEP(copy_dest);
-        render->image = copy_dest;
+        direction = (s32)((u8 *)actor + 0x94);
+        render->image = (u8 *)direction;
     }
     {
         u32 direction_bits;
