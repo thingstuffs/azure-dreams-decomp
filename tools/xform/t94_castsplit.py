@@ -31,6 +31,22 @@ APPEARS     a pinned local assigned a compound right-hand side, the pin standing
                   ->  map_index = tile_index_or_level + ((u32)tile_index_or_level >> 31);
                       map_index >>= 1;
 
+              (e) the INVERSE of the merge below - a narrowing cast expanded into the shift pair
+                  the pseudo is really made of (dungeon/func_800AA49C, six sites; func_80F90E88):
+                      angle = (s16)next_angle;
+                  ->  angle = (u32)next_angle << 16;
+                      angle >>= 16;
+
+              (f) a two-operand right-hand side named in two statements, with NO constant in it
+                  (dungeon/func_807B0B3C):
+                      bucket_tag = (p->unk_B0 & tag_mask) | ((u32)prim & addr_mask);
+                  ->  bucket_tag = p->unk_B0 & tag_mask;
+                      bucket_tag |= (u32)prim & addr_mask;
+                  and shape (c) with a LOCAL in the constant's place (dungeon/func_800969CC):
+                      step_distance = y_step * step_distance;
+                  ->  y_step *= step_distance;
+                      step_distance = y_step;
+
 RESOLVES    nine pins over four rows of the lanes, byte-exact at their recorded recipes
             (func_8181B3E8 5, func_80097C50 2, func_810332A4 2, func_8180C3C0 1).  Mechanism: gcc 2.x
             gives every tree temporary its own pseudo and `expand_expr` emits the outer operation
@@ -57,10 +73,12 @@ from pin_sites import erase_many
 from xform.t29_addrsym import mask_comments
 from xform.t36_paramwidth import functions
 from xform.t72_stmtperm import decl_names
+from xform.t16_absidiom import names_var
 import xform.screen as screen
 
 MAX_SITES = 14
-MAX_LISTINGS = 220
+MAX_WIDE_SITES = 24
+MAX_LISTINGS = 360
 MAX_VERIFY = 6
 NEAR = 3                                           # lines between a statement and a pin that pair them
 
@@ -72,6 +90,20 @@ SHIFT_DOWN = re.compile(r"^(?P<ind>[ \t]*)(?P<w>[A-Za-z_]\w*)[ \t]*=[ \t]*\(\s*s
                         r"(?P<v>[A-Za-z_]\w*)[ \t]*>>[ \t]*(?P<n>16|24)[ \t]*;[ \t]*$")
 OPS = ("+", "-", "&", "|", "^", "<<", ">>", "*")
 NARROW = {24: "s8", 16: "s16"}
+WIDEN = {"s16": 16, "s8": 24}                      # the cast shape (e) writes out
+WIDE_DEST = {"s32", "u32", "int", "long", "M2C_UNK", "M2C_UNK32", "unsigned long"}
+DECL_TY = re.compile(r"^[ \t]*(?:register[ \t]+)?(?P<ty>(?:(?:unsigned|signed|volatile|const)[ \t]+)*"
+                     r"[A-Za-z_]\w*)[ \t]+(?P<v>[A-Za-z_]\w*)[ \t]*"
+                     r"(?:ASM_REG\([^()]*\)[ \t]*)?(?:=[^;]*)?;[ \t]*$", re.M)
+
+
+def decl_types(body):
+    """{local name: declared type} for the single-variable declarations of a function body."""
+    out = {}
+    for m in DECL_TY.finditer(body):
+        if m.group("ty") not in ("return", "else", "goto", "case", "do", "typedef"):
+            out.setdefault(m.group("v"), re.sub(r"\s+", " ", m.group("ty")))
+    return out
 
 
 def _op_split(rhs):
@@ -100,8 +132,9 @@ def _const(s):
     return bool(re.fullmatch(NUM, s))
 
 
-def splits(lines, i, locals_):
+def splits(lines, i, locals_, types=None):
     """[(label, [new lines])] for the statement on line `i`, or []."""
+    types = types or {}
     m = ASSIGN.match(lines[i])
     out = []
     if not m:
@@ -115,6 +148,11 @@ def splits(lines, i, locals_):
         sp = _op_split(cm.group("inner").strip())
         if sp and sp[0] == v and _const(sp[2]) and sp[1] in OPS:
             out.append(("cast", [f"{ind}{v} {sp[1]}= {sp[2]};", f"{ind}{v} = {cm.group('c')}{v};"]))
+    # (e) a narrowing cast of a NAME written out as the shift pair it is made of
+    xm = re.fullmatch(r"\(\s*(?P<ty>s16|s8)\s*\)[ \t]*(?P<x>[A-Za-z_]\w*)", rhs)
+    if xm and xm.group("x") in locals_ and types.get(v) in WIDE_DEST:
+        n = WIDEN[xm.group("ty")]
+        out.append(("expand", [f"{ind}{v} = (u32){xm.group('x')} << {n};", f"{ind}{v} >>= {n};"]))
     sp = _op_split(rhs)
     if sp:
         a, op, k = sp
@@ -124,9 +162,16 @@ def splits(lines, i, locals_):
             sp2 = _op_split(inner.group("x").strip())
             if sp2 and sp2[0] == v and _const(sp2[2]) and sp2[1] in OPS:
                 out.append(("two-op", [f"{ind}{v} {sp2[1]}= {sp2[2]};", f"{ind}{v} {op}= {k};"]))
-        # (c) the arithmetic moved into the source local: `dst = src + 0x20;`
-        if _is_name(a) and a != v and a in locals_ and _const(k) and op in OPS:
+        # (c) the arithmetic moved into the source local: `dst = src + 0x20;` - the second operand
+        # is a constant, or (KIT wave, dungeon/func_800969CC) another local
+        if _is_name(a) and a != v and a in locals_ and op in OPS and (
+                _const(k) or (_is_name(k) and k in locals_ and k != a)):
             out.append(("insource", [f"{ind}{a} {op}= {k};", f"{ind}{v} = {a};"]))
+        # (f) neither operand names V and neither is a constant: name the first half in V
+        if (op in OPS and not _const(k) and not re.search(r"\b%s\b" % re.escape(v), a)
+                and not re.search(r"\b%s\b" % re.escape(v), k)
+                and not re.search(r"[A-Za-z_]\w*[ \t]*\(", rhs) and "?" not in rhs):
+            out.append(("opsplit", [f"{ind}{v} = {a};", f"{ind}{v} {op}= {k};"]))
         # (a') arithmetic on V with a cast on the OPERAND: `v = (s16)v - 8;` stays one statement
     # (d) a signed halving written out as gcc's expansion
     dm = re.fullmatch(r"(?P<x>[A-Za-z_]\w*)[ \t]*/[ \t]*2", rhs)
@@ -158,8 +203,13 @@ def merges(lines, i, locals_):
     return out
 
 
-def sites(text):
-    """[(line, label, span, new lines)] - every split/merge with a pin within NEAR lines."""
+def sites(text, near_only=True):
+    """[(line, label, span, new lines)] - every split/merge.
+
+    With `near_only` (the default) only the ones with a pin within NEAR lines are returned, ranked
+    by how close that pin is.  Without it every site of every function comes back, in program order:
+    dungeon/func_800AA49C writes the same narrowing cast SIX times and only three of them have a pin
+    within NEAR lines, but the row is exact only when all six are expanded together."""
     masked = mask_comments(text)
     lines, out = masked.split("\n"), []
     pin_lines = {s[5] - 1 for s in sites_of(text)}
@@ -168,16 +218,29 @@ def sites(text):
     for fname, params, b0, b1 in functions(text):
         body = masked[b0:b1]
         locals_ = decl_names(body) | {p for p, _, _, _ in params}
+        types = decl_types(body)
         first, last = masked.count("\n", 0, b0), masked.count("\n", 0, b1)
         for i in range(first, min(last + 1, len(lines))):
-            if not any(abs(i - p) <= NEAR for p in pin_lines):
+            if near_only and not any(abs(i - p) <= NEAR for p in pin_lines):
                 continue
-            for label, new in splits(lines, i, locals_):
+            for label, new in splits(lines, i, locals_, types):
                 out.append((i, label, (i, i), new))
             for label, span, new in merges(lines, i, locals_):
                 out.append((i, label, span, new))
+    if not near_only:
+        return out[:MAX_WIDE_SITES]
     out.sort(key=lambda s: min(abs(s[0] - p) for p in pin_lines))
     return out[:MAX_SITES]
+
+
+def fn_span(text, line):
+    """The line span of the function holding `line` (a site's joint group never leaves it)."""
+    masked = mask_comments(text)
+    for _f, _p, b0, b1 in functions(text):
+        a, b = masked.count("\n", 0, b0), masked.count("\n", 0, b1)
+        if a <= line <= b:
+            return a, b
+    return 0, len(text.split("\n"))
 
 
 def apply_sites(text, chosen):
@@ -199,15 +262,24 @@ def candidates(text):
     out, seen, sig = [], {text}, unscored_text(text)
     found = sites(text)
     lines = text.split("\n")
-    same = {}
+    same, bylabel = {}, {}
     for s in found:
         same.setdefault((s[1], lines[s[0]].strip()), []).append(s)
-    for chosen in [[s] for s in found] + [v for v in same.values() if len(v) > 1]:
+    labels = {s[1] for s in found}
+    for s in sites(text, near_only=False):
+        if s[1] in labels:
+            bylabel.setdefault((s[1], fn_span(text, s[0])), []).append(s)
+    # dungeon/func_800AA49C writes the same cast over SIX statements that are not textually equal
+    # (three destinations, three sources), and it is exact only when all six are expanded together
+    kinds = [v for v in bylabel.values() if len(v) > 1 and v not in same.values()]
+    # the joint groups first: they are the valuable ones and the listing budget is finite
+    for chosen in kinds + [v for v in same.values() if len(v) > 1] + [[s] for s in found]:
         moved = apply_sites(text, chosen)
         if len(sites_of(moved)) != len(sites_of(text)):
             continue                               # the rewrite swallowed a pin line: not this move
         label = chosen[0][1] + ("@%d" % (chosen[0][0] + 1) if len(chosen) == 1
                                 else "x%d@%d" % (len(chosen), chosen[0][0] + 1))
+        fspan = fn_span(text, chosen[0][0])
         pins = sites_of(moved)
         names = set(re.findall(r"[A-Za-z_]\w*", "\n".join(x for s in chosen for x in s[3])))
 
@@ -230,8 +302,15 @@ def candidates(text):
                  and any(abs(p[5] - 1 - s[0]) <= NEAR + 2 for s in chosen)]
         # `map_index = tile / 2;` sits BETWEEN two keeps on `tile` and only the one below it falls
         # (dungeon/func_80097C50), so each side is a plan of its own and not just "the nearest".
+        def infn(p):
+            return fspan[0] <= p[5] - 1 <= fspan[1]
+        # function-wide plans: dungeon/func_800AA49C's six pins are three `register` DECLARATIONS at
+        # the top of the function and three keeps, none of them within NEAR lines of a rewritten site
+        allvar = [p for p in pins if infn(p) and names_var(p, names)]
+        regvar = [p for p in allvar if p[0] == "reg"]
+        regvar += [p for p in named if p not in regvar]
         plans = [("n1", nearest(1)), ("below", side(True)), ("above", side(False)),
-                 ("n2", nearest(2)), ("var", named)]
+                 ("n2", nearest(2)), ("var", named), ("allvar", allvar), ("regvar", regvar)]
         for tag, group in plans:
             if not group:
                 continue

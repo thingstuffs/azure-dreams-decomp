@@ -44,6 +44,20 @@ RESOLVES    eight pins over two rows of the round-63 big lanes, byte-exact at th
             the inner declarations).  This generator keys the donee by its DECLARATION SPAN and
             rewrites only the uses inside that declaration's own block.
 
+KIT WAVE (round 71) - two detector gaps measured on work/native_lane/r70_kit_astra3 and astra4:
+              * the donee's pin is not always IN its declaration.  dungeon/func_81008664 declares
+                `s32 fall_duration = 0x10;` in a nested block and pins it with a separate
+                `ASM_KEEP_NV(fall_duration);` statement; `donees()` only ever kept declarations
+                carrying an `ASM_REG(...)`, so the row refused outright.  A plain declaration whose
+                block holds a pin NAMING it is now a donee too (the rename hands the pin to the
+                donor and the `erase` plan takes it).
+              * the donor need not share the donee's type.  func_81008664's donor `fall_anim` is
+                `u32` against the donee's `s32` - one pseudo in retail, two names of two widths in
+                the recovered C - so an integer donee now also accepts an integer donor of ANOTHER
+                width (no cast is needed: both are integers and C converts at the assignment).
+                A pointer donee still needs its donor's exact type; the int<->pointer merges of
+                func_818D4E68 and func_8180C3C0 (casts at every use) remain unbuilt.
+
 CANDIDATES  every (inner pinned declaration, enclosing local of the same type not named in the
             block) pair, rename only and rename-plus-erase of the block's pins on the merged name,
             and the joint form that merges all of one donor's donees at once (the four blocks of
@@ -62,12 +76,15 @@ import xform.screen as screen
 
 MAX_DONEES = 8
 MAX_DONORS = 8
+MAX_CROSS_DONORS = 6                               # donors of ANOTHER integer width, ranked after
 SCAN_DONEES = 40
-MAX_LISTINGS = 240
+MAX_LISTINGS = 320
 MAX_VERIFY = 6
 
 NOT_TYPES = {"return", "else", "goto", "case", "do", "if", "while", "for", "switch", "sizeof",
              "default", "break", "continue", "typedef"}
+INT_TYPES = {"s8", "u8", "s16", "u16", "s32", "u32", "int", "long", "short", "char",
+             "unsigned", "signed", "M2C_UNK", "M2C_UNK8", "M2C_UNK16", "M2C_UNK32"}
 DECL_RE = re.compile(r"^(?P<ind>[ \t]*)(?P<reg>register[ \t]+)?"
                      r"(?P<ty>(?:(?:unsigned|signed|const|volatile|struct|union)[ \t]+)*[A-Za-z_]\w*"
                      r"(?:[ \t]+long)?)[ \t]*(?P<p>\**)[ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*"
@@ -112,20 +129,29 @@ def donees(text):
     starts = [0]
     for l in lines:
         starts.append(starts[-1] + len(l) + 1)
-    out = []
+    out, pins = [], sites_of(text)
     for fname, params, b0, b1 in functions(text):
         body = (masked.count("\n", 0, b0), masked.count("\n", 0, b1))
         top = _block_of(masked, b0 + 1)
         for i in range(body[0], min(body[1] + 1, len(lines))):
             m = _decl(lines[i])
-            if not m or not m.group("pin"):
+            if not m:
                 continue
             blk = _block_of(masked, starts[i] + len(m.group("ind")))
             if blk is None or top is None or blk == top:
                 continue                           # a function-level declaration is t90's merge
+            if not m.group("pin"):
+                # the pin is a KEEP STATEMENT in the same block, not the declaration itself
+                v = m.group("v")
+                if not any(blk[0] <= s[3] <= blk[1] and s[0] != "reg"
+                           and v in [a.strip() for a in (s[2] or "").split(",")] for s in pins):
+                    continue
             out.append({"v": m.group("v"), "ty": m.group("ty"), "ptr": len(m.group("p")),
                         "line": i, "block": blk, "init": (m.group("init") or "").strip(),
-                        "ind": m.group("ind"), "fn": (b0, b1)})
+                        "ind": m.group("ind"), "fn": (b0, b1), "reg": bool(m.group("pin"))})
+    # the declaration-borne ASM_REG donees first: they are the population this generator was
+    # measured on, and a row's donee budget (MAX_DONEES) must not be spent on the new plain ones
+    out.sort(key=lambda d: (not d["reg"], d["line"]))
     return out[:SCAN_DONEES]
 
 
@@ -142,8 +168,11 @@ def donors(text, d):
         m = _decl(lines[i])
         if not m or m.group("v") == d["v"]:
             continue
-        if m.group("ty") != d["ty"] or len(m.group("p")) != d["ptr"]:
+        if len(m.group("p")) != d["ptr"]:
             continue
+        same = m.group("ty") == d["ty"]
+        if not same and not (d["ptr"] == 0 and m.group("ty") in INT_TYPES and d["ty"] in INT_TYPES):
+            continue                               # a pointer donee needs its donor's exact type
         at = starts[i]
         if d["block"][0] <= at <= d["block"][1]:
             continue                               # declared inside the donee's own block
@@ -151,14 +180,16 @@ def donors(text, d):
             continue                               # alive in the block: not a merge, a clash
         if m.group("init"):
             continue                               # a declaration initialiser fixes its first value
-        out.append((abs(i - d["line"]), m.group("v")))
-    # nearest declaration first: the donor retail shared the pseudo with is usually the one
-    # declared in the same group, and the menu is capped
-    seen, ranked = set(), []
-    for _, v in sorted(out):
-        if v not in seen:
-            seen.add(v); ranked.append(v)
-    return ranked[:MAX_DONORS]
+        out.append(((0 if same else 1, abs(i - d["line"])), m.group("v")))
+    # a donor of the donee's own type first, then the nearest declaration: the donor retail shared
+    # the pseudo with is usually the one declared in the same group, and the menu is capped
+    seen, ranked, cross = set(), [], []
+    for (cls, _dist), v in sorted(out):
+        if v in seen:
+            continue
+        seen.add(v)
+        (ranked if cls == 0 else cross).append(v)
+    return ranked[:MAX_DONORS] + cross[:MAX_CROSS_DONORS]
 
 
 def _prologue(lines, first, last):
