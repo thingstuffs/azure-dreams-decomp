@@ -25,7 +25,9 @@ RESOLVES    with the keep gone, cse's `fold_rtx` folds the page CONST_INT and th
                 2026-09-21), which can never match a split pair separated by other instructions.  A row
                 recorded at a non-splitting cell is therefore screened at 2.7.2-cdk too and, when its
                 candidate is byte-exact there, staged as a recipe switch under tools/pin_cells_land.py's
-                rules (the CURRENT text must be exact at the new cell as well, or the row is `cell-bound`).
+                rules (the CURRENT text must be exact at the new cell as well, or the row is `cell-bound`;
+                with T86_STAGE_CELLBOUND=1 a cell-bound row is staged anyway, for the coherence path of
+                tools/lanes/land_coherence.sh, which waives that rule and records the trade).
             t29_addrsym deletes the variable and substitutes every use (allocation changes, parameters and
             port-arm variables refused); t54_pagebase respells the definition only; t59_offsetsym respells
             one use only; t77_symplace adds the place but keeps t54's menu and one cell.
@@ -37,11 +39,11 @@ CANDIDATES  per base (pinned first) and per use: the derived statement respelled
             listing against the pinned text's, a listing carrying more `la` than retail's is bucketed for
             the cell phase instead of scored, and only listing-exact texts go to `vf` (at most six a row).
 """
-import difflib, os, re, sys, time
+import difflib, os, re, sys, threading, time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from common import parse_cfg, sha_text
+from common import LEDGER, is_stock_cfg, parse_cfg, read_jsonl, sha_text
 from pin_census import sites_of, asm_blocker, unscored_text
 from pin_sites import erase_many, fn_bounds, params_of
 
@@ -66,6 +68,12 @@ MAX_LISTINGS = int(os.environ.get("T86_LISTINGS", "240"))
 MAX_CELL_LISTINGS = int(os.environ.get("T86_CELL_LISTINGS", "50"))
 MAX_VERIFY = int(os.environ.get("T86_VERIFY", "6"))
 MAX_SECS = float(os.environ.get("T86_SECS", "200"))
+# A row whose CURRENT text is not exact at the splitting cell is `cell-bound` under
+# tools/pin_cells_land.py rule 2.  tools/lanes/land_coherence.sh lands exactly those (the owner's
+# 2026-09-18 rationale: a recipe deviation repaid by a text that is byte-exact at the new recipe,
+# every row recorded in ledger/recipe_trades.jsonl), so the switch stages them for THAT lander only.
+# Default off: the landing cascade's behaviour is unchanged.
+STAGE_CELLBOUND = os.environ.get("T86_STAGE_CELLBOUND", "0") not in ("", "0")
 
 NUM = A.NUM
 CAST = r"(?:\(\s*(?:const\s+|volatile\s+|unsigned\s+|signed\s+|struct\s+|union\s+)*[A-Za-z_]\w*(?:\s+long)?\s*\**\s*\)\s*)"
@@ -89,6 +97,34 @@ def cdk_cfg(cfg):
     rest = [f for f in flags if f != "-G0"]
     head = CDK + ("-G0" if "-G0" in flags else "")
     return head + ((" " + " ".join(rest)) if rest else "")
+
+
+_MODREC = None
+_MODLOCK = threading.Lock()
+
+
+def module_recipe(row_id):
+    """The recipe the row's MODULE is proven at (ledger/module_recipe_census.jsonl `best_recipe`,
+    round-55 census): what tools/lanes/land_coherence.sh repays a per-row deviation against."""
+    global _MODREC
+    with _MODLOCK:
+        if _MODREC is None:
+            mods = {r["id"]: r.get("module") for r in read_jsonl(LEDGER / "modules.jsonl")}
+            best = {(r.get("container"), r.get("module")): r.get("best_recipe")
+                    for r in read_jsonl(LEDGER / "module_recipe_census.jsonl")}
+            _MODREC = {rid: best.get((rid.split("/")[0], m)) for rid, m in mods.items() if m}
+    return _MODREC.get(row_id)
+
+
+def target_cells(row):
+    """The splitting recipes to screen a non-splitting row's candidates at: 2.7.2-cdk with the row's
+    own flags, and (for the coherence path) the module's own proven recipe."""
+    out = [cdk_cfg(row["cfg"])]
+    if STAGE_CELLBOUND:
+        m = module_recipe(row["id"])
+        if m and m != row["cfg"] and m not in out and is_stock_cfg(m) and splits(m):
+            out.append(m)
+    return out
 
 
 def at_cfg(row, cfg):
@@ -536,40 +572,61 @@ class T:
         if not la_bucket or splits(row["cfg"]):
             info["cell"] = "not-tried" if not la_bucket else "cell-already-splits"
             return None, info
-        to = cdk_cfg(row["cfg"])
-        rr = at_cfg(row, to)
-        tgt = screen.compile_s(rr, text)
-        if tgt is None:
-            return None, dict(info, cell="target-none", cell_to=to)
-        cell_exact, coherent = [], None
-        n = 0
-        pool = la_bucket + [(lab, c) for d, _p, lab, c in near if d <= 6]
-        for lab, cand in pool:
-            if n >= MAX_CELL_LISTINGS or time.time() - t0 > MAX_SECS:
+        pool0 = la_bucket + [(lab, c) for d, _p, lab, c in near if d <= 6]
+        last = info
+        for to in target_cells(row):
+            if time.time() - t0 > MAX_SECS or info["tried"] >= MAX_VERIFY:
                 break
-            lst = screen.compile_s(rr, cand)
-            n += 1
-            info["listings"] += 1
-            if lst is None:
+            rr = at_cfg(row, to)
+            tgt = screen.compile_s(rr, text)
+            if tgt is None:
+                last = dict(info, cell="target-none", cell_to=to)
                 continue
-            d = screen.sdiff(tgt, lst)
-            k = "cdk:" + family(lab.rsplit("/", 1)[0])
-            best[k] = min(best.get(k, 999), d)
-            if d == 0:
-                cell_exact.append((lab, cand))
-        if not cell_exact:
-            return None, dict(info, cell="no-listing-exact", cell_to=to)
-        if info["tried"] >= MAX_VERIFY:
-            return None, dict(info, cell="verify-budget", cell_to=to)
-        info["tried"] += 1
-        coherent = bool(vf(text, to).get("exact"))               # pin_cells_land rule: the CURRENT text too
-        if not coherent:
-            return None, dict(info, cell="cell-bound: current text not exact at %s" % to, cell_to=to)
-        for lab, cand in cell_exact:
+            cell_exact, cell_near = [], []
+            n = 0
+            for lab, cand in pool0:
+                if n >= MAX_CELL_LISTINGS or time.time() - t0 > MAX_SECS:
+                    break
+                lst = screen.compile_s(rr, cand)
+                n += 1
+                info["listings"] += 1
+                if lst is None:
+                    continue
+                d = screen.sdiff(tgt, lst)
+                k = "%s:%s" % (to, family(lab.rsplit("/", 1)[0]))
+                best[k] = min(best.get(k, 999), d)
+                if d == 0:
+                    cell_exact.append((lab, cand))
+                elif d <= 3:
+                    cell_near.append((d, lab, cand))
+            cell_near.sort(key=lambda q: q[0])
+            if not cell_exact and not (cell_near and STAGE_CELLBOUND):
+                last = dict(info, cell="no-listing-exact", cell_to=to)
+                continue
             if info["tried"] >= MAX_VERIFY:
+                last = dict(info, cell="verify-budget", cell_to=to)
                 break
             info["tried"] += 1
-            if vf(cand, to).get("exact"):
-                return cand, dict(info, step=lab, cell="switch", cfg=to, cfg_was=row["cfg"],
-                                  pins_out=len(sites_of(cand)))
-        return None, dict(info, cell="vf-miss", cell_to=to)
+            # pin_cells_land rule 2: the CURRENT text must be exact at the new recipe too.  When it is
+            # not, the row is `cell-bound` - landable only through tools/lanes/land_coherence.sh, which
+            # waives that rule (owner 2026-09-18) and records the trade; T86_STAGE_CELLBOUND stages those.
+            coherent = bool(vf(text, to).get("exact"))
+            if not coherent and not STAGE_CELLBOUND:
+                last = dict(info, cell="cell-bound: current text not exact at %s" % to, cell_to=to)
+                continue
+            # a cell-bound row's listing target is a text that is NOT retail at `to`, so listing
+            # exactness there proves nothing: the near band is scored as well when the switch is on.
+            cands = cell_exact + ([(lab, c) for _d, lab, c in cell_near] if not coherent else [])
+            for lab, cand in cands:
+                if info["tried"] >= MAX_VERIFY:
+                    break
+                info["tried"] += 1
+                v = vf(cand, to)
+                if v.get("total") is not None:
+                    info["cell_best_total"] = min(info.get("cell_best_total", 1 << 30), v["total"])
+                if v.get("exact"):
+                    return cand, dict(info, step=lab, cell="switch" if coherent else "switch-cellbound",
+                                      cfg=to, cfg_was=row["cfg"], coherent=coherent,
+                                      pins_out=len(sites_of(cand)))
+            last = dict(info, cell=("vf-miss" if coherent else "cell-bound-vf-miss"), cell_to=to)
+        return None, last
