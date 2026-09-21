@@ -16,7 +16,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools')); sys.path.insert(0, str(ROOT / 'tools/xform'))
-from common import rows, clean_path, sha_text, read_jsonl
+from common import rows, clean_path, sha_text, read_jsonl, parse_cfg
 from pin_census import sites_of, unscored_text
 from verify import verify
 
@@ -51,12 +51,23 @@ lock = threading.Lock()
 def one(job):
     r, t = job; t0 = time.time(); usig = unscored_text(t)
     def vf(cand, cfg=None):
+        # `cfg` scores the text at ANOTHER stock recipe (a generator testing a cell switch): verify
+        # reads cfg for overlay rows and cell/flags for slus rows, so all three move together.
         if unscored_text(cand) != usig: return {'exact': False}
+        rr = r
+        if cfg and cfg != r['cfg']:
+            cell, flags = parse_cfg(cfg); rr = dict(r, cfg=cfg, cell=cell, flags=' '.join(flags))
         with tempfile.TemporaryDirectory() as td:
-            p = Path(td) / Path(r['c_path']).name; p.write_text(cand); return verify(r, p, include_root=ROOT / 'include')
+            p = Path(td) / Path(r['c_path']).name; p.write_text(cand); return verify(rr, p, include_root=ROOT / 'include')
     try: new, info = M.T.apply_verified(t, r, cen.get(r['id'], {}), vf)
     except Exception as e: return {'id': r['id'], 'in_sha': sha_text(t), 'outcome': 'error', 'err': repr(e)[:200]}
     rec = {'id': r['id'], 'in_sha': sha_text(t), 'cfg': r['cfg'], 'outcome': 'exact' if new else 'miss', 'secs': round(time.time() - t0, 1), **info}
+    if new and info.get('cfg') and info['cfg'] != r['cfg']:
+        # a candidate exact only at another stock recipe: land it with
+        # `CELLS=work/native_lane/<lane>/cells.jsonl` (tools/apply_candidates.py --cells)
+        rec['cfg_was'] = r['cfg']
+        with lock, (OUT / 'cells.jsonl').open('a') as f:
+            f.write(json.dumps({'id': r['id'], 'to': info['cfg']}) + '\n')
     if new:
         d = OUT / 'out' / r['container']; d.mkdir(exist_ok=True); n = Path(r['c_path']).name
         (d / n).write_text(new); (d / (n + '.base_sha')).write_text(sha_text(t) + '\n')
