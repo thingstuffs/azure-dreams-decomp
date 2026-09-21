@@ -32,32 +32,23 @@ void func_800A06A4(void *record_data, s32 initial_value) {
     variant = ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A4;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_00 = &D_800A0708;
     {
-        register M2C_UNK *handler ASM_REG("$2"); /* MATCH: Keep the merged handler address in retail's $v0. */
+        union { M2C_UNK *pointer; s32 value; } handler;
 
         if (variant == 1) {
-            M2C_UNK *next;
-
-            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A0 = 2;
-            next = &D_800A0BE4;
-            handler = next;
+            handler.value = 2;
+            ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_A0 = handler.value;
+            handler.pointer = &D_800A0BE4;
         } else if (variant == 0) {
-            M2C_UNK *next;
-
-            next = &D_800A0AC8;
-            handler = next;
+            handler.pointer = &D_800A0AC8;
             goto store_handler;
         } else {
-            handler = &D_800A07A4;
+            handler.pointer = &D_800A07A4;
         }
         ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_7E = 0;
 store_handler:
-        ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_60 = handler;
+        ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_60 = handler.pointer;
     }
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_18 = initial_value;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_1C = &D_800D09E0;
     ((S_800A06A4_0 *)((u8 *)record_data - 0x10))->unk_78 = 0;
 }
-
-/* MECHANISM: Frameless leaf CFG with guarded $v0 continuation-address pins preserves both shared-entry tail jumps.
-   A block-entry schedule barrier selects the fall-through lui for the branch slot; a held callback pointer
-   plus memory fence fixes the sh-before-sw order. The length-exact lineage is 2.95.2-G0. */
