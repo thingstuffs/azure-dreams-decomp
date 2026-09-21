@@ -186,14 +186,14 @@ start_wait:
     ((S_8008F428_1 *)animation)->unk_14 &= 0xF7FF;
     func_800A56E0(0x506);
     {
-        register s32 effect_id ASM_REG("$5");
+        s32 effect_id;
 
         effect_result = func_800990FC();
         target = ((S_8008F428_0 *)effect_state)->unk_11C;
         effect_id = effect_result;
+        effect_result = func_80099734(target, effect_id);
         saved_effect_id = effect_id;
-        func_80099290(func_80099194(D_800E0683,
-            func_80099734(target, effect_id)));
+        func_80099290(func_80099194(D_800E0683, effect_result));
         func_800A5720(saved_effect_id);
         target = animation;
 reset_effect:
