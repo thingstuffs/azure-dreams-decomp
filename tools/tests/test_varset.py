@@ -423,20 +423,306 @@ class Determinism(unittest.TestCase):
                 self.assertEqual(len(re.findall(pat, cand)), len(re.findall(pat, self.TEXT)), label)
 
 
+def only_fn(t):
+    fns = V.functions(t, collections.Counter())
+    assert fns, "the body was refused wholesale"
+    return fns[0]
+
+
+def node_at(fn, line1):
+    return fn.nodes[fn.by_line[line1 - 1]]
+
+
+def succ_lines(fn, n):
+    return sorted(fn.nodes[j].line + 1 for j in n.succ)
+
+
 class Cfg(unittest.TestCase):
-    def test_unknown_construct_makes_everything_later_reachable(self):
-        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    SOME_MACRO(arg)\n    b = a;\n    a = 2;\n"
-                 "    b = a;\n")
-        fn = V.functions(t)[0]
+    """The statement CFG.  Round 65 built one node per PHYSICAL line and gave every line it could
+    not classify an edge to every later node AND to every label; 8,626 of the 132,163 nodes of the
+    pinned rows were such a node, most of them a statement that merely wrapped over two lines.  The
+    tests below are the constructs that stopped being `unknown` and the ones that must stay one."""
+
+    def test_a_wrapped_statement_is_one_node_that_falls_through(self):
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    b = func_800A0000(a,\n"
+                 "                      arg);\n    a = 2;\n")
+        fn = only_fn(t)
+        n = node_at(fn, 8)
+        self.assertEqual(n.kind, "stmt")
+        self.assertEqual(n.lines, [7, 8])            # both physical lines, one logical statement
+        self.assertEqual(succ_lines(fn, n), [10])    # and ONE successor, not "everything later"
+        self.assertEqual([x for x in fn.nodes if x.kind == "unknown"], [])
+
+    def test_a_wrapped_use_is_renamed_on_every_line_it_stands_on(self):
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    b = a;\n    a = 2;\n"
+                 "    b = func_800A0000(a,\n                      a);\n")
+        got, _ = run(V.split_def_candidates, t)
+        cand = [c for l, c in got if l.startswith("split_def:a>a_2@9")][0]
+        self.assertIn("a_2 = 2;", cand)
+        self.assertIn("b = func_800A0000(a_2,", cand)
+        self.assertIn("                      a_2);", cand)
+        self.assertNotIn("(a,", cand)
+
+    def test_an_unparsed_construct_still_reaches_every_later_node_and_label(self):
+        # a macro that opens a brace is not a statement this module can read: it keeps the
+        # conservative edges, because anything it does to control flow must stay visible
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    SOME_MACRO(arg) {\n    b = a;\n"
+                 "    goto out;\n    a = 2;\nout:\n    b = a;\n")
+        fn = only_fn(t)
         unknown = [n for n in fn.nodes if n.kind == "unknown"]
         self.assertTrue(unknown)
         self.assertTrue(set(range(unknown[0].i + 1, len(fn.nodes))) <= set(unknown[0].succ))
+        self.assertIn(fn.labels["out"], unknown[0].succ)
+
+    def test_a_balanced_statement_the_parser_cannot_read_falls_through_only(self):
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    typedef_like x = 1, y = 2;\n"
+                 "    b = a;\n")
+        fn = only_fn(t)
+        n = node_at(fn, 8)
+        self.assertEqual(succ_lines(fn, n), [9])
+
+    def test_a_braceless_arm_keeps_the_conservative_edges(self):
+        # `if (arg)` is a BRANCH: modelling it as a fall-through would say `a = 2` always runs
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    if (arg)\n        a = 2;\n    b = a;\n")
+        fn = only_fn(t)
+        head = node_at(fn, 8)
+        self.assertEqual(head.kind, "unknown")
+        self.assertEqual(succ_lines(fn, head), [9, 10])
+        webs = V.webs(fn, "a", fn.kinds("a"))
+        self.assertEqual(len(webs), 1)               # both definitions reach `b = a`
+
+    def test_a_define_inside_the_body_falls_through(self):
+        # dungeon/func_813238E8 carries three `#define entity entity` lines: as `unknown` they put
+        # an edge on every later node and every label of a 247-node function
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n#define arg0 arg0\n    b = a;\n")
+        fn = only_fn(t)
+        n = node_at(fn, 8)
+        self.assertEqual(n.kind, "ppsimple")
+        self.assertEqual(succ_lines(fn, n), [9])
+
+    def test_a_preprocessor_conditional_keeps_the_conservative_edges(self):
+        # a conditional selects between two TEXTS; only `#define`/`#undef`/`#include`/`#pragma`
+        # are known not to be control flow.  (Padded so the refusal is the node's, not the body's.)
+        t = (HEAD + "void func_test(s32 arg)\n{\n    s32 a;\n    s32 b;\n    s32 c;\n"
+             "    a = 1;\n    c = 1;\n    c = c + 1;\n    c = c + 2;\n    c = c + 3;\n"
+             "    c = c + 4;\n    c = c + 5;\n#ifdef NON_MATCHING\n    a = 2;\n#endif\n"
+             "    b = a;\n}\n")
+        fn = only_fn(t)
+        cond = [n for n in fn.nodes if n.joined.startswith("#ifdef")]
+        self.assertTrue(cond)
+        self.assertEqual(cond[0].kind, "unknown")
+        self.assertTrue(set(range(cond[0].i + 1, len(fn.nodes))) <= set(cond[0].succ))
+
+    def test_the_default_arm_is_reachable_from_its_switch(self):
+        # `default` is spelled like an identifier, so the label test claimed it first and the
+        # switch never edged to the arm at all: town/func_8081A100's `element` then had a web with
+        # no definition, and round 65 refused the WHOLE variable over it
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    switch (arg) {\n    case 0:\n"
+                 "        b = a;\n        break;\n    default:\n        b = a + 1;\n"
+                 "        break;\n    }\n")
+        fn = only_fn(t)
+        self.assertEqual(node_at(fn, 12).kind, "case")
+        self.assertNotIn("default", fn.labels)
+        self.assertIn(fn.by_line[11], node_at(fn, 8).succ)
+        webs = V.webs(fn, "a", fn.kinds("a"))
+        self.assertEqual(len(webs), 1)
+        self.assertEqual([fn.nodes[i].line + 1 for i in webs[0][1]], [10, 13])
+
+    def test_the_else_arm_is_reachable_in_both_spellings(self):
+        for spelling in ("    } else {\n", "    }\n    else {\n"):
+            t = wrap("    s32 a;\n    s32 b;\n    if (arg) {\n        a = 1;\n" + spelling +
+                     "        a = 2;\n    }\n    b = a;\n")
+            fn = only_fn(t)
+            preds = {j for n in fn.nodes for j in n.succ}
+            for n in fn.nodes:
+                if n.kind in ("elseopen", "elseif"):
+                    self.assertIn(n.i, preds, spelling)
+            webs = V.webs(fn, "a", fn.kinds("a"))
+            self.assertEqual(len(webs), 1, spelling)          # both arms define the one range
+            self.assertEqual(len(webs[0][0]), 2, spelling)
+
+    def test_a_labelled_block_loop_keeps_its_back_edge(self):
+        t = wrap("    s32 a;\n    s32 b;\n    a = 0;\nloop_0: {\n        b = a;\n"
+                 "        a = a + 1;\n    } if (a < 3) goto loop_0;\n    b = a;\n")
+        fn = only_fn(t)
+        tail = node_at(fn, 11)
+        self.assertEqual(tail.kind, "ifgoto")
+        self.assertEqual(succ_lines(fn, tail), [8, 12])       # the back edge AND the exit
+        self.assertTrue(V.webs(fn, "a", fn.kinds("a"))[0][2])  # the range crosses a back edge
+
+    def test_a_wrapped_for_head_is_one_loop_node(self):
+        # `for` is the one control head with `;` inside it: the run must read on past them
+        t = (HEAD + "void func_test(s32 arg)\n{\n    s32 a;\n    s32 i;\n    a = 0;\n"
+             "    for (i = 0;\n         i < 4;\n         i++) {\n        a = a + i;\n    }\n"
+             "    a = a + 1;\n}\n")
+        fn = only_fn(t)
+        n = node_at(fn, 8)
+        self.assertEqual(n.kind, "loop")
+        self.assertEqual(n.lines, [7, 8, 9])
+        self.assertEqual(succ_lines(fn, n), [11, 13])     # the body and the exit
+        self.assertEqual(succ_lines(fn, node_at(fn, 12)), [8])   # the back edge to the head
+        sk = collections.Counter()
+        self.assertNotIn("i", V.usable_locals(fn, sk))    # `i` is written in the loop header
+        self.assertTrue(sk["loop-header-def"])
+
+    def test_an_aggregate_declaration_falls_through(self):
+        # a computed-goto label table is a DECLARATION, not a jump: 169 pinned rows carry one, and
+        # as a conservative node a single table made every pair of locals in its function interfere
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n"
+                 "    static void *const case_labels[] = { &&jt_c1, &&jt_c2 };\n"
+                 "    struct { s32 x; s32 y; } probe;\n    b = a;\njt_c1:\njt_c2:\n"
+                 "    b = b + 1;\n")
+        fn = only_fn(t)
+        for line in (8, 9):
+            n = node_at(fn, line)
+            self.assertEqual(n.kind, "unknown")
+            self.assertEqual(succ_lines(fn, n), [line + 1], n.joined)
+
+    def test_the_goto_that_uses_the_table_keeps_the_conservative_edges(self):
+        t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n"
+                 "    static void *const case_labels[] = { &&jt_c1, &&jt_c2 };\n"
+                 "    goto *case_labels[arg];\njt_c1:\n    b = a;\njt_c2:\n    b = a + 1;\n")
+        fn = only_fn(t)
+        n = node_at(fn, 9)
+        self.assertEqual(n.kind, "unknown")
+        self.assertTrue(set(range(n.i + 1, len(fn.nodes))) <= set(n.succ))
 
     def test_declaration_node_is_not_a_use(self):
         t = wrap("    s32 a;\n    s32 b;\n    a = 1;\n    b = a;\n")
-        fn = V.functions(t)[0]
+        fn = only_fn(t)
         decl_node = fn.decls["a"][0]["node"]
         self.assertNotIn(decl_node, fn.kinds("a"))
+
+
+class Soundness(unittest.TestCase):
+    """Tightening the edges may not lose a path the program has.  Every test here would pass with
+    the old spray and must keep passing: a claim of disjointness the control flow does not support
+    is the one failure mode that reaches `vf` looking exact and is not."""
+
+    BACK = ("    s32 x;\n    s32 y;\n    s32 r;\n    s32 i;\n    i = 0;\n    x = 1;\n"
+            "loop:\n    r = x;\n    y = 2;\n    r = r + y;\n    i = i + 1;\n"
+            "    if (i < 3) {\n        goto loop;\n    }\n    func_800A0000(r);\n")
+
+    def test_a_backward_goto_loop_still_reports_interference(self):
+        # TEXTUALLY `x` dies at `r = x` before `y` is ever written; on the CFG the back edge carries
+        # `x` across the whole of `y`'s range, so the two may never share a name
+        t = wrap(self.BACK)
+        fn = only_fn(t)
+        self.assertTrue(V._interfere(fn, fn.kinds("x"), fn.kinds("y")))
+        got, sk = run(V.merge_local_candidates, t)
+        self.assertEqual([l for l in labels(got) if "x" in l and "y" in l], [])
+        self.assertTrue(sk["merge:live-ranges-overlap"])
+
+    def test_a_backward_goto_welds_the_ranges_it_carries_into_one_web(self):
+        fn = only_fn(wrap(self.BACK))
+        webs = V.webs(fn, "x", fn.kinds("x"))
+        self.assertEqual(len(webs), 1)
+        got, sk = run(V.split_def_candidates, wrap(self.BACK))
+        self.assertEqual([l for l in labels(got) if l.startswith("split_def:x")], [])
+
+    def test_two_separate_loops_of_a_labelled_body_do_not_interfere(self):
+        # dungeon/func_813238E8: `actor_index` counts the first do-while and `actors_left` the
+        # second, forty lines apart, and three `#define` lines between them made `_interfere` say
+        # yes - t90 reached the row only through its text-disjoint fallback tier
+        t = wrap("    s32 first;\n    s32 second;\n    s32 r;\n    first = 0;\n"
+                 "    do {\n        r = first;\n        first = first + 1;\n"
+                 "    } while (first < 2);\n#define entity entity\n    second = 1;\n"
+                 "    do {\n        r = second;\n        second = second - 1;\n"
+                 "    } while (second >= 0);\n    goto done;\ndone:\n    func_800A0000(r);\n")
+        fn = only_fn(t)
+        self.assertFalse(V._interfere(fn, fn.kinds("first"), fn.kinds("second")))
+        self.assertIn("merge_local:second>first", labels(run(V.merge_local_candidates, t)[0]))
+
+    def test_two_ranges_of_one_do_while_are_two_webs(self):
+        # town/func_8009A370's `angle_component`: the wrapped statements above the first definition
+        # were `unknown`, so walking the back edge from the SECOND definition reached the first
+        # definition's uses without passing its kill, and the two ranges became one back-edged web
+        t = wrap("    s32 a;\n    s32 r;\n    s32 i;\n    i = 0;\n    do {\n"
+                 "        a = func_800A0000(i);\n        r = a + 1;\n"
+                 "        a = func_800A0004(i,\n                         r);\n"
+                 "        r = a + 2;\n        i = i + 1;\n    } while (i < 3);\n")
+        fn = only_fn(t)
+        webs = V.webs(fn, "a", fn.kinds("a"))
+        self.assertEqual(len(webs), 2)
+        self.assertEqual([w[2] for w in webs], [False, False])
+        self.assertEqual([[fn.nodes[i].line + 1 for i in w[0]] for w in webs], [[10], [12]])
+
+
+class PerWeb(unittest.TestCase):
+    """A web is closed under reaching definitions, so one bad web says nothing about the others."""
+
+    # the third `b = a + 1` is behind a `return`: no definition reaches it, so it is a web of its
+    # own with no definition - and round 65 threw the whole variable away over exactly that
+    DEGEN = ("    s32 a;\n    s32 b;\n    a = 1;\n    b = a;\n    a = 2;\n    b = a;\n"
+             "    return;\n    b = a + 1;\n")
+
+    def test_a_web_without_a_definition_refuses_only_itself(self):
+        got, sk = run(V.split_def_candidates, wrap(self.DEGEN))
+        ls = labels(got)
+        self.assertTrue([l for l in ls if l.startswith("split_def:a>a_2@9")], ls)
+        self.assertEqual(sk["split:web-without-def"], 1)
+        self.assertFalse(sk["split:use-without-def"])         # the round-65 whole-variable refusal
+
+    def test_the_clean_web_is_the_one_that_is_renamed(self):
+        cand = [c for l, c in run(V.split_def_candidates, wrap(self.DEGEN))[0]
+                if l.startswith("split_def:a>")][0]
+        self.assertIn("    a = 1;\n", cand)                   # the first web keeps the name
+        self.assertIn("    a_2 = 2;\n", cand)
+        self.assertIn("    b = a_2;\n", cand)
+        self.assertIn("    b = a + 1;\n", cand)               # the undefined use is untouched
+
+    def test_a_back_edged_web_refuses_only_itself(self):
+        t = wrap("    s32 a;\n    s32 b;\n    s32 i;\n    i = 0;\nloop:\n    b = a + i;\n"
+                 "    a = i;\n    i = i + 1;\n    if (i < 3) {\n        goto loop;\n    }\n"
+                 "    a = 9;\n    b = a;\n")
+        got, sk = run(V.split_def_candidates, t)
+        ls = labels(got)
+        self.assertTrue([l for l in ls if l.startswith("split_def:a>a_2@16")], ls)
+        self.assertEqual(sk["split:web-crosses-a-back-edge"], 1)
+        self.assertFalse(sk["split:back-edge"])               # the round-65 whole-variable refusal
+
+
+class Parameters(unittest.TestCase):
+    """A parameter's incoming value is a definition at the entry node, so the uses it reaches are a
+    web with no definition NODE - the first web, never renamed.  Every later range splits."""
+
+    PARAM = "    s32 b;\n    b = arg;\n    arg = 5;\n    b = b + arg;\n"
+
+    def test_a_parameters_second_range_splits(self):
+        got, _ = run(V.split_def_candidates, wrap(self.PARAM))
+        self.assertTrue([l for l in labels(got) if l.startswith("split_def:arg>arg_2@")], labels(got))
+
+    def test_the_new_range_is_declared_from_the_parameters_own_type(self):
+        cand = [c for l, c in run(V.split_def_candidates, wrap(self.PARAM))[0]
+                if l.startswith("split_def:arg>")][0]
+        self.assertIn("    s32 arg_2;\n", cand)
+        self.assertIn("    b = arg;\n", cand)                 # the entry range keeps the name
+        self.assertIn("arg_2 = 5;", cand)
+        self.assertIn("b = b + arg_2;", cand)
+
+    def test_a_parameter_a_local_shadows_is_never_split(self):
+        t = wrap("    s32 arg;\n    s32 b;\n    arg = 1;\n    b = arg;\n    arg = 2;\n"
+                 "    b = arg;\n")
+        sk = collections.Counter()
+        fn = only_fn(t)
+        self.assertNotIn("arg", V.usable_params(fn, sk))
+        self.assertTrue(sk["param-shadow"])
+
+    def test_an_address_taken_parameter_is_never_split(self):
+        t = wrap("    s32 b;\n    b = arg;\n    func_800A0000(&arg);\n    arg = 5;\n"
+                 "    b = b + arg;\n")
+        sk = collections.Counter()
+        self.assertNotIn("arg", V.usable_params(only_fn(t), sk))
+        self.assertTrue(sk["param:address-taken"])
+
+    def test_the_declaration_block_end_is_the_contiguous_run(self):
+        # `DECL_RE` reads `D_800CF828[0] = 1;` as a declaration, so the LAST line `fn.decls` names
+        # can sit past real code; a new declaration must go after the contiguous run instead
+        t = wrap("    s32 b;\n    b = arg;\n    D_800CF828[0] = 1;\n    arg = 5;\n"
+                 "    b = b + arg;\n")
+        fn = only_fn(t)
+        end, _ = V.decl_block_end(fn)
+        self.assertEqual(end + 1, 5)
 
 
 if __name__ == "__main__":

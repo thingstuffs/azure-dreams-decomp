@@ -28,10 +28,21 @@ deterministic, at most CAP (48) candidates per move per call, the ones nearest `
   retype_ptr   a `M2C_UNK *` / `void *` / `u8 *` local whose every dereference casts it to one struct
                pointer type declared as that type, the casts dropped.
 
-THE ANALYSIS.  Statement-level CFG derived from the physical lines of one function body (labels,
-goto, if/else, for/while/do, switch/case, return/break/continue, declarations, pin macros); an
-unrecognised construct becomes an `unknown` node with an edge to every later node AND to every label,
-so it can only add reaching definitions - the refusing direction.  Reaching definitions come from a
+THE ANALYSIS.  Statement-level CFG over the LOGICAL statements of one function body (labels, goto,
+if/else, for/while/do, switch/case, return/break/continue, declarations, pin macros).  One node is a
+RUN of physical lines - the lines are joined until the parentheses balance and the text ends in
+`;`/`{`/`}`/a label colon - because round 65's one-node-per-physical-line model made every statement
+that wrapped over two lines an `unknown`, and an `unknown` had an edge to every later node AND to
+every label.  Over the 995 pinned functions of src/{dungeon,town,main} that was 8,626 unknown nodes
+(3,742 continuation lines, 3,122 brace lines, 918 wrapped control heads, 448 other statements, 396
+preprocessor lines), and the spray made a value that dies in the first loop look live in the second
+(dungeon/func_813238E8) and welded two ranges of one do-while into a single back-edged web
+(town/func_8009A370).  What still cannot be classified stays an `unknown`, but only a node that can
+actually transfer control - one holding `goto`/`break`/`continue`/`return`/`case`/`default`, a
+control keyword, a label or a brace, or whose parentheses do not balance - keeps the conservative
+edges; a balanced `;`-terminated statement falls through to its successor and nowhere else.  The
+edges are still an OVER-approximation of the real control flow: no rule here can DELETE an edge the
+program has, which is what keeps reaching definitions and liveness sound.  Reaching definitions come from a
 DFS from each definition that is killed by the next definition; a definition that READS the variable
 (`V += e`, `V++`, `V = f(V)`) is unioned with the definitions reaching its read.  The resulting
 union-find WEBS are the unit of inline and split, which makes "a use reached by two definitions" and
@@ -89,6 +100,19 @@ TYPEWORDS = {"u8", "s8", "u16", "s16", "u32", "s32", "u64", "s64", "f32", "f64",
 C_KEYWORDS = TYPEWORDS | STMT_KEYWORDS | {"auto", "NULL"}
 RETYPABLE = ("M2C_UNK *", "M2C_UNK8 *", "M2C_UNK16 *", "M2C_UNK32 *", "void *", "u8 *", "s8 *",
              "char *", "unsigned char *")
+# a line that opens an AGGREGATE rather than a block: `... = {` and `struct|union|enum ... {`.  The
+# run joiner reads on past it to the `};`, so a label table is one node, not one node per element.
+AGG_OPEN_RE = re.compile(
+    r"^(?!(?:if|else|for|while|switch|do|case|default)\b)[^;{}]*=\s*\{$"
+    r"|^(?:typedef[ \t]+)?(?:(?:static|const|volatile|register)[ \t]+)*(?:struct|union|enum)\b[^;{}]*\{$")
+# a trailing `:` ends a run only on a label or a case arm (`x = c ?` / `a :` must read on)
+TERM_COLON_RE = re.compile(r"^(?:case\b.*|default[ \t]*|[A-Za-z_]\w*[ \t]*):$")
+# a COMPLETE control head with no `{` of its own: `if (c)`, `while (c)`, `else`, `do`.  The run
+# stops here rather than swallowing the arm under it, so a braceless arm stays a statement node of
+# its own (`perturb_struct` refuses to insert a line in front of one) and the head keeps the
+# conservative edges a branch needs.  An Allman `{` on the next line is joined back on.
+CTRL_HEAD_RE = re.compile(r"^(?:\}[ \t]*)?(?:else[ \t]+if|if|for|while|switch)[ \t]*\(.*\)$"
+                          r"|^(?:\}[ \t]*)?(?:else|do)$")
 
 
 # --------------------------------------------------------------------------- small text helpers
@@ -210,28 +234,93 @@ COMMA_DECL_RE = re.compile(r"^[ \t]*(?:(?:register|static|const|volatile|struct|
 # --------------------------------------------------------------------------- the CFG
 
 class Node:
-    __slots__ = ("i", "line", "kind", "masked", "raw", "depth", "succ", "head")
+    """One LOGICAL statement: the physical lines `lines`, joined and masked in `joined`.
 
-    def __init__(self, i, line, kind, masked, raw, depth):
+    `masked` and `line` stay the FIRST physical line, and a wrapped simple statement keeps the kind
+    `stmt`, because that is what every caller outside this module reads (`perturb_struct` scans
+    `fn.m[n.line]` and has its own continuation guard).  The analysis here reads `joined` and
+    `lines`, so a statement wrapped over three lines is ONE node with one kind; anything that edits
+    from `masked` alone must check `len(node.lines) == 1` first.
+    """
+    __slots__ = ("i", "line", "lines", "kind", "masked", "joined", "label", "raw", "depth", "succ",
+                 "head")
+
+    def __init__(self, i, line, kind, masked, raw, depth, lines=None, joined=None, label=None):
         self.i, self.line, self.kind = i, line, kind
         self.masked, self.raw, self.depth = masked, raw, depth
+        self.lines = list(lines) if lines else [line]
+        self.joined = masked.strip() if joined is None else joined
+        self.label = label
         self.succ = []
         self.head = None            # for a block opener: the node index after its matching close
 
     def __repr__(self):
-        return "<%d L%d %s %r>" % (self.i, self.line + 1, self.kind, self.masked.strip()[:40])
+        return "<%d L%d %s %r>" % (self.i, self.line + 1, self.kind, self.joined[:40])
+
+
+LABEL_PRE_RE = re.compile(r"^(" + ID + r")[ \t]*:(?!:)")
+IFGOTO_RE = re.compile(r"^\}?\s*if\s*\(.*\)\s*goto\s+(" + ID + r")\s*;$", re.S)
+PP_COND_RE = re.compile(r"#\s*(if|ifdef|ifndef|else|elif|endif)\b")
+JUMPY_RE = re.compile(r"\b(goto|break|continue|return|case|default|if|else|for|while|switch|do)\b")
+# a DECLARATION whose initialiser or body carries braces - `T t[] = { ... };`, `struct { ... } x;`.
+# It transfers no control, so it falls through even though `_simple_unknown` otherwise refuses a
+# brace.  The computed-goto label tables (`static void *const case_labels[] = { &&jt_c1, ... };`,
+# 169 of them) are this shape: as a conservative node one of them reached every later node and
+# every label of its function and made every pair of locals interfere.  The `goto *p;` that USES
+# the table still holds `goto`, so it keeps the conservative edges.
+AGG_STMT_RE = re.compile(r"^[^;{}]*=[ \t]*\{.*\}[ \t]*;$"
+                         r"|^(?:typedef[ \t]+)?(?:(?:static|const|volatile|register)[ \t]+)*"
+                         r"(?:struct|union|enum)\b.*\}[^;{}]*;$", re.S)
+
+
+def _label_of(s):
+    """(label, rest) - `L:`, `L: {`, `L: do {`, `L: ;` all NAME a label; `case`/`default` do not."""
+    if re.match(r"^(?:case|default)\b", s):
+        return None, s
+    m = LABEL_PRE_RE.match(s)
+    if not m:
+        return None, s
+    return m.group(1), s[m.end():].strip()
+
+
+def _simple_unknown(s):
+    """True when an unclassified statement provably transfers control only to its successor.
+
+    A balanced, `;`-terminated statement with no label and no jump or control keyword cannot
+    branch, so the conservative "edge to every later node and every label" is pure noise on it; an
+    aggregate declaration (`AGG_STMT_RE`) counts as one although it carries braces.  Everything
+    else - a wrapped control head, a braceless `if (c) x = 1;`, an unbalanced fragment, a
+    preprocessor conditional - keeps the conservative edges.
+    """
+    if not s.endswith(";"):
+        return False
+    if JUMPY_RE.search(s) or LABEL_PRE_RE.match(s):
+        return False
+    if s.count("(") != s.count(")") or s.count("[") != s.count("]"):
+        return False
+    if "{" in s or "}" in s:
+        return s.count("{") == s.count("}") and bool(AGG_STMT_RE.match(s))
+    return True
 
 
 def _classify(s):
-    """Kind of one masked, stripped body line."""
+    """Kind of one masked, stripped LOGICAL statement (a run of physical lines, space-joined)."""
     if not s:
         return "blank"
     if s.startswith("#"):
-        return "unknown"
+        # a conditional selects between two texts, so it keeps the conservative edges; `#define`,
+        # `#undef`, `#include`, `#pragma` are not control flow at all (func_813238E8's three
+        # `#define entity entity` lines sprayed an edge onto every later node and every label)
+        return "unknown" if PP_COND_RE.match(s) else "ppsimple"
+    if re.match(r"^case\b", s) or re.match(r"^default\s*:", s):
+        return "case"              # BEFORE the label test: `default` is also spelled like an ID,
+                                   # and as a `label` the switch never edged to its arm at all
     if re.fullmatch(ID + r"\s*:", s):
         return "label"
-    if re.match(r"^case\b", s) or re.match(r"^default\s*:", s):
-        return "case"
+    if s == "{":
+        return "blockopen"
+    if IFGOTO_RE.match(s):
+        return "ifgoto"
     if re.match(r"^goto\b", s) and s.endswith(";"):
         return "goto"
     if re.match(r"^return\b", s) and s.endswith(";"):
@@ -258,15 +347,21 @@ def _classify(s):
         return "switch"
     if re.fullmatch(r"\}", s):
         return "close"
-    if re.match(r"^(if|for|while|switch|else)\b", s):
-        return "unknown"           # a braceless or multi-line control head
+    if re.match(r"^(if|for|while|switch|else|do)\b", s):
+        return "unknown"           # a braceless control head: still a branch, still conservative
     if "{" in s or "}" in s:
         return "unknown"
     if s.endswith(";") and movable(s):
         return "stmt"
-    if s.endswith(";"):
-        return "unknown"
     return "unknown"
+
+
+def _classify_run(s):
+    """(kind, label) of one logical statement, with a leading `L:` taken off first."""
+    lab, rest = _label_of(s)
+    if lab is None:
+        return _classify(s), None
+    return (_classify(rest) if rest else "label"), lab
 
 
 class Fn:
@@ -294,21 +389,75 @@ class Fn:
 
     # ---- construction
 
-    def _build(self):
-        tds = typedef_names(self.text)
+    MAX_RUN = 40                    # an unbalanced fragment this long is given up on, conservatively
+
+    def _runs(self):
+        """[[line, ...]] - the body's physical lines grouped into LOGICAL statements.
+
+        A line continues into the next while its parentheses/brackets are unbalanced or it ends in
+        something that is not a statement terminator (`;`, `{`, `}`, a label/case colon).  An
+        aggregate opener (`... = {`, `struct {`) runs on until its braces balance and it ends in
+        `;`, so an initialiser table is one node instead of one node per element.  A preprocessor
+        line is always a run of its own.
+        """
+        out, cur, pdepth, binit, bdepth = [], [], 0, False, 0
+
+        def flush():
+            nonlocal cur, pdepth, binit, bdepth
+            if cur:
+                out.append(cur)
+            cur, pdepth, binit, bdepth = [], 0, False, 0
+
         for k in range(self.lo, self.hi):
             s = self.m[k].strip()
             if not s:
                 continue
-            kind = _classify(s)
+            if s.startswith("#"):
+                flush()
+                out.append([k])
+                continue
+            cur.append(k)
+            pdepth += s.count("(") + s.count("[") - s.count(")") - s.count("]")
+            if binit:
+                bdepth += s.count("{") - s.count("}")
+                if (bdepth <= 0 and pdepth <= 0 and s.endswith(";")) or len(cur) >= self.MAX_RUN:
+                    flush()
+                continue
+            if pdepth > 0:
+                if len(cur) >= self.MAX_RUN:
+                    flush()
+                continue
+            pdepth = 0
+            joined = " ".join(self.m[x].strip() for x in cur)
+            if s.endswith("{") and AGG_OPEN_RE.match(joined):
+                binit, bdepth = True, joined.count("{") - joined.count("}")
+                continue
+            if CTRL_HEAD_RE.match(joined):
+                nxt = next((x for x in range(k + 1, self.hi) if self.m[x].strip()), None)
+                if nxt is not None and self.m[nxt].strip() == "{":
+                    continue                    # Allman: the `{` under the head belongs to it
+                flush()
+                continue
+            if s.endswith((";", "{", "}")) or TERM_COLON_RE.match(s) or len(cur) >= self.MAX_RUN:
+                flush()
+        flush()
+        return out
+
+    def _build(self):
+        tds = typedef_names(self.text)
+        for lines in self._runs():
+            joined = " ".join(self.m[k].strip() for k in lines).strip()
+            kind, label = _classify_run(joined)
             if kind == "blank":
                 continue
-            if self.pp[k]:
-                kind = "unknown"
-            if kind == "stmt" and s.startswith("ASM_"):
+            if any(self.pp[k] for k in lines) and not joined.startswith("#"):
+                kind, label = "unknown", None
+            if kind == "stmt" and joined.startswith("ASM_"):
                 kind = "pin"
-            n = Node(len(self.nodes), k, kind, self.m[k], self.lines[k], self.d[k])
-            self.by_line[k] = n.i
+            n = Node(len(self.nodes), lines[0], kind, self.m[lines[0]], self.lines[lines[0]],
+                     self.d[lines[0]], lines, joined, label)
+            for k in lines:
+                self.by_line[k] = n.i
             self.nodes.append(n)
         if not self.nodes or len(self.nodes) > MAX_NODES:
             self.ok, self.reason = False, "function-too-large"
@@ -323,6 +472,8 @@ class Fn:
     def _declarations(self, tds):
         out = collections.defaultdict(list)
         for n in self.nodes:
+            if len(n.lines) != 1:
+                continue            # a wrapped declaration's DECL_RE offsets do not index one line
             m = DECL_RE.match(n.masked)
             if not m or not _is_typename(m.group("base"), tds):
                 continue
@@ -340,29 +491,41 @@ class Fn:
         return out
 
     def _match_close(self, i):
-        """Node index of the line that closes the block opened by node i (None if unmatched)."""
+        """Node index of the statement that closes the block opened by node i (None if unmatched).
+
+        The closer is the first later node whose text takes the brace depth back to the opener's
+        level at any point INSIDE it - which is what makes `} else {` the closer of the `if` above
+        it.  Round 65 asked for `after <= base and depth > base`, and `} else {` has depth base+1
+        and net zero braces, so it matched neither clause: `close[if]` landed on the final `}` of
+        the whole chain, the `if`'s false edge jumped past the else arm and 281 else arms of the
+        pinned rows had NO predecessor at all.  An opener that itself begins with `}` (`} else {`,
+        `} else if (...) {`) closes one level below its own depth.
+        """
         n = self.nodes[i]
-        base = n.depth
+        base = n.depth - 1 if n.joined.startswith("}") else n.depth
         for j in range(i + 1, len(self.nodes)):
             z = self.nodes[j]
-            after = z.depth + z.masked.count("{") - z.masked.count("}")
-            if after <= base and z.depth > base:
-                return j
-            if z.depth <= base and z.kind in ("close", "dowhile", "elseopen", "elseif"):
-                return j
+            d = z.depth
+            for c in z.joined:
+                if c == "{":
+                    d += 1
+                elif c == "}":
+                    d -= 1
+                    if d <= base:
+                        return j
         return None
 
     def _edges(self):
         nodes = self.nodes
         labels = {}
         for n in nodes:
-            if n.kind == "label":
-                labels[n.masked.strip()[:-1].strip()] = n.i
+            if n.label is not None:
+                labels.setdefault(n.label, n.i)
         self.labels = labels
         # block openers -> matching close
         close = {}
         for n in nodes:
-            if n.kind in ("if", "elseif", "elseopen", "loop", "do", "switch"):
+            if n.kind in ("if", "elseif", "elseopen", "loop", "do", "switch", "blockopen"):
                 close[n.i] = self._match_close(n.i)
         self.close = close
         # fall-through target: skip an else chain when leaving a then-branch
@@ -376,6 +539,20 @@ class Fn:
                     return None
                 j = j + 1 if nodes[j].kind == "close" else j
             return j
+
+        def else_target(c):
+            """The false edge of an `if` whose block closes at node c: the else arm when there is
+            one, however it is spelled.  `} else {` IS node c; an Allman `}` on its own line with
+            `else {` under it is node c+1, and round 65 sent the false edge to `ft[c]` - past the
+            whole else arm, which then had no predecessor at all (22 rows)."""
+            if c is None:
+                return None
+            if nodes[c].kind in ("elseopen", "elseif"):
+                return c
+            if nodes[c].kind == "close" and c + 1 < len(nodes) \
+                    and nodes[c + 1].kind in ("elseopen", "elseif"):
+                return c + 1
+            return ft.get(c)
 
         ft = {}
         for n in nodes:
@@ -407,50 +584,67 @@ class Fn:
             if j is not None and 0 <= j < len(nodes) and j not in nodes[i].succ:
                 nodes[i].succ.append(j)
 
+        def spray(i):
+            """The conservative edges: every later node and every label of the function."""
+            for j in range(i + 1, len(nodes)):
+                add(i, j)
+            for j in labels.values():
+                add(i, j)
+
         for n in nodes:
             k = n.kind
             if k == "return":
                 continue
             if k == "goto":
-                tgt = re.match(r"^goto\s+(" + ID + r")\s*;", n.masked.strip())
+                tgt = re.match(r"^goto\s+(" + ID + r")\s*;", n.joined)
                 if tgt and tgt.group(1) in labels:
                     add(n.i, labels[tgt.group(1)])
                 else:
                     n.kind = "unknown"
                     k = "unknown"
+            if k == "ifgoto":
+                tgt = IFGOTO_RE.match(n.joined)
+                if tgt and tgt.group(1) in labels:
+                    add(n.i, labels[tgt.group(1)])      # a `} if (c) goto L;` loop tail: the back
+                    add(n.i, ft.get(n.i))               # edge AND the fall-through, both seen
+                    continue
+                n.kind = k = "unknown"
             if k == "unknown":
-                for j in range(n.i + 1, len(nodes)):
-                    add(n.i, j)
-                for j in labels.values():
-                    add(n.i, j)
+                if _simple_unknown(n.joined):
+                    add(n.i, ft.get(n.i))
+                else:
+                    spray(n.i)
                 continue
             if k == "break":
                 enc = [x for x in enclosing[n.i] if nodes[x].kind in ("loop", "switch", "do")]
-                if enc:
-                    c = close.get(enc[-1])
-                    add(n.i, ft.get(c) if c is not None else None)
+                c = close.get(enc[-1]) if enc else None
+                if c is not None:
+                    add(n.i, ft.get(c))
                 else:
-                    for j in range(n.i + 1, len(nodes)):
-                        add(n.i, j)
-                continue
+                    spray(n.i)          # an unmatched block: a break with no successor at all is
+                continue                # an UNDER-approximation, the one thing that is not allowed
             if k == "continue":
                 enc = [x for x in enclosing[n.i] if nodes[x].kind in ("loop", "do")]
                 if enc:
                     add(n.i, enc[-1])
                 else:
-                    for j in range(n.i + 1, len(nodes)):
-                        add(n.i, j)
+                    spray(n.i)
                 continue
             if k in ("if", "elseif"):
                 add(n.i, n.i + 1)
                 c = close.get(n.i)
-                add(n.i, c if c is not None and nodes[c].kind in ("elseopen", "elseif") else
-                    (ft.get(c) if c is not None else None))
+                if c is None:
+                    spray(n.i)
+                else:
+                    add(n.i, else_target(c))
                 continue
             if k == "loop":
                 add(n.i, n.i + 1)
                 c = close.get(n.i)
-                add(n.i, ft.get(c) if c is not None else None)
+                if c is None:
+                    spray(n.i)
+                else:
+                    add(n.i, ft.get(c))
                 continue
             if k == "do":
                 add(n.i, n.i + 1)
@@ -470,10 +664,12 @@ class Fn:
                 for j in range(n.i + 1, end):
                     if nodes[j].kind == "case":
                         add(n.i, j)
-                        if nodes[j].masked.strip().startswith("default"):
+                        if nodes[j].joined.startswith("default"):
                             has_default = True
                 if not has_default:
                     add(n.i, ft.get(c) if c is not None else None)
+                if c is None:
+                    spray(n.i)
                 continue
             if k == "close":
                 opener = None
@@ -491,7 +687,11 @@ class Fn:
     # ---- per-variable facts
 
     def occurrences(self, v):
-        """[(node index, [spans])] plus a flag for occurrences the CFG could not place."""
+        """[(node index, physical line, [spans])] plus a count of occurrences off the CFG.
+
+        One node may appear several times: a logical statement wrapped over three lines names the
+        variable on each of them, and every rewrite here edits PHYSICAL lines.
+        """
         placed, stray = [], 0
         for k in range(self.lo, self.hi):
             spans = occ_spans(self.m[k], v)
@@ -501,7 +701,7 @@ class Fn:
             if i is None:
                 stray += 1
                 continue
-            placed.append((i, spans))
+            placed.append((i, k, spans))
         return placed, stray
 
     def kinds(self, v):
@@ -515,14 +715,14 @@ class Fn:
         decl_nodes = {x["node"] for x in ds if not x["init"]}
         init_nodes = {x["node"] for x in ds if x["init"]}
         placed, _ = self.occurrences(v)
-        for i, spans in placed:
+        for i in sorted({x[0] for x in placed}):
             if i in decl_nodes:
                 continue
             if i in init_nodes:
                 init = decl_init(self, v, i)
                 out[i] = "rmw" if init is None or rx.search(init) else "plain"
                 continue
-            s = self.nodes[i].masked
+            s = self.nodes[i].joined
             if not w.search(s):
                 out[i] = "use"
                 continue
@@ -672,20 +872,64 @@ def usable_locals(fn, skips, allow_register_pin=False, allow_init=False):
         if stray:
             skips["use-off-cfg"] += 1
             continue
-        if any(fn.pp[fn.nodes[i].line] for i, _ in placed):
+        if any(fn.pp[ln] for _, ln, _ in placed):
             skips["in-pp-arm"] += 1
             continue
-        if any(COMMA_DECL_RE.match(fn.nodes[i].masked) for i, _ in placed):
+        if any(COMMA_DECL_RE.match(fn.m[ln]) for _, ln, _ in placed):
             skips["multi-declarator"] += 1
             continue
         if any(fn.nodes[i].kind in ("loop", "dowhile", "switch", "if", "elseif")
-               and write_re(v).search(fn.nodes[i].masked) for i, _ in placed):
+               and write_re(v).search(fn.nodes[i].joined) for i, _, _ in placed):
             skips["loop-header-def"] += 1
             continue
-        if any(fn.nodes[i].kind == "unknown" for i, _ in placed):
+        if any(fn.nodes[i].kind == "unknown" for i, _, _ in placed):
             skips["use-on-unknown-node"] += 1
             continue
         out[v] = d
+    return out
+
+
+def usable_params(fn, skips):
+    """{name: type} for the PARAMETERS a split may rename.
+
+    A parameter carries an implicit definition at the entry node, so the uses that definition
+    reaches form a web with no definition NODE of its own - the parameter's first web, which is
+    never renamed.  Every later web is an ordinary range and splits like a local's.  A parameter is
+    never a merge guest (there is no declaration line to delete) and never carries a qualifier this
+    module could drop, so what it needs is the rest of `usable_locals`' screen: not address-taken,
+    every mention on a CFG node it could classify, none in a preprocessor arm, none written in a
+    loop header, and no local of the same name shadowing it.
+    """
+    out = {}
+    declared = set(fn.decls)
+    body = "\n".join(fn.m[fn.lo:fn.hi])
+    for p, ty in fn.params:
+        if not ty or not re.fullmatch(ID, p) or p in C_KEYWORDS:
+            continue
+        if p in declared:
+            skips["param-shadow"] += 1
+            continue
+        if re.search(r"(?:^|[^\w)\]&])&[ \t]*" + re.escape(p) + r"\b", body, re.M):
+            skips["param:address-taken"] += 1
+            continue
+        placed, stray = fn.occurrences(p)
+        if stray:
+            skips["param:use-off-cfg"] += 1
+            continue
+        if any(fn.pp[ln] for _, ln, _ in placed):
+            skips["param:in-pp-arm"] += 1
+            continue
+        if any(COMMA_DECL_RE.match(fn.m[ln]) for _, ln, _ in placed):
+            skips["param:multi-declarator"] += 1
+            continue
+        if any(fn.nodes[i].kind in ("loop", "dowhile", "switch", "if", "elseif")
+               and write_re(p).search(fn.nodes[i].joined) for i, _, _ in placed):
+            skips["param:loop-header-def"] += 1
+            continue
+        if any(fn.nodes[i].kind == "unknown" for i, _, _ in placed):
+            skips["param:use-on-unknown-node"] += 1
+            continue
+        out[p] = ty
     return out
 
 
@@ -693,7 +937,7 @@ def _multi_occurrence(fn, v, kinds):
     """A node that both plainly defines v and mentions it again is not line-renameable."""
     rx = occ_re(v)
     for i, k in kinds.items():
-        if k == "plain" and len(rx.findall(fn.nodes[i].masked)) > 1:
+        if k == "plain" and len(rx.findall(fn.nodes[i].joined)) > 1:
             return True
     return False
 
@@ -743,6 +987,36 @@ def _rename_line(fn, line, old, new, current=None):
     return real
 
 
+def _rename_node(fn, node, old, new, edits):
+    """Rename `old` on EVERY physical line of one CFG node (a node may be a wrapped statement)."""
+    for ln in fn.nodes[node].lines:
+        if occ_spans(fn.m[ln], old):
+            edits[ln] = _rename_line(fn, ln, old, new, edits.get(ln))
+    return edits
+
+
+def _param_decl(ind, ty, name):
+    """A declaration for a split parameter's second range, built from the parameter's own type."""
+    core = re.sub(r"\s+", " ", ty).strip()
+    return "%s%s%s%s;" % (ind, core, "" if core.endswith("*") else " ", name)
+
+
+def decl_block_end(fn):
+    """(line, indent) after the CONTIGUOUS run of single-line top-level declarations - where a new
+    local may be declared.  Not the LAST line `fn.decls` names: `DECL_RE` reads `D_800CF828[0] = 1;`
+    as a declaration (`_is_typename` accepts any capitalised word), so that line can sit past real
+    code, and an insertion after it lands in the middle of the body."""
+    top = min((n.depth for n in fn.nodes), default=0)
+    decl_nodes = {x["node"] for ds in fn.decls.values() for x in ds}
+    last, ind = fn.lo - 1, "    "
+    for n in fn.nodes:
+        if n.depth != top or n.i not in decl_nodes or len(n.lines) != 1:
+            break
+        last = n.line
+        ind = re.match(r"[ \t]*", fn.lines[n.line]).group(0) or "    "
+    return last, ind
+
+
 def _decl_line(d, name):
     """A fresh declaration built from the original declaration text: qualifiers cannot drift."""
     core = d["decl_text"].strip()
@@ -780,6 +1054,8 @@ def _focus_key(focus, names):
 
 def _rhs_of(fn, node, v):
     """The defining expression at `node`: `v = E;` or the initialiser of `v`'s own declaration."""
+    if len(fn.nodes[node].lines) != 1:
+        return None              # a wrapped definition: its spans do not index one physical line
     if any(x["node"] == node and x["init"] for x in fn.decls.get(v, [])):
         return decl_init(fn, v, node)
     m = re.match(r"^\s*(?<![\w.])" + re.escape(v) + r"\s*=(?!=)\s*(?P<rhs>.*?);\s*$", fn.nodes[node].masked)
@@ -848,13 +1124,15 @@ def _inline_one(fn, v, d, kinds, ds, us, skips):
         skips["inline:no-use"] += 1
         return None
     for u in uses:
-        s = fn.nodes[u].masked.strip()
-        if s.startswith("ASM_"):
+        if fn.nodes[u].joined.startswith("ASM_"):
             skips["inline:use-in-pin"] += 1
             return None
         if fn.nodes[u].kind in ("unknown", "decl"):
             skips["inline:use-on-unknown-node"] += 1
             return None
+        if len(fn.nodes[u].lines) != 1:
+            skips["inline:use-on-a-wrapped-statement"] += 1
+            return None         # the substitution indexes `masked`, which is one physical line
     # region: the nodes on a path from a definition to a use, killed at the next definition
     forward = set()
     for d0 in ds:
@@ -884,18 +1162,18 @@ def _inline_one(fn, v, d, kinds, ds, us, skips):
     for n in sorted(region - set(ds)):
         node = fn.nodes[n]
         if n in uses:
-            m = re.match(r"^\s*(?P<lhs>[^=;]*?)=(?!=)", node.masked)
-            if m and m.group("lhs").strip() in ops and occ_re(v).search(node.masked[m.end():]):
+            m = re.match(r"^\s*(?P<lhs>[^=;]*?)=(?!=)", node.joined)
+            if m and m.group("lhs").strip() in ops and occ_re(v).search(node.joined[m.end():]):
                 continue
         for o in ops:
-            if write_re(o).search(node.masked):
+            if write_re(o).search(node.joined):
                 skips["inline:operand-clobbered"] += 1
                 return None
         if mem and n not in uses:
-            if CALL_RE.search(node.masked):
+            if CALL_RE.search(node.joined):
                 skips["inline:call-between"] += 1
                 return None
-            am = re.match(r"^\s*(?P<lhs>[^=;]*?)=(?!=)", node.masked)
+            am = re.match(r"^\s*(?P<lhs>[^=;]*?)=(?!=)", node.joined)
             if am and not re.fullmatch(ID, am.group("lhs").strip()):
                 skips["inline:store-between"] += 1
                 return None
@@ -964,12 +1242,27 @@ def inline_def_candidates(text, focus=None, skips=None):
 # --------------------------------------------------------------------------- split_def
 
 def split_def_candidates(text, focus=None, skips=None):
-    """One definition web renamed to a fresh `V_2` declared right after V; `:all` splits every web."""
+    """One definition web renamed to a fresh `V_2`; `:all` splits every admissible web.
+
+    PER WEB, NOT PER VARIABLE.  Round 65 refused the whole variable when ANY of its webs was
+    degenerate or crossed a back edge, and town/func_8081A100's `element` has a `default:` arm whose
+    use no definition reaches - so its three clean loop ranges were never offered at all.  A web is
+    closed under reaching definitions: every definition in it reaches only uses in it and every use
+    in it is reached only by definitions in it, so renaming one web cannot change what another web
+    means.  Only the web being renamed has to qualify.
+
+    PARAMETERS split too (`usable_params`): their first web is the one the implicit entry definition
+    reaches, which has no definition node and is therefore skipped like any degenerate web, and the
+    new range's declaration goes at the end of the declaration block.
+    """
     skips = collections.Counter() if skips is None else skips
     scored = []
     for fn in functions(text, skips):
         locs = usable_locals(fn, skips, allow_init=True)
-        for v, d in sorted(locs.items()):
+        params = usable_params(fn, skips)
+        end, ind = decl_block_end(fn)
+        for v in sorted(set(locs) | set(params)):
+            d = locs.get(v)
             kinds = fn.kinds(v)
             if not kinds:
                 continue
@@ -980,44 +1273,50 @@ def split_def_candidates(text, focus=None, skips=None):
             if len(ws) < 2:
                 skips["split:single-web"] += 1
                 continue
-            if any(w[2] for w in ws):
-                skips["split:back-edge"] += 1
-                continue
-            if any(not wd for wd, _, _ in ws):
-                skips["split:use-without-def"] += 1
-                continue
             name = _fresh(text, v)
             if name is None:
                 skips["split:no-fresh-name"] += 1
                 continue
-            for wi, (ds, us, _) in enumerate(ws):
-                if wi == 0:
+
+            def declare(nm):
+                return (_decl_line(d, nm) if d is not None else _param_decl(ind, params[v], nm))
+
+            at = d["line"] if d is not None else end
+            ok_webs = []
+            for wi, (ds, us, back) in enumerate(ws):
+                if not ds:
+                    skips["split:web-without-def"] += 1      # only THIS web, never the variable
                     continue
+                if back:
+                    skips["split:web-crosses-a-back-edge"] += 1
+                    continue
+                if wi == 0:
+                    skips["split:first-web-keeps-the-name"] += 1
+                    continue
+                ok_webs.append((wi, ds, us))
+            for wi, ds, us in ok_webs:
                 edits = {}
                 for n in sorted(set(ds) | set(us)):
-                    ln = fn.nodes[n].line
-                    edits[ln] = _rename_line(fn, ln, v, name, edits.get(ln))
-                cand = _apply(text, edits, (), {d["line"]: [_decl_line(d, name)]})
+                    _rename_node(fn, n, v, name, edits)
+                if not edits:
+                    continue
+                cand = _apply(text, edits, (), {at: [declare(name)]})
                 scored.append(((_focus_key(focus, {v}), fn.nodes[ds[0]].line, v, wi),
                                "split_def:%s>%s@%d" % (v, name, fn.nodes[ds[0]].line + 1), cand))
-            # every web after the first gets its own name
-            edits, decls, k = {}, [], 2
-            ok = True
-            for wi, (ds, us, _) in enumerate(ws):
-                if wi == 0:
-                    continue
+            # every admissible web gets its own name
+            edits, decls, k, ok = {}, [], 2, True
+            for wi, ds, us in ok_webs:
                 nm = "%s_%d" % (v, k)
                 k += 1
                 if re.search(r"\b" + re.escape(nm) + r"\b", text):
                     ok = False
                     break
-                decls.append(_decl_line(d, nm))
+                decls.append(declare(nm))
                 for n in sorted(set(ds) | set(us)):
-                    ln = fn.nodes[n].line
-                    edits[ln] = _rename_line(fn, ln, v, nm, edits.get(ln))
-            if ok and len(ws) > 2:
+                    _rename_node(fn, n, v, nm, edits)
+            if ok and edits and len(ok_webs) > 1:
                 scored.append(((_focus_key(focus, {v}), -1, v, -1), "split_def:all:%s" % v,
-                               _apply(text, edits, (), {d["line"]: decls})))
+                               _apply(text, edits, (), {at: decls})))
     return _cap(scored, focus)
 
 
@@ -1097,8 +1396,7 @@ def merge_local_candidates(text, focus=None, skips=None, allow_init=False):
                 gd = locs[guest]
                 edits = {}
                 for n in sorted(kinds[guest]):
-                    ln = fn.nodes[n].line
-                    edits[ln] = _rename_line(fn, ln, guest, host, edits.get(ln))
+                    _rename_node(fn, n, guest, host, edits)
                 extra = _drop_self_copies(fn, edits, skips, "merge")
                 if extra is None:
                     continue
@@ -1132,7 +1430,7 @@ def merge_param_candidates(text, focus=None, skips=None, allow_init=False):
                 continue
             pkinds = fn.kinds(p)
             pplaced, pstray = fn.occurrences(p)
-            if pstray or any(fn.pp[fn.nodes[i].line] for i, _ in pplaced):
+            if pstray or any(fn.pp[ln] for _, ln, _ in pplaced):
                 skips["param:off-cfg-or-pp"] += 1
                 continue
             ptype = re.sub(r"\s+", " ", pty.strip())
@@ -1155,8 +1453,7 @@ def merge_param_candidates(text, focus=None, skips=None, allow_init=False):
                 else:
                     edits = {}
                     for n in sorted(vkinds):
-                        ln = fn.nodes[n].line
-                        edits[ln] = _rename_line(fn, ln, v, p, edits.get(ln))
+                        _rename_node(fn, n, v, p, edits)
                     extra = _drop_self_copies(fn, edits, skips, "param")
                     if extra is not None:
                         scored.append(((_focus_key(focus, {v, p}), d["line"], v, p),
@@ -1196,8 +1493,7 @@ def merge_param_candidates(text, focus=None, skips=None, allow_init=False):
                     continue
                 edits = {}
                 for n in sorted(later):
-                    ln = fn.nodes[n].line
-                    edits[ln] = _rename_line(fn, ln, p, v, edits.get(ln))
+                    _rename_node(fn, n, p, v, edits)
                 scored.append(((_focus_key(focus, {v, p}), fn.nodes[copy].line, p, v),
                                "merge_param:usecopy:%s>%s" % (p, v), _apply(text, edits)))
     return _cap(scored, focus)
@@ -1225,18 +1521,17 @@ def retype_ptr_candidates(text, focus=None, skips=None):
                 continue
             targets, bad = set(), False
             hits = []
-            for i, spans in placed:
-                node = fn.nodes[i]
-                if node.line == d["line"]:
+            for i, ln, spans in placed:
+                if ln == d["line"]:
                     continue
-                s = node.masked
+                s = fn.m[ln]
                 for a, b in spans:
                     before, after = s[:a], s[b:]
                     mm = CAST_TAIL_RE.search(before)
                     if mm and re.match(r"^\s*\)\s*(?:->|\.)", after) \
                             and before[:mm.start()].rstrip().endswith("("):
                         targets.add(mm.group("s"))
-                        hits.append((node.line, mm.start(), b, mm.group("s")))
+                        hits.append((ln, mm.start(), b, mm.group("s")))
                         continue
                     # a plain copy, argument or assignment target is fine; arithmetic is not
                     if re.search(r"[\[\+\-]\s*$", before) or after.lstrip()[:1] in ("[", "+", "-"):

@@ -38,14 +38,19 @@ RESOLVES    two rows of the round-63 astra lanes byte-exact.  town/func_8081A100
             itself.  This is the exact inverse of t74_multiset (which SPLITS a chained assignment to
             reach two sets) and of t87_lifetimemerge (which MERGES two variables into one, for the
             rows where the pin is bought by the extra set).  The nearest ancestors miss it:
-            t64_varset calls `varset.split_def_candidates`, which refuses the WHOLE variable when any
-            one of its webs is degenerate (`element`'s `default:` arm gives a use-without-def web, so
-            the clean third-loop web is never offered) and never splits a PARAMETER at all; t51's
-            single-set split only walks a straight run of <= 10 statements.
+            t51's single-set split only walks a straight run of <= 10 statements.  Round 65 also
+            listed `varset.split_def_candidates` as a miss - it refused the WHOLE variable when any
+            one web was degenerate and never split a parameter - but round 66 fixed the library
+            instead: the refusals are per web there now and `varset.usable_params` offers the
+            parameters, so what is left here is the declaration PLACEMENT search and the pin-erase
+            screen, not a second web finder.  (`element`'s degenerate web came from the CFG reading
+            `default:` as a label, which is also fixed: its `default:` arm is reachable.)
 CANDIDATES  per function with pins, per usable name, the definition WEBS of `varset.webs` (reaching
             definitions on the statement CFG, union-find over {def, use} nodes).  Each web after the
             first that has a definition of its own, crosses no back edge and stands on no `unknown`
-            or preprocessor node is renamed to a fresh `V_2`, declared in four places - after `V`'s
+            or preprocessor node (a web may span statements that WRAP over several physical lines:
+            `varset` gives one node per logical statement and every line of it is rewritten) is
+            renamed to a fresh `V_2`, declared in four places - after `V`'s
             own declaration, at the top of the innermost block that encloses the whole web, at the
             end of the function's declaration block, and (as a rename with no new declaration) onto
             an unused local of the same declared type.  Declaration PLACEMENT is a lever, not a
@@ -102,22 +107,6 @@ def _norm_ty(d):
     return re.sub(r"\s+", " ", d["decl_text"].replace("register", "").strip()) + d["stars"]
 
 
-def _param_decl(ind, ty, name):
-    core = re.sub(r"\s+", " ", ty).strip()
-    return "%s%s%s%s;" % (ind, core, "" if core.endswith("*") else " ", name)
-
-
-def _decl_block_end(fn):
-    """(line, indent) after the function's last top-level declaration - where a new local may go."""
-    top = min((fn.nodes[x["node"]].depth for ds in fn.decls.values() for x in ds), default=None)
-    best, ind = None, "    "
-    for ds in fn.decls.values():
-        for x in ds:
-            if fn.nodes[x["node"]].depth == top and (best is None or x["line"] > best):
-                best, ind = x["line"], x["ind"]
-    return (best, ind) if best is not None else (fn.lo - 1, "    ")
-
-
 def _enclosing_open(fn, nodes):
     """The innermost block opener whose block contains every node of the web, or None."""
     first, last = min(nodes), max(nodes)
@@ -147,27 +136,16 @@ def _dead_locals(fn, locs):
 # ------------------------------------------------------------------ the web finder
 
 def _usable(fn, text):
-    """[(name, decl or None)] - the locals and parameters whose ranges this generator may split."""
+    """[(name, decl or None)] - the locals and parameters whose ranges this generator may split.
+
+    The parameter half is `varset.usable_params` since round 66.  This module carried its own copy
+    because `varset` screened locals only; the library now applies the same screen to a parameter
+    and documents the entry definition as its first web, so the copy - and with it the risk of the
+    two screens drifting apart - is gone.
+    """
     skips = Counter()
     out = [(v, d) for v, d in sorted(V.usable_locals(fn, skips).items())]
-    body = "\n".join(fn.m[fn.lo:fn.hi])
-    declared = set(fn.decls)
-    for p, ty in fn.params:
-        if p in declared or not ty:
-            continue
-        if re.search(r"(?:^|[^\w)\]&])&[ \t]*" + re.escape(p) + r"\b", body, re.M):
-            continue
-        placed, stray = fn.occurrences(p)
-        if stray or any(fn.pp[fn.nodes[i].line] for i, _ in placed):
-            continue
-        if any(fn.nodes[i].kind == "unknown" for i, _ in placed):
-            continue
-        if any(V.COMMA_DECL_RE.match(fn.nodes[i].masked) for i, _ in placed):
-            continue
-        if any(fn.nodes[i].kind in ("loop", "dowhile", "switch", "if", "elseif")
-               and V.write_re(p).search(fn.nodes[i].masked) for i, _ in placed):
-            continue
-        out.append((p, None))
+    out += [(p, None) for p in sorted(V.usable_params(fn, skips))]
     return out
 
 
@@ -189,7 +167,8 @@ def splits(text):
                 if wi == 0 or back or not ds:
                     continue
                 nodes = sorted(set(ds) | set(us))
-                if any(fn.nodes[i].kind == "unknown" or fn.pp[fn.nodes[i].line] for i in nodes):
+                if any(fn.nodes[i].kind == "unknown" or any(fn.pp[x] for x in fn.nodes[i].lines)
+                       for i in nodes):
                     continue
                 out.append((fn, v, d, wi, nodes, kinds))
     return out
@@ -204,12 +183,12 @@ def _placements(fn, text, v, d, name, nodes, locs):
     if op is not None:
         ind = re.match(r"[ \t]*", fn.lines[fn.nodes[min(nodes)].line]).group(0)
         line = (V._decl_line(d, name) if d is not None
-                else _param_decl(ind, dict(fn.params)[v], name))
+                else V._param_decl(ind, dict(fn.params)[v], name))
         line = re.sub(r"^[ \t]*", ind, line)
         out.append(("inblock", name, {op.line: [line]}, ()))
-    end, ind = _decl_block_end(fn)
+    end, ind = V.decl_block_end(fn)
     line = (re.sub(r"^[ \t]*", ind, V._decl_line(d, name)) if d is not None
-            else _param_decl(ind, dict(fn.params)[v], name))
+            else V._param_decl(ind, dict(fn.params)[v], name))
     out.append(("declend", name, {end: [line]}, ()))
     want = _norm_ty(d) if d is not None else None
     if want is not None:
@@ -231,11 +210,11 @@ def candidates(text):
         name = V._fresh(text, v)
         if name is None:
             continue
-        lines = sorted({fn.nodes[i].line for i in nodes})
+        lines = sorted({ln for i in nodes for ln in fn.nodes[i].lines})
         for tag, nm, inserts, drops in _placements(fn, text, v, d, name, nodes, locs):
             edits = {}
-            for ln in lines:
-                edits[ln] = V._rename_line(fn, ln, v, nm, edits.get(ln))
+            for i in nodes:                 # a range's statement may wrap over several lines
+                V._rename_node(fn, i, v, nm, edits)
             cand = V._apply(text, edits, drops, inserts)
             if cand == text or cand in seen:
                 continue

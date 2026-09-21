@@ -43,7 +43,7 @@ WHY THE ANCESTORS MISS IT
             to one braced/case/run window and the two declared types to be spelled alike, so it
             cannot see (b)'s `register s32 ... ASM_REG("$16")` against a plain `s32`.
             t66_sameregmerge does have a real CFG, but only pairs two `ASM_REG` declarations naming
-            the SAME hard register.  varset.merge_local_candidates has the CFG too and refuses on
+            the SAME hard register.  varset.merge_local_candidates has the same CFG and refuses on
             type spelling (`_same_type`), on a register-pinned declaration and on different block
             depths.  This module keeps varset's interference oracle and drops those three refusals,
             taking t87's four rewrite forms to spell the merge.
@@ -131,12 +131,21 @@ def _text_disjoint(vfn, ms_a, ms_b):
     """The fallback when the CFG refuses: the two ranges do not overlap IN THE TEXT and no loop
     encloses both, so no iteration can carry one value across the other's range.
 
-    The statement CFG is deliberately conservative - an `unknown` node has an edge to every later
-    node AND to every label, so one unparsed construct makes a value that dies in the first loop of
-    a labelled function look live in the second (dungeon/func_813238E8: `actor_index` and
-    `actors_left` count two separate do-whiles forty lines apart and `_interfere` still says yes).
-    A text-separated pair outside any common loop is offered as a lower-ranked candidate; the byte
-    gate, not this test, is what accepts it.
+    The statement CFG is an over-approximation, and a node it cannot classify keeps an edge to
+    every later node AND to every label.  Round 65 hit that constantly - a statement wrapped over
+    two lines was unclassified, so dungeon/func_813238E8's `actor_index` and `actors_left`, which
+    count two separate do-whiles forty lines apart, looked live at the same time and 15 of the
+    lane's 21 exact rows came through this tier instead of the real one.  Round 66 parses those
+    constructs (`varset` groups physical lines into logical statements and only a node that can
+    really transfer control keeps the spray), and the ratio inverted: 17 of the r66 sweep's 19
+    exact rows came through tier 0.
+
+    What is left is genuine.  Both tier-1 rows of that sweep (dungeon/func_80E64FF0,
+    dungeon/func_819A1654) dispatch through a COMPUTED GOTO - `goto *D_80170870[tile_distance];` -
+    whose targets are every label of the function, so the spray there is the control flow, not a
+    parser gap; a preprocessor conditional and a fragment longer than `varset.Fn.MAX_RUN` are the
+    other two sources.  A text-separated pair outside any common loop is still offered as a
+    lower-ranked candidate for them; the byte gate, not this test, is what accepts it.
     """
     return _text_disjoint_spans(_loop_spans(vfn), ms_a, ms_b)
 
