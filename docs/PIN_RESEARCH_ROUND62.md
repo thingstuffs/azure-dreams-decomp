@@ -91,3 +91,38 @@ from t82, the `(s32)`/`(void *)` casts of the lifetime merge (a 1997 author may 
   minutes as lanes finish.  Every exact transfer sat at similarity >= 0.9.
 - Negatives: the allocation family (three rows) stays open after sol, the Opus study and astra (distances 4, 16, 22);
   the plain-store item rows are with astra as their own question; sol retries and the far band are spent (chain H ended).
+
+## Rounds 68-72 (the night of 2026-09-21/22): the retrospective, the lane kit, the kit waves
+
+The owner asked what worked, what did not, and what the models kept rebuilding.  Two Sonnet miners read 30 codex
+session logs (`docs/evidence/lane_log_mining_{astra,sol}_20260921.md`): every astra lane rebuilt the same
+erase-compile-screen-verify harness, 13 of 16 ended by asking for a tool that explains why a gcc pass decided what it
+did, lanes did only 13-29 minutes of real work, and the duck brief had already lifted sol from 12.6% to 30.4% of rows.
+From that:
+- **The lane kit** (`tools/lanes/lanekit/`: `lab.py`, `erase.py`, `why.py` for sched/greg/lreg/loop, a dump-containment
+  shim, `install.py`) and **the v2 brief** (`tools/lanes/duck_pack_brief_v2.md`: tools table, the working method of the
+  three big wins, an effort rule against stopping early), applied by `tools/lanes/kit_pack.py`.
+  **Measured effect:** astra kit wave 1 38 of 40 rows byte-exact (duck-only astra ~2.2 rows per 5-row pack); wave 2
+  46 of 60 rows / 118 pins; lanes run 25-66 minutes.  Sol kit: 21 of 60 (35%) against 20%, the lift on 12-8-pin rows,
+  1 of 20 on 17-13-pin rows, 8 rows of 35 on 3-6-pin rows.  Astra owns the 13+ band.
+- **Isolated landing** (`LAND_ISOLATED=1`, `tools/lanes/land_lanes.sh`, `land_gap.sh`): the gate runs in its own root
+  `build_ovl_gate`; landings queue on one lock instead of waiting hours for a codex gap.  Proof: 2,175 windows + SLUS
+  MATCH while lanes scored, 2,430 verdicts stable.  A publish-before-fill race in the gate's window table was found and
+  fixed (one full repair gate run).  `tools/lanes/land_finished2.sh` lands every finished lane continuously.
+- **Orchestration in the repo** (`tools/lanes/pool.py`, `land_gap.sh`, `cascade_extra.txt`, `refresh_exemplars.py` -
+  exemplars 144 -> 434 -, `autocommit.sh`, `clone_watch.sh`, brief paragraphs) replacing the scratchpad scripts.
+- **Shared-library fixes**: `varset` (two missing-edge bugs; 8,626 unparsed CFG nodes -> 1,636; 66 rows / 75 pins from
+  three generators at once) and `natural` (2,727 missed declarations -> 66; 6 rows fix-attributable).
+- **Harvests** of the kit waves into generators: t96 abs in place, t97 page symbol, t98 parameter width in every
+  declaration (40 pins), t99 absolute memory operand (nine wins the listing screen rates at distance 3: it ranks, it
+  does not prove), t100, extensions of t93/t94/t82/t37; move tables in `docs/evidence/pin_research_round{67,71,72}_move_table.md`.
+  Three-round ranking: reusing a dead local's storage 64 pins, page value as symbol 30, statement granularity 28,
+  parameter width 24.
+- **Mechanisms**: the plain-store item rows (declared a compiler-fact block) fell to `abs()` into a fresh single-assignment
+  local (sched.c `birthing_insn_p`: a pseudo set once gets the scheduler's top priority when released) - 7 of 10 rows and
+  generator t91; the 37-pin loop row fell to a recovered `static __inline__ s16` helper whose narrow-interface
+  conversions loop.c counts (37 -> 2); a loop census (`tools/lanes/loop_census.py`) found 91 rows where one register pin
+  hides a loop variable from induction analysis and 1 count-padding row.
+
+**Count: 5,682 (morning of 09-21) -> 4,575 / 1,077 (00:00Z 09-22), 1,107 pins in the day.**  Codex quota ran out
+around 23:50Z with two astra and thirteen sol kit packs built and unrun; a watcher restarts the pools when capacity returns.
