@@ -159,7 +159,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     register u8 *var_t4 ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *var_t5;
     s32 temp_v0;
-    s16 var_s1;
+    u32 var_s1;
     s32 var_s6;
     s32 var_t1;
     s32 var_t1_2;
@@ -173,7 +173,6 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     s16 idx1;
     u32 idx1_copy;
     void *entry_ptr;
-    register S_800E3E48 *entries ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 ff;
     u8 *d3df0;
     S_800E3E48 *entries_src;
@@ -214,8 +213,8 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     var_t4 = var_t3;
     addr_temp = (u8 *)0x800E0000;
     ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    entries = (S_800E3E48 *)(addr_temp + 0x3E48);
-    var_t6 = (u8 *)entries;
+    var_s1 = (u32)(addr_temp + 0x3E48);
+    var_t6 = (u8 *)var_s1;
     arg0->unk_F8 = (u16)((S_80094988_0 *)page)->unk_2D50;
     var_t2 = var_t3;
     arg0->unk_FC = (s32)((S_80094988_0 *)page)->unk_2D58;
@@ -236,7 +235,7 @@ loop_1:
     if (idx1 != ff) {
         idx1_copy = idx1;
         entry_ptr = (void *)((u32)(idx1_copy * sizeof(S_800E3E48)) +
-                             (u32)entries);
+                             (u32)var_s1);
         ((S_80094988_3 *)var_t5)->unk_00 = (s32)entry_ptr;
         var_t5 += 4;
         var_t3 += 1;
