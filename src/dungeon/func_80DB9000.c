@@ -253,7 +253,7 @@ void BODY_NAME(void *size_arg, void *position_arg, void *sprite_arg, s32 depth_b
     s16 screen_offset_2;
     register u32 coord_value;
     u32 packet_addr;
-    register u8 packet_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 packet_code;
     u8 right_u;
     u8 bottom_v;
     s32 blend_code;
@@ -454,7 +454,6 @@ next_entry:
                 corner3_visible = y_bound < 0x121U;
             }
             if ((first_three_visible | corner3_visible) != 0) {
-                register u32 uv_adjusted ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 packet->unk_00.s8.unk_03 = 9;
                 sprite->unk_14 = (u16)(sprite->unk_14 & 0x7FFF);
                 {
@@ -465,8 +464,8 @@ next_entry:
                 }
                 scratch_page->unk_14 = uv_right;
                 if (uv_right & 0x100) {
-                    uv_adjusted = uv_right - 1;
-                    scratch_page->unk_14 = uv_adjusted;
+                    blend_code = uv_right - 1;
+                    scratch_page->unk_14 = blend_code;
                 }
                 {
                     u32 texel_count = scratch_page->unk_18;
@@ -476,8 +475,8 @@ next_entry:
                 }
                 scratch_page->unk_18 = uv_right;
                 if (uv_right & 0x100) {
-                    uv_adjusted = uv_right - 1;
-                    scratch_page->unk_18 = uv_adjusted;
+                    blend_code = uv_right - 1;
+                    scratch_page->unk_18 = blend_code;
                 }
                 scratch_page->unk_18 <<= 8;
                 scratch_page->unk_10 <<= 8;

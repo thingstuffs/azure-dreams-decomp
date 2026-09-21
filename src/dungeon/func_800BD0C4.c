@@ -176,7 +176,6 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     register void *source_object ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     void *object_vertices;
     void *finished_object;
-    register u8 *player_coords ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *release_object;
     u32 release_coord;
     s32 release_status;
@@ -281,11 +280,11 @@ state_finish: {
 
     source_object = (void *)((u8 *)0x80080000);
     ASM_KEEP(source_object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    player_coords = (u8 *)source_object + 0x2E80;
+    expired_coord = (u32)((u8 *)source_object + 0x2E80);
     effect_object = D_800E3D7C;
     D_800DF55C = effect_object;
     effect_flags = 0x208020;
-    if (func_800BBA40(player_coords[0x24], player_coords[0x25], ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, effect_flags, &D_800C0180) == 0) {
+    if (func_800BBA40(((u8 *)expired_coord)[0x24], ((u8 *)expired_coord)[0x25], ((S_800C2824_8 *)effect_object)->unk_88, &D_800DF45C, 0x2800, effect_flags, &D_800C0180) == 0) {
         goto done;
     }
     flags_page = (u8 *)0x80080000;

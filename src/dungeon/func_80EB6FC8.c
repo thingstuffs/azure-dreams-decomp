@@ -86,7 +86,6 @@ void func_801727C8(void *action, void *motion, void *sprite, void *actor) {
     s32 state;
     void *visual_flags;
     void *effect_sprite;
-    void *owner_sprite;
     void *target_owner;
 
     is_special = 0;
@@ -190,12 +189,11 @@ block_25:
     }
 block_27:
     {
-        register void *owner ASM_REG("$2") = target_owner;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        void *owner = target_owner;
 
-        owner_sprite = ((S_801727C8_2_pre *)owner)[-1].unk_00;
-        ASM_USE(owner);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = (s8) ((S_801727C8_3 *)owner_sprite)->unk_24;
-        ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = (s8) ((S_801727C8_3 *)owner_sprite)->unk_25;
+        slot = (s32)(((S_801727C8_2_pre *)owner)[-1].unk_00);
+        ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_24;
+        ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = (s8) ((S_801727C8_3 *)((void *)slot))->unk_25;
     }
     goto block_33;
 block_28:

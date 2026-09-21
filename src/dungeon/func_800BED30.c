@@ -36,8 +36,7 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
     s16 stat_gap;
     s32 stat_gain;
     s32 effect_text;
-    register s32 message_context ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 new_context;
+    s32 message_context;
 
     if (target == D_800E3D7C) {
         ((Rec_D_800E3D7C *)target)->unk_110 = source;
@@ -68,13 +67,13 @@ s32 func_800C4490(void *target, s32 source, s16 effect_mode) {
     ((Rec_D_800E3D7C *)target)->unk_64.as_s16 = stat_gain;
 
     if (((Rec_D_800E3D7C *)target)->unk_14.as_s32 & 0x4000) {
-        new_context = func_800990FC();
+        effect_text = func_800990FC();
         {
-            register void *message_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            void *message_target;
+            s32 context_arg;
 
             message_target = target;
-            context_arg = new_context;
+            context_arg = effect_text;
             message_context = context_arg;
             effect_text = func_80099734(message_target, context_arg);
         }

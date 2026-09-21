@@ -89,11 +89,10 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
 
         {
             s32 text_end;
-            register s32 message_end ASM_REG("$5");
+            s32 message_end;
 
             if (!(linked_item[3] & 0x40)) {
                 s32 next_cursor;
-                s32 saved_cursor;
 
                 text_start = func_800990FC();
                 text_cursor = func_8009955C(linked_item, text_start);
@@ -105,9 +104,9 @@ s32 func_800BEDEC(u32 target_addr, u8 *used_item, s16 effect_type, s32 effect_va
                 target = text_cursor - 2;
                 text_cursor = next_cursor;
                 next_cursor = func_80099368(linked_item, text_cursor);
-                saved_cursor = text_cursor;
+                message_end = text_cursor;
                 text_cursor = next_cursor;
-                func_800998C0(target, saved_cursor);
+                func_800998C0(target, message_end);
                 actor = D_80089370;
                 message_end = text_cursor;
             } else {

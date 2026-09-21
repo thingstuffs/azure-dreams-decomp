@@ -225,8 +225,6 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     register s32 facing ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     register s32 facing_shift ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 dx ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 abs_x ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 abs_y;
     register s32 magnitude ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     s32 tile_x;
@@ -237,7 +235,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     u32 tile_step_x;
     s32 tile_step_y;
     s32 pixel_step_x;
-    register s32 pixel_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 pixel_offset;
     u16 timer;
     u16 flags;
     register u8 base_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -247,7 +245,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     S_81850800_8 *work;
     S_81850800_9 *obj;
     S_81850800_1 *target;
-    S_81850800_11 *effect_data;
+    union { S_81850800_11 * pointer; s32 value; } effect_data;
     S_81850800_5 *position;
     u8 *spawn_cb;
     register u8 *particle_cb ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -359,23 +357,23 @@ state_0_tail:
         func_800247A8();
         return;
     }
-    abs_x = dx;
+    effect_data.value = dx;
     if (dx < 0) {
-        abs_x = -abs_x;
+        effect_data.value = -effect_data.value;
     }
-    abs_y = facing_shift;
+    pixel_offset = facing_shift;
     if (facing_shift < 0) {
-        abs_y = -abs_y;
+        pixel_offset = -pixel_offset;
     }
-    if (abs_x < abs_y) {
-        abs_x = abs_y;
+    if (effect_data.value < pixel_offset) {
+        effect_data.value = pixel_offset;
     }
-    magnitude = abs_x * 4;
+    magnitude = effect_data.value * 4;
     owner->unk_50.unk_50_u16 = magnitude;
-    if (abs_x == 0) {
+    if (effect_data.value == 0) {
         goto state_0_zero;
     }
-    if (abs_x == 1) {
+    if (effect_data.value == 1) {
         ASM_KEEP_NV(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         goto state_0_one;
     }
@@ -452,7 +450,7 @@ state_1:
     position->unk_00.unk_00_s32 = copy_value;
     position = obj->unk_08;
     copy_value = motion->unk_04.unk_04_s32;
-    effect_data = (S_81850800_11 *)((u8 *)obj + 0x20);
+    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
     position->unk_04.unk_04_s32 = copy_value;
     position = obj->unk_08;
     copy_value = motion->unk_08.unk_08_s32;
@@ -470,10 +468,10 @@ state_1:
     work->unk_0C = spawn_color;
     work->unk_08.unk_08_s32 = copy_value;
     obj->unk_20 = owner;
-    effect_data->unk_48.unk_48_s16 = func_80069EF8() & 3;
-    effect_data->unk_4E = (func_80069EF8() & 3) + 8;
-    effect_data->unk_4A = (func_80069EF8() & 7) + 0xC;
-    effect_data->unk_4C = 0;
+    effect_data.pointer->unk_48.unk_48_s16 = func_80069EF8() & 3;
+    effect_data.pointer->unk_4E = (func_80069EF8() & 3) + 8;
+    effect_data.pointer->unk_4A = (func_80069EF8() & 7) + 0xC;
+    effect_data.pointer->unk_4C = 0;
 
 state_1_after_first:
     if (owner->unk_50.unk_50_s16 > 0) {
@@ -501,7 +499,7 @@ state_1_after_first:
     position->unk_00.unk_00_s32 = copy_value;
     position = obj->unk_08;
     copy_value = motion->unk_04.unk_04_s32;
-    effect_data = (S_81850800_11 *)((u8 *)obj + 0x20);
+    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
     position->unk_04.unk_04_s32 = copy_value;
     position = obj->unk_08;
     copy_value = motion->unk_08.unk_08_s32;
@@ -520,10 +518,10 @@ state_1_after_first:
     work->unk_08.unk_08_s32 = copy_value;
     obj->unk_20 = owner;
     timer = owner->unk_50.unk_50_u16;
-    effect_data->unk_4E = 8;
-    effect_data->unk_4A = 8;
-    effect_data->unk_4C = 0;
-    effect_data->unk_48.unk_48_u16 = timer;
+    effect_data.pointer->unk_4E = 8;
+    effect_data.pointer->unk_4A = 8;
+    effect_data.pointer->unk_4C = 0;
+    effect_data.pointer->unk_48.unk_48_u16 = timer;
 
 state_1_loop_setup:
     dx = 0x3C;
@@ -558,16 +556,16 @@ do {
     work->unk_08.unk_08_s32 = copy_value;
     ((S_81850800_5 *)obj->unk_08)->unk_0C =
         step_x * (func_80069EF8() << 3);
-    effect_data = (S_81850800_11 *)((u8 *)obj + 0x20);
+    effect_data.pointer = (S_81850800_11 *)((u8 *)obj + 0x20);
     ((S_81850800_5 *)obj->unk_08)->unk_10 =
         step_y * (func_80069EF8() << 3);
     ((S_81850800_5 *)obj->unk_08)->unk_14.unk_14_s32 =
         0xFFF7FFFF - func_80069EF8();
     obj->unk_20 = owner;
-    effect_data->unk_48.unk_48_s16 = 2;
-    effect_data->unk_4E = (func_80069EF8() & 7) + 8;
-    effect_data->unk_4A = 0x10;
-    effect_data->unk_4C = 0;
+    effect_data.pointer->unk_48.unk_48_s16 = 2;
+    effect_data.pointer->unk_4E = (func_80069EF8() & 7) + 8;
+    effect_data.pointer->unk_4A = 0x10;
+    effect_data.pointer->unk_4C = 0;
 state_1_loop_next:
     dx--;
     } while (dx >= 0);

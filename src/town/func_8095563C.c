@@ -106,14 +106,12 @@ check_zone:
         goto check_edges;
     }
     {
-        u8 *box_data;
         Box *linked_box;
-        box_data = (u8 *)D_800240E0;
+        edge_delta_m = (s32)((u8 *)D_800240E0);
         do {
             edge_coord = box_id << 3;
         } while (0);
-        linked_box = (Box *)(box_data + edge_coord);
-        ASM_KEEP_NV(linked_box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        linked_box = (Box *)(((u8 *)edge_delta_m) + edge_coord);
         box = linked_box;
     }
     ASM_KEEP(box);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

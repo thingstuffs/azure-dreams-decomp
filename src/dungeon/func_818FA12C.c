@@ -234,9 +234,8 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
         u32 frames_squared;
         s32 *flash_pos;
         register s32 flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u8 *packet ASM_REG("$9");   /* retained: preserves the cleanup packet role */
         u8 *particle_state;
-        register s32 angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 angle;
 
     case 0:
         {
@@ -298,7 +297,7 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
                 ((S_818FA12C_4 *)position)->unk_08.at02.v = origin_z - 0x40;
             }
             if (!(((S_818FA12C_13 *)((*(void * *)((u8 *)self + 4))))->unk_00 & 0x80)) {
-                goto done;
+                return;
             }
             if (!((*(u8 *)((u8 *)self + 0x7A)) & 4)) {
                 func_8004491C(self - 0x20, D_80045340);
@@ -514,12 +513,12 @@ missing_target:
 
 cleanup_packet:
         {
-            packet = render_data;
-            ((S_818FA12C_1 *)packet)->unk_0C.at02u.v = 0;
-            ((S_818FA12C_1 *)packet)->unk_0C.at01u.v = 0;
-            ((S_818FA12C_1 *)packet)->unk_0C.at00p.v = 0;
-            ((S_818FA12C_1 *)packet)->unk_1E.n = 0;
-            ((S_818FA12C_1 *)packet)->unk_1C.n = 0;
+            frames_squared = (u32)render_data;
+            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at02u.v = 0;
+            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at01u.v = 0;
+            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_0C.at00p.v = 0;
+            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_1E.n = 0;
+            ((S_818FA12C_1 *)((u8 *)frames_squared))->unk_1C.n = 0;
             return;
         }
 
@@ -588,7 +587,6 @@ update_position:
     case 4:
         {
             s16 ticks;
-            register u8 *particle ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             u8 *particle_data;
             u8 *target_data;
             s32 random_bonus;
@@ -604,49 +602,48 @@ update_position:
             if ((ticks & 3) != 0 || (s16)ticks >= 80) {
                 goto case_4_tail;
             }
-            particle = func_8003FC64(0x212);
-            if (particle == 0) {
+            impact = func_8003FC64(0x212);
+            if (impact == 0) {
                 goto case_4_tail;
             }
-            particle_state = particle + 0x20;
+            particle_state = impact + 0x20;
             (*(u16 *)((u8 *)particle_state + 2)) = 20;
             (*(u16 *)((u8 *)particle_state + 0x0A)) = 10;
             (*(u16 *)((u8 *)particle_state + 4)) = 0;
-            (*(u32 *)((u8 *)particle + 0x10)) = (u32)D_8002558C;
-            func_8004491C(particle, D_80045340);
-            particle_data = (*(u8 * *)((u8 *)particle + 0x0C));
+            (*(u32 *)((u8 *)impact + 0x10)) = (u32)D_8002558C;
+            func_8004491C(impact, D_80045340);
+            particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
             ((S_818FA12C_8 *)particle_data)->unk_10.u = 0x20;
             ((S_818FA12C_8 *)particle_data)->unk_14 |= 0x0C;
             target_pos = ((S_818FA12C_14 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x18))->unk_00;
-            flash_pos = (*(s32 * *)((u8 *)particle + 8));
+            flash_pos = (*(s32 * *)((u8 *)impact + 8));
             offset_radius = func_80069EF8();
             offset_sign = func_8002512C();
             offset_radius &= 0x1F;
             offset_radius += 16;
-            packet = (u8 *)(offset_radius * offset_sign);
-            angle = (s32)packet << 16;
+            frames_squared = (u32)((u8 *)(offset_radius * offset_sign));
+            angle = (s32)((u8 *)frames_squared) << 16;
             flash_pos[0] = ((S_818FA12C_7 *)target_pos)->unk_00.at00.v + angle;
             offset_radius = func_80069EF8();
             offset_sign = func_8002512C();
             offset_radius &= 0x1F;
             offset_radius += 16;
-            packet = (u8 *)(offset_radius * offset_sign);
-            angle = (s32)packet << 16;
+            frames_squared = (u32)((u8 *)(offset_radius * offset_sign));
+            angle = (s32)((u8 *)frames_squared) << 16;
             flash_pos[1] = ((S_818FA12C_7 *)target_pos)->unk_04.at00.v + angle;
             height_random = func_80069EF8();
             flash_pos[2] = ((S_818FA12C_7 *)target_pos)->unk_08.at00.v
                 - (D_800DDC40[((S_818FA12C_2 *)parent)->unk_60.p[0x13]] << 15)
                 - ((height_random & 0x1F) << 16);
-            particle_data = (*(u8 * *)((u8 *)particle + 0x0C));
+            particle_data = (*(u8 * *)((u8 *)impact + 0x0C));
             target_data = ((S_818FA12C_16 *)(((S_818FA12C_2 *)parent)->unk_60.p - 0x14))->unk_00;
             ((S_818FA12C_8 *)particle_data)->unk_1C = ((S_818FA12C_11 *)target_data)->unk_1C >> 1;
             ((S_818FA12C_8 *)particle_data)->unk_1E = ((S_818FA12C_11 *)target_data)->unk_1E >> 1;
             ((S_818FA12C_8 *)particle_data)->unk_0E = 0;
             ((S_818FA12C_8 *)particle_data)->unk_0D = 0;
             ((S_818FA12C_8 *)particle_data)->unk_0C = 0;
-            (*(Copy12 *)((u8 *)particle + 0x3A)) = D_80026668;
-            ((S_818FA12C_8 *)particle_data)->unk_08 = particle + 0x3A;
-            ASM_USE(particle);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            (*(Copy12 *)((u8 *)impact + 0x3A)) = D_80026668;
+            ((S_818FA12C_8 *)particle_data)->unk_08 = impact + 0x3A;
 
 case_4_tail:
             if ((s16)(*(u16 *)((u8 *)self + 0x82)) == 80) {

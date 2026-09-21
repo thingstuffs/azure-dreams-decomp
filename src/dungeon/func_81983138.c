@@ -54,12 +54,11 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
     s32 direction_y;
     s32 ring_angle;
     s32 direction_angle;
-    register s32 color_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 particle_index;
     S_80024938_2 *sprite;
     S_80024938_1 *motion;
     void *particle;
-    S_80024938_3 *effect_state;
+    union { S_80024938_3 * pointer; s32 value; } effect_state;
     u8 *page_base;
 
     particle_index = 0;
@@ -79,20 +78,20 @@ void *func_80024938(s16 x, s16 y, s16 z, s16 angle) {
             direction_y = func_800644B8(direction_angle);
             motion->unk_10 = (s32) ((s32) (direction_y * func_80064584(ring_angle)) >> 6);
             motion->unk_14 = (s32) (func_800644B8(ring_angle) << 6);
-            color_flags = 0x808080;
+            effect_state.value = 0x808080;
             sprite = ((S_80024938_0 *)particle)->unk_0C;
             sprite->unk_1E = 0x400;
             sprite->unk_1C = 0x400;
             page_base = (u8 *) 0x80020000;
             ASM_KEEP(page_base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            sprite->unk_0C = color_flags;
-            color_flags = sprite->unk_14;
+            sprite->unk_0C = effect_state.value;
+            effect_state.value = sprite->unk_14;
             sprite->unk_08 = page_base + 0x69EC;
             sprite->unk_10 = 0x20;
-            sprite->unk_14 = (u16) (color_flags | 0xC);
-            effect_state = particle + 0x20;
-            effect_state->unk_30 = 0xC;
-            effect_state->unk_36 = (u16) angle;
+            sprite->unk_14 = (u16) (effect_state.value | 0xC);
+            effect_state.pointer = particle + 0x20;
+            effect_state.pointer->unk_30 = 0xC;
+            effect_state.pointer->unk_36 = (u16) angle;
         }
         particle_index += 1;
     } while (particle_index < 0x20);

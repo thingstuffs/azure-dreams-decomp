@@ -292,30 +292,16 @@ scan_tiles:
         goto use_endpoint;
     }
     {
-        register s16 *lookup_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
-        lookup_base = D_8006CCD8;
-#else
-        lookup_base = (s16 *) 0x80070000U;
-        ASM_KEEP(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        lookup_base = (s16 *) ((u8 *) lookup_base - 0x3328);
-#endif
+        end_tile_y = (u32)(D_8006CCD8);
         direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
         height = (u16) ((S_80025954_1 *)owner)->unk_88;
-        x_lookup_first = (s16 *) ((direction << 1) + (u32) lookup_base);
+        x_lookup_first = (s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y);
         ASM_KEEP(x_lookup_first);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     height = (s16) (height - 0x20);
     {
-        register s16 *lookup_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#ifdef NON_MATCHING
-        lookup_base = D_8006CCE8;
-#else
-        lookup_base = (s16 *) 0x80070000U;
-        ASM_KEEP(lookup_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        lookup_base = (s16 *) ((u8 *) lookup_base - 0x3318);
-#endif
-        y_lookup_first = (s16 *) ((direction << 1) + (u32) lookup_base);
+        end_tile_y = (u32)(D_8006CCE8);
+        y_lookup_first = (s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y);
         ASM_KEEP(y_lookup_first);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
     floor_height = func_800BCB04(((((s16) tile_x + *x_lookup_first) << 6) + 0x20) & 0xFFE0, ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);

@@ -302,10 +302,9 @@ create_spawn:
             ASM_KEEP_NV(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             state->valueA0 = room->x24 + table[(s16)state->variant7E].value;
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            coord_or_variant = (s16)state->variant7E;
             table = (ByteEntry *)0x80070000;
             ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            coord_or_variant = (s16)state->variant7E;
-            ASM_KEEP(coord_or_variant);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
             table = (ByteEntry *)((u8 *)table - 0x3318);
             ASM_KEEP(table);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             state->valueA1 = room->y25 + table[coord_or_variant].value;

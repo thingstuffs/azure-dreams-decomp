@@ -327,7 +327,7 @@ entry_loop:
             SP32(0x10) = (s32) ((S_800CEFB8_7 *)part_data)->unk_09;
             SP32(0x14) = (s32) ((S_800CEFB8_7 *)part_data)->unk_0A;
             {
-                s16 edge_coord;
+                s32 edge_coord;
                 u16 axis_adjust;
                 s32 axis_extent;
                 if ((((S_800CEFB8_6 *)part)->unk_00 ^ SP16(0x24)) & 1) {
@@ -337,7 +337,6 @@ entry_loop:
                     edge_coord = -edge_coord - axis_adjust;
                     SP16(0x80) = edge_coord;
                     SP16(0x70) = edge_coord;
-                    ASM_SCHED_BARRIER();
                     edge_coord -= axis_extent;
                     goto axis_x_join;
                 }
@@ -347,14 +346,13 @@ entry_loop:
                 edge_coord -= axis_adjust;
                 SP16(0x80) = edge_coord;
                 SP16(0x70) = edge_coord;
-                ASM_SCHED_BARRIER();
                 edge_coord += axis_extent;
 axis_x_join:
                 SP16(0x88) = edge_coord;
                 SP16(0x78) = edge_coord;
             }
             {
-                s16 edge_coord;
+                s32 edge_coord;
                 u16 axis_adjust;
                 s32 axis_extent;
                 if ((((S_800CEFB8_6 *)part)->unk_00 ^ SP16(0x24)) & 2) {
@@ -364,9 +362,10 @@ axis_x_join:
                     edge_coord = -edge_coord - axis_adjust;
                     SP16(0x7A) = edge_coord;
                     SP16(0x72) = edge_coord;
-                    ASM_SCHED_BARRIER();
                     edge_coord -= axis_extent;
-                    goto axis_y_join;
+                    SP16(0x8A) = edge_coord;
+                    SP16(0x82) = edge_coord;
+                    goto axis_y_done;
                 }
                 edge_coord = (s8) ((S_800CEFB8_7 *)part_data)->unk_02;
                 axis_adjust = ((S_800CEFB8_4 *)scratch)->unk_10A;
@@ -374,12 +373,11 @@ axis_x_join:
                 edge_coord -= axis_adjust;
                 SP16(0x7A) = edge_coord;
                 SP16(0x72) = edge_coord;
-                ASM_SCHED_BARRIER();
                 edge_coord += axis_extent;
-axis_y_join:
                 SP16(0x8A) = edge_coord;
                 SP16(0x82) = edge_coord;
-                ASM_SCHED_BARRIER();
+axis_y_done:
+                ;
             }
             func_800654B0(SPA(0x70), SPA(0x78), SPA(0x80), SPA(0x88),
                          packet_next + 8, packet_next + 0x10, packet_next + 0x18,

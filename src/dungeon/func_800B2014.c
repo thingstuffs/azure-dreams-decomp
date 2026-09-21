@@ -164,7 +164,7 @@ state_0:
         func_800A48F0(monster, 0x1B, 0);
         {
         s32 clamp_value;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register s32 first_call_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u32 first_call_arg;
         s32 first_call_mode;
         s32 raw_first_result;
         clamp_value = ((Rec_D_800E3D7C *)D_800E3D7C)->unk_10.at01_u8.v + 0x32;
@@ -186,11 +186,10 @@ state_0:
         raw_first_result = func_800990FC(scan_arg);
         }
         first_call_mode = 8;
-        ASM_KEEP(first_call_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         first_call_arg = raw_first_result;
-        ASM_KEEP(first_call_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         message_id = first_call_arg;
-        func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(monster, func_80099194(&D_800E0A56, func_8009929C(first_call_mode, first_call_arg))))));
+        raw_first_result = func_8009929C(first_call_mode, first_call_arg);
+        func_80099290(func_80099194(&D_800E0A6A, func_8009929C(0xA, func_80099734(monster, func_80099194(&D_800E0A56, raw_first_result)))));
         }
         func_800A5720(message_id);
         {

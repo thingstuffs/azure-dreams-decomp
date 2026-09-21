@@ -83,7 +83,6 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     u8 *action_data;
     u8 *effect_state;
     u8 *particle_origin;
-    register void *target ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
     state = ((S_801737B0_0 *)action)->unk_9B;
     use_player_target = 0;
@@ -149,26 +148,24 @@ kind_ready:
 
     ((S_801737B0_0 *)action)->unk_98 &= 0xFF7F;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    target = (void *)use_player_target;
-    if (target != 0) {
-        target = D_800814A8;
-        ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = target;
+    direction = (s32)((void *)use_player_target);
+    if (((void *)direction) != 0) {
+        direction = (s32)D_800814A8;
+        ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = (void *)direction;
         goto copy_facing;
     }
 
     if (D_8006DE24[*action_data * 0x14 + 0x12] == 2) {
-        target = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
-        if (target != 0) {
+        direction = (s32)(((Rec_D_800E3D7C *)actor)->unk_60.as_pv);
+        if (((void *)direction) != 0) {
 copy_facing:
             {
-                u8 *target_sprite;
                 u8 facing;
 
-                target_sprite = ((S_801737B0_2_pre *)target)[-1].unk_00;
-                ASM_USE(target);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                facing = ((S_801737B0_3 *)target_sprite)->unk_24;
+                action_kind = (s32)(((S_801737B0_2_pre *)((void *)direction))[-1].unk_00);
+                facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_24;
                 ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = facing;
-                facing = ((S_801737B0_3 *)target_sprite)->unk_25;
+                facing = ((S_801737B0_3 *)((u8 *)action_kind))->unk_25;
                 ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = facing;
             }
         }
