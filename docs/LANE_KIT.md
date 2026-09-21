@@ -212,3 +212,48 @@ reason string says which): t69's 94 bucket-a rows are 72 missed candidates (a co
    preferences/conflicts and the deciding `find_reg` attempt) — analysis only, ~0.4-2 s per site.
 5. **Its advice**, including what it would do next or better, goes into the next brief and
    `docs/HANDOVER.md`.
+
+## Duck briefs (round 62)
+
+The owner's rule of 2026-09-21: **every pack row carries a rubber-duck brief** - the state stated
+plainly, with no prose and no salesmanship. `tools/lanes/duck_brief.py` writes one:
+
+    python3 tools/lanes/duck_brief.py dungeon/func_80A9D4E8 [more rows ...] [--notes NOTES.md]
+    from duck_brief import duck; md = duck(row_id)          # markdown for one row
+
+Three sections per row, all measured fresh against the row's current text (its sha is in the header;
+the cached census `erase_r61.jsonl` carries no input sha, so it is never trusted for a duck):
+
+- **STATE** - every live pin site (`pin_census.sites_of`) with its trailing `/* ... */` note, the
+  residue class of erasing it ALONE (`lanes/residue.fingerprint`, the same fingerprint
+  `erase_census.py --fp` records) and the changed listing lines; then the JOINT picture: all pins
+  erased together and, on rows with 2-6 pins, each PAIR - so the duck can say which pins **fall
+  together** (a pair whose joint residue is no larger than either pin alone) and which are
+  independent. Bounded at about fifteen cc1 listings a row: every pair up to five pins, the
+  same-macro / same-variable pairs at six, none above that (use `joint_scan.py` there). Rows with
+  more than ten pins switch to a grouped census - alike pins on one line, smallest residue first.
+- **KNOWN** - one sentence of mechanism hypothesis per pin from its kind and class (callee-saved
+  register = global.c allocation order; `ASM_MEM_BARRIER` = the cse store rule; `ASM_SCHED_BARRIER` =
+  the sched.c tie rule; and so on), the generators that cover that mechanism with their newest
+  verdict on this row (`ledger/sweeps/*.jsonl`, marked *(on earlier text)* when the sha differs, and
+  the `work/native_lane/r6*_*/journal.jsonl` record when the generator was swept with `gen_drive`),
+  the `alloc_sim` order-site verdict for callee-saved ASM_REG pins (t85's APPEARS test, imported),
+  and the lanes that already served the row with the **distances** their REPORT.md quotes - not the
+  prose. A kind and class that match no documented mechanism are written "unknown".
+- **NEEDED** - what must change in the C in plain words, whether the pins must fall together, and
+  what is still UNKNOWN.
+
+`tools/lanes/build_class_pack.py` gained two flags; without them its output is byte-identical to
+every earlier run (checked by building the same class pack with both versions):
+
+- `--duck` appends each row's duck under its `rows.md` section.
+- `--rows id,id,...` builds a pack of exactly these rows whatever their class, pin count or served
+  state - a family or whole-function pack. `rows.md` then carries a served-history line per row, the
+  joint listing diff is capped at 200 lines, and BRIEF.md/PROMPT.txt gain the paragraph from
+  `tools/lanes/duck_pack_brief.md`: restate each row's duck in your own words before compiling
+  anything, and end REPORT.md with the duck answered (what was tried, the distances, what you would
+  need to know). `--notes FILE.md` copies hand probe notes into the lane's `evidence/` and quotes
+  each row's section of them verbatim inside its duck.
+
+Textual unit tests: `tools/tests/test_duck_brief.py` (note regex, both REPORT.md shapes, the
+distance-sentence filter, the fall-together rule, the mechanism table's "unknown" default).
