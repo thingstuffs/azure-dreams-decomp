@@ -90,7 +90,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s32 fade_out_color;
     s16 fade_out_green;
     s16 frame;
-    s16 fade_in_blue;
+    s32 fade_in_blue;
     register s32 div_adjust ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 fade_work;
     s32 rounded_color;
@@ -110,7 +110,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     u16 fade_in_tick;
     u16 hold_tick;
     u16 fade_out_tick;
-    register s32 product_result ASM_REG("$12");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 product_result;
     s8 red;
     s8 green;
     s8 blue;
@@ -142,7 +142,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
 #endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_in_tick >> 31;
-        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  }
+        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
         cycle_quotient = ((product_result + cycle_value) >> 2);
         cycle_quotient -= div_adjust;
         cycle_value = cycle_value - (cycle_quotient * 7);
@@ -157,16 +157,16 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         product_result = M2C_MUL_LO(channel_bit, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
         fade_in_half = (fade_in_color + (s32) ((u32) packed_channel >> 31)) >> 1;
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
-        ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         fade_in_green = (s16) fade_in_half % 2;
-        packed_channel = (s32) ((u32) (fade_in_color - (fade_in_half * 2)) << 16);
+        packed_channel = fade_in_half;
+        packed_channel *= 2;
+        packed_channel = fade_in_color - packed_channel;
+        packed_channel = (u32)packed_channel << 16;
         product_result = M2C_MUL_LO(fade_in_green, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
-        ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         fade_in_blue = packed_channel >> 16;
         product_result = M2C_MUL_LO(fade_in_blue, (s16) ((S_818B6AFC_0 *)effect)->unk_06 << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
-        ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         product_result = M2C_MUL_LO(channel_bit, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = (s8) product_result;
         product_result = M2C_MUL_LO(fade_in_green, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
@@ -191,7 +191,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
 #endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) hold_tick >> 31;
-        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  }
+        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
         cycle_quotient = ((product_result + cycle_value) >> 2);
         cycle_quotient -= div_adjust;
         cycle_value = cycle_value - (cycle_quotient * 7);
@@ -230,7 +230,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
 #endif
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_out_tick >> 31;
-        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;   ASM_CLOBBER("hi");  }
+        {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
         cycle_quotient = ((product_result + fade_out_remainder) >> 2);
         cycle_quotient -= div_adjust;
         fade_out_remainder = fade_out_remainder - (cycle_quotient * 7);
@@ -249,16 +249,13 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
         product_result = M2C_MUL_LO(fade_out_red, fade_work << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
-        ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         fade_out_green = (s16) fade_out_half % 2;
         packed_channel = (s32) ((u32) (fade_out_color - (fade_out_half * 2)) << 16);
         product_result = M2C_MUL_LO(fade_out_green, (end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0D = (s8) (product_result - 0x80);
-        ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         channel_bit = packed_channel >> 16;
         product_result = M2C_MUL_LO(channel_bit, (end_frame - (s16) ((S_818B6AFC_0 *)effect)->unk_06) << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0E = (s8) (product_result - 0x80);
-        ASM_KEEP(product_result);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         frames_left = end_frame - frames_left;
         product_result = M2C_MUL_LO(fade_out_red, (frames_left * 3) << 3);

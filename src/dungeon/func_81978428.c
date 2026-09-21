@@ -132,6 +132,11 @@ extern void func_80025508(void *, void *);
 extern void func_8009CE1C(void *, s32, u8, s32, s16, void *, s32);
 
 /* Advances the object effect through placement, animation, and cleanup states. */
+static __inline__ u16 initial_count(u16 count)
+{
+    return count;
+}
+
 void func_81978428(State81978428 *state, s32 *position_out)
 {
     static void *const state_labels[] = {
@@ -154,7 +159,6 @@ void func_81978428(State81978428 *state, s32 *position_out)
     s32 tile_step_2;
     s32 tile_step_3;
     s32 tile_step_4;
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     timer = self->counter;
     state_index = self->state;
@@ -258,7 +262,7 @@ case1:
 
     target_pos = &fallback_pos;
     ASM_KEEP(target_pos);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    step_count = zero;
+    step_count = initial_count(0);
     {
         u8 tile_x;
         u8 tile_y;

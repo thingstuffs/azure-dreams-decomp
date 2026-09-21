@@ -163,6 +163,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 step_dir_offset;
     s32 world_y;
     s32 world_x;
+    s32 world_x_final;
     s32 direction;
     s32 end_x_signed;
     s32 offset_x;
@@ -378,15 +379,14 @@ build_path_endpoint:
     index = 1;
     world_x = last_tile_x << 0x10;
     x_offsets = (s16 *)D_8006CCD8;
-    ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    world_x >>= 0xA;
+    world_x_final = world_x >> 0xA;
     direction = (s16) ((S_80025738_0 *)state)->unk_0E;
     ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     path_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
     ASM_KEEP(path_delta_cursor);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     offset_x = x_offsets[direction];
     y_offsets = (s16 *)D_8006CCE8;
-    end_x = world_x + ((offset_x + 1) << 5);
+    end_x = world_x_final + ((offset_x + 1) << 5);
     ((S_80025738_7 *)destination)->unk_00.at02.v = end_x;
     end_x_signed = end_x;
     table_base = frame.raw_y;

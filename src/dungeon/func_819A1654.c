@@ -196,7 +196,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
             &&case_0, &&case_1, &&case_2, &&switch_end, &&case_4
         };
         s32 dispatch_state;
-        register s32 interp_work ASM_REG("$2");
+        s32 interp_work;
         dispatch_state = entity->state;
         if ((u32)dispatch_state >= 5) {
             goto switch_end;
@@ -665,7 +665,10 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                             interp_work = entity->path[8] - interp_base;
                                             interp_z = interp_work * trail_fraction;
                                             interp_work = (s32)path_entity >> 4;
-                                            interp_work = interp_x + interp_work;
+                                            {
+                                                s32 interp_y = interp_x + interp_work;
+                                                interp_work = interp_y;
+                                            }
                                             interp_base = interp_base * 2;
                                             if (interp_z < 0) {
                                                 interp_z += 15;

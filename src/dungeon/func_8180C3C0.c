@@ -298,7 +298,6 @@ start_sequence:
             u8 brightness;
             s16 timer;
             s32 delta;
-            u8 *scene_rgb;
             u8 *move_scene;
             s16 *table_x;
             s16 *table_y;
@@ -311,16 +310,15 @@ start_sequence:
             timer = ((S_800253C0_0 *)sequence)->unk_96.n;
             delta = (coord_delta - brightness) / timer;
             brightness = brightness + delta;
-            scene_rgb = scene + 0xA8;
+            message_text = (s32)(scene + 0xA8);
             object_index_m = 0;
             object_slot = sequence;
             move_scene = D_80083160;
             table_x = (s16 *)&D_8006CCD8;
             table_y = (s16 *)&D_8006CCE8;
-            ASM_KEEP(scene_rgb);
             ((S_800253C0_6 *)scene)->unk_A8 = brightness;
-            scene_rgb[1] = brightness;
-            scene_rgb[2] = brightness;
+            ((u8 *)message_text)[1] = brightness;
+            ((u8 *)message_text)[2] = brightness;
             do {
                 s32 delta;
                 s32 frames_left;
@@ -378,7 +376,7 @@ start_sequence:
                 s16 *snap_x;
                 s16 *snap_y;
                 void *final_slot;
-                ((S_800253C0_11 *)scene_rgb)->unk_00 = 0x2C202020;
+                ((S_800253C0_11 *)(u8 *)message_text)->unk_00 = 0x2C202020;
                 object_index_m = 0;
                 snap_scene = D_80083160;
                 snap_x = (s16 *)&D_8006CCD8;

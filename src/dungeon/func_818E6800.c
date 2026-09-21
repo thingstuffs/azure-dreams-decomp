@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 extern void *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
@@ -234,13 +235,7 @@ mode_0: {
                 abs_y = U8(actor_data, 37);
                 delta_x -= original_count;
                 original_count = S8(actor, 115);
-                if (delta_x < 0) {
-                    distance = delta_x;
-                    ASM_KEEP_NV(distance);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    distance = -distance;
-                } else {
-                    distance = delta_x;
-                }
+                distance = abs(delta_x);
                 original_count -= abs_y;
                 abs_y = original_count;
                 if (original_count < 0) {

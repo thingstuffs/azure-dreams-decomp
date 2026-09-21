@@ -6,6 +6,7 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
 #include "m2c_compat.h"
+extern u8 D_8006CD10[];
 
 #define SCR_S8(off)  (*(s8  *)(scratch + (off)))
 #define SCR_U8(off)  (*(u8  *)(scratch + (off)))
@@ -305,9 +306,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
       sort_depth = sprite_depth;
       ASM_KEEP_MEM_NV(sort_depth, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
       depth_or_height = sprite_depth * 4;
-      camera_state = (u8 *) 0x80070000;
-      ASM_KEEP_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-      camera_state -= 13008;
+      camera_state = (u8 *)&D_8006CD10 + (32);
       ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
       *((s32 *) (((s8 *) camera_state) + 0x1C)) = depth_or_height;
       sort_depth -= 4;
@@ -447,9 +446,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((s32 *) (scratch + 0x0c0)) = shadow_depth;
               ASM_KEEP_MEMDEP_NV(shadow_depth, depth_dependency, *((s32 *) (scratch + 0x0c0)));   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
               depth_or_height = shadow_depth * 4;
-              camera_state = (u8 *) 0x80070000;
-              ASM_KEEP_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-              camera_state -= 13008;
+              camera_state = (u8 *)&D_8006CD10 + (32);
               ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
               *((s32 *) (((s8 *) camera_state) + 0x1C)) = depth_or_height;
               *((s32 *) (scratch + 0x0c0)) -= 3;

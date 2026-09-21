@@ -417,14 +417,8 @@ case_0:
         s32 source_coord;
 
         source_coord = motion_arg->x.half.hi;
-        ASM_SCHED_BARRIER();
         target_y = (s32)target_y >> 16;
-        ASM_SCHED_BARRIER();
-        target_x -= source_coord;
-        if (target_x < 0) {
-            target_x = -target_x;
-        }
-        work.distance[0] = target_x;
+        work.distance[0] = abs(target_x - source_coord);
 
         source_coord = motion_arg->y.half.hi;
         target_z = (u32)target_z << 16;
