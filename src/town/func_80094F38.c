@@ -39,10 +39,10 @@ void func_80092698(Rec_func_80094268_arg0 *controller, Rec_D_800E3D7C *entity, M
     u16 countdown;
     State80083160 *state = &D_80083160;
     u8 *samples;
-    register M2C_UNK saved_context ASM_REG("$19") = context;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register M2C_UNK saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     func_80095C80(entity);
-    ASM_KEEP(saved_context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    saved_context = context;
     func_80095094(entity);
     samples = D_800FE488;
     sampled_value = func_80095978(entity, samples);
