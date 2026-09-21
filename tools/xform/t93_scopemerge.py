@@ -95,6 +95,10 @@ def _decl(line):
     m = DECL_RE.match(line)
     if not m or m.group("ty") in NOT_TYPES or m.group("v") in NOT_TYPES:
         return None
+    # a declaration separates its type from its name (`s32 v;`); without that the regex also
+    # matches an ASSIGNMENT (`fall_duration = 0x10;` as ty `fall_duratio` + name `n`)
+    if not m.group("p") and m.end("ty") == m.start("v"):
+        return None
     if re.match(r"^[ \t]*(?:%s)\b" % "|".join(NOT_TYPES), line):
         return None
     return m
@@ -130,7 +134,7 @@ def donees(text):
     for l in lines:
         starts.append(starts[-1] + len(l) + 1)
     out, pins = [], sites_of(text)
-    for fname, params, b0, b1 in functions(text):
+    for fi, (fname, params, b0, b1) in enumerate(functions(text)):
         body = (masked.count("\n", 0, b0), masked.count("\n", 0, b1))
         top = _block_of(masked, b0 + 1)
         for i in range(body[0], min(body[1] + 1, len(lines))):
@@ -140,18 +144,26 @@ def donees(text):
             blk = _block_of(masked, starts[i] + len(m.group("ind")))
             if blk is None or top is None or blk == top:
                 continue                           # a function-level declaration is t90's merge
+            mirror = False
             if not m.group("pin"):
                 # the pin is a KEEP STATEMENT in the same block, not the declaration itself
                 v = m.group("v")
                 if not any(blk[0] <= s[3] <= blk[1] and s[0] != "reg"
                            and v in [a.strip() for a in (s[2] or "").split(",")] for s in pins):
-                    continue
+                    # ... or the pin is on the DONOR, not on this declaration at all (the MIRROR
+                    # direction of the merge: dungeon/func_80084084's arm-local `register Entry
+                    # *entry;` merged into the function's pinned `entry_m`).  Only paired with a
+                    # PINNED donor, in donors() below.
+                    if not any(b0 < s[3] < b1 for s in pins):
+                        continue
+                    mirror = True
             out.append({"v": m.group("v"), "ty": m.group("ty"), "ptr": len(m.group("p")),
                         "line": i, "block": blk, "init": (m.group("init") or "").strip(),
-                        "ind": m.group("ind"), "fn": (b0, b1), "reg": bool(m.group("pin"))})
+                        "ind": m.group("ind"), "fn": (b0, b1), "fi": fi,
+                        "reg": bool(m.group("pin")), "mirror": mirror})
     # the declaration-borne ASM_REG donees first: they are the population this generator was
     # measured on, and a row's donee budget (MAX_DONEES) must not be spent on the new plain ones
-    out.sort(key=lambda d: (not d["reg"], d["line"]))
+    out.sort(key=lambda d: (d["mirror"], not d["reg"], d["line"]))
     return out[:SCAN_DONEES]
 
 
@@ -180,6 +192,8 @@ def donors(text, d):
             continue                               # alive in the block: not a merge, a clash
         if m.group("init"):
             continue                               # a declaration initialiser fixes its first value
+        if d.get("mirror") and not _pinned(text, m.group("v"), d["fn"]):
+            continue                               # nothing would be freed by this merge
         out.append(((0 if same else 1, abs(i - d["line"])), m.group("v")))
     # a donor of the donee's own type first, then the nearest declaration: the donor retail shared
     # the pseudo with is usually the one declared in the same group, and the menu is capped
@@ -190,6 +204,22 @@ def donors(text, d):
         seen.add(v)
         (ranked if cls == 0 else cross).append(v)
     return ranked[:MAX_DONORS] + cross[:MAX_CROSS_DONORS]
+
+
+def _pinned(text, name, fn):
+    """Does a pin site inside the function span `fn` name `name`?"""
+    rx = re.compile(r"\b%s\b" % re.escape(name))
+    return any(fn[0] < s[3] < fn[1] and rx.search(text[s[3]:s[4]]) for s in sites_of(text))
+
+
+def _fn_pins(text, fi, donor):
+    """Pin sites of the fi-th function of `text` that name `donor`."""
+    fns = functions(text)
+    if fi >= len(fns):
+        return []
+    _n, _p, b0, b1 = fns[fi]
+    rx = re.compile(r"\b%s\b" % re.escape(donor))
+    return [s for s in sites_of(text) if b0 < s[3] < b1 and rx.search(text[s[3]:s[4]])]
 
 
 def _prologue(lines, first, last):
@@ -286,6 +316,9 @@ def candidates(text):
                     if s[2] == donor and any(d["block"][0] <= s[3] <= d["block"][1] for d in chosen)]
             if left:
                 plans.append(("erase", erase_many(new, left, clean_notes=True)))
+            wide = _fn_pins(new, chosen[0]["fi"], donor)
+            if wide and wide != left:
+                plans.append(("erase-fn", erase_many(new, wide, clean_notes=True)))
             for tag, cand in plans:
                 if cand in seen or unscored_text(cand) != sig:
                     continue

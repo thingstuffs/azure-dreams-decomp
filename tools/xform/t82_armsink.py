@@ -20,6 +20,10 @@ APPEARS     a local written once per arm of an if/else (or if/else-if) chain and
                     ASM_KEEP(effect);
                     ...
                 }
+            and the round-72 KIT direction, the JOIN statement written into every arm instead
+            (dungeon/func_80BBB094): the three-arm chain's shared tail `partB->unk2C = (void *)slot2;`
+            copied to the end of each arm, with the arm's `ASM_KEEP_NV(slot2)` and the join's
+            `ASM_KEEP(partB)` erased together.
 RESOLVES    three round-59 lane rows, byte-exact at their recorded recipes.  dungeon/func_8008D084
             (r59_sol_mid4): `effect = (u8 *)effect_obj + 0x20;` hoisted out of both arms to before the flag
             branch, the ASM_KEEP that held the address form dropped.  dungeon/func_8008BCD0 (r59_sol_mid4):
@@ -447,6 +451,37 @@ def hoist_sites(ml, first, last):
     return out
 
 
+def dup_sites(ml, first, last):
+    """[dict] for every braced if/else chain whose FOLLOWING statement can be written into each arm.
+
+    The round-72 KIT move (dungeon/func_80BBB094, round-67 move F without the goto retargeting): the
+    chain ends in a plain `else`, so exactly one arm runs and a statement written at the end of every
+    arm runs exactly where the join statement did - an arm that leaves early (`goto`/`return`) skipped
+    the join statement and skips its copy at the arm's end just the same.  Refused unless the
+    statement is the FIRST thing after the chain (nothing may be reordered across), single-line,
+    call-free and not a label or control statement."""
+    out = []
+    for chain in chains_in(ml, first, last):
+        if len(chain["arms"]) < 2:
+            continue
+        f0 = next((j for j in range(chain["end"] + 1, last + 1) if ml[j].strip()), None)
+        if f0 is None or PIN_STMT.match(ml[f0]):
+            continue
+        if _bal(ml[f0]) != 0:
+            continue                                   # not a complete single-line statement
+        one = " ".join(ml[f0].split())
+        if not one.endswith(";") or "{" in one or "}" in one or CTRL.match(one) or ":" in one.split("(")[0]:
+            continue
+        if _calls(one):
+            continue
+        hi = f0
+        while hi + 1 <= last and (PIN_STMT.match(ml[hi + 1]) or not ml[hi + 1].strip()):
+            hi += 1                                    # the pins that sit on the join statement
+        out.append({"kind": "dup", "chain": chain, "stmt": ml[f0].strip(), "src": f0,
+                    "lo": chain["start"], "hi": hi, "focus": [f0], "span": (chain["start"], hi)})
+    return out
+
+
 def sites_in(text):
     """Every t82 site in every function of `text`."""
     ml = mask(text).split("\n")
@@ -455,7 +490,8 @@ def sites_in(text):
         masked = mask(text)
         first, last = masked.count("\n", 0, b0), masked.count("\n", 0, b1)
         locals_ = decl_names(masked[b0:b1]) | {p for p, _, _, _ in params}
-        for s in sink_sites(ml, first, last, locals_) + hoist_sites(ml, first, last):
+        for s in sink_sites(ml, first, last, locals_) + hoist_sites(ml, first, last) + \
+                dup_sites(ml, first, last):
             if any(ml[j].lstrip().startswith("#") for j in range(s["lo"], s["hi"] + 1)):
                 continue                                   # a preprocessor arm inside the span: refuse
             if not no_label(ml, *s["span"]):
@@ -525,6 +561,24 @@ def build(text, site):
                 touched.add(len(texts) - 1)
         if site["decl_single"]:
             _unwrap(keys, texts, site["decl"], ml)
+    elif site["kind"] == "dup":
+        stmt = site["stmt"]
+        closes = {}                                    # closing-brace line of each arm -> indent
+        for a0, a1 in site["chain"]["arms"]:
+            body = next((ml[j] for j in range(a0, a1 + 1) if ml[j].strip()), None)
+            ind = body[:len(body) - len(body.lstrip())] if body else \
+                lines[site["chain"]["start"]][:len(lines[site["chain"]["start"]]) -
+                                              len(lines[site["chain"]["start"]].lstrip())] + "    "
+            closes[a1 + 1] = ind
+        for i, ln in enumerate(lines):
+            if i == site["src"]:
+                continue
+            if i in closes:
+                keys.append(("new", i))
+                texts.append(closes[i] + stmt)
+                touched.add(len(texts) - 1)
+            keys.append(i)
+            texts.append(ln)
     else:
         copies, stmt = set(site["copies"]), site["stmt"]
         ind = lines[site["chain"]["start"]][:len(lines[site["chain"]["start"]]) -
@@ -570,6 +624,8 @@ def plans(cand_sites, win_lo, win_hi, forced, touched):
 def _sig(site):
     if site["kind"] == "sink":
         return ("sink", site["m"], site["cons"][3])
+    if site["kind"] == "dup":
+        return ("dup", site["stmt"], site["chain"]["start"] - site["chain"]["end"])
     return ("hoist", site["where"], site["stmt"], site["chain"]["start"] - site["chain"]["end"])
 
 
