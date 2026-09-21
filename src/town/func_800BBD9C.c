@@ -73,9 +73,8 @@ void func_800B94FC(void) {
 
 kind_5_prep:
     selector = 0xC;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 kind_5:
-    variant = D_800136B8;
+    variant = (*(u8 *)0x800136B8);
     if (variant == selector) {
         goto kind_5_12;
     }

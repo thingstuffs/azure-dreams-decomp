@@ -73,9 +73,9 @@ extern M2C_UNK D_8015EA3C;
 extern M2C_UNK D_8015EE68;
 extern M2C_UNK D_8016186C;
 
-void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 type_id) BODY_ATTR;
+void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) BODY_ATTR;
 /* Allocates an entity and initializes its type, placement, flags, and callbacks. */
-void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 type_id) {
+void *BODY_NAME(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 type_id) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;
@@ -86,8 +86,8 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 type_id) {
     void *object;
     S_80DA1000_4 *entity_data;
     S_80DA1000_1 *entity = NULL;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
+    s8 saved_y;
     s16 saved_type;
     void *object_arg;
     void *type_arg;

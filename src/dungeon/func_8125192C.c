@@ -124,8 +124,7 @@ void func_8017112C(void *entity_arg, void *motion_arg, void *monster_arg)
         ((S_8017112C_0 *)actor)->unk_9B = 0;
     }
 
-    ASM_MEM_BARRIER();
-    flag_word = &D_80013714;
+    flag_word = &(*(u16 *)0x80013714);
     global_flags = *flag_word;
     if (global_flags & 8) {
         s32 slot_index = 1;

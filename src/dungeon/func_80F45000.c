@@ -77,11 +77,11 @@ __asm__(".globl func_80F45000\n"
 #endif
 
 #ifdef __mips__
-void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
+void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
     __attribute__((section(".text.func_80F45000")));
 #endif
 /* Allocate an actor and initialize its parts and behavior from the spawn flags. */
-void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
+void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_value)
 {
     void *work = 0;
     void *obj;
@@ -90,9 +90,9 @@ void *BODY_NAME(s16 spawn_flags, s8 tile_x, s8 tile_y, s16 part_value)
     S_80F45000_4 *actor;
     register s32 kind;
     s32 random_bits;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
     s16 saved_part_value;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_y;
     void *obj_arg;
     void *part_arg;
 

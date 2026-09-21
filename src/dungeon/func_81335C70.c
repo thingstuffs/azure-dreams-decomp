@@ -122,7 +122,8 @@ zero_setup:
 decrement_counter:
     counter_base = (u8 *)&D_80083460;
     ((S_8016CC70_3 *)counter_base)->unk_0A--;
-    goto counter_changed;
+    ((S_8016CC70_0 *)obj_arg)->unk_9B++;
+    goto done;
 
 state_one:
     obj_kind = ((S_8016CC70_0 *)obj_arg)->unk_AC;
@@ -254,6 +255,5 @@ set_callback:
     ((S_8016CC70_0 *)obj_arg)->unk_8C = callback;
 
 done:
-    ASM_KEEP(obj_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     return;
 }

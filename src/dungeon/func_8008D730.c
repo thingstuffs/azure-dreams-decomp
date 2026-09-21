@@ -145,10 +145,9 @@ finish_effect:
     if (!(((S_80092E90_1 *)actor)->unk_14 & 0xE000)) {
         return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     found_match = 0;
-    if (!(D_80013714 & 8)) {
+    if (!((*(u16 *)0x80013714) & 8)) {
         node = (u8 *)((S_80092E90_5 *)entry)->unk_5C + 0x20;
         player = D_80082E80;
         do {

@@ -85,7 +85,7 @@ void func_801715D0(void) {
     S_801715D0_3 *object_state;
     void *object;
     S_801715D0_2 *render_flags;
-    register S_801715D0_8 *sprite ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_801715D0_8 *sprite;
 
     owner_pos = ((Rec_D_80175D54 *)D_80175D54)->unk_08;
     owner_state = D_80175D54 + 0x20;
@@ -121,15 +121,21 @@ void func_801715D0(void) {
         tile_y = owner_y - 0x20;
         if (tile_y < 0) {
             tile_y = (s32) (owner_y + 0x1F) >> 6;
+            object_state->unk_59 = (s8) tile_y;
+            sprite->unk_0E = 0x80;
+            sprite->unk_0D = 0x80;
+            sprite->unk_0C = 0x80;
+            sprite->unk_08 = &D_80077854;
+            D_80175DB8 = object;
         } else {
             tile_y >>= 6;
+            object_state->unk_59 = (s8) tile_y;
+            sprite->unk_0E = 0x80;
+            sprite->unk_0D = 0x80;
+            sprite->unk_0C = 0x80;
+            sprite->unk_08 = &D_80077854;
+            D_80175DB8 = object;
         }
-        object_state->unk_59 = (s8) tile_y;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        sprite->unk_08 = &D_80077854;
-        D_80175DB8 = object;
     }
 }
 

@@ -374,8 +374,7 @@ update_audio:
         ((S_80089AA0_1 *)record_or_page)->unk_AA0.s = 0;
         D_80080A88 = 1;
     }
-    ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    if (D_80013714 & 4) {
+    if ((*(u16 *)0x80013714) & 4) {
         register s16 *effect_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         s32 effect_angle;
         s32 angle_step;

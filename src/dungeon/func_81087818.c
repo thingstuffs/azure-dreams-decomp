@@ -334,18 +334,10 @@ state2:
         motion->unk_08.u = base_angle + remainder;
     }
 
-    elevation_factor = func_800644B8(motion->unk_06.s);
-    azimuth_factor = func_800644B8(motion->unk_08.s);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    elevation_factor >>= 4;
-    azimuth_factor >>= 4;
-    trajectory->x = motion->unk_28.word + ((elevation_factor * azimuth_factor) << 5);
-    elevation_factor = func_800644B8(motion->unk_06.s);
-    azimuth_factor = func_80064584(motion->unk_08.s);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    elevation_factor >>= 4;
-    azimuth_factor >>= 4;
-    trajectory->y = motion->unk_2C.word + ((elevation_factor * azimuth_factor) << 5);
+    trajectory->x = motion->unk_28.word + (((func_800644B8(motion->unk_06.s) >> 4) *
+        (func_800644B8(motion->unk_08.s) >> 4)) << 5);
+    trajectory->y = motion->unk_2C.word + (((func_800644B8(motion->unk_06.s) >> 4) *
+        (func_80064584(motion->unk_08.s) >> 4)) << 5);
     trajectory->z = motion->unk_30.word + ((func_80064584(motion->unk_06.s) >> 4) << 13);
 
     if (motion->unk_02.s < 8) {

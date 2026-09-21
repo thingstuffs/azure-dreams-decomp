@@ -101,11 +101,11 @@ void func_8009DAD8(s32 arg0) {
     if (brightness >= 0x100) {
         brightness = 0xff;
         firstContext = arg0;
+        pageOrTwo = 0x80080000;
     } else {
         firstContext = arg0;
+        pageOrTwo = 0x80080000;
     }
-    pageOrTwo = 0x80080000;
-    ASM_KEEP(pageOrTwo);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     playerAndIndex = pageOrTwo + 0x2e80;
     ASM_USE_NV(pageOrTwo);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     a0Value = ((u8 *)playerAndIndex)[0x24];

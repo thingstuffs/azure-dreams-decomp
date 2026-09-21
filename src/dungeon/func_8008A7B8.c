@@ -21,7 +21,7 @@ void func_8008FF18(u8 *entity_in, s32 *motion_in, u16 *sprite_in, s32 *actor_in)
     u8 *entity = entity_in;
     s32 *motion = motion_in;
     register u16 *sprite ASM_REG("$18") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 *actor ASM_REG("$19") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 *actor = actor_in;
     s16 *move_state;
     s32 vertical_speed;
     u8 phase;
@@ -69,7 +69,8 @@ block_10:
     move_flags[1] = (u16) (move_flags[1] | 0x812);
     *(u16 *)((u8 *)entity + 0x98) = (u16) (*(u16 *)((u8 *)entity + 0x98) & 0xFFF3);
     func_80048A44(sprite, *(*(u8 **)((u8 *)sprite + 0x2C) + (((s32) (D_80083228 + *(s16 *)((u8 *)actor + 0x2A) + 0x100) >> 9) & 7)), 0, 1);
-    goto block_19;
+    *(u8 *)(entity + 0x9B) = (u8) (*(u8 *)(entity + 0x9B) + 1);
+    return;
 jt_c1:
 jt_c9:
 jt_c11:

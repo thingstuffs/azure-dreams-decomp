@@ -85,7 +85,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     Owner *owner = actor->ownerAC;
     HalfTable scale_x = D_800200E4;
     HalfTable scale_y = D_800200F0;
-    register s32 duration_roll ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 duration_roll;
 
     motion->x += motion->vx;
     motion->y += motion->vy;
@@ -103,7 +103,7 @@ void func_80024B48(Actor *actor, Motion *motion, Anim *anim)
     }
 
 jt_c0: {
-        register s32 duration ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 duration;
         duration_roll = rand() & 0xF;
         if (owner->kindA >= 25) {
             duration_roll = rand() & 7;
@@ -163,29 +163,28 @@ jt_c2: {
         if (actor->timerA2 <= 0) {
             s32 initial_duration;
             u16 actor_type;
-            s32 speed;
             initial_duration = (u16)actor->initialA6;
             actor_type = actor->typeA0;
             actor->timerA2 = initial_duration;
             {
                 duration = actor->timerA2;
-                speed = -0x400000 / duration;
+                duration_roll = -0x400000 / duration;
             }
             {
                 duration = actor_type & 1;
                 if (duration) {
                     s32 x_speed;
                     if ((s16)actor_type == 1) {
-                        x_speed = speed;
+                        x_speed = duration_roll;
                     } else {
-                        x_speed = -speed;
+                        x_speed = -duration_roll;
                     }
                     motion->vx = x_speed;
                     motion->vy = 0;
                 } else {
                     ASM_UNDEF(duration);
                     motion->vx = 0;
-                    motion->vy = speed;
+                    motion->vy = duration_roll;
                 }
             }
             actor->state68 = 3;

@@ -81,7 +81,7 @@ extern u8 D_80083780[];
 extern u8 D_800DECF8[];
 
 /* Spawns an effect with randomized position and direction-based motion. */
-void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s16 y,
+void func_8196B780(S_8196B780_5 *source, s16 unused_1, s16 unused_2, s16 x, s16 y,
                    s16 z)
 {
     LocalPoints points;
@@ -150,7 +150,6 @@ void func_8196B780(S_8196B780_5 *source, s32 unused_1, s32 unused_2, s32 x, s16 
         sprite->unk_14 |= 0x100;
         func_8003DB94(sprite, D_800DECF8, 0);
     }
-    ASM_KEEP(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 0x20 byte-aligned copy object preserves the 0x58 frame and lwl/lwr stack copy;

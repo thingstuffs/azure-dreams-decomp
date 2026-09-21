@@ -43,8 +43,7 @@ void func_800CAAC8(void *entity_ptr, s32 input_arg_1, s32 input_arg_2, void *act
     ((S_800CAAC8_0 *)entity_ptr)->unk_B6 = remaining_count;
 
     if ((remaining_count << 16) > 0) {
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (!(D_80013714 & 8)) {
+        if (!((*(u16 *)0x80013714) & 8)) {
             goto set_callback;
         }
     }

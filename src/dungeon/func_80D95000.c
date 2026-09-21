@@ -73,9 +73,9 @@ extern M2C_UNK D_8016AA3C;
 extern M2C_UNK D_8016AE68;
 extern M2C_UNK D_8016D86C;
 
-void *BODY_NAME(s16 init_flags, s8 x, s8 y, s16 initial_value) BODY_ATTR;
+void *BODY_NAME(s16 init_flags, s16 x, s16 y, s16 initial_value) BODY_ATTR;
 /* Allocates an object and initializes its state, placement, and mode. */
-void *BODY_NAME(s16 init_flags, s8 x, s8 y, s16 initial_value) {
+void *BODY_NAME(s16 init_flags, s16 x, s16 y, s16 initial_value) {
     s32 global_byte;
     s32 unused_slot;
     s32 mode;
@@ -84,8 +84,8 @@ void *BODY_NAME(s16 init_flags, s8 x, s8 y, s16 initial_value) {
     void *object;
     S_80D95000_4 *extended_state;
     S_80D95000_1 *state = NULL;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
+    s8 saved_y;
     s16 saved_value;
     void *object_arg;
     void *data_arg;

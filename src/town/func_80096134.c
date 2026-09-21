@@ -116,7 +116,7 @@ void func_80093894(void) {
 
         if (!is_available) {
             void *callback_slot;
-            register void (*callback)(void *, void *, void *) ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            void (*callback)(void *, void *, void *);
 
             if (func_800937F8() != 0) {
                 func_8008B5D8(D_80088C0C, 0x11);
@@ -132,7 +132,8 @@ void func_80093894(void) {
             callback_slot = &D_800FE5D8;
             callback = (void (*)(void *, void *, void *))&D_80093D48;
             *(void (**)(void *, void *, void *))callback_slot = callback;
-            goto reset;
+            D_800FE518 = 0;
+            return;
         } else {
 
             if (work.bytes.unk1 == 0x13) {
@@ -144,11 +145,13 @@ void func_80093894(void) {
                     goto process;
                 }
                 func_8008B5D8(D_80088CCC, 0x11);
+                func_800947BC(object, position, callback_data);
+                D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
             } else {
                 func_8008B5D8(D_80088D04, 0x11);
+                func_800947BC(object, position, callback_data);
+                D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
             }
-            func_800947BC(object, position, callback_data);
-            D_800FE5D8 = (void (*)(void *, void *, void *))&D_80093D48;
 reset:
             D_800FE518 = 0;
             return;

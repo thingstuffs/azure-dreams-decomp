@@ -98,7 +98,6 @@ state_0:
     if ((((((S_8009255C_1 *)view_data)->unk_C8 +
              transform->unk_2A.as_s16 + 0x100) >> 9) & 7) == 2) {
         animation_actor = actor;
-        ASM_KEEP(animation_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         animation_table = D_800DD100;
         animation_actor->unk_2C = animation_table;
         animation_entry = (u8 *)((s32)(((((S_8009255C_1 *)view_data)->unk_C8 +
@@ -110,7 +109,8 @@ state_0:
             *animation_entry,
             0,
             1);
-        goto increment;
+        ((Rec_func_8008ACDC_arg0 *)controller)->unk_9B.as_u8++;
+        goto end;
     }
     transform->unk_2A.as_s16 =
         (u16)transform->unk_2A.as_s16 + 0x200;

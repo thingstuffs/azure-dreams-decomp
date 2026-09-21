@@ -124,7 +124,8 @@ phase_start:
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741DC;
     func_80047784(sprite, D_801741DC[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
     D_80083460[5] = (u16)(D_80083460[5] - 1);
-    goto advance_phase;
+    ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+    return;
 phase_update:
     sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
     if (sprite_flags & 0x8000) goto check_effect_state;
@@ -144,15 +145,17 @@ check_effect_state:
     if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x8000) {
         if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) goto clear_action;
         count = ((S_801732A4_3 *)effect_state)->unk_0A + 1;
-        ASM_SCHED_BARRIER(); /* MATCH: keep this count update separate, with the store in the jump delay slot. */
         ((S_801732A4_3 *)effect_state)->unk_0A = count;
-        goto advance_phase;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+        return;
 clear_action:
         ((S_801732A4_2 *)actor_state)->unk_1C = (s32)(((S_801732A4_2 *)actor_state)->unk_1C & ~0x200);
-        goto reset_handler;
+        ((Rec_func_801732A4_arg0 *)actor)->unk_8C = &D_80170E68;
+        return;
     }
     ((S_801732A4_3 *)effect_state)->unk_0A = (u16)(((S_801732A4_3 *)effect_state)->unk_0A + 1);
-    goto advance_phase;
+    ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+    return;
 check_action:
     if (((S_801732A4_2 *)actor_state)->unk_64 == 0) goto start_action;
     if (func_800AA6B4(actor, transform, sprite, 0) == 0) goto start_action;
@@ -209,21 +212,23 @@ check_ready:
     if (!(((Rec_func_801732A4_arg0 *)actor)->unk_98 & 0x8000)) goto clear_action;
     {
         actor_flags = D_80083460[5] + 1;
-        ASM_SCHED_BARRIER(); /* MATCH: keep this count update separate, with the store in the jump delay slot. */
         D_80083460[5] = actor_flags;
     }
-    goto advance_phase;
+    ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+    return;
 increment_count:
     {
         actor_flags = D_80083460[5];
         D_80083460[5] = (u16)(actor_flags + 1);
     }
-    goto advance_phase;
+    ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+    return;
 phase_transition:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;
     (*(u8 **)((u8 *)sprite + 0x2C)) = D_801741EC;
     func_80047784(sprite, D_801741EC[((D_80083228 + ((S_801732A4_2 *)actor_state)->unk_2A + 0x100) >> 9) & 7], 0);
-    goto advance_phase;
+    ((Rec_func_801732A4_arg0 *)actor)->unk_9B = (u8)(((Rec_func_801732A4_arg0 *)actor)->unk_9B + 1);
+    return;
 phase_spawn:
     if (!(((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) goto done;
     view_state = &D_80083160;

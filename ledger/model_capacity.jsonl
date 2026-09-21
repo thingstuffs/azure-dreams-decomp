@@ -153,3 +153,8 @@
 {"date": "2026-09-21T22:34Z", "codex": {"pack": "r71_kit_astra12", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack wave 2, ranked queue"}
 {"date": "2026-09-21T22:38Z", "codex": {"pack": "r71_kit_sol4", "model": "gpt-5.6-sol", "candidates": 2}, "note": "kit pack wave 2, 3-6-pin rows"}
 {"date": "2026-09-21T23:14Z", "codex": {"pack": "r71_kit_sol5", "model": "gpt-5.6-sol", "candidates": 1}, "note": "kit pack wave 2, 3-6-pin rows"}
+{"date": "2026-09-21T23:15Z", "codex": {"pack": "r71_kit_sol6", "model": "gpt-5.6-sol", "candidates": 1}, "note": "kit pack wave 2, 3-6-pin rows"}
+{"date": "2026-09-21T23:21Z", "codex": {"pack": "r72_kit_astra5", "model": "gpt-6-astra", "candidates": 0}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T23:24Z", "codex": {"pack": "r72_kit_astra1", "model": "gpt-6-astra", "candidates": 1}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T23:27Z", "codex": {"pack": "r71_kit_sol8", "model": "gpt-5.6-sol", "candidates": 0}, "note": "kit pack wave 2, 3-6-pin rows"}
+{"date": "2026-09-21T23:38Z", "codex": {"pack": "r72_kit_astra3", "model": "gpt-6-astra", "candidates": 4}, "note": "kit pack wave 2, ranked queue"}

@@ -75,25 +75,25 @@ __asm__(".globl func_80158800\n"
 #define BODY_NAME func_80158800
 #endif
 
-void *BODY_NAME(s32, s8, s8, s16)
+void *BODY_NAME(s16, s16, s16, s16)
 #ifdef __mips__
     __attribute__((section(".text.func_80158800")))
 #endif
     ;
 
-void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3) {
+void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     s32 kind;
     s16 final_arg0;
     s32 left;
     s32 right;
     S_8101D000_1 *work = NULL;
     void *obj;
-    register S_8101D000_2 *part_a ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_8101D000_2 *part_a;
     S_8101D000_3 *part_b;
     S_8101D000_4 *actor;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg1;
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_arg2;
     void *call_a0;
     void *call_a1;
 

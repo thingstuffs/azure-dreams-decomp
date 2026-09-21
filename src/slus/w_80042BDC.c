@@ -220,7 +220,6 @@ L_10: {
         if (entity_flags & 0x4000) {
             spawn_mode = 3;
         }
-        ASM_KEEP_NV(spawn_mode);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         {
             S_80042BDC *resource = func_800A1618(ent->x13, spawn_mode);
             tile_mask = 0x3000;
@@ -262,9 +261,8 @@ L_10: {
             u8 *slot_base;
             u8 *slot_data;
             int entity_index;
-            int slot_index;
-            slot_index = func_800A1BD0(ent);
-            slot_base = (u8 *)((s16)slot_index * 4 + (u32)D_800E3D7C[0]);
+            spawn_mode = func_800A1BD0(ent);
+            slot_base = (u8 *)((s16)spawn_mode * 4 + (u32)D_800E3D7C[0]);
             slot_data = *(u8 **)(slot_base + 0xD0);
             entity_index = *(u8 *)(slot_data + 3) & 0x1F;
             D_800E3DF0[entity_index] = spawn_result_2;
