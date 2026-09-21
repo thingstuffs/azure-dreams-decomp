@@ -29,13 +29,11 @@ typedef struct S_80024100_2 {
     s16 unk_1A;
 } S_80024100_2;   /* part in func_80024100 */
 
-
 typedef struct Vec3i {
     s32 x;
     s32 y;
     s32 z;
 } Vec3i;
-
 
 extern Vec3i D_80020090;
 extern Vec3i D_800200A8;
@@ -158,21 +156,21 @@ second_continue:
     do {
         object = func_8003FD64(1, D_80083498);
         if (object != NULL) {
+            S_80024100_2 *third_element;
             render_data = &D_80053A88;
-            ASM_KEEP(render_data);
-            element = (u8 *)object + 0x20;
+            third_element = (u8 *)object + 0x20;
             ((S_80024100_0 *)object)->unk_10 = update_callback;
             func_8004491C(object, render_data);
-            element_flags = element->unk_16.u;
-            element->unk_0C.at02.v = 0xB0;
-            element->unk_10.at00u.v = 0x50;
-            element->unk_10.at02.v = 0x20;
-            element->unk_0C.at00u.v = x_third;
-            element->unk_14 = 2;
-            element->unk_08.i = 0x404040;
-            element->unk_04.p = parent_state;
+            element_flags = third_element->unk_16.u;
+            third_element->unk_0C.at02.v = 0xB0;
+            third_element->unk_10.at00u.v = 0x50;
+            third_element->unk_10.at02.v = 0x20;
+            third_element->unk_0C.at00u.v = x_third;
+            third_element->unk_14 = 2;
+            third_element->unk_08.i = 0x404040;
+            third_element->unk_04.p = parent_state;
             element_flags |= 1;
-            element->unk_16.u = element_flags;
+            third_element->unk_16.u = element_flags;
         }
         column--;
         x_third -= 0x58;

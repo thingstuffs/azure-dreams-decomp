@@ -69,18 +69,17 @@ s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_pa
     s32 shifted_frame;
     s32 random_value;
     s32 biased_random;
-    void *callback;
+
     S_818A4CA0_3 *sprite;
     S_818A4CA0_4 *position;
     void *effect;
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
-        callback = &D_80024340;
-        ASM_KEEP(callback);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        random_value = (s32)&D_80024340;
         ((S_818A4CA0_0 *)effect)->unk_20 = effect_data;
         effect_data = effect + 0x20;
-        ((S_818A4CA0_0 *)effect)->unk_10 = callback;
+        ((S_818A4CA0_0 *)effect)->unk_10 = (void *)random_value;
         effect_data->unk_04 = effect_param;
         effect_data->unk_06 = (s16) (-6 - (rand() % 5));
         effect_data->unk_08 = (u16) origin->unk_02;
@@ -116,7 +115,3 @@ s32 func_818A4CA0(S_818A4CA0_1 *effect_data, S_818A4CA0_2 *origin, s16 effect_pa
     return result;
 }
 
-/* MECHANISM: Reuse effect_data as the +0x20 base and pin only the allocated object in s2,
-   giving the retail 0x28 frame and saved-role order; split shifted frame_index drives a3/a2.
-   Value fences place the callback low half and tail lhu/move, while noreturn LEAD 18
-   plus the failure-only s2 clobber preserves the object tail return and literal zero. */
