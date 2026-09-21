@@ -80,9 +80,10 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
 
     if (initial_flags & 0x2000) {
         EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
-        if ((void *)early_callback == (void *)D_801713A8) {
-            ASM_KEEP_NV(actor_arg);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(actor_arg, motion_arg, object_arg, actor_arg);
+        actor_state = (void *)early_callback;
+        if (actor_state == (void *)D_801713A8) {
+            actor = actor_state;
+            ((EntityCallback)actor)(actor_arg, motion_arg, object_arg, actor_arg);
             return;
         } else {
             (*(u8 *)((u8 *)actor + (0x71))) &= 0x7F;
@@ -91,8 +92,6 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
     }
 
     ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     previous_index = (s8)(*(u8 *)((u8 *)actor + (0x6D)));
     if (func_800A9E70(actor, motion, object, actor) != 0) {
@@ -308,6 +307,12 @@ common_tail:
     height = ((S_80170BB8_2 *)actor_state)->unk_88.u +
         (u16)(*(s16 *)((u8 *)actor + (0x92)));
     height += bob;
-    ((S_80170BB8_0 *)motion)->unk_0A = height;
-    ((S_80170BB8_1 *)object)->unk_14 |= 0x40;
+    motion = (u8 *)motion + 0xA;
+    *(s16 *)motion = height;
+    {
+        u16 final_flags;
+        final_flags = ((S_80170BB8_1 *)object)->unk_14;
+        object = (u8 *)object + 0x14;
+        *(u16 *)object = final_flags | 0x40;
+    }
 }

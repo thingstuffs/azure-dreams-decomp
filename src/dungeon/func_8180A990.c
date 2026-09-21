@@ -185,7 +185,7 @@ void func_80026190(void *owner_arg)
     s32 parent_value;
     s32 fail_flags;
     s32 entity_flags;
-    s32 source_check_flags;
+    s32 flags_mask;
     s32 source_check_mask;
     s32 clear_pairs_left;
     s32 clear_mask;
@@ -218,8 +218,7 @@ void func_80026190(void *owner_arg)
     void *entity;
 
     owner = owner_arg;
-    status_page = (u8 *)0x80080000;
-    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    status_page = (u8 *)D_80083160;
     state = ((S_80026190_0 *)owner)->unk_1C.s;
     stop_state = 2;
     if (state == stop_state) {
@@ -231,7 +230,7 @@ void func_80026190(void *owner_arg)
         goto done;
     }
 
-    status = status_page + 0x3160;
+    status = status_page;
     if (((S_80026190_1 *)status)->unk_08 & 0x20) {
         main_child = ((S_80026190_0 *)owner)->unk_00;
         if (main_child != NULL) {
@@ -373,23 +372,23 @@ loop:
     clear_mask = 0xBFFFFFFF;
     ASM_KEEP(clear_mask);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     entity_arg = entity;
-    default_amount = 0x64;
-    ((S_80026190_17 *)entity)->unk_25 = default_amount;
-    ASM_KEEP(default_amount);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    entity_flags = 0x64;
+    ((S_80026190_17 *)entity)->unk_25 = entity_flags;
     ((S_80026190_17 *)entity)->unk_88 = 0;
     entity_flags = ((S_80026190_17 *)entity)->unk_1C;
-    entity_flags &= ~0x1EF8;
+    flags_mask = ~0x1EF8;
+    entity_flags &= flags_mask;
     entity_flags &= clear_mask;
-    entity_flags |= 0x40000;
+    flags_mask = 0x40000;
+    entity_flags |= flags_mask;
     ((S_80026190_17 *)entity)->unk_1C = entity_flags;
     func_8009A028(entity_arg, clear_mask);
 
     source_check_mask = 0x20000000;
-    ASM_KEEP_NV(source_check_mask);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    source_check_flags = ((S_80026190_10 *)source)->unk_14;
+    flags_mask = ((S_80026190_10 *)source)->unk_14;
     parent = ((S_80026190_17_pre *)entity)[-1].unk_00;
-    source_check_flags &= source_check_mask;
-    if (source_check_flags) {
+    flags_mask &= source_check_mask;
+    if (flags_mask) {
         parent_value = func_800429E4(source) << 2;
     } else {
         parent_value = ((S_80026190_19 *)(((S_80026190_10_pre *)source)[-1].unk_00))->unk_12;

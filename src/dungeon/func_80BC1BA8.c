@@ -48,14 +48,14 @@ typedef struct S_801713A8_2 {
 void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
 {
     register void *entity_base ASM_REG("$19") = entity;
-    register s16 old_state ASM_REG("$16");
-    register u8 old_state_byte ASM_REG("$2");
+    s16 old_state;
+    u8 old_state_byte;
     void *call_entity;
     void *call_motion;
     void *call_sprite;
     s32 height_offset;
     s32 height_offset_2;
-    u32 height_bits;
+    u16 height_bits;
     s16 direction;
     s16 ground_height;
     s32 entity_flags;
@@ -71,8 +71,8 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_801719DC) {
-            ASM_KEEP(entry_entity);
-            entry_callback(entry_entity, motion, sprite, entry_entity);
+            entity_base = (void *)entry_callback;
+            ((Callback)entity_base)(entry_entity, motion, sprite, entry_entity);
             return;
         }
         (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
@@ -98,10 +98,9 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
     }
     D_801746A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
-        register s32 state_compare ASM_REG("$2");
+        s32 state_compare;
 
         state_compare = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(state_compare);
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);

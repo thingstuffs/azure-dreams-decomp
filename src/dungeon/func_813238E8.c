@@ -151,6 +151,8 @@ typedef struct S_8016B0E8_16 {
     s32 unk_AC;
 } S_8016B0E8_16;   /* (temp_s1 + ((S_8016B0E8_4 *)page_e)->unk_3D7C) in func_8016B0E8 */
 
+static __inline__ u16 clamp_level(u32 level) { if (level >= 26) level = 25; return level; }
+
 /* Update actor state, animation, movement, and terrain height. */
 void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register M2C_UNK (*update_callback)(void *, void *, void *, void *);
@@ -166,7 +168,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     s32 motion_position;
     s32 motion_delta;
     u16 motion_flags;
-    register s32 lookup_offset ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u32 lookup_offset;
     register s32 level_seed;
     register u8 * direction_animations;
     register s32 actor_flags;
@@ -190,7 +192,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
     register u8 *scene_state;
     register u8 *countdown_state;
     u8 *message;
-    register void *actor_slot ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *actor_slot;
     register void *linked_entry;
     register void *actor_header;
     register void *linked_sprite;
@@ -214,22 +216,16 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
         if (level_seed < 0) {
             scaled_level = (u32) (level_seed + 3) >> 2;
         }
-        if (scaled_level < 0x1AU) {
-            level_index = scaled_level & 0xFFFF;
-        } else {
-            scaled_level = 0x19;
-            ASM_KEEP_NV(scaled_level);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            level_index = scaled_level & 0xFFFF;
-        }
+        level_index = clamp_level(scaled_level);
         exp_table = D_800835E4;
         exp_limits = exp_table + 1;
         initial_exp = exp_table[level_index] + 1;
         ((S_8016B0E8_0 *)entity)->unk_18 = initial_exp;
         if (initial_exp >= (u32) exp_limits[((S_8016B0E8_0 *)entity)->unk_11]) {
             level_limits = exp_limits;
-            do {
+            loop_0: {
                 func_800A1D4C(actor, 0);
-            } while (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18));
+            } if (!((u32) level_limits[((S_8016B0E8_2 *)actor)->unk_11] > (u32) ((S_8016B0E8_2 *)actor)->unk_18)) goto loop_0;
         }
     }
     if (((S_8016B0E8_0 *)entity)->unk_B4 != 0) {
@@ -313,7 +309,6 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
             view_direction = ((s32) (D_80083228[0] + ((S_8016B0E8_2 *)actor)->unk_2A + 0x100) >> 9) & 7;
             prior_direction = ((S_8016B0E8_0 *)entity)->unk_94;
             direction_index = view_direction;
-            lookup_offset = view_direction;
             if (prior_direction != direction_index) {
                 direction_animations = ((S_8016B0E8_14 *)sprite)->unk_2C;
                 if (direction_animations != 0) {
@@ -322,8 +317,7 @@ void func_8016B0E8(void *entity, void *motion, void *sprite) {
                 }
                 ((S_8016B0E8_0 *)entity)->unk_94 = view_direction;
             }
-            facing_flip = D_8006CCF8[lookup_offset];
-            ASM_USE_NV(lookup_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            facing_flip = D_8006CCF8[direction_index];
             if (facing_flip != 0) {
                 facing_flags = ((S_8016B0E8_14 *)sprite)->unk_14.n | 1;
             } else {

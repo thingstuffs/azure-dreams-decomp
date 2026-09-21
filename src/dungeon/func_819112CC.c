@@ -106,6 +106,8 @@ typedef struct {
 typedef struct {} EmptyArg;
 extern RenderContext *D_80083160;
 
+static __inline__ s32 radial_coordinate(s32 center, s32 trig, s16 radius) { return center + (((trig >> 4) * radius) << 8); }
+
 /* Build and queue interpolated vertical quads around five perimeter points. */
 void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 duration_in)
 {
@@ -114,7 +116,8 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     s32 duration = duration_in;
     register u32 low_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *prim;
-    register s32 angle_x_or_mask ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 angle_x_or_mask;
+    s32 angle_x_or_mask_2;
     s32 target_x;
     s32 target_y;
     s32 radial_y;
@@ -155,17 +158,13 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     SP32(0x18) = (u32)render_context + 0xB0;
     while (point_index < 5) {
         twice_index = point_index * 2;
-        angle_x_or_mask = (twice_index + 1) * 0x199;
-        link = (u32 *)(angle_x_or_mask + ((S_819112CC_0 *)effect)->unk_0A);
+        angle_x_or_mask_2 = (twice_index + 1) * 0x199;
+        link = (u32 *)(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
         radial_x = func_800644B8((s32)link);
         link = (u32 *)(((S_819112CC_0 *)effect)->unk_0A);
-        link = (u32 *)(angle_x_or_mask + (s32)link);
-        angle_x_or_mask = origin->unk_00;
-        angle_x_or_mask += (((radial_x >> 4) *
-                     ((S_819112CC_0 *)effect)->unk_0E) << 8);
-        ASM_KEEP_NV(angle_x_or_mask);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        link = (u32 *)(angle_x_or_mask_2 + (s32)link);
+        target_x = radial_coordinate(origin->unk_00, radial_x, ((S_819112CC_0 *)effect)->unk_0E);
         coord_or_offset = func_80064584((s32)link);
-        target_x = angle_x_or_mask;
         coord_or_offset >>= 4;
         radial_y = origin->unk_04 +
             ((coord_or_offset * ((S_819112CC_0 *)effect)->unk_0E) << 8);
@@ -194,7 +193,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         start_x = ((S_819112CC_3 *)point)->unk_18.at02.v;
         SP16(0x74) = start_x;
         SP16(0x64) = start_x;
-        delta_x = angle_x_or_mask - ((S_819112CC_3 *)point)->unk_18.at00.v;
+        delta_x = target_x - ((S_819112CC_3 *)point)->unk_18.at00.v;
         SP32(0x108) = delta_x;
         if (interpolate != 0) {
             SP32(0x108) = (delta_x / duration) * step;

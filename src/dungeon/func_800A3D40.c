@@ -125,7 +125,7 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
     u16 effect_flags;
     s32 global_flags;
     s32 effect_scale;
-    register void *actor_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *actor_arg;
     u8 variant;
     register s16 effect_id ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     S_800A94A0_4 *effect_position;
@@ -142,7 +142,7 @@ void *func_800A94A0(void *actor, Rec_D_800E3D7C *effect_record, s16 mode, void *
         register s32 lookup_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         effect_mode = ((s32) mode << 0x10) >> 0x10;
         {
-            s32 mode_arg = effect_mode;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 mode_arg = effect_mode;
             u8 entry_variant;
             effect_id = effect_record->unk_00.at00_u8.v;
             entry_variant = effect_record->unk_00.at01_u8.v;
@@ -208,8 +208,9 @@ set_effect_scale:
         if ((effect != NULL) && ((s8) ((S_800A94A0_0 *)((u8 *)actor - 0x18))->unk_2B > 0)) {
             new_text_context = func_800990FC();
             actor_arg = actor;
+            message = func_80099734(actor_arg, new_text_context);
             text_context = new_text_context;
-            message = func_80099194(&D_800E1C58, func_80099734(actor_arg, text_context));
+            message = func_80099194(&D_800E1C58, message);
             if (((u32)(u16)mode << 0x10) != 0) {
                 name_index = func_800A9400(((s32)effect_id << 0x10) >> 0x10);
                 name_text = D_8006DE24[name_index].unk8;

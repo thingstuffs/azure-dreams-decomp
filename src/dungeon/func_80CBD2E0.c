@@ -53,17 +53,17 @@ typedef struct S_80170AE0_2 {
 /* Updates monster facing, runs actor callbacks, and applies movement and floor height corrections. */
 void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
 {
-    register void *actor ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *actor = entity;
+    s32 direction;
+    s16 direction_copy;
     s16 old_direction;
     u32 old_direction_raw;
-    register s32 facing_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 facing_angle;
     Callback callback;
     u16 monster_flags;
     s16 floor_height;
     s16 actor_height;
-    s32 direction_index;
+    s16 direction_index;
 
     if (D_80083462 & 0x2000) {
         Callback special_callback;
@@ -78,7 +78,6 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
         return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
     old_direction_raw = (*(volatile u8 *)((u8 *)entity + 0x6D));
     old_direction_raw = old_direction_raw << 24;
@@ -91,7 +90,6 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
     if (!(monster_flags & 0x8000)) {
         facing_angle = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         direction = (facing_angle >> 9) & 7;
-        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         direction_index = direction;
         direction_copy = direction;
 
@@ -103,7 +101,8 @@ void func_80170AE0(void *entity, S_80170AE0_2 *motion, void *monster)
             (*(s16 *)((u8 *)entity + 0x94)) = direction;
         }
 
-        if (D_8006CCF8[direction_copy] != 0) {
+        old_direction_raw = (s32)D_8006CCF8 + direction_copy;
+        if (*(u8 *)old_direction_raw != 0) {
             ((S_80170AE0_0 *)monster)->unk_14 |= 1;
         } else {
             ((S_80170AE0_0 *)monster)->unk_14 &= 0xFFFE;
@@ -191,9 +190,9 @@ check_adjustment:
     ((S_80170AE0_1 *)actor)->unk_1C &= 0xF7FFFFFF;
 
 finish:
+    actor = (u8 *)actor + 0x88;
     motion->unk_0A =
-        ((S_80170AE0_1 *)actor)->unk_88.u + (*(u16 *)((u8 *)entity + 0x92));
+        *(u16 *)actor + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170AE0_0 *)monster)->unk_14 |= 0x40;
 
-    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }

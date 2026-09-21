@@ -32,7 +32,7 @@ extern GlobalState D_80083160;
 /* Draw 16 shaded line segments and link them into the ordering table by depth. */
 s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale, s32 plane_z, s32 *points_addr, u8 intensity, s32 color_phase)
 {
-  register u8 *globals_page ASM_REG("$4") = D_80080000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  u8 *globals_page = D_80080000;
   s32 segment = 15;
   u32 coord_scale = (s16) point_scale;
   s32 *point_base = points_addr;
@@ -77,19 +77,18 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
     line_code = 0x52;
     color_sign = (s32)globals_page >> 31;
     line_prim[7] = (u8) line_code;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     phase_offset = (wide_product.word.hi - -(s32)globals_page) >> 7;
-    color_scale = phase_offset - color_sign;
+    globals_page = (u8 *)(phase_offset - color_sign);
     {
-      register s32 shade_scale ASM_REG("$4") = color_scale;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-      register s32 saved_shade_scale ASM_REG("$7") = shade_scale;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+      s32 shade_scale = (s32)globals_page;
+      s32 saved_shade_scale = shade_scale;
       if (color_index < 0)
       {
         biased_index = color_index + 15;
       }
-      globals_page = (u8 *)(shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index - ((biased_index >> 4) << 4))))));
+      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (color_index - ((biased_index >> 4) << 4))))));
       phase_offset = (s32)globals_page >> 18;
-      shade_scale = saved_shade_scale;
+      globals_page = (u8 *)saved_shade_scale;
       initial_z = color_index + 1;
       biased_index = initial_z;
       line_prim[5] = intensity;
@@ -99,7 +98,7 @@ s32 func_818B0E10(void *unused_0, void *origin, void *unused_2, s32 point_scale,
       {
         biased_index = color_index + 16;
       }
-      globals_page = (u8 *)(shade_scale * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index >> 4) << 4))))));
+      globals_page = (u8 *)((s32)globals_page * (*((u8 *) (((u8 *) (&D_8002588C)) + (initial_z - ((biased_index >> 4) << 4))))));
       line_prim[0xD] = intensity;
       phase_offset = (s32)globals_page >> 18;
       line_prim[0xC] = (s8) phase_offset;

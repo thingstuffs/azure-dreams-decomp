@@ -80,7 +80,7 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
     s32 linked_entity;
     s32 tile_mask;
     u8 entity_type;
-    u8 spawn_type;
+    s32 spawn_type;
     u8 tile_x;
     u8 tile_y;
     S_800BE6F0_1 *position;
@@ -92,7 +92,6 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
     s32 *entity_table;
     s32 *flags_page;
     u8 *entity_base;
-    s32 selected_entity;
     s32 cleared_selection;
 
     if (entity == D_800E3D7C) {
@@ -148,10 +147,9 @@ s32 func_800BE6F0(void *entity, s32 source, s16 reason)
         ASM_KEEP(state_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         selection_state = (s32 *)((u8 *)state_page + 0x3460);
         ASM_KEEP(selection_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        selected_entity = ((S_800BE6F0_2 *)selection_state)->unk_10;
-        ASM_KEEP(selected_entity);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if (selected_entity == (s32)((u8 *)entity - 0x20)) {
-            cleared_selection = selected_entity & 0x7FFFFFFF;
+        spawn_type = ((S_800BE6F0_2 *)selection_state)->unk_10;
+        if (spawn_type == (s32)((u8 *)entity - 0x20)) {
+            cleared_selection = spawn_type & 0x7FFFFFFF;
             ((S_800BE6F0_2 *)selection_state)->unk_10 = cleared_selection;
         }
 

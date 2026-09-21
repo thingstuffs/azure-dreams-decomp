@@ -43,7 +43,6 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
 {
   register Scratch800D1A48 *scratch;
   register s32 index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  register s32 count_or_x;
   s32 state_addr;
   register s32 render_state;
   register u8 *sprite_placement ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -52,9 +51,8 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
   u8 *packet_data;
   u8 *quad_data;
   u8 *part;
-  register u8 *quad ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+  u8 *quad;
   s32 bottom_y;
-  count_or_x = count_hint;
   state_addr = render_state_addr;
   ASM_KEEP_NV(state_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   render_state = state_addr;
@@ -70,7 +68,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
     sprite_count = *((s16 *) (((u8 *) sprite_list) + 0x9E));
     if (sprite_count > 0)
     {
-      count_or_x = sprite_count;
+      quad = (u8 *)(s32)(s16)sprite_count;
       do
       {
         u8 *sprite_entry = *((u8 **) (((u8 *) sprite_list) + 0xA4));
@@ -90,7 +88,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
           sprite_list += 4;
         }
       }
-      while (index < count_or_x);
+      while (index < (s16)(s32)quad);
     }
   }
   if ((*((s16 *) (((u8 *) sprite) + 2))) > 0)

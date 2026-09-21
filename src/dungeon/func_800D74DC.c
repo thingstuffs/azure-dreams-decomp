@@ -27,7 +27,7 @@ void func_800DCC3C(u8 *object) {
     Vec3 *vector_template;
     register s32 vector_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 record_offset;
-    register s32 vector_addr ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 vector_addr;
     s32 vector_z;
 
     header = object;
@@ -58,7 +58,7 @@ void func_800DCC3C(u8 *object) {
         *(s32 *)(vector_offset + *(s32 *)(header + 8) + 4) = vector_template->y;
         vector_addr = *(s32 *)(header + 8);
         vector_z = vector_template->z;
-        vector_addr = vector_offset + vector_addr;
+        vector_addr = (u32)vector_offset - -(u32)vector_addr;
         *(s32 *)(vector_addr + 8) = vector_z;
         vector_offset += 0xC;
     } while (entry_index < 9);

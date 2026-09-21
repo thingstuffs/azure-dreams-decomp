@@ -42,8 +42,8 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
     s32 clear_action_flag;
     u8 *object;
     u8 *actor;
-    register void *context ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *context;
+    void *target;
     u8 *global_state;
     u16 global_flags;
 
@@ -51,7 +51,6 @@ s32 func_800CA788(void *object_ptr, void *action_context, void *target_ptr, void
     actor = actor_ptr;
     actor[0x71] &= 0x7F;
     context = action_context;
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     global_state = (u8 *)&D_80083460;
     if (((S_800CA788_0 *)global_state)->unk_02 & 0x2000) {
         goto return_negative;
@@ -90,30 +89,21 @@ check_flag_8:
 
     {
         void *action_actor;
-        register void *action_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        void *action_target;
         s32 actor_param;
-        s32 action_mode;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        s32 actor_flags_14;
-        s32 actor_flags_1c;
+        s32 action_mode;
 
         action_actor = actor;
-        ASM_KEEP(action_actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         action_target = target;
         object[0x9B] = 0;
         ((S_800CA788_3 *)object)->unk_8C = 0;
         object[0x9A] = 0x11;
         actor_param = ((S_800CA788_1 *)actor)->unk_2A;
         actor[0x84] = 0x80;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
-        actor_flags_14 = ((S_800CA788_1 *)actor)->unk_14;
-        actor_flags_1c = ((S_800CA788_1 *)actor)->unk_1C;
-   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         action_mode = 0;
         actor[0x85] = 0;
-        actor_flags_14 |= 0x2000;
-        actor_flags_1c |= 0x2000;
-        ((S_800CA788_1 *)actor)->unk_14 = actor_flags_14;
-        ((S_800CA788_1 *)actor)->unk_1C = actor_flags_1c;
+        ((S_800CA788_1 *)actor)->unk_14 |= 0x2000;
+        ((S_800CA788_1 *)actor)->unk_1C |= 0x2000;
         func_8009C93C(action_actor, action_target, actor_param, action_mode, 0);
     }
     ((S_800CA788_1 *)actor)->unk_14 &= clear_action_flag;

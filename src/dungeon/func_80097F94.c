@@ -47,7 +47,7 @@ void func_8009D6F4(void) {
     packed_input = 0;
     base = D_800E50A8;
     cursor = base;
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    row_index = 0;
     state = D_80083160;
     grid_dims = state + 0x1DC;
     if ((1 << ((S_8009D6F4_0 *)grid_dims)->unk_16) > 0) {
@@ -55,7 +55,6 @@ void func_8009D6F4(void) {
         s32 nibble_mask;
         register s32 next_col ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        row_index = 0;
         first_col = 0;
         dimension_unit = 1;
         table = D_800EA000;
@@ -111,12 +110,11 @@ advance_col:
             if (col_index & 1) {
                 next_col = col_index + 1;
                 cursor += 1;
+                col_index = next_col;
             } else {
                 next_col = col_index + 1;
-            }
-            do {
                 col_index = next_col;
-            } while (0);
+            }
             if ((s16) next_col >= (dimension_unit << ((S_8009D6F4_0 *)grid_dims)->unk_14)) {
                 goto advance_row;
             }

@@ -272,11 +272,11 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
         {
             u8 *target;
             u8 *parent_data;
-            s32 step_result;
+            u32 step_result;
             s32 height;
             s32 origin_z;
-            s32 frames;
-            register s16 frames_copy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s8 frames;
+            s16 frames_copy;
             u32 target_height;
             s32 tile_distance;
 
@@ -349,7 +349,6 @@ void func_8002592C(u8 *self, u8 *position, void *volatile render_data)
             (*(u16 *)((u8 *)self + 0x0A))++;
             (*(s16 *)((u8 *)self + 0x88)) = (s8)(*(u8 *)((u8 *)self + 0x7B));
             step_result = (*(u8 *)((u8 *)self + 0x7B)) << 24;
-            ASM_KEEP_NV(step_result);   /* retained: removing it drops the sign-extension pair */
             frames = step_result >> 24;
             frames_copy = frames;
             frames_squared = frames * frames_copy;

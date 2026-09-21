@@ -76,7 +76,10 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
     DungeonObject *parent;
     DungeonObject *child;
     DungeonState *state;
-    register DungeonCoord *center ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    union {
+        u32 word;
+        DungeonCoord *coord;
+    } center;
     DungeonCoord *child_coord;
     DungeonRender *render;
     void *image_data;
@@ -86,7 +89,8 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
     register u32 setup_word ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     ASM_KEEP_NV(z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    homes.arg1 = tile_y;
+    center.word = (u32) tile_y;
+    homes.arg1 = center.word;
     setup_word = speed;
     homes.arg4 = (s32) setup_word;
     homes.arg3 = height;
@@ -102,12 +106,12 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
         state = &parent->state;
         remaining = 0xB;
         shade = -0xAA7;
-        center = parent->coord;
-        center->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
+        center.coord = parent->coord;
+        center.coord->x = (s16) (((s32) (tile_x << 0x10) >> 0xA) + 0x20);
         angle = 0xEA7;
         setup_word = homes.arg1;
-        center->z = z;
-        center->y = (s16) (((s32) (setup_word << 0x10) >> 0xA) + 0x20);
+        center.coord->z = z;
+        center.coord->y = (s16) (((s32) (setup_word << 0x10) >> 0xA) + 0x20);
         ASM_USE(setup_word);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         render = parent->render;
         render->image = D_800777E8;
@@ -142,9 +146,9 @@ DungeonObject *func_800C7380(s16 tile_x, s32 tile_y, u16 z, s32 height, s32 spee
                 child->callback = (void *) setup_word;
                 func_8004491C(init_child, child_resource);
                 child_coord = child->coord;
-                child_coord->x = (s16) (center->x + (func_80064584(angle) >> 7));
-                child_coord->y = (s16) (center->y + (func_800644B8(angle) >> 7));
-                child_coord->z = center->z;
+                child_coord->x = (s16) (center.coord->x + (func_80064584(angle) >> 7));
+                child_coord->y = (s16) (center.coord->y + (func_800644B8(angle) >> 7));
+                child_coord->z = center.coord->z;
                 render = child->render;
                 render->blend2 = 0xFC00;
                 render->shade = shade;
