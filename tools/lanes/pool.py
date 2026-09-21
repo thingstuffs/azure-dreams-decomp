@@ -195,6 +195,9 @@ def alive(pid):
 
 
 def foreign_busy():
+    # isolated landings (LAND_ISOLATED=1, round 68) gate in their own root: a landing no longer holds lane launches
+    if os.environ.get("LAND_ISOLATED") == "1":
+        return False
     return subprocess.run(["pgrep", "-f", BUSY_PAT], capture_output=True).returncode == 0
 
 
