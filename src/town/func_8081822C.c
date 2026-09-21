@@ -109,18 +109,12 @@ s32 func_8002222C(void *first_entry) {
             page_depth = 0;
             ASM_KEEP(page_depth);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
             line_packet = ((S_8002222C_0 *)arena)->unk_8D0;
-            ASM_KEEP(line_packet);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_blend = page_depth;
-            ASM_KEEP(page_blend);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             ((S_8002222C_0 *)arena)->unk_8D0 = line_packet + 0x14;
             arena = *arena_ptr;
-            ASM_KEEP(arena);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_x = page_depth;
-            ASM_KEEP(page_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             mode_packet = ((S_8002222C_0 *)arena)->unk_8D0;
-            ASM_KEEP(mode_packet);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             page_y = page_depth;
-            ASM_KEEP(page_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             texture_page = (s32)(mode_packet + 0xC);
             ((S_8002222C_0 *)arena)->unk_8D0 = (u8 *)texture_page;
             texture_page = func_80066460(page_depth, page_blend, page_x, page_y);

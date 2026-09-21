@@ -107,7 +107,7 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     void *depth_cue;
     void *projection_flags;
     register u8 *tail ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register u8 *aux_ptr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *aux_ptr;
     u32 tag_length_mask;
     register u32 tag_addr_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -137,9 +137,9 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
         VFIELD(scratch, u16, 0xA4) = ((S_8187B1F4_2 *)orientation)->unk_16;
         VFIELD(scratch, u16, 0xA8) = ((S_8187B1F4_2 *)orientation)->unk_1A;
         component = ((S_8187B1F4_2 *)orientation)->unk_18;
-        aux_ptr = (u8 *)model_matrix;
+
         ((S_8187B1F4_1 *)scratch)->unk_A6 = component;
-        func_80065820(scratch + 0xA4, aux_ptr);
+        func_80065820(scratch + 0xA4, (u8 *)model_matrix);
         func_80064AE0(&view_matrix);
         func_80064840(&view_matrix, model_matrix, transform_matrix);
         func_80064BC0(transform_matrix, scratch + 0x34);

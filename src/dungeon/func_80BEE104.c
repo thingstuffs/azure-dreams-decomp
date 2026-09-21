@@ -71,7 +71,7 @@ void func_80173904(
     s32 unused_0, void *origin, s32 unused_2, s32 unused_3, s32 angle, u16 depth_offset)
 {
     register s32 product ASM_REG("$7");
-    register s32 value ASM_REG("$2");
+    s32 value;
     register s32 factor ASM_REG("$3");
     register s32 wrapped_angle ASM_REG("$16");
     register s32 angle_work ASM_REG("$19");
@@ -119,7 +119,9 @@ void func_80173904(
         value = ((S_80173904_3 *)source)->unk_04;
         state->unk_44 = value;
         value = (s16)angle;
-        while (value >= 0x1001) {
+        for (;;) {
+            value = value < 0x1001;
+            if (value) break;
             value = angle_work - 0x1000;
             angle_work = value;
             value = (s16)value;

@@ -280,19 +280,18 @@ start_motion:
     {
         S_func_81820800_5 *tile_data;
         s32 end_x;
-        s32 end_y;
+
         s32 start_x;
         s32 start_y;
         tile_data = actor_data;
         end_x = (s8)actor->unk_72;
-        end_y = (s8)actor->unk_73;
+        abs_y = (s8)actor->unk_73;
         start_x = tile_data->unk_24;
         start_y = tile_data->unk_25;
         delta_x = end_x - start_x;
-        delta_y = end_y - start_y;
+        delta_y = abs_y - start_y;
         ASM_KEEP(start_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(start_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(end_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         ASM_KEEP(end_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
     distance_or_script = delta_x;

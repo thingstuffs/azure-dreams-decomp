@@ -411,12 +411,12 @@ void func_800BC4D4(void *position, void *sprite, u16 world_z, s32 depth_bias)
                     if (((S_800BC4D4_6 *)texture_data)->unk_00 & 0x80) {
 
                         texture_page = 0x7F800000;
+                        uv_word += texture_page;
                     } else {
-                        ASM_SCHED_BARRIER();
                         texture_page = 0x7FC00000;
+                        uv_word += texture_page;
                     }
 
-                    uv_word += texture_page;
                 }
                 (*(s32 *)((u8 *)packet_field + 5)) = uv_word;
                 (*(s32 *)((u8 *)packet_field + 0xD)) = ((S_800BC4D4_1 *)scratch)->unk_0C.s +

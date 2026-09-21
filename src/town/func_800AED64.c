@@ -266,11 +266,11 @@ void func_800AC4C4(void) {
     s32 stepped_x;
     s32 span_end_x;
     s32 row_index;
-    register s32 work_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s32 work_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 work_bits ASM_REG("$3");
+    s32 work_value;
     s32 column_rounding;
     M2C_UNK * lookup_value;
-    register s32 edge_index ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 edge_index ASM_REG("$6");
     s32 span_edge_index;
     s8 *tile_map;
     s32 row_rounding;
@@ -289,23 +289,23 @@ void func_800AC4C4(void) {
     s32 x_step;
     u32 error_step;
     s32 row_limit;
-    register void *work_ptr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    void *coord_offset;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    void *edge_count;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *work_ptr;
+    void *coord_offset;
+    void *edge_count;
     S_func_800AED64_6 *render_buffer;
     u32 tag_low_mask;
     u32 tag_high_mask;
     s32 one;
     S_func_800AED64_4 *scratch;
     register void *vertex_input;
-    register S_func_800AED64_1 *render_state ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register S_func_800AED64_1 *render_state ASM_REG("$20");
 
     {
         work_value = (s32)((u8 *)0x80080000);
-        ASM_KEEP_NV(work_value);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP_NV(work_value);
         render_state = (u8 *)work_value + 0x3160;
     }
-    ASM_KEEP_NV(render_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(render_state);
     map_data = (u8 *)render_state + 0x1DC;
     tile_map = render_state->unk_1DC;
     vertices = map_data->unk_08;
@@ -317,7 +317,7 @@ void func_800AC4C4(void) {
         func_80064624(view_params->unk_84, view_params->unk_88);
     }
     scratch = (s8 *)0x1F800000;
-    ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(scratch);
     func_80064D20((u8 *)render_state + 0x50);
     if (D_800D1554[0] != 0) {
         render_state->unk_1A = -0xB8;
@@ -376,7 +376,8 @@ do {
             if (start_edge->unk_38 == 0) {
                 work_bits = start_edge->unk_34;
                 work_value = scratch->unk_0C;
-                if (work_value >= work_bits) {
+                work_value = work_value < work_bits;
+                if (!work_value) {
                     start_edge->unk_38 = one;
                 }
             }
@@ -463,7 +464,8 @@ step_span:
         work_bits = scratch->unk_14.s32;
         work_value = scratch->unk_18;
         polygon = (void *)3;
-        if (work_value >= work_bits) {
+        work_value = work_value < work_bits;
+        if (!work_value) {
             packet_xy3 = (s8 *) packet + 0x20;
 scan_column:
             work_bits = scratch->unk_134;
@@ -534,7 +536,7 @@ store_column:
                     *depth_bucket = (*depth_bucket & tag_high_mask) | (s32) lookup_value;
                 }
                 tile_index = scratch->unk_C0;
-                   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
                 packet_color = (s8 *)packet + 4;
 
                 scratch->unk_12C.s32 = 0;
@@ -563,8 +565,8 @@ store_column:
                         scratch->unk_E4.s16 = work_value;
                         work_value = scratch->unk_168.at_16A.unk_16A;
                         work_bits = scratch->unk_0C;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP_NV(work_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        ASM_SCHED_BARRIER();
+                        ASM_KEEP_NV(work_value);
                         work_value = (s32) (work_value << 0x10) >> 0x10;
                         work_bits += work_value;
                         work_bits <<= 0x10;
@@ -588,8 +590,8 @@ store_column:
                         scratch->unk_EC = work_value;
                         work_value = scratch->unk_168.at_16A.unk_16A;
                         work_bits = scratch->unk_0C;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                        ASM_KEEP_NV(work_value);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        ASM_SCHED_BARRIER();
+                        ASM_KEEP_NV(work_value);
                         work_value = (s32) (work_value << 0x10) >> 0x10;
                         work_bits += work_value;
                         work_bits <<= 0x10;
@@ -709,7 +711,8 @@ store_column:
                                         work_value &= tag_low_mask;
                                         work_bits |= work_value;
                                         *packet = work_bits;
-                                        work_ptr = (void *)(scratch->unk_C8 * 4);
+                                        work_ptr = (void *)scratch->unk_C8;
+                                        work_ptr = (void *)((s32)work_ptr * 4);
                                         work_value = scratch->unk_BC;
                                         work_ptr = (void *)((s32)work_ptr + work_value);
                                         work_value = (s32) packet & tag_low_mask;
@@ -739,7 +742,8 @@ store_column:
                                 work_value &= tag_low_mask;
                                 work_bits |= work_value;
                                 *packet = work_bits;
-                                work_ptr = (void *)(scratch->unk_C8 * 4);
+                                work_ptr = (void *)scratch->unk_C8;
+                                work_ptr = (void *)((s32)work_ptr * 4);
                                 work_value = scratch->unk_BC;
                                 work_ptr = (void *)((s32)work_ptr + work_value);
                                 work_bits = ((S_func_800AED64_11 *)(work_ptr))->unk_00;

@@ -319,8 +319,6 @@ loop_15:
     ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
 block_17:
     position_valid = func_800A45D8(((S_80024B54_7 *)target_pos)->unk_02.u, ((S_80024B54_7 *)target_pos)->unk_06.u, (s16)((S_80024B54_7 *)target_pos)->unk_0A.u);
-    ASM_KEEP(position_valid);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    step_count += 1;
     if ((position_valid << 0x10) == 0) {
         goto block_20;
     }
@@ -338,6 +336,7 @@ block_17:
     ((S_80024B54_7 *)target_pos)->unk_0A.u = (u16)((S_80024B54_12 *)(((S_80024B54_3 *)target_page)->unk_14A8))->unk_88;
     goto block_21;
 block_20:
+    step_count += 1;
     if (step_count < 8) {
         goto loop_15;
     }
