@@ -87,14 +87,10 @@ collision_tail:
 blocked_exit:
     {
         register volatile s32 null_result ASM_REG("$2");
-        register volatile s32 coord_result ASM_REG("$3");
 
         null_result = 0;
-        ASM_KEEP(null_result);
-        coord_result = -x;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = coord_result;
-        coord_result = -y;
-        ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = coord_result;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = -x;
+        ((Rec_D_800E3D7C *)source)->unk_73.as_s8 = -y;
         return (void *)null_result;
     }
 

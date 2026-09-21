@@ -549,10 +549,9 @@ apply_abilities:
         ability_ids = &merge_buffer[8];
         do {
             {
-                register s32 ability_id ASM_REG("$2") = ability_ids[scan_index * 3];   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(ability_id);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                s32 ability_id = ability_ids[scan_index * 3];
                 if (ability_id != 0) {
-                    s32 ability = ability_id;
+                    u8 ability = ability_id;
                     allowed_elements = ((S_800277F4_0 *)result)->unk_14.n;
                     if (!(ability_table[ability].flags & 7 & allowed_elements)) {
                         if (allowed_elements & 1) {

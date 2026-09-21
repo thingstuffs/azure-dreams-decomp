@@ -408,16 +408,17 @@ clut_done:
       *((s8 *) (((s8 *) packet) + 0x1D)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
       *((s8 *) (((s8 *) packet) + 0x25)) = (s8) ((*((u8 *) (((s8 *) quad_copies) + 53))) + 1);
       {
-        s32 packet_size = (*((s32 *) packet)) & 0xFF000000;
-        s32 packet_link = packet_size | ((*((s32 *) (*((s32 *) (((s8 *) scratch) + 0x20))))) & addr_mask);
-        ASM_KEEP_NV(packet_link);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        *((s32 *) packet) = packet_link;
+        s32 link_lower;
+        context_dep = (u8 *)(*((s32 *)packet) & 0xFF000000);
+        link_lower = (*((s32 *)(*((s32 *)(scratch + 0x20))))) & addr_mask;
+        *((s32 *)packet) = (s32)context_dep | link_lower;
       }
       row_tag = (s32 *) (*((s32 *) (((s8 *) scratch) + 0x20)));
       {
-        s32 row_link = ((*row_tag) & 0xFF000000) | (((s32) packet) & addr_mask);
-        ASM_KEEP_NV(row_link);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        *row_tag = row_link;
+        s32 link_lower;
+        context_dep = (u8 *)(*row_tag & 0xFF000000);
+        link_lower = (s32)packet & addr_mask;
+        *row_tag = (s32)context_dep | link_lower;
       }
       *((Blk40 *) (&quad_copies[10])) = *((Blk40 *) packet);
       next_row_y = (*((volatile u16 *) (((s8 *) quad_copies) + 50))) + 1;

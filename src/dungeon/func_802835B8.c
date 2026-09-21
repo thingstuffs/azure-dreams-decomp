@@ -433,11 +433,7 @@ load_entries:
     display_page = (u8 *)0x800E0000;
     ASM_KEEP(display_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     bind_state = (u8 *)(0x8001020C);
-    ASM_KEEP_NV(bind_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    *(Copy12 *)(entity + 0x34) = *(Copy12 *)(u32)bind_state;
-    copy_tail = *(s8 *)((u32)bind_state + 12);
-    ASM_KEEP(copy_tail);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    ((S_800165B8_5 *)entity)->unk_40 = copy_tail;
+    *(Copy13 *)(entity + 0x34) = *(Copy13 *)(u32)bind_state;
     ((S_800165B8_5 *)entity)->unk_42 = 0;
     ((S_800165B8_5 *)entity)->unk_41 = 0;
     ((S_800165B8_1 *)obj)->unk_DC = neutral_color;

@@ -209,8 +209,8 @@ interpolate:
 
         countdown_raw = (u16)motion->unk_36 - 1;
         motion->unk_36 = countdown_raw;
-        ASM_KEEP(countdown_raw);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        shifted_countdown = (s32)(countdown_raw << 16);
+        countdown_raw <<= 16;
+        shifted_countdown = (s32)countdown_raw;
         countdown = shifted_countdown >> 16;
         if (countdown == 0)
             goto check_settled;
@@ -302,11 +302,9 @@ move:
 
         coord = motion->unk_70;
         interp_goal = motion->unk_34;
-        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rounded = motion->unk_7C;
-        ASM_KEEP(rounded);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        point = &grid_base[interp_goal];
-        ASM_KEEP(point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        interp_goal <<= 2;
+        point = (GridPoint *)((u8 *)grid_base + interp_goal);
         interp_goal = motion->unk_5C;
         coord += rounded;
         motion->unk_70 = coord;

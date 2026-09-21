@@ -106,18 +106,10 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     s32 effect_z;
     s32 tile_distance;
 
-    table_value = (void **)0x80020000;
-    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     owner = PTR(effect, 0);
-    ASM_KEEP(owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    template_data = (PointTable *)((u8 *)table_value + 0x4074);
-    ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    memcpy(&direction_steps, template_data, 12);
-    memcpy((u8 *)&direction_steps + 12, (u8 *)template_data + 12, 12);
-    memcpy((u8 *)&direction_steps + 24, (u8 *)template_data + 24, 8);
-    ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    template_data = (PointTable *)&D_80024074;
+    direction_steps = D_80024074;
     state_index = S16(effect, 0xA);
-    ASM_KEEP(state_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     object = (u8 *)owner - 0x20;
     object_data = PTR(object, 8);
 

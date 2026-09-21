@@ -350,7 +350,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     s32 launch_particle;
     s32 impact_particle;
     s32 tile_distance;
-    s32 parent_tile;
+    s8 parent_tile;
     register void *child_data ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s8 remaining_ticks;
     u16 impact_angle;
@@ -366,7 +366,7 @@ void func_80024F10(void *effect, void *motion, void *sprite) {
     u16 old_flight_angle;
     u16 parent_flags;
     u8 flight_ticks;
-    register s32 origin_tile ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 origin_tile;
     register u16 sprite_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 source_id;
     S_818FF710_9 *origin;
@@ -463,14 +463,16 @@ check_launch:
     (*(s8 *)((u8 *)effect + 0xA2)) = (s8) (origin->unk_24 + D_8006CCD8[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
     (*(s8 *)((u8 *)effect + 0xA3)) = (s8) (origin->unk_25 + D_8006CCE8[(*(s16 *)((u8 *)effect + 0x7E)) * 2]);
     parent_tile = ((S_818FF710_2 *)parent)->unk_72;
+    tile_distance = parent_tile;
     origin_tile = origin->unk_24;
-    if (parent_tile != origin_tile) {
-        tile_distance = parent_tile - origin_tile;
+    if (tile_distance != origin_tile) {
+        tile_distance = tile_distance - origin_tile;
         goto check_distance_sign;
     }
     parent_tile = ((S_818FF710_2 *)parent)->unk_73;
+    tile_distance = parent_tile;
     origin_tile = origin->unk_25;
-    tile_distance = parent_tile - origin_tile;
+    tile_distance = tile_distance - origin_tile;
 check_distance_sign:
     if (tile_distance >= 0) {
         goto set_flight_duration;

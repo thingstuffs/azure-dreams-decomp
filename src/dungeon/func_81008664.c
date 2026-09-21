@@ -348,11 +348,9 @@ check_launch_end:
     motion->unk_14 = -0x40000;
     func_800A56E0(0x802, launch_ticks);
     {
-        s32 fall_duration;
-        fall_duration = 0x10;
-        ASM_KEEP_NV(fall_duration);
+        fall_anim = 0x10;
         animation_table = D_801748F8;
-        actor->unk_96 = fall_duration;
+        actor->unk_96 = fall_anim;
     }
     angle_or_count = &D_80083228;
     *(u8 **)((u8 *)sprite + 0x2C) = animation_table;

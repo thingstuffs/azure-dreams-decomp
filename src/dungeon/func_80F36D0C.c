@@ -117,7 +117,6 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     register unsigned long step_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 * step_table_2;
     s32 scaled_velocity;
-    register u32 angle_bits ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register unsigned long return_step_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 delta_y;
     s32 current_x;
@@ -240,9 +239,9 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         }
 
         angle_index = object->angle;
-        angle_bits = angle_index >> 8;
+        zero_arg = angle_index >> 8;
         angle_index = (u32)(D_8006CCD8);
-        return_step_addr = angle_bits & 0xE;
+        return_step_addr = zero_arg & 0xE;
         angle_index = (u32)((s16 *)(return_step_addr + (unsigned long)(s16 *)angle_index));
         angle_index = (u32)((s16 *)(-*(s16 *)angle_index));
         angle_index = (u32)((s16 *)(((s32)(s16 *)angle_index) << (16)));

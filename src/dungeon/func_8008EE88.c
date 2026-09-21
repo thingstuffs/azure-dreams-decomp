@@ -141,10 +141,9 @@ void func_800945E8(void *input_state) {
             index_cursor[0x2238] = func_800422A8(lookup_ptr, lookup_base, entry_size, entry_count);
             copy_dst = (Blob140 *)(dst_cursor + 0x2260);
             copy_src = (Blob140 *)src_cursor;
-            ASM_KEEP_NV(copy_dst);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
-                u32 *copy_src_cursor = copy_src->word;
                 volatile u32 *copy_dst_cursor = copy_dst->word;
+                u32 *copy_src_cursor = copy_src->word;
                 u32 *copy_end = (u32 *)(src_cursor + 0x80);
 
                 do {
