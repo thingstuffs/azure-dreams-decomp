@@ -1,4 +1,6 @@
 #include "common.h"
+
+typedef struct { u8 b[12]; } AggU12;
 extern u8 D_80020000[];
 extern u8 D_80080000[];
 
@@ -84,7 +86,7 @@ void func_80025C5C(void *effect_data, void *motion_data, void *sprite_data) {
     void *target_data;
     void *z_step;
     register void *offset_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register void *spawn_sprite ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *spawn_sprite;
     void *target;
     register void **table_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register PointTable *template_data ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -129,12 +131,7 @@ initialize:
     U16(sprite, 0x1E) = 0x1000;
     U16(sprite, 0x1C) = 0x1000;
     ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    table_value = (void **)0x80020000;
-    ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    template_data = (PointTable *)((u8 *)table_value + 0x6934);
-    ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    memcpy((u8 *)effect + 0x98, template_data, 12);
-    ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    *(AggU12 *)((u8 *)effect + 0x98) = *(AggU12 *)&D_80026934;
     {
         void *sprite_copy = (u8 *)effect + 0x98;
         ASM_KEEP(sprite_copy);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -308,14 +305,8 @@ do {
         U8(object_data, 0x38) = (u32)table_value;
         U8(object_data, 0x37) = trail_color;
         U8(object_data, 0x36) = trail_color;
-        table_value = (void **)0x80020000;
-        ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        template_data = (PointTable *)((u8 *)table_value + 0x6934);
-        ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        memcpy((u8 *)object + 0x64, template_data, 12);
-        ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026934;
         PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
-        ASM_KEEP(object);
     }
 
     if ((s16)func_800A4778(U16(motion, 2), U16(motion, 6), S16(motion, 0xA),
@@ -383,15 +374,8 @@ spawn_impact:
         U16(offset_value, 2) = U16(motion, 2);
         U16(offset_value, 6) = U16(motion, 6);
         U16(offset_value, 0xA) = U16(motion, 0xA);
-        ASM_SCHED_BARRIER();
-        table_value = (void **)0x80020000;
-        ASM_KEEP(table_value);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        template_data = (PointTable *)((u8 *)table_value + 0x6940);
-        ASM_KEEP_NV(template_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        memcpy((u8 *)object + 0x64, template_data, 12);
-        ASM_USE_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        *(AggU12 *)((u8 *)object + 0x64) = *(AggU12 *)&D_80026940;
         PTR(spawn_sprite, 8) = (u8 *)object + 0x64;
-        ASM_KEEP(object);
     }
     U8(effect, 0x92) = 0;
     U8(effect, 0x91) = 0;
@@ -465,7 +449,7 @@ brighten_target:
     offset_value = PTR(owner, 0x60);
     motion = (u8 *)D_800DDC40;
     object = PTR(offset_value, -0x18);
-    do {
+    loop_1: {
         template_data = (PointTable *)0x80;
         object_data = (u8 *)object_data + 1;
         ASM_KEEP(object_data);
@@ -474,7 +458,7 @@ brighten_target:
                       particle_color, (s32)template_data, S16(object, 2), S16(object, 6),
                       (s16)(U16(object, 0xA) -
                             (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
-    } while ((s32)object_data < 2);
+    } if ((s32)object_data < 2) goto loop_1;
     if (S16(effect, 0x82) >= 0x28) {
         next_state = U16(effect, 0xA);
         U16(effect, 0x82) = 0;
@@ -498,7 +482,7 @@ animate_target:
     offset_value = PTR(owner, 0x60);
     motion = (u8 *)D_800DDC40;
     object = PTR(offset_value, -0x18);
-    do {
+    loop_1_: {
         template_data = (PointTable *)0x80;
         object_data = (u8 *)object_data + 1;
         ASM_KEEP(object_data);
@@ -507,7 +491,7 @@ animate_target:
                       particle_color, (s32)template_data, S16(object, 2), S16(object, 6),
                       (s16)(U16(object, 0xA) -
                             (*(u8 *)((u32)U8(PTR(owner, 0x60), 0x13) + (u32)motion) >> 1)));
-    } while ((s32)object_data < 2);
+    } if ((s32)object_data < 2) goto loop_1_;
 
     target = PTR(owner, 0x60);
     table_value = (void **)(u32)U32(target, 0x1C);
@@ -554,8 +538,7 @@ finish_effect:
     effect_busy = S16(busy_base, 0x694C);
     U16(effect, 0x82) = finish_tick;
     if (effect_busy == 0) {
-        table_value = (void **)0x80080000;
-        ASM_KEEP_NV(table_value);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        table_value = (void **)(D_8007CCD8 + 13096);
         S32(table_value, 0x346C) = 0;
         U16(effect, -2) |= 0x8000;
         U32((void *)D_80080000, 0x14A0) |= 0x8000;

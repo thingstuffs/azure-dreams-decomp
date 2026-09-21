@@ -58,3 +58,4 @@
 {"date": "2026-09-21T04:05Z", "codex": {"pack": "r61_sol_gemmoved_4", "candidates": 1}, "note": "sol retry of Gemini-only MOVED/CHANGED-small rows, 1-3 pins (chain H)"}
 {"date": "2026-09-21T04:29Z", "codex": {"pack": "r61_sol_far13_4", "candidates": 0}, "note": "sol never-served far band, 1-3 pins, screened (chain H)"}
 {"date": "2026-09-21T04:40Z", "codex": {"pack": "r62_astra_big", "model": "gpt-6-astra", "candidates": 3}, "note": "duck-briefed whole-function astra pack (chain I)"}
+{"date": "2026-09-21T05:31Z", "codex": {"pack": "r62_astra_alloc", "model": "gpt-6-astra", "candidates": 1}, "note": "duck-briefed whole-function astra pack (chain I)"}

@@ -63,19 +63,9 @@ approach:
 
 accelerate:
 {
-    s32 velocity;
-    register s32 next_velocity ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 position;
-
-    velocity = ((S_800220A8_1 *)motion)->unk_14;
-    next_velocity = velocity;
-    ASM_KEEP_NV(next_velocity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    position = ((S_800220A8_1 *)motion)->unk_08;
-    position += velocity;
-    next_velocity += 0x4000;
-    ((S_800220A8_1 *)motion)->unk_08 = position;
-    ((S_800220A8_1 *)motion)->unk_14 = next_velocity;
-    if (next_velocity != 0x40000) {
+    ((S_800220A8_1 *)motion)->unk_08 += ((S_800220A8_1 *)motion)->unk_14;
+    ((S_800220A8_1 *)motion)->unk_14 += 0x4000;
+    if (((S_800220A8_1 *)motion)->unk_14 != 0x40000) {
         return;
     }
     ((S_800220A8_0 *)motion_state)->unk_00 = phase_two;
@@ -84,18 +74,9 @@ accelerate:
 
 decelerate:
 {
-    register s32 position_or_velocity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 velocity_step;
-
-    position_or_velocity = ((S_800220A8_1 *)motion)->unk_08;
-    velocity_step = ((S_800220A8_1 *)motion)->unk_14;
-    position_or_velocity += velocity_step;
-    ((S_800220A8_1 *)motion)->unk_08 = position_or_velocity;
-    position_or_velocity = velocity_step;
-    velocity_step = -0x8000;
-    position_or_velocity += velocity_step;
-    ((S_800220A8_1 *)motion)->unk_14 = position_or_velocity;
-    if (position_or_velocity != -0x40000) {
+    ((S_800220A8_1 *)motion)->unk_08 += ((S_800220A8_1 *)motion)->unk_14;
+    ((S_800220A8_1 *)motion)->unk_14 -= 0x8000;
+    if (((S_800220A8_1 *)motion)->unk_14 != -0x40000) {
         return;
     }
 }
