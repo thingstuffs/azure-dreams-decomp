@@ -38,9 +38,9 @@ extern s32 func_800AFFB4(void *arg0, void *arg2, s16 *scratch, s32 previous, s32
 s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     s32 last_result = 0;
     s32 result;
-    register s32 angle ASM_REG("$16");
-    register s32 next_angle ASM_REG("$17");
-    register s32 angle_step ASM_REG("$22");
+    s32 angle;
+    s32 next_angle;
+    s32 angle_step;
     s16 start_x;
     s32 end_y;
     s16 coord;
@@ -88,7 +88,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     view = shape;
     ASM_KEEP_NV(view);
     angle = ((Arg0_800AFBFC *)view)->value;
-    ASM_KEEP(angle);
     view = D_80083160_bytes;
     ASM_KEEP_NV(view);
     rotation = ((D_80083160_t *)view)->angle2;
@@ -97,7 +96,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     angle_step = angle;
     start_angle = angle;
     do {
-        angle = (s16)angle;
+        angle = (u32)angle << 16;
+        angle >>= 16;
     } while (0);
     {
         s32 raw_x;
@@ -113,7 +113,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         for (;;) {
             next_angle = angle_step;
             next_angle += 0x80;
-            angle = (s16)next_angle;
+            angle = (u32)next_angle << 16;
+            angle >>= 16;
             scratch[0x80 / 2] = start_x;
             scratch[0x70 / 2] = start_x;
             scratch[0x82 / 2] = coord;
@@ -137,8 +138,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
                 break;
             last_result = result;
             angle_step = next_angle;
-            ASM_KEEP(angle_step);
-            next_angle = (s16)next_angle;
+            next_angle = (u32)next_angle << 16;
+            next_angle >>= 16;
             scratch[0x80 / 2] = coord;
             scratch[0x70 / 2] = coord;
             scratch[0x82 / 2] = end_y;
@@ -169,8 +170,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         s32 scaled_coord;
         s32 end_x;
         saved_angle = start_angle;
-        angle = (s16)saved_angle;
-        ASM_KEEP(saved_angle);
+        angle = (u32)saved_angle << 16;
+        angle >>= 16;
         start_x = func_80064584(angle) * 6 - offset_x;
         coord = func_800644B8(angle) * 6 - offset_y;
 
@@ -179,7 +180,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             saved_angle = start_angle;
             next_angle = saved_angle - 0x80;
             ASM_KEEP(next_angle);
-            angle = (s16)next_angle;
+            angle = (u32)next_angle << 16;
+            angle >>= 16;
             scratch[0x88 / 2] = start_x;
             scratch[0x78 / 2] = start_x;
             scratch[0x8a / 2] = coord;
@@ -204,7 +206,8 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
                 break;
             last_result = result;
             start_angle = next_angle;
-            next_angle = (s16)next_angle;
+            next_angle = (u32)next_angle << 16;
+            next_angle >>= 16;
             scratch[0x88 / 2] = coord;
             scratch[0x78 / 2] = coord;
             scratch[0x8a / 2] = end_y;

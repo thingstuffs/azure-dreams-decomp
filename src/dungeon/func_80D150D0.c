@@ -155,10 +155,9 @@ typedef struct {
 void func_801748D0(void *effect_state, Rec_D_800E3D7C *position, void *source_mesh, Rec_D_800E3D7C *actor)
 {
     LocalFrame frame;
-    void *effect;
-    register void *effect_body ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *effect_body ASM_REG("$18");
     S_801748D0_7 *effect_mesh;
-    register void *anchor_pos ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register void *anchor_pos ASM_REG("$19");
     S_801748D0_11 *owner_link;
     void *linked_owner;
     void *linked_body;
@@ -166,19 +165,20 @@ void func_801748D0(void *effect_state, Rec_D_800E3D7C *position, void *source_me
     void *copy_dst;
     void *copy_end;
     void *height_out;
-    register void *frame_ptr ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 height_delta ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    register void *frame_ptr ASM_REG("$9");
+    s32 object_or_height;
     s32 anchor_height;
+    s32 first_height;
     u16 timer;
     u16 anchor_z;
     u16 flags;
-    register void *call_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register void *call_target ASM_REG("$4");
     void *call_data;
     s32 call_value;
     void *tex_base;
     u16 mesh_flags;
     s32 direction_entry;
-    register s32 lookup_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 lookup_value ASM_REG("$3");
     u8 next_state;
     s32 phase;
 
@@ -229,7 +229,7 @@ spawn_effect:
     height_out = &frame.out2;
     frame.count = 0;
     frame.p[2] = frame_ptr;
-    ASM_KEEP(frame_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(frame_ptr);
     call_target = (void *)0x112;
 allocate_effect:
 #ifdef __mips__
@@ -237,17 +237,17 @@ allocate_effect:
 #else
     call_data = (u8 *)&D_80083498 - 0x3498;
 #endif
-    ASM_KEEP(call_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(call_data);
     call_data = (u8 *)call_data + 0x3498;
-    effect = func_8003FD64((s32)call_target, call_data);
-    effect_body = (u8 *)effect;
+    object_or_height = (s32)func_8003FD64((s32)call_target, call_data);
+    effect_body = (u8 *)((void *)object_or_height);
     effect_body += 0x20;
-    if (effect == 0) {
+    if (((void *)object_or_height) == 0) {
         goto next_effect;
     }
     ((S_801748D0_3 *)effect_body)->unk_96 = 0x2D;
     ((S_801748D0_3 *)effect_body)->unk_9E = 0x2D;
-    ((S_801748D0_4 *)effect)->unk_10 = D_80170AD0;
+    ((S_801748D0_4 *)((void *)object_or_height))->unk_10 = D_80170AD0;
     linked_body = actor->unk_60.as_pv;
     if (linked_body == 0) {
         ((S_801748D0_3 *)effect_body)->unk_A8 = position;
@@ -258,7 +258,7 @@ allocate_effect:
         ((S_801748D0_3 *)effect_body)->unk_A8 = linked_owner;
     }
     ((S_801748D0_3 *)effect_body)->unk_94 = actor->unk_2A.as_s16;
-    effect_mesh = ((S_801748D0_4 *)effect)->unk_0C;
+    effect_mesh = ((S_801748D0_4 *)((void *)object_or_height))->unk_0C;
     anchor_pos = ((S_801748D0_3 *)effect_body)->unk_A8;
     copy_src = source_mesh;
     copy_dst = effect_mesh;
@@ -268,7 +268,7 @@ allocate_effect:
         copy_src = (u8 *)copy_src + 0x10;
         copy_dst = (u8 *)copy_dst + 0x10;
     } while (copy_src != copy_end);
-    call_target = effect;
+    call_target = ((void *)object_or_height);
     call_data = &D_80045340;
     mesh_flags = effect_mesh->unk_14;
     effect_mesh->unk_1E = 0x400;
@@ -278,16 +278,16 @@ allocate_effect:
     effect_mesh->unk_0C = 0x80;
     effect_mesh->unk_10 = 0x20;
     effect_mesh->unk_12 = 0xFF80;
-    ASM_KEEP(effect_mesh);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(effect_mesh);
     mesh_flags |= 0xC;
     effect_mesh->unk_14 = mesh_flags;
     func_8004491C(call_target, call_data);
     call_target = effect_mesh;
     call_value = 0;
-    ASM_KEEP(call_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(call_value);
 #ifdef __mips__
     tex_base = (void *)0x80170000;
-    ASM_KEEP(tex_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(tex_base);
 #else
     tex_base = D_80170000;
 #endif
@@ -295,23 +295,23 @@ allocate_effect:
     tex_base = (u8 *)tex_base + 0x4ED0;
     effect_mesh->unk_2C = tex_base;
     func_80047784(call_target, (s32)call_data, call_value);
-    effect = ((S_801748D0_4 *)effect)->unk_08.at00.v;
-    ((S_801748D0_4 *)effect)->unk_02 = ((S_801748D0_9 *)anchor_pos)->unk_02;
-    ((S_801748D0_4 *)effect)->unk_06 = ((S_801748D0_9 *)anchor_pos)->unk_06;
+    object_or_height = (s32)((S_801748D0_4 *)((void *)object_or_height))->unk_08.at00.v;
+    ((S_801748D0_4 *)((void *)object_or_height))->unk_02 = ((S_801748D0_9 *)anchor_pos)->unk_02;
+    ((S_801748D0_4 *)((void *)object_or_height))->unk_06 = ((S_801748D0_9 *)anchor_pos)->unk_06;
     anchor_z = ((S_801748D0_9 *)anchor_pos)->unk_0A;
-    ((S_801748D0_4 *)effect)->unk_08.at02.v = anchor_z;
+    ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z;
     if (actor->unk_60.as_pv == 0) {
         frame_ptr = frame.owner;
         owner_link = ((S_801748D0_10 *)frame_ptr)->unk_0C;
         if (func_8003DE58(owner_link->unk_08, owner_link, frame.delta, 0) != 0) {
-            ((S_801748D0_4 *)effect)->unk_02 += frame.delta[0];
-            ((S_801748D0_4 *)effect)->unk_06 += frame.delta[1];
-            ((S_801748D0_4 *)effect)->unk_08.at02.v += frame.delta[2];
+            ((S_801748D0_4 *)((void *)object_or_height))->unk_02 += frame.delta[0];
+            ((S_801748D0_4 *)((void *)object_or_height))->unk_06 += frame.delta[1];
+            ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v += frame.delta[2];
         }
-        frame.pos[0] = ((S_801748D0_4 *)effect)->unk_02;
-        frame.pos[1] = ((S_801748D0_4 *)effect)->unk_06;
-        frame.pos[2] = ((S_801748D0_4 *)effect)->unk_08.at02.v;
-        linked_body = (void *)func_80065420(frame.p[0], frame.p[1], frame.p[2], height_out);
+        frame.pos[0] = ((S_801748D0_4 *)((void *)object_or_height))->unk_02;
+        frame.pos[1] = ((S_801748D0_4 *)((void *)object_or_height))->unk_06;
+        frame.pos[2] = ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v;
+        first_height = func_80065420(frame.p[0], frame.p[1], frame.p[2], height_out);
         mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_02;
         call_target = frame.p[0];
         call_data = frame.p[1];
@@ -320,9 +320,9 @@ allocate_effect:
         mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_06;
         frame.pos[1] = mesh_flags;
         copy_src = height_out;
-        ASM_KEEP(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(copy_src);
         mesh_flags = ((S_801748D0_9 *)anchor_pos)->unk_0A;
-        height_delta = (s32)linked_body;
+        object_or_height = first_height;
         frame.pos[2] = mesh_flags;
         anchor_height = func_80065420(call_target, call_data, (void *)call_value, copy_src);
 #ifdef __mips__
@@ -330,7 +330,7 @@ allocate_effect:
 #else
         lookup_value = (s32)((u8 *)&D_80083228 - 0x3228);
 #endif
-        ASM_KEEP(lookup_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(lookup_value);
         direction_entry = ((S_801748D0_12 *)((void *)lookup_value))->unk_3228;
         lookup_value = (s16)((S_801748D0_3 *)effect_body)->unk_94;
         direction_entry += lookup_value;
@@ -339,15 +339,15 @@ allocate_effect:
         direction_entry &= 7;
         lookup_value = (s32)D_800DCECC;
         direction_entry += lookup_value;
-        ASM_KEEP(direction_entry);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(direction_entry);
         lookup_value = ((S_801748D0_13 *)((void *)direction_entry))->unk_00;
-        height_delta -= anchor_height;
+        object_or_height -= anchor_height;
         lookup_value <<= 1;
-        height_delta -= lookup_value;
-        effect_mesh->unk_06 = height_delta;
+        object_or_height -= lookup_value;
+        effect_mesh->unk_06 = object_or_height;
         goto next_effect;
     }
-    ((S_801748D0_4 *)effect)->unk_08.at02.v = anchor_z - 0x1E;
+    ((S_801748D0_4 *)((void *)object_or_height))->unk_08.at02.v = anchor_z - 0x1E;
     effect_mesh->unk_06 = 4;
 
 next_effect:
@@ -367,7 +367,7 @@ wait_finish:
     if (((S_801748D0_2 *)source_mesh)->unk_14 & 0xE000) {
 #ifdef __mips__
         tex_base = (void *)0x80170000;
-        ASM_KEEP(tex_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(tex_base);
 #else
         tex_base = D_80170000;
 #endif
@@ -403,7 +403,7 @@ wait_finish:
     func_800A2B04(position, ((S_801748D0_2 *)source_mesh)->unk_24, ((S_801748D0_2 *)source_mesh)->unk_25);
 #ifdef __mips__
     tex_base = (void *)0x80170000;
-    ASM_KEEP(tex_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(tex_base);
 #else
     tex_base = D_80170000;
 #endif
@@ -443,7 +443,7 @@ finish_effect:
 #else
     linked_body = (u8 *)&D_8008346C - 0x346C;
 #endif
-    ASM_KEEP(linked_body);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(linked_body);
     ((S_801748D0_6 *)linked_body)->unk_346C = 0;
     actor->unk_44.at02_u16.v &= 0x7FFF;
 

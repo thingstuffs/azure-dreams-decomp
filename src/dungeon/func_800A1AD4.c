@@ -42,7 +42,7 @@ s32 func_800A7234(s32 x, s32 y, s32 z, s16 *out_x, s16 *out_y, s16 *out_distance
     u16 *dx;
     u16 *dy;
     s32 probe_y;
-    register s32 found_x ASM_REG("$2");
+    s32 found_x;
     register s32 found_y ASM_REG("$3");
 
     outer_dir = y;
@@ -76,8 +76,8 @@ found:
     ASM_KEEP(found_x);
     addr = (u32)out_x;
     ASM_KEEP_NV(addr);
-    found_x = base_x + found_x;
-    *(s16 *)addr = found_x;
+    outer_offset = base_x + found_x;
+    *(s16 *)addr = outer_offset;
     found_y = *dy;
     ASM_KEEP(found_y);
     addr = (u32)out_y;

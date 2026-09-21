@@ -257,17 +257,17 @@ case_0:
             break;
         }
 
-        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3328;
+        table_base = (s32)D_8006CCE8 - 0x10;
         update_offset = (s16)state->direction;
         index++;
         update_offset *= 2;
         update_x_entry = (u16 *)(update_offset + table_base);
-        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3318;
+        table_base = (s32)D_8006CCD8 + 0x10;
         update_y_entry = (u16 *)(update_offset + table_base);
-        ASM_KEEP(update_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         next_x = tile_x + *update_x_entry;
         tile_x = next_x;
-        next_y = tile_y + *update_y_entry;
+        next_y = tile_y;
+        next_y += *update_y_entry;
         tile_y = next_y;
         end_tile_y = next_y;
         ASM_KEEP4_NV(next_x, next_y, tile_x, tile_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_800243B8_arg0.h"
+extern int abs(int);
 
 
 typedef struct S_80024660_1 {
@@ -199,24 +200,14 @@ target_x_ready:
         scratch.dist[0] = (u16) target_x_dist;
         axis_dist = ((S_80024660_8 *)destination)->unk_04.at02.v;
         origin_coord = ((S_80024660_5 *)motion)->unk_04.at02u.v;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         target_dist_cursor = (s16 *)((u8 *)&scratch + 2);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         axis_dist -= origin_coord;
-        if (axis_dist >= 0) {
-            goto target_y_ready;
-        }
-        axis_dist = 0 - axis_dist;
-target_y_ready:
+        axis_dist = abs(axis_dist);
         scratch.dist[1] = (u16) axis_dist;
         origin_coord = ((S_80024660_5 *)motion)->unk_08.at02u.v;
         origin_coord += 0x20;
         axis_dist = ((S_80024660_8 *)destination)->unk_08.at02.v - origin_coord;
-        if (axis_dist >= 0) {
-            goto target_z_ready;
-        }
-        axis_dist = 0 - axis_dist;
-target_z_ready:
+        axis_dist = abs(axis_dist);
         scratch.dist[2] = (u16) axis_dist;
         ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = target_x_dist;
 do {
@@ -330,30 +321,15 @@ set_path_destination:
             origin_x = ((S_80024660_5 *)motion)->unk_00.at02u.v;
             probe_x_dest_y >>= 16;
             path_x_dist = probe_y_dest_x - origin_x;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            if (path_x_dist >= 0) {
-                goto path_x_ready;
-            }
-            path_x_dist = 0 - path_x_dist;
-path_x_ready:
+            path_x_dist = abs(path_x_dist);
             scratch.dist[0] = path_x_dist;
             path_z_dist = z_or_state << 16;
             path_y_dist = probe_x_dest_y - ((S_80024660_5 *)motion)->unk_04.at02u.v;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            if (path_y_dist >= 0) {
-                goto path_y_ready;
-            }
-            path_y_dist = 0 - path_y_dist;
-path_y_ready:
+            path_y_dist = abs(path_y_dist);
             scratch.dist[1] = path_y_dist;
             path_z_dist >>= 16;
             path_z_dist -= ((S_80024660_5 *)motion)->unk_08.at02u.v;
-            if (path_z_dist >= 0) {
-                goto path_z_ready;
-            }
-            path_z_dist = 0 - path_z_dist;
-path_z_ready:
-            scratch.dist[2] = path_z_dist;
+            scratch.dist[2] = abs(path_z_dist);
             ((Rec_func_800243B8_arg0 *)effect)->unk_12.as_s16 = path_x_dist;
         }
 scan_path_dist:

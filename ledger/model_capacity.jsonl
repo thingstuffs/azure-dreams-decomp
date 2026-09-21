@@ -131,3 +131,11 @@
 {"date": "2026-09-21T19:41Z", "codex": {"pack": "r70_kit_astra7", "model": "gpt-6-astra", "candidates": 3}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
 {"date": "2026-09-21T19:59Z", "codex": {"pack": "r70_kit_sol7", "model": "gpt-5.6-sol", "candidates": 3}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
 {"date": "2026-09-21T20:07Z", "codex": {"pack": "r70_kit_sol5", "model": "gpt-5.6-sol", "candidates": 2}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T20:19Z", "codex": {"pack": "r70_kit_sol6", "model": "gpt-5.6-sol", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T20:24Z", "codex": {"pack": "r71_kit_astra1", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T20:24Z", "codex": {"pack": "r71_kit_astra4", "model": "gpt-6-astra", "candidates": 2}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T20:26Z", "codex": {"pack": "r71_kit_astra3", "model": "gpt-6-astra", "candidates": 2}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T20:44Z", "codex": {"pack": "r70_kit_sol9", "model": "gpt-5.6-sol", "candidates": 3}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T20:44Z", "codex": {"pack": "r70_kit_sol11", "model": "gpt-5.6-sol", "candidates": 1}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T20:49Z", "codex": {"pack": "r71_kit_astra5", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T20:51Z", "codex": {"pack": "r71_kit_astra2", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack wave 2, ranked queue"}

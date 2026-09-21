@@ -43,12 +43,12 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
     saved_angle = direction;
     effect = func_8003FD64(effect_type, source);
   }
-  ASM_UNDEF(frame_ptr);
+  frame_ptr = (u8 *)__builtin_alloca(0);
   if (effect != 0)
   {
     register u32 entry_addr ASM_REG("$4");
     handler = &D_801718E4;
-    table_base = (u8 *)__builtin_alloca(0);
+    table_base = frame_ptr;
     ASM_KEEP(table_base);
     entry_addr = direction >> 7;
     *((M2C_UNK **) (((s8 *) effect) + 0x10)) = handler;
