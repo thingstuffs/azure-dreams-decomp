@@ -29,13 +29,12 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
     void *entry;
 
     entries = (void *)0x80010000;
-    ASM_KEEP(entries);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
     kind_group = 0x80010000;
     kind_group = *(volatile u16 *)(kind_group + 0x3716);
     entry_index = kind_group - 1;
     entries = (void *)((u32)entries | 0x3720);
     if (entry_index < 0) {
-        return entries;
+        goto return_tail;
     }
 
     group_70 = 0x70;
@@ -60,5 +59,6 @@ void *func_8009F9E8(s32 wanted_kind, s32 wanted_flag) {
         entry -= 2;
     } while (entry_index >= 0);
 
+    return_tail:
     return entries;
 }

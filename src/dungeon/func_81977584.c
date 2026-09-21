@@ -131,11 +131,10 @@ shade:
         vertices[17] = fixed_coord;
 
         {
-            s32 angle;
 
-            angle = record->f35 + record->add;
+            lower_color = record->f35 + record->add;
             segment = 0;
-            trig_value = func_80064584(angle);
+            trig_value = func_80064584(lower_color);
         }
         {
             s32 color_pair;
@@ -148,7 +147,6 @@ shade:
             intensity = ((shade_work - shade_step) >> 16) & 0xff;
             color_work = intensity * 0x10100;
             lower_color = color_work + intensity;
-            ASM_KEEP_NV(lower_color);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             trig_value >>= 4;
             ASM_KEEP_NV(trig_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

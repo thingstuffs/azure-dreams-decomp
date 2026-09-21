@@ -44,6 +44,7 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
     u8 *slot_data;
     u8 *slot_state;
     u8 *table_base;
+    u8 *table_base_2;
     s32 first_arg;
     s32 second_arg;
     s32 second_arg_2;
@@ -77,13 +78,14 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
         ASM_KEEP(first_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         table_base = (u8 *)0x800E0000;
         scratch_value = target->unk_10.at03_u8.v;
-        table_base = (u8 *)D_800DDE84;
-        second_arg = ((u16 *)table_base)[scratch_value];
-        ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        table_base_2 = (u8 *)D_800DDE84;
+        second_arg = ((u16 *)table_base_2)[scratch_value];
         if (func_800AD6FC((void *)first_arg, second_arg & 3, action) == 0) {
             func_800A5F38(target, action);
             return 1;
         }
+        table_base = (u8 *)0x80080000;
+        goto shared_tail;
     } else {
         func_8009BF7C(1, 8);
         func_800A56E0(0x80F);
@@ -109,17 +111,17 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
             slot_index++;
             slot_state += 4;
         } while (slot_index < 0x40);
+        table_base = (u8 *)0x80080000;
+        shared_tail:
+        table_base += 0x3460;
+        result = ((S_800C4030_1 *)table_base)->unk_0A;
+        first_arg = action;
+        result--;
+        ((S_800C4030_1 *)table_base)->unk_0A = result;
+        func_80098B38(first_arg);
+        return 1;
     }
 
-    table_base = (u8 *)0x80080000;
-    ASM_KEEP(table_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    table_base += 0x3460;
-    result = ((S_800C4030_1 *)table_base)->unk_0A;
-    first_arg = action;
-    result--;
-    ((S_800C4030_1 *)table_base)->unk_0A = result;
-    func_80098B38(first_arg);
-    return 1;
 }
 
 /* MECHANISM: Exact callee arities plus guarded short-lived a0/a1, v0, and saved-s0 roles

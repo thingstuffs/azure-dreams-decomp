@@ -73,9 +73,8 @@ loop_6:
         item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
         if (!(item_flags & 0x10)) {
             if (item_flags & 0x40) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 category_scale_or_weight = category_index * 4;
-                if (D_80012090[0] != (s32)table_base_or_mode) {
+                if ((*(s32 *)0x80012090) != (s32)table_base_or_mode) {
                     goto block_19;
                 }
             }

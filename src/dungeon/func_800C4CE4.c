@@ -67,7 +67,7 @@ s32 func_800CA1E0();
 
 /* Find a movement direction, record the tile, and update the actor's position and height. */
 void func_800CA444(void *motion_input, s32 unused, void *tile_input, void *actor_input) {
-    register void *motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *motion;
     S_800CA444_0 *tile;
     void *actor;
     s16 next_heading;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -126,14 +126,16 @@ write_hit:
 scan_start:
     if (((S_800CA444_1 *)actor)->unk_46 & 0x8000) {
         scan_result = 0;
+        heading_offsets = D_8006CD00;
+        map_state = D_80082E80;
     } else {
         scan_tile = tile;
 scan_call:
         func_800A0E6C(scan_tile, ((S_800CA444_2 *)motion)->unk_9C, actor, motion + 0x98);
         scan_result = 0;
+        heading_offsets = D_8006CD00;
+        map_state = D_80082E80;
     }
-    heading_offsets = D_8006CD00;
-    map_state = D_80082E80;
 scan_loop:
     heading = ((S_800CA444_1 *)actor)->unk_2A;
     if (((S_800CA444_2 *)motion)->unk_98 & 2) {

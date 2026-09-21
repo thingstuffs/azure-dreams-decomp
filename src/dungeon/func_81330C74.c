@@ -146,6 +146,8 @@ extern M2C_UNK D_80166D14;
 extern M2C_UNK D_80167C30;
 extern PositionTableEntry D_80175DD8[];
 
+static __inline__ s16 clamp_narrow(s32 value) { return value; }
+
 /* Update trail motion, emit interpolated particles, and build fading trail segments. */
 void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74_11 *color) {
     u8 *motion_table;
@@ -201,7 +203,6 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 scaled_blue;
     s32 clamp_row;
     register s32 clamp_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 clamp_min;
     u16 *pos_x0;
     u16 *object_pos;
     u16 *object_prev_pos;
@@ -232,7 +233,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     u8 *vertex_color;
     u8 *object_pair_data;
     s32 object_offset;
-    register s32 object_copy_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 object_copy_index;
 
     target_pos = ((Rec_func_80167A98_arg0 *)effect_data)->unk_24;
     switch (((s16)(((Rec_func_80167A98_arg0 *)effect_data)->unk_12))) {
@@ -329,9 +330,7 @@ update_positions:
             clamp_index = clamp_pair_offset + clamp_index;
             clamp_coord = (s16 *)(clamp_axis_offset + clamp_index);
             if (*clamp_coord < -0x190) {
-                clamp_min = -0x190;
-                ASM_KEEP(clamp_min);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                *clamp_coord = clamp_min;
+                *clamp_coord = clamp_narrow(-0x190);
             }
             clamp_axis += 1;
         } while (clamp_axis < 3);
@@ -465,8 +464,7 @@ copy_object_axes:
                     object_pos += 1;
                     object_copy_index = object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base);
                     object_copy_index += 0xC;
-                    object_copy_index = limit_or_offset + object_copy_index;
-                    object_axis_offset += object_copy_index;
+                    object_axis_offset += limit_or_offset + object_copy_index;
                     *object_prev_pos = *(u16 *)object_axis_offset;
                     object_prev_pos += 1;
                     if (object_axis < 3) goto copy_object_axes;

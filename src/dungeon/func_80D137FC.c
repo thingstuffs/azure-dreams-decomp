@@ -184,7 +184,9 @@ init:
     ((S_80172FFC_3 *)motion)->unk_14 = 0;
     ((S_80172FFC_3 *)motion)->unk_10 = 0;
     ((S_80172FFC_3 *)motion)->unk_0C = 0;
-    goto advance;
+    ((S_80172FFC_0 *)action)->unk_96 = 0U;
+    ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
+    goto done;
 
 wait:
     wait_tick = ((S_80172FFC_0 *)action)->unk_96 + 1;
@@ -196,7 +198,6 @@ wait:
     func_80047784(sprite, D_80174EB8[((s32) (D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
 
 advance:
-    ASM_KEEP_NV(action);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ((S_80172FFC_0 *)action)->unk_96 = 0U;
     ((S_80172FFC_0 *)action)->unk_9B = (u8) (((S_80172FFC_0 *)action)->unk_9B + 1);
     goto done;

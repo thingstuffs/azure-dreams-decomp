@@ -228,7 +228,6 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
                     s16 end_radius_copy;
                     void *render_data;
                     u32 trig_angle;
-                    s32 vertex_coord;
                     s32 trig_value;
 
                     angle_index = (s16)segment;
@@ -239,32 +238,31 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
                     middle_band = start_radius * func_80064584(trig_angle);
                     start_angle = angle_index << 9;
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_44 = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_44 = last_band;
                     middle_band = start_radius * func_80064584(start_angle);
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_4A = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_4A = last_band;
                     trig_value = func_80064584(end_angle);
                     end_radius_copy = end_radius;
                     middle_band = end_radius_copy * trig_value;
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_50 = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_50 = last_band;
                     middle_band = end_radius_copy * func_80064584(start_angle);
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_56 = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_56 = last_band;
                     middle_band = start_radius * func_800644B8(end_angle);
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_46 = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_46 = last_band;
                     middle_band = start_radius * func_800644B8(start_angle);
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_4C = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_4C = last_band;
                     middle_band = end_radius_copy * func_800644B8(end_angle);
-                    vertex_coord = middle_band >> 12;
-                    ((S_80C96F24_1 *)effect_data)->unk_52 = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_52 = last_band;
                     middle_band = end_radius_copy * func_800644B8(start_angle);
-                    vertex_coord = middle_band >> 12;
-                    ASM_USE2_NV(middle_band, vertex_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    ((S_80C96F24_1 *)effect_data)->unk_58 = vertex_coord;
+                    last_band = middle_band >> 12;
+                    ((S_80C96F24_1 *)effect_data)->unk_58 = last_band;
                 }
 
                 {

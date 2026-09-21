@@ -84,7 +84,7 @@ void func_801738E0(void *actor_arg, void *motion_arg, void *sprite_arg, void *en
 {
     void *actor = actor_arg;
     void *motion = motion_arg;
-    register void *sprite ASM_REG("$18") = sprite_arg;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *sprite = sprite_arg;
     void *entity = entity_arg;
     static void *const state_labels[] = {
         &&state_zero, &&state_one, &&state_two, &&state_three,
@@ -133,7 +133,8 @@ state_zero:
         sprite,
         *(u8 *)((((D_80083228 + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7) + (u32)anim_table),
         0);
-    goto advance_state;
+    ((S_801738E0_0 *)actor)->unk_9B++;
+    goto done;
 
 state_one:
     if (((S_801738E0_3 *)motion)->unk_14 <= 0xFFFFF) {
@@ -180,13 +181,14 @@ state_two:
             register struct GlobalStruct *globals;
             globals = &D_80083460;
             entity_flags = globals->counter + 1;
-            ASM_KEEP_NV(entity_flags);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             globals->counter = entity_flags;
         }
-        goto advance_state;
+        ((S_801738E0_0 *)actor)->unk_9B++;
+        goto done;
+    } else {
+        global_state = &D_80083460;
     }
 
-    global_state = &D_80083460;
     if (global_state->flags & 0x1000) {
         goto done;
     }
@@ -255,17 +257,19 @@ state_two:
         goto clear_200;
     }
     {
-        register struct GlobalStruct *globals ASM_REG("$2") = &D_80083460;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        struct GlobalStruct *globals = &D_80083460;
         globals->counter++;
     }
-    goto advance_state;
+    ((S_801738E0_0 *)actor)->unk_9B++;
+    goto done;
 
 state_three:
     if (!(((S_801738E0_1 *)sprite)->unk_14 & 0xE000)) {
         goto done;
+    } else {
+        (*(void * *)((u8 *)sprite + 0x2C)) = D_801744EC;
     }
 
-    (*(void * *)((u8 *)sprite + 0x2C)) = D_801744EC;
     func_80047784(
         sprite,
         D_801744EC[((D_80083228 + ((S_801738E0_2 *)entity)->unk_2A + 0x100) >> 9) & 7],

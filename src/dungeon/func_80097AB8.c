@@ -81,7 +81,6 @@ s32 func_8009D218(void *arg0, s32 arg1, Rec_D_800287A4 *arg2) {
     if (!(arg1 & 8) && (arg2 != NULL)) {
         if (arg1 & 1) {
             if (((func_80042900(arg0, 0x16) << 0x10) != 0) && (arg2->unk_13 >= 0)) {
-                ASM_MEM_BARRIER(); /* MATCH: distinct barriers keep the first two success paths from cross-jump merging. */
                 func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
                 return 1;
             }
@@ -102,6 +101,7 @@ block_17:
                     if ((*temp_v0 == 3) && (arg2->unk_13 >= 0) && (func_800A6D30() & 3)) {
                         /* Duplicate return node #22. Try simplifying control flow for better match */
                         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
+                        return_tail:
                         return 1;
                     }
                     /* Duplicate return node #25. Try simplifying control flow for better match */
@@ -114,7 +114,7 @@ block_17:
         }
 block_22:
         func_800CB82C(((S_8009D218_1_pre *)arg0)[-1].unk_00, arg0, arg2);
-        return 1;
+        goto return_tail;
     }
 block_24:
     return 0;

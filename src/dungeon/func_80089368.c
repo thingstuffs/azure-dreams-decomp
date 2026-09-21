@@ -200,8 +200,7 @@ block_5:
     if ((((Rec_func_8008ACDC_arg0 *)arg0)->unk_124 != 0) && (((func_800A1C58(arg3) << 0x10) == 0) || (func_8008D1D0(arg0, arg1, arg2, arg3) == 0))) {
         if (!(((S_8008EAC8_4 *)held_D_80083460)->unk_02 & 4)) {
             if (((S_8008EAC8_1 *)arg3)->unk_1C & 0x20) {
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                if (!(D_80013714 & 1) && (((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x80)) {
+                if (!((*(u16 *)0x80013714) & 1) && (((S_8008EAC8_5 *)held_D_80083160)->unk_08 & 0x80)) {
                     ((S_8008EAC8_1 *)arg3)->unk_8A = 2;
                     D_800E4940 = 2;
                     func_8008CF6C(arg0, arg1, arg2, &D_8004F5F4);

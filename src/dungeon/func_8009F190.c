@@ -63,9 +63,8 @@ find_match:
             ((S_800A48F0_0 *)match_slot)->unk_2D.s = (u8) entry_value;
         }
         func_800A4B88(entry_owner, (s8)(id_shift >> 24));
-        ASM_SCHED_BARRIER(); /* MATCH: preserve the separate call and shared return tail. */
         result_shift = slot_index << 16;
-        goto return_tail;
+        return result_shift >> 16;
     }
     slot_index -= 1;
     match_slot -= 2;
@@ -97,7 +96,7 @@ insert_entry:
             ((S_800A48F0_1 *)free_slot)->unk_2D = entry_value;
             func_800A4B88(entry_owner, (s8)(id_shift >> 24));
             result_shift = slot_index << 16;
-            goto return_tail;
+            return result_shift >> 16;
         }
         if (used_id < (s16) min_id) {
             min_id = used_id;
@@ -115,19 +114,15 @@ insert_entry:
 
             ASM_KEEP_NV(retry_id_shift);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (retry_id < lowest_id) {
-                goto replace_entry;
+                func_80042B68(entry_owner, (s8) min_id);
+                result_shift = func_800A48F0__self_recurse(entry_owner, (s8)(retry_id_shift >> 24), (s8)entry_value) << 16;
+                return result_shift >> 16;
             }
 
             return -1;
 
-replace_entry:
-            func_80042B68(entry_owner, (s8) min_id);
-            result_shift = func_800A48F0__self_recurse(entry_owner, (s8)(retry_id_shift >> 24), (s8)entry_value) << 16;
-            goto return_tail;
         }
         goto find_free;
     }
     goto find_match;
-return_tail:
-    return result_shift >> 16;
 }

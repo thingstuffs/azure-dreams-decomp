@@ -147,6 +147,7 @@ command:
             S16_AT(work, 0x62) = coord;
             S16_AT(work, 0x5A) = coord;
             coord = coord - U8_AT(work, 0xB);
+            S16_AT(work, 0x72) = coord;
         } else {
             s32 offset_y = U8_AT(work, 3);
             u32 origin_y = U16_AT(work, 0xB2);
@@ -157,10 +158,9 @@ command:
             S16_AT(work, 0x62) = coord;
             S16_AT(work, 0x5A) = coord;
             coord = coord + U8_AT(work, 0xB);
+            S16_AT(work, 0x72) = coord;
         }
-        S16_AT(work, 0x72) = coord;
         S16_AT(work, 0x6A) = coord;
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 
         gte_ldv3(work + 0x58, work + 0x60, work + 0x68);
         gte_rtpt();

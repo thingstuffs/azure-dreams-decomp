@@ -56,8 +56,7 @@ void func_800C9F34(Rec_func_800C9F34_arg0 *actor_state, M2C_UNK context, S_800C9
     if (((Rec_D_800E3D7C *)entity)->unk_28 == 0) {
         goto dispatch_action;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if ((D_80013714 & 8) == 0) {
+    if (((*(u16 *)0x80013714) & 8) == 0) {
         goto check_entity;
     }
 dispatch_action:

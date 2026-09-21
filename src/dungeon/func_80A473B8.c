@@ -89,7 +89,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     s32 height_limit;
     register u32 height_raw ASM_REG("$3");   /* Byte-exact pin. */
     s32 height_offset;
-    register s32 ground_offset ASM_REG("$5");   /* Byte-exact pin. */
+    s32 ground_offset;
     s32 direction;
 
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
@@ -208,7 +208,6 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
             (*(u16 *)((u8 *)actor + 0x98)) &= 0xEFFF;
         } else if (((*(u16 *)((u8 *)actor + 0x98)) & 0x2000) &&
                    (((S_80170BB8_2 *)(u8 *)direction)->unk_14 & 0x6000)) {
-            s32 effect_mode;
 
             if ((*(u8 *)((u8 *)actor + 0x9A)) == 7) {
                 func_80047784((u8 *)direction, 0x19, 0);
@@ -218,11 +217,11 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
                 func_80047784((u8 *)direction, 0x19, 0);
                 random_value = func_80069EF8();
-                effect_mode = 0x24;
+                ground_offset = 0x24;
                 if (random_value & 3) {
-                    effect_mode = 0x19;
+                    ground_offset = 0x19;
                 }
-                func_80047784((u8 *)direction + 0x30, effect_mode, 0);
+                func_80047784((u8 *)direction + 0x30, ground_offset, 0);
             }
         }
     }

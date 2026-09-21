@@ -176,7 +176,8 @@ state_one:
         0);
     ((S_80173DD4_2 *)actor)->unk_1C.u |= 0x40000;
     if (((Rec_D_80082E80 *)object)->unk_14.at00_u16.v & 0x8000) {
-        goto set_callback;
+        ((Rec_func_80173DD4_arg0 *)controller)->unk_8C = D_80171094;
+        goto done;
     }
     {
         u8 *counter_base = (u8 *)&D_80083460;
@@ -191,7 +192,7 @@ state_two:
         goto repeat_calls;
     }
     {
-        register u8 *counter_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *counter_base;
 
         counter_base = (u8 *)&D_80083460;
         ((S_80173DD4_3 *)counter_base)->unk_0A--;

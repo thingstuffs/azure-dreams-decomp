@@ -202,13 +202,13 @@ copy_target_pos:
     if (item_or_audio_base != 0 && !(((S_80173560_1 *)actor)->unk_13 & 0x80)) {
         func_80175814(actor);
         func_80175D7C(actor);
+        ((S_80173560_0 *)action)->unk_9B.n++;
     } else {
         ((S_80173560_1 *)actor)->unk_13 &= 0x7F;
         *(u16 *)&D_80175E40[0x12E] &= 0xFF7F;
         func_800BB044(actor);
+        ((S_80173560_0 *)action)->unk_9B.n++;
     }
-    ((S_80173560_0 *)action)->unk_9B.n++;
-    ASM_SCHED_BARRIER();
     item_addr = (s32)&D_80175F6E;
     if (*(u16 *)item_addr & 0x80) {
         if (func_8003F270() != 0) {

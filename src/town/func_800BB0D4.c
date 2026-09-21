@@ -34,9 +34,9 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
         return 0;
     }
     if (record[3] != entity[5]) {
+        return_tail:
         return 0;
     }
-    ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
 
     record_link_page = (u8 *)0x80010000;
     if (record_link_page[((record_id & 0xFF) << 1) + 0x33A5] != 0) {
@@ -68,18 +68,18 @@ loop:
 
 return_zero:
         ASM_SCHED_BARRIER(); /* MATCH: Keep this zero-return block distinct so GCC shares the retail epilogue through a jump. */
-        return 0;
+        goto return_tail;
 
 continue_loop:
         if ((u32)(slot_index & 0xFF) < 0x21U) {
             goto loop;
         }
-        return 1;
+        goto return_tail_2;
 
     case 2:
     case 3:
         {
-            register s32 no_match ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 no_match;
             s32 other_entity_index;
             u8 *other_entity_base;
             u8 *other_entity;
@@ -93,6 +93,7 @@ continue_loop:
             if (other_entity[7] != (entity_id & 0xFF)) {
                 return no_match;
             }
+            return_tail_2:
             return 1;
         }
 

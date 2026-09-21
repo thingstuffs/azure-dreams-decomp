@@ -542,8 +542,7 @@ block_116:
     if (((Rec_D_800E3D7C *)entity)->unk_1C.as_s32 & 0x20) {
         goto block_150;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (D_80013714 & 8) {
+    if ((*(u16 *)0x80013714) & 8) {
         goto block_150;
     }
     idle_pose = ((Rec_func_800A9E70_arg0 *)actor)->unk_AC;

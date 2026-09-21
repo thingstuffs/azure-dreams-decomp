@@ -73,9 +73,9 @@ extern M2C_UNK D_80152A3C;
 extern M2C_UNK D_80152E68;
 extern M2C_UNK D_8015586C;
 
-void *BODY_NAME(s16 spawn_flags, s8 spawn_x, s8 spawn_y, s16 initial_value) BODY_ATTR;
+void *BODY_NAME(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) BODY_ATTR;
 /* Allocates and initializes a dungeon object with the requested flags and placement. */
-void *BODY_NAME(s16 spawn_flags, s8 spawn_x, s8 spawn_y, s16 initial_value) {
+void *BODY_NAME(s16 spawn_flags, s16 spawn_x, s16 spawn_y, s16 initial_value) {
     s32 global_byte;
     s32 unused_slot;
     s32 spawn_mode;
@@ -84,8 +84,8 @@ void *BODY_NAME(s16 spawn_flags, s8 spawn_x, s8 spawn_y, s16 initial_value) {
     void *object;
     S_80DAD000_4 *extended_state;
     S_80DAD000_1 *state = NULL;
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s8 saved_x;
+    s8 saved_y;
     s16 saved_value;
     void *object_arg;
     void *base_arg;
