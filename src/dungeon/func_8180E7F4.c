@@ -692,13 +692,10 @@ store_ability:
                 D_800E3DF0[((S_800277F4_20 *)donor_runtime)->unk_03 & 0x1F] = 0;
 #else
                 {
-                    u32 dead_base = 0x800E0000;
+                    u32 dead_base = (u32)D_800E3DF0;
                     s32 dead_index;
-                    ASM_KEEP_NV(dead_base);
                     dead_index = ((S_800277F4_20 *)donor_runtime)->unk_03;
-                    ASM_KEEP(dead_index);
-                    dead_base += 0x3DF0;
-                    ASM_KEEP_NV(dead_base);
+                    
                     *(u32 *) (dead_base + ((dead_index & 0x1F) * 4)) = 0;
                 }
 #endif

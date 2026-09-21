@@ -219,14 +219,12 @@ state_2:
     ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     step_coord = effect->unk_4C.s;
     next_tile = effect->unk_4D.u;
-    collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
+    step_coord <<= 6;
     ASM_KEEP_DEP_NV(step_coord, next_tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_DEP_NV(step_coord, collision_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
+    coord_base = step_coord + 0x20;
     next_tile += collision_coord;
     effect->unk_4D.u = next_tile;
-    step_coord <<= 6;
-    ASM_KEEP_NV(step_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    coord_base = step_coord + 0x20;
     target_y = (effect->unk_4D.s << 6) + 0x20;
     collision_coord = effect->unk_26;
     if (collision_coord != 0) {
@@ -327,12 +325,11 @@ object_common:
     step_coord <<= 2;
     step_coord += coord_base;
     step_coord = ((S_func_810332A4_8 *)step_coord)->unk_02;
-    ASM_KEEP_DEP_NV(collision_coord, step_coord);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    collision_coord <<= 6;
-    ASM_KEEP_NV(collision_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     object_tile += step_coord;
+    collision_coord <<= 6;
     display->unk_25 = object_tile;
-    coord_base = collision_coord + 0x20;
+    collision_coord += 0x20;
+    coord_base = collision_coord;
     object_x = coord_base & 0xFFFF;
     object_y = (((volatile S_func_810332A4_6 *)display)->unk_25 << 6) + 0x20;
 
@@ -448,7 +445,8 @@ secondary_object:
             motion->unk_00.half.unk_02 ||
         (effect->unk_4D.s - D_8017610C[effect->unk_1C].y) * 64 + 0x20 !=
             motion->unk_04.half.unk_06) {
-        world_coord = tile_x << 6;
+        world_coord = tile_x;
+        world_coord <<= 6;
         ASM_KEEP_NV(world_coord);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord_base = world_coord + 0x20;
         floor_x = coord_base & 0xFFE0;

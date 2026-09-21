@@ -58,7 +58,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   u8 *view_matrix = (u8 *) 0x1F800050;
   u8 *depth_cue = (u8 *) 0x1F800090;
   u8 *transform_flags = (u8 *) 0x1F800094;
-  u8 *shadow_rotation;
+
   u8 *sprite_rotation;
   u32 depth_dependency;
   register u8 *camera_state ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -66,7 +66,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   volatile u16 camera_pitch;
   volatile u16 camera_yaw;
   volatile u16 camera_roll;
-  register u16 initial_pitch ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
   s32 initial_yaw;
   s32 shadow_scale[3];
   u8 *entry_table;
@@ -84,7 +84,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   s32 world_corner_x;
   s32 world_corner_y;
   s32 sprite_corner_x;
-  register s32 sprite_corner_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+  s32 sprite_corner_y;
   s32 texture_v;
   s32 scale_component;
   s32 texture_width;
@@ -109,7 +109,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   u16 pitch_bits;
   s32 bottom_right_uv;
   register s32 top_right_uv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-  u8 *shadow_matrix_arg;
+
   u16 ground_height;
   u16 projected_y;
   s32 ground_height_shifted;
@@ -138,7 +138,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   render_state = *((void **) (((s8 *) (&D_80083160)) + 0));
   camera_state = ((u8 *) (&D_80083178)) - 0x18;
   ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-  initial_pitch = *((u16 *) (((s8 *) camera_state) + 0xC4));
+  sprite_yaw = *((u16 *) (((s8 *) camera_state) + 0xC4));
   initial_yaw = *((u16 *) (((s8 *) camera_state) + 0xC6));
   world_x = *((u16 *) (((s8 *) camera_state) + 0xC8));
   primitive_buffer = *((void **) (((s8 *) render_state) + 0x8D0));
@@ -147,7 +147,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   *((u16 *) (scratch + 0x084)) = 0;
   *((u16 *) (scratch + 0x07c)) = 0;
   *((u16 *) (scratch + 0x074)) = 0;
-  camera_pitch = initial_pitch;
+  camera_pitch = sprite_yaw;
   camera_yaw = initial_yaw;
   camera_roll = world_x;
   *((u8 **) (scratch + 0x018)) = primitive_buffer;
@@ -323,9 +323,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
         camera_state = (u8 *)(render_params);
         *((u16 *) (scratch + 0x100)) = (s16) ((*((u16 *) (((s8 *) (void *)camera_state) + 0x16))) + (((s32) (pitch_bits << 0x10)) >> 0x11));
         sprite_yaw = *((u16 *) (((s8 *) (void *)camera_state) + 0x1A));
-        camera_state = (u8 *) 0x80080000;
-        ASM_KEEP_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        camera_state += 12640;
+        camera_state = (u8 *)&D_80083160;
         ASM_USE_NV(camera_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         view_yaw = camera_yaw;
         *((u16 *) (scratch + 0x104)) = (s16) ((*((u16 *) (((s8 *) camera_state) + 0xB8))) + (sprite_yaw - view_yaw));
@@ -466,10 +464,8 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               {
                 shadow_scale[2] = 0;
               }
-              shadow_rotation = scratch + 0x100;
-              ASM_USE_NV(shadow_rotation);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-              shadow_matrix_arg = rotation_matrix;
-              ASM_KEEP_NV(shadow_matrix_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+              transform_dst = scratch + 0x100;
+              world_matrix_arg = rotation_matrix;
               camera_state = (u8 *) (&D_80083160);
               scale_component = shadow_scale[2];
               *((u16 *) (scratch + 0x102)) = 0U;
@@ -485,7 +481,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
                 *((u16 *) (scratch + 0x100)) = (s16) shadow_pitch;
                 *((u16 *) (scratch + 0x104)) = (s16) shadow_roll;
               }
-              func_80065820(shadow_rotation, shadow_matrix_arg, shadow_yaw);
+              func_80065820(transform_dst, world_matrix_arg, shadow_yaw);
               func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
               func_80064BC0(view_matrix, shadow_scale);
               func_80064D80((M2C_UNK *) view_matrix);

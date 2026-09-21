@@ -70,16 +70,12 @@ extern void func_80025344(EffectState *, Motion *);
 extern void func_8002558C(EffectState *, Motion *);
 extern void func_800A56E0(s32);
 extern void func_80024024(void *, u8, void *);
-
 #ifdef NON_MATCHING
 #define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3328; } while (0) ((v) = (s32)D_8006CCD8)
 #define do { (v) = 0x80070000; ASM_KEEP(v); (v) -= 0x3318; } while (0) ((v) = (s32)D_8006CCE8)
 #else
-#define LOAD_TABLE_X_BASE(v) \
-    do { (v) = 0x80070000;  (v) -= 0x3328; } while (0)
-#define LOAD_TABLE_Y_BASE(v) \
-    do { (v) = 0x80070000;  (v) -= 0x3318; } while (0)
 #endif
+
 
 /* Advance an effect toward its target or along its facing direction, then handle its timed states. */
 void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPart *part) {
@@ -87,7 +83,7 @@ void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPar
     register Motion *motion ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *owner;
     u8 *color_part = (u8 *)part;
-    register void *owner_meta ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *owner_meta;
     void *owner_node;
     void *source_motion;
     void *target_motion;
@@ -186,7 +182,6 @@ case_0:
         {
             s32 y_delta = S16_AT(target_motion, 6);
             s32 motion_y = S16_AT(motion, 6);
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             color_part = (u8 *)&work.destination + 2;
             y_delta -= motion_y;
             y_delta = abs(y_delta);
@@ -239,8 +234,7 @@ case_0:
             break;
         }
 
-        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3328;
-           /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        table_base = (s32)D_8006CCD8;
         table_offset = (s16)state->direction;
         probe_z = U16_AT(owner, 0x88);
         table_offset *= 2;
@@ -248,7 +242,7 @@ case_0:
         ASM_KEEP(table_x_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         probe_z -= 0x20;
         probe_z = (s16)probe_z;
-        (table_base) = 0x80070000; ASM_KEEP(table_base); (table_base) -= 0x3318;
+        table_base = (s32)D_8006CCE8;
         table_y_entry = (s16 *)(table_offset + table_base);
         ASM_KEEP(table_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ground_z = func_800BCB04(
@@ -310,14 +304,12 @@ case_0:
         s32 motion_coord;
 
         motion_coord = S16_AT(motion, 2);
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_x = (s32)next_x >> 16;
         x_distance -= motion_coord;
         x_distance = abs(x_distance);
         work.probe_delta[0] = x_distance;
 
         motion_coord = S16_AT(motion, 6);
-           /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         next_y = (u32)next_y << 16;
         next_x -= motion_coord;
         next_x = abs(next_x);
@@ -330,7 +322,6 @@ case_0:
         work.probe_delta[2] = next_y;
     }
 
-    x_distance = x_distance;
     state->duration = x_distance;
     loop_0: {
         if (S16_AT(color_part, 0x18) > state->duration) {

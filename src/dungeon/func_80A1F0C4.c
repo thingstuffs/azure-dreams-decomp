@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 typedef struct S_801728C4_0 {
     u8 pad_00[0x8C];
@@ -164,6 +165,8 @@ void func_801728C4(void *action, void *motion, void *sprite, void *actor)
     void *special_target;
     u8 *effect_status;
     s32 offset_x;
+    s32 abs_x;
+    s32 abs_y;
     s32 offset_y;
     u16 flags;
 
@@ -266,17 +269,10 @@ copy_parent:
         ((S_801728C4_1 *)actor)->unk_60 = func_800A05A4(
             actor, ((S_801728C4_4 *)sprite)->unk_24, ((S_801728C4_4 *)sprite)->unk_25,
             ((S_801728C4_1 *)actor)->unk_2A, 0x10);
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        offset_x = ((S_801728C4_1 *)actor)->unk_72.u;
-        offset_y = ((S_801728C4_1 *)actor)->unk_73.u;
-        if (offset_x < 0) {
-            offset_x = -offset_x;
-        }
-        if (offset_y < 0) {
-            offset_y = -offset_y;
-        }
-        ((S_801728C4_1 *)actor)->unk_72.s = offset_x;
-        ((S_801728C4_1 *)actor)->unk_73.s = offset_y;
+        abs_x = abs(((S_801728C4_1 *)actor)->unk_72.u);
+        abs_y = abs(((S_801728C4_1 *)actor)->unk_73.u);
+        ((S_801728C4_1 *)actor)->unk_72.s = abs_x;
+        ((S_801728C4_1 *)actor)->unk_73.s = abs_y;
     }
 
 object_ready:

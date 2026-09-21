@@ -354,11 +354,10 @@ void func_800C55F4(void *render_params, void *translation, void *mesh, s32 depth
                 record += 0x1C;
                 ((S_800C55F4_4 *)packet_code)->unk_00 = packet_flags | 2;
                 packet_code += 0x1C;
-                ASM_KEEP(packet_code);
-                packet_code += 0xC;
                 func_8006658C(((S_800C55F4_1 *)scratch)->unk_20 +
                               (((S_800C55F4_1 *)scratch)->unk_C0.s << 2), packet);
 
+                packet_code += 0xC;
                 ((S_800C55F4_2 *)mesh_data)->unk_14 &= 0x7FFF;
                 func_80067F20(record, 0, 0, 0, 0);
                 packet = record;

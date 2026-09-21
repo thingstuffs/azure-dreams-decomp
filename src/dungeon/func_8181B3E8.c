@@ -502,11 +502,11 @@ state_2:
         ((S_80024BE8_5 *)motion)->unk_08.at00.v += ((S_80024BE8_5 *)motion)->unk_14;
 
         impact_position = func_80069EF8() & 0xF;
-        ASM_KEEP(impact_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        impact_position = (s16)(impact_position - 8);
+        impact_position -= 8;
+        impact_position = (s16)impact_position;
         impact_sprite = func_80069EF8() & 0xF;
-        ASM_KEEP(impact_sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        impact_sprite = (s16)(impact_sprite - 8);
+        impact_sprite -= 8;
+        impact_sprite = (s16)impact_sprite;
         func_800240C0(effect, motion, sprite, impact_position, impact_sprite,
             (s16)((func_80069EF8() & 0xF) - 8));
         impact_position = func_80069EF8() & 0xF;
@@ -584,8 +584,8 @@ state_4:
         do {
             particle_count_m++;
             impact_sprite = func_80069EF8() & 0x3F;
-            ASM_KEEP(impact_sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            impact_sprite = (s16)(impact_sprite - 0x20);
+            impact_sprite -= 0x20;
+            impact_sprite = (s16)impact_sprite;
             func_800249A0((u8 *)effect - 0x20, impact_sprite,
                 (s16)((func_80069EF8() & 0x3F) - 0x20),
                 (s16)(-(((S_80024BE8_0 *)effect)->unk_86.s * 2) + 0x10), 0x1E);
@@ -680,11 +680,11 @@ state_5:
         do {
             particle_count++;
             impact_position = func_80069EF8() & 0x3F;
-            ASM_KEEP(impact_position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            impact_position = (s16)(impact_position - 0x20);
+            impact_position -= 0x20;
+            impact_position = (s16)impact_position;
             impact_sprite = func_80069EF8() & 0x3F;
-            ASM_KEEP(impact_sprite);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            impact_sprite = (s16)(impact_sprite - 0x20);
+            impact_sprite -= 0x20;
+            impact_sprite = (s16)impact_sprite;
             func_800249A0((u8 *)effect - 0x20, impact_position, impact_sprite,
                 (s16)(-0x20 - (func_80069EF8() & 0x3F)), 0x1E);
         } while (particle_count < 2);

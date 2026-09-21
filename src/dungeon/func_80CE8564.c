@@ -163,10 +163,8 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
 
     if (((init_flags & ~3) << 16) == 0) {
         mode_or_object = (s32)object;
-        ASM_KEEP_NV(mode_or_object);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        kind_or_position = (s32)position;
         if (!(((S_80171D64_1 *)result)->unk_14 & 0x200)) {
-            kind_or_position = (s32)position;
-            ASM_KEEP(kind_or_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             state_flags = func_800A6D30((void *)mode_or_object, (void *)kind_or_position);
             mode_or_object = (s32)object;
             if (state_flags & 1) {
@@ -256,7 +254,7 @@ select_f:
     current_frames = ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C;
     frame_table = D_80175E34;
     if (current_frames == frame_table) {
-        goto done;
+        return result;
     }
 table_store:
     (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;

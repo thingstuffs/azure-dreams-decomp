@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 
 extern void *D_800814A8;
@@ -93,6 +94,8 @@ void func_801729D4(void *action, void *motion, void *sprite, void *actor)
     void *new_target;
     u8 *status;
     s32 target_x;
+    s32 abs_x;
+    s32 abs_y;
     s32 target_y;
 
     state = ((S_801729D4_0 *)action)->unk_9B;
@@ -142,7 +145,6 @@ no_special:
             goto no_1;
         }
         animation = 0;
-        ASM_KEEP(animation);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         goto selected;
     }
     if (anim_kind == 3) {
@@ -185,17 +187,10 @@ selected:
         actor, ((S_801729D4_4 *)sprite)->unk_24, ((S_801729D4_4 *)sprite)->unk_25,
         ((S_801729D4_1 *)actor)->unk_2A, 0x10);
     ((S_801729D4_1 *)actor)->unk_60 = new_target;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    target_x = ((S_801729D4_1 *)actor)->unk_72.s;
-    target_y = ((S_801729D4_1 *)actor)->unk_73.s;
-    if (target_x < 0) {
-        target_x = -target_x;
-    }
-    if (target_y < 0) {
-        target_y = -target_y;
-    }
-    ((S_801729D4_1 *)actor)->unk_72.u = target_x;
-    ((S_801729D4_1 *)actor)->unk_73.u = target_y;
+    abs_x = abs(((S_801729D4_1 *)actor)->unk_72.s);
+    abs_y = abs(((S_801729D4_1 *)actor)->unk_73.s);
+    ((S_801729D4_1 *)actor)->unk_72.u = abs_x;
+    ((S_801729D4_1 *)actor)->unk_73.u = abs_y;
 
 set_position:
     position[0] = ((Rec_D_800E3D7C *)motion)->unk_00.at02_u16.v;

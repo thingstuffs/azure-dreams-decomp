@@ -1,0 +1,1 @@
+{"id":"dungeon/func_819ADDB8","transform":"lane_r66_sol_big9","in_sha":"40f29fc9cd9413ed6cfcbbe81dedd3696f4dd34cf615b2730f6fe25dfabb2016","size":536,"source":"r66_sol_big9","exact":true,"status":"ok","class":"match","total":0,"secs":0.82,"outcome":"refused","reason":"edits a NON_MATCHING/#if 0 arm that no byte gate compiles","at":"2026-09-21T11:33:04Z"}

@@ -1,7 +1,7 @@
 #include "common.h"
 
 extern u8 D_80083160_addr[] asm("D_80083160");
-extern void func_80026A18(void) __attribute__((noreturn));
+extern void func_80026A18(void);
 extern s32 func_800654B0();
 extern s32 func_8006658C();
 extern s32 func_800666F4();
@@ -108,7 +108,6 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
         func_80026A18();
     }
     render_state = *((u8 **) state_slot);
-    ASM_SET(zero);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     result = zero;
     do {
         *((u32 *) (render_state + 0x8D0)) = (u32) packet;

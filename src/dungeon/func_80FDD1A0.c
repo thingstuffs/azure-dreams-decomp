@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct {
     u32 x;
@@ -223,7 +224,9 @@ copy_active_coords:
                     goto invoke_item;
                 }
             } else {
-                register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+                s32 target_x;
+                s32 abs_x;
+                s32 abs_y;
                 s32 target_y;
 
                 target = func_800A05A4(
@@ -233,16 +236,10 @@ copy_active_coords:
                     actor_data->unk_2A.s,
                     0x10);
                 actor_data->unk_60 = target;
-                target_x = actor_data->unk_72.s;
-                target_y = actor_data->unk_73.s;
-                if (target_x < 0) {
-                    target_x = -target_x;
-                }
-                if (target_y < 0) {
-                    target_y = -target_y;
-                }
-                actor_data->unk_72.u = target_x;
-                actor_data->unk_73.u = target_y;
+                abs_x = abs(actor_data->unk_72.s);
+                abs_y = abs(actor_data->unk_73.s);
+                actor_data->unk_72.u = abs_x;
+                actor_data->unk_73.u = abs_y;
             }
         }
 

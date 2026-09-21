@@ -227,6 +227,13 @@ typedef struct S_FUNC_8188C800_BODY_23 {
     u16 unk_1E;
 } S_FUNC_8188C800_BODY_23;   /* ((S_FUNC_8188C800_BODY_0 *)self)->unk_2C.p in FUNC_8188C800_BODY */
 
+static __inline__ s32 align_effect_coord(s32 coord)
+{
+    coord <<= 6;
+    coord += 32;
+    return coord & 0xFFE0;
+}
+
 /* Updates a moving effect through initialization, travel, impact, and fading. */
 void FUNC_8188C800_BODY(void *effect_data, void *motion_data, void *part_data)
 {
@@ -527,20 +534,11 @@ case_0_count_tail:
         ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at00.v = old_x;
         ((S_FUNC_8188C800_BODY_0 *)self)->unk_20.at01.v = old_y;
         if (steps_left != 0) {
-            s32 x = ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02p.v;
-            s32 height;
+            s32 x = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at02p.v);
+            s32 height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02u.v;
             s32 y;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            height = ((S_FUNC_8188C800_BODY_0 *)self)->unk_30.at02u.v;
-            ASM_USE_NV(height);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            x <<= 6;
-            x += 32;
-            x &= 0xFFE0;
             ASM_USE_NV(x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            y = ((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03u.v;
-            y <<= 6;
-            y += 32;
-            y &= 0xFFE0;
+            y = align_effect_coord(((S_FUNC_8188C800_BODY_0 *)self)->unk_1C.at03u.v);
             if ((func_800A45D8(x, y, height) << 16) == 0) {
                 goto done;
             }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
+extern int abs(int);
 
 
 extern s32 func_8003F270(void);
@@ -97,6 +98,8 @@ void func_80172A40(void *owner_input, void *motion_input, void *actor_input, voi
     void *target;
     void *target_record;
     s32 target_x;
+    s32 abs_x;
+    s32 abs_y;
     s32 target_y;
     s32 slot_index;
     s32 item_id;
@@ -201,18 +204,11 @@ copy_record:
         ((S_80172A40_1 *)object)->unk_60 = func_800A05A4(
             object, ((S_80172A40_4 *)actor_input)->unk_24, ((S_80172A40_4 *)actor_input)->unk_25,
             ((S_80172A40_1 *)object)->unk_2A, 0x10);
-        ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
-        target_x = ((S_80172A40_1 *)object)->unk_72.s;
-        target_y = ((S_80172A40_1 *)object)->unk_73.s;
-        if (target_x < 0) {
-            target_x = -target_x;
-        }
-        if (target_y < 0) {
-            target_y = -target_y;
-        }
-        ((S_80172A40_1 *)object)->unk_72.u = target_x;
-        ((S_80172A40_1 *)object)->unk_73.u = target_y;
+        abs_x = abs(((S_80172A40_1 *)object)->unk_72.s);
+        abs_y = abs(((S_80172A40_1 *)object)->unk_73.s);
+        ((S_80172A40_1 *)object)->unk_72.u = abs_x;
+        ((S_80172A40_1 *)object)->unk_73.u = abs_y;
 
 move_setup:
         if (func_800A94A0(object, item_slot, special,

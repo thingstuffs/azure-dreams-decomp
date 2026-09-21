@@ -86,11 +86,11 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     s32 ground_height;
     s32 bob_offset;
     s16 floor_offset;
-    register s32 height_limit ASM_REG("$2");   /* Byte-exact pin. */
+    s32 height_limit;
     register u32 height_raw ASM_REG("$3");   /* Byte-exact pin. */
     s32 height_offset;
     register s32 ground_offset ASM_REG("$5");   /* Byte-exact pin. */
-    register s32 direction ASM_REG("$16");   /* Byte-exact pin. */
+    s32 direction;
 
     part_base = (*(u8 * *)((u8 *)actor + 0xA4));
     global_flags = global_flags_ptr[0x1A31];
@@ -98,7 +98,6 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
     ASM_KEEP(actor);   /* Byte-exact pin. */
     ASM_KEEP(subject);   /* Byte-exact pin. */
-    ASM_KEEP(direction);   /* Byte-exact pin. */
 
     global_flags &= 0x2000;
     direction = (s32)(part_base + 0x28);
@@ -121,10 +120,8 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
         global_flags = (*(u8 *)((u8 *)actor + 0x6D));
         actor_context = actor;
-        global_flags <<= 24;
         ASM_KEEP(actor_arg);   /* Byte-exact pin. */
-        ASM_KEEP(actor_context);   /* Byte-exact pin. */
-        state_index = (s32)global_flags >> 24;
+        state_index = (s8)(global_flags + 0);
         if (func_800A9E70(actor_arg, motion_arg, entity_arg, actor_context) != 0) {
             goto done;
         }
@@ -241,7 +238,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
         }
         {
 
-            if ((*(s16 *)((u8 *)actor + 0x94)) != (direction = state_index)) {
+            if ((*(s16 *)((u8 *)actor + 0x94)) != (direction = (s16)state_index)) {
                 func_80047738(entity,
                               (*(u8 *)((u8 *)(((S_80170BB8_4 *)entity)->unk_2C) + direction)),
                               ((S_80170BB8_4 *)entity)->unk_04);
@@ -355,7 +352,9 @@ ground_reset:
                 goto final_collision;
             }
 adjust_height:
-            height_limit = height_offset < ground_offset - 0x20;
+            height_limit = ground_offset;
+            height_limit -= 0x20;
+            height_limit = height_offset < height_limit;
             if (!height_limit) {
                 goto final_collision;
             }
@@ -389,5 +388,4 @@ final_collision:
 done:
     ASM_KEEP(motion);   /* Byte-exact pin. */
     ASM_KEEP(entity);   /* Byte-exact pin. */
-    ASM_KEEP(direction);   /* Byte-exact pin. */
 }

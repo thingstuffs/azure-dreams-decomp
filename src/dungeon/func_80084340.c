@@ -287,7 +287,6 @@ typedef struct S_80089AA0_27 {
 
 /* Updates the actor, applies movement and input, and processes dungeon actor turns. */
 void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
-    register void *actor_or_result ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register void *sprite_or_root ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *motion_or_count;
     void *world_state;
@@ -355,12 +354,12 @@ void func_80089AA0(void *in_actor, void *in_motion, void *in_sprite) {
     u8 *actor_root_page;
     u16 initial_flags;
 
-    actor_or_result = in_actor;
+    linked_actor = in_actor;
     world_state = D_80083160;
     initial_flags = D_80013714;
     motion_or_count = in_motion;
     sprite_or_root = in_sprite;
-    actor = actor_or_result;
+    actor = linked_actor;
     world_object = (u8 *)world_state + 0x18;
     if (initial_flags & 4) {
         record_or_page = (M2C_UNK *)0x80080000;
@@ -398,7 +397,7 @@ update_audio:
         func_8004D7A8(1);
         func_8004D294(0, (s16 *)((u8 *)&D_800DCF4F - 0xEF), 2);
     }
-    (*(s16 *)((u8 *)actor_or_result + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
+    (*(s16 *)((u8 *)linked_actor + 0x9E)) = (s16) (((u16) world_object->unk_B0 >> 9) & 7);
     status_base = &D_80083460;
     status_base->unk_02 = (u16) (status_base->unk_02 & 0xFFCF);
     previous_input = &D_800E4948;
@@ -407,7 +406,7 @@ update_audio:
             if (status_base->unk_10 == ((S_80089AA0_4 *)previous_input)->unk_08) {
                 if (status_base->unk_14 == ((S_80089AA0_4 *)previous_input)->unk_0C) {
                     if (!(D_80013714 & 8)) {
-                        action_id = (*(u8 *)((u8 *)actor_or_result + 0x9A));
+                        action_id = (*(u8 *)((u8 *)linked_actor + 0x9A));
                         if ((action_id != 0x17) && (action_id != 0x27) && (action_id != 0x29) && (D_800DCF4F == 0)) {
                             if (status_base->unk_0C == 0) {
                                 if ((status_base->unk_10 == 0) && (status_base->unk_14 == 0)) {
@@ -483,7 +482,7 @@ snapshot_input:
                                     companion_index = 1;
                                     companion_counters = &D_800E3D74;
                                     companion_fraction = (u32 *)((u8 *)companion_counters + 4);
-                                    companion_slot = actor_or_result + 4;
+                                    companion_slot = linked_actor + 4;
                                     do {
                                         companion = ((S_80089AA0_10 *)companion_slot)->unk_AC;
                                         if ((companion != NULL) && (companion->unk_25 != 0)) {
@@ -509,21 +508,21 @@ snapshot_input:
                                     } while (companion_index >= 0);
                                 }
                                 if ((*(s32 *)((u8 *)actor + 0x1C)) & 0x800) {
-                                    slow_phase = (*(u16 *)((u8 *)actor_or_result + 0xF8));
-                                    (*(u16 *)((u8 *)actor_or_result + 0xF8)) = (u16) (slow_phase + 1);
+                                    slow_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
+                                    (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (slow_phase + 1);
                                     (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) slow_phase) >> 8) + 0x30);
                                     goto update_actor_state;
                                 }
-                                normal_phase = (*(u16 *)((u8 *)actor_or_result + 0xF8));
-                                (*(u16 *)((u8 *)actor_or_result + 0xF8)) = (u16) (normal_phase + 1);
+                                normal_phase = (*(u16 *)((u8 *)linked_actor + 0xF8));
+                                (*(u16 *)((u8 *)linked_actor + 0xF8)) = (u16) (normal_phase + 1);
                                 (*(s8 *)((u8 *)actor + 3)) = (s8) ((func_800644B8((s16) normal_phase) >> 7) + 0x40);
 update_actor_state:
-                                (*(s32 *)((u8 *)actor_or_result + 0x128)) = (s32) (func_800A6D30() & 0xFFFF);
+                                (*(s32 *)((u8 *)linked_actor + 0x128)) = (s32) (func_800A6D30() & 0xFFFF);
                                 if (!(D_80013714 & 8)) {
-                                    (*(u16 *)((u8 *)actor_or_result + 0x118)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0x118)) + 1);
+                                    (*(u16 *)((u8 *)linked_actor + 0x118)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0x118)) + 1);
                                 }
                                 func_800A4ACC(actor);
-                                current_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)actor_or_result + 0x8C));
+                                current_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
                                 if (current_callback == (Callback4)D_80096384) {
                                     callback_page = &D_80083460;
                                     if ((func_80042900(actor, 0xA) << 0x10) == 0) {
@@ -531,7 +530,7 @@ update_actor_state:
                                         ASM_KEEP_NV(callback_status);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                         state_or_address = (s32)&D_8008ACDC;
                                         callback_status = (u8 *)callback_status + 0x3460;
-                                        (*(Callback4 *)((u8 *)actor_or_result + 0x8C)) = (Callback4)state_or_address;
+                                        (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)state_or_address;
                                         goto mark_callback_change;
                                     }
                                     goto clear_turn_flags;
@@ -540,7 +539,7 @@ update_actor_state:
                                 if (current_callback == (Callback4)&D_8008ACDC) {
                                     if ((func_80042900(actor, 0xA) << 0x10) != 0) {
                                         callback_status = (u8 *)&D_80083460;
-                                        (*(Callback4 *)((u8 *)actor_or_result + 0x8C)) = (Callback4)D_80096384;
+                                        (*(Callback4 *)((u8 *)linked_actor + 0x8C)) = (Callback4)D_80096384;
                                         goto mark_callback_change;
                                     }
                                     goto clear_turn_flags;
@@ -576,7 +575,7 @@ mark_input_active:
     ((S_80089AA0_8 *)&D_80083460)->unk_02 = (u16) (((S_80089AA0_8 *)&D_80083460)->unk_02 | 4);
 after_status_or:
     if (!(D_80013714 & 8)) {
-        if (((*(u8 *)((u8 *)actor_or_result + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
+        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x17) && (D_800DCF4F == 0) && ((u32) ((S_80089AA0_13 *)(&D_800DD160))->unk_00 >= 0x385U)) {
             reset_actor = D_800E3D7C;
             D_800DD160 = 0;
             do {
@@ -596,7 +595,7 @@ after_status_or:
             }
         }
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (!(D_80013714 & 8) && (!(D_80083462 & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)actor_or_result + 0x9A)) == 0x17))) {
+        if (!(D_80013714 & 8) && (!(D_80083462 & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
             D_800E296C = (s32)(D_800E296C & ~0x40);
             if ((func_800C77D0(actor - 0x20, motion_or_count, 8, D_800DCE60[3]) << 0x10) != 0) {
                 D_800832B4[0] = 0;
@@ -621,21 +620,21 @@ update_sprite:
     }
     ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16) (((S_80089AA0_16 *)sprite_or_root)->unk_14 | 0x6000);
 run_actor_callbacks:
-    update_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)actor_or_result + 0x8C));
+    update_callback = (*(M2C_UNK (**)(void *, void *, void *, void *))((u8 *)linked_actor + 0x8C));
     if (update_callback != NULL) {
-        update_callback(actor_or_result, motion_or_count, sprite_or_root, actor);
+        update_callback(linked_actor, motion_or_count, sprite_or_root, actor);
     }
-    D_800DD168[(*(u8 *)((u8 *)actor_or_result + 0x9A))](actor_or_result, motion_or_count, sprite_or_root, actor);
+    D_800DD168[(*(u8 *)((u8 *)linked_actor + 0x9A))](linked_actor, motion_or_count, sprite_or_root, actor);
     facing = ((s32) (D_80083228 + (*(s16 *)((u8 *)actor + 0x2A)) + 0x100) >> 9) & 7;
-    if ((*(s16 *)((u8 *)actor_or_result + 0x94)) != facing) {
+    if ((*(s16 *)((u8 *)linked_actor + 0x94)) != facing) {
         if ((func_80042900(actor, 0xA) << 0x10) != 0) {
             func_8003DB94(sprite_or_root, ((void **)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04);
             goto store_facing;
         }
         func_800489F4(sprite_or_root, ((u8 *)((S_80089AA0_16 *)sprite_or_root)->unk_2C)[facing], ((S_80089AA0_16 *)sprite_or_root)->unk_04, 1);
 store_facing:
-        (*(s16 *)((u8 *)actor_or_result + 0x94)) = facing;
-        if (((*(u8 *)((u8 *)actor_or_result + 0x9A)) != 0x22) && (D_8006CCF8[facing] != 0)) {
+        (*(s16 *)((u8 *)linked_actor + 0x94)) = facing;
+        if (((*(u8 *)((u8 *)linked_actor + 0x9A)) != 0x22) && (D_8006CCF8[facing] != 0)) {
             ((S_80089AA0_16 *)sprite_or_root)->unk_14 = (u16)(((S_80089AA0_16 *)sprite_or_root)->unk_14 | 1);
             goto update_room;
         }
@@ -661,40 +660,40 @@ update_room:
     if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
         ((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_00.at00.v + ((S_80089AA0_18 *)motion_or_count)->unk_0C);
         ((S_80089AA0_18 *)motion_or_count)->unk_04.at00.v = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_04.at00.v + ((S_80089AA0_18 *)motion_or_count)->unk_10);
-        if (!((*(u16 *)((u8 *)actor_or_result + 0x98)) & 8)) {
-            ((S_80089AA0_18 *)motion_or_count)->unk_14 = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_14 + ((*(s8 *)((u8 *)actor_or_result + 0x9D)) * 0x14000));
-            (*(s8 *)((u8 *)actor_or_result + 0x9D)) = (s8) ((u8) (*(s8 *)((u8 *)actor_or_result + 0x9D)) + 1);
+        if (!((*(u16 *)((u8 *)linked_actor + 0x98)) & 8)) {
+            ((S_80089AA0_18 *)motion_or_count)->unk_14 = (s32) (((S_80089AA0_18 *)motion_or_count)->unk_14 + ((*(s8 *)((u8 *)linked_actor + 0x9D)) * 0x14000));
+            (*(s8 *)((u8 *)linked_actor + 0x9D)) = (s8) ((u8) (*(s8 *)((u8 *)linked_actor + 0x9D)) + 1);
         }
-        (*(s32 *)((u8 *)actor_or_result + 0x90)) = (s32) ((*(s32 *)((u8 *)actor_or_result + 0x90)) + ((S_80089AA0_18 *)motion_or_count)->unk_14);
+        (*(s32 *)((u8 *)linked_actor + 0x90)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x90)) + ((S_80089AA0_18 *)motion_or_count)->unk_14);
         floor_height = func_800BCB04(((S_80089AA0_18 *)motion_or_count)->unk_00.at02.v, ((S_80089AA0_18 *)motion_or_count)->unk_04.at02.v, (s16) ((*(u16 *)((u8 *)actor + 0x88)) - 0x20));
         if (floor_height < 0x200) {
-            if (((*(s16 *)((u8 *)actor_or_result + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
-                if (((*(u16 *)((u8 *)actor_or_result + 0x98)) & 4) || (((S_80089AA0_18 *)motion_or_count)->unk_14 < 0)) {
+            if (((*(s16 *)((u8 *)linked_actor + 0x92)) + (s16) (*(u16 *)((u8 *)actor + 0x88))) >= floor_height) {
+                if (((*(u16 *)((u8 *)linked_actor + 0x98)) & 4) || (((S_80089AA0_18 *)motion_or_count)->unk_14 < 0)) {
                     ground_flags =
-                        (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0xFFEF);
+                        (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFFEF);
                     goto store_a2_flags;
                 }
-                (*(s32 *)((u8 *)actor_or_result + 0x90)) = 0;
+                (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
                 ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
-                (*(s8 *)((u8 *)actor_or_result + 0x9D)) = 0;
-                if (!((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0x10)) {
+                (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
+                if (!((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0x10)) {
                     if (!(((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x80000)) {
                         func_800A56E0(0x508);
                     }
                     func_800B66C8(motion_or_count);
                 }
-                ground_flags = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x10);
+                ground_flags = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
 store_a2_flags:
-                (*(volatile u16 *)((u8 *)actor_or_result + 0xA2)) = ground_flags;
-                (*(u16 *)((u8 *)actor_or_result + 0xA2)) =
-                    (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0xF7FF);
+                (*(volatile u16 *)((u8 *)linked_actor + 0xA2)) = ground_flags;
+                (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                    (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xF7FF);
                 goto adjust_floor_height;
             }
-            air_flags = (*(u16 *)((u8 *)actor_or_result + 0xA2));
+            air_flags = (*(u16 *)((u8 *)linked_actor + 0xA2));
             if (air_flags & 0x800) {
-                (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) (air_flags & 0xFFEF);
+                (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) (air_flags & 0xFFEF);
             }
-            (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x800);
+            (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
 adjust_floor_height:
             flags_or_height = (*(s32 *)((u8 *)actor + 0x1C));
             if (flags_or_height & 0x40000000) {
@@ -708,48 +707,48 @@ adjust_floor_height:
                 height_limit >>= 16;
                 (*(u16 *)((u8 *)actor + 0x8A)) = previous_height;
                 flags_or_height = (s16)func_800BCB04((((S_80089AA0_16 *)sprite_or_root)->unk_24 << 6) | 0x20, (((S_80089AA0_16 *)sprite_or_root)->unk_25 << 6) | 0x20, height_limit);
-                (*(s16 *)((u8 *)actor_or_result + 0x92)) = (s16) ((u16) (*(s16 *)((u8 *)actor_or_result + 0x92)) + ((*(u16 *)((u8 *)actor + 0x88)) - flags_or_height));
+                (*(s16 *)((u8 *)linked_actor + 0x92)) = (s16) ((u16) (*(s16 *)((u8 *)linked_actor + 0x92)) + ((*(u16 *)((u8 *)actor + 0x88)) - flags_or_height));
                 (*(u16 *)((u8 *)actor + 0x88)) = (u16) flags_or_height;
                 if (D_80083462 & 0x80) {
-                    (*(s32 *)((u8 *)actor_or_result + 0x90)) = 0;
+                    (*(s32 *)((u8 *)linked_actor + 0x90)) = 0;
                     ((S_80089AA0_18 *)motion_or_count)->unk_14 = 0;
-                    (*(s8 *)((u8 *)actor_or_result + 0x9D)) = 0;
-                    (*(u16 *)((u8 *)actor_or_result + 0xA2)) =
-                        (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x10);
+                    (*(s8 *)((u8 *)linked_actor + 0x9D)) = 0;
+                    (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                        (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x10);
                     goto store_height;
                 }
             }
             goto store_height;
         }
-        fall_flags = (*(u16 *)((u8 *)actor_or_result + 0xA2));
+        fall_flags = (*(u16 *)((u8 *)linked_actor + 0xA2));
         if (fall_flags & 0x800) {
-            (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) (fall_flags & 0xFFEF);
+            (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) (fall_flags & 0xFFEF);
         }
-        (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x800);
+        (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x800);
 store_height:
-        ((S_80089AA0_18 *)motion_or_count)->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88)) + (u16) (*(s16 *)((u8 *)actor_or_result + 0x92)));
+        ((S_80089AA0_18 *)motion_or_count)->unk_0A = (s16) ((*(u16 *)((u8 *)actor + 0x88)) + (u16) (*(s16 *)((u8 *)linked_actor + 0x92)));
         goto finish_movement;
     }
 finish_movement:
-    func_80096100(actor_or_result, motion_or_count, sprite_or_root, actor);
+    func_80096100(linked_actor, motion_or_count, sprite_or_root, actor);
     if (!((*(s32 *)((u8 *)actor + 0x14)) & 0x100000)) {
         if ((D_800DD258 != ((S_80089AA0_16 *)sprite_or_root)->unk_24) || (D_800DD25A != ((S_80089AA0_16 *)sprite_or_root)->unk_25)) {
             func_8009D3B0();
             if ((func_800A2C34(0) << 0x10) == 0) {
                 if ((func_800A4474(((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25) << 0x10) != 0) {
-                    (*(u16 *)((u8 *)actor_or_result + 0xA2)) =
-                        (u16)((*(u16 *)((u8 *)actor_or_result + 0xA2)) | 0x200);
+                    (*(u16 *)((u8 *)linked_actor + 0xA2)) =
+                        (u16)((*(u16 *)((u8 *)linked_actor + 0xA2)) | 0x200);
                     goto check_tile_actor;
                 }
-                (*(u16 *)((u8 *)actor_or_result + 0xA2)) = (u16) ((*(u16 *)((u8 *)actor_or_result + 0xA2)) & 0xFDFF);
+                (*(u16 *)((u8 *)linked_actor + 0xA2)) = (u16) ((*(u16 *)((u8 *)linked_actor + 0xA2)) & 0xFDFF);
                 goto check_tile_actor;
             }
         }
 check_tile_actor:
-        actor_or_result = func_8009B25C(actor, ((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25, (s16) (*(u16 *)((u8 *)actor + 0x88)));
-        if (actor_or_result != NULL) {
-            func_8009A180(actor_or_result, D_800814A8);
-            (*(s32 *)((u8 *)actor_or_result + 0x1C)) = (s32) ((*(s32 *)((u8 *)actor_or_result + 0x1C)) & 0x7FFFFFFF);
+        linked_actor = func_8009B25C(actor, ((S_80089AA0_16 *)sprite_or_root)->unk_24, ((S_80089AA0_16 *)sprite_or_root)->unk_25, (s16) (*(u16 *)((u8 *)actor + 0x88)));
+        if (linked_actor != NULL) {
+            func_8009A180(linked_actor, D_800814A8);
+            (*(s32 *)((u8 *)linked_actor + 0x1C)) = (s32) ((*(s32 *)((u8 *)linked_actor + 0x1C)) & 0x7FFFFFFF);
         }
         D_800DD258 = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_24;
         D_800DD25A = (u16) ((S_80089AA0_16 *)sprite_or_root)->unk_25;
@@ -895,9 +894,9 @@ update_linked_actor:
         page_or_repeat = repeat_pass;
         ((S_80089AA0_27 *)next_record_page)->unk_3DE8 = next_record;
         if (((page_or_repeat == 0) || ((*(s8 *)((u8 *)actor + 0x6D)) != 0) || (((S_80089AA0_24 *)loop_status)->unk_14 != 0)) && (((S_80089AA0_1 *)record_or_page)->unk_10 > 0)) {
-            actor_or_result = (void *)(s32)(s16)func_800A2C34(0);
+            linked_actor = (void *)(s32)(s16)func_800A2C34(0);
             if (((S_80089AA0_24 *)loop_status)->unk_14 != 0) {
-                if (actor_or_result == NULL) {
+                if (linked_actor == NULL) {
                     if ((((S_80089AA0_1 *)record_or_page)->unk_B8 & 0xFFFF0000) == 0x150000) {
                         ((S_80089AA0_24 *)loop_status)->unk_0C = (void *) ((u8 *)record_or_page + 0x20);
                         goto callback_entry;
@@ -921,7 +920,7 @@ run_linked_callback:
                 if ((*(s8 *)((u8 *)actor + 0x6D)) != 0) {
                     motion_or_count = (void *)((s32)motion_or_count + 1);
                 }
-                if ((actor_or_result == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
+                if ((linked_actor == NULL) || ((func_800A2C34(0) << 0x10) != 0)) {
                     goto advance_linked_actor;
                 }
             }

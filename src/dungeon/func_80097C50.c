@@ -121,8 +121,8 @@ scan_tile:
                     excluded_tile_type = 3;
                     if (tile_value != excluded_tile_type) {
                         ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                        map_index = tile_index_or_level / 2;
-                        ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                        map_index = tile_index_or_level + ((u32)tile_index_or_level >> 31);
+                        map_index >>= 1;
                         tile_index_or_level = ((S_8009D3B0_2 *)tile_or_map)->unk_02;
                         tile_or_map = (u8 *)(map_index + (s32)map);
                         packed_levels = (s16)(tile_index_or_level + 0x200) / 64;
@@ -194,8 +194,8 @@ scan_neighbor:
             excluded_neighbor_type = 3;
             if (neighbor_value != excluded_neighbor_type) {
                 ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-                map_index = tile_index_or_level / 2;
-                ASM_KEEP(tile_index_or_level);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                map_index = tile_index_or_level + ((u32)tile_index_or_level >> 31);
+                map_index >>= 1;
                 tile_index_or_level = ((S_8009D3B0_2 *)tile_or_map)->unk_02;
                 tile_or_map = (u8 *)(map_index + (s32)map);
                 packed_levels = (s16)(tile_index_or_level + 0x200) / 64;

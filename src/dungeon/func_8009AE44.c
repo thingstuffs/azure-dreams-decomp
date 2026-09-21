@@ -61,7 +61,7 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     }
 
     {
-        register volatile s32 y_result ASM_REG("$3");
+        s32 y_result;
 
         start_y = *(u8 *)x_step;
         start_y -= x;

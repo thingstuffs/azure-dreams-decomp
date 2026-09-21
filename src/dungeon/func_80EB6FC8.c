@@ -3,6 +3,7 @@
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800814A8.h"
+extern int abs(int);
 
 typedef struct S_801727C8_0 {
     u8 pad_00[0x8C];
@@ -79,6 +80,8 @@ void func_801727C8(void *action, void *motion, void *sprite, void *actor) {
     s32 slot;
     s16 is_special;
     s32 target_x;
+    s32 abs_x;
+    s32 abs_y;
     s32 target_y;
     u16 ticks_left;
     u8 *entry;
@@ -202,22 +205,11 @@ block_28:
 
         spawned_owner = func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 0x10);
         ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = spawned_owner;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
-    target_x = ((Rec_D_800E3D7C *)actor)->unk_72.as_s8;
-    target_y = ((Rec_D_800E3D7C *)actor)->unk_73.as_s8;
-    if (target_x >= 0) {
-        goto block_30;
-    }
-    target_x = 0 - target_x;
-block_30:
-    if (target_y >= 0) {
-        goto block_32;
-    }
-    target_y = 0 - target_y;
-block_32:
-    ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = target_x;
-    ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = target_y;
+    abs_x = abs(((Rec_D_800E3D7C *)actor)->unk_72.as_s8);
+    abs_y = abs(((Rec_D_800E3D7C *)actor)->unk_73.as_s8);
+    ((Rec_D_800E3D7C *)actor)->unk_72.as_s8 = abs_x;
+    ((Rec_D_800E3D7C *)actor)->unk_73.as_s8 = abs_y;
 block_33:
     anim_table = (u8 *)0x80170000;
 block_34:
