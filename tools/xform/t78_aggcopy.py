@@ -65,6 +65,24 @@ RESOLVES    dungeon/func_819C04E8 (9 pins -> 5) and dungeon/func_819A1654.  Mech
             The block move's grouping only depends on whether the alignment is below a word: a packed
             struct, `struct { u16 h[N/2]; }` and `struct { u8 b[N]; }` compile identically (lwl/lwr pairs),
             while an alignment-4 struct switches to `lw`/`sw` - so the inserted type is `u8 b[N]`.
+APPEARS     (round 64, the joint form) SEVERAL page runs in one function - the seven spawn branches of
+            dungeon/func_819A1654 each staging the same 12-byte object inside a one-line
+            `do { page = (u8 *)0x80020000; ASM_KEEP(page); src = page + (0x618C); ASM_KEEP(src);
+            *(Blob12 *)task->data = *(Blob12 *)src; ASM_KEEP(page); } while (0);`, the four memcpy runs of
+            dungeon/func_8187C45C sharing ONE materialised page base - and the transfer that changes its
+            source base halfway:
+                page = (u8 *)0x80020000; src = page; src += 0x6198;
+                *(Blob12 *)task->data = *(Blob12 *)src;
+                page += 0x6198;                       /* retail loads the second half off ANOTHER base */
+                *(Blob12 *)(task->data + 12) = *(Blob12 *)(page + 12);
+RESOLVES    the r62_astra_big lane (dungeon/func_819A1654, 51 -> 24 pins): naming each object - `points =
+            D_80024054[0];`, `*(Blob12 *)task->data = D_8002618C[0];` - and, for the last transfer, naming it
+            while KEEPING its two chunks and re-pointing the held page register at the symbol
+            (`copy_page = (u8 *)&D_80026198[0];` where the `page += 0x6198` stood) reproduces retail exactly;
+            merging that transfer into one 24-byte aggregate costs 13 listing lines, because gcc's
+            `expand_block_move` then runs one base register through all six words.  A run rewritten ALONE
+            leaves a page base the other runs still hold, so the runs are screened one per signature and
+            then applied TOGETHER, and only the joint text reaches `vf`.
 CANDIDATES  per page run: the derived pointer and the copy statements replaced by one aggregate assignment
             from `D_<page+offset>` (the file's own unaligned struct type of that size, else an inserted
             `typedef struct { u8 b[N]; } AggUN;`; `extern u8 D_X[];` inserted when the symbol is new), with
@@ -570,13 +588,18 @@ def plans(text, cand, run, copy_line):
 # ------------------------------------------------------------------ page-based unaligned copies (round 62)
 
 MAX_PAGE_RUNS = 4
+MAX_JOINT_RUNS = 14                  # a function's page runs are rewritten together (round 64)
+MAX_SIG_LISTINGS = 40                # listings spent screening one run signature
 PAGE_SPAN = 18
 PAGE_OTHER = 3
-STRUCT_END = r"\}\s*(?:__attribute__\s*\(\([^()]*\)\)\s*)*"
+ATTRS = r"(?:__attribute__\s*\(\([^()]*\)\)\s*)*"
+STRUCT_END = r"\}\s*" + ATTRS                     # `} __attribute__((packed)) Name;` and `} Name __attribute__((packed));`
 MEMCPY_RE = re.compile(r"^[ \t]*memcpy\s*\(\s*(?P<d>.+)\s*,\s*(?P<s>.+)\s*,\s*(?P<n>0x[0-9A-Fa-f]+|\d+)\s*\)\s*;[ \t]*$")
 PAGEC_RE = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)\s*=(?!=)\s*(?P<rhs>.+?)\s*;[ \t]*$")
 PLUSEQ_RE = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)\s*(?P<op>\+|-)=\s*(?P<o>0x[0-9A-Fa-f]+|\d+)\s*;[ \t]*$")
 LVNAME_RE = re.compile(r"^[A-Za-z_]\w*(?:\s*(?:\.|->)\s*[A-Za-z_]\w*)*$")
+# `do {  page = (u8 *)0x80020000;  ASM_KEEP(page);  ...  } while (0);` on ONE line: m2c's staging block.
+STAGE1_RE = re.compile(r"^(?P<ind>[ \t]*)do\s*\{(?P<body>.*)\}\s*while\s*\(\s*0\s*\)\s*;[ \t]*$")
 
 
 def top_op(e):
@@ -587,18 +610,19 @@ def top_op(e):
             d += 1
         elif ch in ")]":
             d -= 1
-        elif ch in "+-" and d == 0 and i and e[i - 1] not in "+-(<>=!*/%&|^,":
+        elif ch in "+-" and d == 0 and i and e[i - 1] not in "+-(<>=!*/%&|^," \
+                and not (ch == "-" and e[i + 1:i + 2] == ">"):      # `task->data` is not a subtraction
             out, op = i, ch
     return out, op
 
 
 def pbase_off(addr):
-    """(base, offset) for `x`, `x + 0xC`, `(T *)((u8 *)x - 0x10)`; offset is signed."""
+    """(base, offset) for `x`, `x + 0xC`, `x + (0xC)`, `(T *)((u8 *)x - 0x10)`; offset is signed."""
     addr = unwrap(addr)
     i, op = top_op(addr)
     off = 0
     if i is not None:
-        tail = addr[i + 1:].strip()
+        tail = strip_parens(addr[i + 1:])
         if not re.fullmatch(r"0x[0-9A-Fa-f]+|\d+", tail):
             return None, None
         off = int(tail, 0) * (-1 if op == "-" else 1)
@@ -613,9 +637,40 @@ def cast_const(e):
     return int(e, 0) if re.fullmatch(r"0x[0-9A-Fa-f]+|\d+", e) else None
 
 
+def unfold(text):
+    """Single-line `do { ... } while (0);` staging blocks split into bare statements at the block's indent.
+
+    Returns (text, [(unfolded block, original line)]) - `refold` puts back every block a rewrite did not
+    consume, so a partial result never reformats code it did not change.  Only blocks holding a page
+    constant are touched, and never one carrying `break`/`continue`/a nested block."""
+    lines, out, folds = text.split("\n"), [], []
+    for ln in lines:
+        m = STAGE1_RE.match(ln)
+        body = m.group("body") if m else None
+        if not body or "{" in body or "}" in body or not re.search(r"0x8[0-9A-Fa-f]{7}\b", body) \
+                or re.search(r"\b(?:break|continue|return|goto)\b", body):
+            out.append(ln)
+            continue
+        parts = [p.strip() for p in re.split(r"(?<=;)", body) if p.strip()]
+        if not all(p.endswith(";") for p in parts) or len(parts) < 3:
+            out.append(ln)
+            continue
+        new = [m.group("ind") + p for p in parts]
+        folds.append(("\n".join(new), ln))
+        out.extend(new)
+    return "\n".join(out), folds
+
+
+def refold(text, folds):
+    """Every staging block still intact restored to its original one-line spelling."""
+    for new, old in folds:
+        text = text.replace(new, old)
+    return text
+
+
 def struct_text(text, ty):
     """(body, packed) of a named struct/typedef, or (None, False)."""
-    for pat in (r"typedef\s+struct(?:\s+\w+)?\s*\{(?P<b>[^{}]*)" + STRUCT_END + r"%s\s*;",
+    for pat in (r"typedef\s+struct(?:\s+\w+)?\s*\{(?P<b>[^{}]*)" + STRUCT_END + r"%s\s*" + ATTRS + r";",
                 r"struct\s+%s\s*\{(?P<b>[^{}]*)" + STRUCT_END):
         m = re.search(pat % re.escape(ty), text)
         if m:
@@ -683,7 +738,7 @@ def talign(text, ty, big, depth=0):
 def unaligned_types(text, big):
     """{size: name} for the file's struct types whose alignment is below a word."""
     out = {}
-    for m in re.finditer(STRUCT_END + r"(?P<n>[A-Za-z_]\w*)\s*;", text):
+    for m in re.finditer(STRUCT_END + r"(?P<n>[A-Za-z_]\w*)\s*" + ATTRS + r";", text):
         n = m.group("n")
         if n in SIZES or n in out.values():
             continue
@@ -803,21 +858,33 @@ def one_page_run(text, mlines, start, lo, hi, params, pages, ppl, big):
         return None
     pagevar, addr = base, val + off
     ptype = ptr_type_of(mlines, lo + 1, hi, params, srcvar)
+    ptypes = {srcvar: ptype, pagevar: ptr_type_of(mlines, lo + 1, hi, params, pagevar)}
     items, copies, foreign, j = [(start, "deriv")], [], 0, start + 1
+    cursrc, curoff, pageval, rebase = srcvar, 0, val, None
     while j < hi and j - start <= PAGE_SPAN:
         if j in ppl:
             break
         ln = mlines[j]
         m2 = PLUSEQ_RE.match(ln)
-        if m2 and m2.group("v") == srcvar and not copies:
+        if m2 and m2.group("v") == cursrc and not copies:
             addr += int(m2.group("o"), 0) * (-1 if m2.group("op") == "-" else 1)
             items.append((j, "deriv"))
             j += 1
             continue
-        el = elem_of(ln, srcvar, text, big, ptype)
+        if m2 and copies and rebase is None and m2.group("v") == pagevar and pagevar != cursrc:
+            # the held page register is re-pointed at the SAME object halfway through the transfer:
+            # retail changes the copy's source base there (dungeon/func_819A1654's last 24 bytes)
+            nv = pageval + int(m2.group("o"), 0) * (-1 if m2.group("op") == "-" else 1)
+            if nv != addr:
+                break
+            pageval, cursrc, curoff, rebase = nv, pagevar, nv - addr, j
+            items.append((j, "rebase"))
+            j += 1
+            continue
+        el = elem_of(ln, cursrc, text, big, ptypes.get(cursrc))
         if el:
             items.append((j, "copy"))
-            copies.append(el)
+            copies.append(tuple(el[:1]) + (el[1] + curoff,) + tuple(el[2:]) + (j,))
             j += 1
             continue
         if not ln.strip():
@@ -841,9 +908,15 @@ def one_page_run(text, mlines, start, lo, hi, params, pages, ppl, big):
     if not copies:
         return None
     while items[-1][1] in ("blank", "pin", "other"):
+        k, kind = items[-1]
+        if kind == "pin" and any(re.search(r"\b%s\b" % re.escape(n), mlines[k]) for n in (srcvar, pagevar)):
+            break                                   # a trailing keep ON THE RUN'S OWN variables is the run's
         items.pop()
+    if rebase is not None and rebase > items[-1][0]:
+        rebase = None
     cur, dbase, dstart = 0, None, None
-    for n, so, da, doff, _, _ in copies:
+    for c in copies:
+        n, so, da, doff = c[0], c[1], c[2], c[3]
         if so != cur:
             return None
         b, o = (da, doff) if doff is not None else pbase_off(da)
@@ -866,28 +939,92 @@ def one_page_run(text, mlines, start, lo, hi, params, pages, ppl, big):
         items = [(k, "deriv")] + sorted(pre) + items
     return {"first": items[0][0], "last": items[-1][0], "items": items, "copies": copies, "size": cur,
             "srcvar": srcvar, "pagevar": pagevar, "addr": addr, "dst": copies[0][2], "ptype": ptype,
-            "lo": lo, "hi": hi, "indent": re.match(r"[ \t]*", mlines[start]).group(0)}
+            "rebase": rebase, "lo": lo, "hi": hi,
+            "indent": re.match(r"[ \t]*", mlines[start]).group(0)}
+
+
+SYMDECL_RE = r"extern\s+(?P<ty>(?:struct\s+|union\s+|unsigned\s+|signed\s+)*[A-Za-z_]\w*" \
+             r"(?:\s+(?:int|long|char))*)\s*(?P<ptr>\**)\s*%s\s*(?P<arr>\[[^\]]*\])?\s*;"
+
+
+def sym_decl(text, name):
+    """(declared type, is an array) of `extern <ty> D_X[];`, or (None, False)."""
+    m = re.search(SYMDECL_RE % re.escape(name), mask_comments(text))
+    if not m or m.group("ptr"):
+        return None, False
+    return m.group("ty").strip(), m.group("arr") is not None
+
+
+def paren_addr(e):
+    """An address expression safe to cast: `(u8 *)p + 0x98` -> `((u8 *)p + 0x98)`."""
+    e = e.strip()
+    return e if NAME_RE.match(e) or re.fullmatch(r"&\s*[A-Za-z_]\w*(?:\s*(?:\.|->)\s*[A-Za-z_]\w*)*", e) \
+        else "(" + e + ")"
 
 
 def sym_names(text, addr):
-    """[(source spelling, extern line|None)] for the object at `addr`."""
+    """[(source spelling, extern line|None)] for the object at `addr` - always a valid address."""
     name = "D_%08X" % addr
     if re.search(r"\b%s\b" % name, text):
-        return [("&" + name, None), (name, None)]
+        out = [("&" + name, None)]
+        if sym_decl(text, name)[1]:                 # an array name decays: both spellings are addresses
+            out.append((name, None))
+        return out
     return [(name, "extern u8 %s[];" % name)]
 
 
 def page_forms(text, run, big):
     """[(label, [statement lines], [extra declarations])] - the copies to try, best first."""
     out, seen = [], set()
+    dst = paren_addr(run["dst"])
+    name = "D_%08X" % run["addr"]
+    dty, darr = sym_decl(text, name)
+    if dty and tsize(text, dty, big) == run["size"]:
+        # the object's OWN declared type: `points = D_80024054[0];` (the r62_astra_big spelling)
+        add_form(out, seen, "typed_" + dty,
+                 ["*(%s *)%s = %s;" % (dty, dst, name + "[0]" if darr else name)], [])
     for sym, ext in sym_names(text, run["addr"]):
         one = run["copies"][0]
         if len(run["copies"]) == 1 and one[5] and one[4]:
             add_form(out, seen, "same", ["%s = *(%s *)%s;" % (one[4], one[5], sym)], [ext])
         for ty, td in agg_forms(text, run["size"], big):
             add_form(out, seen, "agg_" + ty,
-                     ["*(%s *)%s = *(%s *)%s;" % (ty, run["dst"], ty, sym)], [ext, td])
-    return out[:4]
+                     ["*(%s *)%s = *(%s *)%s;" % (ty, dst, ty, sym)], [ext, td])
+    return out[:5]
+
+
+def split_sub(run, sym):
+    """astra's two-chunk form: {line: statements|None} keeping the run's own copy boundaries.
+
+    The object is named, the copies that read it before the rebase take the symbol directly, the rebase
+    statement re-points the held page register at the symbol and the copies after it are left alone."""
+    if run["rebase"] is None:
+        return None
+    sub = {run["rebase"]: ["%s = (u8 *)%s;" % (run["pagevar"], sym)]}
+    for n, so, da, doff, dst_text, ty, line in run["copies"]:
+        if line > run["rebase"]:
+            sub[line] = None                                    # reads the page var: already the symbol base
+        elif dst_text and ty:
+            src = sym if not so else "((u8 *)%s + 0x%X)" % (sym, so)
+            sub[line] = ["%s = *(%s *)%s;" % (dst_text, ty, src)]
+        else:
+            return None
+    return sub
+
+
+def page_variants(text, run, big):
+    """[(label, decls, statements, sub|None)] - every rewrite of one run, best first."""
+    out = [(label, decls, stmts, None) for label, stmts, decls in page_forms(text, run, big)]
+    if run["rebase"] is not None:
+        for sym, ext in sym_names(text, run["addr"]):
+            sub = split_sub(run, sym)
+            if sub:
+                out.insert(0, ("split_" + sym, [ext] if ext else [], [], sub))
+    seen, uniq = {}, []                                   # labels index the joint phase's form choice
+    for label, decls, stmts, sub in out[:6]:
+        seen[label] = seen.get(label, 0) + 1
+        uniq.append((label if seen[label] == 1 else "%s@%d" % (label, seen[label]), decls, stmts, sub))
+    return uniq
 
 
 def add_form(out, seen, label, stmts, decls):
@@ -906,25 +1043,33 @@ def insert_decls(text, decls):
     return "\n".join(lines[:at] + [""] + list(decls) + lines[at:])
 
 
-def page_rewrite(text, run, stmts, decls, keep_pins):
-    """The run replaced by `stmts`; dead page/source declarations dropped.  (text, 1-based copy line)."""
-    lines, body, done = text.split("\n"), [], False
-    names = (run["srcvar"], run["pagevar"])
-    marker = run["indent"] + stmts[0]
+def page_body(lines, run, stmts, keep_pins, sub=None):
+    """(the run's replacement lines, index of the first new copy line inside them)."""
+    names, body, done, at = (run["srcvar"], run["pagevar"]), [], False, 0
     for k, kind in run["items"]:
-        if kind == "copy" and not done:
+        if sub is not None and k in sub:
+            if sub[k] is None:
+                body.append(lines[k])
+            else:
+                if not done:
+                    at, done = len(body), True
+                body.extend(run["indent"] + s for s in sub[k])
+        elif kind == "copy" and not done:
+            at, done = len(body), True
             body.extend(run["indent"] + s for s in stmts)
-            done = True
-        elif kind in ("copy", "deriv"):
+        elif kind in ("copy", "deriv", "rebase"):
             continue
         elif kind == "pin":
             if keep_pins or not any(re.search(r"\b%s\b" % re.escape(n), lines[k]) for n in names):
                 body.append(lines[k])
         else:
             body.append(lines[k])
-    new = lines[:run["first"]] + body + lines[run["last"] + 1:]
-    if decls:
-        new = insert_decls("\n".join(new), decls).split("\n")
+    return body, at
+
+
+def drop_dead(text, names):
+    """Declarations of `names` with no remaining use in their function removed (with their ASM_REG pins)."""
+    new = text.split("\n")
     for name in names:
         cand = "\n".join(new)
         masked = mask_comments(cand).split("\n")
@@ -937,7 +1082,43 @@ def page_rewrite(text, run, stmts, decls, keep_pins):
                     if k != dl and re.search(r"\b%s\b" % re.escape(name), masked[k])]:
                 new.pop(dl)
             break
-    return "\n".join(new), new.index(marker) + 1
+    return "\n".join(new)
+
+
+def page_rewrite(text, run, stmts, decls, keep_pins, sub=None):
+    """The run replaced by `stmts` (or by `sub`); dead page/source declarations dropped.
+
+    Returns (text, 1-based line of the first new copy statement)."""
+    lines = text.split("\n")
+    body, at = page_body(lines, run, stmts, keep_pins, sub)
+    new = lines[:run["first"]] + body + lines[run["last"] + 1:]
+    line = run["first"] + at
+    if decls:
+        new = insert_decls("\n".join(new), decls).split("\n")
+        line += len([d for d in decls if d]) + 1
+    marker = new[line]
+    out = drop_dead("\n".join(new), (run["srcvar"], run["pagevar"])).split("\n")
+    best = min((k for k, ln in enumerate(out) if ln == marker), key=lambda k: abs(k - line), default=line)
+    return "\n".join(out), best + 1
+
+
+def page_apply(text, jobs):
+    """Several runs of one text rewritten together: jobs = [(run, stmts, decls, keep_pins, sub)]."""
+    lines, decls, names = text.split("\n"), [], set()
+    for run, stmts, ds, keep, sub in sorted(jobs, key=lambda j: -j[0]["first"]):
+        body, _ = page_body(lines, run, stmts, keep, sub)
+        lines = lines[:run["first"]] + body + lines[run["last"] + 1:]
+        decls += [d for d in ds if d]
+        names.update((run["srcvar"], run["pagevar"]))
+    text = "\n".join(lines)
+    seen, uniq = set(), []
+    for d in decls:
+        if d not in seen:
+            seen.add(d)
+            uniq.append(d)
+    if uniq:
+        text = insert_decls(text, uniq)
+    return drop_dead(text, sorted(names))
 
 
 def page_plans(cand, copy_line):
@@ -954,18 +1135,91 @@ def page_plans(cand, copy_line):
     return out[:6]
 
 
-def page_step(row, cur, target, vf, budget):
-    """One page-run rewrite that the byte gate accepts, or None.  budget = [listings, verifies]."""
+def run_sig(run):
+    """Runs with the same signature take the same rewrite: screen one, apply to all (round 64)."""
+    c = run["copies"][0]
+    return (run["addr"], run["size"], len(run["copies"]), c[5], run["rebase"] is not None,
+            run["srcvar"], run["pagevar"])
+
+
+def page_joint(row, text, target, vf, budget, folds):
+    """Every page run of the function rewritten at once.  (text, tag) or None.
+
+    The four runs of dungeon/func_8187C45C share ONE materialised page base and the seven spawn branches
+    of dungeon/func_819A1654 copy the same object, so a run rewritten alone leaves a base the others still
+    hold; astra's exact texts rewrite them together.  One listing screen per run SIGNATURE picks the form,
+    then all the runs carrying a chosen form are applied together and the joint text alone reaches `vf`."""
+    runs = page_runs(text)[:MAX_JOINT_RUNS]
+    if len(runs) < 2:
+        return None
+    big, pins_in = big_types(text), len(sites_of(text))
+    best, spent = {}, 0
+    for run in runs:
+        sig = run_sig(run)
+        if sig in best:
+            continue
+        for label, decls, stmts, sub in page_variants(text, run, big):
+            for keep in (False, True):
+                if budget[0] >= MAX_LISTINGS or spent >= MAX_SIG_LISTINGS:
+                    break
+                c = refold(page_apply(text, [(run, stmts, decls, keep, sub)]), folds)
+                out = len(sites_of(c))
+                if out >= pins_in:
+                    continue
+                lst = screen.compile_s(row, c)
+                budget[0] += 1
+                spent += 1
+                d = screen.sdiff(target, lst)
+                if d is None:
+                    continue
+                budget[2] = d if budget[2] is None else min(budget[2], d)
+                if best.get(sig) is None or (d, out) < best[sig][:2]:
+                    best[sig] = (d, out, label, keep)
+    if not best:
+        return None
+    for only_zero in (False, True):
+        jobs, tags = [], []
+        for run in runs:
+            b = best.get(run_sig(run))
+            if not b or (only_zero and b[0]):
+                continue
+            v = {l: (dc, st, sb) for l, dc, st, sb in page_variants(text, run, big)}.get(b[2])
+            if v is None:
+                continue
+            jobs.append((run, v[1], v[0], b[3], v[2]))
+            tags.append("%s/%s" % (b[2], "keep" if b[3] else "drop"))
+        if len(jobs) < 2 or budget[0] >= MAX_LISTINGS or budget[1] >= MAX_VERIFY:
+            continue
+        c = refold(page_apply(text, jobs), folds)
+        out = len(sites_of(c))
+        if out >= pins_in:
+            continue
+        lst = screen.compile_s(row, c)
+        budget[0] += 1
+        d = screen.sdiff(target, lst)
+        if d is None:
+            continue
+        budget[2] = d if budget[2] is None else min(budget[2], d)
+        if d:
+            continue
+        budget[1] += 1
+        if vf(c).get("exact"):
+            return c, "joint%d:%s" % (len(jobs), "+".join(sorted(set(tags))))
+    return None
+
+
+def page_step(row, cur, target, vf, budget, folds=()):
+    """One page-run rewrite that the byte gate accepts, or None.  budget = [listings, verifies, best]."""
     big = big_types(cur)
     for run in page_runs(cur)[:MAX_PAGE_RUNS]:
         ranked, pins_in = [], len(sites_of(cur))
-        for label, stmts, decls in page_forms(cur, run, big):
+        for label, decls, stmts, sub in page_variants(cur, run, big):
             for keep in (True, False):
-                base, copy_line = page_rewrite(cur, run, stmts, decls, keep)
+                base, copy_line = page_rewrite(cur, run, stmts, decls, keep, sub)
                 for pl, group in page_plans(base, copy_line):
                     if budget[0] >= MAX_LISTINGS:
                         break
-                    c = erase_many(base, group, clean_notes=True) if group else base
+                    c = refold(erase_many(base, group, clean_notes=True) if group else base, folds)
                     out = len(sites_of(c))
                     if out >= pins_in:
                         continue
@@ -985,6 +1239,29 @@ def page_step(row, cur, target, vf, budget):
     return None
 
 
+def page_phase(row, cur, target, vf, budget):
+    """The page passes over one text: the joint rewrite first, then run-by-run.  (text, [tags])."""
+    steps = []
+    folded, folds = unfold(cur)
+    if folds and not page_runs(folded):
+        folded, folds = cur, []
+    got = page_joint(row, folded, target, vf, budget, folds)
+    if got:
+        cur, tag = got
+        steps.append("page:" + tag)
+    else:
+        cur = refold(folded, folds)
+    while budget[0] < MAX_LISTINGS and budget[1] < MAX_VERIFY:
+        folded, folds = unfold(cur)
+        if folds and not page_runs(folded):
+            folded, folds = cur, []
+        got = page_step(row, folded, target, vf, budget, folds)
+        if not got:
+            break
+        cur, tag = got
+        steps.append("page:" + tag)
+    return cur, steps
+
 # ------------------------------------------------------------------ generator
 
 class T:
@@ -1002,6 +1279,9 @@ class T:
         if "=" not in text:
             return "no statements"
         if runs(text) or page_runs(text):
+            return None
+        folded, folds = unfold(text)                    # a run staged inside a one-line do/while block
+        if folds and page_runs(folded):
             return None
         return "no scalarized copy run"
 
@@ -1053,12 +1333,8 @@ class T:
                     steps.append(tag)
                     break
         budget = [listings, verifies, None]
-        while budget[0] < MAX_LISTINGS and budget[1] < MAX_VERIFY:
-            got = page_step(row, cur, target, vf, budget)
-            if not got:
-                break
-            cur, tag = got
-            steps.append("page:" + tag)
+        cur, page_steps = page_phase(row, cur, target, vf, budget)
+        steps += page_steps
         listings, verifies, page_d = budget
         if page_d is not None:
             best_d = page_d if best_d is None else min(best_d, page_d)

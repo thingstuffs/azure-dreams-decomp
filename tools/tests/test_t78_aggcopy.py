@@ -328,18 +328,31 @@ class PageForms(unittest.TestCase):
 
     def test_the_run_becomes_one_assignment_from_the_symbol(self):
         r = M.page_runs(MEMBERS)[0]
-        label, stmts, decls = M.page_forms(MEMBERS, r, M.big_types(MEMBERS))[0]
-        self.assertEqual(stmts, ["*(Chunk32 *)&offsets = *(Chunk32 *)&D_80024028;"])
-        self.assertEqual(decls, [])
+        forms = M.page_forms(MEMBERS, r, M.big_types(MEMBERS))
+        # the object's own declared type comes first, the anonymous cast form after it
+        self.assertEqual(forms[0][1], ["*(Chunk32 *)&offsets = D_80024028[0];"])
+        self.assertIn(["*(Chunk32 *)&offsets = *(Chunk32 *)&D_80024028;"], [f[1] for f in forms])
+        self.assertEqual(forms[0][2], [])
+
+    def test_a_computed_destination_is_parenthesised(self):
+        self.assertEqual(M.paren_addr("(u8 *)effect + 0x98"), "((u8 *)effect + 0x98)")
+        self.assertEqual(M.paren_addr("&points"), "&points")
+        self.assertEqual(M.paren_addr("dst"), "dst")
+
+    def test_a_scalar_symbol_is_only_spelled_with_an_ampersand(self):
+        t = MEMBERS.replace("extern Chunk32 D_80024028[];", "extern Chunk32 D_80024028;")
+        self.assertEqual(M.sym_names(t, 0x80024028), [("&D_80024028", None)])
+        self.assertEqual(M.sym_decl(t, "D_80024028"), ("Chunk32", False))
+        self.assertEqual(M.sym_decl(MEMBERS, "D_80024028"), ("Chunk32", True))
 
     def test_the_rewrite_drops_the_dead_page_declarations_and_their_pins(self):
         r = M.page_runs(MEMBERS)[0]
         _, stmts, decls = M.page_forms(MEMBERS, r, M.big_types(MEMBERS))[0]
         out, line = M.page_rewrite(MEMBERS, r, stmts, decls, False)
-        self.assertIn("*(Chunk32 *)&offsets = *(Chunk32 *)&D_80024028;", out)
+        self.assertIn(stmts[0], out)
         self.assertNotIn("table_page = (u8 *)0x80020000;", out)   # the page constant joins the run
         self.assertNotIn("offset_source", out)                    # dead, with its ASM_REG declaration
-        self.assertEqual(out.count("ASM_KEEP("), 1)               # the trailing one, for the erase plans
+        self.assertEqual(out.count("ASM_KEEP("), 0)               # the trailing keep is the run's own
         self.assertEqual(out.split("\n")[line - 1].strip(), stmts[0])
 
     def test_keep_pins_leaves_the_windows_pins_for_the_erase_plans(self):
@@ -356,6 +369,109 @@ class PageEligible(unittest.TestCase):
     def test_no_run_of_either_kind_is_refused(self):
         self.assertEqual(M.T.eligible(PAGE_HEAD + "\nvoid f(void) { s32 a; a = 1; ASM_KEEP(a); }\n", {}, {}),
                          "no scalarized copy run")
+
+
+# ------------------------------------------------------------- the joint / staged forms (round 64)
+
+STAGED = PAGE_HEAD + '''extern Chunk12 D_80026180[];
+
+void f(Task *task)
+{
+    register u8 *copy_page ASM_REG("$2");
+    register u8 *copy_source ASM_REG("$6");
+
+    spawn_a(task);
+    do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x6180);  ASM_KEEP(copy_source);  *(Chunk12 *)(task->data) = *(Chunk12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+    spawn_b(task);
+    do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x6180);  ASM_KEEP(copy_source);  *(Chunk12 *)(task->data) = *(Chunk12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+}
+'''
+
+REBASE = PAGE_HEAD + '''
+void f(Task *task)
+{
+    register u8 *copy_page ASM_REG("$2");
+    u8 *copy_source;
+
+    copy_page = (u8 *)0x80020000;
+    ASM_KEEP(copy_page);
+    copy_source = copy_page;
+    copy_source += 0x6198;
+    ASM_KEEP(copy_source);
+    *(Chunk12 *)task->data = *(Chunk12 *)copy_source;
+    copy_page += 0x6198;
+    *(Chunk12 *)(task->data + 12) = *(Chunk12 *)(copy_page + 12);
+    ASM_KEEP(copy_page);
+}
+'''
+
+
+class Staged(unittest.TestCase):
+    def test_a_one_line_do_while_block_is_unfolded_and_folded_back(self):
+        folded, folds = M.unfold(STAGED)
+        self.assertEqual(len(folds), 2)
+        self.assertIn("    copy_source = copy_page + (0x6180);", folded)
+        self.assertNotIn("do {", folded)
+        self.assertEqual(M.refold(folded, folds), STAGED)          # nothing rewritten: nothing reformatted
+
+    def test_the_unfolded_blocks_are_two_page_runs(self):
+        folded, _ = M.unfold(STAGED)
+        rs = M.page_runs(folded)
+        self.assertEqual([(r["addr"], r["size"]) for r in rs], [(0x80026180, 12), (0x80026180, 12)])
+        self.assertEqual(rs[0]["dst"], "task->data")               # `->` is not a subtraction
+        self.assertEqual(M.run_sig(rs[0]), M.run_sig(rs[1]))       # screened once, applied to both
+
+    def test_a_parenthesised_offset_is_read(self):
+        self.assertEqual(M.pbase_off("copy_page + (0x6180)"), ("copy_page", 0x6180))
+        self.assertEqual(M.pbase_off("task->data"), ("task->data", 0))
+
+    def test_both_runs_are_rewritten_together_and_the_rest_is_refolded(self):
+        folded, folds = M.unfold(STAGED)
+        rs, big = M.page_runs(folded), M.big_types(folded)
+        jobs = [(r, v[2], v[1], False, v[3]) for r, v in
+                ((r, M.page_variants(folded, r, big)[0]) for r in rs)]
+        out = M.refold(M.page_apply(folded, jobs), folds)
+        self.assertEqual(out.count("ASM_KEEP("), 0)                # both blocks' keeps fell
+        self.assertNotIn("copy_source", out)                       # dead in BOTH runs: declaration dropped
+        self.assertEqual(out.count("= D_80026180[0];"), 2)
+
+    def test_one_run_rewritten_leaves_the_other_block_folded(self):
+        folded, folds = M.unfold(STAGED)
+        rs, big = M.page_runs(folded), M.big_types(folded)
+        label, decls, stmts, sub = M.page_variants(folded, rs[0], big)[0]
+        out = M.refold(M.page_apply(folded, [(rs[0], stmts, decls, False, sub)]), folds)
+        self.assertEqual(out.count("do {"), 1)                     # the untouched block is put back
+        self.assertIn("copy_source", out)                          # still used by the second block
+
+
+class Rebase(unittest.TestCase):
+    def test_the_transfer_with_a_moved_page_base_is_one_run(self):
+        r = M.page_runs(REBASE)[0]
+        self.assertEqual((r["addr"], r["size"], len(r["copies"])), (0x80026198, 24, 2))
+        self.assertIsNotNone(r["rebase"])
+
+    def test_the_split_form_names_the_object_and_keeps_the_two_chunks(self):
+        r = M.page_runs(REBASE)[0]
+        labels = [l for l, _, _, _ in M.page_variants(REBASE, r, M.big_types(REBASE))]
+        self.assertTrue(labels[0].startswith("split_"), labels)
+        sub = M.split_sub(r, "&D_80026198")
+        stmts = [s for v in sub.values() if v for s in v]
+        self.assertIn("*(Chunk12 *)task->data = *(Chunk12 *)&D_80026198;", stmts)
+        self.assertIn("copy_page = (u8 *)&D_80026198;", stmts)
+        self.assertIn(None, sub.values())                          # the second chunk is left alone
+
+    def test_the_split_rewrite_drops_the_page_constant_and_the_keeps(self):
+        r = M.page_runs(REBASE)[0]
+        label, decls, stmts, sub = M.page_variants(REBASE, r, M.big_types(REBASE))[0]
+        out = M.page_apply(REBASE, [(r, stmts, decls, False, sub)])
+        self.assertNotIn("0x80020000", out)
+        self.assertNotIn("copy_source", out)
+        self.assertEqual(out.count("ASM_KEEP("), 0)
+        self.assertIn("*(Chunk12 *)(task->data + 12) = *(Chunk12 *)(copy_page + 12);", out)
+
+    def test_a_rebase_to_another_object_ends_the_run(self):
+        rs = M.page_runs(REBASE.replace("copy_page += 0x6198;", "copy_page += 0x7000;"))
+        self.assertEqual([(r["size"], r["rebase"]) for r in rs], [(12, None)])   # only the first chunk
 
 
 if __name__ == "__main__":
