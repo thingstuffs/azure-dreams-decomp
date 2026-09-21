@@ -77,32 +77,30 @@ typedef struct S_80026C88_5 {
 } S_80026C88_5;   /* var_a1 in func_80026C88 */
 
 /* Create and link up to six objects with source-relative positions and initialized render data. */
-void *func_80026C88(u16 x, u16 y, s32 z, void *source)
+void *func_80026C88(u16 x, u16 y, s16 z, void *source)
 {
     u16 position_offset[3];
     s32 *callback;
     TableEntry *table_entry;
     s32 object_index;
-    register S_80026C88_4 *render_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
     S_80026C88_3 *coords;
     void *object;
     void *point_cursor;
-    S_80026C88_0 *source_object;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u16 *offset_ptr;
-    s16 saved_z;
+    S_80026C88_0 *source_object;
+    union { u16 *offset; S_80026C88_4 *render; } pointers;
     void *list_head;
 
-    saved_z = z;
     list_head = NULL;
     source_object = source;
-    offset_ptr = position_offset;
+    pointers.offset = position_offset;
     position_offset[0] = position_offset[1] = 0;
-    if (func_8003DE58(source_object->unk_08, source_object, offset_ptr, 0) == 0) {
+    if (func_8003DE58(source_object->unk_08, source_object, pointers.offset, 0) == 0) {
         position_offset[2] = (0 - D_800DDC40[0]) + 0x10;
     }
-    callback = D_80026680;
     object_index = 0;
-    do { table_entry = D_80028820; } while (0);
+    callback = D_80026680;
+    table_entry = D_80028820;
     do {
         object = func_8003FD64(0x212, D_80083498);
         if (object != NULL) {
@@ -116,21 +114,21 @@ void *func_80026C88(u16 x, u16 y, s32 z, void *source)
             state->unk_1A = (s16) (x + position_offset[0]);
             state->unk_1E = (s16) (y + position_offset[1]);
             point_index = 0;
-            state->unk_22 = (s16) (saved_z + position_offset[2]);
+            state->unk_22 = (s16) (z + position_offset[2]);
             coords = ((S_80026C88_1 *)object)->unk_08;
             coords->unk_02 = x;
             coords->unk_0E = x;
             coords->unk_06 = y;
             coords->unk_12 = y;
-            coords->unk_0A = saved_z - 0x100;
-            coords->unk_16 = saved_z - 0x100;
-            render_data = ((S_80026C88_1 *)object)->unk_0C;
+            coords->unk_0A = z - 0x100;
+            coords->unk_16 = z - 0x100;
+            pointers.render = ((S_80026C88_1 *)object)->unk_0C;
             point_cursor = state;
-            render_data->unk_1E = 0x1000;
-            render_data->unk_1C = 0x1000;
+            pointers.render->unk_1E = 0x1000;
+            pointers.render->unk_1C = 0x1000;
             self_link = object + 0x38;
-            render_data->unk_08 = table_entry;
-            render_data->unk_14 = (u16) (render_data->unk_14 | 0xC);
+            pointers.render->unk_08 = table_entry;
+            pointers.render->unk_14 = (u16) (pointers.render->unk_14 | 0xC);
             ((S_80026C88_1 *)object)->unk_20 = self_link;
             state->unk_66 = 0x20;
             state->unk_6E = object_index;
@@ -147,10 +145,6 @@ void *func_80026C88(u16 x, u16 y, s32 z, void *source)
         object_index += 1;
         table_entry += 1;
     } while (object_index < 6);
-    ASM_KEEP(saved_z);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     return object;
 }
 
-/* MECHANISM: position[3] owns the three halfword stack slots; s5/s6 hold arg2/list head.
-   Guarded ABI/block pins preserve a1/a2 call setup and a3/t0/a0/a1 copy-loop roles.
-   A split self_link computation and direct arg2-0x100 stores prevent unwanted hoisting. */

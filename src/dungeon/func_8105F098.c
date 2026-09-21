@@ -43,11 +43,12 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
     void *object;
     S_8016A898_1 *motion;
     s8 held_arg1;
-    register s32 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 saved_arg3 ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    register s32 saved_arg2 ASM_REG("$21");
+    s32 saved_arg3;
     register s16 final_arg;
     void *tail_actor;
     S_8016A898_2 *tail_entity;
+    void *part_data;
     s32 value;
     u32 flags_a;
     u32 flags_b;
@@ -71,10 +72,10 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
 
         motion = (*(void * *)((u8 *)object + 8));
         motion->unk_0A = saved_arg3;
-        arg3 = (s32)(*(void * *)((u8 *)object + 0xC));
-        (*(u8 *)((u8 *)((void *)arg3) + 0x25)) = saved_arg2;
-        (*(Callback *)((u8 *)((void *)arg3) + 0x2C)) = D_8016DFB8;
-        (*(u8 *)((u8 *)((void *)arg3) + 0x24)) = held_arg1;
+        part_data = (*(void * *)((u8 *)object + 0xC));
+        (*(u8 *)((u8 *)((void *)part_data) + 0x25)) = saved_arg2;
+        (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016DFB8;
+        (*(u8 *)((u8 *)((void *)part_data) + 0x24)) = held_arg1;
         arg2 = (s32)result;
 
         if ((arg0 & 3) == 1) {
@@ -108,19 +109,19 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
                 ((S_8016A898_0 *)result)->unk_1C.n |= 0x200;
                 value = func_800A6D30();
                 func_800A48F0(result, 1, (value & 0x3F) | 0x20);
-                (*(Callback *)((u8 *)((void *)arg3) + 0x2C)) = D_8016E000;
+                (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016E000;
             }
         }
 
 initialize:
-        func_800A9C18(object, motion, (void *)arg3, final_arg);
+        func_800A9C18(object, motion, (void *)part_data, final_arg);
 
         tail_actor = (void *)arg2;
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)tail_actor + 0x8C)) = D_8016AF68;
-        tail_flags = (*(u16 *)((u8 *)((void *)arg3) + 0x14));
-        tail_entity = (void *)arg3;
+        tail_flags = (*(u16 *)((u8 *)((void *)part_data) + 0x14));
+        tail_entity = (void *)part_data;
         tail_flags |= 0xC;
         tail_entity->unk_14 = tail_flags;
         (*(s16 *)((u8 *)tail_actor + 0xAA)) = ((S_8016A898_0 *)result)->unk_14.u16 & 7;

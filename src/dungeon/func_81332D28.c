@@ -61,18 +61,16 @@ u8 *func_80169D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *first;
     u8 *second;
     s16 saved_arg0;
-    /* MATCH: Preserve retail's register allocation for the saved second argument. */
-    register s16 saved_arg1 ASM_REG("$20");
+    register s32 saved_arg1 ASM_REG("$20");
     s16 saved_arg2;
-    /* MATCH: Schedule the saved fourth argument after result initialization. */
-    register s16 saved_arg3 ASM_REG("$17");
+    s16 saved_arg3;
 
     result = NULL;
     saved_arg3 = arg3;
     saved_arg0 = arg0;
     saved_arg1 = arg1;
     saved_arg2 = arg2;
-    if (func_800F6598(arg0, arg1, arg2, arg3) == 0) {
+    if (func_800F6598(arg0, saved_arg1, arg2, arg3) == 0) {
         obj = func_8003FD64(0x112, D_80083498);
         if (obj != NULL) {
             result = obj + 0x20;

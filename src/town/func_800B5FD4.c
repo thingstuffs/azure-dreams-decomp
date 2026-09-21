@@ -29,7 +29,6 @@ extern void func_800B3440(void *arg0);
 /* Initialize slot data pointers and offsets, then set up the object. */
 void func_800B3734(Obj *object) {
     Obj *obj = object;
-    register void *slot_data ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 slot_index;
 
     for (slot_index = 0; slot_index < 2; slot_index++) {
@@ -37,11 +36,10 @@ void func_800B3734(Obj *object) {
         obj->unk0xA8[slot_index]->unk04->unk08 = slot_index << 7;
     }
 
-    slot_data = (u8 *)obj + 0x28;
-    func_800B3558(slot_data);
+    func_800B3558((u8 *)obj + 0x28);
 
     for (slot_index = 2; slot_index < 4; slot_index++) {
-        obj->unk0xA8[slot_index]->unk00 = slot_data;
+        obj->unk0xA8[slot_index]->unk00 = (u8 *)obj + 0x28;
         obj->unk0xA8[slot_index]->unk04->unk08 = (slot_index - 2) << 7;
     }
 

@@ -125,8 +125,6 @@ void *func_8015E86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     u16 flags;
     u16 child_flags;
     u16 elem_flags;
-    register s32 call_code ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 call_zero;
     register u32 color ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
@@ -210,24 +208,21 @@ call_actor_setup:
                 while (i < ((S_8015E86C_6 *)child)->unk_02) {
                     color = 0x00C0C0C0;
                     elem = (u8 *)child + elem_offset;
-                    ASM_KEEP(elem);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    call_code = 39;
                     child_flags = ((S_8015E86C_6 *)child)->unk_04;
-                    ASM_KEEP(child_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    call_zero = 0;
-                    ASM_KEEP_NV(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     ((S_8015E86C_6 *)child)->unk_04 = child_flags | 0x8000;
                     child_arg = part_b->unk_28;
                     elem_flags = elem->unk_14;
                     elem->unk_10 = 96;
                     elem->unk_28 = child_arg;
                     elem->unk_14 = elem_flags | 0xC;
-                    elem_offset += 48;
+
                     elem->unk_12 = part_b->unk_12 - 128;
                     elem->unk_0C = color;
                     ((S_8015E86C_9 *)(base->unk_A4))->unk_10 = D_800D78C0;
+
+                    func_80047784(elem, 39, 0, child_arg);
+                    elem_offset += 48;
                     i++;
-                    func_80047784(elem, call_code, call_zero, child_arg);
                     ((S_8015E86C_6 *)child)->unk_06 = 0;
                     func_800478E8(part_b, D_800D71A8, 0);
                     ((S_8015E86C_6 *)child)->unk_98 = (u8 *)obj + 30;
