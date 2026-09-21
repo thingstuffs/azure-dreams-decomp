@@ -144,7 +144,8 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     u16 temp_v1_2;
     u16 temp_v1_3;
     void *temp_v0_3;
-    register void *var_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *var_s0;
+    void *var_s0_2;
     register void *arg1 ASM_REG("$19") = in1;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     void *arg2 = in2;
     s32 *global_s7;
@@ -430,15 +431,15 @@ block_100:
                             ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                             temp_v0_3 = func_800374FC(0x136, D_801328C8);
                             if (temp_v0_3 != NULL) {
-                                var_s0 = ((S_8080C650_4 *)temp_v0_3)->unk_0C;
+                                var_s0_2 = ((S_8080C650_4 *)temp_v0_3)->unk_0C;
                                 func_8003BC18(temp_v0_3, D_8003C558);
-                                ((S_8080C650_1 *)var_s0)->unk_0C = 0x808080;
-                                ((S_8080C650_1 *)var_s0)->unk_1E = (s16)(s32)global_s5;
-                                ((S_8080C650_1 *)var_s0)->unk_1C = (s16)(s32)global_s5;
+                                ((S_8080C650_1 *)var_s0_2)->unk_0C = 0x808080;
+                                ((S_8080C650_1 *)var_s0_2)->unk_1E = (s16)(s32)global_s5;
+                                ((S_8080C650_1 *)var_s0_2)->unk_1C = (s16)(s32)global_s5;
                                 ((S_8080C650_4 *)temp_v0_3)->unk_22 = 0x78;
                                 ((S_8080C650_4 *)temp_v0_3)->unk_24 = arg1;
                                 ((S_8080C650_4 *)temp_v0_3)->unk_10 = (s32)D_80529080;
-                                func_80034A1C(var_s0, D_8028954C, (s16)(var_s2 * 4));
+                                func_80034A1C(var_s0_2, D_8028954C, (s16)(var_s2 * 4));
                             }
                             var_s2 -= 1;
                             if (var_s2 >= 0) {

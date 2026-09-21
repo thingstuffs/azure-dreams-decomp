@@ -68,7 +68,8 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
     u8 *effect_state;
     register s32 scale_step ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 direction_factor;
-    register s32 scaled_factor ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 direction_factor_2;
+    s32 scaled_factor;
     s32 random_value;
     s16 part_scale;
     s32 alloc_kind;
@@ -120,8 +121,8 @@ void *func_80024804(void *source, Copy24 *origin, s16 size_step)
     position->word[0] -= (scaled_factor = direction_factor >> 4) *
         (func_800644B8(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * scale_step * 8;
 
-    direction_factor = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
-    position->word[1] -= (scaled_factor = direction_factor >> 4) *
+    direction_factor_2 = func_800644B8(((S_80024804_3 *)effect_state)->unk_0E.s);
+    position->word[1] -= (scaled_factor = direction_factor_2 >> 4) *
         (func_80064584(((S_80024804_3 *)effect_state)->unk_10.s) >> 4) * scale_step * 8;
 
     position->word[2] -=

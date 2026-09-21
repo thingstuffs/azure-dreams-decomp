@@ -54,10 +54,9 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
     void *check_motion;
     void *check_sprite;
     s32 height_offset;
-    register u32 height_bits ASM_REG("$3");
+    u32 height_bits;
     s16 direction;
     s16 ground_height;
-    s32 entity_flags;
     register s32 height_adjust;
     u16 initial_sprite_flags;
     u16 sprite_flags;
@@ -100,7 +99,6 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
         s32 previous_state;
 
         previous_state = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(previous_state);
         previous_state >>= 16;
         if (previous_state != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);
@@ -145,8 +143,8 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
         }
 
         ((S_801653A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-        entity_flags = ((S_801653A8_2 *)entity_base)->unk_1C;
-        if (entity_flags & 0x40000) {
+        height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
+        if (height_sum & 0x40000) {
             sprite_flags = ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v;
             if (!(sprite_flags & 0x40)) {
                 u8 *direction_frames = ((Rec_D_80082E80 *)sprite)->unk_2C.as_pu8;
@@ -177,8 +175,8 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
 adjust_normal:
             height_adjust = (*(u16 *)((u8 *)entity + 0x98)) & 8;
             if (height_adjust == 0) {
-                height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 height_bits = (*(u16 *)((u8 *)entity + 0x92));
+                height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 if (height_adjust < height_offset) {
                     height_adjust = height_bits - 8;
                     shared_tail:
@@ -227,9 +225,9 @@ adjust_normal:
         ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = initial_sprite_flags | 0x7000;
     }
     ((S_801653A8_2 *)entity_base)->unk_1C &= 0xF7FFFFFF;
-    entity_flags = ((S_801653A8_2 *)entity_base)->unk_1C;
+    height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
 
-    if (!(entity_flags & 0x40000)) {
+    if (!(height_sum & 0x40000)) {
         height_adjust = (*(s32 *)((u8 *)entity + 0xA4));
         height_sum = (*(s32 *)((u8 *)entity + 0x90));
         height_flags = (*(u16 *)((u8 *)entity + 0x98));
@@ -291,9 +289,9 @@ adjust_special:
         goto finish_motion;
     }
 finish_motion:
-    entity_flags = ((S_801653A8_2 *)entity_base)->unk_1C;
-    if (entity_flags & 0x40000000) {
-        ((S_801653A8_2 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
+    height_sum = ((S_801653A8_2 *)entity_base)->unk_1C;
+    if (height_sum & 0x40000000) {
+        ((S_801653A8_2 *)entity_base)->unk_1C = height_sum & 0xBFFFFFFF;
         ground_height = func_800BCB04((((Rec_D_80082E80 *)sprite)->unk_24 << 6) | 0x20,
                               (((Rec_D_80082E80 *)sprite)->unk_25 << 6) | 0x20,
                               (s16)(((S_801653A8_2 *)entity_base)->unk_88 - 0x20));

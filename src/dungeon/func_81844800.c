@@ -234,6 +234,12 @@ __asm__(".globl func_81844800\n"
 #define BODY_ATTR
 #endif
 
+static __inline__ s16 delta_axis(s8 target, u16 start) {
+    s32 t = target;
+    t <<= 6;
+    start -= 32;
+    return t - start;
+}
 BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_render) BODY_ATTR;
 /* Updates a staged effect, moves it toward its target, and emits particles. */
 BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_render) {
@@ -369,7 +375,7 @@ case0:
                 delta.x = 0;
             }
             {
-                register s32 target_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                s32 target_x;
                 owner_start = owner_base;
                 ((S_81844800_3 *)motion)->unk_00.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_02 + delta.x;
                 ((S_81844800_3 *)motion)->unk_04.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_06 + delta.y;
@@ -377,19 +383,15 @@ case0:
                 ((S_81844800_0 *)effect)->unk_50.s = 8;
                 {
                     target_x = ((S_81844800_1 *)owner)->unk_72.u;
-                    ASM_KEEP(target_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
-                        s16 start_x = ((S_81844800_3 *)motion)->unk_00.at02.v - 0x20;
-                        ((S_81844800_3 *)motion)->unk_0C.at02.v = (target_x << 6) - start_x;
+                        ((S_81844800_3 *)motion)->unk_0C.at02.v = delta_axis(target_x, ((S_81844800_3 *)motion)->unk_00.at02.v);
                     }
                 }
                 ((S_81844800_3 *)motion)->unk_0C.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;
                 {
                     target_x = ((S_81844800_1 *)owner)->unk_73.u;
-                    ASM_KEEP(target_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
-                        s16 start_y = ((S_81844800_3 *)motion)->unk_04.at02.v - 0x20;
-                        ((S_81844800_3 *)motion)->unk_10.at02.v = (target_x << 6) - start_y;
+                        ((S_81844800_3 *)motion)->unk_10.at02.v = delta_axis(target_x, ((S_81844800_3 *)motion)->unk_04.at02.v);
                     }
                 }
                 ((S_81844800_3 *)motion)->unk_10.at00.v /= ((S_81844800_0 *)effect)->unk_50.u;

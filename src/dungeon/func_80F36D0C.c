@@ -131,13 +131,10 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     case 0:
         angle_index = object->angle >> 9;
         direction = angle_index & 7;
-        angle_index = (u32)((s16 *)0x80070000);
-        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        angle_index = (u32)D_8006CCD8;
         entity->saved_x = motion->x.half.hi;
         saved_y = motion->y.half.hi;
-        ASM_KEEP_NV(saved_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        angle_index = (u32)((s16 *)((u8 *)(s16 *)angle_index - 0x3328));
-        ASM_KEEP_NV(angle_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+
         entity->saved_y = saved_y;
         record_offset = direction << 1;
 
@@ -151,10 +148,9 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         record = (PackedRecord *)((record_index << 2) + (unsigned long)record_base);
 
         if (record->bytes[1] == 0x12) {
+            spawn_parent = (u8 *)entity - 0x20;
             object->copy = *record;
             ASM_KEEP(record);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            spawn_parent = (u8 *)entity - 0x20;
-            ASM_KEEP_NV(spawn_parent);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             return_step_addr = (unsigned long)(D_800E36C8);
             animation_entry = record_index * 12;
             tile = (TileRecord *)(animation_entry + (unsigned long)(TileRecord *)return_step_addr);

@@ -174,9 +174,8 @@ copy_source_pos:
     z_or_state = ((S_80024660_5 *)motion)->unk_08.at02.v;
     ASM_KEEP(z_or_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
-        register u16 z_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        z_offset = scratch.dist[2];
-        z_or_state = z_or_state + z_offset;
+        source_z = scratch.dist[2];
+        z_or_state = z_or_state + source_z;
     }
     goto set_start_z;
 lower_source_z:

@@ -380,9 +380,8 @@ L5:
         ticks = ((S_80172C90_1 *)action)->unk_96.u;
         ticks_squared = ticks * ticks;
         ASM_USE_NV(ticks);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        sprite->unk_1C.at00_u16.v = 0x1000 + ticks_squared * 300;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         sprite->unk_1C.at02_u16.v = 0x1000 - ticks_squared * 200;
+        sprite->unk_1C.at00_u16.v = 0x1000 + ticks_squared * 300;
     }
     if (((S_80172C90_1 *)action)->unk_96.u > 0) {
         return;

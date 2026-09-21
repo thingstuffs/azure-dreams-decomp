@@ -206,7 +206,6 @@ void func_8002520C(void *menu_in, void *motion_in, void *appearance_in) {
     s16 exit_left;
     s32 state;
     s16 wrap_side;
-    s32 other_x;
     s32 x_in_bounds;
     u16 *other_dir_dst;
     u16 *other_dir_src;
@@ -362,29 +361,20 @@ check_other_side:
                     other_slot_data = menu + 0x10;
                 }
                 step_or_cell = (s32) ((S_8002520C_7 *)(*other_slot_data))->unk_0C;
-                other_x = ((S_8002520C_8 *)((void *) step_or_cell))->unk_24;
-                ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                state = ((S_8002520C_8 *)((void *) step_or_cell))->unk_24;
                 target_x = x_value & 0xFFFF;
-                if (target_x != other_x) {
+                if (target_x != state) {
                     x_in_bounds = target_x < 3U;
                 } else {
                     y_value = target_y;
                     if (y_value == ((S_8002520C_8 *)((void *) step_or_cell))->unk_25) {
-                        register s32 y_step_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                        s32 x_step_value;
+                        s32 y_step_value;
 
                         step_or_cell = step_index & 0xFFFF;
                         ASM_KEEP_NV(step_or_cell);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        x_step_value = (s32) D_8006CCD8;
-                        step_or_cell *= 2;
-                        x_step_value = step_or_cell + x_step_value;
-                        y_step_value = (s32) D_8006CCE8;
-                        step_or_cell += y_step_value;
-                        x_step_value = *(u16 *) x_step_value;
-                        y_step_value = *(u16 *) step_or_cell;
-                        x_value += x_step_value;
-                        y_step_value = y_value + y_step_value;
-                        target_y = (u16) y_step_value;
+                        x_value += D_8006CCD8[step_or_cell];
+                        y_step_value = y_value + D_8006CCE8[step_or_cell];
+                        target_y = y_step_value;
                     }
                     x_in_bounds = (x_value & 0xFFFF) < 3U;
                 }

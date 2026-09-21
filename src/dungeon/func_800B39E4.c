@@ -276,20 +276,21 @@ void func_800B9144(void *position, void *context, s32 depth, s16 draw_mode)
             {
                 s16 edge_work;
                 s32 uv_work;
-                register s32 right_u ASM_REG("$4");
-                register s32 left_x ASM_REG("$5");
+                s32 uv_work_2;
+                u16 right_u;
+                s32 left_x;
 
                 edge_work = U16(scratch, 0x14);
                 uv_work = U16(scratch, 8);
                 left_x = S16(packet, 8);
                 edge_work |= uv_work;
                 S16(packet, 0x1C) = edge_work;
-                uv_work = U16(scratch, 0x14);
+                uv_work_2 = U16(scratch, 0x14);
                 right_u = U16(scratch, 0x10);
                 edge_work = S16(packet, 0x20);
-                uv_work |= right_u;
+                uv_work_2 |= right_u;
                 edge_work = edge_work < left_x;
-                S16(packet, 0x24) = uv_work;
+                S16(packet, 0x24) = uv_work_2;
                 if (edge_work != 0) {
                     uv_work = U8(packet, 0x24);
                     edge_work = uv_work + 0xFF;

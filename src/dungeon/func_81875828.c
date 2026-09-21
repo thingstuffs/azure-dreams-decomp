@@ -47,7 +47,8 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   u8 *initial_current;
   u16 second_coord;
   u16 third_coord;
-  register u8 *entry ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  u8 *entry;
+  u8 *entry_2;
   Scratch *active;
   Scratch *call_base;
   Scratch *call_arg;
@@ -88,20 +89,19 @@ next_entry:
     *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
     {
       register u32 table_slot ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-      register u32 table_word;
+      register s32 table_word;
       table_slot = active->index;
       table_slot = (table_slot << 2) + (u32) active->table;
       table_word = *((u32 *) table_slot);
       table_word = (table_word & high_mask) | ((u32) entry & low_mask);
-      ASM_KEEP_DEP_NV(table_word, entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       *((u32 *) table_slot) = table_word;
     }
-    entry = active->current;
-    active->current = entry + 0xC;
-    func_80067F20(entry, 0, 0, (u16) func_80066460(0, 1, 0, 0), 0);
-    *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
-    entry = (u8 *) (((u32) entry) & low_mask);
-    active->table[active->index] = (active->table[active->index] & high_mask) | ((u32) entry);
+    entry_2 = active->current;
+    active->current = entry_2 + 0xC;
+    func_80067F20(entry_2, 0, 0, (u16) func_80066460(0, 1, 0, 0), 0);
+    *((u32 *) (((u8 *) entry_2) + 0)) = ((*((u32 *) (((u8 *) entry_2) + 0))) & high_mask) | (active->table[active->index] & low_mask);
+    entry_2 = (u8 *) (((u32) entry_2) & low_mask);
+    active->table[active->index] = (active->table[active->index] & high_mask) | ((u32) entry_2);
   }
   previous = *((u8 **) (((u8 *) arg0) - 8));
   if (previous != 0)

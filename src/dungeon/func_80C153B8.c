@@ -77,7 +77,6 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
     u8 *animation_table;
     u16 status_flags;
     u16 movement_flags;
-    register u32 actor_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     if (initial_flags & 0x2000) {
         EntityCallback early_callback = (*(EntityCallback *)((u8 *)actor + (0x8C)));
@@ -154,9 +153,8 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
             ((S_80170BB8_2 *)actor_state)->unk_1C.u &= 0xFFFBFFFF;
         }
 
-        actor_flags = ((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF;
-        ((S_80170BB8_2 *)actor_state)->unk_1C.u = actor_flags;
-        if (actor_flags & 0x40000) {
+        ((S_80170BB8_2 *)actor_state)->unk_1C.u = ((u32)(((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF));
+        if (((u32)(((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF)) & 0x40000) {
             if (!(((S_80170BB8_1 *)object)->unk_14 & 0x40)) {
                 status_flags = (*(u16 *)((u8 *)actor + (0x98)));
                 if (status_flags & 0x8000) {
@@ -229,10 +227,9 @@ void func_80170BB8(void *actor_arg, void *motion_arg, void *object_arg)
     } else {
         ((S_80170BB8_1 *)object)->unk_14 = status_flags & 0x8FFF;
     }
-    actor_flags = ((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF;
-    ((S_80170BB8_2 *)actor_state)->unk_1C.u = actor_flags;
+    ((S_80170BB8_2 *)actor_state)->unk_1C.u = ((u32)(((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF));
 
-    if (!(actor_flags & 0x40000)) {
+    if (!(((u32)(((S_80170BB8_2 *)actor_state)->unk_1C.u & 0xF7FFFFFF)) & 0x40000)) {
         (*(s16 *)((u8 *)actor + (0xA8))) = 0;
         (*(s16 *)((u8 *)actor + (0x92))) -= bob;
         bob = 0;

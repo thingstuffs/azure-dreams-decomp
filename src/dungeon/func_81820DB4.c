@@ -151,8 +151,8 @@ after_color:
     }
 
     query_height = obj->height;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    query_height = (s16)(query_height - 0x30);
+    query_height -= 0x30;
+    query_height = (s16)query_height;
     height_or_index = (s16)func_800BCB04(*(u16 *)((u8 *)obj + 6),
                            *(u16 *)((u8 *)obj + 0x0A), query_height);
     if (height_or_index < 0x200) {

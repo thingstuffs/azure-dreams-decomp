@@ -97,7 +97,7 @@ void func_80173560(void *action, void *motion, void *sprite_arg, void *actor_arg
     s32 state;
     register s32 action_value ASM_REG("$2");
     s32 has_item;
-    register s32 sound_id ASM_REG("$4");
+    s16 sound_id;
     s32 item_addr;
     register s32 item_or_audio_base ASM_REG("$17");
     s32 item_id;
@@ -237,8 +237,8 @@ start_audio:
     item_or_audio_base = (s32)D_800DDAB8;
     action_value = func_800A9400(item_id);
     sound_id = 0x1300;
-    ASM_USE(sound_id);
-    audio_index = action_value << 16;
+    action_value <<= 16;
+    audio_index = action_value;
     audio_index >>= 16;
     func_800A56E0(sound_id);
     func_8003F540(0, D_8006CD58[0],

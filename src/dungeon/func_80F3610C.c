@@ -82,7 +82,6 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     void *spawned_data;
     void *render_asset;
     S_8017390C_4 *spawned_transform;
-    void *update_actor;
     void *init_obj;
     s32 angle;
 
@@ -163,11 +162,10 @@ active:
     goto done;
 
 state_two:
-    update_actor = actor;
-    ASM_KEEP(update_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    transform = actor;
     ASM_KEEP(work_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
        /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800AD058(update_actor, work_data, render, actor_data);
+    func_800AD058(transform, work_data, render, actor_data);
 
 done:
     return;

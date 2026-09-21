@@ -225,9 +225,9 @@ block_34:
     func_800A56E0(0x703);
     current_state = ((S_801727C8_0 *)action)->unk_9B;
     {
-        register s32 delay_ticks ASM_REG("$3") = 6;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        state = 6;
 
-        ((S_801727C8_0 *)action)->unk_96 = (u16)delay_ticks;
+        ((S_801727C8_0 *)action)->unk_96 = (u16)state;
     }
     goto block_44_increment;
 block_36:

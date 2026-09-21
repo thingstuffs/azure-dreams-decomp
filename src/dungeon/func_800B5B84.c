@@ -54,7 +54,6 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
     s32 line_offset_y;
     register s32 apply_offset_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *line_table;
-    s32 primitive_flag;
 
     state_addr = (u8 **)D_80083160;
     state = *(u8 **)D_80083160;
@@ -80,8 +79,11 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
         bottom_center.y = ((S_800BB2E4_1 *)rect)->unk_02.u + ((S_800BB2E4_1 *)rect)->unk_06;
         func_800B8FC8(draw_id, rect, &bottom_center, 0, 0);
         state = *(u8 **)D_80083160;
-        primitive_flag = 1;
-        goto allocate_primitive;
+        primitive = ((S_800BB2E4_0 *)state)->unk_8D0;
+        ((S_800BB2E4_0 *)state)->unk_8D0 = primitive + 0xC;
+        func_80067EF4(primitive, 1, 0);
+        func_8006658C(ordering_table, primitive);
+        goto after_allocate;
     }
 
     if ((fill << 16) == 0) {
@@ -102,17 +104,15 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
         func_8006658C(line_table, packet, offset_y);
 
         state = *(u8 **)D_80083160;
-        ASM_USE(state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        primitive_flag = 0;
-allocate_primitive:
         primitive = ((S_800BB2E4_0 *)state)->unk_8D0;
         ((S_800BB2E4_0 *)state)->unk_8D0 = primitive + 0xC;
-        func_80067EF4(primitive, primitive_flag, 0);
+        func_80067EF4(primitive, 0, 0);
         func_8006658C(ordering_table, primitive);
     } else {
         goto draw_packet;
     }
 
+after_allocate:
     if ((fill_rect << 16) != 0) {
 draw_packet:
         state = *state_addr;

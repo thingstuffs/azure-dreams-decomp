@@ -125,7 +125,6 @@ void *func_8016A86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     u16 flags;
     u16 child_flags;
     u16 elem_flags;
-    register u32 color ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     saved_arg2 = arg2;
@@ -206,7 +205,6 @@ call_actor_setup:
                 base = current;
                 elem_offset = 8;
                 while (i < ((S_8016A86C_6 *)child)->unk_02) {
-                    color = 0x00C0C0C0;
                     elem = (u8 *)child + elem_offset;
                     child_flags = ((S_8016A86C_6 *)child)->unk_04;
                     ((S_8016A86C_6 *)child)->unk_04 = child_flags | 0x8000;
@@ -217,7 +215,7 @@ call_actor_setup:
                     elem->unk_14 = elem_flags | 0xC;
 
                     elem->unk_12 = part_b->unk_12 - 128;
-                    elem->unk_0C = color;
+                    elem->unk_0C = ((u32)(0x00C0C0C0));
                     ((S_8016A86C_9 *)(base->unk_A4))->unk_10 = D_800D78C0;
 
                     func_80047784(elem, 39, 0, child_arg);

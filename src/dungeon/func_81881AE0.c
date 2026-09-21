@@ -78,7 +78,7 @@ s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
     u32 addr_mask = 0x00FFFFFF;
     u32 length_mask = 0xFF000000;
     void *packet;
-    s32 *ot_entry;
+    union { s32 * pointer; u32 value; } ot_entry;
 
     {
         void *render_state = (*(void * *)((u8 *)D_80080000 + 0x3160));
@@ -106,10 +106,10 @@ s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
             {
                 u32 depth_index;
                 depth_index = *(volatile u32 *)(scratch + 0xC0);
-                ot_entry = (s32 *)((depth_index << 2) +
+                ot_entry.pointer = (s32 *)((depth_index << 2) +
                               (u32)*(void * volatile *)(scratch + 0x20));
             }
-            *ot_entry = (*ot_entry & length_mask) | ((u32)packet & addr_mask);
+            *ot_entry.pointer = (*ot_entry.pointer & length_mask) | ((u32)packet & addr_mask);
             packet = ((S_800252E0_1 *)scratch)->unk_18;
             ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;
             func_80067F20(packet, 0, 0, func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
@@ -117,12 +117,11 @@ s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
                 (*(s32 *)((((S_800252E0_1 *)scratch)->unk_C0 << 2) +
                           (u32)((S_800252E0_1 *)scratch)->unk_20) & addr_mask);
             {
-                register u32 ot_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ot_addr = *(volatile u32 *)(scratch + 0xC0);
-                ot_addr = (ot_addr << 2) +
+                ot_entry.value = *(volatile u32 *)(scratch + 0xC0);
+                ot_entry.value = (ot_entry.value << 2) +
                            (u32)*(void * volatile *)(scratch + 0x20);
                 packet = (void *)((u32)packet & addr_mask);
-                *(s32 *)ot_addr = (*(s32 *)ot_addr & length_mask) |
+                *(s32 *)ot_entry.value = (*(s32 *)ot_entry.value & length_mask) |
                                    (u32)packet;
             }
         }

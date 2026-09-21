@@ -63,7 +63,6 @@ s32 func_80017BEC(s16 region_id) {
     s32 value_work_2;
     S_80017BEC_2 *neighbor;
     S_80017BEC_1 *start_tile;
-    S_80017BEC_4 *retry_tile;
     register u8 *lookup_base ASM_REG("$9");
     u16 *next_x_step;
 
@@ -187,13 +186,12 @@ scan_neighbors:
             retry_y = cursor.sp12;
             retry_shift = ((S_80017BEC_0 *)map_info)->unk_14;
             start_x = cursor.sp10;
-            retry_tile = ((start_x + (retry_y << retry_shift)) * 6) + tiles_base;
-            ASM_KEEP(retry_tile);
+            coord_work = ((start_x + (retry_y << retry_shift)) * 6) + tiles_base;
             start_x = steps_left - 1;
             steps_left = start_x;
-            value_work = retry_tile->unk_04;
+            value_work = ((S_80017BEC_4 *)coord_work)->unk_04;
             start_x <<= 0x10;
-            retry_tile->unk_04 = (u16)(value_work | 0x100);
+            ((S_80017BEC_4 *)coord_work)->unk_04 = (u16)(value_work | 0x100);
             if (start_x <= 0) {
 success:
                 result = 1;

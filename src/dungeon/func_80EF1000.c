@@ -209,8 +209,8 @@ interpolate_position:
 
         countdown_raw = (u16)motion->unk_36 - 1;
         motion->unk_36 = countdown_raw;
-        ASM_KEEP(countdown_raw);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        shifted_countdown = (s32)(countdown_raw << 16);
+        countdown_raw <<= 16;
+        shifted_countdown = (s32)countdown_raw;
         countdown = shifted_countdown >> 16;
         if (countdown == 0)
             goto check_arrival;
@@ -218,22 +218,23 @@ interpolate_position:
             s32 interp_current;
 
             interp_goal = position->unk_0E;
-            ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = position->unk_00.half.unk_02.s - 32;
-            interp_goal =
-                (interp_goal * 64 - interp_current) / countdown;
-            position->unk_00.half.unk_02.s += interp_goal;
-
-            interp_goal = position->unk_12;
-            ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = position->unk_04.half.unk_06.s;
-            countdown = motion->unk_36;
-            ASM_KEEP(countdown);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_goal = interp_goal * 64;
+            interp_current = position->unk_00.half.unk_02.s;
+            interp_goal *= 64;
             interp_current -= 32;
             interp_goal -= interp_current;
             interp_goal /= countdown;
+            position->unk_00.half.unk_02.s += interp_goal;
 
+            {
+                s32 goal = position->unk_12;
+                s32 current = position->unk_04.half.unk_06.s;
+                s32 ticks = motion->unk_36;
+                s32 delta;
+                s32 scaled = goal;
+                scaled *= 64;
+                delta = current - 32;
+                interp_goal = (scaled - delta) / ticks;
+            }
             interp_current = position->unk_04.half.unk_06.u;
             countdown = position->unk_08.half.unk_0A;
             interp_current += interp_goal;
@@ -301,11 +302,9 @@ update_flight:
 
         coord = motion->unk_70;
         interp_goal = motion->unk_34;
-        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         rounded = motion->unk_7C;
-        ASM_KEEP(rounded);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        point = &grid_base[interp_goal];
-        ASM_KEEP(point);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        interp_goal <<= 2;
+        point = (GridPoint *)((u8 *)grid_base + interp_goal);
         interp_goal = motion->unk_5C;
         coord += rounded;
         motion->unk_70 = coord;

@@ -48,13 +48,11 @@ typedef struct S_8014D3A8_2 {
 void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
 {
     register void *entity_base ASM_REG("$19") = entity;
-    register s16 old_state ASM_REG("$16");
-    register u8 state_byte ASM_REG("$2");
+    s16 old_state;
     void *call_entity;
     void *call_motion;
     void *call_sprite;
     s32 height_offset;
-    register u32 height_bits ASM_REG("$3");
     s16 direction;
     s16 ground_height;
     s32 entity_flags;
@@ -82,8 +80,7 @@ void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
     call_motion = motion;
     call_sprite = sprite;
     ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base);
-    state_byte = (*(u8 *)((u8 *)entity + 0x6D));
-    old_state = (s8)state_byte;
+    old_state = (s8)((*(u8 *)((u8 *)entity + 0x6D)));
     if (func_800A9E70(call_entity, call_motion, call_sprite, entity) != 0) {
         return;
     }
@@ -95,12 +92,11 @@ void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
             ordinary_callback(entity, motion, sprite, entity);
         }
     }
-    D_801506A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
+    D_801506A0[((u8 *)entity)[154]](entity, motion, sprite, entity);
     {
-        register s32 state_compare ASM_REG("$2");
+        s32 state_compare;
 
         state_compare = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(state_compare);
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);
@@ -175,10 +171,10 @@ clear_ground_flag:
 
             adjustment = (*(u16 *)((u8 *)entity + 0x98)) & 8;
             if (adjustment == 0) {
+                entity_flags = (*(u16 *)((u8 *)entity + 0x92));
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
-                height_bits = (*(u16 *)((u8 *)entity + 0x92));
                 if (adjustment < height_offset) {
-                    adjustment = height_bits - 8;
+                    adjustment = entity_flags - 8;
                     ASM_SCHED_BARRIER();
                     (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
                     goto finish_motion;
@@ -269,15 +265,15 @@ clear_motion:
     adjustment = (*(u16 *)((u8 *)entity + 0x98)) & 8;
     if (adjustment == 0) {
         height_offset = (*(s16 *)((u8 *)entity + 0x92));
-        height_bits = (*(u16 *)((u8 *)entity + 0x92));
+        entity_flags = (*(u16 *)((u8 *)entity + 0x92));
         if (adjustment < height_offset) {
-            adjustment = height_bits - 8;
+            adjustment = entity_flags - 8;
             goto store_adjustment;
         }
 adjust_positive:
         adjustment = height_offset < -8;
         if (adjustment != 0) {
-            adjustment = height_bits + 8;
+            adjustment = entity_flags + 8;
         } else {
             goto finish_motion;
         }

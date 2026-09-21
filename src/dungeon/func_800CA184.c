@@ -279,7 +279,6 @@ L_CF974:
             s32 coord_delta;
             s32 next_delta;
             s32 old_coord;
-            register s32 closing_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             coord_delta = (s16)view_corners[0];
             blended_coord = (s16)((S_800CF8E4_2 *)view)->unk_08;
@@ -350,7 +349,7 @@ L_CF974:
             blended_coord = (s16)((S_800CF8E4_2 *)view)->unk_20;
             next_delta = (s16)view_corners[13];
             old_coord = (s16)((S_800CF8E4_2 *)view)->unk_22;
-            closing_z = ((S_800CF8E4_2 *)view)->unk_0C;
+            render_arg = ((S_800CF8E4_2 *)view)->unk_0C;
             coord_delta -= blended_coord;
             coord_delta >>= 1;
             next_delta -= old_coord;
@@ -361,7 +360,7 @@ L_CF974:
             blended_coord = ((S_800CF8E4_2 *)view)->unk_22;
             coord_delta = (s16)view_corners[14];
             next_delta >>= 1;
-            ((S_800CF8E4_2 *)view)->unk_2C = (u16)closing_z;
+            ((S_800CF8E4_2 *)view)->unk_2C = (u16)render_arg;
             blended_coord += next_delta;
             coord_delta -= old_coord;
             coord_delta >>= 1;

@@ -120,9 +120,10 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
     s16 shade;
     register s32 uv_top ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 uv_value;
+    register s32 uv_value_2;
     s32 bucket_offset;
     s32 bucket;
-    register s32 uv_left ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 uv_left;
     register s32 uv_height ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 coord_value;
     s32 bottom_x;
@@ -252,9 +253,9 @@ void *func_800A41D8(void *origin, void *render_flags, void *draw_state, void *pr
                     uv_value <<= 8;
                     ((S_800A41D8_1 *)draw_state)->unk_14.n = uv_value;
                     ((S_800A41D8_1 *)draw_state)->unk_10 = (s32) (((S_800A41D8_1 *)draw_state)->unk_10 + uv_left);
-                    uv_value = uv_left;
-                    ASM_KEEP_NV(uv_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    (*(s32 *)((u8 *)packet_cursor + -0x19)) = (s32) ((uv_top + uv_value) | (((S_800A41D8_7 *)entry_cursor)->unk_02 << 0x10));
+                    uv_value_2 = uv_left;
+                    ASM_KEEP_NV(uv_value_2);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    (*(s32 *)((u8 *)packet_cursor + -0x19)) = (s32) ((uv_top + uv_value_2) | (((S_800A41D8_7 *)entry_cursor)->unk_02 << 0x10));
                     (*(s32 *)((u8 *)packet_cursor + -0x11)) = (s32) ((((S_800A41D8_1 *)draw_state)->unk_0C.n + ((S_800A41D8_1 *)draw_state)->unk_10) | (((S_800A41D8_7 *)entry_cursor)->unk_00 << 0x10));
                     (*(s16 *)((u8 *)packet_cursor + -9)) = (s16) ((u16) ((S_800A41D8_1 *)draw_state)->unk_14.n + (u16) ((S_800A41D8_1 *)draw_state)->unk_08.n);
                     right_u = ((S_800A41D8_5_pre *)packet_cursor)[-1].unk_0D;

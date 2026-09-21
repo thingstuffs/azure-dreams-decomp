@@ -100,11 +100,10 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
                     coord_or_height <<= 6;
                     tile_coord = (u32)coord_or_height >> 6;
                     offset_work <<= 6;
-                    ASM_KEEP_NV(offset_work);
                     y_or_direction = (u32)offset_work >> 6;
-                    ASM_KEEP_NV(y_or_direction);
                     coord_work = coord_or_height + 0x20;
-                    center_y = offset_work + 0x20;
+                    offset_work += 0x20;
+                    center_y = offset_work;
                     result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
                                           (s16)(height - offset_arg)) << 0x10;
                     if (result != 0) {

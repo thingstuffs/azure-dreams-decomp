@@ -351,7 +351,7 @@ case_0:
             break;
         }
 
-        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3328;
+        table_addr = (s32)D_8006CCD8;
         table_offset = (s16)state_arg->direction;
         probe_height = (u16)entity->height;
         table_offset *= 2;
@@ -359,7 +359,7 @@ case_0:
         ASM_KEEP(step_x);
         probe_height -= 32;
         probe_height = (s16)probe_height;
-        (table_addr) = 0x80070000; ASM_KEEP(table_addr); (table_addr) -= 0x3318;
+        table_addr = (s32)D_8006CCE8;
         step_y = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_y);
         terrain_height = func_800BCB04(
@@ -499,15 +499,14 @@ case_3:
     index = 9;
     effect_create = (Effect **)((u8 *)state_arg + 36);
     effect_angle = (s32)0xFF1F0000;
-    do {
+    create_loop: {
         effect_create[11] =
             func_8002443C(state_arg, motion_arg, effect_angle >> 16, index);
         effect_create--;
         effect_step = 0x190000;
-        ASM_KEEP(effect_step);
-        index--;
         effect_angle += effect_step;
-    } while (index >= 0);
+        index--;
+    } if (index >= 0) goto create_loop;
     state_arg->field14 = 0;
     goto epilogue;
 
@@ -560,11 +559,10 @@ case_6: {
         effect_shrink--;
         index--;
     } while (index >= 0);
+    cleanup_base = entity;
     if (state_arg->timer2 < 32) {
         goto end;
     }
-    cleanup_base = entity;
-    ASM_KEEP(cleanup_base);
     func_80024050(((Entity *)cleanup_base)->child, state_arg->id);
     index = 9;
     cleanup_base = (void *)0x80080000;

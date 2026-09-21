@@ -28,11 +28,10 @@ s16 func_800BCB04(s32, s32, s32);
 /* Scans a dungeon record's rectangle for the first qualifying cell result and outputs its coordinates. */
 s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
 {
-    s8 *record_bytes;
     register s8 *records_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     DungeonRecord *record;
     DungeonState *state;
-    register s8 *records_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 *records_page;
     register s32 record_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 record_addr;
     s32 scan_record_index;
@@ -56,9 +55,9 @@ s32 func_8001816C(s16 record_id, s16 *out_x, s16 *out_y)
     record_index = record_id;
     record_addr = record_index * 20;
     record_addr += (s32)records_base;
-    record_bytes = (s8 *)record_addr;
-    rows_left = *(s16 *)(record_bytes + 6);
-    y = *(u16 *)(record_bytes + 2);
+    records_page = (s8 *)record_addr;
+    rows_left = *(s16 *)(records_page + 6);
+    y = *(u16 *)(records_page + 2);
     state = &D_8008333C;
 
     if (rows_left > 0) {

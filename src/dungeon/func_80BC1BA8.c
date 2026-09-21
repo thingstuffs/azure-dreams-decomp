@@ -54,7 +54,8 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
     void *call_motion;
     void *call_sprite;
     s32 height_offset;
-    register u32 height_bits ASM_REG("$3");
+    s32 height_offset_2;
+    u32 height_bits;
     s16 direction;
     s16 ground_height;
     s32 entity_flags;
@@ -275,14 +276,14 @@ clear_height:
 
     height_work = (*(u16 *)((u8 *)entity + 0x98)) & 8;
     if (height_work == 0) {
-        height_offset = (*(s16 *)((u8 *)entity + 0x92));
+        height_offset_2 = (*(s16 *)((u8 *)entity + 0x92));
         height_bits = (*(u16 *)((u8 *)entity + 0x92));
-        if (height_work < height_offset) {
+        if (height_work < height_offset_2) {
             height_work = height_bits - 8;
             (*(s16 *)((u8 *)entity + 0x92)) = height_work;
             goto finish_motion;
         }
-        height_work = height_offset < -8;
+        height_work = height_offset_2 < -8;
         if (height_work != 0) {
             height_work = height_bits + 8;
             (*(s16 *)((u8 *)entity + 0x92)) = height_work;

@@ -45,9 +45,8 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
     s32 y_step;
     s32 z_velocity;
     s32 z_position;
-    register s32 z_velocity_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 z_velocity_copy;
     s32 y_motion;
-    s32 random_value;
     s32 x_direction;
     s32 y_direction;
     s32 x;
@@ -78,9 +77,9 @@ void func_800250E8(void *effect, S_800250E8_0 *motion, void *owner)
                        (func_80069EF8() & 0xFFFF);
             motion->unk_04.at00.v = (s32)(motion->unk_04.at00.v + y_step);
 
-            random_value = func_80069EF8();
+            z_velocity_copy = func_80069EF8();
             motion->unk_08.at00.v = (s32)(motion->unk_08.at00.v +
-                (0xFFFE0000 - (random_value & 0xFFF)));
+                (0xFFFE0000 - (z_velocity_copy & 0xFFF)));
         } else {
             motion->unk_00.at00.v = (s32)(motion->unk_00.at00.v +
                 func_80064584(((S_800250E8_1 *)effect)->unk_1A) *

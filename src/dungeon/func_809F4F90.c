@@ -124,7 +124,6 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
     s32 return_speed_2;
     s32 state;
     s32 random_offset;
-    s32 fall_speed;
     u16 flags;
     s32 vertical_speed;
     s32 origin_x;
@@ -140,7 +139,7 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
     s32 particle_y;
     s32 heading_raw;
     void *particle;
-    void *particle_motion;
+    S_80172790_3 *particle_motion;
     void *sprite;
     u8 *x_step_entry;
     u8 *x_step_base;
@@ -165,35 +164,33 @@ void func_80172790(void *action, void *motion, void *tile, void *actor)
                 ((S_80172790_2 *)particle)->unk_10 = D_801743EC;
                 sprite = ((S_80172790_2 *)particle)->unk_0C;
                 if (((S_80172790_1 *)action)->unk_9B < 3U) {
-                    ((S_80172790_3 *)particle_motion)->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) - 8;
+                    particle_motion->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) - 8;
                     random_offset = rand();
-                    fall_speed = -0x500;
-                    ASM_KEEP(fall_speed);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    origin_x = -0x500;
                     particle_y = ((S_80172790_4 *)motion)->unk_06.s;
                     random_offset &= 0xF;
-                    ((S_80172790_3 *)particle_motion)->unk_16 = fall_speed;
+                    particle_motion->unk_16 = origin_x;
                     particle_y += random_offset;
                     particle_y -= 8;
                 } else {
-                    ((S_80172790_3 *)particle_motion)->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) + particle_x_offset;
+                    particle_motion->unk_0C = ((S_80172790_4 *)motion)->unk_02.s + (rand() & 0xF) + particle_x_offset;
                     random_offset = rand();
-                    fall_speed = -0x200;
-                    ASM_KEEP(fall_speed);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    origin_x = -0x200;
                     particle_y = ((S_80172790_4 *)motion)->unk_06.s;
                     random_offset &= 0xF;
-                    ((S_80172790_3 *)particle_motion)->unk_16 = fall_speed;
+                    particle_motion->unk_16 = origin_x;
                     particle_y += random_offset;
                     random_offset = (y_step << 5) - 8;
                     particle_y += random_offset;
                 }
-                ((S_80172790_3 *)particle_motion)->unk_0E = particle_y;
-                ((S_80172790_3 *)particle_motion)->unk_10 = ((S_80172790_4 *)motion)->unk_0A + 8;
-                ((S_80172790_3 *)particle_motion)->unk_14 = rand();
+                particle_motion->unk_0E = particle_y;
+                particle_motion->unk_10 = ((S_80172790_4 *)motion)->unk_0A + 8;
+                particle_motion->unk_14 = rand();
                 heading_raw = ((S_80172790_0 *)actor)->unk_2A.s;
                 color = 0x00C00000;
-                ((S_80172790_3 *)particle_motion)->unk_4C = 0;
-                ((S_80172790_3 *)particle_motion)->unk_48 = 0;
-                ((S_80172790_3 *)particle_motion)->unk_18 = heading_raw;
+                particle_motion->unk_4C = 0;
+                particle_motion->unk_48 = 0;
+                particle_motion->unk_18 = heading_raw;
                 (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
                 (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
                 (*(s16 *)((u8 *)sprite + 0x10)) = 0x60;

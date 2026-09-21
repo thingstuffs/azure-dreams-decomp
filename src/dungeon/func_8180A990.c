@@ -183,7 +183,6 @@ void func_80026190(void *owner_arg)
     s32 signed_kind;
     s32 shifted_kind;
     s32 parent_value;
-    register s32 loaded_fail_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 fail_flags;
     s32 entity_flags;
     s32 source_check_flags;
@@ -343,10 +342,10 @@ loop:
         spawn_resource = ((S_80026190_5 *)owner_arg)->unk_14;
         ((S_80026190_14 *)spawn_resource)->unk_1E |= 0x8000;
 
-        loaded_fail_flags = ((S_80026190_15 *)flag_page)->unk_14A0.s;
+        parent_value = ((S_80026190_15 *)flag_page)->unk_14A0.s;
         entity_arg = ((S_80026190_5 *)owner_arg)->unk_0C;
         ((S_80026190_5 *)owner_arg)->unk_14 = NULL;
-        fail_flags = loaded_fail_flags | 0x8000;
+        fail_flags = parent_value | 0x8000;
         ((S_80026190_15 *)flag_page)->unk_14A0.u = fail_flags;
         if (entity_arg != NULL) {
             spawn_bits = ((S_80026190_16 *)entity_arg)->unk_1E;

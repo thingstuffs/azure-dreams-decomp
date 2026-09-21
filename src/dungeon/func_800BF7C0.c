@@ -249,16 +249,15 @@ jt_c2:
     {
         s32 y_work;
         s32 y_step;
-        register s32 move_ticks_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         y_work = (s32) ((S_800C4F20_0 *)anim)->unk_20;
-        move_ticks_y = ((S_800C4F20_0 *)anim)->unk_2A;
+        height_delta = ((S_800C4F20_0 *)anim)->unk_2A;
         y_step = ((S_800C4F20_6 *)((void *) y_work))->unk_25;
         y_work = position->unk_06;
         y_step <<= 6;
         y_work -= 0x20;
         y_step -= y_work;
-        y_step /= move_ticks_y;
+        y_step /= height_delta;
         position->unk_06 = (s16) ((u16) position->unk_06 + y_step);
     }
     position->unk_0A = (s16) ((u16) position->unk_0A + ((s32) (((S_800C4F20_11 *)(((S_800C4F20_10 *)anim)->unk_24))->unk_88 - position->unk_0A) / (s16) ((S_800C4F20_0 *)anim)->unk_2A));

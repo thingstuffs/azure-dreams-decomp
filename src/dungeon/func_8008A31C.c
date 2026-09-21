@@ -200,13 +200,8 @@ state_1:
         clear_mask = 0xFFEF0000;
 #endif
         linked_object = ((S_8008FA7C_3 *)actor)->unk_124.p;
-#ifndef NON_MATCHING
-        ASM_KEEP(linked_object);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-#endif
         set_mask = 0x200000;
-        do {
-            linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
-        } while (0);
+        linked_flags = ((S_8008FA7C_4 *)linked_object)->unk_1C;
 #ifndef NON_MATCHING
         mask_or_base |= 0xFFFF;
 #else

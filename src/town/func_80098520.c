@@ -50,7 +50,6 @@ typedef struct S_80095C80_7 {
     s32 unk_10;
 } S_80095C80_7;   /* final_base in func_80095C80 */
 
-
 s32 func_80095BC0();                  /* extern */
 s32 func_80095BF0();                  /* extern */
 s32 func_80095C20();             /* extern */
@@ -66,7 +65,7 @@ extern s32 D_800FE5C0[];
 
 /* Resolves movement collisions along one axis using boundary probes and tile offsets. */
 void func_80095C80(S_80095C80_1 *position) {
-    register s32 probe_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 probe_coord ASM_REG("$3");
     struct {
         s32 x;
         s32 y;
@@ -92,12 +91,9 @@ void func_80095C80(S_80095C80_1 *position) {
     s32 neg_xy_boundary;
     s32 pos_xy_test;
     s32 pos_x_neg_y_test;
-    register s32 axis_test ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    M2C_UNK *motion_page;
+    register s32 axis_test ASM_REG("$2");
 
-    motion_page = (M2C_UNK *)D_80100000;
-    ASM_KEEP_NV(motion_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    motion = (M2C_UNK *)((s8 *)motion_page - 0x1A40);
+    motion = (M2C_UNK *)D_800FE5C0;
     {
         if (((S_80095C80_0 *)motion)->unk_0C <= 0) {
             goto check_neg_x;
@@ -110,12 +106,12 @@ void func_80095C80(S_80095C80_1 *position) {
             probe.z = position->unk_08;
             boundary_test = func_80095BC0(&probe, 0);
             probe_ptr = &probe;
-            ASM_KEEP_NV(probe_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(probe_ptr);
             neg_x_boundary = position->unk_00.at00.v;
             probe.x = neg_x_boundary;
             neg_x_boundary = neg_x_boundary < (boundary_test << 0x10);
             probe_coord = position->unk_04.at00.v;
-            ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ASM_CLOBBER("$5");
             y_step_or_side = ((S_80095C80_0 *)motion)->unk_10;
             neg_x_boundary ^= 1;
             probe.y = probe_coord - y_step_or_side;
@@ -152,9 +148,9 @@ check_pos_xy_corner:
             do {
                 pos_xy_test = ((S_80095C80_2 *)pos_xy_motion)->unk_10;
             } while (0);
-               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+
             y_step_or_side = 0;
-            ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(y_step_or_side);
             probe.y = pos_xy_y - pos_xy_test;
             probe.z = position->unk_08 - pos_xy_test;
             pos_xy_test = position->unk_00.at00.v < (func_80095BC0(&probe, y_step_or_side) << 0x10);
@@ -201,9 +197,9 @@ check_pos_x_neg_y_corner:
             do {
                 pos_x_neg_y_test = ((S_80095C80_3 *)pos_x_neg_y_motion)->unk_10;
             } while (0);
-               /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+
             y_step_or_side = 1;
-            ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            ASM_KEEP_NV(y_step_or_side);
             probe.y = pos_x_neg_y_y - pos_x_neg_y_test;
             probe.z = position->unk_08 - pos_x_neg_y_test;
             pos_x_neg_y_test = position->unk_00.at00.v >= (func_80095BC0(&probe, y_step_or_side) << 0x10);
@@ -219,11 +215,10 @@ check_pos_x_neg_y_corner:
 load_neg_x_motion:
     {
         unsigned long motion_or_hit;
-        motion_page = (M2C_UNK *)D_80100000;
 check_neg_x:
-        motion_or_hit = (unsigned long)((s8 *)motion_page - 0x1A40);
+        motion_or_hit = (unsigned long)D_800FE5C0;
         {
-            register s32 y_step_or_side ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            register s32 y_step_or_side ASM_REG("$5");
             if (((S_80095C80_4 *)((M2C_UNK *)motion_or_hit))->unk_0C >= 0) {
                 goto check_single_axis;
             }
@@ -273,9 +268,9 @@ check_neg_x_pos_y_corner:
                 do {
                     probe_coord = ((S_80095C80_5 *)neg_x_pos_y_motion)->unk_10;
                 } while (0);
-                   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+
                 y_step_or_side = 0;
-                ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(y_step_or_side);
                 probe.y = neg_x_pos_y_y - probe_coord;
                 probe.z = position->unk_08 - probe_coord;
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) < position->unk_00.at00.v;
@@ -332,9 +327,9 @@ check_neg_xy_corner:
                 do {
                     probe_coord = ((S_80095C80_6 *)neg_xy_motion)->unk_10;
                 } while (0);
-                   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+
                 y_step_or_side = 1;
-                ASM_KEEP_NV(y_step_or_side);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP_NV(y_step_or_side);
                 probe.y = neg_xy_y - probe_coord;
                 probe.z = position->unk_08 - probe_coord;
                 axis_test = (func_80095BF0(&probe, y_step_or_side) << 0x10) >= position->unk_00.at00.v;
@@ -350,9 +345,8 @@ check_neg_xy_corner:
 load_axis_motion:
     {
         M2C_UNK *axis_motion;
-        motion_page = (M2C_UNK *)D_80100000;
 check_single_axis:
-        axis_motion = (M2C_UNK *)((s8 *)motion_page - 0x1A40);
+        axis_motion = (M2C_UNK *)D_800FE5C0;
         if (((S_80095C80_7 *)axis_motion)->unk_0C == 0) {
             goto check_final_y;
         }

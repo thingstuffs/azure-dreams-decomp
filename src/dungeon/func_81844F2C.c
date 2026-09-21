@@ -45,7 +45,7 @@ extern void func_80024860(void) __attribute__((noreturn));
 /* Updates an effect's position, colors, countdown, and completion flags. */
 void func_81844F2C(void *effect_data) {
     u8 *effect;
-    register u8 *flag_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u8 *flag_page;
     register s32 tick_or_index;
     register u32 saved_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u32 position;
@@ -53,7 +53,6 @@ void func_81844F2C(void *effect_data) {
     s32 state;
     u32 color_delta;
     S_81844F2C_1 *entity;
-    u8 *color_cursor;
 
     effect = effect_data;
     entity = ((S_81844F2C_0 *)effect)->unk_00;
@@ -104,11 +103,11 @@ state_0:
 
     tick_or_index = 4;
     color_delta = 0xFFDFDFE0;
-    color_cursor = effect + 0x10;
+    flag_page = effect + 0x10;
     do {
         tick_or_index -= 1;
-        ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
-        color_cursor -= 4;
+        ((S_81844F2C_3 *)flag_page)->unk_14 += color_delta;
+        flag_page -= 4;
     } while (tick_or_index >= 0);
 
     if (((S_81844F2C_0 *)effect)->unk_2A.p > 0) {

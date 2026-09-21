@@ -46,6 +46,14 @@ static __inline__ u8 particle_alpha_from_random(s32 random_bits)
     return (random_bits & 0x7F) | 0x60;
 }
 
+static __inline__ void *prepare_burst(void *p, void *script, void *animation) {
+    void *tail = (u8 *)p + 0x20;
+    F(tail, s16, 0x2A) = 12;
+    F(p, void *, 0x10) = script;
+    func_8004491C(p, animation);
+    return tail;
+}
+
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
 void func_81941338(void *effect, void *effect_pos, void *effect_data)
 {
@@ -66,7 +74,7 @@ void func_81941338(void *effect, void *effect_pos, void *effect_data)
     s32 initial_color;
     s32 particle_color;
     s32 particle_alpha;
-    register void *init_object ASM_REG("$4");
+    void *init_object;
     s32 state;
     s16 timer;
     u16 old_state;
@@ -108,8 +116,7 @@ wait_ready:
     init_object = effect_base;
     {
         void *actor = D_800814A8[0];
-        bits = 0x14;
-        F(effect_base, u16, 0x20) = (u16)bits;
+        F(effect_base, u16, 0x20) = (u16)((u32)(0x14));
         F(actor, u16, 0xA6) = (u16)(F(actor, u16, 0xA6) - 1);
         F(actor, u8, 0xA8) = F(effect_base, u8, 8);
     }
@@ -406,13 +413,7 @@ emit_burst:
     do {
         particle = func_8003FC64(0x212);
         if (particle != 0) {
-            init_object = particle;
-            animation_m = D_80045340;
-            ASM_KEEP_NV(animation_m);
-            effect_context = (u8 *)particle + 0x20;
-            F(effect_context, s16, 0x2A) = 12;
-            F(particle, void *, 0x10) = particle_script;
-            func_8004491C(init_object, animation_m);
+            effect_context = prepare_burst(particle, particle_script, D_80045340);
             sprite = F(particle, void *, 0xC);
             F(sprite, u16, 0x14) = (u16)(F(sprite, u16, 0x14) | 0xC);
             F(sprite, u16, 0x10) = 0x60;

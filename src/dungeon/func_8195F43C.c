@@ -164,10 +164,9 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
     next_height_row = (u8 *)((u32)(tile_y * 2) +
         (u32)(height_grid + tile_x * 0x10));
     {
-        register u32 height ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-        height = ((S_8195F43C_2 *)height_row)->unk_00;
-        ((S_8195F43C_0 *)scratch)->unk_74 = (s16)height / 2;
+        depth = ((S_8195F43C_2 *)height_row)->unk_00;
+        ((S_8195F43C_0 *)scratch)->unk_74 = (s16)depth / 2;
     }
     ((S_8195F43C_0 *)scratch)->unk_7C = (s16)((S_8195F43C_3 *)next_height_row)->unk_00 / 2;
     ((S_8195F43C_0 *)scratch)->unk_84 = (s16)((S_8195F43C_2 *)height_row)->unk_02 / 2;

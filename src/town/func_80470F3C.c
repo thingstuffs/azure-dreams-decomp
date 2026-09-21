@@ -48,7 +48,7 @@ void func_80017F3C(void *unused)
     record_id = 1;
     checked_base = records;
     checked_tag = 0x18;
-    do {
+    keep_loop_0: {
         checked_count = record_count + record_id;
         checked_record = (u8 *)((u32)((checked_count - 1) * 4) + (u32)checked_base);
         checked_record[1] = checked_tag;
@@ -57,7 +57,7 @@ void func_80017F3C(void *unused)
             checked_record[3] |= 0x80;
         }
         record_id++;
-    } while (record_id < 0x20);
+    } if (record_id < 0x20) goto keep_loop_0;
 
     record_count = checked_count;
     record_id = 1;
@@ -76,12 +76,9 @@ void func_80017F3C(void *unused)
 #ifdef NON_MATCHING
     tail_page = (u32)(D_8001B218 + 0x4DE8);
 #else
-    tail_page = 0x80020000;
 #endif
-    ASM_KEEP_NV(tail_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     record_count++;
-    ASM_KEEP_NV(record_count);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    tail_base = (u8 *)(tail_page - 0x4DE8);
+    tail_base = D_8001B218;
     tail_record = (u8 *)(tail_offset + (u32)tail_base);
     ASM_KEEP_NV(tail_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     end_record = (u8 *)0x18;

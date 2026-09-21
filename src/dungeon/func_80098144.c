@@ -68,18 +68,17 @@ next_cell:
             cell = (u8 *)((long)((row_offset + (s16) column) * 6) + (long)cells);
             cell_type = *(u16 *)cell;
             if ((cell_type != 0) && (cell_type != 3)) {
-                register u16 clamped_level ASM_REG("$4");
                 s16 raw_level;
 
                 value = (s16) (*(u16 *)(cell + 2) + 0x200) / 64;
-                clamped_level = value;
+                stride_shift = value;
                 raw_level = value;
                 if (raw_level >= 0x10) {
-                    clamped_level = 15;
+                    stride_shift = 15;
                 } else if (raw_level <= 0) {
-                    clamped_level = 1;
+                    stride_shift = 1;
                 }
-                value = (u32) clamped_level << 16;
+                value = (u32) stride_shift << 16;
                 level = value >> 16;
                 packed_levels = *write_ptr;
                 if ((s32) column & 1) {

@@ -41,7 +41,8 @@ s32 func_81845068(u8 *first_node)
     u8 *effect_node;
     register u8 *next_link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *render_state;
-    register u8 *alloc_ctx ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *alloc_ctx;
+    u8 *alloc_ctx_2;
     u8 *ot_ctx;
     u8 *ot_entry;
     u8 *prim;
@@ -144,9 +145,9 @@ s32 func_81845068(u8 *first_node)
             }
         }
 
-        alloc_ctx = LOAD_PTR(render_state);
-        prim = LOAD_PTR(alloc_ctx + 0x8D0);
-        LOAD_PTR(alloc_ctx + 0x8D0) = prim + 0x34;
+        alloc_ctx_2 = LOAD_PTR(render_state);
+        prim = LOAD_PTR(alloc_ctx_2 + 0x8D0);
+        LOAD_PTR(alloc_ctx_2 + 0x8D0) = prim + 0x34;
         STORE_U32(prim + 4, 0x00161616);
         func_800666F4(prim);
         func_80066640(prim, 1);

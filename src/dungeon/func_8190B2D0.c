@@ -378,7 +378,9 @@ state2:
     {
         u32 particle_index;
         u8 frames_left;
-        register s32 elapsed_frames ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 elapsed_frames;
+        s32 elapsed_frames_2;
+        s32 elapsed_frames_3;
         s32 collision;
         particle_index = 0;
         loop_0: {
@@ -400,11 +402,11 @@ state2:
         elapsed_frames = effect->unk_88 - effect->unk_7B.s8 + 1;
         sprite->unk_C.u8 = (u8)((elapsed_frames * elapsed_frames * 108) /
                                     effect->unk_8A + 20);
-        elapsed_frames = effect->unk_88 - effect->unk_7B.s8 + 1;
-        sprite->unk_C.at_D_u8.unk_D = (u8)((elapsed_frames * elapsed_frames * 108) /
+        elapsed_frames_2 = effect->unk_88 - effect->unk_7B.s8 + 1;
+        sprite->unk_C.at_D_u8.unk_D = (u8)((elapsed_frames_2 * elapsed_frames_2 * 108) /
                                     effect->unk_8A + 20);
-        elapsed_frames = effect->unk_88 - effect->unk_7B.s8 + 1;
-        sprite->unk_C.at_E_u8.unk_E = (u8)((elapsed_frames * elapsed_frames * 108) /
+        elapsed_frames_3 = effect->unk_88 - effect->unk_7B.s8 + 1;
+        sprite->unk_C.at_E_u8.unk_E = (u8)((elapsed_frames_3 * elapsed_frames_3 * 108) /
                                     effect->unk_8A + 20);
         collision = func_800A4778(motion_or_child->unk_0.at_2_u16.unk_2, motion_or_child->unk_4.at_6_u16.unk_6,
                                motion_or_child->unk_8.at_A_s16.unk_A, owner->unk_60);

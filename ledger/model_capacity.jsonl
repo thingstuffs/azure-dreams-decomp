@@ -105,3 +105,16 @@
 {"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big10", "model": "gpt-5.6-sol", "candidates": 0}, "note": "duck-briefed parallel pool"}
 {"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big11", "model": "gpt-5.6-sol", "candidates": 2}, "note": "duck-briefed parallel pool"}
 {"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big12", "model": "gpt-5.6-sol", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T15:24Z", "codex": {"pack": "r63_astra_big4", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed class-family astra pack (chain J)"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q1", "model": "gpt-6-astra", "candidates": 1}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q2", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q3", "model": "gpt-6-astra", "candidates": 5}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q4", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q5", "model": "gpt-6-astra", "candidates": 4}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q6", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q7", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q8", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q9", "model": "gpt-6-astra", "candidates": 3}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q10", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T18:24Z", "codex": {"pack": "r70_kit_astra2", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T18:24Z", "codex": {"pack": "r70_kit_astra1", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}

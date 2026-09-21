@@ -91,7 +91,7 @@ extern void func_8014EEB0(void);
 extern void func_8014EEA8(void);
 
 #ifdef __mips__
-extern void *func_8014C8A4(void *, s8, s8, s16);
+extern void *func_8014C8A4(void *, s8, s8, s32);
 
 static const ActorDefinition extent_prefix
     __asm__("func_8014C800")
@@ -151,18 +151,19 @@ typedef struct {
 } Rect;
 
 /* Creates a monster actor and initializes its state, placement, and palette. */
-void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s16 heading)
+void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s32 heading)
 {
     s8 saved_x;
     register s8 saved_y ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s16 saved_heading ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 heading_or_monster;
     S_80FD5000_0 *created;
     register S_80FD5000_1 *actor_state ASM_REG("$16") = 0;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_80FD5000_2 *position;
-    register S_80FD5000_3 *monster ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
     register S_80FD5000_1 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *call_definition ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_flags;
     s32 spawn_kind;
     Rect palette_strip;
 
@@ -171,11 +172,11 @@ void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s16 heading)
     ASM_KEEP_DEP_NV(saved_x, call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     call_definition = &D_80083498;
     ASM_KEEP_DEP_NV(call_definition, saved_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    saved_heading = heading;
+    heading_or_monster = heading;
     saved_y = tile_y;
     created = func_8003FD64(call_id, call_definition);
+    saved_flags = (s32)spawn_flags;
     if (created != 0) {
-        register s32 saved_flags ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 actor_flags;
         s32 state_flags;
         s32 random_bits;
@@ -190,19 +191,17 @@ void *BODY_NAME(void *spawn_flags, s8 tile_x, s8 tile_y, s16 heading)
         S_80FD5000_4 *selected3;
 
         actor_state = (S_80FD5000_1 *)((u8 *)created + 0x20);
-        saved_flags = (s32)spawn_flags;
-        ASM_KEEP(saved_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         created->unk_10 = &D_8014CB40;
         actor_state->unk_13 = 0x27;
         func_8004491C(created, &D_80045340);
 
         position = created->unk_08;
-        position->unk_0A = saved_heading;
-        monster = created->unk_0C;
-        monster->unk_25 = saved_y;
+        position->unk_0A = heading_or_monster;
+        heading_or_monster = (s32)created->unk_0C;
+        ((S_80FD5000_3 *)heading_or_monster)->unk_25 = saved_y;
         actor = actor_state;
-        monster->unk_2C = &D_80151258;
-        monster->unk_24 = saved_x;
+        ((S_80FD5000_3 *)heading_or_monster)->unk_2C = &D_80151258;
+        ((S_80FD5000_3 *)heading_or_monster)->unk_24 = saved_x;
 
         spawn_kind = (s32)spawn_flags & 3;
         if (spawn_kind == 1) {
@@ -231,23 +230,23 @@ finish_kind:
         actor_state->unk_1C |= 0x200;
         random_bits = func_800A6D30(created);
         func_800A48F0(actor_state, 1, (random_bits & 0x3F) | 0x20);
-        monster->unk_2C = &D_80151298;
+        ((S_80FD5000_3 *)heading_or_monster)->unk_2C = &D_80151298;
 
 finish_kind_args:
         call_id = (s32)(created);
 have_call_position:
         call_definition = (void *)(position);
 have_call_args:
-        func_800A9C18((void *)call_id, (S_80FD5000_2 *)call_definition, monster, (s16)saved_flags);
+        func_800A9C18((void *)call_id, (S_80FD5000_2 *)call_definition, ((S_80FD5000_3 *)heading_or_monster), (s16)saved_flags);
 
         entry_index = 0;
-        appearance_id = monster->unk_12;
+        appearance_id = ((S_80FD5000_3 *)heading_or_monster)->unk_12;
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_8014CF6C;
         actor->unk_AE = appearance_id;
 
-        entry = (S_80FD5000_4 *)monster->unk_08;
+        entry = (S_80FD5000_4 *)((S_80FD5000_3 *)heading_or_monster)->unk_08;
 scan_entry:
         twice_index = entry_index << 1;
         if (entry->unk_00 & 0x20) {
@@ -259,7 +258,7 @@ scan_entry:
         palette_rect = &palette_strip;
         selected = (S_80FD5000_4 *)(twice_index + entry_index);
         selected2 = (S_80FD5000_4 *)((s32)selected * 4);
-        selected3 = (S_80FD5000_4 *)((u8 *)selected2 + (s32)monster->unk_08);
+        selected3 = (S_80FD5000_4 *)((u8 *)selected2 + (s32)((S_80FD5000_3 *)heading_or_monster)->unk_08);
         palette_y = selected3->unk_06 >> 6;
         palette_strip.x = 0;
         palette_strip.y = palette_y;
@@ -275,7 +274,7 @@ scan_entry:
             palette_strip.x += 0x40;
         } while (palette_strip.x < 0x100);
 
-        func_800AA36C(actor, position, monster, actor_state);
+        func_800AA36C(actor, position, ((S_80FD5000_3 *)heading_or_monster), actor_state);
     }
     return actor_state;
 }

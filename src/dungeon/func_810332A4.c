@@ -220,9 +220,9 @@ state_2:
     step_coord = effect->unk_4C.s;
     next_tile = effect->unk_4D.u;
     step_coord <<= 6;
-    ASM_KEEP_DEP_NV(step_coord, next_tile);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     collision_coord = ((S_func_810332A4_8 *)collision_coord)->unk_02;
-    coord_base = step_coord + 0x20;
+    step_coord += 0x20;
+    coord_base = step_coord;
     next_tile += collision_coord;
     effect->unk_4D.u = next_tile;
     target_y = (effect->unk_4D.s << 6) + 0x20;

@@ -1,0 +1,1 @@
+{"id":"dungeon/func_800AB7F0","transform":"lane_r68_t65_regroute_v3","in_sha":"5b07fa4a784528b629636a70e7841725b2fca243965c31ab111939d5d4955860","size":932,"source":"r68_t65_regroute_v3","outcome":"refused","reason":"stale candidate: its row changed after it was cut (.base_sha)","at":"2026-09-21T17:17:51Z"}

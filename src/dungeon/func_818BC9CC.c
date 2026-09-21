@@ -130,7 +130,8 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
 {
     S_func_818BC9CC_2 *scratch;
     S_func_818BC9CC_3 *packet;
-    register S_func_818BC9CC_4 *draw_mode ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_818BC9CC_4 *draw_mode;
+    S_func_818BC9CC_4 *draw_mode_2;
     S_func_818BC9CC_5 *render_ctx;
     S_func_818BC9CC_6 *render_state;
     u32 tag_mask;
@@ -358,9 +359,9 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
             render_ctx = ((volatile S_func_818BC9CC_6 *)render_state)->unk_00;
             tile_window[3] = 0x40;
             tile_window[2] = 0x40;
-            draw_mode = render_ctx->unk_8D0;
-            render_ctx->unk_8D0 = (u8 *)draw_mode + 0x0C;
-            func_80067F20(draw_mode, 0, 0, func_80066460(page_depth, page_blend, page_x, 0x100), tile_window);
+            draw_mode_2 = render_ctx->unk_8D0;
+            render_ctx->unk_8D0 = (u8 *)draw_mode_2 + 0x0C;
+            func_80067F20(draw_mode_2, 0, 0, func_80066460(page_depth, page_blend, page_x, 0x100), tile_window);
             window_tag_mask = 0xFF000000;
 
             {
@@ -369,15 +370,15 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
                 u32 ot_tag;
 
                 ot = OT_ADDR(scratch);
-                prim_tag = draw_mode->unk_00;
+                prim_tag = draw_mode_2->unk_00;
                 ot_tag = *ot;
-                draw_mode->unk_00 = (prim_tag & window_tag_mask) | (ot_tag & addr_mask);
+                draw_mode_2->unk_00 = (prim_tag & window_tag_mask) | (ot_tag & addr_mask);
             }
             {
                 u32 *ot;
 
                 ot = OT_ADDR(scratch);
-                *ot = (*ot & window_tag_mask) | ((u32)draw_mode & addr_mask);
+                *ot = (*ot & window_tag_mask) | ((u32)draw_mode_2 & addr_mask);
             }
         }
         quad_index++;

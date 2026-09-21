@@ -243,13 +243,12 @@ block_5:
                             ((S_8008EAC8_1 *)arg3)->unk_2A.u = normalized;
                         }
                         {
-                            register s32 normalized_target ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
                             if (temp_a0 & 0x800) {
-                                normalized_target = temp_a0 | 0xF800;
+                                diff = temp_a0 | 0xF800;
                             } else {
-                                normalized_target = temp_a0 & 0x7FF;
+                                diff = temp_a0 & 0x7FF;
                             }
-                            temp_a0 = normalized_target;
+                            temp_a0 = diff;
                         }
                         temp_v1_5 = (u32) temp_a0 << 16;
                         signed_target = temp_v1_5 >> 16;

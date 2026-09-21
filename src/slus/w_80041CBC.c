@@ -67,8 +67,8 @@ void func_80041CBC(void)
     buffer_page = (u8 *)0x801D0000;
     current_buffer = D_80083160;
     ASM_KEEP(buffer_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    next_buffer = buffer_page - 0x61C0;
-    ASM_KEEP(next_buffer);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    buffer_page -= 0x61C0;
+    next_buffer = buffer_page;
 #endif
     ordering_table = next_buffer + 0x70;
     if (current_buffer == next_buffer) {

@@ -89,6 +89,7 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
     u8 *controls_page;
     u8 *controls;
     u8 *counter_base;
+    u8 *counter_base_2;
     s32 result;
     s32 height_step;
     s32 trig_value;
@@ -241,13 +242,12 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             Entity *entity;
             s32 *target_pos;
             count = 8;
-            ASM_KEEP_NV(count);
             state_node = (*(Node **)((u8 *)work + 0));
-            counter_base = (u8 *)D_800E0000;
+            counter_base_2 = (u8 *)D_800E0000;
             entity = state_node->entity;
             target_pos = *(s32 **)((u8 *)entity - 0x18);
             func_800C77D0((u8 *)entity - 0x20, target_pos, count,
-                           *(s16 *)(counter_base - 0x319A));
+                           *(s16 *)(counter_base_2 - 0x319A));
             result = func_80098920(work->node->entity, work->handle, 0x15, 0);
             if ((s16)result < 0) {
                 goto done;

@@ -128,16 +128,16 @@ adjusted:
         register s32 dance ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         dance = a->unk84;
-        step = dance;
         {
             register s32 r ASM_REG("$3") = func_800A6D30() & 0xFFFF;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            ASM_KEEP(dance);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            dance = step;
+            step = dance;
             if (a->unk3 != 0) {
                 r %= a->unk3;
                 ASM_USE_NV(r);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 dance = step + r * 4;
+            } else {
+                dance = step;
             }
         }
         value = dance;

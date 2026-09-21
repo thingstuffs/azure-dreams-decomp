@@ -56,7 +56,6 @@ s32 func_80024C14(void *effect_data) {
                 column = 0;
                 row_offset = row << 6;
                 do {
-                    register s32 dx_square ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     register s32 dy_square ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     s32 distance;
                     s32 shade;
@@ -71,11 +70,11 @@ s32 func_80024C14(void *effect_data) {
 
                     vertex[0] -= *(u16 *)(effect + 4);
                     frame_scratch = (s16)vertex[0];
-                    dx_square = frame_scratch * frame_scratch;
+                    next_effect = (u8 *)(frame_scratch * frame_scratch);
                     vertex[1] -= *(u16 *)(effect + 6);
                     frame_scratch = (s16)vertex[1];
                     dy_square = frame_scratch * frame_scratch;
-                    distance = func_80064710(dx_square + dy_square);
+                    distance = func_80064710(((s32)next_effect) + dy_square);
                     shade = func_800644B8(
                         100 * (distance >> 2) -
                         (*(s16 *)(effect + 0x48) << 8));

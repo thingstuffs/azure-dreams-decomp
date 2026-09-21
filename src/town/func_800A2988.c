@@ -45,10 +45,9 @@ void func_800A00E8(s32 entryIndex) {
     TownEntryOwner *owner;
     u16 rootX;
     u16 rootY;
-    register u16 entryX ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u32 entryX ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u16 entryY ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 entryOffsetOrAddress;
-    register u32 outputThirdWord ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 selectedEntryIndex ASM_REG("$2") = entryIndex;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     D_80100B68[0] = selectedEntryIndex;
@@ -71,10 +70,9 @@ void func_800A00E8(s32 entryIndex) {
     entryX = entry->x;
     output = &D_80100B50;
     output->second.word = 0;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     output->first.half.y = entryX + rootX;
     entryY = entry->y;
-    outputThirdWord = 0xFFE00000;
-    output->third = outputThirdWord;
+    entryX = 0xFFE00000;
+    output->third = entryX;
     output->second.half.y = entryY + rootY;
 }
