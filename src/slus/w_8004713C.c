@@ -21,8 +21,8 @@ extern s16 D_80080B00[8];
 void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks) {
     s32 image_data;
     s32 block_index;
-    register s32 block_count ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 tile ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 block_count;
+    s32 tile;
     s32 tile_y_bits;
     RECT *rect;
 
@@ -33,7 +33,7 @@ void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks) {
         rect = (RECT *)&D_80080B00[4];
         tile = tile_id & 0xFFFF;
         tile_y_bits = tile << 4;
-        do {
+        loop_0: {
             s32 x = (tile << 6) & 0x3C0;
             if ((block_index / 2) != 0) {
                 x += 0x20;
@@ -49,6 +49,6 @@ void func_8004713C(s32 image_addr, s32 tile_id, s32 num_blocks) {
             LoadImage(rect, (void *)image_data);
             block_index += 1;
             image_data += 0x2000;
-        } while (block_index < (block_count & 0xFFFF));
+        } if (block_index < (block_count & 0xFFFF)) goto loop_0;
     }
 }

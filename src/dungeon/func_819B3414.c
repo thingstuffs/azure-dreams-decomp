@@ -257,9 +257,7 @@ s32 func_80024C14(void *effect_data) {
                 render_globals_m = D_80083160;
                 ASM_KEEP_NV(render_globals_m);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                 order_head = (u8 *)render_globals_m[0];
-                ASM_KEEP_NV(order_head);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 packet_tag = *(u32 *)draw_mode;
-                ASM_KEEP_NV(packet_tag);
                 {
                     render_globals_m = (void **)((u8 *)(0xff000000));
                     packet_tag &= (u32)(u8 *)render_globals_m;

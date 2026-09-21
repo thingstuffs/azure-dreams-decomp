@@ -118,3 +118,8 @@
 {"date": "2026-09-21T16:31Z", "codex": {"pack": "r69_astra_q10", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed parallel pool"}
 {"date": "2026-09-21T18:24Z", "codex": {"pack": "r70_kit_astra2", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
 {"date": "2026-09-21T18:24Z", "codex": {"pack": "r70_kit_astra1", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T18:39Z", "codex": {"pack": "r70_kit_astra3", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T18:41Z", "codex": {"pack": "r70_kit_astra4", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T18:43Z", "codex": {"pack": "r70_kit_sol3", "model": "gpt-5.6-sol", "candidates": 1}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T18:47Z", "codex": {"pack": "r70_kit_sol2", "model": "gpt-5.6-sol", "candidates": 0}, "note": "kit pack (v2 brief + lanekit), ranked queue"}
+{"date": "2026-09-21T18:52Z", "codex": {"pack": "r70_kit_sol1", "model": "gpt-5.6-sol", "candidates": 0}, "note": "kit pack (v2 brief + lanekit), ranked queue"}

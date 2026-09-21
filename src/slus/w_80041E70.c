@@ -88,9 +88,9 @@ void func_80041E70(void *entity)
 
     {
         s32 slot_index = 2;
-        register u8 *slot ASM_REG("$4") = (u8 *)entity + 6;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
+        u8 *slot = (u8 *)entity + 6;
 
-        do {
+        loop_0: {
             if (slot[8] != 0) {
                 if (S32(0x54, entity) & 0x80) {
                     boosted_stat = slot[0xA] * 2;
@@ -104,7 +104,7 @@ void func_80041E70(void *entity)
             }
             slot_index--;
             slot -= 3;
-        } while (slot_index >= 0);
+        } if (slot_index >= 0) goto loop_0;
     }
 
     if (S32(0x54, entity) & 0x04000000) {

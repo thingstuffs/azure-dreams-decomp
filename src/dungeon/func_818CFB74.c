@@ -285,10 +285,10 @@ create_spawn:
         coord_or_variant = (s32)(&offsets.values);
         if (source_or_spawn != 0) {
             offset_x = ((PackedOffsets *)coord_or_variant)->entry[(s16)state->variant7E].x;
-            ASM_KEEP(offset_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            offset_x <<= 16;
             data_base = (u8 *)&((Spawned *)source_or_spawn)->data20;
             ASM_KEEP(data_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            ((SpawnData *)data_base)->x4C = offset_x << 16;
+            ((SpawnData *)data_base)->x4C = offset_x;
             offset_y = ((PackedOffsets *)coord_or_variant)->entry[(s16)state->variant7E].y;
             ((SpawnData *)data_base)->owner2C = entity;
             ((SpawnData *)data_base)->y50 = offset_y << 16;
