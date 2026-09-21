@@ -77,12 +77,11 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             OffsetPair *offset;
             u16 flags;
             s32 height;
-            s32 x;
             s32 x_sum;
             s32 tile_x;
             s32 x_offset;
             s32 y_offset;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register void *effect_actor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            void *effect_actor;
 
             flags = ((S_80174A28_2 *)sprite)->unk_14;
             effect_actor = actor;
@@ -93,10 +92,9 @@ void func_80174A28(void *action, void *motion, void *sprite, void *actor)
             x_offset = offset->x;
             x_sum = tile_x + x_offset;
             y_offset = offset->y;
-            ASM_USE(y_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            x = x_sum & 0xFFFF;
+            x_sum = x_sum & 0xFFFF;
             coord_value = ((S_80174A28_2 *)sprite)->unk_25 + y_offset;
-            func_80174800(effect_actor, x, coord_value & 0xFFFF, height);
+            func_80174800(effect_actor, x_sum, coord_value & 0xFFFF, height);
         }
         if ((((S_80174A28_0 *)action)->unk_96 == 0x0A) ||
             (((S_80174A28_2 *)sprite)->unk_14 & 0x8000)) {

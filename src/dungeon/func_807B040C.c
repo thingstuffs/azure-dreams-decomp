@@ -165,9 +165,7 @@ begin_move:
         dx = ((S_807B040C_2 *)nearby_room)->unk_24;
         target_coord = ((S_807B040C_3 *)target)->unk_24;
         dx -= target_coord;
-        if (dx < 0) {
-            dx = -dx;
-        }
+        dx = abs(dx);
         if (dx < 3) {
             room_distance_y = ((S_807B040C_2 *)nearby_room)->unk_25;
             target_coord = ((S_807B040C_3 *)target)->unk_25;
@@ -219,17 +217,13 @@ next_direction:
     }
 
     {
-        s32 target_x;
         s32 y_is_farther;
         s32 entity_flags;
 
         distance_x = ((S_807B040C_1 *)entity)->unk_AA.s16;
-        ASM_KEEP_NV(distance_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        target_x = ((S_807B040C_3 *)target)->unk_24;
-        ASM_KEEP_NV(target_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        delta_y = ((S_807B040C_3 *)target)->unk_24;
         target_y = ((S_807B040C_3 *)target)->unk_25;
-        ASM_KEEP_NV(target_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        distance_x -= target_x;
+        distance_x -= delta_y;
         delta_y = ((S_807B040C_1 *)entity)->unk_AE.s16;
         if (distance_x < 0) {
             distance_x = -distance_x;

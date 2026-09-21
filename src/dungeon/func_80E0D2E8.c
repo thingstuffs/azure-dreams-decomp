@@ -78,7 +78,6 @@ void func_80170AE8(Actor *input_actor, Motion *input_motion, Entity *input_entit
     s16 direction_index;
     s16 old_type;
     s32 height_offset;
-    register u32 raw_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 height_adjust;
     ActorCallback special_callback;
     ActorCallback dispatch_callback;
@@ -185,9 +184,9 @@ counter_join:
             if (!(input_actor->state98 & 8)) {
                 height_adjust = -0x18;
                 height_offset = *(s16 *)((u8 *)input_actor + 0x92);
-                raw_height = *(volatile u16 *)((u8 *)input_actor + 0x92);
+                entity_flags = *(volatile u16 *)((u8 *)input_actor + 0x92);
                 if (height_adjust < height_offset) {
-                    height_adjust = raw_height - 8;
+                    height_adjust = entity_flags - 8;
                     *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
                     goto final_collision;
                 }
@@ -232,15 +231,15 @@ ground_reset:
     if (!(input_actor->state98 & 8)) {
         height_adjust = -0x18;
         height_offset = *(s16 *)((u8 *)input_actor + 0x92);
-        raw_height = *(volatile u16 *)((u8 *)input_actor + 0x92);
+        entity_flags = *(volatile u16 *)((u8 *)input_actor + 0x92);
         if (height_adjust < height_offset) {
-            height_adjust = raw_height - 8;
+            height_adjust = entity_flags - 8;
             *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
         } else {
 adjust_height:
             height_adjust = height_offset < -0x20;
             if (height_adjust) {
-                height_adjust = raw_height + 8;
+                height_adjust = entity_flags + 8;
                 *(s16 *)((u8 *)input_actor + 0x92) = height_adjust;
             }
         }

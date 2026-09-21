@@ -203,7 +203,6 @@ state0:
 
     case 2:
     {
-        s32 *position;
         S_81087818_3 *node;
         s32 axis = 1;
         s32 distance_x;
@@ -217,12 +216,11 @@ state0:
         s32 position_z;
 
         node = ((S_81087818_2 *)motion->unk_4C)->unk_60;
-        position = ((S_81087818_7 *)((u8 *)node - 0x18))->unk_00;
-        motion->unk_28.word = position[0];
-        motion->unk_2C.word = position[1];
+        distance_x = (s32)(((S_81087818_7 *)((u8 *)node - 0x18))->unk_00);
+        motion->unk_28.word = ((s32 *)distance_x)[0];
+        motion->unk_2C.word = ((s32 *)distance_x)[1];
         height = D_800DDC40[((S_81087818_3 *)((S_81087818_2 *)motion->unk_4C)->unk_60)->unk_13];
-        position_z = position[2];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        position_z = ((s32 *)distance_x)[2];
         distance_x = motion->unk_28.half.unk_2A;
         motion->unk_30.word = position_z - (height << 15);
 

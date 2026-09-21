@@ -163,14 +163,13 @@ copy_existing:
                 s32 x;
                 s32 y;
 
-                node = func_800A05A4(
+                x = (s32)func_800A05A4(
                     object,
                     ((S_80172CE8_3 *)actor)->unk_24,
                     ((S_80172CE8_3 *)actor)->unk_25,
                     (*(s16 *)((u8 *)object + 0x2A)),
                     0x10);
-                (*(void * volatile *)((u8 *)object + 0x60)) = node;
-                ASM_KEEP(node);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                (*(void * volatile *)((u8 *)object + 0x60)) = (void *)x;
                 x = (*(s8 *)((u8 *)object + 0x72));
                 y = (*(s8 *)((u8 *)object + 0x73));
                 if (x < 0) {

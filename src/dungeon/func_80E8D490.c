@@ -398,16 +398,14 @@ L5:
 L6:
     {
         s32 tile_coord;
-        s32 target_coord;
         s32 current_coord;
 
         tile_coord = sprite->unk_24;
         current_coord = motion->unk_02.u;
-        target_coord = tile_coord << 6;
-        ASM_USE_NV(target_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        tile_coord = tile_coord << 6;
         current_coord -= 0x20;
         motion->unk_0C.s =
-            (target_coord - current_coord) << 14;
+            (tile_coord - current_coord) << 14;
     }
     {
         s32 tile_coord;

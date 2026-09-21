@@ -61,7 +61,6 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
     s16 ground_height;
     s32 height_adjust;
     s32 height;
-    register u32 raw_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 part_flags;
 
     if (D_80083462[0] & 0x2000) {
@@ -164,9 +163,9 @@ void func_80171964(void *object_arg, void *motion_arg, void *part_arg)
         if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
             height_adjust = -0x20;
             height = *(s16 *)((u8 *)object_arg + 0x92);
-            raw_height = *(volatile u16 *)((u8 *)object_arg + 0x92);
+            part_flags = *(volatile u16 *)((u8 *)object_arg + 0x92);
             if (height_adjust < height) {
-                height_adjust = raw_height - 8;
+                height_adjust = part_flags - 8;
                 *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
                 goto common_tail;
             }
@@ -221,15 +220,15 @@ clear_velocity:
     if (!((*(u16 *)((u8 *)object_arg + (0x98))) & 8)) {
         height_adjust = -0x20;
         height = *(s16 *)((u8 *)object_arg + 0x92);
-        raw_height = *(volatile u16 *)((u8 *)object_arg + 0x92);
+        part_flags = *(volatile u16 *)((u8 *)object_arg + 0x92);
         if (height_adjust < height) {
-            height_adjust = raw_height - 8;
+            height_adjust = part_flags - 8;
             *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
         } else {
 raise_floor:
             height_adjust = height < -0x28;
             if (height_adjust) {
-                height_adjust = raw_height + 8;
+                height_adjust = part_flags + 8;
                 *(s16 *)((u8 *)object_arg + 0x92) = height_adjust;
             }
         }

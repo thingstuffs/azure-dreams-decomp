@@ -217,11 +217,10 @@ copy_active_coords:
             s32 dx;
             s32 dy;
 
-            target = func_800A05A4(
+            dx = (s32)func_800A05A4(
                 actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                 (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-            (*(void * volatile *)((u8 *)actor + 0x60)) = target;
-            ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)dx;
             dx = (*(s8 *)((u8 *)actor + 0x72));
             dy = (*(s8 *)((u8 *)actor + 0x73));
             if (dx < 0) {

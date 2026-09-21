@@ -234,11 +234,10 @@ create_active:
         s32 target_x;
         s32 target_y;
 
-        active = func_800A05A4(
+        target_x = (s32)func_800A05A4(
             actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
             (*(s16 *)((u8 *)actor + 0x2A)), 0x10);
-        (*(void * volatile *)((u8 *)actor + 0x60)) = active;
-        ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        (*(void * volatile *)((u8 *)actor + 0x60)) = (void *)target_x;
         target_x = (*(s8 *)((u8 *)actor + 0x72));
         target_y = (*(s8 *)((u8 *)actor + 0x73));
         if (target_x < 0) {
