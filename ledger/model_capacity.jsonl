@@ -151,3 +151,4 @@
 {"date": "2026-09-21T22:29Z", "codex": {"pack": "r71_kit_sol1", "model": "gpt-5.6-sol", "candidates": 1}, "note": "kit pack wave 2, 3-6-pin rows"}
 {"date": "2026-09-21T22:33Z", "codex": {"pack": "r71_kit_sol2", "model": "gpt-5.6-sol", "candidates": 1}, "note": "kit pack wave 2, 3-6-pin rows"}
 {"date": "2026-09-21T22:34Z", "codex": {"pack": "r71_kit_astra12", "model": "gpt-6-astra", "candidates": 5}, "note": "kit pack wave 2, ranked queue"}
+{"date": "2026-09-21T22:38Z", "codex": {"pack": "r71_kit_sol4", "model": "gpt-5.6-sol", "candidates": 2}, "note": "kit pack wave 2, 3-6-pin rows"}
