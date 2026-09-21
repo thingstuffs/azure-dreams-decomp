@@ -83,6 +83,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     GraphicsState **graphics_ptr;
     register GraphicsState *graphics ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u16 next_segment;
+    s32 coordinate;
     s32 color_b;
     s32 color_a;
 
@@ -109,7 +110,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             vertex_data = prim + 0x1A;
         } while (0);
         do {
-               ASM_USE_NV(angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
@@ -117,8 +118,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-             ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
+            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             angle += 0x80;
             prev_sin = sin_angle;
             sin_angle = func_80064584(angle) >> 4;
@@ -143,8 +143,10 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             ((S_801750E4_0 *)vertex_data)->unk_17 = 0xFB;
             ((S_801750E4_0 *)vertex_data)->unk_0B = 0xFB;
 
-            ((S_801750E4_0_pre *)vertex_data)[-1].unk_00 = center_x + ((scale_b_x * prev_sin) >> 8);
-            ((S_801750E4_0_pre *)vertex_data)[-1].unk_02 = center_y + ((scale_b_y * prev_cos) >> 8);
+            coordinate = center_x + ((scale_b_x * prev_sin) >> 8);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_00 = coordinate;
+            coordinate = center_y + ((scale_b_y * prev_cos) >> 8);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_02 = coordinate;
             ((S_801750E4_0_pre *)vertex_data)[-1].unk_0C = center_x + ((scale_b_x * sin_angle) >> 8);
             ((S_801750E4_0_pre *)vertex_data)[-1].unk_0E = center_y + ((scale_b_y * cos_angle) >> 8);
             ((S_801750E4_0 *)vertex_data)->unk_06 = center_x + ((scale_a_x * prev_sin) >> 8);

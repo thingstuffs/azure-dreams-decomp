@@ -176,7 +176,6 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     Coord *origin_second;
     Coord *origin_path;
     register u8 *copy_page ASM_REG("$2");
-    register u8 *copy_source ASM_REG("$6");
     World *world;
     void *focus;
     Coord *focus_coord;
@@ -291,7 +290,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                         sprite->field16 = (func_80069EF8() & 0xF) << 8;
                         sprite->field18 = (func_80069EF8() & 0xF) << 8;
                         sprite->field1A = (func_80069EF8() & 0xF) << 8;
-                        do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x6180);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                        *(Blob12 *)(task->data) = D_80026180[0];
                         sprite->data = task->data;
                         ASM_KEEP(task);
                     }
@@ -327,7 +326,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                     sprite->b = 0x80;
                     sprite->g = 0x80;
                     sprite->r = 0x80;
-                    do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                    *(Blob12 *)(task->data) = D_8002618C[0];
                     sprite->data = task->data;
                     ASM_KEEP(task);
                 }
@@ -422,7 +421,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                                *(Blob12 *)(task->data) = D_8002618C[0];
                                 sprite->data = task->data;
                                 ASM_KEEP(task);
                             }
@@ -472,7 +471,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                                *(Blob12 *)(task->data) = D_8002618C[0];
                                 sprite->data = task->data;
                                 ASM_KEEP(task);
                             }
@@ -523,7 +522,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                 sprite->b = 0x80;
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
-                                do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                                *(Blob12 *)(task->data) = D_8002618C[0];
                                 sprite->data = task->data;
                                 ASM_KEEP(task);
                             }
@@ -577,7 +576,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                     sprite->b = 0x80;
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
-                                    do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                                    *(Blob12 *)(task->data) = D_8002618C[0];
                                     sprite->data = task->data;
                                     ASM_KEEP(task);
                                 }
@@ -631,7 +630,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                         sprite->b = 0x80;
                                         sprite->g = 0x80;
                                         sprite->r = 0x80;
-                                        do {  copy_page = (u8 *)0x80020000;  ASM_KEEP(copy_page);  copy_source = copy_page + (0x618C);  ASM_KEEP(copy_source);  *(Blob12 *)(task->data) = *(Blob12 *)copy_source;  ASM_KEEP(copy_page);  } while (0);
+                                        *(Blob12 *)(task->data) = D_8002618C[0];
                                         sprite->data = task->data;
                                         ASM_KEEP(task);
                                     }
@@ -644,7 +643,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                         s32 interp_base;
                                         register s32 out_x ASM_REG("$7");
                                         trail_index = 0;
-                                        do {
+                                        loop_1: {
                                             interp_base = entity->path[18];
                                             interp_work = entity->path[6] - interp_base;
                                             trail_fraction = trail_index << 1;
@@ -687,7 +686,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                                     }));
                                             }
                                             trail_index++;
-                                        } while (trail_index < 16);
+                                        } if (trail_index < 16) goto loop_1;
                                     }
                                 }
                             }
@@ -722,16 +721,9 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                 sprite->g = 0x80;
                 sprite->r = 0x80;
                 ASM_SCHED_BARRIER();
-                copy_page = (u8 *)0x80020000;
-                ASM_KEEP(copy_page);
-                copy_source = copy_page;
-                copy_source += 0x6198;
-                ASM_KEEP(copy_source);
-                *(Blob12 *)task->data = *(Blob12 *)copy_source;
-                copy_page += 0x6198;
+                *(Blob12 *)task->data = *(Blob12 *)D_80026198;
+                copy_page = (u8 *)D_80026198;
                 *(Blob12 *)(task->data + 12) = *(Blob12 *)(copy_page + 12);
-                ASM_KEEP(copy_page);
-                ASM_KEEP(task);
                 interp_work = (s32)(task->data);
                 sprite->data = (u8 *)interp_work;
                 goto switch_end;
