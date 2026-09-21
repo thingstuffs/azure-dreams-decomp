@@ -98,25 +98,17 @@ CALL_RE = re.compile(r"(?<![\w.])(?<!->)%s[ \t]*\(" % ID)
 # ------------------------------------------------------------------ text helpers
 
 def scope_decls(fn):
-    """Every declaration of the function.  natural's own reader stops a block's prologue at the first
-    line it cannot parse (`static void *const item_targets[7] = {` in the item family), so the whole
-    function is rescanned for single-line declarations it missed."""
+    """Every declaration of the function.
+
+    This used to rescan the whole body for single-line declarations, because natural's reader
+    stopped a block's prologue at the first line it could not parse (`static void *const
+    item_targets[7] = {` in the item family) and hid every declaration below it.  natural reads
+    those shapes itself since round 68, and the rescan then only ADDED wrong ones: a declaration
+    in a `#ifdef NON_MATCHING` arm no scored build compiles, and a multiplication statement
+    (`second_quotient * limit_units;`) that a declarator regex cannot tell from a declaration.
+    Measured over the 1,123 pinned rows, the rescan's remaining 67 entries were all of those two
+    kinds, so it is gone."""
     out = [dict(d) for ds in fn.decls.values() for d in ds]
-    seen = {(d["line"], d["name"]) for d in out}
-    for k in range(fn.a + 1, fn.b):
-        s = fn.ml[k]
-        first = re.match(ID, s.strip())
-        if not first or first.group(0) in N.CTRL:
-            continue
-        m = DECL_RE.match(s)
-        if not m or m.group("base") in N.CTRL or (k, m.group("n")) in seen:
-            continue
-        q = m.group("q").split()
-        out.append(dict(line=k, end=k, name=m.group("n"), block=fn.inner.get(k, fn.body), single=True,
-                        ty=N._ptype(q, m.group("base"), m.group("ptr")), quals=set(q),
-                        init=m.group("init"), arr=bool(m.group("arr")), pinned=bool(m.group("asm")),
-                        spell=None, ind=m.group("i")))
-        seen.add((k, m.group("n")))
     for d in fn.params:
         out.append(dict(d))
     return out

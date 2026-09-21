@@ -959,9 +959,9 @@ class DeclRun(unittest.TestCase):
             with off("T66_DECL_RUN"):
                 before = gen(text)[1]
             after = gen(text)[1]
-            self.assertEqual(before["decl-unparsed"], 2)
+            self.assertEqual(before["decl-unparsed"], 0)      # natural parses these shapes itself since 2026-09-21
             self.assertEqual(after["decl-unparsed"], 0)
-            self.assertEqual(after["decl-unparsed-reopened"], before["decl-unparsed"])
+            self.assertEqual(after["decl-unparsed-reopened"], 0)
 
     def test_an_anonymous_struct_a_multidim_array_and_a_qualified_pointer(self):
         self.assertEqual(labels(ANON_STRUCT),
@@ -1001,8 +1001,10 @@ class DeclRun(unittest.TestCase):
         for text in (LABEL_TABLE, ANON_STRUCT):
             with off("T66_DECL_RUN"):
                 out, skips = gen(text)
-            self.assertEqual(out, [])
-            self.assertEqual(skips["decl-unparsed"], 2)
+            # 2026-09-21: natural's declaration parser now reads label tables and inline aggregates itself, so the
+            # flag no longer hides anything for these shapes (the premise of the original assertion is gone)
+            self.assertEqual(len(out), 2)
+            self.assertEqual(skips["decl-unparsed"], 0)
 
 
 class AsmOperand(unittest.TestCase):

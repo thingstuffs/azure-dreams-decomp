@@ -52,6 +52,7 @@ SIZE = {"u8": 1, "s8": 1, "char": 1, "void": 1, "u16": 2, "s16": 2, "short": 2,
 LABEL_RE = re.compile(r"^[ \t]*(?P<l>%s)[ \t]*:[ \t]*;?[ \t]*$" % ID)
 GOTO_LINE_RE = re.compile(r"^[ \t]*goto[ \t]+(?P<l>%s)[ \t]*;[ \t]*$" % ID)
 PIN_STMT_RE = re.compile(r"^[ \t]*ASM_[A-Z0-9_]+[ \t]*\(.*\)[ \t]*;[ \t]*$")
+_NOTKW_RE = r"(?!(?:%s)\b)" % "|".join(sorted(CTRL | {"typedef"}))
 CONTROL_RE = re.compile(r"^[ \t]*(?:goto|return|break|continue|case|default|if|while|for|do|switch|else)\b")
 
 
@@ -85,6 +86,15 @@ class _T:
         if len(self.m) != len(self.lines):          # a stray form feed or the like: stay safe
             self.m = [_nl(x) for x in mask(text).split("\n")][:len(self.lines)]
         self.spans = _spans(self.m)
+        # Lines in a `#ifdef NON_MATCHING` arm the byte gate never compiles ("port"/"dead", the rule
+        # `fences` and `pin_census.sites_of` use).  A declaration run may step over them: with the
+        # dead arm's statements counted, a declaration opening the LIVE arm looked like a C89
+        # violation and every declaration below it was hidden (round 68: 55 declarations).
+        self.arm = arm_labels(text) if HAS_PP_RE.search(text) else None
+
+    def dead(self, k):
+        """Line k is in a preprocessor arm no scored build compiles."""
+        return bool(self.arm) and k < len(self.arm) and self.arm[k] in ("port", "dead")
 
     def span(self, i):
         return next(((a, b) for a, b in self.spans if a <= i <= b), None)
@@ -295,8 +305,26 @@ def _reindent(real_lines, old, new):
 _DO_RE = re.compile(r"\bdo\s*\{")
 _W0_RE = re.compile(r"\bwhile\s*\(\s*0\s*\)\s*\{")
 _F0_RE = re.compile(r"\bfor\s*\(\s*;\s*0\s*;\s*\)\s*\{")
-_DECL_START_RE = re.compile(r"^[ \t]*(?:(?:register|const|static|volatile|unsigned|signed|struct|union|enum)[ \t]+)*"
-                            r"%s(?:[ \t]*\*+[ \t]*|[ \t]+)(?:\*+[ \t]*)?%s[ \t]*(?:\[[^\]]*\][ \t]*)?(?:=|;|,|ASM_REG)" % (ID, ID))
+# A declaration's FIRST line, the way C89 lets one open a block.  Three shapes, because m2c writes
+# all three: an inline aggregate (`union { s32 a; void *p; } slot;`), a function pointer
+# (`void (*handler)(s32);`), and the ordinary one - whose star run may carry its own qualifiers
+# (`static void *const item_targets[7] = {`, the computed-goto label arrays) and whose declarator
+# may have several array dimensions (`s16 v[10][6][3];`).  The ordinary shape still has to reach a
+# declarator terminator on its own line, so a wrapped call (`foo(a,` / `  b);`) is not a declaration.
+_QUALS_RE = (r"(?:(?:register|const|static|volatile|extern|unsigned|signed|short|long"
+             r"|struct|union|enum)[ \t]+)*")
+_STARS_RE = r"(?:[ \t]*\*+[ \t]*(?:(?:const|volatile)[ \t]+)*)"
+_ATTR_S = r"(?:__attribute__[ \t]*\(\(.*?\)\)[ \t]*)?"
+_ATTR_RE = re.compile(r"__attribute__[ \t]*\(\(.*?\)\)", re.S)
+_STATIC_RE = re.compile(r"^[ \t]*(?:(?:const|volatile|register|unsigned|signed)[ \t]+)*(?:static|extern)\b")
+_INIT_EQ_RE = re.compile(r"(?<![=!<>+\-*/%&|^])=(?!=)")
+_DECL_START_RE = re.compile((
+    "^[ \t]*(?:"
+    + _QUALS_RE + r"(?:struct|union|enum)[ \t]*(?:%s)?[ \t]*(?:\{|$)"
+    + "|" + _QUALS_RE + _NOTKW_RE + r"%s(?:" + _STARS_RE + r"|[ \t]+)(?:\*+[ \t]*)?\([ \t]*\*+[ \t]*%s[ \t]*\)[ \t]*[(\[]"
+    + "|" + _QUALS_RE + _NOTKW_RE + r"%s(?:" + _STARS_RE + r"|[ \t]+)(?:\*+[ \t]*)?%s[ \t]*(?:\[[^\]]*\][ \t]*)*"
+    + _ATTR_S + r"(?:=|;|,|(?:LOCAL_)?ASM_REG)"
+    + ")") % (ID, ID, ID, ID, ID))
 
 
 def fences(text):
@@ -1548,10 +1576,15 @@ _ENV = __import__("os").environ
 ALLOC_WIDE = _ENV.get("NATURAL_ALLOC_WIDE") == "1"      # every candidate (and every decl pair), uncapped
 ALLOC_CAP = int(_ENV.get("NATURAL_ALLOC_CAP", "12"))    # per generator per text
 CASE_RE = re.compile(r"^[ \t]*(?:case\b[^:]*|default[ \t]*):")
+# One single-line declaration.  The separator between the base type and the name is REQUIRED (a
+# star run or white space): with it optional, every `dx = -dx;` read as a declaration of `x` of type
+# `d`, and `divisor = 10;` as a `diviso` named `r` - t83's `_locals` and t66's rescan collected
+# those names as locals (round 68: 28,488 such lines over the pinned rows).  A control keyword can
+# never be the base type, so callers that do not check `base not in CTRL` are safe too.
 VDECL_RE = re.compile(
     r"^(?P<i>[ \t]*)(?P<spell>(?P<q>(?:(?:register|const|volatile|static|unsigned|signed|struct|union|enum)[ \t]+)*)"
-    r"(?P<base>%s)(?P<ptr>(?:[ \t]*\*)*)[ \t]*(?P<n>%s))[ \t]*(?P<arr>\[[^\]]*\][ \t]*)?"
-    r"(?P<asm>ASM_REG[ \t]*\([^)]*\)[ \t]*)?(?:=[ \t]*(?P<init>[^;]*?))?[ \t]*;[ \t]*$" % (ID, ID))
+    + _NOTKW_RE + r"(?P<base>%s)(?P<ptr>(?:[ \t]*\*)+[ \t]*|[ \t]+)(?P<n>%s))[ \t]*(?P<arr>\[[^\]]*\][ \t]*)?"
+    r"(?P<asm>(?:LOCAL_)?ASM_REG[ \t]*\([^)]*\)[ \t]*)?(?:=[ \t]*(?P<init>[^;]*?))?[ \t]*;[ \t]*$" % (ID, ID))
 PDECL_RE = re.compile(r"^[ \t]*(?P<q>(?:(?:register|const|volatile|unsigned|signed|struct|union|enum)[ \t]+)*)"
                       r"(?P<base>%s)(?P<ptr>(?:[ \t]*\*)*)[ \t]*(?P<n>%s)[ \t]*$" % (ID, ID))
 WORD_S = {"s32", "int", "signed", "signed int", "long", "long int", "signed long", "M2C_UNK", "M2C_UNK32"}
@@ -1593,9 +1626,28 @@ def _twin_names(a, b):
 
 
 def _decl_names(stmt):
-    body = stmt.strip().rstrip(";")
-    m = re.match(r"^(?:(?:register|const|volatile|static|unsigned|signed|struct|union|enum)\s+)*%s" % ID, body)
-    rest = body[m.end():] if m else body
+    """The names one declaration statement declares; its text may span lines.  An inline aggregate's
+    own members are not names of the enclosing block, and a function pointer is named inside its
+    parentheses (`void (*handler)(s32)` declares `handler`, not `s32`)."""
+    body = _ATTR_RE.sub(" ", stmt).strip().rstrip(";")
+    agg = re.match(r"^(?:(?:register|const|volatile|static|extern|unsigned|signed)\s+)*"
+                   r"(?:struct|union|enum)\s*(?:%s)?\s*\{" % ID, body)
+    if agg:
+        d, close = 0, None
+        for j in range(body.index("{", agg.end() - 1), len(body)):
+            d += body[j] == "{"
+            d -= body[j] == "}"
+            if d == 0:
+                close = j
+                break
+        if close is None:
+            return []
+        rest = body[close + 1:]
+        m = None
+    else:
+        m = re.match(r"^(?:(?:register|const|volatile|static|extern|unsigned|signed|struct|union|enum)\s+)*%s" % ID,
+                     body)
+        rest = body[m.end():] if m else body
     parts, d, cur = [], 0, ""
     for ch in rest:
         d += ch in "([{"
@@ -1608,11 +1660,85 @@ def _decl_names(stmt):
     parts.append(cur)
     out = []
     for p in parts:
-        p = re.sub(r"ASM_REG\s*\([^)]*\)", "", p.split("=")[0])
+        p = re.sub(r"(?:LOCAL_)?ASM_REG\s*\([^)]*\)", "", p.split("=")[0])
+        fp = re.search(r"\(\s*\*+\s*(%s)\s*\)\s*[(\[]" % ID, p)
+        if fp:                                        # `(*handler)(s32)` / `(*points_base)[2]`
+            out.append(fp.group(1))
+            continue
         ids = re.findall(ID, re.sub(r"\[[^\]]*\]", "", p))
         if ids:
             out.append(ids[-1])
     return out
+
+
+def _decl_end(ml, k, c):
+    """Line of the `;` that ends the declaration statement starting on line k, braces included: a
+    multi-line declarator (`s32 tail =` / `    arg0[idx];`) and a brace initialiser
+    (`static void *const item_targets[7] = {` ... `};`) are ONE statement.  None: no such `;`."""
+    d = 0
+    for j in range(k, c):
+        for ch in ml[j]:
+            if ch in "([{":
+                d += 1
+            elif ch in ")]}":
+                d -= 1
+                if d < 0:
+                    return None
+            elif ch == ";" and d == 0:
+                return j
+    return None
+
+
+def _has_top_comma(s):
+    """A comma outside every bracket: what tells a declarator LIST from one initialiser."""
+    d = 0
+    for ch in s:
+        if ch in "([{":
+            d += 1
+        elif ch in ")]}":
+            d -= 1
+        elif ch == "," and d == 0:
+            return True
+    return False
+
+
+def _decl_head(stmt):
+    """A declaration statement's text with its initialiser and any aggregate body cut off."""
+    body = _ATTR_RE.sub(" ", stmt)
+    agg = re.match(r"^\s*(?:(?:register|const|volatile|static|extern|unsigned|signed)\s+)*"
+                   r"(?:struct|union|enum)\s*(?:%s)?\s*\{" % ID, body)
+    if agg:
+        d = 0
+        for j in range(body.index("{", agg.end() - 1), len(body)):
+            d += body[j] == "{"
+            d -= body[j] == "}"
+            if d == 0:
+                body = body[j + 1:]
+                break
+    m = _INIT_EQ_RE.search(body)
+    return body[:m.start()] if m else body
+
+
+def _decl_init(stmt):
+    """The initialiser text of a declaration `VDECL_RE` cannot spell (`} camera_angles = {1, 2};`),
+    which is what `t66._init_place_refusal` walks when it asks what a demoted assignment crosses.
+    A `static` (or `extern`) initialiser does not run at block entry, so that one is None - the
+    rule t66's own step-over used before natural read these shapes itself."""
+    body = _ATTR_RE.sub(" ", stmt).strip()
+    if _STATIC_RE.match(body):
+        return None
+    agg = re.match(r"^\s*(?:(?:register|const|volatile|unsigned|signed)\s+)*"
+                   r"(?:struct|union|enum)\s*(?:%s)?\s*\{" % ID, body)
+    if agg:
+        d = 0
+        for j in range(body.index("{", agg.end() - 1), len(body)):
+            d += body[j] == "{"
+            d -= body[j] == "}"
+            if d == 0:
+                body = body[j + 1:]
+                break
+    m = _INIT_EQ_RE.search(body)
+    return body[m.end():].strip().rstrip(";").strip() if m else None
 
 
 def _stmt_end(ml, k, c):
@@ -1811,16 +1937,27 @@ class _Fn:
         ml, out, k = self.ml, [], o + 1
         while k < c:
             s = ml[k]
-            if not s.strip() or s.lstrip().startswith("#"):
+            if not s.strip() or s.lstrip().startswith("#") or self.t.dead(k):
                 k += 1
                 continue
             first = re.match(ID, s.strip())
+            if first and first.group(0) == "typedef":
+                # `typedef struct { ... } Local20;` at the head of a function (m2c writes one for
+                # every stack aggregate).  It declares a TYPE, not a name of this block, but it is
+                # part of the declaration prologue: breaking on it hid every local below it.
+                end = _decl_end(ml, k, c)
+                if end is None:
+                    break
+                k = end + 1
+                continue
             if not first or first.group(0) in CTRL or not _DECL_START_RE.match(s):
                 break
-            end = k
-            while end < c and not ml[end].rstrip().endswith(";"):
-                end += 1
+            end = _decl_end(ml, k, c)
+            if end is None:
+                break
             m = VDECL_RE.match(s) if end == k else None
+            if m and m.group("init") and _has_top_comma(m.group("init")):
+                m = None                              # `s32 a = 0, b;` is a LIST (as `_decl` reads it)
             if m and m.group("base") not in CTRL:
                 q = m.group("q").split()
                 out.append(dict(line=k, end=end, name=m.group("n"), block=blk, single=True,
@@ -1828,9 +1965,15 @@ class _Fn:
                                 init=m.group("init"), arr=bool(m.group("arr")), pinned=bool(m.group("asm")),
                                 spell=m.group("spell").strip(), ind=m.group("i")))
             else:
-                for n in _decl_names(" ".join(ml[k:end + 1])):
+                joined = " ".join(ml[k:end + 1])
+                # the initialiser only when it stands on the line the `;` ends: a declarator
+                # WRAPPED over lines (`s32 tail =` / `    arg0[idx++];`) still reports None, which
+                # is what t66 reads as "an initialiser natural could not spell".
+                init = None if _STATIC_RE.match(_ATTR_RE.sub(" ", joined).strip()) else _decl_init(ml[end])
+                for n in _decl_names(joined):
                     out.append(dict(line=k, end=end, name=n, block=blk, single=False, ty=None, quals=set(),
-                                    init=None, arr=False, pinned="ASM_REG" in s, spell=None, ind=_ind(s)))
+                                    init=init, arr="[" in _decl_head(joined),
+                                    pinned="ASM_REG" in joined, spell=None, ind=_ind(s)))
             k = end + 1
         return out
 
