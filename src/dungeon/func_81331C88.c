@@ -151,7 +151,6 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     void *task;
     u8 *segment_data;
     void *position;
-    register s32 vertex ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *vertex_color;
     void *render_data;
     s32 side;
@@ -214,21 +213,21 @@ interpolate_edge:
         edge_offset = sample_offset;
 interpolate_axis:
         dest_coord = axis * 2;
-        shape_row = (u8 *)(((S_80168C88_0 *)effect)->unk_1C * 0x60);
-        ASM_KEEP_NV(shape_row);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        shape_row = (u8 *)(s32)((S_80168C88_0 *)effect)->unk_1C;
+        shape_row = (u8 *)((s32)shape_row * 0x60);
         shape_row += (s32)table_base;
         endpoint = (u8 *)((s32)edge_offset + (s32)shape_row);
         start_coord = (s16 *)dest_coord;
         start_coord = (s16 *)((u8 *)start_coord + (s32)endpoint);
         ASM_KEEP_DEP_NV(start_coord, endpoint);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         endpoint += dest_coord;
-        ASM_KEEP_NV(endpoint);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        scaled_delta = (((S_80168C88_2 *)endpoint)->unk_54 - *start_coord) * step;
+        scaled_delta = ((S_80168C88_2 *)endpoint)->unk_54;
+        scaled_delta -= *start_coord;
+        scaled_delta *= step;
         axis += 1;
         shape_row = (u8 *)((s32)dest_offset + (s32)shape_row);
         shape_row = (u8 *)((s32)edge_offset + (s32)shape_row);
         dest_coord += (s32)shape_row;
-        ASM_KEEP_NV(dest_coord);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         ((S_80168C88_3 *)((void *)dest_coord))->unk_00 = *start_coord + scaled_delta / 7;
         if (axis < 3) {
             goto interpolate_axis;
@@ -255,10 +254,9 @@ interpolate_axis:
 
             scaled_delta = (s32)(task);
             segment_data = (u8 *)task + 0x20;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            init_fn = D_80167C30;
-            ASM_KEEP_DEP_NV(init_fn, segment_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             callback = D_80166914;
+            ASM_KEEP_DEP_NV(init_fn, segment_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            init_fn = D_80167C30;
             ((S_80168C88_4 *)segment_data)->unk_18 = one;
             ((S_80168C88_4 *)segment_data)->unk_1A = one;
             ((S_80168C88_5 *)task)->unk_10 = init_fn;
@@ -270,7 +268,7 @@ interpolate_axis:
 
             position = ((S_80168C88_5 *)task)->unk_08;
             ((S_80168C88_7 *)position)->unk_00 = ((S_80168C88_8 *)origin)->unk_00;
-            vertex = 0;
+            step = 0;
             ((S_80168C88_7 *)position)->unk_04 = ((S_80168C88_8 *)origin)->unk_04;
             vertex_color = segment_data;
             ((S_80168C88_7 *)position)->unk_08 = ((S_80168C88_8 *)origin)->unk_08;
@@ -285,10 +283,10 @@ interpolate_axis:
             loop_2: {
                 ((S_80168C88_10 *)vertex_color)->unk_00 = ((S_80168C88_1 *)color)->unk_0C;
                 ((S_80168C88_10 *)vertex_color)->unk_01 = ((S_80168C88_1 *)color)->unk_0D;
-                vertex += 1;
+                step += 1;
                 ((S_80168C88_10 *)vertex_color)->unk_02 = ((S_80168C88_1 *)color)->unk_0E;
                 vertex_color += 4;
-            } if (vertex < 4) goto loop_2;
+            } if (step < 4) goto loop_2;
 
             if (segment == 0) {
                 ((S_80168C88_4 *)segment_data)->unk_06 = 0;

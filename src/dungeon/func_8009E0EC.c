@@ -45,7 +45,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s16 selected_action;
   s16 best_score;
   u16 line_valid;
-  register Actor *self ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+
   Entity *actor_entity;
   register Entity *target_entity ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
   u8 *ability;
@@ -61,7 +61,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s32 slot_index;
   register s16 steps ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s16 next_steps;
-  s16 x;
+  s32 actor_or_x;
   s16 y;
   s32 height_delta;
   s32 actor_height;
@@ -81,9 +81,9 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   } while (0);
   ASM_KEEP(best_score);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
   *out_angle = facing_angle;
-  self = actor;
+  actor_or_x = (s32)actor;
   target_entity = *((Entity **) (((u8 *) target) - 0x14));
-  actor_entity = *((Entity **) (((u8 *) self) - 0x14));
+  actor_entity = *((Entity **) (((u8 *) actor_or_x) - 0x14));
   actor_height = actor->coord88;
   height_delta = actor_height - target->coord88;
   height_delta = abs(height_delta);
@@ -110,25 +110,25 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
     if (func_8009FD40(D_80082E80, actor_entity) < 0x11)
     {
       ability_flags = actor->flags14;
-      if (((ability_flags & 0x6000) || (!(self->status98 & 0x10))) || (!(func_800A6D30() & 0xF)))
+      if (((ability_flags & 0x6000) || (!(((Actor *)actor_or_x)->status98 & 0x10))) || (!(func_800A6D30() & 0xF)))
       {
         if (!(func_800A6D30() & 3))
         {
           if ((func_80042900(actor, 6) << 16) == 0)
           {
-            self->status98 |= 0x11;
+            ((Actor *)actor_or_x)->status98 |= 0x11;
             goto store_status;
           }
         }
       }
     }
-    self->status98 &= 0xFFFE;
+    ((Actor *)actor_or_x)->status98 &= 0xFFFE;
     store_status:
     ;
 
     ;
   }
-  if (self->status98 & 1)
+  if (((Actor *)actor_or_x)->status98 & 1)
   {
     slots_checked = 0;
     target_mode = D_8008347E;
@@ -189,7 +189,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       {
         goto outer_next;
       }
-      x = actor_entity->x;
+      actor_or_x = actor_entity->x;
       y = actor_entity->y;
       steps = 0;
       direction = ((*out_angle) >> 9) & 7;
@@ -205,7 +205,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       step_offset = ((u32) direction_shifted) >> 15;
       x_step = (u16 *) (step_offset + x_steps_base);
       inner_loop:
-      func_8009A350(x, y, direction_shifted >> 16, &tile_flags);
+      func_8009A350((s16)actor_or_x, y, direction_shifted >> 16, &tile_flags);
       flags = actor->flags1c;
       ASM_USE2_NV(distance, distance);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
       ASM_USE_NV(score);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -228,7 +228,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       }
       next_steps = steps + 1;
       steps = next_steps;
-      x += *x_step;
+      actor_or_x += *x_step;
       y += *((u16 *) (((u8 *) (&D_8006CCE8)) + step_offset));
       if (next_steps < distance)
       {

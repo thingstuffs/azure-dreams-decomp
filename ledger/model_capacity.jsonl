@@ -93,3 +93,15 @@
 {"date": "2026-09-21T13:33Z", "codex": {"pack": "r67_astra_esc4", "model": "gpt-6-astra", "candidates": 1}, "note": "duck-briefed parallel pool"}
 {"date": "2026-09-21T13:33Z", "codex": {"pack": "r67_astra_esc5", "model": "gpt-6-astra", "candidates": 3}, "note": "duck-briefed parallel pool"}
 {"date": "2026-09-21T13:33Z", "codex": {"pack": "r67_astra_esc6", "model": "gpt-6-astra", "candidates": 1}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big1", "model": "gpt-5.6-sol", "candidates": 1}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big2", "model": "gpt-5.6-sol", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big3", "model": "gpt-5.6-sol", "candidates": 1}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big4", "model": "gpt-5.6-sol", "candidates": 3}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big5", "model": "gpt-5.6-sol", "candidates": 4}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big6", "model": "gpt-5.6-sol", "candidates": 0}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big7", "model": "gpt-5.6-sol", "candidates": 3}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big8", "model": "gpt-5.6-sol", "candidates": 3}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big9", "model": "gpt-5.6-sol", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big10", "model": "gpt-5.6-sol", "candidates": 0}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big11", "model": "gpt-5.6-sol", "candidates": 2}, "note": "duck-briefed parallel pool"}
+{"date": "2026-09-21T14:45Z", "codex": {"pack": "r67_sol_big12", "model": "gpt-5.6-sol", "candidates": 2}, "note": "duck-briefed parallel pool"}

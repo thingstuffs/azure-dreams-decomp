@@ -74,6 +74,8 @@ extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern s32 func_80065420(void *, void *, void *, void *);
 
+static __inline__ s32 endpoint_delta(u16 end, u16 start) { return (end - start) << 16; }
+
 /* Draw eight shaded lines with animated endpoints and insert them into the ordering table. */
 s32 func_800247D4(void *effect_data)
 {
@@ -151,10 +153,9 @@ s32 func_800247D4(void *effect_data)
 case_early:
     {
         end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
-        ASM_KEEP(end_or_blue);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
         fixed_delta &= 0xFFFF;
-        fixed_delta |= (end_or_blue - start_or_fade) << 16;
+        fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
         fixed_delta &= delta_mask;
         fixed_delta >>= 3;
         fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 + 1;
@@ -219,10 +220,9 @@ case_late:
         s32 color_step;
 
         end_or_blue = ((S_800247D4_0 *)scratch)->unk_6C;
-        ASM_KEEP(end_or_blue);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         start_or_fade = ((S_800247D4_0 *)scratch)->unk_64;
         fixed_delta &= 0xFFFF;
-        fixed_delta |= (end_or_blue - start_or_fade) << 16;
+        fixed_delta |= endpoint_delta(end_or_blue, start_or_fade);
         fixed_delta &= delta_mask;
         fixed_delta >>= 3;
         fixed_delta *= ((S_800247D4_3 *)effect)->unk_10 - 7;

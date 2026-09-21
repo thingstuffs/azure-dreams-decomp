@@ -11,6 +11,7 @@ M2C_UNK func_8004491C();
 s32 func_80069EF8();
 extern DungeonTable D_8016A894;
 extern M2C_UNK D_801718E4;
+
 /* Creates an effect with direction-based position offsets and randomized velocity. */
 void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volatile s32 spread_mode)
 {
@@ -29,7 +30,7 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
   void *effect_data;
   void *effect;
   void *handler;
-  register s32 motion_value ASM_REG("$2");
+  s32 motion_value;
   u32 saved_angle;
   s32 y_velocity;
   void *velocity_base;
@@ -79,17 +80,11 @@ void func_80171A10(void *source, s32 angle, s32 initial_value, s32 unused, volat
       *((s32 *) (((s8 *) velocity_base) + 0x10)) = y_velocity;
     }
     motion_value = (s32) (((func_80069EF8() & 0x7FFF) - 0x4000) << 5);
-    {
-      register u8 *tail_frame ASM_REG("$29");
-      ASM_UNDEF(tail_frame);
-      direction_entry = tail_frame + 0x10;
-    }
+    direction_entry = (u8 *)&direction_table + ((saved_angle >> 7) & 0x1C);
     motion = (effect_obj = *((void **) (((s8 *) effect) + 8)));
     *((s32 *) (((s8 *) motion) + 0x14)) = motion_value;
     effect_obj = effect;
-    motion_value = saved_angle >> 7;
-    motion_value &= 0x1C;
-    direction_entry += motion_value;
+
     motion = *((void **) (((s8 *) effect_obj) + 8));
     *((s32 *) (((s8 *) motion) + 0xC)) = (s32) ((*((s32 *) (((s8 *) motion) + 0xC))) + ((*((s16 *) (((s8 *) direction_entry) + 0))) * 0x160000));
     y_motion = *((void **) (((s8 *) effect_obj) + 8));

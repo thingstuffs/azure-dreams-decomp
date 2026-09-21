@@ -39,7 +39,6 @@ void func_819602D8(s16 center_x, s32 center_y) {
     s32 tile_sample;
     void *map;
     S_819602D8_0 *tile;
-    s32 *output_base;
     u32 output_row;
     s32 output_value;
 
@@ -57,11 +56,10 @@ void func_819602D8(s16 center_x, s32 center_y) {
 row_loop:
     {
         register u16 row_center_x ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 shifted_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         row_center_x = saved_center_x.h;
         col = 0;
-        shifted_y = tile_y << 16;
-        signed_y = shifted_y >> 16;
+        tile_sample = tile_y << 16;
+        signed_y = tile_sample >> 16;
         world_y = signed_y;
         world_y <<= 6;
         sample_y = world_y + 0x20;
@@ -126,10 +124,9 @@ bounds_ok:
     sample_x &= 0xFFE0;
     output_value = func_80025D30(sample_x, sample_y & 0xFFFF, -0x400);
 store_output:
-    output_base = &D_800274DC[0][0];
-    ASM_KEEP_NV(output_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    output_row = row << 5;
-    output_row += (u32)output_base;
+    tile_sample = (u32)&D_800274DC[0][0];
+    output_row = (u32)tile_sample;
+    output_row += row << 5;
     ((s32 *)output_row)[col] = output_value;
     sample_ptr += 1;
     col += 1;

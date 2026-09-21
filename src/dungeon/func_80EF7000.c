@@ -220,10 +220,11 @@ interpolate_step:
             s32 interp_current;
 
             interp_goal = position->unk_0E;
-            ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            interp_current = position->unk_00.half.unk_02.unk_02 - 32;
-            interp_goal =
-                (interp_goal * 64 - interp_current) / countdown;
+            interp_current = position->unk_00.half.unk_02.unk_02;
+            interp_goal *= 64;
+            interp_current -= 32;
+            interp_goal -= interp_current;
+            interp_goal /= countdown;
             position->unk_00.half.unk_02.unk_02 += interp_goal;
 
             interp_goal = position->unk_12;

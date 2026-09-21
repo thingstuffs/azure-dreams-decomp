@@ -142,13 +142,12 @@ shade:
             s32 intensity;
             register s32 color_work ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             register s32 shade_work ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            register s32 end_color ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 end_color;
 
             shade_work = (shade_step * 3) << 3;
             intensity = ((shade_work - shade_step) >> 16) & 0xff;
-            ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            color_work = (intensity << 8) + intensity;
-            lower_color = (color_work << 8) + intensity;
+            color_work = intensity * 0x10100;
+            lower_color = color_work + intensity;
             ASM_KEEP_NV(lower_color);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             trig_value >>= 4;
@@ -166,12 +165,10 @@ shade:
             ASM_KEEP_NV(intensity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
             shade_work = (shade_work >> 16) & 0xff;
-            ASM_KEEP_NV(shade_work);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             color_pair = (intensity << 8) + intensity;
             prev_upper_color = (color_pair << 8) + intensity;
 
-            color_work = (shade_work << 8) + shade_work;
-            color_work = (color_work << 8) | shade_work;
+            color_work = shade_work * 0x10101;
 
             fixed_coord = scaled_coord << 8;
             vertices[21] = fixed_coord;
@@ -181,8 +178,8 @@ shade:
             vertices[18] = record->f71 << 16;
             end_color = prev_upper_color;
             vertices[22] = record->f65 << 16;
-            upper_color = end_color;
             func_80024770(color_work, shade_work, end_color);
+            upper_color = end_color;
         }
     }
 
