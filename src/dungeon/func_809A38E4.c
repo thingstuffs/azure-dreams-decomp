@@ -26,8 +26,6 @@ typedef struct S_801750E4_0 {
     u8 unk_17;
 } S_801750E4_0;   /* q in func_801750E4 */
 
-
-
 typedef struct GraphicsState {
     u8 pad[0x8D0];
     void *next_prim;
@@ -60,6 +58,12 @@ extern s32 func_80064584(s32);
 extern void func_8006658C(s32, void *);
 extern void func_8006671C(void *);
 
+/* Project one ellipse axis into the signed 16-bit packet coordinate format. */
+static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center)
+{
+    return center + ((radius * trig) >> 8);
+}
+
 /* Emit colored quads between two concentric elliptical arcs. */
 void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_y,
                    u16 center_x, u16 center_y, s32 *color_b_ptr, s32 *color_a_ptr,
@@ -72,7 +76,7 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     s32 scale_b_y;
     s32 scale_a_x;
     s32 scale_a_y;
-    register s32 angle ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 angle;
     s32 sin_angle;
     s32 cos_angle;
     s32 prev_sin;
@@ -83,7 +87,15 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
     GraphicsState **graphics_ptr;
     register GraphicsState *graphics ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     u16 next_segment;
-    s32 coordinate;
+    s32 outer_prev_x;
+    s32 outer_prev_y;
+    s32 outer_next_x;
+    s32 outer_next_y;
+    s32 inner_prev_x;
+    s32 inner_prev_y;
+    s32 inner_next_x;
+    s32 inner_next_y;
+
     s32 color_b;
     s32 color_a;
 
@@ -110,15 +122,6 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             vertex_data = prim + 0x1A;
         } while (0);
         do {
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
-            ASM_USE_NV(angle); ASM_USE_NV(angle); ASM_USE_NV(angle);
             angle += 0x80;
             prev_sin = sin_angle;
             sin_angle = func_80064584(angle) >> 4;
@@ -143,16 +146,22 @@ void func_801750E4(u16 radius_a_x, u16 radius_a_y, u16 radius_b_x, u16 radius_b_
             ((S_801750E4_0 *)vertex_data)->unk_17 = 0xFB;
             ((S_801750E4_0 *)vertex_data)->unk_0B = 0xFB;
 
-            coordinate = center_x + ((scale_b_x * prev_sin) >> 8);
-            ((S_801750E4_0_pre *)vertex_data)[-1].unk_00 = coordinate;
-            coordinate = center_y + ((scale_b_y * prev_cos) >> 8);
-            ((S_801750E4_0_pre *)vertex_data)[-1].unk_02 = coordinate;
-            ((S_801750E4_0_pre *)vertex_data)[-1].unk_0C = center_x + ((scale_b_x * sin_angle) >> 8);
-            ((S_801750E4_0_pre *)vertex_data)[-1].unk_0E = center_y + ((scale_b_y * cos_angle) >> 8);
-            ((S_801750E4_0 *)vertex_data)->unk_06 = center_x + ((scale_a_x * prev_sin) >> 8);
-            ((S_801750E4_0 *)vertex_data)->unk_08 = center_y + ((scale_a_y * prev_cos) >> 8);
-            ((S_801750E4_0 *)vertex_data)->unk_12 = center_x + ((scale_a_x * sin_angle) >> 8);
-            ((S_801750E4_0 *)vertex_data)->unk_14 = center_y + ((scale_a_y * cos_angle) >> 8);
+            outer_prev_x = project_ring_coordinate(scale_b_x, prev_sin, center_x);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_00 = outer_prev_x;
+            outer_prev_y = project_ring_coordinate(scale_b_y, prev_cos, center_y);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_02 = outer_prev_y;
+            outer_next_x = project_ring_coordinate(scale_b_x, sin_angle, center_x);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_0C = outer_next_x;
+            outer_next_y = project_ring_coordinate(scale_b_y, cos_angle, center_y);
+            ((S_801750E4_0_pre *)vertex_data)[-1].unk_0E = outer_next_y;
+            inner_prev_x = project_ring_coordinate(scale_a_x, prev_sin, center_x);
+            ((S_801750E4_0 *)vertex_data)->unk_06 = inner_prev_x;
+            inner_prev_y = project_ring_coordinate(scale_a_y, prev_cos, center_y);
+            ((S_801750E4_0 *)vertex_data)->unk_08 = inner_prev_y;
+            inner_next_x = project_ring_coordinate(scale_a_x, sin_angle, center_x);
+            ((S_801750E4_0 *)vertex_data)->unk_12 = inner_next_x;
+            inner_next_y = project_ring_coordinate(scale_a_y, cos_angle, center_y);
+            ((S_801750E4_0 *)vertex_data)->unk_14 = inner_next_y;
 
             ((S_801750E4_0 *)vertex_data)->unk_00 = 0x133;
 
