@@ -64,3 +64,30 @@ study near-misses with `r61_alloc_study/NOTE.md`).  Chain J (astra): five class-
 
 Spelling trades to revisit (owner: acceptable when documented): the labelled dispatch row (round 60), two empty `if` arms
 from t82, the `(s32)`/`(void *)` casts of the lifetime merge (a 1997 author may simply have reused one `int`).
+
+## Checkpoint 08:20Z: 5,346 / 1,129 (234 pins since this note's start)
+
+- **Astra big rows** (`r62_astra_big`): 819A1654 51 -> 24 (staged copies -> aggregate copies from typed source symbols),
+  818D4E68 42 -> 39, 8187C45C 41 -> 40; an Opus harvest taught t78 the joint page runs (it now reproduces astra's 27 pins
+  alone and took 8187C45C 39 -> 30).  146 never-served rows of nine or more pins hold 39% of all pins: nine more
+  duck-briefed big-row packs are queued on astra (chains L, M).
+- **The loop-count row** (`dungeon/func_809A38E4`, 37 pins): 34 `ASM_USE_NV(angle)` statements were padding a loop past a
+  one-instruction threshold in `loop.c` (`move_movables`: an invariant is hoisted iff `threshold*savings*lifetime >=
+  insn_count`; here iff the loop has <= 116 real insns).  An Opus study measured the boundary; idempotent self-casts reach
+  3 pins byte-exact and were REFUSED as padding (evidence ledger); astra then found the real shape - a
+  `static __inline__ s16 project_ring_coordinate(s32 radius, s32 trig, u16 center)` helper called eight times, whose narrow
+  parameter/return conversions are counted by loop.c and vanish later: **37 -> 2**, landed.  Recovered inline helpers with
+  narrow interfaces are now in every pending pack brief.
+- **Loop census** (`tools/lanes/loop_census.py`, `ledger/loop_census.jsonl`, 19 s): 410 pinned rows have real loops, 103
+  differ in a loop.c DECISION between pinned and erased: 12 invariant hoists (count padding = that one row), 91 rows where
+  one `ASM_REG` on a loop variable hides it from induction analysis (a hard register is no biv).
+- **Class-family packs** (six, five clean rows each): 14 of 30 rows exact, but no residue class was ONE mechanism (the
+  `-move` placement class: four causes in five rows).  The FIXES recur instead: lifetime merge and its inverse, lifetime
+  split (gcc treats a pseudo with exactly one set specially: scheduler birth priority, allocation preference), arithmetic
+  distributed into existing arms, narrow consumers used directly, one-trip blocks removed.  An Opus harvest is turning
+  these into generators (t89 lifetime split, t87 extensions).
+- **Clone transfer** (`tools/lanes/clone_transfer.py`): replays every solved lane row's diff on identifier-normalised
+  siblings; first pass 5 rows / 17 pins (the four siblings of a row astra took 5 -> 1); a watcher re-runs it every 25
+  minutes as lanes finish.  Every exact transfer sat at similarity >= 0.9.
+- Negatives: the allocation family (three rows) stays open after sol, the Opus study and astra (distances 4, 16, 22);
+  the plain-store item rows are with astra as their own question; sol retries and the far band are spent (chain H ended).
