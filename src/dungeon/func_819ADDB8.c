@@ -137,9 +137,8 @@ loop:
 #else
             resource_page = (u8 *)0x800D0000;
 #endif
-            ASM_KEEP_NV(resource_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             ((S_800255B8_0 *)(*object_slot))->unk_10 = component_data;
-            func_8004491C(*object_slot, resource_page - 0x6FCC);
+            func_8004491C(*object_slot, D_800C9034);
         }
 
         offset_addr = (heading >> 8) & 0xE;

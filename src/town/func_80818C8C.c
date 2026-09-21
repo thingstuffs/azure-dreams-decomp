@@ -66,11 +66,9 @@ s32 func_80022C8C(void)
     void *spawn_table;
 
     parent_link = NULL;
-    data_page = (u8 *)0x80020000;
-    ASM_KEEP_NV(data_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    shared_data = (void *)&D_80020054;
     count_page = (volatile u16 *)0x80010000;
     count = (s16)*(count_page + (0x35C2 / 2));
-    shared_data = data_page + 0x54;
     if (count < 20) {
         *(count_page + (0x35C2 / 2)) = 20;
     }

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_func_800A9E70_arg0.h"
+extern u8 D_80083460[];
 
 typedef struct S_80171F9C_0 {
     u8 pad_00[0x24];
@@ -38,14 +39,13 @@ s32 func_80171F9C(Rec_func_800A9E70_arg0 *action_state, s32 action_param, void *
     {
         S_80171F9C_0 *visual = visual_data;
         register s32 target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register u16 *global_flags ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        register u8 *flags_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        u16 *global_flags;
+        u8 *flags_page;
 
         *(volatile u8 *)((u8 *)actor + 0x71) = status & 0x7F;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         flags_page = (u8 *)0x80080000;
-        ASM_KEEP(flags_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        global_flags = (u16 *)(flags_page + 0x3460);
+        global_flags = (u16 *)D_80083460;
         action_mode = 0;
         if (global_flags[1] & 0x2000) {
             return -1;

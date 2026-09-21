@@ -222,7 +222,7 @@ void func_800A871C(void *object_arg, void *motion_arg, void *tile_arg) {
     u8 *launch_y_step;
     u8 *launch_x_steps;
     u8 *drop_x_steps;
-    register u8 *next_x_steps ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    u8 *next_x_steps;
     S_800A871C_5 *launch_source;
     S_800A871C_9 *source_sprite;
     void *drop_sprite;
@@ -392,7 +392,7 @@ finish_collision:
             func_800A2B04(motion, ((S_800A871C_4 *)tile)->unk_24.n, ((S_800A871C_4 *)tile)->unk_25.n);
             next_x_steps = (u8 *)&D_8006CCD8;
             next_dir_offset = ((u16) (*(s16 *)((u8 *)object_data + (0x6A))) >> 8) & 0xE;
-            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset + (unsigned long)next_x_steps)))->unk_00);
+            ((S_800A871C_4 *)tile)->unk_24.n = (u8) (((S_800A871C_4 *)tile)->unk_24.n + ((S_800A871C_18 *)((u8 *)((unsigned long)next_dir_offset + (unsigned long)(u8 *)&D_8006CCD8)))->unk_00);
             next_y_step = (u8 *)&D_8006CCE8 + next_dir_offset;
             ((S_800A871C_4 *)tile)->unk_25.n = (u8) (((S_800A871C_4 *)tile)->unk_25.n + *next_y_step);
             ((S_800A871C_1 *)object)->unk_A4 = 2;

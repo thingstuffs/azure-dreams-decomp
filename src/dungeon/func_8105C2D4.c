@@ -62,8 +62,8 @@ void func_80173AD4(void *arg0, void *arg1, void *arg2, void *arg3) {
     M2C_UNK var_a2;
     s32 temp_v0;
     s32 temp_ret;
-    register void *temp_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s32 temp_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *temp_a0;
+    s32 temp_a1;
     u8 temp_byte;
     u8 call_a0;
     u8 call_a1;
@@ -103,14 +103,9 @@ void func_80173AD4(void *arg0, void *arg1, void *arg2, void *arg3) {
         temp_ret = func_800990FC();
         temp_a0 = arg3;
         temp_a1 = temp_ret;
-        ASM_KEEP(temp_a1);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        temp_ret = func_80099734(temp_a0, temp_a1);
         temp_v0 = temp_a1;
-        func_80099290(func_80099194(&D_80170854, func_80099734(temp_a0, temp_a1)));
+        func_80099290(func_80099194(&D_80170854, temp_ret));
         func_800A5720(temp_v0);
     }
 }
-
-/* MECHANISM: The true-space four-argument ABI pins a3/s1, a0/s0, and a2/s2;
-   a named scheduling seam holds D_80083460 in s3 and orders the flag/call loads.
-   Splitting the final return into v0, then fenced a0/a1 live ranges, yields
-   move a0,s1; move a1,v0; jal; move s0,a1 exactly. */

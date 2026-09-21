@@ -188,14 +188,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     s16 rechecked_timer;
     void (*particle_callback)(void);
 
-    copy_page = (u8 *)0x80020000;
-    ASM_KEEP(copy_page);
-    copy_source = copy_page;
-    copy_source += 0x4054;
-    *(Blob12 *)&points = *(Blob12 *)copy_source;
-    *(Blob12 *)((u8 *)&points + 12) = *(Blob12 *)(copy_source + 12);
-    *(Blob8 *)((u8 *)&points + 24) = *(Blob8 *)(copy_source + 24);
-    ASM_KEEP(copy_page);
+    *(PointTable *)&points = *(PointTable *)&D_80024054;
 
     entity->age++;
 
@@ -265,13 +258,9 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
 
         if (entity->timer == 24) {
             if (func_8003DF74((&D_80082E80[0])->found, &D_80082E80[0], &entity->x, 0) != 0) {
-                u8 *origin_loop_page;
                 spawn_index = 0;
                 particle_callback = func_80024B3C;
-                ASM_KEEP(particle_callback);
-                origin_loop_page = (u8 *)0x80080000;
-                ASM_KEEP(origin_loop_page);
-                origin_loop = (Coord *)(origin_loop_page + 0x3780);
+                origin_loop = D_80083780;
                 do {
                     task = func_8003FC64(0x212);
                     effect = &task->effect;

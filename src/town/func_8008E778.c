@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_8008BA00[];
 
 extern u8 D_800FC418;
 
@@ -10,11 +11,9 @@ s32 func_8008BED8(void *object) {
     if (value == 0xFF) {
         result_m = 0x80090000;
 
-        ASM_KEEP(result_m);
-        result_m -= 0x4600;
+        result_m = (u32)D_8008BA00;
         goto merge;
     }
-    ASM_SCHED_BARRIER();
     if (value != 0) {
         return 0x80090000;
     }

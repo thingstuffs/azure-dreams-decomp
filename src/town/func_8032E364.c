@@ -14,7 +14,7 @@ UA32 *func_80018B64(UA32 *buffer)
     u8 *global_page;
     u8 *grid_rows;
     u32 header_page;
-    register UA32 *header ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    UA32 *header;
     UA32 **entry_ptr;
     u8 *write_ptr;
     u8 *entry_list;
@@ -29,11 +29,8 @@ UA32 *func_80018B64(UA32 *buffer)
     state = *(u8 **)(global_page + 0x6000);
     grid_rows = *(u8 **)(*(u8 **)(state + 0x24) + 0x6C);
     header_page = 0x80020000;
-    ASM_KEEP(header_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    header = (UA32 *)(header_page - 0x3CE4);
-    ASM_KEEP(header);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    header = &D_8001C31C;
     *result = *header;
-    ASM_KEEP(header_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     state = *(u8 **)(global_page + 0x6000);
     entry_list = *(u8 **)(state + 0x38);
