@@ -206,11 +206,11 @@ after_optional_setup:
     i = 3;
     clearp = D_800E3CD8;
     clearp += 12;
-    do {
+    loop_0: {
         *clearp = 0;
         i--;
         clearp -= 4;
-    } while (i >= 0);
+    } if (i >= 0) goto loop_0;
 
     state = (State13710 *)0x80010000;
     page1 = (Page8001 *)state;
@@ -273,17 +273,14 @@ after_optional_setup:
         }
         goto do_action;
     } else {
-        register s32 random_remainder ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 random_remainder;
         s32 *table;
         s32 random_result;
-        s32 division_magic;
 
         random_result = func_800A6D30();
-        division_magic = 0x2AAAAAAB;
-        ASM_USE(division_magic);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+        i = 0x2AAAAAAB;
         random_remainder = random_result & 0xFFFF;
         random_remainder -= (random_remainder / 24) * 24;
-        ASM_KEEP_NV(random_remainder);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         func_800B0544((s16)(random_remainder + 3));
         table = D_8001F594;
         action = table[random_remainder];

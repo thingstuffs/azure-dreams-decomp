@@ -86,9 +86,8 @@ void func_801232DC(void)
     s32 object_offset;
     register s32 initial_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 group_index;
-    s32 display_index;
     s32 final_width;
-    register s32 final_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 final_x;
     u16 initial_y;
     S_801232DC_1 *object;
     void **display_slot;
@@ -168,7 +167,7 @@ void func_801232DC(void)
         entry_slot += 1;
     } while (initial_index < 0x10);
 
-    display_index = 0;
+    initial_index = 0;
     final_width = 0x10;
     final_x = 0xE0;
     {
@@ -179,12 +178,11 @@ void func_801232DC(void)
     }
     do {
         ((S_801232DC_9 *)(((S_801232DC_5 *)(*display_slot))->unk_08))->unk_06 = final_width;
-        ASM_KEEP(final_width);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         object = *display_slot;
-        display_index += 1;
+        initial_index += 1;
         ((S_801232DC_10 *)(object->unk_08.at00.v))->unk_08 = final_x;
         display_slot += 1;
-    } while (display_index < 0x46);
+    } while (initial_index < 0x46);
 }
 
 /* MECHANISM: The 24-byte frame keeps only s0, with loop counters/data roles pinned at their ABI seams.

@@ -32,6 +32,7 @@ void func_800A8ADC(s32 unused_arg, s32 *position) {
     u8 *data_page;
     Pair *pair_source;
     s32 x_or_result;
+    s32 x_or_result_2;
     s32 second_z;
     register s32 second_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void *call_data = position;
@@ -54,14 +55,12 @@ void func_800A8ADC(s32 unused_arg, s32 *position) {
     pair.second.x = x_or_result;
     pair.second.y = second_y;
     pair.second.z = second_z;
-    ASM_USE_NV(second_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_USE_NV(call_data);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    raised_pos.x = ((s32 *)call_data)[0];
+    raised_pos.x = (*(s32 *)((u8 *)call_data + 0));
     raised_pos.y = ((s32 *)call_data)[1];
     raised_pos.z = ((s32 *)call_data)[2] + 0x100000;
-    x_or_result = func_800374F4(2, second_z, pair_source);
+    x_or_result_2 = func_800374F4(2, second_z, pair_source);
     input_pos = call_data;
     call_data = &pair;
-    func_800A895C(input_pos, call_data, (x_or_result & 0xFFFF) + 2);
+    func_800A895C(input_pos, call_data, (x_or_result_2 & 0xFFFF) + 2);
     func_80097AD0(&raised_pos, call_data, (func_800374F4(2) & 0xFFFF) + 2);
 }

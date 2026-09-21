@@ -28,7 +28,6 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     s32 best_index;
     s32 index;
     s32 y_is_larger;
-    register s32 filter_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 match_type ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 filter_or_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     s32 delta_x;
@@ -54,17 +53,17 @@ u32 func_800A6E8C(Entity *entity, s32 filter, s16 *out_x, s16 *out_y) {
     filter_or_addr = filter & 0xFF;
     ASM_KEEP(filter_or_addr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     match_id = filter_or_addr;
-    filter_value = filter << 0x10;
-    match_type = filter_value >> 0x18;
+    base = (u8 *)(filter << 0x10);
+    match_type = ((s32)base) >> 0x18;
     base = D_800E36C8;
     entry_position = base + 0x2F4;
     base = D_800E3548;
     entry_filter = base + 0xFC;
     do {
-        filter_value = ((S_800A6E8C_0 *)entry_filter)->unk_01;
+        base = (u8 *)(((S_800A6E8C_0 *)entry_filter)->unk_01);
         filter_or_addr = match_id;
         ASM_KEEP(filter_or_addr);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if ((filter_value == filter_or_addr) && ((match_type == 0) || (((S_800A6E8C_0 *)entry_filter)->unk_00 == match_type))) {
+        if ((((s32)base) == filter_or_addr) && ((match_type == 0) || (((S_800A6E8C_0 *)entry_filter)->unk_00 == match_type))) {
             entry_x = ((S_800A6E8C_1 *)entry_position)->unk_00;
             entry_y = ((S_800A6E8C_1 *)entry_position)->unk_01;
             if ((s16)func_8009FB34(entry_x, entry_y) == entity->kind) {

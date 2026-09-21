@@ -464,17 +464,18 @@ x_ready:
                 ((volatile S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
                 ((volatile S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
                 edge_y -= height;
-                goto y_ready;
+                scratch->unk_8A = edge_y;
+                scratch->unk_82 = edge_y;
+                goto y_done;
             }
             edge_y = (s8) ((volatile S_func_800CDFD8_6 *)((u8 *)matrix_or_part - 4))->unk_03 - ((volatile S_func_800CDFD8_1 *)scratch)->unk_10A;
             height = ((volatile S_func_800CDFD8_1 *)scratch)->unk_14.unk_14_u16;
             ((volatile S_func_800CDFD8_1 *)scratch)->unk_7A = edge_y;
             ((volatile S_func_800CDFD8_1 *)scratch)->unk_72 = edge_y;
             edge_y = height + edge_y;
-y_ready:
             scratch->unk_8A = edge_y;
             scratch->unk_82 = edge_y;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+y_done:
             func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
             ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_08 = (u16) (scratch->unk_F0 + scratch->unk_B8);
             ((S_func_800CDFD8_8 *)((u8 *)quad - 7))->unk_0A = (u16) (scratch->unk_F2 + scratch->unk_BA);

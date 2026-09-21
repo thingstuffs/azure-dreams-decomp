@@ -19,7 +19,6 @@ void func_800A9358(s32 shape, s32 source)
     register s32 call_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register s32 call_shape ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 *segment_counts;
-    register u32 first_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u32 first_inner_xy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     register u32 first_middle_xy ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u32 first_outer_xy;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -61,17 +60,17 @@ void func_800A9358(s32 shape, s32 source)
     scratch[0x24 / 4] = ot_addr;
     func_800A8CA8((void *)call_scratch, angle, call_source, call_shape);
     segment = 0;
-    first_color = scratch[0x114 / 4];
+    count_index = scratch[0x114 / 4];
     first_inner_xy = scratch[0xE8 / 4];
     first_middle_xy = scratch[0xEC / 4];
     first_outer_xy = scratch[0x124 / 4];
     saved_inner_xy = first_inner_xy;
     saved_middle_xy = first_middle_xy;
-    scratch[0x118 / 4] = first_color;
+    scratch[0x118 / 4] = count_index;
     scratch[0xF0 / 4] = first_inner_xy;
     scratch[0xF4 / 4] = first_middle_xy;
     scratch[0x128 / 4] = first_outer_xy;
-    saved_color[-1] = first_color;
+    saved_color[-1] = count_index;
     saved_outer_xy = first_outer_xy;
 
     if ((*(s32 *)(count_base + 0xE30) - 1) > 0) {

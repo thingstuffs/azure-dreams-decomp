@@ -56,7 +56,7 @@ typedef struct S_800BE120_1 {
 s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
     s32 stored;
     void *call_entity;
-    register s32 context_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 context_arg;
     register s32 zero_result ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 new_context;
     s32 context;
@@ -106,13 +106,10 @@ s32 func_800BE120(void *entity, S_800BE120_1 *data, s16 mode) {
         (((S_800BE120_0 *)entity)->unk_48.at01.v != 0)) {
         new_context = func_800990FC();
         call_entity = entity;
-        ASM_KEEP(call_entity);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         context_arg = new_context;
-        ASM_KEEP(context_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         context = context_arg;
-        func_80099290(func_80099194(D_8008935C,
-            func_80099368(data, func_80099194(D_800E100F,
-                func_80099734((s32)call_entity, context_arg)))));
+        new_context = func_80099734((s32)call_entity, context_arg);
+        func_80099290(func_80099194(D_8008935C, func_80099368(data, func_80099194(D_800E100F, new_context))));
         func_800A5720(context);
         goto finalize;
     }

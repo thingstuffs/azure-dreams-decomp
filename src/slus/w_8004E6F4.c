@@ -26,7 +26,6 @@ void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s3
     register s32 saved_s0 ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     u32 table_page;
     s32 weight_scale;
-    register u8 *blend_table ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     u8 *weights;
 
     ASM_USE_NV(saved_s0);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -35,8 +34,8 @@ void func_8004E6F4(s32 palette_slot, u8 *rgb_start, u8 *rgb_mid, u8 *rgb_end, s3
     weight_scale = 4;
     table_page = 0x80070000;
     ASM_KEEP_NV(table_page);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    blend_table = (u8 *)(table_page + 0x162C);
-    weights = (u8 *)(blend_row * 8 + (u32)blend_table);
+    channel_sum = (s32)((u8 *)(table_page + 0x162C));
+    weights = (u8 *)(blend_row * 8 + (u32)((u8 *)channel_sum));
     ASM_USE_NV(weights);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     do {
         packed_color = (color_index < semitrans_limit) << 15;

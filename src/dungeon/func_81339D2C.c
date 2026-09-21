@@ -62,13 +62,13 @@ extern u8 D_80173B88[];
 
 /* Create an offset object and initialize its motion and render data. */
 void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 offset_z) {
-    register s32 duration_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 duration_value;
     s32 step_divisor;
     s32 delta_z;
     s32 delta_y;
-    register s32 delta_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 delta_x;
     s32 fixed_value;
-    s32 rounded_x;
+    s32 fixed_value_2;
     s32 rounded_y;
     s32 rounded_z;
     u8 *obj;
@@ -100,13 +100,12 @@ void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 off
         duration_value = fixed_value >> 16;
         ((S_80170D2C_0 *)work)->unk_20 = ((S_80170D2C_4 *)D_80083780)->unk_08.at02.v;
         step_divisor = duration_value;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        fixed_value = -(offset_x << 16);
+        fixed_value_2 = -(offset_x << 16);
         if (duration_value < 0) {
             step_divisor = duration_value + 7;
         }
         step_divisor >>= 3;
-        delta_x = fixed_value / step_divisor;
+        delta_x = fixed_value_2 / step_divisor;
         ((S_80170D2C_0 *)work)->unk_5C = delta_x / 2;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         delta_y = -(offset_y << 16) / step_divisor;
@@ -115,9 +114,9 @@ void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 off
         delta_z = -(offset_z << 16) / step_divisor;
         ((S_80170D2C_0 *)work)->unk_64 = delta_z / 2;
         ASM_KEEP(duration_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        rounded_x = delta_x;
-        if (rounded_x < 0) rounded_x += 3;
-        ((S_80170D2C_0 *)work)->unk_68 = rounded_x >> 2;
+        rounded_y = delta_x;
+        if (rounded_y < 0) rounded_y += 3;
+        ((S_80170D2C_0 *)work)->unk_68 = rounded_y >> 2;
         ASM_KEEP(delta_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         rounded_y = delta_y;
         if (rounded_y < 0) rounded_y += 3;

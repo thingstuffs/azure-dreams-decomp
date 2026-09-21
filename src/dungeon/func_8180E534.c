@@ -38,7 +38,6 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   s32 setup_size;
   register void *setup_asset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   register void *setup_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  register s32 motion_component ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 base_shift;
   s16 index_step;
   s32 trig_result;
@@ -105,16 +104,16 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
       effect_state = effect + 0x20;
       {
         base_angle = angle_value * func_80064584((s32)setup_asset);
-        motion_component = base_angle >> scale_shift;
-        *((s32 *) (((s8 *) effect_state) + 0xC)) = motion_component;
+        base_shift = base_angle >> scale_shift;
+        *((s32 *) (((s8 *) effect_state) + 0xC)) = base_shift;
       }
       trig_result = func_800644B8(motion_angle);
       setup_asset = (void *)(sample_angle);
       angle_value = trig_result;
       {
         base_angle = angle_value * func_80064584((s32)setup_asset);
-        motion_component = base_angle >> scale_shift;
-        *((s32 *) (((s8 *) effect_state) + 0x10)) = motion_component;
+        base_shift = base_angle >> scale_shift;
+        *((s32 *) (((s8 *) effect_state) + 0x10)) = base_shift;
       }
       trig_result = func_800644B8(sample_angle);
       {

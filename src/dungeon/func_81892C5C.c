@@ -120,7 +120,7 @@ loop_effect:
     segment = 0;
 loop:
     {
-        void *context;
+        union { void * pointer; s32 value; } context;
         void *polyline;
         s32 start_angle;
         s32 angle_base;
@@ -129,12 +129,11 @@ loop:
         s32 height;
         register s32 prim_mode ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 x_trig;
-        register s32 end_y_scaled ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
-        context = *ot_ctx;
-        polyline = ((S_81892C5C_3 *)context)->unk_8D0;
+        context.pointer = *ot_ctx;
+        polyline = ((S_81892C5C_3 *)context.pointer)->unk_8D0;
         prim_mode = (s32)((u8 *)polyline + 0x18);
-        ((S_81892C5C_3 *)context)->unk_8D0 = (void *)prim_mode;
+        ((S_81892C5C_3 *)context.pointer)->unk_8D0 = (void *)prim_mode;
         prim_mode = 5;
         ((S_81892C5C_4 *)polyline)->unk_00.at03.v = prim_mode;
         prim_mode = 0x48;
@@ -174,8 +173,8 @@ loop:
             (((func_80064584(mid_angle) >> 4) * radius) >> 8));
         {
 
-            end_y_scaled = (func_80064584(end_angle) >> 4) * radius;
-            base_height = end_y_scaled >> 8;
+            context.value = (func_80064584(end_angle) >> 4) * radius;
+            base_height = context.value >> 8;
             ((S_81892C5C_0 *)scratch)->unk_76 = (s16)(center->unk_06 + base_height);
         }
 

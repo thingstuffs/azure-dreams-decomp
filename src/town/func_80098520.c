@@ -103,7 +103,6 @@ void func_80095C80(S_80095C80_1 *position) {
             goto check_neg_x;
         }
         if (((S_80095C80_0 *)motion)->unk_10 > 0) {
-            register s32 x_hit ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             s32 boundary_test;
             void *probe_ptr;
             probe.x = position->unk_00.at00.v - ((S_80095C80_0 *)motion)->unk_0C;
@@ -112,13 +111,13 @@ void func_80095C80(S_80095C80_1 *position) {
             boundary_test = func_80095BC0(&probe, 0);
             probe_ptr = &probe;
             ASM_KEEP_NV(probe_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            x_hit = position->unk_00.at00.v;
-            probe.x = x_hit;
-            x_hit = x_hit < (boundary_test << 0x10);
+            neg_x_boundary = position->unk_00.at00.v;
+            probe.x = neg_x_boundary;
+            neg_x_boundary = neg_x_boundary < (boundary_test << 0x10);
             probe_coord = position->unk_04.at00.v;
             ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             y_step_or_side = ((S_80095C80_0 *)motion)->unk_10;
-            x_hit ^= 1;
+            neg_x_boundary ^= 1;
             probe.y = probe_coord - y_step_or_side;
             probe_coord = position->unk_08;
             probe.z = probe_coord;
@@ -127,7 +126,7 @@ void func_80095C80(S_80095C80_1 *position) {
             boundary_test <<= 0x10;
             probe_coord = probe_coord < boundary_test;
             boundary_test = probe_coord ^ 1;
-            if (x_hit == 0) {
+            if (neg_x_boundary == 0) {
                 pos_xy_motion = (M2C_UNK *)D_80100000;
                 if (boundary_test == 0) {
                     s32 x_offset;

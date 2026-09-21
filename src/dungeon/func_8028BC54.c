@@ -44,9 +44,8 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 cell_index;
     s32 scan_x;
     s32 scan_y;
-    s32 level;
     s32 scaled;
-    register u8 *mode_page ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *mode_page;
     s32 entry_state;
     volatile DungeonEntry *entry;
     volatile DungeonCell *cell;
@@ -58,8 +57,8 @@ void func_8001EC54(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 
     mode_page = D_80010000;
     if (*(s32 *)(mode_page + 0x2090) == 2) {
-        level = D_8008146C;
-        scaled = level * 25;
+        mode_page = (u8 *)D_8008146C;
+        scaled = ((s32)mode_page) * 25;
         budget = scaled << 3;
     } else {
         budget = 75;
