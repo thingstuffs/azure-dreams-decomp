@@ -106,8 +106,8 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
     void *vertex;
     void *depth_cue;
     void *projection_flags;
-    register u8 *tail ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u8 *aux_ptr;
+    u8 *tail;
+    u8 *tail_2;
     u32 tag_length_mask;
     register u32 tag_addr_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
@@ -137,9 +137,8 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
         VFIELD(scratch, u16, 0xA4) = ((S_8187B1F4_2 *)orientation)->unk_16;
         VFIELD(scratch, u16, 0xA8) = ((S_8187B1F4_2 *)orientation)->unk_1A;
         component = ((S_8187B1F4_2 *)orientation)->unk_18;
-
         ((S_8187B1F4_1 *)scratch)->unk_A6 = component;
-        func_80065820(scratch + 0xA4, (u8 *)model_matrix);
+        func_80065820(scratch + 0xA4, ((u8 *)model_matrix));
         func_80064AE0(&view_matrix);
         func_80064840(&view_matrix, model_matrix, transform_matrix);
         func_80064BC0(transform_matrix, scratch + 0x34);
@@ -212,14 +211,13 @@ s32 func_8187B1F4(u8 *points, u8 *position, u8 *orientation) {
         }
         ASM_USE(transform_matrix);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_80064A40();
-        tail = ((S_8187B1F4_3_pre *)points)[-1].unk_00;
-        points = tail + 0x20;
-        if (tail == 0) {
+        tail_2 = ((S_8187B1F4_3_pre *)points)[-1].unk_00;
+        points = tail_2 + 0x20;
+        if (tail_2 == 0) {
             break;
         }
-        aux_ptr = ((S_8187B1F4_6 *)tail)->unk_08;
-        point_packet = ((S_8187B1F4_6 *)tail)->unk_0C;
-        position = aux_ptr;
+        point_packet = ((S_8187B1F4_6 *)tail_2)->unk_0C;
+        position = ((u8 *)(((S_8187B1F4_6 *)tail_2)->unk_08));
         orientation = point_packet;
     } while (1);
 #ifndef __mips__

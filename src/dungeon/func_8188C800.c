@@ -373,7 +373,7 @@ case_0:
                     {
 #ifdef __mips__
                         s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
-                        register s32 record_coord ASM_REG("$3") =
+                        s32 record_coord =
                             ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_24;
 #else
                         s32 owner_coord = ((S_FUNC_8188C800_BODY_8 *)owner)->unk_70.at02.v;
@@ -385,9 +385,7 @@ case_0:
                             record_coord = ((S_FUNC_8188C800_BODY_16 *)target_record)->unk_25;
                         }
                         tile_distance = owner_coord - record_coord;
-                        if (tile_distance < 0) {
-                            tile_distance = -tile_distance;
-                        }
+                        tile_distance = abs(tile_distance);
                         ((S_FUNC_8188C800_BODY_0 *)self)->unk_14 = tile_distance + 1;
                     }
                 }

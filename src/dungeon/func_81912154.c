@@ -1,6 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 #include "records/Rec_func_80024170_arg0.h"
+extern int abs(int);
 
 
 typedef struct S_80025954_1 {
@@ -205,23 +206,13 @@ store_origin_z:
     destination = ((S_80025954_7_pre *)target)[-1].unk_00;
     x_distance = ((S_80025954_8 *)destination)->unk_00.at02.v;
     x_distance -= ((S_80025954_5 *)motion)->unk_00.at02u.v;
-    if (x_distance >= 0) {
-        goto store_x_distance;
-    }
-    x_distance = 0 - x_distance;
-store_x_distance:
+    x_distance = abs(x_distance);
     stack.distance[0] = (u16) x_distance;
     motion_value = ((S_80025954_8 *)destination)->unk_04.at02.v;
     current_y = ((S_80025954_5 *)motion)->unk_04.at02u.v;
-    ASM_CLOBBER("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     distance_cursor = (s8 *) &stack.motion[2];
-    ASM_KEEP(distance_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     motion_value -= current_y;
-    if (motion_value >= 0) {
-        goto store_y_distance;
-    }
-    motion_value = 0 - motion_value;
-store_y_distance:
+    motion_value = abs(motion_value);
     stack.distance[1] = (u16) motion_value;
     entity = ((S_80025954_1 *)owner)->unk_60;
     axis_delta = D_800DDC40[((S_80025954_9 *)entity)->unk_13] << 0x10;
@@ -229,11 +220,7 @@ store_y_distance:
     axis_delta = ((S_80025954_5 *)motion)->unk_08.at02u.v;
     axis_delta += 0x300000;
     motion_value -= axis_delta;
-    if (motion_value >= 0) {
-        goto store_z_distance;
-    }
-    motion_value = 0 - motion_value;
-store_z_distance:
+    motion_value = abs(motion_value);
     stack.distance[2] = (u16) motion_value;
     ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = x_distance;
 scan_distances:

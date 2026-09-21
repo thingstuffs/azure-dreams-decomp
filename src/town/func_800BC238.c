@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_800B9998_0 {
     u8 pad_00[0x66];
@@ -81,17 +82,12 @@ void func_800B9998(void *object, void *position, void *rotation) {
     dy = ((S_800B9998_2 *)position_data)->unk_02;
     position_y = ((S_800B9998_2 *)position_data)->unk_06;
     dx -= dy;
-    if (dx < 0) {
-        dx = -dx;
-    }
+    dx = abs(dx);
     dx = (s16)dx;
     dy = ((S_800B9998_1 *)town_state)->unk_06;
     near_x = dx < 0x81;
-    ASM_USE(near_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dy -= position_y;
-    if (dy < 0) {
-        dy = -dy;
-    }
+    dy = abs(dy);
 
     if (near_x && ((s16)dy < 0x81)) {
         speed_sq = (((S_800B9998_1 *)town_state)->unk_0E * ((S_800B9998_1 *)town_state)->unk_0E) +

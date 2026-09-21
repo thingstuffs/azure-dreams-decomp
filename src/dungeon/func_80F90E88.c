@@ -148,7 +148,7 @@ s32 func_80F90E88(void *object) {
     s32 *depth_out;
     s32 bound_test;
     u32 upper_coord;
-    register s32 right_x ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 right_x;
     s32 left_x;
     s32 midpoint_x;
     u16 center_x;
@@ -282,11 +282,12 @@ draw_object:
         side -= 1;
     } if (side >= 0) goto loop_1;
     if (depth < 0x1E0U) {
-        right_x = (s16) max_xy;
+        half_width = (u32)max_xy << 16;
+        half_width >>= 16;
         left_x = (s16) min_xy;
-        midpoint_x = right_x + left_x;
-        midpoint_x >>= 1;
-        projection_scratch = midpoint_x;
+        half_width += left_x;
+        half_width >>= 1;
+        projection_scratch = half_width;
         side = 1;
         bottom_y = max_xy;
         bottom_y >>= 0x10;

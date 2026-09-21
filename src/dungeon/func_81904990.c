@@ -258,7 +258,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     s32 *left_row_link;
     u8 *restore_packet;
     S_func_81904990_7 *packet;
-    register u8 *quad_end ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u8 *quad_end ASM_REG("$8");
     s32 row_v_offset;
     s32 first_addr;
     s32 second_addr;
@@ -273,8 +273,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     u16 pivot_y;
     u32 clut_override;
     u16 tpage_offset;
-    u16 sprite_flags;
-    register u8 prim_code ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 prim_code;
     u8 right_u;
     u8 bottom_v;
     u8 *frame_data;
@@ -286,10 +285,10 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     s32 quad_words;
     s32 tail_value;
     s32 tail_uv;
-    register s32 addr_mask ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    register s32 addr_mask ASM_REG("$19");
     s32 length_mask;
-    register S_func_81904990_4 *scratch ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register void *sprite_base ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+    register S_func_81904990_4 *scratch ASM_REG("$18");
+    register void *sprite_base ASM_REG("$23");
 
     setup_arg = screen_pos;
     sprite_base = sprite;
@@ -297,13 +296,13 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     {
         void **state_ptr;
         state_ptr = (void **)D_80083160;
-        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ASM_CLOBBER("$2");
         callback_arg = ((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_00;
         render_state = *state_ptr;
     }
     frame_header = frame->unk_08;
     scratch = (S_func_81904990_4 *)0x1F800000;
-    ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP(scratch);
     scratch->unk_EC = NULL;
     scratch->unk_8C = 0;
     scratch->unk_84 = 0;
@@ -330,10 +329,10 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         *mode_link = (*mode_link & 0xFF000000) | (s32) setup_arg;
     }
     quad_words = 9;
-    ASM_KEEP_NV(quad_words);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(quad_words);
     addr_mask = 0xFFFFFF;
     length_mask = 0xFF000000;
-    ASM_KEEP_NV(length_mask);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(length_mask);
     view_matrix = (S_func_81904990_8 *)D_8006CD10;
     view_matrix->unk_1C = (s32) ((S_func_81904990_9 *)D_80083160)->unk_A0;
     func_800649A0((s32) setup_arg, matrix_arg);
@@ -374,10 +373,10 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     func_80064D80((void *)0x1F800050);
     func_80064CF0((void *)0x1F800050);
     frame_data = (u8 *)frame_header + 8;
-    ASM_KEEP_NV(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(frame_data);
     scratch->unk_24 = (u16) frame->unk_14;
     if (!(frame_header->unk_00 & 0x20)) {
-        register s32 packet_tag ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
+        register s32 packet_tag ASM_REG("$2");
         scratch->unk_08 = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_08;
         scratch->unk_0C = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_09.unk_09;
         scratch->unk_10.as_s32_10 = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_0A.unk_0A;
@@ -403,7 +402,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
             scratch->unk_7A = tail_value;
             scratch->unk_72 = tail_value;
             tail_value = tail_value - scratch->unk_14.as_u16_14;
-            ASM_TAILSLOT_PIN(tail_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            ASM_TAILSLOT_PIN(tail_value);
             func_800244B0((u16) scratch->unk_14.as_s32_14);
             return;
         }
@@ -414,7 +413,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         bottom_y = top_y + (u16) scratch->unk_14.as_s32_14;
         scratch->unk_8A = bottom_y;
         scratch->unk_82 = bottom_y;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ASM_SCHED_BARRIER();
         func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
         packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
         packet->unk_0A = (s16) (scratch->unk_F2 + scratch->unk_BA);
@@ -425,7 +424,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         packet->unk_20.as_s16_20 = (s16) (scratch->unk_FC + scratch->unk_B8);
         packet->unk_22 = (s16) (scratch->unk_FE + scratch->unk_BA);
         packet->unk_00.as_s8_03.unk_03 = quad_words;
-        ASM_USE2_NV(quad_words, quad_words);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_USE2_NV(quad_words, quad_words);
         {
             s32 width = scratch->unk_10.as_s32_10;
             s32 u_start = scratch->unk_08;
@@ -484,7 +483,7 @@ clut_done:
         }
         packet->unk_1C.as_s16_1C = (s16) ((u16) scratch->unk_14.as_s32_14 | (u16) scratch->unk_08);
         {
-            register s32 packed_v ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            register s32 packed_v ASM_REG("$3");
             packed_v = (u16) scratch->unk_14.as_s32_14;
             packet->unk_24.as_s16_24 = (s16) (packed_v | (u16) scratch->unk_10.as_s32_10);
         }
@@ -500,9 +499,9 @@ clut_done:
         }
         prim_code = ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_01;
         frame->unk_0C.as_u8_0F.unk_0F = prim_code;
-        sprite_flags = scratch->unk_24;
-        if (sprite_flags & 8) {
-            origin_byte = sprite_flags & 4;
+        tpage_offset = scratch->unk_24;
+        if (tpage_offset & 8) {
+            origin_byte = tpage_offset & 4;
             if (origin_byte != 0) {
                 origin_byte = prim_code | 2;
             } else {
@@ -615,8 +614,8 @@ clut_done:
     if ((s8) frame_header->unk_00 >= 0) {
         frame_data += 12;
         frame_header = (S_func_81904990_3 *)((u8 *)frame_header + 12);
-        ASM_KEEP(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_TAILSLOT_PIN(frame_header);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(frame_data);
+        ASM_TAILSLOT_PIN(frame_header);
         func_80024390();
         return;
     }

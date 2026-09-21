@@ -242,19 +242,13 @@ state0:
         return;
     }
     {
-        u16 motion_z;
-        u16 delta_z;
         motion->x.half.hi = owner_motion->x.half.hi;
         motion->y.half.hi = owner_motion->y.half.hi;
         motion->z.half.hi = owner_motion->z.half.hi;
         if (!(owner->aux->flags14 & 0x8000)) {
             motion->x.half.hi += (u16)position_delta[0];
             motion->y.half.hi += (u16)position_delta[1];
-            ASM_SCHED_BARRIER();
-            motion_z = motion->z.half.hi;
-            delta_z = (u16)position_delta[2];
-            motion_z += delta_z;
-            motion->z.half.hi = motion_z;
+            motion->z.half.hi = (motion->z.half.hi) + ((u16)position_delta[2]);
         } else {
             motion->z.half.hi -= 0x40;
         }

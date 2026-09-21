@@ -400,11 +400,10 @@ jt_c0:
     coord_delta = effect->unk_2C.u16;
     step_y = state0_height_actor->unk_88.u16;
     approach_frames = 0x10U;
-    effect->unk_34.u16 = approach_frames;
     coord_delta -= 0x50;
     step_y += coord_delta;
     effect->unk_2C.u16 = (u16) step_y;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    effect->unk_34.u16 = approach_frames;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     height_numerator_2 = (effect->unk_2C.s16 - motion->unk_08.half.unk_0A.s16) << 0x10;
     height_frames = 16;
     motion->unk_14.word = height_numerator_2 / height_frames;

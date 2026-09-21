@@ -1,5 +1,6 @@
 #include "common.h"
 #include "m2c_compat.h"
+extern int abs(int);
 
 typedef struct S_80025738_0 {
     void * unk_00;
@@ -401,38 +402,22 @@ build_path_endpoint:
     end_z = ((S_80025738_5 *)motion_in)->unk_08.at02.v + 0x20;
     ((S_80025738_7 *)destination)->unk_08.at02.v = end_z;
     phase = ((S_80025738_5 *)motion_in)->unk_00.at02u.v;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     probe_x >>= 0x10;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     path_dx = end_x_signed;
     path_dx -= phase;
-    if (path_dx >= 0) {
-        goto store_path_dx;
-    }
-    path_dx = 0 - path_dx;
-store_path_dx:
+    path_dx = abs(path_dx);
     frame.delta[0] = path_dx;
     update_y_entry = (u16 *)(((S_80025738_5 *)motion_in)->unk_04.at02u.v);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     end_z_signed = (s32) ((u16) end_z << 0x10);
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     path_dy = probe_x;
     path_dy -= (s32)update_y_entry;
-    if (path_dy >= 0) {
-        goto store_path_dy;
-    }
-    path_dy = 0 - path_dy;
-store_path_dy:
+    path_dy = abs(path_dy);
     frame.delta[1] = path_dy;
     current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
     end_z_signed >>= 0x10;
     path_dz = end_z_signed;
     path_dz -= current_z;
-    if (path_dz >= 0) {
-        goto store_path_dz;
-    }
-    path_dz = 0 - path_dz;
-store_path_dz:
+    path_dz = abs(path_dz);
     frame.delta[2] = path_dz;
     ((S_80025738_0 *)state)->unk_12 = path_dx;
 do {
