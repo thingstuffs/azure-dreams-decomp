@@ -60,3 +60,4 @@
 {"date": "2026-09-21T04:40Z", "codex": {"pack": "r62_astra_big", "model": "gpt-6-astra", "candidates": 3}, "note": "duck-briefed whole-function astra pack (chain I)"}
 {"date": "2026-09-21T05:31Z", "codex": {"pack": "r62_astra_alloc", "model": "gpt-6-astra", "candidates": 1}, "note": "duck-briefed whole-function astra pack (chain I)"}
 {"date": "2026-09-21T05:54Z", "codex": {"pack": "r63_astra_movemove", "model": "gpt-6-astra", "candidates": 1}, "note": "duck-briefed class-family astra pack (chain J)"}
+{"date": "2026-09-21T06:20Z", "codex": {"pack": "r63_astra_moveli", "model": "gpt-6-astra", "candidates": 2}, "note": "duck-briefed class-family astra pack (chain J)"}
