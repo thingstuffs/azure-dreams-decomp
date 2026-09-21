@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 
 extern u16 D_80013714;
@@ -57,21 +58,15 @@ s32 func_800A5C70(void) {
     first_entry = entry;
     do {
         if (!(((S_800A5C70_0 *)entry)->unk_1C & 0x2208)) {
-            register s32 axis_distance ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 axis_distance;
+            s32 abs_axis_distance;
+            s32 abs_axis_distance_2;
 
             entry_coords = ((S_800A5C70_0_pre *)entry)[-1].unk_00;
-            axis_distance = ((S_800A5C70_1 *)origin_coords)->unk_24;
-            axis_distance -= entry_coords->unk_24;
-            if (axis_distance < 0) {
-                axis_distance = -axis_distance;
-            }
-            if (axis_distance < 5) {
-                axis_distance = ((S_800A5C70_1 *)origin_coords)->unk_25;
-                axis_distance -= entry_coords->unk_25;
-                if (axis_distance < 0) {
-                    axis_distance = -axis_distance;
-                }
-                if (axis_distance < 5) {
+            abs_axis_distance = abs((((S_800A5C70_1 *)origin_coords)->unk_24) - (entry_coords->unk_24));
+            if (abs_axis_distance < 5) {
+                abs_axis_distance_2 = abs((((S_800A5C70_1 *)origin_coords)->unk_25) - (entry_coords->unk_25));
+                if (abs_axis_distance_2 < 5) {
                     return 0;
                 }
             }

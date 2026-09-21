@@ -43,6 +43,7 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
     register s32 angle_step ASM_REG("$22");
     s16 start_x;
     s32 end_y;
+    s16 coord;
     register s16 *scratch ASM_REG("$18") = (s16 *)0x1F800000;
     register void *view ASM_REG("$8");
     State_80083160 *state;
@@ -99,7 +100,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
         angle = (s16)angle;
     } while (0);
     {
-        s16 coord;
         s32 raw_x;
         s32 raw_y;
         s32 call_value;
@@ -147,7 +147,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
             start_x = end_x;
             scaled_coord = func_800644B8(next_angle) * 6 - offset_y;
             coord = scaled_coord;
-            ASM_KEEP(coord);
             scratch[0x88 / 2] = end_x;
             scratch[0x78 / 2] = end_x;
             scratch[0x8a / 2] = scaled_coord;
@@ -161,7 +160,6 @@ s32 func_800AFBFC(Arg0_800AFBFC *shape, s32 unused, Arg2_800AFBFC *segment) {
 
     {
         register u16 saved_angle ASM_REG("$8");
-        s16 coord;
         s32 raw_x;
         s32 raw_y;
         s32 call_value;

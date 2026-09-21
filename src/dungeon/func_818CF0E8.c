@@ -156,7 +156,7 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
     register s32 w0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 w1;
     register s32 w2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 hi ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 hi;
 
     D_80025924[0] = 1;
     env = ((S_818CF0E8_0 *)arg0)->unk_2C;
@@ -521,8 +521,8 @@ finish:
         ((S_818CF0E8_6 *)p)->unk_0C = arg2->unk_0C;
         ((S_818CF0E8_6 *)p)->unk_0D = arg2->unk_0D;
         ((S_818CF0E8_6 *)p)->unk_0E = arg2->unk_0E;
-        ((S_818CF0E8_6 *)p)->unk_1A = func_80069EF8() & 0xFFF;
-        ASM_SCHED_BARRIER();
+        hi = func_80069EF8() & 0xFFF;
+        ((S_818CF0E8_6 *)p)->unk_1A = hi;
         {
             hi = (s32)0x80020000;
             ASM_KEEP(hi);
@@ -557,8 +557,8 @@ finish:
         ((S_818CF0E8_6 *)p)->unk_0C = arg2->unk_0C;
         ((S_818CF0E8_6 *)p)->unk_0D = arg2->unk_0D;
         ((S_818CF0E8_6 *)p)->unk_0E = arg2->unk_0E;
-        ((S_818CF0E8_6 *)p)->unk_1A = func_80069EF8() & 0xFFF;
-        ASM_SCHED_BARRIER();
+        hi = func_80069EF8() & 0xFFF;
+        ((S_818CF0E8_6 *)p)->unk_1A = hi;
         {
             hi = (s32)0x80020000;
             ASM_KEEP(hi);

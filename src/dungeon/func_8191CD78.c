@@ -224,6 +224,8 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
     u16 frame;
     s32 index;
     register s32 delta_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 abs_delta_x;
+    s32 abs_delta_x_2;
     s32 delta_y;
     s32 delta_z;
     u16 copied_z;
@@ -235,7 +237,7 @@ void func_80024578(S_func_80024578_1 *effect, S_func_80024578_2 *position, void 
     s16 travel_frames;
     s16 *delta_cursor;
     u32 page_base;
-    register s16 final_floor ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s16 final_floor;
     static void *const state_labels[] = {
         &&case_0, &&case_1_entry, &&case_7, &&case_motion_flags,
         &&case_1, &&case_10, &&case_2, &&case_3,
@@ -308,10 +310,8 @@ case_1_entry:
         effect->unk_16.u16 = ((S_func_80024578_3 *)(effect->unk_1C))->unk_88.u16;
         effect->unk_18 = ((S_func_80024578_3 *)(effect->unk_1C))->unk_2A;
 
-        delta_x = work_base->unk_00.parts_02.unk_02.s16;
-        delta_x -= position->unk_00.parts_02.unk_02.s16;
-        if (delta_x < 0) delta_x = -delta_x;
-        DELTA(0) = (s16)delta_x;
+        abs_delta_x = abs((work_base->unk_00.parts_02.unk_02.s16) - (position->unk_00.parts_02.unk_02.s16));
+        DELTA(0) = (s16)abs_delta_x;
         {
             s32 distance_y;
             s32 position_y;
@@ -334,13 +334,13 @@ case_1_entry:
         }
         effect->unk_12 = DELTA(0);
         index = 1;
-        do {
+        loop_0: {
             if (((S_func_80024578_9 *)(delta_cursor))->unk_18.s16 > effect->unk_12) {
                 effect->unk_12 = ((S_func_80024578_9 *)(delta_cursor))->unk_18.u16;
             }
             index++;
             delta_cursor++;
-        } while (index < 3);
+        } if (index < 3) goto loop_0;
         travel_frames = (s16)(((u16)effect->unk_12 << 16) >> 20);
         effect->unk_12 = travel_frames;
         if (travel_frames == 0) {
@@ -433,13 +433,10 @@ case_1_entry:
 
             work_base->unk_08.parts_0A.unk_0A = final_floor;
             expanded_floor = (s32)final_floor << 16;
-            ASM_KEEP(expanded_floor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            delta_x = (s16)work_base->unk_00.parts_02.unk_02.u16 - position->unk_00.parts_02.unk_02.s16;
-            if (delta_x < 0) delta_x = -delta_x;
-            DELTA(0) = (s16)delta_x;
+            abs_delta_x_2 = abs((s16)work_base->unk_00.parts_02.unk_02.u16 - position->unk_00.parts_02.unk_02.s16);
+            DELTA(0) = (s16)abs_delta_x_2;
             widened_y = work_base->unk_04.parts_06.unk_06.u16;
             position_y = position->unk_04.parts_06.unk_06.s16;
-            ASM_KEEP_DEP_NV(widened_y, position_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             widened_y <<= 16;
             widened_y >>= 16;
             widened_y -= position_y;
@@ -447,8 +444,7 @@ case_1_entry:
             DELTA(1) = (s16)widened_y;
             expanded_floor >>= 16;
             expanded_floor -= position->unk_08.parts_0A.unk_0A.s16;
-            expanded_floor = abs(expanded_floor);
-            DELTA(2) = (s16)expanded_floor;
+            DELTA(2) = (s16)(abs(expanded_floor));
             effect->unk_12 = DELTA(0);
             do {
                 if (((S_func_80024578_9 *)(delta_scan))->unk_18.s16 > effect->unk_12) {

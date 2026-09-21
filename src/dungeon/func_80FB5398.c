@@ -140,15 +140,14 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
     projection.pad0A = 0;
     projection.pad08 = 0;
     depth_out_or_phase = (s32) (&scratch.outer);
-    vertex_bytes = ((u8 *) vertex_base) + 24;
     projection.vertices = vertex_base;
     projection.output = vertex_base;
-    ASM_KEEP_MEM_NV(camera_z, projection);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     projection.z = -camera_z;
     projection.v10 = *((PackedPair *) (((u8 *) object) + 0xA2));
     projection.count = 4;
     projection.pad1A = 0;
     func_800DBA90(projection_ptr);
+    vertex_bytes = ((u8 *) vertex_base) + 24;
     min_xy |= 0x75300000;
     min_xy &= 0xFFFF0000;
     min_xy |= 0x7530;

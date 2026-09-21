@@ -263,14 +263,13 @@ jt_c1:
                     break;
                 }
 
-                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3328;
+                table_work = (s32)D_8006CCD8;
                 table = (s16 *)((s16)action->angle);
                 index++;
                 table = (s16 *)(((s32)table) * (2));
                 update_x_entry = (u16 *)((s32)table + table_work);
-                (table_work) = 0x80070000; ASM_KEEP(table_work); (table_work) -= 0x3318;
+                table_work = (s32)D_8006CCE8;
                 update_y_entry = (u16 *)((s32)table + table_work);
-                ASM_KEEP(update_y_entry);
                 x_delta = grid_x + *update_x_entry;
                 grid_x = x_delta;
                 coord_aux = grid_y + *update_y_entry;

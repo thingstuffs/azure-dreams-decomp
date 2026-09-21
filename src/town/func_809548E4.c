@@ -574,8 +574,7 @@ void func_800218E4(void *game_in, s32 sound_param, void *sound_data, M2C_UNK sou
         state_value <<= 3;
         transition_timer -= state_value;
         ((S_800218E4_0 *)game)->unk_48 = transition_timer;
-        transition_timer = phase_value;
-        ASM_KEEP(transition_timer);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        transition_timer = ((S_800218E4_0 *)game)->unk_2E.s;
         state_value = ((S_800218E4_0 *)game)->unk_4A.s;
         transition_timer -= 1;
         ((S_800218E4_0 *)game)->unk_2E.s = transition_timer;

@@ -2,6 +2,7 @@
 #include "records/Rec_D_80082E80.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
+extern int abs(int);
 
 typedef struct S_80172DEC_0 {
     u8 pad_00[0x8C];
@@ -82,6 +83,8 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
     s32 use_global_target;
     void *target;
     s32 target_x;
+    s32 abs_x;
+    s32 abs_y;
     s32 target_y;
     s32 ticks_left;
     u8 *action_status;
@@ -157,17 +160,10 @@ void func_80172DEC(void *action_state, void *transform, void *sprite, void *acto
             ((S_80172DEC_1 *)actor)->unk_60 =
                 func_800A05A4(actor, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25,
                               ((S_80172DEC_1 *)actor)->unk_2A, 0x10);
-            ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            target_x = ((S_80172DEC_1 *)actor)->unk_72.u;
-            target_y = ((S_80172DEC_1 *)actor)->unk_73.u;
-            if (target_x < 0) {
-                target_x = -target_x;
-            }
-            if (target_y < 0) {
-                target_y = -target_y;
-            }
-            ((S_80172DEC_1 *)actor)->unk_72.s = target_x;
-            ((S_80172DEC_1 *)actor)->unk_73.s = target_y;
+            abs_x = abs(((S_80172DEC_1 *)actor)->unk_72.u);
+            abs_y = abs(((S_80172DEC_1 *)actor)->unk_73.u);
+            ((S_80172DEC_1 *)actor)->unk_72.s = abs_x;
+            ((S_80172DEC_1 *)actor)->unk_73.s = abs_y;
         do_step:
             saved_position[0] = ((Rec_D_800E3D7C *)transform)->unk_00.at02_u16.v;
             saved_position[1] = ((Rec_D_800E3D7C *)transform)->unk_04.at02_u16.v;

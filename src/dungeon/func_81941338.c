@@ -41,6 +41,11 @@ extern void func_800A56E0(s32);
 extern void func_8003DB94(void *, void *, void *);
 extern u8 D_800248B8;
 
+static __inline__ u8 particle_alpha_from_random(s32 random_bits)
+{
+    return (random_bits & 0x7F) | 0x60;
+}
+
 /* Updates a dungeon effect, spawning particles and fading the actor model through its states. */
 void func_81941338(void *effect, void *effect_pos, void *effect_data)
 {
@@ -163,9 +168,7 @@ emit_trail:
     loop_0: {
         bits = (u32)func_80069EF8();
         particle_color = 0x200000;
-        ASM_KEEP_NV(particle_color);
-        bits &= 0x7F;
-        particle_alpha = (s32)(bits | 0x60);
+        particle_alpha = particle_alpha_from_random(bits);
         particle_level = F(effect_base, s16, 0x26);
         particle_x = F(effect_base, s16, 0xC);
         particle_color |= 0x20F0;

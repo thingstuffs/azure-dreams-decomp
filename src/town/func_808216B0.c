@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 #define S16_AT(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -141,16 +142,13 @@ color_done:
         s32 second_step = (-0x60 - S16_AT(state, 0x10)) >> 1;
         s32 second_pos;
         s32 rest_distance;
+        s32 abs_rest_distance;
 
         S16_AT(state, 8) = U16_AT(state, 8) + first_step;
         second_pos = U16_AT(state, 0x10) + second_step;
         S16_AT(state, 0x10) = second_pos;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        rest_distance = (s16)second_pos + 0x60;
-        if (rest_distance < 0) {
-            rest_distance = -rest_distance;
-        }
-        if (rest_distance < 2) {
+        abs_rest_distance = abs((s16)second_pos + 0x60);
+        if (abs_rest_distance < 2) {
             U16_AT(state, 0x24) |= 1;
         }
     }

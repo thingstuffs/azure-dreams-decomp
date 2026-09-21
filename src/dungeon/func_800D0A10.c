@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 
 typedef struct {
@@ -100,7 +101,9 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
     u8 **render_context = (u8 **)D_80083160;
     u8 *packet;
     s32 ot_index;
-    register s32 depth_span ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 depth_span;
+    s32 abs_depth_span;
+    s32 abs_depth_span_2;
     s32 coord_index;
     u32 address_mask;
     u32 length_mask;
@@ -133,12 +136,8 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
         depth_edges[coord_index] = (*(u16 *)((u8 *)geometry + 0x54 + coord_index * 2));
     }
 
-    depth_span = (s16)depth_edges[0];
-    depth_span -= (s16)depth_edges[2];
-    if (depth_span < 0) {
-        depth_span = -depth_span;
-    }
-    if (depth_span >= 0x11) {
+    abs_depth_span = abs(((s16)depth_edges[0]) - ((s16)depth_edges[2]));
+    if (abs_depth_span >= 0x11) {
         address_mask = 0x00FFFFFF;
         length_mask = 0xFF000000;
         do {
@@ -186,12 +185,8 @@ void func_800D6170(void *geometry, S_800D6170_1 *position, S_800D6170_2 *render_
                         ((u32)packet & address_mask);
                 }
             }
-            depth_span = (s16)depth_edges[0];
-            depth_span -= (s16)depth_edges[2];
-            if (depth_span < 0) {
-                depth_span = -depth_span;
-            }
-        } while (depth_span >= 0x11);
+            abs_depth_span_2 = abs(((s16)depth_edges[0]) - ((s16)depth_edges[2]));
+        } while (abs_depth_span_2 >= 0x11);
     }
 
     if ((s16)depth_edges[0] != (s16)depth_edges[2]) {

@@ -439,11 +439,8 @@ check_tile_path:
     ASM_SCHED_BARRIER();
     y_step_value = (u32) D_8006CCE8;
     search_step_offset = (s32)((u32)((u8 *)((u32) locals.sp18)));
-    ASM_KEEP_NV(search_step_offset);
     landing_y = partner_sprite->unk_25;
-    ASM_KEEP_NV(landing_y);
     landing_x = sprite->unk_24;
-    ASM_KEEP_NV(landing_x);
     y_step_value = (u32)(u8 *)(u32)search_step_offset + y_step_value;
     landing_x <<= 6;
     y_step_value = ((S_func_81008664_9 *) y_step_value)->unk_00;

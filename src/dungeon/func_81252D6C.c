@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 
 typedef s32 M2C_UNK;
@@ -207,7 +208,9 @@ state0_linked:
             goto state0_copy;
         }
     } else {
-        register s32 x ASM_REG("$2");
+        s32 x;
+        s32 abs_x;
+        s32 abs_y;
         s32 y;
 
         ((S_8017256C_1 *)actor)->unk_60.p = func_800A05A4(
@@ -216,16 +219,10 @@ state0_linked:
             ((S_8017256C_4 *)sprite)->unk_25,
             ((S_8017256C_1 *)actor)->unk_2A,
             0x10);
-        x = ((S_8017256C_1 *)actor)->unk_72.s;
-        y = ((S_8017256C_1 *)actor)->unk_73.s;
-        if (x < 0) {
-            x = -x;
-        }
-        if (y < 0) {
-            y = -y;
-        }
-        ((S_8017256C_1 *)actor)->unk_72.u = x;
-        ((S_8017256C_1 *)actor)->unk_73.u = y;
+        abs_x = abs(((S_8017256C_1 *)actor)->unk_72.s);
+        abs_y = abs(((S_8017256C_1 *)actor)->unk_73.s);
+        ((S_8017256C_1 *)actor)->unk_72.u = abs_x;
+        ((S_8017256C_1 *)actor)->unk_73.u = abs_y;
     }
 
 state0_copy:

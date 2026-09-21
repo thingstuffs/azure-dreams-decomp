@@ -66,6 +66,10 @@ extern s32 func_8003FA44(s32);
 extern Obj *func_8003FD64(s32, void *);
 extern void func_8004491C(void *, void *);
 
+static __inline__ s16 read_y_offset(s16 *p, u16 byte_offset) {
+    return *(s16 *)((u8 *)p + byte_offset);
+}
+
 /* Creates twelve linked sprite pieces at an offset from the given position and angle. */
 void *func_800255B8(s32 x, s32 y, s16 z, u16 angle) {
     void *objects[12];
@@ -147,16 +151,13 @@ loop:
         ((S_800255B8_1 *)component_data)->unk_02 = origin_x + x_offset;
         {
             s16 *y_offsets;
-
 #ifdef NON_MATCHING
             y_offsets = D_8006CCE8;
 #else
-            y_offsets = (s16 *)0x80070000;
-            ASM_KEEP_NV(y_offsets);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            y_offsets = (s16 *)((u8 *)y_offsets - 0x3318);
 #endif
-            offset_addr = offset_addr + (u32)y_offsets;
-            y_offset = *(s16 *)offset_addr << 5;
+
+            y_offsets = D_8006CCE8;
+            y_offset = read_y_offset(y_offsets, offset_addr) << 5;
         }
         ((S_800255B8_1 *)component_data)->unk_0A = origin_z;
         ((S_800255B8_1 *)component_data)->unk_06 = origin_y + y_offset;

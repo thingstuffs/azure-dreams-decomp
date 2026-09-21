@@ -92,7 +92,6 @@ typedef struct S_8197192C_5 {
     void * unk_08;
 } S_8197192C_5;   /* map_base in func_8197192C */
 
-
 typedef struct S_8197192C_7 {
     u8 pad_00[0xC];
     u32 unk_0C;
@@ -185,8 +184,6 @@ typedef struct S_8197192C_15 {
     void * unk_60;
 } S_8197192C_15;   /* ((Rec_D_800814A8 *)&D_800814A8)->unk_00.as_pv in func_8197192C */
 
-
-
 typedef struct {
     u8 bytes[12];
 } Data12;
@@ -243,7 +240,8 @@ void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
     void *effect = effect_arg;
     void *owner = owner_arg;
     register void *context ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 light_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 light_color;
+    u32 light_color_2;
     u32 dark_color;
 
     (void)state_labels;
@@ -371,9 +369,7 @@ case_3:
     s32 point_index;
     s32 step;
     u8 *world_pos;
-    register u8 *outer_point ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *init_obj_m ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register u32 light_copy_m ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *outer_point;
     if (((S_8197192C_0 *)effect)->unk_2C.u >= 10) {
         goto done;
     }
@@ -437,38 +433,26 @@ case_3:
 after_coords:
     if (((S_8197192C_0 *)effect)->unk_2C.u == 4) {
         void *effect_obj = func_8003FC64(0x212);
+        u8 *effect_data = (u8 *)effect_obj + 0x20;
         if (effect_obj != 0) {
-            u8 *effect_data = (u8 *)effect_obj + 0x20;
+
             u8 *sprite;
-            u32 light_saved;
-            u32 dark_left;
-            u32 dark_right;
             void *init_data;
-            ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            light_color = 0x00E0E0E0;
+            light_color_2 = 0x00E0E0E0;
             dark_color = 0x00804020;
-            init_obj_m = effect_obj;
             init_data = (void *)&D_80024544;
-            ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
+            ((S_8197192C_7 *)effect_data)->unk_1C = light_color_2;
             ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
             ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
-            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            light_saved = light_color;
-            ASM_KEEP(light_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            ((S_8197192C_7 *)effect_data)->unk_20 = light_color;
-            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            light_copy_m = light_color;
-            ASM_KEEP(light_copy_m);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+            ((S_8197192C_7 *)effect_data)->unk_20 = light_color_2;
             ((S_8197192C_7 *)effect_data)->unk_38 = 20;
             ((S_8197192C_7 *)effect_data)->unk_3A = 20;
-            ((S_8197192C_7 *)effect_data)->unk_0C = light_saved;
-            ((S_8197192C_7 *)effect_data)->unk_10 = light_copy_m;
-            dark_left = ((S_8197192C_7 *)effect_data)->unk_24;
-            dark_right = ((S_8197192C_7 *)effect_data)->unk_28;
-            ((S_8197192C_7 *)effect_data)->unk_14 = dark_left;
-            ((S_8197192C_7 *)effect_data)->unk_18 = dark_right;
+            ((S_8197192C_7 *)effect_data)->unk_0C = ((S_8197192C_7 *)effect_data)->unk_1C;
+            ((S_8197192C_7 *)effect_data)->unk_10 = ((S_8197192C_7 *)effect_data)->unk_20;
+            ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
+            ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
             ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
-            func_8004491C(init_obj_m, init_data);
+            func_8004491C(effect_obj, init_data);
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
             ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -500,38 +484,26 @@ after_coords:
     }
     if (((S_8197192C_0 *)effect)->unk_2C.u == 2) {
         void *effect_obj = func_8003FC64(0x212);
+        u8 *effect_data = (u8 *)effect_obj + 0x20;
         if (effect_obj != 0) {
-            u8 *effect_data = (u8 *)effect_obj + 0x20;
+
             u8 *sprite;
-            u32 light_saved;
-            u32 dark_left;
-            u32 dark_right;
             void *init_data;
-            ASM_KEEP(effect_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             light_color = 0x00E0E0E0;
             dark_color = 0x00804020;
-            init_obj_m = effect_obj;
             init_data = (void *)&D_80024544;
             ((S_8197192C_7 *)effect_data)->unk_1C = light_color;
             ((S_8197192C_7 *)effect_data)->unk_24 = dark_color;
             ((S_8197192C_7 *)effect_data)->unk_28 = dark_color;
-            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            light_saved = light_color;
-            ASM_KEEP(light_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             ((S_8197192C_7 *)effect_data)->unk_20 = light_color;
-            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            light_copy_m = light_color;
-            ASM_KEEP(light_copy_m);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             ((S_8197192C_7 *)effect_data)->unk_38 = 20;
             ((S_8197192C_7 *)effect_data)->unk_3A = 20;
-            ((S_8197192C_7 *)effect_data)->unk_0C = light_saved;
-            ((S_8197192C_7 *)effect_data)->unk_10 = light_copy_m;
-            dark_left = ((S_8197192C_7 *)effect_data)->unk_24;
-            dark_right = ((S_8197192C_7 *)effect_data)->unk_28;
-            ((S_8197192C_7 *)effect_data)->unk_14 = dark_left;
-            ((S_8197192C_7 *)effect_data)->unk_18 = dark_right;
+            ((S_8197192C_7 *)effect_data)->unk_0C = ((S_8197192C_7 *)effect_data)->unk_1C;
+            ((S_8197192C_7 *)effect_data)->unk_10 = ((S_8197192C_7 *)effect_data)->unk_20;
+            ((S_8197192C_7 *)effect_data)->unk_14 = ((S_8197192C_7 *)effect_data)->unk_24;
+            ((S_8197192C_7 *)effect_data)->unk_18 = ((S_8197192C_7 *)effect_data)->unk_28;
             ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
-            func_8004491C(init_obj_m, init_data);
+            func_8004491C(effect_obj, init_data);
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
             ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -547,10 +519,10 @@ after_coords:
             ((S_8197192C_7 *)effect_data)->unk_5E = ((S_8197192C_0 *)effect)->unk_5E;
             ((S_8197192C_7 *)effect_data)->unk_60 = ((S_8197192C_0 *)effect)->unk_60;
             ((S_8197192C_7 *)effect_data)->unk_62 = ((S_8197192C_0 *)effect)->unk_62;
-            outer_point = ((S_8197192C_1 *)effect_obj)->unk_08;
-            ((S_8197192C_9 *)outer_point)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
-            ((S_8197192C_9 *)outer_point)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
-            ((S_8197192C_9 *)outer_point)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            position = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
             ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;
@@ -565,35 +537,23 @@ after_coords:
         register void *effect_obj ASM_REG("$17") = func_8003FC64(0x212);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         if (effect_obj != 0) {
             u8 *sprite;
-            u32 light_saved;
-            u32 dark_left;
-            u32 dark_right;
             void *init_data;
             effect_data_m = (u8 *)effect_obj + 0x20;
             light_color = 0x00E0E0E0;
             dark_color = 0x00804020;
-            init_obj_m = effect_obj;
             init_data = (void *)&D_80024544;
             ((S_8197192C_7 *)effect_data_m)->unk_1C = light_color;
             ((S_8197192C_7 *)effect_data_m)->unk_24 = dark_color;
             ((S_8197192C_7 *)effect_data_m)->unk_28 = dark_color;
-            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            light_saved = light_color;
-            ASM_KEEP(light_saved);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             ((S_8197192C_7 *)effect_data_m)->unk_20 = light_color;
-            ASM_KEEP(light_color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            light_copy_m = light_color;
-            ASM_KEEP(light_copy_m);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             ((S_8197192C_7 *)effect_data_m)->unk_38 = 20;
             ((S_8197192C_7 *)effect_data_m)->unk_3A = 20;
-            ((S_8197192C_7 *)effect_data_m)->unk_0C = light_saved;
-            ((S_8197192C_7 *)effect_data_m)->unk_10 = light_copy_m;
-            dark_left = ((S_8197192C_7 *)effect_data_m)->unk_24;
-            dark_right = ((S_8197192C_7 *)effect_data_m)->unk_28;
-            ((S_8197192C_7 *)effect_data_m)->unk_14 = dark_left;
-            ((S_8197192C_7 *)effect_data_m)->unk_18 = dark_right;
+            ((S_8197192C_7 *)effect_data_m)->unk_0C = ((S_8197192C_7 *)effect_data_m)->unk_1C;
+            ((S_8197192C_7 *)effect_data_m)->unk_10 = ((S_8197192C_7 *)effect_data_m)->unk_20;
+            ((S_8197192C_7 *)effect_data_m)->unk_14 = ((S_8197192C_7 *)effect_data_m)->unk_24;
+            ((S_8197192C_7 *)effect_data_m)->unk_18 = ((S_8197192C_7 *)effect_data_m)->unk_28;
             ((S_8197192C_1 *)effect_obj)->unk_10.at00.v = (void *)&D_80024B98;
-            func_8004491C(init_obj_m, init_data);
+            func_8004491C(effect_obj, init_data);
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_10 = 0x20;
             ((S_8197192C_8 *)sprite)->unk_14 = ((S_8197192C_8 *)sprite)->unk_14 | 0x0C;
@@ -609,10 +569,10 @@ after_coords:
             ((S_8197192C_7 *)effect_data_m)->unk_5E = ((S_8197192C_0 *)effect)->unk_6A;
             ((S_8197192C_7 *)effect_data_m)->unk_60 = ((S_8197192C_0 *)effect)->unk_6C;
             ((S_8197192C_7 *)effect_data_m)->unk_62 = ((S_8197192C_0 *)effect)->unk_6E;
-            outer_point = ((S_8197192C_1 *)effect_obj)->unk_08;
-            ((S_8197192C_9 *)outer_point)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
-            ((S_8197192C_9 *)outer_point)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
-            ((S_8197192C_9 *)outer_point)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
+            position = ((S_8197192C_1 *)effect_obj)->unk_08;
+            ((S_8197192C_9 *)position)->unk_02 = ((S_8197192C_0 *)effect)->unk_7C.s;
+            ((S_8197192C_9 *)position)->unk_06 = ((S_8197192C_0 *)effect)->unk_7E.s;
+            ((S_8197192C_9 *)position)->unk_0A = ((S_8197192C_0 *)effect)->unk_80.s;
             sprite = ((S_8197192C_1 *)effect_obj)->unk_0C;
             ((S_8197192C_8 *)sprite)->unk_1E = 0x1000;
             ((S_8197192C_8 *)sprite)->unk_1C = 0x1000;

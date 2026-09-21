@@ -314,8 +314,7 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     s32 elapsed_steps;
     s32 trail_count;
     s32 burst_count;
-    register s32 distance_sum ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 step_sum;
+    s32 distance_sum;
     s32 distance_y_abs;
     s32 covered_distance;
     s32 step_index;
@@ -355,7 +354,7 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     direction_y_entry = *(s16 *)((u8 *)D_8006CCE8 + direction_offset);
     direction_y = (s32) direction_y_entry;
     if ((u32) state >= 5) {
-        goto done;
+        return;
     }
     {
         static void *const state_labels[] = {
@@ -470,20 +469,14 @@ state_launch:
                     ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v = (u16) (((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v + 1);
                 } while (covered_distance < distance_fixed);
             }
-            ASM_USE_NV(distance_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             distance_sum = 0;
             step_count = (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v;
             step_index = 1;
             if (step_count > 0) {
                 step_limit = step_count;
-                ASM_KEEP_NV(distance_sum);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                ASM_KEEP_NV(step_index);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                step_sum = distance_sum + step_index;
                 do {
-                    step_index += 1;
-                    step_sum += step_index;
-                } while (step_limit >= step_index);
-                distance_sum = step_sum - step_index;
+                    distance_sum += step_index;
+                } while (step_limit >= ++step_index);
             }
             base_travel = (s16) ((Rec_D_800E3D7C *)effect)->unk_50.at00_u16.v * 0x66666;
             travel_x = direction_x * base_travel;
