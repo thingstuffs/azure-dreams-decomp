@@ -84,10 +84,11 @@ __asm__(".globl func_80170800\n"
 #define BODY_NAME func_80170800
 #endif
 
-void *BODY_NAME(s16 arg0, s16 _arg1, s16 arg2, s16 _arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *BODY_NAME(s16 flags, s16 unused_kind_id, s16 variant, s16 unused_spawn)
 {
-    s8 arg1;
-    s16 arg3;
+    s8 kind_id;
+    s16 spawn_value;
     s32 kind;
     s32 random;
     s16 arg0_copy;
@@ -101,11 +102,11 @@ void *BODY_NAME(s16 arg0, s16 _arg1, s16 arg2, s16 _arg3)
 
     work = 0;
     alloc_id = 0x112;
-    arg1 = _arg1;
+    kind_id = unused_kind_id;
     alloc_base = &D_80083498;
-    arg3 = _arg3;
+    spawn_value = unused_spawn;
     part = func_8003FD64(alloc_id, alloc_base);
-    arg0_copy = arg0;
+    arg0_copy = flags;
     if (part == 0) {
         goto done;
     }
@@ -114,12 +115,12 @@ void *BODY_NAME(s16 arg0, s16 _arg1, s16 arg2, s16 _arg3)
     ((S_80CBD000_0 *)work)->unk_13 = 0x15;
     func_8004491C(part, &D_80045340);
     coord = ((S_80CBD000_1 *)part)->unk_08;
-    kind = arg0 & 3;
-    coord->unk_0A = arg3;
+    kind = flags & 3;
+    coord->unk_0A = spawn_value;
     state = ((S_80CBD000_1 *)part)->unk_0C;
-    state->unk_25 = arg2;
+    state->unk_25 = variant;
     actor = work;
-    state->unk_24 = arg1;
+    state->unk_24 = kind_id;
 
     if (kind == 1) {
         ((S_80CBD000_0 *)work)->unk_8C = D_80170F20;
@@ -136,7 +137,7 @@ void *BODY_NAME(s16 arg0, s16 _arg1, s16 arg2, s16 _arg3)
         goto next_done;
     }
 
-    if (((arg0 & -4) << 16) != 0) {
+    if (((flags & -4) << 16) != 0) {
         goto nonzero_kind;
     }
 

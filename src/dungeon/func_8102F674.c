@@ -53,7 +53,8 @@ extern s32 D_801714B8;
 extern u8 D_8017609C[];
 extern u8 D_801760EC[];
 
-void *func_80170E74(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
+/* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_80170E74(s16 flags, s8 kind_id, s8 variant, s32 spawn_value)
 {
     s32 kind;
     s32 flags0;
@@ -84,14 +85,14 @@ void *func_80170E74(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         part0 = ((S_80170E74_0 *)object)->unk_08;
         handler = (u8 *)page + 0x609C;
-        part0->unk_0A = arg3;
+        part0->unk_0A = spawn_value;
         part1 = ((S_80170E74_0 *)object)->unk_0C;
-        kind = arg0 & 3;
-        part1->unk_25 = arg2;
+        kind = flags & 3;
+        part1->unk_25 = variant;
         result_copy = result;
         part1->unk_2C = handler;
     }
-    part1->unk_24 = arg1;
+    part1->unk_24 = kind_id;
 
     if (kind == 1) {
         flags0 = result->unk_14;
@@ -113,7 +114,7 @@ void *func_80170E74(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         goto common;
     }
 
-    if (((arg0 & -4) << 16) != 0) {
+    if (((flags & -4) << 16) != 0) {
         goto common;
     }
     if ((result->unk_14 & 0x200) != 0) {
@@ -125,7 +126,7 @@ void *func_80170E74(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
     }
 
 common:
-    func_800A9C18(object, part0, part1, arg0);
+    func_800A9C18(object, part0, part1, flags);
     result_copy->unk_9A = 0xFF;
     result_copy->unk_9C = -1;
     result_copy->unk_8C = &D_801714B8;

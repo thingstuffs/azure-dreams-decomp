@@ -17,7 +17,8 @@ s32 func_800A6D30(void);
 void func_800B835C(void *, void *, s32, s32);
 void func_800CCA14(u8, u8, s16);
 
-s32 func_800CCC20(void *arg0, s16 arg1)
+/* Take the item in map slot `slot`: with no object, drop the slot's 0x80 flag and bump the pickup count; otherwise roll the object's 0x3 chance and give the fallback cue at or above 0x40, then cue 0x817 for the slot's item. */
+s32 func_800CCC20(void *object, s16 slot)
 {
     s32 stack_args[2];
     s32 value;
@@ -38,9 +39,9 @@ s32 func_800CCC20(void *arg0, s16 arg1)
     s32 tail_index;
     u8 *tail_base;
 
-    if (arg0 == 0) {
+    if (object == 0) {
         map_base = D_800E3648;
-        index = arg1;
+        index = slot;
         scaled_index = index * 4;
         entry = scaled_index + map_base;
         flags = entry[3];
@@ -65,7 +66,7 @@ s32 func_800CCC20(void *arg0, s16 arg1)
         value = 0;
     } else {
         random = func_800A6D30() & 0xFFFF;
-        range = *((u8 *)arg0 + 3);
+        range = *((u8 *)object + 3);
         if (range != 0) {
             value = range;
             ASM_USE(range);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
@@ -90,7 +91,7 @@ s32 func_800CCC20(void *arg0, s16 arg1)
 
 update_item:
     tail_base = D_800E39C8;
-    tail_index = arg1;
+    tail_index = slot;
     item_2 = tail_base + tail_index * 24;
     func_800CCA14(item_2[6], item_2[7], *(s16 *)(item_2 + 0x12));
     func_800A56E0(0x817);
@@ -102,5 +103,5 @@ epilogue:
 }
 
 /* MECHANISM: Recover true-space joins locally and model the call workspace as an
-   escaping 8-byte stack record.  Hold arg0/arg1 in s0/s1 and use guarded a0/v1
+   escaping 8-byte stack record.  Hold object/slot in s0/s1 and use guarded a0/v1
    RNG/remainder roles so the explicit result merge survives before the threshold. */

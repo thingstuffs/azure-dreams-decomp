@@ -54,7 +54,8 @@ extern M2C_UNK D_801710F4;
 extern u8 D_80174F00[];
 extern u8 D_80174F48[];
 
-void *func_80170AF4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_80170AF4(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     void *obj;
@@ -64,15 +65,15 @@ void *func_80170AF4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     S_80170AF4_4 *actor;
     s32 left;
     s32 right;
-    s8 saved_arg1;
-    s16 saved_arg3;
-    s8 saved_arg2;
+    s8 saved_kind_id;
+    s16 saved_spawn;
+    s8 saved_variant;
     void *call_a1;
 
     work = 0;
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_kind_id = kind_id;
+    saved_spawn = spawn_value;
+    saved_variant = variant;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -81,13 +82,13 @@ void *func_80170AF4(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_80170AF4_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = saved_spawn;
         part_b = ((S_80170AF4_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = flags & 3;
+        part_b->unk_25 = saved_variant;
         actor = work;
         part_b->unk_2C = D_80174F00;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
             left = work->unk_14 | 0x6000;
@@ -107,7 +108,7 @@ write_kind:
 
 normal_kind:
         call_a1 = obj;
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 call_a1 = part_a;
                 left = func_800A6D30();
@@ -127,7 +128,7 @@ normal_kind:
 post_kind:
         call_a1 = obj;
 call_a1_setup:
-        func_800A9C18(call_a1, part_a, part_b, arg0);
+        func_800A9C18(call_a1, part_a, part_b, flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = &D_801710F4;
@@ -137,5 +138,5 @@ call_a1_setup:
 }
 
 /* MECHANISM: Preserve the seed's exact 0x38 frame, s0-s7 holds, CFG, and true-base name.
-   The sole residue was part_b's saved_arg1 byte field at 0x20 versus retail offset 0x24.
+   The sole residue was part_b's saved_kind_id byte field at 0x20 versus retail offset 0x24.
    part_b->unk_24 closes the substitution at emitted word 32. */

@@ -25,10 +25,11 @@ static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
     return match;
 }
 
-s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
-    register u8 *p3 ASM_REG("$19") = (u8 *)arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    u8 *p4 = (u8 *)arg2;
-    u16 *fp = arg3;
+/* Rebuild the actor's reachable-tile bitmap for its current move kind and hand back the chosen step. */
+s32 func_800A0E6C(void *actor, s32 kind, void *work, u16 *out) {
+    register u8 *actor_held ASM_REG("$19") = (u8 *)actor;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *work_p = (u8 *)work;
+    u16 *out_p = out;
     Elem *s1;
     Elem *scan_entry;
     Elem *entry;
@@ -59,35 +60,35 @@ s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     u8 *bit_prev_s0;
     u8 bitmap[8];
 
-    if (*(s8 *)(p3 + 0x26) < 0) {
+    if (*(s8 *)(actor_held + 0x26) < 0) {
         goto L_BD00;
     }
 
-    b72 = p4[0x72];
-    b73 = p4[0x73];
-    if (((b72 | b73) != 0) && (*(s8 *)(p3 + 0x26) == (s16)arg1)) {
+    b72 = work_p[0x72];
+    b73 = work_p[0x73];
+    if (((b72 | b73) != 0) && (*(s8 *)(actor_held + 0x26) == (s16)kind)) {
         goto L_B9A8;
     }
 
-    p4[0x73] = 0;
-    p4[0x72] = 0;
-    p4[0x67] = 0;
-    p3[0x27] = 0xFF;
-    s1 = func_8009FCAC(*(s8 *)(p3 + 0x26));
+    work_p[0x73] = 0;
+    work_p[0x72] = 0;
+    work_p[0x67] = 0;
+    actor_held[0x27] = 0xFF;
+    s1 = func_8009FCAC(*(s8 *)(actor_held + 0x26));
     if (s1 != 0) {
-        count = D_800E2970[*(s8 *)(p3 + 0x26)].fieldE;
+        count = D_800E2970[*(s8 *)(actor_held + 0x26)].fieldE;
         if (count > 0) {
             i = 0;
             do {
                 tail = (s16)i * sizeof(Elem);
                 scan_entry = (Elem *)((unsigned long)tail + (unsigned long)s1);
                 if (scan_entry->b0 != 0) {
-                    tail = p3[0x24];
+                    tail = actor_held[0x24];
                     d = *(volatile u8 *)&scan_entry->b0;
                     tail -= d;
                     if (tail < 0) tail = -tail;
                     if (tail < 2) {
-                        tail = p3[0x25];
+                        tail = actor_held[0x25];
                         d = scan_entry->b1;
                         tail -= d;
                         if (tail < 0) tail = -tail;
@@ -103,7 +104,7 @@ L_B84C:
         i = 0;
         s0 = func_800A6D30();
         ct1 = D_800E2970;
-        if (c3 = ct1[*(s8 *)(p3 + 0x26)].fieldE, type = p3[0x26], c3 > 0) {
+        if (c3 = ct1[*(s8 *)(actor_held + 0x26)].fieldE, type = actor_held[0x26], c3 > 0) {
             table = ct1;
             do {
                 zero = (s16)s0;
@@ -113,9 +114,9 @@ L_B84C:
                 entry = (Elem *)((unsigned long)((s16)mod * sizeof(Elem)) + (unsigned long)s1);
                 s0 = mod;
                 if (entry->b0 != 0) {
-                    if (p3[0x27] != (s16)mod) {
+                    if (actor_held[0x27] != (s16)mod) {
                         zero = 0;
-                        dir = p4[0x67];
+                        dir = work_p[0x67];
                         switch (dir) {
                         case 0:
                             tail = *(s16 *)&entry->b2 < 2;
@@ -140,26 +141,26 @@ L_DIR1_DONE:
                 }
                 i++;
                 s0++;
-            } while (c3 = table[*(s8 *)(p3 + 0x26)].fieldE, type = p3[0x26], (s16)i < c3);
+            } while (c3 = table[*(s8 *)(actor_held + 0x26)].fieldE, type = actor_held[0x26], (s16)i < c3);
             return 0;
         }
     }
     return 0;
 
 L_B998:
-    p3[0x27] = i;
-    p4[0x67] = scan_entry->b2;
+    actor_held[0x27] = i;
+    work_p[0x67] = scan_entry->b2;
     goto L_B84C;
 
 L_B9A8:
-    if ((p3[0x24] == b72) && (p3[0x25] == b73)) {
-        s1 = func_8009FCAC(*(s8 *)(p3 + 0x26));
+    if ((actor_held[0x24] == b72) && (actor_held[0x25] == b73)) {
+        s1 = func_8009FCAC(*(s8 *)(actor_held + 0x26));
         if (s1 == 0) {
             goto L_RET0;
         }
         s0 = D_8008347E;
         ct2 = D_800E2970;
-        if (c3 = ct2[*(s8 *)(p3 + 0x26)].fieldE, type = p3[0x26], c3 > 0) {
+        if (c3 = ct2[*(s8 *)(actor_held + 0x26)].fieldE, type = actor_held[0x26], c3 > 0) {
             i = 0;
             table = ct2;
             do {
@@ -170,8 +171,8 @@ L_B9A8:
                 entry = (Elem *)((unsigned long)((s16)mod * sizeof(Elem)) + (unsigned long)s1);
                 s0 = mod;
                 if (entry->b0 != 0) {
-                    if (p3[0x27] != (s16)mod) {
-                        tail = direction_matches(entry, p4[0x67]);
+                    if (actor_held[0x27] != (s16)mod) {
+                        tail = direction_matches(entry, work_p[0x67]);
                         if (tail) {
                             goto L_BCB8;
                         }
@@ -179,7 +180,7 @@ L_B9A8:
                 }
                 i++;
                 s0++;
-            } while (c3 = table[*(s8 *)(p3 + 0x26)].fieldE, type = p3[0x26], (s16)i < c3);
+            } while (c3 = table[*(s8 *)(actor_held + 0x26)].fieldE, type = actor_held[0x26], (s16)i < c3);
             return 0;
         }
         return 0;
@@ -190,7 +191,7 @@ L_BB24: {
     u32 base_page;
     s32 call_a2;
 
-    tail = (s16)((((s16)*(u16 *)(p4 + 0x2A) >> 9) - 4) & 7);
+    tail = (s16)((((s16)*(u16 *)(work_p + 0x2A) >> 9) - 4) & 7);
     *(s32 *)&bitmap[0] = 0;
     *(s32 *)&bitmap[4] = 0;
     bit_next = &bitmap[tail];
@@ -202,7 +203,7 @@ L_BB24: {
     *bit_next = 1;
     *bit_prev_v0 = 1;
     i = 0;
-    masked = (func_800A0818(p3[0x24], p3[0x25], *(s8 *)(p4 + 0x72), *(s8 *)(p4 + 0x73), fp) & 0xFFF) << 16;
+    masked = (func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out_p) & 0xFFF) << 16;
     s5v = masked >> 16;
     ASM_KEEP(s5v);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     base_page = 0x80070000;
@@ -221,7 +222,7 @@ L_BB24: {
     *bit_next = 1;
     *bit_prev_s0 = 1;
     do {
-        if (*fp & 2) {
+        if (*out_p & 2) {
             tail = s5v - offsets[(s16)i];
         } else {
             tail = s5v + offsets[(s16)i];
@@ -232,9 +233,9 @@ L_BB24: {
         if (bitmap[bitmap_idx] == 0) {
             bitmap_idx <<= 1;
             bit_next = (u8 *)(bitmap_idx + (s32)x_offsets);
-            masked = p3[0x24];
+            masked = actor_held[0x24];
             zero = *(u16 *)bit_next;
-            call_a2 = *(u16 *)(p4 + 0x88);
+            call_a2 = *(u16 *)(work_p + 0x88);
             masked <<= 6;
             zero += masked;
             zero &= 0xFFFF;
@@ -242,7 +243,7 @@ L_BB24: {
             masked = (s32)&D_800DCEBC;
             bitmap_idx += masked;
             call_a2 = (s16)(call_a2 - 0x20);
-            masked = p3[0x25];
+            masked = actor_held[0x25];
             bitmap_idx = *(u16 *)bitmap_idx;
             masked <<= 6;
             bitmap_idx += masked;
@@ -261,30 +262,30 @@ L_BCB8:
     tail = (s16)s0 * sizeof(Elem);
     tail += (s32)s1;
     mod = *(u8 *)tail;
-    p4[0x72] = mod;
+    work_p[0x72] = mod;
     mod = *(u8 *)(tail + 1);
-    p4[0x73] = mod;
+    work_p[0x73] = mod;
     tail = *(u8 *)(tail + 2);
-    p4[0x67] = tail;
-    tail = func_800A0818(p3[0x24], p3[0x25], *(s8 *)(p4 + 0x72), *(s8 *)(p4 + 0x73), fp);
-    *(u16 *)(p4 + 0x2A) = tail;
-    p3[0x27] = s0;
+    work_p[0x67] = tail;
+    tail = func_800A0818(actor_held[0x24], actor_held[0x25], *(s8 *)(work_p + 0x72), *(s8 *)(work_p + 0x73), out_p);
+    *(u16 *)(work_p + 0x2A) = tail;
+    actor_held[0x27] = s0;
     goto L_RET0;
 
 L_BD00: {
     register s32 final_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
     tail = 0xFF;
-    p3[0x27] = tail;
-    final_a2 = *(u16 *)(p4 + 0x88);
-    tail = *(s16 *)(p4 + 0x2A);
+    actor_held[0x27] = tail;
+    final_a2 = *(u16 *)(work_p + 0x88);
+    tail = *(s16 *)(work_p + 0x2A);
     mod = *D_8006CD02;
     final_a2 = (s16)(final_a2 - 0x20);
     tail -= mod;
     tail >>= 9;
     scan_s0 = tail & 7;
-    r = func_800BCB04(D_800DCEAC[scan_s0] + (p3[0x24] << 6),
-                      D_800DCEBC[scan_s0] + (p3[0x25] << 6), final_a2);
+    r = func_800BCB04(D_800DCEAC[scan_s0] + (actor_held[0x24] << 6),
+                      D_800DCEBC[scan_s0] + (actor_held[0x25] << 6), final_a2);
     if ((s16)r < 0x200) {
         goto L_BD8C;
     }
@@ -293,7 +294,7 @@ L_BD00: {
 
 L_BD8C:
     tail = scan_s0 << 9;
-    *(u16 *)(p4 + 0x2A) = tail;
+    *(u16 *)(work_p + 0x2A) = tail;
 L_RET0:
     return 0;
 }

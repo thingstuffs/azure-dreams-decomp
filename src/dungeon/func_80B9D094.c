@@ -15,26 +15,27 @@ extern void func_8016EED8(void);
 extern void func_8016EF00(void);
 extern void func_8016AA98(void);
 
-u8 *func_8016A894(s32 arg0, u8 arg1, u16 arg2, s16 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+u8 *func_8016A894(s32 flags, u8 kind_id, u16 variant, s16 spawn_value)
 {
-    register u8 byte_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 half_arg3 = arg3;
-    u8 byte_arg2 = arg2;
+    register u8 byte_kind_id ASM_REG("$21") = kind_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 half_spawn = spawn_value;
+    u8 byte_variant = variant;
     u8 *result;
     u8 *allocation;
     u8 *part_a;
     u8 *part_b;
     u8 *secondary;
-    s16 saved_arg0;
+    s16 saved_flags;
 
-    ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     result = 0;
     allocation = func_8003FD64(0x112, D_80083498);
     if (allocation == 0) {
         goto done;
     }
 
-    saved_arg0 = arg0;
+    saved_flags = flags;
     result = allocation;
     result += 0x20;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -42,13 +43,13 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u16 arg2, s16 arg3)
     func_8004491C(allocation, func_80045340);
 
     part_a = *(u8 **)(allocation + 8);
-    *(s16 *)(part_a + 10) = half_arg3;
+    *(s16 *)(part_a + 10) = half_spawn;
     part_b = *(u8 **)(allocation + 12);
-    part_b[37] = byte_arg2;
+    part_b[37] = byte_variant;
     secondary = result;
-    part_b[36] = byte_arg1;
+    part_b[36] = byte_kind_id;
 
-    if ((arg0 & 3) == 1) {
+    if ((flags & 3) == 1) {
         *(void (**)(void))(result + 140) = func_8016AE9C;
         *(u32 *)(result + 20) |= 0x6000;
         *(u32 *)(result + 28) |= 0x6000;
@@ -56,7 +57,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u16 arg2, s16 arg3)
         goto common_tail;
     }
 
-    if ((arg0 & 3) >= 2) {
+    if ((flags & 3) >= 2) {
         *(void (**)(void))(result + 140) = func_8016AE9C;
         *(u32 *)(result + 20) |= 0x2000;
         *(u32 *)(result + 28) |= 0x2000;
@@ -64,7 +65,7 @@ u8 *func_8016A894(s32 arg0, u8 arg1, u16 arg2, s16 arg3)
         goto common_tail;
     }
 
-    if ((s16)(arg0 & -4) != 0) {
+    if ((s16)(flags & -4) != 0) {
         goto high_variant;
     }
 
@@ -86,7 +87,7 @@ load_handler:
 
 common_tail:
     *(void (**)(void))(allocation + 16) = func_8016AA98;
-    func_800A9C18(allocation, part_a, part_b, saved_arg0);
+    func_800A9C18(allocation, part_a, part_b, saved_flags);
 
     secondary[154] = 0xFF;
     ((signed char *)secondary)[156] = -1;

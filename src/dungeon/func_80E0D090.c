@@ -65,7 +65,8 @@ extern u8 D_80176470[];
 extern u8 D_80171094[];
 extern u8 D_801764B8[];
 
-void *func_80170890(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_80170890(s16 flags, s8 kind_id, s8 variant, s16 spawn_value)
 {
     void *obj;
     void *work = 0;
@@ -75,9 +76,9 @@ void *func_80170890(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     s32 kind;
     s32 left;
     s32 right;
-    register s8 saved_arg1 ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s16 saved_arg3 = arg3;
-    register s8 saved_arg2 ASM_REG("$20") = arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s8 saved_kind_id ASM_REG("$21") = kind_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_spawn = spawn_value;
+    register s8 saved_variant ASM_REG("$20") = variant;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     obj = func_8003FD64(274, D_80083498);
     if (obj != 0) {
@@ -87,13 +88,13 @@ void *func_80170890(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_80170890_0 *)obj)->unk_08;
-        ((S_80170890_2 *)part_a)->unk_0A = saved_arg3;
+        ((S_80170890_2 *)part_a)->unk_0A = saved_spawn;
         part_b = ((S_80170890_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = flags & 3;
+        part_b->unk_25 = saved_variant;
         actor = work;
         part_b->unk_2C = D_80176460;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
             left = ((S_80170890_1 *)work)->unk_14 | 0x6000;
@@ -111,7 +112,7 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((flags & ~3) << 16) == 0) {
             if (!(((S_80170890_1 *)work)->unk_14 & 0x200)) {
                 if (func_800A6D30() & 1) {
                     func_800A48F0(work, 1,
@@ -123,7 +124,7 @@ normal_kind:
         }
 
 post_kind:
-        func_800A9C18(obj, part_a, part_b, (s16)arg0);
+        func_800A9C18(obj, part_a, part_b, (s16)flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = D_80171094;

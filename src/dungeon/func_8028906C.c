@@ -26,6 +26,7 @@ extern u8 D_80083160[];
 extern s32 func_800A6D30(void);
 extern u32 func_800A07D0(s16 x0, s16 y0, s16 x1, s16 y1);
 
+/* Pick the next step toward the destination, wandering around blocked tiles with a random tie-break. */
 s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     s16 count;
     s16 cx;

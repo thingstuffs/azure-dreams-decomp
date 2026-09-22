@@ -44,7 +44,7 @@ void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
     void *object;
     S_8016A898_1 *motion;
     s8 held_a;
-    register s32 held_b ASM_REG("$21");
+    register s32 held_b ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 held_c;
     register s16 flags_held;
     void *tail_actor;

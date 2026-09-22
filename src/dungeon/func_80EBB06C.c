@@ -101,19 +101,20 @@ extern u8 D_8016B1A4[];
 extern u8 D_8016E18C[];
 extern u8 D_8016E1CC[];
 
-void *func_8016A86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of spawn_flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_8016A86C(s16 spawn_flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     s32 kind;
     void *work;
-    s8 saved_arg1;
-    s8 saved_arg2;
+    s8 saved_kind_id;
+    s8 saved_variant;
     void *obj;
     S_8016A86C_2 *part_a;
     S_8016A86C_3 *part_b;
     S_8016A86C_4 *actor;
     s32 left;
     s32 right;
-    s16 saved_arg0;
+    s16 saved_spawn_flags;
     void *current;
     S_8016A86C_8 *base;
     void *child_obj;
@@ -127,9 +128,9 @@ void *func_8016A86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     u16 elem_flags;
 
     work = 0;
-    saved_arg2 = arg2;
-    saved_arg0 = arg0;
-    obj = func_8003FD64(0x112, (saved_arg1 = arg1, D_80083498));
+    saved_variant = variant;
+    saved_spawn_flags = spawn_flags;
+    obj = func_8003FD64(0x112, (saved_kind_id = kind_id, D_80083498));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8016A86C_0 *)obj)->unk_10 = D_8016AB64;
@@ -138,12 +139,12 @@ void *func_8016A86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         actor = work;
 
         part_a = ((S_8016A86C_0 *)obj)->unk_08;
-        part_a->unk_0A = arg3;
+        part_a->unk_0A = spawn_value;
         part_b = ((S_8016A86C_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
+        kind = spawn_flags & 3;
         part_b->unk_2C = D_8016E18C;
-        part_b->unk_24 = saved_arg1;
-        part_b->unk_25 = saved_arg2;
+        part_b->unk_24 = saved_kind_id;
+        part_b->unk_25 = saved_variant;
 
         if (kind == 1) {
             left = ((S_8016A86C_1 *)work)->unk_14 | 0x6000;
@@ -165,7 +166,7 @@ set_kind_flags:
         goto call_actor_setup;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((spawn_flags & ~3) << 16) == 0) {
             if (!(((S_8016A86C_1 *)work)->unk_14 & 0x200)) {
                 left = func_800A6D30();
                 if (left & 1) {
@@ -178,7 +179,7 @@ normal_kind:
         }
 
 call_actor_setup:
-        func_800A9C18(obj, part_a, part_b, saved_arg0);
+        func_800A9C18(obj, part_a, part_b, saved_spawn_flags);
 
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

@@ -78,10 +78,11 @@ static const u32 bank_words[] __asm__("func_8015E800")
 __asm__(".globl func_8015E800\n"
         ".size func_8015E800, 832");
 
-void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
+void *func_8015E8A4(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
     __attribute__((section(".text.func_8015E800")));
 
-void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_8015E8A4(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
 {
     void *work;
     void *obj;
@@ -89,7 +90,7 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
     void *call_target;
     S_8015E8A4_3 *part_b;
     void *part_a;
-    s16 saved_arg0;
+    s16 saved_flags;
     s32 kind;
     s32 left;
     s32 right;
@@ -109,11 +110,11 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
 
     work = 0;
     call_id = 0x112;
-    pin_arg1 = arg1;
-    pin_arg3 = arg3;
+    pin_arg1 = kind_id;
+    pin_arg3 = spawn_value;
     call_target = D_80083498;
     obj = func_8003FD64(call_id, call_target);
-    saved_arg0 = (s16)arg0;
+    saved_flags = (s16)flags;
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E8A4_0 *)obj)->unk_10 = D_8015EB40;
@@ -123,8 +124,8 @@ void *func_8015E8A4(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
         pin_part_a = ((S_8015E8A4_0 *)obj)->unk_08;
         ((S_8015E8A4_2 *)pin_part_a)->unk_0A = pin_arg3;
         part_b = ((S_8015E8A4_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = arg2;
+        kind = flags & 3;
+        part_b->unk_25 = variant;
         pin_actor = work;
         part_b->unk_2C = D_80163258;
         part_b->unk_24 = pin_arg1;
@@ -145,7 +146,7 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((flags & ~3) << 16) == 0) {
             if (!(((S_8015E8A4_1 *)work)->unk_14 & 0x200)) {
                 if (func_800A6D30() & 1) {
                     ((S_8015E8A4_1 *)work)->unk_1C |= 0x200;
@@ -158,7 +159,7 @@ normal_kind:
         }
 
 post_kind:
-        func_800A9C18(obj, pin_part_a, part_b, saved_arg0);
+        func_800A9C18(obj, pin_part_a, part_b, saved_flags);
         index = 0;
         actor_value = part_b->unk_12;
         ((S_8015E8A4_4 *)pin_actor)->unk_9A = 0xFF;

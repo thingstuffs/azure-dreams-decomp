@@ -123,9 +123,10 @@ __asm__(".globl func_8014C800\n"
 #define BODY_ATTR
 #endif
 
-void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3) BODY_ATTR;
+void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value) BODY_ATTR;
 
-void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
     void *result = 0;
     void *created;
@@ -134,20 +135,20 @@ void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     S_80FFF000_4 *actor;
     s32 left;
     s32 right;
-    s16 saved_arg1;
-    s32 saved_arg3;
-    s16 saved_arg2;
-    register s32 saved_arg0 = (s32)arg0;
-    s16 original_arg0;
+    s16 saved_kind_id;
+    s32 saved_spawn;
+    s16 saved_variant;
+    register s32 saved_flags = (s32)flags;
+    s16 original_flags;
     void *call_a0;
     void *call_a1;
     s32 kind;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    saved_kind_id = kind_id;
+    saved_spawn = spawn_value;
+    saved_variant = variant;
     created = func_8003FD64(0x112, D_80083498);
-    original_arg0 = saved_arg0;
+    original_flags = saved_flags;
     if (created == 0) {
         goto done;
     }
@@ -158,13 +159,13 @@ void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     func_8004491C(created, &D_80045340);
 
     position = ((S_80FFF000_0 *)created)->unk_08;
-    ((S_80FFF000_2 *)position)->unk_0A = saved_arg3;
+    ((S_80FFF000_2 *)position)->unk_0A = saved_spawn;
     part_b = ((S_80FFF000_0 *)created)->unk_0C;
-    kind = saved_arg0 & 3;
-    part_b->unk_25 = saved_arg2;
+    kind = saved_flags & 3;
+    part_b->unk_25 = saved_variant;
     actor = result;
     part_b->unk_2C = D_80150038;
-    part_b->unk_24 = saved_arg1;
+    part_b->unk_24 = saved_kind_id;
 
     if (kind == 1) {
         ((S_80FFF000_1 *)result)->unk_14 |= 0x6000;
@@ -178,7 +179,7 @@ void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
     call_a0 = created;
-    if (((saved_arg0 & ~3) << 16) == 0) {
+    if (((saved_flags & ~3) << 16) == 0) {
         if (!(((S_80FFF000_1 *)result)->unk_14 & 0x200)) {
             call_a1 = position;
             if (func_800A6D30() & 1) {
@@ -192,7 +193,7 @@ void *BODY_NAME(void *arg0, s32 arg1, s32 arg2, s32 arg3)
 
 setup:
     func_800A9C18(created, position, part_b,
-        (s16)original_arg0);
+        (s16)original_flags);
     actor->unk_9A = 0xFF;
     actor->unk_9C = -1;
     actor->unk_8C = D_8014CEA8;

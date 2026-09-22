@@ -73,21 +73,22 @@ extern void func_800B13CC(void *, s32);
 extern void func_800B1400(void *, s32);
 extern void *func_800B1434(void *, void *);
 
-void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
-    s32 temp_v0_2;
-    s32 temp_v1_2;
-    s32 var_a1;
-    s32 var_a1_2;
-    s32 var_a0;
-    register s32 var_a0_2 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s8 var_v0;
-    s32 var_v1;
-    s16 arg0_reg = arg0;
-    s32 arg1_reg = arg1;
-    register u8 *arg2_reg ASM_REG("$21") = (u8 *)arg2;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 temp_s6 = arg3;
+/* Build the floating number/icon widget: allocate it and lay out its digit sprites for the given style. */
+void func_800B1768(s16 icon, s32 value_a, s32 value_b, s32 style, s16 compact, u16 unused_flags) {
+    s32 tmp;
+    s32 tmp2;
+    s32 offset_x;
+    s32 gap;
+    s32 base_offset;
+    register s32 slot_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s8 slot_y;
+    s32 y_offset;
+    s16 icon_held = icon;
+    s32 index = value_a;
+    register u8 *cursor ASM_REG("$21") = (u8 *)value_b;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 style_hold = style;
     s32 count = 0;
-    s16 arg3_ff;
+    s16 style_byte;
     AcObject *obj;
     AcHeader *header;
     AcMeta *meta;
@@ -105,73 +106,73 @@ void func_800B1768(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
     u8 tail_flags;
     u32 tail_field1c;
 
-    obj = func_8003FD64(0x12, D_80083498, (s32)arg2_reg);
+    obj = func_8003FD64(0x12, D_80083498, (s32)cursor);
     if (obj != NULL) {
         meta = obj->meta;
         header = obj->header;
         sub = &obj->sub;
-        if ((arg4 << 0x10) != 0) {
+        if ((compact << 0x10) != 0) {
             meta->field14 |= 1;
         }
-        header->field02 = arg1_reg;
-        sub->field0A = arg1_reg;
-        header->field06 = (s32)arg2_reg;
-        sub->field0C = (s32)arg2_reg;
+        header->field02 = index;
+        sub->field0A = index;
+        header->field06 = (s32)cursor;
+        sub->field0C = (s32)cursor;
         header->field0A = 0;
         sub->field08 = 1;
         meta->field1C = 0x1000;
         meta->field0C = 0;
         obj->field10 = D_800B14FC;
         func_8004491C(obj, D_800B06F0, meta);
-        arg3_ff = temp_s6 & 0xFF;
+        style_byte = style_hold & 0xFF;
         base = (u8 *)&sub->field38;
         ASM_KEEP_NV(base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        arg2_reg = base;
-        sub->field24 = (s16)((temp_s6 << 0x10) >> 0x18);
+        cursor = base;
+        sub->field24 = (s16)((style_hold << 0x10) >> 0x18);
         sub->field00 = (u8 *)&sub->slots[0];
-        sub->field04 = arg2_reg;
+        sub->field04 = cursor;
         buf = func_800B12F4();
         sub->field28 = buf;
         if (buf != NULL) {
-            if (arg0_reg != 0) {
+            if (icon_held != 0) {
                 count = 1;
-                arg2_reg = (u8 *)obj + 0x5C;
+                cursor = (u8 *)obj + 0x5C;
                 call_arg = buf;
                 *(void **)((u8 *)obj + 0x70) = call_arg;
-                buf = func_800B1434(call_arg, D_80073618[arg0_reg]);
-                arg1_reg = count;
+                buf = func_800B1434(call_arg, D_80073618[icon_held]);
+                index = count;
                 *(u32 *)((u8 *)obj + 0x58) = 0x808080;
                 goto shared_setup;
             }
-            arg1_reg = 0;
+            index = 0;
 shared_setup:
             call_arg = buf;
             base_2 = (u8 *)D_800DF03C;
-            table_entry = (s32 *)((arg3_ff * 4) + (s32)base_2);
+            table_entry = (s32 *)((style_byte * 4) + (s32)base_2);
             hard_zero = 0;
             *(void **)((u8 *)sub + 0x50 + count * 4) = (void *)func_8004E298(call_arg, *table_entry, hard_zero);
-            temp_s6 = func_80069E98(*table_entry) * 8;
+            style_hold = func_80069E98(*table_entry) * 8;
             count++;
-            temp_v0_2 = arg1_reg << 2;
-            temp_v0_2 += arg1_reg;
-            temp_v1_2 = temp_v0_2 << 1;
-            var_a1 = temp_v1_2 + 0x80;
-            if (((u16)arg4 << 0x10) != 0) {
-                temp_v0_2 = temp_v1_2 + 0x76;
-                temp_v0_2 -= temp_s6;
-                var_a1 = (s16)temp_v0_2;
+            tmp = index << 2;
+            tmp += index;
+            tmp2 = tmp << 1;
+            offset_x = tmp2 + 0x80;
+            if (((u16)compact << 0x10) != 0) {
+                tmp = tmp2 + 0x76;
+                tmp -= style_hold;
+                offset_x = (s16)tmp;
             }
-            func_800B1320(buf, var_a1, (s16)((0 - (s8)((u8 *)buf)[3]) - 9));
-            var_a1_2 = 8;
-            if (arg4 != 0) {
-                var_a1_2 = 4;
+            func_800B1320(buf, offset_x, (s16)((0 - (s8)((u8 *)buf)[3]) - 9));
+            gap = 8;
+            if (compact != 0) {
+                gap = 4;
             }
-            func_800B135C(buf, var_a1_2);
+            func_800B135C(buf, gap);
             func_800B13CC(buf, 0x20);
             func_800B1400(buf, 2);
             color1 = 0x808080;
-            *(volatile u32 *)arg2_reg = color1;
-            arg2_reg += 4;
+            *(volatile u32 *)cursor = color1;
+            cursor += 4;
             do {
                 buf = (u8 *)buf + 0x60;
             } while (0);
@@ -183,43 +184,43 @@ shared_setup:
             buf = new_buf;
             func_800B1320(call_arg, 1, 1);
             color2 = 0x80808;
-            temp_v0_2 = count << 2;
+            tmp = count << 2;
             count++;
-            var_a0 = -0xA;
-            temp_v0_2 += (s32)sub;
-            *(volatile u32 *)arg2_reg = color2;
-            *(void **)((u8 *)temp_v0_2 + 0x50) = buf;
+            base_offset = -0xA;
+            tmp += (s32)sub;
+            *(volatile u32 *)cursor = color2;
+            *(void **)((u8 *)tmp + 0x50) = buf;
             ((u8 *)buf)[1] = 0x38;
-            if (arg1_reg == 0) {
-                var_a0 = -2;
+            if (index == 0) {
+                base_offset = -2;
             }
-            var_v1 = var_a0;
-            if (arg4 != 0) {
-                var_v1 -= 2;
+            y_offset = base_offset;
+            if (compact != 0) {
+                y_offset -= 2;
             }
-            temp_v0_2 = arg1_reg << 1;
-            temp_v0_2 += arg1_reg;
-            temp_v0_2 <<= 3;
-            var_a0_2 = temp_s6 + temp_v0_2;
-            ((s8 *)buf)[2] = var_v1;
+            tmp = index << 1;
+            tmp += index;
+            tmp <<= 3;
+            slot_x = style_hold + tmp;
+            ((s8 *)buf)[2] = y_offset;
             ((s8 *)buf)[3] = -0xE;
             ((s8 *)buf)[9] = 0;
             ((s8 *)buf)[8] = 0;
-            if (arg1_reg == 0) {
-                var_a0_2 += 4;
+            if (index == 0) {
+                slot_x += 4;
             }
-            var_v0 = var_a0_2;
-            if (arg4 != 0) {
-                var_v0 -= 2;
+            slot_y = slot_x;
+            if (compact != 0) {
+                slot_y -= 2;
                 color2 = 0x80000;
             } else {
                 color2 = 0x80000;
             }
-            ((s8 *)buf)[0xA] = var_v0;
-            var_v0 = 0x10;
-            var_a0_2 = 0xC0;
-            ((s8 *)buf)[0xB] = var_v0;
-            ((u8 *)buf)[0] = var_a0_2;
+            ((s8 *)buf)[0xA] = slot_y;
+            slot_y = 0x10;
+            slot_x = 0xC0;
+            ((s8 *)buf)[0xB] = slot_y;
+            ((u8 *)buf)[0] = slot_x;
             sub->field10 = 0;
             sub->field14 = 0;
             color2 |= 0x4008;
@@ -238,9 +239,9 @@ shared_setup:
             ((u8 *)buf)[1] = 0x81;
             *(s16 *)((u8 *)buf + 4) = 0x20;
             *(s16 *)((u8 *)buf + 6) = 0;
-            ((u8 *)buf)[0] = var_a0_2;
+            ((u8 *)buf)[0] = slot_x;
         }
         sub->field22 = 4;
-        sub->field26 = arg5;
+        sub->field26 = unused_flags;
     }
 }

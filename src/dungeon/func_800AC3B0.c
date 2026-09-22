@@ -13,14 +13,14 @@ typedef struct S_800B1B10_0 {
     u8 pad_5C[0x14];
     s32 unk_70;
     s32 unk_74;
-} S_800B1B10_0;   /* temp_s2 in func_800B1B10 */
+} S_800B1B10_0;   /* obj in func_800B1B10 */
 
 typedef struct S_800B1B10_1 {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
     s16 unk_06;
-} S_800B1B10_1;   /* temp_v0_2 in func_800B1B10 */
+} S_800B1B10_1;   /* header in func_800B1B10 */
 
 typedef struct S_800B1B10_2 {
     u8 pad_00[0x4];
@@ -40,19 +40,19 @@ typedef struct S_800B1B10_2 {
     s32 unk_28;
     s32 unk_2C;
     s32 unk_30;
-} S_800B1B10_2;   /* temp_s3 in func_800B1B10 */
+} S_800B1B10_2;   /* sub in func_800B1B10 */
 
 typedef struct S_800B1B10_3 {
     u8 pad_00[0xC];
     s32 unk_0C;
     u8 pad_10[0xC];
     s16 unk_1C;
-} S_800B1B10_3;   /* temp_v1 in func_800B1B10 */
+} S_800B1B10_3;   /* meta in func_800B1B10 */
 
 typedef struct S_800B1B10_4 {
     u8 unk_00;
     u8 unk_01;
-} S_800B1B10_4;   /* arg0_s5 in func_800B1B10 */
+} S_800B1B10_4;   /* owner_held in func_800B1B10 */
 
 typedef struct S_800B1B10_5 {
     u8 unk_00;
@@ -67,17 +67,17 @@ typedef struct S_800B1B10_5 {
     s32 unk_0C;
     volatile s32 unk_10;
     volatile s32 unk_14;
-} S_800B1B10_5;   /* (void *) arg2_s1 in func_800B1B10 */
+} S_800B1B10_5;   /* (void *) b_held in func_800B1B10 */
 
 typedef struct S_800B1B10_6 {
     u8 pad_00[0x50];
     s32 unk_50;
-} S_800B1B10_6;   /* ((arg3_s4++ * 4) + temp_s3) in func_800B1B10 */
+} S_800B1B10_6;   /* ((style_held++ * 4) + sub) in func_800B1B10 */
 
 typedef struct S_800B1B10_7 {
     u8 pad_00[0x50];
     s32 unk_50;
-} S_800B1B10_7;   /* ((arg3_s4 * 4) + temp_s3) in func_800B1B10 */
+} S_800B1B10_7;   /* ((style_held * 4) + sub) in func_800B1B10 */
 
 
 extern u8 D_80083498[];
@@ -95,163 +95,164 @@ void *func_800B1434();
 extern M2C_UNK D_800B14FC;
 extern M2C_UNK D_800B06F0;
 
-void func_800B1B10(void *arg0, s32 arg1, s32 arg2, s32 arg3, s16 arg4, u16 arg5) {
+/* Build the floating number/icon widget for the owner: allocate it and lay out its digit sprites. */
+void func_800B1B10(void *owner, s32 value_a, s32 value_b, s32 style, s16 compact, u16 flags) {
     u16 subroutine_arg4;
-    S_800B1B10_4 *arg0_s5 = arg0;
-    register s32 arg1_s0 ASM_REG("$16") = arg1;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 arg2_s1 = arg2;
-    s32 arg3_s4 = arg3;
-    s16 raw_arg4 = arg4;
-    u16 arg5_t0 = arg5;
-    register s16 temp_s8;
-    M2C_UNK var_a1;
-    M2C_UNK temp_s2;
-    M2C_UNK temp_s2_2;
-    s32 arg3_v0;
-    s32 geom_v1;
-    s32 call3_a0;
-    register s32 call69_a0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *call_a1;
-    s32 copy_v0;
-    s32 copy_v1;
-    u32 byte_v0;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 tail_v0;
-    void *temp_s3;
-    s32 *temp_s6;
-    S_800B1B10_1 *temp_v0_2;
-    void *temp_v0_3;
-    S_800B1B10_3 *temp_v1;
+    S_800B1B10_4 *owner_held = owner;
+    register s32 a_held ASM_REG("$16") = value_a;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 b_held = value_b;
+    s32 style_held = style;
+    s16 compact_held = compact;
+    u16 flags_held = flags;
+    register s16 compact_s16;
+    M2C_UNK offset;
+    M2C_UNK obj;
+    M2C_UNK obj_2;
+    s32 style_byte;
+    s32 geom;
+    s32 call_kind;
+    register s32 call_target ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *alloc_data;
+    s32 copy_a;
+    s32 copy_b;
+    u32 byte_val;
+    s32 value_4;
+    s32 value_5;
+    s32 tail;
+    void *sub;
+    s32 *slots;
+    S_800B1B10_1 *header;
+    void *part;
+    S_800B1B10_3 *meta;
 
-    call3_a0 = 0x12;
+    call_kind = 0x12;
 #ifdef NON_MATCHING
-    call_a1 = D_80083498;
+    alloc_data = D_80083498;
 #else
 #endif
-    subroutine_arg4 = arg5_t0;
+    subroutine_arg4 = flags_held;
 #ifndef NON_MATCHING
-    call_a1 = (u8 *)&D_80083498;
+    alloc_data = (u8 *)&D_80083498;
 #endif
-    temp_s2 = (M2C_UNK) func_8003FD64(call3_a0, call_a1);
-    temp_s8 = raw_arg4;
-    if (temp_s2 != NULL) {
-        temp_v1 = ((S_800B1B10_0 *)temp_s2)->unk_0C;
-        temp_v0_2 = ((S_800B1B10_0 *)temp_s2)->unk_08;
-        temp_s3 = temp_s2 + 0x20;
-        temp_v0_2->unk_02 = arg1_s0;
-        temp_v0_2->unk_06 = arg2_s1;
-        ((S_800B1B10_2 *)temp_s3)->unk_08 = 1;
-        temp_v1->unk_1C = 0x1000;
-        temp_v1->unk_0C = 0;
-        ((S_800B1B10_0 *)temp_s2)->unk_10 = &D_800B14FC;
-        func_8004491C(temp_s2, &D_800B06F0);
-        call3_a0 = 3;
-        arg3_v0 = (s32) (arg3_s4 << 0x10) >> 0x18;
-        ((S_800B1B10_2 *)temp_s3)->unk_24 = (s16) arg3_v0;
-        ((S_800B1B10_2 *)temp_s3)->unk_0A = arg1_s0;
-        ((S_800B1B10_2 *)temp_s3)->unk_0C = arg2_s1;
-        ((S_800B1B10_0 *)temp_s2)->unk_20 = (void *) (temp_s2 + 0x70);
-        ((S_800B1B10_2 *)temp_s3)->unk_04 = (void *) (temp_s2 + 0x58);
-        if (func_8003FA44(call3_a0) != 0) {
-            temp_s6 = (s32 *) (temp_s2 + 0x5C);
-            arg1_s0 = (s32) func_800B12F4();
-            arg2_s1 = arg1_s0;
-            ASM_KEEP_NV(arg2_s1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_800B1B10_2 *)temp_s3)->unk_28 = arg1_s0;
-            ((S_800B1B10_0 *)temp_s2)->unk_70 = arg2_s1;
-            temp_v0_3 = func_8004A658(arg0_s5->unk_01, arg0_s5->unk_00);
-            arg3_s4 = 2;
-            arg2_s1 = (s32) func_800B1434((void *) arg2_s1, temp_v0_3);
-            ASM_KEEP_NV(arg3_s4);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_800B13CC((void *) arg1_s0, 0x20);
-            func_800B1400((void *) arg1_s0, arg3_s4);
+    obj = (M2C_UNK) func_8003FD64(call_kind, alloc_data);
+    compact_s16 = compact_held;
+    if (obj != NULL) {
+        meta = ((S_800B1B10_0 *)obj)->unk_0C;
+        header = ((S_800B1B10_0 *)obj)->unk_08;
+        sub = obj + 0x20;
+        header->unk_02 = a_held;
+        header->unk_06 = b_held;
+        ((S_800B1B10_2 *)sub)->unk_08 = 1;
+        meta->unk_1C = 0x1000;
+        meta->unk_0C = 0;
+        ((S_800B1B10_0 *)obj)->unk_10 = &D_800B14FC;
+        func_8004491C(obj, &D_800B06F0);
+        call_kind = 3;
+        style_byte = (s32) (style_held << 0x10) >> 0x18;
+        ((S_800B1B10_2 *)sub)->unk_24 = (s16) style_byte;
+        ((S_800B1B10_2 *)sub)->unk_0A = a_held;
+        ((S_800B1B10_2 *)sub)->unk_0C = b_held;
+        ((S_800B1B10_0 *)obj)->unk_20 = (void *) (obj + 0x70);
+        ((S_800B1B10_2 *)sub)->unk_04 = (void *) (obj + 0x58);
+        if (func_8003FA44(call_kind) != 0) {
+            slots = (s32 *) (obj + 0x5C);
+            a_held = (s32) func_800B12F4();
+            b_held = a_held;
+            ASM_KEEP_NV(b_held);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+            ((S_800B1B10_2 *)sub)->unk_28 = a_held;
+            ((S_800B1B10_0 *)obj)->unk_70 = b_held;
+            part = func_8004A658(owner_held->unk_01, owner_held->unk_00);
+            style_held = 2;
+            b_held = (s32) func_800B1434((void *) b_held, part);
+            ASM_KEEP_NV(style_held);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            func_800B13CC((void *) a_held, 0x20);
+            func_800B1400((void *) a_held, style_held);
             {
                 s32 color_v0;
                 color_v0 = 0x808080;
-                ((S_800B1B10_0 *)temp_s2)->unk_58 = color_v0;
+                ((S_800B1B10_0 *)obj)->unk_58 = color_v0;
             }
-            temp_v0_4 = func_800990FC();
-            *func_80099368(arg0_s5, temp_v0_4) = 0;
-            temp_v0_5 = func_8004DA74((void *) arg2_s1, temp_v0_4, 0);
+            value_4 = func_800990FC();
+            *func_80099368(owner_held, value_4) = 0;
+            value_5 = func_8004DA74((void *) b_held, value_4, 0);
             {
                 s32 mask_v1;
                 mask_v1 = 0x7FFFFFFF;
-                call69_a0 = temp_v0_4;
-                arg0_s5 = (void *) temp_v0_5;
-                ((S_800B1B10_0 *)temp_s2)->unk_74 = (s32) arg0_s5 & mask_v1;
+                call_target = value_4;
+                owner_held = (void *) value_5;
+                ((S_800B1B10_0 *)obj)->unk_74 = (s32) owner_held & mask_v1;
             }
-            temp_s2_2 = func_80069E98(call69_a0) * 4;
-            if ((raw_arg4 << 0x10) != 0) {
-                tail_v0 = 0x89 - temp_s2_2;
-                var_a1 = (s16) tail_v0;
+            obj_2 = func_80069E98(call_target) * 4;
+            if ((compact_held << 0x10) != 0) {
+                tail = 0x89 - obj_2;
+                offset = (s16) tail;
                 goto block_shared;
             }
-            var_a1 = 0x8A;
+            offset = 0x8A;
 block_shared:
-            func_800B1320((void *) arg2_s1, var_a1, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) arg2_s1))->unk_03.u) - 0xE));
-            var_a1 = 8;
-            if ((temp_s8 << 0x10) != 0) {
-                var_a1 = 4;
+            func_800B1320((void *) b_held, offset, (s16) ((0 - (s8) ((S_800B1B10_5 *)((void *) b_held))->unk_03.u) - 0xE));
+            offset = 8;
+            if ((compact_s16 << 0x10) != 0) {
+                offset = 4;
             }
-            func_800B135C((void *) arg2_s1, var_a1);
-            func_800B13CC((void *) arg2_s1, 0x20);
-            func_800B1400((void *) arg2_s1, 2);
+            func_800B135C((void *) b_held, offset);
+            func_800B13CC((void *) b_held, 0x20);
+            func_800B1400((void *) b_held, 2);
             {
                 s32 color_v0;
                 color_v0 = 0x808080;
-                *temp_s6 = color_v0;
+                *slots = color_v0;
             }
-            temp_s6++;
-            func_80069E98(temp_v0_4);
-            arg2_s1 = (s32) func_800B12F4();
-            ((S_800B1B10_2 *)temp_s3)->unk_2C = arg2_s1;
+            slots++;
+            func_80069E98(value_4);
+            b_held = (s32) func_800B12F4();
+            ((S_800B1B10_2 *)sub)->unk_2C = b_held;
             {
                 s32 mask_v0;
                 mask_v0 = 0x7FFFFFFF;
-                ((S_800B1B10_6 *)(((arg3_s4++ * 4) + temp_s3)))->unk_50 = arg2_s1 & mask_v0;
+                ((S_800B1B10_6 *)(((style_held++ * 4) + sub)))->unk_50 = b_held & mask_v0;
             }
-            func_800B1434((void *) arg2_s1, arg0_s5);
-            func_800B1320(arg0_s5, 1, 1);
-            arg2_s1 = (s32) func_800B12F4();
-            ((S_800B1B10_2 *)temp_s3)->unk_30 = arg2_s1;
-            *temp_s6 = 0x80808;
-            geom_v1 = 0x80000;
-            ((S_800B1B10_7 *)(((arg3_s4 * 4) + temp_s3)))->unk_50 = arg2_s1;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_01.n = 0x38U;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_02 = -0xA;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_03.s = -0x10;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_0A = (s8) (temp_s2_2 + 0x18);
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_09 = 0;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_08 = 0;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_0B = 0x14;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_00 = 0xC0;
-            ((S_800B1B10_2 *)temp_s3)->unk_10 = 0;
-            ((S_800B1B10_2 *)temp_s3)->unk_14 = 0;
-            geom_v1 |= 0x4008;
-            ((S_800B1B10_2 *)temp_s3)->unk_18.n = geom_v1;
-            ((S_800B1B10_2 *)temp_s3)->unk_1C.n = geom_v1;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_04.at00.v = (s32) ((S_800B1B10_2 *)temp_s3)->unk_10;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_0C = (s32) ((S_800B1B10_2 *)temp_s3)->unk_14;
-            copy_v0 = ((S_800B1B10_2 *)temp_s3)->unk_18.v;
-            arg3_s4++;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_10 = copy_v0;
-            byte_v0 = ((S_800B1B10_5 *)((void *) arg2_s1))->unk_01.v;
-            copy_v1 = ((S_800B1B10_2 *)temp_s3)->unk_1C.v;
-            byte_v0 |= 2;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_01.v = byte_v0;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_14 = copy_v1;
-            arg2_s1 += 0x18;
-            ((S_800B1B10_7 *)(((arg3_s4 * 4) + temp_s3)))->unk_50 = arg2_s1;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_01.n = 0x81;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_04.at00u.v = 0x20;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_04.at02.v = 0;
-            ((S_800B1B10_5 *)((void *) arg2_s1))->unk_00 = 0xC0;
+            func_800B1434((void *) b_held, owner_held);
+            func_800B1320(owner_held, 1, 1);
+            b_held = (s32) func_800B12F4();
+            ((S_800B1B10_2 *)sub)->unk_30 = b_held;
+            *slots = 0x80808;
+            geom = 0x80000;
+            ((S_800B1B10_7 *)(((style_held * 4) + sub)))->unk_50 = b_held;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01.n = 0x38U;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_02 = -0xA;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_03.s = -0x10;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_0A = (s8) (obj_2 + 0x18);
+            ((S_800B1B10_5 *)((void *) b_held))->unk_09 = 0;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_08 = 0;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_0B = 0x14;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;
+            ((S_800B1B10_2 *)sub)->unk_10 = 0;
+            ((S_800B1B10_2 *)sub)->unk_14 = 0;
+            geom |= 0x4008;
+            ((S_800B1B10_2 *)sub)->unk_18.n = geom;
+            ((S_800B1B10_2 *)sub)->unk_1C.n = geom;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00.v = (s32) ((S_800B1B10_2 *)sub)->unk_10;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_0C = (s32) ((S_800B1B10_2 *)sub)->unk_14;
+            copy_a = ((S_800B1B10_2 *)sub)->unk_18.v;
+            style_held++;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_10 = copy_a;
+            byte_val = ((S_800B1B10_5 *)((void *) b_held))->unk_01.v;
+            copy_b = ((S_800B1B10_2 *)sub)->unk_1C.v;
+            byte_val |= 2;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01.v = byte_val;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_14 = copy_b;
+            b_held += 0x18;
+            ((S_800B1B10_7 *)(((style_held * 4) + sub)))->unk_50 = b_held;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_01.n = 0x81;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_04.at00u.v = 0x20;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_04.at02.v = 0;
+            ((S_800B1B10_5 *)((void *) b_held))->unk_00 = 0xC0;
             goto block_8;
         }
 block_8:
-        ((S_800B1B10_2 *)temp_s3)->unk_22 = 4;
-        arg5_t0 = subroutine_arg4;
-        ((S_800B1B10_2 *)temp_s3)->unk_26 = arg5_t0;
+        ((S_800B1B10_2 *)sub)->unk_22 = 4;
+        flags_held = subroutine_arg4;
+        ((S_800B1B10_2 *)sub)->unk_26 = flags_held;
     }
 }

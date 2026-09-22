@@ -59,39 +59,40 @@ static void (*const func_80024000_bank2[])(void)
 };
 #endif
 
-s32 func_80024000(Target *arg0, s32 arg1) {
+/* Roll the target's 0x3 resistance against the attack level: on a hit, halve its 0x26 counter and run effect 0x53 with that amount, otherwise apply the miss record and run 0x53 with -1. */
+s32 func_80024000(Target *target, s32 level) {
     s32 random;
     s32 value;
     s32 aux;
     s32 half;
     s32 counter;
-    s32 arg1_low;
+    s32 level_low;
 
-    if (func_8009D218(arg0, 1) != 0) {
+    if (func_8009D218(target, 1) != 0) {
         return;
     }
     random = func_800A6D30() & 0xFFFF;
-    if (arg0->field3 != 0) {
-        counter = random % arg0->field3;
+    if (target->field3 != 0) {
+        counter = random % target->field3;
     } else {
         counter = 0;
     }
-    arg1_low = arg1 & 0xFF;
-    if (counter < (arg1_low << 5) || arg1_low == 0xFF) {
-        if (arg0->field26 >= 2) {
-            half = ((s32)arg0->field26 + 1) >> 1;
-            arg0->field26 -= half;
+    level_low = level & 0xFF;
+    if (counter < (level_low << 5) || level_low == 0xFF) {
+        if (target->field26 >= 2) {
+            half = ((s32)target->field26 + 1) >> 1;
+            target->field26 -= half;
             value = func_800990FC();
             aux = value;
             value = func_8009929C(8, aux);
-            value = func_80099734(arg0, value);
+            value = func_80099734(target, value);
             value = func_80099194(&D_800E2096, value);
             func_80099290(value);
             func_800A5720(aux);
-            func_800B4C7C(0x53, arg0, half, 1);
+            func_800B4C7C(0x53, target, half, 1);
             return;
         }
     }
-    func_80099844(arg0, &D_800E20BC);
-    func_800B4C7C(0x53, arg0, -1, 1);
+    func_80099844(target, &D_800E20BC);
+    func_800B4C7C(0x53, target, -1, 1);
 }

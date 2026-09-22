@@ -16,7 +16,7 @@ typedef struct S_80173C5C_0 {
     s32 unk_A0;
     u8 pad_A4[0xA];
     s16 unk_AE;
-} S_80173C5C_0;   /* arg0 in func_80173C5C */
+} S_80173C5C_0;   /* work in func_80173C5C */
 
 
 
@@ -24,7 +24,7 @@ typedef struct S_80173C5C_0 {
 typedef struct S_80173C5C_4 {
     u8 pad_00[0xA];
     u16 unk_0A;
-} S_80173C5C_4;   /* temp_counter in func_80173C5C */
+} S_80173C5C_4;   /* counters in func_80173C5C */
 
 
 extern s16 D_80083228[5];
@@ -41,107 +41,108 @@ s32 func_800A6D30();
 extern u8 D_80173FD8;
 extern M2C_UNK D_80173FE0;
 
-void func_80173C5C(S_80173C5C_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, Rec_D_800E3D7C *arg3) {
+/* Run the actor's eight-step sink animation, advancing its state and swapping the sprite each step. */
+void func_80173C5C(S_80173C5C_0 *work, Rec_D_800E3D7C *part_a, Rec_D_80082E80 *part_b, Rec_D_800E3D7C *actor) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7 };
-    u8 *temp_a1;
-    u16 *temp_counter;
-    s32 temp_v1_3;
-    u16 temp_v1_2;
-    s32 temp_v1;
-    s32 temp_v0;
-    s32 temp_state;
-    s32 temp_a0;
+    u8 *unused_ptr;
+    u16 *counters;
+    s32 value;
+    u16 flags;
+    s32 state;
+    s32 accum;
+    s32 state_now;
+    s32 timer;
 
-    temp_v1 = arg0->unk_9B;
-    arg0->unk_96.s = (u16) (arg0->unk_96.s - 1);
-    if (temp_v1 >= 8U) {
+    state = work->unk_9B;
+    work->unk_96.s = (u16) (work->unk_96.s - 1);
+    if (state >= 8U) {
         goto block_20;
     }
-    (void)jt_keep; goto *D_80170878[(u32)(temp_v1)];
+    (void)jt_keep; goto *D_80170878[(u32)(state)];
 jt_c0:
 jt_c4:
     func_800A56E0(0x51C);
-    temp_v1_2 = arg2->unk_14.at00_u16.v;
-    if (!(temp_v1_2 & 0x8000)) {
+    flags = part_b->unk_14.at00_u16.v;
+    if (!(flags & 0x8000)) {
         goto block_5;
     }
-    arg0->unk_9B = 7;
+    work->unk_9B = 7;
     goto block_20;
 block_5:
-    if (!(temp_v1_2 & 0xE000)) {
+    if (!(flags & 0xE000)) {
         goto block_20;
     }
-    arg2->unk_2C.as_pu8 = &D_80173FD8;
-    func_80047784(arg2, (&D_80173FD8)[((s32) (*D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    arg0->unk_98 = (u16) (arg0->unk_98 | 8);
-    arg1->unk_14.as_s32 = 0xFFF00000;
-    arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 & 0xF7FFFFFF);
-    arg0->unk_A0 = 0;
-    temp_state = arg0->unk_9B;
-    temp_v1 = 10;
-    arg0->unk_96.s = temp_v1;
+    part_b->unk_2C.as_pu8 = &D_80173FD8;
+    func_80047784(part_b, (&D_80173FD8)[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    work->unk_98 = (u16) (work->unk_98 | 8);
+    part_a->unk_14.as_s32 = 0xFFF00000;
+    actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 & 0xF7FFFFFF);
+    work->unk_A0 = 0;
+    state_now = work->unk_9B;
+    state = 10;
+    work->unk_96.s = state;
     goto block_e60;
 jt_c1:
 jt_c5:
-    temp_v0 = arg0->unk_90;
-    temp_v1_3 = arg0->unk_A0;
-    temp_a0 = arg0->unk_96.u;
-    arg0->unk_90 = temp_v0 - temp_v1_3;
-    if (temp_a0 == 0) {
+    accum = work->unk_90;
+    value = work->unk_A0;
+    timer = work->unk_96.u;
+    work->unk_90 = accum - value;
+    if (timer == 0) {
         goto block_10;
     }
-    temp_v0 = temp_v1_3;
-    temp_v1_3 = arg1->unk_14.as_s32;
-    arg0->unk_A0 = (s32) (temp_v0 + temp_v1_3);
-    arg1->unk_14.as_s32 = (s32) (arg1->unk_14.as_s32 + 0x30000);
+    accum = value;
+    value = part_a->unk_14.as_s32;
+    work->unk_A0 = (s32) (accum + value);
+    part_a->unk_14.as_s32 = (s32) (part_a->unk_14.as_s32 + 0x30000);
 block_10:
-    temp_v0 = arg0->unk_90;
-    temp_v1_3 = arg0->unk_A0;
-    temp_a0 = arg0->unk_96.u;
-    arg0->unk_90 = temp_v0 + temp_v1_3;
-    if (temp_a0 > 0) {
+    accum = work->unk_90;
+    value = work->unk_A0;
+    timer = work->unk_96.u;
+    work->unk_90 = accum + value;
+    if (timer > 0) {
         goto block_20;
     }
-    arg0->unk_90 = 0;
-    arg0->unk_98 = (u16) (arg0->unk_98 & 0xFFF7);
-    arg3->unk_1C.as_s32 = (s32) (arg3->unk_1C.as_s32 | 0x8000000);
+    work->unk_90 = 0;
+    work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
+    actor->unk_1C.as_s32 = (s32) (actor->unk_1C.as_s32 | 0x8000000);
     goto block_e5c;
 jt_c2:
 jt_c6:
-    arg0->unk_98 = (u16) (arg0->unk_98 & 0xFFF7);
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24, arg2->unk_25);
-    arg2->unk_2C.as_pu8 = &D_80173FE0;
-    func_80047784(arg2, ((u8 *) ((u32) ((((s32) (*D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
+    work->unk_98 = (u16) (work->unk_98 & 0xFFF7);
+    part_a->unk_14.as_s32 = 0;
+    part_a->unk_10.at00_s32.v = 0;
+    part_a->unk_0C.as_s32 = 0;
+    func_800A2B04(part_a, part_b->unk_24, part_b->unk_25);
+    part_b->unk_2C.as_pu8 = &D_80173FE0;
+    func_80047784(part_b, ((u8 *) ((u32) ((((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32) &D_80173FE0)))[0], 0);
     goto block_e5c;
 jt_c3:
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
+    if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
         goto block_20;
     }
-    arg2->unk_2C.as_pu8 = D_80173FD0;
-    func_80047784(arg2, D_80173FD0[((s32) (*D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    part_b->unk_2C.as_pu8 = D_80173FD0;
+    func_80047784(part_b, D_80173FD0[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
     block_e5c:
-    temp_state = arg0->unk_9B;
+    state_now = work->unk_9B;
     block_e60:
-    arg0->unk_9B = (u8) (temp_state + 1);
+    work->unk_9B = (u8) (state_now + 1);
     goto block_20;
 jt_c7:
-    if (!(arg2->unk_14.at00_u16.v & 0xE000)) {
+    if (!(part_b->unk_14.at00_u16.v & 0xE000)) {
         goto block_20;
     }
-    arg2->unk_2C.as_pu8 = D_80173FB8;
-    func_80047784(arg2, D_80173FB8[((s32) (*D_80083228 + arg3->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
-    temp_counter = (u16 *) D_80083460;
-    ((S_80173C5C_4 *)temp_counter)->unk_0A = (u16) (((S_80173C5C_4 *)temp_counter)->unk_0A - 1);
-    func_800A4ACC(arg3);
-    arg3->unk_6D.as_s8 = 0;
-    arg3->unk_44.at02_u16.v = (u16) (arg3->unk_44.at02_u16.v & 0x7FFF);
-    arg0->unk_8C = &D_80170F68;
-    arg0->unk_98 = (u16) (arg0->unk_98 | 0x8000);
-    arg0->unk_AE = (s16) ((func_800A6D30() & 7) + 8);
-    func_800A48F0(arg3, 0x1A, (s8) arg0->unk_AE);
+    part_b->unk_2C.as_pu8 = D_80173FB8;
+    func_80047784(part_b, D_80173FB8[((s32) (*D_80083228 + actor->unk_2A.as_s16 + 0x100) >> 9) & 7], 0);
+    counters = (u16 *) D_80083460;
+    ((S_80173C5C_4 *)counters)->unk_0A = (u16) (((S_80173C5C_4 *)counters)->unk_0A - 1);
+    func_800A4ACC(actor);
+    actor->unk_6D.as_s8 = 0;
+    actor->unk_44.at02_u16.v = (u16) (actor->unk_44.at02_u16.v & 0x7FFF);
+    work->unk_8C = &D_80170F68;
+    work->unk_98 = (u16) (work->unk_98 | 0x8000);
+    work->unk_AE = (s16) ((func_800A6D30() & 7) + 8);
+    func_800A48F0(actor, 0x1A, (s8) work->unk_AE);
 block_20:
     return;
 }

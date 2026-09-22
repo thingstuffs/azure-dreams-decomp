@@ -53,7 +53,8 @@ extern s32 D_801716F4;
 extern u8 D_80175554[];
 extern u8 D_801755A4[];
 
-void *func_801710E0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
+/* Spawn the overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
+void *func_801710E0(s16 flags, s8 kind_id, s8 variant, s32 spawn_value)
 {
     s32 kind;
     s32 flags0;
@@ -84,14 +85,14 @@ void *func_801710E0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         part0 = ((S_801710E0_0 *)object)->unk_08;
         handler = (u8 *)page + 0x5554;
-        part0->unk_0A = arg3;
+        part0->unk_0A = spawn_value;
         part1 = ((S_801710E0_0 *)object)->unk_0C;
-        kind = arg0 & 3;
-        part1->unk_25 = arg2;
+        kind = flags & 3;
+        part1->unk_25 = variant;
         result_copy = result;
         part1->unk_2C = handler;
     }
-    part1->unk_24 = arg1;
+    part1->unk_24 = kind_id;
 
     if (kind == 1) {
         flags0 = ((S_801710E0_1 *)result)->unk_14;
@@ -113,7 +114,7 @@ void *func_801710E0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         goto common;
     }
 
-    if (((arg0 & -4) << 16) != 0) {
+    if (((flags & -4) << 16) != 0) {
         goto common;
     }
     if ((((S_801710E0_1 *)result)->unk_14 & 0x200) != 0) {
@@ -125,7 +126,7 @@ void *func_801710E0(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
     }
 
 common:
-    func_800A9C18(object, part0, part1, arg0);
+    func_800A9C18(object, part0, part1, flags);
     result_copy->unk_9A = 0xFF;
     result_copy->unk_9C = -1;
     result_copy->unk_8C = &D_801716F4;
@@ -135,6 +136,6 @@ done:
     return result;
 }
 
-/* MECHANISM: True-space local joins and ABI-word arg3 reproduce the 0x38 frame and save order.
-   s0/s1 holds, the post-arg2 result copy, and a scoped v0 page split recover retail lifetimes.
+/* MECHANISM: True-space local joins and ABI-word spawn_value reproduce the 0x38 frame and save order.
+   s0/s1 holds, the post-variant result copy, and a scoped v0 page split recover retail lifetimes.
    Fixed v0/v1 flag temporaries close the equal-length color residue at retail word 44. */
