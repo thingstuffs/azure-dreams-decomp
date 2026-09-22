@@ -14,31 +14,41 @@ extern void func_800241D4(s32, s32);
 extern void func_80024274(s32);
 extern void func_80024F3C(s32, s32, s32);
 
-#define FIELD(base, off) (*(s32 *)((u8 *)(base) + (off)))
+typedef struct S_80025030_0 {
+    u8 pad_00[0x18];
+    s32 unk_18;
+    s32 unk_1C;
+    u8 pad_20[0x8];
+    s32 unk_28;
+    u8 pad_2C[0x18];
+    s32 unk_44;
+    s32 unk_48;
+} S_80025030_0;   /* state in func_80025030 */
 
-void func_80025030(void *arg0) {
-    s32 flag;
+/* Draw the party panel: five slots, the one at index unk_28 drawn with the highlight flag. */
+void func_80025030(S_80025030_0 *state) {
+    s32 highlight;
     s32 i;
-    void *cur;
+    s32 *cur;
 
-    if (FIELD(arg0, 0x48) == 1) {
-        flag = 1;
+    if (state->unk_48 == 1) {
+        highlight = 1;
     } else {
-        func_80023A50(FIELD(arg0, 0x18), FIELD(arg0, 0x44));
-        flag = 0;
+        func_80023A50(state->unk_18, state->unk_44);
+        highlight = 0;
     }
     i = 0;
-    cur = arg0;
+    cur = (s32 *)state;
 loop:
-    if (i == FIELD(arg0, 0x28)) {
-        func_800241D4(FIELD(cur, 4), flag);
+    if (i == state->unk_28) {
+        func_800241D4(cur[1], highlight);
     } else {
-        func_80024274(FIELD(cur, 4));
+        func_80024274(cur[1]);
     }
-    cur = (u8 *)cur + 4;
+    cur = cur + 1;
     i += 1;
     if (i >= 5) {
-        func_80024F3C(FIELD(arg0, 0x1C), FIELD(arg0, 0x28), FIELD(arg0, 0x44));
+        func_80024F3C(state->unk_1C, state->unk_28, state->unk_44);
         return;
     }
     goto loop;
