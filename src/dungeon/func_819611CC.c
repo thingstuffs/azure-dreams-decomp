@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern u8 D_80083160_addr[] asm("D_80083160");
-extern void func_80026A18(void);
 extern s32 func_800654B0();
 extern s32 func_8006658C();
 extern s32 func_800666F4();
@@ -13,7 +12,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     u8 *state_slot;
     u32 state_snapshot;
     u8 *render_state;
-    u8 *initial_state;
+    register u8 *initial_state ASM_REG("$2");
     u8 *packet;
     register u8 *quad_code ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *texture ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -46,6 +45,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     ASM_KEEP_MEMDEP(scratch, state_snapshot, *((u8 **) D_80083160_addr));   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     quad_code = packet + 7;
     ASM_KEEP(quad_code);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+next_quad:
     *((u32 *) (scratch + 0x70)) = *((u32 *) (((u8 *) quad) + 0x10));
     *((u32 *) (scratch + 0x78)) = *((u32 *) (((u8 *) quad) + 0x18));
     *((u32 *) (scratch + 0x80)) = *((u32 *) (((u8 *) quad) + 0x20));
@@ -105,7 +105,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
         ASM_KEEP(quad);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         quad_material = *((void **) (((u8 *) vertex_or_link) + 12));
         ASM_KEEP(quad_material);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        func_80026A18();
+        goto next_quad;
     }
     render_state = *((u8 **) state_slot);
     result = zero;
