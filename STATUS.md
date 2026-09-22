@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-22T05:38:02Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-22T06:01:55Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -22,8 +22,8 @@ Baseline NOT exact: 0 rows
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 3 | 1,232 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 7 | 6,788 | 0.3% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 2825 | 1,340,696 | 52.4% |
+| M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 6 | 6,372 | 0.2% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 2759 | 1,308,680 | 51.2% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 1067 | 981,964 | 38.4% |
 | goto | 1545 | 1,318,412 | 51.5% | 1605 | 1,368,912 | 53.5% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
@@ -35,7 +35,7 @@ Baseline NOT exact: 0 rows
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 386 | 277,468 | 10.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3152 | 1,616,348 | 63.2% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2995 | 521,296 | 20.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3015 | 526,484 | 20.6% |
 
 Pin sites now: 4,389 in 1,065 rows; REG 2,068, KEEP 1,058, KEEP_NV 551, SCHED_BARRIER 232, KEEP_DEP_NV 85, USE 60, USE_NV 57, CLOBBER 41.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
@@ -49,8 +49,8 @@ Per-row optimization flags (weak evidence about the real build; each switch is u
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
 | L1 | 2,483,668 | 97.1% |
-| L2 | 2,482,752 | 97.1% |
-| L3 | 2,426,444 | 94.9% |
+| L2 | 2,483,168 | 97.1% |
+| L3 | 2,460,504 | 96.2% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
