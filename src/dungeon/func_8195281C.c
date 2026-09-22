@@ -84,7 +84,6 @@ extern u8 *D_800E3D7C[];
 extern s32 D_80083460[3];
 extern s32 D_800814A0[3];
 extern void *D_80024008[];
-M2C_UNK func_80024330() __attribute__((noreturn));
 M2C_UNK func_80024908();
 M2C_UNK func_800A56E0();
 M2C_UNK func_800B835C();
@@ -145,8 +144,7 @@ jt_c1:
     actor_param = actor_state->unk_2A;
     ((S_8195281C_0 *)effect)->unk_0A.u = ready_stage + 1;
     ((S_8195281C_0 *)effect)->unk_14.u = actor_param;
-    func_80024330();
-    return;
+    goto block_28;
 jt_c2:
     if (((S_8195281C_0 *)effect)->unk_18 != 8) {
         goto block_8;
@@ -162,8 +160,7 @@ block_8:
     ((S_8195281C_0 *)effect)->unk_18 = 0x20;
     func_80024908(effect - 0x20, ((S_8195281C_0 *)effect)->unk_14.s, ((S_8195281C_0 *)effect)->unk_09, model_owner->unk_60);
     ((S_8195281C_0 *)effect)->unk_0A.s = (u16) ((S_8195281C_0 *)effect)->unk_0A.s + 1;
-    func_80024330();
-    return;
+    goto block_28;
 jt_c3:
     model = ((S_8195281C_10 *)(((S_8195281C_1 *)D_800814A8)->unk_00.i))->unk_60;
     if (model == NULL) {
@@ -208,8 +205,7 @@ block_23:
     fade_stage = ((S_8195281C_0 *)effect)->unk_0A.u;
     D_800249A4 = 1;
     ((S_8195281C_0 *)effect)->unk_0A.u = fade_stage + 1;
-    func_80024330();
-    return;
+    goto block_28;
 jt_c4:
     if (D_800249A6 != 0) {
         goto block_28;

@@ -68,8 +68,6 @@ typedef struct S_8128D000_6 {
     s32 unk_08;
 } S_8128D000_6;   /* callee_part in BODY_NAME */
 
-
-
 extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
 extern void func_800A4398(s32);
@@ -77,34 +75,6 @@ extern void func_800A4398(s32);
 extern s32 D_800803D4[3];
 
 #ifdef __mips__
-extern void func_80170F84(void);
-extern void func_8017112C(void);
-extern void func_801718C0(void);
-extern void func_801718E8(void);
-extern void func_80171894(void);
-extern void func_80171884(void);
-extern void func_801725D0(void);
-extern void func_80172814(void);
-extern void func_8017285C(void);
-extern void func_8017289C(void);
-extern void func_8017293C(void);
-extern void func_801729A8(void);
-extern void func_80172A10(void);
-extern void func_80172A30(void);
-extern void func_80172AC4(void);
-extern void func_80172680(void);
-extern void func_80172678(void);
-extern void func_80172670(void);
-extern void func_80172688(void);
-extern void func_8017262C(void);
-extern void func_80172624(void);
-extern void func_8017261C(void);
-extern void func_80172F20(void);
-extern void func_80172F90(void);
-extern void func_80172FA8(void);
-extern void func_80172FD4(void);
-extern void func_80173250(void);
-extern void func_801732C0(void);
 
 static const u32 bank_words[] __asm__("func_8128D000")
     __attribute__((section(".text.func_8128D000"), aligned(4))) = {

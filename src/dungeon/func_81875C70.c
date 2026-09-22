@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_80069EF8(void);
-extern void func_800256AC(void) __attribute__((noreturn));
 extern void func_80025338(void *, s32, s32, s32, s32, s32, s32);
 extern void *D_80024038[];
 
@@ -13,6 +12,7 @@ extern UnkCopy12 D_80026658;
 extern s16 D_80026664;
 extern s32 D_800814A0;
 
+/* Per-state particle step: the c4 state spawns 0x20 randomised sparks in one do-while. */
 void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
 {
     u8 *p = arg0;
@@ -26,7 +26,7 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
     s32 adv;
     u16 state1;
     u16 h1;
-    register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 i;
     s32 color;
     s32 r0;
     s32 r1;
@@ -127,19 +127,16 @@ jt_c4:
         *(s16 *)(*(u8 **)(p + 0x40) + 0x88) = 1;
 
         i = 0;
-        ASM_KEEP(i);
    /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        r0 = (func_80069EF8() & 0xFF) | 0x80;
-        i++;
-        r1 = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        r2 = (s16)((func_80069EF8() & 0x7F) - 0x40);
-        r3 = (s16)((func_80069EF8() & 0x3F) - 0x60);
-        color = 0xE04040;
-        func_80025338(p - 0x20, 0, color, r0, r1, r2, r3);
-        adv = i < 0x20;
-        if (adv) {
-            func_800256AC();
-        }
+        do {
+            r0 = (func_80069EF8() & 0xFF) | 0x80;
+            i++;
+            r1 = (s16)((func_80069EF8() & 0x7F) - 0x40);
+            r2 = (s16)((func_80069EF8() & 0x7F) - 0x40);
+            r3 = (s16)((func_80069EF8() & 0x3F) - 0x60);
+            color = 0xE04040;
+            func_80025338(p - 0x20, 0, color, r0, r1, r2, r3);
+        } while (i < 0x20);
         return;
 
 jt_c5:

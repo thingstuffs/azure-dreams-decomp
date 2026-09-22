@@ -8,7 +8,6 @@ typedef s32 M2C_UNK;
 
 extern M2C_UNK func_80404EA0();
 extern M2C_UNK func_804053A0();
-extern void func_8040552C() __attribute__((noreturn));
 extern u8 D_8009DDD8[];
 
 typedef struct S_802EE4E8_0 {
@@ -17,11 +16,10 @@ typedef struct S_802EE4E8_0 {
 } S_802EE4E8_0;   /* arg0 in func_802EE4E8 */
 
 /* Select the exit or fallback path using the indexed table entry. */
-void func_802EE4E8(S_802EE4E8_0 *object) {
+void func_804054E8(S_802EE4E8_0 *object) {
     if (*(s32 *)(D_8009DDD8 + (object->unk_7C << 7)) != 0) {
         func_80404EA0();
-        func_8040552C();
-        return;
+    } else {
+        func_804053A0();
     }
-    func_804053A0();
 }

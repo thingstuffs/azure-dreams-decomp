@@ -5,7 +5,6 @@ typedef struct {
     u16 unk4;
 } State;
 
-extern void func_80024ADC(void) __attribute__((noreturn));
 extern void func_800478B8(void *);
 extern s32 D_800814A0[];
 
@@ -33,7 +32,7 @@ void func_818C3208(State *state, void *position, void *visual) {
         color = *(u8 *)((u8 *)visual + 0xE);
         if (color != 0) {
             *(u8 *)((u8 *)visual + 0xE) = color - 0xC;
-            func_80024ADC();
+            return;
         }
         return;
     }

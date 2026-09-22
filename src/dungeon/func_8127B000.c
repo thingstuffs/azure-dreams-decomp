@@ -68,8 +68,6 @@ typedef struct S_8127B000_6 {
     s32 unk_08;
 } S_8127B000_6;   /* callee_part in BODY_NAME */
 
-
-
 extern s32 func_8003DA40(s32, void *, s16 *, s16);
 extern void func_80047454(void *);
 extern void func_800A4398(s32);
@@ -99,12 +97,6 @@ extern void func_80172688(void);
 extern void func_8017262C(void);
 extern void func_80172624(void);
 extern void func_8017261C(void);
-extern void func_80172F20(void);
-extern void func_80172F90(void);
-extern void func_80172FA8(void);
-extern void func_80172FD4(void);
-extern void func_80173250(void);
-extern void func_801732C0(void);
 
 static const u32 bank_words[] __asm__("func_8127B000")
     __attribute__((section(".text.func_8127B000"), aligned(4))) = {

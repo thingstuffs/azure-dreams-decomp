@@ -38,7 +38,6 @@ typedef struct S_8182D544_3 {
 
 
 
-extern void func_80024E80(void) __attribute__((noreturn));
 extern void func_8004491C();
 extern void func_800478B8(void *);
 extern s32 rand(void);
@@ -72,7 +71,7 @@ void func_8182D544(void *effect, S_8182D544_2 *motion, S_8182D544_3 *sprite)
     if (state == 1) {
         goto fade_out;
     }
-    func_80024E80();
+    return;
 
 wait_timer:
     timer = ((S_8182D544_0 *)effect)->unk_48 - 1;
@@ -80,7 +79,7 @@ wait_timer:
     if ((timer << 16) <= 0) {
         func_8004491C((u8 *)effect - 0x20, D_80045340, delta_z);
         ((S_8182D544_0 *)effect)->unk_4C.u++;
-        func_80024E80();
+        return;
     }
     return;
 
@@ -96,7 +95,6 @@ fade_out:
         sprite->unk_0C.at00u.v = 0;
         ((S_8182D544_0_pre *)effect)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_80024E80();
         return;
     }
 

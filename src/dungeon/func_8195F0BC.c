@@ -38,7 +38,6 @@ extern s32 D_800273C0;
 extern DungeonPage D_800E3D7C;
 extern s32 D_800814A0;
 
-extern void func_80024C08(void) __attribute__((noreturn));
 extern void func_8002592C(s16, s16, s16, s16, s32);
 extern void func_80026BA8(s32, s32, DungeonOrigin *);
 extern void func_800419EC(s32, s32);
@@ -167,7 +166,7 @@ void func_8195F0BC(DungeonState *state, DungeonOrigin *origin) {
             } while (grid_y < 7);
             state->timer = 8;
             state->active++;
-            func_80024C08();
+            return;
         }
     } else {
         timer = state->timer - 1;

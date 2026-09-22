@@ -15,7 +15,7 @@ typedef struct S_81952B4C_0 {
     s16 unk_2C;
     u8 pad_2E[0x6];
     s16 unk_34;
-} S_81952B4C_0;   /* arg0 in func_81952B4C */
+} S_81952B4C_0;   /* arg0 in func_8002434C */
 
 typedef struct S_81952B4C_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -27,7 +27,7 @@ typedef struct S_81952B4C_1 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_81952B4C_1;   /* arg1 in func_81952B4C */
+} S_81952B4C_1;   /* arg1 in func_8002434C */
 
 typedef struct S_81952B4C_2 {
     u8 pad_00[0xC];
@@ -35,12 +35,10 @@ typedef struct S_81952B4C_2 {
     u8 pad_10[0xC];
     u16 unk_1C;
     u16 unk_1E;
-} S_81952B4C_2;   /* arg2 in func_81952B4C */
+} S_81952B4C_2;   /* arg2 in func_8002434C */
 
 
 
-extern void func_800245F0(void) __attribute__((noreturn));
-extern void func_80024638(void) __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 
@@ -49,7 +47,7 @@ extern u16 D_800249A6;
 extern s32 D_800814A0;
 
 /* Updates a spiraling effect's growth, motion, and fade-out. */
-void func_81952B4C(void *effect, void *position, void *sprite)
+void func_8002434C(void *effect, void *position, void *sprite)
 {
     s16 state;
     s16 radius;
@@ -84,14 +82,12 @@ void func_81952B4C(void *effect, void *position, void *sprite)
         if (state == 0) {
             goto grow;
         }
-        func_800245F0();
-        return;
+        goto move;
     }
     if (state == 2) {
         goto fade_out;
     }
-    func_800245F0();
-    return;
+    goto move;
 
 grow:
     scale = ((S_81952B4C_2 *)sprite)->unk_1E;
@@ -132,8 +128,7 @@ grow:
     ((S_81952B4C_0 *)effect)->unk_2C = frames_left;
     if ((frames_left << 16) <= 0) {
         ((S_81952B4C_0 *)effect)->unk_24.u++;
-        func_800245F0();
-        return;
+        goto move;
     }
     goto move;
 
@@ -156,7 +151,6 @@ fade_out:
     global_flags = D_800814A0 | 0x8000;
     ((S_81952B4C_0 *)effect)->unk_24.u++;
     D_800814A0 = global_flags;
-    func_80024638();
     return;
 
 move:

@@ -2,7 +2,7 @@
 
 typedef struct S_8195EB88_0_pre {
     u16 unk_00;
-} S_8195EB88_0_pre;   /* the 0x2 bytes before arg0 in func_8195EB88, addressed as arg0[-1] */
+} S_8195EB88_0_pre;   /* the 0x2 bytes before arg0 in func_80024388, addressed as arg0[-1] */
 
 typedef struct S_8195EB88_0 {
     u8 pad_00[0xC];
@@ -14,14 +14,14 @@ typedef struct S_8195EB88_0 {
     u8 pad_46[0x2];
     union { s16 s; u16 u; } unk_48;   /* accessed as both */
     s16 unk_4A;
-} S_8195EB88_0;   /* arg0 in func_8195EB88 */
+} S_8195EB88_0;   /* arg0 in func_80024388 */
 
 typedef struct S_8195EB88_1 {
     u8 pad_00[0x8];
     void * unk_08;
     u8 pad_0C[0x8];
     u16 unk_14;
-} S_8195EB88_1;   /* temp_s0 in func_8195EB88 */
+} S_8195EB88_1;   /* temp_s0 in func_80024388 */
 
 typedef struct S_8195EB88_2 {
     u8 pad_00[0x2];
@@ -30,7 +30,7 @@ typedef struct S_8195EB88_2 {
     s16 unk_06;
     u8 pad_08[0x2];
     s16 unk_0A;
-} S_8195EB88_2;   /* arg1 in func_8195EB88 */
+} S_8195EB88_2;   /* arg1 in func_80024388 */
 
 typedef struct S_8195EB88_3 {
     u8 pad_00[0x2];
@@ -39,26 +39,24 @@ typedef struct S_8195EB88_3 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_8195EB88_3;   /* temp_a0_2 in func_8195EB88 */
+} S_8195EB88_3;   /* temp_a0_2 in func_80024388 */
 
 typedef struct S_8195EB88_4 {
     u8 pad_00[0xC];
     union { u8 u8; u32 u32; } unk_0C;   /* accessed as both */
-} S_8195EB88_4;   /* arg2 in func_8195EB88 */
+} S_8195EB88_4;   /* arg2 in func_80024388 */
 
 typedef struct S_8195EB88_5 {
     u8 pad_00[0x8];
     void * unk_08;
     void * unk_0C;
-} S_8195EB88_5;   /* ((S_8195EB88_0 *)arg0)->unk_0C in func_8195EB88 */
+} S_8195EB88_5;   /* ((S_8195EB88_0 *)arg0)->unk_0C in func_80024388 */
 
 
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
-extern void func_80024414(void) __attribute__((noreturn));
 extern s32 func_80027204(void *);
 extern void func_8004491C(void *, void *);
-extern void func_80024520(void) __attribute__((noreturn));
 
 typedef struct CounterView {
     u16 value;
@@ -75,7 +73,7 @@ extern u8 D_80045340[];
 extern FlagsView D_800814A0;
 
 /* Updates the effect position, brightens and fades its primitive, and marks completion. */
-void func_8195EB88(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
+void func_80024388(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive)
 {
     s16 phase;
     u16 phase_value;
@@ -92,12 +90,13 @@ void func_8195EB88(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
             if (func_8003DE58(source_state->unk_08, source_state,
                               (u8 *)effect + 0x40, 0) != 0) {
                 ((S_8195EB88_0 *)effect)->unk_4A = 1;
-                func_80024414();
+                goto check_done;
             }
             if (source_state->unk_14 & 0x8000) {
                 ((S_8195EB88_0 *)effect)->unk_4A = 1;
                 ((S_8195EB88_0 *)effect)->unk_44.s = -0x40;
             }
+        check_done:
             if (((S_8195EB88_0 *)effect)->unk_4A == 0) {
                 goto end;
             }
@@ -113,15 +112,15 @@ void func_8195EB88(void *effect, S_8195EB88_2 *position, S_8195EB88_4 *primitive
         if (func_80027204(position) != 0) {
             func_8004491C((u8 *)effect - 0x20, D_80045340);
             ((S_8195EB88_0 *)effect)->unk_48.u = ((S_8195EB88_0 *)effect)->unk_48.u + 1;
-            func_80024520();
+            goto end;
         }
     } else if (phase == 1) {
         if (primitive->unk_0C.u8 < 0xC0) {
             primitive->unk_0C.u32 += 0x202020;
-            func_80024520();
+            goto end;
         }
         ((S_8195EB88_0 *)effect)->unk_48.u = phase_value + 1;
-        func_80024520();
+        goto end;
     } else if (phase == 2) {
         primitive->unk_0C.u32 += 0xFFEFEFF0;
         if (primitive->unk_0C.u8 == 0) {

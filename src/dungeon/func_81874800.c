@@ -15,7 +15,6 @@ extern s32 func_8009D218(void *, s32);
 extern s32 func_800A48F0(void *, s32, s32);
 extern void func_800A5720(s32);
 extern s32 func_800A6870(s32);
-extern void func_80024170(void) __attribute__((noreturn));
 
 #ifdef __mips__
 static const u32 prefix_words[] __asm__("func_81874800")
@@ -56,7 +55,7 @@ BODY_STORAGE void BODY_NAME(void *entity, s32 direction)
                 ((func_800A6870(direction & 0xFF) + 4) << 24) >> 24) << 16) {
             if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
                 func_80099844(entity, &D_800E1C8A);
-                func_80024170();
+                return;
             }
         } else if (*(s32 *)((u8 *)entity + 0x14) & 0x4000) {
             message_end = func_800990FC();

@@ -1,11 +1,9 @@
 #include "common.h"
 
 extern s32 func_80024C3C();
-extern void func_800252AC() __attribute__((noreturn));
-extern void func_800252C0() __attribute__((noreturn));
 
 /* Sets tile bounds and dispatches tiles for a seven-by-seven grid. */
-s32 func_8195FA38(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
+s32 func_80025238(void *tile_data, s32 draw_arg_1, s32 draw_arg_2) {
     s32 column;
     s32 row;
     s32 tile_y;
@@ -31,16 +29,16 @@ next_column:
         do {
             *(s8 *)((s8 *)tile_data + 0xA) = edge_size;
         } while (0);
-        func_800252AC();
+    } else {
+        *(volatile s8 *)((s8 *)tile_data + 0xA) = tile_size;
     }
-    *(volatile s8 *)((s8 *)tile_data + 0xA) = tile_size;
     if (row == last_tile) {
         *(s8 *)((s8 *)tile_data + 0xB) = edge_size;
-        func_800252C0();
+    } else {
+        do {
+            *(volatile s8 *)((s8 *)tile_data + 0xB) = tile_size;
+        } while (0);
     }
-    do {
-        *(volatile s8 *)((s8 *)tile_data + 0xB) = tile_size;
-    } while (0);
     func_80024C3C(tile_data, draw_arg_1, draw_arg_2, (s16)column, row_arg);
     column += 1;
     if (column >= 7) {

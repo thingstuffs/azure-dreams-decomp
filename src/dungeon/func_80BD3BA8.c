@@ -3,36 +3,13 @@
 
 typedef void (*Callback)(void *, void *, void *, void *);
 
-#define func_8017153C func_8015F53C
-#define func_801715E4 func_8015F5E4
-#define func_80171650 func_8015F650
-#define func_8017174C func_8015F74C
-#define func_801717E4 func_8015F7E4
-#define func_801718D4 func_8015F8D4
-#define func_801718D8 func_8015F8D8
-#define func_80171910 func_8015F910
-
 extern void func_80047738();
 extern void func_800478B8();
 extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
-extern void func_8017153C() __attribute__((noreturn));
-extern void func_801715E4() __attribute__((noreturn));
-extern void func_80171650() __attribute__((noreturn));
-extern void func_8017174C() __attribute__((noreturn));
-extern void func_801717E4() __attribute__((noreturn));
-extern void func_801718D4() __attribute__((noreturn));
-extern void func_801718D8() __attribute__((noreturn));
-extern void func_80171910() __attribute__((noreturn));
-extern void func_8015F53C() __attribute__((noreturn));
-extern void func_8015F5E4() __attribute__((noreturn));
-extern void func_8015F650() __attribute__((noreturn));
-extern void func_8015F74C() __attribute__((noreturn));
 extern void func_8015F7E4() __attribute__((noreturn));
-extern void func_8015F8D4() __attribute__((noreturn));
-extern void func_8015F8D8() __attribute__((noreturn));
 extern void func_8015F910() __attribute__((noreturn));
 
 extern u8 D_8006CCF8[8];
@@ -198,7 +175,7 @@ clear_8000000:
                 if (height_step < height_offset) {
                     height_step = flags - 8;
                     (*(s16 *)((u8 *)entity + 0x92)) = height_step;
-                    func_80171910();
+                    func_8015F910();
                     return;
                 }
                 goto adjust_positive;
@@ -217,7 +194,7 @@ clear_8000000:
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
             height_sum += state_check;
             ASM_TAILSLOT_PIN(height_sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_801717E4(motion_flags);
+            func_8015F7E4(motion_flags);
             return;
         }
     }

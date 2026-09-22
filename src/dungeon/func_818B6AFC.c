@@ -3,7 +3,7 @@
 
 typedef struct S_818B6AFC_0_pre {
     u16 unk_00;
-} S_818B6AFC_0_pre;   /* the 0x2 bytes before arg0 in func_818B6AFC, addressed as arg0[-1] */
+} S_818B6AFC_0_pre;   /* the 0x2 bytes before arg0 in func_800242FC, addressed as arg0[-1] */
 
 typedef struct S_818B6AFC_0 {
     void * unk_00;
@@ -14,54 +14,53 @@ typedef struct S_818B6AFC_0 {
     u16 unk_0C;
     u16 unk_0E;
     void * unk_10;
-} S_818B6AFC_0;   /* arg0 in func_818B6AFC */
+} S_818B6AFC_0;   /* arg0 in func_800242FC */
 
 typedef struct S_818B6AFC_1 {
     u8 pad_00[0x14];
     u16 unk_14;
-} S_818B6AFC_1;   /* temp_v1 in func_818B6AFC */
+} S_818B6AFC_1;   /* temp_v1 in func_800242FC */
 
 typedef struct S_818B6AFC_2 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_818B6AFC_2;   /* temp_a0 in func_818B6AFC */
+} S_818B6AFC_2;   /* temp_a0 in func_800242FC */
 
 typedef struct S_818B6AFC_3 {
     u8 pad_00[0xC];
     s8 unk_0C;
     s8 unk_0D;
     s8 unk_0E;
-} S_818B6AFC_3;   /* temp_t0 in func_818B6AFC */
+} S_818B6AFC_3;   /* temp_t0 in func_800242FC */
 
 typedef struct S_818B6AFC_4 {
     u8 pad_00[0xC];
     union { struct { s8 v; } at00; struct { s32 v; } at00u; struct { u8 pad[0x1]; s8 v; } at01; struct { u8 pad[0x2]; s8 v; } at02; } unk_0C;   /* overlapping accesses */
-} S_818B6AFC_4;   /* arg2 in func_818B6AFC */
+} S_818B6AFC_4;   /* arg2 in func_800242FC */
 
 typedef struct S_818B6AFC_5 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_818B6AFC_5;   /* temp_a0_4 in func_818B6AFC */
+} S_818B6AFC_5;   /* temp_a0_4 in func_800242FC */
 
 typedef struct S_818B6AFC_6 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_818B6AFC_6;   /* temp_a0_7 in func_818B6AFC */
+} S_818B6AFC_6;   /* temp_a0_7 in func_800242FC */
 
 typedef struct S_818B6AFC_7 {
     u8 pad_00[0x1C];
     s32 unk_1C;
-} S_818B6AFC_7;   /* temp_a0_10 in func_818B6AFC */
+} S_818B6AFC_7;   /* temp_a0_10 in func_800242FC */
 
 typedef struct S_818B6AFC_8_pre {
     void * unk_00;
     u8 pad_04[0x10];
-} S_818B6AFC_8_pre;   /* the 0x14 bytes before ((S_818B6AFC_0 *)arg0)->unk_10 in func_818B6AFC, addressed as ((S_818B6AFC_0 *)arg0)->unk_10[-1] */
+} S_818B6AFC_8_pre;   /* the 0x14 bytes before ((S_818B6AFC_0 *)arg0)->unk_10 in func_800242FC, addressed as ((S_818B6AFC_0 *)arg0)->unk_10[-1] */
 
 
 M2C_UNK func_80024154();
 M2C_UNK func_8002473C() __attribute__((noreturn));
-M2C_UNK func_80024780() __attribute__((noreturn));
 extern M2C_UNK D_800814A0;
 
 #ifdef NON_MATCHING
@@ -83,7 +82,7 @@ register s32 implicit_lo ASM_REG("lo");   /* UNRESOLVED C shape (pin): removing 
 #endif
 
 /* Cycle through seven colors with fade-in and fade-out, then mark the effect finished. */
-void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
+void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s32 fade_in_color;
     s16 fade_in_green;
     s32 hold_color;
@@ -103,7 +102,7 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     s32 fade_out_remainder;
     register s32 cycle_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 packed_color;
-    s32 end_frame;
+    register s32 end_frame ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 frames_left;
     s32 div_seven_magic;
     s32 cycle_value;
@@ -215,7 +214,6 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = blue;
         ((S_818B6AFC_3 *)target_color)->unk_0E = blue;
         func_80024154(((S_818B6AFC_0 *)effect)->unk_00, render_arg, ((S_818B6AFC_4 *)color_out)->unk_0C.at00u.v, effect);
-        func_80024780();
         return;
     }
     if (frame < 0x30) {
@@ -245,7 +243,6 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         fade_work = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         end_frame = 0x30;
         fade_work = end_frame - fade_work;
-        ASM_KEEP_NV(end_frame);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
         product_result = M2C_MUL_LO(fade_out_red, fade_work << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
@@ -268,12 +265,10 @@ void func_818B6AFC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         frames_left = end_frame - frames_left;
         product_result = M2C_MUL_LO(channel_bit, (frames_left * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;
-        func_80024780(fade_out_green, fade_out_color, end_frame, effect);
         return;
     }
     finished_target = ((S_818B6AFC_0 *)effect)->unk_10;
     ((S_818B6AFC_7 *)finished_target)->unk_1C = (s32) (((S_818B6AFC_7 *)finished_target)->unk_1C & 0xEFFFFFFF);
     (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818B6AFC_0_pre *)effect)[-1].unk_00 | 0x8000);
     D_800814A0 = D_800814A0 | 0x8000;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

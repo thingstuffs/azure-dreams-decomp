@@ -5,7 +5,6 @@ typedef struct S_func_8186E800_0 {
     s32 unk_14;
 } S_func_8186E800_0;
 
-extern void func_80024154(void) __attribute__((noreturn));
 extern s32 func_800990FC(void);
 extern s32 func_80099194(void *, s32);
 extern void func_80099290(s32);
@@ -57,7 +56,7 @@ BODY_STORAGE void BODY_NAME(S_func_8186E800_0 *entity, s32 effect_param)
                           (s8)(func_800A6870(effect_param & 0xFF) + 2)) << 16) != 0) {
             if (entity->unk_14 & 0x4000) {
                 func_80099844(entity, &D_800E1C64);
-                func_80024154();
+                return;
             }
         } else if (entity->unk_14 & 0x4000) {
             message_end = func_800990FC();

@@ -19,7 +19,6 @@ typedef struct S_818BD0C0_1 {
 
 
 
-extern void func_800249AC(void) __attribute__((noreturn));
 extern void func_8003DB94();
 extern void func_800478B8();
 extern u8 D_80025E04[];
@@ -42,19 +41,19 @@ void func_818BD0C0(void *state, s32 unused, Rec_D_80082E80 *primitive)
         if ((s16)cycle_count >= 3) {
             ((S_818BD0C0_0_pre *)state)[-1].unk_00 |= 0x8000;
             D_800814A0[0] = (u32)(D_800814A0[0] | 0x8000);
-            func_800249AC();
+            return;
         }
 
         func_8003DB94(primitive, D_80025E04, 0);
         if (primitive->unk_0C.at00_u8.v != 0) {
             primitive->unk_0C.at00_u8.v = 0;
             primitive->unk_0C.at01_u8.v = 0x80;
-            func_800249AC();
+            return;
         }
         if (primitive->unk_0C.at01_u8.v != 0) {
             primitive->unk_0C.at01_u8.v = 0;
             primitive->unk_0C.at02_u8.v = 0x80;
-            func_800249AC();
+            return;
         }
         primitive->unk_0C.at02_u8.v = 0;
         primitive->unk_0C.at00_u8.v = 0x80;

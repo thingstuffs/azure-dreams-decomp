@@ -2,7 +2,7 @@
 
 typedef struct S_81844F2C_0_pre {
     u16 unk_00;
-} S_81844F2C_0_pre;   /* the 0x2 bytes before base in func_81844F2C, addressed as base[-1] */
+} S_81844F2C_0_pre;   /* the 0x2 bytes before base in func_8002472C, addressed as base[-1] */
 
 typedef struct S_81844F2C_0 {
     void * unk_00;
@@ -14,27 +14,27 @@ typedef struct S_81844F2C_0 {
     u8 pad_10[0x1A];
     union { u16 s; volatile u16 u; s16 p; } unk_2A;   /* accessed as both */
     union { volatile u16 s; s16 u; u16 p; } unk_2C;   /* accessed as both */
-} S_81844F2C_0;   /* base in func_81844F2C */
+} S_81844F2C_0;   /* base in func_8002472C */
 
 typedef struct S_81844F2C_1 {
     u8 pad_00[0x52];
     u16 unk_52;
-} S_81844F2C_1;   /* entity in func_81844F2C */
+} S_81844F2C_1;   /* entity in func_8002472C */
 
 typedef struct S_81844F2C_2 {
     u8 pad_00[0x14];
     u32 unk_14;
-} S_81844F2C_2;   /* base + (call_a0 * 4) in func_81844F2C */
+} S_81844F2C_2;   /* base + (call_a0 * 4) in func_8002472C */
 
 typedef struct S_81844F2C_3 {
     u8 pad_00[0x14];
     volatile u32 unk_14;
-} S_81844F2C_3;   /* cursor in func_81844F2C */
+} S_81844F2C_3;   /* cursor in func_8002472C */
 
 typedef struct S_81844F2C_4 {
     u8 pad_00[0x14A0];
     volatile u32 unk_14A0;
-} S_81844F2C_4;   /* page in func_81844F2C */
+} S_81844F2C_4;   /* page in func_8002472C */
 
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
@@ -43,7 +43,7 @@ extern void func_80024808() __attribute__((noreturn));
 extern void func_80024860(void) __attribute__((noreturn));
 
 /* Updates an effect's position, colors, countdown, and completion flags. */
-void func_81844F2C(void *effect_data) {
+void func_8002472C(void *effect_data) {
     u8 *effect;
     u8 *flag_page;
     register s32 tick_or_index;
@@ -83,7 +83,6 @@ void func_81844F2C(void *effect_data) {
     if (state == 0) {
         goto state_0;
     }
-    func_80024860();
     return;
 
 state_at_least_2:
@@ -116,7 +115,6 @@ state_0:
     }
     ((S_81844F2C_0 *)effect)->unk_2A.s = 3;
     ((S_81844F2C_0 *)effect)->unk_2C.p += 1;
-    func_80024860();
     return;
 
 state_1:
@@ -125,7 +123,6 @@ state_1:
     }
     position = saved_state + 1;
     ((S_81844F2C_0 *)effect)->unk_2C.p = (u16)position;
-    func_80024860();
     return;
 
     flag_page = (u8 *)0x80080000;

@@ -5,7 +5,6 @@ typedef struct S_func_8187A800_0 {
     s32 unk_14;
 } S_func_8187A800_0;
 
-extern void func_80024190(void) __attribute__((noreturn));
 extern s32 func_800990FC(void);
 extern s32 func_80099194(void *, s32);
 extern void func_80099290(s32);
@@ -61,7 +60,7 @@ BODY_STORAGE void BODY_NAME(S_func_8187A800_0 *target, s32 effect_arg)
                           (s8)(func_800A6870(effect_arg & 0xFF) + 2)) << 16) != 0) {
             if (target->unk_14 & 0x4000) {
                 func_80099844(target, &D_800E1CB0);
-                func_80024190();
+                return;
             }
         } else if (target->unk_14 & 0x4000) {
             message = func_800990FC();

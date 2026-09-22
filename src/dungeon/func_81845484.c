@@ -13,7 +13,6 @@ typedef struct S_800814A0 {
 extern u8 D_80045340[];
 extern S_800814A0 D_800814A0;
 
-void func_80024DD8(void) __attribute__((noreturn));
 extern void func_8004491C(void *, u8 *);
 extern void func_800478B8(void *);
 
@@ -40,7 +39,7 @@ void func_81845484(void *effect, VecState *motion, void *sprite) {
         if (state == 1) {
             goto fade_sprite;
         }
-        func_80024DD8();
+        return;
     }
 
     timer = *(u16 *)((s8 *)effect + 0x48) - 1;
@@ -48,7 +47,7 @@ void func_81845484(void *effect, VecState *motion, void *sprite) {
     if ((s16)timer <= 0) {
         func_8004491C((s8 *)effect - 0x20, D_80045340);
         *(u16 *)((s8 *)effect + 0x4C) += 1;
-        func_80024DD8();
+        return;
     }
     return;
 
@@ -62,7 +61,7 @@ fade_sprite:
         *(u32 *)((s8 *)sprite + 0xC) = 0;
         *(u16 *)((s8 *)effect - 2) |= 0x8000;
         D_800814A0.val |= 0x8000;
-        func_80024DD8();
+        return;
     }
     {
         u8 brightness = *(u8 *)((s8 *)sprite + 0xE) - *(u8 *)((s8 *)effect + 0x4A);

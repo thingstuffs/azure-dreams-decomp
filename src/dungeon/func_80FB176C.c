@@ -125,7 +125,6 @@ extern s32 func_800AA924(void *, void *, void *, void *);
 extern s32 func_800AAB10(void *, void *, void *, void *);
 extern void func_800AAF00(void *, void *, void *, void *, void *);
 
-extern void func_801718EC(void) __attribute__((noreturn));
 extern void func_80171910(void);
 extern void func_80171B68(void *, void *, void *, void *);
 extern s32 func_80172314(void *, void *, void *, void *);
@@ -180,7 +179,7 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
     if (initial_flags & 0x1000) {
         ((S_80170F6C_0 *)arg0)->unk_9A = 0xE;
         func_80171910();
-        func_801718EC();
+        return;
     }
 
        /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

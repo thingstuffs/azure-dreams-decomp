@@ -27,7 +27,6 @@ extern s32 D_800814A0;
 extern u8 D_800DDC42;
 
 extern void func_800F749C(void *, Position3 *, void *);
-extern void func_800F7830(void) __attribute__((noreturn));
 
 
 typedef struct S_807AFDEC_0 {
@@ -96,7 +95,7 @@ void func_807AFDEC(void *effect, Position3 *position, ColorPart *tint)
             if ((ticks_left << 16) <= 0) {
                 ((S_807AFDEC_0 *)effect)->unk_0C.u = 8;
                 ((S_807AFDEC_0 *)effect)->unk_08.u++;
-                func_800F7830();
+                return;
             }
         }
     } else {

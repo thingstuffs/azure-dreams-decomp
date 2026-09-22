@@ -1,10 +1,9 @@
 #include "common.h"
 
 extern s32 D_800814A0[];
-extern void func_80176478(void) __attribute__((noreturn));
 
 /* Updates an effect's lifetime, fades its color, and advances its motion. */
-void func_80E3CBD0(void *effect, s32 *motion, u8 *color_data)
+void func_801763D0(void *effect, s32 *motion, u8 *color_data)
 {
     u16 ticks_left;
     u8 intensity;
@@ -14,7 +13,7 @@ void func_80E3CBD0(void *effect, s32 *motion, u8 *color_data)
     if ((s16)ticks_left <= 0) {
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_80176478();
+        return;
     }
 
     intensity = color_data[0xC];

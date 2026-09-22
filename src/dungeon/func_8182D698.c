@@ -9,7 +9,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u8 D_80045340[];
 extern s32 D_800814A0[];
-extern void func_80025010(void) __attribute__((noreturn));
 s32 func_800478B8();
 s32 func_80069EF8();
 
@@ -98,7 +97,7 @@ void func_8182D698(Object *object, Motion *motion, Effect *effect) {
     if (state == 1) {
         goto fade;
     }
-    func_80025010();
+    return;
 
 countdown: {
         u16 ticks_left = object->count - 1;
@@ -106,7 +105,7 @@ countdown: {
         if ((ticks_left << 0x10) <= 0) {
             func_8004491C((u8 *)object - 0x20, D_80045340);
             object->kind++;
-            func_80025010();
+            return;
         }
     }
     return;
@@ -123,7 +122,7 @@ fade:
                 *(s32 *)((u8 *)effect + 0xC) = 0;
                 *((u16 *)((u8 *)object - 2)) |= 0x8000;
                 D_800814A0[0] |= 0x8000;
-                func_80025010();
+                return;
             } else {
                 u8 fade_value = effect->value_e - fade_step;
                 effect->value_e = fade_value;

@@ -31,7 +31,6 @@ typedef struct S_818BD3B0_2 {
 
 
 
-extern void func_80024D10(void) __attribute__((noreturn));
 s32 func_8003DB94();
 s32 func_800478B8();
 s32 func_800644B8();
@@ -54,7 +53,6 @@ void func_818BD3B0(void *motion, S_818BD3B0_2 *position, Rec_D_80082E80 *object)
     if (((S_818BD3B0_0 *)motion)->unk_06 < (s16) tick) {
         ((S_818BD3B0_0_pre *)motion)[-1].unk_00 = (u16) (((S_818BD3B0_0_pre *)motion)[-1].unk_00 | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
-        func_80024D10();
         return;
     }
     height_offset = (s32) ((func_80064584((s16) tick << 7) >> 4) * ((S_818BD3B0_0 *)motion)->unk_0A) >> 8;

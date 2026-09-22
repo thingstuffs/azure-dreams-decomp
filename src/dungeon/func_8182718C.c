@@ -24,10 +24,9 @@ typedef struct S_8182718C_1 {
 
 extern int D_800814A0[];
 extern u8 D_80045340[];
-extern void func_80024A7C(void) __attribute__((noreturn));
 
 /* Advance a timed two-state action and propagate target status flags. */
-void func_8182718C(void *state_data, void *unused, Rec_D_80082E80 *target) {
+void func_8002498C(void *state_data, void *unused, Rec_D_80082E80 *target) {
     s16 state;
     u16 timer;
     u16 ticks_left;
@@ -42,7 +41,7 @@ void func_8182718C(void *state_data, void *unused, Rec_D_80082E80 *target) {
     if (state == 1) {
         goto one_state;
     }
-    func_80024A7C();
+    return;
 
 zero_state:
     {
@@ -57,9 +56,8 @@ zero_state:
             interval = ((S_8182718C_0 *)state_data)->unk_4E;
             ((S_8182718C_0 *)state_data)->unk_48 = interval;
             ((S_8182718C_0 *)state_data)->unk_4C.u = (u16) (old_state + 1);
-            func_80024A7C();
         }
-        goto done;
+        return;
     }
 
 one_state:
@@ -75,7 +73,4 @@ one_state:
             D_800814A0[0] = (s32) (D_800814A0[0] | 0x8000);
         }
     }
-
-done:
-    ;
 }

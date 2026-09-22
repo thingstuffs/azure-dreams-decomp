@@ -8,7 +8,7 @@ typedef struct S_81862C28_0 {
     u8 pad_14[0xC];
     s32 unk_20;
     s16 unk_24;
-} S_81862C28_0;   /* temp_v0 in func_81862C28 */
+} S_81862C28_0;   /* temp_v0 in func_80024428 */
 
 typedef struct S_81862C28_1 {
     u8 unk_00;
@@ -28,7 +28,7 @@ typedef struct S_81862C28_1 {
     u8 pad_16[0x6];
     s16 unk_1C;
     s16 unk_1E;
-} S_81862C28_1;   /* temp_s0 in func_81862C28 */
+} S_81862C28_1;   /* temp_s0 in func_80024428 */
 
 typedef struct S_81862C28_2 {
     u8 pad_00[0x2];
@@ -37,15 +37,13 @@ typedef struct S_81862C28_2 {
     union { u16 s; s16 u; } unk_06;   /* accessed as both */
     u8 pad_08[0x2];
     union { u16 s; s16 u; } unk_0A;   /* accessed as both */
-} S_81862C28_2;   /* held_arg1 in func_81862C28 */
+} S_81862C28_2;   /* held_arg1 in func_80024428 */
 
 
 
 extern void *func_8003FC64(s32);
 extern void func_8003DB94(void *, void *, s32);
 extern void func_8004491C(void *, void *);
-extern void func_80024694(void) __attribute__((noreturn));
-extern void func_800246A4(void) __attribute__((noreturn));
 extern s32 func_800A45D8(s32, s32, s16);
 extern u16 func_800BCAD0(void *);
 
@@ -56,7 +54,7 @@ extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
 
 /* Creates an effect at the origin or in unblocked directions at the given radius. */
-void func_81862C28(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *blocked_dirs) {
+void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *blocked_dirs) {
     register void *origin ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 radius;
     s16 target_y;
@@ -99,7 +97,6 @@ void func_81862C28(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *block
             effect_data->unk_02.s = ((S_81862C28_2 *)origin)->unk_02.s;
             effect_data->unk_06.s = ((S_81862C28_2 *)origin)->unk_06.s;
             effect_data->unk_0A = ((S_81862C28_2 *)origin)->unk_0A.s;
-            func_800246A4();
         }
     } else {
         direction = 0;
@@ -125,7 +122,7 @@ next_direction:
             target_y = ((((source_y >> 6) + tile_dy) << 0x10) >> 0xA) + 0x20;
             if ((func_800A45D8(target_x & 0xFFE0, target_y & 0xFFE0, origin_z) << 0x10) != 0) {
                 effect_data->unk_00 = 1;
-                func_80024694();
+                goto next_step;
             }
             effect = func_8003FC64(0x212);
             if (effect != 0) {
@@ -150,6 +147,7 @@ next_direction:
                 effect_data->unk_0A = func_800BCAD0(effect_data);
             }
         }
+next_step:
         direction += 1;
         x_step += 2;
         if (direction < 8) {

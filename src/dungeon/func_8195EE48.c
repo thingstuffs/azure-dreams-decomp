@@ -24,7 +24,6 @@ typedef struct S_8195EE48_1 {
 
 
 extern s32 rand();
-extern void func_8002472C(void) __attribute__((noreturn));
 extern u16 D_80027330[5];
 
 /* Interpolates height with jitter until the phase ends, then advances position by velocity. */
@@ -54,7 +53,7 @@ void func_8195EE48(S_8195EE48_0 *state, S_8195EE48_1 *motion)
         if ((next_ticks << 16) <= 0) {
             state->unk_4C = 0x20;
             state->unk_48 = (u16)state->unk_48 + 1;
-            func_8002472C();
+            return;
         }
     } else {
         motion->unk_00 += motion->unk_0C;

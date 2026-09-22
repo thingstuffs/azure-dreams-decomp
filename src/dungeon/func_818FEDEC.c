@@ -35,7 +35,6 @@ extern s16 D_80025E80[5];
 extern u8 D_80020000[];
 extern s32 D_800814A0;
 extern void *D_80024008[];
-extern void func_800246C0() __attribute__((noreturn));
 
 /* Advances an eight-frame animation and flags expiration when its countdown ends. */
 M2C_UNK func_818FEDEC(void *anim_state, s32 unused_arg, void *render_state) {
@@ -66,14 +65,12 @@ jt_c5:
 jt_c6:
     ((S_818FEDEC_0 *)anim_state)->unk_1E.s = (s16) ((u16) ((S_818FEDEC_0 *)anim_state)->unk_1E.s + 1);
     ((S_818FEDEC_0 *)anim_state)->unk_28 = (u8) (((S_818FEDEC_0 *)anim_state)->unk_28 + 0x20);
-    func_800246C0();
-    return;
+    goto block_10;
 jt_c3:
     ((S_818FEDEC_0 *)anim_state)->unk_1E.u += 1;
     ((S_818FEDEC_0 *)anim_state)->unk_28 -= 0x60;
     ((S_818FEDEC_0 *)anim_state)->unk_29 += 0x20;
-    func_800246C0();
-    return;
+    goto block_10;
 jt_c7:
     {
         u16 tex_u;
@@ -85,8 +82,7 @@ jt_c7:
         tex_v = tex_v - 0x20;
         ((S_818FEDEC_0 *)anim_state)->unk_28 = tex_u;
         ((S_818FEDEC_0 *)anim_state)->unk_29 = tex_v;
-        func_800246C0();
-        return;
+        goto block_10;
     }
 block_9:
     ((S_818FEDEC_0 *)anim_state)->unk_1C = (s16) ((u16) ((S_818FEDEC_0 *)anim_state)->unk_1C + 1);

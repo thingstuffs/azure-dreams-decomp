@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_800F72CC(void) __attribute__((noreturn));
 extern void func_8004491C(void *a0, void *a1);
 extern int D_800814A0;
 extern u8 D_800F6E48[];
@@ -27,7 +26,6 @@ void func_807AF9A4(S807AF9A4 *data)
     state = data->state;
     if (state != 0) {
         if (state != 1) {
-            func_800F72CC();
             return;
         }
         goto update_counters;
