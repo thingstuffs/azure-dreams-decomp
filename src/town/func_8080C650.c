@@ -74,10 +74,6 @@ s32 func_8006A470();                             /* extern */
 M2C_UNK func_8023FB18();                      /* extern */
 M2C_UNK func_80245C10();             /* extern */
 s16 func_8025E01C();                          /* extern */
-s32 func_80527920() __attribute__((noreturn));
-s32 func_80527CCC() __attribute__((noreturn));
-s32 func_80527CD8() __attribute__((noreturn));
-s32 func_80527D18() __attribute__((noreturn));
 extern s16 D_800133A0[5];
 extern s16 D_800133A0_store[5] __asm__("D_800133A0");
 extern M2C_UNK D_8003C558[3];
@@ -119,7 +115,7 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     s32 temp_v0_6;
     s32 temp_v0_6_2;
     s32 temp_v1_4;
-    s32 var_s2;
+    register s32 var_s2 ASM_REG("$18");   /* site_for_pin trade (round l0_goal_20260922): with the ten intra pseudo-calls spelled as goto/loop, var_s2 is live to block_160 on every path, so global.c ranks in0 above it and the pair swaps $s2/$s4 (89 words) */
     s32 var_s2_2;
     s32 var_v0_2;
     s32 tmpx;
@@ -174,16 +170,16 @@ void func_8080C650(void *in0, void *in1, void *in2) {
                 if (temp_v1 < 5) {
                     if (temp_v1 != 1) {
                         if (temp_v1 < 2) {
-                            if (temp_v1 != 0) {
-                                return func_80527D18();
+                            if (temp_v1 == 0) {
+                                goto block_state0;
                             }
-                            goto block_state0;
+                            goto block_160;
                         }
                         if (temp_v1 != 2) {
-                            if (temp_v1 != 3) {
-                                return func_80527D18();
+                            if (temp_v1 == 3) {
+                                goto block_state3;
                             }
-                            goto block_state3;
+                            goto block_160;
                         }
                         goto block_state2;
                     }
@@ -192,10 +188,10 @@ void func_8080C650(void *in0, void *in1, void *in2) {
                 if (temp_v1 < 0xA) {
                     if (temp_v1 < 7) {
                         if (temp_v1 != 5) {
-                            if (temp_v1 != 6) {
-                                return func_80527D18();
+                            if (temp_v1 == 6) {
+                                goto block_state6;
                             }
-                            goto block_state6;
+                            goto block_160;
                         }
                         goto block_state5;
                     }
@@ -211,18 +207,18 @@ void func_8080C650(void *in0, void *in1, void *in2) {
                     if (temp_v1 != 0x101) {
                         if (temp_v1 < 0x102) {
                             if (temp_v1 != 0xFF) {
-                                if (temp_v1 != 0x100) {
-                                    return func_80527D18();
+                                if (temp_v1 == 0x100) {
+                                    goto block_140;
                                 }
-                                goto block_140;
+                                goto block_160;
                             }
                             goto block_highff;
                         }
                         if (temp_v1 != 0x102) {
-                            if (temp_v1 != 0x103) {
-                                return func_80527D18();
+                            if (temp_v1 == 0x103) {
+                                goto block_144;
                             }
-                            goto block_144;
+                            goto block_160;
                         }
                         goto block_140;
                     }
@@ -231,18 +227,18 @@ void func_8080C650(void *in0, void *in1, void *in2) {
                 if (temp_v1 != 0x107) {
                     if (temp_v1 < 0x108) {
                         if (temp_v1 != 0x105) {
-                            if (temp_v1 != 0x106) {
-                                return func_80527D18();
+                            if (temp_v1 == 0x106) {
+                                goto block_high106;
                             }
-                            goto block_high106;
+                            goto block_160;
                         }
                         goto block_high105;
                     }
                     if (temp_v1 != 0x108) {
-                        if (temp_v1 != 0x109) {
-                            return func_80527D18();
+                        if (temp_v1 == 0x109) {
+                            goto block_high109;
                         }
-                        goto block_high109;
+                        goto block_160;
                     }
                     goto block_high108;
                 }
@@ -273,9 +269,8 @@ block_state1:
                     ((S_8080C650_3 *)arg2)->unk_14 = (u16) (((S_8080C650_3 *)arg2)->unk_14 | 1);
                     ((S_8080C650_2 *)arg1)->unk_0C = 0x80000;
                     var_s2 = (s32)D_80289334;
-                    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     ((S_8080C650_0 *)in0)->unk_68.s = 2;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state2:
@@ -285,10 +280,9 @@ block_state2:
                 if (((S_8080C650_2 *)arg1)->unk_04 > 0x048FFFFF) {
                     tmpx = 3;
                     var_s2 = (s32)D_8028937C;
-                    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     ((S_8080C650_2 *)arg1)->unk_10 = 0;
                     ((S_8080C650_0 *)in0)->unk_68.s = tmpx;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state3:
@@ -298,9 +292,8 @@ block_state3:
                 if (((S_8080C650_2 *)arg1)->unk_00 > 0x03DFFFFF) {
                     ((S_8080C650_2 *)arg1)->unk_14 = -0x100000;
                     var_s2 = (s32)D_80289454;
-                    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     ((S_8080C650_0 *)in0)->unk_68.s = 4;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state4:
@@ -313,7 +306,7 @@ block_state4:
                     ((S_8080C650_2 *)arg1)->unk_0C = 0;
                     ((S_8080C650_0 *)in0)->unk_15 = 1;
                     ((S_8080C650_0 *)in0)->unk_68.s = 5;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state5:
@@ -322,7 +315,7 @@ block_state5:
                     global_s5[0] = (s32)D_80243200;
                     ((S_8080C650_0 *)in0)->unk_15 = 0;
                     ((S_8080C650_0 *)in0)->unk_68.s = 6;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state6:
@@ -342,7 +335,7 @@ block_state6:
                     ((S_8080C650_2 *)arg1)->unk_10 = 0;
                     ((S_8080C650_2 *)arg1)->unk_0C = 0;
                     ((S_8080C650_0 *)in0)->unk_68.s = 7;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state7:
@@ -354,7 +347,6 @@ block_state7:
                             if (((S_8080C650_0 *)in0)->unk_68.s == 9) {
                                 tmpx = 0x100000;
                                 var_s2 = (s32)D_8028950C;
-                                ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                                 ((S_8080C650_1 *)var_s0)->unk_00 = tmpx;
                                 goto block_776c;
                             }
@@ -368,7 +360,7 @@ block_776c:
                             func_80058F88(0x700);
                         }
                         ((S_8080C650_1 *)var_s0)->unk_2A = (u16)(((S_8080C650_1 *)var_s0)->unk_2A & ~4);
-                        return func_80527CCC();
+                        goto block_ccc;
                     }
                     goto block_160;
 block_state10:
@@ -422,7 +414,7 @@ block_100:
                         global_s5 = (s32 *)0x1000;
                         ((S_8080C650_0 *)in0)->unk_A8 = (s32) (((S_8080C650_0 *)in0)->unk_A8 | 1);
                         {
-                            ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+loop_920:
                             temp_v0_3 = func_800374FC(0x136, D_801328C8);
                             if (temp_v0_3 != NULL) {
                                 var_s0_2 = ((S_8080C650_4 *)temp_v0_3)->unk_0C;
@@ -437,7 +429,7 @@ block_100:
                             }
                             var_s2 -= 1;
                             if (var_s2 >= 0) {
-                                return func_80527920();
+                                goto loop_920;
                             }
                             goto block_after;
                         }
@@ -449,9 +441,8 @@ block_after:
                     ((S_8080C650_2 *)arg1)->unk_10 = 0;
                     ((S_8080C650_2 *)arg1)->unk_0C = 0;
                     ((S_8080C650_0 *)in0)->unk_6C = 0x14U;
-                    ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     ((S_8080C650_0 *)in0)->unk_68.s = 0xB;
-                    return func_80527D18();
+                    goto block_160;
                 }
                 goto block_160;
 block_state11:
@@ -479,7 +470,6 @@ block_state11:
                 ((S_8080C650_2 *)arg1)->unk_0C = -0x80000;
                 goto block_124;
             }
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (temp_v1_4 <= 0x0397FFFF) {
                 ((S_8080C650_2 *)arg1)->unk_0C = 0x80000;
                 goto block_124;
@@ -507,7 +497,7 @@ block_af8:
                 ((S_8080C650_2 *)arg1)->unk_10 = 0;
                 ((S_8080C650_2 *)arg1)->unk_0C = 0;
                 ((S_8080C650_0 *)in0)->unk_68.s = 0;
-                return func_80527D18();
+                goto block_160;
             }
         }
         goto block_160;
@@ -538,7 +528,7 @@ block_140:
         if ((temp_v0_5 << 0x10) <= 0) {
             ((S_8080C650_2 *)arg1)->unk_10 = 0;
             ((S_8080C650_2 *)arg1)->unk_14 = -0x100000;
-            return func_80527CCC();
+            goto block_ccc;
         }
         goto block_160;
 block_144:
@@ -547,7 +537,7 @@ block_144:
         if (((S_8080C650_2 *)arg1)->unk_08.at00.v > 0x1FFFFF) {
             ((S_8080C650_2 *)arg1)->unk_08.at00.v = 0x200000;
             ((S_8080C650_2 *)arg1)->unk_14 = 0;
-            return func_80527CCC();
+            goto block_ccc;
         }
         goto block_160;
 block_high104:
@@ -576,17 +566,17 @@ block_high107:
         do {
             var_s2 = (s32)D_8028940C;
         } while (0);
-        ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         temp_v0_6 += 1;
-        ASM_TAILSLOT_PIN_TIED(temp_v0_6);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        return func_80527CD8(var_a0);
+        ((S_8080C650_0 *)in0)->unk_68.s = (s16) temp_v0_6;
+        goto block_160;
 block_high108:
         ((S_8080C650_3 *)arg2)->unk_0C.s32 = (s32) (((S_8080C650_3 *)arg2)->unk_0C.s32 + 0xFFF7F7F8);
-        if (((S_8080C650_3 *)arg2)->unk_0C.u8 < 0x11U) {
-            temp_state108 = ((S_8080C650_0 *)in0)->unk_68.u;
-            ((S_8080C650_0 *)in0)->unk_68.s = (s16) (temp_state108 + 1);
-            return func_80527D18();
+        if (!(((S_8080C650_3 *)arg2)->unk_0C.u8 < 0x11U)) {
+            goto block_160;
         }
+block_ccc:
+        temp_state108 = ((S_8080C650_0 *)in0)->unk_68.u;
+        ((S_8080C650_0 *)in0)->unk_68.s = (s16) (temp_state108 + 1);
         goto block_160;
 block_high109:
         func_8023FB18(in0);
