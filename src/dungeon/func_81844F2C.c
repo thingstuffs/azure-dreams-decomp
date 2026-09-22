@@ -39,8 +39,6 @@ typedef struct S_81844F2C_4 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-extern void func_80024860(void) __attribute__((noreturn));
-
 /* Updates an effect's position, colors, countdown, and completion flags. */
 void func_8002472C(void *effect_data) {
     register u8 *effect ASM_REG("$5");   /* SITE-FOR-PIN TRADE 2026-09-22: the
@@ -50,7 +48,7 @@ void func_8002472C(void *effect_data) {
                                             it gcc keeps the parameter in $a0, the `move $a1,$a0`
                                             never appears and every colour in the row shifts
                                             (residue: 78/79 words, 35 subs + 1 indel). */
-    u8 *flag_page;
+    u8 *color_cursor;
     register s32 tick_or_index;
     register u32 saved_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     u32 position;
@@ -58,6 +56,7 @@ void func_8002472C(void *effect_data) {
     s32 state;
     u32 color_delta;
     S_81844F2C_1 *entity;
+    u8 *flag_page;
 
     effect = effect_data;
     ASM_KEEP(effect);   /* SITE-FOR-PIN TRADE 2026-09-22: pins the copy in place.  With the
@@ -98,10 +97,8 @@ void func_8002472C(void *effect_data) {
 
 state_at_least_2:
     if (state == 2) {
-        flag_page = (u8 *)0x80080000;
         goto state_2_done;
     }
-    func_80024860();
     return;
 
 state_0:
@@ -111,11 +108,11 @@ state_0:
     } else {
         tick_or_index = 4;
         color_delta = 0xFFDFDFE0;
-        flag_page = effect + 0x10;
+        color_cursor = effect + 0x10;
         do {
             tick_or_index -= 1;
-            ((S_81844F2C_3 *)flag_page)->unk_14 += color_delta;
-            flag_page -= 4;
+            ((S_81844F2C_3 *)color_cursor)->unk_14 += color_delta;
+            color_cursor -= 4;
         } while (tick_or_index >= 0);
     }
 
@@ -134,9 +131,8 @@ state_1:
     ((S_81844F2C_0 *)effect)->unk_2C.p = (u16)position;
     return;
 
+state_2_done:
     flag_page = (u8 *)0x80080000;
-    state_2_done:
-    ;
     ((S_81844F2C_0_pre *)effect)[-1].unk_00 =
         (u16)(((S_81844F2C_0_pre *)effect)[-1].unk_00 | 0x8000);
     ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;

@@ -211,7 +211,6 @@ typedef struct S_func_81904990_9 {
 #define D_FIELD(type_ptr, offset) (*(type_ptr)(D_80083160 + (offset)))
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
-void func_800244B0() __attribute__((noreturn));
 M2C_UNK func_80064840();
 M2C_UNK func_800649A0();
 M2C_UNK func_80064A40();
@@ -240,8 +239,6 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     void *callback_data;
     s16 left_x;
     s16 right_x;
-    s16 top_y;
-    s16 bottom_y;
     s16 strip_bottom;
     u16 base_tpage;
     FnPtr draw_callback;
@@ -401,17 +398,15 @@ frame_loop:
             scratch->unk_7A = tail_value;
             scratch->unk_72 = tail_value;
             tail_value = tail_value - scratch->unk_14.as_u16_14;
-            ASM_TAILSLOT_PIN(tail_value);
-            func_800244B0((u16) scratch->unk_14.as_s32_14);
-            return;
+        } else {
+            origin_byte = ((volatile S_func_81904990_3 *)(frame_data - 8))->unk_03;
+            tail_value = (s32)(s8) origin_byte - scratch->unk_10A;
+            scratch->unk_7A = tail_value;
+            scratch->unk_72 = tail_value;
+            tail_value = tail_value + (u16) scratch->unk_14.as_s32_14;
         }
-        origin_byte = ((volatile S_func_81904990_3 *)(frame_data - 8))->unk_03;
-        top_y = (s32)(s8) origin_byte - scratch->unk_10A;
-        scratch->unk_7A = top_y;
-        scratch->unk_72 = top_y;
-        bottom_y = top_y + (u16) scratch->unk_14.as_s32_14;
-        scratch->unk_8A = bottom_y;
-        scratch->unk_82 = bottom_y;
+        scratch->unk_8A = tail_value;
+        scratch->unk_82 = tail_value;
         ASM_SCHED_BARRIER();
         func_800654B0((u8 *)scratch + 0x70, (u8 *)scratch + 0x78, (u8 *)scratch + 0x80, (u8 *)scratch + 0x88, (u8 *)scratch + 0xF0, (u8 *)scratch + 0xF4, (u8 *)scratch + 0xF8, (u8 *)scratch + 0xFC, (u8 *)scratch + 0x90, (u8 *)scratch + 0x94);
         packet->unk_08.as_s16_08 = (s16) (scratch->unk_F0 + scratch->unk_B8);
