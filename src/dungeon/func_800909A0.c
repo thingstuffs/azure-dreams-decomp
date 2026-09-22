@@ -19,9 +19,10 @@ s32 func_800A2BDC();
 M2C_UNK func_800DC888();
 extern u16 D_800120A0[5];
 extern s16 D_800DD26C[];
-s32 func_8004D7A8(s32 arg0);
-s32 func_8004D294(s32 arg0, void *arg1, s32 arg2);
-s32 func_80096100(void *arg0)
+s32 func_8004D7A8(s32 enable);
+s32 func_8004D294(s32 channel, void *settings, s32 apply);
+/* Config-screen input step: apply the pad's sound-setting changes and report whether input is still accepted. */
+s32 func_80096100(void *actor)
 {
   S_8003E2D8 *base;
   short stopped;
@@ -40,7 +41,7 @@ s32 func_80096100(void *arg0)
   else
   {
     input_flags = *(u16 *) 0x80013714;
-    if (((input_flags & 0xC) || (input_flags & 1)) || (((u8 *) arg0)[0x9A] == 0x19))
+    if (((input_flags & 0xC) || (input_flags & 1)) || (((u8 *) actor)[0x9A] == 0x19))
     {
       stopped = 1;
     }
