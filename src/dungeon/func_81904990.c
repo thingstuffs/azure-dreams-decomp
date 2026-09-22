@@ -212,9 +212,6 @@ typedef struct S_func_81904990_9 {
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
 void func_800244B0() __attribute__((noreturn));
-void func_80024638() __attribute__((noreturn));
-void func_80024640() __attribute__((noreturn));
-void func_80024AA0() __attribute__((noreturn));
 M2C_UNK func_80064840();
 M2C_UNK func_800649A0();
 M2C_UNK func_80064A40();
@@ -277,7 +274,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     u8 bottom_v;
     register u8 *frame_data ASM_REG("$16");
     S_func_81904990_2 *frame;
-    S_func_81904990_3 *frame_header;
+    register S_func_81904990_3 *frame_header ASM_REG("$21");
     S_func_81904990_6 *setup_arg;
     void *row_heights;
     S_func_81904990_8 *view_matrix;
@@ -604,15 +601,16 @@ clut_done:
             ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
             goto next_row_done;
         }
-        func_80024AA0();
-    }
-    draw_callback = ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_FnPtr_08;
-    if (draw_callback != NULL) {
-        callback_sprite = sprite_base;
-        callback_frame = frame;
-        callback_param = callback_arg;
-        callback_data = frame_header;
-        packet = (S_func_81904990_7 *)draw_callback(callback_sprite, callback_param, callback_frame, callback_data, (u8 *)packet);
+        ASM_SCHED_BARRIER();
+    } else {
+        draw_callback = ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_FnPtr_08;
+        if (draw_callback != NULL) {
+            callback_sprite = sprite_base;
+            callback_frame = frame;
+            callback_param = callback_arg;
+            callback_data = frame_header;
+            packet = (S_func_81904990_7 *)draw_callback(callback_sprite, callback_param, callback_frame, callback_data, (u8 *)packet);
+        }
     }
     if ((s8) frame_header->unk_00 >= 0) {
         frame_data += 12;
