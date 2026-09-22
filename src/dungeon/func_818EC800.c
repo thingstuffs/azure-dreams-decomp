@@ -28,7 +28,6 @@ extern M2C_UNK D_8006CD10[3];
 extern struct S_8003E2D8 D_80083160;
 
 #ifdef __mips__
-extern void func_80024990(void) __attribute__((noreturn));
 extern void func_800255B4(void);
 extern void func_80025150(void);
 extern void func_8002516C(void);
@@ -429,18 +428,15 @@ frame_loop:
       }
     }
     while (((s16) next_row_y) < (*((s16 *) (((s8 *) quad_copies) + 26))));
-    ASM_USE2(sprite, frame_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_USE_G_NV(callback_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_USE_G_NV(saved_draw_mode);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    ASM_USE(frame);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    func_80024990();
-    return;
   }
-  draw_callback = (u8 *(*)(void *, s32, void *, void *, u8 *)) (*((s32 *) (((s8 *) frame_data) + 0)));
-  if (draw_callback != 0)
+  else
   {
-    draw_callback_arg = callback_arg;
-    packet = draw_callback(effect, draw_callback_arg, sprite, frame, packet);
+    draw_callback = (u8 *(*)(void *, s32, void *, void *, u8 *)) (*((s32 *) (((s8 *) frame_data) + 0)));
+    if (draw_callback != 0)
+    {
+      draw_callback_arg = callback_arg;
+      packet = draw_callback(effect, draw_callback_arg, sprite, frame, packet);
+    }
   }
   if (((s8) (*((u8 *) (((s8 *) frame) + 0)))) >= 0)
   {
