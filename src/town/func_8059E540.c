@@ -48,8 +48,9 @@ typedef struct S_8059E540_1 {
     s8 * unk_40;
 } S_8059E540_1;   /* state in func_8059E540 */
 
+/* Close the 0x11FC dialogue if it is open, then hand the scene's queued record to the handler slot. */
 void func_8059E540(void) {
-    M2C_UNK *temp_v1;
+    M2C_UNK *pending;
     M2C_UNK *new_value;
     S_8059E540_1 *state;
 
@@ -62,9 +63,9 @@ void func_8059E540(void) {
     state = ((S_8059E540_0 *)D_80010000)->unk_6000;
     new_value = (M2C_UNK *)&D_80010000[0xD07C];
     ((S_8059E540_5 *)(((S_8059E540_3 *)state)->unk_1C))->unk_40 = new_value;
-    temp_v1 = *(M2C_UNK **)((s8 *)state->unk_40 + (state->unk_08 * 8));
-    if (temp_v1 != NULL) {
-        ((S_8059E540_5 *)(((S_8059E540_3 *)state)->unk_1C))->unk_40 = temp_v1;
+    pending = *(M2C_UNK **)((s8 *)state->unk_40 + (state->unk_08 * 8));
+    if (pending != NULL) {
+        ((S_8059E540_5 *)(((S_8059E540_3 *)state)->unk_1C))->unk_40 = pending;
         *(M2C_UNK **)((s8 *)state->unk_40 + (state->unk_08 * 8)) = 0;
     }
     *(M2C_UNK **)&D_80019148[0] = &D_80018EE4;

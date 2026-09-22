@@ -7,36 +7,37 @@ extern s32 rand();
 extern M2C_UNK D_8002418C;
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEDB0[3];
-void func_81862A5C(s32 arg0, void *arg1)
+/* Spawn a 0x212 effect object at the source position, jittered upward by a random amount. */
+void func_81862A5C(s32 owner, void *source)
 {
-  s32 temp_v0_2;
-  void *temp_s0;
-  int new_var;
-  void *temp_s0_2;
-  void *temp_v0;
-  temp_v0 = func_8003FC64(0x212);
-  if (temp_v0 != 0)
+  s32 roll;
+  void *render;
+  int white;
+  void *part;
+  void *obj;
+  obj = func_8003FC64(0x212);
+  if (obj != 0)
   {
-    *((M2C_UNK **) (((s8 *) temp_v0) + 0x10)) = &D_8002418C;
-    temp_s0 = *((void **) (((s8 *) temp_v0) + 0xC));
-    *((s32 *) (((s8 *) temp_v0) + 0x20)) = arg0;
-    *((s8 *) (((s8 *) temp_v0) + 0x24)) = 0;
-    new_var = 0x80;
-    *((s8 *) (((s8 *) temp_s0) + 0xE)) = new_var;
-    *((s8 *) (((s8 *) temp_s0) + 0xD)) = new_var;
-    *((s8 *) (((s8 *) temp_s0) + 0xC)) = new_var;
-    func_8003DB94(temp_s0, D_800DEDB0, 0);
-    *((s16 *) (((s8 *) temp_s0) + 0x1E)) = 0x1000;
-    *((s16 *) (((s8 *) temp_s0) + 0x1C)) = 0x1000;
-    *((s16 *) (((s8 *) temp_s0) + 0x12)) = 0x7E0B;
-    *((u16 *) (((s8 *) temp_s0) + 0x10)) = (u16) ((*((u16 *) (((s8 *) temp_s0) + 0x10))) | 0x60);
-    *((u16 *) (((s8 *) temp_s0) + 0x14)) = (u16) ((*((u16 *) (((s8 *) temp_s0) + 0x14))) | 0x10C);
-    func_8004491C(temp_v0, &D_80045340);
-    temp_s0_2 = *((void **) (((s8 *) temp_v0) + 8));
+    *((M2C_UNK **) (((s8 *) obj) + 0x10)) = &D_8002418C;
+    render = *((void **) (((s8 *) obj) + 0xC));
+    *((s32 *) (((s8 *) obj) + 0x20)) = owner;
+    *((s8 *) (((s8 *) obj) + 0x24)) = 0;
+    white = 0x80;
+    *((s8 *) (((s8 *) render) + 0xE)) = white;
+    *((s8 *) (((s8 *) render) + 0xD)) = white;
+    *((s8 *) (((s8 *) render) + 0xC)) = white;
+    func_8003DB94(render, D_800DEDB0, 0);
+    *((s16 *) (((s8 *) render) + 0x1E)) = 0x1000;
+    *((s16 *) (((s8 *) render) + 0x1C)) = 0x1000;
+    *((s16 *) (((s8 *) render) + 0x12)) = 0x7E0B;
+    *((u16 *) (((s8 *) render) + 0x10)) = (u16) ((*((u16 *) (((s8 *) render) + 0x10))) | 0x60);
+    *((u16 *) (((s8 *) render) + 0x14)) = (u16) ((*((u16 *) (((s8 *) render) + 0x14))) | 0x10C);
+    func_8004491C(obj, &D_80045340);
+    part = *((void **) (((s8 *) obj) + 8));
     rand();
-    *((u16 *) (((s8 *) temp_s0_2) + 2)) = (u16) (*((u16 *) (((s8 *) arg1) + 2)));
-    *((u16 *) (((s8 *) temp_s0_2) + 6)) = (u16) (*((u16 *) (((s8 *) arg1) + 6)));
-    temp_v0_2 = rand();
-    *((s16 *) (((s8 *) temp_s0_2) + 0xA)) = (s16) (((*((u16 *) (((s8 *) arg1) + 0xA))) - 0x40) - (temp_v0_2 % 16));
+    *((u16 *) (((s8 *) part) + 2)) = (u16) (*((u16 *) (((s8 *) source) + 2)));
+    *((u16 *) (((s8 *) part) + 6)) = (u16) (*((u16 *) (((s8 *) source) + 6)));
+    roll = rand();
+    *((s16 *) (((s8 *) part) + 0xA)) = (s16) (((*((u16 *) (((s8 *) source) + 0xA))) - 0x40) - (roll % 16));
   }
 }
