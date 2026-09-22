@@ -11,7 +11,7 @@ typedef struct S_80172D04_0 {
     u8 unk_9B;
     u8 pad_9C[0xC];
     union { s16 s; u16 u; } unk_A8;   /* accessed as both */
-} S_80172D04_0;   /* arg0 in func_80172D04 */
+} S_80172D04_0;   /* script in func_80172D04 */
 
 
 
@@ -31,7 +31,8 @@ extern s32 D_80083460;
 extern u8 D_80170EE4[];
 extern u8 D_80176640[];
 
-void func_80172D04(S_80172D04_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg2, void *arg3)
+/* Three-stage knockback script driven by the 0x9B step byte: stage 0 seeds the velocity from the facing table and picks the timer, stage 1 decays that velocity a quarter per frame, stage 2 steers back to the tile centre and ends by clearing the motion record. */
+void func_80172D04(S_80172D04_0 *script, Rec_D_800E3D7C *motion, Rec_D_80082E80 *tile, void *actor)
 {
     s16 timer;
     s32 value;
@@ -41,7 +42,7 @@ void func_80172D04(S_80172D04_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     s32 random;
     s32 one;
 
-    state = arg0->unk_9B;
+    state = script->unk_9B;
     one = 1;
     if (state == one) {
         goto state_1;
@@ -58,125 +59,125 @@ void func_80172D04(S_80172D04_0 *arg0, Rec_D_800E3D7C *arg1, Rec_D_80082E80 *arg
     return;
 
 state_0:
-    func_80176480(arg1, arg2);
-    func_800AD4D0(arg3);
-    arg1->unk_0C.as_s32 =
+    func_80176480(motion, tile);
+    func_800AD4D0(actor);
+    motion->unk_0C.as_s32 =
         -*(s16 *)((u8 *)&D_8006CCD8 +
-            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-    arg1->unk_10.at00_s32.v =
+            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+    motion->unk_10.at00_s32.v =
         -*(s16 *)((u8 *)&D_8006CCE8 +
-            ((((Rec_D_800E3D7C *)arg3)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
-    arg0->unk_9B++;
+            ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 15;
+    script->unk_9B++;
 
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 == 0) {
+    if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
         goto reset_motion;
     }
     random = func_800A6D30() & 3;
-    if (arg2->unk_14.at00_u16.v & 0x8000) {
+    if (tile->unk_14.at00_u16.v & 0x8000) {
         if (random == 0) {
-            func_8017516C(arg0, arg1, arg2, arg3);
+            func_8017516C(script, motion, tile, actor);
         }
-        arg0->unk_A8.s = -1;
-        arg0->unk_96.s = 0;
-        arg0->unk_9B = 2;
+        script->unk_A8.s = -1;
+        script->unk_96.s = 0;
+        script->unk_9B = 2;
         return;
     }
     timer = -1;
-    if (((Rec_D_800E3D7C *)arg3)->unk_1C.as_s32 & 0x228) {
+    if (((Rec_D_800E3D7C *)actor)->unk_1C.as_s32 & 0x228) {
         timer = 8;
     }
-    arg0->unk_96.s = timer;
+    script->unk_96.s = timer;
     if (random != 0) {
-        arg0->unk_A8.s = -1;
+        script->unk_A8.s = -1;
         goto state_1;
     }
-    arg0->unk_A8.u = one;
+    script->unk_A8.u = one;
 
 state_1:
-    value = arg1->unk_0C.as_s32;
+    value = motion->unk_0C.as_s32;
     adjusted = value;
     if (value < 0) {
         adjusted = value + 3;
     }
-    value2 = arg1->unk_10.at00_s32.v;
-    arg1->unk_0C.as_s32 = value - (adjusted >> 2);
+    value2 = motion->unk_10.at00_s32.v;
+    motion->unk_0C.as_s32 = value - (adjusted >> 2);
 
     adjusted = value2;
     if (value2 < 0) {
         adjusted = value2 + 3;
     }
-    arg1->unk_10.at00_s32.v = value2 - (adjusted >> 2);
+    motion->unk_10.at00_s32.v = value2 - (adjusted >> 2);
 
-    timer = arg0->unk_A8.u - 1;
-    arg0->unk_A8.u = timer;
+    timer = script->unk_A8.u - 1;
+    script->unk_A8.u = timer;
     if ((timer << 16) == 0) {
-        func_8017516C(arg0, arg1, arg2, arg3);
+        func_8017516C(script, motion, tile, actor);
     }
 
-    if (arg0->unk_96.s > 0) {
-        arg0->unk_96.u = arg0->unk_96.u - 1;
-    } else if (arg2->unk_14.at00_u16.v & 0x6000) {
-        arg0->unk_96.s = 0;
+    if (script->unk_96.s > 0) {
+        script->unk_96.u = script->unk_96.u - 1;
+    } else if (tile->unk_14.at00_u16.v & 0x6000) {
+        script->unk_96.s = 0;
     }
 
-    if (arg0->unk_96.s != 0) {
+    if (script->unk_96.s != 0) {
         return;
     }
-    if (((Rec_D_800E3D7C *)arg3)->unk_28 != 0) {
+    if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
         goto increment_state;
     }
 
 reset_motion:
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800AAA54(arg0, arg1, arg2, D_80176640);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800AAA54(script, motion, tile, D_80176640);
     return;
 
 increment_state:
-    arg0->unk_96.s = 8;
-    arg0->unk_9B++;
+    script->unk_96.s = 8;
+    script->unk_9B++;
     return;
 
 state_2:
-    timer = arg0->unk_96.s;
+    timer = script->unk_96.s;
     if (timer != 0) {
         s32 sub, m;
-        m = arg2->unk_24;
+        m = tile->unk_24;
         m <<= 6;
-        sub = arg1->unk_00.at02_s16.v - 0x20;
-        arg1->unk_0C.as_s32 = ((m - sub) << 15) / timer;
-        sub = arg1->unk_04.at02_s16.v - 0x20;
-        arg1->unk_10.at00_s32.v =
-            (((arg2->unk_25 << 6) - sub) << 15) /
-            arg0->unk_96.s;
+        sub = motion->unk_00.at02_s16.v - 0x20;
+        motion->unk_0C.as_s32 = ((m - sub) << 15) / timer;
+        sub = motion->unk_04.at02_s16.v - 0x20;
+        motion->unk_10.at00_s32.v =
+            (((tile->unk_25 << 6) - sub) << 15) /
+            script->unk_96.s;
     }
 
-    timer = arg0->unk_A8.u - 1;
-    arg0->unk_A8.u = timer;
+    timer = script->unk_A8.u - 1;
+    script->unk_A8.u = timer;
     if ((timer << 16) == 0) {
-        func_8017516C(arg0, arg1, arg2, arg3);
+        func_8017516C(script, motion, tile, actor);
     }
 
-    timer = arg0->unk_96.u - 1;
-    arg0->unk_96.s = timer;
+    timer = script->unk_96.u - 1;
+    script->unk_96.s = timer;
     if ((timer << 16) > 0) {
         return;
     }
 
-    arg1->unk_14.as_s32 = 0;
-    arg1->unk_10.at00_s32.v = 0;
-    arg1->unk_0C.as_s32 = 0;
-    func_800A2B04(arg1, arg2->unk_24,
-        arg2->unk_25);
+    motion->unk_14.as_s32 = 0;
+    motion->unk_10.at00_s32.v = 0;
+    motion->unk_0C.as_s32 = 0;
+    func_800A2B04(motion, tile->unk_24,
+        tile->unk_25);
     {
         s32 *global;
 
         global = &D_80083460;
         value = *(s32 *)((u8 *)global + 0x10);
-        if (value == (s32)((u8 *)arg3 - 0x20)) {
+        if (value == (s32)((u8 *)actor - 0x20)) {
             *(s32 *)((u8 *)global + 0x10) = value & 0x7FFFFFFF;
         }
     }
-    arg0->unk_8C = D_80170EE4;
+    script->unk_8C = D_80170EE4;
 }
