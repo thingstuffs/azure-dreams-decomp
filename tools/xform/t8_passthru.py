@@ -1,6 +1,7 @@
-"""T8: a call the decompiler emitted with no arguments regains the arguments the callee reads.
+"""T8: a call the decompiler emitted with no arguments regains the arguments still live at the call.
 
-`PASSTHRU_NO_ARGS` (ledger/cache/audit.json) marks a `jal` whose callee reads registers `a0..a3`
+`PASSTHRU_NO_ARGS` (ledger/cache/audit.json) marks a `jal` where the caller still holds registers
+`a0..a3` (the audit's `need`, a caller-side label, not a claim about what the callee reads) live
 that the caller never wrote: m2c printed `func_X()` while the hardware passed the caller's own
 incoming arguments straight through.  This plugin repairs the *local* case measured in
 `work/exp_passthru/REPORT.md` (13/20 byte-exact through the window gate, the per-row scorer
@@ -23,10 +24,12 @@ The experiment's predictor is `nfill` (= K+1 - |need|, the positions passed only
 `nfill<=1` passed 11/12, `nfill>=2` passed 2/8 - so the sweep's own verify is the filter, not a
 shape heuristic, and `nfill` is journalled for every attempt.
 """
-import json, re
+import json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "tools"))
+from census import live_sites
 REG = {"a0": 0, "a1": 1, "a2": 2, "a3": 3}
 KW = {"if", "while", "for", "switch", "return", "sizeof", "do", "else", "case", "defined",
       "ASM_SET", "M2C_UNK", "OR_ZERO", "__attribute__"}
@@ -164,9 +167,22 @@ def is_statement_call(txt, m):
 class Refusal(Exception):
     pass
 
+def live_recs(text, row):
+    """The row's cached PASSTHRU_NO_ARGS records (sites()), filtered to those whose empty-paren
+    call is still present in the CURRENT text.  `sites()` indexes the frozen
+    ledger/cache/audit.json, so a row an earlier pass already repaired down to one real site is
+    otherwise refused forever as "several sites in the file" (PT-B,
+    docs/L0_BLOCKED_PLAN_20260922.md sec 2 item 3).  Uses census.live_sites, the same liveness
+    test levels.py uses, keyed by each record's own `site_id` ("PASSTHRU_NO_ARGS|target|ordinal")."""
+    recs = sites().get(row["id"]) or []
+    if len(recs) > 1:
+        live = set(live_sites(text, [r["site_id"] for r in recs]))
+        recs = [r for r in recs if r["site_id"] in live]
+    return recs
+
 def plan(text, row):
     """(record, need, K, call, encl, types) or raise Refusal with a named reason."""
-    recs = sites().get(row["id"]) or []
+    recs = live_recs(text, row)
     if not recs:
         raise Refusal("no PASSTHRU_NO_ARGS site")
     if len(recs) > 1:

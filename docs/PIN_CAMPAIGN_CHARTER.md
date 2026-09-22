@@ -103,3 +103,47 @@ The loop that paid: (1) census the pins, rank rows by pin count; (2) build duck-
 retrospective: mine the session logs, fix the tooling or the brief, A/B on the next wave. Measured on 2026-09-21: the
 kit took astra from ~2 rows per 5-row pack to 38 of 40. See docs/PIN_RESEARCH_ROUND62.md (rounds 68-72) and
 docs/LANE_KIT.md.
+
+## Rulings 2026-09-22 (evening) — owner sign-off for rule 5 (census/level changes)
+
+Owner decisions, verbatim gist: (1) official ASPSX never rewrites `jal`→`j`, so a retail `j` to a "function" symbol
+means the row may have been split wrong; "that deserves a check before it goes to L3 or at least a level should
+check". (2) the sibcall/noreturn-tail-jump scaffolding "needs to be covered by a level, somewhere". (3) site-for-pin
+trades are OK "as long as they're tracked; L4 is where we start to draw the line on pins". (4) tier B of
+`config/void_callees.txt` (call-site evidence only, no callee image on disc) stays, marked.
+
+**New rules (`tools/levels.py`):** L3 additionally requires every tail-jump dependency of the row — a noreturn
+pseudo-call in the text, or a call to a symbol in the row's container `config/sibcall_syms*.txt`/
+`config/noreturn_syms*.txt` — to carry a `ledger/split_audit.jsonl` record (schema `azure-clean.split-audit.v1`)
+whose `kind` is neither `intra` (mis-split) nor `unresolved`; a row with none is unaffected. L4 = the module
+criterion (`l4_modules` sweep) AND pins == 0 (strict, not the `t2_pins` sweep loophole; a site-for-pin trade counts
+as a pin here, per decision (3)) AND zero tail-jump dependency of any kind, audited or not. L5 = the old L5 minus
+what moved to L4 (fidelity site of any audit class, computed-goto, inline asm, `NON_MATCHING`). `ledger/levels.jsonl`
+carries `tail_jumps`/`split_audit` per row and a new `l4_residue` (`pins`/`tail_jump`/`not_in_module`) alongside
+`l5_residue`. Measured with `ledger/split_audit.jsonl` at 347 records (concurrent Opus work): 48 rows / 22,724 B
+sit at L2 instead of L3, unaudited-or-intra — see `docs/HANDOVER.md`'s 2026-09-22 evening paragraph for the
+per-container count and the population still needing a split-audit record.
+
+## Rulings 2026-09-22 (afternoon, goal round)
+
+Owner decisions, verbatim gist: (a) a LABEL_AS_CALL / intra-tail-call site whose target has a
+`ledger/split_audit.jsonl` record of a DECIDED non-intra kind (`cross-segment` or `cross-image`) is a real
+inter-module jump, not scaffolding for this row, so it no longer makes the row `blocking` (L0) — "im ok with a
+level change as long as it's picked up at some level." (b) site-for-pin trades may add TWO tracked pins when
+one is not enough (previously one) — "accept 2 pins." (c) partial landings of a multi-site row (fewer sites,
+bytes exact, no level change) are allowed — "land site-b." (d) a `NON_MATCHING` arm may be edited in lockstep
+with the row's compiled arm to make a site pin-free — never deleted, both arms move together — so a site whose
+only occurrence sits inside a `NON_MATCHING` block is not permanently rule-blocked. `dungeon/func_818B6AFC`
+landed under this ruling (site_for_pin trade: ASM_USE_NV(`render_owner`); pins 16 → 17, `pins_after_live` 14;
+`ledger/recipe_trades.jsonl` round `l0_goal_20260922`).
+
+**New rule (`tools/levels.py`):** a LABEL_AS_CALL site whose target carries a DECIDED `cross-segment`/
+`cross-image` split_audit record for THIS row — and the same exemption for an `intra_tail_calls` hit whose
+target carries one — no longer counts toward `blocking`, so such a row can reach L3 (the L3 audit gate already
+accepted those kinds). L4 is unchanged: it still requires zero tail-jump dependency of any kind, so the site is
+picked up there — `tools/split_audit.py` only ever audits `tail_jump_targets` members, so an exempted target is
+by construction already counted in `tail_jumps`. PASSTHRU_NO_ARGS is unaffected. Measured effect:
+`town/func_8047E0D8` (the callback dispatcher; target `func_80016120`, kind `cross-segment`) moves L0 → L3 with `l4_residue` still
+carrying `tail_jump`; the same run also cleared three devkit-blob rows (`town/func_808B8184`, `func_808B85F0`,
+`func_808BB138`) whose LABEL_AS_CALL targets picked up new `cross-image` (`image: "kernel"`) records from
+concurrent `split_audit.py` work in the same window.

@@ -7,9 +7,11 @@ Why: the campaign used to write accepted bodies to refine/ while every proof (wi
 reverify), every sweep (T1..T10) and every level measurement read src/.  A body that is not in src/ is not
 in the product.  This tool verifies each body byte-exact through tools/verify.py (with the include root,
 as the sweeps do), writes src/, and then runs the row's WINDOW GATE (tools/gate/overlay_local_gate.py over
-the window that holds the row): the per-row scorer links every row at its true base, while the gate links a
-row with no recorded true name at its synthetic address (the legacy population), so a body whose internal
-jumps changed spelling can be scorer-exact and still wrong in the window (2026-09-08: 10 dungeon windows).
+the window that holds the row): the per-row scorer links a row at its true base as soon as ANY rowbase record
+covers it, while the gate does so only when the row ALSO has a registered `true_name` and its region is
+`proven`.  Wherever the two disagree a body whose internal jumps changed spelling can be scorer-exact and
+still wrong in the window (2026-09-08: 10 dungeon windows; 2026-09-22: 4 more, rows landed against `solved`
+regions -- see needs_gate).
 A body that fails the gate is reverted and journalled `gate-mismatch`; only `landed` counts.  It writes src/; ledger/promotions.jsonl is the record the level metric reads (L3 =
 landed).  Legacy `/* MATCH pin: ... */` notes are dropped first so the T6 sweep re-annotates every pin
 with the current wording.  After a run, re-run the standing sweeps so the machine layers reach the
@@ -23,7 +25,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, LEDGER, NICE, rows, read_jsonl, append_jsonl, sha_text, clean_path, raw_path, covering_windows
-from verify import verify, gate_root, window_lock, run_window_gate
+from verify import verify, gate_root, window_lock, run_window_gate, needs_gate
 
 def gate(yaml_name, locked=False):
     """The window gate over src/ for one window YAML, uncached; the caller holds the window lock
@@ -31,12 +33,10 @@ def gate(yaml_name, locked=False):
     if locked: return run_window_gate(yaml_name)
     with window_lock(yaml_name): return run_window_gate(yaml_name)
 
-def needs_gate(row):
-    """The per-row scorer links every row at its true base; the window gate links a row WITHOUT a recorded true name at its
-    synthetic address (the legacy population). Only that class can be scorer-exact and wrong in the window (all 13 mismatches
-    of 2026-09-08 were such rows), so only that class pays for a window gate at landing; a whole-overlay window such as
-    town_scene recompiles every row it holds and takes minutes."""
-    return row["kind"] == "overlay" and not row.get("true_name")
+# needs_gate lives in verify.py now (verify.gate_candidate needs the identical predicate and
+# promote.py must not be imported by verify.py -- promote already imports verify, and a cycle
+# there would break whichever module loads first).  Imported above so `promote.needs_gate` still
+# resolves for callers and tests; `promote._ROWBASE`/`_rowbase()` moved with it to verify.py.
 
 def windows_of(row):
     """Every window whose range holds the row (the gate compiles all rows in a range, named or not)."""

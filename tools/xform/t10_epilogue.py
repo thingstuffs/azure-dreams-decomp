@@ -30,6 +30,13 @@ epilogue site of the row rewritten together, mid-row sites of the same row left 
               `v0=call:ADDR` case and also the `return target() != 0;` shape, where the pseudo-call
               stands inside the expression the preceding statement computed
   fall        delete the statement so control falls into the tail
+  goto-tail   `goto done;` + a `done:` label on the function's own final `return <var>;` - the
+              honest spelling of a SHARED TAIL in a value-returning function, where the jump skips
+              statements a plain `return` would run.  The site's whole group goes: for the
+              `<var> = <tail>();` + `ASM_KEEP(..);` + `return <var>;` shape m2c emits when the
+              tail's $v0 is live, the assignment, the keep-alive pins and the return are one edit
+  goto-tail-imm  the same, preceded by `<result var> = N;` - the variant where each epilogue site
+              carries a DIFFERENT live $v0 (the audit's `v0=imm:N`, one result variable, one tail)
   cell        the same candidate at a 2.7.2-family cell (frameless 2.8.x rows only, <=3 cells)
 
 An exact candidate also deletes the target's declaration once nothing references it.  Refusals are
@@ -50,7 +57,10 @@ ALT_CELLS = ("2.7.2-cdk", "2.7.2", "2.6.3")
 # residues a frameless collapse leaves behind: the row loses a word (the `j`), the final `jr ra`
 # steals the preceding instruction into its slot and every displacement downstream moves
 COLLAPSE_CLASSES = {"length-drift", "code-motion", "delay-slot", "slot-rotation", "linked-target",
-                    "block-order", "dead-code-retention", "extent-prefix", "broad"}
+                    "block-order", "dead-code-retention", "extent-prefix", "broad", "polarity"}
+# `polarity` joined the set 2026-09-22: a collapsed `j <tail>` also flips the sense of the branch
+# that guarded it (the tail becomes the fall-through), so the scorer names the residue polarity as
+# readily as block-order (town/func_800A1B10 refused "polarity/7" at a 2.7.2 cell for months).
 COLLAPSE_MAX_TOTAL = 16
 
 KW = {"if", "while", "for", "switch", "return", "sizeof", "do", "else", "case", "default",
@@ -208,6 +218,56 @@ def in_row(row, bases, target):
     return any(b <= ta < b + row["size"] for b in bases)
 
 
+# --- the shared tail ------------------------------------------------------------------------------
+
+TAIL_RET_RE = re.compile(r"\breturn\s+([A-Za-z_]\w*)\s*;")
+# ONLY the keep-alive pins the port build compiles to nothing (`((void)0)` in common.h).
+# ASM_KEEP_DEP_NV / ASM_KEEP_MEMDEP* carry a `mem`/`dep` operand the port build DOES evaluate
+# (`((void)(mem))`), so deleting one would be an unmeasured pin removal: the group is refused.
+KEEP_STMT_RE = re.compile(r"ASM_KEEP(?:_NV|4|4_NV)?\s*\([^;]*\)\s*;")
+
+def tail_return(m, encl):
+    """(start, semi, var) of the enclosing definition's own final `return <ident>;` - the statement
+    every epilogue jump of a value-returning function lands on - or None.  "Final" means nothing
+    but closing braces follows it, so a `return` inside the last labelled block still qualifies."""
+    best = None
+    for mm in TAIL_RET_RE.finditer(m, encl["bstart"], encl["bend"]):
+        if m[mm.end():encl["bend"] + 1].strip(" \t\r\n}") == "":
+            best = (mm.start(), mm.end() - 1, mm.group(1))
+    return best
+
+def pick_label(m, base="done"):
+    """A label name no identifier in the file already uses (collision-guarded rename)."""
+    name, k = base, 1
+    while re.search(r"\b" + name + r"\b", m):
+        name, k = "%s_%d" % (base, k), k + 1
+    return name
+
+def keep_group_end(m, semi, lhs):
+    """The end of the `<lhs> = <tail>();` group: any `ASM_KEEP*(..);` keep-alive pins that follow,
+    then the `return <lhs>;` the pseudo-call's value flows into.  None when that shape is absent."""
+    j = semi + 1
+    for _ in range(8):
+        k = next_significant(m, j)
+        mm = KEEP_STMT_RE.match(m, k)
+        if mm:
+            j = mm.end(); continue
+        mm = re.compile(r"return\s+" + re.escape(lhs) + r"\s*;").match(m, k)
+        return mm.end() if mm else None
+    return None
+
+def drop_orphan_local(text, name):
+    """Delete `<type> <name>;` once the transform left the local unreferenced (the value the
+    pseudo-call produced is gone)."""
+    m = mask(text)
+    decl = re.compile(r"^([ \t]*)((?:const|volatile|static|register|unsigned|signed|struct|\w)[\w \t\*]*?)\b"
+                      + re.escape(name) + r"[ \t]*;[ \t]*\n", re.M)
+    mm = decl.search(m)
+    if not mm or len(re.findall(r"\b" + re.escape(name) + r"\b", m)) != 1:
+        return text                       # no plain declaration, or still referenced somewhere
+    return text[:mm.start()] + text[mm.end():]
+
+
 # --- planning -----------------------------------------------------------------------------------
 
 def prev_statement(t, m, delim):
@@ -273,20 +333,37 @@ def plan_sites(text, row):
             core = m[start:semi + 1].strip()         # masked: a trailing comment is not part of the shape
             if core.startswith("#") or "\n#" in core:
                 raise Refusal("site inside a preprocessor conditional")
+            lhs = None; group_end = None
+            am = re.fullmatch(r"([A-Za-z_]\w*)\s*=\s*" + re.escape(tgt) + r"\s*\([^;]*\)\s*;", core, re.S)
             if re.fullmatch(re.escape(tgt) + r"\s*\([^;]*\)\s*;", core, re.S):
                 kind = "standalone"
             elif core.startswith("return"):
                 rest = core[len("return"):].strip()
                 kind = "return-call" if re.fullmatch(re.escape(tgt) + r"\s*\([^;]*\)\s*;", rest, re.S) \
                     else "return-expr"
+            elif am:
+                # `<var> = <tail>();` - m2c's shape when the tail's $v0 is the function's result.
+                # The group it stands for is the assignment, the keep-alive pins that pin the live
+                # value across it, and the `return <var>;` the jump never actually executes.
+                kind, lhs = "assign-call", am.group(1)
+                group_end = keep_group_end(m, semi, lhs)
+                if group_end is None:
+                    raise Refusal("`%s = %s();` is not followed by `return %s;`" % (lhs, tgt, lhs))
             else:
                 raise Refusal("unhandled shape at the site: %s" % core.split("\n")[0][:60])
+            tail = tail_return(m, encl)
             sites.append({"target": tgt, "v0": v0s[k] if k < len(v0s) else v0s[-1],
                           "pos": pos, "call_end": call_end, "start": start, "semi": semi,
-                          "kind": kind, "rtype": encl["rtype"], "encl": encl,
+                          "kind": kind, "rtype": encl["rtype"], "encl": encl, "lhs": lhs,
+                          "group_end": group_end, "tail": tail, "label": None,
                           "prev": prev_statement(text, m, delim),
                           "next": text[next_significant(m, semi + 1):next_significant(m, semi + 1) + 8]})
     sites.sort(key=lambda s: s["pos"])
+    label = pick_label(m)
+    for s in sites:
+        s["label"] = label
+        if s["tail"] and s["start"] <= s["tail"][0] <= (s["group_end"] or s["semi"] + 1):
+            s["tail"] = None              # the site's own group IS the tail: nothing to jump to
     return sites, m, defs
 
 # --- the per-site menu ---------------------------------------------------------------------------
@@ -317,11 +394,21 @@ def actions_for(site, text):
     void = site["rtype"].replace("*", "").strip() in ("void", "")
     imm = imm_of(site["v0"])
     prev = bool(site["prev"]) and not void          # a value: never in a void function
+    tail = bool(site["tail"])                       # the function's own `return <var>;` to jump to
     acts = []
     nxt = site["next"].lstrip()
-    if site["kind"] == "standalone":
+    if site["kind"] == "assign-call":
+        # the whole `<var> = <tail>(); ASM_KEEP(..); return <var>;` group is the jump
+        if tail:
+            acts.append("goto-tail")
+            if imm is not None:
+                acts.append("goto-tail-imm")
+        acts.append("drop-group")
+    elif site["kind"] == "standalone":
         if re.match(r"return\b", nxt):
             acts.append("drop")                     # (1) the return that follows already says it
+        elif tail and not void:
+            acts.append("goto-tail")                # (1b) the jump skips what a `return` would run
         if void:
             acts.append("ret-void")                 # (2)
         if prev and prev_is_the_v0_call(site, text):
@@ -330,6 +417,10 @@ def actions_for(site, text):
             acts.append("ret-imm")                  # (3) the audit's imm is a hint only
         if prev:
             acts.append("ret-prev")
+        if tail and not void:
+            acts.append("goto-tail")
+            if imm is not None:
+                acts.append("goto-tail-imm")
         acts.append("fall")                         # (5)
         if not void:
             acts.append("ret-void")
@@ -340,6 +431,9 @@ def actions_for(site, text):
             acts.append("ret-prev")
         if imm is not None and not void:
             acts.append("ret-imm")
+        if tail and not void:
+            acts.append("goto-tail-imm" if imm is not None else "goto-tail")
+            acts.append("goto-tail")
         if not void:
             acts.append("ret-void")
     else:                                   # return-expr: the call stands inside the expression
@@ -379,6 +473,23 @@ def retype_void_decl(text, callee):
 def apply_site(text, m, site, action, edits):
     """Append (start, end, replacement) edits for one site."""
     stmt_a, stmt_b = site["start"], site["semi"] + 1
+    if action in ("goto-tail", "goto-tail-imm", "drop-group"):
+        if site["kind"] == "assign-call":
+            stmt_b = site["group_end"]
+        if action == "drop-group":
+            edits.append(cut(text, m, stmt_a, stmt_b))
+            return site["lhs"] and ("orphan", site["lhs"])
+        if not site["tail"]:
+            raise Refusal("no `return <var>;` tail for the jump to land on")
+        ind = " " * (stmt_a - line_start(text, stmt_a))
+        rep = "goto %s;" % site["label"]
+        if action == "goto-tail-imm":
+            imm = imm_of(site["v0"])
+            if imm is None:
+                raise Refusal("the audit names no imm for this site")
+            rep = "%s = %s;\n%s%s" % (site["tail"][2], imm, ind, rep)
+        edits.append((stmt_a, stmt_b, rep))
+        return ("label", site) if site["lhs"] is None else ("both", site)
     if action in ("drop", "fall"):
         edits.append(cut(text, m, stmt_a, stmt_b))
     elif action == "ret-void":
@@ -436,11 +547,24 @@ def build(text, sites, choice):
     """The candidate for one strategy index: `choice[i]` names site i's action."""
     edits = []
     retype = []
+    labels = {}          # tail start -> (label, site): one `done:` per tail, however many jump to it
+    orphans = []         # locals the removed group left unreferenced
     m = mask(text)
     for site, action in zip(sites, choice):
         r = apply_site(text, m, site, action, edits)
-        if r:
+        if isinstance(r, tuple):
+            what, payload = r
+            if what == "orphan":
+                orphans.append(payload)
+            else:
+                labels[payload["tail"][0]] = payload["label"]
+                if what == "both" and payload["lhs"]:
+                    orphans.append(payload["lhs"])
+        elif r:
             retype.append(r)
+    for pos, label in labels.items():
+        ls = line_start(text, pos)
+        edits.append((ls, ls, "%s:\n" % label))     # zero width: the label owns its own line
     out = text
     edits.sort(key=lambda e: -e[0])
     for (a, b, _), (c, d, _) in zip(edits[1:], edits):
@@ -453,6 +577,8 @@ def build(text, sites, choice):
             out = retype_void_decl(out, callee)
     for tgt in sorted({s["target"] for s in sites}):
         out = drop_declaration(out, tgt)
+    for name in sorted(set(orphans)):
+        out = drop_orphan_local(out, name)
     # `return;` immediately followed by another `return;` at the same depth is redundant
     out = re.sub(r"([ \t]*)return;\n\1return;\n", r"\1return;\n", out)
     return out

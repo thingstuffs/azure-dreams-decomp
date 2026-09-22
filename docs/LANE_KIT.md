@@ -371,3 +371,16 @@ what keeps the tree honest); keep a round's pending landings and its live packs 
 possible. And an isolated landing no longer refreshes `build_ovl`, so if `tools/gate/*` changes,
 `build_ovl/tools` goes stale (the landing prints a note when it does): run
 `bash tools/build/mk_ovl_root.sh` in the next real lane gap.
+
+## L0 / fidelity-site lanes (2026-09-22 Opus wave)
+
+A lane whose whole row list is L0-blocked (LABEL_AS_CALL, PASSTHRU_NO_ARGS or an intra-row noreturn
+tail-call) needs a class-specific brief, not a generic pin brief — `docs/L0_BLOCKED_PLAN_20260922.md`
+section 6 has the templates that actually paid (ITC pseudo-call deletion / relabelled goto / THREAD-FILL
+HOIST / page-base-to-symbol; LAC "init join" / backward-`j`-as-loop / shared-increment join / mid-row
+`else`) and the named refusal classes (reg-rename, maspsx LEAD-18 broad, length-drift, hold-set) so a
+lane doesn't re-discover them per row. Most rowbase-less LAC/ITC rows are blocked on a missing rowbase
+record, not on the rewrite itself: mint one first (`tools/lanes/mint_rowbase.py`, or by hand — region
+`[foff, foff+size)`, delta from `ledger/splits/<fam>.jsonl`, `solved` + j-solve proof, regression-verify,
+land, then `build_ovl/tools/rowbase.py promote` with an **absolute** path — relative paths CFAIL
+silently, cwd is `build_ovl/`) before sending a lane at the row at all.

@@ -32,9 +32,9 @@ the venv, `baserom/`, and the build roots (`build_slus/`, `build_ovl/`).
 | L0 | verified byte-exact at the pin through stock compilers |
 | L1 | no m2c boilerplate, dead pins erased, no blocking fidelity site |
 | L2 | no raw offset access (`M2C_FIELD` / `FIELD`): typed structs with explicit `unk_XX` members and padding |
-| L3 | locals named, one-line summary: an accepted Layer-2 body landed in `src/` (`ledger/promotions.jsonl`) and is the text the gate compiles |
-| L4 | in a module with a shared header |
-| L5 | strict: no `ASM_*` pin or marker, no noreturn tail-call spelling, no fidelity site of any audit class, no computed-goto table, no inline asm. A pin that survives is annotated `/* UNRESOLVED C shape (pin): removing it <measured effect>; … */` — a debt record, never a justification |
+| L3 | locals named, one-line summary: an accepted Layer-2 body landed in `src/` (`ledger/promotions.jsonl`) and is the text the gate compiles; every tail-jump dependency (noreturn pseudo-call or sibcall/noreturn-list call) has a `ledger/split_audit.jsonl` record that isn't `intra`/`unresolved` |
+| L4 | in a module with a shared header, zero pins, zero tail-jump dependency of any kind |
+| L5 | strict: no fidelity site of any audit class, no computed-goto table, no inline asm, no `NON_MATCHING` guard (pins/tail-jumps already excluded by L4). A pin that survives is annotated `/* UNRESOLVED C shape (pin): removing it <measured effect>; … */` — a debt record, never a justification |
 
 ## Provisioning
 

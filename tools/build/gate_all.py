@@ -72,8 +72,31 @@ def window_rows():
         _WROWS = wrows
     return _WROWS
 
+def census_files(cont):
+    """The container family's maspsx tail-call evidence files: config/noreturn_syms[.<family>].txt
+    and config/sibcall_syms[.<family>].txt, in that fixed order, filtered to the ones that exist.
+    Same family mapping split_records uses ('dungeon_engine' folds into 'dungeon') and the same
+    file selection tools/gate/overlay_evidence.py:evidence_env makes for maspsx's $MASPSX_NORETURN_FILE
+    / $MASPSX_SIBCALL_FILE ('main' reads the un-suffixed files -- maspsx's own built-in defaults --
+    every other family reads its '.<family>.txt' override). A family with no override file is
+    omitted rather than erroring: maspsx loads a missing file as an empty, inert evidence set, so
+    that is the correct (and already-safe) hash contribution. config/noreturn_false_members.jsonl
+    is deliberately NOT included -- it only feeds gen_noreturn_syms.py's generator, not the
+    evidence maspsx reads at gate time."""
+    fam = "dungeon" if cont == "dungeon_engine" else cont
+    names = ("noreturn_syms.txt", "sibcall_syms.txt") if fam == "main" \
+        else (f"noreturn_syms.{fam}.txt", f"sibcall_syms.{fam}.txt")
+    return [p for p in (ROOT / "config" / n for n in names) if p.exists()]
+
 def inputs_sha(yaml_path):
-    """sha over the window YAML, the row table and every src/<container>/*.c inside the window."""
+    """sha over the window YAML, the row table, every src/<container>/*.c inside the window, and
+    the container family's noreturn + sibcall census files (census_files).  Those census files are
+    read by maspsx's LEAD 18/22 tail-call passes and flip jal<->j family-wide, so a census edit has
+    to invalidate every window's cached sha even though it touches no YAML, split record or src/
+    file -- before this fix a census edit left every window reporting up to date and gate_all.py
+    silently gated nothing (measured 2026-09-22: `--container dungeon` gated 0 windows; `--retry`
+    gated 1,458).  Changing this function invalidates every window's cached inputs_sha at once; the
+    next standing full gate pays that cost once, which is intended."""
     h = hashlib.sha256(yaml_path.read_bytes())
     cont = container_of(yaml_path.stem)
     # the window's own split records (config, extent, verdict) rather than the whole table, so a
@@ -83,6 +106,8 @@ def inputs_sha(yaml_path):
     for r in window_rows().get(yaml_path.name, []):
         p = ROOT / "src" / r["container"] / Path(r["c_path"]).name
         if p.exists(): h.update(p.read_bytes())
+    for p in census_files(cont):
+        h.update(p.read_bytes())
     return h.hexdigest()
 
 _SPLITS = {}

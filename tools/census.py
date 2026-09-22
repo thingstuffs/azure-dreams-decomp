@@ -3,7 +3,7 @@
 import json, re, collections
 from pathlib import Path
 from common import ROOT, LEDGER, rows, write_jsonl, raw_path
-from pin_census import sites_of
+from pin_census import sites_of, arm_labels, HAS_PP_RE
 
 PIN_RE = re.compile(r"\bASM_([A-Z0-9_]+)\(")
 REG_RE = re.compile(r'ASM_REG\("\$?([a-z0-9]+)"\)')
@@ -24,16 +24,103 @@ def audit_index():
 
 DECL_LINE = re.compile(r"^[ \t]*(?!(?:return|goto|if|else|while|for|switch|case|do)\b)(?:extern[ \t]+)?[A-Za-z_][A-Za-z0-9_ \t\*]*\b(?P<name>func_[0-9A-F]{8}|[A-Za-z_][A-Za-z0-9_]*)[ \t]*\([^;{]*\)[ \t]*(?:__attribute__[^;]*)?;[ \t]*$")   # a type-prefixed prototype, never a `return f();` statement
 
+VOID_DEF_RE = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(\s*void\s*\)\s*\{", re.M)
+
+# A function DEFINITION header (never a call): a type-prefixed `func_XXXXXXXX(...)` whose paren list
+# holds no `;`/`{` and which is followed by the body brace.  Used by live_sites to stop a row's own
+# definition from being read as a call of itself (self-loop LABEL_AS_CALL rows).
+DEF_HEADER_RE = re.compile(r"^[ \t]*(?:[A-Za-z_][A-Za-z0-9_]*[ \t\*]+)+\**(?:func_[0-9A-F]{8})[ \t]*\([^;{]*\)[ \t\r\n]*\{", re.M)
+
+_DECLARED_VOID = None
+def declared_void_callees():
+    """PASSTHRU_NO_ARGS targets with NO C definition anywhere in the tree whose RETAIL bytes were
+    read and show they take no argument -- the callee's own instructions (tier A) or, for one symbol
+    whose image is not on the disc, every retail call site (tier B)
+    (config/void_callees.txt, one symbol per line, `#` a comment).  void_exact_targets() can only see a callee the tree defines; the PASSTHRU-undefined
+    class (docs/L0_BLOCKED_PLAN_20260922.md section 1) is library / other-module code the project
+    does not build, so the same ruling needs a declaration list instead of a definition scan.
+    Every symbol's evidence -- how its address was located, its extent, its first instructions and
+    the a0-a3 write/read order over the whole reachable body -- is in
+    docs/evidence/void_callees_20260922.md.  Nothing may be added here without a row there."""
+    global _DECLARED_VOID
+    if _DECLARED_VOID is None:
+        out = set()
+        p = ROOT / "config" / "void_callees.txt"
+        if p.exists():
+            for line in p.read_text(errors="replace").splitlines():
+                tok = line.split("#", 1)[0].split()
+                if tok and re.fullmatch(r"func_[0-9A-F]{8}", tok[0]):
+                    out.add(tok[0])
+        _DECLARED_VOID = out
+    return _DECLARED_VOID
+
+_VOID_EXACT_TARGETS = None
+def void_exact_targets():
+    """PASSTHRU_NO_ARGS targets that are themselves defined `(void)` in the tree and whose
+    defining row verifies exact (ledger/baseline.jsonl).  docs/L0_BLOCKED_PLAN_20260922.md
+    section 5: such a callee reads no argument register at all (confirmed on the four hub
+    targets, func_800A6D30/func_800990FC/func_800A6508/func_800352FC, by reading their C bodies),
+    so the class's per-site `need` cannot be describing what the callee reads -- it is a
+    caller-side liveness label, not a callee-derived one, and does not apply to these targets.
+    Built once, lazily, from a single pass over src/{main,town,dungeon,slus}/*.c."""
+    global _VOID_EXACT_TARGETS
+    if _VOID_EXACT_TARGETS is None:
+        base = {}
+        p = LEDGER / "baseline.jsonl"
+        if p.exists():
+            for line in p.read_text().splitlines():
+                if line.strip():
+                    b = json.loads(line)
+                    base[b["id"]] = b
+        targets = set()
+        for cdir in ("main", "town", "dungeon", "slus"):
+            d = ROOT / "src" / cdir
+            if not d.exists():
+                continue
+            for f in d.glob("*.c"):
+                try:
+                    text = f.read_text(errors="replace")
+                except OSError:
+                    continue
+                for m in VOID_DEF_RE.finditer(text):
+                    b = base.get(f"{cdir}/{f.stem}")
+                    # mirrors levels.py's own L0 test: an slus row's baseline never carries
+                    # `exact` (only `status`), so its verdict is `status == "ok"` there
+                    if b and (b.get("exact") is True or (cdir == "slus" and b.get("status") == "ok")):
+                        targets.add(m.group(1))
+        _VOID_EXACT_TARGETS = targets | declared_void_callees()
+    return _VOID_EXACT_TARGETS
+
 def live_sites(text, sites):
     """The baseline audit (config/decomp_audit_baseline.json) grandfathers every fidelity site as it
     was at the pin.  A site is LIVE only while the current text still carries its spelling: a
     LABEL_AS_CALL site while `target(` is still called (declarations do not count), a
     PASSTHRU_NO_ARGS site while an empty-paren call of the target remains.  The other classes are
-    byte-derived and never block; they are kept as recorded."""
-    calls = "\n".join(l for l in text.splitlines() if not DECL_LINE.match(l) and not l.lstrip().startswith("#"))
+    byte-derived and never block; they are kept as recorded.
+
+    Comments are stripped first (mirrors levels.py's pin count: `code = re.sub(...)`) - a spelling
+    inside a `/* MECHANISM: ... func_X(); ... */` note is not a call, and without this a row honestly
+    repaired stays "live"-blocked forever on its own T6 note."""
+    # The build never compiles the `port` (-DNON_MATCHING only) or `dead` (`#if 0`) arms, so a
+    # spelling that survives only there is not a call in the product: town/func_8051EDA4 sat at L0
+    # on a LABEL_AS_CALL site living purely inside its `#ifdef NON_MATCHING` arm (2026-09-22).
+    # Same arm classification the sweeps refuse edits by (pin_census.unscored_text).
+    if HAS_PP_RE.search(text):
+        text = "\n".join("" if lab in ("port", "dead") else ln
+                         for ln, lab in zip(text.splitlines(), arm_labels(text)))
+    code = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))
+    # A row whose LABEL_AS_CALL target is its OWN base (a retail `j` back to the entry, i.e. a loop
+    # back-edge) defines that very name once the row is landed at its true base, and the DEFINITION
+    # HEADER `void func_800B13AC(void *a, s16 b) {` then matched `target(` forever -- the row stayed
+    # "live"-blocked at L0 after the scaffolding was gone (dungeon/func_800ABC4C, 2026-09-22).
+    # A definition header is not a call: blank the headers before looking for calls.  Narrow by
+    # construction -- the paren list may not contain `;` or `{` and must be followed by `{`, so
+    # `return func_X(a);`, `func_X(a);` and `if (func_X(a)) {` are untouched.
+    code = DEF_HEADER_RE.sub("{", code)
+    calls = "\n".join(l for l in code.splitlines() if not DECL_LINE.match(l) and not l.lstrip().startswith("#"))
     # `extern T name_tail(void) asm("func_X");` aliases: a call of the alias is a call of func_X
     aliases = {}
-    for m in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*\)\s*(?:__attribute__\(\([^)]*\)\)\s*)?(?:__asm__|asm)\s*\(\s*\"(func_[0-9A-F]{8})\"\s*\)", text):
+    for m in re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\s*\([^)]*\)\s*(?:__attribute__\(\([^)]*\)\)\s*)?(?:__asm__|asm)\s*\(\s*\"(func_[0-9A-F]{8})\"\s*\)", code):
         aliases.setdefault(m.group(2), set()).add(m.group(1))
     def called(tgt, empty=False):
         names = [tgt] + sorted(aliases.get(tgt, ()))
@@ -45,6 +132,7 @@ def live_sites(text, sites):
         if cls == "LABEL_AS_CALL":
             if called(tgt): out.append(s)
         elif cls == "PASSTHRU_NO_ARGS":
+            if tgt in void_exact_targets(): continue   # callee reads no argument register (void, exact) -- not live
             if called(tgt, empty=True): out.append(s)
         else:
             out.append(s)

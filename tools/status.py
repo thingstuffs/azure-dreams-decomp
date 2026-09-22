@@ -93,6 +93,74 @@ def main():
                           for r in rs if r["id"].split("/")[0] not in PARKED_CONTAINERS)
     out.append(f"Per-row optimization flags (weak evidence about the real build; each switch is undone from the "
                f"`t30_cellpins` journal's `cell_from`): {nfl[1]:,} rows carry one flag, {nfl[2]:,} carry two or more.\n")
+
+    trades = list(read_jsonl(LEDGER / "recipe_trades.jsonl")) if (LEDGER / "recipe_trades.jsonl").exists() else []
+    site_for_pin = sum(1 for t in trades if t.get("kind") == "site_for_pin")
+    out.append(f"Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped "
+               f'`{{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,'
+               f'"residue_without_pin":str,"at":iso,"note":str}}` -- one pin, or two when one is not enough '
+               f'(owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not '
+               f'a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): '
+               f"{site_for_pin:,}.\n")
+
+    from census import declared_void_callees, void_exact_targets, live_sites, audit_sites
+    import census as _census_mod
+
+    def _void_tiers():
+        """Tier per symbol in config/void_callees.txt.  The file carries no per-line tier marker
+        (checked): tier is read instead from its `# ---- tier A ...` / `# ---- tier B ...`
+        section-header comments, the convention docs/L0_BLOCKED_PLAN_20260922.md section 6
+        introduced it under."""
+        tiers = {}; tier = None
+        p = ROOT / "config" / "void_callees.txt"
+        if p.exists():
+            for line in p.read_text(errors="replace").splitlines():
+                s = line.strip()
+                if s.startswith("#"):
+                    low = s.lower()
+                    if "tier a" in low: tier = "A"
+                    elif "tier b" in low: tier = "B"
+                    continue
+                tok = line.split("#", 1)[0].split()
+                if tok and _re.fullmatch(r"func_[0-9A-F]{8}", tok[0]):
+                    tiers[tok[0]] = tier or "A"
+        return tiers
+
+    tiers = _void_tiers()
+    tier_a = sum(1 for t in tiers.values() if t == "A")
+    tier_b = sum(1 for t in tiers.values() if t == "B")
+    tier_drift = set(tiers) ^ declared_void_callees()   # cross-check against the reused census function
+    tierB_syms = {s for s, t in tiers.items() if t == "B"}
+    tb_rows = []
+    if tierB_syms:
+        full_void = void_exact_targets()          # census.declared_void_callees() unioned in, both tiers
+        reduced_void = full_void - tierB_syms
+        for r in rs:
+            if r["container"] in PARKED_CONTAINERS: continue
+            keys = [f"{r['container']}/{f}" for f in (r.get("defs") or [r["func"]])]
+            pt_sites = []
+            for k in keys:
+                pt_sites += [s for s in audit_sites().get(k, []) if s.startswith("PASSTHRU_NO_ARGS|")]
+            if not pt_sites: continue
+            cpv = ROOT / "src" / r["container"] / _P(r["c_path"]).name
+            pv = cpv if cpv.exists() else ROOT / "raw" / r["container"] / _P(r["c_path"]).name
+            if not pv.exists(): continue
+            textv = pv.read_text(errors="replace")
+            _census_mod._VOID_EXACT_TARGETS = full_void
+            live_with = live_sites(textv, pt_sites)
+            _census_mod._VOID_EXACT_TARGETS = reduced_void
+            live_without = live_sites(textv, pt_sites)
+            if not live_with and live_without:    # exempt with tier B, blocked again without it
+                tb_rows.append(r)
+        _census_mod._VOID_EXACT_TARGETS = full_void   # restore: every other call in this run sees both tiers
+    tb_bytes = sum(r["size"] for r in tb_rows)
+    out.append(f"Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no "
+               f"per-line marker exists): tier A {tier_a}, tier B {tier_b} symbols" +
+               (f"; WARNING {len(tier_drift)} symbol(s) differ from `census.declared_void_callees()` -- header "
+                f"parse drifted from the file" if tier_drift else " (matches `census.declared_void_callees()`)") +
+               f". Rows whose PASSTHRU_NO_ARGS exemption rests on a tier-B symbol alone (blocked again if tier B "
+               f"were dropped, tier-A/in-tree exemptions do not cover them): {len(tb_rows)} rows, {tb_bytes:,} B.\n")
+
     lv = LEDGER / "levels.jsonl"
     out.append("## Cleanliness levels (bytes at or above each level)\n")
     if lv.exists():
@@ -105,6 +173,14 @@ def main():
         rb = sum(by[x["id"]]["size"] for x in recs)
         out.append(f"\nOn shared record headers (T7, `include/records/`): {len(recs)} rows, {rb:,} bytes ({100*rb/tot:.1f}%); "
                    f"records used: {len({r for x in recs for r in x['records']})}.")
+        resid_n = collections.Counter(); resid_b = collections.Counter()
+        for x in read_jsonl(lv):
+            for k in x.get("l4_residue", []):
+                resid_n[k] += 1; resid_b[k] += by[x["id"]]["size"]
+        out.append(f"\nL4 residue (rows below L4, by blocker; a row can carry more than one): "
+                   f"pins {resid_n['pins']:,} rows ({resid_b['pins']:,} B), "
+                   f"tail_jump {resid_n['tail_jump']:,} rows ({resid_b['tail_jump']:,} B), "
+                   f"not_in_module {resid_n['not_in_module']:,} rows ({resid_b['not_in_module']:,} B).")
     else:
         exb = sum(r["size"] for r in rs if r["stock"] and (base.get(r["id"], {}).get("exact") is True or (r["kind"] == "slus" and base.get(r["id"], {}).get("status") == "ok")))
         out.append(f"L0 (verified byte-exact at the pin): {exb:,} bytes ({100*exb/tot:.1f}%). No transforms applied yet; every row is at L0.\n")

@@ -157,6 +157,28 @@ def newest(records):
     return max(records, key=lambda r: r.get("at") or "") if records else None
 
 
+def served_by_lines(row_id, notes, skip_lane):
+    """'previously served by' plus any quoted lane REPORT.md / hand --notes text for this row.
+    Independent of pin measurement (row_id/notes/skip_lane only), so it can render on a 0-pin row
+    too - the early return used to skip straight past this and --notes was silently dropped
+    (docs/L0_BLOCKED_PLAN_20260922.md, tooling gaps: 193 of 295 L0-blocked rows are 0-pin)."""
+    out = []
+    reps = [r for r in lane_reports(row_id, notes) if not r[0].startswith((skip_lane or "\0") + "/")]
+    lanes = [x for x in lane_membership().get(row_id, []) if x != skip_lane]
+    out.append("- previously served by: %s." % (", ".join(lanes) if lanes else "no model lane"))
+    for src, quotes, verbatim in reps:
+        if not quotes:
+            continue
+        if verbatim:
+            out.append("  - %s (verbatim):" % src)
+            out.extend("    %s" % q for q in quotes)
+        else:
+            out.append("  - %s: %s" % (src, " ".join(quotes)))
+    if not reps and lanes:
+        out.append("  - those lanes' REPORT.md say nothing about this row.")
+    return out
+
+
 # ------------------------------------------------------------------ evidence gathering (filesystem)
 
 _SWEEPS = {}
@@ -429,6 +451,10 @@ def duck(row_id, notes=None, row=None, text=None, skip_lane=None):
     sites = m["sites"]
     if not sites:
         L.append("\n- no live pins in this text: nothing to remove.\n")
+        L.append("\n**KNOWN.**")
+        L.extend(served_by_lines(row_id, notes, skip_lane))
+        L.append("\n**NEEDED.** nothing from the pins - there are none live in this text; whatever "
+                 "still blocks the row (a fidelity site, a residue class) is elsewhere.")
         return "\n".join(L) + "\n"
     if m["ref"] is None:
         L.append("\n- the pinned text does not compile to a listing here, so nothing below could be "
@@ -566,19 +592,8 @@ def duck(row_id, notes=None, row=None, text=None, skip_lane=None):
         L.append("- journal `%s`: %s%s%s%s" % (lane, outcome, stale,
                                                ", best listing distance %s" % best if best is not None else "",
                                                ", %s" % refused if refused else ""))
+    L.extend(served_by_lines(row_id, notes, skip_lane))
     reps = [r for r in lane_reports(row_id, notes) if not r[0].startswith((skip_lane or "\0") + "/")]
-    lanes = [x for x in lane_membership().get(row_id, []) if x != skip_lane]
-    L.append("- previously served by: %s." % (", ".join(lanes) if lanes else "no model lane"))
-    for src, quotes, verbatim in reps:
-        if not quotes:
-            continue
-        if verbatim:
-            L.append("  - %s (verbatim):" % src)
-            L.extend("    %s" % q for q in quotes)
-        else:
-            L.append("  - %s: %s" % (src, " ".join(quotes)))
-    if not reps and lanes:
-        L.append("  - those lanes' REPORT.md say nothing about this row.")
 
     # ---------------- NEEDED
     L.append("\n**NEEDED.**")

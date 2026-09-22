@@ -1,0 +1,72 @@
+# PASSTHRU_NO_ARGS targets that have NO C definition anywhere in the tree and whose RETAIL bytes
+# show they read no incoming argument register.  Read by tools/census.py::declared_void_callees(),
+# unioned into void_exact_targets(); the owner's 2026-09-22 ruling (docs/L0_BLOCKED_PLAN_20260922.md
+# section 5, docs/FIDELITY.md's PASSTHRU_NO_ARGS bullet) then makes a zero-argument call of one of
+# them not a fidelity site.
+#
+# Evidence, symbol by symbol (how the address was located, the extent, the first instructions and
+# the a0-a3 write/read order): docs/evidence/void_callees_20260922.md.  Nothing goes in this file
+# without a row there.
+#
+# Format: one symbol per line, first token only; "#" starts a comment.
+#   tier A = the callee's own retail instructions were disassembled and every a0-a3 occurrence over
+#            its whole reachable extent is a write before any read (or it never touches a0-a3).
+#   tier B = the callee's image is not on the disc; every retail CALL SITE was read instead.
+
+# ---- tier A: callee bytes read ------------------------------------------------------------
+func_800176B4   # town, foff 0x438EB4, 15 w; li a0,17 / li a1,512 before the only jalr
+func_800178D0   # town, foff 0x6590D0, 21 w; lui a0,0x8002 first
+func_80017918   # town, foff 0x6AB918,  8 w; global getter, no aN at all
+func_8001796C   # town, foff 0x3F696C, 39 w; first aN is lh a0,4(v0)
+func_800187AC   # town, foff 0x3F17AC, 15 w; li a0,17 / li a1,512 before the only jalr
+func_80018C58   # town, foff 0x3F1C58, 30 w; move a1,zero first, a0/a2/a3 written after
+func_800191E8   # town, foff 0x5551E8, 12 w; leaf global getter, no aN at all
+func_8001A7AC   # town, foff 0x6917AC, 15 w; li a0,-1 / li a1,-5 before the only jalr
+func_8001A7F8   # town, foff 0x3F37F8,  8 w; leaf global getter, no aN at all
+func_8001A934   # town, foff 0x691934,  8 w; leaf global getter, no aN at all
+func_8001E82C   # town, foff 0x3ED82C,  8 w; leaf global getter, no aN at all
+func_8016E264   # dungeon, foff 0x1346A64, 39 w; move a0,s1 in the first jal's delay slot
+func_8070042C   # town, foff 0x83942C, 23 w; lhu a0,2560(at) first
+func_80700488   # town, foff 0x839488, 22 w; lhu a0,2524(at) first
+func_80700B4C   # town, foff 0x80134C, 32 w; = row town/func_8088134C, void (void), exact
+func_80700B7C   # town, foff 0x83337C, 59 w; lui a1,0xa070 first
+func_80700BCC   # town, foff 0x8013CC, 22 w; = row town/func_808813CC, void (void), exact
+func_80700D84   # town, foff 0x7F4D84, 37 w; = row town/func_80874D84, s32 (void), exact
+func_80700E3C   # town, foff 0x7FFE3C, 23 w; lhu a0,2524(at) first
+func_80700E98   # town, foff 0x7FFE98, 22 w; lhu a0,2488(at) first
+func_80700EB4   # town, foff 0x8016B4,  9 w; = row town/func_808816B4, void (void), exact
+func_80701060   # town, foff 0x7F5060, 49 w; = row town/func_80875060 (whose two leading C
+                # parameters are unused_*: the retail writes a0-a3 before any read)
+func_8070114C   # town, foff 0x7F514C, 46 w; = row town/func_8087514C, void (void), exact
+func_8070168C   # town, foff 0x7F568C, 59 w; lui a1,0x8070 first
+
+# ---- tier B: call-site bytes only (devkit main image not on the disc) -----------------------
+func_80071494   # 37 retail call sites in the 0x8052xxxx TOWN devkit module, none setting a0-a3;
+                # v0 consumed and masked (andi 0x7f/0xff/0xf/0x3) = s32 rand(void); `need` is a
+                # constant "a3" at all 32 audited sites across 11 callers.  Delete this line to
+                # keep tier A only.
+func_8007CA38   # 7 retail call sites in MAIN.BIN's c_server module, NONE setting a0-a3 (two of
+                # them inside `(void)` callers, so a0-a3 hold entry garbage there); the callee's own
+                # image is off-disc (see below).  Delete this line to keep tier A only.
+func_8007CA48   # 5 retail call sites in the same module, none setting a0-a3; already declared
+                # `extern void func_8007CA48(void);` everywhere in the tree.  Same off-disc callee.
+func_80020298   # town, 1 retail call site (foff 0x44D28 TOWN.BIN, caller town/func_800C4D18 =
+                # func_800C2478, `void func_800C2478(void)`), nop delay slot, no a0-a3 set before
+                # the call; caller delta 0x8007D760 puts the callee below TOWN.BIN, off-disc.
+                # OWNER-VISIBLE: thinnest corpus of any tier-B entry (single site, vs 37/7/5 for
+                # the others above).  Delete this line to keep tier A only.
+
+# ---- tier A, segment-resolved (coordinator hand-off 2026-09-22) -------------------------------
+# A TOWN overlay name is NOT unique: every event module links its own copy.  `func_80019988` is a
+# 21-word (void) wrapper at town foff 0x690988 in the sweep_68DCE4 module, and a 21-word
+# `(void *record, s32 entry_index)` function at town foff 0x2AF188 (row town/func_8032F188) in the
+# sweep_2AB9C0 module -- different code at the same name.  Each symbol below was read in the
+# segment its callers live in, and EVERY audited caller of that name lies in that one segment
+# (checked against ledger/cache/audit.json), so the name-keyed exemption cannot leak:
+#   func_80019988  callers foff 0x68E0DC..0x68F2FC   -> callee 0x690988 (same module)
+#   func_8070090C  callers foff 0x832F58..0x833074   -> callee 0x83310C (same module)
+#   func_80701404  callers foff 0x7F5238..0x7F5364   -> callee 0x7F5404 (same module)
+# A new PASSTHRU site on one of these names in ANOTHER segment must re-read that segment's copy.
+func_80019988   # town, foff 0x690988, 21 w; lui a0,0x8002 first, no aN read (NOT the 0x2AF188 copy)
+func_8070090C   # town, foff 0x83310C, 59 w; lui a1,0xa070 at word 6, no branch before it
+func_80701404   # town, foff 0x7F5404, 59 w; = row town/func_80875404, void (void), exact

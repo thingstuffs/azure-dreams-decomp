@@ -1,4 +1,281 @@
-# Handover (2026-09-22 01:40Z) - start here in a fresh session
+# Handover (2026-09-22 15:20Z) - start here in a fresh session
+
+## 0. RESOLVED 2026-09-22: the noreturn census regenerates deterministically again
+
+`tools/gate/gen_noreturn_syms.py --check` now reports `ok` with zero drift for all four families, from the
+repo root AND from `build_ovl/` (the two copies are byte-identical again). The previous section-0 diagnosis
+(replaced here) was partly wrong: the `overlays/<fam>/first_pass_matched/*.c` globs DID resolve
+(`build_ovl/overlays/<fam>/first_pass_matched` are symlinks to `src/<fam>`). The real cause was that the
+transform layers STRIP `__attribute__((noreturn))` out of `src/` — only 45 of 2,743 dungeon files still carry
+one — so the live tree is no longer an evidence base. The declarations survive in the frozen, git-tracked
+`raw/<container>/*.c` corpus, and the scan globs now read that; `src/<container>/*.c` measurably adds ZERO
+symbols in every family, and that invariant is held as a test so a future src/ declaration becomes a visible
+failure. `ROOT` is now the first ancestor holding both `raw/` and the false-members file, which resolves to the
+repo from either copy. Three further fixes: the missing declaration-only evidence file
+`config/noreturn_evidence.main.c` was restored from the upstream repo (it is the only source of
+main's 7 attribute-less callees) and added to `mk_ovl_root.sh`; the nine dungeon symbols hand-deleted in
+337f02aa / 2179b161 with no record now have proven false-member records citing their review documents
+(`config/noreturn_false_members.jsonl`, CLASS 3 "stale census entry"); and a WRITE now fails closed on a
+shrink of more than the smaller of 5% and 20 symbols (`--allow-shrink` to override; `--check` is never gated).
+Tests: `tools/tests/test_gen_noreturn_syms.py`, 29 passing.
+
+`func_80171BEC` is now an applied false member (JAL-only, retail `jal` from 0x80175184, no `j`): dungeon
+regenerated 1,015 -> 1,014 symbols, the file delta is exactly `-func_80171BEC`, and
+`gate_all.py --container dungeon --retry` is **1,458/1,458 MATCH**. NOTE the `--retry`: at the time this
+section was written, `gate_all.inputs_sha` hashed the window YAML, the split records and the window's `src/`
+C only — NOT the censuses — so a census change did not invalidate the gate cache. **Superseded by the
+afternoon fix (section 2): `inputs_sha` now hashes the container's noreturn+sibcall census files directly, so
+`--retry` is no longer required after a census edit** — the standing full gate (section 1) already re-gated
+every window once under the new hash.
+
+`build_ovl/config/*` are still the SAME INODES as `config/*`; an edit under `config/` is live in the view root
+immediately. Do not rerun `mk_ovl_root.sh` while lanes verify.
+
+## 1. State (2026-09-22 15:20Z, all rows at L3)
+
+| level | rows | bytes | % |
+|---|---:|---:|---:|
+| L0 | 0 | 0 | 0 |
+| L1 | 0 | 0 | 0 |
+| L2 | 0 | 0 | 0 |
+| L3 | 6,767 | 2,558,124 | 100.0 |
+| L4 / L5 | 0 | 0 | 0 |
+
+Every row in the tree is at L3 (`ledger/levels.jsonl`, read directly: L0 0, L1 0, L2 0, L3 6,767 — the 13:30Z
+table's 32 + 8 + 6,727 = 6,767 rows and 34,196 + 4,076 + 2,519,852 = 2,558,124 B land exactly on today's L3
+line). Pins 4,355 -> 4,322 in 1,053 rows (`STATUS.md`, generated 2026-09-22T15:18:03Z via `tools/status.py`);
+site-for-pin trades this round: 27 (`ledger/recipe_trades.jsonl` round `l0_goal_20260922`; STATUS.md's own
+site-for-pin counter independently agrees: "27"). L4 residue (why L3 isn't L4 yet, from STATUS.md): pins
+1,066 rows / 980,980 B, tail_jump 9 rows / 2,544 B, not_in_module 6,767 rows / 2,558,124 B (every row — no
+module-placement pass has run).
+
+Full gate 2026-09-22 ~15:25Z after the goal round (stale windows only, incl. the two cell switches): done 33 (+0 serial retries) in 258s: {'MATCH': 33}; SLUS unchanged this round.
+
+Tests: 1,817 pass (+80 subtests; was 1,805 at 13:30Z), 4 known failures unchanged (3 capstone-env in
+test_lineage_fingerprint, 1 stale hash on slus/w_80041CBC in test_pin_research) — `./.venv/bin/python3 -m
+pytest tools/tests -q` (47s). Nothing committed by the session; the snapshot job commits src/, ledger/,
+STATUS. See section 5 for the load-bearing uncommitted files.
+
+## 2. What changed today (the ladder and the tooling)
+
+**Owner rulings** (charter "Rulings 2026-09-22 (evening)"): (1) a zero-argument call to a callee that is `(void)`
+and byte-exact is legitimate (the audit's `need` is a caller-side label); (2) official ASPSX never rewrites
+jal->j, so a retail `j` to a "function" is a jump inside the real function or hand asm: audit it before L3;
+(3) tail-jump scaffolding (noreturn / sibcall conversions) is covered by L4; (4) pins are OK up to L3, L4 draws
+the line; a site-for-pin trade (honest goto/if-else + ONE added pin that restores exactness, any residue size)
+is allowed if tracked: `{"kind":"site_for_pin",...}` in `ledger/recipe_trades.jsonl` + pin evidence + the
+STATUS counter (4 today); (5) tier B of `config/void_callees.txt` (call-site evidence only: `func_80071494`,
+`func_8007CA38`, `func_8007CA48`, no bytes on disc) stays, marked.
+
+**Ladder (tools/levels.py, tests in tools/tests/test_levels.py):** L3 needs every tail-jump dependency to have a
+`ledger/split_audit.jsonl` record (tools/split_audit.py, 6 s, kinds intra | extern-jal | extern-j-only |
+cross-segment | asm | unresolved; every `intra` byte-verified against the row's retail slice) and none
+intra/unresolved/missing. L4 = module AND pins == 0 AND no tail jump of any kind. L5 = the strict rest.
+`levels.py` expands `#define`/`.set` aliases and the `_returning` shim, blanks casesi tables and disabled
+NON_MATCHING arms; `census.live_sites` strips comments, definition headers and disabled arms, and exempts
+PASSTHRU sites on `(void)`-exact callees (`void_exact_targets` + `declared_void_callees`).
+
+**Landers (three agents hit the same hazard):** `promote.needs_gate` now gates any overlay row unless it has a
+`true_name` AND a `proven` rowbase delta that agrees (a `solved` region links synthetic in the window gate:
+scorer-exact, window-wrong at the `j` word; 4 windows went red once). `sweep.py` now window-gates after an
+exact candidate (it never did; two scorer-exact rows had reached src/). `rowbase.py promote` needs an
+ABSOLUTE candidate path (relative CFAILs silently, cwd is build_ovl/). Naming: a unique true name is defined
+in the TU (decision B); a row in a shared RAM slot (30 dungeon rows share `func_80024000`) keeps the synthetic
+definition. `tools/lanes/mint_rowbase.py` (dry-run default; registered-identity, identity+containment and
+target-containment grades; a full dry run says 437 more rows would mint at identity grade).
+
+**Transforms:** t1_boiler (self-contained prelude, dead game.h chunks, M2C_UNK sign, comment fragments), t8
+live-site filter, t8c joint pass-through (clean negative, 0/89), t10 (`assign-call` sites, `goto-tail` /
+`goto-tail-imm` / `drop-group`, `polarity` collapse; 4/4 on the hand rows, tools/tests/test_t10_epilogue.py).
+
+**Owner rulings 2026-09-22 (afternoon, goal round; charter "Rulings 2026-09-22 (afternoon, goal round)"):** (a) a
+LABEL_AS_CALL / intra-tail-call site whose target has a DECIDED `cross-segment`/`cross-image` split_audit record
+for this row is a real inter-module jump, not scaffolding for this row, so it no longer counts toward `blocking`
+(L0) -- `tools/levels.py` now exempts it, reaching L3, while L4 is unchanged (the site is still picked up there
+through `tail_jumps`); (b) a site-for-pin trade may add TWO tracked pins when one is not enough (`tools/status.py`
+wording updated); (c) a partial landing of a multi-site row (fewer sites, bytes exact, no level change) is
+allowed; (d) a `NON_MATCHING` arm may be edited in lockstep with the compiled arm — never deleted — to make a
+site pin-free (`dungeon/func_818B6AFC` landed that way this round: 1 pin traded, ASM_USE_NV(render_owner)).
+
+**Afternoon tooling (12:00-13:30Z).** The census generator fix (section 0) is the root fix behind everything
+below. `gate_all.py::inputs_sha` now hashes the container's noreturn+sibcall census files — it did not
+before, so a census edit re-gated 0 windows; every window's cache was invalidated once and a full gate is
+running now (placeholder in section 1). `tools/split_audit.py` gained a `cross-image` kind: `image: slus`
+(target in SLUS code, reached by `jal` or a `type:func` symbol; fires on 0 records today) and `image: absent`
+(the row's own retail bytes `jal` the target and its code is on no image in the tree) — both clear L3, block
+L4; it retired the three `func_8007BEF0` rows (section 3.1, with a correction — see section 4).
+`main/func_7FDD3D54` landed at L3 by fixing the stale synthetic-symbol call and re-minting its rowbase
+record (section 3.1). `tools/verify.py::gate_candidate` was found short-circuiting on `true_name` alone (a
+stale test that let `promote.py` green-light rows it then reverted); a Sonnet agent is fixing it to share
+`promote.needs_gate` (`tools/tests/test_verify_gate_candidate.py`). The mint/promote chain
+(`tools/lanes/mint_rowbase.py` mints a first `solved` region, `rowbase.py promote` needs an absolute
+candidate path) is now the standard route for landing a row with no rowbase record — used for
+`func_7FDD3D54` and today's shape-work rows (section 3).
+
+## 3. Plan: what's left below L3
+
+Below L3: none — all 6,767 rows reached L3 in the goal round (section 3b). Next: **L4** (module placement +
+zero pins + zero tail-jump dependency of any kind). The residue now blocking L4 is exactly what STATUS.md's
+`l4_residue` line says: pins (4,322 in 1,053 rows) and tail-jump dependencies of the two decided-but-still-
+present kinds (`cross-segment` / `cross-image`, 9 rows / 2,544 B), plus `not_in_module` on every row (no
+module-placement pass has run yet).
+
+Pin-removal phases should pick up this round's traded pins first — rows where the trade is the direct reason
+a pin exists, not an untouched retail residue (full per-trade detail: `docs/L0_BLOCKED_PLAN_20260922.md`
+section 8):
+
+- `dungeon/func_81844F2C` — 2 pins added (ASM_REG("$5") + ASM_KEEP on `effect`, ruling (b)); row net 2 -> 3.
+- `dungeon/func_818B6AFC` — 1 pin added (ASM_USE_NV(render_owner)); the NON_MATCHING-lockstep row, ruling (d);
+  pins 16 -> 17 (`pins_after_live` 14).
+- `dungeon/func_8199AAD4` — 1 pin added (ASM_KEEP(table_end)); pins 8 -> 9.
+- `dungeon/func_8195AB84` — 3 pins added / 2 removed, net 1 (ASM_REG("$21") `saved_x`, ASM_REG("$23")
+  `saved_z`, ASM_REG("$4") `transform` added; ASM_KEEP/ASM_KEEP_NV(call_context) removed); pins 5 -> 6 —
+  owner to confirm the "two pins" reading is gross-per-trade or net-per-row (section 4a).
+- `dungeon/func_81850800` — 1 pin added (ASM_SCHED_BARRIER at the `span_magnitude:` join head); pins 13 -> 12
+  net (the row's total fell despite the addition — other sites on the row lost pins the same day).
+- `dungeon/func_8197CEC0` — 1 pin added (ASM_SCHED_BARRIER at the post-switch join head); this was the L2
+  site-B partial landing (ruling (c)); pins 3 -> 4.
+- `town/func_8080C650` — 1 pin added (ASM_REG("$18") on `var_s2`), 1 TAILSLOT_PIN_TIED + 7x ASM_KEEP +
+  ASM_SCHED_BARRIER removed across two trades same row; pins 15 -> 7 net.
+- `dungeon/func_8197C800` — 1 pin added (ASM_KEEP(result) on the page-base spelling of D_80083780); pins
+  14 -> 15.
+
+Rows where this round's trades only *removed* pins (`func_818BC9CC`, `func_818E6800`, `func_818EC800`,
+`func_81904990`, `func_818390F8`) carry no new traded pin and are not repeated here.
+
+## 3b. Goal round 2026-09-22 (owner: "get L0 and L2 to 0 rows and into L3") - RESOLVED
+
+Every row reached L3; the three rule-blocked rows named at 13:30Z are all resolved. `dungeon/func_818B6AFC`
+(only site inside a NON_MATCHING arm) landed under the new owner ruling (d) that a NON_MATCHING arm may be
+edited in lockstep with the compiled arm, never deleted (trade: ASM_USE_NV(render_owner), pins 16 -> 17,
+`pins_after_live` 14). `dungeon/func_81844F2C` (two-pin trade) landed under ruling (b) ("accept 2 pins") plus
+a same-day flag/cell reduction (2.7.2-G0 -fno-schedule-insns2 -> 2.7.2-cdk-G0) that closed its remaining site
+pin-free; final row state 3 pins (2 before the round). `town/func_8047E0D8` (the callback dispatcher, a
+genuine tail `j` to `func_80016120` in the same runtime module, code not carved into the tree) was already
+unblocked by ruling (a) before 13:30Z (its LABEL_AS_CALL site carries a DECIDED `cross-segment` split_audit
+record, so `tools/levels.py` no longer counts it as `blocking`; `l4_residue` still carries `tail_jump` for it).
+ovmovie's 4 parked rows were not touched this round — the goal round's ledger has no ovmovie entries, they
+remain wherever the 13:30Z table left them; the round's own rule was to work them LAST and an owner reply
+could still stop it. Full per-row outcome table: `docs/L0_BLOCKED_PLAN_20260922.md` section 8.
+
+## 4. Outstanding items (owner decisions and tooling)
+
+- (a) `dungeon/func_8195AB84` carries three named-register pins added in one trade (ASM_REG("$21") `saved_x`,
+  ASM_REG("$23") `saved_z`, ASM_REG("$4") `transform`) against two removed (ASM_KEEP/ASM_KEEP_NV(call_context))
+  — net +1 pin (5 -> 6). Owner to confirm whether ruling (b)'s "two pins" is gross-per-trade or net-per-row.
+- (b) `dungeon/func_81844F2C`'s recipe switch (2.7.2-G0 -fno-schedule-insns2 -> 2.7.2-cdk-G0) is NOT
+  byte-neutral at the row's OLD cfg — a ledger-driven revert of this switch would break the row.
+- (c) Stale census entries for symbols no longer declared in `src/` stay by design (the generator reads
+  `raw/`, not `src/`); harmless, noted for anyone auditing census counts.
+- (d) `src/dungeon/func_818B6AFC.c` lines 66-67: the NON_MATCHING arm's `M2C_READ_MUL_HI` macro name is
+  mangled (pre-existing; the readable arm would not compile as spelled). Needs restoring.
+- (e) `tools/xform/t8b_passthru_params.py` sizes the argument list from the caller-side `need` label (built 3
+  args where the callee reads 1, in one observed case). Fix: size from the callee's retail prologue instead
+  of the caller-side `need`. Not done.
+- (f) `tools/levels.py --help` runs the full recompute before printing help — add an argparse guard.
+- (g) `verify.py --gate` / `promote.py` print "not needed: true_name registered AND rowbase region proven"
+  for already-proven rows: no window gate ran for those specific landings — the full gate (section 1) is the
+  proof of record for them, not a per-row gate log.
+- (h) `refine/` (promote.py staging copies left by several agents) was deleted after the post-round gate; promote.py recreates it per landing.
+  leftover copies from several agents this round. Safe to delete once section 1's gate confirms.
+
+## 5. Uncommitted, load-bearing (the snapshot job commits src/, ledger/, STATUS only)
+
+config first: `config/noreturn_syms.dungeon.txt` (hand-edited, section 0), `config/noreturn_false_members.jsonl`
+(+21), `config/noreturn_evidence.main.c` (restored, section 0), `config/void_callees.txt` (tier A 30 / tier B
+1 — `func_80020298` added this round: town, single call site, no callee image on disc, the thinnest corpus in
+the file, owner-visible per the tier-B caveat), `config/overlays/{main,town,dungeon}.rowbase.jsonl` (~45 new
+records, many promoted to proven, + the `row_2714dc_804084dc` proof fix) and `config/overlays/ovmovie.rowbase.jsonl`
+(new). Then tools: promote.py, sweep.py, levels.py (also gained a `_noreturn_call_targets` fix recognising the
+bare `NORETURN` macro spelling — detector bug, no live row affected), census.py, status.py, verify.py,
+split_audit.py (new), build/gate_all.py, lanes/mint_rowbase.py (new), lanes/duck_brief.py, agent_task.py,
+xform/{t1_boiler,t8_passthru,t8b_passthru_params,t8c_passthru_joint (new),t10_epilogue}.py,
+tests/{test_levels,test_promote_needs_gate,test_sweep_window_gate,test_t10_epilogue,test_gen_noreturn_syms,
+test_gate_all_inputs_sha,test_split_audit_cross_image,test_verify_gate_candidate}.py (new). Docs:
+PLAN.md, README.md, FIDELITY.md, LANE_KIT.md, PIN_CAMPAIGN_CHARTER.md, this file, L0_BLOCKED_PLAN_20260922.md
+(new, +section 8 this round), evidence/{l0_blocked_20260922,l0_blocked_20260922b}.json, evidence/{passthru_void_callee.patch,
+void_callees_20260922.md, split_fragments_20260922.md} (new). Untracked `refine/` was deleted after the gate (section
+4h, safe to delete). The committed src/ defines true names that only link with the uncommitted rowbase
+records: commit config/ and tools/ together with the next snapshot.
+
+## 6. Templates from the goal round
+
+The reusable mechanisms this round found, independent of any one row:
+
+1. Many retail intra `j` words are gcc's own cross-jump output: write the shared tail verbatim inside the arm
+   and let post-reload cross-jumping merge it (`ovmovie/func_800403EC`, `dungeon/func_80BD3BA8` site 1,
+   `func_818E6800` sites B-D, `func_81904990` &2 block). When it over-merges (the unconditional-jump minimum
+   is 1 insn), swap arm polarity so the negative arm falls through and never ends in a simplejump to the
+   shared label (`func_80BD3BA8` site 2: polarity/3 -> 0).
+2. To KEEP two identical tails unmerged where retail duplicates them: a zero-byte volatile asm
+   (ASM_SCHED_BARRIER) within the last two insns of the tail but not in the delay-slot position breaks
+   `find_cross_jump` (minimum 2 for the jump-chain case, 1 when a CODE_LABEL sits in one stream); an
+   order-only statement difference does not survive sched1 (`func_818BC9CC`, `func_818E6800` site A). Better
+   still: give both arms the same destination pseudo (`x = x +- load`) so the final op overwrites its dead
+   operand and cannot float above the stores (`func_81904990` third site, zero pins).
+3. ASM_SCHED_BARRIER right after a multi-predecessor label (or as the last statement of an arm) restores
+   delay slots lost to reorg's redirect past the join head (`func_81850800` 21 -> 0, `func_8197CEC0` 10 -> 0
+   word-residue; `func_81904990` forward site).
+4. A CALL_INSN marks every call-saved register as referenced (resource.c), so a fake noreturn call changes
+   reorg's slot choice and live ranges: with the call gone, reorg takes the first fall-through insn; a
+   page-base split (`result = 0x80080000; ASM_KEEP(result); ptr = (T*)((u8*)result + off)`) gives it a
+   takeable head insn (`func_8197C800`). Rematerialised `lui/addiu` pairs at each use come from a pseudo with
+   a REG_EQUIV symbol whose live range runs prologue-to-epilogue; ONE shared C pointer variable used at every
+   site including the epilogue reproduces it at zero pins (`func_818EC800`, `func_81904990`).
+5. A `volatile` load is never delay-slot eligible: dropping `volatile` closed reg-rename/2
+   (`town/func_80813294`) and a union-volatile in `func_80088964`.
+6. Polarity residues from jump.c's condjump-around-uncondjump inversion fire only when the conditional jump
+   is IMMEDIATELY followed by the unconditional one: spell the arm as a bare `goto label;` with the target
+   block's first statement placed at the label head; the compiler cell mattered (2.7.2-cdk keeps an in-block
+   page base in a register where FSF 2.7.2 folds it) (`func_81844F2C` site B, cell switch 2.7.2-G0
+   -fno-schedule-insns2 -> 2.7.2-cdk-G0, NOT byte-neutral at the old cfg — section 4b).
+7. loop.c strength reduction takes the pointer induction variable's initial value from the address
+   expression's rtx: `&buf[i*2]` gives `addiu $s0,$sp,0x18`, `&screen_base[i*2]` through a real variable gives
+   the register copy `move $s0,$s7` (`func_818390F8`, five pins fell, flag dropped).
+8. Delete the pseudo-call AND its ASM_USE/ASM_KEEP cluster in ONE candidate; measuring with the cluster in
+   place over-constrains the join and hides free landings (`func_818EC800` 16 -> 10 pins, `func_81904990`
+   16 -> 13).
+9. Three of five "PASSTHRU-genuine" tags were wrong: the b.json `callee_defined` read the C tree's
+   declaration, not retail bytes; the honest fix corrected the callee TU to `(void)` (byte-neutral) rather
+   than passing arguments.
+10. ASM_TAILSLOT_PIN_TIED sites: spell the taken arm so its last statement is the slot producer; reorg fills
+    the slot itself and the tied pin falls (`func_818F2800`, five sites, five pins).
+
+---
+
+## Earlier handover (2026-09-22 01:40Z and before)
+
+**2026-09-22 04:00-05:30Z:** L1/L2 emptied (t1_boiler prelude rule, 69 Layer-2 promotions by an Opus agent, census
+`live_sites` comment fix, 7 rows); L0 172,804 -> 163,220 B. `t8c_passthru_joint`'s joint multi-site rewrite came back
+a clean negative: 89/89 candidates built, 0 exact, one forced-register mechanism (docs/FIDELITY.md's t8c paragraph).
+Ruling requested (docs/L0_BLOCKED_PLAN_20260922.md section 5): PASSTHRU_NO_ARGS on a `(void)`-and-exact callee looks
+like a false positive (`need` is a caller-side label, not callee-derived); a prepared, unapplied patch would move
+150 rows / 88,764 B to L1. **Ruled 2026-09-22 (owner): granted** — such a site is not a fidelity site;
+`passthru_void_callee.patch` applied, L0 163,220 -> 74,456 B (150 rows / 88,764 B freed: 2 to L1, 98 to L2, 50 to
+L3), wording fixed in FIDELITY.md and `tools/agent_task.py` (see docs/L0_BLOCKED_PLAN_20260922.md sec 5 "Ruling
+2026-09-22"). agy's Opus quota resets ~10:00Z; astra packs `l0_pt_ord1` / `l0_lacjump1` are built and
+unlaunched (codex usage cap until 09-26); Gemini `l0_pt_hold2` came back 0/12.
+
+**2026-09-22 (recount after the ruling):** L0 reclassified against the current text confirms 138
+rows / 74,456 B; new record shape + `callee_defined` field in `docs/evidence/l0_blocked_20260922b.json`,
+sections 1/2/4 of `docs/L0_BLOCKED_PLAN_20260922.md` rewritten to match (section 3 keeps the four
+original packs, with an added still-L0 column). `l0_pt_ord1` lost 9/12 rows to the ruling — its 3
+survivors are now undefined-callee, not ordinal-ambiguous, so it was **not** rebuilt; `l0_lacjump1`
+lost none, also not rebuilt.
+**2026-09-22 evening (Opus wave):** five Opus agents, one L0 remainder class each; L0 138/74,456 B
+-> 35/35,264 B — see `docs/L0_BLOCKED_PLAN_20260922.md` section 6 for the per-class before/after,
+paying templates, refusal classes and the current residue table. Two new tools: `tools/lanes/mint_rowbase.py`
+(mints a first `solved` rowbase record from a registered `true_name` identity or target-containment
+j-solve) and `config/void_callees.txt` + `census.declared_void_callees()` (28 callees with no C
+definition, read off their own retail bytes, declared not a fidelity site under the section-5 ruling).
+**Owner caveat:** one of those 28, `func_80071494`, is tier B — no callee image on disc, verdict from
+37 call sites only, gating 10 rows / 10,536 B; the file itself says how to drop it back to tier A only.
+
+**2026-09-22 evening (owner rulings + L3/L4 ladder, `docs/PIN_CAMPAIGN_CHARTER.md` "Rulings" section):** a retail
+`j` to a "function" symbol now needs a level check (mis-split risk); L3 needs a non-`intra`/`unresolved`
+`ledger/split_audit.jsonl` record per tail-jump dependency, L4 also needs pins == 0 and zero of them. Measured
+(347 split_audit records): 48 rows / 22,724 B sit at L2 instead of L3 (dungeon 37, town 3, main 4, ovmovie 4; 30
+`intra`, 17 `unresolved`, 1 unaudited); 70 rows / 53,248 B total is the population still needing audit coverage.
 
 **State:** 4,389 pins in 1,065 rows at 02:00Z 09-22 (STATUS.md has the live line; the tree was 5,682 on the morning of 09-21: 1,293 pins in a day).
 **Codex:** both models hit the usage limit at ~23:50Z on 09-21; the error says "try again at Sep 26th 2026 8:20 AM".

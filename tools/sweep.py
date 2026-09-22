@@ -35,6 +35,31 @@ def rows_cfg(row_id):
 def rows_cfg_prev(row_id):
     return _CFG.get(row_id)
 
+def _window_gate(row):
+    """After an exact candidate reaches src/, the row's WINDOW GATE -- the name of the first window
+    that does not match, else None.
+
+    Why a sweep needs this at all.  The per-row scorer links a row at its true base as soon as any
+    rowbase record covers it; the window gate does so only when the row ALSO has a registered
+    `true_name` and a `proven` region.  Wherever the two disagree a candidate whose internal `j`
+    words changed spelling is scorer-exact and still wrong in the window -- which is why
+    tools/promote.py gates a landing.  tools/sweep.py wrote src/ on the scorer alone, so the same
+    bodies reached the tree ungated (2026-09-22: two town rows landed by a sweep failed their
+    windows and had to be reverted by hand).  The predicate is promote.needs_gate, imported rather
+    than copied so the two landers cannot drift apart; rows it clears keep the old fast path, which
+    is nearly all of them.  Imported lazily: most sweep runs never apply a row."""
+    import importlib
+    promote = importlib.import_module("promote")
+    if not promote.needs_gate(row):
+        return None
+    from verify import run_window_gate, window_lock
+    for yaml_name in promote.windows_of(row):
+        with window_lock(yaml_name):
+            status, _msg = run_window_gate(yaml_name)
+        if status != "MATCH":
+            return yaml_name
+    return None
+
 def clean_path(row):
     return ROOT / "src" / row["container"] / Path(row["c_path"]).name
 
@@ -97,6 +122,14 @@ def one(args):
             with _CFG_LOCK:      # the row database is read-modify-written: one correction at a time
                 set_row_cfg(row["id"], info["cfg"], note=f"{T.name}: exact at this stock cell without scaffolding")
             rec["cfg_was"] = rows_cfg_prev(row["id"])
+        bad_window = _window_gate(row)          # AFTER the cell switch: the gate compiles at the row's cfg
+        if bad_window:
+            cp.write_text(text)                 # revert the text...
+            if rec.get("cfg_was"):              # ...and the cell, so the tree is exactly as we found it
+                with _CFG_LOCK:
+                    set_row_cfg(row["id"], rec["cfg_was"], note=f"{T.name}: reverted, window gate {bad_window}")
+                rec.pop("cfg_was", None)
+            return dict(rec, outcome="gate-mismatch", reason=bad_window)
         return dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - text.count("\n"))
     return dict(rec, outcome="mismatch" if v.get("status") == "ok" else "build-failed")
 
@@ -118,7 +151,7 @@ def main():
     (LEDGER / "sweeps").mkdir(exist_ok=True)
     journal = LEDGER / "sweeps" / f"{T.name}.jsonl"
     prior = read_jsonl(journal)
-    done = {(j["id"], j["in_sha"]) for j in prior if j.get("outcome") in ("applied", "noop", "refused")}
+    done = {(j["id"], j.get("in_sha")) for j in prior if j.get("outcome") in ("applied", "noop", "refused") and j.get("in_sha")}
     done |= {(j["id"], j["out_sha"]) for j in prior if j.get("outcome") == "applied" and j.get("out_sha")}   # already transformed
     jobs = []
     for r in rs:

@@ -48,7 +48,7 @@ Do not explore the repository: everything you need is in this message. Reply wit
 """
 
 PROMPT_FIDELITY = """You are removing ONE class of matching scaffolding from a function of a byte-exact PlayStation decompilation (Azure Dreams, GCC 2.7.2/2.8.1 era, maspsx assembler front end).
-The file below already compiles to the retail bytes, but it carries fidelity sites the decompiler left: a pseudo-call to a LABEL inside the function (retail has a plain `j` there; the C spells it as a call to a symbol that is declared noreturn, aliased with asm("func_X"), or listed in config/sibcall_syms.<container>.txt / config/noreturn_syms.<container>.txt so the assembler turns the `jal` into `j`), and/or a call written `f()` with no arguments where retail's callee reads argument registers the caller left in place. The bytes must stay identical; the scaffolding must go.
+The file below already compiles to the retail bytes, but it carries fidelity sites the decompiler left: a pseudo-call to a LABEL inside the function (retail has a plain `j` there; the C spells it as a call to a symbol that is declared noreturn, aliased with asm("func_X"), or listed in config/sibcall_syms.<container>.txt / config/noreturn_syms.<container>.txt so the assembler turns the `jal` into `j`), and/or a call written `f()` with no arguments where the caller still holds argument registers live at the call site (the audit's `need`, a caller-side label -- not a claim about what the callee reads) that the call should pass on. The bytes must stay identical; the scaffolding must go.
 FACTS for this row (from the retail bytes and the row database):
 {facts}
 RECIPES (measured on 60 rows; read them before the first edit):
@@ -164,7 +164,7 @@ def fidelity_facts(row, text):
             else:
                 lines.append(f"- LABEL_AS_CALL: `{tgt}` lies outside this function's extent: retail reaches it with a plain `j` (a tail jump to a dispatcher); the C spells it as a call")
         else:
-            lines.append(f"- PASSTHRU_NO_ARGS: `{tgt}()` is called with no arguments but reads registers {need.get(tgt, '?')} at the call")
+            lines.append(f"- PASSTHRU_NO_ARGS: `{tgt}()` is called with no arguments but the caller still holds {need.get(tgt, '?')} live at the call (the audit's `need`, a caller-side label)")
     lines.append(f"- live blocking sites now: {sum(live.get(k, 0) for k in ('LABEL_AS_CALL', 'PASSTHRU_NO_ARGS'))}")
     if covered is not None:
         lines.append("- ROWBASE: " + ("a proven rowbase region covers this row, so a new intra-function `j` links at the right address" if covered else "NO proven rowbase region covers this row: a rewrite that needs a NEW intra-function `j` cannot link correctly; only shapes that need no new jump (delete-the-call, loop forms, plain calls) can succeed"))

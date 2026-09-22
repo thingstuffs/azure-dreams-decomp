@@ -103,7 +103,7 @@ def assigned_before(text, encl, pos, names):
     return None
 
 def plan(text, row):
-    recs = t8.sites().get(row["id"]) or []
+    recs = t8.live_recs(text, row)   # PT-B: cached sites filtered to those still live in this text
     if not recs:
         raise t8.Refusal("no PASSTHRU_NO_ARGS site")
     if len(recs) > 1:
