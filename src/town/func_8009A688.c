@@ -1,10 +1,9 @@
 #include "common.h"
 extern u8 D_80082660[];
 
-typedef void (*Callback)(s32, void *, void *, void *);
+typedef void (*Callback)(s32, void *, void *);
 
 extern s32 func_800352FC(s32, void *, void *, void *);
-extern void func_80097E7C(s32, void *, void *);
 extern s32 *D_800D0508[];
 extern s32 *D_800FE5D8[3];
 
@@ -23,9 +22,7 @@ void func_80097DE8(s32 arg0, void *arg1, void *arg2, void *arg3) {
         carrier = D_800FE5D8[0];
         ASM_KEEP(carrier);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         call_arg2 = arg2;
-        func_80097E7C(call_arg0, call_arg1, call_arg2);
-           /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        return;
+        goto tail;
     }
 
     carrier = (void *)0x80080000;
@@ -51,8 +48,9 @@ void func_80097DE8(s32 arg0, void *arg1, void *arg2, void *arg3) {
         *(s8 *)(state + 8) = 0;
            /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
     }
+tail:
     callback = (Callback)carrier;
-    callback(call_arg0, call_arg1, call_arg2, state);
+    callback(call_arg0, call_arg1, call_arg2);
 }
 
 /* MECHANISM: The three incoming args stay in s0/s1/s2 under the retail 0x20 frame, while

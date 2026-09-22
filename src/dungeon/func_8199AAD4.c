@@ -103,7 +103,6 @@ extern void *D_800E3D18;
 
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
-extern void func_800244DC(void);
 extern void *func_80024924(void *, s32, s32, s32, void *, s32, s32, s32, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
@@ -225,8 +224,10 @@ state_two:
     object_entry = (S_8199AAD4_5 *)0x80020000;
     ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     table_end = (u8 *)object_entry + 0x4AE0;
-    object_entry = ((S_8199AAD4_0 *)self)->unk_04;
+    ASM_KEEP(table_end);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     table_start_2 = table_end - 0x54;
+loop_top:
+    object_entry = ((S_8199AAD4_0 *)self)->unk_04;
     start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
     start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
     target_node = object_entry->unk_08;
@@ -274,9 +275,9 @@ state_two:
     if (((S_8199AAD4_0 *)self)->unk_10.u >= table_end) {
         ((S_8199AAD4_0 *)self)->unk_10.u = table_start_2;
     }
-    func_800244DC();
-    iteration = (u8 *)iteration + 1;
     ASM_KEEP(iteration);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    iteration = (u8 *)iteration + 1;
+    goto loop_top;
 
 done:
     return;
