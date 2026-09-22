@@ -1,7 +1,7 @@
 #include "common.h"
 #include "m2c_compat.h"
 
-M2C_UNK func_8009EEAC(s32, s32, s32, s32);                            /* extern */
+M2C_UNK func_8009EEAC(void);                            /* extern */
 M2C_UNK func_8009F3D4(); /* extern */
 extern u8 D_800E3548[];
 extern u8 D_800E36C8[];
@@ -22,7 +22,7 @@ void func_8009F020(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_
     u8 *entry_position;
     s32 entry_index;
 
-    func_8009EEAC(setup_arg_0, setup_arg_1, setup_arg_2, setup_arg_3);
+    func_8009EEAC();
     entry_index = 0;
     entry_position = D_800E36C8;
     entry_state = D_800E3548;

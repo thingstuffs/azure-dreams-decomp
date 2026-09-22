@@ -12963,3 +12963,4 @@
 {"id":"town/func_80813294","transform":"t6_pin_notes","in_sha":"c77fb4b6b96db1407fa0a42de5d7153aada68fe9103bbb20b3573f0b9659c591","from_clean":true,"size":212,"outcome":"refused","reason":"no pins","at":"2026-09-22T11:04:06Z"}
 {"id":"town/func_808151F8","transform":"t6_pin_notes","in_sha":"24233701e661a3377ab6d49ea2d16a928062158a231e5bbe43fa19b7cad4a814","from_clean":true,"size":156,"outcome":"refused","reason":"no T2 verdict yet","at":"2026-09-22T11:04:06Z"}
 {"id":"dungeon/func_818F2800","transform":"t6_pin_notes","in_sha":"37b480815bb5b36983fd06c5db997df5156df26813f22c6207313a14850cd59d","from_clean":true,"size":2200,"outcome":"refused","reason":"no T2 verdict yet","at":"2026-09-22T11:04:06Z"}
+{"id":"dungeon/func_81844F2C","transform":"t6_pin_notes","in_sha":"296b67f4e102ea0a647c55dd41c78536138d4a3859164361b08b360fa3beb7c5","from_clean":true,"size":316,"outcome":"noop","at":"2026-09-22T13:55:42Z"}
