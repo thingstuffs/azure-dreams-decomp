@@ -129,8 +129,8 @@ case_16:
         {
             u32 special_entry_id;
 
-            special_entry_id = D_80010000[0x33E7];
-            ASM_KEEP_NV(special_entry_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            entry_offset = (u32)D_80010000;
+            special_entry_id = *(u8 *)(entry_offset + 0x33E7);
             if (special_entry_id == selected_id) {
                 goto case_default;
             }
