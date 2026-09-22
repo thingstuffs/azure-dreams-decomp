@@ -10,7 +10,6 @@ typedef struct {
 
 extern u8 D_80045340[];
 extern s32 D_800814A0[3];
-extern void func_800247C0() __attribute__((noreturn));
 extern void func_8004491C(void *, void *);
 extern void func_800478B8(void *);
 
@@ -25,19 +24,20 @@ void func_8183EE88(void *effect, StateBlock *motion, void *sprite) {
     owner = *(void **)effect;
     *(u16 *)((u8 *)owner + 0x52) |= 0x8000;
     phase = *(s16 *)((u8 *)effect + 0x4C);
-    if (phase != 0) {
-        if (phase != 1) {
-            func_800247C0();
-        }
+    if (phase == 0) {
+        goto tick_delay;
+    }
+    if (phase == 1) {
         goto update_sprite;
     }
+    return;
 
+tick_delay:
     delay = *(u16 *)((u8 *)effect + 0x48) - 1;
     *(u16 *)((u8 *)effect + 0x48) = delay;
     if ((delay << 0x10) <= 0) {
         func_8004491C((u8 *)effect - 0x20, D_80045340);
         *(u16 *)((u8 *)effect + 0x4C) += 1;
-        func_800247C0();
     }
     return;
 
@@ -55,7 +55,7 @@ update_sprite:
         *(s32 *)((u8 *)sprite + 0xC) = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_800247C0();
+        return;
     }
 
     shade = *(u8 *)((u8 *)sprite + 0xD) - *(u8 *)((u8 *)effect + 0x4A);
