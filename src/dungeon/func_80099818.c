@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern void func_8009EEAC(s32, s32, s32, s32);
+extern void func_8009EEAC(void);
 extern void func_8009F3D4(u8, u8, s32, s32, s32);
 
 typedef struct {
@@ -21,12 +21,12 @@ extern Unk3648 D_800E3648[0x20];
 extern Unk39C8 D_800E39C8[0x20];
 
 /* Create purple markers at eligible entry positions. */
-void func_8009EF78(s32 setup_arg_0, s32 setup_arg_1, s32 setup_arg_2, s32 setup_arg_3) {
+void func_8009EF78(void) {
     volatile Unk3648 *entry_state;
     volatile Unk39C8 *entry_position;
     s32 entry_index;
 
-    func_8009EEAC(setup_arg_0, setup_arg_1, setup_arg_2, setup_arg_3);
+    func_8009EEAC();
     entry_index = 0;
     entry_position = D_800E39C8;
     entry_state = D_800E3648;

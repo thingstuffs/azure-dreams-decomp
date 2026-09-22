@@ -20,7 +20,6 @@ typedef struct S_8186EDA8_1 {
 /* cfail-repair: tf7-phase1-cache-v3 */
 extern u16 D_80025308[];
 extern s32 D_800814A0[];
-extern void func_80024710() __attribute__((noreturn));
 s32 func_800644B8(s16);                          /* extern */
 s32 func_80064584(s16);                          /* extern */
 void func_800478B8(void *);                       /* extern */
@@ -109,17 +108,13 @@ case_1:
     radius = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C;
     if (radius >= 0x41) {
         if (radius >= 0x65) {
-            s32 tail_arg = 3;
-            ASM_TAILSLOT_PIN(tail_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_80024710(tail_arg);
-            return;
-        }
-        radius_step = 2;
-        if (radius < 0x47) {
+            radius_step = 3;
+        } else if (radius >= 0x47) {
+            radius_step = 2;
+        } else if (radius >= 0x33) {
+            radius_step = 2;
+        } else {
             radius_step = 1;
-            if (radius >= 0x33) {
-                radius_step = 2;
-            }
         }
         ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_0C - radius_step);
         effect_x = ((volatile DungeonEffect *)effect)->x1C;
