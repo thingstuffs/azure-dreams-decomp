@@ -120,8 +120,7 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
     register unsigned long return_step_addr ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 delta_y;
     s32 current_x;
-    s32 return_distance;
-    u8 *data_page;
+    s32 data_page;
     void *object_base;
     s32 record_index;
     Spawned *spawned;
@@ -270,14 +269,14 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
             direction = -direction;
         }
         angle_index = (u32)((u8 *)(((s32)(u8 *)angle_index) - (current_x)));
-        return_distance = (s32)(u8 *)angle_index;
+        data_page = (s32)(u8 *)angle_index;
         if ((s32)(u8 *)angle_index < 0) {
-            return_distance = -return_distance;
+            data_page = -data_page;
         }
-        if (return_distance < direction) {
-            return_distance = direction;
+        if (data_page < direction) {
+            data_page = direction;
         }
-        entity->timer = return_distance;
+        entity->timer = data_page;
         entity->state++;
         break;
 
@@ -294,13 +293,12 @@ void func_80F36D0C(Entity *entity_arg, Motion *motion_arg, Effect *effect_arg, O
         entity->callback = func_80170E94;
         D_80083460[0].count--;
         func_800A4ACC(object);
-        data_page = (u8 *)0x800E0000;
+        data_page = (s32)((u8 *)0x800E0000);
         if (object->flag6D == 0) {
             object->flags &= 0x7FFF;
         } else {
-            ASM_KEEP_NV(data_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             object_base = (u8 *)object - 0x20;
-            *(void **)(data_page + 0x3DE8) = object_base;
+            *(void **)(((u8 *)data_page) + 0x3DE8) = object_base;
         }
         break;
     }

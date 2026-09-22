@@ -86,9 +86,8 @@ void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPar
     void *owner_meta;
     void *owner_node;
     void *source_motion;
-    void *target_motion;
-    Position16 *source_pos;
-    Position16 *target_pos;
+    void *target_pos;
+    Position16 *table_x_entry;
     MotionWork work;
     s32 index;
     s32 state_index;
@@ -104,13 +103,12 @@ void func_800256BC(EffectState *effect, Motion *effect_motion, register ColorPar
     s32 tile_y;
     u32 table_page;
     register s32 table_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 *table_x_entry;
     s16 *table_y_entry;
     u16 *update_x_entry;
     u16 *update_y_entry;
     s32 table_offset;
     register s32 update_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 probe_z;
     register s32 next_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     s32 next_y;
     s32 direction_index;
@@ -152,10 +150,10 @@ case_0:
     }
 
     source_motion = PTR_AT(owner_meta, 8);
-    source_pos = (Position16 *)source_motion;
-    S16_AT(motion, 2) = source_pos->x;
-    S16_AT(motion, 6) = source_pos->y;
-    source_z = source_pos->z;
+    table_x_entry = (Position16 *)source_motion;
+    S16_AT(motion, 2) = table_x_entry->x;
+    S16_AT(motion, 6) = table_x_entry->y;
+    source_z = table_x_entry->z;
     S16_AT(motion, 0xA) = source_z;
 
     if (!(U16_AT(PTR_AT(owner_meta, 0xC), 0x14) & 0x8000)) {
@@ -172,15 +170,15 @@ case_0:
     index = 1;
     if (PTR_AT(owner, 0x60) != 0) {
         state->target = PTR_AT(owner, 0x60);
-        target_motion = PTR_AT(PTR_AT(owner, 0x60), -0x18);
+        target_pos = PTR_AT(PTR_AT(owner, 0x60), -0x18);
 
         motion_x = S16_AT(motion, 2);
-        x_distance = S16_AT(target_motion, 2) - motion_x;
+        x_distance = S16_AT(target_pos, 2) - motion_x;
         x_distance = abs(x_distance);
         work.probe_delta[0] = x_distance;
 
         {
-            s32 y_delta = S16_AT(target_motion, 6);
+            s32 y_delta = S16_AT(target_pos, 6);
             s32 motion_y = S16_AT(motion, 6);
             color_part = (u8 *)&work.destination + 2;
             y_delta -= motion_y;
@@ -188,7 +186,7 @@ case_0:
             work.probe_delta[1] = y_delta;
         }
 
-        z_distance = S16_AT(target_motion, 0xA) -
+        z_distance = S16_AT(target_pos, 0xA) -
                 D_800DDC40[U8_AT(state->target, 0x13)] - S16_AT(motion, 0xA);
         z_distance = abs(z_distance);
         work.probe_delta[2] = z_distance;
@@ -204,9 +202,9 @@ case_0:
             state->duration = 1;
         }
 
-        motion->dx = (S32_AT(target_motion, 0) - motion->x) / state->duration;
-        motion->dy = (S32_AT(target_motion, 4) - motion->y) / state->duration;
-        motion->dz = (S32_AT(target_motion, 8) -
+        motion->dx = (S32_AT(target_pos, 0) - motion->x) / state->duration;
+        motion->dy = (S32_AT(target_pos, 4) - motion->y) / state->duration;
+        motion->dz = (S32_AT(target_pos, 8) -
                       (((D_800DDC40[U8_AT(state->target, 0x13)] >> 1) * 3) << 16) -
                       motion->z) / state->duration;
         func_80025344(state, motion);
@@ -238,15 +236,15 @@ case_0:
         table_offset = (s16)state->direction;
         probe_z = U16_AT(owner, 0x88);
         table_offset *= 2;
-        table_x_entry = (s16 *)(table_offset + table_base);
-        ASM_KEEP(table_x_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        table_x_entry = (Position16 *)((s16 *)(table_offset + table_base));
         probe_z -= 0x20;
-        probe_z = (s16)probe_z;
+        probe_z = (u32)probe_z << 16;
+        probe_z >>= 16;
         table_base = (s32)D_8006CCE8;
         table_y_entry = (s16 *)(table_offset + table_base);
         ASM_KEEP(table_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ground_z = func_800BCB04(
-            (((s16)tile_x + *table_x_entry) << 6) + 0x20 & 0xFFE0,
+            (((s16)tile_x + *((s16 *)table_x_entry)) << 6) + 0x20 & 0xFFE0,
             (((s16)tile_y + *table_y_entry) << 6) + 0x20 & 0xFFE0,
             probe_z);
 
@@ -274,8 +272,7 @@ case_0:
         end_tile_x = next_x;
     } while (index < 8);
 
-    target_pos = (Position16 *)&work.destination;
-    ASM_KEEP_NV(target_pos);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    target_pos = (void *)((Position16 *)&work.destination);
     index = 1;
     x_distance = (u32)end_tile_x << 16;
     update_offset = (s32)(D_8006CCD8);
@@ -285,7 +282,7 @@ case_0:
     offset_x = ((s16 *)update_offset)[direction_index];
     update_offset = (s32)(D_8006CCE8);
     x_distance = x_distance + ((offset_x + 1) << 5);
-    target_pos->x = x_distance;
+    ((Position16 *)target_pos)->x = x_distance;
     x_distance = (s16)x_distance;
     ASM_KEEP(x_distance);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     table_base = end_tile_y;
@@ -295,10 +292,10 @@ case_0:
     offset_y = ((s16 *)update_offset)[direction_index];
     next_x = (s32)next_x >> 10;
     next_x += (offset_y + 1) << 5;
-    target_pos->y = next_x;
+    ((Position16 *)target_pos)->y = next_x;
     next_x = (u32)next_x << 16;
     next_y = U16_AT(motion, 0xA) + 0x20;
-    target_pos->z = next_y;
+    ((Position16 *)target_pos)->z = next_y;
 
     {
         s32 motion_coord;
@@ -335,9 +332,9 @@ case_0:
         state->duration = 1;
     }
 
-    motion->dx = (S32_AT(target_pos, 0) - motion->x) / state->duration;
-    motion->dy = (S32_AT(target_pos, 4) - motion->y) / state->duration;
-    motion->dz = (S32_AT(target_pos, 8) - motion->z) / state->duration;
+    motion->dx = (S32_AT((Position16 *)target_pos, 0) - motion->x) / state->duration;
+    motion->dy = (S32_AT((Position16 *)target_pos, 4) - motion->y) / state->duration;
+    motion->dz = (S32_AT((Position16 *)target_pos, 8) - motion->z) / state->duration;
     func_8002558C(state, motion);
     next_state = 6;
     goto set_state;

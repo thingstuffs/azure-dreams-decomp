@@ -279,17 +279,19 @@ clear_sprite_tile:
     sprite_grounded &= 0x8000;
     direction = angle & 7;
     if (!sprite_grounded) {
-        goto start_launch;
+        actor->unk_96 = 0xC;
+        goto start_launch_done;
     }
     if (!(partner_sprite->unk_14 & 0x8000)) {
-        goto start_launch;
+        actor->unk_96 = 0xC;
+        goto start_launch_done;
     }
     next_state = 2;
     actor->unk_96 = 0;
     goto store_state;
-start_launch:
     actor->unk_96 = 0xC;
-    ASM_SCHED_BARRIER();
+    start_launch_done:
+    ;
     x_step_table = D_8006CCD8;
     step_offset = direction * 2;
     x_step_table = (u8 *) (step_offset + (u32) x_step_table);

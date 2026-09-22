@@ -192,14 +192,16 @@ block_13:
     ((S_800930F0_5 *)(&D_800E4938))->unk_00.s = &D_80021268;
     D_80082EB8 = 0;
     (*(s32 *)&D_800E296C) = (s32) (((S_800930F0_6 *)(&D_800E296C))->unk_00 | 0x2000);
-    goto block_24;
+    ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
+    goto block_24_done;
 jt_c2:
     load_status = func_800A613C();
     D_800DCF64 = load_status;
     if (load_status == 0) {
         goto block_25;
     }
-    goto block_24;
+    ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
+    goto block_24_done;
 jt_c3:
     created_object = ((S_800930F0_5 *)(&D_800E4938))->unk_00.u(((S_800930F0_5 *)(&D_800E4938))->unk_04, ((S_800930F0_5 *)(&D_800E4938))->unk_08);
     ((Rec_D_800E3D7C *)state)->unk_C8 = created_object;
@@ -214,7 +216,8 @@ jt_c4:
     func_80040AA0(D_80082E6B);
     D_8008146C = *(u16 *)0x80010234;
     func_800481E0();
-    goto block_24;
+    ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
+    goto block_24_done;
 jt_c16:
     transition_base = (M2C_UNK *)0x800E0000;
     if (!(((S_800930F0_7 *)(&D_80013714))->unk_00 & 4)) {
@@ -242,14 +245,14 @@ block_23:
         zero_arg_1 = 0;
         zero_arg_2 = zero_arg_1;
         zero_arg_3 = zero_arg_1;
-        ASM_KEEP4_NV(command, zero_arg_1, zero_arg_2, zero_arg_3);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         flags_base = (u8 *)D_80080000;
         flags = 0x8000;
         ((S_800930F0_9 *)flags_base)->unk_2E76 = flags;
         func_80041094(command, zero_arg_1, zero_arg_2, zero_arg_3, 0x8000);
     }
-block_24:
     ((Rec_D_800E3D7C *)state)->unk_9B = (u8) (((Rec_D_800E3D7C *)state)->unk_9B + 1);
+    block_24_done:
+    ;
 jt_c5:
 jt_c6:
 jt_c7:

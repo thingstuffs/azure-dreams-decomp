@@ -114,7 +114,6 @@ extern s16 D_80530658[];
 extern s16 D_80530666;
 void func_8080C650(void *in0, void *in1, void *in2) {
     s16 *var_v1;
-    register s32 temp_s1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 raw_s1;
     s32 temp_v0_4;
     s16 temp_v1;
@@ -159,7 +158,7 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     global_s7 = D_8012F130;
     ASM_KEEP_NV(global_s7);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     global_s5 = D_801328E8;
-    temp_s1 = raw_s1;
+    temp_v0_3 = (void *)raw_s1;
     if (((S_8080C650_0 *)in0)->unk_68.s < 0xFF) {
         var_s0 = ((S_8080C650_0 *)in0)->unk_AC;
         if (((S_8080C650_1 *)var_s0)->unk_36 == 0xFF) {
@@ -167,8 +166,8 @@ void func_8080C650(void *in0, void *in1, void *in2) {
         }
     }
     func_80245C10(arg1);
-    if (((S_8080C650_2 *)arg1)->unk_08.at02.v >= temp_s1) {
-        ((S_8080C650_2 *)arg1)->unk_08.at02.v = temp_s1;
+    if (((S_8080C650_2 *)arg1)->unk_08.at02.v >= ((s32)temp_v0_3)) {
+        ((S_8080C650_2 *)arg1)->unk_08.at02.v = (s32)temp_v0_3;
     }
     func_8003EA54(arg2);
     temp_v1 = ((S_8080C650_0 *)in0)->unk_68.s;

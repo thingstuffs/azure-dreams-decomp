@@ -40,11 +40,10 @@ extern RootGlobal D_80083160;
 /* Builds and projects a textured, vertex-colored quad and links it into the ordering table. */
 s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     Poly *quad;
-    Context *context;
+    Context *u_right;
     s16 texture_page;
     register s32 tex_or_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 u_or_addr_mask;
-    s32 u_right;
     OffsetGlobal *offset_global;
     Scratch *scratch;
     register s32 *ot_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -63,12 +62,12 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
 
     vertex0 = (void *)0;
     vertex1 = (void *)3;
-    context = D_80083160.context;
+    u_right = D_80083160.context;
     vertex2 = (void *)0x300;
     scratch = (Scratch *)0x1F800000;
-    scratch->ordering_table = (u8 *)context + 0xB0;
-    quad = context->poly;
-    context->poly = (Poly *)((u8 *)quad + 0x34);
+    scratch->ordering_table = (u8 *)u_right + 0xB0;
+    quad = u_right->poly;
+    u_right->poly = (Poly *)((u8 *)quad + 0x34);
     quad->bytes[3] = 0xC;
     quad->bytes[7] = 0x3E;
     vertex3 = (void *)0x100;
@@ -86,8 +85,7 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     u_or_addr_mask = 0xC0;
     quad->halfwords[0xE / 2] = tex_or_link;
     tex_or_link = 0x40;
-    u_right = 0xFF;
-    ASM_KEEP(u_right);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u_right = (Context *)0xFF;
     quad->bytes[0xD] = tex_or_link;
     quad->bytes[0x19] = tex_or_link;
     quad->bytes[0x25] = 0x7F;
@@ -101,9 +99,9 @@ s32 func_81977230(s32 color0, s32 color1, s32 color2, s32 color3) {
     quad->bytes[0x28] = (u8)(color3 >> 0x10);
     quad->bytes[0x29] = (u8)(color3 >> 8);
     quad->bytes[0xC] = (u8)u_or_addr_mask;
-    quad->bytes[0x18] = (u8)u_right;
+    quad->bytes[0x18] = (u8)((s32)u_right);
     quad->bytes[0x24] = (u8)u_or_addr_mask;
-    quad->bytes[0x30] = (u8)u_right;
+    quad->bytes[0x30] = (u8)((s32)u_right);
     offset_global = &D_80026208;
     quad->bytes[6] = (u8)color0;
     quad->bytes[0x12] = (u8)color1;

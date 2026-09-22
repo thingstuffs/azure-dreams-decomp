@@ -142,10 +142,9 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
 
     {
         register u16 *x_steps;
-        register u16 *trial_x_step ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u16 *trial_x_step;
         u16 *first_x_step;
         u16 *first_y_step;
-        s32 trial_result;
         register s32 direction_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
         trial_dir = 0;
@@ -159,13 +158,13 @@ void func_8017516C(u8 *owner_data, Position *position_arg, Source *source_arg, C
             first_y_step = (u16 *)(direction_offset + (s32)table_or_owner);
         }
 search:
-        trial_result = func_8017506C(
+        trial_x_step = (u16 *)func_8017506C(
             (s16)(source_arg->x + first_x_step[0]),
             (s16)(source_arg->y + first_y_step[0]),
             position_arg->z,
             (s16)trial_dir,
             &hit);
-        if ((s16)trial_result != 0) {
+        if ((s16)((s32)trial_x_step) != 0) {
             goto trial_success;
         }
         trial_dir++;

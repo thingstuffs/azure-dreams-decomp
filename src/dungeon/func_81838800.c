@@ -173,13 +173,12 @@ void FUNC_80024000_BODY(S_func_81838800_1 *effect, S_func_81838800_2 *motion, S_
     };
 
     register u8 *direction_x ASM_REG("$4") = D_8006CCD8;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 direction_offset ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register u32 direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 direction_offset;
     caster = effect->unk_00;
-    direction = caster->unk_2A.u;
+    target = (S_func_81838800_4 *)caster->unk_2A.u;
     caster_obj = (S_func_81838800_5 *)((u8 *)caster - 0x20);
     caster_sprite = ((S_func_81838800_5 *)((u8 *)caster - 0x20))->unk_0C;
-    direction_offset = direction >> 8;
+    direction_offset = ((u32)target) >> 8;
     direction_offset &= 0xE;
     step_x = *(s16 *)(direction_x + direction_offset);
     step_y = *(s16 *)(D_8006CCE8 + direction_offset);

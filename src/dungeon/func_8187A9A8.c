@@ -280,11 +280,10 @@ extern u8 D_80083160_tpage[] __asm__("D_80083160");
 void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func_8187A9A8_3 *object, s32 depth_bias)
 {
     register u8 *ot_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    u8 *barrier_scratch;
+    S_func_8187A9A8_7 *barrier_scratch;
     S_func_8187A9A8_1 *scratch = (S_func_8187A9A8_1 *)0x1F800000;
     register s32 raw_depth_bias ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     S_func_8187A9A8_8 *texture;
-    register S_func_8187A9A8_7 *texture_data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u32 addr_mask ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     u32 tag_mask;
     s32 depth_offset;
@@ -325,7 +324,7 @@ void func_8187A9A8(S_func_8187A9A8_4 *mesh, S_func_8187A9A8_2 *transform, S_func
 
     depth_offset = (s16)raw_depth_bias;
     texture = object->unk_08;
-    texture_data = (S_func_8187A9A8_7 *)((u8 *)texture + 1);
+    barrier_scratch = (S_func_8187A9A8_7 *)((u8 *)texture + 1);
     scratch->unk_28 = object->unk_14;
     ASM_KEEP(texture);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
@@ -343,10 +342,10 @@ mesh_loop:
         packet = render_state_2->unk_8D0;
         render_state_2->unk_8D0 = (u8 *)packet + 0x28;
 
-        scratch->unk_0C.as_s32_0C = texture_data->unk_07;
-        scratch->unk_10.as_s32_10 = texture_data->unk_08;
-        scratch->unk_14.as_s32_14 = texture_data->unk_09;
-        scratch->unk_18.as_s32_18 = texture_data->unk_0A;
+        scratch->unk_0C.as_s32_0C = barrier_scratch->unk_07;
+        scratch->unk_10.as_s32_10 = barrier_scratch->unk_08;
+        scratch->unk_14.as_s32_14 = barrier_scratch->unk_09;
+        scratch->unk_18.as_s32_18 = barrier_scratch->unk_0A;
 
         scratch->unk_B0.as_u16_B0 = mesh->unk_58.as_u16_58;
         scratch->unk_B8.as_u16_B8 = mesh->unk_5A.as_u16_5A;
@@ -401,10 +400,10 @@ mesh_loop:
                     packet->unk_0E = texture_adjust;
                     goto after_palette;
                 }
-                palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_06;
+                palette_id = texture_adjust + ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
                 goto store_palette;
             }
-            palette_id = ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_06;
+            palette_id = ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_06;
         store_palette:
             packet->unk_0E = palette_id;
         after_palette: ;
@@ -417,9 +416,9 @@ mesh_loop:
 
             texture_adjust = object->unk_10;
             if (texture_adjust != 0) {
-                packet->unk_16 = texture_adjust + (((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_04 & 0xFF9F);
+                packet->unk_16 = texture_adjust + (((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_04 & 0xFF9F);
             } else {
-                packet->unk_16 = ((S_func_8187A9A8_8 *)((u8 *)texture_data - 1))->unk_04;
+                packet->unk_16 = ((S_func_8187A9A8_8 *)((u8 *)barrier_scratch - 1))->unk_04;
             }
 
             packet->unk_1C.as_u16_1C = scratch->unk_18.as_u16_18 +
@@ -436,7 +435,7 @@ mesh_loop:
                 packet->unk_24.as_u8_25.unk_25--;
             }
 
-            texture_flags = texture_data->unk_00;
+            texture_flags = barrier_scratch->unk_00;
             object->unk_0C.as_u8_0F.unk_0F = texture_flags;
             render_flags = scratch->unk_28;
             if (render_flags & 8) {
@@ -584,7 +583,7 @@ mesh_loop:
     }
 
     if ((s8)texture->unk_00 >= 0) {
-        texture_data = (S_func_8187A9A8_7 *)((u8 *)texture_data + 0x0C);
+        barrier_scratch = (S_func_8187A9A8_7 *)((u8 *)barrier_scratch + 0x0C);
         texture = (S_func_8187A9A8_8 *)((u8 *)texture + 0x0C);
         goto mesh_loop;
     }

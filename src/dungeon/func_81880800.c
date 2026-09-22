@@ -20,7 +20,7 @@ extern void func_80025654(void *, void *);
 extern s16 set_item_w0(u8, u8, u8, u8);
 extern void func_800A56E0(s32);
 extern s32 func_800A45D8(s32, s32, s16);
-extern void *func_80024968(void *, void *, s16);
+extern void *func_80024968(s32, void *, s16, s32);
 extern void func_80025760(void *, u8, void *);
 
 
@@ -80,7 +80,7 @@ void FUNC_81880800_BODY(void *effect_data, void *motion_data, void *part_data)
     s32 z_pos;
     s32 z_delta;
     s32 coord;
-    register u8 *spawn_target ASM_REG("$7");
+    u8 *spawn_target;
     register u32 tile_x ASM_REG("$2");
     u32 steps_left;
     s32 cell_center_x;
@@ -322,7 +322,7 @@ track_target:
 spawn_effect:
     spawn_target = F(owner, void *, 0x60);
     spawn_height = F(spawn_target, s16, 0x88);
-    F(self, void *, 0x0C) = func_80024968(self, motion, spawn_height);
+    F(self, void *, 0x0C) = func_80024968((s32)self, motion, spawn_height, (s32)spawn_target);
     if (F(self, void *, 0x0C) == 0) {
         goto finish;
     }

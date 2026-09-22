@@ -86,9 +86,8 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
     u32 global_kind;
     u32 branch_flags;
     void *current_frames;
-    void *default_frames;
     u8 *frame_table;
-    s32 direction_index;
+    s32 default_frames;
 
     saved_flags = spawn_flags;
     result = 0;
@@ -111,7 +110,7 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
     ((S_80171D64_1 *)result)->unk_13 = 0x16;
     func_8004491C(object, &D_80045340);
 
-    default_frames = D_80175E24;
+    default_frames = (s32)D_80175E24;
     kind_or_position = 0xE;
     position = ((S_80171D64_0 *)object)->unk_08;
     alternate_kind = 0xF;
@@ -119,13 +118,12 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
     height_or_sprite = (s32)((S_80171D64_0 *)object)->unk_0C;
     ASM_KEEP(height_or_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode_or_object = saved_flags & 3;
-    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = default_frames;
-    ASM_KEEP(default_frames);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    direction_index = 0x20;
+    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = (void *)default_frames;
+    default_frames = 0x20;
     ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = height;
     height = (s32)result;
     ((S_80171D64_3 *)((void *)height_or_sprite))->unk_24 = saved_x;
-    ((S_80171D64_1 *)result)->unk_4B = direction_index;
+    ((S_80171D64_1 *)result)->unk_4B = default_frames;
     ((S_80171D64_1 *)result)->unk_48 = kind_or_position;
     ((S_80171D64_1 *)result)->unk_49 = alternate_kind;
 
@@ -144,8 +142,8 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
         goto setup;
     }
 
-    direction_index = mode_or_object < 2;
-    if (!direction_index) {
+    default_frames = mode_or_object < 2;
+    if (!default_frames) {
         ((S_80171D64_1 *)result)->unk_14 |= 0x2000;
         ((S_80171D64_1 *)result)->unk_1C |= 0x2000;
         goto setup;
@@ -257,9 +255,9 @@ select_f:
     }
 table_store:
     (*(void * *)((u8 *)((void *)height_or_sprite) + 0x2C)) = frame_table;
-    direction_index = ((D_80083228 + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
+    default_frames = ((D_80083228 + ((S_80171D64_1 *)result)->unk_2A + 0x100) >> 9) & 7;
     func_80047784((void *)height_or_sprite,
-        *(u8 *)((u32)direction_index + (u32)frame_table),
+        *(u8 *)((u32)default_frames + (u32)frame_table),
         0);
 done:
     return result;

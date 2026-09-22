@@ -77,7 +77,7 @@ extern s16 func_800A0818(u8, u8, s16, s16, s16 *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s16 func_800BCAD0(void *);
 extern s32 func_8009A350(s16, s16, s32, u16 *);
-extern s32 func_800A45D8(u16, u16);
+extern s32 func_800A45D8(s32, s32, s32);
 extern s32 func_800A5690(void);
 extern void func_800A56E0(s32);
 extern void func_800240CC(void *, void *, s16);
@@ -106,6 +106,7 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
     s32 axis;
     u8 *delta_ptr;
     s16 *target_pos;
+    s32 target_z;
 
     state->timer++;
     state_id = state->state;
@@ -224,7 +225,7 @@ place_target:
                 goto state_set;
             }
             {
-                register s32 target_z ASM_REG("$6") = S16_AT(target_pos, 0xA);
+                target_z = S16_AT(target_pos, 0xA);
 
                 direction_x = (u32)(target_z < 0x201);
                 if (!(s32)direction_x) {
@@ -237,7 +238,7 @@ place_target:
                     goto state_set;
                 }
             }
-            if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6)) << 16) != 0) {
+            if ((func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0) {
                 s32 fallback_value;
 
                 fallback_value =

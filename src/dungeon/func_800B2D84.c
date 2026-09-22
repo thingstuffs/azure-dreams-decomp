@@ -47,12 +47,11 @@ void func_800B84E4(DungeonPosition *position, DungeonParameters *parameters, s32
   s32 center_xy;
   s32 outer_color3;
   s32 offset;
-  register u8 *state_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   u8 *quad_packet;
   s32 packet_order;
   register s32 scratch ASM_REG("$8");
-  state_base = D_80083160 - 0x3160;
-  cursor = (*((DungeonState **) (state_base + 0x3160)))->cursor;
+  packet_order = (s32)(D_80083160 - 0x3160);
+  cursor = (*((DungeonState **) (((u8 *)packet_order) + 0x3160)))->cursor;
   scratchpad = (volatile u8 *) 0x1F800000;
   *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x74)) = 0;
   *((volatile u16 *) (((volatile u8 *) scratchpad) + 0x7C)) = 0;

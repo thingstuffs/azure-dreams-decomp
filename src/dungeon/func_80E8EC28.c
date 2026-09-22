@@ -76,10 +76,9 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     s32 y_step;
     s32 x_step;
     s16 *x_step_ptr;
-    u32 direction_offset;
+    s32 direction_offset;
     register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 height;
-    register s32 search_result ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *world;
     s16 *level;
@@ -188,13 +187,13 @@ case_4_check:
         goto case_3;
     }
     {
-        search_result = func_800A4E2C(actor + 0x24, actor + 0x25);
+        direction_offset = func_800A4E2C(actor + 0x24, actor + 0x25);
         attempts_left--;
-        if (search_result < 0) {
+        if (direction_offset < 0) {
             goto case_4_check;
         }
         attempts_left++;
-        if (search_result != (s8)world[0x26]) {
+        if (direction_offset != (s8)world[0x26]) {
             goto case_4_position;
         }
         attempts_left--;
@@ -203,10 +202,10 @@ case_4_check:
         }
         attempts_left++;
 case_4_position:
-        search_result = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
+        direction_offset = func_800BCB04((((S_80174428_2 *)actor)->unk_24 << 6) | 0x20,
             (((S_80174428_2 *)actor)->unk_25 << 6) | 0x20,
             (s16)(((S_80174428_3 *)motion)->unk_0A - 0x80));
-        raw_direction = search_result < 0x201;
+        raw_direction = direction_offset < 0x201;
         attempts_left--;
         if (!raw_direction) {
             goto case_4_check;

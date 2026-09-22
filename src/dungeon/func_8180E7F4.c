@@ -204,14 +204,12 @@ void *func_800277F4(void *first, void *second, void *destination) {
     u8 *clear_result_seen;
     u8 *clear_abilities;
     u8 *ability_ids;
-    D_8006DE24_Record *ability_table;
-    u8 *result_seen;
-    u8 *merge_out;
+    D_8006DE24_Record *result_seen;
     u8 *other_data;
     M2C_UNK map_mask;
     s16 result_primary;
     s16 donor_primary;
-    s16 result_match;
+    u8 *merge_out;
     s16 other_match;
     register s16 ability_count ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 source_side;
@@ -373,13 +371,13 @@ merge_donor_primary:
             ASM_KEEP_NV(visited_slot);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (*visited_slot == 0) {
                 donor_primary_data = donor + (donor_primary * 3);
-                result_match = func_800A57B4(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
-                if (result_match >= 0) {
-                    merge_buffer[result_match] = 1;
+                merge_out = (u8 *)func_800A57B4(result, ((S_800277F4_6 *)donor_primary_data)->unk_08);
+                if (((s16)merge_out) >= 0) {
+                    merge_buffer[((s16)merge_out)] = 1;
                 }
                 *visited_slot = 1;
-                if (result_match >= 0) {
-                    result_ability = result + (result_match * 3);
+                if (((s16)merge_out) >= 0) {
+                    result_ability = result + (((s16)merge_out) * 3);
                     if ((u8) ((S_800277F4_6 *)donor_primary_data)->unk_0A < (u8) ((S_800277F4_7 *)result_ability)->unk_0A) {
                         s32 copy_dst_index = (s16) ability_count;
                         s32 copy_dst_offset;
@@ -429,10 +427,8 @@ donor_primary_done:
             }
         }
         scan_index = 0;
-        result_seen = merge_buffer;
-        ASM_KEEP_NV(result_seen);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        result_seen = (D_8006DE24_Record *)merge_buffer;
         merge_out = merged_abilities;
-        ASM_KEEP_NV(merge_out);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 scan_abilities:
         if (ability_count < (s32) ability_limit) {
             source = donor;
@@ -441,7 +437,7 @@ scan_abilities:
             }
             ability_index = scan_index >> 1;
             ability_offset = ability_index * 3;
-            if ((((S_800277F4_9 *)((source + ability_offset)))->unk_08 != 0) && (*((source_side * 3) + result_seen + ability_index) == 0)) {
+            if ((((S_800277F4_9 *)((source + ability_offset)))->unk_08 != 0) && (*((source_side * 3) + ((u8 *)result_seen) + ability_index) == 0)) {
                 other = donor;
                 if (source_side != 0) {
                     other = result;
@@ -457,7 +453,7 @@ scan_abilities:
                     goto copy_source_ability;
                 }
                 if (other_match >= 0) {
-                    other_data = result_seen;
+                    other_data = (u8 *)result_seen;
                     if (source_side == 0) {
                         other_data = donor_seen;
                     }
@@ -521,7 +517,7 @@ finish_ability:
                 }
                 ability_count += 1;
                 {
-                    u8 *visited_row = (u8 *) ((source_side * 3) + (s32) result_seen);
+                    u8 *visited_row = (u8 *) ((source_side * 3) + (s32) ((u8 *)result_seen));
                     s32 visited_index = scan_index >> 1;
                     visited_row[visited_index] = 1;
                 }
@@ -545,7 +541,7 @@ apply_abilities:
             merged_abilities[2] = 1;
         }
         ASM_USE_NV(ability_count);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ability_table = D_8006DE24;
+        result_seen = D_8006DE24;
         ability_ids = &merge_buffer[8];
         do {
             {
@@ -553,7 +549,7 @@ apply_abilities:
                 if (ability_id != 0) {
                     u8 ability = ability_id;
                     allowed_elements = ((S_800277F4_0 *)result)->unk_14.n;
-                    if (!(ability_table[ability].flags & 7 & allowed_elements)) {
+                    if (!(result_seen[ability].flags & 7 & allowed_elements)) {
                         if (allowed_elements & 1) {
                             ability_ids[scan_index * 3] = (u8) ((((ability - 1) / 3) * 3) + 1);
                             goto store_ability;

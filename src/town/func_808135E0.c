@@ -30,14 +30,13 @@ s32 func_808135E0(void *first_item)
     u32 length_mask;
     s32 screen_coords[2];
     s32 *screen_y;
-    register s32 *out_x ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 *out_y ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 *out_x;
+    s32 *out_y;
     s32 start_depth;
     s32 depth_sum;
     s32 end_depth;
     s32 depth_index;
     s32 table_offset;
-    u32 draw_mode;
 
     item = first_item;
     render_context = &D_8012F130;
@@ -98,8 +97,8 @@ s32 func_808135E0(void *first_item)
                 }
 
                 *(u8 **)(state_pool + 0x8D0) = after_state;
-                draw_mode = func_8006D9DC(0, 0, 0, 0);
-                func_8006F49C((u8 *)depth_sum, 0, 0, (u16)draw_mode, 0);
+                out_y = (s32 *)func_8006D9DC(0, 0, 0, 0);
+                func_8006F49C((u8 *)depth_sum, 0, 0, (u16)((u32)out_y), 0);
 
                 state_table = *render_context;
                 state_head = (u32 *)(table_offset + (u32)state_table + 0xB0);

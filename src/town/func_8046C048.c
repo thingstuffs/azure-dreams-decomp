@@ -49,17 +49,19 @@ void func_8001D048(void) {
     mode_check = func_8001E7E4(1);
     mode = 0;
     if (mode_check != 0) {
-        goto mode_done;
+        row_index = 0;
+        goto mode_done_done;
     }
     mode_check = func_8001E7E4(2);
     mode = 2;
     if (mode_check == 0) {
-        goto mode_done;
+        row_index = 0;
+        goto mode_done_done;
     }
     mode = 1;
-mode_done:
     row_index = 0;
-    ASM_KEEP(row_index);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    mode_done_done:
+    ;
     do {
         row_offset = row_index;
     } while (0);

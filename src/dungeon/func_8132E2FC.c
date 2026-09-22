@@ -86,7 +86,8 @@ void func_801652FC(
     register void *object ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *state;
     register s32 duration_s16;
-    register s32 divisor ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 divisor;
+    s16 initial_divisor;
     s32 numerator_x;
     s32 quotient_x;
     register s32 quotient_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -111,7 +112,8 @@ void func_801652FC(
         ((S_801652FC_0 *)state)->unk_46 = ((S_801652FC_4 *)(source_obj->unk_08))->unk_0A;
 
         duration_s16 = (s16)saved_duration;
-        divisor = duration_s16;
+        initial_divisor = duration_s16;
+        divisor = initial_divisor;
         numerator_x = -(saved_offset_x << 16);
         if (duration_s16 < 0) {
             divisor = duration_s16 + 7;
@@ -119,13 +121,14 @@ void func_801652FC(
         divisor >>= 3;
 
         quotient_x = numerator_x / divisor;
-        ((S_801652FC_0 *)state)->unk_4C = quotient_x / 2;
-        ASM_KEEP(quotient_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        duration = quotient_x / 2;
+        ((S_801652FC_0 *)state)->unk_4C = duration;
         duration = -(saved_offset_y << 16);
         quotient_y = duration / divisor;
-        ((S_801652FC_0 *)state)->unk_50 = quotient_y / 2;
-        ASM_KEEP(quotient_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        quotient_z = -(saved_offset_z << 16) / divisor;
+        duration = quotient_y / 2;
+        ((S_801652FC_0 *)state)->unk_50 = duration;
+        duration = -(saved_offset_z << 16);
+        quotient_z = duration / divisor;
         ((S_801652FC_0 *)state)->unk_54 = quotient_z / 2;
 
         rounded_x = quotient_x;

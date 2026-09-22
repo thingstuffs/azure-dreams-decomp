@@ -88,7 +88,8 @@ void func_81844F2C(void *effect_data) {
 
 state_at_least_2:
     if (state == 2) {
-        goto state_2;
+        flag_page = (u8 *)0x80080000;
+        goto state_2_done;
     }
     func_80024860();
     return;
@@ -127,9 +128,9 @@ state_1:
     func_80024860();
     return;
 
-state_2:
     flag_page = (u8 *)0x80080000;
-    ASM_KEEP(flag_page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    state_2_done:
+    ;
     ((S_81844F2C_0_pre *)effect)[-1].unk_00 =
         (u16)(((S_81844F2C_0_pre *)effect)[-1].unk_00 | 0x8000);
     ((S_81844F2C_4 *)flag_page)->unk_14A0 |= 0x8000;

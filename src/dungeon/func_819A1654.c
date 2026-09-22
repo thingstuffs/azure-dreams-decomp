@@ -167,9 +167,9 @@ extern void func_80045340(void);
 /* Advance the entity effect sequence, spawning particles and trails before cleanup. */
 void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     PointTable points;
-    register Task *task ASM_REG("$18");
-    register Effect *effect ASM_REG("$17");
-    register Sprite *sprite ASM_REG("$16");
+    Task *task;
+    Effect *effect;
+    Sprite *sprite;
     Coord *coord;
     Coord *start_origin;
     Coord *origin_loop;
@@ -183,7 +183,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
     s32 path_pair;
     s32 first_path_timer;
     s32 sound_id;
-    s16 saved_timer;
+    s32 saved_timer;
     s16 rechecked_timer;
     void (*particle_callback)(void);
 
@@ -291,7 +291,6 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                         sprite->field1A = (func_80069EF8() & 0xF) << 8;
                         *(Blob12 *)(task->data) = D_80026180[0];
                         sprite->data = task->data;
-                        ASM_KEEP(task);
                     }
                     spawn_index++;
                 } while (spawn_index < 10);
@@ -326,8 +325,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                     sprite->g = 0x80;
                     sprite->r = 0x80;
                     *(Blob12 *)(task->data) = D_8002618C[0];
-                    sprite->data = task->data;
-                    ASM_KEEP(task);
+                    (*(void **)((u8 *)sprite + 8)) = task->data;
                 }
             }
         }
@@ -361,7 +359,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                             path_bits = (u16)entity->x;
                             path_saved_base = entity->base[0];
                             path_bits <<= 16;
-                            path_half = (s32)path_bits >> 16;
+                            path_half = (s32)path_bits;
+                            path_half >>= 16;
                             path_half += path_bits >> 31;
                         }
                         origin_path = D_80083780;
@@ -372,7 +371,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                             copy_page = (u8 *)((u16)entity->z);
                             path_half_2 = entity->base[2];
                             copy_page = (u8 *)(((u32)copy_page) << (16));
-                            path_saved_base = (s32)(u32)copy_page >> 16;
+                            path_saved_base = (s32)(u32)copy_page;
+                            path_saved_base >>= 16;
                             copy_page = (u8 *)(((u32)copy_page) >> (31));
                             path_saved_base += (u32)copy_page;
                             path_saved_base >>= 1;
@@ -421,8 +421,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
                                 *(Blob12 *)(task->data) = D_8002618C[0];
-                                sprite->data = task->data;
-                                ASM_KEEP(task);
+                                (*(void **)((u8 *)sprite + 8)) = task->data;
                             }
                         }
 
@@ -471,8 +470,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
                                 *(Blob12 *)(task->data) = D_8002618C[0];
-                                sprite->data = task->data;
-                                ASM_KEEP(task);
+                                (*(void **)((u8 *)sprite + 8)) = task->data;
                             }
                         }
 
@@ -522,8 +520,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                 sprite->g = 0x80;
                                 sprite->r = 0x80;
                                 *(Blob12 *)(task->data) = D_8002618C[0];
-                                sprite->data = task->data;
-                                ASM_KEEP(task);
+                                (*(void **)((u8 *)sprite + 8)) = task->data;
                             }
 
                             rechecked_timer = entity->timer;
@@ -576,8 +573,7 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                     sprite->g = 0x80;
                                     sprite->r = 0x80;
                                     *(Blob12 *)(task->data) = D_8002618C[0];
-                                    sprite->data = task->data;
-                                    ASM_KEEP(task);
+                                    (*(void **)((u8 *)sprite + 8)) = task->data;
                                 }
 
                                 saved_timer = entity->timer;
@@ -630,22 +626,20 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                         sprite->g = 0x80;
                                         sprite->r = 0x80;
                                         *(Blob12 *)(task->data) = D_8002618C[0];
-                                        sprite->data = task->data;
-                                        ASM_KEEP(task);
+                                        (*(void **)((u8 *)sprite + 8)) = task->data;
                                     }
 
                                     if (entity->timer == saved_timer) {
-                                        register s32 trail_index ASM_REG("$20");
                                         s32 trail_fraction;
                                         s32 interp_x;
                                         s32 interp_z;
                                         s32 interp_base;
                                         register s32 out_x ASM_REG("$7");
-                                        trail_index = 0;
+                                        saved_timer = 0;
                                         loop_1: {
                                             interp_base = entity->path[18];
                                             interp_work = entity->path[6] - interp_base;
-                                            trail_fraction = trail_index << 1;
+                                            trail_fraction = saved_timer << 1;
                                             interp_x = interp_work * trail_fraction;
                                             if (interp_x < 0) {
                                                 interp_x += 15;
@@ -687,8 +681,8 @@ void func_80024E54(Entity *entity, void *saved_context, void *saved_data) {
                                                         out_z;
                                                     }));
                                             }
-                                            trail_index++;
-                                        } if (trail_index < 16) goto loop_1;
+                                            saved_timer++;
+                                        } if (saved_timer < 16) goto loop_1;
                                     }
                                 }
                             }

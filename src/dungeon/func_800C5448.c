@@ -98,7 +98,8 @@ jt_c1:
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
     next_duration = 8;
-    goto block_9;
+    ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
+    goto block_9_done;
 jt_c2:
     effect_base = effect - 0x20;
     ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
@@ -121,15 +122,14 @@ jt_c2:
     ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8) fade_green;
     ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (fade_blue + blue_step);
     if ((fade_ticks_left << 0x10) > 0) {
-        goto block_23;
+        return;
     }
     func_8009C12C(actor_state, record, ((S_800CABA8_2 *)actor_state)->unk_2A, 0);
     phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
-    ASM_KEEP(phase_or_ticks);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     next_duration = 4;
-block_9:
     ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    block_9_done:
+    ;
     ((S_800CABA8_0 *)effect)->unk_9B = (u8) (phase_or_ticks + 1);
     return;
 jt_c3:

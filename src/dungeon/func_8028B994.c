@@ -27,7 +27,7 @@ void func_8001E994(void)
     s32 item_offset;
     s32 item_index;
     s32 weight_bits;
-    u16 item_flags;
+    s32 item_flags;
     s16 *category_total;
     u8 *group;
     u8 *group_copy;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -73,19 +73,18 @@ add_item:
                     }
                     weight_bits >>= 0xC;
                     {
-                        register s32 weight_class ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
-                        weight_class = weight_bits & 3;
+                        item_flags = weight_bits & 3;
                         item_weight = 0x80;
-                        if (weight_class != 0) {
+                        if (item_flags != 0) {
                             s32 one;
 
                             one = 1;
                             ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                             item_weight = 0x55;
-                            if (weight_class != one) {
+                            if (item_flags != one) {
                                 item_weight = one;
-                                if (weight_class == two) {
+                                if (item_flags == two) {
                                     item_weight = 0x20;
                                 }
                             }

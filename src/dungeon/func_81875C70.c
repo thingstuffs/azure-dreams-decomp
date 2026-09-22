@@ -23,11 +23,10 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
     u16 state0;
     u16 limit0;
     u16 timer1;
-    u16 adv;
+    s32 adv;
     u16 state1;
     u16 h1;
     register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 cond ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 color;
     s32 r0;
     s32 r1;
@@ -137,8 +136,8 @@ jt_c4:
         r3 = (s16)((func_80069EF8() & 0x3F) - 0x60);
         color = 0xE04040;
         func_80025338(p - 0x20, 0, color, r0, r1, r2, r3);
-        cond = i < 0x20;
-        if (cond) {
+        adv = i < 0x20;
+        if (adv) {
             func_800256AC();
         }
         return;

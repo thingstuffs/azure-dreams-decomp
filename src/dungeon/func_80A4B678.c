@@ -64,6 +64,11 @@ extern s32 func_800644B8(s32);
 extern u8 D_80045340;
 extern void func_80174934(void);
 
+static __inline__ u16 hold_intensity(s32 value)
+{
+    return value;
+}
+
 /* Creates a 16-segment ring effect at the supplied position. */
 void func_80174E78(Source *source, Vec3i *center)
 {
@@ -160,8 +165,7 @@ void func_80174E78(Source *source, Vec3i *center)
         intensity = 128;
         prim->field_0C = intensity;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        held_intensity = intensity;
-        ASM_KEEP(held_intensity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        held_intensity = hold_intensity(intensity);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         prim->field_1E = 4096;
         prim->field_1C = 4096;
         prim->field_0D = base_level;

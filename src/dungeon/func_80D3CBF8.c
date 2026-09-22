@@ -55,7 +55,6 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     s32 limit_turn;
     s32 attempt;
     register s16 *angle_step ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 target_x;
     s32 target_y;
     s32 candidate_angle;
@@ -64,7 +63,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     s16 direction_offset;
     s32 direction;
     s32 tile_type;
-    register s32 work_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 work_value;
     void *node;
     void *parent;
 
@@ -112,7 +111,7 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
             }
 
             work_value = S32_AT(actor, 0x14);
-            if (work_value >= 0) {
+            if (!(work_value & 0x80000000)) {
                 S32_AT(actor, 0x14) = work_value | 0x80000000;
                 call_result = func_800A6D30();
                 U16_AT(actor, 0x2A) += (call_result & 7) << 9;
@@ -132,7 +131,9 @@ void func_801723F8(void *work_data, void *action_context, void *position_data, v
     if (movement_flags & 0x2000) {
         if (U16_AT(actor, 0x46) & 0x8000) {
             attempt = 0;
-            goto loop_ready;
+            attempt = 0;
+            work_value = (s32)0x80070000;
+            goto loop_ready_done;
         }
 
         if (movement_flags & 0x20000) {
@@ -241,15 +242,16 @@ loop_setup:
 loop_ready:
     attempt = 0;
     work_value = (s32)0x80070000;
-    ASM_KEEP(work_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    loop_ready_done:
+    ;
     angle_step = (s16 *)(work_value - 0x3300);
 
 loop_head:
-    angle = S16_AT(actor, 0x2A);
+    node = (void *)S16_AT(actor, 0x2A);
     if (U16_AT(work_data, 0x98) & 2) {
-        candidate_angle = angle - *angle_step;
+        candidate_angle = ((s32)node) - *angle_step;
     } else {
-        candidate_angle = angle + *angle_step;
+        candidate_angle = ((s32)node) + *angle_step;
     }
 
     call_result = func_8009A8C0((s16)candidate_angle, position, actor, 0x20);

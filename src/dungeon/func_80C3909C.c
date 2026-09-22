@@ -109,7 +109,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
         s32 outer_index;
     } stack;
     s32 saved_kind;
-    register s32 saved_halfword ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 saved_halfword;
     s16 saved_byte_25;
     void *object;
     register void *child_slot ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -217,11 +217,10 @@ flags_done:
     ((S_8014C89C_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        void *child;
         register void *root_link ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        child = func_8003FD64(0x112, D_80083498);
-        allocated = child;
+        saved_halfword = (s32)func_8003FD64(0x112, D_80083498);
+        allocated = (void *)saved_halfword;
         ((S_8014C89C_5 *)child_slot)->unk_A4 = allocated;
         if (allocated != 0) {
             s32 item_offset;

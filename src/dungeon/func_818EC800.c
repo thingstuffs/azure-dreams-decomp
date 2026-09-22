@@ -117,7 +117,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   u8 flipped_x;
   u8 origin_x;
   u8 flipped_y;
-  u8 origin_y;
+  s32 row_index;
   s32 clut_offset;
   s32 tpage_offset;
   s32 mirrored_x;
@@ -140,21 +140,19 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   s32 view_axis_x;
   s32 view_axis_y;
   s32 view_axis_z;
-  s32 row_index;
   u16 screen_y;
   u16 projected_y;
   u16 pivot_x;
   u16 pivot_y;
-  u16 draw_flags;
   u16 next_row_y;
   u8 prim_code;
   u8 right_u;
-  u8 bottom_tex_v;
+  u16 draw_flags;
   s32 left_x;
   register u8 *scratch ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   void *frame;
   void *row_effect;
-  register u8 *frame_data ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  u8 *frame_data;
   void *sprite;
   void *setup_arg;
   u8 *context_addr;
@@ -267,8 +265,8 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     }
     else
     {
-    origin_y = *((volatile u8 *) (((s8 *) frame_data) + (-5)));
-    quad_y = ((s8) origin_y) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
+    row_index = *((volatile u8 *) (((s8 *) frame_data) + (-5)));
+    quad_y = ((s8) row_index) - (*((u16 *) (((s8 *) scratch) + 0x10A)));
     *((u16 *) (((s8 *) scratch) + 0x7A)) = quad_y;
     *((u16 *) (((s8 *) scratch) + 0x72)) = quad_y;
     quad_y = quad_y + (*((u16 *) (((s8 *) scratch) + 0x14)));
@@ -309,7 +307,9 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
       if ((*((u16 *) (((s8 *) scratch) + 0x24))) & 0x100)
       {
         *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
-        goto clut_done;
+        *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
+        *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
+        goto clut_done_done;
       }
       texture_word = clut_offset + (*((u16 *) (((s8 *) frame_data) + (-2))));
       *((u16 *) (((s8 *) packet) + 0xE)) = (u16) texture_word;
@@ -318,9 +318,10 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     {
       *((u16 *) (((s8 *) packet) + 0xE)) = (u16) (*((u16 *) (((s8 *) frame_data) + (-2))));
     }
-clut_done:
     *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
     *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
+    clut_done_done:
+    ;
     tpage_offset = *((u16 *) (((s8 *) sprite) + 0x10));
     if (tpage_offset != 0)
     {
@@ -342,14 +343,13 @@ clut_done:
     edge_value = *((s16 *) (((s8 *) packet) + 0xA));
     if ((*((s16 *) (((s8 *) packet) + 0x22))) < edge_value)
     {
-      bottom_tex_v = *((u8 *) (((s8 *) packet) + 0x25));
-      *((u8 *) (((s8 *) packet) + 0x25)) = (u8) (bottom_tex_v + 0xFF);
-      *((u8 *) (((s8 *) packet) + 0x1D)) = bottom_tex_v;
+      draw_flags = *((u8 *) (((s8 *) packet) + 0x25));
+      *((u8 *) (((s8 *) packet) + 0x25)) = (u8) (draw_flags + 0xFF);
+      *((u8 *) (((s8 *) packet) + 0x1D)) = draw_flags;
     }
     prim_code = *((u8 *) (((s8 *) frame_data) + (-7)));
     *((u8 *) (((s8 *) sprite) + 0xF)) = prim_code;
     draw_flags = *((u16 *) (((s8 *) scratch) + 0x24));
-    ASM_KEEP_NV(draw_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     if (draw_flags & 8)
     {
       if (draw_flags & 4)
@@ -372,7 +372,6 @@ clut_done:
       *((Blk8 *) copy_dst) = *((Blk8 *) copy_src);
     }
     row_index = 0;
-    ASM_KEEP(row_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     wave_phase = *((s16 *) (((s8 *) effect) + 0x8C));
     do
     {

@@ -293,8 +293,6 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     s32 sprite_color;
     s32 angle_offset;
     s32 effect_flags;
-    s16 direction_y_entry;
-    s32 target_x;
     s32 target_y;
     s32 state;
     s16 floor_height;
@@ -329,11 +327,11 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     S_8182C800_18 *burst_motion_x;
     S_8182C800_19 *burst_motion_y;
     S_8182C800_12 *trail_pos_z;
-    S_8182C800_3 *owner_model;
+    S_8182C800_3 *target_x;
     S_8182C800_10 *trail_pos_x;
     S_8182C800_11 *trail_pos_y;
     S_8182C800_4 *owner_sprite;
-    register S_8182C800_9 *target_sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    S_8182C800_9 *target_sprite;
     S_8182C800_20 *burst_sprite;
     S_8182C800_15 *particle;
     void *object;
@@ -351,8 +349,8 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     direction_offset = motion_extent & 0xE;
     direction_x = *(s16 *)((u8 *)direction_x_table + direction_offset);
     owner_object = owner - 0x20;
-    direction_y_entry = *(s16 *)((u8 *)D_8006CCE8 + direction_offset);
-    direction_y = (s32) direction_y_entry;
+    target_sprite = (S_8182C800_9 *)(*(s16 *)((u8 *)D_8006CCE8 + direction_offset));
+    direction_y = (s32) ((s16)target_sprite);
     if ((u32) state >= 5) {
         return;
     }
@@ -365,8 +363,8 @@ void BODY_NAME(void *effect, void *motion, void *sprite) {
     }
 state_launch:
         if (*((Rec_D_800E3D7C *)effect)->unk_04.at00_pu16.v & 0x80) {
-            owner_model = owner_object->unk_0C;
-            if (func_8003DE58(owner_model->unk_08, owner_model, &frame.sp38, 0) == 0) {
+            target_x = owner_object->unk_0C;
+            if (func_8003DE58(target_x->unk_08, target_x, &frame.sp38, 0) == 0) {
                 frame.sp3A = 0;
                 frame.sp38 = 0;
                 height_offset = 0;
@@ -443,13 +441,12 @@ state_launch:
             } else {
                 frame.u28.half.sp2A = ((S_8182C800_24 *)(((S_8182C800_8 *)object)->unk_08))->unk_08.at02.v - 0x28;
             }
-            target_x = frame.sp22;
+            target_x = (S_8182C800_3 *)frame.sp22;
             tile_origin_x = ((S_8182C800_5 *)motion)->unk_00.at02.v;
             target_y = frame.sp26;
             start_y = ((S_8182C800_5 *)motion)->unk_04.at02.v;
-            distance_x = target_x - tile_origin_x;
+            distance_x = ((s32)target_x) - tile_origin_x;
             motion_extent = target_y - start_y;
-            ASM_SET(target_x);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             distance_sum = distance_x;
             if (distance_x < 0) {
                 distance_sum = 0 - distance_sum;

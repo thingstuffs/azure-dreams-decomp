@@ -302,7 +302,6 @@ state_0:
     if (target == 0) {
         s32 tile_pixel_x;
         s32 min_height;
-        register s32 probe_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         s32 probe_y;
 
         off_y = 0;
@@ -318,10 +317,10 @@ state_0:
             magnitude = (magnitude + off_y) << 6;
             ASM_KEEP(magnitude);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             facing_shift = magnitude + 0x20;
-            probe_x = (u16)dx;
+            obj = (S_81850800_9 *)((u16)dx);
             probe_y = (u16)facing_shift;
-            ground_height = func_800BCB04(probe_x, probe_y, min_height);
-            if ((s16)func_800A4688(probe_x, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
+            ground_height = func_800BCB04((s32)obj, probe_y, min_height);
+            if ((s16)func_800A4688((s32)obj, probe_y, ground_height, caster_data->unk_2A.unk_2A_s16,
                                    caster_data->unk_60) != 0) {
                 goto state_0_tail;
             }

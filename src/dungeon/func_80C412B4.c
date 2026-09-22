@@ -133,12 +133,11 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
     {
         s32 finish_state = 5;
 
-        ASM_KEEP_NV(finish_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         if (state == finish_state) {
             goto state_5;
         }
     }
-    if (state < 5) {
+    if ((s16)state < 5) {
         goto state_4;
     }
     if (state == 0xFF) {

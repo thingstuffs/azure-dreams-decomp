@@ -162,7 +162,7 @@ void func_800C2824(void *effect, void *vertices, void *sprite) {
     s16 fade_ticks;
     s16 wait_ticks;
     s32 state;
-    register u8 *flags_page ASM_REG("$4"); /* MATCH: retain the shared flag page in retail a0. */
+    u8 *flags_page;
     void *linked_object;
     s32 effect_param;
     register s32 effect_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -315,7 +315,13 @@ state_wait:
     }
     func_800A32A4(((S_800C2824_0 *)effect)->unk_00);
     if ((func_80042900(((S_800C2824_0 *)effect)->unk_00, 0x1B) << 0x10) != 0) {
-        goto finish_expired;
+        func_8009A028(((S_800C2824_0 *)effect)->unk_00);
+        finished_object = ((S_800C2824_0 *)effect)->unk_00;
+        (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
+        final_object = D_800DF560;
+        flags_page = (u8 *)0x80080000;
+        effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+        goto finish_expired_done;
     }
     expired_object = ((S_800C2824_0 *)effect)->unk_00;
     expired_status = ((S_800C2824_12 *)expired_object)->unk_1C;
@@ -330,13 +336,14 @@ state_wait:
     tile_flags = 0x300;
 clear_expired_tile:
     func_8009A3D0(expired_x, expired_coord, tile_flags);
-finish_expired:
     func_8009A028(((S_800C2824_0 *)effect)->unk_00);
     finished_object = ((S_800C2824_0 *)effect)->unk_00;
     (*(u16 *)((u8 *)finished_object + -2)) = (u16) (((S_800C2824_14_pre *)finished_object)[-1].unk_00 | 0x8000);
     final_object = D_800DF560;
     flags_page = (u8 *)0x80080000;
     effect_flags = ((S_800C2824_10 *)flags_page)->unk_14A0;
+    finish_expired_done:
+    ;
     final_flags = ((S_800C2824_15 *)final_object)->unk_1E;
     effect_flags |= 0x8000;
     ((S_800C2824_10 *)flags_page)->unk_14A0 = effect_flags;

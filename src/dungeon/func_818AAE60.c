@@ -125,7 +125,7 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     s32 index;
     s32 axis_dist;
     s32 origin_coord;
-    s32 tile_x;
+    void *tile_x;
     s32 tile_y;
     u16 source_z;
     u16 z_or_state;
@@ -135,7 +135,6 @@ void func_80024660(void *effect, void *motion, void *appearance) {
     void *target;
     void *source_pos;
     void *tile_info;
-    register void *child_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     u16 elapsed;
 
     elapsed = ((Rec_func_800243B8_arg0 *)effect)->unk_10;
@@ -238,7 +237,6 @@ set_target_velocity:
         register s32 probe_x_dest_y ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register s32 saved_tile_y ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u16 *step_table ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        u16 *x_step_ptr;
         register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         s16 last_tile_x;
         s32 path_tile_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -253,21 +251,20 @@ set_target_velocity:
         last_tile_x = path_tile_x;
         scratch.saved_y = (u16) path_tile_y;
         do {
-            tile_x = (s16)path_tile_x;
+            tile_x = (void *)((s16)path_tile_x);
             tile_y = (s16)path_tile_y;
-            if ((func_800A44E0((tile_x << 6) & 0xFFC0, (tile_y << 6) & 0xFFC0, ((S_80024660_1 *)source)->unk_88, (s16) (((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) << 0x10) != 0) {
+            if ((func_800A44E0((((s32)tile_x) << 6) & 0xFFC0, (tile_y << 6) & 0xFFC0, ((S_80024660_1 *)source)->unk_88, (s16) (((Rec_func_800243B8_arg0 *)effect)->unk_0E << 9)) << 0x10) != 0) {
                 break;
             }
             direction = (s16) ((Rec_func_800243B8_arg0 *)effect)->unk_0E;
             step_table = D_8006CCD8;
-            x_step_ptr = &step_table[direction];
+            tile_info = (void *)(&step_table[direction]);
             probe_z = (u16) ((S_80024660_1 *)source)->unk_88;
-            ASM_KEEP_DEP_NV(probe_z, x_step_ptr);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             probe_z = (s16) (probe_z - 32);
             step_table = D_8006CCE8;
-            probe_x_dest_y = *x_step_ptr;
+            probe_x_dest_y = *((u16 *)tile_info);
             probe_y_dest_x = step_table[direction];
-            probe_x_dest_y = (((tile_x + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
+            probe_x_dest_y = (((((s32)tile_x) + (s16)probe_x_dest_y) << 6) + 32) & 0xFFE0;
             probe_y_dest_x = (((tile_y + (s16)probe_y_dest_x) << 6) + 32) & 0xFFE0;
             floor_z = func_800BCB04(probe_x_dest_y, probe_y_dest_x, probe_z);
             if (floor_z >= 513) {
@@ -360,11 +357,11 @@ set_path_velocity:
 spawn_children:
     ((Rec_func_800243B8_arg0 *)effect)->unk_0A = z_or_state;
     index = 0x1F;
-    child_slot = effect + 0x7C;
+    tile_x = effect + 0x7C;
 spawn_next_child:
-    ((S_80024660_10 *)child_slot)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
+    ((S_80024660_10 *)tile_x)->unk_18 = func_800243B8(effect, motion, destination, (s16)index);
     index -= 1;
-    child_slot -= 4;
+    tile_x -= 4;
     if (index >= 0) {
         goto spawn_next_child;
     }

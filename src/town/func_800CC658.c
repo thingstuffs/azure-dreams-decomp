@@ -28,6 +28,8 @@ void func_800C9DB8(Rec_func_800C9B44_arg0 *actor, Rec_D_800E3D7C *motion, M2C_UN
     } while (0);
 retry:
     action = 0;
+    retry_done:
+    ;
     if (attempts > 0) {
         action = func_800374F4(3) & 0xFFFF;
         if (action == 1) {
@@ -42,7 +44,8 @@ retry:
                     heading = 0x400;
                     goto store_heading;
                 }
-                goto retry;
+                action = 0;
+                goto retry_done;
             }
             if (direction == action) {
                 s32 center_y = actor->unk_86;
@@ -92,6 +95,5 @@ dispatch:
         void (**handlers)(void *, void *, M2C_UNK) = D_800D65D8;
 
         handlers[action](dispatch_actor, motion, context);
-        ASM_KEEP(action);
     }
 }

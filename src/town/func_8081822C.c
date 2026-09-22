@@ -67,7 +67,7 @@ extern u8 D_1F800000[];
 s32 func_8002222C(void *first_entry) {
     u8 *line_packet;
     u8 *mode_packet;
-    s32 bucket_or_next;
+    s32 mode_dest;
     s32 bucket_addr;
     s32 packet_word;
     s32 link_word;
@@ -120,13 +120,11 @@ s32 func_8002222C(void *first_entry) {
             texture_page = func_80066460(page_depth, page_blend, page_x, page_y);
         }
         {
-            u8 *mode_dest;
             s32 draw_flags;
-            mode_dest = mode_packet;
-            ASM_KEEP(mode_dest);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            mode_dest = (s32)mode_packet;
             draw_flags = 0;
             ASM_KEEP(draw_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            func_80067F20(mode_dest, draw_flags, draw_flags, texture_page & 0xFFFF, 0);
+            func_80067F20((u8 *)mode_dest, draw_flags, draw_flags, texture_page & 0xFFFF, 0);
         }
         packet_word = ((S_8002222C_1 *)entry)->unk_18;
         ((S_8002222C_2 *)line_packet)->unk_04 = packet_word;
@@ -158,17 +156,17 @@ s32 func_8002222C(void *first_entry) {
         packet_word &= addr_mask;
         link_word |= packet_word;
         ((S_8002222C_2 *)line_packet)->unk_00 = link_word;
-        bucket_or_next = (s32)*arena_ptr;
+        mode_dest = (s32)*arena_ptr;
         {
             s32 arena_addr;
-            arena_addr = bucket_or_next;
-            bucket_or_next = bucket_addr + arena_addr;
+            arena_addr = mode_dest;
+            mode_dest = bucket_addr + arena_addr;
         }
-        packet_word = ((S_8002222C_6 *)bucket_or_next)->unk_B0;
+        packet_word = ((S_8002222C_6 *)mode_dest)->unk_B0;
         link_word = (u32)line_packet & addr_mask;
         packet_word &= count_mask;
         packet_word |= link_word;
-        ((S_8002222C_6 *)bucket_or_next)->unk_B0 = packet_word;
+        ((S_8002222C_6 *)mode_dest)->unk_B0 = packet_word;
         packet_word = (s32)*arena_ptr;
         link_word = ((S_8002222C_7 *)mode_packet)->unk_00;
         packet_word = ((S_8002222C_5 *)(bucket_addr + packet_word))->unk_B0;
@@ -182,9 +180,9 @@ s32 func_8002222C(void *first_entry) {
         packet_word &= count_mask;
         packet_word |= link_word;
         ((S_8002222C_8 *)bucket_addr)->unk_B0 = packet_word;
-        bucket_or_next = ((S_8002222C_1_pre *)entry)[-1].unk_00;
-        entry = bucket_or_next + 0x20;
-    } while (bucket_or_next != 0);
+        mode_dest = ((S_8002222C_1_pre *)entry)[-1].unk_00;
+        entry = mode_dest + 0x20;
+    } while (mode_dest != 0);
     result = 0;
     return result;
 }

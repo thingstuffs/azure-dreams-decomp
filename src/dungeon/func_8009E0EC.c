@@ -56,7 +56,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s32 distance;
   s16 target_angle;
   register s16 slot ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-  s16 effect_blocked;
+  s32 effect_blocked;
   register s32 slot_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 slot_index;
   register s16 steps ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -69,7 +69,6 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
   s32 x_steps_base;
   s32 flags;
   s32 ability_flags;
-  register s32 step_offset ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
   register s32 direction_shifted ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s16 direction;
   u16 facing_angle;
@@ -192,20 +191,20 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       direction = ((*out_angle) >> 9) & 7;
       if (steps >= distance)
       {
-        goto accept;
+        best_score = score;
+        goto accept_done;
       }
       ASM_SET(direction_shifted);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
       ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       ASM_CLOBBER("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
       direction_shifted = direction << 16;
-      step_offset = ((u32) direction_shifted) >> 15;
-      x_step = (u16 *) (step_offset + x_steps_base);
+      effect_blocked = ((u32) direction_shifted) >> 15;
+      x_step = (u16 *) (effect_blocked + x_steps_base);
       inner_loop:
       func_8009A350((s16)actor_or_x, y, direction_shifted >> 16, &tile_flags);
       flags = actor->flags1c;
       ASM_USE2_NV(distance, distance);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-      ASM_USE_NV(score);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
       if (!(flags & 0x410))
       {
@@ -226,7 +225,7 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       next_steps = steps + 1;
       steps = next_steps;
       actor_or_x += *x_step;
-      y += *((u16 *) (((u8 *) (&D_8006CCE8)) + step_offset));
+      y += *((u16 *) (((u8 *) (&D_8006CCE8)) + effect_blocked));
       if (next_steps < distance)
       {
         goto inner_loop;
@@ -238,8 +237,9 @@ s16 func_800A384C(Actor *actor, Actor *target, u16 *out_angle, s32 prefer_abilit
       }
       ASM_USE_NV(steps);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-      accept:
       best_score = score;
+      accept_done:
+      ;
 
       set_slot:
       selected_action = slot + 1;

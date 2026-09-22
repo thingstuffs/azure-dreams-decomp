@@ -14,20 +14,19 @@ extern void func_800C41D4(void *, void *, void *, void *);
 /* Deactivate the town slot, apply its variant to the object and child, and update the object. */
 void func_800C4A88(void *town_object, void *arg1, void *arg2, void *child)
 {
-    TownSlot *slot;
+    u32 slot;
     u8 raw_variant;
-    register u8 variant ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    slot = &D_80082660[*(s32 *)((u8 *)town_object + 0x60)];
-    raw_variant = slot->variant;
-    slot->active = 0;
+    slot = (u32)(&D_80082660[*(s32 *)((u8 *)town_object + 0x60)]);
+    raw_variant = ((TownSlot *)slot)->variant;
+    ((TownSlot *)slot)->active = 0;
     child = *(void **)((u8 *)town_object + 0x98);
-    variant = raw_variant & 3;
+    slot = raw_variant & 3;
     if (child != 0) {
         ASM_USE(raw_variant);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        *(u8 *)((u8 *)child + 4) = variant;
+        *(u8 *)((u8 *)child + 4) = slot;
     }
-    *(u16 *)((u8 *)town_object + 0x6E) = D_800D5070[variant];
+    *(u16 *)((u8 *)town_object + 0x6E) = D_800D5070[slot];
     func_800C41D4(town_object, arg1, arg2, child);
 }
 

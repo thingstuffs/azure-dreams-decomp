@@ -43,7 +43,7 @@ void func_80024818(void *context)
     s32 node_count;
     void *first_buffer;
     void *text_buffer;
-    void *text;
+    s32 text;
 
     selection = ((S_80024818_0 *)context)->unk_80;
     mode_one = selection == 1;
@@ -52,7 +52,7 @@ void func_80024818(void *context)
         if (func_80022160() == 0) {
             func_8004DA74(context + 0x84, D_800283EC[0], 1);
             text_buffer = context + 0x204;
-            text = D_800283EC[1];
+            text = (s32)D_800283EC[1];
             goto write_second;
         }
         below_three = state < 3;
@@ -88,19 +88,18 @@ void func_80024818(void *context)
     strcpy(text_buf, number_buf);
     strcat(text_buf, D_800283FC);
     text_buffer = context + 0x204;
-    text = text_buf;
+    text = (s32)text_buf;
 write_second:
-    func_8004DA74(text_buffer, text, 1);
+    func_8004DA74(text_buffer, (void *)text, 1);
     node_count = 2;
 update_nodes:
     {
-        register s32 node_index ASM_REG("$5");
         register s32 buffer_offset;
         register s16 node_value;
         register u8 *cursor;
         s32 node_kind;
 
-        node_index = 0;
+        text = 0;
         if (node_count != 0) {
             node_kind = 0xA9;
             node_value = 0x110;
@@ -115,9 +114,9 @@ update_nodes:
                 node->field4->fieldA = node_value;
                 buffer_offset += 0x180;
                 cursor += 4;
-                node_index += 1;
+                text += 1;
                 node_value += 0x10;
-            } if (node_index < node_count) goto loop_0;
+            } if (text < node_count) goto loop_0;
         }
     }
 }

@@ -54,7 +54,8 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
       if (code_u16 == 0x8140)
       {
         tile_index = 0;
-        goto do_blit;
+        draw_tile = draw_enabled;
+        goto do_blit_done;
       }
       if (((u32) ((glyph_code + 0x7DA0) & 0xFFFF)) < 0x1AU)
       {
@@ -90,7 +91,8 @@ void func_80052A90(u8 *text, s16 start_x, s16 start_y)
       tile_index = 0xD;
       do_blit:
       draw_tile = draw_enabled;
-      ASM_USE(draw_tile);
+      do_blit_done:
+      ;
       if (draw_tile != 0)
       {
         register void *tile_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

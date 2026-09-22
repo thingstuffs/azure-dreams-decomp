@@ -95,14 +95,13 @@ void func_80020900(TownEntity *menu)
     s32 total_factor;
     s32 scaled_quantity;
     s32 second_factor;
-    s16 first_factor;
+    TownRecord30 *first_factor;
     s16 *prices;
     s32 quantity;
     s32 state;
     u8 *input;
     u8 *data_page;
     u8 *label_page;
-    register TownRecord30 *label_record ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s16 *label_cursor;
     register void *text_pool ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register TownRecord30 *text_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -177,14 +176,14 @@ state_0:
     func_800201C8(text_pool, text_arg);
 
     option_index = 5;
-    label_record = &text_record;
+    first_factor = &text_record;
     label_page = data_page;
     label_cursor = &text_record.x;
     row_y = 0x5C;
     text_record.x = 0xDC;
     do {
         text_pool = label_page + 0x4AC;
-        text_arg = label_record;
+        text_arg = first_factor;
         text_record.y = row_y;
         text_record.data = (void *)*(s32 *)((u8 *)label_cursor + 0x58);
         label_cursor -= 2;
@@ -283,9 +282,9 @@ state_3:
         } while (0);
         prices = D_80024308;
         selected_pair += entity->selection;
-        first_factor = prices[*(s16 *)(void *)selected_pair];
+        first_factor = (TownRecord30 *)prices[*(s16 *)(void *)selected_pair];
         quantity = entity->quantity;
-        scaled_quantity = quantity * first_factor;
+        scaled_quantity = quantity * ((s16)first_factor);
         second_factor = prices[(s16)*(u16 *)((u8 *)selected_pair + 2)];
         total_factor = scaled_quantity * second_factor;
         D_8011315C = total_factor * 100;

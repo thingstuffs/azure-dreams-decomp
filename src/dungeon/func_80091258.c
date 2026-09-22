@@ -21,7 +21,7 @@ extern void func_8009F644(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 /* Sets the object action to 0x33, conditionally sets a global flag, and dispatches the target. */
 void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
     s32 action = 0x33;
-    register s32 saved_target ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u32 saved_target;
     s32 dispatch_target;
     s32 target_check;
 
@@ -33,7 +33,8 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
     } while (0);
 
     if (D_80013714.flags & 2) {
-        goto apply_flag;
+        D_80083460.unk2 |= 0x80;
+        goto apply_flag_done;
     }
     dispatch_target = saved_target;
     if (!(D_80083168[0] & 0x20)) {
@@ -46,9 +47,9 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
         goto done;
     }
 
-apply_flag:
     D_80083460.unk2 |= 0x80;
-    ASM_KEEP(saved_target);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    apply_flag_done:
+    ;
     dispatch_target = saved_target;
 
 done:

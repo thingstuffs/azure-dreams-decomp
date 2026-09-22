@@ -95,18 +95,16 @@ void func_80045CC4(void *context, s32 position, S_80045CC4_Arg2 *sprite, s16 dep
     s32 depth;
     s32 visible_0;
     s32 visible_1;
-    s32 visible_2;
-    s32 visible_3;
     s32 any_visible;
     register u32 addr_mask ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
-    u16 tpage_base;
+    s32 visible_3;
     u8 *entry;
     u8 *payload;
     u8 *scratchpad;
     void **global_slots;
     void *global_base;
     u8 uv_edge;
-    u8 gpu_code;
+    s32 visible_2;
 
     global_slots = D_80083160;
     global_base = global_slots[0];
@@ -251,7 +249,6 @@ next_entry:
             if ((u32)((((S_80045CC4_0 *)quad)->unk_14 + 0x20) & 0xFFFF) < 0x181U) {
                 {
                     u32 clip_y = (((S_80045CC4_0 *)quad)->unk_16 + 0x20) & 0xFFFF;
-                    ASM_USE_NV(visible_2);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     visible_2 = clip_y < 0x121U;
                 }
             }
@@ -260,7 +257,6 @@ next_entry:
             if ((u32)((((S_80045CC4_0 *)quad)->unk_1C.u + 0x20) & 0xFFFF) < 0x181U) {
                 {
                     u32 clip_y = (((S_80045CC4_0 *)quad)->unk_1E.u + 0x20) & 0xFFFF;
-                    ASM_USE_NV(visible_3);   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
                     visible_3 = clip_y < 0x121U;
                 }
             }
@@ -298,9 +294,9 @@ next_entry:
                 ((S_80045CC4_0 *)quad)->unk_10.s16 = SP_U16(0x0C) + SP_U16(0x10);
                 {
                     u16 tpage;
-                    tpage_base = sprite->unk10;
-                    if (tpage_base != 0) {
-                        tpage = tpage_base + (((S_80045CC4_1_pre *)payload)[-1].unk_00 & 0xFF9F);
+                    visible_3 = sprite->unk10;
+                    if (visible_3 != 0) {
+                        tpage = visible_3 + (((S_80045CC4_1_pre *)payload)[-1].unk_00 & 0xFF9F);
                     } else {
                         tpage = ((S_80045CC4_1_pre *)payload)[-1].unk_00;
                     }
@@ -336,14 +332,14 @@ next_entry:
                     ((S_80045CC4_0 *)quad)->unk_20.at01.v--;
                 }
 
-                gpu_code = payload[-7];
-                ((S_80045CC4_2 *)sprite)->unk_0F = gpu_code;
-                tpage_base = SP_U16(0x24);
-                if (tpage_base & 8) {
-                    if (tpage_base & 4) {
-                        x = gpu_code | 2;
+                visible_2 = payload[-7];
+                ((S_80045CC4_2 *)sprite)->unk_0F = visible_2;
+                visible_3 = SP_U16(0x24);
+                if (visible_3 & 8) {
+                    if (visible_3 & 4) {
+                        x = visible_2 | 2;
                     } else {
-                        x = gpu_code & 0xFD;
+                        x = visible_2 & 0xFD;
                     }
                     ((S_80045CC4_2 *)sprite)->unk_0F = x;
                 }

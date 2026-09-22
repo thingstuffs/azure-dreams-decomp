@@ -17,11 +17,10 @@ extern u8 D_800892EC[];
 /* Builds a formatted marker string for the object's value, including an odd remainder. */
 void *func_800B544C(void *output, void *object)
 {
-    register u32 prefix_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 prefix_page;
     register Text5 *prefix ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s32 copy_word ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register s32 copy_tail ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    s32 raw_count;
     s32 pair_test;
     s16 count;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u32 marker_page;
@@ -38,9 +37,9 @@ void *func_800B544C(void *output, void *object)
     ASM_KEEP_NV(copy_tail);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((Text5 *)output)->tail = copy_tail;
     strcat(output, func_8004E634(1, format_buf));
-    raw_count = func_80043868(object);
-    count = raw_count;
-    pair_test = (s16)raw_count / 2;
+    prefix_page = func_80043868(object);
+    count = prefix_page;
+    pair_test = (s16)prefix_page / 2;
     if (pair_test > 0) {
         pair_index = 0;
         marker_page = 0x80090000;
@@ -50,8 +49,8 @@ void *func_800B544C(void *output, void *object)
             pair_index++;
         } while (pair_index < pair_count);
     }
-    raw_count = count & 1;
-    if (raw_count) {
+    prefix_page = count & 1;
+    if (prefix_page) {
         strcat(output, D_800892E8);
     }
     strcat(output, D_800892EC);

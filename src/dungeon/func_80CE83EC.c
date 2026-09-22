@@ -82,9 +82,8 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
     register PackedWord *copy_source ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register u32 data_word_0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u32 data_word_1 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u32 data_word_2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 data_word_2;
     S_80171BEC_2 *position;
-    S_80171BEC_5 *owner;
 
     object = func_8003FD64(0x212, &D_80083498);
     if (object != 0) {
@@ -102,8 +101,8 @@ void func_80171BEC(void *attachment, S_80171BEC_3 *base_position)
         position->unk_04.at00.v = base_position->unk_04;
         position->unk_08.at00.v = base_position->unk_08;
 
-        owner = ((S_80171BEC_4_pre *)attachment)[-1].unk_00;
-        if (func_8003DE58(owner->unk_08, owner, &offset, 0) != 0) {
+        data_word_2 = (u32)(((S_80171BEC_4_pre *)attachment)[-1].unk_00);
+        if (func_8003DE58(((S_80171BEC_5 *)data_word_2)->unk_08, (S_80171BEC_5 *)data_word_2, &offset, 0) != 0) {
             position->unk_00.at02.v += offset.x;
             position->unk_04.at02.v += offset.y;
             position->unk_08.at02.v += offset.z;

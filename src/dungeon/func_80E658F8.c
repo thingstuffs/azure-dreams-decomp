@@ -141,7 +141,8 @@ L3:
         scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
         scale_x += 0x258;
         scale_y -= 0x258;
-        goto store_xy;
+        ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+        goto store_xy_done;
 
 check_11:
         if (timer >= 0xB) {
@@ -163,9 +164,9 @@ timer_ge_11:
         scale_x = ((S_801750F8_2 *)sprite)->unk_1C;
         scale_y = ((S_801750F8_2 *)sprite)->unk_1E;
         scale_x += 0x258;
-        ASM_KEEP(scale_x);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         scale_y -= 0x258;
-        goto store_xy;
+        ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+        goto store_xy_done;
 
 check_17:
         if (timer >= 0x11) {
@@ -174,8 +175,9 @@ check_17:
         scale_x = ((S_801750F8_2 *)sprite)->unk_1C - 0x258;
         scale_y = ((S_801750F8_2 *)sprite)->unk_1E + 0x258;
 
-store_xy:
         ((S_801750F8_2 *)sprite)->unk_1C = scale_x;
+        store_xy_done:
+        ;
         ((S_801750F8_2 *)sprite)->unk_1E = scale_y;
 
 after_xy:

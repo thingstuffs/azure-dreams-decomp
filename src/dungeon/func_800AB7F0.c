@@ -38,7 +38,8 @@ void *func_800B0F50(void *owner)
   s32 color_or_addr;
   register s32 vertex_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
   s32 text_width;
-  register s32 text_addr ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+  s32 text_addr;
+  s32 text_addr_2;
   s32 red_color;
   s32 red_color_2;
   u16 text_id;
@@ -109,17 +110,18 @@ void *func_800B0F50(void *owner)
         *((s32 *) (((s8 *) panel) + 0x7C)) = func_8004DA74(prim, D_800DEFF8[text_id & 0x3FFF] + 1, 0);
         text_addr = D_800DEFF8[(*((u16 *) (((s8 *) entity) + 0x46))) & 0x3FFF];
         do { prim_index = 4; } while (0);
-        goto position_text;
+        text_width = func_80069E98(text_addr + 1);
+        goto position_text_done;
       }
       else
       {
         s32 *text_table = D_800DEFF8;
         *((s32 *) (((s8 *) panel) + 0x7C)) = func_8004DA74(prim, text_table[4] + 1, 0);
-        text_addr = text_table[4];
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        text_addr_2 = text_table[4];
         prim_index = 4;
-        position_text:
-        text_width = func_80069E98(text_addr + 1);
+        text_width = func_80069E98(text_addr_2 + 1);
+        position_text_done:
+        ;
 
         do {
             text_width *= 4;

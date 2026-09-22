@@ -99,7 +99,6 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
     Lookup *lookup;
     Lookup *lookup_2;
     Motion *root_motion;
-    register Motion *linked_motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     Child *child;
     u8 *linked_root;
     s16 delta[3];
@@ -166,16 +165,16 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             WideProduct product;
 
             ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            linked_motion = *(Motion **)(linked_root - 0x18);
+            index = (s32)(*(Motion **)(linked_root - 0x18));
 
             origin_coord = motion->x.h.hi;
-            diff = linked_motion->x.h.hi - origin_coord;
+            diff = ((Motion *)index)->x.h.hi - origin_coord;
             if (diff < 0) {
                 diff = -diff;
             }
             delta[0] = diff;
 
-            diff = linked_motion->y.h.hi;
+            diff = ((Motion *)index)->y.h.hi;
             diff -= motion->y.h.hi;
             if (diff < 0) {
                 diff = -diff;
@@ -196,8 +195,8 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
             ctrl->cell_x = lookup->cell_x;
             ctrl->cell_y = lookup->cell_y;
 
-            ctrl->target[0].val = linked_motion->x.val;
-            ctrl->target[1].val = linked_motion->y.val;
+            ctrl->target[0].val = ((Motion *)index)->x.val;
+            ctrl->target[1].val = ((Motion *)index)->y.val;
             diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
             *(volatile u16 *)&ctrl->target[2].h.lo = 0;
             *(volatile u16 *)&ctrl->target[2].h.hi = diff;

@@ -74,7 +74,7 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
     register u8 *actor ASM_REG("$18") = actor_data;   /* Byte-exact pin. */
     u8 *motion = motion_data;
     u8 *entity = entity_data;
-    register u8 *subject ASM_REG("$19") = actor;   /* Byte-exact pin. */
+    u8 *subject = actor;
     register u8 *part ASM_REG("$20");   /* Byte-exact pin. */
     s32 state_index;
     u32 global_flags;
@@ -289,11 +289,13 @@ void func_80170BB8(void *actor_data, void *motion_data, void *entity_data)
 
                     global_flags = height_raw - 8;
                     (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
-                    goto final_collision;
+                    subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+                    goto final_collision_done;
                 }
                 goto adjust_height;
             }
-            goto final_collision;
+            subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+            goto final_collision_done;
         }
         goto ground_reset;
     } else {
@@ -324,7 +326,8 @@ ground_reset:
                     ((S_80170BB8_1 *)subject)->unk_1C.u |= 0x08000000;
                 }
             }
-            goto final_collision;
+            subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+            goto final_collision_done;
         }
 
         if (!(((S_80170BB8_4 *)entity)->unk_14 & 0x40) &&
@@ -348,14 +351,16 @@ ground_reset:
 
                 global_flags = height_raw - 8;
                 (*(u16 *)((u8 *)actor + 0x92)) = global_flags;
-                goto final_collision;
+                subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+                goto final_collision_done;
             }
 adjust_height:
             height_limit = ground_offset;
             height_limit -= 0x20;
             height_limit = height_offset < height_limit;
             if (!height_limit) {
-                goto final_collision;
+                subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+                goto final_collision_done;
             }
             {
 
@@ -365,8 +370,9 @@ adjust_height:
         }
     }
 
-final_collision:
     subject_flags = ((S_80170BB8_1 *)subject)->unk_1C.u;
+    final_collision_done:
+    ;
     if (subject_flags & 0x40000000) {
         ((S_80170BB8_1 *)subject)->unk_1C.u = subject_flags & 0xBFFFFFFF;
         ground_height = func_800BCB04((((S_80170BB8_4 *)entity)->unk_24 << 6) | 0x20,

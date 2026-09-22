@@ -71,7 +71,7 @@ extern s32 D_800135B4[];
 
 extern void func_8002108C();
 extern void func_80021120();
-extern void func_80022FD8();
+extern u8 D_80022FD8[];
 extern void func_80023DA0();
 extern void func_80033B9C();
 extern void func_8003DB94();
@@ -94,6 +94,7 @@ s32 func_800212B8(void) {
     u8 *child_data;
     s32 *timer;
     s32 index;
+    s32 template_page;
 
     func_80033B9C(0x58D);
     func_80033B9C(0x58E);
@@ -164,14 +165,19 @@ s32 func_800212B8(void) {
     }
     AT(u16, owner, 0x38) = *(u16 *)timer;
     {
-        s32 value_index = 4;
-        s32 template_page = (s32)0x80020000;
-        register s32 value_offset ASM_REG("$19") = 0x38;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        s16 value_y = 0x44;
-        Packed8 *text_buffers = D_80024310;
-        Packed8 *text_buffer = text_buffers + 4;
+        
+        s32 value_offset;
+        s16 value_y;
+        Packed8 *text_buffers;
+        Packed8 *text_buffer;
         s32 handler_page;
-        do {
+index = 4;
+        template_page = (s32)0x80020000;
+        value_offset = 0x38;
+        value_y = 0x44;
+        text_buffers = D_80024310;
+        text_buffer = text_buffers + 4;
+value_loop: {
             register Packed8 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             copy_src = (Packed8 *)(template_page + 0x144);
             ASM_KEEP_NV(copy_src);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -181,23 +187,21 @@ s32 func_800212B8(void) {
             widget_init.p4 = text_buffer;
             handler_page = (s32)0x80020000;
             widget_init.p8 = owner + value_offset;
-            ASM_KEEP_DEP_NV(handler_page, template_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            func_8002108C((u8 *)(handler_page + 0x2FD8), &widget_init);
+            func_8002108C(D_80022FD8, &widget_init);
             value_offset -= 2;
             value_y -= 0xC;
-            value_index--;
+            index--;
             text_buffer--;
-        } while (value_index >= 0);
+        } if (index >= 0) goto value_loop;
     }
 
     {
         s32 sprite_index = 7;
         s32 handler_page = (s32)0x80020000;
         u8 *sprite_handler;
-        register s16 sprite_scale ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *grid_sprite;
         sprite_handler = D_80023158;
-        sprite_scale = 0x1000;
+        sprite = (u8 *)0x1000;
         loop_3: {
             obj = func_8003FC64(0x136);
             if (obj != 0) {
@@ -205,9 +209,9 @@ s32 func_800212B8(void) {
                 grid_sprite = AT(u8 *, obj, 0xC);
                 AT(void *, obj, 0x10) = sprite_handler;
                 AT(s32, grid_sprite, 0xC) = 0x808080;
-                AT(s16, grid_sprite, 0x1C) = sprite_scale;
-                AT(s16, grid_sprite, 0x1E) = sprite_scale;
-                AT(s16, grid_sprite, 0x20) = sprite_scale;
+                AT(s16, grid_sprite, 0x1C) = (s16)sprite;
+                AT(s16, grid_sprite, 0x1E) = (s16)sprite;
+                AT(s16, grid_sprite, 0x20) = (s16)sprite;
                 AT(s32, grid_sprite, 8) = sprite_frames.v[sprite_index];
                 AT(s32, AT(u8 *, obj, 8), 0) = ((sprite_index >> 2) << 22) + 0x0FE00000;
                 AT(s32, AT(u8 *, obj, 8), 4) = ((sprite_index % 4) << 22) + 0x03E00000;
@@ -240,27 +244,25 @@ s32 func_800212B8(void) {
 
     {
         u8 *new_obj;
-        register u8 *child_obj ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-        register s32 child_index ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u8 *sprite_state;
         s16 frame_offset;
         u8 *child_slot;
         sprite_state = D_80082E80;
-        child_index = 2;
-        ASM_KEEP_DEP_NV(child_index, sprite_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        index = 2;
+        ASM_KEEP_DEP_NV(index, sprite_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         frame_offset = 0xC;
         child_slot = owner + 8;
         do {
             new_obj = func_8003FD64(0x136, D_80083498);
             AT(void *, child_slot, 0x20) = new_obj;
-            child_obj = new_obj;
-            if (child_obj != 0) {
-                obj = child_obj;
+            obj = new_obj;
+            if (obj != 0) {
+                obj = obj;
                 AT(void *, obj, 0x10) = D_80023260;
                 func_8004491C(obj, D_80045340);
                 sprite = AT(u8 *, obj, 0xC);
                 AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
-                AT(s32, AT(u8 *, obj, 8), 4) = (child_index << 22) + 0x04200000;
+                AT(s32, AT(u8 *, obj, 8), 4) = (index << 22) + 0x04200000;
                 child_data = obj + 0x20;
                 AT(s16, AT(u8 *, obj, 8), 0xA) = func_800C2AE8(AT(void *, obj, 8));
                 AT(s16, sprite, 0x1E) = 0x1000;
@@ -271,12 +273,12 @@ s32 func_800212B8(void) {
                 AT(s32, sprite, 0xC) = 0x808080;
                 AT(s16, sprite, 0x12) = frame_offset;
                 AT(void *, obj, 0x20) = owner;
-                AT(s16, child_data, 0x24) = child_index + 1;
+                AT(s16, child_data, 0x24) = index + 1;
             }
             frame_offset -= 4;
-            child_index--;
+            index--;
             child_slot -= 4;
-        } while (child_index >= 0);
+        } while (index >= 0);
     }
 
     obj = func_8003FD64(0x136, D_80083498);
@@ -287,7 +289,8 @@ s32 func_800212B8(void) {
         AT(s32, AT(u8 *, obj, 8), 0) = 0x10000000;
         AT(s32, AT(u8 *, obj, 8), 4) = 0x03E00000;
         child_data = obj + 0x20;
-        AT(s16, AT(u8 *, obj, 8), 0xA) = func_800C2AE8(AT(void *, obj, 8));
+        template_page = func_800C2AE8(AT(void *, obj, 8));
+        AT(s16, AT(u8 *, obj, 8), 0xA) = template_page;
         AT(s16, sprite, 0x1E) = 0x1000;
         AT(s16, sprite, 0x1C) = 0x1000;
         AT(s32, sprite, 0x28) = D_80082EA8[0];
