@@ -89,7 +89,7 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     Entity *entity;
     Entity *prev_entity;
     void *part_data;
-    register s32 object_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 object_index;
     s32 update_entity;
     s32 target_angle;
     s32 normalized_target;
@@ -120,10 +120,8 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
 #endif
         if (object_index != 0) {
             prev_object = object_slot[-1];
-            ASM_KEEP(prev_object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         } else {
             prev_object = (Object *)D_80083498;
-            ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         }
         *object_slot = func_8003FD64(2, prev_object);
         (*object_slot)->state = (void (*)(void *))D_80024DAC;

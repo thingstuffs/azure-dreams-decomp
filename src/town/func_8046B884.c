@@ -25,6 +25,7 @@ extern void func_8001E578(s32);
 extern s32 func_8001E670(s32);
 extern s32 func_8001E82C(void);
 
+/* Pick the next town dialogue line from the progress flags and money, marking each line seen as it is used. */
 s8 *func_8001C884(void) {
     s32 initial;
     s32 state_one;

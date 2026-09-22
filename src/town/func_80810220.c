@@ -32,18 +32,13 @@ typedef struct S_80810220_4 {
     s16 unk_22;
 } S_80810220_4;   /* ((S_80810220_0 *)arg0)->unk_04 in func_80810220 */
 
-
-#define NORETURN
-
 extern s32 func_80252550(void *, void *);
-extern void func_8052AEB8(void) NORETURN;
-extern void func_8052B030() __attribute__((noreturn));
 extern u32 D_80012BCC[4];
 extern u8 D_805300C4[0x100];
 extern u32 D_80530100[];
 __asm__(".set D_80530100, 0x80530100");
 
-void func_80810220(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
+void func_8052AE20(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
     S_80810220_1 *child;
     s16 called;
     s16 state;
@@ -59,9 +54,9 @@ void func_80810220(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
     if (D_80012BCC[0] >= 1000U) {
         if (func_80252550(D_805300C4, arg1) != 0) {
             called = 1;
-            func_8052AEB8();
+        } else {
+            arg2->unk_08 = D_80530100[arg0->unk_54.s + 3];
         }
-        arg2->unk_08 = D_80530100[arg0->unk_54.s + 3];
     }
 
     state = arg0->unk_00;
@@ -72,7 +67,6 @@ void func_80810220(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
         if (state == 0) {
             goto state_0;
         }
-        func_8052B030();
         return;
     }
     if (state == 2) {
@@ -81,7 +75,6 @@ void func_80810220(S_80810220_0 *arg0, S_80810220_3 *arg1, S_80810220_2 *arg2) {
     if (state == 3) {
         goto state_3;
     }
-    func_8052B030();
     return;
 
 state_0: {
@@ -92,9 +85,8 @@ state_0: {
             arg1->unk_08 = 0;
             arg2->unk_0C = 0x808080;
             arg0->unk_00 = 1;
-            func_8052B030();
         }
-        goto done;
+        return;
     }
 
 state_1: {
@@ -109,13 +101,11 @@ state_1: {
             if (((S_80810220_4 *)(arg0->unk_04))->unk_22 ==
                 arg0->unk_54.s) {
                 arg0->unk_00 = 3;
-                func_8052B030();
                 return;
             }
             arg0->unk_00 = 2;
-            func_8052B030();
         }
-        goto done;
+        return;
     }
 
 state_2: {
@@ -124,9 +114,8 @@ state_2: {
         arg1->unk_08 = value;
         if (value > 0x3FFFFF) {
             arg1->unk_08 = 0x400000;
-            func_8052B030();
         }
-        goto done;
+        return;
     }
 
 state_3:
@@ -135,6 +124,5 @@ state_3:
             child->unk_20 = flags | 1;
             arg2->unk_08 = D_80530100[arg0->unk_54.s + 6];
         }
-done:
-    return;
+        return;
 }

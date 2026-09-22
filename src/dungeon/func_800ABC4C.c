@@ -1,4 +1,10 @@
-/* family_delay_slot fixture - dungeon row at foff 0xCBC4C, 8 words.
+/* Stamps one 16-bit value into every entry of a 12-byte record list.
+ *
+ * The list is walked from `list` in 12-byte steps; each entry's halfword at +6 is
+ * overwritten, and the walk stops after the entry whose signed lead byte is negative
+ * (the terminator is stamped too -- the store is unconditional, the test is not).
+ *
+ * family_delay_slot fixture - dungeon row at foff 0xCBC4C, 8 words.
  *
  * The row's rowbase record already fires: true link base 0x800B13AC (PROVEN
  * region xfer_dungeon_A3000), so owner decision B applies -- this TU defines
@@ -16,6 +22,11 @@
  * Written as the loop it is, gcc's dbr fills the back-edge slot itself and the
  * leaf needs no frame at all -- no maspsx lever involved.
  *
+ * 2026-09-22: the baseline audit's LABEL_AS_CALL site for this row targets the row's
+ * OWN base, so census.live_sites was reading this file's definition header as a call of
+ * itself and held the row at L0 long after the scaffolding was gone; fixed in
+ * tools/census.py (DEF_HEADER_RE).  The C below has not changed since it was proven.
+ *
  * Score with (the row identity is the synthetic name, which belongs on the
  * COMMAND LINE, never inside the TU):
  *   work/g3/overlay_func_compare.py --overlay dungeon --foff 0xCBC4C \
@@ -26,13 +37,13 @@
  */
 #include "common.h"
 
-void func_800B13AC(void *arg0, s16 arg1) {
+void func_800B13AC(void *list, s16 value) {
     for (;;) {
-        s32 c = *(s8 *)arg0;
-        *(s16 *)((u8 *)arg0 + 6) = arg1;
-        if (c < 0) {
+        s32 tag = *(s8 *)list;
+        *(s16 *)((u8 *)list + 6) = value;
+        if (tag < 0) {
             return;
         }
-        arg0 = (u8 *)arg0 + 12;
+        list = (u8 *)list + 12;
     }
 }

@@ -29,7 +29,8 @@ extern Copy12 D_80526760;
 extern u8 D_8053016C[16];
 extern s32 D_805301C0[4];
 
-void func_80812B70(void *arg0, void *arg1, void *arg2) {
+/* Per-frame step for the falling town object: integrate its motion and bounce it when it reaches the ground. */
+void func_80812B70(void *obj, void *motion, void *part) {
     Copy12 values;
     s32 *valuep;
     s32 object_value;
@@ -42,12 +43,12 @@ void func_80812B70(void *arg0, void *arg1, void *arg2) {
     values = D_80526760;
     valuep = values.v;
 
-    S32_AT(arg1, 0) += S32_AT(arg1, 0xC);
-    S32_AT(arg1, 4) += S32_AT(arg1, 0x10);
-    S32_AT(arg1, 8) += S32_AT(arg1, 0x14);
+    S32_AT(motion, 0) += S32_AT(motion, 0xC);
+    S32_AT(motion, 4) += S32_AT(motion, 0x10);
+    S32_AT(motion, 8) += S32_AT(motion, 0x14);
 
-    U16_AT(PTR_AT(arg0, 0), 0x62) |= 2;
-    state = S16_AT(arg0, 4);
+    U16_AT(PTR_AT(obj, 0), 0x62) |= 2;
+    state = S16_AT(obj, 4);
 
     if (state == 2) {
         goto state_2;
@@ -73,106 +74,106 @@ void func_80812B70(void *arg0, void *arg1, void *arg2) {
     return;
 
 state_0:
-        func_8003EA54(arg2);
-        S32_AT(arg1, 0x14) += 0x40000;
-        S8_AT(arg0, 0x1D) = 0;
-        if (S32_AT(arg1, 8) < 0) {
+        func_8003EA54(part);
+        S32_AT(motion, 0x14) += 0x40000;
+        S8_AT(obj, 0x1D) = 0;
+        if (S32_AT(motion, 8) < 0) {
             return;
         }
-        S32_AT(arg1, 8) = 0;
-        U16_AT(arg0, 6) = 15;
-        S32_AT(arg1, 0xC) = ((func_80071494() % 448) - 128) << 12;
-        S32_AT(arg1, 0x10) = ((func_80071494() % 160) + 64) << 12;
-        S32_AT(arg1, 0x14) = -0x100000;
-        U16_AT(arg0, 4)++;
+        S32_AT(motion, 8) = 0;
+        U16_AT(obj, 6) = 15;
+        S32_AT(motion, 0xC) = ((func_80071494() % 448) - 128) << 12;
+        S32_AT(motion, 0x10) = ((func_80071494() % 160) + 64) << 12;
+        S32_AT(motion, 0x14) = -0x100000;
+        U16_AT(obj, 4)++;
         return;
 
 state_1:
-        func_8003EA54(arg2);
-        S32_AT(arg1, 0x14) += 0x40000;
-        timer1 = U16_AT(arg0, 6) - 1;
-        U16_AT(arg0, 6) = timer1;
-        if (S32_AT(arg1, 8) < 0) {
+        func_8003EA54(part);
+        S32_AT(motion, 0x14) += 0x40000;
+        timer1 = U16_AT(obj, 6) - 1;
+        U16_AT(obj, 6) = timer1;
+        if (S32_AT(motion, 8) < 0) {
             return;
         }
         if ((s16)timer1 > 0) {
-            S32_AT(arg1, 8) = 0;
-            S32_AT(arg1, 0x14) = -S32_AT(arg1, 0x14);
+            S32_AT(motion, 8) = 0;
+            S32_AT(motion, 0x14) = -S32_AT(motion, 0x14);
             return;
         }
-        S32_AT(arg1, 8) = 0;
-        S32_AT(arg1, 0x10) = 0;
-        S32_AT(arg1, 0xC) = 0;
-        S32_AT(arg1, 0x14) = ((func_80071494() & 0xFF) << 11) + 0xFFEB0000;
-        U16_AT(arg0, 6) = (func_80071494() & 0xF) + 30;
-        U16_AT(arg0, 4)++;
+        S32_AT(motion, 8) = 0;
+        S32_AT(motion, 0x10) = 0;
+        S32_AT(motion, 0xC) = 0;
+        S32_AT(motion, 0x14) = ((func_80071494() & 0xFF) << 11) + 0xFFEB0000;
+        U16_AT(obj, 6) = (func_80071494() & 0xF) + 30;
+        U16_AT(obj, 4)++;
         return;
 
 state_2:
-        func_8003EA54(arg2);
-        S32_AT(arg1, 0x14) += 0x30000;
-        U16_AT(arg0, 6)--;
-        if (S32_AT(arg1, 8) >= 0) {
-            S32_AT(arg1, 8) = 0;
-            if (S16_AT(arg0, 6) < 0) {
-                object_value = D_805301C0[S16_AT(arg0, 0x54)];
-                S16_AT(arg2, 0x12) = 0;
-                S8_AT(arg2, 4) = 0;
-                S8_AT(arg2, 5) = 0;
-                S32_AT(arg2, 8) = object_value;
-                S32_AT(arg1, 0x14) = 0;
-                U16_AT(arg0, 6) = 150;
-                U16_AT(arg0, 4)++;
+        func_8003EA54(part);
+        S32_AT(motion, 0x14) += 0x30000;
+        U16_AT(obj, 6)--;
+        if (S32_AT(motion, 8) >= 0) {
+            S32_AT(motion, 8) = 0;
+            if (S16_AT(obj, 6) < 0) {
+                object_value = D_805301C0[S16_AT(obj, 0x54)];
+                S16_AT(part, 0x12) = 0;
+                S8_AT(part, 4) = 0;
+                S8_AT(part, 5) = 0;
+                S32_AT(part, 8) = object_value;
+                S32_AT(motion, 0x14) = 0;
+                U16_AT(obj, 6) = 150;
+                U16_AT(obj, 4)++;
             } else {
-                S32_AT(arg1, 0x14) = -S32_AT(arg1, 0x14) >> 1;
+                S32_AT(motion, 0x14) = -S32_AT(motion, 0x14) >> 1;
             }
         }
-        call_result = func_80240810(D_8053016C, arg1, D_80290704, D_80132AE8);
+        call_result = func_80240810(D_8053016C, motion, D_80290704, D_80132AE8);
         if (call_result != 0) {
-            D_80012BCC_store[0] = values.v[S16_AT(arg0, 0x54)] * 1000 + D_80012BCC_load[0];
-            U16_AT(arg0, 4) = 255;
+            D_80012BCC_store[0] = values.v[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load[0];
+            U16_AT(obj, 4) = 255;
             return;
         }
         return;
 
 state_3:
-        timer3 = U16_AT(arg0, 6);
+        timer3 = U16_AT(obj, 6);
         timer3--;
-        U16_AT(arg0, 6) = timer3;
+        U16_AT(obj, 6) = timer3;
         if ((s16)timer3 < 0) {
-            U16_AT(arg0, 6) = 31;
-            U16_AT(arg0, 4)++;
+            U16_AT(obj, 6) = 31;
+            U16_AT(obj, 4)++;
         }
-        call_result = func_80240810(D_8053016C, arg1, D_80290704, D_80132AE8);
+        call_result = func_80240810(D_8053016C, motion, D_80290704, D_80132AE8);
         if (call_result != 0) {
-            D_80012BCC_store2[0] = valuep[S16_AT(arg0, 0x54)] * 1000 + D_80012BCC_load2[0];
-            U16_AT(arg0, 4) = 255;
+            D_80012BCC_store2[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load2[0];
+            U16_AT(obj, 4) = 255;
             return;
         }
         return;
 
 state_4:
-        if (func_80240810(D_8053016C, arg1, D_80290704, D_80132AE8) != 0) {
-            D_80012BCC_store3[0] = valuep[S16_AT(arg0, 0x54)] * 1000 + D_80012BCC_load3[0];
-            S16_AT(arg0, 4) = 255;
+        if (func_80240810(D_8053016C, motion, D_80290704, D_80132AE8) != 0) {
+            D_80012BCC_store3[0] = valuep[S16_AT(obj, 0x54)] * 1000 + D_80012BCC_load3[0];
+            S16_AT(obj, 4) = 255;
         }
-        if ((U16_AT(arg0, 6) >> 2) & 1) {
-            U16_AT(arg2, 0x14) |= 0x80;
+        if ((U16_AT(obj, 6) >> 2) & 1) {
+            U16_AT(part, 0x14) |= 0x80;
         } else {
-            U16_AT(arg2, 0x14) &= 0xFF7F;
+            U16_AT(part, 0x14) &= 0xFF7F;
         }
-        timer4 = U16_AT(arg0, 6);
+        timer4 = U16_AT(obj, 6);
         timer4--;
-        U16_AT(arg0, 6) = timer4;
+        U16_AT(obj, 6) = timer4;
         if ((s16)timer4 > 0) {
             return;
         }
-        U16_AT(arg0, 4) = 255;
+        U16_AT(obj, 4) = 255;
         return;
 
 state_255:
-        func_8023FB18((u8 *)arg0 + 8);
-        U16_AT(arg0, -2) |= 0x8000;
+        func_8023FB18((u8 *)obj + 8);
+        U16_AT(obj, -2) |= 0x8000;
         D_80084D5C |= 0x8000;
         return;
 

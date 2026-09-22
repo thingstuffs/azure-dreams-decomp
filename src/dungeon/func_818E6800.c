@@ -19,7 +19,6 @@ extern void func_800240D0(void) __attribute__((noreturn));
 extern void func_80024388(void) __attribute__((noreturn));
 extern void func_80024724(void) __attribute__((noreturn));
 extern void func_80024728(void) __attribute__((noreturn));
-extern void func_80024764(void) __attribute__((noreturn));
 
 extern u8 D_80083498[];
 extern u8 D_80045340[];
@@ -175,22 +174,17 @@ set_distance:
             if (mode == 1) goto mode_1;
             if (mode >= 2) goto mode_ge_2;
             if (mode == 0) goto mode_0;
-            func_80024764();
             return;
 mode_ge_2:
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (mode == 2) goto mode_2;
-            func_80024764();
             return;
         }
         if (mode == 255) goto mode_255;
         if (mode < 256) {
             if (mode == 241) goto mode_241;
-            func_80024764();
             return;
         }
         if (mode == 256) goto mode_256;
-        func_80024764();
         return;
 
 mode_0: {
@@ -335,7 +329,6 @@ mode_2: {
                 if (S32(actor, 96) != 0) {
 set_state_240:
                     U16(effect, 10) = 240;
-                    func_80024764();
                     return;
                 }
                 goto cleanup_state;
@@ -365,7 +358,6 @@ mode_241:
 cleanup_state:
             func_80044A50(effect - 32);
             U16(effect, 10) = 255;
-            func_80024764();
             return;
 
 mode_255: {
@@ -373,12 +365,10 @@ mode_255: {
             effect_flags = S32(effect, 16);
             if ((effect_flags & 0x8000) != 0) {
                 S32(effect, 16) = effect_flags & ~0x8000;
-                func_80024764();
                 return;
             } else {
                 U16(effect, 80) = 10;
                 U16(effect, 10) = (u16)(U16(effect, 10) + 1);
-                func_80024764();
                 return;
             }
         }

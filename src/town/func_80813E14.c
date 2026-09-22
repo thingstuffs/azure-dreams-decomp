@@ -77,6 +77,7 @@ typedef struct S_8052EA14_0 {
     u16 unk_08;
 } S_8052EA14_0;   /* record in func_8052EA14 */
 
+/* Per-frame shop-panel step: advance the panel's mode machine and spawn its sparkle particles. */
 void func_8052EA14(Func80813E14Object *object,
                    Func80813E14State *state,
                    Func80813E14Input *input)
@@ -198,11 +199,11 @@ void func_8052EA14(Func80813E14Object *object,
         x += position_base;
         random = func_80071494();
         {
-            u32 arg0 = 0x00808080;
-            s32 arg1 = x;
-            u32 arg3 = (random & 0xF) << 16;
+            u32 colour = 0x00808080;
+            s32 pos_x = x;
+            u32 spin = (random & 0xF) << 16;
 split3:
-            func_8052E4C0(arg0, arg1, state->height + case_3_height, arg3);
+            func_8052E4C0(colour, pos_x, state->height + case_3_height, spin);
         }
     } while (i >= 0);
     goto cleanup;

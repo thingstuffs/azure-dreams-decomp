@@ -42,6 +42,7 @@ extern void func_8003F8A8(s32);
 extern void func_80050BFC(s32, void *);
 extern u32 func_80071494(void);
 
+/* Build the title-screen menu: the cursor object plus the two rows of three entries, linked to the shared anchor. */
 s32 func_808106E0(void)
 {
     u8 *anchor = 0;

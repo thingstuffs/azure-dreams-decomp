@@ -12,7 +12,7 @@ typedef struct S_8052F2C8_0 {
     union { s16 s; u16 u; } unk_0C;   /* accessed as both */
     s16 unk_0E;
     u16 unk_10;
-} S_8052F2C8_0;   /* p0 in func_8052F2C8 */
+} S_8052F2C8_0;   /* obj_held in func_8052F2C8 */
 
 typedef struct S_8052F2C8_1 {
     void * unk_00;
@@ -26,7 +26,7 @@ typedef struct S_8052F2C8_2 {
     s32 unk_00;
     s32 unk_04;
     s32 unk_08;
-} S_8052F2C8_2;   /* p1 in func_8052F2C8 */
+} S_8052F2C8_2;   /* state_held in func_8052F2C8 */
 
 typedef struct S_8052F2C8_3 {
     u8 pad_00[0x8];
@@ -99,9 +99,10 @@ extern u8 D_8028E17C[];
 extern u8 D_8028E188[];
 extern void D_8052F8C4();
 
-void func_8052F2C8(void *arg0, void *arg1, void *arg2) {
-    register void *p0 = arg0;
-    register void *p1 = arg1;
+/* Per-frame step for the town scene object: dispatch its mode and update the sprite it draws. */
+void func_8052F2C8(void *obj, void *state_in, void *input) {
+    register void *obj_held = obj;
+    register void *state_held = state_in;
     register void *work;
     s16 state;
     s16 mode;
@@ -132,15 +133,15 @@ void func_8052F2C8(void *arg0, void *arg1, void *arg2) {
     s32 *money;
 
     do {
-        root = ((S_8052F2C8_0 *)p0)->unk_00;
+        root = ((S_8052F2C8_0 *)obj_held)->unk_00;
     } while (0);
     ((S_8052F2C8_1 *)root)->unk_58 |= 1;
     root_obj = ((S_8052F2C8_1 *)root)->unk_00;
-    work = arg2;
+    work = input;
 
     if (((S_8052F2C8_1 *)root)->unk_54.s == 9) {
-        mode = ((S_8052F2C8_0 *)p0)->unk_0C.s;
-        if (mode == 1 && ((S_8052F2C8_2 *)p1)->unk_00 <= 0x04DFFFFF) {
+        mode = ((S_8052F2C8_0 *)obj_held)->unk_0C.s;
+        if (mode == 1 && ((S_8052F2C8_2 *)state_held)->unk_00 <= 0x04DFFFFF) {
             state = ((S_8052F2C8_1 *)root)->unk_56;
             if (state == mode) {
                 goto state_1;
@@ -160,7 +161,7 @@ state_0:
                 ((S_8052F2C8_3 *)work)->unk_0C.u8 = 0xFF;
                 count = 3;
 intro_loop:
-                func_8052F960(p1);
+                func_8052F960(state_held);
                 count--;
                 if (count < 0) {
                     goto dispatch;
@@ -171,7 +172,7 @@ state_1:
                 ((S_8052F2C8_3 *)work)->unk_14 |= 0xC;
                 count = 2;
 intro_loop_2:
-                func_8052FB08(p1);
+                func_8052FB08(state_held);
                 count--;
                 if (count < 0) {
                     goto dispatch;
@@ -186,41 +187,41 @@ state_2:
     }
 
 dispatch:
-    switch (((S_8052F2C8_0 *)p0)->unk_0C.s) {
+    switch (((S_8052F2C8_0 *)obj_held)->unk_0C.s) {
     case 0:
-        if (((S_8052F2C8_0 *)p0)->unk_0E == 0x10) {
+        if (((S_8052F2C8_0 *)obj_held)->unk_0E == 0x10) {
             ((S_8052F2C8_1 *)root)->unk_58 |= 4;
         } else {
             ((S_8052F2C8_1 *)root)->unk_58 &= 0xFFFB;
         }
-        timer0 = (u16)((S_8052F2C8_0 *)p0)->unk_0E - 1;
-        ((S_8052F2C8_0 *)p0)->unk_0E = timer0;
+        timer0 = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
+        ((S_8052F2C8_0 *)obj_held)->unk_0E = timer0;
         if ((timer0 << 16) > 0) {
             break;
         }
         func_80058F88(0x518);
         data0 = ((S_8052F2C8_1 *)root)->unk_00;
         ((S_8052F2C8_4 *)data0)->unk_12++;
-        ((S_8052F2C8_0 *)p0)->unk_0C.s = 1;
+        ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 1;
         ((S_8052F2C8_3 *)work)->unk_14 &= 0xFF7F;
         break;
 
     case 1:
-        step = ((S_8052F2C8_0 *)p0)->unk_04 + ((S_8052F2C8_0 *)p0)->unk_08;
-        ((S_8052F2C8_0 *)p0)->unk_04 = step;
-        sum = ((S_8052F2C8_2 *)p1)->unk_00 + ((S_8052F2C8_0 *)p0)->unk_04;
-        ((S_8052F2C8_2 *)p1)->unk_00 = sum;
+        step = ((S_8052F2C8_0 *)obj_held)->unk_04 + ((S_8052F2C8_0 *)obj_held)->unk_08;
+        ((S_8052F2C8_0 *)obj_held)->unk_04 = step;
+        sum = ((S_8052F2C8_2 *)state_held)->unk_00 + ((S_8052F2C8_0 *)obj_held)->unk_04;
+        ((S_8052F2C8_2 *)state_held)->unk_00 = sum;
         if (sum > 0x0427FFFF) {
             goto high_sum;
         }
-        ((S_8052F2C8_0 *)p0)->unk_0E = 6;
+        ((S_8052F2C8_0 *)obj_held)->unk_0E = 6;
         money = &D_80095AAC;
         if (*(u8 *)money >= 9U) {
             *money += 0xFFF7F7F8;
         }
         ((S_8052F2C8_3 *)work)->unk_14 |= 0x80;
         func_80058F88(0x506);
-        ((S_8052F2C8_0 *)p0)->unk_0C.s = 2;
+        ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 2;
         break;
 
 high_sum:
@@ -232,7 +233,7 @@ high_sum:
 
             target_y_addr = &D_80132AEC;
             target_y = *target_y_addr;
-            current_y = ((S_8052F2C8_2 *)p1)->unk_04;
+            current_y = ((S_8052F2C8_2 *)state_held)->unk_04;
             delta = target_y - current_y;
             delta = abs(delta);
             if (delta > 0x200000) {
@@ -242,16 +243,16 @@ high_sum:
         if (sum > 0x043FFFFF) {
             break;
         }
-        if (((S_8052F2C8_0 *)p0)->unk_10 & 4) {
+        if (((S_8052F2C8_0 *)obj_held)->unk_10 & 4) {
             break;
         }
 
         kind = ((S_8052F2C8_5 *)root_obj)->unk_16 - 3;
         if (kind < 3U) {
             func_80058F88(0x513);
-            ((S_8052F2C8_0 *)p0)->unk_04 = 0x180000;
-            ((S_8052F2C8_0 *)p0)->unk_0C.s = 3;
-            ((S_8052F2C8_0 *)p0)->unk_10 |= 4;
+            ((S_8052F2C8_0 *)obj_held)->unk_04 = 0x180000;
+            ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 3;
+            ((S_8052F2C8_0 *)obj_held)->unk_10 |= 4;
             data1 = ((S_8052F2C8_1 *)root)->unk_00;
             ((S_8052F2C8_1 *)root)->unk_54.u++;
             ((S_8052F2C8_6 *)data1)->unk_14 += 2;
@@ -266,7 +267,7 @@ high_sum:
         }
 
         func_80058F88(0x510);
-        ((S_8052F2C8_0 *)p0)->unk_10 |= 4;
+        ((S_8052F2C8_0 *)obj_held)->unk_10 |= 4;
         spawn_data = ((S_8052F2C8_1 *)root)->unk_00;
         count = 1;
         ((S_8052F2C8_7 *)spawn_data)->unk_14++;
@@ -278,10 +279,10 @@ entity_loop:
             func_8003BC18(work, D_8003C558);
             position = ((S_8052F2C8_3 *)work)->unk_08;
             entity_data = ((S_8052F2C8_3 *)work)->unk_0C.p32;
-            ((S_8052F2C8_8 *)position)->unk_00 = ((S_8052F2C8_2 *)p1)->unk_00;
-            ((S_8052F2C8_8 *)position)->unk_04 = ((S_8052F2C8_2 *)p1)->unk_04;
-            ((S_8052F2C8_8 *)position)->unk_08 = ((S_8052F2C8_2 *)p1)->unk_08;
-            work_value = ((S_8052F2C8_0 *)p0)->unk_04;
+            ((S_8052F2C8_8 *)position)->unk_00 = ((S_8052F2C8_2 *)state_held)->unk_00;
+            ((S_8052F2C8_8 *)position)->unk_04 = ((S_8052F2C8_2 *)state_held)->unk_04;
+            ((S_8052F2C8_8 *)position)->unk_08 = ((S_8052F2C8_2 *)state_held)->unk_08;
+            work_value = ((S_8052F2C8_0 *)obj_held)->unk_04;
             ((S_8052F2C8_3 *)work)->unk_20 = root;
             ((S_8052F2C8_3 *)work)->unk_24 = work_value;
             ((S_8052F2C8_9 *)entity_data)->unk_1E = scale;
@@ -301,22 +302,22 @@ entity_loop:
         if (count >= 0) {
             goto entity_loop;
         }
-        ((S_8052F2C8_0 *)p0)->unk_0C.u = 0xFF;
+        ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
         break;
 
     case 2:
         count = 7;
 case_2_loop:
         count--;
-        x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)p1)->unk_00;
+        x = (((func_80071494() & 0xFF) - 0x80) << 14) + ((S_8052F2C8_2 *)state_held)->unk_00;
         rnd = func_80071494();
-        func_8052E4C0(0, x, ((S_8052F2C8_2 *)p1)->unk_04 + 0x80000,
+        func_8052E4C0(0, x, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
                      ((rnd % 80) << 16) + 0xFFB00000);
         if (count < 0) {
-            timer_end = (u16)((S_8052F2C8_0 *)p0)->unk_0E - 1;
-            ((S_8052F2C8_0 *)p0)->unk_0E = timer_end;
+            timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
+            ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
             if ((timer_end << 16) <= 0) {
-                ((S_8052F2C8_0 *)p0)->unk_0C.u = 0xFF;
+                ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
             }
             break;
         }
@@ -324,12 +325,12 @@ case_2_loop:
 
     case 3:
         ((S_8052F2C8_1 *)root)->unk_58 |= 2;
-        sum3 = ((S_8052F2C8_2 *)p1)->unk_00 + ((S_8052F2C8_0 *)p0)->unk_04;
-        ((S_8052F2C8_2 *)p1)->unk_00 = sum3;
+        sum3 = ((S_8052F2C8_2 *)state_held)->unk_00 + ((S_8052F2C8_0 *)obj_held)->unk_04;
+        ((S_8052F2C8_2 *)state_held)->unk_00 = sum3;
         if (sum3 > 0x055FFFFF) {
-            ((S_8052F2C8_0 *)p0)->unk_0E = 5;
+            ((S_8052F2C8_0 *)obj_held)->unk_0E = 5;
             func_80058F88(0x50C);
-            ((S_8052F2C8_0 *)p0)->unk_0C.s = 4;
+            ((S_8052F2C8_0 *)obj_held)->unk_0C.s = 4;
         }
         break;
 
@@ -342,23 +343,23 @@ case_4_loop:
         count4--;
         x4 = (((func_80071494() & 0xFF) - 0x80) << 14) + base;
         rnd4 = func_80071494();
-        func_8052E4C0(0, x4, ((S_8052F2C8_2 *)p1)->unk_04 + 0x80000,
+        func_8052E4C0(0, x4, ((S_8052F2C8_2 *)state_held)->unk_04 + 0x80000,
                      ((rnd4 & 0x3F) << 16) | mask);
         if (count4 >= 0) {
             goto case_4_loop;
         }
 
 decrement_timer:
-        timer_end = (u16)((S_8052F2C8_0 *)p0)->unk_0E - 1;
-        ((S_8052F2C8_0 *)p0)->unk_0E = timer_end;
+        timer_end = (u16)((S_8052F2C8_0 *)obj_held)->unk_0E - 1;
+        ((S_8052F2C8_0 *)obj_held)->unk_0E = timer_end;
         if ((timer_end << 16) <= 0) {
-            ((S_8052F2C8_0 *)p0)->unk_0C.u = 0xFF;
+            ((S_8052F2C8_0 *)obj_held)->unk_0C.u = 0xFF;
         }
         break;
 
     case 0xFF:
         ((S_8052F2C8_1 *)root)->unk_58 &= 0xFFFE;
-        (*(u16 *)((u8 *)p0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)obj_held + -2)) |= 0x8000;
         D_80084D5C |= 0x8000;
         break;
 
