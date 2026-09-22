@@ -5,8 +5,6 @@
 #else
 #endif
 
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
-
 typedef struct {
     u8 pad[0xBBC];
     s16 values[1];
@@ -28,6 +26,11 @@ extern CallbackOwner *D_80701984[4];
 
 extern s32 func_80700D84(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_80701060(s32 *word, s32 old_value);
+
+typedef struct {
+    u8 pad_00[0x30];
+    s32 unk_30;
+} S_80874F4C_State;   /* state in func_80874F4C */
 
 s32 func_80874F4C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 #ifndef NON_MATCHING
@@ -84,8 +87,8 @@ callback_path:
         s32 new_flags;
 #endif
         state = (void *)D_80701968[0];
-        new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-        FIELD(state, s32 *, 0x30) = new_flags;
+        new_flags = ((S_80874F4C_State *)state)->unk_30 | tail_arg;
+        ((S_80874F4C_State *)state)->unk_30 = new_flags;
     }
     goto return_arg;
 
@@ -102,9 +105,9 @@ clear_flags:
 #endif
         state = (void *)D_80701968[0];
         clear_mask = 0xBFFFFFFF;
-        clear_value = FIELD(state, s32 *, 0x30);
+        clear_value = ((S_80874F4C_State *)state)->unk_30;
         clear_value &= clear_mask;
-        FIELD(state, s32 *, 0x30) = clear_value;
+        ((S_80874F4C_State *)state)->unk_30 = clear_value;
     }
 return_arg:
     return arg0;

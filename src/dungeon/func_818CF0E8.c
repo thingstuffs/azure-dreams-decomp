@@ -3,7 +3,7 @@ extern int abs(int);
 
 typedef struct S_818CF0E8_0_pre {
     u16 unk_00;
-} S_818CF0E8_0_pre;   /* the 0x2 bytes before arg0 in func_818CF0E8, addressed as arg0[-1] */
+} S_818CF0E8_0_pre;   /* the 0x2 bytes before entity in func_818CF0E8, addressed as entity[-1] */
 
 typedef struct S_818CF0E8_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -26,13 +26,13 @@ typedef struct S_818CF0E8_0 {
     s32 unk_4C;
     s32 unk_50;
     s32 unk_54;
-} S_818CF0E8_0;   /* arg0 in func_818CF0E8 */
+} S_818CF0E8_0;   /* entity in func_818CF0E8 */
 
 typedef struct S_818CF0E8_1 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_00;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; u16 v; } at02; struct { u8 pad[0x2]; s16 v; } at02u; } unk_04;   /* overlapping accesses */
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; struct { u8 pad[0x2]; u16 v; } at02u; } unk_08;   /* overlapping accesses */
-} S_818CF0E8_1;   /* arg1 in func_818CF0E8 */
+} S_818CF0E8_1;   /* pos in func_818CF0E8 */
 
 typedef struct S_818CF0E8_2 {
     u8 pad_00[0x2];
@@ -51,7 +51,7 @@ typedef struct S_818CF0E8_3 {
     s16 unk_1A;
     u16 unk_1C;
     u16 unk_1E;
-} S_818CF0E8_3;   /* arg2 in func_818CF0E8 */
+} S_818CF0E8_3;   /* gfx in func_818CF0E8 */
 
 typedef struct S_818CF0E8_4 {
     u8 pad_00[0x2];
@@ -98,12 +98,12 @@ typedef struct S_818CF0E8_7 {
 typedef struct S_818CF0E8_8_pre {
     void * unk_00;
     u8 pad_04[0x14];
-} S_818CF0E8_8_pre;   /* the 0x18 bytes before ((S_818CF0E8_0 *)arg0)->unk_30 in func_818CF0E8, addressed as ((S_818CF0E8_0 *)arg0)->unk_30[-1] */
+} S_818CF0E8_8_pre;   /* the 0x18 bytes before ((S_818CF0E8_0 *)entity)->unk_30 in func_818CF0E8, addressed as ((S_818CF0E8_0 *)entity)->unk_30[-1] */
 
 typedef struct S_818CF0E8_9 {
     u8 pad_00[0x86];
     s16 unk_86;
-} S_818CF0E8_9;   /* ((S_818CF0E8_0 *)arg0)->unk_34 in func_818CF0E8 */
+} S_818CF0E8_9;   /* ((S_818CF0E8_0 *)entity)->unk_34 in func_818CF0E8 */
 
 
 
@@ -140,7 +140,8 @@ extern u8 D_800DEC00[];
 extern s32 D_800814A0[3];
 extern u8 D_800E3D68[];
 
-void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
+/* Per-frame chasing-star step: drift toward the player, steer around the map and spawn the two trailing sprites. */
+void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
 {
     u8 *star;
     S_818CF0E8_7 *env;
@@ -159,33 +160,33 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
     u32 hi;
 
     D_80025924[0] = 1;
-    env = ((S_818CF0E8_0 *)arg0)->unk_2C;
-    if (((S_818CF0E8_0 *)arg0)->unk_00.s == 0) {
+    env = ((S_818CF0E8_0 *)entity)->unk_2C;
+    if (((S_818CF0E8_0 *)entity)->unk_00.s == 0) {
         p = (void *)0;
         loop_0: {
             register s32 a3v ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 rv;
             p = (u8 *)p + 1;
             rv = func_80069EF8();
-            w1 = (s32)((u8 *)arg0 - 0x20);
+            w1 = (s32)((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
             ASM_USE2(src, a3v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            func_80024358((void *)w1, ((S_818CF0E8_0 *)arg0)->unk_16, (s32)src, a3v, 0, 0, 0);
+            func_80024358((void *)w1, ((S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
         } if ((s32)p < 4) goto loop_0;
-        if ((func_800A4778(arg1->unk_00.at02.v, arg1->unk_04.at02.v,
-                           arg1->unk_08.at02.v, ((S_818CF0E8_0 *)arg0)->unk_30) << 0x10) != 0) {
+        if ((func_800A4778(pos->unk_00.at02.v, pos->unk_04.at02.v,
+                           pos->unk_08.at02.v, ((S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
             goto finish;
         }
-        if (((S_818CF0E8_0 *)arg0)->unk_08 != 0) {
-            star = ((S_818CF0E8_8_pre *)(((S_818CF0E8_0 *)arg0)->unk_30))[-1].unk_00;
-            if (arg1->unk_08.at00.v < ((S_818CF0E8_2 *)star)->unk_08.at00.v + (s32)0xFF800000) {
-                ((S_818CF0E8_0 *)arg0)->unk_54 /= 2;
+        if (((S_818CF0E8_0 *)entity)->unk_08 != 0) {
+            star = ((S_818CF0E8_8_pre *)(((S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
+            if (pos->unk_08.at00.v < ((S_818CF0E8_2 *)star)->unk_08.at00.v + (s32)0xFF800000) {
+                ((S_818CF0E8_0 *)entity)->unk_54 /= 2;
             }
             {
             s32 d;
             s32 aw;
-            d = arg1->unk_00.at02u.v;
+            d = pos->unk_00.at02u.v;
             d -= ((S_818CF0E8_2 *)star)->unk_02.s;
             aw = d;
             aw = abs(aw);
@@ -194,24 +195,24 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
                 s32 a;
                 s32 lim;
                 lim = 0x40000;
-                v = ((S_818CF0E8_0 *)arg0)->unk_4C;
+                v = ((S_818CF0E8_0 *)entity)->unk_4C;
                 a = v;
                 a = abs(a);
                 if (a > lim) {
-                    ((S_818CF0E8_0 *)arg0)->unk_4C = v / 2;
+                    ((S_818CF0E8_0 *)entity)->unk_4C = v / 2;
                 }
-            } else if (((S_818CF0E8_0 *)arg0)->unk_4C == 0) {
+            } else if (((S_818CF0E8_0 *)entity)->unk_4C == 0) {
                 s32 nv = -0x200000;
                 if (d <= 0) {
                     nv = 0x200000;
                 }
-                ((S_818CF0E8_0 *)arg0)->unk_4C = nv;
+                ((S_818CF0E8_0 *)entity)->unk_4C = nv;
             }
             }
             {
             s32 d;
             s32 aw;
-            d = arg1->unk_04.at02u.v;
+            d = pos->unk_04.at02u.v;
             d -= ((S_818CF0E8_2 *)star)->unk_06.s;
             aw = (d >= 0) ? d : (0 - d);
             if (aw < 8) {
@@ -219,18 +220,18 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
                 s32 a;
                 s32 lim;
                 lim = 0x40000;
-                v = ((S_818CF0E8_0 *)arg0)->unk_50;
+                v = ((S_818CF0E8_0 *)entity)->unk_50;
                 a = v;
                 a = abs(a);
                 if (a > lim) {
-                    ((S_818CF0E8_0 *)arg0)->unk_50 = v / 2;
+                    ((S_818CF0E8_0 *)entity)->unk_50 = v / 2;
                 }
-            } else if (((S_818CF0E8_0 *)arg0)->unk_50 == 0) {
+            } else if (((S_818CF0E8_0 *)entity)->unk_50 == 0) {
                 s32 nv = -0x200000;
                 if (d <= 0) {
                     nv = 0x200000;
                 }
-                ((S_818CF0E8_0 *)arg0)->unk_50 = nv;
+                ((S_818CF0E8_0 *)entity)->unk_50 = nv;
             }
             }
             {
@@ -239,38 +240,38 @@ void func_818CF0E8(void *arg0, S_818CF0E8_1 *arg1, S_818CF0E8_3 *arg2)
                 s32 aw;
                 s32 d;
                 s32 st;
-                a2v = arg1->unk_00.at02.v;
+                a2v = pos->unk_00.at02.v;
                 ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                d = arg1->unk_00.at02u.v;
+                d = pos->unk_00.at02u.v;
                 st = ((S_818CF0E8_2 *)star)->unk_02.s;
                 a1v = ((S_818CF0E8_2 *)star)->unk_02.u;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
-                    arg1->unk_00.at00.v += ((S_818CF0E8_0 *)arg0)->unk_4C;
+                    pos->unk_00.at00.v += ((S_818CF0E8_0 *)entity)->unk_4C;
                     goto x_recheck;
                 }
                 if (aw >= 4) {
-                    arg1->unk_00.at00.v += (((S_818CF0E8_0 *)arg0)->unk_4C * aw) / 192;
+                    pos->unk_00.at00.v += (((S_818CF0E8_0 *)entity)->unk_4C * aw) / 192;
                     goto x_recheck;
                 }
-                if (((S_818CF0E8_0 *)arg0)->unk_38 != ((S_818CF0E8_0 *)arg0)->unk_3C) {
+                if (((S_818CF0E8_0 *)entity)->unk_38 != ((S_818CF0E8_0 *)entity)->unk_3C) {
                     s32 one;
                     one = 1;
-                    ((S_818CF0E8_0 *)arg0)->unk_00.s = one;
-                    ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
+                    ((S_818CF0E8_0 *)entity)->unk_00.s = one;
+                    ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
 x_recheck:
-                    if (((S_818CF0E8_0 *)arg0)->unk_38 != ((S_818CF0E8_0 *)arg0)->unk_3C) {
-                        s32 v = ((S_818CF0E8_0 *)arg0)->unk_4C;
+                    if (((S_818CF0E8_0 *)entity)->unk_38 != ((S_818CF0E8_0 *)entity)->unk_3C) {
+                        s32 v = ((S_818CF0E8_0 *)entity)->unk_4C;
                         if (v > 0) {
                             if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                                ((S_818CF0E8_0 *)arg0)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
+                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
                             }
                         } else if (v < 0) {
                             if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                                ((S_818CF0E8_0 *)arg0)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
+                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
                             }
                         }
                     }
@@ -282,38 +283,38 @@ x_recheck:
                 s32 aw;
                 s32 d;
                 s32 st;
-                a2v = arg1->unk_04.at02.v;
+                a2v = pos->unk_04.at02.v;
                 ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                d = arg1->unk_04.at02u.v;
+                d = pos->unk_04.at02u.v;
                 st = ((S_818CF0E8_2 *)star)->unk_06.s;
                 a1v = ((S_818CF0E8_2 *)star)->unk_06.u;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
-                    arg1->unk_04.at00.v += ((S_818CF0E8_0 *)arg0)->unk_50;
+                    pos->unk_04.at00.v += ((S_818CF0E8_0 *)entity)->unk_50;
                     goto y_recheck;
                 }
                 if (aw >= 4) {
-                    arg1->unk_04.at00.v += (((S_818CF0E8_0 *)arg0)->unk_50 * aw) / 192;
+                    pos->unk_04.at00.v += (((S_818CF0E8_0 *)entity)->unk_50 * aw) / 192;
                     goto y_recheck;
                 }
-                if (((S_818CF0E8_0 *)arg0)->unk_3A != ((S_818CF0E8_0 *)arg0)->unk_3E) {
+                if (((S_818CF0E8_0 *)entity)->unk_3A != ((S_818CF0E8_0 *)entity)->unk_3E) {
                     s32 one;
                     one = 1;
-                    ((S_818CF0E8_0 *)arg0)->unk_00.s = one;
-                    ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
+                    ((S_818CF0E8_0 *)entity)->unk_00.s = one;
+                    ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
 y_recheck:
-                    if (((S_818CF0E8_0 *)arg0)->unk_3A != ((S_818CF0E8_0 *)arg0)->unk_3E) {
-                        s32 v = ((S_818CF0E8_0 *)arg0)->unk_50;
+                    if (((S_818CF0E8_0 *)entity)->unk_3A != ((S_818CF0E8_0 *)entity)->unk_3E) {
+                        s32 v = ((S_818CF0E8_0 *)entity)->unk_50;
                         if (v > 0) {
                             if ((s32)(a1v << 0x10) <= (s32)(a2v << 0x10)) {
-                                ((S_818CF0E8_0 *)arg0)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
+                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
                             }
                         } else if (v < 0) {
                             if ((s32)(a2v << 0x10) <= (s32)(a1v << 0x10)) {
-                                ((S_818CF0E8_0 *)arg0)->unk_00.s = 1;
-                                ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
+                                ((S_818CF0E8_0 *)entity)->unk_00.s = 1;
+                                ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
                             }
                         }
                     }
@@ -325,11 +326,11 @@ y_recheck:
                 s32 aw;
                 s32 d;
                 s32 st;
-                if (((S_818CF0E8_0 *)arg0)->unk_4C != 0) {
-                    a2v = arg1->unk_00.at02.v;
+                if (((S_818CF0E8_0 *)entity)->unk_4C != 0) {
+                    a2v = pos->unk_00.at02.v;
                     a1v = ((S_818CF0E8_2 *)star)->unk_02.u;
                 } else {
-                    a2v = arg1->unk_04.at02.v;
+                    a2v = pos->unk_04.at02.v;
                     a1v = ((S_818CF0E8_2 *)star)->unk_06.u;
                 }
                 d = (s16)a2v;
@@ -338,41 +339,41 @@ y_recheck:
                 aw = abs(d);
                 if (aw >= 0xC1) {
                     ASM_USE2(a2v, a1v);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    arg1->unk_08.at00.v += ((S_818CF0E8_0 *)arg0)->unk_54;
+                    pos->unk_08.at00.v += ((S_818CF0E8_0 *)entity)->unk_54;
                     goto after_axes;
                 }
                 if (aw >= 4) {
-                    arg1->unk_08.at00.v += (((S_818CF0E8_0 *)arg0)->unk_54 * aw) / 192;
+                    pos->unk_08.at00.v += (((S_818CF0E8_0 *)entity)->unk_54 * aw) / 192;
                     goto after_axes;
                 }
             }
         } else {
-            ((S_818CF0E8_0 *)arg0)->unk_04.s -= 1;
-            arg1->unk_00.at00.v += ((S_818CF0E8_0 *)arg0)->unk_4C;
-            arg1->unk_04.at00.v += ((S_818CF0E8_0 *)arg0)->unk_50;
-            arg1->unk_08.at00.v += ((S_818CF0E8_0 *)arg0)->unk_54;
-            if (((S_818CF0E8_0 *)arg0)->unk_04.u <= 0) {
+            ((S_818CF0E8_0 *)entity)->unk_04.s -= 1;
+            pos->unk_00.at00.v += ((S_818CF0E8_0 *)entity)->unk_4C;
+            pos->unk_04.at00.v += ((S_818CF0E8_0 *)entity)->unk_50;
+            pos->unk_08.at00.v += ((S_818CF0E8_0 *)entity)->unk_54;
+            if (((S_818CF0E8_0 *)entity)->unk_04.u <= 0) {
                 goto finish;
             }
         }
     }
 after_axes:
-    if (((S_818CF0E8_0 *)arg0)->unk_00.s == 1) {
-        if (((S_818CF0E8_0 *)arg0)->unk_02.s == 0) {
+    if (((S_818CF0E8_0 *)entity)->unk_00.s == 1) {
+        if (((S_818CF0E8_0 *)entity)->unk_02.s == 0) {
             func_800A56E0(0x300);
             func_800542BC();
         }
-        cnt = ((S_818CF0E8_0 *)arg0)->unk_02.u + 1;
-        ((S_818CF0E8_0 *)arg0)->unk_02.s = cnt;
+        cnt = ((S_818CF0E8_0 *)entity)->unk_02.u + 1;
+        ((S_818CF0E8_0 *)entity)->unk_02.s = cnt;
         if (cnt >= 0xF) {
-            ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
-            ((S_818CF0E8_0 *)arg0)->unk_00.u += 1;
+            ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
+            ((S_818CF0E8_0 *)entity)->unk_00.u += 1;
         }
     }
-    if (((S_818CF0E8_0 *)arg0)->unk_00.s == 2) {
-        ((S_818CF0E8_0 *)arg0)->unk_02.u += 1;
-        arg2->unk_1C -= 0x32;
-        arg2->unk_1E -= 0x32;
+    if (((S_818CF0E8_0 *)entity)->unk_00.s == 2) {
+        ((S_818CF0E8_0 *)entity)->unk_02.u += 1;
+        gfx->unk_1C -= 0x32;
+        gfx->unk_1E -= 0x32;
         obj = func_8003FC64(0x212);
         {
             u8 *s3;
@@ -392,7 +393,7 @@ after_axes:
                 s32 r2;
                 s32 b2;
                 r2 = func_80069EF8() & 0x1F;
-                b2 = arg1->unk_00.at02.v - 0x10;
+                b2 = pos->unk_00.at02.v - 0x10;
                 b2 += r2;
                 ((S_818CF0E8_6 *)p)->unk_02.s = b2;
             }
@@ -400,11 +401,11 @@ after_axes:
                 s32 r2;
                 s32 b2;
                 r2 = func_80069EF8() & 0x1F;
-                b2 = arg1->unk_04.at02.v - 0x10;
+                b2 = pos->unk_04.at02.v - 0x10;
                 b2 += r2;
                 ((S_818CF0E8_6 *)p)->unk_06.s = b2;
             }
-            ((S_818CF0E8_6 *)p)->unk_08.at02.v = arg1->unk_08.at02u.v;
+            ((S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
             ((S_818CF0E8_4 *)s3)->unk_54 = func_80069EF8() + 0x30000;
             ((S_818CF0E8_4 *)s3)->unk_60 = 0x6000;
             p = ((S_818CF0E8_5 *)obj)->unk_0C;
@@ -419,7 +420,7 @@ after_axes:
             func_8003DB94(p, D_800DE870, 0);
             }
         }
-        if ((((S_818CF0E8_0 *)arg0)->unk_02.u & 3) == 1) {
+        if ((((S_818CF0E8_0 *)entity)->unk_02.u & 3) == 1) {
             obj = func_8003FC64(0x212);
             {
             register u8 *s3 ASM_REG("$19");
@@ -433,7 +434,7 @@ after_axes:
                 ((S_818CF0E8_6 *)p)->unk_10 = 0;
                 ((S_818CF0E8_6 *)p)->unk_14.s = flags;
                 p = ((S_818CF0E8_5 *)obj)->unk_08;
-                star = ((S_818CF0E8_8_pre *)(((S_818CF0E8_0 *)arg0)->unk_30))[-1].unk_00;
+                star = ((S_818CF0E8_8_pre *)(((S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
                 {
                     s32 r2;
                     s32 b2;
@@ -472,31 +473,31 @@ after_axes:
             }
             }
         }
-        if (((S_818CF0E8_0 *)arg0)->unk_02.s >= 0x29) {
-            ((S_818CF0E8_0 *)arg0)->unk_02.s = 0;
-            ((S_818CF0E8_0 *)arg0)->unk_00.u += 1;
+        if (((S_818CF0E8_0 *)entity)->unk_02.s >= 0x29) {
+            ((S_818CF0E8_0 *)entity)->unk_02.s = 0;
+            ((S_818CF0E8_0 *)entity)->unk_00.u += 1;
             if (func_8009D218(env->unk_60, 2, env) == 0) {
                 s32 a2v;
                 s32 a1v;
                 s32 rr;
                 rr = (func_800A6D30() & 3) + 2;
-                a2v = (((S_818CF0E8_0 *)arg0)->unk_15 >> 2) + rr;
+                a2v = (((S_818CF0E8_0 *)entity)->unk_15 >> 2) + rr;
                 a1v = 0x10;
                 if (D_800E3D68[0] == 0xFF) {
                     a1v = 0xFF;
                 }
-                func_800C8CD8(((S_818CF0E8_0 *)arg0)->unk_30, a1v, a2v);
+                func_800C8CD8(((S_818CF0E8_0 *)entity)->unk_30, a1v, a2v);
             }
         }
     }
-    if (((S_818CF0E8_0 *)arg0)->unk_00.s == 3) {
-        ((S_818CF0E8_0 *)arg0)->unk_02.u += 1;
-        arg2->unk_1C -= 0x32;
-        arg2->unk_1E -= 0x32;
-        if (((S_818CF0E8_0 *)arg0)->unk_02.s >= 0x15) {
+    if (((S_818CF0E8_0 *)entity)->unk_00.s == 3) {
+        ((S_818CF0E8_0 *)entity)->unk_02.u += 1;
+        gfx->unk_1C -= 0x32;
+        gfx->unk_1E -= 0x32;
+        if (((S_818CF0E8_0 *)entity)->unk_02.s >= 0x15) {
 finish:
-            ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)arg0)->unk_34))->unk_86 = 1;
-            ((S_818CF0E8_0_pre *)arg0)[-1].unk_00 |= 0x8000;
+            ((S_818CF0E8_9 *)(((S_818CF0E8_0 *)entity)->unk_34))->unk_86 = 1;
+            ((S_818CF0E8_0_pre *)entity)[-1].unk_00 |= 0x8000;
             D_800814A0[0] |= 0x8000;
             return;
         }
@@ -511,16 +512,16 @@ finish:
         ((S_818CF0E8_6 *)p)->unk_10 = 0x60;
         ((S_818CF0E8_6 *)p)->unk_14.s = flags;
         p = ((S_818CF0E8_5 *)obj)->unk_08;
-        ((S_818CF0E8_6 *)p)->unk_02.u = arg1->unk_00.at02.v;
-        ((S_818CF0E8_6 *)p)->unk_06.u = arg1->unk_04.at02.v;
-        ((S_818CF0E8_6 *)p)->unk_08.at02.v = arg1->unk_08.at02u.v;
+        ((S_818CF0E8_6 *)p)->unk_02.u = pos->unk_00.at02.v;
+        ((S_818CF0E8_6 *)p)->unk_06.u = pos->unk_04.at02.v;
+        ((S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
         p = ((S_818CF0E8_5 *)obj)->unk_0C;
         ((S_818CF0E8_6 *)p)->unk_1E = 0x1000;
         ((S_818CF0E8_6 *)p)->unk_1C = 0x1000;
         ((S_818CF0E8_6 *)p)->unk_06.s = -1;
-        ((S_818CF0E8_6 *)p)->unk_0C = arg2->unk_0C;
-        ((S_818CF0E8_6 *)p)->unk_0D = arg2->unk_0D;
-        ((S_818CF0E8_6 *)p)->unk_0E = arg2->unk_0E;
+        ((S_818CF0E8_6 *)p)->unk_0C = gfx->unk_0C;
+        ((S_818CF0E8_6 *)p)->unk_0D = gfx->unk_0D;
+        ((S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
         hi = func_80069EF8() & 0xFFF;
         ((S_818CF0E8_6 *)p)->unk_1A = hi;
         {
@@ -547,16 +548,16 @@ finish:
         ((S_818CF0E8_6 *)p)->unk_10 = 0x60;
         ((S_818CF0E8_6 *)p)->unk_14.s = flags;
         p = ((S_818CF0E8_5 *)obj)->unk_08;
-        ((S_818CF0E8_6 *)p)->unk_02.u = arg1->unk_00.at02.v;
-        ((S_818CF0E8_6 *)p)->unk_06.u = arg1->unk_04.at02.v;
-        ((S_818CF0E8_6 *)p)->unk_08.at02.v = arg1->unk_08.at02u.v;
+        ((S_818CF0E8_6 *)p)->unk_02.u = pos->unk_00.at02.v;
+        ((S_818CF0E8_6 *)p)->unk_06.u = pos->unk_04.at02.v;
+        ((S_818CF0E8_6 *)p)->unk_08.at02.v = pos->unk_08.at02u.v;
         p = ((S_818CF0E8_5 *)obj)->unk_0C;
         ((S_818CF0E8_6 *)p)->unk_1E = 0x1000;
         ((S_818CF0E8_6 *)p)->unk_1C = 0x1000;
         ((S_818CF0E8_6 *)p)->unk_06.s = -2;
-        ((S_818CF0E8_6 *)p)->unk_0C = arg2->unk_0C;
-        ((S_818CF0E8_6 *)p)->unk_0D = arg2->unk_0D;
-        ((S_818CF0E8_6 *)p)->unk_0E = arg2->unk_0E;
+        ((S_818CF0E8_6 *)p)->unk_0C = gfx->unk_0C;
+        ((S_818CF0E8_6 *)p)->unk_0D = gfx->unk_0D;
+        ((S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
         hi = func_80069EF8() & 0xFFF;
         ((S_818CF0E8_6 *)p)->unk_1A = hi;
         {
@@ -573,5 +574,5 @@ finish:
         ASM_SCHED_BARRIER();
         ((S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
     }
-    arg2->unk_1A = func_80069EF8() & 0xFFF;
+    gfx->unk_1A = func_80069EF8() & 0xFFF;
 }
