@@ -86,7 +86,6 @@ extern s32 D_800DEA68[];
 extern s32 D_80024BB8[3];
 
 extern void func_800478B8(Sprite *sprite);
-extern void func_8002497C(void) __attribute__((noreturn));
 extern s32 func_8003DE58(void *entry, void *table, void *scratch, s32 a3);
 extern Spawn *func_8003FD64(s32 id, void *template);
 extern void func_8004491C(Spawn *spawn, void *callback);
@@ -107,7 +106,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
 
     switch ((s16)actor->state) {
     default:
-        return func_8002497C();
+        break;
     case 0:
         if ((s16)actor->counter < 8) {
             sprite->bottom = sprite->bottom + 0x78;
@@ -122,7 +121,6 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
         if ((s16)actor->counter >= 10) {
             sprite->flags = sprite->flags | 0x800;
             actor->state = actor->state + 1;
-            return func_8002497C();
         }
         break;
     case 1:
@@ -153,6 +151,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
         break;
     }
 
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (reorg hoists `sprite = 4` to the head of this post-switch join and then copies it into the delay slots of the two jumps that reach it, three copies where retail has one); the source shape that makes it unnecessary has not been found */
     actor->field40 = (s16)(((actor->counter & 3) << 5) + 0x80);
     actor->field42 = (s16)(((((s32)(actor->counter << 16) >> 18) << 5)) + 0x80);
 

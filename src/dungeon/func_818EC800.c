@@ -28,7 +28,6 @@ extern M2C_UNK D_8006CD10[3];
 extern struct S_8003E2D8 D_80083160;
 
 #ifdef __mips__
-extern void func_80024298(void) __attribute__((noreturn));
 extern void func_80024990(void) __attribute__((noreturn));
 extern void func_800255B4(void);
 extern void func_80025150(void);
@@ -156,13 +155,13 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   void *sprite;
   void *setup_arg;
   u8 *context_addr;
-  u8 *state_base;
   s32 packet_low;
   setup_arg = screen_pos;
   ASM_KEEP_MEMDEP_NV(setup_arg, context_dep, *((void **) (&D_80083160)));   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   sprite = *((void **) (((s8 *) effect) + (-0x14)));
   callback_arg = *((s32 *) (((s8 *) effect) + (-0x18)));
   render_context = *((void **) (&D_80083160));
+  render_state = (u8 *) (&D_80083160);
   frame = *((void **) (((s8 *) sprite) + 8));
   scratch = (u8 *) 0x1F800000;
   ASM_KEEP(scratch);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -196,10 +195,8 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   addr_mask = 0xFFFFFF;
   ASM_KEEP_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   view_matrix = (u8 *) (&D_8006CD10);
-  render_state = (u8 *) (&D_80083160);
   *((s32 *) (((s8 *) view_matrix) + 0x1C)) = (s32) (*((s32 *) (((s8 *) render_state) + 0xA0)));
   func_800649A0((s32) setup_arg, draw_arg);
-  render_state = (u8 *) (&D_80083160);
   view_axis_x = *((s16 *) (((s8 *) render_state) + 0xC4));
   view_axis_y = *((s16 *) (((s8 *) render_state) + 0xC6));
   view_axis_z = *((s16 *) (((s8 *) render_state) + 0xC8));
@@ -227,6 +224,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   *((u16 *) (((s8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
   frame_data = frame + 8;
   ASM_KEEP(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+frame_loop:
   if (!((*((u8 *) (((s8 *) frame) + 0))) & 0x20))
   {
     *((s32 *) (((s8 *) scratch) + 0x08)) = (s32) (*((u8 *) (((s8 *) frame_data) + 0)));
@@ -449,9 +447,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     frame_data = frame_data + 0xC;
     ASM_KEEP(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     frame = ((u8 *) frame) + 0xC;
-    ASM_TAILSLOT_PIN_TIED(frame);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    func_80024298();
-    return;
+    goto frame_loop;
   }
   restore_arg = packet;
   if ((saved_draw_mode << 0x10) != 0)
@@ -467,9 +463,8 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   ASM_CLOBBER("$22");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   func_80064A40((s32) restore_arg);
-  state_base = (u8 *) (&D_80083160);
   packet_low = (s32) ((u16) ((s32) packet));
-  context_addr = state_base + (packet_low & 0x10000);
+  context_addr = render_state + (packet_low & 0x10000);
   final_context = *((void **) (((s8 *) context_addr) + 0));
   *((s32 **) (((s8 *) final_context) + 0x8D0)) = packet;
 }

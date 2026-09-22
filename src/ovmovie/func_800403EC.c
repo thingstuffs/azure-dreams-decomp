@@ -21,49 +21,48 @@ typedef struct {
     /* 0x2C */ s32 unk2C;
 } Struct800403EC;
 
-extern unsigned long long func_80176C7C(s32, void *, s32);
 extern s32 D_801781E0[3];
 extern void *D_80189390[3];
 
 /* Initializes movie buffer pointers and frame rectangles for the current mode. */
-s32 func_800403EC(Struct800403EC *movie, s32 frame_x, s32 frame_y, s32 next_frame_x, s32 next_frame_y) {
-    Struct800403EC *state = movie;
-    s32 x = frame_x;
-    s32 y = frame_y;
+void func_800403EC(Struct800403EC *movie, s32 frame_x, s32 frame_y, s32 next_frame_x, s32 next_frame_y) {
     s32 buffer_offset = 0x15A40;
     s32 next_buffer_offset = 0x22AB0;
-    register s32 work_offset ASM_REG("$6") = 0x10040;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    u8 *buffer_base = (*(void **)((u8 *)D_80189390 + 0));
-    s32 movie_flags = (*(s32 *)((u8 *)D_801781E0 + 0));
-    void *next_buffer;
+    s32 work_offset = 0x10040;
+    u8 *buffer_base = (u8 *)D_80189390[0];
+    s32 movie_flags = *(s32 *)((u8 *)D_801781E0 + 0);   /* read through a plain pointer: the array spelling sets MEM_IN_STRUCT_P and reschedules the two global loads */
 
-    state->unk08 = 0;
-    state->unk20 = 0;
-    state->unk2C = 0;
-    state->unk00 = buffer_base + buffer_offset;
-    next_buffer = buffer_base + next_buffer_offset;
-    state->unk04 = next_buffer;
-    state->unk0C = buffer_base + work_offset;
+    movie->unk08 = 0;
+    movie->unk20 = 0;
+    movie->unk2C = 0;
+    movie->unk00 = buffer_base + buffer_offset;
+    movie->unk04 = buffer_base + next_buffer_offset;
+    movie->unk0C = buffer_base + work_offset;
     if (movie_flags & 1) {
-        register s32 wide_width ASM_REG("$2") = 0x1E0;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        s32 frame_height = 0xF0;
-
-        state->unk14 = wide_width;
-        state->unk1C = wide_width;
-        ASM_KEEP(frame_height);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        func_80176C7C(next_frame_y, next_buffer, work_offset);
-        return 0x18;
+        movie->unk14 = 0x1E0;
+        movie->unk1C = 0x1E0;
+        movie->unk10 = frame_x;
+        movie->unk12 = frame_y;
+        movie->unk16 = 0xF0;
+        movie->unk18 = next_frame_x;
+        movie->unk1A = next_frame_y;
+        movie->unk1E = 0xF0;
+        movie->unk24 = frame_x;
+        movie->unk26 = frame_y;
+        movie->unk28 = 0x18;
+        movie->unk2A = 0xF0;
+    } else {
+        movie->unk14 = 0x140;
+        movie->unk1C = 0x140;
+        movie->unk10 = frame_x;
+        movie->unk12 = frame_y;
+        movie->unk16 = 0xF0;
+        movie->unk18 = next_frame_x;
+        movie->unk1A = next_frame_y;
+        movie->unk1E = 0xF0;
+        movie->unk24 = frame_x;
+        movie->unk26 = frame_y;
+        movie->unk28 = 0x10;
+        movie->unk2A = 0xF0;
     }
-    state->unk14 = 0x140;
-    state->unk1C = 0x140;
-    state->unk10 = x;
-    state->unk12 = y;
-    state->unk16 = 0xF0;
-    state->unk18 = next_frame_x;
-    state->unk1A = (s16) next_frame_y;
-    state->unk1E = 0xF0;
-    state->unk24 = x;
-    state->unk26 = y;
-    state->unk28 = 0x10;
-    state->unk2A = 0xF0;
 }

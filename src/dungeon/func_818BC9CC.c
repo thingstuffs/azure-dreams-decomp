@@ -116,7 +116,6 @@ typedef struct S_func_818BC9CC_6 {
 
 #define OT_ADDR(sc) ((u32 *)((((volatile S_func_818BC9CC_2 *)(sc))->unk_B4 << 2) + (u32)(sc)->unk_18))
 
-extern void func_80024504() __attribute__((noreturn));
 extern s32 func_800644B8(s32);
 extern s32 func_80064584(s32);
 extern u32 func_80065590(void *, void *, void *, void *, void *, void *,
@@ -145,6 +144,7 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
     register u32 addr_mask ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 quad_index;
     u32 far_z;
+    u32 z_extent;
     u32 far_y;
     s32 angle;
     u16 texture_v;
@@ -228,9 +228,10 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         scratch->unk_70 = coord;
         scratch->unk_68 = coord;
         far_z = position->unk_0A;
-        far_z = far_z + effect->unk_08.as_u16;
-        ASM_TAILSLOT_PIN_TIED(far_z);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        func_80024504();
+        z_extent = effect->unk_08.as_u16;
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        far_z = far_z + z_extent;
+        goto store_z;
     L_case1:
         coord = position->unk_02;
         scratch->unk_74 = coord;
