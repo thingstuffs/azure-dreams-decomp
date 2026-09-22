@@ -9,8 +9,6 @@ extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
 extern s16 func_800BCB04();
-extern void func_8015F7E4() __attribute__((noreturn));
-extern void func_8015F910() __attribute__((noreturn));
 
 extern u8 D_8006CCF8[8];
 extern s16 D_80083228;
@@ -172,30 +170,39 @@ clear_8000000:
             if (height_step == 0) {
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 flags = (*(u16 *)((u8 *)entity + 0x92));
-                if (height_step < height_offset) {
+                if (height_step >= height_offset) {
+                    height_step = height_offset < -8;
+                    if (height_step != 0) {
+                        height_step = flags + 8;
+                        (*(s16 *)((u8 *)entity + 0x92)) = height_step;
+                    }
+                } else {
                     height_step = flags - 8;
                     (*(s16 *)((u8 *)entity + 0x92)) = height_step;
-                    func_8015F910();
-                    return;
                 }
-                goto adjust_positive;
             }
             goto finish_motion;
         }
 
         {
-            s32 height_sum;
-            s32 motion_flags;
-
             state_check = (*(s32 *)((u8 *)entity + 0xA4));
-            height_sum = (*(s32 *)((u8 *)entity + 0x90));
-            motion_flags = (*(u16 *)((u8 *)entity + 0x98));
             (*(s16 *)((u8 *)entity + 0xB8)) = 0;
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-            height_sum += state_check;
-            ASM_TAILSLOT_PIN(height_sum);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_8015F7E4(motion_flags);
-            return;
+            (*(s32 *)((u8 *)entity + 0x90)) += state_check;
+            if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
+                ground_height = func_800BCB04(motion->unk_00.at02.v,
+                                             motion->unk_04.at02.v,
+                                             (s16)(((S_8015F3A8_2 *)entity_base)->unk_88 - 0x20)) -
+                                ((S_8015F3A8_2 *)entity_base)->unk_88;
+                if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
+                    (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
+                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
+                    motion->unk_14 = 0;
+                    ((S_8015F3A8_2 *)entity_base)->unk_1C |= 0x08000000;
+                    goto finish_motion;
+                }
+            }
+            goto finish_motion;
         }
     }
 
@@ -255,7 +262,6 @@ clear_8000000:
             height_step = flags - 8;
             goto store_adjustment;
         }
-adjust_positive:
         height_step = height_offset < -8;
         if (height_step != 0) {
             height_step = flags + 8;

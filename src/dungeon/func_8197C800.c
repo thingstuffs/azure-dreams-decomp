@@ -221,11 +221,6 @@ static __inline__ s32 jitter_coordinate_64(s32 grid, s32 random)
     return (grid << 6) + random % 64;
 }
 
-/* These are the original absolute shared-tail entry points used by this
- * copied overlay bank. */
-/* Partial rewrite: the remaining epilogue pseudo-call still controls register liveness. */
-extern void func_8002468C(void) __attribute__((noreturn));
-
 void FUNC_8197C800_BODY(void *input, void *output)
     __attribute__((section(".text.func_8197C800")));
 
@@ -369,11 +364,13 @@ case_three:
     if (((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 3) {
         goto two_finish;
     }
+    result = (s32)0x80080000;
+    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (gcc folds the page base back into a single `la D_80083780` at the head of this block, and reorg then fills the preceding `beqz`'s slot with `remaining = 1` instead of retail's %hi); the source shape that makes it unnecessary has not been found */
     remaining = 1;
     scene_page = (u8 *)0x80080000;
     {
         S_FUNC_8197C800_BODY_11 *reference_position;
-        reference_position = D_80083780;
+        reference_position = (S_FUNC_8197C800_BODY_11 *)((u8 *)result + 0x3780);
         result = func_800BCB04(reference_position->unk_02, reference_position->unk_06,
                           (s16)(reference_position->unk_0A - 0x80));
         height = (s16)((result << 16) >> 16);
@@ -547,7 +544,7 @@ store_timer:
     tail_state += 1;
 store_state:
     ((S_FUNC_8197C800_BODY_0 *)input)->unk_0A.u = tail_state;
-    func_8002468C();
+    return;
 
 case_four:
     if (!(D_80082E94[0] & 0x8000) && ((S_FUNC_8197C800_BODY_0 *)input)->unk_50.u >= 0) {

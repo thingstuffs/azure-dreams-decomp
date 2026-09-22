@@ -336,7 +336,7 @@ next_half:
                 width = DM_U16(0x10);
                 DM_S16(0x80) = (s16)left_x;
                 DM_S16(0x70) = (s16)left_x;
-                ASM_USE(strip_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+
                 edge_x = left_x - width;
             } else {
                 s32 width;

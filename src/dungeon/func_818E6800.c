@@ -15,9 +15,6 @@ extern void func_8002506C(s32, s16);
 extern s32 func_8009D218(s32, s32, void *);
 extern void func_800C8900(s32, s32, s32);
 
-extern void func_800240D0(void) __attribute__((noreturn));
-extern void func_80024724(void) __attribute__((noreturn));
-extern void func_80024728(void) __attribute__((noreturn));
 
 extern u8 D_80083498[];
 extern u8 D_80045340[];
@@ -103,10 +100,9 @@ state_1: {
             goto set_distance;
         }
 state_2:
+        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         count = 8;
-        ASM_TAILSLOT_PIN(count);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-        func_800240D0();
-        return;
+        goto set_distance;
 state_other:
         count = -1;
 
@@ -267,12 +263,7 @@ spawn_effect:
                 }
                 U16(effect, 82) = 0;
                 func_800A56E0(768);
-                {
-                    s32 next_state;
-                    next_state = (s32)(u16)U16(effect, 10) + 1;
-                    ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_80024728();
-                }
+                U16(effect, 10) = (u16)(U16(effect, 10) + 1);
                 return;
             }
         }
@@ -291,11 +282,8 @@ mode_1: {
                 U16(effect, 82) = 4;
             }
             if (S16(effect, 80) <= 0 && S16(effect, 82) == 7) {
-                register s32 hold_frames ASM_REG("$3") = 8;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                s32 current_state = U16(effect, 10);
-                ASM_KEEP_DEP_NV(hold_frames, current_state);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-                U16(effect, 80) = (u16)hold_frames;
-                func_80024724();
+                U16(effect, 80) = 8;
+                U16(effect, 10) = (u16)(U16(effect, 10) + 1);
                 return;
             }
             goto mode_done;
@@ -338,12 +326,7 @@ mode_240:
             func_80044A50(effect - 32);
             U16(effect, 80) = 10;
             func_800419EC(8, 16);
-            {
-                s32 next_state;
-                next_state = (s32)(u16)U16(effect, 10) + 1;
-                ASM_TAILSLOT_PIN(next_state);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_80024728();
-            }
+            U16(effect, 10) = (u16)(U16(effect, 10) + 1);
             return;
 
 mode_241:

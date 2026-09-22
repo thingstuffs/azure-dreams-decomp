@@ -211,7 +211,6 @@ typedef struct S_func_81904990_9 {
 #define D_FIELD(type_ptr, offset) (*(type_ptr)(D_80083160 + (offset)))
 #define D_LITERAL(type_ptr, offset) (*(type_ptr)((u8 *)0x80083160 + (offset)))
 
-void func_80024390() __attribute__((noreturn));
 void func_800244B0() __attribute__((noreturn));
 void func_80024638() __attribute__((noreturn));
 void func_80024640() __attribute__((noreturn));
@@ -276,7 +275,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     u8 prim_code;
     u8 right_u;
     u8 bottom_v;
-    u8 *frame_data;
+    register u8 *frame_data ASM_REG("$16");
     S_func_81904990_2 *frame;
     S_func_81904990_3 *frame_header;
     S_func_81904990_6 *setup_arg;
@@ -289,13 +288,15 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     s32 length_mask;
     register S_func_81904990_4 *scratch ASM_REG("$18");
     register void *sprite_base ASM_REG("$23");
+    u8 *state_page;
 
     setup_arg = screen_pos;
     sprite_base = sprite;
     frame = ((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_04;
     {
         void **state_ptr;
-        state_ptr = (void **)D_80083160;
+        state_page = D_80083160;
+        state_ptr = (void **)state_page;
         ASM_CLOBBER("$2");
         callback_arg = ((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_00;
         render_state = *state_ptr;
@@ -334,15 +335,15 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     length_mask = 0xFF000000;
     ASM_KEEP_NV(length_mask);
     view_matrix = (S_func_81904990_8 *)D_8006CD10;
-    view_matrix->unk_1C = (s32) ((S_func_81904990_9 *)D_80083160)->unk_A0;
+    view_matrix->unk_1C = (s32) ((S_func_81904990_9 *)state_page)->unk_A0;
     func_800649A0((s32) setup_arg, matrix_arg);
     {
         s32 view_x;
         s32 view_y;
         s32 view_z;
-        view_x = ((S_func_81904990_9 *)D_80083160)->unk_C4;
-        view_y = ((S_func_81904990_9 *)D_80083160)->unk_C6;
-        view_z = ((S_func_81904990_9 *)D_80083160)->unk_C8;
+        view_x = ((S_func_81904990_9 *)state_page)->unk_C4;
+        view_y = ((S_func_81904990_9 *)state_page)->unk_C6;
+        view_z = ((S_func_81904990_9 *)state_page)->unk_C8;
         scratch->unk_30 = view_x;
         scratch->unk_34 = view_y;
         scratch->unk_38 = view_z;
@@ -373,8 +374,9 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     func_80064D80((void *)0x1F800050);
     func_80064CF0((void *)0x1F800050);
     frame_data = (u8 *)frame_header + 8;
-    ASM_KEEP_NV(frame_data);
     scratch->unk_24 = (u16) frame->unk_14;
+frame_loop:
+    ASM_KEEP_NV(frame_data);
     if (!(frame_header->unk_00 & 0x20)) {
         register s32 packet_tag ASM_REG("$2");
         scratch->unk_08 = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_08;
@@ -615,10 +617,7 @@ clut_done:
     if ((s8) frame_header->unk_00 >= 0) {
         frame_data += 12;
         frame_header = (S_func_81904990_3 *)((u8 *)frame_header + 12);
-        ASM_KEEP(frame_data);
-        ASM_TAILSLOT_PIN(frame_header);
-        func_80024390();
-        return;
+        goto frame_loop;
     }
     restore_mode = saved_draw_mode << 0x10;
 
@@ -633,7 +632,7 @@ clut_done:
     }
     func_80064A40((s32) restore_packet);
     {
-        u8 *state_slot = D_80083160;
+        u8 *state_slot = state_page;
         u64 state_bits = *(u64 *)state_slot;
         S_func_81904990_5 *final_state = (S_func_81904990_5 *)(u32)state_bits;
         final_state->unk_8D0 = (u8 *)packet;
