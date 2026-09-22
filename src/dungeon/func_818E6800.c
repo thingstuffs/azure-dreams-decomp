@@ -16,7 +16,6 @@ extern s32 func_8009D218(s32, s32, void *);
 extern void func_800C8900(s32, s32, s32);
 
 extern void func_800240D0(void) __attribute__((noreturn));
-extern void func_80024388(void) __attribute__((noreturn));
 extern void func_80024724(void) __attribute__((noreturn));
 extern void func_80024728(void) __attribute__((noreturn));
 
@@ -203,8 +202,7 @@ mode_0: {
                 if (target == 0) {
                     U8(actor, 114) = U8(actor_data, 36);
                     U8(actor, 115) = U8(actor_data, 37);
-                    func_80024388();
-                    return;
+                    goto spawn_effect;
                 }
                 render_data = (u8 *)S32(target, -20);
                 if ((U16(render_data, 20) & 0x8000) != 0) {
@@ -215,7 +213,7 @@ mode_0: {
                 }
                 U8(actor, 114) = U8(render_data, 36);
                 U8(actor, 115) = U8(render_data, 37);
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+spawn_effect:
                 {
                     u8 *effect_header = effect - 32;
                     u8 *callback = D_80024798;

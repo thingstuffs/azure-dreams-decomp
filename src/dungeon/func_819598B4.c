@@ -46,7 +46,6 @@ typedef struct S_819598B4_3 {
 
 
 
-extern void func_800252E8(void) __attribute__((noreturn));
 extern s32 func_80025604();
 extern s32 func_80026384();
 
@@ -79,15 +78,13 @@ void func_819598B4(void *arg0, S_819598B4_2 *arg1, S_819598B4_1 *arg2) {
     if (temp_v1 == 0) {
         goto state_0;
     }
-    func_800252E8();
-    return;
+    goto common;
 
 state_ge_2:
     if (temp_v1 == 2) {
         goto state_2;
     }
-    func_800252E8();
-    return;
+    goto common;
 
 state_0:
     temp_v1_2 = arg2->unk_1E;
@@ -113,7 +110,7 @@ state_0:
     arg2->unk_0C.at00u.v = 0x00808080;
     if (((S_819598B4_0 *)arg0)->unk_3C != 0) {
         ((S_819598B4_0 *)arg0)->unk_2C.s = 2;
-        func_800252E8();
+        goto common;
     }
     ((S_819598B4_0 *)arg0)->unk_2C.s++;
     goto common;

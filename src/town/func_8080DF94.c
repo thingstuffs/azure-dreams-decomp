@@ -1,6 +1,5 @@
 #include "common.h"
 
-#define FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 typedef struct Copy12 {
     s32 word[3];
@@ -24,95 +23,131 @@ __asm__(".set D_80288FF0, D_80288EE0 + 0x110");
 __asm__(".set D_80289030, D_80288EE0 + 0x150");
 __asm__(".set D_80289058, D_80288EE0 + 0x178");
 
-void func_8080DF94(void *arg0, void *arg1, void *arg2) {
+typedef struct S_8080DF94_0 {
+    void * unk_00;
+    s16 unk_04;
+    u16 unk_06;
+    u16 unk_08;
+} S_8080DF94_0;   /* obj in func_8080DF94 */
+
+typedef struct S_8080DF94_1 {
+    u8 pad_00[0x4];
+    void * unk_04;
+    u8 pad_08[0x2E];
+    s16 unk_36;
+} S_8080DF94_1;   /* owner in func_8080DF94 */
+
+typedef struct S_8080DF94_2 {
+    s32 unk_00;
+    u8 pad_04[0x8];
+    s32 unk_0C;
+    u8 pad_10[0x4];
+    u16 unk_14;
+} S_8080DF94_2;   /* part in func_8080DF94 */
+
+typedef struct S_8080DF94_3 {
+    u8 pad_00[0x8];
+    s32 unk_08;
+    s32 unk_0C;
+    s32 unk_10;
+    s32 unk_14;
+} S_8080DF94_3;   /* motion in func_8080DF94 */
+
+typedef struct S_8080DF94_4 {
+    u8 pad_00[0x10];
+    s32 unk_10;
+} S_8080DF94_4;   /* target in func_8080DF94 */
+
+/* Per-frame step for the town cutscene actor: dispatch its state and drive its motion, colour fade and timers. */
+void func_8080DF94(void *obj, void *motion, void *part) {
     Copy12 scratch;
-    s16 temp_v1;
-    s32 temp_ret;
-    s32 *temp_s5;
-    register s32 var_s4 ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    u16 temp_a0;
-    u16 temp_v0_3;
-    void *temp_s3;
-    void *temp_s6;
+    s16 state;
+    s32 result;
+    s32 *scratch_words;
+    register s32 flag ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 count;
+    u16 ticks;
+    void *owner;
+    void *target;
     s32 vel_x;
     s32 step_x;
     s32 pos_x;
 
-    temp_s3 = FIELD(arg0, void **, 0);
-    temp_s5 = scratch.word;
-    var_s4 = 0;
-    temp_s6 = FIELD(FIELD(temp_s3, void **, 4), void **, 8);
+    owner = ((S_8080DF94_0 *)obj)->unk_00;
+    scratch_words = scratch.word;
+    flag = 0;
+    target = (*(void **)((u8 *)(((S_8080DF94_1 *)owner)->unk_04) + (8)));
     scratch = *(Copy12 *)D_80526430;
-    func_8003EA54(arg2);
-    func_80245C10(arg1);
-    temp_v1 = FIELD(arg0, s16 *, 4);
+    func_8003EA54(part);
+    func_80245C10(motion);
+    state = ((S_8080DF94_0 *)obj)->unk_04;
 
-    if (temp_v1 == 0x21) {
+    if (state == 0x21) {
         goto case_21;
     }
-    if (temp_v1 < 0x22) {
-        if (temp_v1 == 1) {
+    if (state < 0x22) {
+        if (state == 1) {
             goto case_1;
         }
-        if (temp_v1 < 2) {
-            if (temp_v1 == 0) {
+        if (state < 2) {
+            if (state == 0) {
                 goto case_0;
             }
             goto block_60;
         }
-        if (temp_v1 == 0x20) {
+        if (state == 0x20) {
             goto case_20;
         }
         goto block_60;
     }
-    if (temp_v1 == 0x100) {
+    if (state == 0x100) {
         goto case_100;
     }
-    if (temp_v1 < 0x101) {
-        if (temp_v1 == 0x22) {
+    if (state < 0x101) {
+        if (state == 0x22) {
             goto case_22;
         }
         goto block_60;
     }
-    if (temp_v1 == 0x101) {
+    if (state == 0x101) {
         goto case_101;
     }
-    if (temp_v1 == 0xFFF) {
+    if (state == 0xFFF) {
         goto case_fff;
     }
     goto block_60;
 
 case_0:
-    FIELD(arg2, s32 *, 0xC) = (s32)(FIELD(arg2, s32 *, 0xC) + 0x101010);
-    if ((u8)FIELD(arg2, s32 *, 0xC) < 0xA0U) {
+    ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0x101010);
+    if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0xA0U) {
         goto block_60;
     }
-    FIELD(arg2, s32 *, 0xC) = 0x808080;
-    FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) & 0xFFF3);
-    FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
+    ((S_8080DF94_2 *)part)->unk_0C = 0x808080;
+    ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 & 0xFFF3);
+    ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
     goto block_60;
 
 case_1:
-    if (FIELD(arg0, u16 *, 8) & 1) {
-        temp_ret = func_80071494();
-        var_s4 = temp_s5[temp_ret % 3];
-        FIELD(arg1, s32 *, 0xC) = (s32)(((func_80071494(temp_ret / 3) & 0x7F) - 0x40) << 0xF);
-        FIELD(arg1, s32 *, 0x14) = (s32)((0 - ((func_80071494() & 0xF) + 8)) << 0x10);
-        if (FIELD(arg1, s32 *, 0xC) > 0) {
-            FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) | 1);
+    if (((S_8080DF94_0 *)obj)->unk_08 & 1) {
+        result = func_80071494();
+        flag = scratch_words[result % 3];
+        ((S_8080DF94_3 *)motion)->unk_0C = (s32)(((func_80071494(result / 3) & 0x7F) - 0x40) << 0xF);
+        ((S_8080DF94_3 *)motion)->unk_14 = (s32)((0 - ((func_80071494() & 0xF) + 8)) << 0x10);
+        if (((S_8080DF94_3 *)motion)->unk_0C > 0) {
+            ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 1);
         }
-        FIELD(arg1, s32 *, 0x10) = (s32)FIELD(temp_s6, s32 *, 0x10);
-        FIELD(arg0, s16 *, 4) = 0x20;
+        ((S_8080DF94_3 *)motion)->unk_10 = (s32)((S_8080DF94_4 *)target)->unk_10;
+        ((S_8080DF94_0 *)obj)->unk_04 = 0x20;
     }
-    if (FIELD(temp_s3, s16 *, 0x36) == 0xA) {
+    if (((S_8080DF94_1 *)owner)->unk_36 == 0xA) {
         if (func_80071494() & 1) {
-            var_s4 = (s32)D_80289030;
+            flag = (s32)D_80289030;
         } else {
-            var_s4 = (s32)D_80289058;
+            flag = (s32)D_80289058;
         }
         {
             s32 next_state = 0x100;
-            FIELD(arg0, s16 *, 4) = (s16)next_state;
+            ((S_8080DF94_0 *)obj)->unk_04 = (s16)next_state;
         }
         goto block_60;
     }
@@ -121,89 +156,89 @@ case_1:
 case_20: {
     s16 floor_y;
 
-    FIELD(arg1, s32 *, 0x14) = (s32)(FIELD(arg1, s32 *, 0x14) + 0x40000);
-    floor_y = func_8025E01C(arg1);
-    if (floor_y < FIELD(arg1, s32 *, 8)) {
-        FIELD(arg1, s32 *, 8) = (s32)floor_y;
-        FIELD(arg1, s32 *, 0x14) = (s32)((s32)(0 - FIELD(arg1, s32 *, 0x14)) >> 3);
+    ((S_8080DF94_3 *)motion)->unk_14 = (s32)(((S_8080DF94_3 *)motion)->unk_14 + 0x40000);
+    floor_y = func_8025E01C(motion);
+    if (floor_y < ((S_8080DF94_3 *)motion)->unk_08) {
+        ((S_8080DF94_3 *)motion)->unk_08 = (s32)floor_y;
+        ((S_8080DF94_3 *)motion)->unk_14 = (s32)((s32)(0 - ((S_8080DF94_3 *)motion)->unk_14) >> 3);
     }
-    if (FIELD(arg2, u16 *, 0x14) & 0x6000) {
-        FIELD(arg0, u16 *, 6) = 0xA;
-        if (FIELD(arg2, s32 *, 0) == (s32)D_80288FF0) {
-            FIELD(arg2, s32 *, 0xC) = 0xA0A0A0;
-            FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) | 0xC);
-            FIELD(arg0, s16 *, 4) = 0x22;
+    if (((S_8080DF94_2 *)part)->unk_14 & 0x6000) {
+        ((S_8080DF94_0 *)obj)->unk_06 = 0xA;
+        if (((S_8080DF94_2 *)part)->unk_00 == (s32)D_80288FF0) {
+            ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
+            ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 0xC);
+            ((S_8080DF94_0 *)obj)->unk_04 = 0x22;
             goto block_60;
         }
         if (func_80071494(floor_y) & 1) {
-            var_s4 = (s32)D_80288F60;
+            flag = (s32)D_80288F60;
         } else {
-            var_s4 = (s32)D_80288F88;
+            flag = (s32)D_80288F88;
         }
-        FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
+        ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
     }
-    pos_x = FIELD(arg1, s32 *, 0xC);
-    vel_x = FIELD(arg1, s32 *, 0x10);
+    pos_x = ((S_8080DF94_3 *)motion)->unk_0C;
+    vel_x = ((S_8080DF94_3 *)motion)->unk_10;
     step_x = pos_x >> 3;
     pos_x -= step_x;
-    FIELD(arg1, s32 *, 0xC) = pos_x;
+    ((S_8080DF94_3 *)motion)->unk_0C = pos_x;
     pos_x = vel_x >> 3;
     vel_x -= pos_x;
-    FIELD(arg1, s32 *, 0x10) = vel_x;
+    ((S_8080DF94_3 *)motion)->unk_10 = vel_x;
     goto block_60;
 }
 
 case_21: {
     s16 floor_y;
 
-    FIELD(arg1, s32 *, 0x14) = (s32)(FIELD(arg1, s32 *, 0x14) + 0x40000);
-    floor_y = func_8025E01C(arg1);
-    if (floor_y < FIELD(arg1, s32 *, 8)) {
-        FIELD(arg1, s32 *, 8) = (s32)floor_y;
-        FIELD(arg1, s32 *, 0x14) = (s32)((s32)(0 - FIELD(arg1, s32 *, 0x14)) >> 3);
+    ((S_8080DF94_3 *)motion)->unk_14 = (s32)(((S_8080DF94_3 *)motion)->unk_14 + 0x40000);
+    floor_y = func_8025E01C(motion);
+    if (floor_y < ((S_8080DF94_3 *)motion)->unk_08) {
+        ((S_8080DF94_3 *)motion)->unk_08 = (s32)floor_y;
+        ((S_8080DF94_3 *)motion)->unk_14 = (s32)((s32)(0 - ((S_8080DF94_3 *)motion)->unk_14) >> 3);
     }
-    pos_x = FIELD(arg1, s32 *, 0xC);
-    vel_x = FIELD(arg1, s32 *, 0x10);
+    pos_x = ((S_8080DF94_3 *)motion)->unk_0C;
+    vel_x = ((S_8080DF94_3 *)motion)->unk_10;
     step_x = pos_x >> 3;
     pos_x -= step_x;
-    FIELD(arg1, s32 *, 0xC) = pos_x;
+    ((S_8080DF94_3 *)motion)->unk_0C = pos_x;
     pos_x = vel_x >> 3;
     vel_x -= pos_x;
-    FIELD(arg1, s32 *, 0x10) = vel_x;
-    temp_a0 = FIELD(arg2, u16 *, 0x14);
-    if (temp_a0 & 0x6000) {
-        FIELD(arg2, u16 *, 0x14) = (u16)(temp_a0 | 0xC);
-        FIELD(arg2, s32 *, 0xC) = 0xA0A0A0;
-        FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
+    ((S_8080DF94_3 *)motion)->unk_10 = vel_x;
+    count = ((S_8080DF94_2 *)part)->unk_14;
+    if (count & 0x6000) {
+        ((S_8080DF94_2 *)part)->unk_14 = (u16)(count | 0xC);
+        ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
+        ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
         goto block_60;
     }
     goto block_60;
 }
 
 case_22:
-    FIELD(arg2, s32 *, 0xC) = (s32)(FIELD(arg2, s32 *, 0xC) + 0xFFDFDFE0);
-    if (FIELD(arg1, s32 *, 8) > 0) {
-        FIELD(arg1, s32 *, 0x14) = 0;
-        FIELD(arg1, s32 *, 8) = 0;
+    ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0xFFDFDFE0);
+    if (((S_8080DF94_3 *)motion)->unk_08 > 0) {
+        ((S_8080DF94_3 *)motion)->unk_14 = 0;
+        ((S_8080DF94_3 *)motion)->unk_08 = 0;
     }
-    if ((u8)FIELD(arg2, s32 *, 0xC) < 0x20U) {
-        FIELD(arg2, s32 *, 0xC) = 0;
+    if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {
+        ((S_8080DF94_2 *)part)->unk_0C = 0;
     }
-    if ((FIELD(temp_s3, s16 *, 0x36) == 9) || (temp_v0_3 = FIELD(arg0, u16 *, 6) - 1, FIELD(arg0, u16 *, 6) = temp_v0_3, ((temp_v0_3 << 0x10) <= 0))) {
-        FIELD(arg0, s16 *, 4) = 0xFFF;
+    if ((((S_8080DF94_1 *)owner)->unk_36 == 9) || (ticks = ((S_8080DF94_0 *)obj)->unk_06 - 1, ((S_8080DF94_0 *)obj)->unk_06 = ticks, ((ticks << 0x10) <= 0))) {
+        ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
         goto block_60;
     }
     goto block_60;
 
 case_100:
-    FIELD(arg2, s32 *, 0xC) = 0xA0A0A0;
-    FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) | 0xC);
-    FIELD(arg0, s16 *, 4) = (s16)((u16)FIELD(arg0, s16 *, 4) + 1);
+    ((S_8080DF94_2 *)part)->unk_0C = 0xA0A0A0;
+    ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 0xC);
+    ((S_8080DF94_0 *)obj)->unk_04 = (s16)((u16)((S_8080DF94_0 *)obj)->unk_04 + 1);
 case_101:
-    FIELD(arg2, s32 *, 0xC) = (s32)(FIELD(arg2, s32 *, 0xC) + 0xFFDFDFE0);
-    if ((u8)FIELD(arg2, s32 *, 0xC) < 0x20U) {
-        FIELD(arg2, s32 *, 0xC) = 0;
-        FIELD(arg0, s16 *, 4) = 0xFFF;
+    ((S_8080DF94_2 *)part)->unk_0C = (s32)(((S_8080DF94_2 *)part)->unk_0C + 0xFFDFDFE0);
+    if ((u8)((S_8080DF94_2 *)part)->unk_0C < 0x20U) {
+        ((S_8080DF94_2 *)part)->unk_0C = 0;
+        ((S_8080DF94_0 *)obj)->unk_04 = 0xFFF;
         goto block_60;
     }
     goto block_60;
@@ -211,7 +246,7 @@ case_101:
 case_fff: {
     s32 global_flags;
 
-    FIELD(arg0, u16 *, -2) = (u16)(FIELD(arg0, u16 *, -2) | 0x8000);
+    (*(u16 *)((u8 *)(obj) + (-2))) = (u16)((*(u16 *)((u8 *)(obj) + (-2))) | 0x8000);
     global_flags = D_80084D5C;
     global_flags |= 0x8000;
     D_80084D5C = global_flags;
@@ -219,9 +254,9 @@ case_fff: {
 }
 
 block_60:
-    if (var_s4 != 0) {
-        func_80034A1C(arg2, var_s4, 0);
-        FIELD(arg2, u16 *, 0x14) = (u16)(FIELD(arg2, u16 *, 0x14) & 0x9FFF);
+    if (flag != 0) {
+        func_80034A1C(part, flag, 0);
+        ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 & 0x9FFF);
     }
     return;
 }

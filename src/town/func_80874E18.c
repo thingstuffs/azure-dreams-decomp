@@ -5,7 +5,6 @@
 #else
 #endif
 
-#define FIELD(base, type, offset) (*(type)((u8 *)(base) + (offset)))
 
 typedef struct {
     u8 pad[0xBBC];
@@ -34,7 +33,8 @@ extern s32 func_80700D84(void);
 extern s32 func_80701060(s32 *word, s32 old_value);
 extern s32 func_807018AC(s16 value);
 
-s32 func_80700E18(s32 arg0) {
+/* Record the pressed input, or toggle the 0x40000000 state flag from the callback's answer and advance the slot. */
+s32 func_80700E18(s32 slot) {
     s32 callback;
 #ifndef NON_MATCHING
     s32 tail_arg;
@@ -53,7 +53,7 @@ s32 func_80700E18(s32 arg0) {
         s32 zero_nf = 0;
 #endif
 
-        input_offset = arg0 * 2;
+        input_offset = slot * 2;
         value = *(s16 *)((u8 *)&D_80700000 + 0xBBC + input_offset);
         index = value / 32;
         word = (s32 *)(index * 4 + (s32)STATE_ROOT);
@@ -75,8 +75,8 @@ callback_path:
             s32 new_flags;
 #endif
             state = (void *)STATE_ROOT;
-            new_flags = FIELD(state, s32 *, 0x30) | tail_arg;
-            FIELD(state, s32 *, 0x30) = new_flags;
+            new_flags = ((State *)state)->flags | tail_arg;
+            ((State *)state)->flags = new_flags;
         }
     } else {
 #ifndef NON_MATCHING
@@ -90,9 +90,9 @@ callback_path:
 #endif
         state = (void *)STATE_ROOT;
         clear_mask = 0xBFFFFFFF;
-        clear_value = FIELD(state, s32 *, 0x30);
+        clear_value = ((State *)state)->flags;
         clear_value &= clear_mask;
-        FIELD(state, s32 *, 0x30) = clear_value;
+        ((State *)state)->flags = clear_value;
     }
     if (func_807018AC(D_80700BB2[0]) != 0) {
         goto zero_return;
@@ -102,12 +102,12 @@ callback_path:
     if (callback == 0) {
         goto return_arg;
     }
-    arg0 += 1;
+    slot += 1;
     goto return_arg;
 
 zero_return:
-    arg0 = 0;
+    slot = 0;
 
 return_arg:
-    return arg0;
+    return slot;
 }

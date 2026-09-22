@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern void func_800241F0(void) __attribute__((noreturn));
-extern void func_8002426C(void) __attribute__((noreturn));
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C();
@@ -369,9 +368,7 @@ state_0_tail:
     }
     dx = 1;
     facing_shift = 0;
-    ASM_USE(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_TAILSLOT_PIN(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_8002426C();
+    goto state_0_after;
 
 state_0_zero:
     dx = 0;
@@ -380,7 +377,6 @@ state_0_zero:
     goto state_0_common;
 
 state_0_one:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     dx = 0;
     facing_shift = 3;
     state = facing_shift;
@@ -512,9 +508,9 @@ state_1_after_first:
 state_1_loop_setup:
     dx = 0x3C;
     particle_cb = D_800247DC;
-    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800247DC);
+    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800247DC);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     particle_anim = (S_81850800_10 *)D_800DEC28;
-    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800DEC28);
+    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800DEC28);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 do {
     obj = func_8003FD64(0x312, &D_80083498);
     if (obj == 0) {
