@@ -1,11 +1,5 @@
 #include "common.h"
 
-#ifdef __GNUC__
-#define NORETURN __attribute__((noreturn))
-#else
-#define NORETURN
-#endif
-
 typedef struct MainObject {
     void *link;
     u8 pad04[0x18];
@@ -62,8 +56,6 @@ typedef struct EffectObject {
     s16 state;
 } EffectObject;
 
-typedef volatile u16 VolatileState;
-
 typedef struct EffectTail {
     void *owner;
     u8 pad24[0x48];
@@ -88,9 +80,6 @@ extern s32 D_80024AA4;
 extern s32 D_80045340;
 extern u8 D_800DEC00[];
 
-extern void func_80024908(void) NORETURN;
-extern void func_80024948(void);
-extern void func_8002494C(void) NORETURN;
 extern s32 func_8003DE58(void *, void *, s16 *, s32);
 extern EffectObject *func_8003FD64(s32, void *);
 extern void func_8004491C(EffectObject *, void *);
@@ -122,10 +111,11 @@ void func_81988E48(MainObject *obj)
         goto state_1;
     }
     if (state < 2) {
+        count = state_count;
         if (state == 0) {
             goto state_0;
         }
-        func_8002494C();
+        goto state_done;
     }
     if (state == 2) {
         goto state_2;
@@ -135,11 +125,9 @@ void func_81988E48(MainObject *obj)
     if (state == case3) {
         goto state_3;
     }
-    func_8002494C();
+    goto state_done;
 
 state_0:
-        count = state_count;
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         obj->value_a = func_80066460(0, 1, 0x2C0, 0x100);
         obj->value_b = func_8006649C(0x80, 0x1F7);
         obj->size_b = 0x1F;
@@ -157,11 +145,9 @@ state_1:
             obj->z -= func_800644B8((obj->age << 11) / 10) << 9;
         }
         if (obj->age >= 10) {
-            u16 old_state = *(VolatileState *)&obj->state;
-            state = 0x10;
-            obj->timer = state;
-            func_80024908();
-            return;
+            obj->timer = 0x10;
+            obj->state++;
+            goto state_done;
         }
         goto state_done;
 
@@ -186,13 +172,11 @@ state_2:
         }
         if (obj->age == 12) {
             obj->state++;
-            func_80024948();
-            return;
+            goto state_done;
         }
         goto state_done;
 
 state_3:
-        ASM_USE2_NV(count, state_count);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
         state_count = 5;
         if (obj->age == 15) {
             ((u16 *)obj)[-1] |= 0x8000;

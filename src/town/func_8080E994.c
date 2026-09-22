@@ -57,7 +57,6 @@ extern s32 func_80071494(void);
 extern void func_8003EA54(Actor *);
 extern s32 func_80240810(void *, Motion *, void *, void *);
 extern void func_8023FB18(void *);
-extern void func_80529650(void) __attribute__((noreturn));
 
 void func_80529594(State *st, Motion *mot, Actor *actor)
 {
@@ -88,23 +87,17 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
 
         switch (st->kind) {
         default:
-            return func_80529650();
+            break;
         case 1:
             dispatch_a1 = 10;
-            ASM_TAILSLOT_PIN_TIED(dispatch_a1);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-            return func_80529650();
+            break;
         case 2:
+            dispatch_a1 = 100;
             break;
         }
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        {
-            dispatch_a1 = 100;
-            do {
-                call_a0 = entity->field1E;
-            } while (0);
-            call_a0 /= dispatch_a1;
-        }
+        call_a0 = entity->field1E;
+        call_a0 /= dispatch_a1;
         {
             s32 quotient;
             quotient = call_a0 / 10;

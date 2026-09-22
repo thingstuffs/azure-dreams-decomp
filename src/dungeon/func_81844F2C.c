@@ -43,7 +43,13 @@ extern void func_80024860(void) __attribute__((noreturn));
 
 /* Updates an effect's position, colors, countdown, and completion flags. */
 void func_8002472C(void *effect_data) {
-    register u8 *effect ASM_REG("$5");
+    register u8 *effect ASM_REG("$5");   /* SITE-FOR-PIN TRADE 2026-09-22: the
+                                            `func_80024808(tick_or_index, effect, saved_state)`
+                                            tail pseudo-call is gone; its argument setup was the
+                                            only thing putting the struct pointer in $a1.  Without
+                                            it gcc keeps the parameter in $a0, the `move $a1,$a0`
+                                            never appears and every colour in the row shifts
+                                            (residue: 78/79 words, 35 subs + 1 indel). */
     u8 *flag_page;
     register s32 tick_or_index;
     register u32 saved_state ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -54,7 +60,12 @@ void func_8002472C(void *effect_data) {
     S_81844F2C_1 *entity;
 
     effect = effect_data;
-    ASM_KEEP(effect);
+    ASM_KEEP(effect);   /* SITE-FOR-PIN TRADE 2026-09-22: pins the copy in place.  With the
+                           pseudo-call gone gcc copy-propagates `effect_data` into the first
+                           load and sinks the `move $a1,$a0` six words down, below the entity
+                           update (words 0-6).  ASM_REG("$5") alone was only measured on a
+                           different spelling of the `state >= 2` block, so no clean one-pin
+                           number exists for this text. */
     entity = ((S_81844F2C_0 *)effect)->unk_00;
     entity->unk_52 =
         (u16)(entity->unk_52 | 0x8000);

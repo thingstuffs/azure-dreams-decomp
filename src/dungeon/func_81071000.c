@@ -51,7 +51,6 @@ M2C_UNK func_800A48F0();
 s32 func_800A6D30();
 M2C_UNK func_800A9C18();
 M2C_UNK func_800AA36C();
-void func_80158A10(void) __attribute__((noreturn));
 extern M2C_UNK D_80045340;
 extern M2C_UNK D_80083498;
 extern M2C_UNK D_80158AA4;
@@ -102,7 +101,6 @@ FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 c
     s8 saved_x;
     s16 saved_config_value;
     s8 saved_y;
-    void *init_object;
     void *init_config;
 
     object_state = NULL;
@@ -131,35 +129,29 @@ FUNC_81071000_ATTR void *FUNC_81071000_BODY(s16 spawn_flags, s16 x, s16 y, s16 c
             object_state->unk_14 = (s32) (object_state->unk_14 | 0x6000);
             object_state->unk_98 = (u16) (state_flags | 0x4000);
             object_state->unk_1C = (s32) (object_state->unk_1C | 0x6000);
-            func_80158A10();
+            goto init_state;
         }
         if (mode_or_roll >= 2) {
             state_flags = object_state->unk_98;
             object_state->unk_14 = (s32) (object_state->unk_14 | 0x2000);
             object_state->unk_98 = (u16) (state_flags | 0x4000);
             object_state->unk_1C = (s32) (object_state->unk_1C | 0x2000);
-            func_80158A10();
+            goto init_state;
         }
-        init_object = object;
         if (((spawn_flags & ~3) << 0x10) == 0) {
             if (!(object_state->unk_14 & 0x200)) {
                 init_config = config;
                 mode_or_roll = func_800A6D30();
-                init_object = object;
                 if (!(mode_or_roll & 1)) {
                     goto init_state;
                 }
                 object_state->unk_1C = (s32) (object_state->unk_1C | 0x200);
                 func_800A48F0(object_state, 1, (func_800A6D30() & 0x3F) | 0x20);
                 placement->unk_2C = &D_8015C000;
-                goto select_init_object;
             }
         }
-        goto init_state;
-select_init_object:
-        init_object = object;
 init_state:
-        func_800A9C18(init_object, config, placement, spawn_flags);
+        func_800A9C18(object, config, placement, spawn_flags);
         behavior->unk_9A = 0xFF;
         behavior->unk_9C = -1;
         behavior->unk_8C = &D_80158F68;

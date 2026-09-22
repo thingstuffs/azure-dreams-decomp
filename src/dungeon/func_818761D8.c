@@ -222,7 +222,6 @@ __asm__(".set D_8006CCE8, 0x8006CCE8");
 __asm__(".set D_800DDC40, 0x800DDC40");
 __asm__(".set D_8008346C, 0x8008346C");
 
-__asm__(".set func_80026430, 0x80026430");
 
 extern Copy32 D_80024058;
 extern Copy12 D_80026634;
@@ -251,7 +250,6 @@ extern void func_80024098(void *, u8, void *);
 extern s32 func_80064584(s32);
 extern s32 func_800644B8(s32);
 
-extern void func_80026430(void) __attribute__((noreturn));
 
 void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
 {
@@ -600,9 +598,9 @@ L1_calc:
             ((S_800259D8_0 *)arg0)->unk_A0 = 0;
         }
         i = 0;
-        ASM_KEEP_NV(i);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        value = func_80069EF8();
-        i++;
+        while (1) {
+            value = func_80069EF8();
+            i++;
         {
         register void *p0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         s32 p1;
@@ -615,10 +613,10 @@ L1_calc:
         ASM_USE2(p0, c2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         func_80025338(p0, p1, c2, result, 0, 0, 0);
         }
-        if (i < 4) {
-            func_80026430();
+            if (i >= 4) {
+                goto done;
+            }
         }
-        goto done;
     }
     ((S_800259D8_0 *)arg0)->unk_0A.u++;
     ((S_800259D8_0 *)arg0)->unk_84.u = 0;

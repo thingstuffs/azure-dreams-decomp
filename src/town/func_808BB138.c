@@ -12,6 +12,7 @@ s32 func_80000C6C();                             /* extern */
 extern u8 D_00000000[];
 extern u8 D_00000000_index[] asm("D_00000000");
 
+/* Runs a chain of state checks on arg0 and its flags, taking one of two noreturn exits along the way, then always finalises and returns arg0 unchanged. */
 s32 func_808BB138(s32 arg0) {
     if ((func_80000C6C(*(u16 *)(D_00000000 + 0xF12)) == 0) && (func_80000C6C(0x278U) != 0) && (func_800007E8(arg0) != 0)) {
         if (func_80000C6C(0x281U) != 0) {

@@ -25,7 +25,6 @@ typedef struct S_80810454_2 {
 
 
 extern s32 func_8006A3A4();
-extern s32 func_8052B158() __attribute__((noreturn));
 extern s32 D_80084D5C;
 
 s32 func_8052B054(void *arg0, S_80810454_1 *arg1) {
@@ -65,7 +64,8 @@ state_0: {
         if (position >= (s32)0xFF900000) {
             ((S_80810454_0 *)arg0)->unk_02 = 0;
             arg1->unk_14.s = -0x40000;
-            return func_8052B158();
+            ((S_80810454_0 *)arg0)->unk_00 = 1;
+            return;
         }
         return -0x40000;
     }
