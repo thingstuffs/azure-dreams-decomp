@@ -55,26 +55,27 @@ extern u8 D_80171014[];
 extern u8 D_8017420C[];
 extern u8 D_8017425C[];
 
-void *func_80170878(s16 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_80170878(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
     void *created;
     void *position;
     S_80170878_3 *part_b;
     S_80170878_4 *actor;
-    s16 saved_arg1;
-    s32 saved_arg3;
-    s16 saved_arg2;
-    s16 original_arg0;
+    s16 held_a;
+    s32 held_c;
+    s16 held_b;
+    s16 flags_copy;
     void *call_a0;
     void *call_a1;
     s32 kind;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    held_a = attr_a;
+    held_c = attr_c;
+    held_b = attr_b;
     created = func_8003FD64(0x112, D_80083498);
-    original_arg0 = arg0;
+    flags_copy = spawn_flags;
     if (created == 0) {
         goto done;
     }
@@ -85,13 +86,13 @@ void *func_80170878(s16 arg0, s32 arg1, s32 arg2, s32 arg3)
     func_8004491C(created, &D_80045340);
 
     position = ((S_80170878_0 *)created)->unk_08;
-    ((S_80170878_2 *)position)->unk_0A = saved_arg3;
+    ((S_80170878_2 *)position)->unk_0A = held_c;
     part_b = ((S_80170878_0 *)created)->unk_0C;
-    kind = arg0 & 3;
-    part_b->unk_25 = saved_arg2;
+    kind = spawn_flags & 3;
+    part_b->unk_25 = held_b;
     actor = result;
     part_b->unk_2C = D_8017420C;
-    part_b->unk_24 = saved_arg1;
+    part_b->unk_24 = held_a;
 
     if (kind == 1) {
         ((S_80170878_1 *)result)->unk_14 |= 0x6000;
@@ -105,7 +106,7 @@ void *func_80170878(s16 arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
     call_a0 = created;
-    if (((arg0 & ~3) << 16) == 0) {
+    if (((spawn_flags & ~3) << 16) == 0) {
         if (!(((S_80170878_1 *)result)->unk_14 & 0x200)) {
             call_a1 = position;
             if (func_800A6D30() & 1) {
@@ -117,7 +118,7 @@ void *func_80170878(s16 arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
 setup:
-    func_800A9C18(created, position, part_b, (s16)original_arg0);
+    func_800A9C18(created, position, part_b, (s16)flags_copy);
     actor->unk_9A = 0xFF;
     actor->unk_9C = -1;
     actor->unk_8C = D_80171014;

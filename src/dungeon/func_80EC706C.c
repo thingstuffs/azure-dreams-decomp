@@ -101,19 +101,20 @@ extern u8 D_8015F1A4[];
 extern u8 D_8016218C[];
 extern u8 D_801621CC[];
 
-void *func_8015E86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_8015E86C(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work;
-    s8 saved_arg1;
-    s8 saved_arg2;
+    s8 held_a;
+    s8 held_b;
     void *obj;
     S_8015E86C_2 *part_a;
     S_8015E86C_3 *part_b;
     S_8015E86C_4 *actor;
     s32 left;
     s32 right;
-    s16 saved_arg0;
+    s16 held_flags;
     void *current;
     S_8015E86C_8 *base;
     void *child_obj;
@@ -127,9 +128,9 @@ void *func_8015E86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     u16 elem_flags;
 
     work = 0;
-    saved_arg2 = arg2;
-    saved_arg0 = arg0;
-    obj = func_8003FD64(0x112, (saved_arg1 = arg1, D_80083498));
+    held_b = attr_b;
+    held_flags = spawn_flags;
+    obj = func_8003FD64(0x112, (held_a = attr_a, D_80083498));
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
         ((S_8015E86C_0 *)obj)->unk_10 = D_8015EB64;
@@ -138,12 +139,12 @@ void *func_8015E86C(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         actor = work;
 
         part_a = ((S_8015E86C_0 *)obj)->unk_08;
-        part_a->unk_0A = arg3;
+        part_a->unk_0A = attr_c;
         part_b = ((S_8015E86C_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
+        kind = spawn_flags & 3;
         part_b->unk_2C = D_8016218C;
-        part_b->unk_24 = saved_arg1;
-        part_b->unk_25 = saved_arg2;
+        part_b->unk_24 = held_a;
+        part_b->unk_25 = held_b;
 
         if (kind == 1) {
             left = ((S_8015E86C_1 *)work)->unk_14 | 0x6000;
@@ -165,7 +166,7 @@ set_kind_flags:
         goto call_actor_setup;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((spawn_flags & ~3) << 16) == 0) {
             if (!(((S_8015E86C_1 *)work)->unk_14 & 0x200)) {
                 left = func_800A6D30();
                 if (left & 1) {
@@ -178,7 +179,7 @@ normal_kind:
         }
 
 call_actor_setup:
-        func_800A9C18(obj, part_a, part_b, saved_arg0);
+        func_800A9C18(obj, part_a, part_b, held_flags);
 
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;

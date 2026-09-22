@@ -22,27 +22,28 @@ typedef struct {
     s8 unk2[4];
 } MapCell;
 
+/* Redraw the minimap: plot one marker for every type-3 cell of the floor grid. */
 void func_8009F13C(void) {
     MapCell *mapPtr;
     u8 *shiftBase;
-    s32 var_s0;
-    s32 var_s1;
+    s32 x;
+    s32 y;
     s32 count;
 
     mapPtr = (MapCell *)D_80083160.mapPtrField;
     shiftBase = (u8 *)&D_80083160.mapPtrField;
     func_8009EEAC();
     count = 0;
-    var_s1 = 1;
+    y = 1;
     do {
-        var_s0 = 1;
+        x = 1;
         do {
-            if (mapPtr[var_s0 + (var_s1 << *(s16 *)(shiftBase + 0x14))].type == 3) {
-                func_8009F3D4(var_s0, var_s1, 0x808080, 0x10, count);
+            if (mapPtr[x + (y << *(s16 *)(shiftBase + 0x14))].type == 3) {
+                func_8009F3D4(x, y, 0x808080, 0x10, count);
                 count += 1;
             }
-            var_s0 += 1;
-        } while (var_s0 < 0x3F);
-        var_s1 += 1;
-    } while (var_s1 < 0x3F);
+            x += 1;
+        } while (x < 0x3F);
+        y += 1;
+    } while (y < 0x3F);
 }

@@ -9,16 +9,17 @@ extern void func_8009FAC4(void);
 extern void func_80173ED0(void);
 extern void func_80099FDC(void *);
 
+/* Dungeon teardown: clear the on-screen/status flag bits, run both shutdown hooks, and release the two objects held in the actor table. */
 void func_8017105C(void) {
     s32 i;
     void *object;
     u8 *ptr;
-    u16 *h = D_80013714;
+    u16 *flags = D_80013714;
 
     ptr = (u8 *)(D_80174CD8[0] + 0x20);
     *(u16 *)(ptr + 0x46) &= 0x7FFF;
     D_800E296C[0] &= 0xF7FFFFFF;
-    h[0] &= 0xFFF6;
+    flags[0] &= 0xFFF6;
     func_8009FAC4();
     func_80173ED0();
 

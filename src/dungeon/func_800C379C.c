@@ -15,7 +15,8 @@ extern char D_800E1A9D[];
 extern char D_800E1AC2[];
 extern char D_800E1AD0[];
 
-s32 func_800C8EFC(void *arg0, s32 arg1)
+/* Roll the actor's stack-split chance; on a hit decrement the stack and post the split message. */
+s32 func_800C8EFC(void *actor, s32 chance)
 {
     s32 mod;
     s32 handle;
@@ -33,7 +34,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
         u8 divisor;
 
         random = func_800A6D30();
-        divisor = *(u8 *)((u8 *)arg0 + 3);
+        divisor = *(u8 *)((u8 *)actor + 3);
         if (divisor != 0) {
             signed_arg = random & 0xFFFF;
             denominator = divisor;
@@ -47,7 +48,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
     {
         s32 work;
 
-        text = arg1 << 16;
+        text = chance << 16;
         signed_arg = text >> 16;
         work = mod < signed_arg;
         if (!work) {
@@ -58,7 +59,7 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
         }
     }
 
-    count = *(u8 *)((u8 *)arg0 + 0x26);
+    count = *(u8 *)((u8 *)actor + 0x26);
     if (count < 2) {
         return 0;
     }
@@ -67,23 +68,23 @@ s32 func_800C8EFC(void *arg0, s32 arg1)
         void *object;
         register s32 decremented ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        object = arg0;
+        object = actor;
         ASM_KEEP(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         decremented = count - 1;
-        *(u8 *)((u8 *)arg0 + 0x26) = decremented;
+        *(u8 *)((u8 *)actor + 0x26) = decremented;
         func_80041E70(object);
     }
     handle = func_800990FC();
     text = func_80099194(D_800E1A88, handle);
 
     {
-        signed_arg = (s32)arg0;
-        if (*(s32 *)((u8 *)arg0 + 0x14) & 0x4000) {
+        signed_arg = (s32)actor;
+        if (*(s32 *)((u8 *)actor + 0x14) & 0x4000) {
             text = func_80099734((void *)signed_arg, text);
             text = func_80099194(D_800E1A9D, text);
         } else {
             text = func_80099194(D_800E1AC2, text);
-            text = func_80099734(arg0, text);
+            text = func_80099734(actor, text);
             text = func_80099194(D_800E1AD0, text);
         }
     }

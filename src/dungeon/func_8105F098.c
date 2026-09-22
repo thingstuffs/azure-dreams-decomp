@@ -37,15 +37,16 @@ typedef struct S_8016A898_2 {
     u16 unk_14;
 } S_8016A898_2;   /* tail_entity in func_8016A898 */
 
-void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_8016A898(s32 spawn_flags, s16 param_a, s32 param_b, s32 param_c)
 {
     register void *result;
     void *object;
     S_8016A898_1 *motion;
-    s8 held_arg1;
-    register s32 saved_arg2 ASM_REG("$21");
-    s32 saved_arg3;
-    register s16 final_arg;
+    s8 held_a;
+    register s32 held_b ASM_REG("$21");
+    s32 held_c;
+    register s16 flags_held;
     void *tail_actor;
     S_8016A898_2 *tail_entity;
     void *part_data;
@@ -58,27 +59,27 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
     u16 attr_b;
     u16 tail_flags;
 
-    held_arg1 = arg1;
+    held_a = param_a;
     result = 0;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    held_c = param_c;
+    held_b = param_b;
     object = func_8003FD64(0x112, D_80083498);
     if (object != 0) {
-        do { final_arg = arg0; } while (0);
+        do { flags_held = spawn_flags; } while (0);
         result = (u8 *)object + 0x20;
         (*(Callback *)((u8 *)object + 0x10)) = D_8016AAA4;
         ((S_8016A898_0 *)result)->unk_13 = 0x2B;
         func_8004491C(object, func_80045340);
 
         motion = (*(void * *)((u8 *)object + 8));
-        motion->unk_0A = saved_arg3;
+        motion->unk_0A = held_c;
         part_data = (*(void * *)((u8 *)object + 0xC));
-        (*(u8 *)((u8 *)((void *)part_data) + 0x25)) = saved_arg2;
+        (*(u8 *)((u8 *)((void *)part_data) + 0x25)) = held_b;
         (*(Callback *)((u8 *)((void *)part_data) + 0x2C)) = D_8016DFB8;
-        (*(u8 *)((u8 *)((void *)part_data) + 0x24)) = held_arg1;
-        arg2 = (s32)result;
+        (*(u8 *)((u8 *)((void *)part_data) + 0x24)) = held_a;
+        param_b = (s32)result;
 
-        if ((arg0 & 3) == 1) {
+        if ((spawn_flags & 3) == 1) {
             flags_a = ((S_8016A898_0 *)result)->unk_14.u32;
             attr_a = ((S_8016A898_0 *)result)->unk_98;
             flags_a |= 0x6000;
@@ -90,7 +91,7 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
             ((S_8016A898_0 *)result)->unk_1C.n = more_a;
             goto initialize;
         }
-        if ((arg0 & 3) >= 2) {
+        if ((spawn_flags & 3) >= 2) {
             flags_b = ((S_8016A898_0 *)result)->unk_14.u32;
             attr_b = ((S_8016A898_0 *)result)->unk_98;
             flags_b |= 0x2000;
@@ -103,7 +104,7 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
             goto initialize;
         }
 
-        if (((arg0 & -4) << 16) == 0 &&
+        if (((spawn_flags & -4) << 16) == 0 &&
             !(((S_8016A898_0 *)result)->unk_14.u322 & 0x200)) {
             if (func_800A6D30() & 1) {
                 ((S_8016A898_0 *)result)->unk_1C.n |= 0x200;
@@ -114,9 +115,9 @@ void *func_8016A898(s32 arg0, s16 arg1, s32 arg2, s32 arg3)
         }
 
 initialize:
-        func_800A9C18(object, motion, (void *)part_data, final_arg);
+        func_800A9C18(object, motion, (void *)part_data, flags_held);
 
-        tail_actor = (void *)arg2;
+        tail_actor = (void *)param_b;
         (*(u8 *)((u8 *)tail_actor + 0x9A)) = 0xFF;
         (*(s8 *)((u8 *)tail_actor + 0x9C)) = -1;
         (*(Callback *)((u8 *)tail_actor + 0x8C)) = D_8016AF68;

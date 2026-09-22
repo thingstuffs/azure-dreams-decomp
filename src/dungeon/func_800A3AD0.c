@@ -11,7 +11,8 @@ extern s8 D_800DCF5A;
 extern u8 D_800E3548[];
 extern s16 D_800E3CCC;
 
-s32 func_800A9230(void *arg0)
+/* Dungeon item pickup: run the one-off 0x11F9 event, then occasionally take one entry from the floor's item table. */
+s32 func_800A9230(void *actor)
 {
     s32 result;
     s32 state;
@@ -21,7 +22,7 @@ s32 func_800A9230(void *arg0)
     u8 kind;
 
     result = 0;
-    if (*(u8 *)((u8 *)arg0 + 0x13) == 0x20) {
+    if (*(u8 *)((u8 *)actor + 0x13) == 0x20) {
         if (D_800E3CCC == 0) {
             D_800E3CCC = 1;
             state = *(s32 *)0x80012090;
@@ -32,7 +33,7 @@ s32 func_800A9230(void *arg0)
                             if ((s16)func_800A697C(0xD, 2) == 0) {
                                 *(u8 *)&result = 2;
                                 *((u8 *)&result + 1) = 0xD;
-                                *(s16 *)((u8 *)*(void **)((u8 *)arg0 - 0x14) + 0x12) = 0xC;
+                                *(s16 *)((u8 *)*(void **)((u8 *)actor - 0x14) + 0x12) = 0xC;
                             }
                         }
                     }
@@ -44,7 +45,7 @@ s32 func_800A9230(void *arg0)
     if (*(u8 *)&D_800DCF5A == 0) {
         goto done;
     }
-    if (*(u8 *)((u8 *)arg0 + 0x49) != 0) {
+    if (*(u8 *)((u8 *)actor + 0x49) != 0) {
         goto done;
     }
     if ((func_800A6D30() & 3) != 0) {
@@ -74,6 +75,6 @@ done:
     return result;
 }
 
-/* MECHANISM: A four-byte stack result and arg0-only s0 lifetime produce the 0x20 frame.
+/* MECHANISM: A four-byte stack result and actor-only s0 lifetime produce the 0x20 frame.
    The literal D_80012090 read coalesces its address/load in v1; an unsigned lvalue gives lbu.
    Splitting table index, base, and entry moves sll after the held lui/addiu and closes reorder. */

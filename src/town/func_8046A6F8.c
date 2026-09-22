@@ -22,7 +22,8 @@ extern u8 D_8001914C[];
 extern u8 D_80020F85[];
 extern u8 D_80020FC7[];
 
-void *func_8001B6F8(s32 arg0, s32 arg1, s32 arg2)
+/* Resolve the key to its table entry, using the slot-4 special case or the paged lookup table. */
+void *func_8001B6F8(s32 unused_a, s32 unused_b, s32 key)
 {
     s32 page;
     u8 *state0;
@@ -37,7 +38,7 @@ void *func_8001B6F8(s32 arg0, s32 arg1, s32 arg2)
         table = D_800180B4;
     }
 
-    if (arg2 == 1) {
+    if (key == 1) {
         volatile u8 *state1;
 
         state1 = D_8001E950;
@@ -57,7 +58,7 @@ void *func_8001B6F8(s32 arg0, s32 arg1, s32 arg2)
     if (*(s16 *)(page - 0x7F8C) != 0) {
         entry = (s16 *)(page - 0x7F8C);
         do {
-            if (*entry == arg2) {
+            if (*entry == key) {
                 return table[entry[1]];
             }
             entry += 2;
@@ -67,6 +68,6 @@ void *func_8001B6F8(s32 arg0, s32 arg1, s32 arg2)
 }
 
 /* MECHANISM: Recovered the in-range B730/B7C8/B818 targets as local CFG joins,
-   preserving the 0x18 frame with only $ra saved and keeping arg2 in $a2.
+   preserving the 0x18 frame with only $ra saved and keeping key in $a2.
    The cdk-G0 reroute plus a guarded $v1-held 0x8002 page removed the loop-base
    copy and reproduced the zero-test delay slot and table/index register roles. */

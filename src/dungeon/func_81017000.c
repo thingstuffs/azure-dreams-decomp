@@ -81,7 +81,8 @@ void *BODY_NAME(s16, s16, s16, s16)
 #endif
     ;
 
-void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c) {
     s32 kind;
     s16 final_arg0;
     s32 left;
@@ -91,30 +92,30 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3) {
     S_81017000_2 *part_a;
     S_81017000_3 *part_b;
     S_81017000_4 *actor;
-    s8 saved_arg1;
-    s16 saved_arg3;
-    s8 saved_arg2;
+    s8 held_a;
+    s16 held_c;
+    s8 held_b;
     void *call_a0;
     void *call_a1;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    held_a = attr_a;
+    held_c = attr_c;
+    held_b = attr_b;
     obj = func_8003FD64(0x112, &D_80083498);
-    final_arg0 = arg0;
+    final_arg0 = spawn_flags;
     if (obj != NULL) {
         work = obj + 0x20;
         ((S_81017000_0 *)obj)->unk_10 = &D_8015EA78;
         work->unk_13 = 0x29;
         func_8004491C(obj, &D_80045340);
         part_a = ((S_81017000_0 *)obj)->unk_08;
-        part_a->unk_0A = saved_arg3;
+        part_a->unk_0A = held_c;
         part_b = ((S_81017000_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = spawn_flags & 3;
+        part_b->unk_25 = held_b;
         actor = work;
         part_b->unk_2C = &D_80162880;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = held_a;
         if (kind == 1) {
             left = work->unk_14 | 0x6000;
             right = work->unk_1C | 0x6000;
@@ -132,7 +133,7 @@ write_kind:
 
 normal_kind:
         call_a0 = obj;
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((spawn_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 call_a1 = part_a;
                 left = func_800A6D30();

@@ -19,15 +19,16 @@ extern s32 D_80701DC4_3[];
 extern s32 D_80701DC8_0[];
 extern s32 D_80701DC8_1[];
 
+/* Run the shop's open sequence and return the resulting handle. */
 s32 func_807023B0(void) {
-    s32 temp_v0;
+    s32 handle;
 
     func_8070207C(0);
     func_80701FEC(0);
     func_807022BC();
-    temp_v0 = func_80702260();
-    D_80701DC4_0[0] = temp_v0;
-    D_80701DC8_0[0] = func_80702314(temp_v0);
+    handle = func_80702260();
+    D_80701DC4_0[0] = handle;
+    D_80701DC8_0[0] = func_80702314(handle);
     func_80702360();
     func_80701FEC(0);
     func_80702A78(D_80701DC4_1[0], D_80701DC8_1[0]);

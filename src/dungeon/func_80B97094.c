@@ -56,29 +56,30 @@ extern void func_80174F00(void);
 extern s32 D_80045340;
 extern u8 D_80083498[];
 
-void *func_80170894(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work;
-    s16 saved_arg3;
-    s32 saved_arg0;
+    s16 held_c;
+    s32 held_flags;
     void *obj;
-    s8 saved_arg2;
-    register s8 saved_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 held_b;
+    register s8 held_a ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *part_a;
-    s16 original_arg0;
+    s16 flags_copy;
     s32 call_id;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     const void *call_target;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
-    saved_arg0 = arg0;
+    held_flags = spawn_flags;
     work = 0;
     call_id = 0x112;
-    saved_arg1 = arg1;
+    held_a = attr_a;
     call_target = D_80083498;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    held_c = attr_c;
+    held_b = attr_b;
     obj = func_8003FD64(call_id, call_target);
-    original_arg0 = saved_arg0;
+    flags_copy = held_flags;
     if (obj != 0) {
         register void *part_b;
         void *actor;
@@ -89,12 +90,12 @@ void *func_80170894(s32 arg0, s8 arg1, s16 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_80170894_1 *)obj)->unk_08;
-        ((S_80170894_2 *)part_a)->unk_0A = saved_arg3;
+        ((S_80170894_2 *)part_a)->unk_0A = held_c;
         part_b = ((S_80170894_1 *)obj)->unk_0C;
-        kind = saved_arg0 & 3;
-        ((S_80170894_3 *)part_b)->unk_25 = saved_arg2;
+        kind = held_flags & 3;
+        ((S_80170894_3 *)part_b)->unk_25 = held_b;
         actor = work;
-        ((S_80170894_3 *)part_b)->unk_24 = saved_arg1;
+        ((S_80170894_3 *)part_b)->unk_24 = held_a;
 
         if (kind == 1) {
             s32 left_one;
@@ -130,7 +131,7 @@ normal_kind:
             s32 test;
             u8 *callback_page;
 
-            test = saved_arg0 & ~3;
+            test = held_flags & ~3;
             test <<= 16;
             if (test != 0) {
                 callback_page = (u8 *)0x80170000;
@@ -159,7 +160,7 @@ work_callback:
         }
 callback_done:
         ((S_80170894_1 *)obj)->unk_10 = func_80170A98;
-        func_800A9C18(obj, part_a, part_b, original_arg0);
+        func_800A9C18(obj, part_a, part_b, flags_copy);
         ((S_80170894_4 *)actor)->unk_9A = 0xFF;
         ((S_80170894_4 *)actor)->unk_9C = -1;
         func_800AA36C(actor, part_a, part_b, work);

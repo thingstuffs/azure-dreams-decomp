@@ -53,7 +53,8 @@ extern s32 D_80171CE8;
 extern u8 D_80174EB8[];
 extern u8 D_80174F00[];
 
-void *func_80171718(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_80171718(s16 spawn_flags, s8 attr_a, s8 attr_b, s32 attr_c)
 {
     s32 kind;
     s32 flags0;
@@ -84,14 +85,14 @@ void *func_80171718(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         part0 = ((S_80171718_0 *)object)->unk_08;
         handler = (u8 *)page + 0x4EB8;
-        part0->unk_0A = arg3;
+        part0->unk_0A = attr_c;
         part1 = ((S_80171718_0 *)object)->unk_0C;
-        kind = arg0 & 3;
-        part1->unk_25 = arg2;
+        kind = spawn_flags & 3;
+        part1->unk_25 = attr_b;
         result_copy = result;
         part1->unk_2C = handler;
     }
-    part1->unk_24 = arg1;
+    part1->unk_24 = attr_a;
 
     if (kind == 1) {
         flags0 = ((S_80171718_1 *)result)->unk_14;
@@ -113,7 +114,7 @@ void *func_80171718(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         goto common;
     }
 
-    if (((arg0 & -4) << 16) != 0) {
+    if (((spawn_flags & -4) << 16) != 0) {
         goto common;
     }
     if ((((S_80171718_1 *)result)->unk_14 & 0x200) != 0) {
@@ -125,7 +126,7 @@ void *func_80171718(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
     }
 
 common:
-    func_800A9C18(object, part0, part1, arg0);
+    func_800A9C18(object, part0, part1, spawn_flags);
     result_copy->unk_9A = 0xFF;
     result_copy->unk_9C = -1;
     result_copy->unk_8C = &D_80171CE8;
@@ -135,6 +136,6 @@ done:
     return result;
 }
 
-/* MECHANISM: True-space local joins and ABI-word arg3 reproduce the 0x38 frame and save order.
-   s0/s1 holds, the post-arg2 result copy, and a scoped v0 page split recover retail lifetimes.
+/* MECHANISM: True-space local joins and ABI-word attr_c reproduce the 0x38 frame and save order.
+   s0/s1 holds, the post-attr_b result copy, and a scoped v0 page split recover retail lifetimes.
    Fixed v0/v1 flag temporaries close the equal-length color residue at retail word 44. */

@@ -10,32 +10,33 @@ typedef struct {
 
 extern s32 func_800A6D30(void);
 
-void func_8001CCEC(s16 arg0, s16 *arg1, s16 *arg2, Entry *arg3) {
-    if (arg3->fieldA == 0) {
-        *arg1 = 0;
-        *arg2 = 0;
+/* Pick a point on one edge of the room rectangle: side selects the edge, the outputs get that edge's fixed coordinate and a random offset along it. */
+void func_8001CCEC(s16 side, s16 *out_x, s16 *out_y, Entry *room) {
+    if (room->fieldA == 0) {
+        *out_x = 0;
+        *out_y = 0;
         return;
     }
 
-    switch (arg0) {
+    switch (side) {
     case 0:
-        *arg1 = arg3->field4;
-        *arg2 = ((u16)func_800A6D30() % (arg3->field6 - 2)) + 1;
+        *out_x = room->field4;
+        *out_y = ((u16)func_800A6D30() % (room->field6 - 2)) + 1;
         break;
 
     case 2:
-        *arg1 = ((u16)func_800A6D30() % (arg3->field4 - 2)) + 1;
-        *arg2 = arg3->field6;
+        *out_x = ((u16)func_800A6D30() % (room->field4 - 2)) + 1;
+        *out_y = room->field6;
         break;
 
     case 4:
-        *arg1 = -1;
-        *arg2 = ((u16)func_800A6D30() % (arg3->field6 - 2)) + 1;
+        *out_x = -1;
+        *out_y = ((u16)func_800A6D30() % (room->field6 - 2)) + 1;
         break;
 
     default:
-        *arg1 = ((u16)func_800A6D30() % (arg3->field4 - 2)) + 1;
-        *arg2 = -1;
+        *out_x = ((u16)func_800A6D30() % (room->field4 - 2)) + 1;
+        *out_y = -1;
         break;
     }
 }

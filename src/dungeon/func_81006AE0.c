@@ -35,33 +35,34 @@ extern u8 D_80170848[16];
 extern u8 D_80174880[9];
 
 #line 1 "a"
-void func_801722E0(void *arg0, void *arg1, void *arg2, void *arg3) {
+/* Step the actor's walk animation: clear its 0x71 busy bit and, when the global 0x2000 mode is off and the ready query says 0, arm state 0x17, point the part at the direction table and advance the shared counters. */
+void func_801722E0(void *owner, void *unused, void *part, void *actor) {
     s32 original_value;
     s32 current_value;
     s32 adjusted_value;
     u8 *state = D_80083460;
 
-    ((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_71.as_u8 & 0x7F);
+    ((Rec_D_800E3D7C *)actor)->unk_71.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_71.as_u8 & 0x7F);
     if (!(((S_801722E0_1 *)state)->unk_02 & 0x2000) &&
-        ((func_800A2BDC(arg3) << 0x10) == 0)) {
+        ((func_800A2BDC(actor) << 0x10) == 0)) {
         u8 *table = D_80174880;
 
-        ((S_801722E0_2 *)arg0)->unk_9A = 0x17;
-        ((S_801722E0_2 *)arg0)->unk_8C = 0;
-        ((S_801722E0_2 *)arg0)->unk_9B = 0;
-        (*(u8 * *)((u8 *)arg2 + 0x2C)) = table;
+        ((S_801722E0_2 *)owner)->unk_9A = 0x17;
+        ((S_801722E0_2 *)owner)->unk_8C = 0;
+        ((S_801722E0_2 *)owner)->unk_9B = 0;
+        (*(u8 * *)((u8 *)part + 0x2C)) = table;
         func_80047784(
-            arg2,
-            table[((D_80083228 + ((Rec_D_800E3D7C *)arg3)->unk_2A.as_s16 + 0x100) >> 9) & 7],
+            part,
+            table[((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7],
             0);
-        ((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)arg3)->unk_6D.as_u8 - 1);
+        ((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 = (u8)(((Rec_D_800E3D7C *)actor)->unk_6D.as_u8 - 1);
         ((S_801722E0_1 *)state)->unk_0A = (u16)(((S_801722E0_1 *)state)->unk_0A + 1);
-        adjusted_value = func_80099734(arg3, current_value = func_800990FC());
+        adjusted_value = func_80099734(actor, current_value = func_800990FC());
         original_value = current_value;
         current_value = adjusted_value;
         func_80099290(func_80099194(
             D_80170848,
-            func_80099734(((S_801722E0_2 *)arg0)->unk_A8,
+            func_80099734(((S_801722E0_2 *)owner)->unk_A8,
                 func_80099194(D_80170838, current_value))));
         func_800A5720(original_value);
     }

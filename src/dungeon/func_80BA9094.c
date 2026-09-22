@@ -50,11 +50,12 @@ extern void func_800A48F0(Body *, s32, s32);
 extern void func_800A9C18(Object *, ChildA *, ChildB *, s16);
 extern void func_800AA36C(Body *, ChildA *, ChildB *, Body *);
 
-Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 saved_arg0 = arg0;
-    s16 saved_arg1 = arg1;
-    s32 saved_arg3 = arg3;
-    s32 saved_arg2 = arg2;
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+Body *func_8015E894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c) {
+    s32 held_flags = spawn_flags;
+    s16 held_a = attr_a;
+    s32 held_c = attr_c;
+    s32 held_b = attr_b;
     register Body *body ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     register Object *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ChildA *child_a;
@@ -65,35 +66,35 @@ Body *func_8015E894(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     body = 0;
     object = func_8003FD64(0x112, D_80083498);
     if (object != 0) {
-        arg0_copy = saved_arg0;
+        arg0_copy = held_flags;
         ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         body = &object->body_20;
         body->field_13 = 14;
         func_8004491C(object, D_80045340);
 
         child_a = object->child_a_08;
-        arg2 = saved_arg0 & 3;
-        child_a->field_0A = saved_arg3;
+        attr_b = held_flags & 3;
+        child_a->field_0A = held_c;
         child_b = object->child_b_0C;
-        child_b->field_25 = saved_arg2;
+        child_b->field_25 = held_b;
         body_alias = body;
-        child_b->field_24 = saved_arg1;
+        child_b->field_24 = held_a;
 
-        if (arg2 == 1) {
+        if (attr_b == 1) {
             body->callback_8C = D_8015EE9C;
             body->flags_14 |= 0x6000;
             body->flags_1C |= 0x6000;
             child_b->field_2C = D_80162ED8;
             goto after_child_value;
         }
-        if (arg2 >= 2) {
+        if (attr_b >= 2) {
             body->callback_8C = D_8015EE9C;
             body->flags_14 |= 0x2000;
             body->flags_1C |= 0x2000;
             child_b->field_2C = D_80162ED8;
             goto after_child_value;
         }
-        if ((s16)(saved_arg0 & ~3) != 0) {
+        if ((s16)(held_flags & ~3) != 0) {
             goto callback_on_body;
         }
         if (body->flags_14 & 0x200) {

@@ -102,13 +102,14 @@ static void (*const func_8016A800_table[])(void)
     };
 #endif
 
-void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = NULL;
     register s32 arg1_role ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *root;
     void *position;
-    s16 saved_arg0;
+    s16 held_flags;
     register s32 opcode ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     register void *factory ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 kind;
@@ -118,22 +119,22 @@ void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     void *arg2_work;
 
     opcode = 0x112;
-    arg1_role = arg1;
+    arg1_role = attr_a;
     factory = D_80083498;
-    arg3_part = (void *)arg3;
-    arg2_work = (void *)arg2;
+    arg3_part = (void *)attr_c;
+    arg2_work = (void *)attr_b;
     ASM_KEEP_DEP_NV(arg1_role, opcode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_DEP_NV(arg3_part, factory);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     root = func_8003FD64(opcode, factory);
     if (root != NULL) {
-        saved_arg0 = arg0;
-        ASM_USE_NV(saved_arg0);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        held_flags = spawn_flags;
+        ASM_USE_NV(held_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result = (u8 *)root + 0x20;
         ((S_8016A800_0 *)result)->unk_13 = 0x1C;
         func_8004491C(root, D_80045340);
 
         position = ((S_8016A800_1 *)root)->unk_08;
-        kind = arg0 & 3;
+        kind = spawn_flags & 3;
         ((S_8016A800_2 *)position)->unk_0A = (s16)(s32)arg3_part;
         arg3_part = ((S_8016A800_1 *)root)->unk_0C;
         ((S_8016A800_3 *)arg3_part)->unk_25 = (s8)(s32)arg2_work;
@@ -155,7 +156,7 @@ void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             goto after_state;
         }
 
-        if ((s16)(arg0 & ~3) == 0) {
+        if ((s16)(spawn_flags & ~3) == 0) {
             if (!(((S_8016A800_0 *)result)->unk_14 & 0x200) &&
                     (func_800A6D30() & 1)) {
                 func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
@@ -166,11 +167,11 @@ void *func_8016A800(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             ((S_8016A800_0 *)result)->unk_8C = D_8016AE5C;
         }
 
-        ASM_KEEP(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        ASM_KEEP(spawn_flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
 after_state:
         ((S_8016A800_1 *)root)->unk_10 = D_8016AA58;
-        func_800A9C18(root, position, arg3_part, (s16)saved_arg0);
+        func_800A9C18(root, position, arg3_part, (s16)held_flags);
         ((S_8016A800_4 *)((void *)arg2_work))->unk_9A = 0xFF;
         ((S_8016A800_4 *)((void *)arg2_work))->unk_9C = -1;
         func_800AA36C(arg2_work, position, arg3_part, result);

@@ -34,31 +34,32 @@ extern TownState D_80100D98;
 extern s32 func_800352FC(void);
 extern s32 func_8003BD84(s32, s32);
 
-void func_800A5340(TownObject *arg0)
+/* Pick the title-screen object's next handler and timing from the current scene and progress flags. */
+void func_800A5340(TownObject *obj)
 {
     if ((D_80083498.field_10 == &D_800A5638) &&
         ((D_80083498.field_20 == &D_800A5A98) ||
          (D_80083498.field_20 == &D_800A58CC))) {
-        arg0->field_2 = 0x80;
-        arg0->field_4 = 0x300;
-        arg0->field_1C = &D_800A5440;
+        obj->field_2 = 0x80;
+        obj->field_4 = 0x300;
+        obj->field_1C = &D_800A5440;
         return;
     }
 
     if ((func_8003BD84(D_80100D98.field_C,
                        D_80100D98.field_10) > 0xDFFFF) &&
         ((s16)D_8006ADD4 != 0xC)) {
-        arg0->field_4 = 0x448;
-        arg0->field_1C = &D_800A549C;
+        obj->field_4 = 0x448;
+        obj->field_1C = &D_800A549C;
         return;
     }
 
     if (func_800352FC() != 0) {
         if (D_8006ADD4 == 0x38000C) {
-            arg0->field_4 = 0x448;
+            obj->field_4 = 0x448;
         } else {
-            arg0->field_4 = 0x380;
+            obj->field_4 = 0x380;
         }
-        arg0->field_1C = &D_800A54FC;
+        obj->field_1C = &D_800A54FC;
     }
 }

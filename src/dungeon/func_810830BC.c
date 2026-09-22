@@ -53,7 +53,8 @@ extern s32 D_80170E94;
 extern u8 D_80175F10[];
 extern u8 D_80175F28[];
 
-void *func_801708BC(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *func_801708BC(s16 spawn_flags, s8 attr_a, s8 attr_b, s32 attr_c)
 {
     s32 kind;
     void *result;
@@ -82,14 +83,14 @@ void *func_801708BC(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         part0 = object->unk_08;
         handler = (u8 *)page + 0x5F10;
-        part0->unk_0A = arg3;
+        part0->unk_0A = attr_c;
         part1 = object->unk_0C;
-        kind = arg0 & 3;
-        part1->unk_25 = arg2;
+        kind = spawn_flags & 3;
+        part1->unk_25 = attr_b;
         result_copy = result;
         part1->unk_2C = handler;
     }
-    part1->unk_24 = arg1;
+    part1->unk_24 = attr_a;
 
     if (kind == 1) {
         ((S_801708BC_1 *)result)->unk_14 |= 0x6000;
@@ -103,7 +104,7 @@ void *func_801708BC(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
         goto common;
     }
 
-    if (((arg0 & -4) << 16) != 0) {
+    if (((spawn_flags & -4) << 16) != 0) {
         goto common;
     }
     if ((((S_801708BC_1 *)result)->unk_14 & 0x200) != 0) {
@@ -115,7 +116,7 @@ void *func_801708BC(s16 arg0, s8 arg1, s8 arg2, s32 arg3)
     }
 
 common:
-    func_800A9C18(object, part0, part1, arg0);
+    func_800A9C18(object, part0, part1, spawn_flags);
     result_copy->unk_9A = 0xFF;
     result_copy->unk_9C = -1;
     result_copy->unk_8C = &D_80170E94;
@@ -125,7 +126,7 @@ done:
     return result;
 }
 
-/* MECHANISM: arg3 in an ABI word reproduces the 0x38 frame and save order. The
+/* MECHANISM: attr_c in an ABI word reproduces the 0x38 frame and save order. The
    two-step `result = object; result = (u8 *)result + 0x20;` gives `result` the
    extra SET that wins it the first saved-register colour ($s0) -- retail's whole
    s0..s7 role assignment follows from that one allocation. The flag arms are

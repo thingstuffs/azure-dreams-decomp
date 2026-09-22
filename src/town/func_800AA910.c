@@ -25,16 +25,17 @@ extern s32 func_80064584(s32);
 extern s32 D_800814A0[3];
 extern ObjectSlot D_80082660[];
 
-void func_800A8070(u16 *arg0, u16 *arg1)
+/* Place the part's follow coordinates: when the mode query is off, detach it and raise its busy flags; otherwise offset the output from the anchor object's position by the anchor's angle. */
+void func_800A8070(u16 *part, u16 *out_coords)
 {
-    u8 index = ((u8 *)arg0)[0x60];
+    u8 index = ((u8 *)part)[0x60];
     Object *object;
     Inner *inner;
     u16 *coords;
 
     if (func_800352FC() == 0) {
-        func_80033D08(arg0);
-        arg0[-1] |= 0x8000;
+        func_80033D08(part);
+        part[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
         return;
     }
@@ -44,9 +45,9 @@ void func_800A8070(u16 *arg0, u16 *arg1)
         if (object != 0) {
             inner = &object->inner;
             coords = object->coords;
-            arg1[1] = coords[1] + func_800644B8(inner->angle + 0x200) / 170;
-            arg1[3] = coords[3] + func_80064584(inner->angle + 0x200) / 170;
-            arg1[5] = coords[5] - 46;
+            out_coords[1] = coords[1] + func_800644B8(inner->angle + 0x200) / 170;
+            out_coords[3] = coords[3] + func_80064584(inner->angle + 0x200) / 170;
+            out_coords[5] = coords[5] - 46;
         }
     }
 }

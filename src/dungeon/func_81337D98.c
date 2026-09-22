@@ -26,6 +26,7 @@ extern u16 D_80013714[];
 extern s32 D_80175D50;
 extern s32 D_800E3D7C;
 
+/* End the floor: clear the visible flags, run the two teardown passes and release both resident objects. */
 void func_8016ED98(void)
 {
     s32 i;

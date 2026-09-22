@@ -52,10 +52,11 @@ extern void func_800A9C18(Func80BBB094Object *, Func80BBB094PartA *,
 extern void func_800AA36C(Func80BBB094PartC *, Func80BBB094PartA *,
                           Func80BBB094PartB *, Func80BBB094PartC *);
 
-Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     Func80BBB094PartC *result = 0;
-    register s32 arg1Reg ASM_REG("$21") = arg1;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    register s32 arg1Reg ASM_REG("$21") = attr_a;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register unsigned long slot1 ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 arg2Reg;
     register Func80BBB094PartC *resultAlias;
@@ -69,12 +70,12 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 randomTest;
     u32 word14;
     u32 word1C;
-    slot1 = (unsigned long)arg3;
-    arg2Reg = arg2;
+    slot1 = (unsigned long)attr_c;
+    arg2Reg = attr_b;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
-        savedArg0 = arg0;
-        ASM_KEEP_NV(arg0);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        savedArg0 = spawn_flags;
+        ASM_KEEP_NV(spawn_flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         result = &obj->unk20;
         result->unk13 = 14;
         func_8004491C(obj, D_80045340);
@@ -87,7 +88,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         partB->unk24 = arg1Reg;
         resultAlias = result;
 
-        mode = arg0 & 3;
+        mode = spawn_flags & 3;
         if (mode == 1) {
             result->unk8C = D_8014CE9C;
             ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -113,7 +114,7 @@ Func80BBB094PartC *func_8014C894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
             slot2 = (unsigned long)D_80150ED8;
             partB->unk2C = (void *)slot2;
         } else {
-            slot2 = arg0 & -4;
+            slot2 = spawn_flags & -4;
             slot2 = (u32)slot2 << 16;
             if (slot2 == 0) {
                 flag = result->unk14 & 0x200;

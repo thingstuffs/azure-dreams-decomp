@@ -84,7 +84,8 @@ void *BODY_NAME(s16, s16, s16, s16)
 #endif
     ;
 
-void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
+void *BODY_NAME(s16 spawn_flags, s16 attr_a, s16 attr_b, s16 attr_c)
 {
     s32 kind;
     void *work = 0;
@@ -94,15 +95,15 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
     S_80F8D000_4 *actor;
     s32 left;
     s32 right;
-    s8 saved_arg1;
-    s16 saved_arg3;
-    s8 saved_arg2;
+    s8 held_a;
+    s16 held_c;
+    s8 held_b;
     register void *call_a0;
     void *call_a1;
 
-    saved_arg1 = arg1;
-    saved_arg3 = arg3;
-    saved_arg2 = arg2;
+    held_a = attr_a;
+    held_c = attr_c;
+    held_b = attr_b;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -111,13 +112,13 @@ void *BODY_NAME(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_80F8D000_0 *)obj)->unk_08;
-        ((S_80F8D000_2 *)part_a)->unk_0A = saved_arg3;
+        ((S_80F8D000_2 *)part_a)->unk_0A = held_c;
         part_b = ((S_80F8D000_0 *)obj)->unk_0C;
-        kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        kind = spawn_flags & 3;
+        part_b->unk_25 = held_b;
         actor = work;
         part_b->unk_2C = D_8016EAD4;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = held_a;
 
         if (kind == 1) {
             left = ((S_80F8D000_1 *)work)->unk_14 | 0x6000;
@@ -136,7 +137,7 @@ write_kind:
         goto post_kind;
 
 normal_kind:
-        if (((arg0 & ~3) << 16) == 0) {
+        if (((spawn_flags & ~3) << 16) == 0) {
             if (!(((S_80F8D000_1 *)work)->unk_14 & 0x200)) {
                 call_a1 = part_a;
                 left = func_800A6D30();
@@ -156,7 +157,7 @@ normal_kind:
 post_kind:
         call_a0 = obj;
 call_a1_setup:
-        func_800A9C18(call_a0, part_a, part_b, arg0);
+        func_800A9C18(call_a0, part_a, part_b, spawn_flags);
         actor->unk_9A = 0xFF;
         actor->unk_9C = -1;
         actor->unk_8C = D_8016B138;

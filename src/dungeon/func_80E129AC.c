@@ -5,7 +5,7 @@ typedef struct S_801761AC_0 {
     u8 unk_03;
     u8 pad_04[0xD];
     u8 unk_11;
-} S_801761AC_0;   /* arg0 in func_801761AC */
+} S_801761AC_0;   /* actor in func_801761AC */
 
 
 
@@ -14,28 +14,29 @@ extern void *D_800E3D7C;
 extern s32 func_800A48F0();
 extern s32 func_800A6D30();
 
-s32 func_801761AC(S_801761AC_0 *arg0) {
+/* Roll a random slot for the actor and, when it lands below 16, request effect 0x19 on it; returns 1 when that request succeeded. */
+s32 func_801761AC(S_801761AC_0 *actor) {
     s32 seed;
-    register s32 d;
-    s32 r;
+    register s32 divisor;
+    s32 remainder;
     s16 slot;
 
-    if (arg0 == D_800E3D7C) {
+    if (actor == D_800E3D7C) {
         goto fail;
     }
     seed = func_800A6D30() & 0xFFFF;
-    if (((s32)(arg0->unk_03)) != 0) {
-        d = ((s32)(arg0->unk_03));
-        r = seed % d;
-        slot = r;
+    if (((s32)(actor->unk_03)) != 0) {
+        divisor = ((s32)(actor->unk_03));
+        remainder = seed % divisor;
+        slot = remainder;
     } else {
         slot = 0;
     }
     if (slot >= 16) {
         goto fail;
     }
-    if ((s16)func_800A48F0(arg0, 0x19,
-            (s8)((arg0->unk_11 >> 2) + 0x20 + (func_800A6D30() & 3))) >= 0) {
+    if ((s16)func_800A48F0(actor, 0x19,
+            (s8)((actor->unk_11 >> 2) + 0x20 + (func_800A6D30() & 3))) >= 0) {
         return 1;
     }
 fail:
