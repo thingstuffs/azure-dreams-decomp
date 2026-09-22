@@ -8,7 +8,7 @@ typedef struct S_80170854_0 {
     void ** unk_08;
     void ** unk_0C;
     void * unk_10;
-} S_80170854_0;   /* temp_v0 in func_80170854 */
+} S_80170854_0;   /* object in func_80170854 */
 
 typedef struct S_80170854_1 {
     u8 pad_00[0x13];
@@ -16,12 +16,12 @@ typedef struct S_80170854_1 {
     s32 unk_14;
     u8 pad_18[0x4];
     s32 unk_1C;
-} S_80170854_1;   /* var_s1 in func_80170854 */
+} S_80170854_1;   /* result in func_80170854 */
 
 typedef struct S_80170854_2 {
     u8 pad_00[0xA];
     s16 unk_0A;
-} S_80170854_2;   /* temp_s6 in func_80170854 */
+} S_80170854_2;   /* part0 in func_80170854 */
 
 typedef struct S_80170854_3 {
     u8 pad_00[0x10];
@@ -33,7 +33,7 @@ typedef struct S_80170854_3 {
     s8 unk_25;
     u8 pad_26[0x6];
     void * unk_2C;
-} S_80170854_3;   /* temp_s2 in func_80170854 */
+} S_80170854_3;   /* part1 in func_80170854 */
 
 typedef struct S_80170854_4 {
     u8 pad_00[0x8C];
@@ -45,7 +45,7 @@ typedef struct S_80170854_4 {
     u8 pad_9D[0x7];
     s16 unk_A4;
     s16 unk_A6;
-} S_80170854_4;   /* temp_s3 in func_80170854 */
+} S_80170854_4;   /* actor in func_80170854 */
 
 
 extern u8 D_80045340[];
@@ -72,74 +72,75 @@ extern M2C_UNK func_800BC318();
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void *func_80170854(s16 arg0, s16 arg1, s16 arg2, s16 arg3) BODY_ATTR;
+BODY_STORAGE void *func_80170854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value) BODY_ATTR;
 
-BODY_STORAGE void *func_80170854(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
+/* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select, then finish through the mode branch that either zeroes or arms the actor's 0xA6 state. */
+BODY_STORAGE void *func_80170854(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
-    s32 temp_v0_2;
-    s32 var_s5;
-    void *temp_s0;
-    S_80170854_3 *temp_s2;
-    S_80170854_2 *temp_s6;
-    void *temp_s3;
-    void *temp_v0;
-    S_80170854_1 *var_s1;
+    s32 kind;
+    s32 mode;
+    void *object_base;
+    S_80170854_3 *part1;
+    S_80170854_2 *part0;
+    void *actor;
+    void *object;
+    S_80170854_1 *result;
 
-    var_s1 = 0;
-    var_s5 = 1;
-    temp_v0 = func_8003FD64(274, D_80083498);
-    if (temp_v0 == 0) {
+    result = 0;
+    mode = 1;
+    object = func_8003FD64(274, D_80083498);
+    if (object == 0) {
         goto done;
     }
 
-    var_s1 = (u8 *)temp_v0 + 0x20;
-    ((S_80170854_0 *)temp_v0)->unk_10 = D_80170A8C;
-    var_s1->unk_13 = 0x23;
-    func_8004491C(temp_v0, D_80045340);
-    temp_s6 = ((S_80170854_0 *)temp_v0)->unk_08;
-    temp_s6->unk_0A = arg3;
-    temp_s2 = ((S_80170854_0 *)temp_v0)->unk_0C;
-    temp_s2->unk_25 = arg2;
-    temp_s3 = var_s1;
-    temp_s2->unk_2C = D_80173D30;
-    temp_v0_2 = arg0 & 3;
-    temp_s2->unk_24 = arg1;
-    if (temp_v0_2 == 1) {
-        var_s1->unk_14 |= 0x6000;
-        var_s1->unk_1C |= 0x6000;
-    } else if (temp_v0_2 >= 2) {
-        var_s1->unk_14 |= 0x2000;
-        var_s1->unk_1C |= 0x2000;
-    } else if (((arg0 & ~3) << 16) == 0) {
-        if (var_s1->unk_14 & 0x200) {
+    result = (u8 *)object + 0x20;
+    ((S_80170854_0 *)object)->unk_10 = D_80170A8C;
+    result->unk_13 = 0x23;
+    func_8004491C(object, D_80045340);
+    part0 = ((S_80170854_0 *)object)->unk_08;
+    part0->unk_0A = spawn_value;
+    part1 = ((S_80170854_0 *)object)->unk_0C;
+    part1->unk_25 = variant;
+    actor = result;
+    part1->unk_2C = D_80173D30;
+    kind = flags & 3;
+    part1->unk_24 = kind_id;
+    if (kind == 1) {
+        result->unk_14 |= 0x6000;
+        result->unk_1C |= 0x6000;
+    } else if (kind >= 2) {
+        result->unk_14 |= 0x2000;
+        result->unk_1C |= 0x2000;
+    } else if (((flags & ~3) << 16) == 0) {
+        if (result->unk_14 & 0x200) {
             goto status_done;
         }
         if (!(func_800A6D30() & 1)) {
             goto status_done;
         }
-        var_s1->unk_1C |= 0x200;
-        func_800A48F0(var_s1, 1, (func_800A6D30() & 0x3F) | 0x20);
-        temp_s2->unk_2C = D_80173D78;
+        result->unk_1C |= 0x200;
+        func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
+        part1->unk_2C = D_80173D78;
     status_done:
-        var_s5 = func_800A6D30() & 3;
+        mode = func_800A6D30() & 3;
     }
-    func_800A9C18(temp_v0, temp_s6, temp_s2, arg0);
-    ((S_80170854_4 *)temp_s3)->unk_9A = 0xFF;
-    ((S_80170854_4 *)temp_s3)->unk_9C = -1;
-    ((S_80170854_4 *)temp_s3)->unk_8C = D_80170F74;
-    ((S_80170854_4 *)temp_s3)->unk_A4 = -1;
-    if (var_s5 != 0) {
-        ((S_80170854_4 *)temp_s3)->unk_A6 = 0;
+    func_800A9C18(object, part0, part1, flags);
+    ((S_80170854_4 *)actor)->unk_9A = 0xFF;
+    ((S_80170854_4 *)actor)->unk_9C = -1;
+    ((S_80170854_4 *)actor)->unk_8C = D_80170F74;
+    ((S_80170854_4 *)actor)->unk_A4 = -1;
+    if (mode != 0) {
+        ((S_80170854_4 *)actor)->unk_A6 = 0;
     } else {
-        temp_s0 = (u8 *)temp_s3 - 0x20;
-        ((S_80170854_4 *)temp_s3)->unk_A6 = 1;
-        temp_s2->unk_10 = 0x60;
-        temp_s2->unk_14 |= 0xC;
-        temp_s2->unk_12 -= 0x80;
-        func_80044A50(temp_s0);
-        func_800BC318(temp_s0);
+        object_base = (u8 *)actor - 0x20;
+        ((S_80170854_4 *)actor)->unk_A6 = 1;
+        part1->unk_10 = 0x60;
+        part1->unk_14 |= 0xC;
+        part1->unk_12 -= 0x80;
+        func_80044A50(object_base);
+        func_800BC318(object_base);
     }
-    func_800AA36C(temp_s3, temp_s6, temp_s2, var_s1);
+    func_800AA36C(actor, part0, part1, result);
 done:
-    return var_s1;
+    return result;
 }

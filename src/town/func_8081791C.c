@@ -12,7 +12,7 @@ typedef struct S_8002191C_0 {
     union { s16 s; u16 u; } unk_32;   /* accessed as both */
     union { s16 s; u16 u; } unk_34;   /* accessed as both */
     union { s16 s; u16 u; } unk_36;   /* accessed as both */
-} S_8002191C_0;   /* arg0 in func_8002191C */
+} S_8002191C_0;   /* scene in func_8002191C */
 
 typedef struct S_8002191C_1 {
     u8 pad_00[0x8];
@@ -132,17 +132,18 @@ extern void func_80093D48(void *, void *, void *);
 extern void tw_sd_sq_ld_call(s32, s32);
 extern s16 func_800C2AE8(void *);
 
-void func_8002191C(void *arg0)
+/* Town cutscene step machine: the 0x36 stage byte selects this frame's work -- seed the camera motion, run each animation phase in turn, and once past stage 4 clamp the camera to its limits. */
+void func_8002191C(void *scene)
 {
     TownDraw32 draw;
     TownPos pos;
     s32 color[2];
     u8 *global = (u8 *)&D_800834B8;
     u8 *work;
-    void *root = ((S_8002191C_0 *)arg0)->unk_04;
+    void *root = ((S_8002191C_0 *)scene)->unk_04;
     void *compare = ((S_8002191C_1 *)root)->unk_08;
     u8 *part = (u8 *)root + 0x20;
-    s16 mode = ((S_8002191C_0 *)arg0)->unk_36.s;
+    s16 mode = ((S_8002191C_0 *)scene)->unk_36.s;
     u16 value;
     u16 flags;
     s32 i;
@@ -155,11 +156,11 @@ void func_8002191C(void *arg0)
 
         SD_Call(0xB1);
         motion = D_80083780;
-        ((S_8002191C_0 *)arg0)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
+        ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
         t6 = ((S_8002191C_2 *)motion)->unk_06;
-        ((S_8002191C_0 *)arg0)->unk_28.s = 4;
-        ((S_8002191C_0 *)arg0)->unk_36.s = 1;
-        (*(u16 *)((u8 *)arg0 + 0x32)) = t6;
+        ((S_8002191C_0 *)scene)->unk_28.s = 4;
+        ((S_8002191C_0 *)scene)->unk_36.s = 1;
+        (*(u16 *)((u8 *)scene + 0x32)) = t6;
         ((S_8002191C_2 *)motion)->unk_14 = (s32)0xFFE00000;
         (*(s32 *)((u8 *)motion + 0x10)) = 0;
         (*(s32 *)((u8 *)motion + 0x0C)) = 0;
@@ -174,20 +175,20 @@ void func_8002191C(void *arg0)
         u8 *motion;
 
         ((S_8002191C_3 *)global)->unk_10.s = (((S_8002191C_3 *)global)->unk_10.u + 0x200) & 0xFFF;
-        value = ((S_8002191C_0 *)arg0)->unk_28.s - 1;
-        ((S_8002191C_0 *)arg0)->unk_28.s = value;
+        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
+        ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value > 0) {
             goto finish;
         }
-        ((S_8002191C_0 *)arg0)->unk_28.s = 0x10;
-        ((S_8002191C_0 *)arg0)->unk_36.s = 2;
+        ((S_8002191C_0 *)scene)->unk_28.s = 0x10;
+        ((S_8002191C_0 *)scene)->unk_36.s = 2;
         motion = D_80083780;
         ((S_8002191C_2 *)motion)->unk_0C =
-            ((0x420 - ((S_8002191C_0 *)arg0)->unk_30.u) << 16) /
-            ((S_8002191C_0 *)arg0)->unk_28.u;
+            ((0x420 - ((S_8002191C_0 *)scene)->unk_30.u) << 16) /
+            ((S_8002191C_0 *)scene)->unk_28.u;
         {
-            s32 n2 = (0x460 - ((S_8002191C_0 *)arg0)->unk_32.s) << 16;
-            s32 d2 = ((S_8002191C_0 *)arg0)->unk_28.u;
+            s32 n2 = (0x460 - ((S_8002191C_0 *)scene)->unk_32.s) << 16;
+            s32 d2 = ((S_8002191C_0 *)scene)->unk_28.u;
 
             ((S_8002191C_2 *)motion)->unk_14 = (s32)0xFFF40000;
             ((S_8002191C_2 *)motion)->unk_10 = n2 / d2;
@@ -206,14 +207,14 @@ void func_8002191C(void *arg0)
         if (h2 < 0x420) {
             ((S_8002191C_2 *)motion)->unk_02.s = 0x420;
         }
-        value = ((S_8002191C_0 *)arg0)->unk_28.s - 1;
-        ((S_8002191C_0 *)arg0)->unk_28.s = value;
+        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
+        ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value > 0) {
             goto finish;
         }
         ((S_8002191C_2 *)motion)->unk_10 = 0;
         ((S_8002191C_2 *)motion)->unk_0C = 0;
-        ((S_8002191C_0 *)arg0)->unk_36.s = 3;
+        ((S_8002191C_0 *)scene)->unk_36.s = 3;
         goto finish;
     }
 
@@ -239,14 +240,14 @@ void func_8002191C(void *arg0)
             goto finish;
         }
         tw_sd_sq_ld_call(0x24, 0x200);
-        ((S_8002191C_0 *)arg0)->unk_36.s = 4;
-        func_8002082C(arg0);
+        ((S_8002191C_0 *)scene)->unk_36.s = 4;
+        func_8002082C(scene);
         func_80093D48(global, work, D_80082E80);
         goto finish;
 
     case 4:
         if (((S_8002191C_5 *)part)->unk_68 == 7) {
-            ((S_8002191C_0 *)arg0)->unk_36.s = 5;
+            ((S_8002191C_0 *)scene)->unk_36.s = 5;
         }
         goto finish;
 
@@ -269,11 +270,11 @@ void func_8002191C(void *arg0)
         func_80093C70();
         func_80093CEC(D_800D0128);
         motion = D_80083780;
-        ((S_8002191C_0 *)arg0)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
-        ((S_8002191C_0 *)arg0)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
-        ((S_8002191C_0 *)arg0)->unk_2C.s = 0;
-        ((S_8002191C_0 *)arg0)->unk_2A.s &= 0x7FFF;
-        ((S_8002191C_0 *)arg0)->unk_36.s = 6;
+        ((S_8002191C_0 *)scene)->unk_30.s = ((S_8002191C_2 *)motion)->unk_02.s;
+        ((S_8002191C_0 *)scene)->unk_32.u = ((S_8002191C_2 *)motion)->unk_06;
+        ((S_8002191C_0 *)scene)->unk_2C.s = 0;
+        ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
+        ((S_8002191C_0 *)scene)->unk_36.s = 6;
         goto finish;
     }
 
@@ -282,47 +283,47 @@ void func_8002191C(void *arg0)
         u16 old_flags;
         u16 selected_flags;
 
-        if (((S_8002191C_0 *)arg0)->unk_2A.u & 0x8000) {
-            ((S_8002191C_0 *)arg0)->unk_2C.s -= 0x20;
+        if (((S_8002191C_0 *)scene)->unk_2A.u & 0x8000) {
+            ((S_8002191C_0 *)scene)->unk_2C.s -= 0x20;
         } else {
-            ((S_8002191C_0 *)arg0)->unk_2C.s += 0x20;
+            ((S_8002191C_0 *)scene)->unk_2C.s += 0x20;
         }
-        magnitude = ((S_8002191C_0 *)arg0)->unk_2C.u;
+        magnitude = ((S_8002191C_0 *)scene)->unk_2C.u;
         if (magnitude < 0) {
             magnitude = -magnitude;
         }
         if (magnitude >= 0x200) {
-            old_flags = ((S_8002191C_0 *)arg0)->unk_2A.s;
-            if ((s16)((S_8002191C_0 *)arg0)->unk_2A.s & 0x8000) {
+            old_flags = ((S_8002191C_0 *)scene)->unk_2A.s;
+            if ((s16)((S_8002191C_0 *)scene)->unk_2A.s & 0x8000) {
                 selected_flags = old_flags & 0x7FFF;
             } else {
                 selected_flags = old_flags | 0x8000;
             }
-            ((S_8002191C_0 *)arg0)->unk_2A.s = selected_flags;
+            ((S_8002191C_0 *)scene)->unk_2A.s = selected_flags;
         }
         pos.h0C = 0;
         pos.h04 = 0;
-        pos.h00 = ((S_8002191C_0 *)arg0)->unk_30.s;
-        pos.h02 = ((S_8002191C_0 *)arg0)->unk_32.u;
-        pos.h08 = ((S_8002191C_0 *)arg0)->unk_30.s +
-                  func_800644B8(((S_8002191C_0 *)arg0)->unk_2C.u) / 24;
+        pos.h00 = ((S_8002191C_0 *)scene)->unk_30.s;
+        pos.h02 = ((S_8002191C_0 *)scene)->unk_32.u;
+        pos.h08 = ((S_8002191C_0 *)scene)->unk_30.s +
+                  func_800644B8(((S_8002191C_0 *)scene)->unk_2C.u) / 24;
         {
-            s32 t = func_80064584(((S_8002191C_0 *)arg0)->unk_2C.u);
+            s32 t = func_80064584(((S_8002191C_0 *)scene)->unk_2C.u);
 
             color[1] = 0x202020;
             color[0] = 0x202020;
-            pos.h0A = ((S_8002191C_0 *)arg0)->unk_32.u - t / 24;
+            pos.h0A = ((S_8002191C_0 *)scene)->unk_32.u - t / 24;
         }
         if (((S_8002191C_5 *)part)->unk_68 == 9) {
             func_80093C70();
             func_80093CEC(D_800D0128);
-            func_80020948(D_80022454, &pos, color, arg0);
-            ((S_8002191C_0 *)arg0)->unk_28.s = 0x200;
-            ((S_8002191C_0 *)arg0)->unk_2E.s = 0;
-            ((S_8002191C_0 *)arg0)->unk_36.s = 7;
-            ((S_8002191C_0 *)arg0)->unk_2A.s &= 0x7FFF;
+            func_80020948(D_80022454, &pos, color, scene);
+            ((S_8002191C_0 *)scene)->unk_28.s = 0x200;
+            ((S_8002191C_0 *)scene)->unk_2E.s = 0;
+            ((S_8002191C_0 *)scene)->unk_36.s = 7;
+            ((S_8002191C_0 *)scene)->unk_2A.s &= 0x7FFF;
         } else {
-            func_80020948(D_8002241C, &pos, color, arg0);
+            func_80020948(D_8002241C, &pos, color, scene);
         }
         goto finish;
     }
@@ -332,52 +333,52 @@ void func_8002191C(void *arg0)
         u16 old_flags;
         u16 selected_flags;
 
-        if (((S_8002191C_0 *)arg0)->unk_2A.u & 0x8000) {
-            ((S_8002191C_0 *)arg0)->unk_2E.s -= 4;
+        if (((S_8002191C_0 *)scene)->unk_2A.u & 0x8000) {
+            ((S_8002191C_0 *)scene)->unk_2E.s -= 4;
         } else {
-            ((S_8002191C_0 *)arg0)->unk_2E.s += 4;
+            ((S_8002191C_0 *)scene)->unk_2E.s += 4;
         }
-        magnitude = ((S_8002191C_0 *)arg0)->unk_2E.u;
+        magnitude = ((S_8002191C_0 *)scene)->unk_2E.u;
         if (magnitude < 0) {
             magnitude = -magnitude;
         }
         if (magnitude >= 0x100) {
-            old_flags = ((S_8002191C_0 *)arg0)->unk_2A.s;
-            if ((s16)((S_8002191C_0 *)arg0)->unk_2A.s & 0x8000) {
+            old_flags = ((S_8002191C_0 *)scene)->unk_2A.s;
+            if ((s16)((S_8002191C_0 *)scene)->unk_2A.s & 0x8000) {
                 selected_flags = old_flags & 0x7FFF;
             } else {
                 selected_flags = old_flags | 0x8000;
             }
-            ((S_8002191C_0 *)arg0)->unk_2A.s = selected_flags;
+            ((S_8002191C_0 *)scene)->unk_2A.s = selected_flags;
         }
-        ((S_8002191C_0 *)arg0)->unk_28.s =
-            (((S_8002191C_0 *)arg0)->unk_28.s + ((S_8002191C_0 *)arg0)->unk_2E.s + 0x1000) & 0xFFF;
-        func_80022494(arg0);
+        ((S_8002191C_0 *)scene)->unk_28.s =
+            (((S_8002191C_0 *)scene)->unk_28.s + ((S_8002191C_0 *)scene)->unk_2E.s + 0x1000) & 0xFFF;
+        func_80022494(scene);
         if (((S_8002191C_5 *)part)->unk_68 != 0xA) {
             goto finish;
         }
         func_80093864();
         ((S_8002191C_3 *)global)->unk_00 = D_800930E4;
-        draw.h14 = ((S_8002191C_0 *)arg0)->unk_34.s * 0x10 + 0x64;
+        draw.h14 = ((S_8002191C_0 *)scene)->unk_34.s * 0x10 + 0x64;
         draw.h16 = 0xB6;
         draw.h18 = 3;
         draw.w10 = 0x808080;
         draw.h1A = 0x7C80;
         draw.h1C &= 0xFFFE;
-        draw.p04 = &D_800272B0[((S_8002191C_0 *)arg0)->unk_34.s];
-        draw.p08 = &D_800272A0[((S_8002191C_0 *)arg0)->unk_34.s];
+        draw.p04 = &D_800272B0[((S_8002191C_0 *)scene)->unk_34.s];
+        draw.p08 = &D_800272A0[((S_8002191C_0 *)scene)->unk_34.s];
         draw.h00 = 0;
         draw.h02 = 0;
-        draw.p0C = arg0;
+        draw.p0C = scene;
         func_800206F4(D_80020618, &draw);
-        ((S_8002191C_0 *)arg0)->unk_36.s = 8;
+        ((S_8002191C_0 *)scene)->unk_36.s = 8;
         goto finish;
     }
 
     case 8:
         i = 7;
         global = (u8 *)D_800272A0;
-        work = (u8 *)arg0 + 0x1C;
+        work = (u8 *)scene + 0x1C;
         do {
             void *node = ((S_8002191C_4 *)work)->unk_08.at00.v;
             u8 *node_part = (u8 *)node + 0x20;
@@ -407,8 +408,8 @@ void func_8002191C(void *arg0)
                 }
                 if (delta0 + delta1 < 0x20) {
                     ((S_8002191C_6 *)node_part)->unk_08 = node_flags | 1;
-                    ((s16 *)global)[((S_8002191C_0 *)arg0)->unk_34.s]++;
-                    if (((s16 *)global)[((S_8002191C_0 *)arg0)->unk_34.s] < 7) {
+                    ((s16 *)global)[((S_8002191C_0 *)scene)->unk_34.s]++;
+                    if (((s16 *)global)[((S_8002191C_0 *)scene)->unk_34.s] < 7) {
                         SD_Call(0x702);
                     } else {
                         SD_Call(0x703);
@@ -419,51 +420,51 @@ void func_8002191C(void *arg0)
             work -= 4;
         } while (i >= 0);
         if (((S_8002191C_5 *)part)->unk_68 == 0xB) {
-            ((S_8002191C_0 *)arg0)->unk_28.s = 0x1E;
-            ((S_8002191C_0 *)arg0)->unk_36.s = 9;
+            ((S_8002191C_0 *)scene)->unk_28.s = 0x1E;
+            ((S_8002191C_0 *)scene)->unk_36.s = 9;
         }
         goto finish;
 
     case 9:
-        value = ((S_8002191C_0 *)arg0)->unk_28.s - 1;
-        ((S_8002191C_0 *)arg0)->unk_28.s = value;
+        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
+        ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value <= 0) {
-            ((S_8002191C_0 *)arg0)->unk_36.s = 0xA;
+            ((S_8002191C_0 *)scene)->unk_36.s = 0xA;
         }
         goto finish;
 
     case 10:
-        flags = ((S_8002191C_0 *)arg0)->unk_2A.s;
+        flags = ((S_8002191C_0 *)scene)->unk_2A.s;
         if ((flags & 2) == 0) {
             goto finish;
         }
-        ((S_8002191C_0 *)arg0)->unk_2A.s = flags & 0xFFFD;
+        ((S_8002191C_0 *)scene)->unk_2A.s = flags & 0xFFFD;
         func_80093864();
-        value = ((S_8002191C_0 *)arg0)->unk_34.u + 1;
-        ((S_8002191C_0 *)arg0)->unk_34.u = value;
+        value = ((S_8002191C_0 *)scene)->unk_34.u + 1;
+        ((S_8002191C_0 *)scene)->unk_34.u = value;
         if ((s16)value == 8) {
             SD_Call(0xB1);
-            ((S_8002191C_0 *)arg0)->unk_28.s = 0x78;
-            ((S_8002191C_0 *)arg0)->unk_36.s = 0xFF;
+            ((S_8002191C_0 *)scene)->unk_28.s = 0x78;
+            ((S_8002191C_0 *)scene)->unk_36.s = 0xFF;
         } else {
-            func_8002082C(arg0);
-            ((S_8002191C_0 *)arg0)->unk_36.s = 4;
+            func_8002082C(scene);
+            ((S_8002191C_0 *)scene)->unk_36.s = 4;
         }
         goto finish;
 
     case 0xFF:
-        value = ((S_8002191C_0 *)arg0)->unk_28.s - 1;
-        ((S_8002191C_0 *)arg0)->unk_28.s = value;
+        value = ((S_8002191C_0 *)scene)->unk_28.s - 1;
+        ((S_8002191C_0 *)scene)->unk_28.s = value;
         if ((s16)value <= 0) {
             tw_sd_sq_ld_call(0x20, 0x200);
-            ((S_8002191C_0 *)arg0)->unk_2A.s |= 1;
-            ((S_8002191C_0 *)arg0)->unk_36.u++;
+            ((S_8002191C_0 *)scene)->unk_2A.s |= 1;
+            ((S_8002191C_0 *)scene)->unk_36.u++;
         }
         goto finish;
 
     case 0x100:
         func_80033B78(0xA5);
-        (*(u16 *)((u8 *)arg0 + -2)) |= 0x8000;
+        (*(u16 *)((u8 *)scene + -2)) |= 0x8000;
         D_800814A0 |= 0x8000;
         goto finish;
 
@@ -472,7 +473,7 @@ void func_8002191C(void *arg0)
     }
 
 finish:
-    if (((S_8002191C_0 *)arg0)->unk_36.s >= 4) {
+    if (((S_8002191C_0 *)scene)->unk_36.s >= 4) {
         s32 *motion = (s32 *)D_80083780;
 
         if (motion[0] <= 0x03CFFFFF) {

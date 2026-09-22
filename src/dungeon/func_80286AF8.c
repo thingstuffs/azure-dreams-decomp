@@ -59,6 +59,7 @@ extern void func_8001CE44(Room *, s16);
 extern void func_8001DC34(Room *);
 extern void func_8001DE2C(void);
 
+/* Generate the floor layout: divide the map into the room grid, choose which cells are active and how they link, and fall back to one full-size room when fewer than two survive. */
 s32 func_80019AF8(void)
 {
   s8 flags[16];
@@ -69,7 +70,7 @@ s32 func_80019AF8(void)
   s32 tries;
   s16 *hdr;
   u8 *bp;
-  int new_var;
+  int full_height;
   s32 j;
   s32 jr;
   s32 i;
@@ -216,10 +217,10 @@ s32 func_80019AF8(void)
     hdr[3] = 1;
     D_800E2970[0].x = 2;
     D_800E2970[0].y = 2;
-    new_var = 1 << ((DungeonCfg *) dc)->shift_y;
+    full_height = 1 << ((DungeonCfg *) dc)->shift_y;
     D_800E2970[0].active = 1;
     D_800E2970[0].w = (1 << ((DungeonCfg *) dc)->shift_x) - 4;
-    D_800E2970[0].h = new_var - 4;
+    D_800E2970[0].h = full_height - 4;
     D_800E2970[0].tint = func_800A6D30() & 0x60;
     func_8001CE44(&D_800E2970[0], 0);
   }
