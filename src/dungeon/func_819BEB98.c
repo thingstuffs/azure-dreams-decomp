@@ -55,9 +55,9 @@ void func_80024398(void *effect)
         scale_x = node->unk_1C;
         scale_y = node->unk_1E;
         scale_x += 0x88;
-        ASM_SCHED_BARRIER(); /* MATCH: keep the two addition arms separate. */
         scale_y += 0x88;
-        goto store_scale;
+        node->unk_1C = scale_x;
+        goto store_scale_done;
     }
 
 later_phases:
@@ -72,7 +72,8 @@ later_phases:
         if (!below_phase) {
             scale_x = node->unk_1C + 0x88;
             scale_y = node->unk_1E + 0x88;
-            goto store_scale;
+            node->unk_1C = scale_x;
+            goto store_scale_done;
         }
         below_phase = ticks_left < 0xA;
         if (below_phase) {
@@ -83,8 +84,9 @@ shrink:
         {
             scale_x = node->unk_1C - 0x88;
             scale_y = node->unk_1E - 0x88;
-store_scale:
             node->unk_1C = scale_x;
+            store_scale_done:
+            ;
             node->unk_1E = scale_y;
             goto update_timer;
         }

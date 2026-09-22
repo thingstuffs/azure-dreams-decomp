@@ -58,15 +58,14 @@ void func_80172798(void *action, void *motion, void *sprite, void *actor)
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_7, &&kind_6, &&kind_5
     };
-    u8 *selection;
     s32 special;
-    u8 state;
+    u8 *selection;
     void *active;
     u8 *scratch_pointer;
 
     special = 0;
-    state = ((S_80172798_0 *)action)->unk_9B;
-    switch (state) {
+    selection = (u8 *)(((S_80172798_0 *)action)->unk_9B);
+    switch ((u8)selection) {
     case 0:
         goto state_0;
     case 1:
@@ -134,7 +133,6 @@ selection_ready:
         goto empty_selection;
     }
     ((S_80172798_0 *)action)->unk_98 &= 0xFF7F;
-    ASM_KEEP(selection);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     {
         s16 special_test;
 

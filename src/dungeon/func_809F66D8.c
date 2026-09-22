@@ -53,7 +53,7 @@ typedef struct S_80173ED8_5 {
 /* Advances entity animation states and handles pending actions. */
 void func_80173ED8(void *action, void *context, void *sprite, void *entity)
 {
-    register void *saved_context ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *saved_context;
     register void *dungeon_state;
     void *saved_entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 state;
@@ -63,7 +63,6 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
 #define action action
 #define context saved_context
 #define sprite sprite
-    ASM_KEEP_NV(saved_context);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     state = ((S_80173ED8_0 *)action)->unk_9B;
     saved_entity = entity;
@@ -84,7 +83,8 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         (*(void * *)((u8 *)sprite + 0x2C)) = D_80175188;
         direction = (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9;
         func_80047784(sprite, D_80175188[direction & 7], 0);
-        goto increment_state;
+        ((S_80173ED8_0 *)action)->unk_9B++;
+        goto increment_state_done;
     }
 
     case 1:
@@ -99,7 +99,8 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
 #ifndef __mips__
 #endif
             ((S_80173ED8_2 *)counter_state)->unk_0A++;
-            goto increment_state;
+            ((S_80173ED8_0 *)action)->unk_9B++;
+            goto increment_state_done;
         }
 
         dungeon_state = &D_80083460;
@@ -153,8 +154,9 @@ void func_80173ED8(void *action, void *context, void *sprite, void *entity)
         ((Rec_D_800E3D7C *)entity)->unk_1C.as_u32 |= 0x40000;
         ((S_80173ED8_4 *)dungeon_state)->unk_0A++;
 
-increment_state:
         ((S_80173ED8_0 *)action)->unk_9B++;
+        increment_state_done:
+        ;
         return;
 
     case 2:

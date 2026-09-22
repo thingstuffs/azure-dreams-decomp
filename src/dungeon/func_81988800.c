@@ -223,7 +223,6 @@ jt_c2: {
     }
 
 jt_c3: {
-        register u8 *settings ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         u8 *entry_ptr;
         s32 entry_index;
 
@@ -234,11 +233,11 @@ jt_c3: {
             if (object != 0) {
                 ((S_81988800_5 *)object)->unk_10 = &D_80024B20;
                 func_8004491C(object, &D_80024D58);
-                settings = D_80082E80;
+                actor = (void *)D_80082E80;
                 offset[0] = (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 >> 9) & 7;
                 work = (u8 *)object + 0x20;
-                ((S_81988800_3 *)work)->unk_04 = (settings[0x24] << 6) + 0x20;
-                ((S_81988800_3 *)work)->unk_06 = (settings[0x25] << 6) + 0x20;
+                ((S_81988800_3 *)work)->unk_04 = (((u8 *)actor)[0x24] << 6) + 0x20;
+                ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_08.u16 = ((S_81988800_2 *)position_ref)->unk_08.at02.v;
                 entry_ptr = (u8 *)object + 0x4A;
                 for (entry_index = 7; entry_index >= 0; entry_index--, entry_ptr -= 6) {

@@ -161,19 +161,19 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s32 target_ticks;
     s32 probe_dir_offset;
     s32 path_ticks;
-    s32 step_dir_offset;
+    s32 table_x_entry;
     s32 world_y;
     s32 world_x;
     s32 world_x_final;
     s32 direction;
-    s32 end_x_signed;
+    s32 direction_2;
+    s16 end_x_signed;
     s32 offset_x;
     s32 offset_y;
     register s32 table_base ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 *table_x_entry;
     s16 *table_y_entry;
     u16 *update_x_entry;
-    register u16 *update_y_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 *update_y_entry;
     s32 probe_y;
     register s32 probe_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 end_z_signed;
@@ -183,7 +183,7 @@ void func_80025738(void *state, void *motion_in, void *render) {
     s16 *x_offsets;
     s16 *y_offsets;
     s32 index;
-    register s32 target_dy ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 target_dy;
     s32 target_dz;
     u16 source_z;
     s32 next_tile_y;
@@ -218,13 +218,15 @@ phase_aim:
     source_header = owner - 0x20;
     source_data = ((S_80025738_3 *)source_header)->unk_0C;
     if (func_8003DE58(((S_80025738_4 *)source_data)->unk_08, source_data, frame.delta, 0) != 0) {
-        goto copy_source_position;
+        source_position = ((S_80025738_3 *)source_header)->unk_08;
+        goto copy_source_position_done;
     }
     if (!(((S_80025738_13 *)(((S_80025738_3 *)source_header)->unk_0C))->unk_14 & 0x8000)) {
         goto clear_update_flag;
     }
-copy_source_position:
     source_position = ((S_80025738_3 *)source_header)->unk_08;
+    copy_source_position_done:
+    ;
     ((S_80025738_5 *)motion_in)->unk_00.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_02;
     ((S_80025738_5 *)motion_in)->unk_04.at02.v = (u16) ((S_80025738_6 *)source_position)->unk_06;
     source_z = ((S_80025738_6 *)source_position)->unk_0A;
@@ -276,33 +278,24 @@ store_target_dx:
     frame.delta[0] = (u16) target_dx;
     target_dy = ((S_80025738_7 *)destination)->unk_04.at02.v;
     target_dy -= ((S_80025738_5 *)motion_in)->unk_04.at02u.v;
-    if (target_dy >= 0) {
-        goto store_target_dy;
-    }
-    target_dy = 0 - target_dy;
-store_target_dy:
+    target_dy = abs(target_dy);
     frame.delta[1] = (u16) target_dy;
     target = ((S_80025738_1 *)owner)->unk_60;
     current_z = ((S_80025738_5 *)motion_in)->unk_08.at02u.v;
     target_dz = ((S_80025738_8 *)target)->unk_88;
     target_dz -= current_z;
     target_delta_cursor = (u16 *)((u8 *)&frame.out_x + 2);
-    ASM_KEEP(target_delta_cursor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (target_dz >= 0) {
-        goto store_target_dz;
-    }
-    target_dz = 0 - target_dz;
-store_target_dz:
+    target_dz = abs(target_dz);
     frame.delta[2] = (u16) target_dz;
     ((S_80025738_0 *)state)->unk_12 = target_dx;
-do {
+loop_0: {
     if (((S_80025738_9 *)target_delta_cursor)->unk_18.s > ((S_80025738_0 *)state)->unk_12) {
         ((S_80025738_0 *)state)->unk_12 = ((S_80025738_9 *)target_delta_cursor)->unk_18.u;
     }
 next_target_axis:
     index += 1;
     target_delta_cursor += 1;
-    } while (index < 3);
+    } if (index < 3) goto loop_0;
     target_ticks = (s32) ((u16) ((S_80025738_0 *)state)->unk_12 << 0x10) >> 0x14;
     ((S_80025738_0 *)state)->unk_12 = (s16) target_ticks;
     if (target_ticks != 0) {
@@ -339,14 +332,13 @@ do {
     probe_dir_offset = (s16) ((S_80025738_0 *)state)->unk_0E;
     probe_z = (u16) ((S_80025738_1 *)owner)->unk_88;
     probe_dir_offset *= 2;
-    table_x_entry = (s16 *)((s32)probe_dir_offset + table_base);
-    ASM_KEEP(table_x_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    table_x_entry = (s32)((s16 *)((s32)probe_dir_offset + table_base));
     probe_z -= 0x20;
     probe_z = (s16) probe_z;
     LOAD_TABLE_Y_BASE(table_base);
     table_y_entry = (s16 *)((s32)probe_dir_offset + table_base);
     ASM_USE(last_tile_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    probe_x = tile_x_signed + *table_x_entry;
+    probe_x = tile_x_signed + *((s16 *)table_x_entry);
     probe_x = ((probe_x << 6) + 0x20) & 0xFFE0;
     probe_y = tile_y_signed + *table_y_entry;
     probe_y = ((probe_y << 6) + 0x20) & 0xFFE0;
@@ -359,12 +351,12 @@ do {
         goto build_path_endpoint;
     }
     LOAD_TABLE_X_BASE(table_base);
-    step_dir_offset = (s16) ((S_80025738_0 *)state)->unk_0E;
+    table_x_entry = (s16) ((S_80025738_0 *)state)->unk_0E;
     index += 1;
-    step_dir_offset *= 2;
-    update_x_entry = (u16 *)((s32)step_dir_offset + table_base);
+    table_x_entry *= 2;
+    update_x_entry = (u16 *)((s32)table_x_entry + table_base);
     LOAD_TABLE_Y_BASE(table_base);
-    update_y_entry = (u16 *)((s32)step_dir_offset + table_base);
+    update_y_entry = (u16 *)((s32)table_x_entry + table_base);
     ASM_KEEP(update_y_entry);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     probe_x = tile_x + *update_x_entry;
     tile_x = probe_x;
@@ -391,10 +383,9 @@ build_path_endpoint:
     ((S_80025738_7 *)destination)->unk_00.at02.v = end_x;
     end_x_signed = end_x;
     table_base = frame.raw_y;
-    direction = (s16) ((S_80025738_0 *)state)->unk_0E;
+    direction_2 = (s16) ((S_80025738_0 *)state)->unk_0E;
     world_y = table_base << 0x10;
-    ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    offset_y = y_offsets[direction];
+    offset_y = y_offsets[direction_2];
     world_y >>= 0xA;
     end_y = world_y + ((offset_y + 1) << 5);
     ((S_80025738_7 *)destination)->unk_04.at02.v = end_y;

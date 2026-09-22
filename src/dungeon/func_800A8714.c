@@ -48,7 +48,7 @@ extern s32 func_800A36B4();
 extern s32 func_800A384C();
 extern u8 *func_800A3D18();
 extern s32 func_800A404C();
-extern s32 func_800A40AC();
+extern u16 func_800A40AC();
 extern s32 func_800A41F0();
 extern s32 func_800A45D8();
 extern s32 func_800A6E8C();
@@ -458,10 +458,9 @@ check_player_action:
                     if (!(*(s32 *)(player_target + 0x14) & 0x2000)) {
                         {
                             s32 action_code;
-                            register s32 checked_action ASM_REG("$3");
-                            action_code = func_800A40AC(creature, (u16)func_8009CD58(player_target, 7, 0));
-                            action_or_flags = action_code;
-                            checked_action = action_code;
+                            u16 checked_action;
+                            action_or_flags = func_800A40AC(creature, (u16)func_8009CD58(player_target, 7, 0));
+                            checked_action = action_or_flags;
                             if ((checked_action << 16) < 0) {
                                 goto check_assist_action;
                             }

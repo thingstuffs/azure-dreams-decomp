@@ -32,7 +32,8 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
             goto done;
         }
         if ((force_state << 0x10) != 0) {
-            goto call_state;
+            func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
+            goto call_state_done;
         }
         if (state_type == 1) {
             goto type_one;
@@ -55,12 +56,12 @@ s32 func_80172628(void *entity_arg, M2C_UNK primary_context_arg, M2C_UNK seconda
         ((S_80172628_0 *)entity)->unk_9A = 0xE;
         func_800A9A0C(entity);
         result = 0;
-        goto done;
+        return result;
 
     call_state:
         func_80171C34(entity, primary_context_arg, secondary_context_arg, entity);
-        ASM_KEEP(primary_context_arg);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(secondary_context_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        call_state_done:
+        ;
         result = 0;
         goto done;
 

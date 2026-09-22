@@ -109,7 +109,7 @@ void *func_8016A8DC(s32 kind, s32 part_x, s32 part_y, s32 copy_value)
         s32 outer_index;
     } stack;
     s32 saved_kind;
-    register s32 saved_copy_value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 saved_copy_value;
     s16 saved_part_y;
     void *object;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -217,11 +217,10 @@ flags_done:
     ((S_8016A8DC_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        void *child;
         register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        child = func_8003FD64(0x112, D_80083498);
-        allocated = child;
+        saved_copy_value = (s32)func_8003FD64(0x112, D_80083498);
+        allocated = (void *)saved_copy_value;
         ((S_8016A8DC_5 *)outer)->unk_A4 = allocated;
         if (allocated != 0) {
             s32 item_offset;

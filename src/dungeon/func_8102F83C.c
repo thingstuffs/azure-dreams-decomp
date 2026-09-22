@@ -59,7 +59,7 @@ void func_8017103C(void *entity_arg, void *motion_arg, void *monster_arg)
     S_8017103C_1 *actor = entity_arg;
     u32 raw_direction;
     register s32 direction ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 direction_copy ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 direction_copy;
     register s32 facing_angle ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *call_entity;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_motion;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -114,9 +114,8 @@ void func_8017103C(void *entity_arg, void *motion_arg, void *monster_arg)
     if (!(monster_flags & 0x8000)) {
         facing_angle = D_80083228 + (*(s16 *)((u8 *)entity_arg + 0x2A)) + 0x100;
         direction = (facing_angle >> 9) & 7;
-        ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        direction_index = direction;
         direction_copy = direction;
+        direction_index = (s16)direction;
 
         if ((*(s16 *)((u8 *)entity_arg + 0x94)) != direction_index) {
             u8 *tile_map = ((S_8017103C_0 *)monster)->unk_2C;
@@ -248,7 +247,6 @@ finish:
     ((S_8017103C_0 *)monster)->unk_14 |= 0x40;
 
     ASM_KEEP(direction);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(direction_copy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 }
 
 /* MECHANISM: The 48-byte frame holds entity/motion/monster/actor in s2/s4/s1/s3

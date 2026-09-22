@@ -119,27 +119,30 @@ void *func_80158854(s32 arg0, s8 arg1, s16 arg2, s32 arg3)
         }
 
         if (((arg0 & ~3) << 16) != 0) {
-            goto set_work_callback;
+            callback_page = CALLBACK_PAGE;
+            goto set_work_callback_done;
         }
         if (((S_80158854_0 *)work)->unk_14 & 0x200) {
-            goto set_actor_callback;
+            callback_page = CALLBACK_PAGE;
+            goto set_actor_callback_done;
         }
         if (!(func_800A6D30() & 1)) {
-            goto set_actor_callback;
+            callback_page = CALLBACK_PAGE;
+            goto set_actor_callback_done;
         }
         func_800A48F0(work, 1,
                       (func_800A6D30() & 0x3F) | 0x20);
         part_b->unk_2C = D_8015C538;
 
-set_actor_callback:
         callback_page = CALLBACK_PAGE;
-        ASM_KEEP(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        set_actor_callback_done:
+        ;
         ((S_80158854_4 *)actor)->unk_8C = (void *)(callback_page - 0x71A4);
         goto normal_done;
 
-set_work_callback:
         callback_page = CALLBACK_PAGE;
-        ASM_KEEP(callback_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        set_work_callback_done:
+        ;
         ((S_80158854_0 *)work)->unk_8C = (void *)(callback_page - 0x71A4);
 
 normal_done:

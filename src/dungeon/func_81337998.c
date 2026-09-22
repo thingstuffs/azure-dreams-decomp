@@ -84,7 +84,6 @@ void func_8016E998(Rec_D_800E3D7C *origin) {
     u16 render_flags;
     M2C_UNK *effect_handler;
     void **effect_slot;
-    register S_8016E998_2 *render_config ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_8016E998_5 *appearance;
     S_8016E998_0 *effect_data;
     void *effect;
@@ -106,14 +105,14 @@ void func_8016E998(Rec_D_800E3D7C *origin) {
             effect_data->unk_1A = (s16) initial_count;
             ((S_8016E998_1 *)effect)->unk_10 = effect_handler;
             func_8004491C(init_effect, &D_80045340);
-            render_config = ((S_8016E998_1 *)effect)->unk_0C;
-            render_flags = render_config->unk_14 | 0xC;
-            render_config->unk_14 = render_flags;
+            origin_z = (s32)(((S_8016E998_1 *)effect)->unk_0C);
+            render_flags = ((S_8016E998_2 *)origin_z)->unk_14 | 0xC;
+            ((S_8016E998_2 *)origin_z)->unk_14 = render_flags;
             ASM_KEEP(render_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             flags_copy = render_flags;
             ASM_KEEP(flags_copy);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            render_config->unk_10 = 0x20;
-            render_config->unk_14 = (u16) (flags_copy | 0x80);
+            ((S_8016E998_2 *)origin_z)->unk_10 = 0x20;
+            ((S_8016E998_2 *)origin_z)->unk_14 = (u16) (flags_copy | 0x80);
             position = ((S_8016E998_1 *)effect)->unk_08;
             position->unk_00 = (s32) origin->unk_00.at00_s32.v;
             position->unk_04.at00.v = (s32) origin->unk_04.at00_s32.v;

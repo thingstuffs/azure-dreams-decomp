@@ -127,7 +127,7 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
     s32 dx;
     s32 dy;
     u32 table_offset;
-    void *found;
+    void *angle;
     u8 *dungeon_state = (u8 *)&D_80083460;
     u8 *angle_context;
     u8 *leader_position;
@@ -156,10 +156,10 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
     flags = ((S_801715F4_1 *)actor_arg)->unk_1C;
     if (flags & 0x410) {
         if (flags & 0x400) {
-            found = func_800A02AC(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
+            angle = func_800A02AC(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
                                   ((S_801715F4_2 *)position_arg)->unk_24.at01.v);
-            if (found != 0) {
-                S_801715F4_4 *other = ((S_801715F4_3_pre *)found)[-1].unk_00;
+            if (angle != 0) {
+                S_801715F4_4 *other = ((S_801715F4_3_pre *)angle)[-1].unk_00;
 
                 ((S_801715F4_1 *)actor_arg)->unk_2A.u = func_800A0818(
                     ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
@@ -182,10 +182,10 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
             goto reset_turn_index;
         }
 
-        found = func_800A04F0(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
+        angle = func_800A04F0(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
                               ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
                               ((S_801715F4_1 *)actor_arg)->unk_2A.s);
-        if (found == 0) {
+        if (angle == 0) {
             goto reset_turn_index;
         }
         goto clear_history;
@@ -262,10 +262,10 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
         goto reset_turn_index;
     }
 
-    found = func_800A04F0(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
+    angle = func_800A04F0(actor_arg, ((S_801715F4_2 *)position_arg)->unk_24.at00.v,
                           ((S_801715F4_2 *)position_arg)->unk_24.at01.v, ((S_801715F4_1 *)actor_arg)->unk_2A.s);
-    if ((found != 0) && (((S_801715F4_3 *)found)->unk_1C & 0x2000) &&
-        (func_800A0134(found, actor_arg) < 0x81) &&
+    if ((angle != 0) && (((S_801715F4_3 *)angle)->unk_1C & 0x2000) &&
+        (func_800A0134(angle, actor_arg) < 0x81) &&
         ((s16)func_8009A540(
              ((s32)(((S_801715F4_1 *)actor_arg)->unk_2A.u << 16) >> 25) & 0xFFFF,
              ((S_801715F4_2 *)position_arg)->unk_24.at00.v, ((S_801715F4_2 *)position_arg)->unk_24.at01.v,
@@ -366,15 +366,13 @@ loop_setup:
 
     do {
         {
-            s32 angle;
 
-            angle = ((S_801715F4_1 *)actor_arg)->unk_2A.s;
+            angle = (void *)(((S_801715F4_1 *)actor_arg)->unk_2A.s);
             if (((S_801715F4_8 *)move_state)->unk_98 & 2) {
-                next_angle = angle - turn_table[turn_index];
+                next_angle = ((s32)angle) - turn_table[turn_index];
             } else {
-                next_angle = angle + turn_table[turn_index];
+                next_angle = ((s32)angle) + turn_table[turn_index];
             }
-            ASM_KEEP(angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         }
 
         if (func_8009A66C((s16)next_angle, position_arg, actor_arg, 0x20) > 0) {

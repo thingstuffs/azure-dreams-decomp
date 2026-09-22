@@ -128,7 +128,7 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     register s32 color ASM_REG("$3");
     u16 source_z;
     TargetInfo *target_info;
-    Motion *source;
+    Motion *step_x;
     u8 *angle_update;
     u8 *angle_clear;
     u8 *angle_build;
@@ -145,7 +145,6 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     s32 effect_step;
     s32 collision_result;
     s32 terrain_height;
-    Motion *target;
     s16 *target_cursor;
     s16 *distance_cursor;
     s32 target_x;
@@ -160,10 +159,9 @@ void func_80024E64(State *state_arg, Motion *motion_arg, DrawInfo *draw_info)
     register s32 table_addr ASM_REG("$8");
     s32 table_offset;
     s32 update_offset;
-    s16 *step_x;
     s16 *step_y;
     u16 *update_x;
-    s32 probe_height;
+    s32 target;
     s32 next_y;
     u32 table_page;
     register s32 tile_x ASM_REG("$20");
@@ -241,10 +239,10 @@ case_0:
         }
     }
 
-    source = header->position;
-    motion_arg->x.half.hi = source->x.half.hi;
-    motion_arg->y.half.hi = source->y.half.hi;
-    source_z = source->z.half.hi;
+    step_x = header->position;
+    motion_arg->x.half.hi = step_x->x.half.hi;
+    motion_arg->y.half.hi = step_x->y.half.hi;
+    source_z = step_x->z.half.hi;
     motion_arg->z.half.hi = source_z;
     if (!(header->info->flags & 0x8000)) {
         motion_arg->x.half.hi += work.distance[0];
@@ -353,20 +351,19 @@ case_0:
 
         table_addr = (s32)D_8006CCD8;
         table_offset = (s16)state_arg->direction;
-        probe_height = (u16)entity->height;
+        target = (u16)entity->height;
         table_offset *= 2;
-        step_x = (s16 *)(table_offset + table_addr);
-        ASM_KEEP(step_x);
-        probe_height -= 32;
-        probe_height = (u32)probe_height << 16;
-        probe_height >>= 16;
+        step_x = (Motion *)((s16 *)(table_offset + table_addr));
+        target -= 32;
+        target = (u32)target << 16;
+        target >>= 16;
         table_addr = (s32)D_8006CCE8;
         step_y = (s16 *)(table_offset + table_addr);
         ASM_KEEP(step_y);
         terrain_height = func_800BCB04(
-            ((grid_x + *step_x) << 6) + 32 & 0xFFE0,
+            ((grid_x + *((s16 *)step_x)) << 6) + 32 & 0xFFE0,
             ((grid_y + *step_y) << 6) + 32 & 0xFFE0,
-            probe_height);
+            target);
         if ((s16)terrain_height >= 513 ||
             (s16)(terrain_height - entity->height) < -63) {
             break;
@@ -389,8 +386,7 @@ case_0:
         final_x = target_y;
     }
 
-    target = &work.target;
-    ASM_KEEP_NV(target);
+    target = (s32)(&work.target);
     index = 1;
     target_x = (u32)final_x << 16;
     color = (s32)(D_8006CCD8);
@@ -400,7 +396,7 @@ case_0:
     axis_step = ((s16 *)color)[direction_index];
     color = (s32)(D_8006CCE8);
     target_x = target_x + ((axis_step + 1) << 5);
-    (*(s16 *)((u8 *)target + 2)) = target_x;
+    (*(s16 *)((u8 *)((Motion *)target) + 2)) = target_x;
     target_x = (u32)target_x << 16;
     target_x >>= 16;
     table_addr = (u16)saved_y;
@@ -410,10 +406,10 @@ case_0:
     axis_step = ((s16 *)color)[direction_index];
     target_y = (s32)target_y >> 10;
     target_y += (axis_step + 1) << 5;
-    target->y.half.hi = target_y;
+    ((Motion *)target)->y.half.hi = target_y;
     target_y = (u32)target_y << 16;
     target_z = (u16)motion_arg->z.half.hi + 32;
-    target->z.half.hi = target_z;
+    ((Motion *)target)->z.half.hi = target_z;
 
     {
         s32 source_coord;
@@ -447,9 +443,9 @@ case_0:
     if (state_arg->duration == 0) {
         state_arg->duration = 1;
     }
-    motion_arg->dx.word = (target->x.word - motion_arg->x.word) / state_arg->duration;
-    motion_arg->dy.word = (target->y.word - motion_arg->y.word) / state_arg->duration;
-    motion_arg->dz.word = (target->z.word - motion_arg->z.word) / state_arg->duration;
+    motion_arg->dx.word = (((Motion *)target)->x.word - motion_arg->x.word) / state_arg->duration;
+    motion_arg->dy.word = (((Motion *)target)->y.word - motion_arg->y.word) / state_arg->duration;
+    motion_arg->dz.word = (((Motion *)target)->z.word - motion_arg->z.word) / state_arg->duration;
     ASM_SCHED_BARRIER();
     next_state = 8;
     goto reset_state;

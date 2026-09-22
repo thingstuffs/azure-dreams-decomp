@@ -113,7 +113,7 @@ void func_818C8A70(void *effect, S_818C8A70_4 *position) {
     u16 fade_ticks;
     S_818C8A70_3 *sprite;
     S_818C8A70_5 *particle_pos;
-    register S_818C8A70_1 *particle_state ASM_REG("$20");   /* retained from the base: holds the repeated particle-state role */
+    S_818C8A70_1 *particle_state;   /* retained from the base: holds the repeated particle-state role */
     S_818C8A70_6 *source;
     void *particle;
 
@@ -175,7 +175,9 @@ move_effect:
             position->unk_08.at00.v = (s32) (position->unk_08.at00.v + ((S_818C8A70_0 *)effect)->unk_60);
             goto update_phase;
         }
-        goto remove_effect;
+        ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
+        D_800814A0[0] = D_800814A0[0] | 0x8000;
+        goto remove_effect_done;
     }
 update_phase:
     phase = ((S_818C8A70_0 *)effect)->unk_00;
@@ -291,9 +293,10 @@ update_phase:
         fade_ticks = ((S_818C8A70_0 *)effect)->unk_02 + 1;
         ((S_818C8A70_0 *)effect)->unk_02 = fade_ticks;
         if ((s16) fade_ticks >= 0x15) {
-remove_effect:
             ((S_818C8A70_0_pre *)effect)[-1].unk_00 = (u16) (((S_818C8A70_0_pre *)effect)[-1].unk_00 | 0x8000);
             D_800814A0[0] = D_800814A0[0] | 0x8000;
+            remove_effect_done:
+            ;
         }
     }
 }

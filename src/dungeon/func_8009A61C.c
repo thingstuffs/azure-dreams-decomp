@@ -15,11 +15,10 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     register s32 query_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 saved_src_value;
     s32 dst_value;
-    s16 *detail_out;
     s32 query_dst_x;
     s32 query_dst_y;
     s32 delta_x;
-    register s32 y_work;
+    register s32 detail_out;
     s32 signed_dst_y;
     s32 signed_src_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 signed_src_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -36,13 +35,13 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     if (distance_x < 2) {
         signed_dst_y = (s16)dst_y;
         signed_src_y = (s16)src_y;
-        y_work = signed_dst_y - signed_src_y;
-        distance_y = __builtin_abs(y_work);
+        detail_out = signed_dst_y - signed_src_y;
+        distance_y = __builtin_abs(detail_out);
         if (distance_y < 2) {
-            y_work = distance_x + distance_y;
+            detail_out = distance_x + distance_y;
                /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            if (y_work != 0) {
+            if (detail_out != 0) {
                 query_x = src_x_bits & 0xFFFF;
                 query_y = src_y_bits & 0xFFFF;
                 src_value = func_8009FB34(query_x, query_y, dst_x << 0x10);
@@ -56,11 +55,10 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
                 }
                 query_x = signed_src_x;
                 query_y = signed_src_y;
-                detail_out = &relation_detail;
-                ASM_KEEP(detail_out);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                detail_out = (s32)(&relation_detail);
                 query_dst_x = signed_dst_x;
                 query_dst_y = signed_dst_y;
-                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, detail_out) << 0x10) >> 0x19;
+                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, (s16 *)detail_out) << 0x10) >> 0x19;
                 relation_detail = (s16) relation_flags;
                 allowed = 1;
                 if (relation_flags & 1) {

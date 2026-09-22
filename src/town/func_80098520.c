@@ -74,7 +74,7 @@ void func_80095C80(S_80095C80_1 *position) {
         s32 pad4;
     } probe;
     M2C_UNK *motion;
-    M2C_UNK *pos_xy_motion;
+    M2C_UNK *probe_ptr;
     M2C_UNK *pos_x_neg_y_motion;
     M2C_UNK *neg_x_pos_y_motion;
     M2C_UNK *neg_xy_motion;
@@ -100,13 +100,11 @@ void func_80095C80(S_80095C80_1 *position) {
         }
         if (((S_80095C80_0 *)motion)->unk_10 > 0) {
             s32 boundary_test;
-            void *probe_ptr;
             probe.x = position->unk_00.at00.v - ((S_80095C80_0 *)motion)->unk_0C;
             probe.y = position->unk_04.at00.v;
             probe.z = position->unk_08;
             boundary_test = func_80095BC0(&probe, 0);
-            probe_ptr = &probe;
-            ASM_KEEP_NV(probe_ptr);
+            probe_ptr = (M2C_UNK *)(&probe);
             neg_x_boundary = position->unk_00.at00.v;
             probe.x = neg_x_boundary;
             neg_x_boundary = neg_x_boundary < (boundary_test << 0x10);
@@ -117,13 +115,13 @@ void func_80095C80(S_80095C80_1 *position) {
             probe.y = probe_coord - y_step_or_side;
             probe_coord = position->unk_08;
             probe.z = probe_coord;
-            boundary_test = func_80095C20(probe_ptr, 0);
+            boundary_test = func_80095C20((void *)probe_ptr, 0);
             probe_coord = position->unk_04.at00.v;
             boundary_test <<= 0x10;
             probe_coord = probe_coord < boundary_test;
             boundary_test = probe_coord ^ 1;
             if (neg_x_boundary == 0) {
-                pos_xy_motion = (M2C_UNK *)D_80100000;
+                probe_ptr = (M2C_UNK *)D_80100000;
                 if (boundary_test == 0) {
                     s32 x_offset;
                     s32 y_offset;
@@ -140,13 +138,13 @@ void func_80095C80(S_80095C80_1 *position) {
                 }
                 goto check_pos_xy_corner;
             }
-            pos_xy_motion = (M2C_UNK *)D_80100000;
+            probe_ptr = (M2C_UNK *)D_80100000;
 check_pos_xy_corner:
-            pos_xy_motion = (M2C_UNK *)((s8 *)pos_xy_motion - 0x1A40);
-            probe.x = position->unk_00.at00.v - ((S_80095C80_2 *)pos_xy_motion)->unk_0C;
+            probe_ptr = (M2C_UNK *)((s8 *)probe_ptr - 0x1A40);
+            probe.x = position->unk_00.at00.v - ((S_80095C80_2 *)probe_ptr)->unk_0C;
             pos_xy_y = position->unk_04.at00.v;
             do {
-                pos_xy_test = ((S_80095C80_2 *)pos_xy_motion)->unk_10;
+                pos_xy_test = ((S_80095C80_2 *)probe_ptr)->unk_10;
             } while (0);
 
             y_step_or_side = 0;

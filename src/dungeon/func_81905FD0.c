@@ -753,12 +753,11 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 child_render = control_effect->unk_0C;
                 child_render->unk_06 = 0;
                 {
-                    register u16 render_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                    render_flags = child_render->unk_14 | 0xC;
-                    child_render->unk_14 = render_flags;
+                    control_script = (void *)(child_render->unk_14 | 0xC);
+                    child_render->unk_14 = (u16)control_script;
                     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    saved_flags_m = render_flags;
+                    saved_flags_m = (u16)control_script;
                     ASM_KEEP(saved_flags_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     child_render->unk_10.s16 = 32;
                     child_render->unk_14 = saved_flags_m | 0x80;

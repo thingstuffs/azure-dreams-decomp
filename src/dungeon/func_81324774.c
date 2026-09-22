@@ -119,7 +119,6 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 target_y;
     s32 target_x;
     s32 y_offset;
-    s32 x_offset;
     s32 world_y;
     s32 world_x;
     s16 target_angle;
@@ -135,7 +134,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s8 *state;
     s32 state_flags;
     S_8016BF74_4 *target_position;
-    void *ahead_target;
+    void *x_offset;
     s32 active_actor;
     s32 path_status;
     s32 tile_y;
@@ -146,11 +145,10 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
     s32 source_y;
     s32 dest_x;
     s32 dest_y;
-    register s32 old_tile_flags ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 new_tile_flags;
     s32 step_y;
     s32 next_x;
-    s32 current_x;
+    s16 current_x;
     s16 next_path_index;
     s32 current_y;
     u8 *y_offsets;
@@ -205,9 +203,9 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
                 }
                 goto start_search;
             }
-            ahead_target = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
+            x_offset = func_800A04F0(actor, position->unk_24.at00.v, position->unk_24.at01.v, (s16) ((S_8016BF74_1 *)actor)->unk_2A.u);
             turn_index = 0;
-            if (ahead_target == NULL) {
+            if (x_offset == NULL) {
                 goto init_offsets;
             }
             goto finish_path;
@@ -219,14 +217,11 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
                     direction_offset = ((((S_8016BF74_1 *)actor)->unk_45 + ((s32) (((Rec_D_800814A8 *)D_800814A8)->unk_2A.as_u16 << 0x10) >> 0x19)) & 7) * 2;
                     world_x = D_80082E80[0x24];
                     world_y = D_80082E80[0x25];
-                    x_offset = (*(u16 *)((u8 *)(&D_8006CCD8) + direction_offset));
+                    x_offset = (void *)(*(u16 *)((u8 *)(&D_8006CCD8) + direction_offset));
                     y_offset = (*(u16 *)((u8 *)(&D_8006CCE8) + direction_offset));
-                    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                    current_x = position->unk_24.at00.v;
-                    target_x = world_x + x_offset;
+                    current_x = (*(u8 *)((u8 *)position + 0x24));
+                    target_x = world_x + ((s32)x_offset);
                     target_y = world_y + y_offset;
-                    ASM_KEEP(current_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                    ASM_USE_NV(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     if ((current_x != (target_x & 0xFFFF)) || (position->unk_24.at01.v != (target_y & 0xFFFF))) {
                         target_angle = func_800A0818(position->unk_24.at00.v, position->unk_24.at01.v, (s16) target_x, (s16) target_y, motion + 0x98);
                         ((S_8016BF74_1 *)actor)->unk_2A.u = (u16) target_angle;
@@ -248,7 +243,7 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
                     }
                     goto finish_path;
                 }
-                goto choose_direction;
+                goto update_direction;
             }
             goto init_offsets;
         }
@@ -279,7 +274,6 @@ void func_8016BF74(void *raw_motion, void *context, void *raw_position, void *ra
                         }
                         goto start_search;
                     }
-choose_direction:
                     goto update_direction;
                 }
                 goto finish_path;
@@ -328,19 +322,18 @@ take_step:
             ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_74 = (u8) position->unk_24.at00.v;
             ((S_8016BF74_9 *)((actor + ((u8) ((S_8016BF74_1 *)actor)->unk_71.s & 0x7F))))->unk_7C = (u8) position->unk_24.at01.v;
             next_path_index = (u8) ((S_8016BF74_1 *)actor)->unk_71.s + 1;
-            old_tile_flags = ((S_8016BF74_1 *)actor)->unk_1C & 0x2000;
+            x_offset_ptr = (u8 *)(((S_8016BF74_1 *)actor)->unk_1C & 0x2000);
             ((S_8016BF74_1 *)actor)->unk_71.s = (s8) next_path_index;
             tile_x_or_offset = position->unk_24.at00.v;
             tile_y = position->unk_24.at01.v;
             old_tile_mask = 0x3000;
-            if (old_tile_flags) {
+            if ((s32)x_offset_ptr) {
                 old_tile_mask = 0x300;
             }
             func_8009A3D0(tile_x_or_offset, tile_y, old_tile_mask);
             tile_x_or_offset = ((u16) ((S_8016BF74_1 *)actor)->unk_2A.u >> 8) & 0xE;
             x_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) x_offsets);
             position->unk_24.at00.v = (u8) (position->unk_24.at00.v + *x_offset_ptr);
-            ASM_KEEP(x_offsets);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             y_offsets = (u8 *)&D_8006CCE8;
             y_offset_ptr = (u8 *)((u32) tile_x_or_offset + (u32) y_offsets);
             current_y = position->unk_24.at01.v;

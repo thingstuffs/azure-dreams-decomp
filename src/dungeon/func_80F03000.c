@@ -119,7 +119,7 @@ void BODY_NAME(void *actor, void *position, void *effect)
     s32 tile_step_x;
     s32 world_x;
     s32 tile_x;
-    register s16 tile_step_y ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 tile_step_y;
     s32 next_tile_y;
     s32 tile_y;
     s32 update_index;
@@ -317,10 +317,8 @@ state_zero_check:
     if (next_tile_x != tile_x) {
         goto state_zero_z;
     }
-    tile_step_y = direction[1];
     start_tile_y = ((S_80F03000_1 *)position)->unk_04.at02.v;
-    next_tile_y = ((S_80F03000_0 *)actor)->unk_5D;
-    next_tile_y += tile_step_y;
+    next_tile_y = ((S_80F03000_0 *)actor)->unk_5D + (tile_step_y = direction[1]);
     if (start_tile_y < 0) {
         start_tile_y += 63;
     }

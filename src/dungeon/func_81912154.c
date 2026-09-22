@@ -122,7 +122,6 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     static void *const phase_labels[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6 };
     LocalStack stack;
     s8 *distance_cursor;
-    register s32 y_delta ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 floor_height;
     s32 phase;
     register s32 axis_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -138,7 +137,7 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     s16 end_tile_x;
     s32 tile_x;
     s32 tile_y;
-    void *model;
+    s32 model;
     void *destination;
     void *owner_links;
     register void *owner ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -146,7 +145,6 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     void *origin;
     void *entity;
     register void *motion ASM_REG("$22") = motion_in;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 *x_lookup_first;
     s16 *y_lookup_first;
     s16 *x_lookup_next;
     register s32 height ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -168,8 +166,8 @@ jt_c0:
     ((S_80025954_2 *)appearance)->unk_0C = 0x808080;
 jt_c1:
     owner_links = owner - 0x20;
-    model = ((S_80025954_3 *)owner_links)->unk_0C;
-    if (func_8003DE58(((S_80025954_4 *)model)->unk_08, model, stack.distance, 0) != 0) {
+    model = (s32)(((S_80025954_3 *)owner_links)->unk_0C);
+    if (func_8003DE58(((S_80025954_4 *)((void *)model))->unk_08, (void *)model, stack.distance, 0) != 0) {
         goto set_origin;
     }
     if (!(((S_80025954_14 *)(((S_80025954_3 *)owner_links)->unk_0C))->unk_14 & 0x8000)) {
@@ -220,8 +218,7 @@ store_origin_z:
     axis_delta = ((S_80025954_5 *)motion)->unk_08.at02u.v;
     axis_delta += 0x300000;
     motion_value -= axis_delta;
-    motion_value = abs(motion_value);
-    stack.distance[2] = (u16) motion_value;
+    stack.distance[2] = (u16)(abs(motion_value));
     ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = x_distance;
 scan_distances:
     if (((S_80025954_10 *)distance_cursor)->unk_18 <= ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
@@ -282,16 +279,14 @@ scan_tiles:
         end_tile_y = (u32)(D_8006CCD8);
         direction = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
         height = (u16) ((S_80025954_1 *)owner)->unk_88;
-        x_lookup_first = (s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y);
-        ASM_KEEP(x_lookup_first);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        entity = (void *)((s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y));
     }
     height = (s16) (height - 0x20);
     {
         end_tile_y = (u32)(D_8006CCE8);
         y_lookup_first = (s16 *) ((direction << 1) + (u32) (s16 *)end_tile_y);
-        ASM_KEEP(y_lookup_first);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     }
-    floor_height = func_800BCB04(((((s16) tile_x + *x_lookup_first) << 6) + 0x20) & 0xFFE0, ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
+    floor_height = func_800BCB04(((((s16) tile_x + *((s16 *)entity)) << 6) + 0x20) & 0xFFE0, ((((s16) tile_y + *y_lookup_first) << 6) + 0x20) & 0xFFE0, height);
     ASM_CLOBBER("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     ASM_CLOBBER("$18");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     destination = stack.motion;
@@ -351,31 +346,31 @@ build_endpoint:
     axis_delta = (u32) axis_delta << 0x10;
     end_tile_y = stack.saved_y;
     motion_value = (s16) ((Rec_func_80024170_arg0 *)state)->unk_0E;
-    y_delta = (u32) end_tile_y << 0x10;
+    model = (u32) end_tile_y << 0x10;
     motion_value <<= 1;
     final_ptr = (s16 *) ((u8 *) (s16 *)source_coord + motion_value);
     motion_value = *final_ptr;
-    y_delta >>= 0xA;
+    model >>= 0xA;
     motion_value = (motion_value + 1) << 5;
-    y_delta += motion_value;
-    ((S_80025954_8 *)destination)->unk_04.at02.v = y_delta;
+    model += motion_value;
+    ((S_80025954_8 *)destination)->unk_04.at02.v = model;
     motion_value = ((S_80025954_5 *)motion)->unk_08.at02.v;
     axis_delta >>= 0x10;
     ((S_80025954_8 *)destination)->unk_08.at02u.v = motion_value;
     motion_value = ((S_80025954_5 *)motion)->unk_00.at02u.v;
-    y_delta = (u32) y_delta << 0x10;
+    model = (u32) model << 0x10;
     axis_delta -= motion_value;
     axis_delta = __builtin_abs(axis_delta);
     stack.distance[0] = axis_delta;
     motion_value = ((S_80025954_5 *)motion)->unk_04.at02u.v;
-    y_delta >>= 0x10;
-    y_delta -= motion_value;
-    if (y_delta >= 0) {
+    model >>= 0x10;
+    model -= motion_value;
+    if (model >= 0) {
         goto store_end_y_distance;
     }
-    y_delta = 0 - y_delta;
+    model = 0 - model;
 store_end_y_distance:
-    stack.distance[1] = y_delta;
+    stack.distance[1] = model;
     ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = axis_delta;
     if ((s16) stack.distance[1] <= (s16) axis_delta) {
         goto set_travel_frames;

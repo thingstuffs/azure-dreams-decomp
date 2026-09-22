@@ -109,19 +109,25 @@ void func_800BB2E4(s32 *line_start, s32 *line_end, u8 *rect, s32 fill, s32 conte
         func_80067EF4(primitive, 0, 0);
         func_8006658C(ordering_table, primitive);
     } else {
-        goto draw_packet;
-    }
-
-after_allocate:
-    if ((fill_rect << 16) != 0) {
-draw_packet:
         state = *state_addr;
         packet = ((S_800BB2E4_0 *)state)->unk_8D0;
         ((S_800BB2E4_0 *)state)->unk_8D0 = packet + 0x10;
         ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0x60000000;
         ((S_800BB2E4_2 *)packet)->unk_03 = 3;
         ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)rect)->unk_00;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        goto draw_packet_done;
+    }
+
+after_allocate:
+    if ((fill_rect << 16) != 0) {
+        state = *state_addr;
+        packet = ((S_800BB2E4_0 *)state)->unk_8D0;
+        ((S_800BB2E4_0 *)state)->unk_8D0 = packet + 0x10;
+        ((S_800BB2E4_2 *)packet)->unk_04.at00.v = 0x60000000;
+        ((S_800BB2E4_2 *)packet)->unk_03 = 3;
+        ((S_800BB2E4_2 *)packet)->unk_08.at00u.v = ((S_800BB2E4_1 *)rect)->unk_00;
+        draw_packet_done:
+        ;
         apply_offset_y = rect_offset_y;
         y = ((S_800BB2E4_1 *)rect)->unk_02.s;
         ASM_USE2(apply_offset_y, y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */

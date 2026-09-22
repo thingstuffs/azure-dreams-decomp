@@ -174,7 +174,6 @@ void func_80024B54(void *effect, void *position) {
     register void *source_pos ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     register s16 phase ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 state_or_heading;
-    register s32 phase_seed ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 rounded_phase;
     register s32 step_count ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 *input_page;
@@ -226,14 +225,14 @@ jt_c1:
     actor_value = ((S_80024B54_2 *)actor_page)->unk_14A8;
     ((S_80024B54_0 *)effect)->unk_18 = 0xAU;
     ((S_80024B54_1 *)actor_value)->unk_A6 = (u16)(((S_80024B54_1 *)actor_value)->unk_A6 - 1);
-    phase_seed = 4;
+    actor_or_frame = (void *)4;
     ((S_80024B54_1 *)actor_value)->unk_A8 = (u8)((S_80024B54_0 *)effect)->unk_08;
     actor_value = ((S_80024B54_2 *)actor_page)->unk_14A8;
     next_state_c1 = ((S_80024B54_0 *)effect)->unk_0A.u;
     actor_value = (void *)(s32)((S_80024B54_1 *)actor_value)->unk_2A.u;
     ((S_80024B54_0 *)effect)->unk_0A.s = (s16)(next_state_c1 + 1);
     ((S_80024B54_0 *)effect)->unk_0E = (u16)(s32)actor_value;
-    if (func_80053EF0(phase_seed, actor_page) == 2) {
+    if (func_80053EF0((s32)actor_or_frame, actor_page) == 2) {
         goto block_6;
     }
     func_800A56E0(0x300);
@@ -249,12 +248,12 @@ jt_c2:
     if ((start_delay << 0x10) > 0) {
         goto block_46;
     }
-    phase_seed = func_80069EF8();
-    rounded_phase = phase_seed;
-    if (phase_seed >= 0) {
+    actor_or_frame = (void *)func_80069EF8();
+    rounded_phase = (s32)actor_or_frame;
+    if (((s32)actor_or_frame) >= 0) {
         goto block_10;
     }
-    rounded_phase = phase_seed + 0xFFF;
+    rounded_phase = ((s32)actor_or_frame) + 0xFFF;
 block_10:
     origin = &D_80083780;
     step_value = (s32)D_80083780;
@@ -263,7 +262,7 @@ block_10:
     (*(s32 *)((u8 *)source_pos + 0)) = step_value;
     step_value = rounded_phase >> 0xC;
     step_value <<= 0xC;
-    phase = phase_seed - step_value;
+    phase = ((s32)actor_or_frame) - step_value;
     actor_value = (void *)origin[1];
     (*(s32 *)((u8 *)source_pos + 4)) = (s32)actor_value;
     ASM_KEEP_NV(target_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

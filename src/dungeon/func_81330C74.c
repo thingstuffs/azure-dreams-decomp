@@ -193,11 +193,10 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     s32 sum_z;
     s32 history_offset;
     register s32 limit_or_offset ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 copy_row_offset ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *copy_row_offset;
     s32 clamp_pair;
     s32 copy_pair;
     s32 object_pair;
-    register s32 object_pair_offset ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 scaled_red;
     s32 scaled_green;
     s32 scaled_blue;
@@ -222,7 +221,7 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     void *object;
     u8 *interp_row;
     u8 *head_pos;
-    u8 *table_base;
+    s32 table_base;
     u8 *case_base;
     u8 *interp_base;
     u8 *copy_dst;
@@ -231,7 +230,6 @@ void func_80167C74(void *effect_data, Rec_func_80167A98_arg1 *origin, S_80167C74
     u8 *object_base;
     S_80167C74_16 *object_origin;
     u8 *vertex_color;
-    u8 *object_pair_data;
     s32 object_offset;
     s32 object_copy_index;
 
@@ -338,11 +336,11 @@ update_positions:
         clamp_pair_stride += 6;
     } while (clamp_pair < 2);
     history_index = 7;
-    table_base = (u8 *)D_80175DD8;
+    table_base = (s32)((u8 *)D_80175DD8);
     limit_or_offset = 0x54;
     loop_2: {
         copy_pair = 0;
-        copy_row_offset = limit_or_offset;
+        copy_row_offset = (u8 *)limit_or_offset;
         copy_pair_stride = copy_pair;
 copy_pairs:
         copy_axis = 0;
@@ -350,7 +348,7 @@ copy_pairs:
         do {
             copy_axis_offset = copy_axis * 2;
             copy_axis += 1;
-            copy_row = (u8 *)(copy_row_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)table_base));
+            copy_row = (u8 *)(((s32)copy_row_offset) + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)((u8 *)table_base)));
             copy_dst = (u8 *)(copy_pair_offset + (s32)copy_row);
             copy_row -= 0xC;
             copy_src = (u8 *)(copy_pair_offset + (s32)copy_row);
@@ -450,13 +448,13 @@ copy_pairs:
                 func_8003DB94(object_render, &D_800DEAE0, 0);
                 object_pair = 0;
                 object_offset = history_offset;
-                object_pair_data = object_data;
-                object_pair_offset = object_pair;
+                copy_row_offset = object_data;
+                table_base = object_pair;
                 do {
                     object_axis = 0;
-                    limit_or_offset = object_pair_offset;
-                    object_prev_pos = object_pair_data + 0x80;
-                    object_pos = object_pair_data + 0x74;
+                    limit_or_offset = table_base;
+                    object_prev_pos = copy_row_offset + 0x80;
+                    object_pos = copy_row_offset + 0x74;
 copy_object_axes:
                     object_axis_offset = object_axis * 2;
                     *object_pos = *(u16 *)(object_axis_offset + (limit_or_offset + (object_offset + ((((Rec_func_80167A98_arg0 *)effect_data)->unk_1C * 0x60) + (s32)object_base))));
@@ -468,9 +466,9 @@ copy_object_axes:
                     *object_prev_pos = *(u16 *)object_axis_offset;
                     object_prev_pos += 1;
                     if (object_axis < 3) goto copy_object_axes;
-                    object_pair_data += 6;
+                    copy_row_offset += 6;
                     object_pair += 1;
-                    object_pair_offset += 6;
+                    table_base += 6;
                 } while (object_pair < 2);
             }
             object_index += 1;

@@ -125,7 +125,6 @@ s32 func_80F90E88(void *object) {
     s32 *draw_mode;
     s32 next_object;
     s32 mode_ot_offset;
-    register s32 ot_offset ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 bottom_y;
     s32 right_color;
     s32 left_color;
@@ -291,7 +290,7 @@ draw_object:
         side = 1;
         bottom_y = max_xy;
         bottom_y >>= 0x10;
-        ot_offset = depth * 4;
+        screen_out = (void *)(depth * 4);
         tag_mask = 0xFF000000;
 draw_side:
         base = (s8 *) &D_80083160_alloc;
@@ -340,13 +339,13 @@ setup_quad:
         base = (s8 *) &D_80083160_link;
         quad_ot_link = (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
         quad_tag = ((S_80F90E88_1 *)quad)->unk_00;
-        quad_ot_link = ((S_80F90E88_2 *)(ot_offset + quad_ot_link))->unk_B0;
+        quad_ot_link = ((S_80F90E88_2 *)(((s32)screen_out) + quad_ot_link))->unk_B0;
         quad_tag &= tag_mask;
         quad_ot_link &= address_mask;
         quad_tag |= quad_ot_link;
         ((S_80F90E88_1 *)quad)->unk_00 = quad_tag;
         side -= 1;
-        quad_ot_slot = ot_offset + (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
+        quad_ot_slot = ((s32)screen_out) + (s32) ((S_80F90E88_0 *)((u8 *)base - 0x8))->unk_08;
         ((S_80F90E88_3 *)quad_ot_slot)->unk_B0 = (s32) ((((S_80F90E88_3 *)quad_ot_slot)->unk_B0 & tag_mask) | ((s32) quad & address_mask));
         if (side < 0) {
             draw_mode = ((S_80F90E88_7 *)(((S_80F90E88_6 *)base)->unk_00))->unk_8D0;

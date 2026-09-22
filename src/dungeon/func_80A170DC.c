@@ -109,7 +109,7 @@ void *func_8014C8DC(s32 kind, s32 part_x, s32 part_y, s32 init_value)
         s32 outer_index;
     } stack;
     s32 saved_kind;
-    register s32 saved_init_value ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 saved_init_value;
     s16 saved_part_y;
     register void *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -119,7 +119,7 @@ void *func_8014C8DC(s32 kind, s32 part_x, s32 part_y, s32 init_value)
     void *allocated;
     register uptr address_or_count ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 allocation_size;
-    void *allocation_pool;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *allocation_pool;
 
     saved_kind = kind;
     object = 0;
@@ -217,17 +217,15 @@ flags_done:
     ((S_8014C8DC_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        void *child;
         register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-        child = func_8003FD64(0x112, D_80083498);
-        allocated = child;
+        saved_init_value = (s32)func_8003FD64(0x112, D_80083498);
+        allocated = (void *)saved_init_value;
         ((S_8014C8DC_5 *)outer)->unk_A4 = allocated;
         if (allocated != 0) {
             s32 item_offset;
             s32 item_index;
             register void *outer_base;
-            register u8 *table ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             s32 more_items;
 
             saved_kind = (s32)((u8 *)allocated + 0x20);
@@ -240,7 +238,7 @@ flags_done:
 
                 table_page = (u8 *)0x80150000;
                 ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                table = table_page + 0x1168;
+                allocation_pool = (void *)(table_page + 0x1168);
             }
             item_offset = 8;
             do {
@@ -262,12 +260,12 @@ flags_done:
                 ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 address_or_count = (uptr)D_800D78C0;
                 ((S_8014C8DC_9 *)outer_child)->unk_10 = (void *)address_or_count;
-                (*(void * *)((u8 *)item + 0x2C)) = table;
+                (*(void * *)((u8 *)item + 0x2C)) = (u8 *)allocation_pool;
                 direction_index = ((D_80083228 +
                     ((S_8014C8DC_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                 item_offset += 0x30;
                 func_80047784(item,
-                    *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
+                    *(u8 *)((uptr)direction_index + (uptr)((u8 *)allocation_pool)), call_zero);
                 item_index++;
                 {
                     register void *call_part ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

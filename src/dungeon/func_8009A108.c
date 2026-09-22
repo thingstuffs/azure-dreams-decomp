@@ -26,9 +26,9 @@ void *func_8009F868(void)
     u8 opcode;
     u16 elapsed_ticks;
 
-loop:
     state = (u8 *)0x80013710;
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    loop_done:
+    ;
     entry = ((S_8009F868_0 *)state)->unk_0C + ((S_8009F868_0 *)state)->unk_0A * 2;
     opcode = entry[1];
 
@@ -49,7 +49,8 @@ loop:
     if (opcode == 0xD0) {
         ((S_8009F868_0 *)state)->unk_08 = 0;
         ((S_8009F868_0 *)state)->unk_0A += (s8)entry[0];
-        goto loop;
+        state = (u8 *)0x80013710;
+        goto loop_done;
     }
 
     if ((s8)entry[0] < 0 ||

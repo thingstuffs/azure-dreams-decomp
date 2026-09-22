@@ -15,7 +15,7 @@ s32 func_80016E48(s32 arg0)
     s32 less;
     s16 result;
     s32 *base;
-    register s16 *award_base ASM_REG("$2");
+    s16 *award_base;
     s32 *reward_base;
     s32 *slot;
     s16 *event_base;
@@ -52,7 +52,8 @@ award_first:
         award_base = D_8001AA58;
         func_8001A554(award_base[index * 3]);
         result = 1;
-        goto store;
+        *slot = result;
+        goto store_done;
     }
 
     less = count < 10;
@@ -63,7 +64,8 @@ award_first:
 award_second:
         func_8001A554(events[1]);
         result = 2;
-        goto store;
+        *slot = result;
+        goto store_done;
     }
 
     less = count < 20;
@@ -74,7 +76,8 @@ award_second:
 award_third:
         func_8001A554(events[2]);
         result = 3;
-        goto store;
+        *slot = result;
+        goto store_done;
     }
 
     result = 5;
@@ -85,8 +88,9 @@ award_third:
     *slot = 4;
     goto done;
 
-store:
     *slot = result;
+    store_done:
+    ;
 
 done:
     {

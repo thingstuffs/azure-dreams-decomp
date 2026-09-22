@@ -66,14 +66,12 @@ case_4_8:
         u32 slot_offset;
 
         {
-            register u8 *entry_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-            entry_base = D_800D2EA4 - 0x860;
+            slot_offset = (u32)(D_800D2EA4 - 0x860);
             selected_id = (u8)raw_entry_id;
             selected_entry = (u8 *)(selected_id << 5);
-            selected_entry = (u8 *)((u32)selected_entry + (u32)entry_base);
+            selected_entry = (u8 *)((u32)selected_entry + (u32)((u8 *)slot_offset));
         }
-        ASM_KEEP_NV(selected_id);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         {
             u32 link_id;
 
@@ -87,7 +85,7 @@ case_4_8:
         slot_table_base = (u8 *)0x80010000;
         slot = 0;
         filter_entry = selected_entry;
-        do {
+        loop_0: {
             slot_offset = slot & 0xFF;
             slot_offset *= 2;
             slot_row = (u8 *)((u32)slot_offset + (u32)slot_table_base);
@@ -98,7 +96,7 @@ case_4_8:
                 slot_count++;
             }
             slot++;
-        } while ((u8)slot < 0x21);
+        } if ((u8)slot < 0x21) goto loop_0;
         *slot_out = 0;
         goto return_count;
     }

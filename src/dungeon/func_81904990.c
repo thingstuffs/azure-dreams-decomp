@@ -424,7 +424,6 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         packet->unk_20.as_s16_20 = (s16) (scratch->unk_FC + scratch->unk_B8);
         packet->unk_22 = (s16) (scratch->unk_FE + scratch->unk_BA);
         packet->unk_00.as_s8_03.unk_03 = quad_words;
-        ASM_USE2_NV(quad_words, quad_words);
         {
             s32 width = scratch->unk_10.as_s32_10;
             s32 u_start = scratch->unk_08;
@@ -537,8 +536,9 @@ clut_done:
         packet = (S_func_81904990_7 *)((u8 *)packet + 40);
         quad_end = (u8 *)packet + 32;
         *second_link = (*second_link & length_mask) | second_addr;
-    next_row:
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
+        next_row_done:
+        ;
         *(Blk40 *)packet = *(Blk40 *)first_quad;
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_0A = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
         ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_12 = (s16) (((S_func_81904990_1 *)((u8 *)sprite_base - 0x18))->unk_7A + ((S_func_81904990_1 *)((u8 *)row_heights - 0x18))->unk_7A);
@@ -599,7 +599,8 @@ clut_done:
         *right_row_link = (*right_row_link & length_mask) | right_row_addr;
         packet = (S_func_81904990_7 *)((u8 *)packet + 40);
         if (row_index < 8) {
-            goto next_row;
+            ((S_func_81904990_7 *)((u8 *)quad_end - 0x20))->unk_00.as_s8_03.unk_03 = quad_words;
+            goto next_row_done;
         }
         func_80024AA0();
     }

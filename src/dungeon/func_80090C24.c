@@ -78,10 +78,9 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
     s32 direction;
     s32 target_angle;
     s32 wrapped_angle;
-    register s32 angle_bits ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 signed_target;
     s32 signed_angle;
-    u32 angle;
+    s32 angle;
     u32 angle_2;
     s32 next_angle;
     s32 action_bit;
@@ -161,17 +160,17 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                     ASM_KEEP_NV(direction);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                     direction &= 0xFF;
                     turn_angle = direction << 9;
-                    angle_bits = old_angle & 0xFFF;
+                    angle = old_angle & 0xFFF;
                     target_angle = turn_angle;
                     ASM_KEEP_NV(target_angle);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    ((S_80096384_3 *)actor_data)->unk_2A.u = angle_bits;
+                    ((S_80096384_3 *)actor_data)->unk_2A.u = angle;
 
-                    if (angle_bits != target_angle) {
+                    if (angle != target_angle) {
                         wrapped_angle = old_angle & 0x800;
                         if (!wrapped_angle) {
                             wrapped_angle = old_angle & 0x7FF;
                         } else {
-                            wrapped_angle = angle_bits | 0xF800;
+                            wrapped_angle = angle | 0xF800;
                         }
                         ((S_80096384_3 *)actor_data)->unk_2A.u = wrapped_angle;
 
@@ -182,8 +181,8 @@ void func_80096384(void *actor, s32 actor_id, Rec_D_80082E80 *sprite, void *acto
                             wrapped_angle = turn_angle | 0xF800;
                         }
                         turn_angle = wrapped_angle;
-                        angle_bits = turn_angle << 16;
-                        signed_target = angle_bits >> 16;
+                        angle = turn_angle << 16;
+                        signed_target = angle >> 16;
                         signed_angle = ((S_80096384_3 *)actor_data)->unk_2A.s;
                         angle = ((S_80096384_3 *)actor_data)->unk_2A.u;
                         angle_distance = signed_angle - signed_target;

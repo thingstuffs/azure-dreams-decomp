@@ -168,8 +168,7 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     S_80094988_12 *temp_s1_2;
     S_80094988_13 *temp_v0_2;
     void *var_v1;
-    register u8 *page ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    u8 idx0;
+    u8 *idx0;
     s16 idx1;
     u32 idx1_copy;
     void *entry_ptr;
@@ -195,37 +194,37 @@ void func_80094988(S_80094988_1 *arg0, Rec_D_800E3D7C *arg1, u16 arg2, u16 arg3)
     s32 signed_index;
     s32 scaled_index;
 
-    page = (u8 *)0x80010000;
-    sp30 = (s16)((S_80094988_0 *)page)->unk_3714 & 2;
-    ((S_80094988_0 *)page)->unk_3714 =
-        (s16)((u16)((S_80094988_0 *)page)->unk_3714 | 2);
+    idx0 = (u8 *)0x80010000;
+    sp30 = (s16)((S_80094988_0 *)idx0)->unk_3714 & 2;
+    ((S_80094988_0 *)idx0)->unk_3714 =
+        (s16)((u16)((S_80094988_0 *)idx0)->unk_3714 | 2);
     sp20 = arg2;
     sp28 = arg3;
     func_800A6A9C();
-    func_80041E28(arg1, (s32)page | 0x2194);
+    func_80041E28(arg1, (s32)idx0 | 0x2194);
     var_t1 = 0;
     ff = 0xFF;
     do {
         addr_temp = (u8 *)0x800E0000;
     } while (0);
     var_t5 = D_800E3DF0;
-    var_t3 = page;
+    var_t3 = idx0;
     var_t4 = var_t3;
     addr_temp = (u8 *)0x800E0000;
     ASM_KEEP(addr_temp);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     var_s1 = (u32)(addr_temp + 0x3E48);
     var_t6 = (u8 *)var_s1;
-    arg0->unk_F8 = (u16)((S_80094988_0 *)page)->unk_2D50;
+    arg0->unk_F8 = (u16)((S_80094988_0 *)idx0)->unk_2D50;
     var_t2 = var_t3;
-    arg0->unk_FC = (s32)((S_80094988_0 *)page)->unk_2D58;
+    arg0->unk_FC = (s32)((S_80094988_0 *)idx0)->unk_2D58;
 
 loop_1:
     (*(Unaligned4 *)((u8 *)var_t2 + 0x248)) =
         (*(Unaligned4 *)((u8 *)var_t2 + 0x21E8));
-    idx0 = ((S_80094988_2 *)var_t3)->unk_2238;
-    if (idx0 != ff) {
+    idx0 = (u8 *)(((S_80094988_2 *)var_t3)->unk_2238);
+    if (((u8)idx0) != ff) {
         (*(s32 *)((u8 *)var_t2 + 0x29C)) =
-            (s32)((void **)0x80010248 + idx0);
+            (s32)((void **)0x80010248 + ((u8)idx0));
     } else {
         (*(s32 *)((u8 *)var_t2 + 0x29C)) = 0;
     }
@@ -263,10 +262,10 @@ loop_1:
     dispatch_page = arg0;
     loop_0: {
         idx1_copy = (s32)((u8 *)(var_t1 + (u32)var_a3));
-        idx0 = ((S_80094988_5 *)(u8 *)idx1_copy)->unk_2D52;
-        if (idx0 != ff2) {
+        idx0 = (u8 *)(((S_80094988_5 *)(u8 *)idx1_copy)->unk_2D52);
+        if (((u8)idx0) != ff2) {
             ((S_80094988_6 *)dispatch_page)->unk_D0 =
-                (s32)((idx0 * 4) + (u32)table2);
+                (s32)((((u8)idx0) * 4) + (u32)table2);
         } else {
             ((S_80094988_6 *)dispatch_page)->unk_D0 = 0;
         }

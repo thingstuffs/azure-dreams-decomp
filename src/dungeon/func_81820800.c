@@ -165,7 +165,7 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     S_func_81820800_4 *owner;
     S_func_81820800_5 *source;
     register S_func_81820800_3 *actor ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    S_func_81820800_3 *target;
+    u32 header_raw;
     S_func_81820800_5 *target_data;
     S_func_81820800_7 *effect_data;
     S_func_81820800_6 *effect;
@@ -183,11 +183,9 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     s32 velocity_x;
     s32 velocity_y;
     s32 phase;
-    s16 target_flag;
-    u16 header_raw;
+    s32 coord_y;
     u16 duration;
     s32 coord_x;
-    s32 coord_y;
     state_obj = state;
     source = source_data;
     x_steps = (s8 *) &D_8006CCD8;
@@ -196,7 +194,6 @@ BODY_STORAGE void BODY_NAME(void *state, S_func_81820800_2 *motion, void *source
     header_raw = actor->unk_2A;
     delta_x = header_raw >> 8;
     abs_y = (s32)(delta_x & 0xE);
-    ASM_KEEP_DEP_NV(abs_y, header_raw);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     actor_data = ((S_func_81820800_4 *) ((u8 *) actor - 0x20))->unk_0C;
     step_x = *(s16 *)((M2C_UNK)abs_y + x_steps);
     step_y = *(s16 *)((M2C_UNK)abs_y + (s8 *)&D_8006CCE8);
@@ -226,10 +223,10 @@ state_aim:
         S_func_81820800_5 *tile_data;
         s32 search_mode = func_800A3820(3) << 0x10;
         tile_data = actor_data;
-        target = func_800A05A4(actor, tile_data->unk_24, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
+        header_raw = (u32)func_800A05A4(actor, tile_data->unk_24, tile_data->unk_25, (s16) actor->unk_2A, search_mode >> 0x10);
     }
-    actor->unk_60 = target;
-    if (target != NULL) {
+    actor->unk_60 = (S_func_81820800_3 *)header_raw;
+    if (((S_func_81820800_3 *)header_raw) != NULL) {
         goto use_target;
     }
     distance_or_script = 0;
@@ -246,7 +243,6 @@ scan_tiles:
         tile_top = (tile_data->unk_25 + offset_y) << 6;
         coord_y = tile_top + 0x20;
         ASM_KEEP_NV(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP_NV(coord_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     }
     if ((func_800A4688((u16) coord_x, (u16) coord_y, func_800BCB04((u16) coord_x, (u16) coord_y, -0x400), (s16) actor->unk_2A, actor->unk_60) << 0x10) != 0) {
         goto set_endpoint;
@@ -259,7 +255,6 @@ scan_tiles:
     }
 set_endpoint:
     ASM_USE(coord_x);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    ASM_USE2(coord_x, coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         S_func_81820800_5 *tile_data = actor_data;
         actor->unk_72 = (u8) (tile_data->unk_24 + (step_x * distance_or_script));
@@ -267,7 +262,7 @@ set_endpoint:
     }
     goto start_motion;
 use_target:
-    target_data = ((S_func_81820800_4 *) ((u8 *) target - 0x20))->unk_0C;
+    target_data = ((S_func_81820800_4 *) ((u8 *) ((S_func_81820800_3 *)header_raw) - 0x20))->unk_0C;
     actor->unk_72 = (u8) target_data->unk_24;
     actor->unk_73 = (u8) target_data->unk_25;
     if (!(target_data->unk_14 & 0x8000)) {
@@ -323,11 +318,11 @@ set_motion:
 state_move:
 state_trail:
     motion->unk_14 = (s32) (motion->unk_14 + 0x100);
-    target_flag = 0;
+    coord_y = 0;
     if (actor->unk_60 != NULL) {
         goto spawn_effects;
     }
-    target_flag = -1;
+    coord_y = -1;
 spawn_effects:
     effects_left = 2;
     distance_or_script = (s32)&D_800245B4;
@@ -340,7 +335,7 @@ next_effect:
     func_8004491C(effect, &D_80024A1C);
     duration = state_obj->unk_50;
     effect_data = (S_func_81820800_7 *) ((u8 *) effect + 0x20);
-    effect_data->unk_54 = target_flag;
+    effect_data->unk_54 = coord_y;
     effect_data->unk_52 = duration;
     effect_data->unk_4C = (s16) (func_80069EF8() & 0xFFF);
     effect_data->unk_4E = (u16) motion->unk_14;

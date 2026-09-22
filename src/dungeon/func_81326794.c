@@ -19,14 +19,13 @@ extern s16 D_80174CD0;
 void func_8016DF94(void) {
     s32 coord_aux;
     s16 entry_slot;
-    s32 entry_offset;
+    s32 map_base;
     s32 state_value;
     u16 coord_result;
     u16 status_count;
     u16 state_flags;
     u16 lookup_key;
     u8 *map_object;
-    u8 *map_base;
     u8 *map_data;
     u8 *entry;
     u8 *entry_page;
@@ -49,8 +48,7 @@ void func_8016DF94(void) {
     status_count = *(u16 *)(status + 0xA);
     state_flags = *(u16 *)(state_page + 0x3714);
     ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    map_base = D_80174704;
-    ASM_KEEP(map_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    map_base = (s32)D_80174704;
     status_count--;
     state_flags |= 9;
     *(u16 *)(status + 0xA) = status_count;
@@ -60,9 +58,9 @@ void func_8016DF94(void) {
     *(u16 *)(state_page + 0x3714) = state_flags;
     ASM_CLOBBER("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     *(s32 *)(state_page + 0x371C) = state_value;
-    map_object = *(u8 **)(map_base + 0xC);
+    map_object = *(u8 **)(((u8 *)map_base) + 0xC);
     D_800DCF4D = -1;
-    map_data = map_base + 0x20;
+    map_data = ((u8 *)map_base) + 0x20;
     coord_result = func_800A0818(map_object[0x24], map_object[0x25],
                            D_80082E80[0x24], D_80082E80[0x25], &coord_aux);
     *(u16 *)(map_data + 0x2A) = coord_result;
@@ -70,14 +68,14 @@ void func_8016DF94(void) {
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
     do {
-        entry_offset = ((s32)entry_slot << 16) >> 14;
-        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[entry_offset + 0xAC];
+        map_base = ((s32)entry_slot << 16) >> 14;
+        entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
         if (entry != 0) {
             register u32 high_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             func_8016A908(entry);
-            func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[entry_offset + 0xAC]);
-            entry_header = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[entry_offset + 0xAC] - 0x20;
+            func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC]);
+            entry_header = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC] - 0x20;
             high_bit = 0x80000000;
             *(u32 *)(entry_header + 0x10) |= high_bit;
         }

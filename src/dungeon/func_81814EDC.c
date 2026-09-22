@@ -235,7 +235,7 @@ loop_effects:
                     particle = func_8003FC64(0x212);
                     debris = particle + 0x20;
                     if (particle != NULL) {
-                        s32 random_offset;
+                        s32 random_offset = 0xB;
                         s32 coordinate;
 
                         debris->unk_02 = 0xD;
@@ -276,18 +276,17 @@ loop_effects:
 spawn_flashes:
                 particle = func_8003FC64(0x212);
                 if (particle != NULL) {
-                    s32 random_offset;
+                    s32 random_offset = 0xB;
                     s32 coordinate;
-                    s32 callback_type = 0xB;
+                    
                     register void *task ASM_REG("$4") = particle;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
-                    ASM_KEEP(callback_type);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     {
                         void *source_owner;
                         register u8 *handler ASM_REG("$5") = (u8 *) 0x80040000;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
                         ASM_KEEP(handler);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        ((S_81814EDC_1 *)particle)->unk_22 = callback_type;
+                        ((S_81814EDC_1 *)particle)->unk_22 = random_offset;
                         source_owner = ((S_81814EDC_0 *)effect)->unk_30;
                         handler += 0x5340;
                         owner_position = ((S_81814EDC_7_pre *)source_owner)[-1].unk_00;

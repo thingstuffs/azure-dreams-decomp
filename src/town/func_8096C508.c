@@ -45,7 +45,7 @@ void func_801249A0(Object *object)
 {
     GlobalState *input_state = &D_80083160;
     u32 input_flags;
-    register u32 side_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    u32 side_value;
     u8 active_value;
     u8 alternate_value;
     u8 target_value;
@@ -169,7 +169,8 @@ matched_five:
         }
         side_value = object->field_10;
         object->field_A = 3;
-        goto toggle;
+        object->field_10 = side_value ^ 1;
+        goto toggle_done;
     }
     if (!(input_flags & 0x4000)) {
         goto end;
@@ -195,9 +196,9 @@ matched_five:
         goto set_two;
     }
     side_value = object->field_10;
-    ASM_KEEP(side_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     object->field_A = 3;
-    goto toggle;
+    object->field_10 = side_value ^ 1;
+    goto toggle_done;
 
 set_two:
     object->field_A = 2;
@@ -205,11 +206,11 @@ set_two:
 reset_four:
     side_value = 1;
     object->field_4 = side_value;
-    side_value = object->field_10;
     object->field_6 = 4;
     object->field_A = 4;
-toggle:
-    object->field_10 = side_value ^ 1;
+    object->field_10 = object->field_10 ^ 1;
+    toggle_done:
+    ;
 end:
     return;
 }

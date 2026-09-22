@@ -22,7 +22,7 @@ s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 en
     u32 *resource;
     s32 alloc_size;
     register s32 free_bytes;
-    register s8 *entry_ptr ASM_REG("$16");
+    s8 *entry_ptr;
     s32 block_count;
     register s32 capacity;
     s32 used_bytes;
@@ -41,15 +41,18 @@ s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 en
         entry = 0;
         func_8008AC84(entry);
     } else if (free_bytes < alloc_size) {
-        register s8 *entries ASM_REG("$2") = D_800CF720;
-        register s32 entry_offset ASM_REG("$3") = entry << 3;
+        s8 *entries = D_800CF720;
+        u32 entry_offset = entry << 3;
         entry_ptr = entries + entry_offset;
-        goto first_entry;
+        free_bytes += ((s32 *)entry_ptr)[1];
+        func_8008AC84(entry);
+        goto first_entry_done;
         do {
             entry--;
-        first_entry:
             free_bytes += ((s32 *)entry_ptr)[1];
             func_8008AC84(entry);
+            first_entry_done:
+            ;
             entry_ptr -= 8;
         } while (free_bytes < alloc_size);
         entry_ptr += 8;

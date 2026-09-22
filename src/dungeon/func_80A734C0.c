@@ -56,12 +56,12 @@ void func_80172CC0(void *action, void *motion, void *sprite, void *actor) {
     register u8 *item ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *entity;
     void *node;
-    u8 state;
+    u8 *state;
 
     entity = actor;
     is_special = 0;
-    state = ((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8;
-    switch (state) {
+    state = (u8 *)(((Rec_func_80172CC0_arg0 *)action)->unk_9B.as_u8);
+    switch ((u8)state) {
     case 0:
         if ((*(u32 *)((u8 *)entity + 0x1C)) & 0x2000) {
             u32 kind = ((*(u16 *)((u8 *)entity + 0x46)) & 0x3FFF) - 1;
@@ -136,11 +136,10 @@ item_ready:
                 if (node != 0) {
 copy_existing:
                     {
-                        register u8 *owner ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                        owner = ((S_80172CC0_1_pre *)node)[-1].unk_00;
-                        (*(u8 *)((u8 *)entity + 0x72)) = ((S_80172CC0_2 *)owner)->unk_24;
-                        (*(u8 *)((u8 *)entity + 0x73)) = ((S_80172CC0_2 *)owner)->unk_25;
+                        state = ((S_80172CC0_1_pre *)node)[-1].unk_00;
+                        (*(u8 *)((u8 *)entity + 0x72)) = ((S_80172CC0_2 *)state)->unk_24;
+                        (*(u8 *)((u8 *)entity + 0x73)) = ((S_80172CC0_2 *)state)->unk_25;
                     }
                     goto object_ready;
                 }

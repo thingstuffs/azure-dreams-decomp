@@ -93,7 +93,7 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
     Lookup *lookup;
     Lookup *lookup_2;
     Motion *source_motion;
-    register Motion *linked_motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    Motion *linked_motion;
     u8 *linked_root;
     u8 *linked_root_2;
     u8 *linked_root_3;
@@ -270,19 +270,18 @@ void func_80024CD4(Controller *input_ctrl, Motion *input_motion, void *input_ren
         } while (steps < 8);
 
         {
-            Fixed32 *target;
 
-            target = input_ctrl->target;
-            target[2].val = 0;
-            target[1].val = 0;
+            linked_motion = (Motion *)input_ctrl->target;
+            ((Fixed32 *)linked_motion)[2].val = 0;
+            ((Fixed32 *)linked_motion)[1].val = 0;
             input_ctrl->target[0].val = 0;
-            target[0].h.hi = ((end_x << 16) >> 10) + 32;
-            target[1].h.hi = ((end_y << 16) >> 10) + 32;
-            target[2].h.hi = -1024;
-            target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
-                (u16)target[1].h.hi, -1024);
-            if ((s16)target[2].h.hi >= 513) {
-                target[2].h.hi = input_motion->z.h.hi + 32;
+            ((Fixed32 *)linked_motion)[0].h.hi = ((end_x << 16) >> 10) + 32;
+            ((Fixed32 *)linked_motion)[1].h.hi = ((end_y << 16) >> 10) + 32;
+            ((Fixed32 *)linked_motion)[2].h.hi = -1024;
+            ((Fixed32 *)linked_motion)[2].h.hi = func_800BCB04((u16)((Fixed32 *)linked_motion)[0].h.hi,
+                (u16)((Fixed32 *)linked_motion)[1].h.hi, -1024);
+            if ((s16)((Fixed32 *)linked_motion)[2].h.hi >= 513) {
+                ((Fixed32 *)linked_motion)[2].h.hi = input_motion->z.h.hi + 32;
             }
         }
 

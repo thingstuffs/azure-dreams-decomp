@@ -15,6 +15,16 @@ extern s16 func_800A6D30(void);
 extern s32 func_800A0818(u8, u8, s8, s8, u16 *);
 extern s16 func_800BCB04(u16, u16, s32);
 
+static __inline__ u8 direction_matches(Elem *entry, u8 direction) {
+    u8 match = 0;
+    switch (direction) {
+    case 0: match = *(s16 *)&entry->b2 < 2; break;
+    case 1: match = *(s16 *)&entry->b2 == 2; break;
+    case 2: match = *(s16 *)&entry->b2 == 0; break;
+    }
+    return match;
+}
+
 s32 func_800A0E6C(void *arg0, s32 arg1, void *arg2, u16 *arg3) {
     register u8 *p3 ASM_REG("$19") = (u8 *)arg0;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     u8 *p4 = (u8 *)arg2;
@@ -161,24 +171,7 @@ L_B9A8:
                 s0 = mod;
                 if (entry->b0 != 0) {
                     if (p3[0x27] != (s16)mod) {
-                        zero = 0;
-                        switch (p4[0x67]) {
-                        case 0:
-                            tail = *(s16 *)&entry->b2 < 2;
-                            break;
-                        case 1:
-                            tail = *(s16 *)&entry->b2 == 2;
-                            break;
-                        case 2:
-                            tail = *(s16 *)&entry->b2 == 0;
-                            break;
-                        default:
-                            goto L_DIR2_DONE;
-                        }
-                        zero = tail;
-L_DIR2_DONE:
-                        tail = zero;
-                        ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                        tail = direction_matches(entry, p4[0x67]);
                         if (tail) {
                             goto L_BCB8;
                         }

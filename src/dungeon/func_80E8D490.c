@@ -106,7 +106,7 @@ void func_80172C90(void *action, S_80172C90_2 *motion, Rec_D_80082E80 *sprite, v
     s32 dir_y;
     u16 timer;
     u32 state;
-    register u8 *selector ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *selector;
     s32 special;
     s32 tail_state; /* MATCH: the shared state store receives its value in v0. */
     u16 position[3];
@@ -166,7 +166,8 @@ IDirect:
     case 1:
         goto I1;
     case 2:
-        goto I2;
+        selector = (u8 *)actor + 0xB;
+        goto I2_done;
     case 3:
         goto I3;
     default:
@@ -180,6 +181,8 @@ I3:
     goto IEnd;
 I2:
     selector = (u8 *)actor + 0xB;
+    I2_done:
+    ;
     goto IEnd;
 I1:
     selector = (u8 *)actor + 8;

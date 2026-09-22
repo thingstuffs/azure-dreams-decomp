@@ -39,10 +39,9 @@ void func_80170F68(void *effect) {
     u8 *burst_context;
     u8 *render_state;
     Particle *particle;
-    register s32 timer_snapshot ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 timer_snapshot;
     void *actor;
     s16 state;
-    s16 timer;
     u16 old_timer;
     u16 next_state;
     u8 shade;
@@ -125,17 +124,17 @@ brighten:
         particle->c = shade;
     }
 
-    timer = S16_AT(effect, 0x18);
+    timer_snapshot = S16_AT(effect, 0x18);
     ramp_count = 0;
-    if (timer >= 10) {
+    if (timer_snapshot >= 10) {
         ramp_count = 1;
-        if (timer >= 20) {
+        if (timer_snapshot >= 20) {
             ramp_count = 2;
-            if (timer >= 30) {
+            if (timer_snapshot >= 30) {
                 ramp_count = 3;
-                if (timer >= 40) {
+                if (timer_snapshot >= 40) {
                     ramp_count = 5;
-                    if (timer < 50) {
+                    if (timer_snapshot < 50) {
                         ramp_count = 4;
                     }
                 }

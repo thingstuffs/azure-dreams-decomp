@@ -31,8 +31,7 @@ void func_80018D14(u8 *object_ref)
 {
     void **global_page;
     u8 *context;
-    u8 object_flags;
-    u8 *callbacks;
+    u8 *object_flags;
     TownCall3 callback_168;
     u8 *updated_context;
     u8 *updated_callbacks;
@@ -42,22 +41,20 @@ void func_80018D14(u8 *object_ref)
     u8 *entry;
     u8 *link_state;
     s32 slot;
-    u32 link_flags;
     s32 object_offset;
     s32 link_offset;
 
     global_page = (void **)0x80010000;
     context = ((S_80018D14_0 *)global_page)->unk_6000;
-    callbacks = ((S_80018D14_1 *)context)->unk_38;
-    object_table = callbacks + 0x2F0;
-    state_base = callbacks;
-    object_flags = object_ref[3];
-    ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    slot = object_flags & 0x1F;
+    object_flags = ((S_80018D14_1 *)context)->unk_38;
+    object_table = object_flags + 0x2F0;
+    state_base = object_flags;
+    object_flags = (u8 *)object_ref[3];
+    slot = ((u8)object_flags) & 0x1F;
 
     if (object_ref[0] != object_table[slot * 0x54 + 0x13]) {
-        callbacks = ((S_80018D14_1 *)context)->unk_20;
-        callback_168 = (*(TownCall3 *)((u8 *)callbacks + 0x168));
+        object_flags = ((S_80018D14_1 *)context)->unk_20;
+        callback_168 = (*(TownCall3 *)((u8 *)object_flags + 0x168));
         do {
             callback_168(D_80016034, D_8001605C, 0x41);
         } while (0);
@@ -71,9 +68,8 @@ void func_80018D14(u8 *object_ref)
     entry = (u8 *)((u32)(((object_offset + slot) * 4 + slot) * 4) +
                     (u32)object_table);
     entry[0x13] = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    link_flags = entry[0x43];
-    slot = link_flags & 0x3F;
+    entry = (u8 *)entry[0x43];
+    slot = ((u32)entry) & 0x3F;
     link_offset = slot * 4;
     link_state = state_base + link_offset;
     link_state[0x980] = 0;

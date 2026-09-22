@@ -225,7 +225,9 @@ store_x:
                 ((S_800B06F0_0 *)scratch)->unk_7A = vertex_y;
                 ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
                 vertex_y -= primitive[0xB];
-                goto store_y;
+                ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
+                ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
+                goto store_y_done;
             }
 
             vertex_y = (s8)primitive[3] - ((S_800B06F0_3 *)params)->unk_22;
@@ -233,10 +235,10 @@ store_x:
             ((S_800B06F0_0 *)scratch)->unk_72 = vertex_y;
             quad_extent = primitive[0xB];
             vertex_y = vertex_y + quad_extent;
-store_y:
             ((S_800B06F0_0 *)scratch)->unk_8A = vertex_y;
             ((S_800B06F0_0 *)scratch)->unk_82 = vertex_y;
-            ASM_KEEP(vertex_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            store_y_done:
+            ;
 
             func_800654B0(
                 scratch + 0x70, scratch + 0x78,

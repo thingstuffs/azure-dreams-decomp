@@ -89,10 +89,9 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
     Part *part;
     Entity *entity;
     Entity *prev_entity;
-    Entity *update_entity;
     void *part_data;
     register s32 object_index ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 history_index;
+    s32 update_entity;
     s32 target_angle;
     s32 normalized_target;
     s32 signed_target;
@@ -202,23 +201,22 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
 
         entity->direction = (s16)entity->angle < signed_target;
 
-        history_index = 7;
+        update_entity = 7;
         do {
-            entity->history[history_index].x = pos->x;
-            entity->history[history_index].y = pos->y;
-            entity->history[history_index].z = pos->z;
-            history_index--;
-        } while (history_index >= 0);
+            entity->history[update_entity].x = pos->x;
+            entity->history[update_entity].y = pos->y;
+            entity->history[update_entity].z = pos->z;
+            update_entity--;
+        } while (update_entity >= 0);
 
         func_800262B0(part, 0);
-        update_entity = entity;
-        ASM_KEEP(update_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        update_entity = (s32)entity;
         part_data = part->unk0;
-        prev_entity = update_entity;
+        prev_entity = (Entity *)update_entity;
         ASM_KEEP(prev_entity);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         object_slot++;
         object_index++;
-        func_80026240(update_entity, part_data);
+        func_80026240((Entity *)update_entity, part_data);
     } while (object_index < 9);
 
     return objects[0];

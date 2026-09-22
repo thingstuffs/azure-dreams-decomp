@@ -59,12 +59,12 @@ s16 *func_800C1034(s32 unused, s32 index) {
         output[3] = D_800D4268[3];
         goto done;
     case -2:
-        ASM_KEEP_NV(entry_code);   /* UNRESOLVED C shape (pin): removing it flips a branch polarity; the source shape that makes it unnecessary has not been found */
         break;
     default:
         goto copy_entry;
     }
-    goto fallback;
+    func_800C0FE4(output, entry_index);
+    goto fallback_done;
 copy_entry:
     {
         TownEntry *entry;
@@ -79,6 +79,8 @@ copy_entry:
 fallback:
 
     func_800C0FE4(output, entry_index);
+    fallback_done:
+    ;
 done:
     return D_80113200;
 }
