@@ -20,9 +20,8 @@ typedef struct Outer {
 
 extern u16 D_800281F8[];
 extern s32 D_800814A0[];
-extern void func_80025B54(void) __attribute__((noreturn));
 
-void func_8195A2C4(void *arg0, Inner *arg1, Inner *arg2)
+void func_80025AC4(void *arg0, Inner *arg1, Inner *arg2)
 {
     Outer *outer;
     Inner *inner;
@@ -34,7 +33,7 @@ void func_8195A2C4(void *arg0, Inner *arg1, Inner *arg2)
     if (flagged != 0) {
         ((u16 *)arg0)[-1] |= 0x8000;
         D_800814A0[0] |= 0x8000;
-        func_80025B54();
+        return;
     }
     arg2->fieldC = outer->innerC->fieldC;
     inner = (*(Outer **)((u8 *)arg0 + 8))->inner8;

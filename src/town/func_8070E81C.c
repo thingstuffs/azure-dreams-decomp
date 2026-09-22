@@ -7,6 +7,7 @@ extern void func_8001A7AC(void);
 extern s8 D_80016000[];
 extern s8 D_8001BCB4[];
 
+/* Scene entry: install the D_8001BCB4 handler, close the dialogue and post event 0xE. */
 s32 func_8001781C(void) {
     func_80016CC4();
     *(void **)((s8 *)*(void **)((s8 *)*(void **)D_80016000 + 0x1C) + 0x40) = D_8001BCB4;

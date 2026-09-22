@@ -10,13 +10,14 @@ extern void func_80700ED8(s32, s32);
 
 __asm__(".set D_80700630_return, 0x80700630");
 
+/* Devkit scene step: reset the cursor, rebuild the list, latch its length and redraw. */
 s32 func_80881424(void) {
-    s32 temp_v0;
+    s32 list_length;
 
     func_80700868(0);
     func_80700BCC();
-    temp_v0 = func_80700B4C();
-    D_80700630[0] = temp_v0;
-    func_80700ED8(temp_v0, D_80700630[1]);
+    list_length = func_80700B4C();
+    D_80700630[0] = list_length;
+    func_80700ED8(list_length, D_80700630[1]);
     return D_80700630_return[0];
 }

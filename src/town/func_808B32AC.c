@@ -1,9 +1,9 @@
 #include "common.h"
 
-typedef struct S_808B32AC_0 {
+typedef struct FlagPageState {
     u8 pad_00[0xE];
     u8 unk_0E;
-} S_808B32AC_0;   /* temp_v1 in func_808B32AC */
+} FlagPageState;   /* page_state in func_808B32AC */
 
 
 
@@ -12,18 +12,19 @@ extern s32 func_807002A4();
 extern s32 func_807002D4();
 extern s32 func_80700B7C();
 
-s32 func_808B32AC(s32 arg0)
+/* Devkit flag page 2: pass the value through when idle, else mark dirty and rescan. */
+s32 func_808B32AC(s32 carry_value)
 {
-    S_808B32AC_0 *temp_v1;
+    FlagPageState *page_state;
 
     if (func_8070021C(2) == 0) {
         func_807002D4(2);
-        return arg0;
+        return carry_value;
     }
     else {
         func_807002A4(2);
-        temp_v1 = *(void **)0xA0700F40;
-        temp_v1->unk_0E = temp_v1->unk_0E;
+        page_state = *(void **)0xA0700F40;
+        page_state->unk_0E = page_state->unk_0E;
         func_80700B7C();
     }
 }

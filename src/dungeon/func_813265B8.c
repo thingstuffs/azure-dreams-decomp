@@ -7,6 +7,7 @@ extern u16 D_80013714[5];
 extern void func_8009FAC4(void);
 extern void func_8016E264(void);
 
+/* Leave the map screen: clear the three display flags and tear the screen down. */
 void func_8016DDB8(void) {
     u8 *ptr;
     u16 *h = D_80013714;

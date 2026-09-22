@@ -7,6 +7,7 @@ extern s32 func_8001A64C(s32);
 extern void func_8001A7AC(void);
 extern s8 D_80016000[];
 
+/* Scene step: while message 0x932 is up report busy, else close it and post event 0xE. */
 s32 func_80017728(void) {
     s32 result;
 

@@ -101,11 +101,9 @@ extern void *D_800814A8;
 extern s16 D_80083228;
 extern void *D_800E3D18;
 
-extern void func_80024464(void) __attribute__((noreturn));
 /* Ordinary declaration: the private selector authenticates this one
  * returning tail by qid/geometry/context instead of using an asm symbol alias. */
 extern void func_800244DC(void);
-extern void func_800246C4(void) __attribute__((noreturn));
 extern void *func_80024924(void *, s32, s32, s32, void *, s32, s32, s32, void *);
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_800644B8(s32);
@@ -144,19 +142,19 @@ void func_800242D4(void *self, void *coords)
     state = ((S_8199AAD4_0 *)self)->unk_28.s;
     if (state != 1) {
         if (state < 2) {
-            if (state != 0) {
-                func_800246C4();
+            if (state == 0) {
+                goto state_zero;
             }
-            goto state_zero;
+            return;
         }
 
         ASM_KEEP(table_start);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         tail_z = 2;
+        iteration = NULL;
         if (state == (s32)tail_z) {
-            iteration = NULL;
             goto state_two;
         }
-        func_800246C4();
+        return;
 
 state_zero:
         source = ((S_8199AAD4_10 *)(((S_8199AAD4_0 *)self)->unk_00))->unk_0C;
@@ -191,7 +189,7 @@ store_z:
             tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
             target_node = 9;
             ((S_8199AAD4_0 *)self)->unk_30.s = target_node;
-            func_80024464();
+            goto advance_state;
         }
         goto done;
     }
@@ -201,8 +199,10 @@ store_z:
     if ((s16)count > 0) {
         goto done;
     }
-    ((S_8199AAD4_0 *)self)->unk_28.p++;
-    func_800246C4();
+    tail_z = ((S_8199AAD4_0 *)self)->unk_28.u;
+advance_state:
+    ((S_8199AAD4_0 *)self)->unk_28.p = tail_z + 1;
+    return;
 
 finish:
     ((S_8199AAD4_2 *)coords)->unk_00.at00.v = target[0];
@@ -219,7 +219,7 @@ finish:
     flags_value |= 0x8000;
     ((S_8199AAD4_0 *)self)->unk_28.p = count;
     ((S_8199AAD4_4 *)global_flags)->unk_14A0 = flags_value;
-    func_800246C4();
+    return;
 
 state_two:
     ASM_KEEP(iteration);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */

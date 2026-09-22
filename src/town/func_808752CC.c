@@ -14,20 +14,19 @@ typedef struct {
 extern ValueHolder *D_80701988[3];
 extern State *D_80701968[3];
 
-extern s32 func_80700C9C(s32 arg0);
-extern void func_80700D24(s32 arg0);
-extern void func_80700D54(s32 arg0);
-extern void func_80701404(void);
-extern void func_80701350(void) __attribute__((noreturn));
+extern s32 func_80700C9C(s32 entry);
+extern void func_80700D24(s32 entry);
+extern void func_80700D54(s32 entry);
+extern s32 func_80701404();
 
-s32 func_808752CC(s32 arg0) {
+/* When the gate and the counter both pass, set the stage flag and return the stage handler's result. */
+s32 func_808752CC(s32 entry) {
 
     if ((func_80700C9C(1) != 0) && (*D_80701988[0]->value >= 2)) {
         func_80700D24(1);
         D_80701968[0]->flags |= 2;
-        func_80701404();
-        func_80701350();
+        return func_80701404();
     }
     func_80700D54(1);
-    return arg0;
+    return entry;
 }

@@ -11,7 +11,7 @@ extern void func_8052FC8C(void);
 extern u8 D_8003C558[];
 
 
-typedef struct S_80814F08_0 {
+typedef struct SpawnMotion {
     u8 pad_00[0x2];
     s16 unk_02;
     u8 pad_04[0x2];
@@ -21,9 +21,9 @@ typedef struct S_80814F08_0 {
     s32 unk_0C;
     u8 pad_10[0x4];
     s32 unk_14;
-} S_80814F08_0;   /* temp_s2 in func_80814F08 */
+} SpawnMotion;   /* motion in func_80814F08 */
 
-typedef struct S_80814F08_1 {
+typedef struct SpawnSeed {
     u8 pad_00[0x2];
     u16 unk_02;
     u8 pad_04[0x2];
@@ -31,35 +31,36 @@ typedef struct S_80814F08_1 {
     u8 pad_08[0x2];
     u16 unk_0A;
     s32 unk_0C;
-} S_80814F08_1;   /* arg0 in func_80814F08 */
+} SpawnSeed;   /* seed in func_80814F08 */
 
-void func_80814F08(S_80814F08_1 *arg0) {
-    void *temp_s0;
-    S_80814F08_0 *temp_s2;
-    void *temp_v0;
+/* Spawn a 0x136 effect scattered +-20 around the seed, with a randomised vertical kick. */
+void func_80814F08(SpawnSeed *seed) {
+    void *sprite;
+    SpawnMotion *motion;
+    void *slot;
 
-    temp_v0 = func_800373DC(0x136);
-    if (temp_v0 != 0) {
-        (*(Callback *)((u8 *)temp_v0 + 0x10)) = func_8052FC8C;
-        func_8003BC18(temp_v0, D_8003C558);
-        temp_s2 = (*(void * *)((u8 *)temp_v0 + 8));
-        temp_s0 = (*(void * *)((u8 *)temp_v0 + 0xC));
-        temp_s2->unk_02 =
-            (arg0->unk_02 + (func_80071494() % 40)) - 0x14;
-        temp_s2->unk_06 =
-            (arg0->unk_06 + (func_80071494() % 40)) - 0x14;
-        temp_s2->unk_0A =
-            (arg0->unk_0A + (func_80071494() % 40)) - 0x14;
-        temp_s2->unk_0C = arg0->unk_0C;
-        temp_s2->unk_14 =
+    slot = func_800373DC(0x136);
+    if (slot != 0) {
+        (*(Callback *)((u8 *)slot + 0x10)) = func_8052FC8C;
+        func_8003BC18(slot, D_8003C558);
+        motion = (*(void * *)((u8 *)slot + 8));
+        sprite = (*(void * *)((u8 *)slot + 0xC));
+        motion->unk_02 =
+            (seed->unk_02 + (func_80071494() % 40)) - 0x14;
+        motion->unk_06 =
+            (seed->unk_06 + (func_80071494() % 40)) - 0x14;
+        motion->unk_0A =
+            (seed->unk_0A + (func_80071494() % 40)) - 0x14;
+        motion->unk_0C = seed->unk_0C;
+        motion->unk_14 =
             ((func_80071494() & 0x1FF) - 0x100) * 0x400;
-        (*(s16 *)((u8 *)temp_v0 + 0x2E)) = 3;
-        (*(s16 *)((u8 *)temp_s0 + 0x1E)) = 0x1000;
-        (*(s16 *)((u8 *)temp_s0 + 0x1C)) = 0x1000;
-        (*(Callback *)((u8 *)temp_s0 + 8)) = func_8028E170;
-        (*(s8 *)((u8 *)temp_s0 + 4)) = 0;
-        (*(s8 *)((u8 *)temp_s0 + 5)) = 0;
-        (*(s32 *)((u8 *)temp_s0 + 0xC)) = 0x808080;
-        (*(u16 *)((u8 *)temp_s0 + 0x14)) |= 0xC;
+        (*(s16 *)((u8 *)slot + 0x2E)) = 3;
+        (*(s16 *)((u8 *)sprite + 0x1E)) = 0x1000;
+        (*(s16 *)((u8 *)sprite + 0x1C)) = 0x1000;
+        (*(Callback *)((u8 *)sprite + 8)) = func_8028E170;
+        (*(s8 *)((u8 *)sprite + 4)) = 0;
+        (*(s8 *)((u8 *)sprite + 5)) = 0;
+        (*(s32 *)((u8 *)sprite + 0xC)) = 0x808080;
+        (*(u16 *)((u8 *)sprite + 0x14)) |= 0xC;
     }
 }

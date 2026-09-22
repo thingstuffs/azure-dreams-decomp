@@ -82,7 +82,6 @@ extern Position D_80083780;
 extern void func_80024BA0(void);
 extern void func_80025CE8(s32, s32, s32, s32);
 extern void func_8002626C(void *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern void func_80026924(void) __attribute__((noreturn));
 extern void func_8003F80C(void *, s32, s32, s32);
 extern s32 func_80040490(void *, void *);
 extern void func_800542BC(void);
@@ -213,7 +212,6 @@ case_1:
         colors->unk_A8 -= 2;
         colors->unk_A9 -= 2;
         colors->unk_AA -= 2;
-        func_80026924();
         return;
     }
 

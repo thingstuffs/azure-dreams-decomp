@@ -10,7 +10,8 @@ extern s32 D_80019BB0;
 extern s32 D_80019BB4;
 extern u8 *D_80019BBC;
 
-s32 func_80017A08(void *arg0, s32 arg1)
+/* Shop slot fill: take the next entry (or the default record) into slot arg1 and redraw. */
+s32 func_80017A08(void *owner, s32 slot_index)
 {
     s32 value;
 
@@ -21,15 +22,15 @@ s32 func_80017A08(void *arg0, s32 arg1)
 
     value = func_8001796C();
     if (value != 0) {
-        *(s32 *)((u8 *)*(void **)((u8 *)arg0 + 0x10) + arg1 * 0x10 + 8) =
+        *(s32 *)((u8 *)*(void **)((u8 *)owner + 0x10) + slot_index * 0x10 + 8) =
             func_80017620(value);
     } else {
-        *(s32 *)((u8 *)*(void **)((u8 *)arg0 + 0x10) + arg1 * 0x10 + 8) =
+        *(s32 *)((u8 *)*(void **)((u8 *)owner + 0x10) + slot_index * 0x10 + 8) =
             (s32)&D_800170B4;
     }
 
     D_80019BBC[5] = value;
     D_80019BB4 = value;
-    func_80018B24(arg0, arg1);
+    func_80018B24(owner, slot_index);
     return 0;
 }

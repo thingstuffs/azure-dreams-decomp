@@ -21,7 +21,6 @@ typedef struct S_8186EDA8_1 {
 extern u16 D_80025308[];
 extern s32 D_800814A0[];
 extern void func_80024710() __attribute__((noreturn));
-void func_80024874(void) __attribute__((noreturn));  /* extern */
 s32 func_800644B8(s16);                          /* extern */
 s32 func_80064584(s16);                          /* extern */
 void func_800478B8(void *);                       /* extern */
@@ -80,8 +79,7 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
         if (phase == 0) {
     goto case_0;
         }
-        func_80024874();
-        return;
+        goto check_effect_done;
     }
     if (phase == 2) {
         goto case_2;
@@ -89,8 +87,7 @@ void func_8186EDA8(DungeonState *anim, S_8186EDA8_0 *position, DungeonEffect *in
     if (phase == 3) {
         goto case_3;
     }
-    func_80024874();
-    return;
+    goto check_effect_done;
 
 case_0:
     delay_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;
@@ -139,8 +136,7 @@ case_1:
         effect_e += 4;
         ((volatile DungeonEffect *)effect)->e = effect_e;
         effect->d = effect_d + 4;
-        func_80024874();
-        return;
+        goto check_effect_done;
     }
     ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 = 0x28U;
     ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u = (s16) ((u16) ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_02.u + 1);
@@ -171,8 +167,7 @@ case_2:
     }
     effect->x1C -= 0x14;
     effect->y1E += 0xC8;
-    func_80024874();
-    return;
+    goto check_effect_done;
 
 case_3:
     finish_timer = ((S_8186EDA8_1 *)((u8 *)anim - 0x2))->unk_04 - 1;

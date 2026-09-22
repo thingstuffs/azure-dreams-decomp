@@ -115,8 +115,6 @@ typedef struct S_81874988_5 {
 
 
 extern u8 *D_80083160;
-extern void func_8002454C(void) __attribute__((noreturn));
-extern void func_800246D0(void) __attribute__((noreturn));
 extern void func_80064840(void *, void *, void *);
 extern void func_800649A0(void);
 extern void func_80064A40(void);
@@ -235,13 +233,14 @@ visible:
     if (tex_adjust) {
         if (((S_81874988_0 *)scratch)->unk_28 & 0x100) {
             ((S_81874988_5 *)packet)->unk_0E = tex_adjust;
-            func_8002454C();
+            goto after_texattr;
         }
         tex_attr = tex_adjust + (*(u16 *)((u8 *)texture + 6));
         (*(u16 *)((u8 *)packet + 0xE)) = tex_attr;
     } else {
         (*(u16 *)((u8 *)packet + 0xE)) = (*(u16 *)((u8 *)texture + 6));
     }
+after_texattr:
 
     (*(u16 *)((u8 *)packet + 0xC)) = VFIELD(scratch, u16, 0x10) +
                               VFIELD(scratch, u16, 0xC);
@@ -284,7 +283,7 @@ visible:
     (*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) =
         ((*(u32 *)((u8 *)(((S_81874988_0 *)scratch)->unk_24.p2) + ((S_81874988_0 *)scratch)->unk_100 * 4)) & 0xFF000000) |
         ((u32)packet & 0x00FFFFFF);
-    func_800246D0();
+    goto done;
 
 callback_tail:
     callback = (*(Callback *)((u8 *)texture + 8));

@@ -9,6 +9,7 @@ extern void func_8009FAC4(void);
 extern void func_8016E264(void);
 extern void func_80099FDC(void *);
 
+/* Leave the map screen and release the two attached objects. */
 void func_8016DE1C(void)
 {
     s32 i;

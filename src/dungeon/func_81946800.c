@@ -33,14 +33,6 @@ extern u16 D_80082E94;
 extern s16 D_80083228;
 extern s32 D_80083460;
 extern u8 D_80083498[];
-extern void func_80024350(s32) __attribute__((noreturn));
-#ifdef __mips__
-#define STATE3_PAGE 0x80080000U
-#define STATE3_FLAG(page) (*((u16 *) ((page) + 0x2E94)))
-#else
-#define STATE3_PAGE 0U
-#define STATE3_FLAG(page) D_80082E94
-#endif
 #ifdef __mips__
 void func_81946800(void *action_in, void *saved_position) __asm__("func_81946800_body")
     __attribute__((section(".text.func_81946800")));
@@ -66,7 +58,6 @@ void func_81946800(void *action, void *saved_position)
   s32 event_code;
   s32 color_index;
   u8 *colors;
-  u32 state3_page;
   timer = (*((u16 *) (((u8 *) action) + 0x50))) - 1;
   owner_work = *((void **) (((u8 *) action) + 0));
   state = *((s16 *) (((u8 *) action) + 0xA));
@@ -88,14 +79,10 @@ void func_81946800(void *action, void *saved_position)
   {
     goto state_2;
   }
-  state3_page = 3;
-  if (state == state3_page)
+  if (state == 3)
   {
-    state3_page = STATE3_PAGE;
     goto state_3;
   }
-  state3_page = STATE3_PAGE;
-  func_80024350(timer);
   return;
   state_0:
   *((s32 *) (((u8 *) D_800814A8) + 0xF4)) = 0;
@@ -191,7 +178,7 @@ void func_81946800(void *action, void *saved_position)
   (*((u16 *) (((u8 *) action) + 0xA)))++;
   return;
   state_3:
-  if (((STATE3_FLAG(state3_page) & 0x8000) == 0) && (((s32) (timer << 16)) >= 0))
+  if (((D_80082E94 & 0x8000) == 0) && (((s32) (timer << 16)) >= 0))
   {
     return;
   }
