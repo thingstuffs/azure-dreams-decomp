@@ -70,7 +70,6 @@ extern void *func_800A1618();
 extern s32 func_800A1BD0();
 extern s32 func_800A7A38();
 extern void *func_800B23F8();
-extern void func_80176368(void) __attribute__((noreturn));
 extern s8 D_800E2968;
 extern u8 D_800E3548[];
 extern u8 *D_800E3D7C;
@@ -102,7 +101,6 @@ void *func_80E3C98C(void *unused0, void *unused1, S_80E3C98C_1 *position, Rec_D_
             ((S_80E3C98C_2 *)entity)->unk_14 |= 0x20000000;
             ((S_80E3C98C_2 *)entity)->unk_1C =
                 (((S_80E3C98C_2 *)entity)->unk_1C | 0x02000200) & 0xFFFEFFFF;
-            func_80176368();
         }
         goto update_reference;
     }

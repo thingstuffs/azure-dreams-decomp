@@ -41,13 +41,11 @@ typedef struct S_8191CA88_4 {
 
 
 
-/* Partial rewrite: the remaining epilogue pseudo-call still controls register liveness. */
-extern void func_800243C4() __attribute__((noreturn));
 
 /* Updates object motion and timers through movement, waiting, falling, and completion states. */
 void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     void *object = object_data;
-    S_8191CA88_3 *motion;
+    register S_8191CA88_3 *motion ASM_REG("$8");
     s32 state;
     u16 state_unsigned;
     s32 timer;
@@ -121,7 +119,7 @@ state_1:
     }
     ((S_8191CA88_0 *)object)->unk_0E.s = state_unsigned + 1;
     ((S_8191CA88_0 *)object)->unk_10.u = 0;
-    func_800243C4(state, state_unsigned, effect, object);
+    goto done;
 
 state_2:
     motion->unk_08 -= timer << 16;
