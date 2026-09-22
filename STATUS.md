@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-22T13:58:07Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-22T15:18:03Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -22,28 +22,28 @@ Baseline NOT exact: 0 rows
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
-| M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 1 | 1,964 | 0.1% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 2699 | 1,277,680 | 49.9% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1057 | 978,860 | 38.3% |
-| goto | 1545 | 1,318,412 | 51.5% | 1609 | 1,370,796 | 53.6% |
+| M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 2696 | 1,274,336 | 49.8% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 1054 | 976,100 | 38.2% |
+| goto | 1545 | 1,318,412 | 51.5% | 1611 | 1,371,588 | 53.6% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 277 | 231,848 | 9.1% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
-| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 136 | 128,012 | 5.0% |
-| maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 13 | 22,040 | 0.9% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 379 | 276,016 | 10.8% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 123 | 106,692 | 4.2% |
+| maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 5 | 5,468 | 0.2% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 378 | 274,688 | 10.7% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3151 | 1,619,148 | 63.3% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3034 | 530,012 | 20.7% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3152 | 1,621,112 | 63.4% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3036 | 530,504 | 20.7% |
 
-Pin sites now: 4,359 in 1,055 rows; REG 2,068, KEEP 1,044, KEEP_NV 548, SCHED_BARRIER 225, KEEP_DEP_NV 85, USE 59, USE_NV 58, CLOBBER 41.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 4,322 in 1,053 rows; REG 2,071, KEEP 1,027, KEEP_NV 545, SCHED_BARRIER 227, KEEP_DEP_NV 84, USE_NV 58, USE 57, CLOBBER 41.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 10, hand-written asm in function bodies 5 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 436.
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 10, hand-written asm in function bodies 5 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 435.
 
-Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 291 rows carry one flag, 40 carry two or more.
+Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 289 rows carry one flag, 40 carry two or more.
 
-Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 7.
+Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- one pin, or two when one is not enough (owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 27.
 
 Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no per-line marker exists): tier A 30, tier B 1 symbols (matches `census.declared_void_callees()`). Rows whose PASSTHRU_NO_ARGS exemption rests on a tier-B symbol alone (blocked again if tier B were dropped, tier-A/in-tree exemptions do not cover them): 11 rows, 11,864 B.
 
@@ -52,15 +52,15 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
-| L1 | 2,525,740 | 98.7% |
-| L2 | 2,525,740 | 98.7% |
-| L3 | 2,521,424 | 98.6% |
+| L1 | 2,558,124 | 100.0% |
+| L2 | 2,558,124 | 100.0% |
+| L3 | 2,558,124 | 100.0% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 1164 rows, 658,600 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one): pins 1,070 rows (983,852 B), tail_jump 38 rows (36,448 B), not_in_module 6,767 rows (2,558,124 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one): pins 1,066 rows (980,980 B), tail_jump 9 rows (2,544 B), not_in_module 6,767 rows (2,558,124 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
