@@ -1,4 +1,25 @@
-# Handover (2026-09-07, updated 2026-09-09) — start here in a fresh session
+# Handover (2026-09-22 01:40Z) - start here in a fresh session
+
+**State:** ~4,560 pins in ~1,077 rows (STATUS.md has the exact line; the tree was 5,682 on the morning of 09-21).
+**Codex:** both models hit the usage limit at ~23:50Z on 09-21; the error says "try again at Sep 26th 2026 8:20 AM".
+`reset_watch2.sh` in the session scratchpad (`/tmp/claude-1000/-home-david-azure-clean/4839def8-919c-4fa0-8c13-fcce21db8d9a/scratchpad/`)
+probes every 2 h and starts the pre-built kit packs `r72_kit_astra11-12`, `r71_kit_sol12`, `r72_kit_sol1-12` through `tools/lanes/pool.py`.
+**Background jobs that survive a session** (all nohup): `tools/lanes/land_finished2.sh` (lands every finished lane every 15 min,
+isolated; stop with `touch work/native_lane/STOP_LAND_FINISHED2`), the snapshot committer (scratchpad `autocommit.sh`, commits
+src/STATUS/ledger every 10 min when the land lock is free), `clone_watch.sh` (clone transfer every 25 min), `reset_watch2.sh`.
+**The pipeline now** (docs/LANE_KIT.md "Orchestration kit" + "Isolated landing"; round notes docs/PIN_RESEARCH_ROUND62.md):
+ranked queue of pinned rows by pin count -> `build_class_pack.py --rows --duck --exemplars 6` + `kit_pack.py` (v2 brief + lane kit)
+-> `pool.py --model astra|sol` -> `land_finished2.sh` / `LAND_ISOLATED=1 land_gap.sh` -> Opus harvest of REPORT.md moves into
+generators (`gen_drive.py --fresh` sweeps; move tables in docs/evidence/) -> `refresh_exemplars.py` -> `clone_transfer.py`.
+**What pays** (measured): kit astra 38/40 and 46/60 rows per wave; kit sol 35% on 12-8-pin rows, weak above 13 pins; every
+harvest 25-60 pins; shared-library fixes (varset, natural) re-open generators. **What does not:** retries on served rows,
+residue-shape classes as mechanism classes, listing-screen-ranked generators on abs/absolute-address rows (the screen
+cannot see those bytes: t91/t99 verify directly).
+**Open for the owner:** the refused padding version of dungeon/func_809A38E4 (ledger/pin_evidence.jsonl), the port arm of
+dungeon/func_800A21EC, the labelled dispatch and empty-`if`-arm spellings, the t93 donor-name trades.
+**Next CPU builds:** func_80977E0C needs per-state block locals after the join-tail dup then the t97 spelling; t78 mixed-width
+copy runs (needs a typedef with three free parameters); the t101/t102 near bands (d=2: 119 rows, d=4: 85 rows).
+
 
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 
