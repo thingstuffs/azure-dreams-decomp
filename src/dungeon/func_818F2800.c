@@ -100,10 +100,6 @@ typedef struct S_BODY_8 {
 #define DM_U32(o) (*(u32 *)(scratch + (o)))
 #define DM_S32(o) (*(s32 *)(scratch + (o)))
 
-extern void func_8002431C(void) __attribute__((noreturn));
-extern void func_800243E4(void) __attribute__((noreturn));
-extern void func_800246A0(void) __attribute__((noreturn));
-
 extern s32 func_800644B8(s32);
 extern void func_80064840();
 extern void func_800649A0(void);
@@ -342,10 +338,7 @@ next_half:
                 DM_S16(0x70) = (s16)left_x;
                 ASM_USE(strip_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 edge_x = left_x - width;
-                ASM_TAILSLOT_PIN_TIED(edge_x);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                func_8002431C();
-            }
-            {
+            } else {
                 s32 width;
                 width = DM_U16(0x10);
                 DM_S16(0x80) = (s16)strip_x;
@@ -358,6 +351,7 @@ next_half:
         {
             s32 part_flags;
             u16 flip_flags;
+            s32 edge_y;
             part_flags = ((S_BODY_2 *)part)->unk_00;
             flip_flags = part_flags;
             ASM_KEEP(flip_flags);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -365,7 +359,7 @@ next_half:
             flip_flags ^= state_flags;
             if (flip_flags & 2) {
                 if (half == 0) {
-                    s32 edge_y, height;
+                    s32 height;
                     edge_y = ((S_BODY_2 *)part)->unk_03;
                     ASM_USE_NV(edge_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     height = DM_U16(0x14);
@@ -373,11 +367,8 @@ next_half:
                     DM_S16(0x7A) = (s16)edge_y;
                     DM_S16(0x72) = (s16)edge_y;
                     edge_y = edge_y - height;
-                    ASM_TAILSLOT_PIN_TIED(edge_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_800243E4();
-                }
-                {
-                    s32 edge_y, height;
+                } else {
+                    s32 height;
                     edge_y = ((S_BODY_2 *)part)->unk_03;
                     ASM_USE_NV(edge_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
                     height = DM_U16(0x14);
@@ -388,35 +379,31 @@ next_half:
                     DM_S16(0x7A) = (s16)edge_y;
                     DM_S16(0x72) = (s16)edge_y;
                     edge_y = edge_y - next_height_m;
-                    ASM_TAILSLOT_PIN_TIED(edge_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    func_800243E4();
+                }
+            } else {
+                if (half == 0) {
+                    s32 height;
+                    edge_y = ((S_BODY_2 *)part)->unk_03;
+                    ASM_USE_NV(edge_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    height = DM_U16(0x14);
+                    edge_y = (s8)edge_y;
+                    DM_S16(0x7A) = (s16)edge_y;
+                    DM_S16(0x72) = (s16)edge_y;
+                    edge_y = edge_y + height;
+                } else {
+                    s32 height;
+                    edge_y = ((S_BODY_2 *)part)->unk_03;
+                    ASM_USE_NV(edge_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+                    height = DM_U16(0x14);
+                    edge_y = (s8)edge_y;
+                    next_height_m = height;
+                    ASM_KEEP_NV(next_height_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+                    edge_y = edge_y + height;
+                    DM_S16(0x7A) = (s16)edge_y;
+                    DM_S16(0x72) = (s16)edge_y;
+                    edge_y = edge_y + next_height_m;
                 }
             }
-        }
-        if (half == 0) {
-            s32 edge_y, height;
-            edge_y = ((S_BODY_2 *)part)->unk_03;
-            ASM_USE_NV(edge_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            height = DM_U16(0x14);
-            edge_y = (s8)edge_y;
-            DM_S16(0x7A) = (s16)edge_y;
-            DM_S16(0x72) = (s16)edge_y;
-            edge_y = edge_y + height;
-            ASM_TAILSLOT_PIN_TIED(edge_y);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            func_800243E4();
-        }
-        {
-            s32 edge_y, height;
-            edge_y = ((S_BODY_2 *)part)->unk_03;
-            ASM_USE_NV(edge_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            height = DM_U16(0x14);
-            edge_y = (s8)edge_y;
-            next_height_m = height;
-            ASM_KEEP_NV(next_height_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            edge_y = edge_y + height;
-            DM_S16(0x7A) = (s16)edge_y;
-            DM_S16(0x72) = (s16)edge_y;
-            edge_y = edge_y + next_height_m;
             DM_S16(0x8A) = (s16)edge_y;
             DM_S16(0x82) = (s16)edge_y;
         }
@@ -506,13 +493,12 @@ next_half:
                     s32 page_override, texture_page;
                     page_override = state->unk_10;
                     if (page_override != 0) {
-                        s32 page_sum;
-                        texture_page = ((S_BODY_2 *)part)->unk_04 & 0xFF9F;
-                        page_sum = page_override + texture_page;
-                        ASM_TAILSLOT_PIN_TIED(page_sum);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        func_800246A0();
+                        s32 masked_page;
+                        masked_page = ((S_BODY_2 *)part)->unk_04 & 0xFF9F;
+                        texture_page = page_override + masked_page;
+                    } else {
+                        texture_page = ((S_BODY_2 *)part)->unk_04;
                     }
-                    texture_page = ((S_BODY_2 *)part)->unk_04;
                     /* --- retail word 424 --- */
                     ((S_BODY_7 *)quad)->unk_12 = (u16)texture_page;
                 }

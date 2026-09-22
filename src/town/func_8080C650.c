@@ -74,16 +74,10 @@ s32 func_8006A470();                             /* extern */
 M2C_UNK func_8023FB18();                      /* extern */
 M2C_UNK func_80245C10();             /* extern */
 s16 func_8025E01C();                          /* extern */
-s32 func_8052776C() __attribute__((noreturn));
-s32 func_805278B0() __attribute__((noreturn));
 s32 func_80527920() __attribute__((noreturn));
-s32 func_80527AD0() __attribute__((noreturn));
-s32 func_80527AF8() __attribute__((noreturn));
-s32 func_80527BB8() __attribute__((noreturn));
 s32 func_80527CCC() __attribute__((noreturn));
 s32 func_80527CD8() __attribute__((noreturn));
 s32 func_80527D18() __attribute__((noreturn));
-s32 func_80527D2C() __attribute__((noreturn));
 extern s16 D_800133A0[5];
 extern s16 D_800133A0_store[5] __asm__("D_800133A0");
 extern M2C_UNK D_8003C558[3];
@@ -362,13 +356,14 @@ block_state7:
                                 var_s2 = (s32)D_8028950C;
                                 ASM_KEEP(var_s2);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                                 ((S_8080C650_1 *)var_s0)->unk_00 = tmpx;
-                                return func_8052776C();
+                                goto block_776c;
                             }
                             global_s5[0] = (s32)D_802434B0;
                             ((S_8080C650_2 *)arg1)->unk_14 = 0x100000;
-                            return func_8052776C();
+                            goto block_776c;
                         }
                         global_s5[0] = (s32)D_80243200;
+block_776c:
                         if (((S_8080C650_0 *)in0)->unk_68.s == 9) {
                             func_80058F88(0x700);
                         }
@@ -402,7 +397,7 @@ block_state10:
                             goto block_99;
                         }
                         ((S_8080C650_2 *)arg1)->unk_00 = 0x03880000;
-                        return func_805278B0(temp_a0_2);
+                        goto block_99;
                     }
                     if (temp_a0_2 > 0x04BFFFFF) {
                         var_v0_2 = 0x04B80000;
@@ -482,12 +477,12 @@ block_state11:
             temp_v1_4 = ((S_8080C650_2 *)arg1)->unk_00;
             if (temp_v1_4 > 0x03A80000) {
                 ((S_8080C650_2 *)arg1)->unk_0C = -0x80000;
-                return func_80527AD0();
+                goto block_124;
             }
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             if (temp_v1_4 <= 0x0397FFFF) {
                 ((S_8080C650_2 *)arg1)->unk_0C = 0x80000;
-                return func_80527AD0();
+                goto block_124;
             }
             var_s2 = (s32)D_8028937C;
             ((S_8080C650_2 *)arg1)->unk_0C = 0;
@@ -497,9 +492,10 @@ block_state11:
 block_124:
         if ((u32) (((S_8080C650_2 *)arg1)->unk_00 + 0xFC440000) <= 0xC80000U) {
             ((S_8080C650_2 *)arg1)->unk_08.at00.v = 0;
-            return func_80527AF8();
+            goto block_af8;
         }
         ((S_8080C650_2 *)arg1)->unk_08.at00.v = 0x200000;
+block_af8:
         abs_v1 = 0xFC600000;
         temp_lo = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
         temp_lo = abs(temp_lo);
@@ -528,9 +524,10 @@ block_highff:
         if ((D_800133A0[0] < var_a0) || (var_a0 == 0x40)) {
             D_800133A0_store[0] = var_a0;
             func_80050BFC(0x5DA);
-            return func_80527BB8();
+            goto block_bb8;
         }
         func_80050BD8(0x5DA);
+block_bb8:
         var_s2 = (s32)D_802892EC;
         ((S_8080C650_2 *)arg1)->unk_10 = 0x80000;
         ((S_8080C650_0 *)in0)->unk_6C = 0x1EU;
@@ -595,7 +592,7 @@ block_high109:
         func_8023FB18(in0);
         (*(u16 *)((u8 *)in0 + -2)) = (u16) (((S_8080C650_0_pre *)in0)[-1].unk_00 | 0x8000);
         D_80084D5C_store = D_80084D5C | 0x8000;
-        return func_80527D2C();
+        return;
     }
 block_160:
     if (var_s2 != 0) {
