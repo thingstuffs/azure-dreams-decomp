@@ -29,8 +29,6 @@ extern S_81978140_global *D_800814A8;
 extern s32 D_800814A0[3];
 
 extern void func_800257B8(void);
-extern void func_80025A40(void) __attribute__((noreturn));
-extern void func_80025A54(void) __attribute__((noreturn));
 
 /* Advance the entity timers and dispatch its movement and state updates. */
 void func_81978140(S_81978140 *entity)
@@ -63,7 +61,7 @@ L1:
     func_800257B8();
 L2:
     D_800814A8->value -= 0x200;
-    func_80025A40();
+    goto L7;
 
 L3:
     func_800257B8();
@@ -75,7 +73,7 @@ L4:
     if ((s16)entity->timer < 12) {
         goto epilogue;
     }
-    func_80025A54();
+    goto bump;
 
 L5:
     func_800257B8();
@@ -96,6 +94,7 @@ L7:
     if (entity->timer < 8) {
         goto epilogue;
     }
+bump:
     {
         u16 next_state = entity->state;
         entity->timer = 0;

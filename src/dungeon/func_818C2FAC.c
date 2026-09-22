@@ -17,11 +17,6 @@ typedef union {
 #endif
 
 
-#ifndef NON_MATCHING
-extern void func_800248CC(void) __attribute__((noreturn));
-#else
-extern void func_800248CC() __attribute__((noreturn));
-#endif
 extern s32 func_8003DB94();
 extern void *func_8003FC64(s32);
 extern s32 func_8004491C();
@@ -128,20 +123,12 @@ s32 func_818C2FAC(void *data_addr, Copy24 *position_addr, s32 direction)
         if (variant >= 2) goto tree2;
         render_arg_low = (s32)render_or_radius;
         if (variant == 0) goto case0;
-#ifndef NON_MATCHING
         goto render_call;
-#else
-        func_800248CC((void *)render_or_radius, 0x800E0000);
-#endif
     tree2:
         if (variant == 2) goto case2;
         render_arg_high = (s32)render_or_radius;
         if (variant == 3) goto case3;
-#ifndef NON_MATCHING
         goto render_call;
-#else
-        func_800248CC((void *)render_or_radius, 0x800E0000);
-#endif
     case0:
         ((S_818C2FAC_2 *)((void *)render_or_radius))->unk_12 = 0x7DCF;
         goto appearance_set;

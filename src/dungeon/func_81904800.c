@@ -1,9 +1,5 @@
 #include "common.h"
 
-#ifdef NON_MATCHING
-extern void func_800240BC(s32, s32) __attribute__((noreturn));
-extern void func_8002416C(s32, u8 *, s32) __attribute__((noreturn));
-#endif
 extern s32 func_800990FC(s32, s32);
 extern s32 func_80099194(u8 *, s32);
 extern void func_80099290(s32);
@@ -68,10 +64,7 @@ void BODY_NAME(u8 *entity, u8 chance) {
 
     roll = func_800A6D30() & 0xffff;
     if (entity[3] != 0) {
-        roll_remainder = roll % entity[3];
-#ifdef NON_MATCHING
-        func_800240BC(roll, chance & 0xff);
-#endif
+        roll_remainder = roll % entity[3];   /* retail rejoins the common path at +0xBC here */
     } else {
         roll_remainder = 0;
     }
@@ -102,10 +95,7 @@ void BODY_NAME(u8 *entity, u8 chance) {
             func_80099290(message_arg);
         }
         func_800A5720(effect_result);
-#ifdef NON_MATCHING
-        func_8002416C(0x53, entity, removed_count);
-#endif
-        func_800B4C7C(0x53, entity, removed_count, 1);
+        func_800B4C7C(0x53, entity, removed_count, 1);   /* retail jumps to the shared call at +0x16C */
         return;
     }
 

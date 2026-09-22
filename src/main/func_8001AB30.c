@@ -5,14 +5,13 @@ extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
 extern void func_8007CAA8(s32 arg0);
 extern s32 func_8040153C(void);
 extern void func_80401578(void);
-extern s32 func_80401B80(void);
 extern void func_80408654(s32 arg0);
 extern s32 D_80408AA0[];
 extern u8 D_80400038[];
 extern u8 D_804000F8[];
 
 /* Starts the selected card operation and maps its completion status. */
-s32 func_8001AB30(s32 card_index) {
+s32 func_80401B30(s32 card_index) {
     s32 *card_entry;
     s32 count;
     s32 result;
@@ -26,12 +25,13 @@ s32 func_8001AB30(s32 card_index) {
         card_entry++;
     }
     func_8007CAA8(*card_entry);
-    result = func_8040153C();
-    if (result == 0) {
+    while (1) {
+        result = func_8040153C();
+        if (result != 0) {
+            break;
+        }
         count++;
-        ASM_KEEP(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         func_800702F0(0);
-        return func_80401B80();
     }
     func_8007C040(D_80400038, D_804000F8, count);
     if (result != 1) {
