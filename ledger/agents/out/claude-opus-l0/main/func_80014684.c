@@ -16,6 +16,7 @@ void func_80027684(void *object) {
         goto install;
     }
     dispatch_result = (u8 *)0x80020000;
+    ASM_MEM_BARRIER();
     *(s32 *)((s8 *)object + 0x40) = 1;
     func_80022F14((s8 *)object - 0x20, (s8 *)object + 0x38);
     *(s32 *)((s8 *)object + 0x38) = 1;

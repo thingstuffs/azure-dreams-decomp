@@ -26,7 +26,7 @@ void func_81875C70(u8 *arg0, void *arg1, u8 *arg2)
     s32 adv;
     u16 state1;
     u16 h1;
-    s32 i;
+    register s32 i ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 color;
     s32 r0;
     s32 r1;
@@ -127,6 +127,7 @@ jt_c4:
         *(s16 *)(*(u8 **)(p + 0x40) + 0x88) = 1;
 
         i = 0;
+        ASM_KEEP(i);
    /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         do {
             r0 = (func_80069EF8() & 0xFF) | 0x80;

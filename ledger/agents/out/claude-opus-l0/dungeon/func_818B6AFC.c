@@ -243,6 +243,7 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         fade_work = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         end_frame = 0x30;
         fade_work = end_frame - fade_work;
+        ASM_KEEP_NV(end_frame);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         fade_out_half = (fade_out_color + (s32) ((u32) packed_color >> 31)) >> 1;
         product_result = M2C_MUL_LO(fade_out_red, fade_work << 3);
         ((S_818B6AFC_3 *)target_color)->unk_0C = (s8) (product_result - 0x80);
@@ -271,4 +272,5 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     ((S_818B6AFC_7 *)finished_target)->unk_1C = (s32) (((S_818B6AFC_7 *)finished_target)->unk_1C & 0xEFFFFFFF);
     (*(u16 *)((u8 *)effect + -2)) = (u16) (((S_818B6AFC_0_pre *)effect)[-1].unk_00 | 0x8000);
     D_800814A0 = D_800814A0 | 0x8000;
+    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 }

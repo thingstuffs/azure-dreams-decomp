@@ -1,0 +1,16 @@
+# Staged bodies from claude-opus-l0 (ITC multi-target class), 2026-09-22 evening wave 2.
+# All seven verify "exact": true through tools/verify.py at the true base.  I did NOT run promote.py.
+# Re-checked after the rowbase sibling's run: 6 of 7 are now `proven` + true_name registered, so
+# promote.py's needs_gate() is False for them and they can land.  Decision B still applies whenever
+# the WINDOW gate runs (overlay_local_gate.py:464-490): an in-region source must define the true
+# name and never mention the synthetic one -- these bodies still define the synthetic name.
+#
+# id                        true_base    rowbase / true_name state (2026-09-22 end of wave)
+dungeon/func_81862C28       0x80024428   proven, true_name func_80024428  READY
+dungeon/func_81844F2C       0x8002472C   proven, true_name func_8002472C  READY
+dungeon/func_818B6AFC       0x800242FC   proven, true_name func_800242FC  READY
+dungeon/func_8195EB88       0x80024388   proven, true_name func_80024388  READY
+dungeon/func_81952B4C       0x8002434C   proven, true_name func_8002434C  READY
+dungeon/func_8195FA38       0x80025238   proven, true_name func_80025238  READY
+dungeon/func_818F2800       0x80024000   region row_1912800_80024000 still `solved`, true_name NOT registered
+                                         -> still needs promote->proven + register before it can land
