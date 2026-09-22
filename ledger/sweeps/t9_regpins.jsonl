@@ -14345,3 +14345,4 @@
 {"id":"dungeon/func_8102F674","transform":"t9_regpins","in_sha":"3d7e31286a40bcbc53fc33be400232d2c8c4dbdd215e787637917479e6e1624f","from_clean":true,"size":456,"outcome":"refused","reason":"pin macro ASM_KEEP outside the menu","at":"2026-09-22T06:13:46Z"}
 {"id":"dungeon/func_8132985C","transform":"t9_regpins","in_sha":"3a0d66633574bcdf2157f1786990535c47df8b569470ce50b05cc6fb2cd9987f","from_clean":true,"size":176,"outcome":"refused","reason":"no live pin site","at":"2026-09-22T06:13:46Z"}
 {"id":"dungeon/func_818FE800","transform":"t9_regpins","in_sha":"dfb835827175dea0437122d50f9ecb83f65595708282002ee4b48f03bd8c8665","from_clean":true,"size":432,"outcome":"refused","reason":"no live pin site","at":"2026-09-22T06:13:46Z"}
+{"id":"dungeon/func_800909A0","transform":"t9_regpins","in_sha":"d53ab2987d53c832581f4cdd56ef34fe4300bf4a05c651e4d4bc43709b74a819","from_clean":true,"size":644,"outcome":"refused","reason":"no live pin site","at":"2026-09-22T06:16:56Z"}
