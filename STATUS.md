@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-22T02:37:32Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-22T04:30:36Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -21,21 +21,21 @@ Baseline NOT exact: 0 rows
 
 | defect | files (pin) | bytes (pin) | % bytes | files (clean) | bytes (clean) | % bytes |
 |---|---:|---:|---:|---:|---:|---:|
-| m2c boilerplate block | 2332 | 515,092 | 20.1% | 32 | 6,088 | 0.2% |
-| M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 10 | 7,368 | 0.3% |
-| m2c local names | 5182 | 2,172,128 | 84.9% | 2870 | 1,359,592 | 53.1% |
+| m2c boilerplate block | 2332 | 515,092 | 20.1% | 3 | 1,232 | 0.0% |
+| M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 8 | 6,972 | 0.3% |
+| m2c local names | 5182 | 2,172,128 | 84.9% | 2841 | 1,345,444 | 52.6% |
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 1067 | 981,964 | 38.4% |
 | goto | 1545 | 1,318,412 | 51.5% | 1606 | 1,369,384 | 53.5% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
-| inline asm outside macros | 362 | 256,260 | 10.0% | 279 | 232,092 | 9.1% |
+| inline asm outside macros | 362 | 256,260 | 10.0% | 278 | 232,008 | 9.1% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
-| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 214 | 166,884 | 6.5% |
+| noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 213 | 166,784 | 6.5% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 15 | 24,848 | 1.0% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 387 | 277,564 | 10.9% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3176 | 1,619,588 | 63.3% |
-| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2950 | 512,240 | 20.0% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3151 | 1,616,164 | 63.2% |
+| clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 2981 | 517,460 | 20.2% |
 
 Pin sites now: 4,389 in 1,065 rows; REG 2,068, KEEP 1,058, KEEP_NV 551, SCHED_BARRIER 232, KEEP_DEP_NV 85, USE 60, USE_NV 57, CLOBBER 41.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
@@ -48,9 +48,9 @@ Per-row optimization flags (weak evidence about the real build; each switch is u
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
-| L1 | 2,385,320 | 93.2% |
-| L2 | 2,384,924 | 93.2% |
-| L3 | 2,368,036 | 92.6% |
+| L1 | 2,390,176 | 93.4% |
+| L2 | 2,390,176 | 93.4% |
+| L3 | 2,385,320 | 93.2% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
