@@ -1,29 +1,29 @@
-# Generators passed to tools/lanes/land_lanes.sh as EXTRA_T by tools/lanes/land_gap.sh (and by any t96_absplace t97_pagesym t98_paramcell t99_absmem
-# hand landing: EXTRA_T="$(grep -v '^#' tools/lanes/cascade_extra.txt | tr '\n' ' ')"). t96_absplace t97_pagesym t98_paramcell t99_absmem
-# t96_absplace t97_pagesym t98_paramcell t99_absmem
-# ONE place for the list.  Until round 68 every session scratchpad lander carried its own copy of t96_absplace t97_pagesym t98_paramcell t99_absmem
-# this string (land_r63.sh ... land_r68.sh, pool.sh, codex59j.sh, clone_watch.sh), and each copy was t96_absplace t97_pagesym t98_paramcell t99_absmem
-# a different prefix of it: a lane landed by the older script simply did not get the newer t96_absplace t97_pagesym t98_paramcell t99_absmem
-# generators swept over its changed rows. t96_absplace t97_pagesym t98_paramcell t99_absmem
-# t96_absplace t97_pagesym t98_paramcell t99_absmem
-# A generator belongs here as soon as it has landed a row and until it is added to the built-in t96_absplace t97_pagesym t98_paramcell t99_absmem
-# cascade of land_lanes.sh (tools/lanes/add_cascade rules: an entry in both lists is harmless, it t96_absplace t97_pagesym t98_paramcell t99_absmem
-# just sweeps twice).  land_lanes.sh's own list is the permanent home; coherence_sweep.py keeps a t96_absplace t97_pagesym t98_paramcell t99_absmem
-# separate list of its own which this file does NOT feed - extend that one by hand. t96_absplace t97_pagesym t98_paramcell t99_absmem
-t78_aggcopy t96_absplace t97_pagesym t98_paramcell t99_absmem
-t80_derivecall t96_absplace t97_pagesym t98_paramcell t99_absmem
-t81_reuselocal t96_absplace t97_pagesym t98_paramcell t99_absmem
-t82_armsink t96_absplace t97_pagesym t98_paramcell t99_absmem
-t83_storeafterproducer t96_absplace t97_pagesym t98_paramcell t99_absmem
-t84_narrowparams t96_absplace t97_pagesym t98_paramcell t99_absmem
-t86_symaddr t96_absplace t97_pagesym t98_paramcell t99_absmem
-t87_lifetimemerge t96_absplace t97_pagesym t98_paramcell t99_absmem
-t88_castshift t96_absplace t97_pagesym t98_paramcell t99_absmem
-t89_lifetimesplit t96_absplace t97_pagesym t98_paramcell t99_absmem
-t90_lifetimemerge_far t96_absplace t97_pagesym t98_paramcell t99_absmem
-t90_callunnest t96_absplace t97_pagesym t98_paramcell t99_absmem
-t91_absfresh t96_absplace t97_pagesym t98_paramcell t99_absmem
-t92_pagerun t96_absplace t97_pagesym t98_paramcell t99_absmem
-t93_scopemerge t96_absplace t97_pagesym t98_paramcell t99_absmem
-t94_castsplit t96_absplace t97_pagesym t98_paramcell t99_absmem
-t95_runjoint t96_absplace t97_pagesym t98_paramcell t99_absmem
+# Generators passed to tools/lanes/land_lanes.sh as EXTRA_T by tools/lanes/land_gap.sh (and by any t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# hand landing: EXTRA_T="$(grep -v '^#' tools/lanes/cascade_extra.txt | tr '\n' ' ')"). t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# ONE place for the list.  Until round 68 every session scratchpad lander carried its own copy of t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# this string (land_r63.sh ... land_r68.sh, pool.sh, codex59j.sh, clone_watch.sh), and each copy was t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# a different prefix of it: a lane landed by the older script simply did not get the newer t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# generators swept over its changed rows. t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# A generator belongs here as soon as it has landed a row and until it is added to the built-in t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# cascade of land_lanes.sh (tools/lanes/add_cascade rules: an entry in both lists is harmless, it t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# just sweeps twice).  land_lanes.sh's own list is the permanent home; coherence_sweep.py keeps a t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# separate list of its own which this file does NOT feed - extend that one by hand. t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t78_aggcopy t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t80_derivecall t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t81_reuselocal t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t82_armsink t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t83_storeafterproducer t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t84_narrowparams t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t86_symaddr t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t87_lifetimemerge t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t88_castshift t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t89_lifetimesplit t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t90_lifetimemerge_far t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t90_callunnest t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t91_absfresh t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t92_pagerun t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t93_scopemerge t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t94_castsplit t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+t95_runjoint t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
