@@ -10,13 +10,14 @@ extern u8 D_80016000[0x10];
 
 typedef void (*Callback)(s32, s32);
 
-s32 func_80017240(s32 arg0, s32 arg1) {
+/* Advance the town scene: clear flag 0x943 when it is set and the step check passes, otherwise hand back to the scene callback. */
+s32 func_80017240(s32 kind, s32 value) {
     func_80016CC4();
     func_80016DBC();
 
     if (func_8001A64C(0x943) != 0) {
         func_80019988();
-        if (func_8001991C(arg0, arg1) != 0) {
+        if (func_8001991C(kind, value) != 0) {
             func_8001A5CC(0x943);
             return 1;
         }

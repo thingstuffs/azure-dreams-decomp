@@ -24,7 +24,8 @@ extern s32 func_8001A64C();
 extern Rec_D_80016000 *D_80016000;
 
 
-s32 func_800170DC(s32 arg0, M2C_UNK arg1) {
+/* Advance the town scene: raise 0x94B, then hand back to the scene callback unless flag 0x943 and the step check both pass. */
+s32 func_800170DC(s32 kind, M2C_UNK value) {
     func_80016CC4();
     func_80016DBC();
     func_8001A554(0x94B);
@@ -33,7 +34,7 @@ s32 func_800170DC(s32 arg0, M2C_UNK arg1) {
         return 0;
     }
     func_80019988();
-    if (func_8001991C(arg0, arg1) == 0) {
+    if (func_8001991C(kind, value) == 0) {
         ((S_800170DC_1 *)(D_80016000->unk_20))->unk_2F8(0xE, 0x200);
         return 0;
     }

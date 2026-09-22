@@ -11,7 +11,8 @@ extern void func_80019988(void);
 extern void func_8001A554(s32);
 extern s32 func_8001A64C(s32);
 
-s32 func_800182FC(s32 arg0, void *arg1)
+/* Advance the town scene: finish early on flag 0x1068, else arm the 0x949/0x94A record or run the step check, then hand back to the scene callback. */
+s32 func_800182FC(s32 kind, void *param)
 {
     func_80016CC4();
     if (func_8001A64C(0x1068) != 0) {
@@ -40,7 +41,7 @@ s32 func_800182FC(s32 arg0, void *arg1)
     }
 
     func_80019988();
-    if (func_8001991C(arg0, arg1) != 0) {
+    if (func_8001991C(kind, param) != 0) {
         return 1;
     }
 
