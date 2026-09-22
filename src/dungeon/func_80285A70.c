@@ -81,6 +81,7 @@ extern s32 D_8001F594[];
 extern u8 D_800F0000[];
 extern u8 D_80081468[];
 
+/* Sets up the run's save state and RNG (new game or continue), then loads the selected dungeon track and waits for it to finish loading. */
 void func_80018A70(void) {
     u8 *page8_common;
     State13710 *state;

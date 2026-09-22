@@ -47,7 +47,8 @@ typedef struct {
     u8 rest[16];
 } LargeMapEntry;
 
-void func_8009DAD8(s32 arg0) {
+/* Services pending redraw flags, then draws map markers for nearby monsters, dropped items, and large map entries. */
+void func_8009DAD8(s32 draw_param) {
     u8 colour[4];
     u8 *head;
     u8 *entry;
@@ -100,10 +101,10 @@ void func_8009DAD8(s32 arg0) {
     firstColour = colour;
     if (brightness >= 0x100) {
         brightness = 0xff;
-        firstContext = arg0;
+        firstContext = draw_param;
         pageOrTwo = 0x80080000;
     } else {
-        firstContext = arg0;
+        firstContext = draw_param;
         pageOrTwo = 0x80080000;
     }
     playerAndIndex = pageOrTwo + 0x2e80;
@@ -168,7 +169,7 @@ process_mode:
                     colour[0] = 0;
                 }
                 a0Value = object[0x24];
-                func_8009DA70(a0Value, object[0x25], colour, arg0);
+                func_8009DA70(a0Value, object[0x25], colour, draw_param);
                 if (mode == pageOrTwo) {
                     colour[2] = 0;
                     colour[0] = brightness;
@@ -190,7 +191,7 @@ after_entries:
                 func_8009EE4C(a0Value = mapEntry[playerAndIndex].x,
                               mapEntry[playerAndIndex].y)) {
                 func_8009DA70(a0Value = mapEntry[playerAndIndex].x,
-                              mapEntry[playerAndIndex].y, colour, arg0);
+                              mapEntry[playerAndIndex].y, colour, draw_param);
             }
         }
         playerAndIndex++;
@@ -208,7 +209,7 @@ after_entries:
             func_8009EE4C(a0Value = objectEntry[playerAndIndex].x,
                           objectEntry[playerAndIndex].y)) {
             func_8009DA70(a0Value = (u16)objectEntry[playerAndIndex].x,
-                          (u16)objectEntry[playerAndIndex].y, colour, arg0);
+                          (u16)objectEntry[playerAndIndex].y, colour, draw_param);
         }
         playerAndIndex++;
     } while (playerAndIndex < 4);
@@ -229,7 +230,7 @@ object_entries_done:
                  func_8009EE4C(a0Value = largeMapEntry[playerAndIndex].x,
                                largeMapEntry[playerAndIndex].y))) {
                 func_8009DA70(a0Value = largeMapEntry[playerAndIndex].x,
-                              largeMapEntry[playerAndIndex].y, colour, arg0);
+                              largeMapEntry[playerAndIndex].y, colour, draw_param);
             }
         }
         playerAndIndex++;
