@@ -69,8 +69,6 @@ typedef struct S_81934C5C_5 {
 
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((s8 *)(expr) + (offset)))
 
-void func_8002468C() __attribute__((noreturn));
-void func_80024724() __attribute__((noreturn));
 void *func_8003FD64();
 M2C_UNK func_8004491C();
 s32 func_80069EF8();
@@ -118,7 +116,6 @@ void func_8002445C(void *effect) {
         if (state == 1) {
             goto block_state1;
         }
-        func_80024724();
         return;
     }
     if (state == 3) {
@@ -127,7 +124,6 @@ void func_8002445C(void *effect) {
     if (state == 0xFF) {
         goto block_state_ff;
     }
-    func_80024724();
     return;
 
 block_state0:
@@ -140,11 +136,10 @@ block_state1:
     ((S_81934C5C_0 *)effect)->unk_1C.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_1C.at00.v + ((S_81934C5C_0 *)effect)->unk_28.at00.v);
     ticks_left = ((S_81934C5C_0 *)effect)->unk_48.u;
     ((S_81934C5C_0 *)effect)->unk_24.at00.v = (s32) (((S_81934C5C_0 *)effect)->unk_24.at00.v + ((S_81934C5C_0 *)effect)->unk_30.at00.v);
-    if (ticks_left <= 0) {
-        func_8002468C(ticks_left);
-        return;
+    if (ticks_left > 0) {
+        goto block_return;
     }
-    goto block_return;
+    goto block_advance;
 
 block_state2:
     x_fixed = ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
@@ -207,8 +202,8 @@ block_state2:
             impact_sprite->unk_05 = 0;
         }
     }
+block_advance:
     ((S_81934C5C_0 *)effect)->unk_4C = (s16) ((u16) ((S_81934C5C_0 *)effect)->unk_4C + 1);
-    func_80024724();
     return;
 
 block_state3:
@@ -223,7 +218,6 @@ block_state3:
 
 block_tail_ff:
     ((S_81934C5C_0 *)effect)->unk_4C = 0xFF;
-    func_80024724();
     return;
 
 block_state_ff:

@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern u8 D_800E3648[];
-extern void func_80095530(s32);
 
 s32 func_800954E0(void *arg0) {
     s32 cursor;
@@ -18,7 +17,6 @@ s32 func_800954E0(void *arg0) {
         
         flags = *((u8 *)cursor + 3);
         if (!(flags & 0x80)) {
-            func_80095530(flags);
             return 1;
         }
         if (flags & 0x40) {

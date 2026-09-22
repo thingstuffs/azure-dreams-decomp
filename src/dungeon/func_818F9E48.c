@@ -86,8 +86,6 @@ extern s16 D_800266BC;
 extern s32 D_800814A0;
 
 extern void func_80024CD4();
-extern void func_80025714() __attribute__((noreturn));
-extern void func_80025908() __attribute__((noreturn));
 
 /* Update a timed visual effect using its owner's appearance and position. */
 void func_818F9E48(void *state, void *position_out, void *effect_arg) {
@@ -115,18 +113,16 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
             ((EffectState *)state)->levels[level_index]++;
             level_index++;
         } while (level_index < 0x60);
-        func_80025714();
-        return;
+    } else {
+        level_index = 0;
+        do {
+            intensity = ((EffectState *)state)->levels[level_index];
+            if (intensity != 0) {
+                ((EffectState *)state)->levels[level_index] = intensity - 1;
+            }
+            level_index++;
+        } while (level_index < 0x60);
     }
-
-    level_index = 0;
-    do {
-        intensity = ((EffectState *)state)->levels[level_index];
-        if (intensity != 0) {
-            ((EffectState *)state)->levels[level_index] = intensity - 1;
-        }
-        level_index++;
-    } while (level_index < 0x60);
 
     frame_or_phase = ((S_818F9E48_0 *)state)->unk_02.s;
     if (frame_or_phase < 0x15) {
@@ -157,7 +153,6 @@ void func_818F9E48(void *state, void *position_out, void *effect_arg) {
     if (frame_or_phase == fade_or_phase) {
         goto state_done;
     }
-    func_80025908();
     return;
 
 state_zero:

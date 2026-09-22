@@ -3,7 +3,7 @@
 
 typedef struct S_8080BE0C_0_pre {
     u16 unk_00;
-} S_8080BE0C_0_pre;   /* the 0x2 bytes before arg0 in func_8080BE0C, addressed as arg0[-1] */
+} S_8080BE0C_0_pre;   /* the 0x2 bytes before arg0 in func_80526A0C, addressed as arg0[-1] */
 
 typedef struct S_8080BE0C_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,21 +13,20 @@ typedef struct S_8080BE0C_0 {
     void * unk_0C;
     u8 pad_10[0xC];
     u16 unk_1C;
-} S_8080BE0C_0;   /* arg0 in func_8080BE0C */
+} S_8080BE0C_0;   /* arg0 in func_80526A0C */
 
 typedef struct S_8080BE0C_1 {
     u8 pad_00[0x2A];
     u16 unk_2A;
-} S_8080BE0C_1;   /* temp_s2 in func_8080BE0C */
+} S_8080BE0C_1;   /* temp_s2 in func_80526A0C */
 
 
 M2C_UNK func_80058588();               /* extern */
 s32 func_80071424();                             /* extern */
-void func_80526AFC() __attribute__((noreturn));  /* extern */
 extern s32 D_80084D5C;
 extern s16 D_80530000[];
 
-void func_8080BE0C(void *arg0) {
+void func_80526A0C(void *arg0) {
     s16 *var_v1;
     s16 temp_v1;
     s32 var_a0;
@@ -53,7 +52,7 @@ void func_8080BE0C(void *arg0) {
     if (temp_v1 == 1) {
         goto state_1;
     }
-    func_80526AFC(var_a0);
+    return;
 
 state_0:
     temp_v0_2 = ((S_8080BE0C_0 *)arg0)->unk_02 - 1;
@@ -67,7 +66,7 @@ state_0:
     flags_value &= 0xFFFD;
     ((S_8080BE0C_0 *)arg0)->unk_1C = flags_value;
     ((S_8080BE0C_0 *)arg0)->unk_00.u = state_value;
-    func_80526AFC(var_a0);
+    return;
 
 state_1:
     func_80058588(var_s1, func_80071424(((S_8080BE0C_0 *)arg0)->unk_04), ((S_8080BE0C_0 *)arg0)->unk_04);

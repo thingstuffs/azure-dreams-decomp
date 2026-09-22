@@ -16,15 +16,14 @@ extern s32 func_807008FC(s32);
 extern void func_80700D20(s32);
 extern void func_80700CD0(s32);
 extern void func_8070096C(s32, s32);
-extern void func_80700B4C(void);
-extern void func_80700B10(void) __attribute__((noreturn));
-extern void func_80700B38(void) __attribute__((noreturn));
+extern s32 func_80700B4C();
 
 #ifdef NON_MATCHING
 #define ({                                                                       register s32 zero ASM_REG("$0");                                     ASM_KEEP(zero);                                                      zero | (value);                                                      }) (value)
 #else
 #endif
 
+/* Clear the pending flags for the index's stage and return the follow-up handler's result. */
 s32 func_8088124C(s32 index) {
     if (func_80700D74(D_8070063A[0]) == 0 &&
         func_80700D74(0x278) != 0 &&
@@ -35,14 +34,14 @@ s32 func_8088124C(s32 index) {
             func_80700D20(D_80700660[0]);
             func_80700D20(0x281);
             func_80700D20(0x280);
-            func_80700B10();
+            goto shared_clear;
         }
 
         if (func_80700D74(0x288) != 0) {
             func_80700CD0(D_80700650[index].value);
+shared_clear:
             func_80700D20(0x278);
-            func_80700B4C();
-            func_80700B38();
+            return func_80700B4C();
         }
     }
 

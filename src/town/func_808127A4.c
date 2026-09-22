@@ -3,7 +3,7 @@
 
 typedef struct S_808127A4_0_pre {
     u16 unk_00;
-} S_808127A4_0_pre;   /* the 0x2 bytes before arg0 in func_808127A4, addressed as arg0[-1] */
+} S_808127A4_0_pre;   /* the 0x2 bytes before arg0 in func_8052D3A4, addressed as arg0[-1] */
 
 typedef struct S_808127A4_0 {
     union { s16 s; u16 u; } unk_00;   /* accessed as both */
@@ -13,19 +13,18 @@ typedef struct S_808127A4_0 {
     void * unk_0C;
     u8 pad_10[0x6];
     union { s16 s; u16 u; volatile u16 p; } unk_16;   /* accessed as both */
-} S_808127A4_0;   /* arg0 in func_808127A4 */
+} S_808127A4_0;   /* arg0 in func_8052D3A4 */
 
 typedef struct S_808127A4_1 {
     u8 pad_00[0x5C];
     s16 unk_5C;
-} S_808127A4_1;   /* temp_s1 in func_808127A4 */
+} S_808127A4_1;   /* temp_s1 in func_8052D3A4 */
 
 
 M2C_UNK func_80058588();           /* extern */
-void func_8052D4A0(void) __attribute__((noreturn)); /* extern */
 extern s32 D_80084D5C;
 
-void func_808127A4(void *arg0) {
+void func_8052D3A4(void *arg0) {
     s16 temp_v1;
     u32 temp_a0;
     u16 temp_step;
@@ -41,7 +40,6 @@ void func_808127A4(void *arg0) {
     if (temp_v1 == 1) {
         goto state_1;
     }
-    func_8052D4A0();
     return;
 
 state_0:
@@ -55,7 +53,6 @@ state_0:
         ((S_808127A4_0 *)arg0)->unk_02.s = -8;
     }
     ((S_808127A4_0 *)arg0)->unk_00.u++;
-    func_8052D4A0();
     return;
 
 state_1:

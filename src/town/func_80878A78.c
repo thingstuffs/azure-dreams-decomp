@@ -21,9 +21,9 @@ extern u8 D_80702FB8[];
 extern u8 *D_8070306C[];
 extern u8 **D_807030B4;
 extern void func_80702A54(void);
-extern void func_80702B34(void) __attribute__((noreturn));
 
-void func_80878A78(s32 arg0, s32 arg1)
+/* Reset the town display, pick the scene's data block and relocate its pointer table. */
+void func_80878A78(s32 scene, s32 mode)
 {
     s32 sentinel;
     u8 *ptr;
@@ -37,12 +37,13 @@ void func_80878A78(s32 arg0, s32 arg1)
     D_8070309C = 1;
     func_80702A54();
 
-    if (arg1 == (2)) {
+    if (mode == (2)) {
         D_807030AC->data = D_80702FB8;
-        func_80702B34();
+        goto have_data;
     }
 
-    D_807030AC->data = D_8070306C[arg0];
+    D_807030AC->data = D_8070306C[scene];
+have_data:
     do { ptr = D_807030AC->data; } while (0);
     first = ptr[1];
     sentinel = 0x80;

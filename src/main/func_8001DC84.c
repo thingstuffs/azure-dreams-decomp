@@ -16,7 +16,6 @@ extern s32 func_804046C8(void *arg0);
 extern s32 func_80404B5C(s32 arg0);
 extern void func_80404B84(void *arg0, s32 arg1);
 extern void func_80404C44(void *arg0, s32 arg1);
-extern s32 func_80404D40(void *arg0);
 extern void func_80404DBC(void *arg0);
 
 typedef struct {
@@ -39,10 +38,9 @@ typedef struct {
 extern Root D_8040B1D0;
 
 /* Create or reset the card background object and initialize its callback. */
-s32 func_8001DC84(s32 init_value, s32 config_value) {
+s32 func_80404C84(s32 init_value, s32 config_value) {
     Root *base;
     Obj *obj;
-    register Obj *tail_obj ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
 
     base = &D_8040B1D0;
     obj = &base->obj;
@@ -54,24 +52,21 @@ s32 func_8001DC84(s32 init_value, s32 config_value) {
             func_8007BEF0(1);
         }
         func_80040560(base, D_8040861C);
-        return func_80404D40(obj);
+    } else {
+        func_80404DBC(base);
+        {
+            u16 flags = D_8040B1D0.flags;
+            flags &= 0x7FFF;
+            D_8040B1D0.flags = flags;
+        }
+        func_8007BFE0(obj, 0x304);
     }
-    func_80404DBC(base);
-    {
-        u16 flags = D_8040B1D0.flags;
-        flags &= 0x7FFF;
-        D_8040B1D0.flags = flags;
-    }
-    func_8007BFE0(obj, 0x304);
     D_804F281B[0] = 8;
     D_805030EF[0] = 8;
     func_80404B84(obj, 7);
-    tail_obj = obj;
-    ASM_KEEP(tail_obj);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(base);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    base->field_0C = (u8 *)tail_obj + 0x210;
-    tail_obj->field_21C = func_80404B5C(tail_obj->field_220);
-    func_80404C44(tail_obj, (tail_obj->field_04 = config_value, init_value));
-    func_804046C8((base->field_10 = func_804046C8, tail_obj));
+    base->field_0C = (u8 *)obj + 0x210;
+    obj->field_21C = func_80404B5C(obj->field_220);
+    func_80404C44(obj, (obj->field_04 = config_value, init_value));
+    func_804046C8((base->field_10 = func_804046C8, obj));
     return (s32)base;
 }

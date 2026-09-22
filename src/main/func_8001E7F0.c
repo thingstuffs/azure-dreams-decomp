@@ -5,7 +5,6 @@ extern void *func_8003C714(s32 arg0, void *arg1, s32 arg2);
 extern void func_8007C040(void *arg0, void *arg1, s32 arg2);
 extern void func_8007BEF0(s32 arg0);
 extern void func_80040560(void *arg0, void *arg1);
-extern void func_804058AC(void *arg0);
 extern void func_804059A8(void *arg0);
 extern void func_8007BFE0(void *arg0, s32 arg1);
 extern void func_804056F4(void *arg0, s32 arg1);
@@ -23,7 +22,7 @@ typedef struct {
 extern Root D_8040B4F8;
 
 /* Initializes the memory card information object and its working state. */
-void *func_8001E7F0(s32 init_option, s32 info_value) {
+void *func_804057F0(s32 init_option, s32 info_value) {
     void *base;
     void *card_state;
 
@@ -36,23 +35,16 @@ void *func_8001E7F0(s32 init_option, s32 info_value) {
             func_8007BEF0(1);
         }
         func_80040560(base, D_8040861C);
-        func_804058AC(card_state);
-        return;
+    } else {
+        func_804059A8(base);
+        D_8040B4F8.flags &= 0x7FFF;
+        func_8007BFE0(card_state, 0xDFC);
     }
-    func_804059A8(base);
-    D_8040B4F8.flags &= 0x7FFF;
-    func_8007BFE0(card_state, 0xDFC);
-    {
-        register void *body ASM_REG("$17") = card_state;
-
-        ASM_KEEP(body);
-        *(s32 *)((u8 *)body + 0x7C) = info_value;
-        func_804056F4(body, 0x15);
-        ASM_KEEP(base);
-        *(void **)((u8 *)base + 0xC) = (u8 *)body + 0xAF8;
-        *(s32 *)((u8 *)body + 0xB04) = func_804056CC((u8 *)body + 0xB08);
-        func_804057B0(body, init_option);
-    }
+    *(s32 *)((u8 *)card_state + 0x7C) = info_value;
+    func_804056F4(card_state, 0x15);
+    *(void **)((u8 *)base + 0xC) = (u8 *)card_state + 0xAF8;
+    *(s32 *)((u8 *)card_state + 0xB04) = func_804056CC((u8 *)card_state + 0xB08);
+    func_804057B0(card_state, init_option);
     *(s32 *)((u8 *)base + 0x10) = 0;
     return base;
 }

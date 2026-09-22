@@ -14,14 +14,13 @@ typedef struct S_805D2FC4_1 {
 } S_805D2FC4_1;   /* &D_80019AFC in func_805D2FC4 */
 
 
-s32 func_8001709C();                                /* extern */
 M2C_UNK func_80017E1C();                            /* extern */
 s32 func_80018504();                    /* extern */
 s32 func_800194D8();                         /* extern */
 extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80019AFC;
 
-s32 func_805D2FC4(s32 arg0, M2C_UNK arg1) {
+s32 func_80016FC4(s32 arg0, M2C_UNK arg1) {
     s32 var_s0;
     u8 temp_v1;
 
@@ -35,7 +34,7 @@ s32 func_805D2FC4(s32 arg0, M2C_UNK arg1) {
         ((S_805D2FC4_2 *)(((D_80016000->unk_08.at00_s32.v * 8) + D_80016000->unk_40.as_s32)))->unk_04.u = 0;
         D_80019AFC = 0;
         do {
-            return func_8001709C();
+            return var_s0;
         } while (0);
     }
     func_80017E1C();

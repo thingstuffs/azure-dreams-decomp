@@ -57,9 +57,8 @@ typedef s32 M2C_UNK32;
 typedef s64 M2C_UNK64;
 M2C_UNK func_80058588();
 s32 func_80071424();
-void func_80526BE4(void) __attribute__((noreturn));
 extern s32 D_80084D5C;
-void func_8080BF18(void *arg0)
+void func_80526B18(void *arg0)
 {
   s16 temp_v1;
   u16 temp_v0;
@@ -76,12 +75,10 @@ void func_8080BF18(void *arg0)
   {
     goto state_1;
   }
-  func_80526BE4();
   return;
  do { state_0: temp_v0 = (*((u16 *) (((s8 *) arg0) + 2))) - 1; *((u16 *) (((s8 *) arg0) + 2)) = temp_v0; if ((temp_v0 << 0x10) > 0) { return; } temp_v1_u = (*((u16 *) (((s8 *) arg0) + 0))) + 1; temp_v0 = (*((u16 *) (((s8 *) arg0) + 0x1C))) & 0xFFFD; } while (0);
   *((u16 *) (((s8 *) arg0) + 0x1C)) = temp_v0;
   *((u16 *) (((s8 *) arg0) + 0)) = temp_v1_u;
-  func_80526BE4();
   return;
   state_1:
   if ((*((u16 *) (((s8 *) temp_s1) + 0x2A))) & 1)

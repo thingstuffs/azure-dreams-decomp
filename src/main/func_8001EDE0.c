@@ -23,11 +23,10 @@ extern void func_8040334C(void *);
 extern void func_80404688(s32);
 extern void func_80405AB4(void *);
 extern void func_80405C44(s32);
-extern void func_80405E84(void) __attribute__((noreturn));
 extern void func_80406368(void);
 extern void func_80405A3C(void);
 
-void func_8001EDE0(void *arg0) {
+void func_80405DE0(void *arg0) {
     s32 temp_a0;
     s32 var_s1;
     void *var_a0;
@@ -53,12 +52,14 @@ void func_8001EDE0(void *arg0) {
         func_80404688(temp_a0);
     } while (var_s1 < 5);
     func_80405AB4(arg0);
-    func_80405E84();
+    goto done;
 
 tail:
     *(void (**)(void))((u8 *)arg0 + 0x34) = func_80406368;
     func_8040334C(var_a0);
     *(void * volatile *)((u8 *)arg0 - 0x10) = (void *)func_80405A3C;
+
+done:
     func_80400908();
     ((S_8001EDE0_0 *)arg0)->unk_40 = 0;
 }

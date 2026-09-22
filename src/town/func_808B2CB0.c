@@ -3,8 +3,7 @@
 #include "m2c_compat.h"
 
 s32 func_80700304(s32, s32, s32, s32);                                /* extern */
-void func_8070055C(void) __attribute__((noreturn)); /* extern */
-void func_80700590();                              /* extern */
+s32 func_80700590();                               /* extern */
 
 typedef struct {
     u8 pad[0x54];
@@ -17,34 +16,34 @@ __asm__(".set D_A0700000, 0xA0700000");
 typedef struct S_808B2CB0_0 {
     u8 pad_00[0xE];
     u8 unk_0E;
-} S_808B2CB0_0;   /* temp_v1 in func_808B2CB0 */
+} S_808B2CB0_0;   /* status in func_808B2CB0 */
 
-s32 func_808B2CB0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_v0;
-    register s32 temp_a0 ASM_REG("$4");
-    u8 *temp_a1;
-    S_808B2CB0_0 *temp_v1;
-    u8 temp_v0_2;
+/* Set the slot's bitmap bit once the query allows it and return the notifier's result. */
+s32 func_808B2CB0(s32 slot, s32 query_b, s32 query_c, s32 query_d) {
+    s32 raw_bit;
+    register s32 scratch ASM_REG("$4");
+    u8 *byte_ptr;
+    S_808B2CB0_0 *status;
+    u8 status_byte;
 
-    if (func_80700304(arg0, arg1, arg2, arg3) >= 2) {
-        temp_v0 = *(s16 *)((u8 *)D_A0700000 + (arg0 * 2) + 0xF34);
-        temp_a0 = temp_v0;
-        if (temp_v0 < 0) {
-            temp_a0 = temp_v0 + 0x1F;
+    if (func_80700304(slot, query_b, query_c, query_d) >= 2) {
+        raw_bit = *(s16 *)((u8 *)D_A0700000 + (slot * 2) + 0xF34);
+        scratch = raw_bit;
+        if (raw_bit < 0) {
+            scratch = raw_bit + 0x1F;
         }
-        temp_a0 >>= 5;
-        temp_a1 = *(u8 **)((u8 *)D_A0700000 + 0xF40) + temp_a0;
-        temp_a0 = temp_v0 - (temp_a0 << 5);
-        *temp_a1 |= 1 << temp_a0;
-        func_80700590(temp_a0, temp_a1);
-        func_8070055C();
+        scratch >>= 5;
+        byte_ptr = *(u8 **)((u8 *)D_A0700000 + 0xF40) + scratch;
+        scratch = raw_bit - (scratch << 5);
+        *byte_ptr |= 1 << scratch;
+        return func_80700590(scratch, byte_ptr);
     }
 
     (*(CallbackOwner **)((u8 *)D_A0700000 + 0xF58))->callback(2);
-    temp_v1 = *(void **)((u8 *)D_A0700000 + 0xF40);
-    temp_v0_2 = temp_v1->unk_0E;
-    temp_v1->unk_0E = temp_v0_2;
+    status = *(void **)((u8 *)D_A0700000 + 0xF40);
+    status_byte = status->unk_0E;
+    status->unk_0E = status_byte;
     do {
-        return arg0;
+        return slot;
     } while (0);
 }
