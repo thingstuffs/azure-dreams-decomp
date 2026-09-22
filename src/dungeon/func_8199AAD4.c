@@ -148,7 +148,6 @@ void func_800242D4(void *self, void *coords)
             return;
         }
 
-        ASM_KEEP(table_start);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         tail_z = 2;
         iteration = NULL;
         if (state == (s32)tail_z) {

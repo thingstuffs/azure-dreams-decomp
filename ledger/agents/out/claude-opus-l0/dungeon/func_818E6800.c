@@ -176,6 +176,7 @@ set_distance:
             if (mode == 0) goto mode_0;
             return;
 mode_ge_2:
+            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (mode == 2) goto mode_2;
             return;
         }

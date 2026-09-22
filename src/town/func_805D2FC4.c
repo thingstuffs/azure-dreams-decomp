@@ -46,5 +46,7 @@ s32 func_80016FC4(s32 arg0, M2C_UNK arg1) {
 }
 
 /* MECHANISM: The retail prologue is driven by arg0/arg1 held in s1/s2 and
-   the conditional helper result held in s0. A post-call read/write liveness
-   barrier preserves s0 across the zero-edge; both cleanup arms clear state. */
+   the conditional helper result held in s0; the do-while(0) around the early
+   `return var_s0;` is the barrier that keeps s0 across the zero-edge. The tail
+   pseudo-call func_8001709C (true base +0xD8, this row's own epilogue) was
+   replaced by that return 2026-09-22 (byte-exact). */

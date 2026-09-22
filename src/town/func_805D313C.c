@@ -28,6 +28,6 @@ s32 func_8001713C(s32 arg0, s32 arg1, s32 arg2) {
     return result;
 }
 
-/* MECHANISM: The 24-byte frame and s0 result preserve the retail prologue and held value.
-   Explicit D4/D0 tail calls expose the original-base merge targets to LEAD 22.
-   Post-call ASM_KEEP holds each D0 address in s0 while the callee result remains in v0. */
+/* MECHANISM: the row's two tail targets (true base +0x94 / +0x98) are its own epilogue;
+   the plain `result` chain returning through one exit reproduces both entries. The former
+   D4/D0 pseudo-calls and their ASM_KEEP pins were removed 2026-09-22 (byte-exact). */

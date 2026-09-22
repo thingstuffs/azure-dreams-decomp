@@ -271,8 +271,6 @@ extern void func_800B8FC8(void *, void *, void *, s32, s32);
 extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_8002405C(void *, s32, void *);
 
-extern void func_80025B70(void) __attribute__((noreturn));
-extern void func_80026730(void) __attribute__((noreturn));
 
 /* Updates a traveling effect, its target animation, and its cleanup state. */
 void func_800257D0(void *effect_data, void *motion_data, void *render_data)
@@ -387,7 +385,6 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                     tile_distance = -tile_distance;
                 }
                 effect->unk_7B = tile_distance * 2 - 1;
-                func_80025B70();
             } else {
                 u16 owner_height = owner->unk_88;
 
@@ -417,7 +414,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         effect->unk_88 = (s8)effect->unk_7B;
         effect->unk_8A =
             (s8)effect->unk_7B * (s8)effect->unk_7B;
-        func_80026730();
+        return;
 
     case 2:
         index = 0;
@@ -487,7 +484,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
             motion->unk_04.u16_06.unk_06 = ((S_func_81905FD0_2 *)particle_shade)->unk_04.u16_06.unk_06;
         }
         motion->unk_08.u16_0A.unk_0A = effect->unk_78.u16;
-        func_80026730();
+        return;
 
     reset_state8:
         effect->unk_0A.u16 = 8;
@@ -495,13 +492,13 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         render->unk_0C.u8_0E.unk_0E = 0;
         render->unk_0C.u8_0D.unk_0D = 0;
         render->unk_0C.u8 = 0;
-        func_80026730();
+        return;
 
     update_coords:
         motion->unk_00.u32 += motion->unk_0C;
         motion->unk_04.u32 += motion->unk_10;
         motion->unk_08.u32 += motion->unk_14.u32;
-        func_80026730();
+        return;
 
     case 3: {
         {
@@ -785,7 +782,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
                 effect->unk_0A.u16 = 4;
                 effect->unk_82.u16 = 0;
                 effect->unk_9C.u16 = 0;
-                func_80026730();
+                return;
             }
         }
         goto done;
@@ -836,7 +833,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         if (effect->unk_82.s16 >= 120) {
             goto advance_state;
         }
-        func_80026730();
+        return;
 
     case 5:
         if (effect->unk_9C.s16 == 0) {
@@ -851,7 +848,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
     advance_state:
         effect->unk_82.u16 = 0;
         effect->unk_0A.u16 = effect->unk_0A.u16 + 1;
-        func_80026730();
+        return;
 
     case 6:
         effect->unk_82.u16 = effect->unk_82.u16 + 1;
@@ -867,7 +864,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         target_render->unk_0C.u8 = 128;
         effect->unk_0A.u16 = 8;
         effect->unk_82.u16 = 30;
-        func_80026730();
+        return;
 
     case 8: {
         u16 previous_timer = effect->unk_82.u16;
@@ -888,7 +885,7 @@ void func_800257D0(void *effect_data, void *motion_data, void *render_data)
         D_8008346C = 0;
         *(u16 *)((u8 *)effect - 2) |= 0x8000;
         D_800814A0 |= 0x8000;
-        func_80026730();
+        return;
     }
 
     clear_flag:
