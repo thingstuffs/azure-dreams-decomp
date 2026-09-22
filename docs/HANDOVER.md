@@ -1,6 +1,6 @@
 # Handover (2026-09-22 01:40Z) - start here in a fresh session
 
-**State:** ~4,560 pins in ~1,077 rows (STATUS.md has the exact line; the tree was 5,682 on the morning of 09-21).
+**State:** 4,389 pins in 1,065 rows at 02:00Z 09-22 (STATUS.md has the live line; the tree was 5,682 on the morning of 09-21: 1,293 pins in a day).
 **Codex:** both models hit the usage limit at ~23:50Z on 09-21; the error says "try again at Sep 26th 2026 8:20 AM".
 `reset_watch2.sh` in the session scratchpad (`/tmp/claude-1000/-home-david-azure-clean/4839def8-919c-4fa0-8c13-fcce21db8d9a/scratchpad/`)
 probes every 2 h and starts the pre-built kit packs `r72_kit_astra11-12`, `r71_kit_sol12`, `r72_kit_sol1-12` through `tools/lanes/pool.py`.
