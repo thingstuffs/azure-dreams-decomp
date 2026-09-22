@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-22T04:56:52Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-22T05:38:02Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -48,9 +48,9 @@ Per-row optimization flags (weak evidence about the real build; each switch is u
 | level | bytes | % |
 |---|---:|---:|
 | L0 | 2,558,124 | 100.0% |
-| L1 | 2,394,904 | 93.6% |
-| L2 | 2,394,904 | 93.6% |
-| L3 | 2,394,904 | 93.6% |
+| L1 | 2,483,668 | 97.1% |
+| L2 | 2,482,752 | 97.1% |
+| L3 | 2,426,444 | 94.9% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
