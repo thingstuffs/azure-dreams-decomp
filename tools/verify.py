@@ -184,18 +184,74 @@ def run_window_gate(yaml_name, raw=False):
         return "ERROR", (out[-1] if out else "")[:200].replace(str(ROOT), "<repo>")
     return ("MATCH" if last.startswith("MATCH") else "NO MATCH"), last[:200]
 
+_ROWBASE = None
+def _rowbase():
+    """The build_ovl copy of rowbase.py, loaded BY PATH: tools/gate's copy resolves its own ROOT to
+    tools/, so its config/overlays lookup silently finds nothing (tools/lanes/promote_honest.py
+    asserts the same thing).  Loaded lazily so importing this module stays cheap."""
+    global _ROWBASE
+    if _ROWBASE is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("azure_rowbase_verify", ROOT / "build_ovl/tools/rowbase.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _ROWBASE = mod
+    return _ROWBASE
+
+def needs_gate(row):
+    """Does landing this row have to pay for a window gate?
+
+    The per-row scorer links every row at its true base whenever a rowbase record covers it, of ANY
+    confidence (rowbase.link_vram, owner decision C).  The window gate is stricter: it links at the
+    true base only when the row has a registered `true_name` AND its rowbase region is `proven`
+    (overlay_local_gate._rowbase_proven_delta); otherwise it links the row at its synthetic address.
+    So the two agree only when BOTH hold, and any row where they disagree can be scorer-exact and
+    wrong in the window -- its own internal `j` words resolve against a different base.
+
+    The old test was `not true_name` alone.  That was right while every recorded region was proven,
+    and wrong the moment a row was landed against a `solved` one: on 2026-09-22 fifteen rows landed
+    that way (true_name registered, region still `solved`), the gate kept linking them synthetic,
+    and four dungeon windows went NO MATCH -- the same failure mode `needs_gate` exists to catch,
+    displaced by one step.  Promoting the regions fixed all four, but the landing should have
+    refused to be cheap about it.
+
+    A mismatched `true_name` inside a proven region is the gate's WINDOW-LINK DIVERGENCE abort;
+    gate it too, so it is caught at landing rather than by the next unrelated run.  Unknown family,
+    missing foff or an unreadable rowbase table all fall through to True: a whole-overlay window
+    such as town_scene takes minutes, but never as long as a wrong landing.
+
+    Single source of truth for this predicate: promote.needs_gate and verify.gate_candidate both
+    call this function (promote.py imports it from here) so the landing check and the ad-hoc
+    `verify.py --gate` check can never drift apart again (2026-09-22: they did, briefly -- see
+    tools/tests/test_verify_gate_candidate.py)."""
+    if row["kind"] != "overlay":
+        return False
+    true_name = row.get("true_name")
+    if not true_name or row.get("foff") is None:
+        return True
+    try:
+        delta = _rowbase().delta_for(row["container"], int(row["foff"]), proven_only=True)
+    except Exception:
+        return True
+    if delta is None:
+        return True                                   # region absent or only `solved`: gate links synthetic
+    return true_name != "func_%08X" % (int(row["foff"]) + delta)
+
 def gate_candidate(row, cfile):
     """Prove a candidate through the row's window(s): the candidate replaces the row's src/ text under the
-    window lock, the gate runs, the text is restored.  The per-row scorer links every row at its true base;
-    the gate links a row with no recorded true name at its synthetic address, so a scorer-exact body whose
-    internal jumps changed spelling can still be wrong in the window (2026-09-08).  Returns
+    window lock, the gate runs, the text is restored.  The per-row scorer links every row at its true base
+    whenever ANY rowbase record covers it; the window gate links there only when the row ALSO has a
+    registered `true_name` AND its region is `proven` (needs_gate above -- the same predicate promote.py
+    uses to decide whether landing pays for this gate).  Skipping on `true_name` alone was stale: a row
+    landed against a `solved` region is scorer-exact at its true base while the window still links it
+    synthetic, so its own internal `j` words resolve against the wrong address (2026-09-22).  Returns
     {"gate": ..., "windows": [...], "detail": ...}."""
     from common import covering_windows, clean_path
     if row["kind"] != "overlay" or not row.get("gate_config"):
         return {"gate": "n/a"}
-    if row.get("true_name"):
-        # the scorer links this row where the gate does (its true name): the window adds nothing but minutes
-        return {"gate": "not needed: row linked at its true name (scorer and gate agree)"}
+    if not needs_gate(row):
+        # the scorer links this row where the gate does (true_name registered AND region proven): the window adds nothing but minutes
+        return {"gate": "not needed: true_name registered AND rowbase region proven (scorer and gate agree)"}
     wins = {Path(row["gate_config"]).name}
     for w in covering_windows(row["container"], row["foff"], row["size"]):
         n = Path(w[0]).name

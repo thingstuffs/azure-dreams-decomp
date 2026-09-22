@@ -10,8 +10,18 @@ none). Both were measured on this tree through the window gate before anything w
 - **LABEL_AS_CALL**: the C "calls" a pseudo-function that is a label, almost always the function's
   own tail (with true-space names 1,390 epilogue sites and 1,554 mid-row sites lie inside their
   row; only 88 target another row). m2c spelled the retail `j` as a call declared noreturn.
-- **PASSTHRU_NO_ARGS**: `f()` written with no arguments where retail's callee reads argument
-  registers the caller left in place (the audit's `need`). Byte-exact, semantically silent.
+- **PASSTHRU_NO_ARGS**: `f()` written with no arguments while the caller still holds argument
+  registers live at the call site (the audit's `need`): a caller-side label of which of a0-a3
+  still carry their entry value, not a claim about what the callee reads -- `need` varies between
+  sites of one callee inside one caller, so it cannot be callee-derived. Byte-exact, semantically
+  silent. A site whose callee is defined `(void)` in the tree and whose row verifies byte-exact is
+  not a fidelity site (owner ruling 2026-09-22, `tools/census.py:void_exact_targets`,
+  docs/L0_BLOCKED_PLAN_20260922.md sec 5).  The same exemption reaches a callee the tree never
+  defines (library / other-module code) through `config/void_callees.txt`
+  (`tools/census.py:declared_void_callees`), which lists only symbols whose **retail instructions**
+  were read and show no `a0`-`a3` read before a write -- or, for one symbol whose image is not on
+  the disc, every retail **call site** instead (tier B in that file); the per-symbol evidence, including how each
+  address was located from the row's rowbase delta, is `docs/evidence/void_callees_20260922.md`.
 
 ## Measured (20 rows each, window gate)
 
@@ -30,6 +40,37 @@ none). Both were measured on this tree through the window gate before anything w
   window re-gated byte-identical (46/46), SLUS gate MATCH. The other 680 sites need argument
   values the caller does not hold in its own parameters (174 rows), share a file with other
   sites (341), or are ordinal-ambiguous (162): reader work.
+- **`tools/xform/t8c_passthru_joint.py`** (sweep `t8c_passthru_joint`), the same rule applied
+  **jointly** to every PASSTHRU_NO_ARGS site of a row at once — one argument list and one
+  prototype per distinct target (K = the highest `need` index over all of that target's sites, so
+  the rewrite does not depend on which call is which ordinal), the caller's parameter list
+  extended once, parsing on a comment-blanked copy of the text. Built because t8/t8b refuse every
+  multi-site row, so no candidate had ever been offered on the 122 rows of
+  `docs/L0_BLOCKED_PLAN_20260922.md` (PT-C1/PT-C2). Measured 2026-09-22: **89 of 89 PT-C1 rows
+  (47,376 B) plan cleanly, 89 candidates verified, 0 exact, 0 landed.** The residue is not a near
+  miss — hold-set 59 rows, li-expansion 28, addressing 1, length-drift 1, aligned distance 18–126
+  (median 70) where the current text scores 0 — and every diff shows one mechanism: the sites of a
+  target are separated by a call, so the caller must hold its incoming `a0..a3` in saved registers
+  to pass them again; the frame grows (−48/−40, −72/−56 on the hold-set rows, −40/−24 with four
+  saved registers against retail's none on the li-expansion ones) and the prologue gains `sw sN` /
+  `move sN,aM` pairs retail does not have — the two class names are the same move, scored where
+  the drift lands. That is structural: a second pass-through of the *same*
+  incoming registers can never be free, with or without the parameter widening (the three rows
+  that need no widening fail the same way). Behind it sits a measurement question, not a source
+  shape: the hub targets of the class — `func_800A6D30` (190 grandfathered sites), `func_800990FC`
+  (28), `func_800352FC`, `func_800A6508` — are each defined `(void)` in the tree and verify exact
+  (the three overlay rows at scorer total 0, the SLUS row by object identity), so they read no
+  argument at all and their `need` cannot be an input. The caller side says the same: the `need`
+  varies **between sites of one callee inside one caller** (`town/func_800C0840`:
+  `func_800352FC` as `a3,a2,a1 / a3,a2 / a3,a2 / a3`), which a callee-derived need never would.
+  Size of the artefact, over all 295 evidence rows: **155 rows / 90,780 B** have every live
+  pass-through site on a callee defined `(void)` in the tree (123 rows / 78,672 B on the four
+  verified above), against **8 rows / 5,384 B** whose callee really declares parameters — and it
+  runs through every sub-class, PT-A3 23 of 32, PT-C2 23 of 28, PT-D 7 of 8, so the model lanes
+  built on those sub-classes are chasing the same phantom. PT-C2 (the 16 rows outside the
+  `l0_pt_ord1` lane) reaches no candidate: 12 refuse because an earlier pass already gave the same
+  target a call of another arity in the same file (`func_800A6D30(obj)` beside `func_800A6D30()`),
+  4 because the target is called empty-paren more often than the audit lists sites.
 - The fidelity census is now **live**: `tools/census.py::live_audit` keeps a baseline site only
   while the current text still spells it (a `target(` call, an asm-aliased call, an empty-paren
   call for PASSTHRU_NO_ARGS); `levels.py` and STATUS use it, so a removed site stops blocking
@@ -62,6 +103,12 @@ scaffolding — attempted at L1 (mechanical sweeps), by every L3 lane (`tools/ag
 journals pins/sites before and after) and in a dedicated L5 pass; `STATUS.md` carries the two
 new shape lines (tail-call spelling, marker pins). The end state retires maspsx's tail-jump and
 frame-elision passes.
+
+**The check, since 2026-09-22 evening:** the owner's ruling that a retail `j` to a "function" symbol may mean the
+row was split wrong (never rewritten by official ASPSX) is now enforced by a level, not just a pin: `tools/levels.py`
+requires every tail-jump dependency (a noreturn pseudo-call, or a call to a `config/sibcall_syms*.txt`/
+`noreturn_syms*.txt` symbol) to carry a `ledger/split_audit.jsonl` record before a row can reach L3, and none at all
+before L4 — `docs/PIN_CAMPAIGN_CHARTER.md`'s "Rulings 2026-09-22 (evening)" section has the exact rule.
 
 ## Pins: what a shape search finds (2026-09-08, `work/exp_pins/REPORT.md`)
 

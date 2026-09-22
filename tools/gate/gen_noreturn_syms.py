@@ -38,6 +38,33 @@ measured breaks of landed byte-exact rows: func_80024948 (dungeon_deep_t8_197a),
 func_80024094 (fid_818ED25C) and func_8002614C (fid_819ACDA0). The scan globs are
 now restricted to TRACKED roots and a ``work/`` glob is a hard error.
 
+RAW, NOT SRC -- WHERE THE DECLARATIONS ACTUALLY LIVE (measured 2026-09-22).
+The scan reads the FROZEN PINNED CORPUS ``raw/<container>/*.c`` (git-tracked,
+6,775 files), not the live ``src/<container>/``. Reason: the transform layers
+(t1_boiler and the pin-reducing passes) STRIP ``__attribute__((noreturn))``
+declarations out of src/ as dead code -- only 45 of 2,743 dungeon files under
+src/ still carry one, against 1,074 symbols recoverable from raw/. A census
+built from src/ would therefore silently drop ~99% of the evidence and disable
+tail-call jal->j conversion family-wide, which is the A2/B5 defect
+``_fail_closed_reason`` exists for. Measured the same day: ``src/<container>/*.c``
+contributes ZERO symbols beyond the raw scan in EVERY family, so nothing is
+lost by scanning raw/ alone, and a LANDED candidate never needed census
+membership anyway -- it self-serves its own declarations at compile time
+(tools/overlay_evidence.py ``evidence_env_with_candidate``, the per-segment
+merge in ``overlay_local_gate.compile_c_segments``). The src/-adds-nothing
+invariant is held as a test -- ``tools/tests/test_gen_noreturn_syms.py``,
+``SrcAddsNothing`` -- so a future declaration appearing in src/ becomes a
+visible failure someone has to decide on rather than a silent divergence.
+
+ROOT RESOLUTION (2026-09-22). ``ROOT`` used to be ``parents[1]``, which is
+``<repo>/tools`` for this file and ``build_ovl`` for the live copy
+mk_ovl_root.sh drops at ``build_ovl/tools/gen_noreturn_syms.py`` -- neither of
+which holds ``raw/``, so every family matched 0 sources and the module failed
+closed from the repo root. ROOT is now the first ancestor holding BOTH ``raw/``
+and the false-members file, which resolves to the repo from either copy
+(``build_ovl/config/*`` are the same inodes as ``config/*``, so a write through
+either path lands in the repo config exactly as before).
+
 CORPUS-PROVEN FIRING RULE (see build/tmp_infra/tailcall_discriminator_report.md):
 retail/ASPSX rewrites ``jal SYM`` -> ``j SYM`` iff SYM is a noreturn callee that
 takes ZERO arguments (``(void)`` / ``()``). Across the whole MAIN.BIN corpus this
@@ -76,25 +103,57 @@ import re
 import sys
 from pathlib import Path, PurePosixPath
 
-ROOT = Path(__file__).resolve().parents[1]
+FALSE_MEMBERS_PATH = "config/noreturn_false_members.jsonl"
+FALSE_MEMBER_SCHEMA = "azure-clean.noreturn-false-member.v1"
+
+
+def _find_root(script: Path) -> Path:
+    """The repo root, found from EITHER copy of this script (see the docstring).
+
+    The marker pair is the frozen C corpus ``raw/`` plus the false-members file:
+    both are repo-only, so the walk stops at the repo whether this file is
+    ``<repo>/tools/gate/gen_noreturn_syms.py`` or the real-file copy
+    mk_ovl_root.sh installs at ``<repo>/build_ovl/tools/gen_noreturn_syms.py``
+    (build_ovl has neither marker, so the walk simply continues past it)."""
+    for cand in [script.parent, *script.parent.parents]:
+        if (cand / "raw").is_dir() and (cand / FALSE_MEMBERS_PATH).is_file():
+            return cand
+    raise SystemExit(
+        f"gen_noreturn_syms: cannot locate the repo root from {script} -- no "
+        f"ancestor directory holds BOTH a raw/ directory (the frozen pinned C "
+        f"corpus the census is scanned from) and {FALSE_MEMBERS_PATH}. "
+        f"Run this from a checkout, or from a view root nested inside one.")
+
+
+ROOT = _find_root(Path(__file__).resolve())
 
 # Per-container-family scan globs and output files. A family scans ONLY its
 # own C sources (see the module docstring for why sharing is unsound), and ONLY
 # TRACKED ones (see TRACKED_SOURCE_ROOTS / _assert_tracked_source_globs).
 CONTAINERS: dict[str, dict[str, object]] = {
+    # WHY raw/ AND NOT src/ (measured 2026-09-22, see the module docstring):
+    # the transform layers strip __attribute__((noreturn)) declarations out of
+    # the live src/ tree (45 of 2,743 dungeon files still carry one, vs 1,074
+    # symbols in raw/), so src/ is not an evidence base any more. raw/ is the
+    # FROZEN, git-tracked pinned corpus: deterministic, reviewable, and it is
+    # not rewritten by a live wave. Measured the same day: src/<container>/*.c
+    # adds ZERO symbols beyond the raw scan in every family, and a landed
+    # candidate self-serves its own declarations at compile time, so src
+    # membership buys the build nothing.
     "main": {
         "out": "config/noreturn_syms.txt",
         "globs": [
-            "src/**/*.c",
-            "overlays/main/first_pass_matched/*.c",
+            "raw/main/*.c",
+            "raw/slus/*.c",
             # Declaration-only, never-compiled, never-#included evidence source
-            # (2026-09-06). Seven MAIN.BIN callees are genuinely zero-arg
-            # noreturn but CANNOT carry the attribute in the caller TU that
-            # needs it: with the attribute visible, gcc deletes the trailing
-            # instruction that fills the converted tail-j's delay slot and the
-            # row stops matching for a different reason. Their only prior source
-            # was the untracked candidates glob 337355ce (correctly) cut, which
-            # silently un-matched all seven rows -- see the file's own header and
+            # (2026-09-06, restored 2026-09-22). Seven MAIN.BIN callees are
+            # genuinely zero-arg noreturn but CANNOT carry the attribute in the
+            # caller TU that needs it: with the attribute visible, gcc deletes
+            # the trailing instruction that fills the converted tail-j's delay
+            # slot and the row stops matching for a different reason. Their only
+            # prior source was the untracked candidates glob 337355ce
+            # (correctly) cut, which silently un-matched all seven rows -- see
+            # the file's own header and
             # work/bridge_remediation_20260905/F_noreturn_census_fix/REPORT.txt.
             "config/noreturn_evidence.main.c",
         ],
@@ -102,29 +161,30 @@ CONTAINERS: dict[str, dict[str, object]] = {
     "town": {
         "out": "config/noreturn_syms.town.txt",
         "globs": [
-            "overlays/town/first_pass_matched/*.c",
+            "raw/town/*.c",
         ],
     },
     "dungeon": {
         "out": "config/noreturn_syms.dungeon.txt",
         "globs": [
-            "overlays/dungeon/first_pass_matched/*.c",
-            "overlays/dungeon_engine/first_pass_matched/*.c",
+            "raw/dungeon/*.c",
         ],
     },
     "ovmovie": {
         "out": "config/noreturn_syms.ovmovie.txt",
         "globs": [
-            "overlays/ovmovie/first_pass_matched/*.c",
+            "raw/ovmovie/*.c",
         ],
     },
 }
 
 # Repo-relative first path components a census may derive C evidence from. Every
 # one is a TRACKED (git-checked-in) tree, so a census entry always traces to a
-# reviewable commit. ``work/`` is deliberately absent: it is per-lane scratch,
-# gitignored, and rewritten mid-flight by live waves.
-TRACKED_SOURCE_ROOTS = frozenset({"src", "overlays", "include", "asm", "config"})
+# reviewable commit. ``raw`` (the frozen pinned corpus every census is actually
+# scanned from since 2026-09-22) leads the set. ``work/`` is deliberately
+# absent: it is per-lane scratch, gitignored, and rewritten mid-flight by live
+# waves.
+TRACKED_SOURCE_ROOTS = frozenset({"raw", "src", "overlays", "include", "asm", "config"})
 
 # The scratch roots this refusal exists for, named so the error is actionable.
 _UNTRACKED_ROOT_HINT = {
@@ -286,10 +346,6 @@ def collect(globs: list[str], label: str = "scan globs") -> set[str]:
     return names
 
 
-FALSE_MEMBERS_PATH = "config/noreturn_false_members.jsonl"
-FALSE_MEMBER_SCHEMA = "azure-clean.noreturn-false-member.v1"
-
-
 def false_members(fam: str, path: Path | None = None) -> set[str]:
     """Symbols this family must NOT emit even though a TU declares them noreturn.
 
@@ -378,11 +434,33 @@ def plan_family(fam: str) -> dict:
     }
 
 
-def _fail_closed_reason(plan: dict, allow_empty_scan: bool, allow_empty: bool) -> str | None:
+# Shrink guard (2026-09-22). A regeneration that quietly drops a chunk of a
+# populated census is the same defect class as an empty one, just partial: every
+# dropped symbol turns a retail tail `j` back into a `jal` family-wide with no
+# diagnostic. A WRITE therefore refuses when it would lose more than this many
+# symbols relative to the tracked file -- the SMALLER of 5% and 20, so a large
+# census (dungeon, 1,015) is held to the flat 20 and a small one (main, 32) to
+# its own 5%. `--check` is unaffected: it reports DRIFT and writes nothing, and
+# a deliberate prune passes `--allow-shrink`.
+SHRINK_FRACTION = 0.05
+SHRINK_ABSOLUTE = 20
+
+
+def shrink_limit(tracked: int) -> float:
+    """Largest symbol loss a WRITE may make without --allow-shrink."""
+    return min(SHRINK_FRACTION * tracked, float(SHRINK_ABSOLUTE))
+
+
+def _fail_closed_reason(plan: dict, allow_empty_scan: bool, allow_empty: bool,
+                        allow_shrink: bool = False,
+                        writing: bool = True) -> str | None:
     """Return an actionable message if writing this plan would be a silent
     evidence-regression, else None. Legitimately-empty families (e.g. ovmovie,
-    which declares zero zero-arg noreturn callees over 48 scanned sources) pass:
-    they have a real evidence base and no populated file to clobber."""
+    which declares zero zero-arg noreturn callees over its 22 raw sources) pass:
+    they have a real evidence base and no populated file to clobber.
+
+    ``writing`` is False under ``--check``, which only reports drift and so is
+    not gated by the shrink guard."""
     fam, n_src, nsyms, tracked = (
         plan["fam"], plan["n_sources"], len(plan["names"]), plan["tracked_syms"])
     if n_src == 0 and not allow_empty_scan:
@@ -394,6 +472,17 @@ def _fail_closed_reason(plan: dict, allow_empty_scan: bool, allow_empty: bool) -
         return (f"[{fam}] regeneration yields 0 symbols but the tracked file holds "
                 f"{tracked} -- this would silently clobber a populated census. "
                 f"Investigate the source change, or pass --allow-empty to override.")
+    if writing and not allow_shrink:
+        limit = shrink_limit(tracked)
+        dropped = tracked - nsyms
+        if dropped > limit:
+            return (f"[{fam}] regeneration would drop {dropped} symbol(s) "
+                    f"({tracked} tracked -> {nsyms} regenerated), more than the "
+                    f"{limit:g} allowed for this family (the smaller of "
+                    f"{SHRINK_FRACTION:.0%} of {tracked} and {SHRINK_ABSOLUTE}). "
+                    f"Every dropped symbol silently turns a retail tail `j` back "
+                    f"into a `jal` family-wide. Investigate the source change, or "
+                    f"pass --allow-shrink if the prune is intended.")
     return None
 
 
@@ -416,6 +505,11 @@ def main() -> int:
     ap.add_argument(
         "--allow-empty", action="store_true",
         help="permit overwriting a populated census with an empty regeneration")
+    ap.add_argument(
+        "--allow-shrink", action="store_true",
+        help="permit a write that drops more symbols than shrink_limit() allows "
+             "(the smaller of 5%% and 20 relative to the tracked file); --check "
+             "is never gated by it")
     args = ap.parse_args()
 
     families = list(CONTAINERS) if args.container == "all" else [args.container]
@@ -423,7 +517,9 @@ def main() -> int:
     for fam in families:
         plan = plan_family(fam)
         out = plan["out"]
-        reason = _fail_closed_reason(plan, args.allow_empty_scan, args.allow_empty)
+        reason = _fail_closed_reason(plan, args.allow_empty_scan, args.allow_empty,
+                                     allow_shrink=args.allow_shrink,
+                                     writing=not args.check)
         if reason:
             failures.append(reason)
             print(f"FAIL {reason}", file=sys.stderr)

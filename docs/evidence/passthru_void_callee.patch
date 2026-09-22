@@ -1,0 +1,58 @@
+diff --git a/tools/census.py b/tools/census.py
+index f66e7cd..9acf733 100644
+--- a/tools/census.py
++++ b/tools/census.py
+@@ -24,6 +24,45 @@ def audit_index():
+ 
+ DECL_LINE = re.compile(r"^[ \t]*(?!(?:return|goto|if|else|while|for|switch|case|do)\b)(?:extern[ \t]+)?[A-Za-z_][A-Za-z0-9_ \t\*]*\b(?P<name>func_[0-9A-F]{8}|[A-Za-z_][A-Za-z0-9_]*)[ \t]*\([^;{]*\)[ \t]*(?:__attribute__[^;]*)?;[ \t]*$")   # a type-prefixed prototype, never a `return f();` statement
+ 
++VOID_DEF_RE = re.compile(r"^[ \t]*[A-Za-z_][A-Za-z0-9_ \*]*?\b\**(func_[0-9A-F]{8})\s*\(\s*void\s*\)\s*\{", re.M)
++
++_VOID_EXACT_TARGETS = None
++def void_exact_targets():
++    """PASSTHRU_NO_ARGS targets that are themselves defined `(void)` in the tree and whose
++    defining row verifies exact (ledger/baseline.jsonl).  docs/L0_BLOCKED_PLAN_20260922.md
++    section 5: such a callee reads no argument register at all (confirmed on the four hub
++    targets, func_800A6D30/func_800990FC/func_800A6508/func_800352FC, by reading their C bodies),
++    so the class's per-site `need` cannot be describing what the callee reads -- it is a
++    caller-side liveness label, not a callee-derived one, and does not apply to these targets.
++    Built once, lazily, from a single pass over src/{main,town,dungeon,slus}/*.c."""
++    global _VOID_EXACT_TARGETS
++    if _VOID_EXACT_TARGETS is None:
++        base = {}
++        p = LEDGER / "baseline.jsonl"
++        if p.exists():
++            for line in p.read_text().splitlines():
++                if line.strip():
++                    b = json.loads(line)
++                    base[b["id"]] = b
++        targets = set()
++        for cdir in ("main", "town", "dungeon", "slus"):
++            d = ROOT / "src" / cdir
++            if not d.exists():
++                continue
++            for f in d.glob("*.c"):
++                try:
++                    text = f.read_text(errors="replace")
++                except OSError:
++                    continue
++                for m in VOID_DEF_RE.finditer(text):
++                    b = base.get(f"{cdir}/{f.stem}")
++                    # mirrors levels.py's own L0 test: an slus row's baseline never carries
++                    # `exact` (only `status`), so its verdict is `status == "ok"` there
++                    if b and (b.get("exact") is True or (cdir == "slus" and b.get("status") == "ok")):
++                        targets.add(m.group(1))
++        _VOID_EXACT_TARGETS = targets
++    return _VOID_EXACT_TARGETS
++
+ def live_sites(text, sites):
+     """The baseline audit (config/decomp_audit_baseline.json) grandfathers every fidelity site as it
+     was at the pin.  A site is LIVE only while the current text still carries its spelling: a
+@@ -50,6 +89,7 @@ def live_sites(text, sites):
+         if cls == "LABEL_AS_CALL":
+             if called(tgt): out.append(s)
+         elif cls == "PASSTHRU_NO_ARGS":
++            if tgt in void_exact_targets(): continue   # callee reads no argument register (void, exact) -- not live
+             if called(tgt, empty=True): out.append(s)
+         else:
+             out.append(s)
