@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern void func_800241F0(void) __attribute__((noreturn));
-extern void func_8002426C(void) __attribute__((noreturn));
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C();
@@ -279,7 +278,6 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
         }
         return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (state == 2) {
         goto state_2;
     }
@@ -370,15 +368,11 @@ state_0_tail:
     }
     dx = 1;
     facing_shift = 0;
-    ASM_USE(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    ASM_TAILSLOT_PIN(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-    func_8002426C();
+    goto state_0_after;
 
 state_0_zero:
     dx = 0;
-    ASM_KEEP(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     facing_shift = 2;
-    ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     owner->unk_50.unk_50_u16 = 0;
     goto state_0_common;
 
@@ -390,14 +384,12 @@ state_0_one:
     if (caster_data->unk_60 != 0) {
         state = 1;
     }
-    ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     owner->unk_50.unk_50_u16 = state;
     goto state_0_common;
 
 state_0_after:
     owner->unk_50.unk_50_u16 -= 2;
 state_0_common:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     tile_step_x = step_x * dx;
     pixel_offset = facing_shift << 4;
     pixel_step_x = step_x * pixel_offset;
@@ -590,7 +582,6 @@ state_3:
         owner->unk_52.unk_52_u16 = flags & 0x7FFF;
         return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if ((s16)timer > 0) {
         goto done;
     }
