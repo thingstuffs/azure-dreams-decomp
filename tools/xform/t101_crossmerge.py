@@ -365,7 +365,7 @@ class T:
             return why
         if not sites_of(text):
             return "no pins"
-        return None if candidates(text) else "no cross-type disjoint pair in a pinned function"
+        return None if pairs(text) else "no cross-type disjoint pair in a pinned function"   # cheap: the menu is built in apply_verified
 
     @classmethod
     def apply_verified(cls, text, row, census, vf):
