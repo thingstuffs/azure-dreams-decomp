@@ -1,7 +1,6 @@
 #include "common.h"
 
 extern s32 func_80176F2C(void *arg0);
-extern s32 func_80176F10(void);
 extern s32 func_80177E6C(s32 arg0, void *arg1);
 extern s32 func_80063734(s32 arg0);
 
@@ -18,7 +17,7 @@ s32 func_80040690(void *buffer_state) {
             break;
         }
         if (--polls_left == 0) {
-            return (func_80176F10(), 0);
+            return 0;
         }
     }
     if (result > 0) {
@@ -28,5 +27,5 @@ s32 func_80040690(void *buffer_state) {
     *((s32 *)buffer_state + 2) = buffer_index;
     func_80177E6C(result, *((void **)buffer_state + buffer_index));
     func_80063734(result);
-    return (func_80176F10(), 1);
+    return 1;
 }

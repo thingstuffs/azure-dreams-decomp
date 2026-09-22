@@ -2,7 +2,7 @@
 
 typedef struct S_80813294_0 {
     void * unk_00;
-    union { s16 s; volatile u16 u; u16 p; } unk_04;   /* accessed as both */
+    union { s16 s; u16 u; u16 p; } unk_04;   /* accessed as both */
     u16 unk_06;
 } S_80813294_0;   /* arg0 in func_8052DE94 */
 
@@ -16,12 +16,7 @@ typedef struct S_80813294_2 {
     s16 unk_5C;
 } S_80813294_2;   /* ((S_80813294_0 *)arg0)->unk_00 in func_8052DE94 */
 
-
-
-extern void func_8052DF24(void) __attribute__((noreturn));
-
 void func_8052DE94(S_80813294_0 *arg0, s32 unused, S_80813294_1 *arg2) {
-    u16 ten;
     s32 state;
 
     state = arg0->unk_04.s;
@@ -42,21 +37,17 @@ void func_8052DE94(S_80813294_0 *arg0, s32 unused, S_80813294_1 *arg2) {
 
 state_0:
     if (((S_80813294_2 *)(arg0->unk_00))->unk_5C == 4) {
-        ten = 10;
-        do {
-            (void)arg0->unk_04.u;
-        } while (0);
-        arg0->unk_06 = ten;
-        func_8052DF24();
+        arg0->unk_06 = 10;
+        arg0->unk_04.p = arg0->unk_04.u + 1;
     }
     return;
 
 state_1:
     arg2->unk_16.s = arg2->unk_16.s + 0x40;
-    if ((s16)arg0->unk_06 <= 0) {
-        arg0->unk_04.p = arg0->unk_04.p + 1;
+    if ((s16)arg0->unk_06 > 0) {
         return;
     }
+    arg0->unk_04.p = arg0->unk_04.u + 1;
     return;
 
 state_2:

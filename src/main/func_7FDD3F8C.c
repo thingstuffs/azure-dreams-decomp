@@ -30,9 +30,6 @@ static __inline__ s16 load_signed_state(ColorEffect *effect)
 }
 
 extern u32 D_800814A0[];
-extern void func_7008AFF4(s32 timer, ColorEffect *effect, s32 initial_state,
-                          ...);
-
 void func_7FDD3F8C(ColorEffect *effect)
 {
     s16 state;
@@ -55,8 +52,7 @@ void func_7FDD3F8C(ColorEffect *effect)
         if (state == 0) {
             goto state_0;
         }
-        func_7008AFF4(timer, effect, initial_state, owner);
-        return;
+        goto shared_tail;
     }
     if (state == 2) {
         goto state_2;
@@ -64,8 +60,7 @@ void func_7FDD3F8C(ColorEffect *effect)
     if (state == 3) {
         goto state_3;
     }
-    func_7008AFF4(timer, effect, initial_state, owner);
-    return;
+    goto shared_tail;
 
 state_0:
     if ((s16)timer > 0) {
@@ -74,24 +69,21 @@ state_0:
     effect->color = 0xC0C0C0;
     effect->flags |= 1;
     effect->state++;
-    func_7008AFF4(timer, effect, initial_state, owner);
-    return;
+    goto shared_tail;
 
 state_1:
     effect->color -= 0x101010;
     if (effect->color == 0) {
         effect->timer = 60;
         effect->state++;
-        func_7008AFF4(timer, effect, initial_state);
-        return;
+        goto shared_tail;
     }
     goto shared_tail;
 
 state_2:
     if ((s16)timer <= 0) {
         effect->state = initial_state + 1;
-        func_7008AFF4(timer, effect, initial_state, owner);
-        return;
+        goto shared_tail;
     }
     goto shared_tail;
 
