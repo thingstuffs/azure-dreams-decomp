@@ -222,7 +222,6 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   func_80064CF0(0x1F800050);
   *((u16 *) (((s8 *) scratch) + 0x24)) = (u16) (*((u16 *) (((s8 *) sprite) + 0x14)));
   frame_data = frame + 8;
-  ASM_KEEP(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 frame_loop:
   if (!((*((u8 *) (((s8 *) frame) + 0))) & 0x20))
   {
@@ -441,7 +440,6 @@ frame_loop:
   if (((s8) (*((u8 *) (((s8 *) frame) + 0)))) >= 0)
   {
     frame_data = frame_data + 0xC;
-    ASM_KEEP(frame_data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     frame = ((u8 *) frame) + 0xC;
     goto frame_loop;
   }

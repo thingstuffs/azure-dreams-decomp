@@ -269,7 +269,7 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     u8 prim_code;
     u8 right_u;
     u8 bottom_v;
-    register u8 *frame_data ASM_REG("$16");
+    u8 *frame_data;
     S_func_81904990_2 *frame;
     register S_func_81904990_3 *frame_header ASM_REG("$21");
     S_func_81904990_6 *setup_arg;
@@ -370,7 +370,6 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     frame_data = (u8 *)frame_header + 8;
     scratch->unk_24 = (u16) frame->unk_14;
 frame_loop:
-    ASM_KEEP_NV(frame_data);
     if (!(frame_header->unk_00 & 0x20)) {
         register s32 packet_tag ASM_REG("$2");
         scratch->unk_08 = (s32) ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_08.as_u8_08;
