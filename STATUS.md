@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-22T09:53:21Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-22T10:00:41Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -45,7 +45,7 @@ Per-row optimization flags (weak evidence about the real build; each switch is u
 
 Site-for-pin trades (`ledger/recipe_trades.jsonl` records shaped `{"kind":"site_for_pin","id":row,"site":"LABEL_AS_CALL|ITC|PASSTHRU","pin":macro,"residue_without_pin":str,"at":iso,"note":str}` -- charter rule 3, "a pin moved elsewhere is not a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): 0.
 
-Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no per-line marker exists): tier A 27, tier B 1 symbols. Rows whose PASSTHRU_NO_ARGS exemption rests on a tier-B symbol alone (blocked again if tier B were dropped, tier-A/in-tree exemptions do not cover them): 11 rows, 11,864 B.
+Void callees (`config/void_callees.txt`, tiers read from its section-header comments -- no per-line marker exists): tier A 27, tier B 1 symbols (matches `census.declared_void_callees()`). Rows whose PASSTHRU_NO_ARGS exemption rests on a tier-B symbol alone (blocked again if tier B were dropped, tier-A/in-tree exemptions do not cover them): 11 rows, 11,864 B.
 
 ## Cleanliness levels (bytes at or above each level)
 
@@ -54,13 +54,13 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 | L0 | 2,558,124 | 100.0% |
 | L1 | 2,522,860 | 98.6% |
 | L2 | 2,522,860 | 98.6% |
-| L3 | 2,441,116 | 95.4% |
+| L3 | 2,500,136 | 97.7% |
 | L4 | 0 | 0.0% |
 | L5 | 0 | 0.0% |
 
 On shared record headers (T7, `include/records/`): 1164 rows, 658,600 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one): pins 1,071 rows (985,256 B), tail_jump 184 rows (141,844 B), not_in_module 6,767 rows (2,558,124 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one): pins 1,071 rows (985,256 B), tail_jump 99 rows (85,544 B), not_in_module 6,767 rows (2,558,124 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
