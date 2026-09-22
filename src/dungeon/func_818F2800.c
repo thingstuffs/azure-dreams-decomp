@@ -100,12 +100,9 @@ typedef struct S_BODY_8 {
 #define DM_U32(o) (*(u32 *)(scratch + (o)))
 #define DM_S32(o) (*(s32 *)(scratch + (o)))
 
-extern void func_80024248(void) __attribute__((noreturn));
 extern void func_8002431C(void) __attribute__((noreturn));
 extern void func_800243E4(void) __attribute__((noreturn));
-extern void func_80024650(void) __attribute__((noreturn));
 extern void func_800246A0(void) __attribute__((noreturn));
-extern void func_80024838(void) __attribute__((noreturn));
 
 extern s32 func_800644B8(s32);
 extern void func_80064840();
@@ -172,7 +169,7 @@ void BODY(void *shape, void *position, void *render_state, u16 depth_offset)
 {
     register u8 *scratch ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     S_BODY_3 *geometry;
-    S_BODY_1 *state;
+    register S_BODY_1 *state ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u8 *part;
     u8 *quad;
     register u8 *packet ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -276,10 +273,8 @@ next_column_pair:
         texture_u = (s32)(s16)column_or_x;
 next_half:
         part = state->unk_08;
-        ASM_USE_G_NV(globals);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         ASM_USE2_NV(geometry, geometry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_USE2_NV(geometry, geometry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_USE_G_NV(position);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         ASM_USE2_NV(geometry, geometry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_USE2_NV(geometry, geometry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         ASM_USE2_NV(geometry, geometry);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
@@ -290,9 +285,7 @@ next_half:
             texture_v = ((S_BODY_2 *)part)->unk_08.at01.v;
             DM_U32(0x10) = 1;
             DM_U32(0x0C) = texture_v;
-            func_80024248();
-        }
-        {
+        } else {
             s32 texture_v;
             DM_U32(0x08) = texture_u;
             texture_v = ((S_BODY_2 *)part)->unk_08.at01.v;
@@ -497,11 +490,11 @@ next_half:
                     s32 clut;
                     clut = state->unk_12;
                     ((S_BODY_7 *)quad)->unk_0A = (s16)clut;
-                    func_80024650();
+                } else {
+                    packed_uv = state->unk_12;
+                    packed_uv = packed_uv + ((S_BODY_2 *)part)->unk_06;
+                    ((S_BODY_7 *)quad)->unk_0A = (s16)packed_uv;
                 }
-                packed_uv = state->unk_12;
-                packed_uv = packed_uv + ((S_BODY_2 *)part)->unk_06;
-                ((S_BODY_7 *)quad)->unk_0A = (s16)packed_uv;
                 /* --- retail word 404 --- */
                 packed_uv = DM_U16(0x0C);
                 packed_uv = packed_uv + DM_U16(0x08);
@@ -601,9 +594,7 @@ next_half:
                 goto next_column_pair;
             }
         }
-        func_80024838();
-    }
-    {
+    } else {
         void (*callback)(void *, void *, void *, void *);
 
         callback = ((S_BODY_2 *)part)->unk_08.at00u.v;

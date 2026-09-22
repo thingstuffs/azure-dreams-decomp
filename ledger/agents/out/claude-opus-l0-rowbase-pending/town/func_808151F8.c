@@ -2,7 +2,7 @@
 
 extern s32 D_80084D5C;
 
-void func_808151F8(void *arg0) {
+void func_8052FDF8(void *arg0) {
     /* retail reserves 8 bytes of frame and never touches them - no sw/lw/sh/sb with (sp) exists
        anywhere in the row's 39 words, and there is no `sw ra` (a leaf).  An unused local of frame
        size is the honest cause; without it the prologue/epilogue pair disappears (length-drift). */

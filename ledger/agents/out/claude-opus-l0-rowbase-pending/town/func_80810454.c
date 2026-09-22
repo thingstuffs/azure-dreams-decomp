@@ -2,25 +2,25 @@
 
 typedef struct S_80810454_0_pre {
     u16 unk_00;
-} S_80810454_0_pre;   /* the 0x2 bytes before arg0 in func_80810454, addressed as arg0[-1] */
+} S_80810454_0_pre;   /* the 0x2 bytes before arg0 in func_8052B054, addressed as arg0[-1] */
 
 typedef struct S_80810454_0 {
     s16 unk_00;
     u16 unk_02;
     void * unk_04;
-} S_80810454_0;   /* arg0 in func_80810454 */
+} S_80810454_0;   /* arg0 in func_8052B054 */
 
 typedef struct S_80810454_1 {
     u8 pad_00[0x8];
     union { s32 s; volatile s32 u; } unk_08;   /* accessed as both */
     u8 pad_0C[0x8];
     union { s32 s; volatile s32 u; } unk_14;   /* accessed as both */
-} S_80810454_1;   /* arg1 in func_80810454 */
+} S_80810454_1;   /* arg1 in func_8052B054 */
 
 typedef struct S_80810454_2 {
     u8 pad_00[0x18];
     s16 unk_18;
-} S_80810454_2;   /* ((S_80810454_0 *)arg0)->unk_04 in func_80810454 */
+} S_80810454_2;   /* ((S_80810454_0 *)arg0)->unk_04 in func_8052B054 */
 
 
 
@@ -28,7 +28,7 @@ extern s32 func_8006A3A4();
 extern s32 func_8052B158() __attribute__((noreturn));
 extern s32 D_80084D5C;
 
-s32 func_80810454(void *arg0, S_80810454_1 *arg1) {
+s32 func_8052B054(void *arg0, S_80810454_1 *arg1) {
     s16 state;
     register s32 result_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 

@@ -9,14 +9,14 @@ typedef struct S_80810F98_0 {
     u8 pad_02[0x2];
     void * unk_04;
     s32 unk_08;
-} S_80810F98_0;   /* arg0 in func_80810F98 */
+} S_80810F98_0;   /* arg0 in func_8052BB98 */
 
 typedef struct S_80810F98_1 {
     u8 pad_00[0xC];
     u16 unk_0C;
-} S_80810F98_1;   /* object in func_80810F98 */
+} S_80810F98_1;   /* object in func_8052BB98 */
 
-s32 func_80810F98(void *arg0)
+s32 func_8052BB98(void *arg0)
 {
     /* retail reserves 8 bytes of frame and never touches them - no sw/lw/sh/sb with (sp) exists
        anywhere in the row's 39 words, and there is no `sw ra` (a leaf).  An unused local of frame
