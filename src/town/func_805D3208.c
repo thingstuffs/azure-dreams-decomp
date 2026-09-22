@@ -8,13 +8,14 @@ extern s32 D_80019770[];
 extern u8 D_8001AAEC[];
 extern u8 D_8001DE58[];
 
-s32 func_805D3208(s32 arg0, s32 arg1, s32 arg2) {
+/* Return the table for the selector: 8 plays a cue and resolves by state, 1 picks one of two blobs. */
+s32 func_805D3208(s32 unused_a, s32 unused_b, s32 selector) {
     s32 result = 0;
 
-    if (arg2 == 8) {
+    if (selector == 8) {
         func_800193E0(0x147A);
         result = func_80016250(D_80019770[D_8001967C[0]]);
-    } else if (arg2 == 1) {
+    } else if (selector == 1) {
         if (D_8001967C[0] != 3) {
             result = (s32)D_8001DE58;
         } else {

@@ -7,6 +7,7 @@ extern s32 D_80019B8C[3];
 extern void func_800193E0(s32);
 extern s32 func_800194D8(s32);
 
+/* Return the cached blob when the cue is already playing, otherwise start it and return the state's row. */
 s32 func_805D3700(void) {
     s32 *indexp;
     u8 *base;

@@ -1,17 +1,11 @@
 #include "common.h"
 extern u8 D_80020000[];
 
-#ifdef NON_MATCHING
-#define ASM_KEEP(value) ((void)0)
-#elif __GNUC__ < 3
-#define ASM_KEEP(value) __asm__ __volatile__("" : "=r"(value) : "0"(value))
-#else
-#endif
-
 extern u8 D_80016000[0x10];
 extern s32 D_8001C370[3];
-extern void func_8001ACE8(s32 arg0);
+extern void func_8001ACE8(s32 value);
 
+/* Play the sound id held at +0x18 of the current table entry. */
 void func_80019BC0(void)
 {
 #ifndef NON_MATCHING

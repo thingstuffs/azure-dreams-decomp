@@ -13,6 +13,7 @@ extern Rec_D_80016000 *D_80016000;
 extern M2C_UNK D_80017A00;
 extern M2C_UNK *D_80017A98;
 
+/* Ask the scene object for its mode and raise the matching 0xBE9 event, then arm the next handler. */
 void func_806F1A40(void) {
     if (((S_806F1A40_1 *)(D_80016000->unk_20))->unk_334(0) != 5) {
         func_80017744(0xBE9);

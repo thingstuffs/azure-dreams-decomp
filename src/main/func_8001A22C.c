@@ -16,20 +16,21 @@ __asm__(".set D_80409500, 0x80409500");
 extern void func_804014E4(void);
 extern s32 func_80408674(s32 arg0);
 
+/* Boot step 2: run the loader and either request retry code 5 or bump the attempt counter. */
 s32 func_8001A22C(void) {
-    s32 var_s0;
+    s32 result;
 
-    var_s0 = 0;
+    result = 0;
 
     if (D_804094E8[0] == 2) {
         func_804014E4();
         if (func_80408674(D_804094EC[0]) == 0) {
             D_804094E8_2[0] = 0;
-            var_s0 = 5;
+            result = 5;
         } else {
             D_80409500[0] = 0;
             D_804094E8_3[0] = D_804094E8_4[0] + 1;
         }
     }
-    return var_s0;
+    return result;
 }

@@ -15,6 +15,7 @@ extern void *jtbl_8052674C[];
 extern void func_8052D62C(s32 x, s32 y, s32 angle);
 __asm__(".set jtbl_8052674C, 0x8052674C");
 
+/* Advance one town animation state machine step and redraw it at its current angle. */
 void func_808128B8(TownAnimState *anim)
 {
     s32 state = anim->state;

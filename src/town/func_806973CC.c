@@ -11,23 +11,20 @@ extern M2C_UNK D_80018AD0;
 extern M2C_UNK D_80019F15;
 extern M2C_UNK D_8001A0A1;
 
-M2C_UNK *func_806973CC(s32 arg0, M2C_UNK arg1, M2C_UNK arg2) {
-    M2C_UNK *temp_s3;
-    M2C_UNK *var_v0;
+/* Look up the slot's record; when it is already claimed, substitute one of two fixed records. */
+M2C_UNK *func_806973CC(s32 slot, M2C_UNK unused, M2C_UNK context) {
+    M2C_UNK *record;
+    M2C_UNK *result;
 
-    temp_s3 = func_80017BDC(&D_80018974, &D_80018AD0, arg0, arg2);
-    var_v0 = temp_s3;
-    if (func_80017B24(&D_80018974, arg0, arg2) != 0) {
+    record = func_80017BDC(&D_80018974, &D_80018AD0, slot, context);
+    result = record;
+    if (func_80017B24(&D_80018974, slot, context) != 0) {
         if (func_800187D8(8) != 0) {
-#ifndef NON_MATCHING
-            var_v0 = &D_8001A0A1;
-#else
-            var_v0 = &D_8001A0A1;
-#endif
+            result = &D_8001A0A1;
         } else {
             func_8001856C(0x12C8);
-            var_v0 = &D_80019F15;
+            result = &D_80019F15;
         }
     }
-    return var_v0;
+    return result;
 }

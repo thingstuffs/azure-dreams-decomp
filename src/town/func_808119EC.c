@@ -24,6 +24,7 @@ extern u8 D_805305F8[];
 extern void *D_8052671C[];
 #endif
 
+/* Build the town HUD: the frame object, its three child slots, the gauge sprite and the five icons. */
 void func_808119EC(void) {
     void *object;
     s8 *parent;

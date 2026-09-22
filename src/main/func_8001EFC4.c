@@ -17,17 +17,18 @@ typedef struct S_8001EFC4_0 {
 
 
 extern void func_80063FF8(s32 code);
-extern void func_80405F24(void *arg0);
+extern void func_80405F24(void *obj);
 extern s32 func_80058FF0(s32 current, s32 direction, s32 amount);
-extern void func_80405B98(void *arg0);
+extern void func_80405B98(void *obj);
 extern s32 func_804016D0(void);
 extern void func_804018FC(void);
-extern void func_80406720(void *arg0);
+extern void func_80406720(void *obj);
 extern void func_804083FC(s32 current, s32 mode);
 extern volatile s32 D_801379A8;
 extern volatile s32 D_801379B0;
 extern u8 D_80405AB4[];
 
+/* Per-frame menu step: handle the pad's edge/repeat flags, move the cursor and run the post-step hooks. */
 void func_8001EFC4(u8 *root)
 {
     s32 action = 0;

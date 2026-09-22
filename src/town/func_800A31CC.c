@@ -8,7 +8,7 @@ typedef struct S_800A092C_0 {
     M2C_UNK * unk_50;
     u8 pad_54[0x18];
     u16 unk_6C;
-} S_800A092C_0;   /* arg0 in func_800A092C */
+} S_800A092C_0;   /* first parameter of func_800A092C */
 
 /* Decrement the countdown and switch to D_800A0958 when it expires. */
 void func_800A092C(S_800A092C_0 *state) {

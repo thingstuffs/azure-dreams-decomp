@@ -17,12 +17,13 @@ typedef struct Func800A4B70Output {
     s16 value;
 } Func800A4B70Output;
 
-void func_800A22D0(Func800A4B70Object *arg0, s32 arg1, Func800A4B70Output *arg2) {
-    Func800A4B70Inner *inner = arg0->inner;
+/* Copy the inner value into the output, negated unless the object's flag is set. */
+void func_800A22D0(Func800A4B70Object *object, s32 unused, Func800A4B70Output *out) {
+    Func800A4B70Inner *inner = object->inner;
 
-    if (arg0->flag != 0) {
-        arg2->value = inner->value;
+    if (object->flag != 0) {
+        out->value = inner->value;
         return;
     }
-    arg2->value = -inner->value;
+    out->value = -inner->value;
 }

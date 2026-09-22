@@ -22,8 +22,9 @@ typedef struct S_8077DC0C_1 {
     M2C_UNK * unk_40;
 } S_8077DC0C_1;   /* dispatch_base in func_8077DC0C */
 
+/* Flip the current slot's toggle byte, point the dispatcher at the matching handler and raise two events. */
 void func_8077DC0C(void) {
-    u8 *temp_a2;
+    u8 *toggle;
     S_8077DC0C_0 *state;
     s32 event;
     S_8077DC0C_1 *dispatch_base;
@@ -31,8 +32,8 @@ void func_8077DC0C(void) {
 
     state = D_80016000;
     D_80017760 = &D_800162A4;
-    temp_a2 = state->unk_40 + (state->unk_08 * 8);
-    if (*temp_a2 != 0) {
+    toggle = state->unk_40 + (state->unk_08 * 8);
+    if (*toggle != 0) {
         dispatch_base_2 = state->unk_1C;
         dispatch_base_2->unk_40 = &D_8001605E;
     } else {
@@ -40,7 +41,7 @@ void func_8077DC0C(void) {
         dispatch_base->unk_40 = &D_8001601C;
     }
     event = 0x7E;
-    *temp_a2 = (*temp_a2 + 1) & 1;
+    *toggle = (*toggle + 1) & 1;
     func_80017670(event);
     func_80017670(0x7F);
 }
