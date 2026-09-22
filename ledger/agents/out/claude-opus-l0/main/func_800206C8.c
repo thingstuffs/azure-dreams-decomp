@@ -58,7 +58,7 @@ void func_804076C8(s32 init_option)
     ((S_800206C8_1 *)slot_state)->unk_5C = func_804075A8(((S_800206C8_1 *)slot_state)->unk_60);
     func_80407688(slot_state, init_option);
     {
-        register void *final_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        register void *final_base ASM_REG("$2");
 
         final_base = base;
         ASM_KEEP(final_base);   /* UNRESOLVED C shape (pin): removing it drops a copy retail keeps; the source shape that makes it unnecessary has not been found */

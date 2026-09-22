@@ -66,7 +66,6 @@ extern u8 D_80083498[];
 extern u8 D_80083780[];
 extern u8 D_800C9034[];
 
-extern void func_80025FD4(void) __attribute__((noreturn));
 extern void func_80026240(Entity *, void *);
 extern void func_800262B0(Part *, s32);
 extern s32 func_8003FA44(s32);
@@ -122,10 +121,10 @@ void *func_81984754(s32 x, s32 y, s32 z, s32 angle)
         if (object_index != 0) {
             prev_object = object_slot[-1];
             ASM_KEEP(prev_object);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            func_80025FD4();
+        } else {
+            prev_object = (Object *)D_80083498;
+            ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         }
-        prev_object = (Object *)D_80083498;
-        ASM_KEEP(object_index);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         *object_slot = func_8003FD64(2, prev_object);
         (*object_slot)->state = (void (*)(void *))D_80024DAC;
         func_8004491C(*object_slot, D_800C9034);

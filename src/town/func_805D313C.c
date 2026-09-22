@@ -1,8 +1,6 @@
 #include "common.h"
 
 extern s32 func_80016250(s32);
-extern s32 func_800171D0(void);
-extern void func_800171D4(void);
 extern void func_800193E0(s32);
 
 extern s32 D_8001967C;
@@ -11,25 +9,17 @@ extern u8 D_8001AAEC[];
 extern u8 D_8001DE58[];
 extern u8 D_80020C9C[];
 
-s32 func_805D313C(s32 arg0, s32 arg1, s32 arg2) {
+s32 func_8001713C(s32 arg0, s32 arg1, s32 arg2) {
     s32 result = 0;
-    s32 tail_result;
 
     if (arg2 == 8) {
         result = func_80016250(D_80019760[D_8001967C]);
         func_800193E0(0x147A);
-        func_800171D4();
     } else if (arg2 == 1) {
         if (D_8001967C != 3) {
             result = (s32)D_8001DE58;
-            tail_result = func_800171D0();
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            return tail_result;
         } else {
             result = (s32)D_8001AAEC;
-            tail_result = func_800171D0();
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            return tail_result;
         }
     } else if (arg2 == 3) {
         result = (s32)D_80020C9C;
