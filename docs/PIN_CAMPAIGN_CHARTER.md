@@ -86,3 +86,20 @@ The campaign stops, and hands back to the owner with a written state, when any o
 
 Nothing loops without a terminal condition: every background job has a completion event, every
 round has a budget, and a repeated experiment on unchanged text is not an experiment.
+
+## Working method (added 2026-09-22, after the 1,293-pin day)
+
+The owner's standing direction (2026-09-21): the session architects and decides from the data; Opus and Sonnet do the
+bounded work; every pack row carries a rubber-duck brief; astra or sol on whole functions or on mechanisms, either is
+good; Fable takes a mechanism only after both models failed, and sceptically; a documented pin-for-uglier-C trade is
+acceptable; no busy work while jobs run; and **the process itself is changeable - "don't be confined by the current
+shape or process"**.
+
+The loop that paid: (1) census the pins, rank rows by pin count; (2) build duck-briefed KIT packs
+(`tools/lanes/build_class_pack.py --rows --duck` + `tools/lanes/kit_pack.py`), astra on 13+-pin rows, sol on 12-8;
+(3) run them through `tools/lanes/pool.py`, land continuously with `tools/lanes/land_finished2.sh` (isolated);
+(4) harvest every wave's REPORT.md moves into generators (move tables in `docs/evidence/`), sweep with
+`gen_drive.py --fresh`, land, `refresh_exemplars.py`, `clone_transfer.py`; (5) when yield flattens, run the
+retrospective: mine the session logs, fix the tooling or the brief, A/B on the next wave. Measured on 2026-09-21: the
+kit took astra from ~2 rows per 5-row pack to 38 of 40. See docs/PIN_RESEARCH_ROUND62.md (rounds 68-72) and
+docs/LANE_KIT.md.
