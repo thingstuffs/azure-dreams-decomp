@@ -24,6 +24,17 @@ typedef struct {
     u16 frame;
 } AnimState;
 
+typedef struct S_81958F28_0 {
+    u8 pad_00[0x8];
+    void *unk_08;
+} S_81958F28_0;   /* state in func_80024728 */
+
+typedef struct S_81958F28_1 {
+    u8 pad_00[0x8];
+    void *unk_08;
+    void *unk_0C;
+} S_81958F28_1;   /* node in func_80024728 */
+
 extern void func_80024024(void *, s16, Vec3i *);
 extern void func_80024654(s16, s16, s16, s16, s16, s16, Vec3s *);
 extern s32 func_80025344(s16, s16, s16, s16);
@@ -39,7 +50,8 @@ extern s32 D_800CEEFC;
 extern s32 *D_800E3D18;
 extern u8 *D_800E3D7C;
 
-void func_81958F28(AnimState *arg0, void *arg1, void *arg2) {
+/* Per-frame update for a following color effect: blend its position and shade toward a target node or a palette color, then fade it out over its lifetime. */
+void func_81958F28(AnimState *state, void *pos, void *tint) {
     Vec3s effect;
     Vec3i delta;
     Vec3s color;
@@ -54,8 +66,8 @@ void func_81958F28(AnimState *arg0, void *arg1, void *arg2) {
     void *child;
 
     D_800281F8++;
-    arg0->frame++;
-    phase = S16(arg0, 0x2C);
+    state->frame++;
+    phase = S16(state, 0x2C);
 
     if (phase == 1) {
         goto main_phase;
@@ -72,46 +84,46 @@ void func_81958F28(AnimState *arg0, void *arg1, void *arg2) {
     return;
 
 setup_phase:
-    func_8004491C((u8 *)arg0 - 0x20, &D_800CEEFC);
-    U16(arg0, 0x2C)++;
+    func_8004491C((u8 *)state - 0x20, &D_800CEEFC);
+    U16(state, 0x2C)++;
 
 main_phase:
-    node = FIELD(arg0, void *, 8);
+    node = ((S_81958F28_0 *)state)->unk_08;
     if (node != 0) {
         goto node_phase;
     }
 
-    phase = S16(arg0, 0x2E);
+    phase = S16(state, 0x2E);
     if (phase != 0) {
         goto move_phase;
     }
 
     func_80024654(
-        S16(arg1, 2),
-        S16(arg1, 6),
-        S16(arg1, 0xA),
-        S16(arg0, 0x14),
-        S16(arg0, 0x16),
-        S16(arg0, 0x18),
+        S16(pos, 2),
+        S16(pos, 6),
+        S16(pos, 0xA),
+        S16(state, 0x14),
+        S16(state, 0x16),
+        S16(state, 0x18),
         &color);
 
     {
         u16 value;
-        raw = U16(arg0, 0xC);
+        raw = U16(state, 0xC);
         value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-        U16(arg0, 0xC) = value;
+        U16(state, 0xC) = value;
     }
     {
         u16 value;
-        raw = U16(arg0, 0xE);
+        raw = U16(state, 0xE);
         value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-        U16(arg0, 0xE) = value;
+        U16(state, 0xE) = value;
     }
     {
         u16 value;
-        raw = U16(arg0, 0x10);
+        raw = U16(state, 0x10);
         value = (raw & 0x800) ? (raw | 0xF800) : (raw & 0x7FF);
-        U16(arg0, 0x10) = value;
+        U16(state, 0x10) = value;
     }
     {
         u16 value;
@@ -137,13 +149,13 @@ main_phase:
         s32 isClose;
 
         diff = color.x;
-        currentValue = S16(arg0, 0xC);
+        currentValue = S16(state, 0xC);
         diff = diff - currentValue;
         diff = abs(diff);
         isClose = diff < 0x801;
         currentValue = (u16)color.x;
         if (!isClose) {
-            color.x = (U16(arg0, 0xC) & 0xF000) | (currentValue & 0xFFF);
+            color.x = (U16(state, 0xC) & 0xF000) | (currentValue & 0xFFF);
         }
     }
 
@@ -152,27 +164,27 @@ main_phase:
         s32 isClose;
 
         diff = color.y;
-        currentValue = S16(arg0, 0xE);
+        currentValue = S16(state, 0xE);
         diff = diff - currentValue;
         diff = abs(diff);
         isClose = diff < 0x801;
         currentValue = (u16)color.y;
         if (!isClose) {
-            color.y = (U16(arg0, 0xE) & 0xF000) | (currentValue & 0xFFF);
+            color.y = (U16(state, 0xE) & 0xF000) | (currentValue & 0xFFF);
         }
     }
 
     {
         s32 isClose;
 
-        diff = color.z - S16(arg0, 0x10);
+        diff = color.z - S16(state, 0x10);
         diff = abs(diff);
         isClose = diff < 0x801;
         {
             s32 rawValue;
             s32 newValue;
 
-            rawValue = U16(arg0, 0x10);
+            rawValue = U16(state, 0x10);
             if (!isClose) {
                 newValue = rawValue & 0xF000;
                 newValue |= ((u16)color.z & 0xFFF);
@@ -181,18 +193,18 @@ main_phase:
         }
     }
 
-    U16(arg0, 0xC) += (color.x - S16(arg0, 0xC)) >> 2;
-    U16(arg0, 0xE) += (color.y - S16(arg0, 0xE)) >> 2;
-    U16(arg0, 0x10) += (color.z - S16(arg0, 0x10)) >> 2;
+    U16(state, 0xC) += (color.x - S16(state, 0xC)) >> 2;
+    U16(state, 0xE) += (color.y - S16(state, 0xE)) >> 2;
+    U16(state, 0x10) += (color.z - S16(state, 0x10)) >> 2;
 
-    func_80024024((u8 *)arg0 + 0xC, S16(arg0, 0x3A), &delta);
-    S32(arg1, 0) += delta.x;
-    S32(arg1, 4) += delta.y;
-    S32(arg1, 8) += delta.z;
+    func_80024024((u8 *)state + 0xC, S16(state, 0x3A), &delta);
+    S32(pos, 0) += delta.x;
+    S32(pos, 4) += delta.y;
+    S32(pos, 8) += delta.z;
 
-    S16(arg0, 0x3A) = 0xA0;
-    U16(arg0, 0x30)--;
-    if (S16(arg0, 0x30) <= 0) {
+    S16(state, 0x3A) = 0xA0;
+    U16(state, 0x30)--;
+    if (S16(state, 0x30) <= 0) {
         u8 *base = D_80083780;
         s32 tableAddress;
         color.x = U16(base, 2);
@@ -207,19 +219,19 @@ main_phase:
             &effect,
             0);
         color.x += effect.x;
-        S16(arg0, 0x14) = color.x;
+        S16(state, 0x14) = color.x;
         color.y += effect.y;
-        S16(arg0, 0x16) = color.y;
+        S16(state, 0x16) = color.y;
         color.z += effect.z;
-        S16(arg0, 0x18) = color.z;
-        S16(arg0, 0x2E) = 1;
-        S16(arg0, 0x30) = 8;
+        S16(state, 0x18) = color.z;
+        S16(state, 0x2E) = 1;
+        S16(state, 0x30) = 8;
     }
     {
         u32 shade;
-        shade = U8(arg2, 0xC);
+        shade = U8(tint, 0xC);
         if (shade >= 0x80) goto update_secondary;
-        S32(arg2, 0xC) += 0x00080808;
+        S32(tint, 0xC) += 0x00080808;
         goto update_secondary;
     }
 
@@ -227,92 +239,92 @@ move_phase:
     if (phase != 1) {
         goto update_secondary;
     }
-    steps = S16(arg0, 0x30);
+    steps = S16(state, 0x30);
     if (steps > 0) {
-        U16(arg1, 2) += (S16(arg0, 0x14) - S16(arg1, 2)) / steps;
-        U16(arg1, 6) += (S16(arg0, 0x16) - S16(arg1, 6)) / S16(arg0, 0x30);
-        U16(arg1, 0xA) += (S16(arg0, 0x18) - S16(arg1, 0xA)) / S16(arg0, 0x30);
+        U16(pos, 2) += (S16(state, 0x14) - S16(pos, 2)) / steps;
+        U16(pos, 6) += (S16(state, 0x16) - S16(pos, 6)) / S16(state, 0x30);
+        U16(pos, 0xA) += (S16(state, 0x18) - S16(pos, 0xA)) / S16(state, 0x30);
     }
-    U16(arg0, 0x30)--;
-    if (S16(arg0, 0x30) <= 0) {
-        S16(arg0, 0x30) = 0;
-        U16(arg1, 2) = U16(arg0, 0x14);
-        U16(arg1, 6) = U16(arg0, 0x16);
-        U16(arg1, 0xA) = U16(arg0, 0x18);
+    U16(state, 0x30)--;
+    if (S16(state, 0x30) <= 0) {
+        S16(state, 0x30) = 0;
+        U16(pos, 2) = U16(state, 0x14);
+        U16(pos, 6) = U16(state, 0x16);
+        U16(pos, 0xA) = U16(state, 0x18);
         if (func_80025344(
-                S16(arg0, 0x14),
-                S16(arg0, 0x16),
-                (s16)(U16(arg0, 0x18) + 0x10),
+                S16(state, 0x14),
+                S16(state, 0x16),
+                (s16)(U16(state, 0x18) + 0x10),
                 0)) {
             iter = 3;
             do {
                 func_80025344(
-                    S16(arg0, 0x14),
-                    S16(arg0, 0x16),
-                    (s16)(U16(arg0, 0x18) + 0x10),
+                    S16(state, 0x14),
+                    S16(state, 0x16),
+                    (s16)(U16(state, 0x18) + 0x10),
                     (s16)iter);
                 iter--;
             } while (iter >= 2);
-            S16(arg0, 0x30) = 8;
-            U16(arg0, 0x2C)++;
+            S16(state, 0x30) = 8;
+            U16(state, 0x2C)++;
         }
     }
 
 update_secondary:
-    if (U16(arg0, 0x34) & 1) {
-        S32(arg1, 0xC) += (S32(arg1, 0) - S32(arg1, 0xC)) >> 2;
-        S32(arg1, 0x10) += (S32(arg1, 4) - S32(arg1, 0x10)) >> 2;
-        S32(arg1, 0x14) += (S32(arg1, 8) - S32(arg1, 0x14)) >> 2;
+    if (U16(state, 0x34) & 1) {
+        S32(pos, 0xC) += (S32(pos, 0) - S32(pos, 0xC)) >> 2;
+        S32(pos, 0x10) += (S32(pos, 4) - S32(pos, 0x10)) >> 2;
+        S32(pos, 0x14) += (S32(pos, 8) - S32(pos, 0x14)) >> 2;
     }
     return;
 
 node_phase:
     if (U16(node, 0x1E) & 0x8000) {
-        S16(arg0, 0x30) = 2;
-        U16(arg0, 0x2C)++;
+        S16(state, 0x30) = 2;
+        U16(state, 0x2C)++;
     }
-    node = FIELD(arg0, void *, 8);
-    target = FIELD(node, void *, 8);
-    S32(arg1, 0) += (S32(target, 0) - S32(arg1, 0)) >> 2;
-    S32(arg1, 4) += (S32(target, 4) - S32(arg1, 4)) >> 2;
-    S32(arg1, 8) += (S32(target, 8) - S32(arg1, 8)) >> 2;
+    node = ((S_81958F28_0 *)state)->unk_08;
+    target = ((S_81958F28_1 *)node)->unk_08;
+    S32(pos, 0) += (S32(target, 0) - S32(pos, 0)) >> 2;
+    S32(pos, 4) += (S32(target, 4) - S32(pos, 4)) >> 2;
+    S32(pos, 8) += (S32(target, 8) - S32(pos, 8)) >> 2;
 
-    if (U16(arg0, 0x34) & 1) {
-        S32(arg1, 0xC) += (S32(arg1, 0) - S32(arg1, 0xC)) >> 2;
-        S32(arg1, 0x10) += (S32(arg1, 4) - S32(arg1, 0x10)) >> 2;
-        S32(arg1, 0x14) += (S32(arg1, 8) - S32(arg1, 0x14)) >> 2;
+    if (U16(state, 0x34) & 1) {
+        S32(pos, 0xC) += (S32(pos, 0) - S32(pos, 0xC)) >> 2;
+        S32(pos, 0x10) += (S32(pos, 4) - S32(pos, 0x10)) >> 2;
+        S32(pos, 0x14) += (S32(pos, 8) - S32(pos, 0x14)) >> 2;
     }
 
-    node = FIELD(arg0, void *, 8);
-    child = FIELD(node, void *, 0xC);
-    if (U8(child, 0xC) < U8(arg2, 0xC)) {
-        U8(arg2, 0xC) = U8(child, 0xC);
+    node = ((S_81958F28_0 *)state)->unk_08;
+    child = ((S_81958F28_1 *)node)->unk_0C;
+    if (U8(child, 0xC) < U8(tint, 0xC)) {
+        U8(tint, 0xC) = U8(child, 0xC);
     }
-    if (U8(child, 0xD) < U8(arg2, 0xD)) {
-        U8(arg2, 0xD) = U8(child, 0xD);
+    if (U8(child, 0xD) < U8(tint, 0xD)) {
+        U8(tint, 0xD) = U8(child, 0xD);
     }
-    if (U8(child, 0xE) < U8(arg2, 0xE)) {
-        U8(arg2, 0xE) = U8(child, 0xE);
+    if (U8(child, 0xE) < U8(tint, 0xE)) {
+        U8(tint, 0xE) = U8(child, 0xE);
     }
-    if ((s32)U8(arg2, 0xC) < 0x80 - (S16(arg0, 0x38) * 8)) {
-        S32(arg2, 0xC) += 0x00080808;
+    if ((s32)U8(tint, 0xC) < 0x80 - (S16(state, 0x38) * 8)) {
+        S32(tint, 0xC) += 0x00080808;
     }
     return;
 
 fade_phase:
-    if (U16(arg0, 0x34) & 1) {
-        S32(arg1, 0xC) += (S32(arg1, 0) - S32(arg1, 0xC)) >> 2;
-        S32(arg1, 0x10) += (S32(arg1, 4) - S32(arg1, 0x10)) >> 2;
-        S32(arg1, 0x14) += (S32(arg1, 8) - S32(arg1, 0x14)) >> 2;
+    if (U16(state, 0x34) & 1) {
+        S32(pos, 0xC) += (S32(pos, 0) - S32(pos, 0xC)) >> 2;
+        S32(pos, 0x10) += (S32(pos, 4) - S32(pos, 0x10)) >> 2;
+        S32(pos, 0x14) += (S32(pos, 8) - S32(pos, 0x14)) >> 2;
     }
-    fade = U8(arg2, 0xC);
-    fade -= fade / S16(arg0, 0x30);
-    U8(arg2, 0xC) = fade;
-    U8(arg2, 0xD) = fade;
-    U8(arg2, 0xE) = fade;
-    U16(arg0, 0x30)--;
-    if (S16(arg0, 0x30) <= 0) {
-        U16(arg0, -2) |= 0x8000;
+    fade = U8(tint, 0xC);
+    fade -= fade / S16(state, 0x30);
+    U8(tint, 0xC) = fade;
+    U8(tint, 0xD) = fade;
+    U8(tint, 0xE) = fade;
+    U16(state, 0x30)--;
+    if (S16(state, 0x30) <= 0) {
+        U16(state, -2) |= 0x8000;
         D_800814A0 |= 0x8000;
     }
 }

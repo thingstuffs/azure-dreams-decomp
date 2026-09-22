@@ -54,8 +54,6 @@ typedef struct S_8195AB84_4 {
 
 
 extern void func_80025B5C();
-extern void func_800263FC();
-extern void func_800264F0() __attribute__((noreturn));
 extern s32 func_8003FA44(s32);
 extern void *func_8003FD64(s32, void *);
 
@@ -72,14 +70,14 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
     register void **objects_base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void **slot;
     S_8195AB84_2 *position;
-    S_8195AB84_3 *transform;
+    register S_8195AB84_3 *transform ASM_REG("$4");
     S_8195AB84_4 *object_state;
     u8 *entry_table;
     u8 *state_page;
     register s32 scratch ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s16 saved_x;
+    register s16 saved_x ASM_REG("$21");
     s16 saved_y;
-    s16 saved_z;
+    register s16 saved_z ASM_REG("$23");
     s16 saved_angle;
     register void *callback_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 transform_flags;
@@ -102,14 +100,11 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
         objects_base = objects;
         slot = objects_base;
         loop_0: {
-            scratch = (s32)0x80080000;
             if (object_index != 0) {
                 call_context = objects[0];
-                ASM_KEEP(call_context);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                func_800263FC();
+            } else {
+                call_context = &D_80083498;
             }
-            call_context = (void *)(scratch + 0x3498);
-            ASM_KEEP_NV(call_context);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             scratch = (s32)func_8003FD64(18, call_context);
             *slot = (void *)scratch;
             if (scratch != 0) {
@@ -138,7 +133,6 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
                 object_state->unk_30 = 0x10;
                 object_state->unk_34 = saved_angle;
                 object_state->unk_36 = 7;
-                func_800264F0(transform);
             } else {
                 object_index--;
                 if (object_index >= 0) {
@@ -170,5 +164,3 @@ loop_continue:
     }
 }
 
-extern void func_800263FC(void) __attribute__((noreturn));
-extern void func_800264F0(void) __attribute__((noreturn));

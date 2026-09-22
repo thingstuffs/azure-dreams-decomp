@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern void func_800241F0(void) __attribute__((noreturn));
 extern void *func_8003FD64(s32, void *);
 extern s32 func_80069EF8(void);
 extern void func_8009CE1C();
@@ -327,10 +326,7 @@ state_0:
 state_0_tail:
         dx = step_x * tiles_ahead;
         facing_shift = step_y * tiles_ahead;
-        ASM_KEEP(dx);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(facing_shift);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_800241F0();
-        return;
+        goto span_magnitude;
     }
 
     position = ((S_81850800_2 *)((u8 *)target - 0x14))->unk_00;
@@ -346,6 +342,8 @@ state_0_tail:
         owner->unk_50.unk_50_u16 = 0;
         return;
     }
+span_magnitude:
+    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill (reorg steals this block's head `magnitude = dx` into the incoming `j`'s delay slot and redirects past it, which then costs the `bgez` its own slot); the source shape that makes it unnecessary has not been found */
     effect_data.value = dx;
     if (dx < 0) {
         effect_data.value = -effect_data.value;
