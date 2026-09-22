@@ -22,7 +22,7 @@ typedef struct S_819AD1DC_0 {
     void * unk_08;
     void * unk_0C;
     M2C_UNK * unk_10;
-} S_819AD1DC_0;   /* temp_v0 in func_819AD1DC */
+} S_819AD1DC_0;   /* obj in func_819AD1DC */
 
 typedef struct S_819AD1DC_1 {
     u8 pad_00[0x2];
@@ -31,7 +31,7 @@ typedef struct S_819AD1DC_1 {
     u16 unk_06;
     u8 pad_08[0x2];
     u16 unk_0A;
-} S_819AD1DC_1;   /* temp_s3 in func_819AD1DC */
+} S_819AD1DC_1;   /* src in func_819AD1DC */
 
 typedef struct S_819AD1DC_2 {
     u8 pad_00[0x2];
@@ -46,7 +46,7 @@ typedef struct S_819AD1DC_2 {
     u16 unk_12;
     u8 pad_14[0x2];
     u16 unk_16;
-} S_819AD1DC_2;   /* temp_v1 in func_819AD1DC */
+} S_819AD1DC_2;   /* coords in func_819AD1DC */
 
 typedef struct S_819AD1DC_3 {
     u8 pad_00[0x1C];
@@ -57,7 +57,7 @@ typedef struct S_819AD1DC_3 {
     s16 unk_30;
     u8 pad_32[0x6];
     s16 unk_38;
-} S_819AD1DC_3;   /* temp_a2 in func_819AD1DC */
+} S_819AD1DC_3;   /* part in func_819AD1DC */
 
 typedef struct S_819AD1DC_4 {
     u8 pad_00[0x8];
@@ -67,69 +67,68 @@ typedef struct S_819AD1DC_4 {
     u8 pad_0E[0xE];
     u16 unk_1C;
     u16 unk_1E;
-} S_819AD1DC_4;   /* temp_a1 in func_819AD1DC */
+} S_819AD1DC_4;   /* render in func_819AD1DC */
 
-void *func_819AD1DC(void *arg0)
+/* Spawn the nine trail sprites at the source position, the last one larger and all fading with distance. */
+void *func_819AD1DC(void *src)
 {
-    s32 var_s1;
-    M2C_UNK *temp_s5;
-    M2C_UNK *temp_s4;
-    register s32 temp_s2;
-    void *temp_v0;
-    s32 arithmetic_v1;
-    u16 reload_a0;
-    u16 temp_v0_2;
-    u16 temp_v0_3;
-    u16 temp_v0_4;
-    S_819AD1DC_4 *temp_a1;
-    S_819AD1DC_3 *temp_a2;
-    S_819AD1DC_2 *temp_v1;
+    s32 i;
+    M2C_UNK *handler;
+    M2C_UNK *sub_handler;
+    register s32 last_index;
+    void *obj;
+    s32 shade;
+    u16 scale;
+    u16 x;
+    u16 y;
+    u16 z;
+    S_819AD1DC_4 *render;
+    S_819AD1DC_3 *part;
+    S_819AD1DC_2 *coords;
 
-    var_s1 = 0;
-    temp_s5 = &D_800245A0;
-    temp_s4 = &D_80027460;
-    temp_s2 = 8;
-loop_1:
-    temp_v0 = func_8003FC64(18);
-    if (temp_v0 != NULL) {
-        ((S_819AD1DC_0 *)temp_v0)->unk_10 = temp_s5;
-        func_8004491C(temp_v0, &D_800CEEFC);
-        temp_v1 = ((S_819AD1DC_0 *)temp_v0)->unk_08;
-        temp_v0_2 = ((S_819AD1DC_1 *)arg0)->unk_02;
-        temp_a2 = temp_v0 + 0x20;
-        temp_v1->unk_02 = temp_v0_2;
-        temp_v1->unk_0E = temp_v0_2;
-        temp_a2->unk_1C = temp_v0_2;
-        temp_v0_3 = ((S_819AD1DC_1 *)arg0)->unk_06;
-        temp_v1->unk_06 = temp_v0_3;
-        temp_v1->unk_12 = temp_v0_3;
-        temp_a2->unk_1E = temp_v0_3;
-        temp_v0_4 = ((S_819AD1DC_1 *)arg0)->unk_0A;
-        temp_v1->unk_0A = temp_v0_4;
-        temp_v1->unk_16 = temp_v0_4;
-        temp_a2->unk_20 = temp_v0_4;
-        temp_a1 = ((S_819AD1DC_0 *)temp_v0)->unk_0C;
-        temp_a1->unk_08 = temp_s4;
-        if (var_s1 != temp_s2) {
-            temp_a1->unk_1E = 0x200U;
+    i = 0;
+    handler = &D_800245A0;
+    sub_handler = &D_80027460;
+    last_index = 8;
+spawn_next:
+    obj = func_8003FC64(18);
+    if (obj != NULL) {
+        ((S_819AD1DC_0 *)obj)->unk_10 = handler;
+        func_8004491C(obj, &D_800CEEFC);
+        coords = ((S_819AD1DC_0 *)obj)->unk_08;
+        x = ((S_819AD1DC_1 *)src)->unk_02;
+        part = obj + 0x20;
+        coords->unk_02 = x;
+        coords->unk_0E = x;
+        part->unk_1C = x;
+        y = ((S_819AD1DC_1 *)src)->unk_06;
+        coords->unk_06 = y;
+        coords->unk_12 = y;
+        part->unk_1E = y;
+        z = ((S_819AD1DC_1 *)src)->unk_0A;
+        coords->unk_0A = z;
+        coords->unk_16 = z;
+        part->unk_20 = z;
+        render = ((S_819AD1DC_0 *)obj)->unk_0C;
+        render->unk_08 = sub_handler;
+        if (i != last_index) {
+            render->unk_1E = 0x200U;
         } else {
-            temp_a1->unk_1E = 0x800U;
+            render->unk_1E = 0x800U;
         }
-        arithmetic_v1 = -0x80 - ((s32)((temp_s2 - var_s1) * 4));
-        reload_a0 = M2C_FIELD_V(temp_a1, u16 *, 0x1E);
-        temp_a1->unk_0D = (u8)arithmetic_v1;
-        temp_a1->unk_1C = reload_a0;
-        temp_a2->unk_38 = var_s1;
-        if (var_s1 == temp_s2) {
-            temp_a2->unk_38 = 7;
+        shade = -0x80 - ((s32)((last_index - i) * 4));
+        scale = M2C_FIELD_V(render, u16 *, 0x1E);
+        render->unk_0D = (u8)shade;
+        render->unk_1C = scale;
+        part->unk_38 = i;
+        if (i == last_index) {
+            part->unk_38 = 7;
         }
-        temp_a2->unk_30 = temp_s2;
-        goto block_8;
+        part->unk_30 = last_index;
     }
-block_8:
-    var_s1 += 1;
-    if (var_s1 < 9) {
-        goto loop_1;
+    i += 1;
+    if (i < 9) {
+        goto spawn_next;
     }
-    return temp_v0;
+    return obj;
 }

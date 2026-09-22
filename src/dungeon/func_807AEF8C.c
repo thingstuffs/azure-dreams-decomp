@@ -25,17 +25,18 @@ extern void func_80094E34(void);
 #define CLEAR_HIGH_BIT(ptr) \
     (*(u16 *)((u8 *)(ptr) + 4) = *(u16 *)((u8 *)(ptr) + 4) & 0x7FFF)
 
-void func_807AEF8C(void *arg0) {
+/* Reveal the fixed-map cheat: set the map mode from the item used, clear the hidden bit on every listed tile and finish the owner. */
+void func_807AEF8C(void *owner) {
     DungeonState *state;
     s32 base;
-    u8 *temp_v0;
-    u8 *temp_v0_2;
-    u8 *temp_v1;
-    u8 *temp_v1_2;
-    u8 *temp_v0_5;
-    u8 *temp_v0_6;
-    u8 *temp_v0_7;
-    u8 *temp_v1_4;
+    u8 *tile;
+    u8 *tile_b;
+    u8 *row_tile;
+    u8 *row_tile_b;
+    u8 *col_tile;
+    u8 *col_tile_b;
+    u8 *edge_tile;
+    u8 *edge_tile_b;
     u8 *mode_page;
     u8 *objects;
     u8 *object;
@@ -76,46 +77,46 @@ void func_807AEF8C(void *arg0) {
     *(u16 *)(mode_page + 0x3716) = 0;
     *(u16 *)(mode_page + 0x3714) = flags | 1;
 
-    temp_v0 = (u8 *)(((0x23 << state->shift) * 6) + base + 0xBA);
-    CLEAR_HIGH_BIT(temp_v0);
-    temp_v0_2 = (u8 *)(((0x23 << state->shift) * 6) + base + 0xC0);
-    CLEAR_HIGH_BIT(temp_v0_2);
+    tile = (u8 *)(((0x23 << state->shift) * 6) + base + 0xBA);
+    CLEAR_HIGH_BIT(tile);
+    tile_b = (u8 *)(((0x23 << state->shift) * 6) + base + 0xC0);
+    CLEAR_HIGH_BIT(tile_b);
 
     i = 0x10;
     do {
-        temp_v1 = (u8 *)(((i + (0x11 << state->shift)) * 6) + base);
-        CLEAR_HIGH_BIT(temp_v1);
+        row_tile = (u8 *)(((i + (0x11 << state->shift)) * 6) + base);
+        CLEAR_HIGH_BIT(row_tile);
         i++;
     } while (i < 0x1D);
 
     i = 0x23;
     do {
-        temp_v1_2 = (u8 *)(((i + (0x11 << state->shift)) * 6) + base);
-        CLEAR_HIGH_BIT(temp_v1_2);
+        row_tile_b = (u8 *)(((i + (0x11 << state->shift)) * 6) + base);
+        CLEAR_HIGH_BIT(row_tile_b);
         i++;
     } while (i < 0x30);
 
     i3 = 0x12;
     do {
-        temp_v0_5 = (u8 *)(((i3 << state->shift) * 6) + base + 0x60);
-        CLEAR_HIGH_BIT(temp_v0_5);
-        temp_v0_6 = (u8 *)(((i3 << state->shift) * 6) + base + 0x11A);
-        CLEAR_HIGH_BIT(temp_v0_6);
+        col_tile = (u8 *)(((i3 << state->shift) * 6) + base + 0x60);
+        CLEAR_HIGH_BIT(col_tile);
+        col_tile_b = (u8 *)(((i3 << state->shift) * 6) + base + 0x11A);
+        CLEAR_HIGH_BIT(col_tile_b);
         i3++;
     } while (i3 < 0x20);
 
     i = 0x10;
     do {
-        temp_v0_7 = (u8 *)(((i + (0x20 << state->shift)) * 6) + base);
-        CLEAR_HIGH_BIT(temp_v0_7);
-        temp_v1_4 = (u8 *)(((i + (0x21 << state->shift)) * 6) + base);
-        CLEAR_HIGH_BIT(temp_v1_4);
+        edge_tile = (u8 *)(((i + (0x20 << state->shift)) * 6) + base);
+        CLEAR_HIGH_BIT(edge_tile);
+        edge_tile_b = (u8 *)(((i + (0x21 << state->shift)) * 6) + base);
+        CLEAR_HIGH_BIT(edge_tile_b);
         i++;
     } while (i < 0x30);
 
     func_80043A68();
     i = 0;
-    *(u16 *)((u8 *)arg0 - 2) |= 0x8000;
+    *(u16 *)((u8 *)owner - 2) |= 0x8000;
     D_800814A0 |= 0x8000;
     objects = D_800814A8;
     do {

@@ -1,19 +1,6 @@
 /* cfail-repair: tf7-phase1-cache-v3 */
 #include "common.h"
-typedef float f32;
-typedef double f64;
-typedef long long s64;
-typedef unsigned long long u64;
-
-#ifndef NULL
-#define NULL 0
-#endif
-
-typedef u32 M2C_UNK;
-typedef s8  M2C_UNK8;
-typedef s16 M2C_UNK16;
-typedef s32 M2C_UNK32;
-typedef s64 M2C_UNK64;
+#include "m2c_compat.h"
 
 typedef struct S_8059E540_2 {
     u8 pad_00[0x6000];

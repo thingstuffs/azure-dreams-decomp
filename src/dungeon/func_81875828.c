@@ -36,9 +36,10 @@ extern u8 D_80083160[];
 extern u32 func_80065420();
 extern u32 func_80066460();
 extern void func_80067F20();
-s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
+/* Walk the node chain and emit each node's shaded quad into the scratch display list, relinking the OT slots. */
+s32 func_81875828(Arg0 *node, Arg1 *coords)
 {
-  Arg1 *input = arg1;
+  Arg1 *input = coords;
   u32 high_mask = 0xFF000000;
   register Scratch *scratch ASM_REG("$17") = (Scratch *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
   register u8 **state_slot ASM_REG("$21") = (u8 **) D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
@@ -65,7 +66,6 @@ s32 func_81875828(Arg0 *arg0, Arg1 *arg1)
   ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 next_entry:
   call_arg = active;
-     /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   out90 = &active->unk90;
   second_coord = input->unk2;
   entry = *((u8 * volatile *) (&active->current));
@@ -80,10 +80,10 @@ next_entry:
   active->index = func_80065420(call_arg, entry_arg, out90, out94);
   if (active->index < 0x1E0U)
   {
-    *((s32 *) (((u8 *) entry) + 4)) = arg0->unk8;
-    *((u8 *) (((u8 *) entry) + 4)) = ((*((u8 *) (((u8 *) entry) + 4))) * arg0->scale) / arg0->divisor;
-    *((u8 *) (((u8 *) entry) + 5)) = ((*((u8 *) (((u8 *) entry) + 5))) * arg0->scale) / arg0->divisor;
-    *((u8 *) (((u8 *) entry) + 6)) = ((*((u8 *) (((u8 *) entry) + 6))) * arg0->scale) / arg0->divisor;
+    *((s32 *) (((u8 *) entry) + 4)) = node->unk8;
+    *((u8 *) (((u8 *) entry) + 4)) = ((*((u8 *) (((u8 *) entry) + 4))) * node->scale) / node->divisor;
+    *((u8 *) (((u8 *) entry) + 5)) = ((*((u8 *) (((u8 *) entry) + 5))) * node->scale) / node->divisor;
+    *((u8 *) (((u8 *) entry) + 6)) = ((*((u8 *) (((u8 *) entry) + 6))) * node->scale) / node->divisor;
     *((u8 *) (((u8 *) entry) + 3)) = 2;
     *((u8 *) (((u8 *) entry) + 7)) = 0x6A;
     *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
@@ -103,10 +103,10 @@ next_entry:
     entry_2 = (u8 *) (((u32) entry_2) & low_mask);
     active->table[active->index] = (active->table[active->index] & high_mask) | ((u32) entry_2);
   }
-  previous = *((u8 **) (((u8 *) arg0) - 8));
+  previous = *((u8 **) (((u8 *) node) - 8));
   if (previous != 0)
   {
-    arg0 = (Arg0 *) (previous + 0x20);
+    node = (Arg0 *) (previous + 0x20);
     input = *((Arg1 **) (previous + 8));
     goto next_entry;
   }

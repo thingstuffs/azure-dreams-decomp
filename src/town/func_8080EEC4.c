@@ -45,12 +45,12 @@ typedef struct S_8080EEC4_0 {
     u8 unk_0E;
     u8 pad_0F[0xB];
     u16 unk_1A;
-} S_8080EEC4_0;   /* arg2 in func_80529AC4 */
+} S_8080EEC4_0;   /* view in func_80529AC4 */
 
 typedef struct S_8080EEC4_1 {
     u8 pad_00[0x8];
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_08;   /* overlapping accesses */
-} S_8080EEC4_1;   /* arg1 in func_80529AC4 */
+} S_8080EEC4_1;   /* setup in func_80529AC4 */
 
 typedef struct S_8080EEC4_2 {
     u8 pad_00[0x4];
@@ -66,7 +66,7 @@ typedef struct S_8080EEC4_2 {
     s16 unk_70;
     union { s16 s; u16 u; } unk_72;   /* accessed as both */
     union { s16 s; u16 u; } unk_74;   /* accessed as both */
-} S_8080EEC4_2;   /* arg0 in func_80529AC4 */
+} S_8080EEC4_2;   /* ctrl in func_80529AC4 */
 
 typedef struct S_8080EEC4_3 {
     u8 pad_00[0x14];
@@ -78,7 +78,8 @@ typedef struct S_8080EEC4_3 {
     s16 unk_24;
 } S_8080EEC4_3;   /* work in func_80529AC4 */
 
-void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
+/* Per-frame camera/approach step: measure the distance to the target, then run the six-state approach machine. */
+void func_80529AC4(u8 **ctrl, u8 *setup, u8 *view)
 {
     LocalRecord local;
     register u8 *work ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -112,14 +113,14 @@ void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
 
     dx = (D_80132AE8 - 0x03600000) >> 16;
     dy = (D_80132AEC - 0x03600000) >> 16;
-    work = *arg0;
-    old_angle = ((S_8080EEC4_0 *)arg2)->unk_1A;
+    work = *ctrl;
+    old_angle = ((S_8080EEC4_0 *)view)->unk_1A;
     local.rect.packed = D_80526470;
     dx_square = dx * dx;
     dy_square = dy * dy;
     distance = func_8006AB90(dx_square + dy_square);
-    copied = ((S_8080EEC4_1 *)arg1)->unk_08.at00.v;
-    (*(s32 *)((u8 *)arg0 + (0x60))) = copied;
+    copied = ((S_8080EEC4_1 *)setup)->unk_08.at00.v;
+    (*(s32 *)((u8 *)ctrl + (0x60))) = copied;
 
     if (D_80132AEC > 0x035FFFFF) {
         if (distance < 0xB9) {
@@ -135,14 +136,14 @@ void func_80529AC4(u8 **arg0, u8 *arg1, u8 *arg2)
     goto far_check;
 
 close_range:
-    if (D_80132AF2 >= ((S_8080EEC4_1 *)arg1)->unk_08.at02.v) {
-        D_80132AE8 = ((S_8080EEC4_2 *)arg0)->unk_04;
-        D_80132AEC = (*(s32 *)((u8 *)arg0 + (8)));
+    if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
+        D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
+        D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
     }
-    (*(s32 *)((u8 *)arg0 + (0x58))) = D_80132AE8;
-    ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC;
+    (*(s32 *)((u8 *)ctrl + (0x58))) = D_80132AE8;
+    ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
     if (distance < 0x80) {
-        ((S_8080EEC4_2 *)arg0)->unk_62 -= (0x80 - distance) >> 1;
+        ((S_8080EEC4_2 *)ctrl)->unk_62 -= (0x80 - distance) >> 1;
     }
     goto copy_position;
 
@@ -153,9 +154,9 @@ far_test:
         goto set_far_default;
     }
 
-    if (D_80132AF2 >= ((S_8080EEC4_1 *)arg1)->unk_08.at02.v) {
-        D_80132AE8 = ((S_8080EEC4_2 *)arg0)->unk_04;
-        D_80132AEC = (*(s32 *)((u8 *)arg0 + (8)));
+    if (D_80132AF2 >= ((S_8080EEC4_1 *)setup)->unk_08.at02.v) {
+        D_80132AE8 = ((S_8080EEC4_2 *)ctrl)->unk_04;
+        D_80132AEC = (*(s32 *)((u8 *)ctrl + (8)));
     }
 
     {
@@ -165,31 +166,31 @@ far_test:
         dy_abs = dy;
         dy_abs = abs(dy_abs);
         if (dx_abs > dy_abs || D_80132AEC <= 0x033FFFFF) {
-        ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC;
+        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC;
         if (dx > 0) {
-            ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8 - 0x00280000;
+            ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 - 0x00280000;
             goto copy_position;
         }
-        ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8 + 0x00280000;
+        ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8 + 0x00280000;
         goto copy_position;
     } else {
-        ((S_8080EEC4_2 *)arg0)->unk_58 = D_80132AE8;
+        ((S_8080EEC4_2 *)ctrl)->unk_58 = D_80132AE8;
         if (dy > 0) {
-            ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC - 0x00280000;
+            ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC - 0x00280000;
             goto copy_position;
         }
-        ((S_8080EEC4_2 *)arg0)->unk_5C = D_80132AEC + 0x00280000;
+        ((S_8080EEC4_2 *)ctrl)->unk_5C = D_80132AEC + 0x00280000;
         goto copy_position;
         }
     }
 
 set_far_default:
-    ((S_8080EEC4_2 *)arg0)->unk_58 = 0x03600000;
-    ((S_8080EEC4_2 *)arg0)->unk_5C = 0x03600000;
+    ((S_8080EEC4_2 *)ctrl)->unk_58 = 0x03600000;
+    ((S_8080EEC4_2 *)ctrl)->unk_5C = 0x03600000;
 
 copy_position:
-    (*(s32 *)((u8 *)arg0 + (4))) = D_80132AE8;
-    ((S_8080EEC4_2 *)arg0)->unk_08 = D_80132AEC;
+    (*(s32 *)((u8 *)ctrl + (4))) = D_80132AE8;
+    ((S_8080EEC4_2 *)ctrl)->unk_08 = D_80132AEC;
 
     value = ((S_8080EEC4_3 *)work)->unk_14 /
         ((((S_8080EEC4_3 *)work)->unk_22 << 8) + 0x300);
@@ -197,48 +198,48 @@ copy_position:
     case_x = value + 0x40;
     step = case_delta + case_x;
 
-    state = ((S_8080EEC4_2 *)arg0)->unk_70;
+    state = ((S_8080EEC4_2 *)ctrl)->unk_70;
     if ((u32)state < 8) {
         goto *D_8052647C[state];
     }
     goto switch_done;
 
 case_0:
-        case_x = ((S_8080EEC4_0 *)arg2)->unk_0E;
+        case_x = ((S_8080EEC4_0 *)view)->unk_0E;
         case_delta = 0x80 - case_x;
-        case_x = *(volatile u8 *)(arg2 + 0xE) + (case_delta >> 1);
-        ((S_8080EEC4_0 *)arg2)->unk_0E = case_x;
-        ((S_8080EEC4_0 *)arg2)->unk_0D = case_x;
-        ((S_8080EEC4_0 *)arg2)->unk_0C = case_x;
-        ((S_8080EEC4_2 *)arg0)->unk_6C = 0x00080000;
+        case_x = *(volatile u8 *)(view + 0xE) + (case_delta >> 1);
+        ((S_8080EEC4_0 *)view)->unk_0E = case_x;
+        ((S_8080EEC4_0 *)view)->unk_0D = case_x;
+        ((S_8080EEC4_0 *)view)->unk_0C = case_x;
+        ((S_8080EEC4_2 *)ctrl)->unk_6C = 0x00080000;
         goto switch_done;
 
 case_1:
-        case_value = ((S_8080EEC4_2 *)arg0)->unk_72.s;
+        case_value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
         case_value += (case_value + 0x10) >> 4;
-        ((S_8080EEC4_2 *)arg0)->unk_72.s = case_value;
+        ((S_8080EEC4_2 *)ctrl)->unk_72.s = case_value;
         if (step < (s16)case_value) {
-            ((S_8080EEC4_2 *)arg0)->unk_72.s = step;
-            ((S_8080EEC4_2 *)arg0)->unk_70 = 2;
+            ((S_8080EEC4_2 *)ctrl)->unk_72.s = step;
+            ((S_8080EEC4_2 *)ctrl)->unk_70 = 2;
         }
-        ((S_8080EEC4_0 *)arg2)->unk_1A += ((S_8080EEC4_2 *)arg0)->unk_72.u;
+        ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
         goto switch_done;
 
 case_2:
-        case_value_2 = ((S_8080EEC4_0 *)arg2)->unk_1A;
+        case_value_2 = ((S_8080EEC4_0 *)view)->unk_1A;
         case_value_2 += step;
-        ((S_8080EEC4_0 *)arg2)->unk_1A = case_value_2;
+        ((S_8080EEC4_0 *)view)->unk_1A = case_value_2;
         step_copy = step;
         if (distance >= 0xA1 && D_80132AEC > 0x03600000 &&
             ((S_8080EEC4_3 *)work)->unk_18 == 5) {
-            ((S_8080EEC4_2 *)arg0)->unk_72.s = step_copy;
-            ((S_8080EEC4_2 *)arg0)->unk_70 = 3;
+            ((S_8080EEC4_2 *)ctrl)->unk_72.s = step_copy;
+            ((S_8080EEC4_2 *)ctrl)->unk_70 = 3;
             goto switch_done;
         }
         goto switch_done;
 
 case_3:
-        dx = ((S_8080EEC4_0 *)arg2)->unk_1A & 0x7FF;
+        dx = ((S_8080EEC4_0 *)view)->unk_1A & 0x7FF;
         dy = 0x155;
         if (dx >= 0x6AB) {
             ((S_8080EEC4_3 *)work)->unk_24 = 0;
@@ -259,35 +260,35 @@ case_3:
         do {
             shift = ((S_8080EEC4_3 *)work)->unk_22 == 2 ? 6 : 5;
         } while (0);
-        value = ((S_8080EEC4_2 *)arg0)->unk_72.s;
+        value = ((S_8080EEC4_2 *)ctrl)->unk_72.s;
         value -= value >> shift;
-        ((S_8080EEC4_2 *)arg0)->unk_72.s = value;
-        ((S_8080EEC4_0 *)arg2)->unk_1A += value;
-        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)arg0)->unk_72.u;
-        if (((S_8080EEC4_2 *)arg0)->unk_72.s < (1 << shift)) {
-            ((S_8080EEC4_2 *)arg0)->unk_74.s = 0;
-            ((S_8080EEC4_2 *)arg0)->unk_70 = 5;
+        ((S_8080EEC4_2 *)ctrl)->unk_72.s = value;
+        ((S_8080EEC4_0 *)view)->unk_1A += value;
+        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+        if (((S_8080EEC4_2 *)ctrl)->unk_72.s < (1 << shift)) {
+            ((S_8080EEC4_2 *)ctrl)->unk_74.s = 0;
+            ((S_8080EEC4_2 *)ctrl)->unk_70 = 5;
             goto switch_done;
         }
         goto switch_done;
 
 case_4:
-        ((S_8080EEC4_0 *)arg2)->unk_1A += ((S_8080EEC4_2 *)arg0)->unk_72.u;
-        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)arg0)->unk_72.u;
-        case_value_3 = ((S_8080EEC4_2 *)arg0)->unk_74.u + 1;
-        ((S_8080EEC4_2 *)arg0)->unk_74.u = case_value_3;
+        ((S_8080EEC4_0 *)view)->unk_1A += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+        ((S_8080EEC4_3 *)work)->unk_1A.u += ((S_8080EEC4_2 *)ctrl)->unk_72.u;
+        case_value_3 = ((S_8080EEC4_2 *)ctrl)->unk_74.u + 1;
+        ((S_8080EEC4_2 *)ctrl)->unk_74.u = case_value_3;
         if ((case_value_3 & 3) == 0) {
-            ((S_8080EEC4_2 *)arg0)->unk_72.u -= 2;
+            ((S_8080EEC4_2 *)ctrl)->unk_72.u -= 2;
         }
-        if (((S_8080EEC4_2 *)arg0)->unk_72.s < 4) {
-            ((S_8080EEC4_2 *)arg0)->unk_70 = 0;
+        if (((S_8080EEC4_2 *)ctrl)->unk_72.s < 4) {
+            ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
             goto switch_done;
         }
         goto switch_done;
 
 case_5:
-        ((S_8080EEC4_2 *)arg0)->unk_70 = 7;
-        ((S_8080EEC4_2 *)arg0)->unk_72.s = 0;
+        ((S_8080EEC4_2 *)ctrl)->unk_70 = 7;
+        ((S_8080EEC4_2 *)ctrl)->unk_72.s = 0;
         do {
             dx = 0;
         } while (0);
@@ -295,7 +296,7 @@ case_5:
             do {
                 local.rect.natural.x = dy;
                 local.rect.natural.w = 6;
-                x = ((s16)((S_8080EEC4_2 *)arg0)->unk_72.u >> 1) + dx;
+                x = ((s16)((S_8080EEC4_2 *)ctrl)->unk_72.u >> 1) + dx;
                 func_8006E854(&local, D_8053067C + ((x % 3) << 5));
                 dy += 0x10;
                 dx++;
@@ -303,19 +304,19 @@ case_5:
                     break;
                 }
             } while (1);
-        case5_old = ((S_8080EEC4_2 *)arg0)->unk_72.u;
+        case5_old = ((S_8080EEC4_2 *)ctrl)->unk_72.u;
         case5_next = case5_old + 1;
-        ((S_8080EEC4_2 *)arg0)->unk_72.u = case5_next;
+        ((S_8080EEC4_2 *)ctrl)->unk_72.u = case5_next;
         if ((s16)case5_old >= 0xC6) {
-            ((S_8080EEC4_2 *)arg0)->unk_70 = 0;
+            ((S_8080EEC4_2 *)ctrl)->unk_70 = 0;
         }
         goto switch_done;
 
 switch_done:
 
-    ((S_8080EEC4_0 *)arg2)->unk_1A &= 0xFFF;
+    ((S_8080EEC4_0 *)view)->unk_1A &= 0xFFF;
     if ((old_angle >> 8) !=
-        (*(volatile u16 *)(arg2 + 0x1A) >> 8)) {
+        (*(volatile u16 *)(view + 0x1A) >> 8)) {
         func_80058F88(0x701);
     }
 }

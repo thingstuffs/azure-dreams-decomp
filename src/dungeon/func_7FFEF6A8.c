@@ -15,66 +15,67 @@ typedef struct S_7FFEF6A8_0 {
     s32 unk_90;
     s32 unk_94;
     s32 unk_98;
-} S_7FFEF6A8_0;   /* arg0 in func_8008CE08 */
+} S_7FFEF6A8_0;   /* poly in func_8008CE08 */
 
 
 s32 func_80065F90();                        /* extern */
 
-s32 func_8008CE08(S_7FFEF6A8_0 *arg0) {
-    s32 temp_a0;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 tail_angle;
+/* True unless the quad's corner angles are laid out so that one of its successive turns exceeds half a revolution. */
+s32 func_8008CE08(S_7FFEF6A8_0 *poly) {
+    s32 delta_3;
+    s32 angle_1;
+    s32 delta_1;
+    s32 angle_2;
+    s32 delta_2;
+    s32 angle_3;
+    s32 turn_1;
+    s32 turn_2;
+    s32 turn_3;
 
-    if (arg0->unk_6C.at00.v == 0) {
+    if (poly->unk_6C.at00.v == 0) {
         return 1;
     }
-    if (arg0->unk_78.at00.v == 0) {
+    if (poly->unk_78.at00.v == 0) {
         goto tail_one;
     }
-    arg0->unk_7C = func_80065F90(arg0->unk_6C.at02.v, (s16) arg0->unk_6C.at00.v);
-    temp_v0 = func_80065F90(arg0->unk_78.at02.v, (s16) arg0->unk_78.at00.v);
-    arg0->unk_88 = temp_v0;
-    temp_v0_2 = temp_v0 - arg0->unk_7C;
-    temp_v1 = (0x1000 - temp_v0_2) & 0xFFF;
-    arg0->unk_98 = temp_v1;
-    arg0->unk_88 = temp_v0_2;
-    if (temp_v1 >= 0x801) {
+    poly->unk_7C = func_80065F90(poly->unk_6C.at02.v, (s16) poly->unk_6C.at00.v);
+    angle_1 = func_80065F90(poly->unk_78.at02.v, (s16) poly->unk_78.at00.v);
+    poly->unk_88 = angle_1;
+    delta_1 = angle_1 - poly->unk_7C;
+    turn_1 = (0x1000 - delta_1) & 0xFFF;
+    poly->unk_98 = turn_1;
+    poly->unk_88 = delta_1;
+    if (turn_1 >= 0x801) {
         return 0;
     }
-    if (arg0->unk_74.at00.v == 0) {
+    if (poly->unk_74.at00.v == 0) {
         goto tail_one;
     }
-    temp_v0_3 = func_80065F90(arg0->unk_74.at02.v, (s16) arg0->unk_74.at00.v);
-    arg0->unk_84 = temp_v0_3;
-    temp_v0_4 = temp_v0_3 - arg0->unk_7C;
-    temp_v1_2 = (arg0->unk_88 - temp_v0_4) & 0xFFF;
-    arg0->unk_94 = temp_v1_2;
-    arg0->unk_84 = temp_v0_4;
-    if (temp_v1_2 >= 0x801) {
+    angle_2 = func_80065F90(poly->unk_74.at02.v, (s16) poly->unk_74.at00.v);
+    poly->unk_84 = angle_2;
+    delta_2 = angle_2 - poly->unk_7C;
+    turn_2 = (poly->unk_88 - delta_2) & 0xFFF;
+    poly->unk_94 = turn_2;
+    poly->unk_84 = delta_2;
+    if (turn_2 >= 0x801) {
         return 0;
     }
-    if (arg0->unk_70.at00.v != 0) {
+    if (poly->unk_70.at00.v != 0) {
         goto have_field70;
     }
 tail_one:
     return 1;
 have_field70:
-    temp_v0_5 = func_80065F90(arg0->unk_70.at02.v, (s16) arg0->unk_70.at00.v);
-    arg0->unk_80 = temp_v0_5;
-    temp_a0 = (temp_v0_5 - arg0->unk_7C) & 0xFFF;
-    arg0->unk_80 = temp_a0;
-    if (temp_a0 >= 0x801) {
+    angle_3 = func_80065F90(poly->unk_70.at02.v, (s16) poly->unk_70.at00.v);
+    poly->unk_80 = angle_3;
+    delta_3 = (angle_3 - poly->unk_7C) & 0xFFF;
+    poly->unk_80 = delta_3;
+    if (delta_3 >= 0x801) {
         return 0;
     }
-    tail_angle = (arg0->unk_84 - temp_a0) & 0xFFF;
-    arg0->unk_90 = tail_angle;
-    return tail_angle < 0x801;
+    turn_3 = (poly->unk_84 - delta_3) & 0xFFF;
+    poly->unk_90 = turn_3;
+    return turn_3 < 0x801;
 }
 
 /* MECHANISM: A vars=0 24-byte frame follows from one held object base in s0.

@@ -40,7 +40,7 @@ typedef struct S_807AE960_5 {
 typedef struct S_807AE960_6 {
     u8 pad_00[0x4];
     u16 unk_04;
-} S_807AE960_6;   /* temp_v0_2 in func_807AE960 */
+} S_807AE960_6;   /* entry in func_807AE960 */
 
 
 extern void *D_800F6000[];
@@ -57,27 +57,25 @@ extern u8 D_80082EA5;
 extern M2C_UNK D_80083160;
 extern s16 D_8008346A;
 
-void func_807AE960(void *arg0, void *arg1, void *arg2) {
+/* Dispatch the CD-audio fade state machine, then step the actor's shake counter and raise the finished flag. */
+void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     static void *const jt_keep[] = { &&jt_c0, &&jt_c1, &&jt_c2, &&jt_c3, &&jt_c4, &&jt_c5, &&jt_c6, &&jt_c7, &&jt_c8, &&jt_c9, &&jt_c10, &&jt_c11, &&jt_c12, &&jt_c13, &&jt_c14, &&jt_c15, &&jt_c16, &&jt_c17, &&jt_c18, &&jt_c19 };
-    s16 temp_a0;
+    s16 steps;
     s32 dispatch_index;
-    s16 temp_v1_2;
+    s16 remaining;
     s32 countdown;
     u16 countdown_u;
     s32 actor_pos;
-    u8 *state = arg0;
-    u8 *actor = arg1;
-    u8 *target = arg2;
     register u8 *global ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u32 temp_s2;
-    s32 temp_s5;
+    u32 cd_mode;
+    s32 table_base;
     u8 *global_end;
     u8 *dungeon_data;
-    S_807AE960_6 *temp_v0_2;
+    S_807AE960_6 *entry;
 
     dungeon_data = (u8 *)&D_80083160;
     global_end = dungeon_data + 0x1DC;
-    temp_s5 = ((S_807AE960_0 *)dungeon_data)->unk_1DC;
+    table_base = ((S_807AE960_0 *)dungeon_data)->unk_1DC;
     dispatch_index = (s16)(((S_807AE960_1 *)state)->unk_00.s - 1);
     if ((u32) dispatch_index >= 0x14U) {
         goto block_28;
@@ -101,21 +99,21 @@ jt_c16:
     ((S_807AE960_1 *)state)->unk_00.u = 0;
     goto block_28;
 jt_c2:
-    temp_a0 = ((S_807AE960_1 *)state)->unk_04.s;
-    if (temp_a0 <= 0) {
+    steps = ((S_807AE960_1 *)state)->unk_04.s;
+    if (steps <= 0) {
         goto block_11;
     }
-    ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / temp_a0));
+    ((S_807AE960_2 *)target)->unk_1A = (s16) ((u16) ((S_807AE960_2 *)target)->unk_1A + ((s32) (((S_807AE960_1 *)state)->unk_0A - ((S_807AE960_2 *)target)->unk_1A) / steps));
 block_11:
-    temp_v1_2 = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
-    ((S_807AE960_1 *)state)->unk_04.u = temp_v1_2;
+    remaining = (u16) ((S_807AE960_1 *)state)->unk_04.s - 1;
+    ((S_807AE960_1 *)state)->unk_04.u = remaining;
     do {
         global = (u8 *)0x80010000;
     } while (0);
     if ((u16) D_8001371A >= 4U) {
         goto block_15;
     }
-    if (temp_v1_2 >= 0) {
+    if (remaining >= 0) {
         goto block_28;
     }
 block_13:
@@ -130,14 +128,14 @@ block_17:
     if (((S_807AE960_1 *)state)->unk_04.s > 0) {
         goto block_28;
     }
-    temp_s2 = ((S_807AE960_3 *)global)->unk_2090;
-    if (temp_s2 != 1) {
+    cd_mode = ((S_807AE960_3 *)global)->unk_2090;
+    if (cd_mode != 1) {
         goto block_22;
     }
     if (func_80053EF0(4) != 0) {
         goto block_13;
     }
-    if (((S_807AE960_3 *)global)->unk_2090 != temp_s2) {
+    if (((S_807AE960_3 *)global)->unk_2090 != cd_mode) {
         goto block_22;
     }
     D_8008346A = 0;
@@ -202,8 +200,8 @@ block_33:
         goto block_37;
     }
     ((S_807AE960_1 *)state)->unk_00.s = 4U;
-    temp_v0_2 = ((0x3E << ((S_807AE960_5 *)global_end)->unk_14) * 6) + temp_s5 + 0xBA;
-    temp_v0_2->unk_04 = (u16) (temp_v0_2->unk_04 | 0x8000);
+    entry = ((0x3E << ((S_807AE960_5 *)global_end)->unk_14) * 6) + table_base + 0xBA;
+    entry->unk_04 = (u16) (entry->unk_04 | 0x8000);
 block_37:
     return;
 }

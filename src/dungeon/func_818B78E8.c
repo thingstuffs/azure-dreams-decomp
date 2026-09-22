@@ -42,126 +42,126 @@ typedef struct {
     s16 field1E;
 } S818B78E8_State;
 
-void func_800250E8(S818B78E8_Obj *arg0, S818B78E8_Vec *arg1, S818B78E8_State *arg2) {
-    s32 temp_s2;
-    s16 temp_v0;
-    s16 temp_v1_3;
-    s16 temp_v1_4;
-    s16 tail_v0;
-    s16 tail_v1;
-    s32 var_v0;
-    s32 var_v1;
-    s32 field_offset;
-    s32 field_value;
-    s32 temp_a1_s16;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_a1;
+/* Per-frame update for the four-phase spark effect: drift, tint ramp, hold, then mark the owner finished. */
+void func_800250E8(S818B78E8_Obj *obj, S818B78E8_Vec *motion, S818B78E8_State *gfx) {
+    s32 variant_index;
+    s16 fade;
+    s16 next_tick;
+    s16 phase;
+    s16 elapsed;
+    s16 limit;
+    s32 red_state2;
+    s32 red;
+    s32 fade_offset;
+    s32 elapsed_now;
+    s32 variant_s16;
+    s32 half_variant_b;
+    s32 blue_component;
+    s32 half_variant;
+    s32 shifted;
     s32 vec_x10;
     s32 vec_x14;
-    s32 temp_a2;
-    s32 temp_v1_2;
-    u16 case2_state;
-    S818B78E8_Child *temp_v1;
+    s32 variant;
+    s32 tick;
+    u16 phase_value;
+    S818B78E8_Child *child;
 
-    temp_v1 = arg0->child;
-    temp_v1->field14 = (u16) (temp_v1->field14 + 1);
-    temp_v1_2 = arg0->field12;
-    temp_v1_3 = temp_v1_2 + 1;
-    arg0->field10 = (u16) (arg0->field10 + 1);
-    arg0->field12 = (u16) temp_v1_3;
-    temp_a1 = temp_v1_3 << 0x10;
-    temp_a2 = temp_a1 >> 0x10;
-    temp_a2 %= 7;
-    temp_s2 = temp_a2 + 1;
-    func_800478B8(arg2);
-    arg2->field1A = (u16) (arg2->field1A + 0x300);
-    temp_v1_4 = arg0->state;
-    if (temp_v1_4 == 1) {
+    child = obj->child;
+    child->field14 = (u16) (child->field14 + 1);
+    tick = obj->field12;
+    next_tick = tick + 1;
+    obj->field10 = (u16) (obj->field10 + 1);
+    obj->field12 = (u16) next_tick;
+    shifted = next_tick << 0x10;
+    variant = shifted >> 0x10;
+    variant %= 7;
+    variant_index = variant + 1;
+    func_800478B8(gfx);
+    gfx->field1A = (u16) (gfx->field1A + 0x300);
+    phase = obj->state;
+    if (phase == 1) {
         goto state1;
     }
-    if (temp_v1_4 < 2) {
-        if (temp_v1_4 == 0) {
+    if (phase < 2) {
+        if (phase == 0) {
             goto state0;
         }
         goto done;
     }
-    if (temp_v1_4 == 2) {
+    if (phase == 2) {
         goto state2;
     }
-    if (temp_v1_4 != 3) {
+    if (phase != 3) {
         goto done;
     }
     goto state3;
 
 state0:
-    vec_x10 = arg1->x10;
-    vec_x14 = arg1->x14;
-    arg1->x0 = (s32) (arg1->x0 + arg1->xC);
-    arg1->x4 = (s32) (arg1->x4 + vec_x10);
-    arg1->x8 = (s32) (arg1->x8 + vec_x14);
-    tail_v0 = (s16) arg0->field10;
-    tail_v1 = arg0->field14;
-    if (tail_v0 >= tail_v1) {
-        case2_state = (u16) arg0->state;
-        arg0->field10 = 0U;
-        arg0->state = (s16) (case2_state + 1);
+    vec_x10 = motion->x10;
+    vec_x14 = motion->x14;
+    motion->x0 = (s32) (motion->x0 + motion->xC);
+    motion->x4 = (s32) (motion->x4 + vec_x10);
+    motion->x8 = (s32) (motion->x8 + vec_x14);
+    elapsed = (s16) obj->field10;
+    limit = obj->field14;
+    if (elapsed >= limit) {
+        phase_value = (u16) obj->state;
+        obj->field10 = 0U;
+        obj->state = (s16) (phase_value + 1);
     }
     goto done;
 
 state1:
-    temp_a1_s16 = (s16) temp_s2;
-    var_v1 = temp_a1_s16;
-    arg2->field12 = 0;
-    arg2->flags = (u16) (arg2->flags & 0xFEFF);
-    if (temp_a1_s16 < 0) {
-        var_v1 = temp_a1_s16 + 3;
+    variant_s16 = (s16) variant_index;
+    red = variant_s16;
+    gfx->field12 = 0;
+    gfx->flags = (u16) (gfx->flags & 0xFEFF);
+    if (variant_s16 < 0) {
+        red = variant_s16 + 3;
     }
-    temp_a0_4 = temp_a1_s16 / 2;
-    var_v1 >>= 2;
-    var_v1 <<= 7;
-    field_offset = ((s16) arg0->field10 * 8) - 0x80;
+    half_variant = variant_s16 / 2;
+    red >>= 2;
+    red <<= 7;
+    fade_offset = ((s16) obj->field10 * 8) - 0x80;
 
-    var_v1 -= field_offset;
-    arg2->fieldC = (s8) var_v1;
-    arg2->fieldD = (s8) (((s32) (((s16) temp_a0_4 - (((s32) ((s16) temp_a0_4 + ((u32) (temp_a0_4 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) - (s16) (((s16) arg0->field10 * 8) - 0x80));
-    arg2->fieldE = (s8) (((s32) ((temp_a1_s16 - (temp_a0_4 * 2)) << 0x10) >> 9) - (s16) (((s16) arg0->field10 * 8) - 0x80));
-    field_value = arg0->field10;
+    red -= fade_offset;
+    gfx->fieldC = (s8) red;
+    gfx->fieldD = (s8) (((s32) (((s16) half_variant - (((s32) ((s16) half_variant + ((u32) (half_variant << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
+    gfx->fieldE = (s8) (((s32) ((variant_s16 - (half_variant * 2)) << 0x10) >> 9) - (s16) (((s16) obj->field10 * 8) - 0x80));
+    elapsed_now = obj->field10;
 
-    temp_v0 = (0x19 - field_value) << 8;
-    arg2->field1E = temp_v0;
-    arg2->field1C = temp_v0;
-    if ((s16) arg0->field10 >= 0x10) {
-        func_80024FD4((void *)arg0, (void *)arg1);
-        case2_state = (u16) arg0->state;
-        arg0->field10 = 0U;
-        arg0->state = (s16) (case2_state + 1);
+    fade = (0x19 - elapsed_now) << 8;
+    gfx->field1E = fade;
+    gfx->field1C = fade;
+    if ((s16) obj->field10 >= 0x10) {
+        func_80024FD4((void *)obj, (void *)motion);
+        phase_value = (u16) obj->state;
+        obj->field10 = 0U;
+        obj->state = (s16) (phase_value + 1);
     }
     goto done;
 
 state2:
-    temp_a1_s16 = (s16) temp_s2;
-    var_v0 = temp_a1_s16;
-    if (temp_a1_s16 < 0) {
-        var_v0 = temp_a1_s16 + 3;
+    variant_s16 = (s16) variant_index;
+    red_state2 = variant_s16;
+    if (variant_s16 < 0) {
+        red_state2 = variant_s16 + 3;
     }
-    temp_a0_2 = temp_a1_s16 / 2;
-    arg2->fieldC = (s8) ((var_v0 >> 2) << 7);
-    temp_a0_3 = (s32) ((temp_a1_s16 - (temp_a0_2 * 2)) << 0x10) >> 9;
-    arg2->fieldD = (s8) ((s32) (((s16) temp_a0_2 - (((s32) ((s16) temp_a0_2 + ((u32) (temp_a0_2 << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
-    arg2->fieldE = (s8) temp_a0_3;
-    if ((s16) arg0->field10 >= 0x20) {
-        case2_state = (u16) arg0->state;
-        arg0->field10 = 0U;
-        arg0->state = (s16) (case2_state + 1);
+    half_variant_b = variant_s16 / 2;
+    gfx->fieldC = (s8) ((red_state2 >> 2) << 7);
+    blue_component = (s32) ((variant_s16 - (half_variant_b * 2)) << 0x10) >> 9;
+    gfx->fieldD = (s8) ((s32) (((s16) half_variant_b - (((s32) ((s16) half_variant_b + ((u32) (half_variant_b << 0x10) >> 0x1F)) >> 1) * 2)) << 0x10) >> 9);
+    gfx->fieldE = (s8) blue_component;
+    if ((s16) obj->field10 >= 0x20) {
+        phase_value = (u16) obj->state;
+        obj->field10 = 0U;
+        obj->state = (s16) (phase_value + 1);
     }
     goto done;
 
 state3:
-    if (arg2->flags & 0x6000) {
-        *((u16 *)arg0 - 1) = (u16) (*((u16 *)arg0 - 1) | 0x8000);
+    if (gfx->flags & 0x6000) {
+        *((u16 *)obj - 1) = (u16) (*((u16 *)obj - 1) | 0x8000);
         D_800814A0[0] = D_800814A0[0] | 0x8000;
     }
 

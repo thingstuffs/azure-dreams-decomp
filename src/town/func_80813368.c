@@ -19,7 +19,8 @@ extern void *D_8052676C[];
 extern u8 D_8028DFD8[16];
 extern u8 D_8052E40C[0x2000];
 
-void func_80813368(void *arg0) {
+/* Per-frame portrait step: lay out the panel on first entry, blink its tint and ease it toward its target. */
+void func_80813368(void *hud) {
     static void *const init_keepalive[] = {
         &&init_case0, &&init_case1, &&init_case2, &&init_case3, &&init_case4
     };
@@ -35,7 +36,7 @@ void func_80813368(void *arg0) {
     u16 counter;
     register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-    state = S16_AT(arg0, 0x18);
+    state = S16_AT(hud, 0x18);
     if (state == 0) {
         goto state_zero;
     }
@@ -45,15 +46,15 @@ void func_80813368(void *arg0) {
     return;
 
 state_zero:
-        S16_AT(arg0, 0xC) = 0x410;
-        S16_AT(arg0, 4) = 0x340;
-        S16_AT(arg0, 0xE) = 0x348;
-        S16_AT(arg0, 6) = 0x348;
-        S16_AT(arg0, 0x10) = -0x60;
-        S16_AT(arg0, 8) = -0x60;
+        S16_AT(hud, 0xC) = 0x410;
+        S16_AT(hud, 4) = 0x340;
+        S16_AT(hud, 0xE) = 0x348;
+        S16_AT(hud, 6) = 0x348;
+        S16_AT(hud, 0x10) = -0x60;
+        S16_AT(hud, 8) = -0x60;
 
         (void)init_keepalive;
-        init_kind = S16_AT(arg0, 0x22);
+        init_kind = S16_AT(hud, 0x22);
         if ((u32)init_kind >= 5) {
             goto init_done;
         }
@@ -68,20 +69,20 @@ init_case1:
 init_case2:
         value = -0x30;
 init_pair:
-        S16_AT(arg0, 0x1E) = value;
-        S16_AT(arg0, 0x1C) = value;
+        S16_AT(hud, 0x1E) = value;
+        S16_AT(hud, 0x1C) = value;
         goto init_done;
 init_case3:
         value = -0xB0;
-        S16_AT(arg0, 0x1C) = value;
+        S16_AT(hud, 0x1C) = value;
         value = -0x10;
         goto init_last;
 init_case4:
         value = -0x10;
-        S16_AT(arg0, 0x1C) = value;
+        S16_AT(hud, 0x1C) = value;
         value = -0xB0;
 init_last:
-        S16_AT(arg0, 0x1E) = value;
+        S16_AT(hud, 0x1E) = value;
 init_done:
 
         for (i = 1; i >= 0; i--) {
@@ -96,65 +97,65 @@ init_done:
                 U8_AT(part, 4) = 0;
                 U8_AT(part, 5) = 0;
                 S32_AT(part, 0xC) = 0x00808080;
-                S32_AT(obj, 0x20) = (s32)arg0;
+                S32_AT(obj, 0x20) = (s32)hud;
                 S16_AT(obj, 0x28) = i;
             }
         }
-        S16_AT(arg0, 0x18) = 1;
+        S16_AT(hud, 0x18) = 1;
 state_done:
 
-    counter = U16_AT(arg0, 0x1A) + 1;
-    U16_AT(arg0, 0x1A) = counter;
+    counter = U16_AT(hud, 0x1A) + 1;
+    U16_AT(hud, 0x1A) = counter;
     if ((counter >> 2) & 1) {
-        table_index = S16_AT(arg0, 0x22);
-        if ((U16_AT(PTR_AT(arg0, 0), 0x62) &
+        table_index = S16_AT(hud, 0x22);
+        if ((U16_AT(PTR_AT(hud, 0), 0x62) &
              *(u16 *)(D_8052E40C + 0x1DD8 + (table_index * 2))) != 0) {
-            S32_AT(arg0, 0x14) = 0x00FFFFFF;
+            S32_AT(hud, 0x14) = 0x00FFFFFF;
         } else {
-            S32_AT(arg0, 0x14) = 0;
+            S32_AT(hud, 0x14) = 0;
         }
     } else {
-        S32_AT(arg0, 0x14) = 0;
+        S32_AT(hud, 0x14) = 0;
     }
 
-    if (U16_AT(PTR_AT(arg0, 0), 0x64) >= U16_AT(arg0, 0x20)) {
+    if (U16_AT(PTR_AT(hud, 0), 0x64) >= U16_AT(hud, 0x20)) {
         s32 target_y;
         s32 current_x;
         register s32 current_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         u16 upper_flag;
 
-        target_x = S16_AT(arg0, 0x1C);
-        current_x = S16_AT(arg0, 8);
-        target_y = S16_AT(arg0, 0x1E);
+        target_x = S16_AT(hud, 0x1C);
+        current_x = S16_AT(hud, 8);
+        target_y = S16_AT(hud, 0x1E);
         ASM_KEEP(target_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        current_y = S16_AT(arg0, 0x10);
+        current_y = S16_AT(hud, 0x10);
         current_x += (target_x - current_x) >> 1;
         current_y += (target_y - current_y) >> 1;
-        upper_flag = U16_AT(arg0, 0x24) & ~1;
-        S16_AT(arg0, 8) = current_x;
-        S16_AT(arg0, 0x10) = current_y;
-        U16_AT(arg0, 0x24) = upper_flag;
+        upper_flag = U16_AT(hud, 0x24) & ~1;
+        S16_AT(hud, 8) = current_x;
+        S16_AT(hud, 0x10) = current_y;
+        U16_AT(hud, 0x24) = upper_flag;
     } else {
         s32 target_const;
         s32 retreat_x;
         s32 delta_x;
 
         target_const = -0x60;
-        retreat_x = S16_AT(arg0, 8);
-        target_x = S16_AT(arg0, 0x10);
+        retreat_x = S16_AT(hud, 8);
+        target_x = S16_AT(hud, 0x10);
         delta_x = target_const - retreat_x;
         retreat_x += delta_x >> 1;
         target_const -= target_x;
         target_const >>= 1;
         target_x += target_const;
-        S16_AT(arg0, 0x10) = target_x;
+        S16_AT(hud, 0x10) = target_x;
         target_x = (s16)target_x + 0x60;
         target_x = abs(target_x);
-        S16_AT(arg0, 8) = retreat_x;
+        S16_AT(hud, 8) = retreat_x;
         if (target_x < 2) {
-            flag_value = U16_AT(arg0, 0x24) | 1;
+            flag_value = U16_AT(hud, 0x24) | 1;
 store_flag:
-            U16_AT(arg0, 0x24) = flag_value;
+            U16_AT(hud, 0x24) = flag_value;
         }
     }
 }

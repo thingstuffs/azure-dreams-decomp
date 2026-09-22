@@ -79,6 +79,7 @@ extern void func_8002614C(s16, s16, s16, s16, s32);
 extern void *func_8003DE58(void *, void *, u16 *, s32);
 extern void func_800B8D64(s16, s16, s16);
 
+/* Run the warp cutscene: pick the exit point, ease the camera to it, fade out and fire the arrival effects. */
 void func_819ACDA0(Motion *motion, Position *position, u8 *color)
 {
     Vec3u delta;

@@ -11,7 +11,7 @@ extern s32 D_8006D6D8[4];
 
 /* func_80041E70: post-init fixup on the struct just filled in (still
  * nonmatching elsewhere; only the arg setup here needs to match). */
-extern void func_80041E70(void *arg0);
+extern void func_80041E70(void *obj);
 
 /* 16-byte block (4 words) used to copy the first 4 record fields into the
  * object in one shot, matching retail's load-x4/store-x4 grouping. */
@@ -19,16 +19,15 @@ typedef struct {
     u32 w0, w1, w2, w3;
 } S_80042640_Block16;
 
-/* Initializes a monster-object struct (arg0) from initialStatsTable[arg1],
- * ORs the record's flag word into the object's existing flags, tags the
- * object with its monster id, seeds a couple of fixed/derived byte fields,
- * pulls a per-id word from D_8006D6D8 into obj+0x54, then runs the
- * func_80041E70 post-processing pass on the object. */
-void initMonsterFromStats(void *arg0, s16 arg1)
+/* Initialize a monster object from its initial-stats record and run the post-init fixup. */
+/* Detail: copies the first 0x14 bytes of the record, ORs the record's flag word into the
+ * object's existing flags, tags the object with its monster id, seeds a few fixed/derived
+ * byte fields and the per-id word from D_8006D6D8 at obj+0x54, then runs func_80041E70. */
+void initMonsterFromStats(void *obj, s16 monsterId)
 {
-    u8 *dst = (u8 *)arg0;
-    u8 *rec = initialStatsTable + (s32)arg1 * 24;
-    s32 *d6d8 = &D_8006D6D8[arg1];
+    u8 *dst = (u8 *)obj;
+    u8 *rec = initialStatsTable + (s32)monsterId * 24;
+    s32 *d6d8 = &D_8006D6D8[monsterId];
     u32 oldFlags, recFlags;
 
     *(S_80042640_Block16 *)(dst + 0x00) = *(S_80042640_Block16 *)(rec + 0x00);
@@ -36,7 +35,7 @@ void initMonsterFromStats(void *arg0, s16 arg1)
 
     oldFlags = *(u32 *)(dst + 0x14);
     recFlags = *(u32 *)(rec + 0x14);
-    dst[0x13] = (u8)arg1;
+    dst[0x13] = (u8)monsterId;
     *(u32 *)(dst + 0x14) = oldFlags | recFlags;
 
     dst[0x28] = rec[0x05];
@@ -48,5 +47,5 @@ void initMonsterFromStats(void *arg0, s16 arg1)
     dst[0x42] = 0;
     dst[0x41] = 0;
     *(u32 *)(dst + 0x54) = *d6d8;
-    func_80041E70(arg0);
+    func_80041E70(obj);
 }

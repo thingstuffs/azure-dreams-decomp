@@ -40,7 +40,8 @@ extern u8 D_8002553C[12];
 extern u8 D_80025EE4[12];
 extern u8 D_80045C34[12];
 
-s32 func_818B7E14(void *arg0, DungeonSource *arg1)
+/* Spawn a 0x212 effect object owned by `owner`, give it a random 12-bit spin and copy the source transform into it. */
+s32 func_818B7E14(void *owner, DungeonSource *source)
 {
     s32 random;
     s32 adjusted;
@@ -48,7 +49,6 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
     DungeonRenderData *render;
     u8 *sub;
     DungeonSource *dst;
-    DungeonObject *result;
     s32 copy0;
     s32 copy0_2;
     s32 copy1;
@@ -60,9 +60,9 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
     if (obj != 0) {
         sub = (u8 *)obj + 0x20;
         obj->update = D_8002553C;
-        obj->owner = arg0;
+        obj->owner = owner;
         *(s16 *)(sub + 0x10) = 0;
-        *(u16 *)(sub + 0x14) = *(u16 *)((u8 *)arg0 + 0x12);
+        *(u16 *)(sub + 0x14) = *(u16 *)((u8 *)owner + 0x12);
         render = obj->render;
         render->color_b = 0x80;
         render->color_g = 0x80;
@@ -81,11 +81,8 @@ s32 func_818B7E14(void *arg0, DungeonSource *arg1)
         func_8004491C(obj, D_80045C34);
         dst = (DungeonSource *)obj->data;
 
-        result = obj;
-
-        *dst = *arg1;
+        *dst = *source;
         return obj;
     }
     return 0;
-    return result;
 }
