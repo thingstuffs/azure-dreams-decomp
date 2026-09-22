@@ -12,7 +12,6 @@ extern u16 D_800257CE[5];
 extern s16 D_800257CC[5];
 extern s32 D_800814A0;
 
-extern void func_8002491C(void) __attribute__((noreturn));
 void func_80024A98(void *);
 
 
@@ -61,15 +60,13 @@ void func_81880F28(void *effect, void *motion_data) {
     if (state == 0) {
         goto init_effect;
     }
-    func_8002491C();
-    return;
+    goto update_motion;
 
 check_restore:
     if (state == 2) {
         goto restore_color;
     }
-    func_8002491C();
-    return;
+    goto update_motion;
 
 init_effect:
     object = ((S_81880F28_0 *)effect)->unk_00;
@@ -102,8 +99,7 @@ redden_color:
     }
 
     ((S_81880F28_0 *)effect)->unk_0A.u++;
-    func_8002491C();
-    return;
+    goto update_motion;
 
 restore_color:
     color = ((S_81880F28_3_pre *)(((S_81880F28_0 *)effect)->unk_00))[-1].unk_00;

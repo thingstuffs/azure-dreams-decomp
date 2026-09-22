@@ -75,10 +75,6 @@ typedef struct S_81960530_9 {
 
 extern u8 D_8008333C[32];
 
-#if 0
-extern void func_80026018(void) __attribute__((noreturn));
-#endif
-extern void func_80026018(void);
 extern s32 func_800BCE7C(void *);
 
 
@@ -168,7 +164,7 @@ void *func_81960530(s32 world_x, s32 world_y, s16 min_height) {
                     }
                     if ((((S_81960530_4 *)polygon)->unk_16 & 0xF0) != 0) {
                         polygon += ((((S_81960530_4 *)polygon)->unk_16 >> 4) * 3) * 8 + 0x18;
-                        func_80026018();
+                        continue;
                     }
                 }
                 polygon += 0x18;
