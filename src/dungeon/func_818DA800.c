@@ -216,14 +216,13 @@ void FUNC_818DA800_BODY(void *effect_state_in, void *motion_in)
     actor_data = ((S_func_818DA800_5 *)((u8 *)actor - 0x20))->unk_0C;
     effect_state->unk_50.as_u16 = timer;
 
+    actor_or_corner = (s32)((u8 *)actor - 0x20);
     if ((u32)phase_or_entry >= 6) {
         goto finish;
     }
-    actor_or_corner = (s32)((u8 *)actor - 0x20);
     phase_table = jtbl_80024008;
-    ASM_KEEP(phase_table);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    phase_or_entry <<= 2;
-    phase_or_entry = (s32)((u8 *)phase_table + phase_or_entry);
+    phase_or_entry = (u32)phase_or_entry * 4;
+    phase_or_entry += (s32)phase_table;
     phase_label = *(void **)(u32)phase_or_entry;
     (void)phase_labels;
     goto *phase_label;

@@ -100,14 +100,12 @@ void func_81876014(void *effect, void *position_out, void *color_out) {
         ((S_81876014_0 *)effect)->unk_52 = x_edge;
         ((S_81876014_0 *)effect)->unk_54 = x_base;
         x_edge = x_base;
-        z_third = vertex_coord;
-        ASM_KEEP(z_third);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        z_third = ((S_81876014_0 *)effect)->unk_62;
         z_third += 0x10;
         ((S_81876014_0 *)effect)->unk_64 = z_third;
         x_edge += 0x10;
         ((S_81876014_0 *)effect)->unk_56 = x_edge;
         position = ((S_81876014_0 *)effect)->unk_44;
-        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         y_offset = y_product >> 12;
         ((S_81876014_0 *)effect)->unk_58 = y_offset;
         ASM_KEEP(y_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */

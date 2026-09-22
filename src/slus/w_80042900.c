@@ -20,7 +20,7 @@ typedef struct {
 s32 func_80042900(S_80042900 *entry, s32 effect_id)
 {
     s32 effect_type = effect_id;
-    register s32 saved_id ASM_REG("$7") = effect_id;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 saved_id = effect_id;
     register u8 *effect_base ASM_REG("$3") = (u8 *)entry + 6;   /* UNRESOLVED C shape (pin): removing it changes the compiled object of the TU; the source shape that makes it unnecessary has not been found */
     s32 effect_index;
 

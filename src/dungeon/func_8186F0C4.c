@@ -49,7 +49,7 @@ void func_800248C4(u8 *effect_data, u8 *effect_pos, u8 *effect_display) {
     register u8 *display ASM_REG("$17") = effect_display;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     u8 *owner;
     u8 *entity;
-    register u8 *source ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *source;
     u8 *copy_page;
     u8 *copy_source;
     register s16 *flag_base ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
@@ -108,17 +108,14 @@ state0:
 #ifdef NON_MATCHING
         flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
 #else
-        flag_base = (s16 *)0x80020000;
+        flag_base = (s16 *)((u8 *)D_80025308 - 0x5308);
 #endif
         owner_bits = U16_AT(owner, 0x2A);
-        ASM_KEEP(owner_bits);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         next_state = 1;
         *(s16 *)((u8 *)flag_base + 0x5308) = next_state;
         next_state = U16_AT(effect_data, 0x0A);
-        ASM_KEEP_DEP_NV(owner_bits, next_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         owner_bits = (owner_bits >> 9) & 7;
         next_state++;
-        ASM_KEEP(next_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         S16_AT(effect_data, 0x7E) = owner_bits;
         S16_AT(effect_data, 0x0A) = next_state;
     }
@@ -126,7 +123,6 @@ state0:
 state1:
     {
         u8 *record = PTR_AT(entity, 0x0C);
-        u16 source_z;
         s32 has_origin;
 
         has_origin = func_8003DF74(PTR_AT(record, 0x08), record, origin_offset, 0);
@@ -136,15 +132,15 @@ state1:
 
         U16_AT(effect_pos, 0x02) = U16_AT(source, 0x02);
         U16_AT(effect_pos, 0x06) = U16_AT(source, 0x06);
-        source_z = U16_AT(source, 0x0A);
-        U16_AT(effect_pos, 0x0A) = source_z;
+        state = U16_AT(source, 0x0A);
+        U16_AT(effect_pos, 0x0A) = state;
 
         if (!(U16_AT(PTR_AT(entity, 0x0C), 0x14) & 0x8000)) {
             U16_AT(effect_pos, 0x02) += (u16)origin_offset[0];
             U16_AT(effect_pos, 0x06) += (u16)origin_offset[1];
             U16_AT(effect_pos, 0x0A) += (u16)origin_offset[2];
         } else {
-            U16_AT(effect_pos, 0x0A) = (u16)(source_z - 0x40);
+            U16_AT(effect_pos, 0x0A) = (u16)(state - 0x40);
         }
 
         {
