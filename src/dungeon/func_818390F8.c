@@ -66,7 +66,6 @@ extern void func_800666F4(POLY_FT4 *);
 extern void func_80066640(POLY_FT4 *, s32);
 extern u16 func_80066460(s32, s32, s32, s32);
 extern u16 func_8006649C(s32, s32);
-extern void func_80024934(void) __attribute__((noreturn));
 
 /* Advance the animation and enqueue a textured quad at the projected position. */
 s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
@@ -76,20 +75,21 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
     GlobalState *render_state = &D_80083160;
     s16 *screen_base = screen;
     s32 half_width;
-    register s32 *projection_out ASM_REG("$20") = &half_width;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 *projection_out = &half_width;
     RenderRecord *frame_record;
     u32 depth;
     s32 endpoint;
     s32 height;
     POLY_FT4 *poly;
 
+next_record:
     world_point.x = position->x;
     frame_record = render_record;
     world_point.y = position->y;
     world_point.z = position->z - 14;
 
     for (endpoint = 0; endpoint < 2; endpoint++) {
-        depth = func_80065420(&world_point, &screen[endpoint * 2], projection_out, projection_out) - 8;
+        depth = func_80065420(&world_point, &screen_base[endpoint * 2], projection_out, projection_out) - 8;
         world_point.z += 28;
     }
 
@@ -134,18 +134,18 @@ s32 func_818390F8(RenderRecord *render_record, PositionFields *position)
             ((u32)poly & 0x00FFFFFF);
     }
 
-    ASM_KEEP(screen_base);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     position = *(void **)((u8 *)render_record - 8);
     if (position != 0) {
         render_record = (RenderRecord *)((u8 *)position + 0x20);
-        ASM_KEEP(render_record);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         position = *(void **)((u8 *)position + 8);
-        ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        func_80024934();
+        goto next_record;
     }
-    ASM_KEEP(position);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     return 0;
 }
 
 /* MECHANISM: Separate stack screen/pointer bases force the retail 0x50 frame and s7/s4 roles.
-   A 40-byte FT4 plus uncached OT re-addressing restores the body length and reloads. */
+   A 40-byte FT4 plus uncached OT re-addressing restores the body length and reloads.
+   The record walk is a loop whose top is the first statement after the prologue (retail
+   word 15, the `j 0x80024934` back edge at word 137); the projection loop must index through
+   `screen_base`, not through `screen` directly, or gcc materialises the array address again
+   (`addiu $s0,$sp,0x18`) where retail copies the base register (`move $s0,$s7`). */

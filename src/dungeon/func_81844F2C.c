@@ -62,9 +62,9 @@ void func_8002472C(void *effect_data) {
     ASM_KEEP(effect);   /* SITE-FOR-PIN TRADE 2026-09-22: pins the copy in place.  With the
                            pseudo-call gone gcc copy-propagates `effect_data` into the first
                            load and sinks the `move $a1,$a0` six words down, below the entity
-                           update (words 0-6).  ASM_REG("$5") alone was only measured on a
-                           different spelling of the `state >= 2` block, so no clean one-pin
-                           number exists for this text. */
+                           update (words 0-6).  MEASURED 2026-09-22 on this text at 2.7.2-cdk-G0:
+                           ASM_REG("$5") alone (this keep dropped) is 79 words off, so the keep is
+                           not redundant with the colour pin. */
     entity = ((S_81844F2C_0 *)effect)->unk_00;
     entity->unk_52 =
         (u16)(entity->unk_52 | 0x8000);
@@ -79,7 +79,6 @@ void func_8002472C(void *effect_data) {
     saved_state = ((S_81844F2C_0 *)effect)->unk_2C.s;
     position += step;
     state = ((S_81844F2C_0 *)effect)->unk_2C.u;
-    ASM_KEEP(tick_or_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     tick_or_index -= 1;
     ((S_81844F2C_0 *)effect)->unk_2A.u = (u16)tick_or_index;
     ((S_81844F2C_0 *)effect)->unk_06.u = (u16)position;
