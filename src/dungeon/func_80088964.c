@@ -9,7 +9,6 @@ extern s32 D_80083460[3];
 extern volatile s16 D_80013714[8];
 extern u8 D_800E3CD0[9];
 extern u16 D_80082E76;
-M2C_UNK func_8008E1E4();
 M2C_UNK func_800945E8();
 M2C_UNK func_800948BC();
 M2C_UNK func_80099844();
@@ -22,7 +21,7 @@ typedef struct S_8008E0C4_0 {
     u8 pad_90[0x6];
     u16 unk_96;
     u8 pad_98[0x3];
-    union { u8 n; volatile u8 v; } unk_9B;   /* accessed as both */
+    u8 unk_9B;
 } S_8008E0C4_0;   /* arg0 in func_8008E0C4 */
 
 typedef struct S_8008E0C4_1 {
@@ -52,7 +51,7 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
     s32 temp_v1;
 
     global_base = &D_80083160;
-    temp_v1 = arg0->unk_9B.n;
+    temp_v1 = arg0->unk_9B;
     if (temp_v1 == 1) {
         goto state_1;
     }
@@ -74,10 +73,8 @@ void func_8008E0C4(S_8008E0C4_0 *arg0, void *unused, S_8008E0C4_1 *arg2, Rec_D_8
 state_0:
     if (arg2->unk_14 & 0xE000) {
         func_80099844(arg3, &D_800E0672);
-        (void) arg0->unk_9B.v;
-        temp_v1 = 0x80;
-        arg0->unk_96 = temp_v1;
-        func_8008E1E4();
+        arg0->unk_96 = 0x80;
+        arg0->unk_9B++;
     }
     return;
 
@@ -99,7 +96,7 @@ state_1:
         func_800948BC();
         D_80082E76 = 0xC000;
         func_80041094(6, 0, 0, 0, 0xC000);
-        arg0->unk_9B.n++;
+        arg0->unk_9B++;
         return;
     }
     return;

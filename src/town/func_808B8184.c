@@ -10,6 +10,7 @@ extern s32 D_00001598[];
 extern s32 func_800036D8(s32 arg0, s32 arg1);
 extern void func_800039C8(void) __attribute__((noreturn));
 
+/* Branches on a flag: index into a lookup table and jump into a noreturn handler, or return a fixed table's address plus an offset. */
 s32 func_808B8184(void) {
     s32 index;
     s32 held;

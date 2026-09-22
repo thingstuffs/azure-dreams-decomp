@@ -26,9 +26,10 @@ extern Callbacks4610 D_callbacks_4610 __asm__("D_00000000");
 extern s32 func_80003DCC(void);
 extern void func_80003EAC(void) __attribute__((noreturn));
 
-void func_808B85F0(s32 arg0, s32 arg1) {
-    volatile u8 *var_a0;
-    void *temp_a0;
+/* Optionally fires two setup callbacks, then either takes a noreturn exit for mode 2 or selects a table entry and remaps each record's field through a lookup table until the terminator tag. */
+void func_808B85F0(s32 table_index, s32 mode) {
+    volatile u8 *entry;
+    void *entry_ptr;
     s32 sentinel;
     if (D_flag_load_45F0.value != 0) {
         (*(TownCallback3 *)((u8 *)D_callbacks_4610.value + 0x64))(
@@ -37,20 +38,20 @@ void func_808B85F0(s32 arg0, s32 arg1) {
     }
     D_flag_store_45F0.value = 1;
     func_80003DCC();
-    if (arg1 == 2) {
+    if (mode == 2) {
         *(void **)((u8 *)D_state_4604.value + 0x10) = D_data_450C.data;
         func_80003EAC();
     }
-    *(void **)((u8 *)D_state_4604.value + 0x10) = D_table_45C0.table[arg0];
-    temp_a0 = *(void **)((u8 *)D_state_4604.value + 0x10);
-    var_a0 = (volatile u8 *)temp_a0;
-    if (*((u8 *)var_a0 + 1) != 0x80) {
+    *(void **)((u8 *)D_state_4604.value + 0x10) = D_table_45C0.table[table_index];
+    entry_ptr = *(void **)((u8 *)D_state_4604.value + 0x10);
+    entry = (volatile u8 *)entry_ptr;
+    if (*((u8 *)entry + 1) != 0x80) {
         sentinel = 0x80;
-        var_a0 = (volatile u8 *)((u8 *)var_a0 + 1);
+        entry = (volatile u8 *)((u8 *)entry + 1);
         do {
-            *(volatile s32 *)((u8 *)var_a0 + 0xB) =
-                D_lookup_460C.value[*(volatile s32 *)((u8 *)var_a0 + 0xB)];
-            var_a0 = (volatile u8 *)((u8 *)var_a0 + 0x14);
-        } while (*(u8 *)var_a0 != sentinel);
+            *(volatile s32 *)((u8 *)entry + 0xB) =
+                D_lookup_460C.value[*(volatile s32 *)((u8 *)entry + 0xB)];
+            entry = (volatile u8 *)((u8 *)entry + 0x14);
+        } while (*(u8 *)entry != sentinel);
     }
 }

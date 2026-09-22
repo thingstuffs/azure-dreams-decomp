@@ -87,7 +87,6 @@ extern s32 D_80024BB8[3];
 
 extern void func_800478B8(Sprite *sprite);
 extern void func_8002497C(void) __attribute__((noreturn));
-extern void func_80024AC8(s16 a0, u16 a1, s32 a2) __attribute__((noreturn));
 extern s32 func_8003DE58(void *entry, void *table, void *scratch, s32 a3);
 extern Spawn *func_8003FD64(s32 id, void *template);
 extern void func_8004491C(Spawn *spawn, void *callback);
@@ -190,6 +189,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     register SpawnChild *child ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     s16 target_y;
                     s16 start_y;
+                    s32 y_delta;
                     u16 start_y_bits;
 
                     spawn->callback = particle_callback;
@@ -216,11 +216,12 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     if (coord_term < 0) {
                         coord_magnitude = -coord_magnitude;
                     }
+                    y_delta = target_y - start_y;
                     if (coord_magnitude == 0) {
                         spawn->position->y.word = target->y.word;
-                        return func_80024AC8(target_y, start_y_bits, x_offset);
+                    } else {
+                        ((volatile Vec3 *)spawn->position)->y.half.coord = (s16)(start_y_bits + (y_delta * x_offset) / coord_magnitude);
                     }
-                    ((volatile Vec3 *)spawn->position)->y.half.coord = (s16)(start_y + ((target_y - start_y) * x_offset) / coord_magnitude);
                     spawn->position->x.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     z_jitter = func_80069EF8();

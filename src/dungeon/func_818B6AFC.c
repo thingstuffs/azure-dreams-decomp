@@ -60,7 +60,6 @@ typedef struct S_818B6AFC_8_pre {
 
 
 M2C_UNK func_80024154();
-M2C_UNK func_8002473C() __attribute__((noreturn));
 extern M2C_UNK D_800814A0;
 
 #ifdef NON_MATCHING
@@ -119,6 +118,7 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     void *fade_out_target;
     void *target_color;
     void *owner;
+    void *render_owner;
     void *effect;
 
     effect = effect_data;
@@ -171,12 +171,11 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         product_result = M2C_MUL_LO(fade_in_green, ((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
 #ifdef NON_MATCHING
-        ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) (fade_in_blue * ((((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3)) << 3));
+        product_result = fade_in_blue * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
 #else
         implicit_lo = fade_in_blue * (((s16) ((S_818B6AFC_0 *)effect)->unk_06 * 3) << 3);
 #endif
-        func_8002473C(fade_in_green, fade_in_blue, fade_in_color, effect);
-        return;
+        goto store_blue;
     }
     if (frame < 0x28) {
         hold_target = ((S_818B6AFC_0 *)effect)->unk_10;
@@ -213,7 +212,9 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         blue = hold_bits * 0xC0;
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = blue;
         ((S_818B6AFC_3 *)target_color)->unk_0E = blue;
-        func_80024154(((S_818B6AFC_0 *)effect)->unk_00, render_arg, ((S_818B6AFC_4 *)color_out)->unk_0C.at00u.v, effect);
+        render_owner = ((S_818B6AFC_0 *)effect)->unk_00;
+        ASM_USE_NV(render_owner);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        func_80024154(render_owner, render_arg, ((S_818B6AFC_4 *)color_out)->unk_0C.at00u.v, effect);
         return;
     }
     if (frame < 0x30) {
@@ -263,7 +264,14 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = (s8) product_result;
         frames_left = (s16) ((S_818B6AFC_0 *)effect)->unk_06;
         frames_left = end_frame - frames_left;
-        product_result = M2C_MUL_LO(channel_bit, (frames_left * 3) << 3);
+#ifdef NON_MATCHING
+        product_result = channel_bit * ((frames_left * 3) << 3);
+    store_blue:
+#else
+        implicit_lo = channel_bit * ((frames_left * 3) << 3);
+    store_blue:
+        product_result = implicit_lo;
+#endif
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = (s8) product_result;
         return;
     }

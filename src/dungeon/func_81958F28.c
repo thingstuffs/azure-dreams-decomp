@@ -26,8 +26,6 @@ typedef struct {
 
 extern void func_80024024(void *, s16, Vec3i *);
 extern void func_80024654(s16, s16, s16, s16, s16, s16, Vec3s *);
-extern void func_80024C30(void) __attribute__((noreturn));
-extern void func_80024EB8() __attribute__((noreturn));
 extern s32 func_80025344(s16, s16, s16, s16);
 extern void func_8003DE58(s32, u8 *, Vec3s *, s32);
 extern void func_8004491C(void *, void *);
@@ -66,13 +64,12 @@ void func_81958F28(AnimState *arg0, void *arg1, void *arg2) {
         if (phase == 0) {
             goto setup_phase;
         }
-        func_80024EB8();
+        return;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     if (phase == 2) {
         goto fade_phase;
     }
-    func_80024EB8();
+    return;
 
 setup_phase:
     func_8004491C((u8 *)arg0 - 0x20, &D_800CEEFC);
@@ -223,7 +220,7 @@ main_phase:
         shade = U8(arg2, 0xC);
         if (shade >= 0x80) goto update_secondary;
         S32(arg2, 0xC) += 0x00080808;
-        func_80024C30();
+        goto update_secondary;
     }
 
 move_phase:
@@ -266,8 +263,6 @@ update_secondary:
         S32(arg1, 0xC) += (S32(arg1, 0) - S32(arg1, 0xC)) >> 2;
         S32(arg1, 0x10) += (S32(arg1, 4) - S32(arg1, 0x10)) >> 2;
         S32(arg1, 0x14) += (S32(arg1, 8) - S32(arg1, 0x14)) >> 2;
-        func_80024EB8();
-        return;
     }
     return;
 
@@ -301,7 +296,6 @@ node_phase:
     }
     if ((s32)U8(arg2, 0xC) < 0x80 - (S16(arg0, 0x38) * 8)) {
         S32(arg2, 0xC) += 0x00080808;
-        func_80024EB8();
     }
     return;
 
