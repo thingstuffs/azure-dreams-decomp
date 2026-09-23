@@ -245,7 +245,8 @@ void FUNC_8197C800_BODY(void *input, void *output)
     void *particle_data;
     s32 remaining;
     register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 height ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *particle_script_debris;
+    s32 height;
     s32 offset_index;
     s32 random_value;
     u16 angle;
@@ -375,8 +376,8 @@ case_three:
                           (s16)(reference_position->unk_0A - 0x80));
         height = (s16)((result << 16) >> 16);
     }
-    ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     particle_script = D_80024BB8;
+    ASM_KEEP(scene_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     result = (s32)0x80080000;
     ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     burst_origin = (u8 *)result + 0x2E80;
@@ -462,13 +463,13 @@ case_three:
     } while (remaining >= 0);
 
     remaining = 9;
-    particle_script = D_80024C68;
+    particle_script_debris = D_80024C68;
     debris_origin = D_80082E80;
     debris_scene_page = (u8 *)0x80080000;
     do {
         particle = func_8003FD64(0x312, D_80083498);
         if (particle != 0) {
-            ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script;
+            ((S_FUNC_8197C800_BODY_5 *)particle)->unk_10 = particle_script_debris;
             func_8004491C(particle, D_80045340);
             sprite = ((S_FUNC_8197C800_BODY_5 *)particle)->unk_0C;
             particle_data = (u8 *)particle + 0x20;

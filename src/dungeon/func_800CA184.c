@@ -404,17 +404,15 @@ L_CFB98:
                 *(s32 *)(ram_base + 0x124) = width_shift_or_end;
             } while (0);
             *(u16 *)(ram_base + 0x178) = (u16)setup_value;
-            setup_value = width_shift_or_end;
-            ASM_KEEP(setup_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            setup_value = *(s32 *)(ram_base + 0x124);
             *(s32 *)(ram_base + 0x0BC) = setup_base;
             setup_base = 0x40;
             setup_value = setup_base << setup_value;
             *(s32 *)(ram_base + 0x128) = height_shift;
             *(s32 *)(ram_base + 0x114) = setup_value;
             do {
-                setup_value = height_shift;
+                setup_value = *(s32 *)(ram_base + 0x128);
             } while (0);
-            ASM_KEEP(setup_value);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             setup_base <<= setup_value;
             *(s32 *)(ram_base + 0x11C) = column_mask;
             *(s32 *)(ram_base + 0x120) = row_mask;
