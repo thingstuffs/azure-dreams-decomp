@@ -115,6 +115,7 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     s32 temp_v0_6;
     s32 temp_v0_6_2;
     s32 temp_v1_4;
+    s32 delta;
     register s32 var_s2 ASM_REG("$18");   /* site_for_pin trade (round l0_goal_20260922): with the ten intra pseudo-calls spelled as goto/loop, var_s2 is live to block_160 on every path, so global.c ranks in0 above it and the pair swaps $s2/$s4 (89 words) */
     s32 var_s2_2;
     s32 var_v0_2;
@@ -122,7 +123,7 @@ void func_8080C650(void *in0, void *in1, void *in2) {
     s32 state4_v0;
     s32 state4_a1;
     s32 high_v0;
-    register s32 abs_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 abs_v1;
     s32 state6_v0;
     s32 state6_v1;
     u16 temp_v0;
@@ -487,8 +488,8 @@ block_124:
         ((S_8080C650_2 *)arg1)->unk_08.at00.v = 0x200000;
 block_af8:
         abs_v1 = 0xFC600000;
-        temp_lo = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
-        temp_lo = abs(temp_lo);
+        delta = ((S_8080C650_2 *)arg1)->unk_00 + abs_v1;
+        temp_lo = abs(delta);
         if (temp_lo <= 0x80000) {
             temp_lo = (s32) (s16) ((S_8080C650_0 *)in0)->unk_6C;
             if (temp_lo < 0) {

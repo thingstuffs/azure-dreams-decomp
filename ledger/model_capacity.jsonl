@@ -168,3 +168,8 @@
 {"date": "2026-09-21T23:50Z", "codex": {"pack": "r72_kit_astra10", "model": "gpt-6-astra", "candidates": 0}, "note": "kit pack wave 2, ranked queue"}
 {"date": "2026-09-23T00:11Z", "codex": {"pack": "r73_sol6_a4", "model": "gpt-6-sol", "candidates": 0}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
 {"date": "2026-09-23T00:11Z", "codex": {"pack": "r73_astra_h2", "model": "gpt-6-astra", "candidates": 2}, "note": "r73 A/B astra control on the 8+ band"}
+{"date": "2026-09-23T00:19Z", "codex": {"pack": "r73_sol6_a1", "model": "gpt-6-sol", "candidates": 1}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
+{"date": "2026-09-23T00:19Z", "codex": {"pack": "r73_sol6_a2", "model": "gpt-6-sol", "candidates": 0}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
+{"date": "2026-09-23T00:19Z", "codex": {"pack": "r73_sol6_a3", "model": "gpt-6-sol", "candidates": 0}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
+{"date": "2026-09-23T00:28Z", "codex": {"pack": "r73_astra_h1", "model": "gpt-6-astra", "candidates": 2}, "note": "r73 A/B astra control on the 8+ band"}
+{"date": "2026-09-23T00:29Z", "codex": {"pack": "r73_luna6_a3", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}

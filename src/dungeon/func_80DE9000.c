@@ -126,9 +126,8 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     ASM_KEEP_DEP_NV(arg1_role, opcode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ASM_KEEP_DEP_NV(arg3_part, factory);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     root = func_8003FD64(opcode, factory);
+    held_flags = spawn_flags;
     if (root != NULL) {
-        held_flags = spawn_flags;
-        ASM_USE_NV(held_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         result = (u8 *)root + 0x20;
         ((S_8016A800_0 *)result)->unk_13 = 0x1C;
         func_8004491C(root, D_80045340);
@@ -157,17 +156,19 @@ void *func_8016A800(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
         }
 
         if ((s16)(spawn_flags & ~3) == 0) {
-            if (!(((S_8016A800_0 *)result)->unk_14 & 0x200) &&
-                    (func_800A6D30() & 1)) {
-                func_800A48F0(result, 1, (func_800A6D30() & 0x3F) | 0x20);
-                ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E538;
+            if (!(((S_8016A800_0 *)result)->unk_14 & 0x200)) {
+                spawn_flags = func_800A6D30();
+                if (spawn_flags & 1) {
+                    spawn_flags = func_800A6D30();
+                    func_800A48F0(result, 1, (spawn_flags & 0x3F) | 0x20);
+                    ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E538;
+                }
             }
             ((S_8016A800_4 *)((void *)arg2_work))->unk_8C = D_8016AE5C;
         } else {
             ((S_8016A800_0 *)result)->unk_8C = D_8016AE5C;
         }
 
-        ASM_KEEP(spawn_flags);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ((S_8016A800_3 *)arg3_part)->unk_2C = D_8016E510;
 after_state:
         ((S_8016A800_1 *)root)->unk_10 = D_8016AA58;
