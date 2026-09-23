@@ -120,16 +120,10 @@ update:
                     ASM_KEEP(anim_sprite);
                     state_value = *(s32 *)(entity + 0x1C);
                     saved_state = D_80081484[0];
-                    do {
-                        anim_mode = 5;
-                    } while (0);
-                    ASM_KEEP(anim_mode);
-                    do {
-                        D_80081484[0] = 0;
-                    } while (0);
+                    anim_mode = 5;
+                    D_80081484[0] = 0;
 #ifndef NON_MATCHING
-                    animations = (u8 *)0x800E0000;
-                    ASM_KEEP_NV(animations);
+                    animations = D_800DCFD0;
 #else
                     animations = D_800DCFD0;
 #endif
@@ -137,11 +131,6 @@ update:
                     dungeon_state = &D_80083460;
                     *(s32 *)(entity + 0x1C) = state_value;
                     state_value = *(u16 *)&dungeon_state->fieldA;
-#ifndef NON_MATCHING
-                    do {
-                        animations -= 0x3030;
-                    } while (0);
-#endif
                     state_value++;
                     *(u16 *)&dungeon_state->fieldA = state_value;
                     *(u8 **)(anim_sprite + 0x2C) = animations;

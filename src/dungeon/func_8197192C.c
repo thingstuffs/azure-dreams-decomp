@@ -239,13 +239,12 @@ void func_8197192C(void *effect_arg, void *owner_arg, void *context_arg)
     u32 state;
     void *effect = effect_arg;
     void *owner = owner_arg;
-    register void *context ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *context;
     u32 light_color;
     u32 light_color_2;
     u32 dark_color;
 
     (void)state_labels;
-    ASM_KEEP4_NV(effect, owner, context, context);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_8197192C_0 *)effect)->unk_38 = ((S_8197192C_0 *)effect)->unk_38 + 1;
     state = ((S_8197192C_0 *)effect)->unk_0A.s;
     context = context_arg;
@@ -645,6 +644,7 @@ case_4:
 {
     s32 angle;
     void *source_obj;
+    void *source_owner;
     u8 *angle_base;
     u8 *angle_table;
     u8 angle_count;
@@ -657,14 +657,14 @@ case_4:
     if (source_obj != 0) {
         angle_table = D_800DDC40;
         angle_count = angle_table[((S_8197192C_1 *)source_obj)->unk_10.at03.v];
-        owner = ((S_8197192C_1_pre *)source_obj)[-1].unk_00;
+        source_owner = ((S_8197192C_1_pre *)source_obj)[-1].unk_00;
         angle = 0;
         if (angle_count == 0) {
             goto case_4_global;
         }
         angle_base = angle_table;
         loop_3: {
-            func_80024F60(effect, owner, context, 0, 0, (s16)angle);
+            func_80024F60(effect, source_owner, context, 0, 0, (s16)angle);
             angle -= 15;
         } if (-*(u8 *)((u32)((S_8197192C_1 *)source_obj)->unk_10.at03.v + (u32)angle_base) < angle) goto loop_3;
     }

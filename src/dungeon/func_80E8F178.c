@@ -40,7 +40,8 @@ void func_80174978(void *actor, void *motion, void *visual) {
     s32 state;
     s32 z_step;
     s32 speed_or_z;
-    register s32 next_height ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 current_z;
+    s32 next_height;
     u16 timer;
     u16 next_scale;
 
@@ -80,11 +81,10 @@ state_one: {
     speed_or_z = ((S_80174978_2 *)motion)->unk_14 + 0x30000;
     next_height = ((S_80174978_2 *)motion)->unk_08.at00.v + speed_or_z;
     ((S_80174978_2 *)motion)->unk_14 = speed_or_z;
-    speed_or_z = ((S_80174978_2 *)motion)->unk_06;
+    current_z = ((S_80174978_2 *)motion)->unk_06 - 0x20;
     z_step <<= 6;
     ((S_80174978_2 *)motion)->unk_08.at00.v = next_height;
-    speed_or_z -= 0x20;
-    z_step -= speed_or_z;
+    z_step -= current_z;
     z_step >>= 1;
     ((S_80174978_2 *)motion)->unk_06 = (u16)((S_80174978_2 *)motion)->unk_06 + z_step;
     if (((S_80174978_1 *)visual)->unk_1C < 0x1000U) {
