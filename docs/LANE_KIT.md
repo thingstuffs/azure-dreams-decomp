@@ -282,7 +282,8 @@ onto the siblings -> refreshed exemplars for the next pack.
 |---|---|
 | `tools/lanes/pool.py` | `python3 tools/lanes/pool.py big --model sol -c 3 --rows-json rows.json --paragraphs big_rows,new_findings [--dry-run]` - build the packs, probe capacity, run N lanes at a time, journal each lane's candidate count, land the winners together |
 | `tools/lanes/land_gap.sh` | `bash tools/lanes/land_gap.sh <tag> <lane>...` - wait for a codex gap, one `land_lanes.sh` transaction with the cascade extras, then the `arm_restore` twins |
-| `tools/lanes/cascade_extra.txt` | the ONE list of generators passed as `EXTRA_T`; add a generator here the day it lands its first row |
+| `tools/lanes/cascade_extra.txt` | the ONE list of generators passed as `EXTRA_T`; add a generator here the day it lands its first row, ONE per line (never `sed 's/$/ tNN/'`); `tools/lanes/cascade_list.py` parses it (dedupe + warnings) |
+| `tools/lanes/compose2.py` | depth-2 composition: B on A's nearest pinned non-exact candidates, B ranked against the retail listing; `--rows id@A+A` or `--near D` from lane journals (docs/evidence/r76_cascade_compose.md) |
 | `tools/lanes/refresh_exemplars.py` | `python3 tools/lanes/refresh_exemplars.py` - rebuild `ledger/pack_inputs/solved_exemplars.json` from every r5*/r6* lane (2026-09-21: 144 -> 434 rows), with each row's `lane` and the `move` that solved it |
 | `tools/lanes/brief_paragraphs/` | named paragraphs appended to a pack brief: `build_class_pack.py ... --paragraphs big_rows,new_findings` (`class_question.md` is a template to fill by hand) |
 | `tools/lanes/clone_watch.sh` | `nohup bash tools/lanes/clone_watch.sh &` - every 25 min, replay finished lanes' moves on their clone siblings and gap-land what comes out exact |
