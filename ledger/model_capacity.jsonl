@@ -220,3 +220,4 @@
 {"date": "2026-09-23T06:10Z", "codex": {"pack": "r75_astra_p3", "model": "gpt-6-astra", "candidates": 5}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
 {"date": "2026-09-23T06:16Z", "codex": {"pack": "r75_astra_p4", "model": "gpt-6-astra", "candidates": 2}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
 {"date": "2026-09-23T06:49Z", "codex": {"pack": "r75_astra_p6", "model": "gpt-6-astra", "candidates": 4}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
+{"date": "2026-09-23T07:22Z", "codex": {"pack": "r75_astra_p5", "model": "gpt-6-astra", "candidates": 1}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}

@@ -84,8 +84,6 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
   {
     s32 right_x;
     s32 left_x;
-    s32 far_z;
-    s32 near_z;
     Vertex *vertex;
     s32 camera_z;
     s16 min_y;
@@ -105,15 +103,11 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
     scratch.outer = 48;
     right_x = (u16) scratch.outer;
     index_or_row = 3;
-    far_z = -160;
+    bottom_bound = -160;
     object = object_data;
-    ASM_USE_NV(object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    near_z = 16;
+    height_pixels = 16;
     left_x = -right_x;
     vertex = vertex_base + 3;
-    ASM_KEEP4(vertex, right_x, left_x, index_or_row);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(far_z);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_NV(near_z);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     loop_0: {
       vertex->x = right_x;
       if (index_or_row < 2)
@@ -123,11 +117,11 @@ s32 func_80174B98(void *object_data, void *unused, void *appearance)
       vertex->y = 0;
       if (index_or_row & 1)
       {
-        vertex->z = far_z;
+        vertex->z = bottom_bound;
       }
       else
       {
-        vertex->z = near_z;
+        vertex->z = height_pixels;
       }
       index_or_row--;
       vertex--;
