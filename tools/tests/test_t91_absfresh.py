@@ -201,5 +201,84 @@ class Rewrite(unittest.TestCase):
         self.assertTrue(all(len(g) == 1 for g in plans[1:]))
 
 
+STORE = '''#include "common.h"
+
+void h(void *action, void *actor) {
+    s32 target_x;
+    s32 target_y;
+    void *target;
+
+    ASM_KEEP(action);
+    target_x = ((S *)action)->unk_72.as_s8;
+    target_y = ((S *)action)->unk_73.as_s8;
+    if (target_x >= 0) {
+        goto block_29;
+    }
+    target_x = 0 - target_x;
+block_29:
+    if (target_y >= 0) {
+        goto block_31;
+    }
+    target_y = 0 - target_y;
+block_31:
+    ((S *)action)->unk_72.as_s8 = target_x;
+    ((S *)action)->unk_73.as_s8 = target_y;
+    target_x = ((S *)actor)->unk_A0;
+    if (target_x == 0) {
+        return;
+    }
+}
+'''
+
+SRC = '''#include "common.h"
+
+void k(S *offset, s32 *out) {
+    s32 offset_x;
+    s32 radius;
+
+    offset_x = offset->x;
+    radius = offset_x;
+    if (offset_x < 0) {
+        ASM_KEEP_NV(radius);
+        radius = -radius;
+    }
+    *out = radius * radius;
+    offset_x = offset->y;
+    *out += offset_x;
+}
+'''
+
+
+class TestInline(unittest.TestCase):
+    def test_a_sole_store_read_is_a_store_site(self):
+        self.assertEqual([bool(s["store"]) for s in M.sites(STORE)], [True, True])
+
+    def test_inline_writes_abs_into_the_stores(self):
+        c = M.rewrite_inline(STORE, M.sites(STORE))
+        self.assertIn("->unk_72.as_s8 = abs(((S *)action)->unk_72.as_s8);", c)
+        self.assertIn("->unk_73.as_s8 = abs(((S *)action)->unk_73.as_s8);", c)
+        self.assertNotIn("block_29", c)
+        self.assertIn("extern int abs(int);", c)
+
+    def test_rehost_renames_the_other_role_to_a_declared_local(self):
+        ss = M.sites(STORE)
+        hosts = dict(M.rehosts(M.rewrite_inline(STORE, ss), ss))
+        self.assertIn("target", hosts)
+        c = hosts["target"]
+        self.assertIn("target = ((S *)actor)->unk_A0;", c)
+        self.assertNotIn("target_x", c)
+        self.assertNotIn("target_y", c)
+
+    def test_copy_source_abs_goes_to_the_source_producer(self):
+        (s,) = M.sites(SRC)
+        self.assertIsNotNone(s["src"])
+        c = M.rewrite_inline(SRC, [s])
+        self.assertIn("    radius = abs(offset->x);\n    *out = radius * radius;", c)
+        self.assertEqual(sites_of(c), [])
+
+    def test_off_switch(self):
+        self.assertTrue(M.INLINE)
+
+
 if __name__ == "__main__":
     unittest.main()

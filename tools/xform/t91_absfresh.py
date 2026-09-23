@@ -51,6 +51,23 @@ REFUSE      an in-place `v = abs(v);` (that is t16, and it leaves reg_n_sets == 
             at v's next assignment - but it is where the exemplar family's three misses are
             (func_81007034, func_80BECDA4, func_810AF0B4): there the one pin was holding a second
             decision, and the residue is a register recolour in an unrelated block.
+
+T91_INLINE  (harvest 3, 2026-09-23; default on, T91_INLINE=0 turns it off) two spellings with NO carrier
+            local at all, from the late round-73 lanes:
+            * INTO THE STORE - the negated value's only read before its next assignment is a whole
+              store `LV = v;`: producer and negate go, the store becomes `LV = abs(<expr>);`.
+              claude-opus-5-5, dungeon/func_810AF0B4 (r73_opus_s25): "APPEARS: `ASM_KEEP(p)` after a
+              call whose result is stored through p, followed by loads through p that feed a goto-coded
+              abs (`if (x >= 0) goto L; x = 0 - x; L:`). RESOLVES: `field = abs(field)` inline stores
+              (t91-style), then re-host any other use of the freed abs temporary on a same-typed local
+              that already owns the right register (scan all in-scope locals)."  Same move on
+              dungeon/func_809CB224 (r73_opus_a7: "`base->f = abs(base->f)` in place; then, if a
+              block-local temp elsewhere loses its global status, host it in an existing global local").
+              The re-host is a variant: every remaining mention of v renamed to one other declared local.
+            * FROM THE COPY'S SOURCE - `x = <expr>; ... r = x; if (x < 0) { r = -r; }` where x is read by
+              nothing else before its next assignment: x's producer becomes `r = abs(<expr>);`, r's copy
+              and the negate go.  town/func_8008EFF8 (r73_opus_s20): "APPEARS: `r = x; if (x < 0) {
+              KEEP(r); r = -r; }`. RESOLVES: `r = abs(<x's source expression>)`, with no staging local."
 """
 import re, sys
 from pathlib import Path
@@ -68,6 +85,9 @@ except ImportError:
     from t36_paramwidth import functions
     import screen
 
+import os as _os
+INLINE = _os.environ.get("T91_INLINE", "1") != "0"
+MAX_REHOST = 24         # re-host targets tried per inline rewrite
 MAX_SITES = 6           # idiom sites considered in one function
 MAX_LISTINGS = 20       # screen compiles per row (a build filter, not a gate)
 MAX_VERIFY = 8          # scorer runs per row
@@ -233,7 +253,25 @@ def sites(text):
         stop = end + nxt.start() if nxt else b1
         reads = [(end + m.start(), end + m.end()) for m in
                  re.finditer(MENTION % re.escape(d), masked[end:stop])]
+        store = src = None
+        if len(reads) == 1:
+            ls, le = _line_span(text, reads[0][0], reads[0][1]) or (None, None)
+            lstart = text.rfind("\n", 0, reads[0][0]) + 1
+            lend = text.find("\n", reads[0][1])
+            line = masked[lstart:lend if lend >= 0 else len(masked)]
+            if re.match(r"^[ \t]*[^;{}]+?[ \t]*(?<![=!<>+\-*/%%&|^])=(?!=)[ \t]*%s[ \t]*;[ \t]*$" % re.escape(d), line):
+                store = reads[0]
+        if re.fullmatch(r"[A-Za-z_]\w*", expr) and expr != d and expr not in {p for p, _, _, _ in params}:
+            x = expr
+            xp = _producer(text, masked, b0, b1, ps, x)
+            if xp is not None and _line_span(text, xp[0], xp[1]) is not None:
+                xnext = re.search(ASSIGN_TO % re.escape(x), masked[xp[1]:b1])
+                xstop = xp[1] + xnext.start() if xnext else b1
+                xreads = [xp[1] + m.start() for m in re.finditer(MENTION % re.escape(x), masked[xp[1]:xstop])]
+                if xnext and all(pspan[0] <= r < pspan[1] or ispan[0] <= r < ispan[1] for r in xreads):
+                    src = (_line_span(text, xp[0], xp[1]), xp[2], text[_line_span(text, xp[0], xp[1])[0]:xp[0]])
         out.append({"v": d, "tested": t, "fn": (b0, b1), "expr": expr, "prod": pspan, "idiom": ispan,
+                    "store": store, "src": src,
                     "decl": dec, "reads": reads, "indent": text[pspan[0]:ps],
                     "line": text.count("\n", 0, ps) + 1,
                     "other_sets": bool(nxt) or bool(re.search(ASSIGN_TO % re.escape(d), masked[b0:ps]))})
@@ -278,6 +316,58 @@ def rewrite(text, chosen, grouped=True, widen=True):
             return None
         cur, last = cur[:a] + repl + cur[b:], a
     return with_abs_decl(cur)
+
+
+def rewrite_inline(text, chosen):
+    """INTO THE STORE / FROM THE COPY'S SOURCE (T91_INLINE): no carrier local.  None when a site has neither."""
+    edits = []
+    for s in chosen:
+        if s["store"]:
+            a, b = s["store"]
+            edits += [(s["prod"][0], s["prod"][1], ""), (s["idiom"][0], s["idiom"][1], ""),
+                      (a, b, "abs(%s)" % s["expr"])]
+        elif s["src"]:
+            (xa, xb), xexpr, xind = s["src"]
+            edits += [(xa, xb, "%s%s = abs(%s);\n" % (xind, s["v"], xexpr)),
+                      (s["prod"][0], s["prod"][1], ""), (s["idiom"][0], s["idiom"][1], "")]
+        else:
+            return None
+    cur, last = text, len(text) + 1
+    for a, b, repl in sorted(edits, key=lambda e: (-e[0], -e[1])):
+        if b > last:
+            return None
+        cur, last = cur[:a] + repl + cur[b:], a
+    return with_abs_decl(cur)
+
+
+def rehosts(text, chosen):
+    """[(name, text)]: every remaining mention of a store-inlined v renamed to ONE other local declared in the
+    same function (v's declaration dropped) - the lane's "re-host the freed temporary" step.  Only when exactly
+    one of the chosen sites' v is still mentioned after the inline."""
+    text = drop_decls(text, chosen)
+    left = []
+    for s in chosen:
+        if not s["store"]:
+            continue
+        v = s["v"]
+        m = re.search(r"^[ \t]*[^\n;(]*(?<![.>\w])\b%s\b[ \t]*;[^\n]*\n" % re.escape(v), text, re.M)
+        if m and "ASM_" not in m.group(0) and re.search(MENTION % re.escape(v), mask(text[:m.start()] + text[m.end():])):
+            left.append((v, m))
+    if len(left) != 1:
+        return []
+    v, m = left[0]
+    fn = _enclosing(functions(text), m.start())
+    if fn is None:
+        return []
+    body = text[:m.start()] + text[m.end():]
+    masked = mask(text)
+    names = []
+    for dm in re.finditer(r"^[ \t]+(?:(?:unsigned|signed|const|struct|union|volatile)[ \t]+)*[A-Za-z_]\w*[ \t\*]+"
+                          r"([A-Za-z_]\w*)[ \t]*;", masked[fn[2]:fn[3]], re.M):
+        n = dm.group(1)
+        if n != v and n not in names and not n.startswith("abs_"):
+            names.append(n)
+    return [(n, re.sub(MENTION % re.escape(v), n, body)) for n in names[:MAX_REHOST]]
 
 
 def drop_decls(text, chosen):
@@ -351,25 +441,50 @@ class T:
             for tag, new in (("", base), ("-nodecl", drop_decls(base, chosen))):
                 if tag and new == base:
                     continue
-                for group in pin_plans(new, chosen):
-                    cand = erase_many(new, group, clean_notes=True)
+                for group in pin_plans(new, chosen) or [[]]:     # the negate's own braces can hold the pin
+                    cand = erase_many(new, group, clean_notes=True) if group else new
                     out = len(sites_of(cand))
                     if out >= pins_in or cand in seen:
                         continue
                     seen.add(cand)
                     cands.append((out, len(cands), "%s%s-erase%d" % (label, tag, len(group)), cand))
+        if INLINE:
+            ishapes = ([("inline-joint", found)] if len(found) > 1 else []) + \
+                      [("inline%d" % i, [s]) for i, s in enumerate(found)]
+            for label, chosen in ishapes:
+                base = rewrite_inline(text, chosen)
+                if base is None:
+                    continue
+                variants = [("", base), ("-nodecl", drop_decls(base, chosen))]
+                if chosen is ishapes[0][1]:                  # re-hosts on the widest shape only
+                    variants += [("-host=%s" % n, t2) for n, t2 in rehosts(base, chosen)]
+                for tag, new in variants:
+                    if tag == "-nodecl" and new == base:
+                        continue
+                    plans = pin_plans(new, chosen) or [[]]
+                    for group in (plans[:1] if "-host" in tag else plans):
+                        cand = erase_many(new, group, clean_notes=True) if group else new
+                        out = len(sites_of(cand))
+                        if out >= pins_in or cand in seen:
+                            continue
+                        seen.add(cand)
+                        # inline spellings rank ahead of the fresh-local ones inside a pin-count bucket
+                        cands.append((out, -10000 + len(cands), "%s%s-erase%d" % (label, tag, len(group)), cand))
         cands.sort(key=lambda c: (c[0], c[1]))
         target, listings, ranked = screen.compile_s(row, text), 0, []
+        max_listings = MAX_LISTINGS * (3 if INLINE else 1)
         for out, order, label, cand in cands:
-            if listings >= MAX_LISTINGS:
-                ranked.append((out, MAX_LISTINGS, order, label, cand))
+            if listings >= max_listings:
+                ranked.append((out, max_listings, order, label, cand))
                 continue
             lst = screen.compile_s(row, cand); listings += 1
             if lst is None:
                 continue                                  # does not build: never worth a scorer run
             d = screen.sdiff(target, lst)
             ranked.append((out, 0 if d is None else d, order, label, cand))
-        ranked.sort(key=lambda c: (c[0], c[1], c[2]))
+        # listing-exact candidates first (T91_INLINE: a 1-of-3 inline on 809CB224 sat behind 8 inexact
+        # candidates with fewer pins), then fewest pins, then distance
+        ranked.sort(key=lambda c: ((c[1] != 0) if INLINE else 0, c[0], c[1], c[2]))
         tried = 0
         for out, d, order, label, cand in ranked:
             if tried >= MAX_VERIFY:

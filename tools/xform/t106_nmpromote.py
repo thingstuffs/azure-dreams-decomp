@@ -32,7 +32,7 @@ WHY THE OWNER MISSES IT (measured 2026-09-23)
             macros, so a promoted arm holding `__asm__ __volatile__(...)` would carry an uncounted pin;
             and it cannot drop a file-scope register block.
 
-CANDIDATES  per function-body NON_MATCHING split whose matching arm holds a pin, and all of them jointly:
+CANDIDATES  per function-body NON_MATCHING split (T106_ANYARM: pinned or not), and all of them jointly:
             the promotion (raw asm -> ASM_MEM_BARRIER / ASM_SCHED_BARRIER / ASM_KEEP / ASM_KEEP_NV /
             ASM_CLOBBER, `asm("$n")` in a declaration -> ASM_REG("$n"); any other raw asm refuses the
             block), each orphaned file-scope `#ifndef NON_MATCHING` register block dropped; then with the
@@ -56,6 +56,14 @@ except ImportError:
     import screen
 
 MAX_LISTINGS = 40
+MAX_BLOCKS = 12
+# T106_ANYARM (harvest 3, 2026-09-23; default on): a split whose matching arm holds NO pin is promoted too - the
+# pin can be the FILE-SCOPE `#ifndef NON_MATCHING register ... ASM_REG` block the arm alone reads
+# (dungeon/func_819AE2AC, claude-opus-5-5 lane r73_opus_s22: "APPEARS: a row with `#ifndef NON_MATCHING` pin arms
+# whose `#else` arm is plain C. RESOLVES: compile the `#else` arm as the scored arm first").  The first version
+# refused it "no pin in a matching arm".  Off: T106_ANYARM=0.
+import os as _os
+ANYARM = _os.environ.get("T106_ANYARM", "1") != "0"
 MAX_VERIFY = 4
 PP = re.compile(r"^[ \t]*#[ \t]*(?P<d>if|ifdef|ifndef|elif|else|endif)\b(?P<rest>[^\n]*)$")
 NM_OPEN = re.compile(r"^[ \t]*#[ \t]*(?:(?P<pos>ifdef[ \t]+NON_MATCHING|if[ \t]+defined[ \t]*\(?[ \t]*NON_MATCHING[ \t]*\)?)"
@@ -154,7 +162,9 @@ def promote(text, chosen):
 def candidates(text):
     sig, n0 = unscored_text(text), len(sites_of(text))
     bs = [b for b in blocks(text) if b[0] == "body" and spell(b[3]) is not None
-          and any(b[1] <= s[3] < b[2] for s in sites_of(text))]
+          and (ANYARM or any(b[1] <= s[3] < b[2] for s in sites_of(text)))]
+    if len(bs) > MAX_BLOCKS:
+        bs = bs[:MAX_BLOCKS]
     sets = ([bs] if len(bs) > 1 else []) + [[b] for b in bs]
     out, seen = [], {text}
     for sel in sets:
@@ -191,7 +201,7 @@ class T:
         bs = [b for b in blocks(text) if b[0] == "body"]
         if not bs:
             return "no NON_MATCHING split inside a function"
-        if not any(b[1] <= s[3] < b[2] for b in bs for s in sites_of(text)):
+        if not ANYARM and not any(b[1] <= s[3] < b[2] for b in bs for s in sites_of(text)):
             return "no pin in a matching arm"
         if not candidates(text):
             return "no promotion removes a pin"

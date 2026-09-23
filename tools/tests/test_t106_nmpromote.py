@@ -79,5 +79,50 @@ class TestPromote(unittest.TestCase):
         self.assertEqual(sites_of(c), [])
 
 
+FILEONLY = '''#include "common.h"
+extern u8 D_800274C0[];
+
+#ifndef NON_MATCHING
+register s32 volatile v0_carrier ASM_REG("$2");   /* UNRESOLVED C shape (pin) */
+#endif
+
+s32 k(s32 slot_index) {
+    u8 *slot_base;
+#ifndef NON_MATCHING
+    v0_carrier = (s32)0x80020000;
+    slot_base = (u8 *)v0_carrier + 0x74C0;
+#else
+    slot_base = D_800274C0;
+#endif
+    do {
+        slot_index++;
+#ifndef NON_MATCHING
+    } while ((v0_carrier = (slot_index < 12)) != 0);
+#else
+    } while (slot_index < 12);
+#endif
+    return slot_base[slot_index];
+}
+'''
+
+
+class TestAnyArm(unittest.TestCase):
+    def test_pin_only_in_the_file_scope_block_is_eligible(self):
+        self.assertIsNone(M.T.eligible(FILEONLY, None, {}))
+
+    def test_joint_promotion_drops_the_orphaned_file_scope_block(self):
+        c = dict(M.candidates(FILEONLY))["nm:2"]
+        self.assertNotIn("register s32 volatile v0_carrier", c)
+        self.assertEqual(sites_of(c), [])
+        self.assertEqual(unscored_text(c), unscored_text(FILEONLY))
+
+    def test_off_switch_restores_the_old_refusal(self):
+        M.ANYARM = False
+        try:
+            self.assertEqual(M.T.eligible(FILEONLY, None, {}), "no pin in a matching arm")
+        finally:
+            M.ANYARM = True
+
+
 if __name__ == "__main__":
     unittest.main()
