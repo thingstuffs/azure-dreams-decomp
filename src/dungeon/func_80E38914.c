@@ -21,7 +21,7 @@ s32 func_80172114(void *object, M2C_UNK state_input_a, M2C_UNK state_input_b) {
     M2C_UNK saved_input_a;
     M2C_UNK saved_input_b;
     void *saved_object;
-    register s32 call_result ASM_REG("$2");
+    s32 call_result;
     s32 state;
 
     saved_input_a = state_input_a;
@@ -72,13 +72,14 @@ common_update:
     ((S_80172114_0 *)saved_object)->unk_71 =
         (u8) (((S_80172114_0 *)saved_object)->unk_71 & 0x7F);
     if ((D_80083462 & 8) == 0) {
-        return 1;
+        call_result = 1;
+        goto negative_return;
     }
 
 clear_field:
-    call_result = 0;
     ((S_80172114_0 *)saved_object)->unk_46 =
         (u16) (((S_80172114_0 *)saved_object)->unk_46 & 0x7FFF);
+    return 0;
 
 negative_return:
     return call_result;

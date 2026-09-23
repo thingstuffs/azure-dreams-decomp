@@ -66,7 +66,7 @@ void func_807AE960(u8 *state, u8 *actor, u8 *target) {
     s32 countdown;
     u16 countdown_u;
     s32 actor_pos;
-    register u8 *global ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *global;
     u32 cd_mode;
     s32 table_base;
     u8 *global_end;
@@ -110,7 +110,7 @@ block_11:
     do {
         global = (u8 *)0x80010000;
     } while (0);
-    if ((u16) D_8001371A >= 4U) {
+    if (*(u16 *)(global + 0x371A) >= 4U) {
         goto block_15;
     }
     if (remaining >= 0) {

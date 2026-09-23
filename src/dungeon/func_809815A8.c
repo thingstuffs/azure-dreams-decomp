@@ -53,12 +53,10 @@ typedef struct S_80164DA8_2 {
 } S_80164DA8_2;   /* state in func_80164DA8 */
 
 /* Updates entity behavior, movement, directional animation, and ground height. */
-void func_80164DA8(void *entity_in, void *motion_in, void *sprite_in)
+void func_80164DA8(void *entity, void *motion, void *sprite_in)
 {
-    register void *entity ASM_REG("$17") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *motion = motion_in;
     register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *entity_state ASM_REG("$19") = entity;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *entity_state = entity;
     s16 previous_state;
     s16 direction;
     s16 direction_index;
@@ -77,8 +75,7 @@ void func_80164DA8(void *entity_in, void *motion_in, void *sprite_in)
     if (D_80083462 & 0x2000) {
         paused_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (paused_callback == (Callback)D_801654D4) {
-            ASM_KEEP(entity_in);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            paused_callback(entity_in, motion_in, sprite_in, entity_in);
+            paused_callback(entity, motion, sprite, entity);
             return;
         }
         (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
@@ -86,8 +83,6 @@ void func_80164DA8(void *entity_in, void *motion_in, void *sprite_in)
             return;
         } while (0);
     }
-
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     previous_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     if (func_800A9E70(entity, motion, sprite, entity) != 0) {

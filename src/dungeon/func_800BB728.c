@@ -93,10 +93,8 @@ extern u8 D_800E146F[];
 extern u8 *D_800E3D7C[];
 
 /* Applies data to an object, updates its slots, and handles delayed consumption. */
-s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
+s32 func_800C0E88(u8 *object, u8 *data, s16 action, void *context)
 {
-    u8 *object;
-    register u8 *data ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *slot_scan;
     u8 *object_record;
     u8 *status;
@@ -113,13 +111,9 @@ s32 func_800C0E88(void *object_arg, void *data_arg, s16 action, void *context)
     s16 delay_timer;
     u32 flags;
 
-    object = object_arg;
-    data = data_arg;
-    data_arg = context;
-    ASM_KEEP_NV(data_arg);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     if (action == 13) {
-        return func_80098864(data, data_arg);
+        return func_80098864(data, context);
     }
 
     current_object = D_800E3D7C[0];

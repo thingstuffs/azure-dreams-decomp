@@ -15,7 +15,7 @@ extern void func_800C8CD8(void *, s32, s32);
 /* Processes an actor's item and updates its object entry, effects, and item count. */
 s32 func_800C2F2C(void *actor, u8 *item, s16 action) {
     s16 entry_index;
-    register s32 message_handle ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 message_handle;
     s32 saved_handle, object_addr;
     s32 *counter_base;
     void *entity;
@@ -40,13 +40,15 @@ s32 func_800C2F2C(void *actor, u8 *item, s16 action) {
         F(object_fields, s16, 0x20) = entry_index;
         F(entries + entry_index * 0x18, s32, 8) = 0;
         message_handle = func_800990FC();
-        ASM_KEEP(message_handle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         saved_handle = message_handle;
 
         if (action == 0xD) {
-            func_80099290(func_800999B0(func_80099194(D_800893D8,
-                func_80099734(actor, func_80099194(D_800E1713,
-                    func_80099368(item, message_handle))))));
+            message_handle = func_80099368(item, message_handle);
+            message_handle = func_80099194(D_800E1713, message_handle);
+            message_handle = func_80099734(actor, message_handle);
+            message_handle = func_80099194(D_800893D8, message_handle);
+            message_handle = func_800999B0(message_handle);
+            func_80099290(message_handle);
             func_800A5720(saved_handle);
         }
 
