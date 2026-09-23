@@ -175,14 +175,12 @@ print_message:
             ((S_80098CF8_5 *)state)->unk_8C = action;
             ((S_80098CF8_5 *)state)->unk_A8 = 6;
             ((S_80098CF8_5 *)state)->unk_98 = data_word;
-            data_word = 0x80080000;
-            ASM_KEEP(data_word);
             ((S_80098CF8_6 *)actor)->unk_BC = item;
             target_arg = (void *)((S_80098CF8_1 *)item)->unk_00.at00.v;
-            ((S_80098CF8_5 *)state)->unk_9C = (u8 *)data_word + 0x1484;
+            ((S_80098CF8_5 *)state)->unk_9C = D_80081484;
             ((S_80098CF8_6 *)actor)->unk_8C = 0;
             ((S_80098CF8_6 *)actor)->unk_124 = 0;
-            ((S_80098CF8_7 *)((void *)data_word))->unk_1484 = (s32)target_arg;
+            *(s32 *)D_80081484 = (s32)target_arg;
             ((S_80098CF8_6 *)actor)->unk_9A = 0x1B;
             ((S_80098CF8_6 *)actor)->unk_9B = 0;
             sound_table = D_800DD0B8;

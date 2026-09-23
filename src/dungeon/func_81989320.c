@@ -61,10 +61,9 @@ void func_80024B20(void *effect) {
             doubled_index = segment_index * 2;
             word_offset = doubled_index + segment_index;
             next_index = segment_index + 1;
-            ASM_KEEP(next_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-            segment_index = next_index;
             dst_offset = word_offset * 2;
-            src_offset = segment_index * 6;
+            src_offset = next_index * 6;
+            segment_index = next_index;
             src_segment = effect;
             dst_segment = effect;
             src_segment += src_offset;
@@ -114,11 +113,9 @@ mode_one:
         ((S_80024B20_2 *)effect)->unk_0C = color;
         ((S_80024B20_2 *)effect)->unk_3A = func_800644B8(phase << 9) >> 7;
         if (((S_80024B20_2 *)effect)->unk_0C > 0x60605F) {
-            register u16 timer ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            state = ((S_80024B20_2 *)effect)->unk_40.u;
-            timer = 0x38;
-            ((S_80024B20_2 *)effect)->unk_42.u = timer;
-            goto increment_state;
+            ((S_80024B20_2 *)effect)->unk_42.u = 0x38;
+            ((S_80024B20_2 *)effect)->unk_40.u++;
+            return;
         }
         return;
     }
@@ -160,7 +157,6 @@ mode_two:
     }
     if (((S_80024B20_2 *)effect)->unk_42.s <= 0) {
         state = ((S_80024B20_2 *)effect)->unk_40.u;
-increment_state:
         state++;
         ((S_80024B20_2 *)effect)->unk_40.u = state;
         goto tail_return;

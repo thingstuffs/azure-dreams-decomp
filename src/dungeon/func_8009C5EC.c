@@ -53,7 +53,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
         initial_stats = D_8006D168 + (species_id * 0x18);
 
         {
-            register s32 old_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            s32 old_base;
             s32 curve_value;
             s32 old_linear;
             s32 old_curve;
@@ -66,7 +66,7 @@ s32 func_800A1D4C(void *entity_data, s32 show_message) {
             s32 stat;
             s32 old_value;
             curve_value = func_800647A0((prev_level * stat_growth[5]) << 0xB, species_id);
-            old_base = *(volatile u8 *)(initial_stats + 5);
+            old_base = initial_stats[5];
             old_linear = stat_growth[5] * prev_level;
             if (old_linear < 0) {
                 old_linear += 0xF;

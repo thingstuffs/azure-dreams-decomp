@@ -136,8 +136,9 @@ void func_800BB55C(void *effect, S_800BB55C_2 *position, s32 restore_link) {
             packet_or_angle = slot_or_angle + 0x19;
             do {
                 slot_or_angle = packet_or_angle;
-                ASM_KEEP_NV(packet_or_angle);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                end_xy[0] = (func_80064584((s16)packet_or_angle) >> 7) + 0x362;
+                packet_or_angle <<= 16;
+                packet_or_angle >>= 16;
+                end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
                 end_xy[1] = (func_800644B8((s16)packet_or_angle) >> 7) + 0x122;
                 func_800BB2E4(start_xy, end_xy, draw_params, 0, NULL);
                 start_xy[0] = (u16) end_xy[0];

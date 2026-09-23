@@ -4,8 +4,8 @@
 
 
 typedef struct {
-    u32 words[4];
-} Copy16;
+    u32 words[12];
+} Copy48;
 
 extern s32 func_8003DE58(void *, void *, void *, s32);
 extern s32 func_8003F270(void);
@@ -111,7 +111,7 @@ typedef struct S_80173230_10 {
 } S_80173230_10;   /* global in func_80173230 */
 
 /* Advances item use, its visual effect, and the actor's recovery animation. */
-void func_80173230(void *action_in, void *motion_in, void *sprite_in, void *actor_in)
+void func_80173230(void *action_in, void *motion_in, void *sprite, void *actor)
 {
     static void *const state_labels[] = {
         &&state_0, &&state_1, &&state_2, &&state_3, &&state_4
@@ -120,8 +120,7 @@ void func_80173230(void *action_in, void *motion_in, void *sprite_in, void *acto
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_7, &&kind_6, &&kind_5
     };
-    void *sprite;
-    void *actor;
+    u8 *effect_state;
     s32 effect_handle;
     s16 special_or_effect;
     u16 effect_offset[4];
@@ -131,10 +130,7 @@ void func_80173230(void *action_in, void *motion_in, void *sprite_in, void *acto
     u8 state;
     void *item_target;
 
-    sprite = sprite_in;
-    actor = actor_in;
     special_or_effect = 0;
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     action_object = (u8 *)action_in - 0x20;
     state = ((S_80173230_0 *)action_in)->unk_9B;
     if ((u32)state >= 5) {
@@ -225,9 +221,9 @@ selection_ready:
             if (item_target != 0) {
 
 copy_active_coords:
-                actor_in = ((S_80173230_1_pre *)item_target)[-1].unk_00;
-                (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)actor_in)->unk_24;
-                (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)actor_in)->unk_25;
+                effect_state = ((S_80173230_1_pre *)item_target)[-1].unk_00;
+                (*(u8 *)((u8 *)actor + 0x72)) = ((S_80173230_2 *)effect_state)->unk_24;
+                (*(u8 *)((u8 *)actor + 0x73)) = ((S_80173230_2 *)effect_state)->unk_25;
                 goto invoke_item;
             }
         } else {
@@ -292,10 +288,6 @@ state_2:
         if (timer == 0xB || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
             effect_handle = (s32)func_8003FD64(0x112, D_80083498);
             if (effect_handle != 0) {
-                u8 *effect_state;
-                u32 *copy_src;
-                u32 *copy_dst;
-                u32 *copy_end;
                 void *actor_model;
                 u8 animation_id;
 
@@ -303,17 +295,9 @@ state_2:
                 ((S_80173230_5 *)effect_state)->unk_96 = 9;
                 ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
                 ((S_80173230_5 *)effect_state)->unk_A8 = motion_in;
-                copy_src = (u32 *)sprite;
                 ((S_80173230_5 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
                 item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_0C;
-                ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                copy_end = (u32 *)sprite + 12;
-                copy_dst = (u32 *)item_slot;
-                do {
-                    *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
-                    copy_src += 4;
-                    copy_dst += 4;
-                } while (copy_src != copy_end);
+                *(Copy48 *)item_slot = *(Copy48 *)sprite;
                 ((S_80173230_7 *)item_slot)->unk_1E = 0x1000;
                 ((S_80173230_7 *)item_slot)->unk_1C = 0x1000;
                 ((S_80173230_7 *)item_slot)->unk_0E = 0x80;

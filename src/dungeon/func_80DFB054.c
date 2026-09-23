@@ -84,10 +84,10 @@ void *func_80158854(s32 arg0, s8 arg1, s16 arg2, s32 arg3)
     saved_arg3 = arg3;
     saved_arg2 = arg2;
     obj = func_8003FD64(0x112, D_80083498);
+    final_arg0 = arg0;
     if (obj != 0) {
-        final_arg0 = arg0;
-        work = (u8 *)obj + 0x20;
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        work = obj;
+        work = (u8 *)work + 0x20;
         ((S_80158854_0 *)work)->unk_13 = 0x1C;
         func_8004491C(obj, D_80045340);
 

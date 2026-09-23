@@ -85,9 +85,8 @@ extern u8 D_80175188[];
 extern u8 D_80175190[];
 
 /* Updates a dungeon actor's state, animation, and facing direction. */
-void func_80171400(void *actor, void *context, void *sprite_in, void *entity_in)
+void func_80171400(void *actor, void *context, void *sprite_in, void *entity)
 {
-    register void *entity ASM_REG("$17") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 direction_aux;
     s8 room_id;
     u16 action_state;
@@ -176,7 +175,8 @@ void func_80171400(void *actor, void *context, void *sprite_in, void *entity_in)
 
     if (((S_80171400_1 *)entity)->unk_6D > 0) {
         if (((S_80171400_1 *)entity)->unk_1C & 0x20) {
-            goto case_12;
+            func_800A9A0C(entity);
+            return;
         }
         if (((S_80171400_2 *)sprite_in)->unk_24.at00u.v == *(u16 *)&D_80082EA4) {
             goto generic;

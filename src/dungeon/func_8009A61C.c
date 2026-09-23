@@ -6,13 +6,13 @@ extern s32 func_800A0818(s32, s32, s32, s32, s16 *);
 /* Tests whether distinct neighboring positions share a lookup value or pass the relation check. */
 s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     u16 src_x_bits = src_x;
-    u16 src_y_bits = src_y;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 src_y_bits = src_y;
     u16 dst_x_bits = dst_x;
     u16 dst_y_bits = dst_y;
     s16 relation_detail;
     s32 src_value;
-    register s32 query_x ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 query_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    s32 query_x;
+    s32 query_y;
     s32 saved_src_value;
     s32 dst_value;
     s32 query_dst_x;
@@ -20,9 +20,9 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
     s32 delta_x;
     register s32 detail_out;
     s32 signed_dst_y;
-    s32 signed_src_x;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 signed_src_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 signed_dst_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 signed_src_x;
+    s32 signed_src_y;
+    s32 signed_dst_x;
     s32 relation_flags;
     s32 distance_x;
     s32 allowed;
@@ -39,13 +39,10 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
         distance_y = __builtin_abs(detail_out);
         if (distance_y < 2) {
             detail_out = distance_x + distance_y;
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             if (detail_out != 0) {
                 query_x = src_x_bits & 0xFFFF;
                 query_y = src_y_bits & 0xFFFF;
-                src_value = func_8009FB34(query_x, query_y, dst_x << 0x10);
-                   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                src_value = func_8009FB34(query_x, query_y);
                 query_x = dst_x_bits & 0xFFFF;
                 query_y = dst_y_bits & 0xFFFF;
                 saved_src_value = src_value;
@@ -55,10 +52,9 @@ s32 func_8009FD7C(s32 src_x, s32 src_y, s32 dst_x, s32 dst_y) {
                 }
                 query_x = signed_src_x;
                 query_y = signed_src_y;
-                detail_out = (s32)(&relation_detail);
                 query_dst_x = signed_dst_x;
                 query_dst_y = signed_dst_y;
-                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, (s16 *)detail_out) << 0x10) >> 0x19;
+                relation_flags = (s32) (func_800A0818(query_x, query_y, query_dst_x, query_dst_y, &relation_detail) << 0x10) >> 0x19;
                 relation_detail = (s16) relation_flags;
                 allowed = 1;
                 if (relation_flags & 1) {
