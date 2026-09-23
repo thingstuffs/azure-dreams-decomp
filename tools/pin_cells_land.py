@@ -34,12 +34,20 @@ from xform.t12_stmtorder import strip_pins
 
 INCLUDE = ROOT / "include"
 JOURNAL = LEDGER / "sweeps" / "t13_cellfix.jsonl"
+TRADES = LEDGER / "recipe_trades.jsonl"
+LATE = ("2.91.66", "2.95.2")          # 1999 compilers, after the game shipped: recorded, never landed
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
+    ap.add_argument("--only", help="file or comma list of row ids to restrict to")
+    ap.add_argument("--round", default=76)
     a = ap.parse_args()
+    only = None
+    if a.only:
+        p = Path(a.only)
+        only = set(p.read_text().split()) if p.exists() else set(a.only.split(","))
 
     by = {r["id"]: r for r in ROWS()}
     mod = {}
@@ -54,8 +62,12 @@ def main():
 
     hits = []
     for rec in read_jsonl(LEDGER / "pins_cells.jsonl"):
+        if only and rec["id"] not in only:
+            continue
         if not rec.get("best_exact") or not rec.get("cell"):
             continue
+        if rec["cell"].startswith(LATE):
+            continue                      # 1999 compilers: recorded, never landed
         if not rec.get("pinned_exact_at_cell"):
             continue                      # rule 2: the shipped bytes must not depend on the change
         row = by.get(rec["id"])
@@ -87,16 +99,26 @@ def main():
         cand = strip_pins(text)
         note = (f"pin-free text is exact at {rec['cell']} and not at {row['cfg']}; "
                 f"the pinned text is exact at both (tools/pin_cells_land.py)")
-        set_row_cfg(row["id"], rec["cell"], note)
+        # verify at the new cell BEFORE touching the row's recorded cell: a refusal must leave
+        # the baseline (git, row cfg) exactly as it was.
         row2 = dict(row, cfg=rec["cell"])
         with tempfile.TemporaryDirectory() as td:
             f = Path(td) / Path(row["c_path"]).name
             f.write_text(cand)
             v = verify(row2, f, include_root=INCLUDE)
         if not v.get("exact"):
-            set_row_cfg(row["id"], row["cfg"], "reverted: pin-free text not exact after all")
-            print(f"REVERTED {row['id']}: {v.get('total')} at {rec['cell']}")
+            print(f"REFUSED {row['id']}: {v.get('total')} at {rec['cell']}")
             continue
+        m = mod.get(row["id"]) or "-"
+        dist = ", ".join(f"{k}x{vv}" for k, vv in cells_by_module[m].most_common(3))
+        append_jsonl(TRADES, {"round": a.round, "date": __import__("datetime").datetime.utcnow().strftime("%Y-%m-%d"),
+                               "id": row["id"], "cfg_from": row["cfg"], "cfg_to": rec["cell"],
+                               "kind": "recipe-switch", "pins": len(sites_of(text)), "module": m,
+                               "module_cells": dist, "source_sha": sha_text(text),
+                               "why": "pin_cells_land rules 1-2 hold: the pin-free text is exact "
+                                      f"at {rec['cell']} and not at {row['cfg']}; the pinned text is "
+                                      "exact at both, so no byte evidence is lost (tools/pin_cells_land.py)"})
+        set_row_cfg(row["id"], rec["cell"], note)
         clean_path(row).write_text(cand)
         append_jsonl(JOURNAL, {"id": row["id"], "transform": "t13_cellfix",
                                "in_sha": sha_text(text), "out_sha": sha_text(cand),

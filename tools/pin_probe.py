@@ -192,7 +192,11 @@ def probe_cells(row):
     if not sites_of(text):
         return None
     inc = f"-I{INCLUDE.resolve()}"
-    cells = sorted(STOCK_CELLS) + [c + "-G0" for c in sorted(STOCK_CELLS)]
+    # LATE cells (1999 compilers, after the game shipped) are recorded, never built
+    # (tools/pin_cells_scan.py). Sort them last so the first-exact pick prefers a real candidate.
+    LATE = ("2.91.66", "2.95.2")
+    ordered = sorted(STOCK_CELLS, key=lambda c: c.startswith(LATE))
+    cells = ordered + [c + "-G0" for c in ordered]
     cfgs = ",".join(f"{c} {inc}" for c in cells)
     rec = {"id": row["id"], "cfg": row["cfg"], "in_sha": sha_text(text), "cells": len(cells)}
     with tempfile.TemporaryDirectory() as td:
@@ -207,6 +211,7 @@ def probe_cells(row):
                 r2 = dict(row, cfg=f"{c} {inc}")
                 if verify(r2, f).get("exact"):
                     rec["cell"] = c
+                    rec["late"] = c.startswith(LATE)
                     g = Path(td) / ("pinned_" + Path(row["c_path"]).name)
                     g.write_text(text)
                     rec["pinned_exact_at_cell"] = bool(verify(r2, g).get("exact"))
