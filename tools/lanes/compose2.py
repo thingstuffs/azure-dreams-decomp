@@ -31,6 +31,14 @@ recorded for the row and finds the model lane base/<id>.c with that sha (the pre
 B defaults to the whole landing cascade (tools/lanes/cascade_list.full(), minus t2_pins and the Python-bound t53s) plus
 the t66..t117 generators not in it.  Journal: one record per (row, A, cA): the cA label/distance/pins and, per eligible
 B, the B outcome and nearest distance.
+
+--pinfree (round 76, "pin-free intermediates").  Stage 1 keeps A's k nearest PIN-FREE candidates (within --max-dA)
+instead of the pinned ones, and B's anchor is the RESIDUE: tools/lanes/residue_anchor.py localises the C statements
+whose instructions differ from retail (a -g listing diff, `.loc` line notes) and registers them as synthetic
+`RESIDUE` site tuples for exactly that text, so a pin-anchored detector sees "pinned" statements there (a RESIDUE
+tuple is never erased).  B defaults to the generators whose rewrite means something without a pin (PF_B: widths,
+symbols/pages, multiset/order, set-once/dead-init).  The win rule is unchanged: B exact AND fewer real pin sites than
+the row's text; the landers keep the scaffolding-growth check.
 """
 import argparse, glob, hashlib, json, os, re, sys, tempfile, threading, time, importlib
 from concurrent.futures import ThreadPoolExecutor
@@ -50,6 +58,9 @@ _CACHE, _CLOCK = {}, threading.Lock()
 SUBST = {}          # sha(text) -> text whose listing answers for it (B's target = the original's listing)
 CAPTURE = {}        # row id -> {sha: text} while A enumerates that row
 STATS = {}          # (row id, A module) -> menu statistics
+PF_B = ["t36_paramwidth", "t37_localwidth", "t94_castsplit", "t77_symplace", "t86_symaddr", "t97_pagesym",
+        "t104_pagejoint", "t72_stmtperm", "t74_multiset", "t118_setonce", "t119_deadinit"]
+MODE = {"pinfree": False, "max_dA": 20, "anchors": 6}
 
 
 def compile_s(row, text):
@@ -182,6 +193,8 @@ def menu_of(A, row, t0, cen, k):
     STATS[row["id"], A.__name__] = {"menu": len(cap), "built": len(ranked),
                                     "pinfree_best": min([d for d, pc, _h, _c in ranked if pc == 0] or [None],
                                                         key=lambda x: (x is None, x))}
+    if MODE["pinfree"]:
+        return [x for x in ranked if x[1] == 0 and x[0] <= MODE["max_dA"]][:k]
     return [x for x in ranked if x[1] > 0][:k]
 
 
@@ -197,8 +210,21 @@ def one(job):
         if not menu:
             recs.append({"id": row["id"], "A": an, "outcome": "A-empty", **st}); continue
         for d, pc, h, cA in menu:
-            SUBST[h] = t0
             rec = {"id": row["id"], "src": src, "A": an, "dA": d, "pinsA": pc, "pins0": p0, **st, "B": {}}
+            anchor = None
+            if MODE["pinfree"]:
+                import residue_anchor as RA
+                res = RA.residue_lines(row, t0, cA)
+                sites = RA.anchor_sites(cA, res, MODE["anchors"])
+                if not sites and res is not None:          # listing-exact (d0): anchor on A's own move
+                    sites = RA.anchor_sites(cA, RA.changed_lines(t0, cA), MODE["anchors"])
+                    rec["anchor_from"] = "A-move"
+                rec["residue"] = [[ln, w] for ln, w in (res or [])[:12]]
+                rec["anchors"] = [s[5] for s in sites]
+                if not sites:
+                    rec["outcome"] = "no-residue-anchor"; recs.append(rec); continue
+                anchor = RA.anchored(cA, sites); anchor.__enter__()
+            SUBST[h] = t0
             try:
                 for bn in Bs:
                     B = load(bn)
@@ -220,6 +246,8 @@ def one(job):
                         rec["B"][bn] = {"exact": bool(new), "near": min(near) if near else None, "s": round(time.time() - tb, 1)}
             finally:
                 SUBST.pop(h, None)
+                if anchor is not None:
+                    anchor.__exit__(None, None, None)
             recs.append(rec)
     return row, t0, src, recs, best
 
@@ -238,7 +266,7 @@ def near_rows(D, journals):
         if p.exists():
             cur[r["id"]] = sha_text(p.read_text(errors="replace"))
     known = {p.stem for p in (ROOT / "tools/xform").glob("t*.py")}
-    out = {}
+    out, best = {}, {}
     for pat in journals:
         for j in glob.glob(str(NL / pat / "journal.jsonl")):
             lane = Path(j).parent.name
@@ -252,9 +280,10 @@ def near_rows(D, journals):
                     continue
                 if min(n) <= D:
                     out.setdefault(r["id"], [])
+                    best[r["id"]] = min(best.get(r["id"], D), min(n))
                     if gen not in out[r["id"]]:
                         out[r["id"]].append(gen)
-    return out
+    return {k: out[k] for k in sorted(out, key=lambda k: (best[k], k))}     # nearest misses first
 
 
 def main():
@@ -266,7 +295,11 @@ def main():
     ap.add_argument("--max-rows", type=int, default=0)
     ap.add_argument("--skip-A", default="", help="generators never used as A (e.g. t101_crossmerge: its menu costs ~200 listings a row)")
     ap.add_argument("--journals", default="r73_h_t*,r73_h2_t*,r73_h3_t*,r76_cascade_t*")
+    ap.add_argument("--pinfree", action="store_true", help="compose on A's PIN-FREE candidates, B anchored on the residue")
+    ap.add_argument("--max-dA", type=int, default=20, help="--pinfree: farthest pin-free stage-1 candidate kept")
+    ap.add_argument("--anchors", type=int, default=6, help="--pinfree: residue statements registered as anchors")
     a = ap.parse_args()
+    MODE.update(pinfree=a.pinfree, max_dA=a.max_dA, anchors=a.anchors)
     want = {}
     if a.rows:
         for tok in a.rows.split(","):
@@ -276,10 +309,13 @@ def main():
         for rid, gs in near_rows(a.near, a.journals.split(",")).items():
             want.setdefault(rid, []).extend(g for g in gs if g not in want.get(rid, []))
     defaultA = a.A.split(",") if a.A else []
-    Bs = default_B() if a.B == "cascade" else a.B.split(",")
+    Bs = (PF_B if a.pinfree else default_B()) if a.B == "cascade" else a.B.split(",")
     for n in set(Bs) | set(defaultA) | {g for gs in want.values() for g in gs}:
         load(n)
     patch_modules()
+    if a.pinfree:
+        import residue_anchor
+        print("residue_anchor: patched", residue_anchor.install(), "bindings", flush=True)
     cen = {c["id"]: c for c in read_jsonl(ROOT / "ledger/census.jsonl")}
     by = {r["id"]: r for r in rows()}
     OUT = NL / a.lane; (OUT / "out").mkdir(parents=True, exist_ok=True); (OUT / ".ignore").write_text("*\n")
