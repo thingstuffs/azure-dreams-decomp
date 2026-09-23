@@ -75,9 +75,21 @@ class TestArgs(Base):
     def test_extra_t_comes_from_cascade_extra_txt(self):
         self.gap("r68pool", "r68_a", env={"FAKE_ARM_WINS": "0"})
         extra = [l for l in self.calls() if l.startswith("EXTRA_T=")][0]
-        for gen in ("t78_aggcopy", "t90_callunnest", "t95_runjoint"):
+        for gen in ("t88_castshift", "t90_callunnest", "t95_runjoint", "t117_stagehost"):
             self.assertIn(gen, extra)
         self.assertNotIn("#", extra)                       # comment lines are not passed as generators
+        toks = extra[len("EXTRA_T="):].split()
+        self.assertEqual(len(toks), len(set(toks)))         # each generator once (round-76 repair)
+
+    def test_a_corrupted_list_is_deduplicated(self):
+        # round 76: `sed 's/$/ t96 .../'` appended the same generators to every line, comments included
+        (self.tmp / "tools/lanes/cascade_extra.txt").write_text(
+            "# header t96_absplace\nt88_castshift t96_absplace\nt89_lifetimesplit t96_absplace\nnot_a_gen\n")
+        p = self.gap("r68pool", "r68_a", env={"FAKE_ARM_WINS": "0"})
+        extra = [l for l in self.calls() if l.startswith("EXTRA_T=")][0]
+        self.assertEqual(extra.split("=", 1)[1].split(), ["t88_castshift", "t96_absplace", "t89_lifetimesplit"])
+        self.assertIn("duplicates dropped", p.stderr)
+        self.assertIn("not_a_gen is not a tools/xform module", p.stderr)
 
     def test_extra_t_can_be_overridden(self):
         self.gap("r68pool", "r68_a", env={"EXTRA_T": "t99_only", "FAKE_ARM_WINS": "0"})
