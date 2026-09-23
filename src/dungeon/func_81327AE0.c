@@ -83,7 +83,6 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
     Callback paused_callback;
     s32 floor_height;
     s16 actor_height;
-    register u16 actor_height_u ASM_REG("$4");
     s32 direction_check;
     s32 direction_value;
     u8 *tile_slot;
@@ -212,15 +211,13 @@ void func_8016F2E0(void *actor_arg, void *motion_arg, void *sprite_arg)
                               (s16)(((S_8016F2E0_3 *)actor)->unk_88.u - 0x20));
         if ((s16)floor_height < 0x200) {
             actor_height = ((S_8016F2E0_3 *)actor)->unk_88.s;
-            actor_height_u = (*(volatile u16 *)((u8 *)actor + 0x88));
             if ((*(s16 *)((u8 *)entity + (0x92))) + actor_height < (s16)floor_height) {
                 ((S_8016F2E0_3 *)actor)->unk_1C &= 0xF7FFFFFF;
             } else {
                 if ((s16)floor_height >= actor_height) {
                     (*(s32 *)((u8 *)entity + (0x90))) = 0;
                 } else {
-                    (*(s16 *)((u8 *)entity + (0x92))) = floor_height - actor_height_u;
-                    ASM_KEEP(actor_height_u);
+                    (*(s16 *)((u8 *)entity + (0x92))) = floor_height - actor_height;
                 }
                 ((S_8016F2E0_5 *)motion)->unk_14 = 0;
                 ((S_8016F2E0_3 *)actor)->unk_1C |= 0x08000000;

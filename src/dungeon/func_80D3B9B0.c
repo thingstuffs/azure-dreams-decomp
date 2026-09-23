@@ -125,10 +125,8 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
 
     if (!(part_flags & 0x8000)) {
         direction = ((D_80083228[0] + ((S_801711B0_2 *)base)->unk_2A + 0x100) >> 9) & 7;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        update_value = (*(s16 *)((u8 *)object_arg + (0x94)));
         state_or_dir = direction;
-        if (update_value != state_or_dir) {
+        if ((*(s16 *)((u8 *)object_arg + (0x94))) != state_or_dir) {
             func_80047738(part_arg,
                 (*(u8 *)((u8 *)(((S_801711B0_1 *)part_arg)->unk_2C) + (state_or_dir))),
                 ((S_801711B0_1 *)part_arg)->unk_04);
@@ -162,9 +160,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
                 update_value = (s32)bob_step << 16;
                 update_value >>= 16;
                 bob_phase = update_value * 0x55;
-                ASM_KEEP_DEP_NV(bob_step, bob_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                bob_step++;
-                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step;
+                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step + 1;
                 (*(s32 *)((u8 *)object_arg + (0xA0))) +=
                     func_800644B8(bob_phase) << 4;
             }
@@ -231,9 +227,7 @@ void func_801711B0(void *object_arg, void *motion_arg, void *part_arg)
                 update_value = (s32)bob_step << 16;
                 update_value >>= 16;
                 bob_phase = update_value * 0x55;
-                ASM_KEEP_DEP_NV(bob_step, bob_phase);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                bob_step++;
-                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step;
+                (*(u16 *)((u8 *)object_arg + (0x9E))) = bob_step + 1;
                 (*(s32 *)((u8 *)object_arg + (0xA0))) +=
                     func_800644B8(bob_phase) << 4;
             }
