@@ -245,3 +245,4 @@
 {"date": "2026-09-23T12:23Z", "codex": {"pack": "r76_luna6_b12_2", "model": "gpt-6-luna", "candidates": 1}, "note": "r76 A/B v2 luna6 arm"}
 {"date": "2026-09-23T13:02Z", "codex": {"pack": "r76_astra_b8c_1", "model": "gpt-6-astra", "candidates": 3}, "note": "r76 astra 8+ cluster packs"}
 {"date": "2026-09-23T13:31Z", "codex": {"pack": "r76_luna6_b37_2", "model": "gpt-6-luna", "candidates": 0}, "note": "r76 A/B v2 luna6 arm"}
+{"date": "2026-09-23T13:50Z", "codex": {"pack": "r76_luna6_b37_1", "model": "gpt-6-luna", "candidates": 1}, "note": "r76 A/B v2 luna6 arm"}
