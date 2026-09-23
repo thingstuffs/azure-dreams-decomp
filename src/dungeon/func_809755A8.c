@@ -54,12 +54,10 @@ typedef struct S_80170DA8_2 {
 } S_80170DA8_2;   /* state in func_80170DA8 */
 
 /* Update entity behavior, movement, directional animation, and ground height. */
-void func_80170DA8(void *entity_in, void *motion_in, void *sprite_in)
+void func_80170DA8(void *entity, void *motion, void *sprite_in)
 {
-    register void *entity ASM_REG("$17") = entity_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    void *motion = motion_in;
     register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *entity_state ASM_REG("$19") = entity;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *entity_state = entity;
     s16 previous_state;
     s16 sprite_direction;
     s16 anim_direction;
@@ -78,8 +76,7 @@ void func_80170DA8(void *entity_in, void *motion_in, void *sprite_in)
     if (D_80083462 & 0x2000) {
         pause_callback = (*(Callback *)((u8 *)entity + (0x8C)));
         if (pause_callback == (Callback)D_801714D4) {
-            ASM_KEEP(entity_in);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            pause_callback(entity_in, motion_in, sprite_in, entity_in);
+            pause_callback(entity, motion, sprite_in, entity);
             return;
         }
         (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;

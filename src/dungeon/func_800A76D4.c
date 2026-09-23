@@ -35,7 +35,7 @@ s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
     u8 phase = object->unk9B;
     u8 red;
     u8 green;
-    register s32 green_step ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 green_step;
     u8 blue;
     s32 blue_step;
     u16 effect_count;
@@ -52,7 +52,7 @@ restore_color:
     unused = unused / *(volatile u8 *)&effect->unk0F;
     green = effect->unk0D;
     green_step = 0x80 - green;
-    green_step = green_step / *(volatile u8 *)&effect->unk0F;
+    green_step = green_step / *(u8 *)&effect->unk0F;
     blue = effect->unk0E;
     blue_step = 0x80 - blue;
     blue_step = blue_step / *(volatile u8 *)&effect->unk0F;

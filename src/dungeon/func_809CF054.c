@@ -112,8 +112,8 @@ normal_kind:
         if (((kind_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 call_part = part_a;
-                ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                primary_bits = func_800A6D30(call_obj);
+                call_obj = (void *)func_800A6D30(call_obj);
+                primary_bits = (s32)call_obj;
                 call_obj = obj;
                 if (!(primary_bits & 1)) {
                     goto init_actor;

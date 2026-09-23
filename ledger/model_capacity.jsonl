@@ -241,3 +241,5 @@
 {"date": "2026-09-23T11:51Z", "codex": {"pack": "r76_agy_b37_1", "model": "gemini-3.8-flash-high", "candidates": 2}, "note": "r76 A/B v2 gemini arm"}
 {"date": "2026-09-23T11:58Z", "codex": {"pack": "r76_gemf_w_5", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
 {"date": "2026-09-23T11:58Z", "codex": {"pack": "r76_gemf_w_6", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
+{"date": "2026-09-23T12:23Z", "codex": {"pack": "r76o_astra_b37", "model": "gpt-6-astra", "candidates": 4}, "note": "r76 A/B v2 astra arm"}
+{"date": "2026-09-23T12:23Z", "codex": {"pack": "r76_luna6_b12_2", "model": "gpt-6-luna", "candidates": 1}, "note": "r76 A/B v2 luna6 arm"}

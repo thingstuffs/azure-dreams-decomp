@@ -192,12 +192,11 @@ check_pos_x_neg_y_corner:
             pos_x_neg_y_motion = (M2C_UNK *)((s8 *)pos_x_neg_y_motion - 0x1A40);
             probe.x = position->unk_00.at00.v - ((S_80095C80_3 *)pos_x_neg_y_motion)->unk_0C;
             pos_x_neg_y_y = position->unk_04.at00.v;
-            do {
+            {
                 pos_x_neg_y_test = ((S_80095C80_3 *)pos_x_neg_y_motion)->unk_10;
-            } while (0);
+            }
 
             y_step_or_side = 1;
-            ASM_KEEP_NV(y_step_or_side);
             probe.y = pos_x_neg_y_y - pos_x_neg_y_test;
             probe.z = position->unk_08 - pos_x_neg_y_test;
             pos_x_neg_y_test = position->unk_00.at00.v >= (func_80095BC0(&probe, y_step_or_side) << 0x10);
