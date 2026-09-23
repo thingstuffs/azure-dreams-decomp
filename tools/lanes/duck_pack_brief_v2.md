@@ -37,12 +37,18 @@ from inside your lane.
 
 ### The kit - use it before writing a harness of your own
 
+Before writing a helper of your own, check this table - 26 lanes rebuilt the listing diff last night.
+
 | what you want | command |
 |---|---|
 | **step 1**: prove the scorer on this row (the pinned text MUST come back `exact=true, total=0`) | `python3 <KIT>/lab.py baseline <row> --score` |
 | what each pin holds alone, and which pins fall together | `python3 <KIT>/erase.py <row>` |
 | screen candidate files | `python3 <KIT>/lab.py <row> v1.c v2.c --score` |
 | screen named substitutions (`{"name": [["old","new"],...]}`) | `python3 <KIT>/lab.py <row> --subs shapes1.json --score` |
+| screen every combination of independent axes (`{"axis": {"label": [["old","new"],...]}}`, names `label+label`) | `python3 <KIT>/lab.py <row> --grid grid1.json --score` |
+| the cc1-listing diff of one candidate (vs pinned, erased or a file) | `python3 <KIT>/diff.py <row> cand.c [--vs erased] [--ctx 4] [--score]` |
+| every `-da` pass dump of one text, into a lane directory | `python3 <KIT>/dump.py <row> cand.c\|pinned\|erased dumps/ [--cfg CFG] [--pass greg]` |
+| score at another cfg (cell/flag trade), no ledger write; prints the hand-over when exact | `python3 <KIT>/lab.py cellscore <row> cand.c --cfg "2.8.1-G0"` (`--cfg` also works on any `lab.py` run) |
 | the REPORT table, built from what was actually measured | `python3 <KIT>/lab.py report` |
 | **why** the scheduler emitted that order | `python3 <KIT>/why.py <row> --pass sched --around <var>` |
 | **why** that value got that register | `python3 <KIT>/why.py <row> --pass greg --around <var>` |

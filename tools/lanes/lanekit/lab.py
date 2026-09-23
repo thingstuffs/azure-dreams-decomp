@@ -10,6 +10,9 @@ admission gate seven lanes re-derived (`work/native_lane/r62_astra_big/publish_l
     python3 <repo>/tools/lanes/lanekit/lab.py baseline dungeon/func_8009612C --score
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C v1.c v2.c --score
     python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --subs shapes1.json --score
+    python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C --grid grid1.json --score
+    python3 <repo>/tools/lanes/lanekit/lab.py dungeon/func_8009612C v7.c --cfg "2.8.1-G0" --score
+    python3 <repo>/tools/lanes/lanekit/lab.py cellscore dungeon/func_8009612C v7.c --cfg "2.8.1-G0"
     python3 <repo>/tools/lanes/lanekit/lab.py report
 
 STEP 1 IS `baseline <row> --score`.  It scores the row's OWN pinned text.  A pinned row is
@@ -33,6 +36,21 @@ and `lab.py report` turns that file into the REPORT.md table - so the table is d
 measured, never typed by hand.  A row with ZERO measurements is printed as such: one sol lane in
 fourteen left two of its five rows with no attempt at all and nothing in the report showed it.
 
+GRID.  `--grid grid.json` = `{"axis": {"label": [["old","new"], ...], ...}, ...}`: one label per
+axis, every combination (the cartesian product, axes in file order), the variant named by its labels
+joined with '+' (`keep+late+s16`), the chosen lists applied in axis order through the same
+substitution machinery as `--subs` (nearest-line message on a miss, logged `pattern-missing`).  A
+label may map to `[]` ("leave it").  A top-level `"@base": "pinned"` starts from the pinned text.
+About 21 lanes hand-wrote this as `itertools.product` scripts whose misses were never logged.
+
+ANOTHER CFG.  `--cfg CFG` compiles and scores the variants as if the row were registered at CFG
+(the row-dict override `land_coherence.sh` uses); the listing distance is still against the PINNED
+text at the REGISTERED cfg (retail's order), so it is information only: with `--score` every
+variant that builds is scored, and nothing is staged.  `cellscore <row> <cand.c> --cfg CFG` scores
+one candidate that way, checks rule 2 (is the pinned text also exact at CFG?) and, when exact,
+prints the `cells.jsonl` line and the `land_coherence.sh` command.  The row's registered cfg is
+never changed and nothing under `ledger/` or `config/` is written.
+
 CAP.  More than 60 variants for one row needs `--more`.  One lane produced 209 probe files for two
 of its five rows and left the other three nearly untouched.
 """
@@ -51,7 +69,7 @@ import kitlib                                                             # noqa
 class Lab:
     """One row, ready to measure.  `Lab(row_id).test(name, text)` is the whole interface."""
 
-    def __init__(self, row_id, lane=None, stage=True):
+    def __init__(self, row_id, lane=None, stage=True, cfg=None):
         self.lane = kitlib.bootstrap(lane)
         self.row = kitlib.row_of(row_id)
         self.id = self.row["id"]
@@ -66,6 +84,11 @@ class Lab:
         if self.screen.target is None:
             raise SystemExit("lab: the row's own pinned text does not build - check base/ and the recipe")
         (self.dir / "pinned.s").write_text("\n".join(self.screen.target) + "\n")
+        self.cfg = cfg if cfg and cfg != self.row["cfg"] else None
+        self.xscreen = None
+        if self.cfg:                  # target: pinned at the REGISTERED cfg; candidates at self.cfg
+            self.xscreen = kitlib.screen_for(self.row, self.base)
+            self.xscreen.row = kitlib.row_at_cfg(self.row, self.cfg)
 
     # ------------------------------------------------------------------ measurement
 
@@ -93,18 +116,24 @@ class Lab:
                             "status": "refused", "why": "; ".join(bad)})
             print("%-28s REFUSED  %s" % (name, rec["why"]))
             return rec
+        scr = self.xscreen or self.screen
         p = self.dir / (name + ".c")
         p.write_text(text)
-        d = self.screen.diff(text, 4)
+        d = scr.diff(text, 4)
         dist = None if d is None else sum(1 for l in d if l[:1] in "+-")
         (self.dir / (name + ".diff")).write_text("\n".join(d or ["DOES NOT BUILD"]) + "\n")
         rec = {"variant": name, "distance": dist, "score": None, "note": note,
                "status": "no-build" if d is None else "measured", "pins": len(kitlib.sites(text))}
-        if score and dist == 0:
-            v = self.screen.exact(text)
-            rec["score"] = {k: v.get(k) for k in ("exact", "total", "subs", "indels", "status")}
+        if self.cfg:
+            rec["cfg"] = self.cfg
+        if score and (dist == 0 or (self.cfg and d is not None)):
+            v = scr.exact(text)
+            rec["score"] = kitlib.score_fields(v)
             rec["status"] = "exact" if v.get("exact") else "scored"
-            if v.get("exact") and (self.stage if stage is None else stage):
+            if v.get("exact") and self.cfg:
+                print("  exact at %s - NOT staged (registered cfg %s unchanged); hand over with "
+                      "`lab.py cellscore %s %s --cfg %s`" % (self.cfg, self.row["cfg"], self.id, p, json.dumps(self.cfg)))
+            elif v.get("exact") and (self.stage if stage is None else stage):
                 rec["staged"] = self.publish(name, text)
         self.log(rec)
         print("%-28s dist %-5s pins %-3s %s%s"
@@ -122,9 +151,10 @@ class Lab:
         try:
             text = kitlib.apply_subs(base, reps, label=name)
         except KeyError as e:
+            msg = e.args[0] if e.args else str(e)          # str(KeyError) is a repr: quotes and escapes
             self.log({"variant": name, "distance": None, "score": None, "note": note,
-                      "status": "pattern-missing", "why": str(e)[:400]})
-            print("%-28s SKIP  %s" % (name, str(e).splitlines()[0]))
+                      "status": "pattern-missing", "why": msg[:400]})
+            print("%-28s SKIP  %s" % (name, msg.splitlines()[0]))
             return None
         return self.test(name.lstrip("@"), text, note=note, score=score)
 
@@ -168,6 +198,102 @@ class Lab:
         return str(dst.relative_to(self.lane))
 
 
+# --------------------------------------------------------------------------------------- grid
+
+def expand_grid(grid):
+    """`{"axis": {"label": [[old,new],...]}, ...}` -> [(name, reps)], the cartesian product.
+
+    Axes in file order, labels in file order; the name is the chosen labels joined with '+'; reps is
+    the chosen lists concatenated in axis order.  `"@base": "pinned"` prefixes every name with '@'
+    (`Lab.test_subs`: start from the pinned text)."""
+    import itertools
+    grid = dict(grid)
+    at = "@" if str(grid.pop("@base", "erased")) == "pinned" else ""
+    axes = []
+    for ax, choices in grid.items():
+        if not isinstance(choices, dict) or not choices:
+            raise SystemExit("lab: grid axis %r must map label -> [[old,new],...]" % ax)
+        for lab_, reps in choices.items():
+            if not isinstance(reps, list) or any(not isinstance(p, (list, tuple)) or len(p) != 2 for p in reps):
+                raise SystemExit("lab: grid %s/%s must be a list of [old, new] pairs" % (ax, lab_))
+            if "+" in lab_:
+                raise SystemExit("lab: grid label %r contains '+', the name separator" % lab_)
+        axes.append(list(choices.items()))
+    out = []
+    for combo in itertools.product(*axes):
+        out.append((at + "+".join(l for l, _ in combo), [list(p) for _, reps in combo for p in reps]))
+    return out
+
+
+def grid_misses(grid, base):
+    """Each axis/label whose own substitutions do not apply to the base ALONE, with the nearest
+    lines - said once, instead of once per combination.  (A label that only applies after another
+    axis's edit is listed too; the combinations still run and log what they find.)"""
+    out = []
+    for ax, choices in grid.items():
+        if ax == "@base" or not isinstance(choices, dict):
+            continue
+        for lab_, reps in choices.items():
+            try:
+                kitlib.apply_subs(base, reps, label="%s=%s" % (ax, lab_))
+            except KeyError as e:
+                out.append(e.args[0] if e.args else str(e))
+    return out
+
+
+# ---------------------------------------------------------------------------------- cellscore
+
+def cellscore(row, cand, cfg, lane, name="candidate", base=None, verify=None, rule2=True, out=print):
+    """Byte-score `cand` as `row` at `cfg` WITHOUT touching the ledger; say what the hand-over is.
+
+    Returns the record journalled (the caller appends it to `lab_log.jsonl`)."""
+    if not cfg:
+        raise SystemExit("lab: cellscore needs --cfg CFG")
+    if cfg == row["cfg"]:
+        raise SystemExit("lab: %s is the row's registered cfg - use `lab.py %s cand.c --score`" % (cfg, row["id"]))
+    lane = Path(lane)
+    v = kitlib.score_at(row, cand, cfg, verify=verify)
+    sc = kitlib.score_fields(v)
+    pins_c = len(kitlib.sites(cand))
+    pins_b = len(kitlib.sites(base)) if base is not None else None
+    out("cellscore %s  %s" % (row["id"], name))
+    out("  registered cfg : %s   (UNCHANGED - nothing under ledger/ or config/ is written)" % row["cfg"])
+    out("  scored at      : %s" % cfg)
+    out("  candidate      : %s   pins %s -> %s" % (json.dumps(sc), "?" if pins_b is None else pins_b, pins_c))
+    rec = {"row": row["id"], "variant": name, "kind": "cellscore", "cfg": cfg, "distance": None,
+           "score": sc, "pins": pins_c, "status": "exact" if sc.get("exact") else "scored",
+           "note": "at %s (registered %s)" % (cfg, row["cfg"])}
+    if not sc.get("exact"):
+        out("  NOT exact at %s: nothing to hand over." % cfg)
+        return rec
+    holds = None
+    if rule2 and base is not None:
+        vb = kitlib.score_at(row, base, cfg, verify=verify)
+        holds = bool(vb.get("exact"))
+        rec["rule2"] = holds
+        out("  pinned text    : %s at %s -> rule 2 %s" % (
+            "EXACT" if holds else "not exact (total %s)" % vb.get("total"), cfg,
+            "HOLDS: byte-neutral switch; the trade's kind is recipe-switch / pin-for-flag, not coherence "
+            "(land_coherence.sh stamps kind \"coherence\" - correct the ledger line by hand)" if holds else
+            "does NOT hold: a genuine coherence trade (charter clause 4b)"))
+    cont, fn = row["container"], Path(row["c_path"]).name
+    try:
+        lane_name = str(lane.resolve().relative_to(kitlib.ROOT / "work/native_lane"))
+    except ValueError:
+        lane_name = "<lane under work/native_lane>"
+    mech = "<mechanism: which pass / cell signature does what at %s>; %s" % (
+        cfg, "rule 2 holds (pinned text also exact at target: byte-neutral)" if holds else
+        "rule 2 does not hold (pinned text not exact at target)" if holds is False else "rule 2 not checked")
+    line = json.dumps({"id": row["id"], "to": cfg, "coherence": mech})
+    out("  EXACT at %s.  Hand-over for the orchestrator (the lane does not run these):" % cfg)
+    out("    1. the candidate staged as out/%s/%s with its .base_sha (the pinned base's sha)" % (cont, fn))
+    out("    2. this line in %s/cells.jsonl (fill in the mechanism):" % lane)
+    out("       " + line)
+    out("    3. LAND_ISOLATED=1 bash tools/lanes/land_coherence.sh <tag> %s" % lane_name)
+    rec["cells_line"] = line
+    return rec
+
+
 # ------------------------------------------------------------------------------------- report
 
 def report(lane, row_id=None):
@@ -188,17 +314,20 @@ def report(lane, row_id=None):
         body = []
         for r in sorted(real, key=lambda r: (r.get("distance") is None, r.get("distance") or 0)):
             s = r.get("score") or {}
+            at = " @" + r["cfg"] if r.get("cfg") else ""      # scored at ANOTHER cfg: not a solve here
             body.append([r.get("variant"), r.get("status"),
                          "-" if r.get("distance") is None else r["distance"],
                          r.get("pins", "-"),
-                         "" if not s else "exact" if s.get("exact") else "total %s" % s.get("total"),
+                         "" if not s else ("exact" if s.get("exact") else "total %s" % s.get("total")) + at,
                          (r.get("note") or r.get("why") or "")[:60]])
         best = min((r["distance"] for r in real if r.get("distance") is not None), default=None)
         out.append("")
-        out.append("%d variants measured, best listing distance %s, %d scored, %d exact."
+        xc = sum(1 for r in real if r.get("cfg") and (r.get("score") or {}).get("exact"))
+        out.append("%d variants measured, best listing distance %s, %d scored, %d exact%s."
                    % (len({r.get("variant") for r in real}), best,
                       sum(1 for r in real if r.get("score")),
-                      sum(1 for r in real if (r.get("score") or {}).get("exact"))))
+                      sum(1 for r in real if (r.get("score") or {}).get("exact") and not r.get("cfg")),
+                      " (+%d exact only at another cfg: a trade, not a solve)" % xc if xc else ""))
         out.append("")
         out.append("```")
         out.append(kitlib.fmt_table(["variant", "status", "dist", "pins", "score", "note"], body))
@@ -211,9 +340,12 @@ def report(lane, row_id=None):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("row_id", help="row id, or 'report', or 'baseline'")
-    ap.add_argument("rest", nargs="*", help="variant .c files (or, after 'baseline', the row id)")
+    ap.add_argument("row_id", help="row id, or 'report', 'baseline' or 'cellscore'")
+    ap.add_argument("rest", nargs="*", help="variant .c files (after 'baseline': row ids; after 'cellscore': row cand.c)")
     ap.add_argument("--subs", help="variants.json: {name: [[old,new],...]} on the pin-erased base")
+    ap.add_argument("--grid", help="grid.json: {axis: {label: [[old,new],...]}} -> every combination, named label+label")
+    ap.add_argument("--cfg", help="compile/score at this cfg instead of the registered one (no ledger write, no staging)")
+    ap.add_argument("--no-rule2", action="store_true", help="cellscore: skip scoring the pinned text at --cfg")
     ap.add_argument("--score", action="store_true", help="byte-score the listing-exact variants")
     ap.add_argument("--score-top", type=int, default=0, metavar="N",
                     help="also score the N nearest non-exact variants of this run")
@@ -238,12 +370,32 @@ def main():
             Lab(rid, stage=not a.no_stage).baseline(score=a.score)
         return
 
-    lab = Lab(a.row_id, stage=not a.no_stage)
+    if a.row_id == "cellscore":
+        if len(a.rest) != 2 or not a.cfg:
+            raise SystemExit('lab.py cellscore <row_id> <candidate.c> --cfg "CFG"')
+        lane = kitlib.bootstrap()
+        row = kitlib.row_of(a.rest[0])
+        cp = Path(a.rest[1])
+        rec = cellscore(row, cp.read_text(errors="replace"), a.cfg, lane, name=cp.stem,
+                        base=kitlib.base_text(row, lane), rule2=not a.no_rule2)
+        kitlib.log_append(lane, rec)
+        return
+
+    lab = Lab(a.row_id, stage=not a.no_stage, cfg=a.cfg)
+    if lab.cfg:
+        print("scoring at %s; registered cfg %s UNCHANGED; distance is vs the pinned listing at the "
+              "registered cfg (information only); nothing is staged" % (lab.cfg, lab.row["cfg"]))
     jobs = []
     for f in a.rest:
         jobs.append(("file", f))
     if a.subs:
         for name, reps in json.load(open(a.subs)).items():
+            jobs.append(("subs", (name, reps)))
+    if a.grid:
+        grid = json.load(open(a.grid))
+        for msg in grid_misses(grid, lab.base if str(grid.get("@base")) == "pinned" else lab.erased):
+            print("grid WARNING " + msg)
+        for name, reps in expand_grid(grid):
             jobs.append(("subs", (name, reps)))
     if not jobs:
         lab.baseline(score=a.score)
@@ -268,8 +420,9 @@ def main():
                       key=lambda r: r["distance"])[:a.score_top]
         for r in rest:
             text = (lab.dir / (r["variant"] + ".c")).read_text()
-            v = lab.screen.exact(text)
+            v = (lab.xscreen or lab.screen).exact(text)
             lab.log({"variant": r["variant"], "distance": r["distance"], "status": "scored-near",
+                     **({"cfg": lab.cfg} if lab.cfg else {}),
                      "score": {k: v.get(k) for k in ("exact", "total", "subs", "indels", "status")}})
             print("%-28s dist %-5s scored total=%s exact=%s"
                   % (r["variant"], r["distance"], v.get("total"), v.get("exact")))

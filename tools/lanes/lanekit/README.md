@@ -20,6 +20,8 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 | `lab.py` | listing distance, pins left, byte score, and the REPORT table |
 | `erase.py` | what each pin holds, and which pins fall together |
 | `why.py` | the pass DECISION that changed: priorities, allocnos, loop verdicts, RTL |
+| `diff.py` | the unified cc1-listing diff of one candidate vs pinned / erased / a file (+ `--score`) |
+| `dump.py` | every `-da` pass dump of one text into a lane directory (`--cfg` for another cell) |
 | `install.py` | `TOOLS.md` in a lane: the same table with that lane's rows |
 | `sitecustomize.py`, `lane_shim.py`, `env.sh`, `kitlib.py` | plumbing; you never call these |
 
@@ -31,8 +33,26 @@ every compiler dump lands inside it by construction: `TMPDIR` and `tempfile.temp
 python3 .../lab.py baseline <row> --score          # STEP 1, always
 python3 .../lab.py <row> v1.c v2.c --score         # variants as files
 python3 .../lab.py <row> --subs shapes1.json --score [--score-top 3]
+python3 .../lab.py <row> --grid grid1.json --score  # every combination of independent axes
+python3 .../lab.py <row> v7.c --cfg "2.8.1-G0" --score          # measure at another cfg
+python3 .../lab.py cellscore <row> v7.c --cfg "2.8.1-G0"        # trade check + hand-over lines
 python3 .../lab.py report                          # the REPORT.md table, from lab_log.jsonl
 ```
+
+* **Before writing a helper of your own, check this README - 26 lanes rebuilt the listing diff
+  (`diff.py`), 23 the dump fetch (`dump.py`), ~21 an `itertools.product` grid (`--grid`) in round 73.**
+* **`--grid`** takes `{"axis": {"label": [["old","new"],...], ...}, ...}`: one label per axis, every
+  combination, named `label+label+...`, applied in axis order like `--subs` (nearest-line message,
+  `pattern-missing` logged). `[]` is a valid label ("leave it"); `"@base": "pinned"` starts from the
+  pinned text. The product counts against the cap.
+* **`--cfg CFG`** compiles and scores as if the row were registered at CFG (the row-dict override
+  `land_coherence.sh` uses). Distance stays against the pinned listing at the registered cfg, so it
+  is information only: every variant that builds is scored and nothing is staged. **`cellscore`**
+  also scores the pinned text at CFG (rule 2: byte-neutral switch or genuine coherence trade) and,
+  when exact, prints the `cells.jsonl` line and the `land_coherence.sh` command for the
+  orchestrator. The registered cfg is never changed; nothing under `ledger/` is written. `--cfg` variants and
+  `cellscore` count toward the 60-variant cap; the report marks their scores `exact @<cfg>` and
+  does not count them as solves.
 
 * **`baseline` first.** It scores the row's own pinned text, which is byte-exact by definition: the
   scorer must say `exact=true, total=0`. One lane's custom adapter silently mis-scored every
@@ -67,6 +87,18 @@ lab = Lab("dungeon/func_8009612C")
 lab.baseline(score=True)
 lab.test("narrow_param", text, note="s16 parameter", score=True)
 ```
+
+## diff.py, dump.py
+
+```
+python3 .../diff.py <row> <cand.c|erased|pinned> [--vs pinned|erased|FILE] [--ctx N] [--score]
+python3 .../dump.py <row> <cand.c|pinned|erased> <outdir> [--cfg CFG] [--pass sched|greg|lreg|loop|combine|cse|jump|all]
+```
+
+`diff.py` prints the listing diff `lab.py` stores as `experiments/<func>/<name>.diff`, for one file,
+then the distance line; without `--score` it writes nothing. `dump.py` is `kitlib.dumps` (the compile
+`why.py` uses) writing `<outdir>/<stem>.<pass>` and `<stem>.s`; `sched`/`cse`/`jump` include their
+second pass; `outdir` must be inside the lane.
 
 ## erase.py - what each pin holds
 

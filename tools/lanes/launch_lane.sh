@@ -1,5 +1,6 @@
 #!/bin/bash
-# Launch a codex lane:  bash tools/lanes/launch_lane.sh <lane directory name under work/native_lane> [luna|sol|astra]
+# Launch a codex lane:  bash tools/lanes/launch_lane.sh <lane directory name under work/native_lane> [luna|sol|luna6|sol6|astra|agy]
+# luna/sol = gpt-5.6-luna/-sol, luna6/sol6 = gpt-6-luna/-sol (cheaper than astra; A/B them with tools/lanes/ab_report.py).
 # Lanes escalate luna -> sol -> astra (astra sparingly: docs/LANE_KIT.md). Only when no gate or publish will run
 # while it scores (verify.py scores inside build_ovl, which mk_ovl_root.sh replaces); sweeps must skip its rows.
 # The PID goes to work/native_lane/<lane>/lane.pid: wait on it with kill -0 (or the Monitor tool), never with
@@ -8,7 +9,8 @@ set -u
 cd "$(dirname "$0")/../.."
 N=${1:?lane name}; D=work/native_lane/$N
 case "${2:-luna}" in astra) M=gpt-6-astra;; luna) M=gpt-5.6-luna;; sol) M=gpt-5.6-sol;;
-  agy) M=${AGY_MODEL:-gemini-3.8-flash-high};; *) echo "model? luna|sol|astra|agy"; exit 1;; esac
+  luna6) M=gpt-6-luna;; sol6) M=gpt-6-sol;;
+  agy) M=${AGY_MODEL:-gemini-3.8-flash-high};; *) echo "model? luna|sol|luna6|sol6|astra|agy"; exit 1;; esac
 [ -f $D/BRIEF.md ] && [ -f $D/PROMPT.txt ] || { echo "pack incomplete: $D needs BRIEF.md and PROMPT.txt"; exit 1; }
 [ -f $D/last_message.txt ] && { echo "$D already ran (last_message.txt exists)"; exit 1; }
 if [ "$2" = agy ]; then

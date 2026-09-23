@@ -19,7 +19,11 @@ The pool
                          builds each missing lane from its row list, with --classes/--exemplars/
                          --paragraphs.  With no --lanes, every key of the file is the lane list.
   --concurrency N        lanes in flight.  Per pool: two pools launched separately both run N.
-  --model astra|sol|luna model for every lane of the pool (launch_lane.sh holds the canonical ids).
+  --model KEY            astra|sol|luna|sol6|luna6: model for every lane of the pool (launch_lane.sh holds
+                         the canonical ids; sol6/luna6 = gpt-6-sol/-luna, compare with tools/lanes/ab_report.py).
+  --kit                  after build_class_pack.py builds a lane, run tools/lanes/kit_pack.py on it (v2 brief +
+                         lane kit), with the pool's --paragraphs.  Only lanes the pool builds; a built pack is
+                         never re-kitted.
 
 Waiting
   --wait-for-sentinel F:TOKEN   wait until TOKEN appears in file F (chain the pool after another one)
@@ -59,7 +63,8 @@ from pathlib import Path
 ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py").is_file())
 
 # launch_lane.sh is canonical for these ids; repeated here only for the capacity probe.
-MODELS = {"astra": "gpt-6-astra", "sol": "gpt-5.6-sol", "luna": "gpt-5.6-luna"}
+MODELS = {"astra": "gpt-6-astra", "sol": "gpt-5.6-sol", "luna": "gpt-5.6-luna",
+          "sol6": "gpt-6-sol", "luna6": "gpt-6-luna"}
 CAPACITY = "ledger/model_capacity.jsonl"
 DEFAULT_CLASSES = "CHANGED|17-32,BOTH|17-32,CHANGED|3-4,MOVED|1-2"
 
@@ -118,8 +123,9 @@ def candidates(root, lane):
 
 
 def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, paragraphs=(),
-         pins="1-2", npack=5):
-    """[{lane, action, rows, build}] - what the pool would do, without doing any of it.
+         pins="1-2", npack=5, kit=False):
+    """[{lane, action, rows, build, kit}] - what the pool would do, without doing any of it.
+    kit: the kit_pack.py command run after a successful build (only with kit=True and action build+run).
 
     action: 'skip' (already ran), 'run' (pack is built), 'build+run' (pack must be built first),
     'no-rows' (nothing to build it from)."""
@@ -132,6 +138,7 @@ def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, para
     for lane in lanes:
         st = lane_state(root, lane)
         ids = list(rows_map.get(lane, []))
+        kitcmd = None
         if st == "ran":
             action, build = "skip", None
         elif st == "running":
@@ -146,10 +153,14 @@ def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, para
                 build += ["--exemplars", str(exemplars)]
             if paragraphs:
                 build += ["--paragraphs", ",".join(paragraphs)]
+            if kit:
+                kitcmd = ["python3", "tools/lanes/kit_pack.py", lane]
+                if paragraphs:
+                    kitcmd += ["--paragraphs", ",".join(paragraphs)]
         else:
             action, build = "no-rows", None
         steps.append({"lane": lane, "action": action, "rows": len(ids), "build": build,
-                      "candidates": candidates(root, lane)})
+                      "kit": kitcmd, "candidates": candidates(root, lane)})
     return steps
 
 
@@ -158,6 +169,8 @@ def plan_text(name, model, concurrency, steps, tag, land=True):
     for s in steps:
         out.append("  %-28s %-9s rows %-3d %s" % (s["lane"], s["action"], s["rows"],
                                                   s["build"] and " ".join(s["build"][2:]) or ""))
+        if s.get("kit"):
+            out.append("  %-28s then %s" % ("", " ".join(s["kit"][1:])))
     runnable = [s["lane"] for s in steps if s["action"] in ("run", "build+run")]
     adopted = [s["lane"] for s in steps if s["action"] == "adopt"]
     out.append("  would launch: %s" % (", ".join(runnable) or "(nothing)"))
@@ -224,7 +237,7 @@ def run(args):
     root = Path(args.root)
     model_id = MODELS.get(args.model, args.model)
     steps = plan(root, args.lanes, args.rows_json, args.classes, args.exemplars,
-                 args.paragraphs, args.pins, args.pack_rows)
+                 args.paragraphs, args.pins, args.pack_rows, args.kit)
     tag = args.tag or args.name
     if args.dry_run:
         print(plan_text(args.name, args.model, args.concurrency, steps, tag, not args.no_land))
@@ -275,6 +288,14 @@ def run(args):
             print((r.stdout or "").strip()[-2000:], flush=True)
             if r.returncode != 0 or lane_state(root, s["lane"]) != "built":
                 log("== %s: pack build failed, skipped\n%s" % (s["lane"], (r.stderr or "")[-2000:]))
+                continue
+        if s.get("kit"):
+            log("== kit %s" % s["lane"])
+            r = subprocess.run(s["kit"], cwd=root, capture_output=True, text=True)
+            print((r.stdout or "").strip()[-2000:], flush=True)
+            # kit_pack.py prints and skips (exit 0) on a lane it cannot kit: its "kit pack:" line is the proof
+            if r.returncode != 0 or "kit pack:" not in (r.stdout or "") or lane_state(root, s["lane"]) != "built":
+                log("== %s: kit_pack failed, skipped\n%s" % (s["lane"], (r.stderr or "")[-2000:]))
                 continue
         while True:
             reap()
@@ -346,6 +367,8 @@ def parse(argv=None):
     ap.add_argument("--exemplars", type=int, default=6)
     ap.add_argument("--paragraphs", default="", type=lambda s: [x for x in s.replace(",", " ").split() if x],
                     help="tools/lanes/brief_paragraphs/<name>.md to append to each BRIEF.md")
+    ap.add_argument("--kit", action="store_true",
+                    help="run tools/lanes/kit_pack.py (with --paragraphs) on each lane the pool builds")
     ap.add_argument("--tag", help="landing tag (default: the pool name)")
     ap.add_argument("--no-land", action="store_true")
     ap.add_argument("--dry-run", action="store_true", help="print the plan and exit")

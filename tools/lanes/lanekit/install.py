@@ -45,12 +45,18 @@ Rows served ({nrows}): {rows}
 
 ## The kit - use these before writing any harness of your own
 
+Before writing a helper of your own, check this table - 26 lanes rebuilt the listing diff last night.
+
 | what you want | command |
 |---|---|
 | calibrate: the pinned text MUST score exact | `python3 {kit}/lab.py baseline <row> --score` |
 | what each pin holds, which pins fall together | `python3 {kit}/erase.py <row>` |
 | screen variants (files) | `python3 {kit}/lab.py <row> v1.c v2.c --score` |
 | screen variants (substitutions) | `python3 {kit}/lab.py <row> --subs shapes1.json --score` |
+| screen every combination of independent axes | `python3 {kit}/lab.py <row> --grid grid1.json --score` (`{{"axis": {{"label": [["old","new"],...]}}}}`) |
+| the listing diff of one candidate | `python3 {kit}/diff.py <row> cand.c [--vs pinned\\|erased\\|FILE] [--ctx N] [--score]` |
+| every -da pass dump of one text, into a lane dir | `python3 {kit}/dump.py <row> cand.c\\|pinned\\|erased dumps/ [--cfg CFG] [--pass greg]` |
+| score at another cfg, no ledger write (trade check) | `python3 {kit}/lab.py cellscore <row> cand.c --cfg "2.8.1-G0"` (or `--cfg` on any `lab.py` run) |
 | the REPORT.md table, from what was measured | `python3 {kit}/lab.py report` |
 | WHY the scheduler emitted that order | `python3 {kit}/why.py <row> --pass sched --around <var>` |
 | WHY that variable got that register | `python3 {kit}/why.py <row> --pass greg --around <var>` |

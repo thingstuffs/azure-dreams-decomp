@@ -301,6 +301,21 @@ class Refusals(unittest.TestCase):
         self.refuses(PLAIN.replace("    total = first;", "    func_80000000(&first);"),
                      "address-taken")
 
+    def test_address_taken_through_a_cast(self):
+        self.refuses(PLAIN.replace("    total = first;", "    func_80000000((s32 *) &first);"),
+                     "address-taken")
+
+    def test_binary_and_with_spaces_is_not_address_taken(self):
+        # round 73 (T66_BINARY_AND): `(f(x) & v)` and `y & v` are the AND operator
+        text = PLAIN.replace("    total += second;", "    total = (func_80000000(total) & second);")
+        cands, skips = gen(text)
+        self.assertNotIn("address-taken", skips)
+        self.assertTrue(cands)
+        text = PLAIN.replace("    total += second;", "    total = total & second;")
+        self.assertTrue(gen(text)[0])
+        with off("T66_BINARY_AND"):
+            self.refuses(text, "address-taken")
+
     def test_narrow_type_in_the_cast_form(self):
         self.refuses(PLAIN.replace("register s32 first", "register u16 first"),
                      "type-mismatch-narrow")

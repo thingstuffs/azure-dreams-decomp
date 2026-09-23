@@ -5,18 +5,31 @@
 # pin-free rows prove.  Rationale: owner 2026-09-18 (flags/compilers to be reduced; "if we can do it now let's make
 # sure we don't lose it"); byte evidence is kept (git + ledger/recipe_trades.jsonl).  Every row is recorded as a trade.
 #   bash tools/lanes/land_coherence.sh <tag> <lane>      # lane: work/native_lane/<lane>/{out,cells.jsonl}
-# Run only when no lane, sweep or gate is running (the gate shares build_ovl with verify).
+# Run only when no lane, sweep or gate is running (the gate shares build_ovl with verify) - UNLESS
+# LAND_ISOLATED=1 (round 68 isolated landing, docs/LANE_KIT.md): then the codex/sweep refusal is
+# skipped (the gate runs in its own root, build_ovl_gate, so it never touches build_ovl under a
+# lane's running verify.py) and this landing takes the same cross-process lock the other landers
+# take, the same way (build_ovl/work/land.lock), so two landings queue instead of racing.  See
+# tools/lanes/land_lanes.sh and tools/lanes/land_gap.sh, which this mirrors.
 set -u
 cd "$(dirname "$0")/../.."
+# one landing at a time: the same lock land_lanes.sh takes (2026-09-19), taken unconditionally
+mkdir -p build_ovl/work; exec 9>build_ovl/work/land.lock; flock 9
 TAG=${1:?tag}; L=${2:?lane}; D=work/native_lane/$L
+ROUND=${ROUND:-73}
+DATE=$(date -u +%F)
 [ -f $D/cells.jsonl ] || { echo "no $D/cells.jsonl"; exit 1; }
-if pgrep -f "[c]odex exec" >/dev/null || pgrep -f "[s]weep.py " >/dev/null; then echo "a lane or sweep is running: wait"; exit 1; fi
-python3 - "$D" "$TAG" <<'EOF'
+ISO=${LAND_ISOLATED:-0}
+if [ "$ISO" != 1 ]; then
+  if pgrep -f "[c]odex exec" >/dev/null || pgrep -f "[s]weep.py " >/dev/null; then echo "a lane or sweep is running: wait"; exit 1; fi
+fi
+python3 - "$D" "$TAG" "$ROUND" "$DATE" <<'EOF'
 import json, sys, hashlib
 sys.path.insert(0, "tools")
 from common import rows, clean_path, set_row_cfg, sha_text
 from pin_census import sites_of
-D, tag = sys.argv[1], sys.argv[2]
+D, tag, round_arg, date_ = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+round_ = int(round_arg) if round_arg.isdigit() else round_arg
 from pathlib import Path
 by = {r["id"]: r for r in rows()}
 trades = []; switched = []
@@ -43,7 +56,7 @@ for line in open(f"{D}/cells.jsonl"):
         print("skip landing refusal", rid, bad[:100]); continue
     set_row_cfg(rid, e["to"], note=f"{tag}: coherence repair - new text exact at the module recipe ({e.get('coherence')}); charter clause 4b")
     switched.append(rid)
-    trades.append({"round": 56, "date": "2026-09-18", "id": rid, "cfg_from": row["cfg"], "cfg_to": e["to"], "kind": "coherence",
+    trades.append({"round": round_, "date": date_, "id": rid, "cfg_from": row["cfg"], "cfg_to": e["to"], "kind": "coherence",
                    "how": e.get("coherence"), "pins_before": len(sites_of(cur)), "pins_after": len(sites_of(cand)),
                    "source_sha_before": base, "candidate_sha": sha_text(cand),
                    "why": "recipe deviation repaid: the candidate is byte-exact at the module recipe the module's pin-free rows prove; "
@@ -73,8 +86,16 @@ EOF
 IDS=$(git diff --name-only -- src | sed -E 's#^src/##; s#\.c$##' | paste -sd,)
 if [ -n "$IDS" ]; then
   echo "== t2 on changed rows"; python3 tools/sweep.py t2_pins --only "$IDS" --workers 4 2>&1 | tail -1
-  echo "== gate"; bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
+  echo "== gate"
+  if [ "$ISO" = 1 ]; then
+    EXP=gate SRCROOT="$PWD/src" bash tools/build/mk_ovl_root.sh && GATE_BUILD_ROOT=build_ovl_gate python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
+  else
+    bash tools/build/mk_ovl_root.sh && python3 tools/build/gate_all.py --workers 8 && bash tools/build/build_slus.sh -j 8
+  fi
   echo "GATE_RC=$?"
+  if [ "$ISO" = 1 ] && ! diff -rq --exclude=__pycache__ tools/gate build_ovl/tools >/dev/null 2>&1; then
+    echo "note: build_ovl/tools no longer mirrors tools/gate (an isolated landing never rebuilds the lanes' scorer root): run 'bash tools/build/mk_ovl_root.sh' in the next lane gap"
+  fi
   python3 tools/levels.py >/dev/null; python3 tools/status.py >/dev/null; grep -o "Pin sites now: [0-9,]* in [0-9,]* rows" STATUS.md
 fi
 echo "== done"

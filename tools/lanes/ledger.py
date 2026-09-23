@@ -48,6 +48,7 @@ itself; `build --force` rescans regardless.
 """
 import hashlib
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -61,7 +62,9 @@ import served as served_mod              # noqa: E402
 LEDGER = "ledger/lanes.jsonl"
 NOT_LANES = {"out", "scratchpad"}
 SUBDIRS = ("base", "out", "candidates")
-TIERS = ("luna", "sol", "astra", "opus", "agy")
+# sol6/luna6 (gpt-6-sol/-luna) before sol/luna: parse_title matches "(sol" as a prefix, so "(sol6)" must hit first.
+TIERS = ("sol6", "luna6", "luna", "sol", "astra", "opus", "agy")
+ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
 # Title keywords in order; the first hit wins (label-as-call before keep: "lackeep" briefs say both).
 FAMILY_WORDS = [
@@ -93,7 +96,7 @@ FAMILY_PREFIX = [
 def parse_model(header):
     """`model: gpt-5.6-sol` out of a codex.log header (the first 40 lines are all it ever needs)."""
     for line in header.splitlines()[:40]:
-        line = line.strip()
+        line = ANSI_RE.sub("", line).strip()     # codex >= 0.154 bolds the keys: "\x1b[1mmodel:\x1b[0m gpt-6-astra"
         if line.startswith("model:"):
             return line.split(":", 1)[1].strip() or None
         if line.startswith("user"):       # past the header block
@@ -102,10 +105,14 @@ def parse_model(header):
 
 
 def tier_of_model(model):
-    """The tier is the model's suffix: gpt-5.6-luna -> luna, gemini-3.8-flash-high -> None."""
+    """The tier is the model's suffix: gpt-5.6-luna -> luna, gemini-3.8-flash-high -> None.
+    The gpt-6 generation of sol/luna is its own tier (gpt-6-sol -> sol6), so an A/B against gpt-5.6-sol
+    does not lump them; gpt-6-astra stays astra (there is no 5.6 astra)."""
     if not model:
         return None
     tail = model.rsplit("-", 1)[-1].lower()
+    if tail in ("sol", "luna") and model.lower().startswith("gpt-6"):
+        return tail + "6"
     return tail if tail in TIERS else None
 
 

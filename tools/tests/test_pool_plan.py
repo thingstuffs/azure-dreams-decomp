@@ -78,6 +78,34 @@ class TestPlan(unittest.TestCase):
         self.assertNotIn("--exemplars", cmd)
         self.assertNotIn("--paragraphs", cmd)
 
+    def test_kit_command_after_build(self):
+        lane(self.tmp, "r68_a")
+        lane(self.tmp, "r68_b", prompt=True)                       # already built: never re-kitted
+        steps = pool.plan(self.tmp, ["r68_a", "r68_b"], str(self.rows), paragraphs=["big_rows", "new_findings"],
+                          kit=True)
+        self.assertEqual(steps[0]["kit"], ["python3", "tools/lanes/kit_pack.py", "r68_a",
+                                           "--paragraphs", "big_rows,new_findings"])
+        self.assertIsNone(steps[1]["kit"])
+        self.assertIn("then tools/lanes/kit_pack.py r68_a", pool.plan_text("k", "sol6", 1, steps, "k"))
+
+    def test_kit_without_paragraphs_and_kit_off(self):
+        lane(self.tmp, "r68_a")
+        self.assertEqual(pool.plan(self.tmp, ["r68_a"], str(self.rows), kit=True)[0]["kit"],
+                         ["python3", "tools/lanes/kit_pack.py", "r68_a"])
+        self.assertIsNone(pool.plan(self.tmp, ["r68_a"], str(self.rows))[0]["kit"])
+
+    def test_models_include_gpt6_sol_luna(self):
+        self.assertEqual(pool.MODELS["sol6"], "gpt-6-sol")
+        self.assertEqual(pool.MODELS["luna6"], "gpt-6-luna")
+        self.assertEqual((pool.MODELS["sol"], pool.MODELS["luna"], pool.MODELS["astra"]),
+                         ("gpt-5.6-sol", "gpt-5.6-luna", "gpt-6-astra"))
+        self.assertEqual(pool.parse(["t", "--model", "luna6", "--kit"]).kit, True)
+
+    def test_launch_lane_knows_every_pool_model(self):
+        sh = (ROOT / "tools/lanes/launch_lane.sh").read_text()
+        for key, mid in pool.MODELS.items():
+            self.assertIn("%s) M=%s;;" % (key, mid), sh)
+
     def test_candidate_count(self):
         lane(self.tmp, "r68_b", prompt=True, ran=True, outs=3)
         self.assertEqual(pool.candidates(self.tmp, "r68_b"), 3)

@@ -343,6 +343,58 @@ _HEADER_TABLE = None
 _TABLE_CACHE = {}
 
 
+_ADDR_OLD_RE = re.compile(r"(?:^|[^&\w)\]])&[ \t]*$")
+_CASTISH_RE = re.compile(r"^\s*(?:(?:const|volatile|unsigned|signed|struct|union)\s+)*\w+(?:\s*\*)*\s*$")
+
+
+def _address_of_before(before):
+    """Is the `&` that ends `before` (the masked text in front of a mention) an ADDRESS-OF?
+
+    T66_BINARY_AND (default 1, round 73 harvest).  The round-28 test looked at the ONE character in
+    front of the `&`, so a binary AND written with spaces - `(LOAD_U32(prim) & tag_mask)`,
+    `x = y & mask` - read as `&mask` and refused the pair `address-taken`
+    (dungeon/func_81845068, work/native_lane/r73_h_probe_t66_sameregmerge_l: `skips
+    {'address-taken': 2}` on the two `tag_mask` blocks gpt-6-luna merged by hand in r73_luna6_a2).
+    The test now reads the nearest NON-BLANK character: `&`, `]` or a word character (other than
+    `return`/`case`/`sizeof`) make it a binary operator; a `)` does too unless the parenthesised
+    group looks like a TYPE (`(u8 *) &v` is a cast of an address) - an ambiguous `(x) & v` is taken
+    as a cast, which can only refuse.  With the switch off the round-28 test is used unchanged."""
+    if not _env_on("T66_BINARY_AND"):
+        return bool(_ADDR_OLD_RE.search(before))
+    m = re.search(r"&[ \t]*$", before)
+    if not m:
+        return False
+    head = before[:m.start()].rstrip()
+    if not head:
+        return True
+    c = head[-1]
+    if c == "&":
+        return False                   # `&&` - logical and
+    if c == "]":
+        return False
+    if c.isalnum() or c == "_":
+        w = re.search(r"\w+$", head).group(0)
+        return w in ("return", "case", "sizeof")
+    if c == ")":
+        depth, i = 0, len(head) - 1
+        while i >= 0:
+            if head[i] == ")":
+                depth += 1
+            elif head[i] == "(":
+                depth -= 1
+                if depth == 0:
+                    break
+            i -= 1
+        if i < 0:
+            return True
+        pre = head[:i].rstrip()
+        if pre and (pre[-1].isalnum() or pre[-1] in "_)]") \
+                and not re.search(r"\b(?:return|case)$", pre):
+            return False               # `f(x) & v`, `a[i](x) & v`: a call's value, not a cast
+        return bool(_CASTISH_RE.match(head[i + 1:-1]))
+    return True
+
+
 def _env_on(name, default="1"):
     """An opening's switch, read per call so a test may patch it."""
     return os.getenv(name, default).strip().lower() not in ("0", "", "no", "off", "false")
@@ -899,7 +951,7 @@ class Facts:
                 continue
             for m in hits:
                 before = s[:m.start()]
-                if re.search(r"(?:^|[^&\w)\]])&[ \t]*$", before):
+                if _address_of_before(before):
                     self.addr = True
                 encl = midx.at(k, m.start()) if midx is not None \
                     else _calls_at(s, m.start(), refuse)

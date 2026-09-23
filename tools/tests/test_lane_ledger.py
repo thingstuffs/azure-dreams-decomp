@@ -39,6 +39,17 @@ class ParseModel(unittest.TestCase):
         self.assertIsNone(ledger.tier_of_model("gemini-3.8-flash-high"))
         self.assertIsNone(ledger.tier_of_model(None))
 
+    def test_tier_of_model_gpt6_generation(self):
+        self.assertEqual(ledger.tier_of_model("gpt-6-sol"), "sol6")
+        self.assertEqual(ledger.tier_of_model("gpt-6-luna"), "luna6")
+        self.assertEqual(ledger.tier_of_model("gpt-6-astra"), "astra")
+        self.assertEqual(ledger.tier_of_model("gpt-5.6-sol"), "sol")
+        self.assertEqual(ledger.tier_of_model("gpt-5.6-luna"), "luna")
+
+    def test_ansi_bold_header(self):
+        # codex >= 0.154 wraps the header keys in ANSI bold
+        self.assertEqual(ledger.parse_model("--------\n\x1b[1mmodel:\x1b[0m gpt-6-sol\n"), "gpt-6-sol")
+
 
 class ParseTitle(unittest.TestCase):
     def test_tier_and_family(self):
@@ -53,6 +64,12 @@ class ParseTitle(unittest.TestCase):
         # a "lackeep" brief names both; LAC must win
         self.assertEqual(ledger.parse_title("# Lane: label-as-call rows whose keeps resist (sol)"),
                          ("sol", "LAC"))
+
+    def test_gpt6_tiers_in_title(self):
+        self.assertEqual(ledger.parse_title("# Lane: diagnosed register pins (sol6), 5 rows")[0], "sol6")
+        self.assertEqual(ledger.parse_title("# Lane: diagnosed register pins (luna6), 5 rows")[0], "luna6")
+        self.assertEqual(ledger.parse_title("# Lane: register pins (REG, sol6)")[0], "sol6")
+        self.assertEqual(ledger.parse_title("# Lane: register pins (sol), 5 rows")[0], "sol")
 
     def test_no_tier_no_family(self):
         self.assertEqual(ledger.parse_title("# Native lane report"), (None, None))

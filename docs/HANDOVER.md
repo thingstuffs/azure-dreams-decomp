@@ -1,3 +1,65 @@
+# Handover (2026-09-23 07:30Z) - round 73/74/75 done: 4,322 -> 3,776 pins, 1,053 -> 911 rows in one night
+
+Read the 2026-09-22 23:55Z block and the 03:40Z / 04:35Z updates below for the design. Outcome (ab_report --ok-only over
+r73_*/r74_*/r75_*): **Claude Opus 5.5 lanes** (Agent tool, same kit pack) 215 rows / 132 exact / 251 pins staged;
+**gpt-6-astra** 97 / 70 / 154; **gpt-6-sol** 106 / 20 (19%; 30-33% with `brief_paragraphs/residual_to_form.md`, now in
+the brief); **gpt-6-luna** 70 / 10 (14%). Routing that held: Opus and astra on 1-6-pin rows (Opus ~70% on 1-pin rows,
+50-80% on 3-4-pin, 2-5 rows and 9-17 pins per pack on the partial-residue pool at 5-6 pins; astra 22/30 there);
+sol6+v3 as a cheap 30% lane on 3-pin rows; luna6 not worth its tokens; nobody on the astra-failed 11+ residue (0/5) or
+the 2-pin dungeon page-constant tail (~20%; cse folds the integer, symbols need a split-address cell). Four recipe
+trades landed through `land_coherence.sh` (now LAND_ISOLATED-aware, ROUND/date from env): main/func_8001270C ->
+plain 2.8.1; dungeon/func_81811EC0 -> 2.8.1-G0 -mno-split-addresses (byte-neutral, kind corrected by hand);
+town/func_8032E364 +-fno-schedule-insns2 (byte-neutral); dungeon/func_810830BC 2.7.2 -> 2.8.1-G0 (coherence, matches
+its three twins). Harvests: t103-t113 built (docs/evidence/pin_research_round73_move_table.md; harvest 3 running as
+this is written - lanes r73_h3_*, landed by land_finished2). Kit: lanekit/diff.py, dump.py, `lab.py --grid`,
+`lab.py cellscore`/--cfg (docs/evidence/lane_tool_harvest_20260923.md: 26/23/21/3 lanes had rebuilt them). Withheld:
+`r73_opus_a2/exp/rejected_fakedep/func_8194CF00.c` (identity helper). Review items: `r73_opus_s11` deleted an emptied
+`#ifdef NON_MATCHING` declaration block (func_800C30E4), `r73_opus_s20` rewrote a pin-only NON_MATCHING arm
+(func_80096134), `r73_opus_p2` dropped a `.set` alias (func_81844800) - all went through the landing gate.
+**Next:** partial-residue pool (100 rows at 4-6 pins unserved; `scratchpad/partial_pool.json` rule: live pins, a
+candidate somewhere, never Opus-served) for Opus/astra; 64 one-pin retry rows for Opus; land the harvest-3 lanes;
+commit config/ tools/ docs/ (the snapshot job commits src/ ledger/ STATUS only). Every pack's rows:
+`docs/evidence/r73_ab_rows.json`; pool logs `work/native_lane/_r73_logs/`.
+
+# Handover (2026-09-22 23:55Z) - round 73 in flight: gpt-6-sol / gpt-6-luna A/B
+
+Codex capacity returned early (all four models answer; the 09-26 date in the old error text was wrong). The owner
+asked to try the new, much cheaper `gpt-6-sol` and `gpt-6-luna` before spending astra. Three pools are running with
+`--no-land` (`tools/lanes/land_finished2.sh`, pid 536862, lands every finished lane every 15 min):
+`R73SOL6` (gpt-6-sol, c=4, 11 packs), `R73LUNA6` (gpt-6-luna, c=4, 14 packs), `R73ASTRA` (c=2, 2 control packs);
+logs `work/native_lane/_r73_logs/pool_r73{sol6,luna6,astra}.log`, wave script `tools/lanes/r73_ab_wave.sh`, rows
+`docs/evidence/r73_ab_rows.json` (3-7-pin band alternated by rank between sol6 and luna6; 8-19-pin band 2:1
+sol6/astra; 1-2-pin band luna6; every row a retry of 5.6-era lanes with no candidate anywhere, never served by astra).
+Read the result with `python3 tools/lanes/ab_report.py --glob 'r73_*' --ok-only`; baselines (same tool over
+`r7[012]_kit*`, `--ok-only`): gpt-5.6-sol 29/95 rows exact (30.5%), gpt-6-astra 96/120 (80%).
+Tooling this round (Opus 5.5): `sol6`/`luna6` keys in `launch_lane.sh` + `pool.py`, `pool.py --kit`, `ledger.py`
+tiers sol6/luna6 and an ANSI fix for the `model:` header (codex 0.154+ writes it bold; every recent lane had lost its
+model in the ledger), `tools/lanes/ab_report.py` + tests (74 pass). The 15 stale unrun kit packs (rows landed since)
+were moved to `work/native_lane/_unrun_stale_20260922/` because `served.py` counts an unrun pack's rows as served.
+`reset_watch2.sh` (would have relaunched astra + 5.6-sol on those packs) was killed.
+
+
+**03:40Z update (round 73/74 in flight).** Codex A/B on matched 3-7-pin retry rows: gpt-6-sol 4/40 rows exact, gpt-6-luna
+~5/55, gpt-6-astra 5/10 on the same band (and 4/7 on 8+); gpt-6-sol 0/11 on 8+. Claude Opus 5.5 run as lanes through the
+Agent tool (same kit pack, `codex.log` carries `model: claude-opus-5-5[1m]`): 1-2-pin band 9/10 rows (17/20 pins), 4-pin
+band 7/10 rows (21/40 pins) - the best rate per row tonight; one candidate withheld as a fake dependency
+(`r73_opus_a2/exp/rejected_fakedep/func_8194CF00.c`, identity inline helper). Running: R74ASTRA (40 rows, 3-7 band),
+R74SOL6V3 (gpt-6-sol + `brief_paragraphs/residual_to_form.md`, A/B vs tonight's 10%), R74ASTRAPRE (astra on sol6-failed
+rows with sol6's diagnosis appended), Opus lanes r73_opus_a3-a6 / s3-s6 / h1 (h1 = astra-failed 11-12-pin rows), an Opus
+harvest agent (round-73 move table + generators -> `r73_h_*` lanes, landed by land_finished2), a Sonnet check of the
+`main/func_8001270C` pin-for-flag trade (plain 2.8.1; record prepared under `r73_opus_s2/exp/1270c/`). Miner's verdict on
+the cheap models: `docs/evidence/lane_log_mining_gpt6_20260923.md`. Pins 4,322 -> 4,264 (03:15Z landing). Row plan for
+every lane: `docs/evidence/r73_ab_rows.json`.
+
+
+**04:35Z checkpoint.** Pins 4,322 -> 4,047 in 997 rows (04:08 landing batch of 18 lanes). Decision matrix: Opus 5.5 lanes 65%
+of rows exact, astra 68%, luna6 15%, sol6 13% -> 30% with `brief_paragraphs/residual_to_form.md` (adopt for cheap lanes;
+pool `R74SOL6V3B` running it on the partial-residue pool's 3-pin rows). Pre-diagnosis for astra: no lift, dropped. Harvest 2
+built t109-t113 (43 rows / 55 pins staged in `r73_h2_*`, land automatically). Opus is now on: 1-pin rows (s16/s17), the
+partial-residue pool (p1/p2: rows with an earlier partial win, pins left), a8/s14 finishing. The 2-pin dungeon tail of the
+1-2 retry pool is hard (page-constant pins: cse folds the integer, symbols need a split-address cell). Full lane list:
+`docs/evidence/r73_ab_rows.json`; harvest-3 notes `work/native_lane/_r73_logs/harvest2_notes.md`.
+
 # Handover (2026-09-22 15:20Z) - start here in a fresh session
 
 ## 0. RESOLVED 2026-09-22: the noreturn census regenerates deterministically again
