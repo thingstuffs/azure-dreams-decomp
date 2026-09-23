@@ -162,3 +162,15 @@ by construction already counted in `tail_jumps`. PASSTHRU_NO_ARGS is unaffected.
 carrying `tail_jump`; the same run also cleared three devkit-blob rows (`town/func_808B8184`, `func_808B85F0`,
 `func_808BB138`) whose LABEL_AS_CALL targets picked up new `cross-image` (`image: "kernel"`) records from
 concurrent `split_audit.py` work in the same window.
+
+## Ruling 2026-09-23 — dead zero initializer at a declaration is ordinary C
+
+Owner, verbatim: "looks like a legitimate attempt a dev might do for variable initialisation, maybe as a coding
+standard or habit. so agree."
+
+**Rule:** a `= 0` / `NULL` initializer at a local variable's **declaration** is ordinary C even when the value is
+never read. It emits no code, but it makes the variable set more than once (REG_N_SETS > 1), which is what an
+`ASM_KEEP` pin fakes. gcc 2.x's `-Wall` "might be used uninitialized" warning is a period reason such
+initializers exist. It does **not** cover dead assignments added between statements; those stay under rule 3's
+dead-store ban. Each landing that relies on it is recorded as a spelling trade, for later review. The first case
+is `dungeon/func_809CAE20` (lane r76_opus_b12_2): `void *effect = 0;` replaces `ASM_KEEP(allocated_effect)`.

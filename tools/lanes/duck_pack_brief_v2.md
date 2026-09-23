@@ -199,7 +199,11 @@ what you measured instead.
 The census counts these exactly like pins:
 
 * No new `ASM_*`, `__asm__`, `volatile`, fences or fake dependencies (`x = e + a; x -= a;`,
-  `f(a + v - v)`, a dead store).
+  `f(a + v - v)`, a dead store added between statements).
+* ALLOWED (owner ruling 2026-09-23): a zero/NULL initializer at a local's DECLARATION (`void *p = 0;`,
+  `s32 n = 0;`) even when the value is never read - a period coding habit. It makes the variable
+  multi-set (REG_N_SETS > 1), the pure-C equivalent of what an ASM_KEEP fakes. Say so in REPORT.md;
+  the landing records it as a spelling trade.
 * No one-trip block: `do { } while (0)`, `while (0) { }`, `for (;0;)`, or any block that runs once
   only to change what the compiler sees.
 * No new branch whose two arms hold the same code. Moving an existing keep elsewhere removes nothing.
