@@ -57,7 +57,7 @@ typedef struct S_80024CE4_4 {
 } S_80024CE4_4;   /* (*(void **)((u8 *)arg0 + 0x30)) in func_80024CE4 */
 
 /* Updates a timed effect's oscillation, fade, and scale, then marks it finished. */
-void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 unused) {
+void func_80024CE4(void *effect, S_80024CE4_2 *position, S_80024CE4_1 *visual, s32 unused) {
     s16 initialized;
     s16 fade_ticks;
     s16 next_step;
@@ -75,13 +75,9 @@ void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 
     void *init_or_snapshot;
     void *global_state;
     void *transform;
-    S_80024CE4_2 *position;
     S_80024CE4_0 *view_state;
-    void *position_ptr;
     Product64 fade_product;
 
-    position_ptr = position_data;
-    position = position_ptr;
     D_800259AC = 1;
     global_state = &D_80083178;
     view_state = (u8 *) global_state + 0xB8;
@@ -91,7 +87,6 @@ void func_80024CE4(void *effect, void *position_data, S_80024CE4_1 *visual, s32 
         (*(s16 *)((u8 *)effect + 0)) = (s16) ((u32) init_or_snapshot + 1);
         transform = ((S_80024CE4_3_pre *)((*(void **)((u8 *)effect + 0x2C))))[-1].unk_00;
         (*(Block24 *)((u8 *)effect + 0x44)) = (*(Block24 *)((u8 *)transform + 0));
-        ASM_KEEP_NV(position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         init_or_snapshot = effect + 0x44;
         if ((view_state->unk_20 == D_80083780) && ((*(void **)((u8 *)effect + 0x2C)) == *D_800814A8)) {
             view_state->unk_20 = (u8 *) init_or_snapshot;

@@ -87,9 +87,10 @@ s32 func_800252E0(void *node_data, void *position_data, void *appearance_data) {
         ((S_800252E0_1 *)scratch)->unk_18 = packet_cursor;
     }
     for (;;) {
-        register u16 coord_x ASM_REG("$2") = ((S_800252E0_2 *)position)->unk_02;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_800252E0_1 *)scratch)->unk_00 = coord_x;
-        ((S_800252E0_1 *)scratch)->unk_02 = ((S_800252E0_2 *)position)->unk_06;
+        u16 coord = ((S_800252E0_2 *)position)->unk_02;
+        ((S_800252E0_1 *)scratch)->unk_00 = coord;
+        coord = ((S_800252E0_2 *)position)->unk_06;
+        ((S_800252E0_1 *)scratch)->unk_02 = coord;
         ((S_800252E0_1 *)scratch)->unk_04 = ((S_800252E0_2 *)position)->unk_0A;
         packet = ((S_800252E0_1 *)scratch)->unk_18;
         ((S_800252E0_1 *)scratch)->unk_18 = (u8 *)packet + 0xC;

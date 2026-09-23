@@ -110,8 +110,6 @@ void func_801728B4(void *actor, void *motion, void *sprite, void *action) {
     s32 action_value;
     s32 effect_anim;
     s16 use_player;
-    s32 target_x;
-    s32 target_y;
     u16 saved_pos[4];
     u16 sprite_flags;
     u16 ticks_left;
@@ -221,21 +219,8 @@ block_26:
     goto block_32;
 block_27:
     ((Rec_D_800E3D7C *)action)->unk_60.as_pv = func_800A05A4(action, ((Rec_D_80082E80 *)sprite)->unk_24, ((Rec_D_80082E80 *)sprite)->unk_25, ((Rec_D_800E3D7C *)action)->unk_2A.as_s16, 0x10);
-    ASM_KEEP(action);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    target_x = ((Rec_D_800E3D7C *)action)->unk_72.as_s8;
-    target_y = ((Rec_D_800E3D7C *)action)->unk_73.as_s8;
-    if (target_x >= 0) {
-        goto block_29;
-    }
-    target_x = 0 - target_x;
-block_29:
-    if (target_y >= 0) {
-        goto block_31;
-    }
-    target_y = 0 - target_y;
-block_31:
-    ((Rec_D_800E3D7C *)action)->unk_72.as_s8 = target_x;
-    ((Rec_D_800E3D7C *)action)->unk_73.as_s8 = target_y;
+    ((Rec_D_800E3D7C *)action)->unk_72.as_s8 = abs(((Rec_D_800E3D7C *)action)->unk_72.as_s8);
+    ((Rec_D_800E3D7C *)action)->unk_73.as_s8 = abs(((Rec_D_800E3D7C *)action)->unk_73.as_s8);
 block_32:
 block_33:
     saved_pos[0] = ((S_801728B4_5 *)motion)->unk_00.at02.v;
@@ -298,11 +283,11 @@ block_39:
     ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v = (u16) (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xF7FF);
     ((S_801728B4_0 *)actor)->unk_9B = (u8) (((S_801728B4_0 *)actor)->unk_9B + 1);
 block_40:
-    target_x = ((S_801728B4_0 *)actor)->unk_A0;
-    if (target_x == NULL) {
+    target = ((S_801728B4_0 *)actor)->unk_A0;
+    if (target == NULL) {
         goto block_43;
     }
-    slot_or_effect = target_x;
+    slot_or_effect = target;
     effect_sprite = ((S_801728B4_9 *)slot_or_effect)->unk_0C;
     if (!(((S_801728B4_7 *)effect_sprite)->unk_14 & 0xE000)) {
         goto block_43;

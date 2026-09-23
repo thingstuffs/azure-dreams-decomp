@@ -20,6 +20,11 @@ typedef struct Scratch818D4800 {
     u32 index;
 } Scratch818D4800;
 
+typedef struct PrimTag818D4800 {
+    u32 addr : 24;
+    u32 len : 8;
+} PrimTag818D4800;
+
 extern u8 D_80083160[];
 extern u32 func_80065420(void *arg0, void *arg1, void *arg2, void *arg3);
 extern s32 func_80066460(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -47,10 +52,8 @@ s32 BODY_NAME(void *object_data, void *position_data)
     u8 *object = object_data;
     u8 *position = position_data;
     u8 *state_slot = D_80083160;
-    register u32 addr_mask ASM_REG("$18") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     DungeonState818D4800 *state =
         *(DungeonState818D4800 **)D_80083160;
-    u32 tag_mask = 0xFF000000;
     Scratch818D4800 *scratch = (Scratch818D4800 *)0x1F800000;
     register u8 *prim;
     u32 draw_mode;
@@ -83,15 +86,9 @@ do {
         prim[3] = 2;
         prim[7] = 0x6A;
 
-        *(u32 *)prim = (*(u32 *)prim & tag_mask) |
-            (scratch->ot[scratch->index] & addr_mask);
-        {
-            u32 ot_word;
-
-            ot_word = scratch->ot[scratch->index];
-            scratch->ot[scratch->index] = (ot_word & tag_mask) |
-                ((s32)prim & addr_mask);
-        }
+        ((PrimTag818D4800 *)prim)->addr =
+            ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
+        ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr = (u32)prim;
 
         prim = scratch->next;
         next_prim = prim + 0xC;
@@ -99,15 +96,11 @@ do {
         draw_mode = func_80066460(0, 1, 0, 0);
         func_80067F20(prim, 0, 0, draw_mode & 0xFFFF, 0);
 
-        *(u32 *)prim = (*(u32 *)prim & tag_mask) |
-            (scratch->ot[scratch->index] & addr_mask);
-        prim = (u8 *)((u32)prim & addr_mask);
-        scratch->ot[scratch->index] =
-            (scratch->ot[scratch->index] & tag_mask) | (u32)prim;
-        next_object = *(void **)(object - 8);
-    } else {
-        next_object = *(void **)(object - 8);
+        ((PrimTag818D4800 *)prim)->addr = ((PrimTag818D4800 *)&scratch->ot[scratch->index])->addr;
+        prim = (u8 *)((u32)prim & 0x00FFFFFF);
+        scratch->ot[scratch->index] = (scratch->ot[scratch->index] & 0xFF000000) | (u32)prim;
     }
+    next_object = *(void **)(object - 8);
     if (next_object == 0) {
         goto finish;
     }

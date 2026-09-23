@@ -68,12 +68,15 @@ extern u8 D_80175E5C[];
 extern u8 D_80175E64[];
 
 /* Creates an object and initializes its position, flags, and directional frame table. */
-void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
+void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 initial_height)
 {
     s32 saved_flags;
+    s32 height;
     void *result;
-    s32 saved_x;
+    s16 saved_x;
+    s16 saved_y;
     s32 height_or_sprite;
+    s32 saved_height;
     s16 init_flags;
     void *object;
     register void *position ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -93,12 +96,9 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
     result = 0;
     mode_or_object = 0x112;
     saved_x = sprite_x;
-    ASM_KEEP_DEP_NV(saved_x, mode_or_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     kind_or_position = (s32)D_80083498;
-    ASM_KEEP_DEP_NV(kind_or_position, saved_x);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    height_or_sprite = height;
-    ASM_KEEP_DEP_NV(height_or_sprite, kind_or_position);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    height = sprite_y;
+    saved_height = initial_height;
+    saved_y = sprite_y;
     object = func_8003FD64(mode_or_object, (void *)kind_or_position);
     init_flags = saved_flags;
     if (object == 0) {
@@ -114,13 +114,13 @@ void *func_80171D64(s32 spawn_flags, s32 sprite_x, s32 sprite_y, s32 height)
     kind_or_position = 0xE;
     position = ((S_80171D64_0 *)object)->unk_08;
     alternate_kind = 0xF;
-    ((S_80171D64_2 *)position)->unk_0A = height_or_sprite;
+    ((S_80171D64_2 *)position)->unk_0A = saved_height;
     height_or_sprite = (s32)((S_80171D64_0 *)object)->unk_0C;
     ASM_KEEP(height_or_sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     mode_or_object = saved_flags & 3;
     ((S_80171D64_3 *)((void *)height_or_sprite))->unk_2C = (void *)default_frames;
     default_frames = 0x20;
-    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = height;
+    ((S_80171D64_3 *)((void *)height_or_sprite))->unk_25 = saved_y;
     height = (s32)result;
     ((S_80171D64_3 *)((void *)height_or_sprite))->unk_24 = saved_x;
     ((S_80171D64_1 *)result)->unk_4B = default_frames;

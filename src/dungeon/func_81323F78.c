@@ -263,8 +263,7 @@ block_58:
     if (entity_flags & 0x2000) {
         goto block_65;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if ((u16) *D_80013714 & 8) {
+    if (*(u16 *)0x80013714 & 8) {
         goto block_65;
     }
     if (tile_index < 0) {

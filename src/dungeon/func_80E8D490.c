@@ -382,9 +382,9 @@ L5:
 
         ticks = ((S_80172C90_1 *)action)->unk_96.u;
         ticks_squared = ticks * ticks;
-        ASM_USE_NV(ticks);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        ticks = 0x1000 + ticks_squared * 300;
+        sprite->unk_1C.at00_u16.v = ticks;
         sprite->unk_1C.at02_u16.v = 0x1000 - ticks_squared * 200;
-        sprite->unk_1C.at00_u16.v = 0x1000 + ticks_squared * 300;
     }
     if (((S_80172C90_1 *)action)->unk_96.u > 0) {
         return;
@@ -399,8 +399,9 @@ L5:
 
 L6:
     {
+    s32 current_coord;
+    {
         s32 tile_coord;
-        s32 current_coord;
 
         tile_coord = sprite->unk_24;
         current_coord = motion->unk_02.u;
@@ -412,15 +413,15 @@ L6:
     {
         s32 tile_coord;
         s32 target_coord;
-        s32 current_coord;
 
         tile_coord = sprite->unk_25;
         current_coord = motion->unk_06.u;
-        target_coord = tile_coord << 6;
-        ASM_USE_NV(target_coord);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        tile_coord <<= 6;
+        target_coord = tile_coord;
         current_coord -= 0x20;
         motion->unk_10.s =
             (target_coord - current_coord) << 14;
+    }
     }
     if (((S_80172C90_1 *)action)->unk_96.u > 0) {
         return;

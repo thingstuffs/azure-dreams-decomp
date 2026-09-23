@@ -103,7 +103,7 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
     s32 point_index;
     u16 coord_xz;
     u16 coord_y;
-    register void *render_data ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *render_data;
     S_80026A84_3 *effect_pos;
     S_80026A84_5 *effect_data;
     void *effect;
@@ -137,9 +137,9 @@ void *func_80026A84(S_80026A84_2 *origin, S_80026A84_7 *target_pos, s32 effect_p
             effect_pos->unk_16 = coord_xz;
             render_data = ((S_80026A84_1 *)effect)->unk_0C;
             point_cursor = effect_data;
+            ((S_80026A84_4 *)render_data)->unk_08 = effect_entry;
             ((S_80026A84_4 *)render_data)->unk_1E = 0x1000;
             ((S_80026A84_4 *)render_data)->unk_1C = 0x1000;
-            ((S_80026A84_4 *)render_data)->unk_08 = effect_entry;
             ((S_80026A84_4 *)render_data)->unk_14 = ((S_80026A84_4 *)render_data)->unk_14 | 0xC;
             ((S_80026A84_1 *)effect)->unk_20 = target_pos;
             effect_data->unk_04 = effect_param;

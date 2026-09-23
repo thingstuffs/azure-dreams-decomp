@@ -327,23 +327,17 @@ static void (*const func_81886800_table[])(void) __asm__("func_81886800")
 #define BODY_NAME func_81886864
 #endif
 
-void BODY_NAME(void *effect_in, void *motion_in, void *sprite_in)
+void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
     __attribute__((section(".text.func_81886800")));
 
 /* Initialize and update a moving effect through targeting, collision, and fading states. */
-void BODY_NAME(void *effect_in, void *motion_in, void *sprite_in)
+void BODY_NAME(S_func_81886800_1 *effect, S_func_81886800_11 *motion, S_func_81886800_3 *sprite)
 {
 #ifdef __mips__
-    S_func_81886800_1 *effect = effect_in;
-    S_func_81886800_11 *motion = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    S_func_81886800_3 *sprite = sprite_in;
-    register S_func_81886800_8 *owner ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    S_func_81886800_8 *owner;
     S_func_81886800_2 *owner_base;
     S_func_81886800_11 *owner_motion;
 #else
-    S_func_81886800_1 *effect = effect_in;
-    S_func_81886800_11 *motion = motion_in;
-    S_func_81886800_3 *sprite = sprite_in;
     S_func_81886800_8 *owner;
     S_func_81886800_2 *owner_base;
     S_func_81886800_11 *owner_motion;
@@ -509,18 +503,9 @@ motion_direction:
 
 case_1:
     {
-#ifdef __mips__
-        s32 x_step;
-        register s32 x_velocity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-#else
-        s32 x_step;
         s32 x_velocity;
-#endif
-        x_step = motion->unk_0C.s32;
-        x_velocity = x_step;
-        motion->unk_00.s32 += x_step;
-        ASM_KEEP(x_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        x_velocity += x_velocity >> 4;
+        motion->unk_00.s32 += motion->unk_0C.s32;
+        x_velocity = motion->unk_0C.s32 + (motion->unk_0C.s32 >> 4);
         motion->unk_0C.s32 = x_velocity;
         if ((x_velocity < 0 ? -x_velocity : x_velocity) > 0x200000) {
             x_velocity = x_velocity > 0 ? 0x200000 : -0x200000;
@@ -528,18 +513,9 @@ case_1:
         }
     }
     {
-#ifdef __mips__
-        s32 y_step;
-        register s32 y_velocity ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-#else
-        s32 y_step;
         s32 y_velocity;
-#endif
-        y_step = motion->unk_10.s32;
-        y_velocity = y_step;
-        motion->unk_04.s32 += y_step;
-        ASM_KEEP(y_step);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        y_velocity += y_velocity >> 4;
+        motion->unk_04.s32 += motion->unk_10.s32;
+        y_velocity = motion->unk_10.s32 + (motion->unk_10.s32 >> 4);
         motion->unk_10.s32 = y_velocity;
         if ((y_velocity < 0 ? -y_velocity : y_velocity) > 0x200000) {
             y_velocity = y_velocity > 0 ? 0x200000 : -0x200000;

@@ -95,14 +95,13 @@ static const u32 bank_words[] __asm__("func_81263000")
 #define BODY_NAME func_81263000
 #endif
 
-void BODY_NAME(void *root_data, void *position_data, void *target_data)
+void BODY_NAME(void *root, void *output_pos, void *target_data)
     __attribute__((section(".text.func_81263000")));
 /* Update part position, shading, and flags from its owner. */
-void BODY_NAME(void *root_data, void *position_data, void *target_data)
+void BODY_NAME(void *root, void *output_pos, void *target_data)
 {
     s16 offset[3];
-    void *root = root_data;
-    register void *output_pos ASM_REG("$17") = position_data;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *position_data;
     S_81263000_3 *target_part = target_data;
     S_81263000_1 *owner;
     S_81263000_5 *pos_data;

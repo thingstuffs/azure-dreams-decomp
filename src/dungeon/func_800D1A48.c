@@ -43,8 +43,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
 {
   register Scratch800D1A48 *scratch;
   register s32 index ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-  s32 state_addr;
-  register s32 render_state;
+
   register u8 *sprite_placement ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   u8 *sprite;
   u8 *packet;
@@ -53,10 +52,8 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
   u8 *part;
   u8 *quad;
   s32 bottom_y;
-  state_addr = render_state_addr;
-  ASM_KEEP_NV(state_addr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-  render_state = state_addr;
-  ASM_KEEP_NV(render_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
+
   sprite_placement = placement;
   ASM_KEEP_NV(sprite_placement);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   sprite = 0;
@@ -137,7 +134,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
         }
         {
           s32 x;
-          if ((sprite_placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state)) + 0x14)))) & 1)
+          if ((sprite_placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x14)))) & 1)
           {
             x = scratch->data80 - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 2)))) << 24) >> 24);
             scratch->data80 = x;
@@ -181,7 +178,7 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
         }
         {
           s32 y;
-          if ((sprite_placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state)) + 0x14)))) & 2)
+          if ((sprite_placement[0] ^ (*((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x14)))) & 2)
           {
             y = scratch->data7A - ((((s32) (*((volatile u8 *) (((u8 *) sprite_placement) + 3)))) << 24) >> 24);
             scratch->data7A = y;
@@ -256,12 +253,12 @@ void *func_800D71A8(u8 *sprite_list, s32 count_hint, s32 render_state_addr, u8 *
             }
             scratch->data14 <<= 8;
             scratch->data0C <<= 8;
-            *((s32 *) (((u8 *) packet_data) + 8)) = (scratch->data0C + scratch->data08) + (((*((u16 *) (((u8 *) ((u8 *) render_state)) + 0x12))) + (*((u16 *) (((u8 *) quad_data) + 5)))) << 16);
+            *((s32 *) (((u8 *) packet_data) + 8)) = (scratch->data0C + scratch->data08) + (((*((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x12))) + (*((u16 *) (((u8 *) quad_data) + 5)))) << 16);
             *((s16 *) (((u8 *) packet_data) + 0x10)) = (*((u16 *) (((u8 *) scratch) + 0x0C))) + (*((u16 *) (((u8 *) scratch) + 0x10)));
             {
               u16 blend_mode;
               u16 tpage;
-              blend_mode = *((u16 *) (((u8 *) ((u8 *) render_state)) + 0x10));
+              blend_mode = *((u16 *) (((u8 *) ((u8 *) render_state_addr)) + 0x10));
               if (blend_mode != 0)
               {
                 tpage = blend_mode + ((*((u16 *) (((u8 *) quad_data) + 3))) & 0xFF9F);

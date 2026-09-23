@@ -57,7 +57,7 @@ extern u8 D_80164A7C[];
 extern u8 D_80164EA8[];
 extern u8 D_80168038[];
 extern u8 D_80168088[];
-extern void *func_801648A8();
+extern void *func_801648A8(s16, s32, s32, s32);
 extern u8 D_801652B8[];
 extern u8 D_801652E4[];
 extern u8 D_80165264[];
@@ -125,18 +125,18 @@ __asm__(".globl func_80164800\n"
 #define BODY_NAME func_80164800
 #endif
 
-void *BODY_NAME(void *spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+void *BODY_NAME(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 #ifdef __mips__
     __attribute__((section(".text.func_80164800")))
 #endif
     ;
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *BODY_NAME(void *spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
+void *BODY_NAME(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
     void *result = 0;
     void *created;
-    register void *position ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *position;
     S_80FE7000_3 *part_b;
     S_80FE7000_4 *actor;
     s32 left;
@@ -144,7 +144,6 @@ void *BODY_NAME(void *spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     s16 held_a;
     s32 held_c;
     s16 held_b;
-    register s32 held_flags = (s32)spawn_flags;
     s16 flags_copy;
     void *call_a0;
     void *call_a1;
@@ -154,7 +153,7 @@ void *BODY_NAME(void *spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     held_c = attr_c;
     held_b = attr_b;
     created = func_8003FD64(0x112, D_80083498);
-    flags_copy = held_flags;
+    flags_copy = spawn_flags;
     if (created == 0) {
         goto done;
     }
@@ -167,7 +166,7 @@ void *BODY_NAME(void *spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     position = ((S_80FE7000_0 *)created)->unk_08;
     ((S_80FE7000_2 *)position)->unk_0A = held_c;
     part_b = ((S_80FE7000_0 *)created)->unk_0C;
-    kind = held_flags & 3;
+    kind = spawn_flags & 3;
     part_b->unk_25 = held_b;
     actor = result;
     part_b->unk_2C = D_80168038;
@@ -185,7 +184,7 @@ void *BODY_NAME(void *spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
     }
 
     call_a0 = created;
-    if (((held_flags & ~3) << 16) == 0) {
+    if (((spawn_flags & ~3) << 16) == 0) {
         if (!(((S_80FE7000_1 *)result)->unk_14 & 0x200)) {
             call_a1 = position;
             if (func_800A6D30() & 1) {

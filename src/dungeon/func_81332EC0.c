@@ -138,12 +138,11 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
     }
 
     {
-        register void *call_owner ASM_REG("$4") = owner_arg;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *call_motion ASM_REG("$5") = motion;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *call_data ASM_REG("$6") = data;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        void *call_owner = owner_arg;
+        void *call_motion = motion;
+        void *call_data = data;
 
-        state_bits = ((S_80169EC0_3 *)actor)->unk_6D.u;
-        state_bits <<= 24;
+        state_bits = (u32)((S_80169EC0_3 *)actor)->unk_6D.u << 24;
         ASM_KEEP_NV(state_bits);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         initial_state = (s32)state_bits >> 24;
         if (func_800A9E70(call_owner, call_motion, call_data, actor) != 0) {

@@ -30,7 +30,10 @@ typedef struct S_80024C0C_1 {
 
 /* Move the effect toward its target, then expand and fade it until completion. */
 void func_80024C0C(void *motion, void *position, void *effect) {
-    register s32 direction_scale ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 direction_scale;
+    s32 sin_a;
+    s32 sin_b;
+    s32 sin_c;
     s32 target_x;
     s32 current_x;
     s32 next_x;
@@ -55,15 +58,15 @@ void func_80024C0C(void *motion, void *position, void *effect) {
 
 moving:
     ((Rec_D_80082E80 *)effect)->unk_1A.as_u16 += 0x200;
-    direction_scale = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
-    direction_scale = (direction_scale >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+    sin_a = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
+    direction_scale = (sin_a >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
     ((Rec_func_80024600_arg1 *)position)->unk_00 += direction_scale * 0x1C;
-    direction_scale = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
-    direction_scale = (direction_scale >> 4) * (func_80064584(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+    sin_b = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
+    direction_scale = (sin_b >> 4) * (func_80064584(((S_80024C0C_0 *)motion)->unk_10) >> 4);
     ((Rec_func_80024600_arg1 *)position)->unk_04 += direction_scale * 0x1C;
     ((Rec_func_80024600_arg1 *)position)->unk_08 += (func_80064584(((S_80024C0C_0 *)motion)->unk_0E) >> 4) * 0x1C00;
-    direction_scale = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
-    direction_scale = (direction_scale >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
+    sin_c = func_800644B8(((S_80024C0C_0 *)motion)->unk_0E);
+    direction_scale = (sin_c >> 4) * (func_800644B8(((S_80024C0C_0 *)motion)->unk_10) >> 4);
     current_x = ((Rec_func_80024600_arg1 *)position)->unk_00;
     state = ((S_80024C0C_0 *)motion)->unk_12;
     next_x = current_x + direction_scale * 0x1C;

@@ -86,6 +86,7 @@ extern Copy24 D_80083780;
 /* Spawns a timed particle effect, processes its midpoint target, and marks completion. */
 void func_81934928(void *effect, void *output)
 {
+    Copy24 *copy_src;
     void *self = effect;
     register void *output_data ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     void *search_origin;
@@ -117,7 +118,6 @@ state_zero:
         }
         {
             u8 *copy_page;
-            register Copy24 *copy_src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
             s32 copy_word_0;
             s32 copy_word_1;
             s32 copy_word_2;
@@ -219,7 +219,8 @@ lookup_again:
             target = func_800A3F28(lookup_key_a, lookup_key_b, lookup_origin, target);
             if (target != NULL) {
                 if ((((S_81934928_4 *)target)->unk_1C & 0x2000) == 0) {
-                    func_8009CE1C(target, 0x20, ((S_81934928_0 *)self)->unk_09, 0xA,
+                    copy_src = (Copy24 *)(u32)((S_81934928_0 *)self)->unk_09;
+                    func_8009CE1C(target, 0x20, (s32)copy_src, 0xA,
                                   ((S_81934928_5 *)effect)->unk_2A, effect, 2);
                 }
                 func_80024004(target);

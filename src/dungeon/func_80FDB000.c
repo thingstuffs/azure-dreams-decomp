@@ -52,7 +52,7 @@ extern u8 D_80170A7C[];
 extern u8 D_80170EA8[];
 extern u8 D_80174038[];
 extern u8 D_80174088[];
-extern void *func_801708A8();
+extern void *func_801708A8(s16, s32, s32, s32);
 extern u8 D_801712B8[];
 extern u8 D_801712E4[];
 extern u8 D_80171264[];
@@ -120,18 +120,18 @@ __asm__(".globl func_80170800\n"
 #define BODY_NAME func_80170800
 #endif
 
-void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
+void *BODY_NAME(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 #ifdef __mips__
     __attribute__((section(".text.func_80170800")))
 #endif
     ;
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
+void *BODY_NAME(s16 flags, s32 kind_id, s32 variant, s32 spawn_value)
 {
     void *result = 0;
     void *created;
-    register void *position ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *position;
     S_80FDB000_3 *part_b;
     S_80FDB000_4 *actor;
     s32 left;
@@ -139,7 +139,6 @@ void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
     s16 saved_kind_id;
     s32 saved_spawn;
     s16 saved_variant;
-    register s32 saved_flags = (s32)flags;
     s16 original_flags;
     void *call_a0;
     void *call_a1;
@@ -149,7 +148,7 @@ void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
     saved_spawn = spawn_value;
     saved_variant = variant;
     created = func_8003FD64(0x112, D_80083498);
-    original_flags = saved_flags;
+    original_flags = flags;
     if (created == 0) {
         goto done;
     }
@@ -162,7 +161,7 @@ void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
     position = ((S_80FDB000_0 *)created)->unk_08;
     ((S_80FDB000_2 *)position)->unk_0A = saved_spawn;
     part_b = ((S_80FDB000_0 *)created)->unk_0C;
-    kind = saved_flags & 3;
+    kind = flags & 3;
     part_b->unk_25 = saved_variant;
     actor = result;
     part_b->unk_2C = D_80174038;
@@ -180,7 +179,7 @@ void *BODY_NAME(void *flags, s32 kind_id, s32 variant, s32 spawn_value)
     }
 
     call_a0 = created;
-    if (((saved_flags & ~3) << 16) == 0) {
+    if (((flags & ~3) << 16) == 0) {
         if (!(((S_80FDB000_1 *)result)->unk_14 & 0x200)) {
             call_a1 = position;
             if (func_800A6D30() & 1) {

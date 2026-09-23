@@ -46,19 +46,20 @@ extern s32 func_800644B8();
 
 /* Updates an eight-segment effect's samples, motion, color, and lifetime. */
 void func_80024B20(void *effect) {
+    s32 segment_index;
     u16 state;
     s32 base_speed;
+    u8 *segment;
     {
-        register s32 segment_index ASM_REG("$5") = 0;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 doubled_index;
+        segment_index = 0;
         do {
-            register s32 next_index ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 next_index;
             s32 word_offset, src_offset, dst_offset;
             u8 *src_segment;
             u8 *dst_segment;
             doubled_index = segment_index * 2;
             word_offset = doubled_index + segment_index;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             next_index = segment_index + 1;
             ASM_KEEP(next_index);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             segment_index = next_index;
@@ -73,8 +74,9 @@ void func_80024B20(void *effect) {
     }
 
     {
-        s32 segment_index = 7;
-        volatile u16 *segment = (volatile u16 *)((u8 *)effect + 0x2A);
+        volatile u16 *segment;
+        segment_index = 7;
+        segment = (volatile u16 *)((u8 *)effect + 0x2A);
         do {
             segment_index--;
             segment[9] = segment[9] + segment[10];
@@ -123,8 +125,7 @@ mode_one:
 
 mode_two:
     {
-        s32 segment_index = 7;
-        u8 *segment;
+        segment_index = 7;
         base_speed = 0xD0;
         segment = (u8 *)effect + 0x2A;
         do {
@@ -138,9 +139,10 @@ mode_two:
         } while (segment_index >= 0);
     }
     {
-        s32 segment_index = 6;
-        s32 gap_limit = 0x160;
-        register u8 *segment ASM_REG("$6") = (u8 *)effect + 0x24;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s32 gap_limit;
+        segment_index = 6;
+        gap_limit = 0x160;
+        segment = (u8 *)effect + 0x24;
         base_speed = 0x2A;
         loop_3: {
             u16 position = ((S_80024B20_3 *)segment)->unk_12.v;

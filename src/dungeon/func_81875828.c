@@ -42,7 +42,7 @@ s32 func_81875828(Arg0 *node, Arg1 *coords)
   Arg1 *input = coords;
   u32 high_mask = 0xFF000000;
   register Scratch *scratch ASM_REG("$17") = (Scratch *) 0x1F800000;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-  register u8 **state_slot ASM_REG("$21") = (u8 **) D_80083160;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+  u8 **state_slot = (u8 **) D_80083160;
   u32 low_mask = 0x00FFFFFF;
   u8 *state = *((u8 **) D_80083160);
   u8 *initial_current;
@@ -63,8 +63,7 @@ s32 func_81875828(Arg0 *node, Arg1 *coords)
   scratch->table = (u32 *) (state + 0xB0);
   ASM_KEEP(state_slot);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   active = scratch;
-  ASM_KEEP(active);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-next_entry:
+  for (;;) {
   call_arg = active;
   out90 = &active->unk90;
   second_coord = input->unk2;
@@ -108,7 +107,9 @@ next_entry:
   {
     node = (Arg0 *) (previous + 0x20);
     input = *((Arg1 **) (previous + 8));
-    goto next_entry;
+    continue;
+  }
+  break;
   }
   call_base = (Scratch *) (*state_slot);
   *((u8 **) (((u8 *) call_base) + 0x8D0)) = active->current;
