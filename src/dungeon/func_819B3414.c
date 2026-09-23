@@ -192,8 +192,8 @@ s32 func_80024C14(void *effect_data) {
                                 order_head = (u8 *)((void **)draw_row)[0];
                                 ASM_KEEP_NV(order_head);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                                 {
-                                    register u32 length_mask ASM_REG("$8") = 0xff000000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                                    packet_length = *(u32 *)quad & length_mask;
+                                    draw_row = (s32)(0xff000000);
+                                    packet_length = *(u32 *)quad & (u32)draw_row;
                                 }
                                 {
                                     register void **link_globals ASM_REG("$8") =
@@ -207,10 +207,10 @@ s32 func_80024C14(void *effect_data) {
                                     *(u32 *)quad = packet_length | ((u32)order_head & link_mask);
                                     render_state = (u8 *)link_globals[0];
                                     {
-                                        register u32 length_mask ASM_REG("$8") = 0xff000000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                                        ASM_KEEP_NV(length_mask);
+                                        draw_row = (s32)(0xff000000);
+                                        ASM_KEEP_NV(draw_row);
                                         *(u32 *)(render_state + 0xb0) =
-                                            (*(u32 *)(render_state + 0xb0) & length_mask) |
+                                            (*(u32 *)(render_state + 0xb0) & (u32)draw_row) |
                                             ((u32)quad & link_mask);
                                     }
                                 }
@@ -243,11 +243,12 @@ s32 func_80024C14(void *effect_data) {
                 texture_page = func_80066460(zero_arg, blend_mode, zero_arg, zero_arg);
             }
             {
-                register u8 *packet_arg ASM_REG("$4") = draw_mode;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                s32 zero_arg = 0;
-                ASM_KEEP_NV(packet_arg);
+                s32 zero_arg;
+                next_effect = draw_mode;
+                zero_arg = 0;
+                ASM_KEEP_NV(next_effect);
                 ASM_KEEP_NV(zero_arg);
-                func_80067F20(packet_arg, zero_arg, zero_arg,
+                func_80067F20(next_effect, zero_arg, zero_arg,
                     texture_page & 0xffff, 0);
             }
 
@@ -274,9 +275,9 @@ s32 func_80024C14(void *effect_data) {
                     *(u32 *)draw_mode = packet_tag | ((u32)order_head & link_mask);
                     render_state = (u8 *)link_globals[0];
                     {
-                        register u32 length_mask ASM_REG("$8") = 0xff000000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                        render_globals_m = (void **)(0xff000000);
                         *(u32 *)(render_state + 0xb0) =
-                            (*(u32 *)(render_state + 0xb0) & length_mask) |
+                            (*(u32 *)(render_state + 0xb0) & (u32)render_globals_m) |
                             ((u32)draw_mode & link_mask);
                     }
                 }

@@ -26,7 +26,7 @@ extern s8 D_800E3DB0;
 
 /* Initialize seven records with sequential IDs and types 1, 3, and 2. */
 void func_80016F70(void) {
-    register u32 page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u32 page;
     s16 next_type1_count;
     s16 next_type3_count;
     register s16 type1_count ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -40,8 +40,8 @@ void func_80016F70(void) {
     page = 0x800E0000;
     ASM_KEEP(page);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     record = (s8 *)(page + 0x3DB0);
-    ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    type1_count = 0;
+    page = 0;
+    type1_count = page;
     record_id = type1_count;
     record_type = 1;
     type1_id_ptr = record + 3;
@@ -76,7 +76,3 @@ void func_80016F70(void) {
     ((S_80016F70_2 *)record)->unk_03 = record_id;
     ((S_80016F70_2 *)record)->unk_04 = 0;
 }
-/* MECHANISM: Frameless leaf; a pinned 0x800E0000 page in v0 forms the advancing a0 base.
-   Clobbering v0 after base formation prevents the +3 pointer from folding through the page.
-   Named a3 loop constants place each li before the derived v1 pointer.
-   An a2 counter pin plus seam keep preserves retail's move a1,a2. */

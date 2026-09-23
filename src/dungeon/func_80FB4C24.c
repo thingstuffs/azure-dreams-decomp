@@ -35,7 +35,7 @@ void func_80174424(void *effect)
     register s16 *buffer_base ASM_REG("$9");
     register s16 *color_ptr;
     register s16 *channel_pair;
-    register s16 blend_frame;
+    register s32 blend_frame;
     register s32 blend_scale;
     s32 palette_row;
     register s32 palette_index;
@@ -78,9 +78,8 @@ void func_80174424(void *effect)
 
     palette_row = 12;
     buffer_base = buffer;
-    ASM_KEEP(buffer_base);
     blend_scale = blend_frame;
-    ASM_KEEP(blend_scale);
+    blend_scale = (s16)blend_scale;
     column = 15;
     do {
         palette_index = (palette_row << 4) + 15;

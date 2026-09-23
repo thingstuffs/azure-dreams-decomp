@@ -261,8 +261,9 @@ state_3:
     }
     anim_table = D_800E2398;
     ((S_80173B08_0 *)action)->unk_96.u = 0;
-    ((S_80173B08_0 *)action)->unk_9B++;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    anim_addr = ((S_80173B08_0 *)action)->unk_9B;
+    anim_addr++;
+    ((S_80173B08_0 *)action)->unk_9B = anim_addr;
     anim_addr = 0x80080000;
     goto update_table;
 

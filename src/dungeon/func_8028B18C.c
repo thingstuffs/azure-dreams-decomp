@@ -63,7 +63,6 @@ void func_8001E18C(void)
     s32 spawn_index;
     s32 special_flag;
     s32 spawn_check;
-    register u8 *page ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     DungeonGroup *item_category_table;
     DungeonRecord *item_record;
     DungeonState *item_state;
@@ -116,10 +115,8 @@ void func_8001E18C(void)
         category18_pending = *(s16 *)0x80013626 >= 0x101;
     }
 
-    count = 0;
     if (*(s32 *)0x80012090 == 0) {
         spawn_check = func_800A6928(6, 3);
-        ASM_UNDEF(count);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         count = 0;
         if ((s16)spawn_check < 2) {
             if ((func_800A6D30() & 3) == 0) {
@@ -145,7 +142,8 @@ void func_8001E18C(void)
         }
     }
 
-    page = (u8 *)0x80010000;
+    else { count = 0; }
+    spawn_check = (s32)((u8 *)0x80010000);
     item_category_table = D_80073414;
     item_state = (DungeonState *)D_800E3548;
     item_record = (DungeonRecord *)D_800E36C8;
@@ -162,14 +160,15 @@ main_loop:
 
                 special_flag = crystal_pending;
                 if (special_flag != 0) {
-                    register u16 page_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    s32 page_value;
 
-                    item_subtype = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
+                    page_value = ((func_800A6D30() & 0xF) == 0) ? 2 : 1;
+                    item_subtype = page_value;
                     crystal_pending = 0;
-                    page_value = *(u16 *)(page + 0x209E);
+                    page_value = *(u16 *)(((u8 *)spawn_check) + 0x209E);
                     item_category = 2;
                     page_value &= 0xF;
-                    *(u16 *)(page + 0x209E) = page_value;
+                    *(u16 *)(((u8 *)spawn_check) + 0x209E) = page_value;
                     goto commit_state;
                 }
 
@@ -186,7 +185,7 @@ main_loop:
                         item_subtype++;
                     }
                     category18_pending = 0;
-                    *(u16 *)(page + 0x3626) &= 0x3F;
+                    *(u16 *)(((u8 *)spawn_check) + 0x3626) &= 0x3F;
                 }
             }
 

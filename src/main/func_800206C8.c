@@ -34,7 +34,7 @@ typedef struct S_800206C8_1 {
 } S_800206C8_1;   /* slot_state in func_800206C8 */
 
 /* Initializes the memory card slot object and its working state. */
-void func_804076C8(s32 init_option)
+void *func_804076C8(s32 init_option)
 {
     void *base;
     void *slot_state;
@@ -57,11 +57,6 @@ void func_804076C8(s32 init_option)
     ((S_800206C8_0 *)base)->unk_0C = (s32)(unsigned long)((u8 *)slot_state + 0x50);
     ((S_800206C8_1 *)slot_state)->unk_5C = func_804075A8(((S_800206C8_1 *)slot_state)->unk_60);
     func_80407688(slot_state, init_option);
-    {
-        register void *final_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-        final_base = base;
-        ASM_KEEP(final_base);   /* UNRESOLVED C shape (pin): removing it drops a copy retail keeps; the source shape that makes it unnecessary has not been found */
-        ((S_800206C8_0 *)final_base)->unk_10 = (s32)(unsigned long)D_80407298;
-    }
+    ((S_800206C8_0 *)base)->unk_10 = (s32)(unsigned long)D_80407298;
+    return base;
 }

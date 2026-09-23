@@ -419,13 +419,12 @@ set_depth:
         {
             u8 *render_state;
             u8 *bucket_ptr;
-            register u32 tag_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             render_state = *render_slot_m;
-            tag_mask = 0xFF000000;
+            render_slot_m = (u8 **)(0xFF000000);
             bucket_ptr = (u8 *)((u32)draw_value + (u32)render_state);
             ((S_807B0B3C_10 *)bucket_ptr)->unk_B0 =
-                (((S_807B0B3C_10 *)bucket_ptr)->unk_B0 & tag_mask) |
+                (((S_807B0B3C_10 *)bucket_ptr)->unk_B0 & (u32)render_slot_m) |
                 ((u32)prim & addr_mask);
             ASM_KEEP(prim);
         }
@@ -603,14 +602,13 @@ loop_setup_b:
             ((S_807B0B3C_7 *)prim)->unk_00 = prim_tag | (bucket_tag & addr_mask);
         }
         {
-            register u32 tag_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             u32 bucket_tag;
 
             bucket_ptr_m = *render_slot_m;
-            tag_mask = 0xFF000000;
+            render_slot_m = (u8 **)(0xFF000000);
             bucket_ptr_m = (u8 *)((u32)bucket_offset + (u32)bucket_ptr_m);
             bucket_tag =
-                (((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & tag_mask) |
+                (((S_807B0B3C_10 *)bucket_ptr_m)->unk_B0 & (u32)render_slot_m) |
                 ((u32)prim & addr_mask);
             ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             render_slot_m = &D_80083160;
@@ -651,13 +649,12 @@ loop_setup_b:
         }
         {
             u8 *render_state;
-            register u32 tag_mask ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
             render_state = *render_slot_m;
-            tag_mask = 0xFF000000;
+            render_slot_m = (u8 **)(0xFF000000);
             bucket_offset += (s32)render_state;
             ((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 =
-                (((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 & tag_mask) |
+                (((S_807B0B3C_15 *)((u8 *)bucket_offset))->unk_B0 & (u32)render_slot_m) |
                 ((u32)prim & addr_mask);
         }
     }

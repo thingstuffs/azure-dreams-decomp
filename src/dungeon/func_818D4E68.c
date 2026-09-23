@@ -258,9 +258,8 @@ state0:
     }
     {
         void *callback_owner;
+        callback_owner = (u8 *)actor - 0x20;
         if (!(actor->flags7A & 4)) {
-            callback_owner = (u8 *)actor - 0x20;
-            ASM_KEEP_NV(callback_owner);
             func_8004491C(callback_owner, func_80045340);
             render->field10 = 0x40;
             render->color2 = 0x80;

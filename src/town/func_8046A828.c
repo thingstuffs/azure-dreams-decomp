@@ -32,7 +32,6 @@ extern u8 *D_8001E950;
 void *func_8001B828(s32 request, void *data, s32 mode) {
     s32 call_request = request;
     void *call_data = data;
-    register s32 state_code ASM_REG("$2");
     u8 new_code;
     s32 status;
     void *context;
@@ -54,10 +53,8 @@ void *func_8001B828(s32 request, void *data, s32 mode) {
             D_8001E950[4] = new_code;
         }
         state = D_8001E950;
-        state_code = state->unk_04;
-        ASM_KEEP(state);
-        if (state_code != 0) {
-            return func_8001B6E4(state_code);
+        if (state->unk_04 != 0) {
+            return func_8001B6E4(state->unk_04);
         }
         return D_8001914C;
     }

@@ -53,8 +53,8 @@ void func_8187B8B0(
     s32 field_04_value,
     s32 field_00_value,
     s16 paired_value,
-    s32 x_offset,
-    s32 y_offset,
+    s16 x_offset,
+    s16 y_offset,
     s32 z_offset)
 {
     S_func_8187B8B0_0 *source_obj = source;
@@ -66,13 +66,13 @@ void func_8187B8B0(
     S_func_8187B8B0_3 *actor_data;
     s32 y_jitter;
     s32 z_jitter;
-    s32 x_bias;
-    s32 y_bias;
+    s16 x_bias;
+    s16 y_bias;
     s32 z_bias;
-    s32 x_pos;
-    s32 y_pos;
+    s16 x_pos;
+    s16 y_pos;
     s32 z_pos;
-    register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *init_obj;
     void *init_data;
     S_func_8187B8B0_2 *x_dest;
     S_func_8187B8B0_2 *y_dest;
@@ -101,7 +101,6 @@ void func_8187B8B0(
         z_jitter = rand();
         init_obj = spawned_obj;
         init_data = &D_80024DA0;
-        ASM_USE2(init_obj, init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         z_jitter &= 0x1F;
         z_pos = ((S_func_8187B8B0_1 *)source_obj->unk_08)->unk_0A;
         actor_data = (S_func_8187B8B0_3 *)((u8 *)spawned_obj + 0x20);
@@ -110,8 +109,6 @@ void func_8187B8B0(
         z_bias = saved_z_offset - 0x10;
         z_pos += z_bias;
         z_dest->unk_0A = (s16)z_pos;
-        ASM_KEEP(x_offset);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(y_offset);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         actor_data->unk_04 = saved_field_04;
         actor_data->unk_10 = saved_pair;
         actor_data->unk_12 = saved_pair;

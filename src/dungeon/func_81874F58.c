@@ -60,8 +60,8 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     u8 texture_flags;
     u8 draw_flags;
 
-    initial_page = D_80083160;
-    ASM_KEEP_MEMDEP(initial_page, page_dependency, D_80083160);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    page_ptr = &D_80083160;
+    initial_page = *page_ptr;
     *(u8 **)(scratch + 0x24) = initial_page + 0xB0;
     *(s32 *)(scratch + 0x88) = *(s16 *)((u8 *)position + 2);
     *(s32 *)(scratch + 0x8C) = *(s16 *)((u8 *)position + 6);
@@ -85,7 +85,6 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
     *(u16 *)(scratch + 0x28) = *(u16 *)((u8 *)material + 0x14);
     for (;;) {
         for (row = 0; row < *(s16 *)((u8 *)mesh + 0xC); row++) {
-            page_ptr = &D_80083160;
             for (column = 0; column < *(s16 *)((u8 *)mesh + 0xA); column++) {
                 *(s32 *)(scratch + 0x0C) = *(u8 *)(texture + 8);
                 *(s32 *)(scratch + 0x10) = *(u8 *)(texture + 9);

@@ -62,7 +62,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
 {
     Actor *act = actor;
     Entity *entity;
-    register s32 dispatch_a1 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s16 dispatch_a1;
     Vec3 choices;
     s32 value;
 
@@ -74,7 +74,6 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
     if (entity->flags20 & 8) {
         st->state = 6;
     }
-    ASM_KEEP(dispatch_a1);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
 
     value = st->state;
     switch (value) {
@@ -117,7 +116,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
             }
         }
         st->field1D = 0;
-        goto done;
+        return;
     }
 
     case 1:
@@ -146,14 +145,14 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         mot->dz += 0x30000;
         st->timer--;
         if (st->timer > 0) {
-            goto done;
+            return;
         }
 
         mot->z = -0x400000;
         mot->dz = ((func_80071494() & 0xff) << 11) - 0x180000;
         st->timer = (func_80071494() & 0xf) + 30;
         st->state = 3;
-        goto done;
+        return;
     }
 
     case 2:
@@ -180,7 +179,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         }
         st->timer--;
         if (st->timer > 0) {
-            goto done;
+            return;
         }
         st->timer = 180;
         st->state = 4;
@@ -189,7 +188,7 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         act->mode = 0;
         act->variant = 0;
         mot->z = floor;
-        goto done;
+        return;
     }
 
     case 3:
@@ -204,11 +203,11 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         }
         st->timer--;
         if (st->timer > 0) {
-            goto done;
+            return;
         }
         st->timer = 31;
         st->state = 5;
-        goto done;
+        return;
 
     case 4:
     {
@@ -230,21 +229,20 @@ void func_80529594(State *st, Motion *mot, Actor *actor)
         }
         st->timer--;
         if (st->timer > 0) {
-            goto done;
+            return;
         }
         st->state = 6;
-        goto done;
+        return;
     }
 
     case 5:
         func_8023FB18(&st->work[0]);
         *(u16 *)((u8 *)st - 2) |= 0x8000;
         D_80084D5C |= 0x8000;
-        goto done;
+        return;
 
     case 6:
     default:
-done:
         return;
     }
 }

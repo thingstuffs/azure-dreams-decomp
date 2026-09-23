@@ -54,14 +54,14 @@ void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg)
 /* Advance the effect through target selection, movement, impact, and cleanup. */
 void BODY_NAME(void *effect_arg, void *motion_arg, void * volatile context_arg) {
     u8 *effect = (u8 *)effect_arg;
-    register u8 *motion ASM_REG("$22") = (u8 *)motion_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *motion = (u8 *)motion_arg;
     register u8 *actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *actor_data;
     u8 *actor_header;
     u8 *particle;
     u8 *render_data;
     u8 *particle_data;
-    register u32 count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 count;
     s32 state;
     s32 tile_x;
     s32 tile_y;
@@ -204,7 +204,8 @@ mode_0: {
                 if ((U16(render_data, 20) & 0x8000) != 0) {
                     context_data = (u8 *)context_arg;
                     if ((U16(context_data, 20) & 0x8000) != 0) {
-                        goto set_state_240;
+                        U16(effect, 10) = 240;
+                        goto set_state_240_done;
                     }
                 }
                 U8(actor, 114) = U8(render_data, 36);
@@ -313,8 +314,9 @@ mode_2: {
             }
             if (S16(effect, 80) <= 0) {
                 if (S32(actor, 96) != 0) {
-set_state_240:
                     U16(effect, 10) = 240;
+                    set_state_240_done:
+                    ;
                     return;
                 }
                 goto cleanup_state;

@@ -62,17 +62,16 @@ s32 func_80017348(void) {
 
         context = *context_ptr;
         state = context->state;
-        if (state->mode != 3) {
-            return 0;
+        if (state->mode == 3) {
+            if (previous_value < state->value) {
+                adjusted_value = previous_value + 0x30;
+            } else {
+                adjusted_value = previous_value - 0x30;
+            }
+            state->value = adjusted_value;
+            return 1;
         }
-        if (previous_value < state->value) {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            adjusted_value = previous_value + 0x30;
-        } else {
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            adjusted_value = previous_value - 0x30;
-        }
-        state->value = adjusted_value;
+        return 0;
     }
     return 1;
 }

@@ -13,6 +13,14 @@ extern u8 D_801739E0[];
 
 
 
+static __inline__ void dispatch_table(void *sprite, Rec_D_800E3D7C *actor, u8 *direction_table) {
+ u32 direction_entry;
+    *(volatile void **)((u8 *)sprite + 0x2C) = direction_table;
+    direction_entry = (((D_80083228[0] + actor->unk_2A.as_s16 + 0x100) >> 9) & 7);
+    direction_entry = direction_entry + (u32)direction_table;
+    func_80047784(sprite, *(u8 *)direction_entry, 0);
+}
+
 /* Reset state and select a direction-dependent sprite entry from one of four tables. */
 void func_8016DAC0(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, Rec_D_800E3D7C *actor) {
     s32 table_kind;
@@ -43,30 +51,18 @@ void func_8016DAC0(Rec_func_800A9E70_arg0 *state, void *unused, void *sprite, Re
     goto table_1;
 
 table_0:
-    direction_table = (u8 *)0x80170000;
-    ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    direction_table += 0x39E0;
-    goto dispatch;
+    dispatch_table(sprite, actor, D_801739E0 + 0);
+    goto done;
 table_1:
-    direction_table = (u8 *)0x80170000;
-    ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    direction_table += 0x39E8;
-    goto dispatch;
+    dispatch_table(sprite, actor, D_801739E0 + 8);
+    goto done;
 table_2:
-    direction_table = (u8 *)0x80170000;
-    ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    direction_table += 0x39F0;
-    goto dispatch;
+    dispatch_table(sprite, actor, D_801739E0 + 16);
+    goto done;
 table_3:
-    direction_table = (u8 *)0x80170000;
-    ASM_KEEP(direction_table);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    direction_table += 0x39F8;
+    dispatch_table(sprite, actor, D_801739E0 + 24);
+    goto done;
 
-dispatch:
-    *(volatile void **)((u8 *)sprite + 0x2C) = direction_table;
-    direction_entry = (((D_80083228[0] + actor->unk_2A.as_s16 + 0x100) >> 9) & 7);
-    direction_entry = direction_entry + (u32)direction_table;
-    func_80047784(sprite, *(u8 *)direction_entry, 0);
 
 done:
     func_800A4ACC(actor);

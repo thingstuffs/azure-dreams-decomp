@@ -102,7 +102,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
   u16 saved_draw_mode;
   s32 callback_arg;
   s32 *copy_end;
-  s32 addr_mask;
+  u32 addr_mask;
   M2C_UNK draw_arg;
   u8 *render_state;
   u8 *view_matrix;
@@ -190,9 +190,7 @@ void func_818EC800(void *screen_pos, void *effect, s32 *ordering_tag, u32 draw_m
     *start_tag = ((*start_tag) & 0xFF000000) | ((s32) setup_arg);
   }
   copy_end = &quad_copies[8];
-  ASM_KEEP_NV(copy_end);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   addr_mask = 0xFFFFFF;
-  ASM_KEEP_NV(addr_mask);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
   view_matrix = (u8 *) (&D_8006CD10);
   *((s32 *) (((s8 *) view_matrix) + 0x1C)) = (s32) (*((s32 *) (((s8 *) render_state) + 0xA0)));
   func_800649A0((s32) setup_arg, draw_arg);
@@ -305,7 +303,8 @@ frame_loop:
         *((u16 *) (((s8 *) packet) + 0xE)) = (u16) clut_offset;
         *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
         *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
-        goto clut_done_done;
+        ;
+        goto clut_done_done_done;
       }
       texture_word = clut_offset + (*((u16 *) (((s8 *) frame_data) + (-2))));
       *((u16 *) (((s8 *) packet) + 0xE)) = (u16) texture_word;
@@ -316,7 +315,8 @@ frame_loop:
     }
     *((s16 *) (((s8 *) packet) + 0xC)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x08)))));
     *((s16 *) (((s8 *) packet) + 0x14)) = (s16) (((u16) (*((u16 *) (((s8 *) scratch) + 0x0C)))) + ((u16) (*((u16 *) (((s8 *) scratch) + 0x10)))));
-    clut_done_done:
+    ;
+    clut_done_done_done:
     ;
     tpage_offset = *((u16 *) (((s8 *) sprite) + 0x10));
     if (tpage_offset != 0)

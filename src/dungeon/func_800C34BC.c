@@ -24,12 +24,12 @@ s32 func_800C8C1C(State *arg0, s16 arg1, s8 arg2_in) {
 
     if (func_800C838C(state) != 0) {
         result = 0;
-        goto done;
+        return result;
     }
     dividend = func_800A6D30() & 0xFFFF;
     dispatch_v1 = state->divisor;
     {
-        register s32 signed_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 signed_value;
 
         if (dispatch_v1 != 0) {
             s32 divreg;

@@ -69,7 +69,7 @@ void func_800BBCA0(void *effect, void *effect_origin)
 {
     register void *self ASM_REG("$21") = effect;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *origin ASM_REG("$20") = effect_origin;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u16 next_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register u16 next_state;
     s32 state;
     u16 timer;
     s32 spawn_count;
@@ -138,9 +138,9 @@ state_zero:
         spawn_count--;
     } while (spawn_count >= 0);
     if (func_80033BC0(0x97) != 0) {
-        next_state = ((S_800BBCA0_0 *)self)->unk_4C.u;
-        next_state++;
-        goto store_state;
+        next_state = ((S_800BBCA0_0 *)self)->unk_4C.u + 1;
+        ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
+        goto done;
     }
     goto done;
 
@@ -189,11 +189,8 @@ state_one:
         }
         spawn_count--;
     } while (spawn_count >= 0);
-    next_state = ((S_800BBCA0_0 *)self)->unk_4C.u;
+    next_state = ((S_800BBCA0_0 *)self)->unk_4C.u + 1;
     ((S_800BBCA0_0 *)self)->unk_48 = 0x10;
-    next_state++;
-
-store_state:
     ((S_800BBCA0_0 *)self)->unk_4C.u = next_state;
     goto done;
 

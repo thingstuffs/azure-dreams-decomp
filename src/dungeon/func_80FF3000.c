@@ -75,36 +75,37 @@ __asm__(".globl func_80FF3000\n"
 #define BODY_NAME func_80FF3000
 #endif
 
-void *BODY_NAME(s32, s8, s8, s16)
+void *BODY_NAME(s32, s32, s32, s16)
 #ifdef __mips__
     __attribute__((section(".text.func_80FF3000")))
 #endif
     ;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
-void *BODY_NAME(s32 init_flags, s8 pos_x, s8 pos_y, s16 init_value) {
+void *BODY_NAME(s32 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;
     u16 saved_value;
     register s32 saved_flags ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80FF3000_2 *base_data;
-    register s8 saved_y ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s8 saved_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    s32 setup_flags;
+    s8 saved_y;
+    s8 saved_x;
+    s16 setup_flags;
     s32 mode_or_flags;
     s32 config_value;
     S_80FF3000_3 *placement;
     S_80FF3000_4 *extended_state;
 
-    object_state = NULL;
     saved_x = pos_x;
     saved_value = init_value;
     saved_y = pos_y;
-    object = func_8003FD64(0x112, &D_80083498);
+    pos_y = 0;
+    object_state = (void *)pos_y;
+    pos_x = 0x112;
+    object = func_8003FD64(pos_x, &D_80083498);
+    setup_flags = init_flags;
     if (object != NULL) {
         saved_flags = init_flags;
-        setup_flags = saved_flags;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         object_state = object + 0x20;
         ((S_80FF3000_0 *)object)->unk_10 = &D_80158A7C;
         object_state->unk_13 = 0x28;
