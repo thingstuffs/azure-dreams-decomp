@@ -14,12 +14,11 @@ extern s32 func_800A6D30(void);
 
 /* Search outward for an eligible tile, updating the facing direction when turning. */
 s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search_arg, s32 radius,
-                  s32 filter_arg) {
+                  s16 filter_arg) {
     u16 start_x;
     u16 start_y;
     u16 saved_radius;
     u16 saved_filter;
-    register s32 tile_filter ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 forward_limit;
     s32 search_radius;
     s32 facing_high;
@@ -56,8 +55,7 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
     failures = 0;
     x = origin_x + *(u16 *)(initial_x_steps + facing_offset) * radius;
     y = origin_y + *(u16 *)(D_8006CCE8 + facing_offset) * radius;
-    tile_filter = filter_arg;
-    saved_filter = tile_filter;
+    saved_filter = filter_arg;
 
     if (((s16)x >= 0) && ((s16)x < D_8001F660) && ((s16)y >= 0) &&
         ((s16)y < D_8001F664) && (D_8001F6A4[facing_high >> 17] == 0)) {
@@ -65,7 +63,7 @@ s16 func_8001A768(u16 *facing, s32 origin_x, s32 origin_y, s8 *tiles, s32 search
         tile_index = (s16)tile_index_u16;
         tile = tiles[tile_index];
         if (tile > 0) {
-            if (func_8001ABC8(tile_index, (s16)tile_filter) == 0) {
+            if (func_8001ABC8(tile_index, (s16)filter_arg) == 0) {
                 return tile_index;
             }
             failures = 1;

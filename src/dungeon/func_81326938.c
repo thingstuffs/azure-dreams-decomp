@@ -42,8 +42,8 @@ void func_8016E138(s32 offset_index) {
     offset_page = (u8 *)0x80170000;
 #endif
     ASM_KEEP(offset_page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    offset_src = (Copy12 *)(offset_page - 0x57A8);
-    ASM_KEEP_NV(offset_src);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    offset_src = (Copy12 *)offset_page;
+    offset_src = (Copy12 *)((u8 *)offset_src - 0x57A8);
     offsets = *offset_src;
     ASM_KEEP_DEP_NV(offset_src, offset_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     object = *(u8 **)(state + 0xC);

@@ -64,7 +64,7 @@ void func_8080DF94(void *obj, void *motion, void *part) {
     s16 state;
     s32 result;
     s32 *scratch_words;
-    register s32 flag ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 flag;
     u16 count;
     u16 ticks;
     void *owner;
@@ -131,7 +131,7 @@ case_1:
     if (((S_8080DF94_0 *)obj)->unk_08 & 1) {
         result = func_80071494();
         flag = scratch_words[result % 3];
-        ((S_8080DF94_3 *)motion)->unk_0C = (s32)(((func_80071494(result / 3) & 0x7F) - 0x40) << 0xF);
+        ((S_8080DF94_3 *)motion)->unk_0C = (s32)(((func_80071494() & 0x7F) - 0x40) << 0xF);
         ((S_8080DF94_3 *)motion)->unk_14 = (s32)((0 - ((func_80071494() & 0xF) + 8)) << 0x10);
         if (((S_8080DF94_3 *)motion)->unk_0C > 0) {
             ((S_8080DF94_2 *)part)->unk_14 = (u16)(((S_8080DF94_2 *)part)->unk_14 | 1);

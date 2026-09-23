@@ -71,8 +71,6 @@ void func_801260E8(Rec_func_801237A4_arg0 *context)
     s32 initial_offset;
     s8 *initial_base;
     s32 *initial_data;
-    void **object_table;
-    register void **object_cursor ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     S_801260E8_2 *target_object;
     S_801260E8_4 *object_data;
     s32 data_word;
@@ -123,12 +121,10 @@ case_7:
     object_index = 14;
     initial_base = (s8 *)D_80126AF8;
     initial_offset = 0;
-    object_table = D_80129728;
-    object_cursor = &object_table[14];
     do {
         initial_data = (s32 *)((u32)initial_offset + (u32)initial_base);
         initial_offset += 8;
-        target_object = *object_cursor++;
+        target_object = D_80129728[object_index];
         data_word = *initial_data;
         object_index += 1;
         target_object->unk_00 = data_word;
@@ -136,10 +132,8 @@ case_7:
 
 case_8_10:
     object_index = 14;
-    object_table = D_80129728;
-    object_cursor = &object_table[14];
     do {
-        object_data = ((S_801260E8_3 *)(*object_cursor++))->unk_08;
+        object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
         object_word = object_data->unk_02;
         object_index += 1;
         object_data->unk_02 = (u16)(object_word - 0x100);
@@ -151,10 +145,8 @@ case_11:
 
 case_12_14:
     object_index = 14;
-    object_table = D_80129728;
-    object_cursor = &object_table[14];
     do {
-        object_data = ((S_801260E8_3 *)(*object_cursor++))->unk_08;
+        object_data = ((S_801260E8_3 *)(D_80129728[object_index]))->unk_08;
         object_word = object_data->unk_02;
         object_index += 1;
         object_data->unk_02 = (u16)(object_word - 0x100);

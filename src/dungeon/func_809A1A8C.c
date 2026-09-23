@@ -31,7 +31,7 @@ void func_8017328C(void *action, void *motion, void *sprite, void *actor)
     s32 direction_offset;
     s32 facing_index;
     s32 object_type;
-    register s32 frame ASM_REG("$5");
+    s32 anim_table;
     s32 next_frame;
     u16 flags;
     s32 state;
@@ -56,7 +56,6 @@ state_two_test:
 
 state_zero:
 {
-    u8 *anim_table;
     u8 *facing_ptr;
 
     flags = U16(sprite, 0x14);
@@ -70,17 +69,17 @@ state_zero:
     if ((flags & 0x6000) == 0) {
         goto done;
     }
-    anim_table = (u8 *)0x80170000;
+    anim_table = 0x80170000;
     if (S16(action, 0x92) != 0) {
         goto done;
     }
     ASM_KEEP_NV(anim_table);
     anim_table += 0x5E88;
     facing_ptr = (u8 *)D_80080000;
-    PTR(sprite, 0x2C) = anim_table;
+    PTR(sprite, 0x2C) = (void *)anim_table;
     facing_index = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
     facing_index &= 7;
-    facing_ptr = (u8 *)(facing_index + (s32)anim_table);
+    facing_ptr = (u8 *)(facing_index + anim_table);
     func_80047784(sprite, *facing_ptr, 0);
     U16(action, 0x96) = 0;
     func_800A56E0(0x808);
@@ -95,13 +94,13 @@ state_one:
     s32 next_y;
     s32 signed_value;
 
-    frame = U16(action, 0x96);
+    anim_table = U16(action, 0x96);
     direction_base = (u8 *)&D_8006CCD8;
-    next_frame = frame + 1;
-    frame -= 3;
+    next_frame = anim_table + 1;
+    anim_table -= 3;
     U16(action, 0x96) = next_frame;
     direction_offset = (U16(actor, 0x2A) >> 8) & 0xE;
-    frame = (u32)frame < 8U;
+    anim_table = (u32)anim_table < 8U;
     direction_base = (u8 *)(direction_offset + (s32)direction_base);
     delta_x = *(s16 *)direction_base;
     direction_base_2 = (u8 *)&D_8006CCE8;
@@ -110,7 +109,7 @@ state_one:
     delta_x <<= 16;
     signed_value = -signed_value;
     delta_y = signed_value << 16;
-    if (frame) {
+    if (anim_table) {
         next_x = S32(motion, 0xC) - delta_x;
         next_y = S32(motion, 0x10) - delta_y;
         goto store_motion;
@@ -140,20 +139,19 @@ call_c12c:
     func_8009C12C(actor, sprite, S16(actor, 0x2A), 1);
 after_c12c:
     {
-        u8 *anim_table;
         u8 *facing_ptr;
 
-        anim_table = (u8 *)0x80170000;
+        anim_table = 0x80170000;
         if ((U16(sprite, 0x14) & 0xE000) == 0) {
             goto done;
         }
         ASM_KEEP_NV(anim_table);
         anim_table += 0x5EB8;
         facing_ptr = (u8 *)D_80080000;
-        PTR(sprite, 0x2C) = anim_table;
+        PTR(sprite, 0x2C) = (void *)anim_table;
         facing_index = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
         facing_index &= 7;
-        facing_ptr = (u8 *)(facing_index + (s32)anim_table);
+        facing_ptr = (u8 *)(facing_index + anim_table);
         func_80047784(sprite, *facing_ptr, 0);
     }
     S32(motion, 0x14) = 0;

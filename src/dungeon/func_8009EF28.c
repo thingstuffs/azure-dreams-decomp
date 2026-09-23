@@ -6,12 +6,12 @@ extern u16 D_8006CCD8[];
 extern u16 D_8006CCE8[];
 
 /* Checks whether the selected neighbor has a sampled height above 512 when enabled. */
-s32 func_800A4688(s32 world_x, s32 world_y, s32 world_z, u32 direction, s32 disabled) {
+s32 func_800A4688(s32 world_x, s32 world_y, s16 world_z, u32 direction, s32 disabled) {
     u16 tile_value;
     u16 x_offset;
     u16 y_offset;
-    register u32 tile_x ASM_REG("$19");
-    register s32 tile_y ASM_REG("$18");
+    u32 tile_x;
+    s32 tile_y;
     u32 shifted_sector;
     s32 sector_arg;
     s32 call_x;

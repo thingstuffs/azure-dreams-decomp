@@ -8,11 +8,9 @@ typedef struct State {
 extern s32 func_800A48F0(State *, s32, s8);
 extern s32 func_800A6D30(void);
 extern s32 func_800C7FFC(State *);
-
 #ifdef NON_MATCHING
 static volatile s32 dispatch_v1;
 #else
-register s32 dispatch_v1 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 #endif
 
 s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
@@ -21,19 +19,15 @@ s32 func_800C8844(State *arg0, s16 arg1, s8 arg2_in) {
     s8 arg2 = arg2_in;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 result;
     s32 dividend;
+    s32 dispatch_v1;
 
     if (func_800C7FFC(state) != 0) {
         result = 0;
         goto done;
     }
     dividend = func_800A6D30() & 0xFFFF;
-    dispatch_v1 = state->divisor;
-    if (dispatch_v1 != 0) {
-        s32 divreg;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-
-        divreg = dispatch_v1;
-        ASM_KEEP(divreg);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        dispatch_v1 = dividend % divreg;
+    if (state->divisor != 0) {
+        dispatch_v1 = dividend % state->divisor;
     } else {
         dispatch_v1 = 0;
     }

@@ -30,7 +30,7 @@ void func_8004491C(void *, void *);
 
 /* Restores neutral color, then counts down and finalizes the effect. */
 s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
-    register StructArg0 *object ASM_REG("$16") = object_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    StructArg0 *object = object_arg;
     StructArg2 *effect = effect_arg;
     u8 phase = object->unk9B;
     u8 red;
@@ -39,6 +39,7 @@ s32 func_800ACE34(StructArg0 *object_arg, s32 unused, StructArg2 *effect_arg) {
     u8 blue;
     s32 blue_step;
     u16 effect_count;
+    StructArg0 *owner;
 
     if (phase == 0) goto restore_color;
     if (phase == 1) goto countdown;
@@ -74,11 +75,11 @@ countdown:
     if (effect->unk0F != 0) {
         return 0;
     }
-    object = (StructArg0 *)((u8 *)object - 0x20);
-    func_80044A50(object);
+    owner = (StructArg0 *)((u8 *)object - 0x20);
+    func_80044A50(owner);
     effect->unk12 += 0x80;
     effect->unk14 &= 0xFFF3;
-    func_8004491C(object, D_80045340);
+    func_8004491C(owner, D_80045340);
     effect_count = D_80083460.unk0A;
     effect_count--;
     D_80083460.unk0A = effect_count;

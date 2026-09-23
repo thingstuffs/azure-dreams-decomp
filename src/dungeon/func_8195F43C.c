@@ -268,7 +268,7 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
             {
                 s32 v_end;
                 u16 uv_row;
-                register u16 packed_u ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                u16 packed_u;
 
                 {
                     register s32 v ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
@@ -293,8 +293,8 @@ void func_8195F43C(void *unused, void *origin, u8 *object, s16 tile_x, s16 tile_
                         v_end += v;
                     }
                 }
-                packed_u = VFIELD(scratch, u16, 8);
                 VFIELD(scratch, s32, 0x14) = v_end;
+                packed_u = *(u16 *)((u8 *)scratch + 8);
                 VFIELD(scratch, s32, 0x14) = v_end << 8;
                 (*(u16 *)((u8 *)packet + 0xC)) = uv_row + packed_u;
             }

@@ -75,22 +75,20 @@ __asm__(".globl func_80FF3000\n"
 #define BODY_NAME func_80FF3000
 #endif
 
-void *BODY_NAME(s32, s32, s32, s16)
+void *BODY_NAME(s16, s32, s32, s16)
 #ifdef __mips__
     __attribute__((section(".text.func_80FF3000")))
 #endif
     ;
 
 /* Allocates and initializes a dungeon object with flags and placement parameters. */
-void *BODY_NAME(s32 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
+void *BODY_NAME(s16 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     S_80FF3000_1 *object_state;
     void *object;
     u16 saved_value;
-    register s32 saved_flags ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     S_80FF3000_2 *base_data;
     s8 saved_y;
     s8 saved_x;
-    s16 setup_flags;
     s32 mode_or_flags;
     s32 config_value;
     S_80FF3000_3 *placement;
@@ -103,9 +101,7 @@ void *BODY_NAME(s32 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
     object_state = (void *)pos_y;
     pos_x = 0x112;
     object = func_8003FD64(pos_x, &D_80083498);
-    setup_flags = init_flags;
     if (object != NULL) {
-        saved_flags = init_flags;
         object_state = object + 0x20;
         ((S_80FF3000_0 *)object)->unk_10 = &D_80158A7C;
         object_state->unk_13 = 0x28;
@@ -114,7 +110,7 @@ void *BODY_NAME(s32 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
         base_data = ((S_80FF3000_0 *)object)->unk_08;
         base_data->unk_0A = saved_value;
         placement = ((S_80FF3000_0 *)object)->unk_0C;
-        mode_or_flags = saved_flags & 3;
+        mode_or_flags = init_flags & 3;
         placement->unk_25 = saved_y;
         extended_state = object_state;
         placement->unk_2C = (void *) config_value;
@@ -126,7 +122,7 @@ void *BODY_NAME(s32 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
             object_state->unk_14 = (s32) (object_state->unk_14 | 0x2000);
             object_state->unk_1C = (s32) (object_state->unk_1C | 0x2000);
         } else {
-            config_value = saved_flags & ~3;
+            config_value = init_flags & ~3;
             if ((config_value << 0x10) == 0) {
                 if (!(object_state->unk_14 & 0x200)) {
                     if (func_800A6D30() & 1) {
@@ -137,7 +133,7 @@ void *BODY_NAME(s32 init_flags, s32 pos_x, s32 pos_y, s16 init_value) {
                 }
             }
         }
-        func_800A9C18(object, base_data, placement, (s16)(s32) setup_flags);
+        func_800A9C18(object, base_data, placement, (s16)(s32) init_flags);
         extended_state->unk_9A = 0xFF;
         extended_state->unk_9C = -1;
         extended_state->unk_8C = &D_80158EA8;

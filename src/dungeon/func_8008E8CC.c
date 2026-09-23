@@ -47,7 +47,7 @@ extern DungeonSlot *D_800E3DF0[];
 
 /* Check the forward tile and selected slot, then clear the actor action flags on success. */
 s32 func_8009402C(void *actor, void *unused, void *position, s16 *out_x, s16 *out_y, void *target) {
-    register s32 shifted_result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 shifted_result;
     s16 next_y;
     s16 saved_x;
     s16 saved_y;
@@ -64,27 +64,24 @@ s32 func_8009402C(void *actor, void *unused, void *position, s16 *out_x, s16 *ou
     x_coord = out_x;
     if (target != NULL) {
         blocked_result = 3;
-        ASM_CLOBBER("$7");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (!(D_800E3DF0[(*(u8 *)((u8 *)target + 3)) & 0x1F]->flags & 0x04000000)) {
-            direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
-            next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(&D_8006CCD8 + direction_offset);
-            next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(&D_8006CCE8 + direction_offset);
-            if (((func_8009B88C(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
-                ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
-                 (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&
-                 (((S_8009402C_2 *)status)->unk_13 > 0) &&
-                 (saved_x = *x_coord, saved_y = *out_y,
-                  func_8009A21C(saved_x, saved_y, 0x8000),
-                  probe_result = func_8009B88C(0, next_x, next_y, x_coord, out_y),
-                  func_8009A3D0(saved_x, saved_y, 0x8000),
-                  (shifted_result = probe_result << 0x10, shifted_result == 0)))) {
-                return 1;
-            }
-            goto check_slot;
+        if (D_800E3DF0[(*(u8 *)((u8 *)target + 3)) & 0x1F]->flags & 0x04000000) {
+            return blocked_result;
         }
-        return blocked_result;
+        direction_offset = ((u16) ((S_8009402C_0 *)actor)->unk_2A >> 8) & 0xE;
+        next_x = ((Rec_D_80082E80 *)position)->unk_24 + *(u16 *)(&D_8006CCD8 + direction_offset);
+        next_y = ((Rec_D_80082E80 *)position)->unk_25 + *(u16 *)(&D_8006CCE8 + direction_offset);
+        if (((shifted_result = func_8009B88C(0, next_x, next_y, x_coord, out_y) << 0x10) == 0) ||
+            ((((S_8009402C_0 *)actor)->unk_1C & 0x100000) &&
+             (status = ((S_8009402C_0 *)actor)->unk_124, (status != NULL)) &&
+             (((S_8009402C_2 *)status)->unk_13 > 0) &&
+             (saved_x = *x_coord, saved_y = *out_y,
+              func_8009A21C(saved_x, saved_y, 0x8000),
+              probe_result = func_8009B88C(0, next_x, next_y, x_coord, out_y),
+              func_8009A3D0(saved_x, saved_y, 0x8000),
+              (shifted_result = probe_result << 0x10, shifted_result == 0)))) {
+            return 1;
+        }
     }
-check_slot:
     selected_slot = ((S_8009402C_5 *)(((((S_8009402C_3 *)actor_base)->unk_8A * 4) + actor)))->unk_AC;
     if ((selected_slot != NULL) && !(((S_8009402C_4 *)selected_slot)->unk_1C & 0x20000)) {
         return 2;

@@ -188,8 +188,8 @@ void func_818D4E68(Actor *actor, Motion *position, Render *sprite)
     timer = actor->timer82;
     state = actor->state;
     ASM_KEEP(state);
-    owner = (Owner *)((u8 *)entity - 0x20);
-    ASM_KEEP(owner);
+    owner = entity;
+    owner = (Owner *)((Owner *)((u8 *)owner - 0x20));
     owner_motion = owner->position;
     timer++;
     actor->timer82 = timer;

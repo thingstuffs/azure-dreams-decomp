@@ -69,7 +69,7 @@ void *func_8014C854(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 part_id)
     s16 saved_id;
     s8 saved_y;
     void *call_obj;
-    register void *call_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *call_part;
 
     work = 0;
     saved_x = tile_x;
@@ -113,7 +113,7 @@ normal_kind:
             if (!(work->unk_14 & 0x200)) {
                 call_part = part_a;
                 ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                flags = func_800A6D30(call_obj, call_part);
+                flags = func_800A6D30(call_obj);
                 call_obj = obj;
                 if (!(flags & 1)) {
                     goto init_parts;

@@ -31,7 +31,7 @@ static void (*const callbacks[])(void) = {
 
 /* Applies a flag-adjusted stat increase to an eligible target and updates its state. */
 void func_818A4828(void *target, s32 effect_param) {
-    register s32 base_gain ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 base_gain;
     register s32 stat_gain;
 
     if (func_8009D218(target, 1) == 0) {
@@ -42,7 +42,8 @@ void func_818A4828(void *target, s32 effect_param) {
         }
         *(u16 *)((u8 *)target + 0x64) += stat_gain;
         func_800AD568(target, stat_gain);
-        func_800B4C7C(0x8004, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
+        base_gain = 0x8004;
+        func_800B4C7C(base_gain, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
         func_800AD4D0(target);
     }
 }

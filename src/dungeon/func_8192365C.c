@@ -189,31 +189,17 @@ void func_80024E5C(void *effect, void *motion, void *sprite) {
                 target_x_or_z_step = ((S_80024E5C_3 *)target_position)->unk_00.at00.v;
                 target_y = ((S_80024E5C_3 *)target_position)->unk_04.at00.v;
                 if (near_target == 0) {
-                    s32 divisor;
                     current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
                     ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 0xB));
                     ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 0xB));
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    target_x_or_z_step = ((S_80024E5C_2 *)motion)->unk_08.at00.v;
-                    divisor = ((S_80024E5C_0 *)effect)->unk_5A.s;
-                    target_x_or_z_step = target_z - target_x_or_z_step;
-                    divisor -= 0xB;
-                    target_x_or_z_step /= divisor;
-                    ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
+                    ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 0xB);
                     goto integrate;
                 }
                 if (travel_frames >= 0xB) {
-                    s32 divisor;
                     current_x = ((S_80024E5C_2 *)motion)->unk_00.at00.v;
                     ((S_80024E5C_2 *)motion)->unk_0C = (s32) ((target_x_or_z_step - current_x) / (s32) (travel_frames - 9));
                     ((S_80024E5C_2 *)motion)->unk_10 = (s32) ((s32) (target_y - ((S_80024E5C_2 *)motion)->unk_04.at00.v) / (s32) ((s16) ((S_80024E5C_0 *)effect)->unk_5A.u - 9));
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                    target_x_or_z_step = ((S_80024E5C_2 *)motion)->unk_08.at00.v;
-                    divisor = ((S_80024E5C_0 *)effect)->unk_5A.s;
-                    target_x_or_z_step = target_z - target_x_or_z_step;
-                    divisor -= 9;
-                    target_x_or_z_step /= divisor;
-                    ((S_80024E5C_2 *)motion)->unk_14 = target_x_or_z_step;
+                    ((S_80024E5C_2 *)motion)->unk_14 = (target_z - ((S_80024E5C_2 *)motion)->unk_08.at00.v) / (((S_80024E5C_0 *)effect)->unk_5A.s - 9);
                     goto integrate;
                 }
                 if (travel_frames >= 5) {

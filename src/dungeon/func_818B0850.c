@@ -12,7 +12,7 @@ extern void func_800B4C7C(s32 arg0, void *arg1, s32 arg2, s32 arg3);
 /* Applies a flag-adjusted value increase to an eligible entity and updates it. */
 void func_818B0850(void *entity, s32 value_id) {
     if (func_8009D218(entity, 4) == 0) {
-        register s32 base_gain ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 base_gain;
         s16 bonus;
         s32 gain;
 
@@ -25,7 +25,8 @@ void func_818B0850(void *entity, s32 value_id) {
         }
         ((Rec_D_800E3D7C *)entity)->unk_64.as_u16 = (u16) (((Rec_D_800E3D7C *)entity)->unk_64.as_u16 + gain);
         func_800AD568(entity, gain);
-        func_800B4C7C(0x8004, entity, (s16) ((Rec_D_800E3D7C *)entity)->unk_64.as_u16, 1);
+        base_gain = 0x8004;
+        func_800B4C7C(base_gain, entity, (s16) ((Rec_D_800E3D7C *)entity)->unk_64.as_u16, 1);
         func_800AD4D0(entity);
     }
 }

@@ -44,7 +44,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
     s32 y;
     s32 cell_index;
     s32 cleared_tile;
-    register s32 clear_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 clear_mask;
     register s32 effect_value ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s32 effect_code;
     u16 *cell;
@@ -124,7 +124,7 @@ s32 func_800C3D3C(void *target, s32 effect_arg, s16 effect_id, s32 context) {
         func_8009D6F4();
         clear_mask = 0x3FF7FFFF;
         D_800E296C = D_800E296C & clear_mask;
-        func_800403BC(D_800CE028, clear_mask);
+        func_800403BC(D_800CE028);
     } else {
         func_800997FC(&D_800E1863, context, effect_code);
     }

@@ -135,14 +135,11 @@ void *func_801708B4(s16 spawn_flags, s16 grid_x, s16 grid_y, s16 height)
                 void *call_entity = entity;
                 void *call_position = position;
 
-                ASM_SET(call_entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                ASM_SET(call_position);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                if (func_800A6D30(call_entity, call_position) & 1) {
+                if (func_800A6D30() & 1) {
                     s32 random_value;
                     void *second_entity = entity;
 
-                    ASM_SET(second_entity);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                    random_value = func_800A6D30(second_entity);
+                    random_value = func_800A6D30();
 
                     func_800A48F0(entity_data, 1, (random_value & 0x3F) | 0x20);
                     placement->unk_2C = D_80175EA0;

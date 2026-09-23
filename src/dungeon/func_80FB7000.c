@@ -84,14 +84,14 @@ __asm__(".globl func_80FB7000\n"
 #define BODY_NAME func_80FB7000
 #endif
 
-void *BODY_NAME(s32 spawn_flags, s8 pos_x, s16 pos_y, s16 part_a_value)
+void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 #ifdef __mips__
     __attribute__((section(".text.func_80FB7000")))
 #endif
     ;
 
 /* Creates a dungeon actor and initializes its parts, flags, and image regions. */
-void *BODY_NAME(s32 spawn_flags, s8 pos_x, s16 pos_y, s16 part_a_value)
+void *BODY_NAME(s32 spawn_flags, s16 pos_x, s16 pos_y, s16 part_a_value)
 {
     void *work;
     void *obj;
@@ -112,14 +112,12 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s16 pos_y, s16 part_a_value)
     s16 *rect_ptr;
     s16 rect[4];
     u8 *entry;
-    register s8 saved_x ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s16 saved_part_value;
     void *pin_part_a;
     register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     work = 0;
     object_type = 0x112;
-    saved_x = pos_x;
     saved_part_value = part_a_value;
     object_pool = D_80083498;
     obj = func_8003FD64(object_type, object_pool);
@@ -137,7 +135,7 @@ void *BODY_NAME(s32 spawn_flags, s8 pos_x, s16 pos_y, s16 part_a_value)
         part_b->unk_25 = pos_y;
         pin_actor = work;
         part_b->unk_2C = D_8016F258;
-        part_b->unk_24 = saved_x;
+        part_b->unk_24 = pos_x;
 
         if (kind == 1) {
             primary_flags = ((S_80FB7000_1 *)work)->unk_14 | 0x6000;

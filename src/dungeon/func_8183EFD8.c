@@ -154,12 +154,11 @@ accelerate:
                 {
                     S_8183EFD8_5 *particle_motion = ((S_8183EFD8_4 *)particle)->unk_08;
                     particle_motion->unk_08 = (s32) (motion->unk_08 + ((random & 0x1F) << 0x10));
-                    random = func_80069EF8(particle_motion);
+                    random = func_80069EF8();
                 }
                 ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_0C = (s32) (((random & 0xFFF) - 0x7FF) << 8);
                 random = func_80069EF8();
                 color = 0x800000;
-                ASM_KEEP_NV(color);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
                 ((S_8183EFD8_9 *)(((S_8183EFD8_4 *)particle)->unk_08))->unk_10 = (s32) (((random & 0xFFF) - 0x7FF) << 8);
                 particle_sprite->unk_1E = 0x1000;
                 particle_sprite->unk_1C = 0x1000;
@@ -173,7 +172,7 @@ accelerate:
                 particle_sprite->unk_0C = color;
                 particle_sprite->unk_08 = random;
                 particle_state = particle + 0x20;
-                particle_state->unk_48 = (s16) (func_80069EF8((void *)color) & 3);
+                particle_state->unk_48 = (s16) (func_80069EF8() & 3);
                 particle_state->unk_4A = 0xC;
                 particle_state->unk_4C = 0;
                 ((S_8183EFD8_4 *)particle)->unk_20 = (void *) ((S_8183EFD8_0 *)effect_arg)->unk_00;

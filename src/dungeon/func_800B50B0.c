@@ -63,8 +63,8 @@ void func_800BA810(S_800B50B0_Entity *entity, s32 selection) {
     s32 *tile_list;
     register s32 direction;
     s32 mode;
-    register s32 entry_value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 mode_index ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 entry_value;
+    s32 mode_index;
     s32 forward_steps;
     s32 adjacent_steps;
     u32 tile_z;
@@ -100,14 +100,13 @@ update_tiles:
         D_800DF378 = selection;
         D_800DF37A = angle;
         func_800403BC(&D_800BA6B8);
+        direction = (entity->angle2a >> 9) & 7;
         mode = selection & 0x3FFF;
         position = ((S_800BA810_0 *)((u8 *)entity - 0x18))->unk_00;
         height = entity->height88;
-        entry_value = (u16) position->unk_02;
-        tile_x = (u32) entry_value >> 6;
+        tile_x = (u16) position->unk_02 >> 6;
         tile_z = (u16) position->unk_06 >> 6;
         mode_index = mode;
-        direction = (entity->angle2a >> 9) & 7;
         if (mode_index == 8) {
             forward_steps = 1;
             if ((entity->kind13 == 0x16) && (entity->kind48 == 0xF)) {
@@ -149,18 +148,14 @@ update_tiles:
             func_800BA764(tile_x & 0xFFFF, tile_z & 0xFFFF, height, 0xFFFF);
             return;
         }
-        entry_value = mode;
-        entry_value -= 1;
-        if ((u32) entry_value >= 3U) {
+        if ((u32) (mode - 1) >= 3U) {
             return;
         }
-        mode_index -= 1;
-        entry_value = mode_index * 3;
+        entry_value = (mode_index - 1) * 3;
         entry_id = *((u8 *) entity + entry_value + 8);
         entry_type = D_8006DE24[entry_id].type;
         if (entry_type == 1) {
-            entry_value = D_800DF380[entry_id];
-            forward_steps = entry_value & 0x1F;
+            forward_steps = D_800DF380[entry_id] & 0x1F;
             if (forward_steps > 0) {
                 do {
                     range_height = height - 0x20;

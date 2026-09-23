@@ -31,7 +31,7 @@ static void (*const callbacks[])(void) = {
 
 /* Adds a flag-adjusted amount to the target's 16-bit value and updates its state. */
 void func_818AA83C(void *target, s32 amount_input) {
-    register s32 base_amount ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 base_amount;
     register s32 adjusted_amount;
 
     if (func_8009D218(target, 2) == 0) {
@@ -42,7 +42,8 @@ void func_818AA83C(void *target, s32 amount_input) {
         }
         *(u16 *)((u8 *)target + 0x64) += adjusted_amount;
         func_800AD568(target, adjusted_amount);
-        func_800B4C7C(0x8004, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
+        base_amount = 0x8004;
+        func_800B4C7C(base_amount, target, (s16)*(u16 *)((u8 *)target + 0x64), 1);
         func_800AD4D0(target);
     }
 }

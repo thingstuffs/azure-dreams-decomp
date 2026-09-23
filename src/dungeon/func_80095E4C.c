@@ -44,7 +44,7 @@ typedef struct Context {
 } Context;
 
 /* Spawns an object at the target position and updates the active source state. */
-void *func_8009B5AC(Source *source, s32 target_x, s32 target_y) {
+void *func_8009B5AC(Source *source, s16 target_x, s16 target_y) {
     Source **active_source;
     Spawned *spawned;
     u8 *entry;
@@ -57,8 +57,8 @@ void *func_8009B5AC(Source *source, s32 target_x, s32 target_y) {
     s32 flags3c;
     s32 entry_value;
     register u8 *result_bytes ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 spawn_x ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 spawn_y ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    u16 spawn_x;
+    u16 spawn_y;
 
     direction = (source->index_field >> 9) & 7;
 

@@ -58,7 +58,7 @@ typedef struct {
 
 extern s32 func_80040490(u8 *, Rect *);
 extern s32 func_8003F80C();
-extern void *func_80024578(void *);
+extern void *func_80024578(void *, s32);
 extern s32 func_80053EF0(s32);
 extern void func_800A56E0(s32);
 
@@ -83,7 +83,7 @@ void func_80024078(State *ctx)
         s32 rect_words[2];
         s32 phase;
         s32 fade_duration;
-        register void *parent ASM_REG("$5");
+        void *parent;
         void *object;
         void *child;
         s16 previous_state;
@@ -109,7 +109,7 @@ void func_80024078(State *ctx)
         }
 
         parent = ctx->field_0;
-        child = func_80024578(((S_80024078_2_pre *)parent)[-1].unk_00);
+        child = func_80024578(((S_80024078_2_pre *)parent)[-1].unk_00, (s32)parent);
         ctx->child = child;
         if (child == 0) {
             break;

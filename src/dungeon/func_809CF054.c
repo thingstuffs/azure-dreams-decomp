@@ -69,7 +69,7 @@ void *func_8016A854(s16 kind_flags, s16 byte_24, s16 byte_25, s16 value_0a)
     s16 saved_value_0a;
     s8 saved_byte_25;
     void *call_obj;
-    register void *call_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *call_part;
 
     work = 0;
     saved_byte_24 = byte_24;
@@ -113,7 +113,7 @@ normal_kind:
             if (!(work->unk_14 & 0x200)) {
                 call_part = part_a;
                 ASM_KEEP(call_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                primary_bits = func_800A6D30(call_obj, call_part);
+                primary_bits = func_800A6D30(call_obj);
                 call_obj = obj;
                 if (!(primary_bits & 1)) {
                     goto init_actor;

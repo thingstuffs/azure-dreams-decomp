@@ -69,7 +69,7 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
     s16 saved_part_id;
     s8 saved_y;
     void *init_obj;
-    register void *query_part ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *query_part;
 
     work = 0;
     saved_x = x;
@@ -113,7 +113,7 @@ default_kind:
             if (!(work->unk_14 & 0x200)) {
                 query_part = part_a;
                 ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                flag_bits = func_800A6D30(init_obj, query_part);
+                flag_bits = func_800A6D30(init_obj);
                 init_obj = obj;
                 if (!(flag_bits & 1)) {
                     goto init_parts;

@@ -328,12 +328,11 @@ state_active:
             s32 *best_time;
 
             best_time = (s32 *)0x800135B4;
-            ASM_KEEP(best_time);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
             stage_time = ((S_800C035C_6 *)(((prev_stage * 2) + (s8 *) course)))->unk_30;
             if (stage_time < *best_time) {
                 *best_time = (s32) stage_time;
                 course->unk_38 = stage_time;
-                func_80033B9C(0x596, best_time);
+                func_80033B9C(0x596);
             }
         }
         active_stage = progress->unk_00;

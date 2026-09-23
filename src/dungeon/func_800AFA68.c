@@ -77,7 +77,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   u16 world_pos_y;
   u16 sprite_yaw;
   u16 view_yaw;
-  register u16 shadow_yaw ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+  s32 shadow_yaw;
   u8 world_x_byte;
   u8 world_y_byte;
   u8 sprite_x_byte;
@@ -109,7 +109,6 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
   u16 corner_y_or_height;
   u16 pitch_bits;
   s32 bottom_right_uv;
-  register s32 top_right_uv ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
   u16 ground_height;
   u16 projected_y;
@@ -478,7 +477,7 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
                 *((u16 *) (scratch + 0x100)) = (s16) shadow_pitch;
                 *((u16 *) (scratch + 0x104)) = (s16) shadow_roll;
               }
-              func_80065820(transform_dst, world_matrix_arg, shadow_yaw);
+              func_80065820(transform_dst, world_matrix_arg);
               func_80064840(&D_8006CD30, rotation_matrix, view_matrix);
               func_80064BC0(view_matrix, shadow_scale);
               func_80064D80((M2C_UNK *) view_matrix);
@@ -503,9 +502,9 @@ s32 func_800B51C8(void *unused_0, void *unused_1, void * volatile render_params)
               *((u16 *) (((s8 *) shadow_quad) + 0x22)) = (u16) (((s32) (*((u16 *) (scratch + 0x0fe)))) + ((s32) (*((u16 *) (scratch + 0x0ba)))));
               *((s8 *) (((s8 *) shadow_quad) + 3)) = 9;
               *((s32 *) (((s8 *) shadow_quad) + 0xC)) = (((s32) (*((s32 *) (scratch + 0x00c)))) + ((s32) (*((s32 *) (scratch + 0x008))))) + 0x7FC00000;
-              top_right_uv = (s32) (*((s32 *) (scratch + 0x00c)));
-              top_right_uv += ((s32) (*((s32 *) (scratch + 0x010))));
-              *((s32 *) (((s8 *) shadow_quad) + 0x14)) = top_right_uv + ((*((s16 *) (((s8 *) sprite_part) + 0))) << 0x10);
+              shadow_yaw = (s32) (*((s32 *) (scratch + 0x00c)));
+              shadow_yaw += ((s32) (*((s32 *) (scratch + 0x010))));
+              *((s32 *) (((s8 *) shadow_quad) + 0x14)) = shadow_yaw + ((*((s16 *) (((s8 *) sprite_part) + 0))) << 0x10);
               *((s16 *) (((s8 *) shadow_quad) + 0x1C)) = (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x008)))));
               *((s16 *) (((s8 *) shadow_quad) + 0x24)) = (s16) (((u16) (*((u16 *) (scratch + 0x014)))) + ((u16) (*((u16 *) (scratch + 0x010)))));
               if (((s16) (*((u16 *) (((s8 *) shadow_quad) + 8)))) > ((s16) (*((u16 *) (((s8 *) shadow_quad) + 0x20)))))

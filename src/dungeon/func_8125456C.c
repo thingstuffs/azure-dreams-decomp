@@ -13,7 +13,7 @@ extern u16 D_80174718;
 s32 func_8125456C(u8 *actor, s32 action_context, u8 *sprite) {
     u8 *saved_actor;
     u8 *entry;
-    register s32 command ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+    s32 command;
     s32 command_byte;
     u8 *dispatch_actor;
     u8 repeat_count;
@@ -65,7 +65,7 @@ type_10:
         func_80047784(sprite,
                       D_80173E94[((D_80083228 +
                                    *(s16 *)(saved_actor + 0x2A) + 0x100) >> 9) & 7],
-                      *(s8 *)(sprite + 4), command);
+                      *(s8 *)(sprite + 4));
     }
     dispatch_actor = saved_actor;
 dispatch:

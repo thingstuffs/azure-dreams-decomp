@@ -107,7 +107,7 @@ void func_80023260(void *actor, void *motion, void *sprite) {
     s32 speed;
     s32 idle_state;
     s32 offset_x;
-    register s32 offset_y ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 offset_y;
     s32 heading;
     s32 path_heading;
     s32 final_state;
@@ -142,9 +142,9 @@ void func_80023260(void *actor, void *motion, void *sprite) {
     offset_x = ((S_80023260_0 *)actor)->unk_0C.u;
     offset_y = ((S_80023260_0 *)actor)->unk_10.u;
     old_state = ((S_80023260_0 *)actor)->unk_18.s;
+    ((S_80023260_0 *)actor)->unk_0C.s = offset_x >> 1;
     ((S_80023260_0 *)actor)->unk_10.s = offset_y >> 1;
     state = ((S_80023260_0 *)actor)->unk_18.u;
-    ((S_80023260_0 *)actor)->unk_0C.s = offset_x >> 1;
     idle_state = 2;
     if (state == idle_state) {
         goto update_motion;

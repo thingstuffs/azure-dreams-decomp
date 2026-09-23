@@ -90,7 +90,7 @@ void *BODY_NAME(s16 spawn_flags, s16 tile_x, s16 tile_y, s16 spawn_value) {
     s8 saved_y;
     s32 flags_14;
     s32 flags_1c;
-    register void *query_object ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *query_object;
     void *query_attributes;
 
     saved_x = tile_x;
@@ -131,9 +131,9 @@ normal_path:
             query_object = object;
             if (!(actor_state->unk_14 & 0x200)) {
                 query_attributes = attributes;
-                kind_or_bits = func_800A6D30(query_object);
+                kind_or_bits = func_800A6D30();
                 if (kind_or_bits & 1) {
-                    func_800A48F0(actor_state, 1, (func_800A6D30(query_object) & 0x3F) | 0x20);
+                    func_800A48F0(actor_state, 1, (func_800A6D30() & 0x3F) | 0x20);
                     placement->unk_2C = &D_8016225C;
                 }
             }
