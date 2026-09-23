@@ -217,3 +217,5 @@
 {"date": "2026-09-23T05:13Z", "codex": {"pack": "r74_sol6v3_b6", "model": "gpt-6-sol", "candidates": 5}, "note": "r74 gpt-6-sol v3 brief on the partial-residue pool, 3-pin rows"}
 {"date": "2026-09-23T05:33Z", "codex": {"pack": "r75_astra_p2", "model": "gpt-6-astra", "candidates": 5}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
 {"date": "2026-09-23T06:04Z", "codex": {"pack": "r75_astra_p1", "model": "gpt-6-astra", "candidates": 5}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
+{"date": "2026-09-23T06:10Z", "codex": {"pack": "r75_astra_p3", "model": "gpt-6-astra", "candidates": 5}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
+{"date": "2026-09-23T06:16Z", "codex": {"pack": "r75_astra_p4", "model": "gpt-6-astra", "candidates": 2}, "note": "r75 astra on the partial-residue pool, 4-6-pin rows"}
