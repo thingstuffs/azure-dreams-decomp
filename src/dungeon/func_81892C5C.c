@@ -154,9 +154,9 @@ loop:
         ((S_81892C5C_0 *)scratch)->unk_64 = (s16)(center->unk_02 +
             (((x_trig >> 4) * radius) >> 8));
         x_trig = func_800644B8(mid_angle);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
-        end_angle = angle_base + 2;
+        prim_mode = angle_base + 2;
+        end_angle = prim_mode;
         end_angle *= angle_step;
         ((S_81892C5C_0 *)scratch)->unk_6C = (s16)(center->unk_02 +
             (((x_trig >> 4) * radius) >> 8));

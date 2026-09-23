@@ -93,7 +93,7 @@ void func_80025BA0(void) {
     S_func_80025BA0_3 *quad_data;
     s32 quad_index;
     s32 row_start;
-    register s32 index_or_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    register s32 index_or_coord ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it recolours the column index ($3 -> $2, local-alloc scan order); the source shape that makes it unnecessary has not been found */
     s32 right_offset;
     s32 right_y;
     s32 below_y;
@@ -102,7 +102,7 @@ void func_80025BA0(void) {
     s32 right_z;
     s32 below_z;
     s32 diagonal_z;
-    register s32 addr_or_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register s32 addr_or_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it recolours the count-page register ($2 -> $3) and turns the count read into lhu+sign-extend; the source shape that makes it unnecessary has not been found */
     s32 rounded_index;
     s32 quad_count;
 #ifdef NON_MATCHING
@@ -121,37 +121,19 @@ void func_80025BA0(void) {
                 func_8004491C((void *)effect_or_x, D_800259DC);
 
                 row_start = quad_index & ~0xF;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 index_or_coord = (quad_index + 1) & 0xF;
                 right_offset = (row_start + index_or_coord) * 8;
                 right = (Cell *)((unsigned long)right_offset + (unsigned long)vertices);
                 below = (Cell *)((unsigned long)((quad_index + 0x10) * 8) + (unsigned long)vertices);
-                ASM_KEEP(index_or_coord);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                index_or_coord += 0x10;
-                diagonal = (Cell *)((unsigned long)((row_start + index_or_coord) * 8) + (unsigned long)vertices);
+                diagonal = (Cell *)((unsigned long)((row_start + 0x10 + index_or_coord) * 8) + (unsigned long)vertices);
 
-                effect_or_x = vertices[quad_index].x;
-                addr_or_coord = right->x;
-                index_or_coord = diagonal->x;
                 motion = effect->unk_08;
-                right_y = right->y;
-                below_y = below->y;
-                diagonal_y = diagonal->y;
-                right_z = right->z;
-                below_z = below->z;
-                effect_or_x += addr_or_coord;
-                addr_or_coord = below->x;
-                diagonal_z = diagonal->z;
-                effect_or_x += addr_or_coord;
-                effect_or_x += index_or_coord;
-                addr_or_coord = vertices[quad_index].y;
-                index_or_coord = vertices[quad_index].z;
-                effect_or_x >>= 2;
+                effect_or_x = (vertices[quad_index].x + right->x + below->x + diagonal->x) >> 2;
+                right_y = (vertices[quad_index].y + right->y + below->y + diagonal->y) >> 2;
+                below_y = (vertices[quad_index].z + right->z + below->z + diagonal->z) >> 2;
                 motion->unk_02 = effect_or_x;
-                addr_or_coord = (addr_or_coord + right_y + below_y + diagonal_y) >> 2;
-                motion->unk_06 = addr_or_coord;
-                index_or_coord = (index_or_coord + right_z + below_z + diagonal_z) >> 2;
-                motion->unk_0A = index_or_coord;
+                motion->unk_06 = right_y;
+                motion->unk_0A = below_y;
 
                 motion->unk_0C = ((func_80069EF8() & 0xF) - 8) << 0x10;
                 motion->unk_10 = ((func_80069EF8() & 0xF) - 8) << 0x10;
@@ -172,11 +154,7 @@ void func_80025BA0(void) {
                 quad_data->unk_4C = *(s32 *)((u8 *)D_80026648 + right_offset);
                 quad_data->unk_50 = diagonal->z;
 
-                rounded_index = quad_index;
-                if (quad_index < 0) {
-                    rounded_index = quad_index + 0x1F;
-                }
-                if ((quad_index - ((rounded_index >> 5) << 5)) < 0x10) {
+                if ((quad_index % 32) < 0x10) {
                     *(s32 *)((u8 *)quad_data + 0x54) = D_800265C0;
                     quad_data->unk_58 = D_800265C4;
                 } else {

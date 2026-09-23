@@ -116,7 +116,7 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
 
     for (segment = 0; segment < 16; segment++) {
         register u8 *prim;
-        register s32 next_angle ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 next_angle;
         s32 angle_offset;
         s32 raw_angle;
         s32 biased_angle;
@@ -175,9 +175,8 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
             ((func_800644B8(angle) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_64 = ((S_80024930_0 *)scratch)->unk_74;
 
-        next_angle = ((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000;
         ((S_80024930_0 *)scratch)->unk_7C = center->unk_02 +
-            ((func_800644B8(next_angle) >> 4) * radius >> 8);
+            ((func_800644B8((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_6C = ((S_80024930_0 *)scratch)->unk_7C;
 
         ((S_80024930_0 *)scratch)->unk_76 = center->unk_06 +
@@ -185,7 +184,7 @@ s32 func_80024930(void *unused_data, S_80024930_1 *center, s32 unused_value, s16
         ((S_80024930_0 *)scratch)->unk_66 = ((S_80024930_0 *)scratch)->unk_76;
 
         ((S_80024930_0 *)scratch)->unk_7E = center->unk_06 +
-            ((func_80064584(next_angle) >> 4) * radius >> 8);
+            ((func_80064584((((((s16)segment + 1) % 16) * 0x100 + rotation) % 0x1000)) >> 4) * radius >> 8);
         ((S_80024930_0 *)scratch)->unk_6E = ((S_80024930_0 *)scratch)->unk_7E;
 
         ((S_80024930_0 *)scratch)->unk_B4 = func_80065590(

@@ -88,7 +88,6 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
     scratch->values[1] = position[3];
     scratch_94 = (u8 *)((u32)scratch_94 | 0x94);
     scratch->values[2] = position[5];
-    packet = (void *)(packet_cursor + 7);
     do {
         {
             DungeonObject *level_entry = (DungeonObject *)((u8 *)object + (s16)particle);
@@ -103,8 +102,8 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
         }
         {
             s32 particle_index = particle;
-            (*(s32 *)((u8 *)packet + -3)) = 0;
-            (*(s32 *)((u8 *)packet + 5)) = 0;
+            (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + -3)) = 0;
+            (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 5)) = 0;
             scratch->x70 = scratch->values[0] +
                 ((func_80064584((particle_index + (object->coord << 6)) << 7) << 4) >> 11);
             scratch->x78 = scratch->x70;
@@ -123,28 +122,26 @@ s32 func_800BABA8(DungeonObject *object, u16 *position) {
                 } else if (particle_level < 16) {
                     intensity = intensity / (16 - particle_level);
                 }
-                ((S_800BABA8_0 *)packet)->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
-                ((S_800BABA8_0 *)packet)->unk_15 = ((S_800BABA8_0 *)packet)->unk_0D;
-                ((S_800BABA8_0 *)packet)->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? intensity : 0;
-                ((S_800BABA8_0 *)packet)->unk_16 = ((S_800BABA8_0 *)packet)->unk_0E;
-                ((S_800BABA8_0 *)packet)->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? intensity : 0;
-                ((S_800BABA8_0 *)packet)->unk_17 = ((S_800BABA8_0 *)packet)->unk_0F;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0D = (*(s32 *)((u8 *)object->state + 0x14) & 1) ? intensity : 0;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_15 = ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0D;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0E = (*(s32 *)((u8 *)object->state + 0x14) & 4) ? intensity : 0;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_16 = ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0E;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F = (*(s32 *)((u8 *)object->state + 0x14) & 2) ? intensity : 0;
+                ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_17 = ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_0F;
             }
 
             scratch->length = func_80065420(&scratch->x70, (void *)(packet_cursor + 8),
                 scratch_90, scratch_94);
-            (*(s32 *)((u8 *)packet + 9)) = (*(s32 *)((u8 *)packet + 1));
-            (*(u16 *)((u8 *)packet + 9)) += 4;
+            (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 9)) = (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 1));
+            (*(u16 *)((u8 *)((void *)(packet_cursor + 7)) + 9)) += 4;
             scratch->length += func_80065420(&scratch->x78, (void *)(packet_cursor + 24),
                 scratch_90, scratch_94);
-            (*(s32 *)((u8 *)packet + 25)) = (*(s32 *)((u8 *)packet + 17));
-            (*(u16 *)((u8 *)packet + 25)) += 2;
+            (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 25)) = (*(s32 *)((u8 *)((void *)(packet_cursor + 7)) + 17));
+            (*(u16 *)((u8 *)((void *)(packet_cursor + 7)) + 25)) += 2;
             scratch->length >>= 1;
-            ((S_800BABA8_0_pre *)packet)[-1].unk_00 = 8;
-            ((S_800BABA8_0 *)packet)->unk_00 = 58;
-            packet = (void *)((s8 *)packet + 36);
-            ASM_KEEP_NV(packet);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-            packet = (void *)((s8 *)packet + 12);
+            ((S_800BABA8_0_pre *)((void *)(packet_cursor + 7)))[-1].unk_00 = 8;
+            ((S_800BABA8_0 *)((void *)(packet_cursor + 7)))->unk_00 = 58;
+            packet = (void *)((s8 *)((void *)((s8 *)((void *)(packet_cursor + 7)) + 36)) + 12);
             func_8006658C((void *)(scratch->base + scratch->length * 4),
                 (void *)packet_cursor);
             packet_cursor += 36;

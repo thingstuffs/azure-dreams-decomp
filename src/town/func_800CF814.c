@@ -23,7 +23,7 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
     TownCf814Obj *obj = target;
     register s32 initial_dx ASM_REG("$5") = step_x;
     s16 phase = motion->unk6A;
-    register s32 initial_dy ASM_REG("$2") = step_y;
+    s32 initial_dy = step_y;
     u16 timer;
 
     if (phase != 0) {
@@ -37,7 +37,8 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
         motion->unk6A++;
     }
 
-    timer = motion->unk6C - 1;
+    initial_dy = motion->unk6C - 1;
+    timer = initial_dy;
     motion->unk6C = timer;
     if ((timer << 0x10) > 0) {
         s32 pos_x = obj->unk2;

@@ -15,7 +15,7 @@ void func_8001CD98(void) {
     s8 *selected_values;
     s8 *entry;
     s16 *value_id;
-    register s32 first_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 first_index;
     s32 entry_index;
     register s32 entry_offset ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 next_flags;
@@ -70,7 +70,8 @@ next:
         entry_offset += 0x14;
         value_id++;
         entry_index++;
-        entry_page = (s8 **)0x80020000;
+        first_index = (s8 **)0x80020000;
+        entry_page = first_index;
         next_flags = ((u8 *)(entry_offset + (s32)*(s8 **)((s8 *)entry_page - 0x75E4)))[1];
         if ((next_flags & 0xC0) != 0x80) {
             goto loop;

@@ -172,7 +172,6 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
                     ASM_SET(owner_ref);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                     owner_ref = origin;
-                    ASM_KEEP_NV(owner_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     position = ((S_80C96F24_3 *)effect)->unk_08;
                     position->unk_00 =
                         ((S_80C96F24_6 *)owner_ref)->unk_00;
@@ -238,7 +237,8 @@ void func_80C96F24(S_80C96F24_0 *owner, void *origin) {
 
                     middle_band = start_radius * func_80064584(trig_angle);
                     start_angle = angle_index << 9;
-                    last_band = middle_band >> 12;
+                    owner_ref = middle_band >> 12;
+                    last_band = owner_ref;
                     ((S_80C96F24_1 *)effect_data)->unk_44 = last_band;
                     middle_band = start_radius * func_80064584(start_angle);
                     last_band = middle_band >> 12;

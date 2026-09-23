@@ -106,7 +106,7 @@ update:
                 func_8009F644(entity, 0x30, *(s16 *)(action + 0x96), 0);
 
                 {
-                    register s32 clear_mask ASM_REG("$3");
+                    s32 clear_mask;
                     u8 *anim_sprite;
                     u8 *animations;
                     s32 anim_mode;
@@ -130,7 +130,8 @@ update:
                     state_value &= clear_mask;
                     dungeon_state = &D_80083460;
                     *(s32 *)(entity + 0x1C) = state_value;
-                    state_value = *(u16 *)&dungeon_state->fieldA;
+                    clear_mask = *(u16 *)&dungeon_state->fieldA;
+                    state_value = clear_mask;
                     state_value++;
                     *(u16 *)&dungeon_state->fieldA = state_value;
                     *(u8 **)(anim_sprite + 0x2C) = animations;

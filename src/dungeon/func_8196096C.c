@@ -194,9 +194,7 @@ void func_8196096C(s32 y_offset, Input *origin, Input *quad_data, s32 draw_depth
     record->f20.h[0] = origin->index0 + coord_x;
     {
         s32 coord_y;
-        ASM_SET(coord_y);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        coord_y = record->f8.h[1];
-        coord_y -= 0x78;
+        coord_y = record->f8.h[1] - 0x78;
         coord_y += origin->index1 + saved_y_offset;
         record->f8.h[1] = coord_y;
         coord_y = record->f10.h[1];

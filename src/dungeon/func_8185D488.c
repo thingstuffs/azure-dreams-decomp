@@ -245,8 +245,8 @@ void func_80024C88(Controller *ctrl, Motion *motion, void *render_data)
 
                 direction = (s16)ctrl->angle;
                 root_z = *(u16 *)(root + 0x88);
-                x_step = &D_8006CCD8[direction];
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                lookup = &D_8006CCD8[direction];
+                x_step = lookup;
                 height = (s16)(root_z - 32);
                 y_step = &D_8006CCE8[direction];
                 floor_height = func_800BCB04((((s16)cell_x + *x_step) << 6) + 32 & 0xFFE0,

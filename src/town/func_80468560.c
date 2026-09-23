@@ -51,12 +51,12 @@ clear_flag_40a:
     func_8001E5F0(0x40A);
     state_page_addr = 0x80020000;
 run_script:
-    ASM_KEEP(state_page_addr);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     state_page = (u8 *)state_page_addr;
     opcode_handlers = D_800178E8;
     *(u8 **)(state_page - 0x16B0) = ((S_80019560_0 *)(*(void **)D_80016000))->unk_40 + 8;
     do {
-        opcode_result = opcode_handlers[**(u8 **)(state_page - 0x16B0)]();
+        state_page_addr = opcode_handlers[**(u8 **)(state_page - 0x16B0)]();
+        opcode_result = state_page_addr;
     } while (opcode_result == 0);
     D_8001E95C[0] = opcode_result;
     if (func_8001E670(D_800178BA[0]) == 0) {

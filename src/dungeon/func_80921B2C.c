@@ -68,7 +68,7 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
     s32 saved_z_offset = z_offset;
     u16 render_flags;
     register s32 effect_type ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register u8 *global_state ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *global_state;
     register u8 *direction_state ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     S_80921B2C_2 *motion;
     S_80921B2C_5 *sprite;
@@ -102,7 +102,8 @@ void func_80921B2C(S_80921B2C_3 *position, s32 x_offset, s32 y_offset, s32 z_off
         }
         motion = effect->unk_08;
         motion->unk_00.at00.v = (s32) position->unk_00;
-        motion->unk_04.at00.v = (s32) position->unk_04;
+        global_state = (s32) position->unk_04;
+        motion->unk_04.at00.v = global_state;
         motion->unk_08.at00.v = (s32) position->unk_08;
         motion->unk_00.at02.v = (u16) (motion->unk_00.at02.v + x_offset);
         motion->unk_04.at02.v = (u16) (motion->unk_04.at02.v + saved_y_offset);

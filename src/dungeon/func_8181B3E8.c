@@ -353,8 +353,8 @@ state_0:
                     if (target != 0) {
                         target_height = ((S_80024BE8_7 *)target)->unk_88;
                         direction = ((S_80024BE8_0 *)effect)->unk_7E.s;
-                        ((S_80024BE8_0 *)effect)->unk_78.u = target_height;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+                        direction_table = target_height;
+                        ((S_80024BE8_0 *)effect)->unk_78.u = direction_table;
                         direction_table = D_8006CCD8;
                         direction_entry = direction_table + direction * 2;
                         target_graphics = ((S_80024BE8_3_pre *)source)[-1].unk_00;

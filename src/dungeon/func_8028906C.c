@@ -58,7 +58,6 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
         delta = -delta;
     }
     rangeX = delta - 4;
-    ASM_SET(dead);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     dead = (DungeonState *)D_80083160;
     dirSlot = dir;
     dstY = dest->y;
@@ -84,7 +83,8 @@ s32 func_8001C06C(Pos *start, Pos *dest, s16 rnd, s16 *outX, s16 *outY) {
     if (delta2 < 0) {
         delta2 = -delta2;
     }
-    rangeY = delta2 - 4;
+    dead = delta2 - 4;
+    rangeY = dead;
     if (rangeY <= 0) {
         rangeY = 1;
     }

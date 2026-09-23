@@ -92,14 +92,13 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
     register s32 div_adjust ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     s32 fade_work;
     s32 rounded_color;
-    register s32 hold_bits ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 channel_bit;
     register s32 fade_out_red ASM_REG("$10");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     s32 fade_in_half;
     s32 fade_out_half;
     s32 packed_channel;
     s32 fade_out_remainder;
-    register s32 cycle_quotient ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 cycle_quotient;
     s32 packed_color;
     register s32 end_frame ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 frames_left;
@@ -142,9 +141,7 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_in_tick >> 31;
         {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
-        cycle_quotient = ((product_result + cycle_value) >> 2);
-        cycle_quotient -= div_adjust;
-        cycle_value = cycle_value - (cycle_quotient * 7);
+        cycle_value = cycle_value - (((((product_result + cycle_value) >> 2)) - div_adjust) * 7);
         cycle_value = cycle_value + 1;
         packed_channel = (s32) ((u32) cycle_value << 16);
         fade_in_color = packed_channel >> 16;
@@ -190,9 +187,7 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) hold_tick >> 31;
         {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
-        cycle_quotient = ((product_result + cycle_value) >> 2);
-        cycle_quotient -= div_adjust;
-        cycle_value = cycle_value - (cycle_quotient * 7);
+        cycle_value = cycle_value - (((((product_result + cycle_value) >> 2)) - div_adjust) * 7);
         cycle_value = cycle_value + 1;
         cycle_value = (s32) ((u32) cycle_value << 16);
         hold_color = cycle_value >> 16;
@@ -201,15 +196,14 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
             rounded_color = hold_color + 3;
         }
         red = (rounded_color >> 2) * 0xC0;
-        hold_bits = (hold_color + (s32) ((u32) cycle_value >> 31)) >> 1;
+        end_frame = (hold_color + (s32) ((u32) cycle_value >> 31)) >> 1;
         ((S_818B6AFC_4 *)color_out)->unk_0C.at00.v = red;
         ((S_818B6AFC_3 *)target_color)->unk_0C = red;
-        green = ((s16) hold_bits % 2) * 0xC0;
-        hold_bits = (s16) (hold_color - (hold_bits * 2));
+        green = ((s16) end_frame % 2) * 0xC0;
+        end_frame = (s16) (hold_color - (end_frame * 2));
         ((S_818B6AFC_4 *)color_out)->unk_0C.at01.v = green;
-        ((S_818B6AFC_3 *)target_color)->unk_0D = green;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        blue = hold_bits * 0xC0;
+        (*(s8 *)((u8 *)target_color + 0xD)) = green;
+        blue = end_frame * 0xC0;
         ((S_818B6AFC_4 *)color_out)->unk_0C.at02.v = blue;
         ((S_818B6AFC_3 *)target_color)->unk_0E = blue;
         render_owner = ((S_818B6AFC_0 *)effect)->unk_00;
@@ -230,9 +224,7 @@ void func_800242FC(void *effect_data, M2C_UNK render_arg, void *color_out) {
         target_color = ((S_818B6AFC_8_pre *)(((S_818B6AFC_0 *)effect)->unk_10))[-1].unk_00;
         div_adjust = (s32) (s16) fade_out_tick >> 31;
         {  register s32 implicit_hi ASM_REG("hi");  ASM_CLOBBER("hi");  (product_result) = implicit_hi;     }
-        cycle_quotient = ((product_result + fade_out_remainder) >> 2);
-        cycle_quotient -= div_adjust;
-        fade_out_remainder = fade_out_remainder - (cycle_quotient * 7);
+        fade_out_remainder = fade_out_remainder - (((((product_result + fade_out_remainder) >> 2)) - div_adjust) * 7);
         fade_out_remainder = fade_out_remainder + 1;
         packed_color = (s32) ((u32) fade_out_remainder << 16);
         fade_out_color = packed_color >> 16;

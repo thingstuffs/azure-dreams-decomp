@@ -140,7 +140,7 @@ void func_80025954(void *state, void *motion_in, void *appearance) {
     s32 model;
     void *destination;
     void *owner_links;
-    register void *owner ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    void *owner;
     void *target;
     void *origin;
     void *entity;
@@ -220,7 +220,7 @@ store_origin_z:
     motion_value -= axis_delta;
     stack.distance[2] = (u16)(abs(motion_value));
     ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = x_distance;
-scan_distances:
+do {
     if (((S_80025954_10 *)distance_cursor)->unk_18 <= ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16) {
         goto next_distance;
     }
@@ -228,9 +228,7 @@ scan_distances:
 next_distance:
     step_count += 1;
     distance_cursor += 2;
-    if (step_count < 3) {
-        goto scan_distances;
-    }
+    } while (step_count < 3);
     travel_frames = (s32) ((u16) ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 << 0x10) >> 0x14;
     ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16 = (s16) travel_frames;
     if (travel_frames != 0) {
@@ -255,9 +253,7 @@ aim_at_target:
     axis_delta -= motion_value;
     axis_delta /= ((Rec_func_80024170_arg0 *)state)->unk_12.as_s16;
     motion_out = motion;
-    ASM_KEEP(motion_out);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     ((S_80025954_11 *)motion_out)->unk_14 = axis_delta;
-    ASM_JALDELAY_PIN(axis_delta);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     func_80024170(state, motion_out, distance_cursor, destination);
     motion_value = (u16) ((Rec_func_80024170_arg0 *)state)->unk_0A + 1;
     goto set_phase;
@@ -271,7 +267,7 @@ trace_direction:
     tile_y = ((S_80025954_9 *)entity)->unk_25;
     end_tile_x = tile_x;
     stack.saved_y = (u16) tile_y;
-scan_tiles:
+do {
     if ((func_800A44E0(((s16) tile_x << 6) & 0xFFC0, ((s16) tile_y << 6) & 0xFFC0, ((S_80025954_1 *)owner)->unk_88, (s16) (((Rec_func_80024170_arg0 *)state)->unk_0E << 9)) << 0x10) != 0) {
         goto use_endpoint;
     }
@@ -323,14 +319,10 @@ scan_tiles:
     tile_y = motion_value;
     stack.saved_y = (u16) motion_value;
     end_tile_x = source_coord;
-    if (step_count < 8) {
-        goto scan_tiles;
-    }
+    } while (step_count < 8);
 use_endpoint:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     destination = stack.motion;
 build_endpoint:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     axis_delta = (u32) end_tile_x << 0x10;
     source_coord = (s32)(D_8006CCD8);
     axis_delta >>= 0xA;

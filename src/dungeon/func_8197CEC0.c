@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef union {
     s32 word;
@@ -185,7 +186,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     s32 packed_color;
                     s32 data_word;
                     SpawnState *state;
-                    register SpawnChild *child ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                    SpawnChild *child;
                     s16 target_y;
                     s16 start_y;
                     s32 y_delta;
@@ -196,10 +197,7 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     state = spawn->state;
                     coord_term = (s16)target->x.half.coord;
                     coord_term -= (s16)start_pos[0];
-                    coord_magnitude = coord_term;
-                    if (coord_term < 0) {
-                        coord_magnitude = -coord_magnitude;
-                    }
+                    coord_magnitude = abs(coord_term);
                     child = &spawn->child;
                     if (coord_magnitude == 0) {
                         coord_magnitude = 1;
@@ -224,7 +222,6 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     spawn->position->x.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     spawn->position->y.word += (((func_80069EF8() & 0x3FF) - 0x1FF) << 10);
                     z_jitter = func_80069EF8();
-                    packed_color = 0xC00000;
                     spawn->position->z.word = target->z.word + (((z_jitter & 0x3FF) - 0x1FF) << 10);
                     state->field1E = 0x1800;
                     state->field1C = 0x1800;
@@ -232,12 +229,10 @@ void func_8197CEC0(Actor *actor, Vec3 *target, Sprite *sprite) {
                     state->field0 = (s32)particle_data;
                     state->flags14 = state->flags14 | 0xC;
                     data_word = particle_data[1];
-                    packed_color |= 0x6060;
                     state->field4 = 0;
                     state->field5 = 0;
-                    state->fieldC = packed_color;
+                    state->fieldC = (0xC00000 | 0x6060);
                     state->field8 = data_word;
-                    ASM_KEEP_DEP_NV(child, packed_color);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                     data_word = (s32)actor->field0;
                     child->field4C = 0;
                     child->parent = (void *)data_word;

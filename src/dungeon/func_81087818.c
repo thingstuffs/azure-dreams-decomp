@@ -174,9 +174,9 @@ state0:
         motion->unk_2C.half.unk_2E =
             (((S_81087818_1 *)motion->unk_40)->unk_AA * 64) +
             ((*(s16 *)((u8 *)D_8006CCE8 + direction_offset) + 1) * 32);
-        motion->unk_30.half.unk_32.u = ((S_81087818_4 *)&base)->unk_0A.u;
+        distance_x = ((S_81087818_4 *)&base)->unk_0A.u;
+        motion->unk_30.half.unk_32.u = distance_x;
 
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         distance_x = motion->unk_28.half.unk_2A;
         base_x = ((S_81087818_4 *)&base)->unk_02.s;
         base_y = ((S_81087818_4 *)&base)->unk_06.s;

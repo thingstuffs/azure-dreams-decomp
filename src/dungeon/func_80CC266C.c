@@ -91,8 +91,8 @@ next_direction:
     if (direction >= 8) {
         if ((target != NULL) && (reference_found & 0xFFFF)) {
             global_state = D_80083460;
-            ASM_KEEP(reference_found);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            ((S_80175E6C_3 *)global_state)->unk_0A = (u16) (((S_80175E6C_3 *)global_state)->unk_0A + 1);
+            reference_found = (u16) (((S_80175E6C_3 *)global_state)->unk_0A + 1);
+            ((S_80175E6C_3 *)global_state)->unk_0A = reference_found;
             ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = target;
             func_800A9A0C(target);
             ((Rec_func_800A9E70_arg0 *)action_state)->unk_9A.as_s8 = 0x17;
