@@ -40,6 +40,37 @@ class Compose2(unittest.TestCase):
         finally:
             C._ORIG = orig; C._CACHE.clear()
 
+    def test_pinfree_menu_keeps_only_pin_free_candidates_within_max_dA(self):
+        t0 = "void f(void)\n{\n    ASM_KEEP(x);\n    x = 1;\n}\n"
+        near_free = t0.replace("    ASM_KEEP(x);\n", "")
+        far_free = near_free.replace("x = 1", "x = 2")
+        pinned = t0.replace("x = 1", "x = 3")
+        listing = {t0: ["a", "b", "c"], near_free: ["a", "b", "d"], pinned: ["a", "b", "c", "e"],
+                   far_free: ["q"] * 40}
+
+        class T:
+            @staticmethod
+            def eligible(text, row, cen):
+                return None
+
+            @staticmethod
+            def apply_verified(text, row, cen, vf):
+                for c in (near_free, far_free, pinned):
+                    C.compile_s(row, c)
+                return None, {}
+        A = type("A", (), {"T": T, "__name__": "fakeA"})
+        orig = C._ORIG
+        try:
+            C._ORIG = lambda row, text: listing.get(text)
+            row = {"id": "x/g", "cfg": "2.7.2"}
+            C.MODE.update(pinfree=True, max_dA=20)
+            menu = C.menu_of(A, row, t0, {}, 3)
+            self.assertEqual([(d, pc) for d, pc, _h, _c in menu], [(2, 0)])     # the far one is beyond max_dA
+            C.MODE.update(pinfree=False)
+            self.assertEqual([pc for _d, pc, _h, _c in C.menu_of(A, row, t0, {}, 3)], [1])
+        finally:
+            C._ORIG = orig; C._CACHE.clear(); C.MODE.update(pinfree=False); C.STATS.clear()
+
 
 if __name__ == "__main__":
     unittest.main()
