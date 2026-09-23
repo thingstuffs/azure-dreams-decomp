@@ -1,29 +1,52 @@
-# Generators passed to tools/lanes/land_lanes.sh as EXTRA_T by tools/lanes/land_gap.sh (and by any t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# hand landing: EXTRA_T="$(grep -v '^#' tools/lanes/cascade_extra.txt | tr '\n' ' ')"). t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# ONE place for the list.  Until round 68 every session scratchpad lander carried its own copy of t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# this string (land_r63.sh ... land_r68.sh, pool.sh, codex59j.sh, clone_watch.sh), and each copy was t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# a different prefix of it: a lane landed by the older script simply did not get the newer t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# generators swept over its changed rows. t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# A generator belongs here as soon as it has landed a row and until it is added to the built-in t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# cascade of land_lanes.sh (tools/lanes/add_cascade rules: an entry in both lists is harmless, it t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# just sweeps twice).  land_lanes.sh's own list is the permanent home; coherence_sweep.py keeps a t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-# separate list of its own which this file does NOT feed - extend that one by hand. t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t78_aggcopy t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t80_derivecall t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t81_reuselocal t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t82_armsink t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t83_storeafterproducer t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t84_narrowparams t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t86_symaddr t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t87_lifetimemerge t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t88_castshift t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t89_lifetimesplit t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t90_lifetimemerge_far t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t90_callunnest t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t91_absfresh t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t92_pagerun t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t93_scopemerge t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t94_castsplit t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
-t95_runjoint t96_absplace t97_pagesym t98_paramcell t99_absmem t101_crossmerge t102_gotojoin
+# Generators passed to tools/lanes/land_lanes.sh as EXTRA_T by tools/lanes/land_gap.sh (and by any
+# hand landing: EXTRA_T="$(python3 tools/lanes/cascade_list.py)").
+#
+# ONE place for the list.  Until round 68 every session scratchpad lander carried its own copy of
+# this string (land_r63.sh ... land_r68.sh, pool.sh, codex59j.sh, clone_watch.sh), and each copy was
+# a different prefix of it: a lane landed by the older script simply did not get the newer
+# generators swept over its changed rows.
+#
+# A generator belongs here as soon as it has landed a row (or reproduced an exemplar) and until it is
+# added to the built-in cascade of land_lanes.sh; land_lanes.sh's own list is the permanent home.
+# coherence_sweep.py's default is the built-in list + this file (tools/lanes/cascade_list.full()).
+#
+# FORMAT: ONE generator per line, appended at the end.  Never extend it with `sed 's/$/ tNN/'` - that
+# appends to EVERY line (three commits did, round 76 repaired it).  tools/lanes/cascade_list.py parses
+# this file: it strips comments, drops duplicates, drops tokens that are not tools/xform modules and
+# tokens already in land_lanes.sh's built-in cascade, each with a warning on stderr
+# (tools/tests/test_cascade_list.py).
+#
+# Round 76: t78-t87 left this file (they are in land_lanes.sh's built-in list); t96-t102 one per line;
+# t100 and t103-t117 added (every one landed a row or reproduced an exemplar in the round-73 harvests,
+# docs/evidence/pin_research_round73_move_table.md) EXCEPT t116_ptaglink: 0/3 exemplars, never swept
+# (docs/evidence/r76_cascade_compose.md).
+t88_castshift
+t89_lifetimesplit
+t90_lifetimemerge_far
+t90_callunnest
+t91_absfresh
+t92_pagerun
+t93_scopemerge
+t94_castsplit
+t95_runjoint
+t96_absplace
+t97_pagesym
+t98_paramcell
+t99_absmem
+t100_rmwfold
+t101_crossmerge
+t102_gotojoin
+t103_dropsink
+t104_pagejoint
+t105_headhoist
+t106_nmpromote
+t107_incstore
+t108_globalreg
+t109_voidret
+t110_paramfold
+t111_selfadd
+t112_deadhost
+t113_sibarity
+t114_zeroreg
+t115_carrierfold
+t117_stagehost

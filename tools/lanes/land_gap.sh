@@ -41,6 +41,7 @@
 # text of the pattern; (b) never name a log file after a process this script greps for; (c) wait on
 # OUR OWN children by PID with `kill -0`, never by pattern (see tools/lanes/pool.py).
 set -u
+HERE=$(cd "$(dirname "$0")" && pwd)
 cd "${LAND_GAP_ROOT:-$(dirname "$0")/../..}"
 
 TAG=${1:?usage: land_gap.sh <tag> <lane>...}; shift
@@ -48,7 +49,11 @@ LANES="$*"; [ -n "$LANES" ] || { echo "usage: land_gap.sh <tag> <lane>..."; exit
 POLL=${GAP_POLL:-60}
 MAXW=${GAP_MAX_WAIT:-54000}
 if [ -z "${EXTRA_T+x}" ]; then
-  EXTRA_T=$(grep -v '^[[:space:]]*#' tools/lanes/cascade_extra.txt 2>/dev/null | tr '\n' ' ')
+  # cascade_list.py (next to this script) strips comments, drops duplicates / non-generators / built-in
+  # generators with a warning on stderr - three `sed 's/$/ tNN/'` edits once put six generators on every
+  # line and they swept ~17x per pass (round 76).  The grep is the fallback if python3 cannot run it.
+  EXTRA_T=$(python3 "$HERE/cascade_list.py" tools/lanes/cascade_extra.txt) \
+    || EXTRA_T=$(grep -v '^[[:space:]]*#' tools/lanes/cascade_extra.txt 2>/dev/null | tr '\n' ' ')
 fi
 export EXTRA_T
 

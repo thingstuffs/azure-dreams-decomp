@@ -27,7 +27,16 @@ import xform                                                                   #
 
 OUT = LEDGER / "coherence_sweep.jsonl"
 INCLUDE = ROOT / "include"
-CASCADE = ("t36_paramwidth t37_localwidth t37b_localwidth_keep t38_unstage t39_signbit t41_gotoloop t41b_gotoloop_while "
+# The whole cascade land_lanes.sh runs: its built-in list + tools/lanes/cascade_extra.txt (round 76; until then this was a
+# hand-kept literal that stopped at t87 and never saw the EXTRA_T generators).  The literal is the fallback.
+sys.path.insert(0, str(ROOT / "tools/lanes"))
+try:
+    import cascade_list                                                        # noqa: E402
+    CASCADE = cascade_list.full()
+except Exception:                                                              # noqa: BLE001
+    CASCADE = None
+if not CASCADE or len(CASCADE) < 2:
+    CASCADE = ("t36_paramwidth t37_localwidth t37b_localwidth_keep t38_unstage t39_signbit t41_gotoloop t41b_gotoloop_while "
            "t41c_gotoloop_greedy t42_sinkcopy t44_doloop_greedy t48_gotoreturn t49_looptest t16_absidiom t16b_fieldabs "
            "t51_sched_order t53_reg_state t53k_keep t54_pagebase t57_keepafterstore t57b_keepafternext t59_offsetsym "
            "t63_memdep t66_sameregmerge t69_prologue t71_updateaftercall t72_stmtperm t38b_unstage_run t74_multiset t76_arity t78_aggcopy t80_derivecall t81_reuselocal t82_armsink t83_storeafterproducer t84_narrowparams t86_symaddr t87_lifetimemerge t2_pins").split()
