@@ -588,8 +588,7 @@ after_status_or:
                 reset_base->unk_02 = 0U;
             }
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (!(D_80013714 & 8) && (!(D_80083462 & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
+        if (!((*(u16 *)0x80013714) & 8) && (!(D_80083462 & 4) || (((S_80089AA0_6 *)(&D_800E296C))->unk_00 & 0x40) || ((*(u8 *)((u8 *)linked_actor + 0x9A)) == 0x17))) {
             D_800E296C = (s32)(D_800E296C & ~0x40);
             if ((func_800C77D0(actor - 0x20, motion_or_count, 8, D_800DCE60[3]) << 0x10) != 0) {
                 D_800832B4[0] = 0;

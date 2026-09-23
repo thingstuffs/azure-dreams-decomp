@@ -135,7 +135,7 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
     u8 *manager;
     u8 *initial_manager;
     u8 *packet;
-    register u8 **primitive_list ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 **primitive_list;
     u8 *texture_data;
     u8 *primitive;
     u32 depth;
@@ -326,7 +326,8 @@ lists_done:
     }
     reverse_winding = next_batch + 0x20;
     batch = reverse_winding;
-    dispatch_arg = ((S_800B06F0_6 *)next_batch)->unk_08;
+    primitive_list = ((S_800B06F0_6 *)next_batch)->unk_08;
+    dispatch_arg = primitive_list;
     params = ((S_800B06F0_6 *)next_batch)->unk_0C;
     goto dispatch;
 

@@ -65,11 +65,11 @@ void *func_80170894(s32 spawn_flags, s8 attr_a, s16 attr_b, s16 attr_c)
     s32 held_flags;
     void *obj;
     s8 held_b;
-    register s8 held_a ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 held_a;
     void *part_a;
     s16 flags_copy;
-    s32 call_id;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    const void *call_target;   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 call_id;
+    const void *call_target;
 
     held_flags = spawn_flags;
     work = 0;

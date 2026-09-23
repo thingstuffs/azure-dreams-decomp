@@ -139,8 +139,8 @@ void func_80AC55DC(
         work->unk_44 = step_y / 2;
         ASM_KEEP(duration_eighth);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         step_z = -(offset_z << 16) / duration_eighth;
-        work->unk_48 = step_z / 2;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        offset_fixed = step_z / 2;
+        work->unk_48 = offset_fixed;
 
         offset_fixed = step_x;
         if (offset_fixed < 0) {

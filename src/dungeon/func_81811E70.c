@@ -12,7 +12,7 @@ s32 func_80026E70(s32 target_value, s32 prefix_value) {
     u8 value;
 
     count = 0;
-    index = count; ASM_KEEP(index);
+    index = count; 
     entry = D_800157D2;
 loop:
     value = entry[0];

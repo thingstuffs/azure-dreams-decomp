@@ -21,7 +21,7 @@ typedef struct {
 /* Moves the object by fixed steps until its timer expires, then advances the state. */
 void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32 duration, s32 step_x, s32 step_y) {
     TownCf814Obj *obj = target;
-    register s32 initial_dx ASM_REG("$5") = step_x;
+    s32 initial_dx = step_x;
     s16 phase = motion->unk6A;
     s32 initial_dy = step_y;
     u16 timer;
@@ -37,7 +37,8 @@ void func_800CCF74(TownCf814State *motion, TownCf814Obj *target, s32 unused, s32
         motion->unk6A++;
     }
 
-    initial_dy = motion->unk6C - 1;
+    initial_dx = motion->unk6C - 1;
+    initial_dy = initial_dx;
     timer = initial_dy;
     motion->unk6C = timer;
     if ((timer << 0x10) > 0) {

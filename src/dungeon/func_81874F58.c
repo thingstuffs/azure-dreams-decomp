@@ -1,4 +1,8 @@
 #include "common.h"
+typedef struct {
+    u32 addr : 24;
+    u32 len : 8;
+} P_TAG;
 
 extern u8 *D_80083160;
 
@@ -226,14 +230,13 @@ void func_80024758(void *mesh, void *position, void *material, u16 depth_bias) {
                             }
                         }
                         {
-                            register u32 address_mask ASM_REG("$4") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-                            register u32 tag_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                            u32 address_mask = 0x00FFFFFF;
+                            u32 tag_mask = 0xFF000000;
                             s32 *ordering_slot;
                             *(s32 *)(quad + 4) = *(s32 *)((u8 *)material + 0xC);
-                            *(s32 *)quad = (*(s32 *)quad & tag_mask)
-                                | (*(s32 *)((*(s32 *)(scratch + 0x100) * 4) + *(s32 *)(scratch + 0x24)) & address_mask);
+                            ((P_TAG *)&*(s32 *)quad)->addr = ((P_TAG *)&*(s32 *)((*(s32 *)(scratch + 0x100) * 4) + *(s32 *)(scratch + 0x24)))->addr;
                             ordering_slot = (s32 *)((*(s32 *)(scratch + 0x100) * 4) + *(s32 *)(scratch + 0x24));
-                            *ordering_slot = (*ordering_slot & tag_mask) | ((s32)quad & address_mask);
+                            ((P_TAG *)&*ordering_slot)->addr = (u32)((s32)quad);
                         }
                     }
                 }
