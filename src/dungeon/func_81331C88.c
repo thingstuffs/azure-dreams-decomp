@@ -157,9 +157,9 @@ void func_80168C88(u8 *effect, void *origin, void *color_in)
     u8 *vertex_base;
     u8 *texture_data;
     void *texture;
+    u16 *near_vertex;
     s32 coord;
     s32 source_offset;
-    u16 *near_vertex;
     register u16 *far_vertex ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 coord_offset;
     s32 source_side;
@@ -249,13 +249,12 @@ interpolate_axis:
     do {
         task = func_8003FC64(0x12);
         if (task != NULL) {
-            void *init_fn;
+            void *init_fn = 0;
             void *callback;
 
             scaled_delta = (s32)(task);
             segment_data = (u8 *)task + 0x20;
             callback = D_80166914;
-            ASM_KEEP_DEP_NV(init_fn, segment_data);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             init_fn = D_80167C30;
             ((S_80168C88_4 *)segment_data)->unk_18 = one;
             ((S_80168C88_4 *)segment_data)->unk_1A = one;
@@ -321,7 +320,6 @@ interpolate_axis:
                 coord = 0;
                 source_side = one;
                 source_side -= side;
-                ASM_KEEP_NV(source_side);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
                 source_index = source_side * 2;
                 source_index += source_side;
                 ASM_KEEP_NV(source_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */

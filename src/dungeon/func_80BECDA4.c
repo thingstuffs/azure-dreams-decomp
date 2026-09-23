@@ -69,15 +69,11 @@ extern u8 D_80171014[];
 extern u8 D_8017420C[];
 
 /* Advances an object action through spawning, actor synchronization, and cleanup. */
-void func_801725A4(void *owner_arg, void *motion_arg, void *actor_arg, void *object_arg)
+void func_801725A4(void *owner, void *motion, void *actor, void *object)
 {
     static void *const dispatch_labels[] = {
         &&L_tail_b0, &&L_tail_b8, &&L_tail_c0, &&L_after_jt
     };
-    register void *owner ASM_REG("$21") = owner_arg;
-    void *motion = motion_arg;
-    register void *actor ASM_REG("$18") = actor_arg;
-    void *object = object_arg;
     register s32 is_special;
     u8 *action_data;
     register s32 x ASM_REG("$2");
@@ -92,9 +88,6 @@ void func_801725A4(void *owner_arg, void *motion_arg, void *actor_arg, void *obj
     void **dispatch_table;
     s32 state;
     state = ((S_801725A4_0 *)owner)->unk_9B;
-    ASM_KEEP_NV(motion);
-    ASM_KEEP_NV(actor);
-    ASM_KEEP_NV(object);
     is_special = 0;
     if (state == 1) {
         goto L_state1;
@@ -147,8 +140,7 @@ L_kind3:
         action_data = (u8 *)object + 0xE;
         goto L_selected;
     }
-    action_data = 0;
-    goto L_selected;
+    goto L_after_jt;
 L_kind2:
     action_data = (u8 *)object + 0xB;
     goto L_selected;
@@ -160,8 +152,8 @@ L_after_jt:
     action_data = 0;
 L_selected:
     if (*action_data != 0) {
-        ((S_801725A4_0 *)owner)->unk_98 &= 0xFF7F;
-        ASM_KEEP(owner);
+        x = ((S_801725A4_0 *)owner)->unk_98 & 0xFF7F;
+        ((S_801725A4_0 *)owner)->unk_98 = x;
         x = is_special;
         if (x) {
             spawn = D_800814A8;

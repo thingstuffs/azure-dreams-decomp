@@ -57,12 +57,13 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
 {
     Palette palette;
     s32 *palette_entries;
-    register s32 value ASM_REG("$2");
+    s32 value;
+    s32 negative;
     u32 tint_color;
     s32 palette_value;
     void *object;
     S_80956E6C_1 *position;
-    S_80956E6C_2 *position_aux;
+    u32 aux_value;
     S_80956E6C_3 *primitive;
 
     palette = D_800201B4;
@@ -73,19 +74,21 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
         func_8004491C(object, D_80044BB0);
 
         primitive = ((S_80956E6C_0 *)object)->unk_0C;
+        negative = signed_position < 0;
         value = signed_position;
         position = ((S_80956E6C_0 *)object)->unk_08.p32;
-        if (signed_position < 0) {
+        if (negative) {
             value = -value;
             position->unk_02 = value;
         } else {
             position->unk_02 = value;
         }
         value = 0x80;
-        position_aux = ((S_80956E6C_0 *)object)->unk_08.p32;
-        position_aux->unk_06 = value;
+        aux_value = (u32)((S_80956E6C_0 *)object)->unk_08.p32;
+        ((S_80956E6C_2 *)aux_value)->unk_06 = value;
 
-        primitive->unk_10 = 0x60;
+        aux_value = 0x60;
+        primitive->unk_10 = aux_value;
         primitive->unk_14 |= 0xC;
 
         value = settings->unk_48;
@@ -96,10 +99,10 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
         primitive->unk_1A = value;
         ((S_80956E6C_0 *)object)->unk_08.s16 = field_28_value;
 
-        value = settings->unk_4A;
+        palette_value = settings->unk_4A;
         tint_color = 0xC0C0C0;
-        primitive->unk_1E = value;
-        primitive->unk_1C = value;
+        primitive->unk_1E = palette_value;
+        primitive->unk_1C = palette_value;
         palette_value = palette_entries[palette_index];
         primitive->unk_04 = 0;
         primitive->unk_05 = 0;
@@ -107,7 +110,3 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
         primitive->unk_08 = palette_value;
     }
 }
-
-/* MECHANISM: A 20-byte Palette local produces the 0x48 frame and five-word stack copy.
-   Guarded s1 table-base and v0 value roles reproduce the saved set and temporary coloring.
-   Split position, palette-value, and tint_color live ranges place both load-delay fillers exactly. */

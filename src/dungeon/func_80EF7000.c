@@ -303,9 +303,8 @@ move:
         GridPoint *step;
 
         coord = motion->unk_70;
-        interp_goal = motion->unk_34;
+        interp_goal = motion->unk_34 << 2;
         rounded = motion->unk_7C;
-        interp_goal <<= 2;
         step = (GridPoint *)((u8 *)direction_base + interp_goal);
         interp_goal = motion->unk_5C;
         coord += rounded;
@@ -323,7 +322,6 @@ move:
         coord = step->y.unk_02_u16;
         rounded = position->unk_04.half.unk_06.unk_06;
         interp_goal = motion->unk_5D;
-        ASM_KEEP(interp_goal);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         coord = (s16)coord;
         interp_goal += coord;
         if (rounded < 0)

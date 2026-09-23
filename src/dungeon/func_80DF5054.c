@@ -69,7 +69,7 @@ void *func_8015E854(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
     register s8 saved_variant;
     register s8 saved_kind_id ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *part_a;
-    s32 final_arg0;
+    s16 final_arg0;
     S_8015E854_3 *part_b;
     void *actor;
 
@@ -78,9 +78,8 @@ void *func_8015E854(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
     saved_spawn = spawn_value;
     saved_variant = variant;
     obj = func_8003FD64(0x112, D_80083498);
+    final_arg0 = flags;
     if (obj != 0) {
-        final_arg0 = flags;
-        ASM_KEEP(final_arg0);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         work = (u8 *)obj + 0x20;
         ((S_8015E854_0 *)work)->unk_13 = 0x1C;
         func_8004491C(obj, D_80045340);

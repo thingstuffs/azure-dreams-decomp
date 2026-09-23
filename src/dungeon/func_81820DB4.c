@@ -204,11 +204,8 @@ after_color:
                     + (*(s16 *)((u8 *)obj + 0x0E) << 4)) >> 8);
         {
             LocalPacket *packet_ptr = &packet;
-            ASM_KEEP(packet_ptr);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             z_offset = *(u16 *)((u8 *)obj + 0x0E);
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            packet_height = obj->height;
-            packet_height += z_offset << 1;
+            packet_height = obj->height + (z_offset << 1);
             packet.height = packet_height;
             packet.type = 4;
             packet.pad1A = 0;

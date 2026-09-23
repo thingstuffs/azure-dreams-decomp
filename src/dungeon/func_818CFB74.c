@@ -424,11 +424,9 @@ wait_finish:
                 reset_page = (u8 *)0x80080000;
                 ASM_KEEP_NV(reset_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                 *(s32 *)(reset_page + 0x346C) = 0;
-                object_flags = ((u16 *)state)[-1];
-                ASM_KEEP(object_flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                object_flags = (((u16 *)state)[-1]) | 0x8000;
                 flags_page = (u8 *)0x80080000;
                 ASM_KEEP(flags_page);
-                object_flags |= 0x8000;
                 ((u16 *)state)[-1] = object_flags;
                 *(s32 *)(flags_page + 0x14A0) |= 0x8000;
             } else {

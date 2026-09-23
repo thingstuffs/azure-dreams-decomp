@@ -56,7 +56,8 @@ extern s16 D_8008346A;
 void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void *object_data) {
     s32 direction_offset;
     register s32 direction_x ASM_REG("$4");
-    register u8 *direction_y_table ASM_REG("$2");
+    u8 *direction_y_table;
+    u8 *direction_y_table_2;
     s32 direction_y;
     s32 motion_step;
     s32 state;
@@ -64,15 +65,13 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     s32 is_low_state;
 
     direction_x = (s32)(unsigned long)&D_8006CCD8;
-    direction_y_table = &D_8006CCE8;
+    direction_y_table_2 = &D_8006CCE8;
     direction_offset = (((S_80173294_0 *)object_data)->unk_6A >> 8) & 0xE;
     motion_step = 0xC000;
     direction_x = *(s16 *)(unsigned long)(u32)(direction_offset + direction_x);
-    direction_offset += (s32)(unsigned long)direction_y_table;
-    ASM_KEEP(motion_step);
-    motion_value = ((S_80173294_1 *)motion_data)->unk_14;
+    direction_offset += (s32)(unsigned long)direction_y_table_2;
+    motion_value = (((S_80173294_1 *)motion_data)->unk_14) + motion_step;
     direction_y = *(s16 *)(unsigned long)(u32)direction_offset;
-    motion_value += motion_step;
     ((S_80173294_1 *)motion_data)->unk_14 = motion_value;
     state = ((S_80173294_2 *)effect_data)->unk_9B;
 
@@ -134,8 +133,7 @@ state_1:
         ((S_80173294_3 *)sprite_data)->unk_12 = sprite_x;
         ((S_80173294_3 *)sprite_data)->unk_14 = sprite_flags;
         state_byte = (volatile u8 *)((u8 *)effect_data + 0x9B);
-        direction_y_table = (u8 *)(*state_byte + 1);
-        ((S_80173294_2 *)effect_data)->unk_9B = (s32)direction_y_table;
+        ((S_80173294_2 *)effect_data)->unk_9B = (s32)((u8 *)((u8 *)(*state_byte + 1)));
         goto done;
     }
 

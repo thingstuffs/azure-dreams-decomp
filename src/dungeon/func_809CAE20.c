@@ -85,7 +85,7 @@ void func_80172620(void *action, void *transform, void *sprite, void *actor)
 {
     s32 state;
     void *allocated_effect;
-    void *effect;
+    void *effect = 0;
     void *effect_sprite;
     void *effect_transform;
 
@@ -140,9 +140,8 @@ state_one:
     if ((((Rec_D_80082E80 *)sprite)->unk_04.as_s8 == 2) &&
         (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x1000)) {
         allocated_effect = func_8003FD64(0x112, D_80083498);
-        effect = allocated_effect;
-        ASM_KEEP(allocated_effect);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         ((S_80172620_0 *)action)->unk_A4.s = allocated_effect;
+        effect = allocated_effect;
         if (effect != 0) {
             s32 sprite_link;
             s32 sprite_data;

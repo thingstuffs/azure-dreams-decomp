@@ -137,9 +137,7 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     }
 
     init_effect = effect;
-    ASM_KEEP_NV(init_effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     init_data = D_80170CEC;
-    ASM_KEEP(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     effect_state = (u8 *)effect + 0x20;
     ((S_8017121C_0 *)effect_state)->unk_18 = 2;
     ((S_8017121C_0 *)effect_state)->unk_1A = 2;
@@ -177,7 +175,11 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
     ((S_8017121C_0 *)effect_state)->unk_02 = part->unk_0E;
 
     if (target->unk_60.as_pv == NULL) {
-        goto no_tracked;
+        ((S_8017121C_0 *)effect_state)->unk_60 = 0;
+        ((S_8017121C_0 *)effect_state)->unk_5C = 0;
+        ((S_8017121C_0 *)effect_state)->unk_58 = 0;
+        grid_axis = target->unk_73.as_u8;
+        goto no_tracked_done;
     }
     target_flags = target->unk_14.as_u32;
     untracked_mask = 0x04000000;
@@ -222,14 +224,14 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         return;
     }
 
-no_tracked:
     ((S_8017121C_0 *)effect_state)->unk_60 = 0;
     ((S_8017121C_0 *)effect_state)->unk_5C = 0;
     ((S_8017121C_0 *)effect_state)->unk_58 = 0;
 
     grid_axis = target->unk_73.as_u8;
+    no_tracked_done:
+    ;
     grid_x_bits = target->unk_72.as_u8;
-    ASM_KEEP(grid_axis);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     grid_axis <<= 24;
     grid_y = grid_axis >> 24;
     grid_x_bits <<= 24;
@@ -247,10 +249,8 @@ no_tracked:
 
     coord_delta = scaled_x - centered_coord;
     ((S_8017121C_0 *)effect_state)->unk_5A = coord_delta / 2;
-    ASM_KEEP(effect_state);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    scaled_y = grid_y << 16;
     centered_coord = coords->unk_06.u;
-    scaled_y >>= 10;
+    scaled_y = (grid_y << 16) >> 10;
     ((S_8017121C_0 *)effect_state)->unk_62 = 0;
     centered_coord -= 0x20;
     coord_delta = scaled_y - centered_coord;
@@ -259,4 +259,5 @@ no_tracked:
 
 /* MECHANISM: The 0x38 frame and guarded register live ranges preserve the retail prologue, held bases, and table pipelines.
    Raw u8 shift/sign-extension idioms reproduce the fallback branches without widening artifacts.
-   Mutating scaled_x/scaled_y with >>= 10 lets each sra fill an lh delay and preserves the second zero-store seam. */
+   Mutating scaled_x with >>= 10 lets its sra fill an lh delay; scaled_y is shifted in one expression (single-set pseudos
+   are scheduled as births), which keeps the second half in source order around the zero store. */

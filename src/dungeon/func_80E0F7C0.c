@@ -122,7 +122,7 @@ void func_80172FC0(void *anim, void *transform_arg, void *sprite, void *actor)
     u8 state;
     u16 timer;
     void *main_actor;
-    register void *child ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *child;
 
     state = ((S_80172FC0_0 *)anim)->unk_9B;
     is_special = 0;
@@ -415,16 +415,14 @@ restore_sprite:
         u8 *pool_page;
 
         pool_page = (u8 *)0x80080000;
-        ASM_KEEP(pool_page);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         active_child = child;
         ASM_KEEP(active_child);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         pool_flags = *(volatile s32 *)(pool_page + 0x14A0);
         ((S_80172FC0_0 *)anim)->unk_AC = 0;
         ((S_80172FC0_0 *)anim)->unk_A4 = 0;
         ((S_80172FC0_0 *)anim)->unk_90.at00.v = 0;
-        child_flags = ((S_80172FC0_7 *)active_child)->unk_1E;
+        child_flags = (((S_80172FC0_7 *)active_child)->unk_1E) | 0x8000;
         pool_flags |= 0x8000;
-        child_flags |= 0x8000;
         *(volatile s32 *)(pool_page + 0x14A0) = pool_flags;
         ((S_80172FC0_7 *)active_child)->unk_1E = child_flags;
         ((S_80172FC0_0 *)anim)->unk_A0 = 0;
