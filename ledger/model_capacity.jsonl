@@ -181,3 +181,5 @@
 {"date": "2026-09-23T00:53Z", "codex": {"pack": "r73_luna6_a1", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
 {"date": "2026-09-23T00:58Z", "codex": {"pack": "r73_luna6_a4", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
 {"date": "2026-09-23T01:00Z", "codex": {"pack": "r73_sol6_h1", "model": "gpt-6-sol", "candidates": 0}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
+{"date": "2026-09-23T01:08Z", "codex": {"pack": "r73_sol6_h2", "model": "gpt-6-sol", "candidates": 0}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
+{"date": "2026-09-23T01:08Z", "codex": {"pack": "r73_sol6_h3", "model": "gpt-6-sol", "candidates": 0}, "note": "r73 A/B gpt-6-sol: 3-7 band retries + 8+ band"}
