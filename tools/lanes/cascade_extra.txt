@@ -21,6 +21,8 @@
 # docs/evidence/pin_research_round73_move_table.md).  t116_ptaglink reproduced 0/3 exemplars and was never
 # swept; its round-76 catch-up sweep found 2 exact rows in 21 eligible (12 s), so it is here too
 # (docs/evidence/r76_cascade_compose.md).
+# Round 76 harvest (docs/evidence/pin_research_round76_move_table.md): t118_setonce and t119_deadinit landed rows,
+# t120_unvolatile reproduced its exemplar (dungeon/func_8009C5EC).
 t88_castshift
 t89_lifetimesplit
 t90_lifetimemerge_far
@@ -52,3 +54,6 @@ t114_zeroreg
 t115_carrierfold
 t116_ptaglink
 t117_stagehost
+t118_setonce
+t119_deadinit
+t120_unvolatile
