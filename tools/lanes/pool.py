@@ -21,6 +21,9 @@ The pool
   --concurrency N        lanes in flight.  Per pool: two pools launched separately both run N.
   --model KEY            astra|sol|luna|sol6|luna6: model for every lane of the pool (launch_lane.sh holds
                          the canonical ids; sol6/luna6 = gpt-6-sol/-luna, compare with tools/lanes/ab_report.py).
+  --served-guard G       tier (default) | ever | off: the served guard the pool passes to the builders (round 76,
+                         tools/lanes/served.py): `tier` refuses only rows a launched lane of the pool's model tier
+                         already served at the same text; a refused build skips that lane.
   --kit                  after build_class_pack.py builds a lane, run tools/lanes/kit_pack.py on it (v2 brief +
                          lane kit), with the pool's --paragraphs.  Only lanes the pool builds; a built pack is
                          never re-kitted.
@@ -65,6 +68,8 @@ ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py
 # launch_lane.sh is canonical for these ids; repeated here only for the capacity probe.
 MODELS = {"astra": "gpt-6-astra", "sol": "gpt-5.6-sol", "luna": "gpt-5.6-luna",
           "sol6": "gpt-6-sol", "luna6": "gpt-6-luna"}
+# the served-guard tier of each model key (tools/lanes/served.py, ledger.tier_of_model)
+TIER_OF = {"astra": "astra", "sol": "sol", "luna": "luna", "sol6": "sol6", "luna6": "luna6"}
 CAPACITY = "ledger/model_capacity.jsonl"
 DEFAULT_CLASSES = "CHANGED|17-32,BOTH|17-32,CHANGED|3-4,MOVED|1-2"
 
@@ -123,7 +128,7 @@ def candidates(root, lane):
 
 
 def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, paragraphs=(),
-         pins="1-2", npack=5, kit=False):
+         pins="1-2", npack=5, kit=False, served_guard="off", tier=None):
     """[{lane, action, rows, build, kit}] - what the pool would do, without doing any of it.
     kit: the kit_pack.py command run after a successful build (only with kit=True and action build+run).
 
@@ -153,10 +158,14 @@ def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, para
                 build += ["--exemplars", str(exemplars)]
             if paragraphs:
                 build += ["--paragraphs", ",".join(paragraphs)]
+            if served_guard != "off":
+                build += ["--served-guard", served_guard] + (["--tier", tier] if tier else [])
             if kit:
                 kitcmd = ["python3", "tools/lanes/kit_pack.py", lane]
                 if paragraphs:
                     kitcmd += ["--paragraphs", ",".join(paragraphs)]
+                if served_guard == "tier" and tier:
+                    kitcmd += ["--tier", tier]
         else:
             action, build = "no-rows", None
         steps.append({"lane": lane, "action": action, "rows": len(ids), "build": build,
@@ -237,7 +246,7 @@ def run(args):
     root = Path(args.root)
     model_id = MODELS.get(args.model, args.model)
     steps = plan(root, args.lanes, args.rows_json, args.classes, args.exemplars,
-                 args.paragraphs, args.pins, args.pack_rows, args.kit)
+                 args.paragraphs, args.pins, args.pack_rows, args.kit, args.served_guard, TIER_OF.get(args.model))
     tag = args.tag or args.name
     if args.dry_run:
         print(plan_text(args.name, args.model, args.concurrency, steps, tag, not args.no_land))
@@ -369,6 +378,9 @@ def parse(argv=None):
                     help="tools/lanes/brief_paragraphs/<name>.md to append to each BRIEF.md")
     ap.add_argument("--kit", action="store_true",
                     help="run tools/lanes/kit_pack.py (with --paragraphs) on each lane the pool builds")
+    ap.add_argument("--served-guard", default="tier", choices=("tier", "ever", "off"),
+                    help="guard passed to build_class_pack.py/kit_pack.py for lanes the pool builds: tier (default) "
+                         "refuses rows a lane of the SAME tier served at the SAME text; ever = any lane ever; off")
     ap.add_argument("--tag", help="landing tag (default: the pool name)")
     ap.add_argument("--no-land", action="store_true")
     ap.add_argument("--dry-run", action="store_true", help="print the plan and exit")

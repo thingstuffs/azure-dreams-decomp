@@ -90,5 +90,58 @@ class TestScan(unittest.TestCase):
         self.assertEqual(out["models"][0]["model"], "gpt-6-sol")
 
 
+OPUS_LOG = "model: claude-opus-5-5[1m]\nprovider: anthropic\nreasoning effort: agent\ntokens used\n22000000\n"
+
+
+class TestUsageAndCost(unittest.TestCase):
+    """Round 76: Agent-tool lanes' measured usage.json, flagged estimates, cost weights, wall caps."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+
+    def test_self_reported_claude_figure_is_an_estimate(self):
+        d = make_lane(self.tmp, "r73_opus_s9", log=OPUS_LOG)
+        r = ab_report.scan(d)
+        self.assertEqual((r["tokens"], r["estimated"]), (22000000, True))
+        a = ab_report.aggregate([r])[0]
+        self.assertEqual((a["mean_tokens"], a["tokens_per_exact"], a["estimated_lanes"]), (None, None, 1))
+        self.assertIn("~22,000,000", ab_report.markdown([r], [a]))
+
+    def test_usage_json_wins_and_gives_minutes(self):
+        d = make_lane(self.tmp, "r73_opus_s9", log=OPUS_LOG)
+        (d / "usage.json").write_text(json.dumps({"model": "claude-opus-5-5[1m]", "tokens": 367322,
+                                                  "source": "agent-tool-result:task-notification",
+                                                  "estimated": False, "duration_ms": 2240713}))
+        r = ab_report.scan(d)
+        self.assertEqual((r["tokens"], r["estimated"], r["tokens_source"], r["minutes"]),
+                         (367322, False, "agent-tool-result:task-notification", 37.3))
+        self.assertEqual(ab_report.aggregate([r])[0]["tokens_per_exact"], 367322)
+
+    def test_weighted_cost(self):
+        for n in ("r73_sol6_1", "r73_sol6_2"):
+            make_lane(self.tmp, n, log=LOG.replace("1,234", "2,000,000"))
+        recs = [ab_report.scan(d) for d in ab_report.lane_dirs(self.tmp, [], ["r73_*"])]
+        w, assumed = ab_report.load_weights(self.tmp, ["gpt-6-sol=10"])
+        a = ab_report.aggregate(recs, w, assumed)[0]
+        # 4M tokens x 10 / 1e6 = 40 units over 2 exact rows and 2 pins
+        self.assertEqual((a["weighted_cost"], a["wcost_per_exact"], a["wcost_per_pin"], a["weight_assumed"]),
+                         (40.0, 20.0, 20.0, True))
+        self.assertAlmostEqual(a["minutes_per_exact"], 10.0, delta=0.3)
+        a = ab_report.aggregate(recs, {}, {})[0]                 # no weight: no cost, never a guess
+        self.assertIsNone(a["wcost_per_exact"])
+        self.assertIn("TODO", ab_report.markdown(recs, [a]))
+
+    def test_repo_weights_file(self):
+        w, _ = ab_report.load_weights(ROOT)
+        self.assertEqual((w["gpt-6-luna"], w["gpt-6-sol"]), (1, 10))
+        self.assertIsNone(w["gpt-6-astra"])
+        self.assertEqual(ab_report.model_key("claude-opus-5-5[1m]"), "claude-opus-5-5")
+
+    def test_cap_status(self):
+        d = make_lane(self.tmp, "r76_x", message=False)
+        (d / "cap.txt").write_text("wall 90 min\n")
+        self.assertEqual(ab_report.scan(d)["status"], "cap")
+
+
 if __name__ == "__main__":
     unittest.main()

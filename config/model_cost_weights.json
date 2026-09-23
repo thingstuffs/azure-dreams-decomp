@@ -1,0 +1,20 @@
+{
+ "_schema": "azure-clean.model-cost-weights.v1",
+ "_note": "Relative usage/cost drain PER TOKEN, gpt-6-luna = 1. Read by tools/lanes/ab_report.py: weighted cost of a lane = tokens x weight / 1e6 (one unit = 1M gpt-6-luna-equivalent tokens). Only the owner's stated ratio is filled in (2026-09-23: gpt-6-luna is ~10x less draining than gpt-6-sol). Every null is a TODO: ask the owner or measure it (usage-meter delta over a known token count); do not invent a number. ab_report --weight MODEL=W supplies a what-if value for one run, labelled as assumed. Token units differ by harness: codex `tokens used` excludes cached input; the Agent tool's figure (usage.json) is about the subagent's final context size - a Claude weight must be stated against THAT figure.",
+ "weights": {
+  "gpt-6-luna": 1,
+  "gpt-6-sol": 10,
+  "gpt-6-astra": null,
+  "gpt-5.6-sol": null,
+  "gpt-5.6-luna": null,
+  "claude-opus-5-5": null,
+  "claude-sonnet-5": null
+ },
+ "todo": {
+  "gpt-6-astra": "owner: relative drain vs gpt-6-luna not stated",
+  "gpt-5.6-sol": "legacy tier; not in the r76 A/B",
+  "gpt-5.6-luna": "legacy tier; not in the r76 A/B",
+  "claude-opus-5-5": "owner: Agent-tool Opus drain per usage.json token not stated (different plan/meter from codex)",
+  "claude-sonnet-5": "owner: Agent-tool Sonnet drain per usage.json token not stated"
+ }
+}

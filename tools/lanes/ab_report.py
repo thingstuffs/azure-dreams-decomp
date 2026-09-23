@@ -24,6 +24,20 @@ is searched recursively - only the files below are opened):
                  it for byte-exact candidates only); pins after = sites in that file.
   ledger/model_capacity.jsonl  joined by pack name: the pool's journalled candidate count and note; the
                  model comes from it when codex.log has none.
+  usage.json     (round 76, tools/lanes/record_usage.py) an Agent-tool (Claude) lane's MEASURED usage: tokens,
+                 tool_uses, duration_ms from the Agent result.  It wins over codex.log: its model, its tokens
+                 (`tokens_source` = its source) and its duration as the lane's minutes.  A claude-* lane with a
+                 `tokens used` figure in codex.log and no usage.json is a hand/self estimate (round 73's lanes
+                 typed their own guess, one of them 22,000,000): `estimated` = true, shown as `~N`, and left out
+                 of mean tokens, tokens/exact and the weighted cost.  So is a usage.json with estimated = true.
+  cap.txt        (round 76) the lane was killed at a wall-time cap (launch_lane.sh LANE_WALL_CAP / pool.py
+                 --wall-cap): status `cap`.
+
+Cost (round 76).  Tokens are not cost: the owner puts gpt-6-luna at ~10x less draining than gpt-6-sol.
+config/model_cost_weights.json holds the per-token weight of each model (luna 1, sol 10; the others null =
+TODO, never invented).  Weighted cost of a lane = tokens x weight / 1e6; the aggregate reports weighted cost
+per exact row and per pin removed (over lanes with a measured figure and a known weight), and wall-minutes
+per exact row.  --weight MODEL=W sets a what-if weight for one run, marked `*` (assumed) in the table.
 """
 import argparse
 import fnmatch
@@ -39,6 +53,8 @@ from pin_census import sites_of  # noqa: E402
 
 LANES = "work/native_lane"
 CAPACITY = "ledger/model_capacity.jsonl"
+WEIGHTS = "config/model_cost_weights.json"
+BRACKET_RE = re.compile(r"\[[^\]]*\]$")
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
 
@@ -103,11 +119,38 @@ def capacity(root):
     return out
 
 
+def model_key(model):
+    """The weights-table key of a model id: `claude-opus-5-5[1m]` -> `claude-opus-5-5`."""
+    return BRACKET_RE.sub("", (model or "").strip())
+
+
+def load_weights(root, overrides=()):
+    """({model key: weight or None}, {model key: True when assumed via --weight})."""
+    try:
+        w = dict(json.loads((Path(root) / WEIGHTS).read_text()).get("weights") or {})
+    except (OSError, ValueError):
+        w = {}
+    assumed = {}
+    for o in overrides:
+        k, _, v = o.partition("=")
+        w[model_key(k)] = float(v)
+        assumed[model_key(k)] = True
+    return w, assumed
+
+
+def read_usage(d):
+    try:
+        return json.loads((Path(d) / "usage.json").read_text())
+    except (OSError, ValueError):
+        return None
+
+
 def scan(d, cap=None):
     """One record for lane directory d."""
     d = Path(d)
     model = tokens = None
     limit = False
+    usage = read_usage(d)
     log = d / "codex.log"
     if log.is_file():
         with log.open("rb") as fh:
@@ -118,6 +161,15 @@ def scan(d, cap=None):
         tokens = parse_tokens(tail)
         limit = "hit your usage limit" in tail[-4096:]
     cap = cap or {}
+    tokens_source = "codex-log" if tokens is not None else None
+    estimated = False
+    if usage:
+        model = usage.get("model") or model
+        if usage.get("tokens") is not None:
+            tokens, tokens_source = int(usage["tokens"]), usage.get("source") or "usage.json"
+        estimated = bool(usage.get("estimated"))
+    elif tokens is not None and (model or "").lower().startswith("claude"):
+        estimated, tokens_source = True, "codex-log (self-reported by an Agent-tool lane)"
     if model is None:
         model = (cap.get("codex") or {}).get("model")
     start = _mtime(d / "lane.pid", d / "PROMPT.txt")
@@ -125,11 +177,15 @@ def scan(d, cap=None):
         status, end = "ok", _mtime(d / "last_message.txt")
     elif _alive(d / "lane.pid"):
         status, end = "running", None
+    elif (d / "cap.txt").exists():
+        status, end = "cap", _mtime(d / "cap.txt")
     elif log.is_file():
         status, end = "limit" if limit else "ended", _mtime(log)
     else:
         status, end = "unlaunched", None
     minutes = round((end - start) / 60, 1) if start and end and end >= start else None
+    if usage and usage.get("duration_ms"):
+        minutes = round(usage["duration_ms"] / 60000, 1)   # the Agent tool's own clock (no lane.pid for these)
     rows, exact = [], []
     for base in sorted((d / "base").glob("*/*.c")):
         rid = base.parent.name + "/" + base.stem
@@ -141,29 +197,45 @@ def scan(d, cap=None):
     return {"lane": d.name, "model": model or "?", "rows": len(rows), "exact": len(exact),
             "exact_rows": exact, "pins_before": sum(e["before"] or 0 for e in exact),
             "pins_after": sum(e["after"] or 0 for e in exact), "pins_removed": removed,
-            "minutes": minutes, "tokens": tokens, "status": status,
+            "minutes": minutes, "tokens": tokens, "tokens_source": tokens_source, "estimated": estimated,
+            "status": status,
             "journal_candidates": (cap.get("codex") or {}).get("candidates"), "note": cap.get("note")}
 
 
-def aggregate(recs):
+def aggregate(recs, weights=None, assumed=None):
+    """Per-model totals.  Token figures count only MEASURED lanes (estimated ones are listed, not summed);
+    weighted cost = tokens x weight / 1e6 over measured lanes whose model has a weight."""
+    weights, assumed = weights or {}, assumed or {}
     by = {}
     for r in recs:
         by.setdefault(r["model"], []).append(r)
     out = []
     for model, rs in sorted(by.items()):
         mins = [r["minutes"] for r in rs if r["minutes"] is not None]
-        toks = [r["tokens"] for r in rs if r["tokens"] is not None]
+        meas = [r for r in rs if r["tokens"] is not None and not r.get("estimated")]
+        toks = [r["tokens"] for r in meas]
         rows = sum(r["rows"] for r in rs)
         exact = sum(r["exact"] for r in rs)
-        tok_lanes_exact = sum(r["exact"] for r in rs if r["tokens"] is not None)
+        tok_lanes_exact = sum(r["exact"] for r in meas)
+        w = weights.get(model_key(model))
+        wcost = sum(r["tokens"] for r in meas) * w / 1e6 if (w is not None and meas) else None
+        w_pins = sum(r["pins_removed"] for r in meas)
+        min_exact = sum(r["exact"] for r in rs if r["minutes"] is not None)
         out.append({"model": model, "lanes": len(rs), "ok": sum(r["status"] == "ok" for r in rs),
-                    "limit": sum(r["status"] == "limit" for r in rs), "rows": rows, "exact": exact,
+                    "limit": sum(r["status"] == "limit" for r in rs), "cap": sum(r["status"] == "cap" for r in rs),
+                    "rows": rows, "exact": exact,
                     "exact_rate": round(exact / rows, 3) if rows else None,
                     "pins_removed": sum(r["pins_removed"] for r in rs),
                     "mean_minutes": round(sum(mins) / len(mins), 1) if mins else None,
+                    "minutes_per_exact": round(sum(mins) / min_exact, 1) if min_exact else None,
                     "mean_tokens": round(sum(toks) / len(toks)) if toks else None,
+                    "measured_lanes": len(meas), "estimated_lanes": sum(1 for r in rs if r.get("estimated")),
                     # over the lanes that report tokens only, so a missing figure does not flatter a model
-                    "tokens_per_exact": round(sum(toks) / tok_lanes_exact) if tok_lanes_exact else None})
+                    "tokens_per_exact": round(sum(toks) / tok_lanes_exact) if tok_lanes_exact else None,
+                    "weight": w, "weight_assumed": bool(assumed.get(model_key(model))),
+                    "weighted_cost": round(wcost, 3) if wcost is not None else None,
+                    "wcost_per_exact": round(wcost / tok_lanes_exact, 3) if wcost is not None and tok_lanes_exact else None,
+                    "wcost_per_pin": round(wcost / w_pins, 3) if wcost is not None and w_pins else None})
     return out
 
 
@@ -181,6 +253,12 @@ def _f(v, fmt="%s"):
     return "-" if v is None else fmt % v
 
 
+def _tok(r):
+    if r["tokens"] is None:
+        return "-"
+    return ("~" if r.get("estimated") else "") + "{:,}".format(r["tokens"])
+
+
 def markdown(recs, agg):
     out = ["| lane | model | status | rows | exact | pins before -> after (exact rows) | minutes | tokens | journal |",
            "|---|---|---|---:|---:|---|---:|---:|---:|"]
@@ -188,15 +266,23 @@ def markdown(recs, agg):
         out.append("| %s | %s | %s | %d | %d | %s | %s | %s | %s |" % (
             r["lane"], r["model"], r["status"], r["rows"], r["exact"],
             "%d -> %d" % (r["pins_before"], r["pins_after"]) if r["exact"] else "-",
-            _f(r["minutes"]), "-" if r["tokens"] is None else "{:,}".format(r["tokens"]),
-            _f(r["journal_candidates"])))
-    out += ["", "| model | lanes (ok/limit) | rows | exact | exact rate | pins removed | mean min | mean tokens | tokens/exact |",
-            "|---|---|---:|---:|---:|---:|---:|---:|---:|"]
+            _f(r["minutes"]), _tok(r), _f(r["journal_candidates"])))
+    out += ["", "| model | lanes (ok/limit/cap) | rows | exact | exact rate | pins removed | mean min | min/exact "
+            "| mean tokens (measured lanes) | tokens/exact | weight | wcost/exact | wcost/pin |",
+            "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for a in agg:
-        out.append("| %s | %d (%d/%d) | %d | %d | %s | %d | %s | %s | %s |" % (
-            a["model"], a["lanes"], a["ok"], a["limit"], a["rows"], a["exact"], "-" if a["exact_rate"] is None else "%.1f%%" % (100 * a["exact_rate"]),
-            a["pins_removed"], _f(a["mean_minutes"]), "-" if a["mean_tokens"] is None else "{:,}".format(a["mean_tokens"]),
-            "-" if a["tokens_per_exact"] is None else "{:,}".format(a["tokens_per_exact"])))
+        est = " +%d est." % a["estimated_lanes"] if a["estimated_lanes"] else ""
+        out.append("| %s | %d (%d/%d/%d) | %d | %d | %s | %d | %s | %s | %s (%d%s) | %s | %s | %s | %s |" % (
+            a["model"], a["lanes"], a["ok"], a["limit"], a["cap"], a["rows"], a["exact"],
+            "-" if a["exact_rate"] is None else "%.1f%%" % (100 * a["exact_rate"]),
+            a["pins_removed"], _f(a["mean_minutes"]), _f(a["minutes_per_exact"]),
+            "-" if a["mean_tokens"] is None else "{:,}".format(a["mean_tokens"]), a["measured_lanes"], est,
+            "-" if a["tokens_per_exact"] is None else "{:,}".format(a["tokens_per_exact"]),
+            "TODO" if a["weight"] is None else ("%g%s" % (a["weight"], "*" if a["weight_assumed"] else "")),
+            _f(a["wcost_per_exact"], "%.3f"), _f(a["wcost_per_pin"], "%.3f")))
+    out += ["", "tokens `~N` = an estimate (self-reported, not measured): excluded from mean tokens, tokens/exact and "
+            "weighted cost.  wcost = tokens x weight / 1e6 (config/model_cost_weights.json; `*` = --weight what-if, "
+            "TODO = no weight stated).  Codex and Agent-tool token figures are different units (see the docstring)."]
     return "\n".join(out)
 
 
@@ -206,13 +292,16 @@ def main(argv=None):
     ap.add_argument("--glob", action="append", default=[], help="fnmatch on lane directory names (repeatable)")
     ap.add_argument("--ok-only", action="store_true", help="aggregate only lanes that exited normally (status ok)")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--weight", action="append", default=[], metavar="MODEL=W",
+                    help="what-if cost weight for one model (repeatable), marked * in the table")
     ap.add_argument("--root", default=str(ROOT))
     a = ap.parse_args(argv)
     if not a.lanes and not a.glob:
         ap.error("give --lanes and/or --glob")
     cap = capacity(a.root)
     recs = [scan(d, cap.get(d.name)) for d in lane_dirs(a.root, a.lanes, a.glob)]
-    agg = aggregate([r for r in recs if r["status"] == "ok"] if a.ok_only else recs)
+    weights, assumed = load_weights(a.root, a.weight)
+    agg = aggregate([r for r in recs if r["status"] == "ok"] if a.ok_only else recs, weights, assumed)
     if a.json:
         print(json.dumps({"lanes": recs, "models": agg}, indent=1))
     else:

@@ -88,6 +88,14 @@ class TestPlan(unittest.TestCase):
         self.assertIsNone(steps[1]["kit"])
         self.assertIn("then tools/lanes/kit_pack.py r68_a", pool.plan_text("k", "sol6", 1, steps, "k"))
 
+    def test_served_guard_passed_to_build_and_kit(self):
+        lane(self.tmp, "r68_a")
+        st = pool.plan(self.tmp, ["r68_a"], str(self.rows), kit=True, served_guard="tier", tier="sol6")[0]
+        self.assertEqual(st["build"][-4:], ["--served-guard", "tier", "--tier", "sol6"])
+        self.assertEqual(st["kit"][-2:], ["--tier", "sol6"])
+        self.assertEqual(pool.parse(["t"]).served_guard, "tier")
+        self.assertNotIn("--served-guard", pool.plan(self.tmp, ["r68_a"], str(self.rows))[0]["build"])
+
     def test_kit_without_paragraphs_and_kit_off(self):
         lane(self.tmp, "r68_a")
         self.assertEqual(pool.plan(self.tmp, ["r68_a"], str(self.rows), kit=True)[0]["kit"],

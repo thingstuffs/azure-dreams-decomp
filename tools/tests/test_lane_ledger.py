@@ -44,6 +44,10 @@ class ParseModel(unittest.TestCase):
         self.assertEqual(ledger.tier_of_model("gpt-6-luna"), "luna6")
         self.assertEqual(ledger.tier_of_model("gpt-6-astra"), "astra")
         self.assertEqual(ledger.tier_of_model("gpt-5.6-sol"), "sol")
+
+    def test_tier_of_model_claude(self):
+        self.assertEqual(ledger.tier_of_model("claude-opus-5-5[1m]"), "opus")
+        self.assertEqual(ledger.tier_of_model("claude-sonnet-5"), "sonnet")
         self.assertEqual(ledger.tier_of_model("gpt-5.6-luna"), "luna")
 
     def test_ansi_bold_header(self):

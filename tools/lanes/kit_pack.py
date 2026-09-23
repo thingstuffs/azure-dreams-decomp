@@ -2,6 +2,10 @@
 """Turn a built pack into a KIT pack (round 68): the v2 brief, the lane kit, a prompt that says work from the lane.
 
     python3 tools/lanes/kit_pack.py <lane> [<lane> ...] [--paragraphs big_rows,new_findings] [--question FILE]
+                                    [--tier astra|opus|sonnet|sol6|luna6|sol|luna [--repack]]
+
+--tier (round 76) is the served guard: a lane holding a row that a launched lane of the SAME tier served at the
+SAME text (tools/lanes/served.py mode `tier`) is not kitted (printed and skipped); --repack kits it anyway.
 
 Run AFTER tools/lanes/build_class_pack.py ... --rows ... --duck (which writes rows.md with the ducks, exemplars.md,
 base/, out/).  This replaces BRIEF.md with tools/lanes/duck_pack_brief_v2.md (its <REPO>/<KIT> placeholders written
@@ -17,15 +21,25 @@ ROOT = Path(__file__).resolve().parents[2]
 def main(argv):
     paras = argv[argv.index('--paragraphs') + 1].split(',') if '--paragraphs' in argv else []
     qfile = argv[argv.index('--question') + 1] if '--question' in argv else None
+    tier = argv[argv.index('--tier') + 1] if '--tier' in argv else None
     skip = set()
-    for flag in ('--paragraphs', '--question'):
+    for flag in ('--paragraphs', '--question', '--tier'):
         if flag in argv: skip |= {argv.index(flag), argv.index(flag) + 1}
-    lanes = [a for i, a in enumerate(argv) if i not in skip]
+    lanes = [a for i, a in enumerate(argv) if i not in skip and a != '--repack']
     v2 = (ROOT / 'tools/lanes/duck_pack_brief_v2.md').read_text()
     for lane in lanes:
         D = ROOT / 'work/native_lane' / Path(lane).name
         if not (D / 'rows.md').is_file(): print('no rows.md:', D); continue
         if (D / 'last_message.txt').exists(): print('already ran:', D.name); continue
+        if tier:
+            sys.path.insert(0, str(ROOT / 'tools/lanes'))
+            import served
+            ids = sorted(f.parent.name + '/' + f.stem for f in (D / 'base').glob('*/*.c'))
+            try:
+                served.assert_unserved(ids, repack='--repack' in argv, mode='tier', tier=tier, skip_lane=D.name,
+                                       scopes=served.lane_scopes(D))
+            except SystemExit as e:
+                print('served guard, not kitted:', D.name, '\n' + str(e)); continue
         n = sum(1 for l in (D / 'rows.md').read_text().splitlines() if l.startswith('## ') and '/' in l[3:].split()[0:1][0] if l[3:].split())
         head = (f"# Lane `{D.name}` - {n} rows, each with a rubber-duck brief in `rows.md`\n\n"
                 f"Repository root: `{ROOT}`. Your lane directory is `{D}`: WORK FROM IT (cd there first; every file you "

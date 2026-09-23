@@ -7,7 +7,12 @@ Round 62 adds two flags, both off by default (the flagless output is byte-identi
 Round 68 adds one more, also off by default:
     --paragraphs a,b   append tools/lanes/brief_paragraphs/<a>.md ... to BRIEF.md after the standard brief
                        (big_rows, new_findings, a filled copy of class_question): the blocks rounds 63-67
-                       pasted onto each BRIEF.md by hand out of the session scratchpad"""
+                       pasted onto each BRIEF.md by hand out of the session scratchpad
+Round 76 adds, also off by default:
+    --served-guard off|ever|tier   refuse the pack when a row was already served (tools/lanes/served.py):
+                       `ever` = any lane ever (round 26); `tier` = a launched lane of the SAME tier (--tier) at
+                       the SAME row text (round 76: kit-era retries of other tiers paid 61-72%). --repack overrides.
+    --tier T           astra|opus|sonnet|sol6|luna6|sol|luna: the model tier this pack is for (guard `tier`)"""
 import json, sys, difflib, shutil, glob; sys.path.insert(0,'tools'); sys.path.insert(0,'tools/xform'); sys.path.insert(0,'tools/lanes')
 from pathlib import Path
 from common import rows, clean_path, sha_text
@@ -18,7 +23,7 @@ import screen
 from served import served_rows as _sr
 SERVED_BASE=_sr()
 S='ledger/pack_inputs'; MY=S
-VALOPTS={'--solved','--pins','--exemplars','--only-served-by','--rows','--notes','--paragraphs'}
+VALOPTS={'--solved','--pins','--exemplars','--only-served-by','--rows','--notes','--paragraphs','--served-guard','--tier'}
 def opt(name, default=None):
     return sys.argv[sys.argv.index(name)+1] if name in sys.argv else default
 lane=sys.argv[1]
@@ -71,6 +76,10 @@ else:
             if screened(rid, r): screened_out+=1; continue
             cand.append((k,len(t.splitlines()),rid))
     cand.sort(); ids=[c[2] for c in cand[:n]]
+guard=opt('--served-guard','off')
+if guard!='off':                                                   # round 76: tools/lanes/served.py assert_unserved
+    import served as _served
+    _served.assert_unserved(ids, repack='--repack' in sys.argv, mode=guard, tier=opt('--tier'), skip_lane=lane)
 if '--dry-run' in sys.argv:
     print('pool', len(cand), 'screened out', screened_out, 'first', ids[:n]); sys.exit(0)
 L=Path('work/native_lane')/lane; shutil.rmtree(L, ignore_errors=True); (L/'out').mkdir(parents=True); (L/'.ignore').write_text('*\n')

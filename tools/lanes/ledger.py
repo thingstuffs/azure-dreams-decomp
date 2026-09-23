@@ -63,7 +63,7 @@ LEDGER = "ledger/lanes.jsonl"
 NOT_LANES = {"out", "scratchpad"}
 SUBDIRS = ("base", "out", "candidates")
 # sol6/luna6 (gpt-6-sol/-luna) before sol/luna: parse_title matches "(sol" as a prefix, so "(sol6)" must hit first.
-TIERS = ("sol6", "luna6", "luna", "sol", "astra", "opus", "agy")
+TIERS = ("sol6", "luna6", "luna", "sol", "astra", "opus", "sonnet", "agy")
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
 # Title keywords in order; the first hit wins (label-as-call before keep: "lackeep" briefs say both).
@@ -110,6 +110,10 @@ def tier_of_model(model):
     does not lump them; gpt-6-astra stays astra (there is no 5.6 astra)."""
     if not model:
         return None
+    low = model.lower()
+    for fam in ("opus", "sonnet"):                    # claude-opus-5-5[1m] -> opus (Agent-tool lanes, round 73)
+        if low.startswith("claude-") and fam in low:
+            return fam
     tail = model.rsplit("-", 1)[-1].lower()
     if tail in ("sol", "luna") and model.lower().startswith("gpt-6"):
         return tail + "6"
