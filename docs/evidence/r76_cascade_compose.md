@@ -283,7 +283,8 @@ nearest retail distance any PF_B reached; the other 23 rows have no pin-free can
 **The three t110 rows are bounded negatives at depth 2 with PF_B.**  818F33BC shows why: its landed text (987d4397)
 is t110's d6 candidate plus `held_*` retyped `s16` (t37 makes that move - it is in the menu) AND each
 `bias = held - 0x10; pos += bias; dest = pos;` chain folded into `dest = (s16)pos + (s16)(held - 0x10);` - a
-statement MERGE with casts at the sum.  t74 only splits chains; no PF_B generator merges them.  80E0D090 (t37 18 ->
+CROSS-VARIABLE statement merge with casts at the sum.  t74 only splits chains and t118 folds only a
+SAME-variable `v = E; v op= F` chain (its 8191740C win); no PF_B menu holds this merge.  80E0D090 (t37 18 ->
 16) and 80B9D094 (16, no B moved it) need moves of the same kind.
 
 ### 7b. Near rows (`--near 20`, nearest journalled miss first, t101 not as A)
@@ -295,7 +296,7 @@ src/ text:**
 
 | row | pins | composition | the second move | lane | state |
 |---|---|---|---|---|---|
-| dungeon/func_80D3C944 | 1 -> 0 | t102_gotojoin (d1) -> t37_localwidth (also t112 d1 -> t37) | `old_x`, `old_x_early` `u8` -> `s16` | r76_compose_pf_near | landed by land_finished2 (STATUS 3,547/871 -> 3,546/870) |
+| dungeon/func_80D3C944 | 1 -> 0 | t102_gotojoin (d1) -> t37_localwidth (also t112 d1 -> t37) | `old_x`, `old_x_early` `u8` -> `s16` | r76_compose_pf_near | landed: land_finished2 `fin1314` (with r76_astra_b8c_1), GATE_RC=0 |
 | dungeon/func_81977FB8 | 1 -> 0 | t113_sibarity (d4) -> t37_localwidth | `height_or_shade` -> `s16` (t113: `func_8004491C` at its 2-argument arity) | r76_compose_pf_near2 | staged |
 | dungeon/func_809DB054 | 1 -> 0 | t115_carrierfold (d0) -> t37_localwidth (A-move anchor) | `flag_bits` -> `u32` | r76_compose_pf_d0 | staged |
 
@@ -325,8 +326,8 @@ once, on 809DB054, same text).
   that pays on today's tree; the symbol / page second moves that made every §3a win are spent (§3c), and paid here
   only on exemplar texts (8032CE94).
 * **The named "needs a second move" rows need a statement merge**, not a width/symbol/order move: a "pin-free
-  polish" of the PF_B kind does not reach them.  A generator that FOLDS a `v = E; v op= F; use(v)` chain into one
-  expression (with narrowing casts at the sum) is the missing second move - the inverse of t74 - and 8191740C's
-  t118 win (fold of `v = f(); v = (v >> 4) * g()`) is the one place the set already made it.
+  polish" of the PF_B kind does not reach them.  A generator that folds a CROSS-VARIABLE chain (`b = h - K; p += b;
+  d = p;` -> `d = (s16)p + (s16)(h - K);`, narrowing casts at the sum) is the missing second move - the inverse of
+  t74; t118 already folds the same-variable case (8191740C's win: `v = f(); v = (v >> 4) * g()`).
 * Listing-exact, byte-inexact after composition: 80088964, 8008D69C, 80CC2828 join §6's assembler-level class.
 * Not run: t101 as A (cost, as in §3c); rows whose pin-free candidates are beyond d20.
