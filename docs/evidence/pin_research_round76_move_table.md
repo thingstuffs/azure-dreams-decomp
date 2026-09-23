@@ -2,7 +2,7 @@
 
 Source: every `base/out` pair with fewer pin sites in `out/` across the lanes under `work/native_lane/` named
 `r76_{opus,sonnet,sol6,astra,agy,luna6}_*` and `r76o_{opus,sonnet}_*` that had `last_message.txt` when the harvest
-looked (~11:00Z), plus the `REPORT.md` rule sentences of the lanes with no win.  **26 rows, 45 pin sites removed**
+looked (~11:00Z), plus the `REPORT.md` rule sentences of the lanes with no win.  **23 rows, 43 pin sites removed**
 (`pin_census.sites_of(base) - sites_of(out)` on the lane's own `base/<id>.c` and `out/<id>.c`).  The r76o_* lanes are
 the A/B overlap arms: their moves are READ here (as exemplars), their rows are never staged or landed by this harvest
 (see "Holds" below).
@@ -26,12 +26,12 @@ build).  compose2 checks: `r76_h_compose_check_{a,b,c}`.
 
 | # | move | pins | rows | models (rows) | owner today (measured) | verdict |
 |---|---|---|---|---|---|---|
-| 1 | **parameters used directly** instead of `T x = x_in;` copies (the copy's REG_EQUIV doubling / the keep's second set), the surviving copy taking the parameter's other reads, the leftover pins erased | 18 | 5 | opus 5 | t69_prologue: 809815A8 d2, 80BECDA4 d4, 809F3C00 d140, 80AC7A30 d190; refuses 813236DC / 80F88C94 "no redundant parameter copy" | 809815A8 needed two more steps -> **t69 EXTENDED (T69_UNPIN_REST)**; the other rows each carry a second move (#6, #12, `s16` parameter + volatile slot) |
+| 1 | **parameters used directly** instead of `T x = x_in;` copies (the copy's REG_EQUIV doubling / the keep's second set), the surviving copy taking the parameter's other reads, the leftover pins erased | 15 | 5 | opus 5 | t69_prologue: 809815A8 d2, 80BECDA4 d4, 809F3C00 d140, 80AC7A30 d190; refuses 813236DC / 80F88C94 "no redundant parameter copy" | 809815A8 needed two more steps -> **t69 EXTENDED (T69_UNPIN_REST)**; the other rows each carry a second move (#6, #12, `s16` parameter + volatile slot) |
 | 2 | **an in-place update chain written as ONE set** (`v = E; v >>= k;` -> `v = (E) >> k`), an accumulator's prefix moved to a fresh local so the pinned register is set once | 4 | 2 | opus 2 | none (t100/t107/t115 fold FIELDS; t94 splits the other way) | **BUILT t118_setonce** 2/2 |
 | 3 | surplus call argument dropped to the callee's arity + the address argument passed directly (no `v = (s32)&x` carrier) | 2 | 1 | opus 1 | t113 d4 (drop only); compose2 t113 -> t115/t117 A-empty | **t115 EXTENDED (T115_ADDRCARRIER)**, composed into **t113 (T113_ADDRCARRIER)** 1/1 |
 | 4 | `p = q + C; KEEP(p)` -> `p = q; p = p + C;` AND the arm's opening copy hoisted above the `if` | 1 | 1 | opus 1 | t111 d20 (all five spellings); compose2 t111 -> t105 miss | **t111 EXTENDED (T111_HOIST)** 1/1 |
 | 5 | a call's result routed through the kept copy (`KEEP(v); x = f(v); v = w;` -> `v = f(v); x = v; v = w;`) | 1 | 1 | opus 1 (astra solved it too, r76o_astra_b12, unread) | t115 d3, t117 d86 | **t115 EXTENDED (T115_CALLCOPY)** 1/1 - five clone siblings exact in the sweep |
-| 6 | the goto'd shared `call; return` / `x++; store; return` tail written inline at the goto (jump2 cross-jumps it back) | 2 (+4 compound) | 2 (+1) | opus 3 | t102_gotojoin 809F3C00 d138, 81989320 d10, 80F88C94 d4; compose2 t69 -> t102 A-empty | compound (each row pairs it with #1 or #8) - NOT BUILT |
+| 6 | the goto'd shared `call; return` / `x++; store; return` tail written inline at the goto (jump2 cross-jumps it back) | 1 (+ 2 rows compound) | 1 (+2) | opus 3 | t102_gotojoin 809F3C00 d138, 81989320 d10, 80F88C94 d4; compose2 t69 -> t102 A-empty | compound (each row pairs it with #1 or #8) - NOT BUILT |
 | 7 | **dead zero initializer at a declaration** (`void *effect = 0;`, owner ruling 2026-09-23) replacing the keep, the copy sunk one statement | 1 | 1 | opus 1 | none | **BUILT t119_deadinit** 1/1 (both directions: add `= 0` / remove one) |
 | 8 | a multi-purpose `register ... result ASM_REG("$2")` split into per-use temporaries + loop invariants written inside the loop | 4 | 1 | opus 1 | t85 refused ("16 vs 13 allocnos"); with T85_WIDE: an order site, best lever d142 | compound one-off - NOT BUILT (priority 2 below) |
 | 9 | `volatile` access dropped together with the register pin it propped up (and the volatile stack slot made plain) | 1 (+ in 813236DC) | 1 (+1) | astra 1, opus 1 | none | **BUILT t120_unvolatile** 1/1 (8009C5EC); 813236DC miss (needs the `s16` parameter too) |
@@ -44,7 +44,36 @@ build).  compose2 checks: `r76_h_compose_check_{a,b,c}`.
 | 16 | if/goto dispatch ladder with `dispatch_zero = 0` + keep -> `switch` (agy 800A78F8); page constant -> the field symbol (agy 80093598) | 2 | 2 | agy 2 | t73 / t86 not re-run | one-offs - NOT BUILT |
 
 Per model: claude-opus-5-5 34 pins / 15 rows (moves 1-9 and 11-14), astra 4 / 3, agy 3 / 3, sol 2 / 2,
-sonnet 0 / 0 (17 rows served, 6 lanes).  The set-exactly-once family (#1, #2, #3, #5, #7, #9, #10) is 31 of the 45 pins.
+sonnet 0 / 0 (17 rows served, 6 lanes).  The set-exactly-once family (#1, #2, #3, #5, #7, #9, #10) is 25 of the 43 pins.  dungeon/func_809CAE20 (#7) was staged
+in r76_opus_b12_2/out after the owner's dead-initializer ruling, mid-harvest; it is counted here.
+
+## Rows and splits
+
+| row | lane | pins | move # |
+|---|---|---|---|
+| dungeon/func_80DFB054 | r76_opus_b12_1 | 1 | #4 |
+| dungeon/func_8009A61C | r76_opus_b12_1 | 2 | #3 |
+| dungeon/func_809F3C00 | r76_opus_b12_2 | 1 | #1 with #6 (goto'd `call; return` tail inline) |
+| dungeon/func_80AC7A30 | r76_opus_b12_2 | 2 | #1 1, #12 1 |
+| dungeon/func_81989320 | r76_opus_b12_2 | 2 | #6 1, #14 1 |
+| dungeon/func_809CAE20 | r76_opus_b12_2 | 1 | #7 (dead_init) |
+| dungeon/func_80BECDA4 | r76_opus_b37_2 | 6 | #1 (+ `x = f & K; f = x` on the `$2` local, a goto retargeted) |
+| dungeon/func_80CE7A1C | r76_opus_b37_2 | 3 | #2 |
+| dungeon/func_80E38914 | r76o_opus_b12 | 1 | #13 |
+| dungeon/func_80E9D000 | r76o_opus_b12 | 2 | #11 |
+| dungeon/func_809DB054 | r76o_opus_b12 | 1 | #5 |
+| town/func_8032FD1C | r76o_opus_b37 | 1 | #2 (accumulator split) |
+| dungeon/func_809815A8 | r76o_opus_b37 | 3 | #1 |
+| dungeon/func_813236DC | r76o_opus_b37 | 4 | #1 (`s16` parameter) with #9 (volatile slot plain), one-trip blocks gone |
+| dungeon/func_80F88C94 | r76o_opus_b37 | 4 | #8 with #6 |
+| dungeon/func_8092192C | r76_astra_b37_1 | 1 | #15 |
+| dungeon/func_8009C5EC | r76_astra_b37_1 | 1 | #9 |
+| dungeon/func_8028484C | r76_astra_b37_1 | 2 | #15 |
+| dungeon/func_800A78F8 | r76_agy_b12_1 | 1 | #16 (switch) |
+| dungeon/func_800B5DFC | r76_agy_b37_1 | 1 | #10 |
+| dungeon/func_80093598 | r76_agy_b37_1 | 1 | #16 (page symbol) |
+| dungeon/func_8008C504 | r76_sol6_b12_1 | 1 | #15 |
+| dungeon/func_80285E80 | r76_sol6_b12_1 | 1 | #15 |
 
 ## The set-exactly-once mechanism (read this first)
 
@@ -117,7 +146,7 @@ register binding, allowing `combine` to form a zero-extending memory load".
 | t120_unvolatile | built | 1/1 (8009C5EC); 813236DC miss | r76_h_t120_unvolatile | 163 | 3 | 3 | 3 / 3 |
 | t94_castsplit | T94_CASTUSE | 1/1 (800B5DFC 1/1) | r76_h_t94_castsplit (castuse rows) | 4 | 0 | 0 | - |
 | t85_allocorder | T85_WIDE | 80F88C94: now an order site, best d142 | r76_h_t85_allocorder | 238 | 0 | 0 | - |
-| t121_barrierstrip | built (probe) | - | r76_h_t121_barrierstrip + r76_h_barrier_compose | running | | | |
+| t121_barrierstrip | built (probe) | - | r76_h_t121_barrierstrip / r76_h_barrier_compose | 241 / 184 | 0 / 2 | 0 / 2 | - / 2 rows, 2 pins |
 
 Exact rows.  t118: dungeon/func_80E0F7C0, 80EF7000, 80F89A94, 810332A4 (10 -> 9), 81087818, 81820DB4 (2 -> 0), 81875828
 (joint fold), 8187C45C, 818CFB74 (31 -> 30).  t119: town/func_800C0220 (`s32 motion_base = 0;`), dungeon/func_800A3A00
