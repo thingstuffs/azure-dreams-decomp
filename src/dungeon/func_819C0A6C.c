@@ -67,8 +67,6 @@ void func_8002626C(
     S_8002626C_0 *effect_state;
     S_8002626C_2 *sprite;
     void *effect;
-    register s32 held_offset_x ASM_REG("$22") = offset_x;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register s32 held_offset_y ASM_REG("$23") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
@@ -80,15 +78,15 @@ void func_8002626C(
         sprite->unk_10 = 0x40;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0xC);
         ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_02 =
-            (s16) (s32) &((s8 *) base_x)[held_offset_x];
+            (s16) (s32) &((s8 *) base_x)[offset_x];
         ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_06 =
-            (s16) (s32) &((s8 *) base_y)[held_offset_y];
+            (s16) (s32) &((s8 *) base_y)[offset_y];
         ((S_8002626C_4 *)(((S_8002626C_3 *)effect)->unk_08))->unk_0A = (s16) (base_z + offset_z);
-        effect_state->unk_88 = (s32) (0 - ((s32) (held_offset_x << 0x10) >> 7));
-        effect_state->unk_8C = (s32) (0 - ((s32) (held_offset_y << 0x10) >> 7));
         effect_state->unk_2C = (s16) base_x;
         effect_state->unk_2E = (s16) base_y;
         effect_state->unk_30 = (s16) base_z;
+        effect_state->unk_88 = (s32) (0 - ((s32) (offset_x << 0x10) >> 7));
+        effect_state->unk_8C = (s32) (0 - ((s32) (offset_y << 0x10) >> 7));
         effect_state->unk_90 = (s32) (0 - ((s32) (offset_z << 0x10) >> 7));
         sprite = ((S_8002626C_1 *)effect)->unk_0C;
         sprite->unk_1E = 0x3000;
@@ -109,10 +107,10 @@ void func_8002626C(
         sprite->unk_12 = 0x7DCF;
         sprite->unk_14 = (u16) (sprite->unk_14 | 0x100);
         func_8003DB94(sprite, &D_800DE870, 0);
-        ASM_KEEP(held_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(held_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }
 /* MECHANISM: The ten-argument ABI and reused pointer local produce the retail
-   0x38 frame, full hold set, and reload seam. Tail-kept s6/s7 pins preserve
-   scheduling; byte-pointer BASE[index] sums select retail addu operand order. */
+   0x38 frame, full hold set, and reload seam. The unk_88/unk_8C stores sit after
+   the base stores: that lengthens offset_x/offset_y's lives past base_x..base_z,
+   so global.c ranks them after the bases ($s6/$s7, offset_z last in $fp).
+   Byte-pointer BASE[index] sums select retail addu operand order. */

@@ -99,9 +99,9 @@ s32 func_81988C1C(void *first_item) {
     void *node = first_item;
     S_800A1600_D80083160 *render_state = &D_80083160;
     void *screen_base = screen_points;
-    register void *next_node ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    void *next_node;
 
-    do {
+    for (;;) {
         void *item = node;
         void *screen_point;
         s32 point_index;
@@ -188,12 +188,11 @@ s32 func_81988C1C(void *first_item) {
         }
 
         next_node = ((S_81988C1C_6_pre *)node)[-1].unk_00;
+        if (next_node == 0) {
+            break;
+        }
         node = (u8 *)next_node + 0x20;
-    } while (next_node != 0);
-
-    {
-        register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        READ_ZERO(zero);
-        return zero;
     }
+
+    return 0;
 }
