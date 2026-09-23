@@ -63,7 +63,7 @@ void *func_8015E854(s16 flags, s16 x, s16 y, s16 part_id)
     S_8015E854_3 *part_b;
     S_8015E854_1 *work;
     S_8015E854_4 *actor;
-    s32 flag_bits;
+    u32 flag_bits;
     s32 secondary_flags;
     s8 saved_x;
     s16 saved_part_id;
@@ -112,8 +112,8 @@ default_kind:
         if (((flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 query_part = part_a;
-                ASM_KEEP(init_obj);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                flag_bits = func_800A6D30(init_obj);
+                init_obj = (void *)func_800A6D30(init_obj);
+                flag_bits = (s32)init_obj;
                 init_obj = obj;
                 if (!(flag_bits & 1)) {
                     goto init_parts;

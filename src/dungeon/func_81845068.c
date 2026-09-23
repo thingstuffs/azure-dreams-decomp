@@ -39,7 +39,7 @@ s32 func_81845068(u8 *first_node)
     Coord screen_coords[3];
     u8 *node;
     u8 *effect_node;
-    register u8 *next_link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *next_link;
     u8 *render_state;
     u8 *alloc_ctx;
     u8 *alloc_ctx_2;
@@ -203,9 +203,7 @@ s32 func_81845068(u8 *first_node)
                       ot_or_coord | ((u32)prim & addr_mask));
         }
 
-        next_link = LOAD_PTR(node - 8);
-        node = next_link + 0x20;
-    } while (next_link != 0);
+    } while (((next_link = LOAD_PTR(node - 8)) != 0) && ((node = next_link + 0x20), 1));
 
     return 0;
 }

@@ -53,7 +53,7 @@ void func_81977FB8(void)
   s32 angle_random;
   s32 height_random;
   s32 axis_factor;
-  s32 height_or_shade;
+  s16 height_or_shade;
   s32 angle_quotient;
   s32 height_quotient;
   TargetSub *motion;
@@ -85,7 +85,6 @@ void func_81977FB8(void)
       TargetData *render_data;
       void *render_config;
       render_config = &D_80026180;
-      ASM_KEEP(render_config);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
       motion->fieldA = (u16) height_or_shade;
       render_data = obj->fieldC;
       render_data->byteE = (height_or_shade = 0x80);
@@ -110,7 +109,7 @@ void func_81977FB8(void)
       origin_y = origin->field4;
       position->field4 = origin_y + (axis_offset << 8);
       position->fieldA = (s16) (origin->fieldA + motion->fieldA);
-      func_8004491C(obj, D_80045340, origin, axis_offset);
+      func_8004491C(obj, D_80045340);
     }
   }
 }
