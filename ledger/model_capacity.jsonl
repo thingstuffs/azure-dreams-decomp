@@ -208,3 +208,7 @@
 {"date": "2026-09-23T03:56Z", "codex": {"pack": "r74_astra_a7", "model": "gpt-6-astra", "candidates": 4}, "note": "r74 astra on the 3-7 band never-astra retry rows (50% in r73)"}
 {"date": "2026-09-23T04:09Z", "codex": {"pack": "r73_luna6_s6", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
 {"date": "2026-09-23T04:09Z", "codex": {"pack": "r74_astra_pre2", "model": "gpt-6-astra", "candidates": 4}, "note": "r74 astra on sol6-failed rows with the sol6 diagnosis attached"}
+{"date": "2026-09-23T04:38Z", "codex": {"pack": "r74_sol6v3_b3", "model": "gpt-6-sol", "candidates": 1}, "note": "r74 gpt-6-sol v3 brief on the partial-residue pool, 3-pin rows"}
+{"date": "2026-09-23T04:39Z", "codex": {"pack": "r74_sol6v3_b1", "model": "gpt-6-sol", "candidates": 0}, "note": "r74 gpt-6-sol v3 brief on the partial-residue pool, 3-pin rows"}
+{"date": "2026-09-23T04:40Z", "codex": {"pack": "r74_sol6v3_b4", "model": "gpt-6-sol", "candidates": 1}, "note": "r74 gpt-6-sol v3 brief on the partial-residue pool, 3-pin rows"}
+{"date": "2026-09-23T04:41Z", "codex": {"pack": "r74_sol6v3_b2", "model": "gpt-6-sol", "candidates": 2}, "note": "r74 gpt-6-sol v3 brief on the partial-residue pool, 3-pin rows"}
