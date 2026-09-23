@@ -80,3 +80,10 @@ Projected pins after the staged lanes land; representative = fewest projected pi
 Every member of every family has been served at least once (`served.py`), so each target is a deliberate
 `--repack` retry of ONE representative, with transfer (`--transplant`) to carry the result across the family.
 All 26 families: 92 rows, 358 pins -> 324 projected (`ledger/clone_families.jsonl`).
+
+## Landing (land_finished2.sh cycle after the runs)
+
+`r76_partials` 2 rows / 4 pins landed; `r76_clones` 13 rows / 24 pins landed (`func_80AD7000`, `func_80BD3BA8`
+were superseded by other lanes that landed more first: now 5 and 2 pins); `r76_clones3` 2 rows / 2 pins landed
+(`func_809F90DC`, `func_80A0B0DC`), `func_80A170DC`/`func_80C1509C` reached the staged 10 pins through a
+different text in the same cycle. Net from this round's clone work: 30 pins landed, 4 more reached elsewhere.
