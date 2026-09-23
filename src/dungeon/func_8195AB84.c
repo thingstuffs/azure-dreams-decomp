@@ -70,7 +70,6 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
     register void **objects_base ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     void **slot;
     S_8195AB84_2 *position;
-    register S_8195AB84_3 *transform ASM_REG("$4");
     S_8195AB84_4 *object_state;
     u8 *entry_table;
     u8 *state_page;
@@ -82,7 +81,7 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
     register void *callback_addr ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 transform_flags;
     void **cleanup_slot;
-    u16 object_flags;
+    u32 object_flags;
     void *call_context;
     s32 state_flags;
     static void *const loop_label_ref[] = { &&loop_continue };
@@ -114,17 +113,17 @@ void *func_8195AB84(s16 x, s32 y, s32 z, s16 angle)
                 position->unk_02 = saved_x;
                 position->unk_06 = saved_y;
                 position->unk_0A = saved_z;
-                transform = ((S_8195AB84_1 *)(*slot))->unk_0C;
-                transform->unk_16 = 0x400;
-                transform->unk_1A = saved_angle + 0x400;
+                object_flags = (u32)(((S_8195AB84_1 *)(*slot))->unk_0C);
+                ((S_8195AB84_3 *)object_flags)->unk_16 = 0x400;
+                ((S_8195AB84_3 *)object_flags)->unk_1A = saved_angle + 0x400;
                 scratch = 0x1000;
-                transform->unk_20 = scratch;
-                transform->unk_1E = scratch;
-                transform->unk_1C = scratch;
-                transform_flags = transform->unk_14;
-                transform->unk_08 = (void *)((u32)(object_index * 0x10) + (u32)entry_table);
-                transform->unk_10 = 0x20;
-                transform->unk_14 = transform_flags | 0xC;
+                ((S_8195AB84_3 *)object_flags)->unk_20 = scratch;
+                ((S_8195AB84_3 *)object_flags)->unk_1E = scratch;
+                ((S_8195AB84_3 *)object_flags)->unk_1C = scratch;
+                transform_flags = ((S_8195AB84_3 *)object_flags)->unk_14;
+                ((S_8195AB84_3 *)object_flags)->unk_08 = (void *)((u32)(object_index * 0x10) + (u32)entry_table);
+                ((S_8195AB84_3 *)object_flags)->unk_10 = 0x20;
+                ((S_8195AB84_3 *)object_flags)->unk_14 = transform_flags | 0xC;
                 scratch = (s32)*slot;
                 object_state = (u8 *)scratch + 0x20;
                 if (object_index != 0) {

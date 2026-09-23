@@ -80,7 +80,7 @@ void func_80172A24(void *action_state, void *transform, void *sprite, void *acto
 {
     u16 position[4];
     u8 *motion;
-    register s32 use_player_target ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 use_player_target;
     void *target;
     s32 delay;
     u8 *action_status;
@@ -131,9 +131,8 @@ void func_80172A24(void *action_state, void *transform, void *sprite, void *acto
         if (*motion != 0) {
             ((S_80172A24_0 *)action_state)->unk_98 &= 0xFF7F;
             {
-                s32 player_target = use_player_target;
+                s16 player_target = use_player_target;
 
-                ASM_KEEP(player_target);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 if (player_target != 0) {
                     target = D_800814A8;
                     ((S_80172A24_1 *)actor)->unk_60 = target;
@@ -160,7 +159,8 @@ void func_80172A24(void *action_state, void *transform, void *sprite, void *acto
             position[0] = ((Rec_D_800E3D7C *)transform)->unk_00.at02_u16.v;
             position[1] = ((Rec_D_800E3D7C *)transform)->unk_04.at02_u16.v;
             position[2] = ((Rec_D_800E3D7C *)transform)->unk_08.at02_u16.v;
-            if (func_800A94A0(actor, motion, use_player_target, (u8 *)action_state + 0x98) == 0) {
+            transform = (void *)func_800A94A0(actor, motion, use_player_target, (u8 *)action_state + 0x98);
+            if (transform == 0) {
                 return;
             }
             ((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v &= 0xF7FF;

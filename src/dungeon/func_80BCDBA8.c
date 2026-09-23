@@ -69,11 +69,11 @@ void func_801653A8(void *entity, S_801653A8_0 *motion, void *sprite)
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_801659DC) {
-            ASM_KEEP(callback_entity);
-            entry_callback(callback_entity, motion, sprite, callback_entity);
-        } else {
-            (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
+            entity_base = (void *)entry_callback;
+            ((Callback)entity_base)(callback_entity, motion, sprite, callback_entity);
+            return;
         }
+        (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         return;
     }
 

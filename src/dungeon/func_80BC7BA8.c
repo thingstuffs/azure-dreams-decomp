@@ -48,13 +48,13 @@ typedef struct S_8016B3A8_2 {
 void func_8016B3A8(void *self, S_8016B3A8_0 *motion, void *sprite)
 {
     register void *actor_base ASM_REG("$19") = self;   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-    register s16 old_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs actor_base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 old_state_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 old_state;
+    u8 old_state_byte;
     void *call_self;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_motion;
     void *call_sprite;
     s16 height_offset;
-    u32 height_bits;
+    u16 height_bits;
     s16 direction;
     s16 floor_height;
     s32 actor_flags;
@@ -70,8 +70,8 @@ void func_8016B3A8(void *self, S_8016B3A8_0 *motion, void *sprite)
 
         special_callback = (*(Callback *)((u8 *)self + 0x8C));
         if (special_callback == (Callback)&D_8016B9DC) {
-            ASM_KEEP(callback_self);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            special_callback(callback_self, motion, sprite, callback_self);
+            actor_base = (void *)special_callback;
+            ((Callback)actor_base)(callback_self, motion, sprite, callback_self);
             return;
         }
         (*(u8 *)((u8 *)self + 0x71)) &= 0x7F;
@@ -97,10 +97,9 @@ void func_8016B3A8(void *self, S_8016B3A8_0 *motion, void *sprite)
     }
     D_8016E6A0[(*(u8 *)((u8 *)self + 0x9A))](self, motion, sprite, self);
     {
-        register s32 state_compare ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        s32 state_compare;
 
         state_compare = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(state_compare);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)self + 0x6D))) {
             func_800AA36C(self, motion, sprite, self);

@@ -44,19 +44,14 @@ s32 func_8008AFB0(s32 resource_kind, s32 resource_group, s32 resource_id, s32 en
         s8 *entries = D_800CF720;
         u32 entry_offset = entry << 3;
         entry_ptr = entries + entry_offset;
-        free_bytes += ((s32 *)entry_ptr)[1];
-        func_8008AC84(entry);
-        goto first_entry_done;
+        goto loop_body;
         do {
+            entry_ptr -= 8;
             entry--;
+loop_body:
             free_bytes += ((s32 *)entry_ptr)[1];
             func_8008AC84(entry);
-            first_entry_done:
-            ;
-            entry_ptr -= 8;
         } while (free_bytes < alloc_size);
-        entry_ptr += 8;
-        ASM_KEEP(entry_ptr);
     }
     func_8008AD90(entry, alloc_size);
     func_8008AC84(entry + 1);
