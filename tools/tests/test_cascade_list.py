@@ -18,7 +18,10 @@ class CascadeList(unittest.TestCase):
     def test_the_repo_file_is_clean(self):
         msgs = []
         toks = cascade_list.extras(warn=msgs.append)
-        self.assertEqual(msgs, [], "cascade_extra.txt carries duplicates or stray tokens")
+        # duplicates and non-generators are the corruption classes; a line left behind after its generator was
+        # promoted into land_lanes.sh's built-in list is harmless (dropped with a note) and does not fail here
+        bad = [m for m in msgs if "already in land_lanes.sh" not in m]
+        self.assertEqual(bad, [], "cascade_extra.txt carries duplicates or stray tokens")
         self.assertEqual(len(toks), len(set(toks)))
         for t in ("t100_rmwfold", "t116_ptaglink", "t103_dropsink", "t110_paramfold", "t113_sibarity", "t117_stagehost"):
             self.assertIn(t, toks)
