@@ -40,7 +40,8 @@ typedef struct S_8001A51C_2 {
 void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
     s32 col;
     s32 row;
-    register s32 dst_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 dst_index;
+    s32 col_index;
     s32 row_offset;
     s32 stride_shift;
     s32 offset;
@@ -61,15 +62,15 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
             col = 0;
             if (rect->unk_04 > 0) {
                 do {
-                    dst_index = rect->unk_00;
-                    dst_index += col;
+                    col_index = rect->unk_00;
+                    col_index += col;
                     do {
                         row_offset = rect->unk_02;
                     } while (0);
                     row_offset += row;
                     stride_shift = ((S_8001A51C_2 *)grid_info)->unk_14;
                     row_offset <<= stride_shift;
-                    dst_index += row_offset;
+                    dst_index = col_index + row_offset;
                     if (*src_cursor != 0) {
                         offset = dst_index * 2;
                         dst_cell = (u16 *)(offset + (s32)dst_base);

@@ -55,8 +55,6 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
     s32 direction_offset;
     s16 tile_slot;
     void *target;
-    s32 item_offset;
-    u8 *item_base;
     u8 *item_ptr;
 
     direction_offset = (*(u16 *)(actor_bytes + 0x2A) >> 8) & 0xE;
@@ -90,49 +88,54 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         }
         {
 #ifdef __mips__
-            register s32 slot_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+            s32 slot_index;
             s16 item_count;
-            register s32 *slot_scan ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+            s32 *slot_scan;
 #else
             s32 slot_index;
             s16 item_count;
             s32 *slot_scan;
 #endif
+            s32 count;
             slot_index = 0;
-            item_count = slot_index;
+            count = 0;
             slot_scan = (s32 *)0x80010000;
-            do {
+            for (;;) {
                 if (slot_scan[167] != 0) {
-                    item_count++;
+                    count++;
                 }
                 slot_scan++;
-            } while (++slot_index < 20);
+                if (++slot_index >= 20) {
+                    break;
+                }
+            }
+            item_count = count;
             if (item_count == 0) {
                 return 0;
             }
-            item_offset =
+            count =
                 (s32)((((func_800A6D30() & 0xFFFF) % item_count) << 16) >> 14);
-            item_base = (u8 *)(item_offset + 0x80010000);
-            if (*(u8 *)(item_base + 0x249) == 0) {
+            slot_index = count + 0x80010000;
+            if (*(u8 *)(slot_index + 0x249) == 0) {
                 goto return_zero;
             }
-            if (*(u8 *)(item_base + 0x249) == 0x13) {
+            if (*(u8 *)(slot_index + 0x249) == 0x13) {
                 return 0;
             }
-            if (*(u8 *)(item_base + 0x24B) & 0x20) {
+            if (*(u8 *)(slot_index + 0x24B) & 0x20) {
                 goto entry_zero;
             }
             {
                 s32 item_data;
                 s32 *shared_base;
 
-                item_ptr = (u8 *)(item_offset + 0x80010248);
+                item_ptr = (u8 *)(count + 0x80010248);
                 item_data = *(s32 *)item_ptr;
                 shared_base = D_80162FE4;
                 shared_base[0] = item_data;
 
 
-                func_80098B38(item_ptr, item_base);
+                func_80098B38(item_ptr, (void *)slot_index);
                 return (s32)shared_base;
             }
         }

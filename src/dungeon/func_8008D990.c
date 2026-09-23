@@ -150,11 +150,13 @@ jt_c1:
     transition_base = (M2C_UNK *)0x800E0000;
     saved_state_base = (u8 *)0x80010000;
     if (((S_800930F0_4 *)saved_state_base)->unk_3714.s & 4) {
-        goto block_21;
+        if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
+            goto block_26;
+        }
+        goto set_wait;
     }
     func_800945E8(state);
     func_800948BC();
-    ASM_KEEP(saved_state_base);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     {
         register UnalignedCopy3 *copy_src ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         UnalignedCopy3 *copy_dst;
@@ -227,6 +229,7 @@ block_21:
     if (((S_800930F0_8 *)transition_base)->unk_3CD0.s != 0) {
         goto block_26;
     }
+set_wait:
     ((S_800930F0_8 *)transition_base)->unk_3CD0.u = 1;
     func_80040AA0(3U);
     goto block_26;
