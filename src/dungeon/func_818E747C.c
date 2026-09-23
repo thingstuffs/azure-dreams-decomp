@@ -187,7 +187,7 @@ s32 func_80024C7C(void *node_data) {
                         s16 tex_coord;
                         s32 next_index;
                         void *primitive;
-                        register u32 primitive_color ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+                        u32 primitive_color;
 
                         {
                             void *context = ((S_80024C7C_1 *)global_base)->unk_00;
@@ -197,7 +197,7 @@ s32 func_80024C7C(void *node_data) {
                         }
                         primitive_color = 0x00808080;
                         ((S_80024C7C_3 *)primitive)->unk_04 = primitive_color;
-                        func_800666F4(primitive, primitive_color);
+                        func_800666F4(primitive);
                         func_80066640(primitive, 1);
                         ((S_80024C7C_3 *)primitive)->unk_16 =
                             func_80066460(0, 1, 0x2C0, 0x100);

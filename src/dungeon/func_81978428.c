@@ -245,8 +245,8 @@ case1:
 #endif
         spawned_object = (void *)0x80080000;
         ASM_KEEP_NV(spawned_object);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        map_or_y_steps = (u8 *)spawned_object + 0x2E80;
-        ASM_KEEP_NV(map_or_y_steps);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        map_or_y_steps = spawned_object;
+        map_or_y_steps = (u8 *)((u8 *)map_or_y_steps + 0x2E80);
 #ifndef NON_MATCHING
         spawned_object = func_800A05A4(player, map_or_y_steps[0x24], map_or_y_steps[0x25], spawn_angle);
 #else

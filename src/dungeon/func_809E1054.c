@@ -69,7 +69,7 @@ void *func_80158854(s16 mode_flags, s16 attribute_24, s16 attribute_25, s16 attr
     s16 saved_attribute_0a;
     s8 saved_attribute_25;
     void *object_arg;
-    register void *part_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
+    void *part_arg;
 
     work = 0;
     saved_attribute_24 = attribute_24;
@@ -113,7 +113,7 @@ normal_kind:
             if (!(work->unk_14 & 0x200)) {
                 part_arg = part_a;
                 ASM_KEEP(object_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                flags_or_result = func_800A6D30(object_arg, part_arg);
+                flags_or_result = func_800A6D30(object_arg);
                 object_arg = obj;
                 if (!(flags_or_result & 1)) {
                     goto init_parts;

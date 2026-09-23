@@ -194,12 +194,11 @@ extern s32 func_8005E78C(void);
 extern void func_8005EC0C(Req *a0);
 
 /* Allocates or reuses voices for matching tones and applies channel note settings. */
-void func_80056E10(u8 channel_id, s32 note, u8 velocity)
+void func_80056E10(u8 channel_id, s16 note, u8 velocity)
 {
     u8 tone_pan;
     u8 channel_param_5d;
     s32 stack_pad[6];
-    s32 note_value;
     u16 tone_idx;
     s32 program_count;
     s32 program_limit;
@@ -228,7 +227,6 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
     u16 adsr1;
     u16 adsr2;
 
-    note_value = note;
     program_count = 0;
     entry_idx = 0;
     channel = &D_80084960[channel_id];
@@ -247,12 +245,12 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
         } while (entry_idx < program_limit);
     }
     program = (Hdr *)(song_data + (program_id * 0x10 + 0x20));
-    start_note = (u8) note_value;
+    start_note = (u8) note;
     tone_idx = 0;
     if (program->f00 == 0) {
         return;
     }
-    note_key = note_value & 0xFF;
+    note_key = note & 0xFF;
     channel_key = channel_id;
     do {
         tone = (Ev *)(song_data + (((program_count * 0x10 + tone_idx) << 5) + 0x820));
@@ -311,14 +309,14 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                     prev_note = channel->f5C;
                     channel->f52 = 0;
                     if (prev_note < note_key) {
-                        channel->f56 = ((note_value & 0xFF) - channel->f5C) << 7;
+                        channel->f56 = ((note & 0xFF) - channel->f5C) << 7;
                         channel->f58 = 1;
                         channel->f54 = (channel->f56 * 4) / channel->f50;
                     } else if (prev_note == note_key) {
                         channel->f54 = 0;
-                        start_note = (u8) note_value;
+                        start_note = (u8) note;
                     } else {
-                        channel->f56 = (channel->f5C - (note_value & 0xFF)) << 7;
+                        channel->f56 = (channel->f5C - (note & 0xFF)) << 7;
                         channel->f58 = 0;
                         channel->f54 = (channel->f56 * 4) / channel->f50;
                     }
@@ -333,14 +331,14 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                     prev_note = channel->f5C;
                     channel->f52 = 0;
                     if (prev_note < note_key) {
-                        channel->f56 = ((note_value & 0xFF) - channel->f5C) << 7;
+                        channel->f56 = ((note & 0xFF) - channel->f5C) << 7;
                         channel->f58 = 1;
                         channel->f54 = (channel->f56 * 4) / channel->f50;
                     } else if (prev_note == note_key) {
                         channel->f54 = 0;
-                        start_note = (u8) note_value;
+                        start_note = (u8) note;
                     } else {
-                        channel->f56 = (channel->f5C - (note_value & 0xFF)) << 7;
+                        channel->f56 = (channel->f5C - (note & 0xFF)) << 7;
                         channel->f58 = 0;
                         channel->f54 = (channel->f56 * 4) / channel->f50;
                     }
@@ -377,7 +375,7 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                     if (voice_idx == -1) {
                         voice_idx = 0;
                         match_channel = channel_key;
-                        match_note = note_value & 0xFF;
+                        match_note = note & 0xFF;
                         while (1) {
                             if ((match_channel == D_80085458[voice_idx].f06) && (D_80085458[voice_idx].f0A == match_note)) {
                                 break;
@@ -407,7 +405,7 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                 if (channel->f98 == 0) {
                     func_80056DB4(voice_idx);
                     func_8005E97C(0, D_80073740[voice_idx]);
-                    func_80055E74(voice_idx, note_value & 0xFF, channel_id, D_80084918.f08, D_80084918.f0A);
+                    func_80055E74(voice_idx, note & 0xFF, channel_id, D_80084918.f08, D_80084918.f0A);
                 }
                 entry_idx = 0;
                 sample_offset = 0;
@@ -435,7 +433,7 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                     D_80084918.f24 = 1;
                 }
                 voice->f68 = D_80084918.f24;
-                channel->f5C = note_value;
+                channel->f5C = note;
                 channel->f10 = velocity;
                 voice->f22 = tone->f04;
                 voice->f23 = tone->f05;
@@ -482,7 +480,7 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
                 D_80084918.f08 = voice->f10;
                 D_80084918.f0A = voice->f12;
                 voice->f1D = channel->f18;
-                voice->f0A = note_value & 0x7F;
+                voice->f0A = note & 0x7F;
                 voice->f74 = channel->f1C;
                 voice->f70 = -1;
                 if (channel->f28 < 0x40) {
@@ -527,5 +525,4 @@ void func_80056E10(u8 channel_id, s32 note, u8 velocity)
         }
         tone_idx++;
     } while (tone_idx < program->f00);
-    ASM_SET(note_value);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 }

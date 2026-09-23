@@ -21,10 +21,8 @@ void func_800CCA14(u8, u8, s16);
 s32 func_800CCC20(void *object, s16 slot)
 {
     s32 stack_args[2];
-    s32 value;
-    register s32 remainder ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s16 value;
     s32 random;
-    s32 range;
     s32 index;
     s32 scaled_index;
     s32 field;
@@ -66,12 +64,8 @@ s32 func_800CCC20(void *object, s16 slot)
         value = 0;
     } else {
         random = func_800A6D30() & 0xFFFF;
-        range = *((u8 *)object + 3);
-        if (range != 0) {
-            value = range;
-            ASM_USE(range);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            remainder = random % value;
-            value = remainder;
+        if (*((u8 *)object + 3) != 0) {
+            value = random % *((u8 *)object + 3);
         } else {
             value = 0;
         }

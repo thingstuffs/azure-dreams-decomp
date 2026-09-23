@@ -26,7 +26,7 @@ extern void func_800A2B04(void *a0, u8 a1, u8 a2);
 extern s16 func_800BCB04(u16 a0, u16 a1, s16 a2);
 extern void func_8003DB94(void *a0, s32 a1, s32 a2);
 extern void func_80099FDC(void *a0);
-extern void func_800CB4C0(void *a0, s32 a1, s32 a2);
+extern void func_800CB4C0(void *, s16);
 extern void func_8004491C(void *a0, void *a1);
 extern void func_800A48F0(void *a0, s32 a1, s32 a2);
 
@@ -41,7 +41,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
     void *state_tail;
     s32 direction_entry;
     D80089430_t *result_base;
-    register s32 result_word4 ASM_REG("$4");
+    s32 result_word4;
     s32 tint;
     register s32 tint_arg;
 
@@ -87,7 +87,6 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         tint = 0x404040;
         result_word4 = (s32)(entity);
         tint_arg = 0;
-        ASM_KEEP4(tint, result_word4, tint_arg, state);
         FLD(state_tail, u8, 0x9A) = 0xFF;
         FLD(state_tail, s8, 0x9C) = -1;
         FLD(state_tail, void *, 0x8C) = &D_800C9F34;
@@ -95,7 +94,7 @@ void *func_800C9850(u16 tile_x, u16 tile_z, u16 height) {
         FLD(state, s32, 0x1C) |= 0x40000;
         FLD(state_tail, s16, 0x92) = -0x20;
         FLD(state_tail, s32, 0xAC) = tint;
-        func_800CB4C0((void *)result_word4, tint_arg, tint);
+        func_800CB4C0((void *)result_word4, tint_arg);
         func_8004491C(entity, &D_80045340);
         func_800A48F0(state, 0x1B, 0);
     }

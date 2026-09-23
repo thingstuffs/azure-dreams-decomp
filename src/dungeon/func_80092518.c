@@ -2,7 +2,7 @@
 
 extern void func_8008CBA0(void *, s32, void *, void *);
 extern void func_8008CF6C(void *, s32, void *, void *);
-extern void func_80097898(void *);
+extern void func_80097898(void *, s32, void *, void *);
 extern void func_80097C50(void *, s32, void *, void *);
 
 extern u16 D_80013714;
@@ -12,17 +12,14 @@ extern u8 D_80083160[];
 extern s32 D_800E4940;
 
 /* Apply pending actor updates and handle input-driven state transitions. */
-void func_80097C78(void *controller, s32 move_state, void *entity_arg, void *actor_arg)
+void func_80097C78(void *controller, s32 move_state, void *entity, void *actor)
 {
-    void *entry_entity = entity_arg;
-    register void *entity ASM_REG("$19") = entity_arg;
-    register void *actor ASM_REG("$17") = actor_arg;
     s16 pending_delta = *(s16 *)((u8 *)actor + 0x64);
     u8 *input_state = D_80083160;
 
     if (pending_delta < 0) {
-        *(u16 *)((u8 *)entry_entity + 0x14) &= 0xF7FF;
-        func_80097898(controller);
+        *(u16 *)((u8 *)entity + 0x14) &= 0xF7FF;
+        func_80097898(controller, move_state, entity, actor);
         return;
     }
 

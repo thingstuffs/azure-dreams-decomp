@@ -25,7 +25,6 @@ UA32 *func_80018B64(UA32 *buffer)
 
     result = buffer;
     global_page = (u8 *)0x80010000;
-    ASM_KEEP(global_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     state = *(u8 **)(global_page + 0x6000);
     grid_rows = *(u8 **)(*(u8 **)(state + 0x24) + 0x6C);
     header_page = 0x80020000;

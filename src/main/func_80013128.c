@@ -31,8 +31,8 @@ void func_80026128(UA32 *buffer, s32 config, s32 mode) {
     /* &D_80028064 == 0x80030000 - 32668 */
     source_page = 0x80030000;
     ASM_KEEP(source_page);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    initial_word = (UA32 *)(source_page - 32668);
-    ASM_KEEP(initial_word);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    source_page -= 32668;
+    initial_word = (UA32 *)source_page;
     *buffer = *initial_word;
 
     saved_mode = mode;

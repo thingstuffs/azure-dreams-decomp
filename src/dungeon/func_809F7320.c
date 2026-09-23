@@ -168,7 +168,7 @@ void func_80174B20(void *state, Rec_D_800E3D7C *position, Rec_D_80082E80 *entity
     s32 style_index;
     s16 style;
     s32 position_z;
-    register void *call_arg ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *call_arg;
     u16 fade_ticks;
     u16 finish_ticks;
     u16 previous_ticks;
@@ -249,24 +249,19 @@ jt_c4:
     effect->unk_10 = &D_801749F4;
     func_8004491C(effect, &D_80174574);
     tint = 0x808080;
-    call_arg = actor;
     ((Rec_func_80174800_arg0 *)state)->unk_AC = effect;
     ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
     ((S_80174B20_15 *)(((S_80174B20_13 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
     effect_position = effect->unk_08;
-    globals_base = (void *)0x80170000;
-    ASM_KEEP(tint);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     position_z = position->unk_08.at00_s32.v;
-    globals_base->unk_5218 = -4;
+    D_80175218 = -4;
     effect_position->unk_08 = position_z;
     sprite = effect->unk_0C;
     sprite->unk_1E = 0x1000;
     sprite->unk_1C = 0x1000;
-    ASM_KEEP(tint);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
     sprite->unk_0C.s = tint;
-    style_index = func_800498A0(call_arg, globals_base, effect_position, tint) - 1;
+    style_index = func_800498A0(actor) - 1;
     style = style_index;
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     call_arg = sprite;
     if ((style_index << 0x10) >= 0) {
         goto set_animation;

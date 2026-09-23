@@ -143,7 +143,7 @@ extern s16 func_80066460(s32, s32, s32, s32);
 extern s16 func_8006649C(s32, s32);
 extern void func_80066640(void *, s32);
 extern void func_80066708(void *);
-extern void func_8006671C(void *, s32);
+extern void func_8006671C(u8 *arg0);
 extern void func_80067F20(void *, s32, s32, s32, s32);
 extern u8 *D_80083160;
 
@@ -187,7 +187,7 @@ s32 func_807B0B3C(void *object, s32 caller_a1, void *caller_a2) {
     s32 vertex_index;
     s32 depth;
     s32 bucket_offset;
-    register s32 gray ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 gray;
     void *prim_arg;
     s32 tex_coord;
     s32 tex_left;
@@ -356,16 +356,14 @@ set_depth:
         render_state = *render_slot_m;
         prim = *(u8 **)(render_state + 0x8D0);
         prim_arg = (void *)prim;
-        ASM_KEEP_NV(prim_arg);
         *(u8 **)(render_state + 0x8D0) = prim + 0x34;
     }
     gray = 0xA0A0A0;
     ((S_807B0B3C_7 *)prim)->unk_1C = 0;
     ((S_807B0B3C_7 *)prim)->unk_04 = 0;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     ((S_807B0B3C_7 *)prim)->unk_28 = gray;
     ((S_807B0B3C_7 *)prim)->unk_10 = gray;
-    func_8006671C(prim_arg, gray);
+    func_8006671C(prim_arg);
     func_80066640(prim, 1);
     ((S_807B0B3C_7 *)prim)->unk_18.at02.v = func_80066460(0, 1, 0x280, 0x100);
     {

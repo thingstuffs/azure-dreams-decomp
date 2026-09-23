@@ -140,7 +140,7 @@ void *BODY_NAME(s32 setup_bits, s8 grid_x, s8 grid_y, s16 placement_value) {
     s32 unused_slot_28;
     s32 mode;
     register s32 call_count ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    void *call_target;
     s8 saved_grid_x;
     s16 saved_placement;
     s8 saved_grid_y;
@@ -205,8 +205,7 @@ store_flags:
             call_count = (s32)(node);
             if (!(state->field14 & 0x200)) {
                 call_target = node_data;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot's contents; the source shape that makes it unnecessary has not been found */
-                if (func_800A6D30((void *)call_count, call_target) & 1) {
+                if (func_800A6D30((void *)call_count) & 1) {
                     state->field1c |= 0x200;
                     func_800A48F0(state, 1, (func_800A6D30((void *)call_count) & 0x3F) | 0x20);
                     placement->field2c = &D_80162088;

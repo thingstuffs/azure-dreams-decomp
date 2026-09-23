@@ -71,7 +71,7 @@ void func_8009F4C0(Rec_func_80094268_arg0 *entity, M2C_UNK unused_arg1, M2C_UNK 
     void *source_entry;
     S_8009F4C0_2 *slot_flags;
     S_8009F4C0_1 *slot_state;
-    register void *data_base ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *data_base;
 
     slot_index = entity->unk_95;
     func_80033CD8(entity, &D_80045340);
@@ -96,7 +96,7 @@ void func_8009F4C0(Rec_func_80094268_arg0 *entity, M2C_UNK unused_arg1, M2C_UNK 
     entity->unk_4F = (u8) slot_flags->unk_983;
     record_index = (u8) (((S_8009F4C0_4 *)(((entity->unk_95 * 4) + (u8 *)data_base)))->unk_983 & 0x3F);
     record_value = ((S_8009F4C0_5 *)(((record_index * 0x54) + (u8 *)data_base)))->unk_A94;
-    func_8003E188(entity->unk_4C, 1, data_base);
+    func_8003E188(entity->unk_4C, 1);
     func_8009DC8C(entity, context, entity->unk_4C, record_value);
     entity->unk_50.as_pm = &D_8009F374;
     entity->unk_6C.as_s16 = 0xA;

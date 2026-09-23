@@ -74,14 +74,13 @@ s32 func_800A32A4(void *record) {
     s32 tail_w8;
     volatile s32 *tail_src;
     s32 slot_index;
-    register S_800A32A4_4 *dest_base ASM_REG("$2");
+    S_800A32A4_4 *dest_base;
     S_800A32A4_2 *slot;
     S_800A32A4_3 *entry;
     void *copy_dst;
     void *copy_src;
     u8 *page_base;
     u8 *status_page;
-    register s32 flags_mask ASM_REG("$7");
     S_800E3E48 *copy_base;
     s32 *registry;
     void *copy_end;
@@ -95,7 +94,7 @@ s32 func_800A32A4(void *record) {
         func_800A31D0(record);
         slot_index = 0;
         page_base = (u8 *)0x80080000;
-        flags_mask = ~0x4000;
+        copy_src = (void *)~0x4000;
         registry = D_800E3DF0;
         copy_base = D_800E3E48;
         copy_end = record + 0x80;
@@ -104,7 +103,7 @@ scan_slots:
         slot = slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8;
         slot_index += 1;
         if (slot->unk_AC == record) {
-            ((Rec_D_800E3D7C *)record)->unk_14.as_s32 = (s32)(((Rec_D_800E3D7C *)record)->unk_14.as_s32 & flags_mask);
+            ((Rec_D_800E3D7C *)record)->unk_14.as_s32 = (s32)(((Rec_D_800E3D7C *)record)->unk_14.as_s32 & (s32)copy_src);
             slot->unk_AC = 0;
             state_flags = ((Rec_D_800E3D7C *)record)->unk_1C.as_s32;
             state_flags |= 0x04000000;
@@ -112,15 +111,14 @@ scan_slots:
             ((Rec_D_800E3D7C *)record)->unk_1C.as_s32 = state_flags;
             entry = slot->unk_D0;
             entry->unk_03 = (u8)(entry->unk_03 & 0xDF);
-            dest_base = (void *)((S_800A32A4_1 *)page_base)->unk_14A8;
-            dest_base = (void *)((u32)slot_offset + (u32)dest_base);
+            dest_base = (void *)((u32)slot_offset + ((S_800A32A4_1 *)page_base)->unk_14A8);
             dest_base->unk_D0 = 0;
             update_mode = 3;
             copy_src = record;
             record_index = entry->unk_03 & 0x1F;
             dest_base = (void *)((record_index * sizeof(*copy_base)) + (s32)copy_base);
+            registry[record_index] = (s32)dest_base;
             copy_dst = dest_base;
-            registry[record_index] = (s32)copy_dst;
             do {
                 *(struct S_16 *)copy_dst = *(struct S_16 *)copy_src;
                 copy_src += 0x10;

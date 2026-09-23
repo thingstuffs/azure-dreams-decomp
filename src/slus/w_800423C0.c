@@ -28,14 +28,14 @@ typedef struct S_800423C0_Obj
 } S_800423C0_Obj;
 extern S_800E3E48 D_800E3E48[];
 extern void func_80042710(void *dst, void *src);
-extern s16 func_800A1BD0(void *a0, s32 a1);
+extern s16 func_800A1BD0(void *arg0);
 /* Copies source template data, updates object direction fields, and sets a flag. */
 void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
 {
   int next_direction;
   S_800E3E48 *template_entry;
   s32 direction;
-  register s32 upper_bits_mask ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  s32 upper_bits_mask;
   if (source != 0)
   {
     S_800423C0_Obj *pinned_obj;
@@ -43,13 +43,12 @@ void func_800423C0(S_800423C0_Obj *obj, s16 unused, S_800423C0_Src *source)
     template_entry = &D_800E3E48[source->unk3 & 0x1F];
     func_80042710(obj, template_entry);
     pinned_obj = obj;
-    ASM_KEEP(pinned_obj);
     upper_bits_mask = -8;
     obj->unk14 &= upper_bits_mask;
     obj->unk1C &= upper_bits_mask;
     obj->unk14 |= template_entry->unk14 & 7;
     obj->unk1C |= template_entry->unk1C & 7;
-    direction = func_800A1BD0(pinned_obj, upper_bits_mask);
+    direction = func_800A1BD0(pinned_obj);
     if (direction >= 0)
     {
       u8 *direction_page;

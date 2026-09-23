@@ -68,7 +68,7 @@ typedef struct S_800CD004_6 {
 
 extern void *func_8003FC64(s32);
 extern void func_8004491C(void *, void *);
-extern s32 func_80069EF8(s32);
+extern s32 func_80069EF8(void);
 extern void func_800A56E0(s32);
 extern void func_800A6508();
 extern s32 func_800A6D30(void *, s32, s32, s32);
@@ -140,10 +140,9 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;
         color = 0x808080;
-        ASM_KEEP(color);
         sprite->unk_0C = color;
 
-        variant = func_80069EF8(color);
+        variant = func_80069EF8();
         if (variant & 3) {
             texture = D_800DFD0C;
         } else {

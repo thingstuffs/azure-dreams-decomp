@@ -27,22 +27,21 @@ extern u8 D_800BC388[9];
 extern u8 D_800BC3E4[9];
 
 /* Creates an object and initializes its owner, parameter, and mode-dependent fields. */
-void *func_800BC26C(s32 owner, s32 mode, s32 param)
+void *func_800BC26C(s32 owner, s16 mode, s32 param)
 {
     void *object;
     u8 *fields;
-    register s32 saved_mode ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_mode;
 
     object = func_8003FD64(0x110, (void *)owner);
+    saved_mode = mode;
     if (object != NULL) {
-        do { saved_mode = mode; } while (0);
-        ASM_KEEP(saved_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         ((S_800BC26C_0 *)object)->unk_10 = D_800BC388;
         func_8004491C(object, D_800BC3E4);
         fields = (u8 *)object + 0x20;
         ((S_800BC26C_0 *)object)->unk_20 = owner;
         ((S_800BC26C_1 *)fields)->unk_04 = param;
-        if ((mode << 16) != 0) {
+        if (mode != 0) {
             ((S_800BC26C_1 *)fields)->unk_0C = 0x7F80;
         } else {
             ((S_800BC26C_1 *)fields)->unk_0C = 0x7FC0;

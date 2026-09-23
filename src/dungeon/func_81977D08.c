@@ -72,11 +72,9 @@ void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
     if (effect != NULL) {
         void *sprite_data = &D_800DEB70;
 
-        ASM_KEEP_NV(sprite_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         effect->unk_10 = &D_8002548C;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         {
-            register s32 color ASM_REG("$2") = 0x80;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+            s32 color = 0x80;
 
             sprite = effect->unk_0C;
             {
@@ -98,6 +96,6 @@ void func_81977D08(S_81977D08_4 *owner, S_81977D08_3 *position)
         effect_pos->unk_04 = position->unk_04;
         effect_pos->unk_08 = position->unk_08 -
             (((u8 *)&D_800DDC40)[((S_81977D08_5 *)(owner->unk_14))->unk_13] >> 1 << 16);
-        func_8004491C(effect, &D_80045340, effect_pos);
+        func_8004491C(effect, &D_80045340);
     }
 }

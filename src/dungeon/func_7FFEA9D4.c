@@ -63,7 +63,7 @@ extern M2C_UNK D_8010C994;
 void func_7FFEA9D4(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
     M2C_UNK saved_init_param_1 = init_param_1;
     register M2C_UNK saved_init_param_2 ASM_REG("$23") = init_param_2;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register s32 z_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 z_offset;
     s32 spawn_count;
     s32 rand_value;
     s32 pos_z;
@@ -72,7 +72,6 @@ void func_7FFEA9D4(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
     u16 age_or_flags;
     u16 ticks_left;
     u16 active_count;
-    u16 *active_counter;
     S_7FFEA9D4_2 *position;
     S_7FFEA9D4_3 *emitter_data;
     S_7FFEA9D4_1 *particle;
@@ -117,11 +116,11 @@ void func_7FFEA9D4(void *emitter, M2C_UNK init_param_1, M2C_UNK init_param_2) {
     ((S_7FFEA9D4_0 *)emitter)->unk_1E = ticks_left;
     if ((ticks_left << 0x10) <= 0) {
         age_or_flags = ((S_7FFEA9D4_0_pre *)emitter)[-1].unk_00;
-        active_counter = &D_80094422;
+        z_offset = (s32)&D_80094422;
         age_or_flags |= 0x8000;
         ((S_7FFEA9D4_0_pre *)emitter)[-1].unk_00 = age_or_flags;
-        active_count = *active_counter - 1;
+        active_count = *(u16 *)z_offset - 1;
         D_80086AD8 |= 0x8000;
-        *active_counter = active_count;
+        *(u16 *)z_offset = active_count;
     }
 }

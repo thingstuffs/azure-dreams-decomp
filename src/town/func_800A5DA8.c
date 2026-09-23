@@ -46,8 +46,9 @@ void func_800A3508(void *object, void *vector_data, Rec_D_80082E80 *record_data)
     s32 *setup_params;
 
     {
-        register Rec_D_80082E80 *record ASM_REG("$4") = record_data; /* MATCH: Keep record initialization in the first call argument register. */
-        color = 0x808080;
+        Rec_D_80082E80 *record = record_data;
+        record_data = (Rec_D_80082E80 *)0x808080;
+        color = record_data;
         unit_scale = 0x1000;
         ASM_KEEP4(obj, vec, record, unit_scale); /* MATCH: Preserve entry register setup before initialization. */
         record_values = D_800D0B50;

@@ -14,14 +14,14 @@ typedef struct S_800BDE7C_1 {
 
 
 
-s32 func_800352FC(S_800BDE7C_0 *, s32, S_800BDE7C_1 *, s32);
+s32 func_800352FC(void);
 s32 func_800C2AB4(void *);
 
 void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
 {
     s16 state;
     /* MATCH: Preserve retail's source register after making call arguments explicit. */
-    register s32 *source ASM_REG("$17");
+    s32 *source;
     /* MATCH: Keep incoming call arguments in their ABI registers across dispatch. */
     S_800BDE7C_0 *call_arg0 = arg0;
     S_800BDE7C_1 *call_arg2 = arg2;
@@ -47,7 +47,7 @@ void func_800BDE7C(S_800BDE7C_0 *arg0, s32 arg1, S_800BDE7C_1 *arg2, s32 arg3)
     goto done;
 
 state_0:
-    if (func_800352FC(call_arg0, arg1, call_arg2, arg3) == 0) {
+    if (func_800352FC() == 0) {
         goto done;
     }
     if (func_800C2AB4(arg0) == 0) {
@@ -57,13 +57,13 @@ state_0:
     goto increment;
 
 state_1_or_3:
-    if ((func_800352FC(call_arg0, arg1, call_arg2, arg3) == 0) || (func_800C2AB4(arg0) == 0)) {
+    if ((func_800352FC() == 0) || (func_800C2AB4(arg0) == 0)) {
         arg0->unk_68.u = (arg0->unk_68.u + 1) & 3;
     }
     goto done;
 
 state_2:
-    if (func_800352FC(call_arg0, arg1, call_arg2, arg3) == 0) {
+    if (func_800352FC() == 0) {
         goto done;
     }
     if (func_800C2AB4(arg0) == 0) {

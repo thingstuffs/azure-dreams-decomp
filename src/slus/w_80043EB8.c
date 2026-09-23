@@ -81,11 +81,11 @@ void func_80043EB8(void)
   skip_vsync = D_80080A85[0];
   if (skip_vsync == 0)
   {
-    ASM_KEEP(skip_vsync);   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
     vsync_mode = D_80080A84[0];
 #else
-    vsync_mode = 0x80080000;
+    skip_vsync = 0x80080000;
+    vsync_mode = skip_vsync;
     vsync_mode = *(u8 *)(vsync_mode + 0xA84);
 #endif
     VSync((vsync_mode != 1) ? (2) : (0));

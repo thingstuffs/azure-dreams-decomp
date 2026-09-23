@@ -57,6 +57,8 @@ extern M2C_UNK D_80171D74;
 extern M2C_UNK D_80173DA4;
 extern void *D_80175D54;
 
+static __inline__ u16 active_flag(u32 value) { return value & 0x2000; }
+
 /* Create and initialize a dungeon object and store it as the active object. */
 void func_80173140(void) {
     s32 masked_flags;
@@ -96,17 +98,12 @@ void func_80173140(void) {
         func_80047784(sprite, ((u8 *) ((S_80173140_4 *)sprite)->unk_2C.u)[((s32) (D_80083228 + 0xD00) >> 9) & 7], 0);
         ((S_80173140_4 *)sprite)->unk_1E = 0x1000;
         ((S_80173140_4 *)sprite)->unk_1C = 0x1000;
-        state_flags = st->unk_1C;
         flag_mask = 0x40000;
-        st->unk_A0 = 0;
-        state_flags |= flag_mask;
+        state_flags = st->unk_1C | flag_mask;
         st->unk_1C = state_flags;
-        ASM_KEEP(state_flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        masked_flags = state_flags;
-        ASM_KEEP(masked_flags);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        st->unk_A0 = 0;
+        masked_flags = active_flag(st->unk_1C);
         initial_offset = -0x20;
-        ASM_KEEP(initial_offset);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        masked_flags &= 0x2000;
         st->unk_92 = initial_offset;
         cell_x = ((S_80173140_4 *)sprite)->unk_24;
         cell_y = ((S_80173140_4 *)sprite)->unk_25;

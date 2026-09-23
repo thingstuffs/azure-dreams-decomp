@@ -58,7 +58,7 @@ extern M2C_UNK D_8016AE84;
 #ifdef __mips__
 /* The carved row starts with this 33-word text-local pointer/literal bank. */
 extern void *func_8016A800(s32, s8, s8, s16);
-extern void *func_8016A884(s16, s8, s8, s16);
+extern void *func_8016A884(s16, s16, s16, s16);
 extern void *func_8016B24C(void);
 extern void *func_8016B278(void);
 extern void *func_8016B1F8(void);
@@ -116,7 +116,7 @@ __asm__(".globl func_8016A800\n"
 #define FUNC_80A23000_BODY func_80A23000
 #endif
 
-void *FUNC_80A23000_BODY(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *FUNC_80A23000_BODY(s16 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     s32 kind;
     void *obj;
@@ -126,15 +126,11 @@ void *FUNC_80A23000_BODY(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
     S_FUNC_80A23000_BODY_4 *actor;
     s32 left;
     s32 right;
-    register s8 saved_arg1 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s16 saved_arg3;
-    register s8 saved_arg2 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *call_a1;
 
     work = 0;
-    saved_arg1 = arg1;
     saved_arg3 = arg3;
-    saved_arg2 = arg2;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
         work = (u8 *)obj + 0x20;
@@ -146,10 +142,10 @@ void *FUNC_80A23000_BODY(s16 arg0, s8 arg1, s8 arg2, s16 arg3)
         part_a->unk_0A = saved_arg3;
         part_b = ((S_FUNC_80A23000_BODY_0 *)obj)->unk_0C;
         kind = arg0 & 3;
-        part_b->unk_25 = saved_arg2;
+        part_b->unk_25 = arg2;
         actor = work;
         part_b->unk_2C = D_8016E820;
-        part_b->unk_24 = saved_arg1;
+        part_b->unk_24 = arg1;
 
         if (kind == 1) {
             left = work->unk_14 | 0x6000;

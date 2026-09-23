@@ -43,10 +43,15 @@ extern u8 D_80127F48[16];
 extern u8 D_80128038[16];
 extern u8 D_801289EC[16];
 
+static __inline__ s32 menu_row_index(s16 row, s16 index)
+{
+    return (row << 3) + index;
+}
+
 /* Updates the numbered menu entries and selection sprite. */
 void func_80124188(TownObject *menu)
 {
-    register s32 sprite_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
+    s32 sprite_slot;
     TownObject *obj = menu;
     s16 entry_number;
     s32 entry_index;
@@ -118,7 +123,7 @@ void func_80124188(TownObject *menu)
         do {
             if (func_80123200((u8)entry_id) != 0) {
                 *obj->town->slots[sprite_slot++] = D_80127B64;
-                if (entry_index == (obj->row << 3) + obj->index) {
+                if (entry_index == menu_row_index(obj->row, obj->index)) {
                     *obj->town->slots[sprite_slot] = selected_digits[entry_number / 10];
                     sprite_slot++;
                     *obj->town->slots[sprite_slot++] = selected_digits[entry_number % 10];

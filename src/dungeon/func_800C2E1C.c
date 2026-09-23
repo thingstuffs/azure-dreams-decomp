@@ -53,14 +53,10 @@ u32 func_800C857C(void *attacker, void *target) {
                 }
                 {
                     s32 session = func_800990FC();
-                    void *effect;
-                    register s32 handle ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                    effect = &D_800E1987;
-                    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    handle = session;
-                    attacker = handle;
-                    func_80099290(func_80099194(&D_8008942C, func_80099734(target, func_80099194(effect, handle))));
-                    func_800A5720(attacker);
+                    s32 saved = session;
+                    session = func_80099194(&D_800E1987, session);
+                    func_80099290(func_80099194(&D_8008942C, func_80099734(target, session)));
+                    func_800A5720(saved);
                 }
                 goto block_success;
             }

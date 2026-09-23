@@ -191,9 +191,8 @@ void func_800C5FA8(u8 *w) {
         rv = func_800A6D30() & 0xFFFF;
         cnt = D_80081468;
         cc = *(s16 *)(cnt + 6);
-        ASM_KEEP_NV(cc);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        phase = rv % cc;
         st = cc;
-        phase = rv % st;
         if (st > 0) {
             rbase = D_800E2970;
             cnt2 = cnt;

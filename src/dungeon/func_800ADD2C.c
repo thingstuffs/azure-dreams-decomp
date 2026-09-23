@@ -263,7 +263,7 @@ jt_7:
            /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (((S_800B348C_0 *)action_state)->unk_96.s == 0) {
             if (((S_800B348C_0 *)action_state)->unk_102 == 0) {
-                register s32 temp_a2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                s32 temp_a2;
 
                 temp_a2 = func_8009C12C(actor, animation, ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16, 1);
                 if (temp_a2 != 0) {
@@ -271,9 +271,7 @@ jt_7:
                     ((S_800B348C_0 *)action_state)->unk_A8 = 0U;
                     goto check_mix_delay;
                 } else {
-                    void *temp_a2;
-
-                    temp_a2 = ((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
+                    temp_a2 = (s32)((Rec_D_800E3D7C *)actor)->unk_60.as_pv;
                     if (temp_a2 != NULL) {
                         ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = NULL;
                         ((S_800B348C_4 *)temp_a2)->unk_1C = (s32) (((S_800B348C_4 *)temp_a2)->unk_1C & 0xEFFFFFFF);
@@ -345,7 +343,6 @@ bump_state_9b:
         s32 *end_base;
         s32 end_mask;
         s32 end_timer_state;
-        s32 end_flags;
 
 jt_10:
         return_delay = ((S_800B348C_0 *)action_state)->unk_96.u - 1;
@@ -365,13 +362,9 @@ jt_10:
             end_base = (s32 *)((u32)&D_80083460);
             end_mask = -8;
             ((S_800B348C_6 *)end_base)->unk_02 = (u16) (((S_800B348C_6 *)end_base)->unk_02 | 0x412);
-            end_timer_state = 0x800E0000;
-            ASM_KEEP(end_timer_state);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
             ((S_800B348C_0 *)action_state)->unk_8C = &D_8008ACDC;
-            end_flags = ((Rec_D_800E3D7C *)actor)->unk_14.as_s32;
-            end_timer_state = *(s16 *)((u8 *)end_timer_state - 0xDB8);
-            end_flags &= end_mask;
-            ((Rec_D_800E3D7C *)actor)->unk_14.as_s32 = end_flags;
+            end_timer_state = D_800DF248[0];
+            ((Rec_D_800E3D7C *)actor)->unk_14.as_s32 &= end_mask;
             if (end_timer_state == 0) {
                 ((S_800B348C_6 *)end_base)->unk_0C = 0;
             }

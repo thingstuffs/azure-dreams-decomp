@@ -60,7 +60,7 @@ extern u8 D_80163258[];
 extern u8 D_80163298[];
 
 
-extern void *func_8015E8A4(s32, s8, s16, s16);
+extern void *func_8015E8A4(s32, s16, s16, s16);
 static const u32 bank_words[] __asm__("func_8015E800")
     __attribute__((section(".text.func_8015E800"), aligned(4))) = {
     (u32)func_8015E8A4, (u32)D_8015EB40, 0x8015F12C, 0x8015F198,
@@ -78,11 +78,11 @@ static const u32 bank_words[] __asm__("func_8015E800")
 __asm__(".globl func_8015E800\n"
         ".size func_8015E800, 832");
 
-void *func_8015E8A4(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
+void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
     __attribute__((section(".text.func_8015E800")));
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_8015E8A4(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
+void *func_8015E8A4(s32 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     void *work;
     void *obj;
@@ -103,14 +103,12 @@ void *func_8015E8A4(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
     s16 *values_ptr;
     s16 values[4];
     u8 *entry;
-    register s8 pin_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 pin_arg3;
     void *pin_part_a;
     register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     work = 0;
     call_id = 0x112;
-    pin_arg1 = kind_id;
     pin_arg3 = spawn_value;
     call_target = D_80083498;
     obj = func_8003FD64(call_id, call_target);
@@ -128,7 +126,7 @@ void *func_8015E8A4(s32 flags, s8 kind_id, s16 variant, s16 spawn_value)
         part_b->unk_25 = variant;
         pin_actor = work;
         part_b->unk_2C = D_80163258;
-        part_b->unk_24 = pin_arg1;
+        part_b->unk_24 = kind_id;
         if (kind == 1) {
             left = ((S_8015E8A4_1 *)work)->unk_14 | 0x6000;
             right = ((S_8015E8A4_1 *)work)->unk_1C | 0x6000;

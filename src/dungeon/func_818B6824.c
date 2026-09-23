@@ -11,7 +11,7 @@ extern M2C_UNK func_800B4C7C(s32, void *, s32, s32);
 
 /* Adds a computed gain to the target's stored value, doubling it when flagged. */
 void func_818B6824(Rec_D_800E3D7C *target, s32 gain_param) {
-    register s32 base_gain ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 base_gain;
     register s32 gain;
 
     if (func_8009D218(target, 1) == 0) {
@@ -22,7 +22,8 @@ void func_818B6824(Rec_D_800E3D7C *target, s32 gain_param) {
         }
         target->unk_64.as_u16 = (u16) (target->unk_64.as_u16 + gain);
         func_800AD568(target, gain);
-        func_800B4C7C(0x8004, target, (s16) target->unk_64.as_u16, 1);
+        base_gain = 0x8004;
+        func_800B4C7C(base_gain, target, (s16) target->unk_64.as_u16, 1);
         func_800AD4D0(target);
     }
 }
