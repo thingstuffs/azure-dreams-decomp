@@ -166,6 +166,11 @@ t120 1 live of 3 (two of its rows moved on under later landings; t120 is in the 
 "Pin sites now": 3,644 in 891 rows at the harvest's start (5581bdfe); 3,590 in 880 rows live in src/ at the end
 (all landings in the window, this harvest's 14 among them; STATUS.md is rewritten by the lander's snapshot).
 
+Catch-up after fin1125 (its cascade predates t118-t120 in cascade_extra.txt; the stale t120 / t115 / t118 candidates
+sit on rows that later landings changed): `gen_drive.py --catchup` lanes `r76_h_t120_unvolatile_catchup` (3 changed
+rows), `r76_h_t118_setonce_catchup` (7), `r76_h_t115_carrierfold_catchup` (633: its module changed after its first
+sweep) - **0 exact**; the stale candidates' pins are not on the current text.
+
 ## Priority 2: the "stale" t85 verdicts
 
 The lanes named dungeon/func_8008F228 and dungeon/func_80F88C94 as t85 refusals computed on older text.  Re-measured on
