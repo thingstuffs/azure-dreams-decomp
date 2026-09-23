@@ -175,9 +175,10 @@ def main():
                    f"records used: {len({r for x in recs for r in x['records']})}.")
         resid_n = collections.Counter(); resid_b = collections.Counter()
         for x in read_jsonl(lv):
+            if x["id"].split("/")[0] in PARKED_CONTAINERS: continue   # as "Pin sites now": the pins count must equal its row count
             for k in x.get("l4_residue", []):
                 resid_n[k] += 1; resid_b[k] += by[x["id"]]["size"]
-        out.append(f"\nL4 residue (rows below L4, by blocker; a row can carry more than one): "
+        out.append(f"\nL4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): "
                    f"pins {resid_n['pins']:,} rows ({resid_b['pins']:,} B), "
                    f"tail_jump {resid_n['tail_jump']:,} rows ({resid_b['tail_jump']:,} B), "
                    f"not_in_module {resid_n['not_in_module']:,} rows ({resid_b['not_in_module']:,} B).")

@@ -208,6 +208,22 @@ class TailJumpLadder(unittest.TestCase):
         self.assertEqual(rec["level"], 3)              # L1 (swept)/L2/L3 all clear; L4 does not
         self.assertIn("pins", rec["l4_residue"])
 
+    def test_pins_left_is_the_charter_counter(self):
+        """pins_left is pin_census.sites_of (status.py "Pin sites now", charter rule 5), not a raw
+        `ASM_X(` token count: a macro definition, a NON_MATCHING-arm stub and an asm-spec on a
+        non-`register` local are not sites (docs/evidence/r76_pin_count_discrepancy.md)."""
+        from pin_census import sites_of
+        r = row()
+        text = ('#include "common.h"\n#ifdef NON_MATCHING\n#define ASM_KEEP_OLD(v) ((void)0)\n#else\n'
+                '#define ASM_KEEP_OLD(v) __asm__ __volatile__("" : "=r"(v) : "0"(v))\n#endif\n'
+                's32 %s(s32 a) {\n    void *p ASM_REG("$16");\n    ASM_KEEP(a);\n    return a + 1;\n}\n' % r["func"])
+        rec = L.evaluate_row(r, text, "different", set(), {}, {})
+        self.assertEqual(rec["pins_left"], len(sites_of(text)))
+        self.assertEqual(rec["pins_left"], 1)          # only the ASM_KEEP(a); statement
+        rec0 = L.evaluate_row(r, text.replace("    ASM_KEEP(a);\n", ""), "different", set(), {}, {})
+        self.assertEqual(rec0["pins_left"], 0)
+        self.assertNotIn("pins", rec0["l4_residue"])
+
 
 class LabelAsCallExemption(unittest.TestCase):
     """Owner ruling 2026-09-22 (afternoon, docs/PIN_CAMPAIGN_CHARTER.md "Rulings 2026-09-22
