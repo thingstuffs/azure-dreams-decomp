@@ -264,6 +264,7 @@ def main():
     ap.add_argument("--workers", type=int, default=6); ap.add_argument("--base-from")
     ap.add_argument("--min-pins", type=int, default=1, help="skip rows with fewer pin sites (a depth-2 win needs a pin per move)")
     ap.add_argument("--max-rows", type=int, default=0)
+    ap.add_argument("--skip-A", default="", help="generators never used as A (e.g. t101_crossmerge: its menu costs ~200 listings a row)")
     ap.add_argument("--journals", default="r73_h_t*,r73_h2_t*,r73_h3_t*,r76_cascade_t*")
     a = ap.parse_args()
     want = {}
@@ -283,6 +284,8 @@ def main():
     by = {r["id"]: r for r in rows()}
     OUT = NL / a.lane; (OUT / "out").mkdir(parents=True, exist_ok=True); (OUT / ".ignore").write_text("*\n")
     J = OUT / "journal.jsonl"
+    done = {(r["id"], r["in_sha"]) for r in read_jsonl(J) if "in_sha" in r} if J.exists() else set()   # resumable
+    skipA = set(a.skip_A.split(",")) - {""}
     jobs = []
     for rid, gs in want.items():
         r = by.get(rid)
@@ -291,7 +294,9 @@ def main():
         t0, src = base_text(r, a.base_from)
         if len(sites_of(t0)) < max(1, a.min_pins):
             print("skip", rid, "pins <", max(1, a.min_pins), "in", src); continue
-        As = gs or defaultA
+        if (rid, sha_text(t0)) in done:
+            continue
+        As = [g for g in (gs or defaultA) if g not in skipA]
         if not As:
             print("skip", rid, "no A generator"); continue
         jobs.append((r, t0, src, As, Bs, a.k, cen.get(rid, {})))
