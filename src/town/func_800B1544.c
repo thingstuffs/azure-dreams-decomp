@@ -127,42 +127,36 @@ void func_800AECA4(void *list) {
         entry_y = 0x82;
         row_y = 0xA;
         do {
-            register u8 *row_slots_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            u8 *row_slots_m;
             row_slot = row_index * 4;
             {
                 u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 ((S_800AECA4_11 *)(((S_800AECA4_6 *)(((S_800AECA4_3 *)row_slots)->unk_38))->unk_04))->unk_0A = row_y;
             }
             {
-                row_slots_m = ((S_800AECA4_0 *)list)->unk_D8;
-                row_slots_m = (u8 *)(row_slot + (s32)row_slots_m);
+                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 *((S_800AECA4_1 *)row_slots_m)->unk_38 = list + 0x40;
             }
             {
-                row_slots_m = ((S_800AECA4_0 *)list)->unk_D8;
-                row_slots_m = (u8 *)(row_slot + (s32)row_slots_m);
+                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 ((S_800AECA4_12 *)(((S_800AECA4_7 *)(((S_800AECA4_3 *)row_slots_m)->unk_08))->unk_04))->unk_0A = row_y;
             }
             {
-                row_slots_m = ((S_800AECA4_0 *)list)->unk_D8;
-                row_slots_m = (u8 *)(row_slot + (s32)row_slots_m);
+                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 *((S_800AECA4_1 *)row_slots_m)->unk_08 = row_data_a;
             }
             {
-                row_slots_m = ((S_800AECA4_0 *)list)->unk_D8;
-                row_slots_m = (u8 *)(row_slot + (s32)row_slots_m);
+                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 ((S_800AECA4_13 *)(((S_800AECA4_8 *)(((S_800AECA4_3 *)row_slots_m)->unk_20))->unk_04))->unk_0A = row_y;
             }
             {
-                row_slots_m = ((S_800AECA4_0 *)list)->unk_D8;
-                row_slots_m = (u8 *)(row_slot + (s32)row_slots_m);
+                row_slots_m = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 *((S_800AECA4_1 *)row_slots_m)->unk_20 = row_data_b;
             }
             row_y += 0x10;
             {
                 s32 entry_handle = func_8004DC14(func_800AE4E4(*(((S_800AECA4_0 *)list)->unk_38 + row_index)), 1);
-                register u8 *row_slots ASM_REG("$3") = ((S_800AECA4_0 *)list)->unk_D8;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                row_slots = (u8 *)(row_slot + (s32)row_slots);
+                u8 *row_slots = (u8 *)(row_slot + (s32)((S_800AECA4_0 *)list)->unk_D8);
                 *((S_800AECA4_1 *)row_slots)->unk_50 = entry_handle;
             }
             row_index += 1;

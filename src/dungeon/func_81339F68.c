@@ -59,7 +59,7 @@ void func_80170F68(void *effect) {
     s32 early_count;
     s32 early_x;
     s32 early_y;
-    register u32 flag_mask ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 flag_mask;
     s32 enabled;
 
     *(Copy8 *)&blit_data[4] = D_80164A4C;
@@ -183,20 +183,18 @@ fade:
         } while (early_count > 0);
     } else {
     }
-    particle = &D_80082E80;
-    if (particle->c >= 0x81) {
-        shade = particle->e - 3;
-        particle->e = shade;
-        particle->d = shade;
-        particle->c = shade;
+    if (D_80082E80.c >= 0x81) {
+        shade = D_80082E80.e - 3;
+        D_80082E80.e = shade;
+        D_80082E80.d = shade;
+        D_80082E80.c = shade;
         goto end;
     }
-    flag_mask = 0xEFFFFFFF;
     render_flags = U32_AT(render_state, 0x1C);
-    particle->e = 0x80;
-    particle->d = 0x80;
-    particle->c = 0x80;
-    U32_AT(render_state, 0x1C) = render_flags & flag_mask;
+    D_80082E80.e = 0x80;
+    D_80082E80.d = 0x80;
+    D_80082E80.c = 0x80;
+    U32_AT(render_state, 0x1C) = render_flags & 0xEFFFFFFF;
 
     next_state = U16_AT(effect, 0x12);
 advance_state:

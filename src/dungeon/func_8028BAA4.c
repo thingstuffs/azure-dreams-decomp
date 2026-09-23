@@ -20,6 +20,7 @@ extern u8 D_80073414[];
 /* Selects a random item by category thresholds and eligible item weights. */
 s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     s32 category_index;
+    s32 selected_category;
     s32 rarity;
     s32 category_scale_or_weight;
     u8 *table_cursor_or_item_offset;
@@ -27,11 +28,11 @@ s32 func_8001EAA4(s8 *category_out, s8 *item_out, s32 arg2, s32 arg3) {
     s32 scan_value;
     register u16 *category_threshold ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u16 item_flags;
-    register s32 cumulative_weight ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 cumulative_weight;
     u32 rng_result;
     u16 random_weight;
     unsigned long table_base_or_mode;
-    register u8 *item_category_table ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *item_category_table;
     u8 *category_entry;
 
     rng_result = func_800A6D30(category_out, item_out, arg2, arg3);
@@ -67,7 +68,7 @@ loop_1:
         item_category_table = (u8 *)table_base_or_mode;
         table_base_or_mode = 2;
         category_entry = table_cursor_or_item_offset;
-        arg2 = scan_value >> 16;
+        selected_category = scan_value >> 16;
         table_cursor_or_item_offset = (u8 *)0x14;
 loop_6:
         item_flags = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_0 *)(item_category_table + ((category_scale_or_weight + category_index) * 4)))->unk_0C);
@@ -75,38 +76,59 @@ loop_6:
             if (item_flags & 0x40) {
                 category_scale_or_weight = category_index * 4;
                 if ((*(s32 *)0x80012090) != (s32)table_base_or_mode) {
-                    goto block_19;
+                    scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+                    goto advance_item;
                 }
             }
             {
                 scan_value = *(u16 *)(table_cursor_or_item_offset + ((S_8001EAA4_1 *)category_entry)->unk_0C) & 0x3000;
                 if (scan_value < 0) {
                     scan_value += 0xFFF;
-                }
-                rarity = (scan_value >> 0xC) & 3;
-                category_scale_or_weight = 0x80;
-                if (rarity != 0) {
-                    category_scale_or_weight = 0x55;
-                    if (rarity != 1) {
-                        category_scale_or_weight = 1;
-                        if (rarity == (s32)table_base_or_mode) {
-                            category_scale_or_weight = 0x20;
+                    rarity = (scan_value >> 0xC) & 3;
+                    category_scale_or_weight = 0x80;
+                    if (rarity != 0) {
+                        category_scale_or_weight = 0x55;
+                        if (rarity != 1) {
+                            category_scale_or_weight = 1;
+                            if (rarity == (s32)table_base_or_mode) {
+                                category_scale_or_weight = 0x20;
+                            }
                         }
                     }
+                    cumulative_weight += category_scale_or_weight;
+                    if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
+                        *category_out = (s8)category_index;
+                        *item_out = (s8)item_index;
+                        return selected_category;
+                    }
+                    goto block_18;
+                } else {
+                    rarity = (scan_value >> 0xC) & 3;
+                    category_scale_or_weight = 0x80;
+                    if (rarity != 0) {
+                        category_scale_or_weight = 0x55;
+                        if (rarity != 1) {
+                            category_scale_or_weight = 1;
+                            if (rarity == (s32)table_base_or_mode) {
+                                category_scale_or_weight = 0x20;
+                            }
+                        }
+                    }
+                    cumulative_weight += category_scale_or_weight;
+                    if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
+                        *category_out = (s8)category_index;
+                        *item_out = (s8)item_index;
+                        return selected_category;
+                    }
+                    goto block_18;
                 }
-                cumulative_weight += category_scale_or_weight;
-                if (random_weight < (u32)(cumulative_weight & 0xFFFF)) {
-                    *category_out = (s8)category_index;
-                    *item_out = (s8)item_index;
-                    return arg2;
-                }
-                goto block_18;
             }
         }
 block_18:
         category_scale_or_weight = category_index * 4;
 block_19:
         scan_value = item_category_table[((category_scale_or_weight + category_index) * 4) + 2];
+advance_item:
         item_index += 1;
         table_cursor_or_item_offset += 0x14;
         if (item_index >= scan_value) {

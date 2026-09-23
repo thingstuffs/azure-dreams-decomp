@@ -10,14 +10,15 @@ extern u8 D_800E3D40; extern u8 D_800E1BBC[];
 /* Attempts a random status effect and plays its visual and sound effects on success. */
 s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_c)
 {
-    s32 notify_failure = 0, random_value;
-    register s32 roll_or_failure ASM_REG("$2");
+    u8 notify_failure = 0;
+    s32 random_value;
+    s16 roll_or_failure;
     void *parent;
 
     if (!D_800E3D40 &&
         (random_value = func_800A6D30(entity, rng_input_a, rng_input_b, rng_input_c) & 0xffff,
          U8(entity, 3))) {
-        register s32 remainder ASM_REG("$3");
+        s32 remainder;
 
         remainder = random_value % U8(entity, 3);
         roll_or_failure = remainder;
@@ -37,11 +38,9 @@ s32 func_800CC058(void *entity, s32 rng_input_a, s32 rng_input_b, s32 rng_input_
         }
     } else {
         roll_or_failure = U8(entity, 0x13) == 0;
-        ASM_KEEP(roll_or_failure);
         notify_failure = roll_or_failure;
     }
     roll_or_failure = notify_failure;
-    ASM_KEEP(roll_or_failure);
     if (roll_or_failure) {
         func_800A6508();
     }

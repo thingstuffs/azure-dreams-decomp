@@ -50,7 +50,7 @@ extern M2C_UNK D_800DEDB0[3];
 extern M2C_UNK D_80170D60[3];
 
 /* Creates a node at an offset from the origin and configures its display variant. */
-void func_80172CC8(S_80172CC8_1 *origin, s32 x_offset, s32 y_offset, s32 z_offset, s32 variant) {
+void func_80172CC8(S_80172CC8_1 *origin, s16 x_offset, s16 y_offset, s16 z_offset, s16 variant) {
     Sub *setup_sub;
     Sub *display_sub;
     Node *node;
@@ -59,9 +59,7 @@ void func_80172CC8(S_80172CC8_1 *origin, s32 x_offset, s32 y_offset, s32 z_offse
     u16 x;
     u16 y;
     u16 z;
-    register s32 variant_flag ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-    variant_flag = variant;
     node = func_8003FC64(0x212);
     if (node != 0) {
         node->callback = D_80170D60;
@@ -87,11 +85,10 @@ void func_80172CC8(S_80172CC8_1 *origin, s32 x_offset, s32 y_offset, s32 z_offse
         display_sub->field_0E = 0x80;
         display_sub->field_0D = 0x80;
         display_sub->field_0C = 0x80;
-        if ((variant_flag << 0x10) == 0) {
+        if (variant == 0) {
             func_8003DB94(display_sub, D_800DE870, 0);
         } else {
             func_8003DB94(display_sub, D_800DEDB0, 0);
         }
-        ASM_KEEP(variant_flag);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     }
 }

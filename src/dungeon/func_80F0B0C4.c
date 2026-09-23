@@ -49,13 +49,10 @@ void func_800A56E0(s32);
 void func_800AD594(void *, s32);
 
 /* Advance the actor action through animation setup, delay, and completion. */
-void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation, void *actor_data) {
-    register S_func_801728C4_3 *actor ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+void func_801728C4(S_func_801728C4_0 *action, S_func_801728C4_1 *motion, S_func_801728C4_2 *animation, S_func_801728C4_3 *actor) {
     u16 delay_ticks;
-    u8 next_state;
     s32 state;
 
-    actor = actor_data;
     state = action->unk_9B;
     switch (state) {
         case 0:
@@ -84,9 +81,9 @@ state_1:
     func_80047784(animation,
         D_80173D58[((D_80083228 + actor->unk_2A + 0x100) >> 9) & 7],
         0);
-    next_state = action->unk_9B;
     action->unk_96 = 0;
-    goto increment_state;
+    action->unk_9B++;
+    goto end;
 
 state_2:
     delay_ticks = action->unk_96 + 1;
@@ -96,11 +93,7 @@ state_2:
     }
     func_800A56E0(0x804);
     func_8009C12C(actor, animation, actor->unk_2A, 1);
-    next_state = action->unk_9B;
-
-increment_state:
-    next_state++;
-    action->unk_9B = next_state;
+    action->unk_9B++;
     goto end;
 
 state_3:
@@ -117,7 +110,6 @@ state_3:
         goto end;
     }
     D_800E3DE8 = (u8 *)actor - 0x20;
-    ASM_USE(actor);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
 
 end:
     return;

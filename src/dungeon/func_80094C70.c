@@ -37,9 +37,10 @@ void func_8009A3D0(s32 x, s32 y, s32 flag_mask)
         if (matched_flags) {
             s32 query_x;
 
-            checked_x = (s16)x;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            checked_y = (s16)y;
+            query_x = x << 16;
+            checked_x = query_x >> 16;
+            query_x = y << 16;
+            checked_y = query_x >> 16;
             query_x = checked_x;
             if ((s16)func_800A6E10(query_x, checked_y) >= 2) {
                 goto done;

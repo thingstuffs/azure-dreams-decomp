@@ -83,10 +83,12 @@ extern void func_800BB044(void *);
 /* Advances an actor's item action through source selection, animation, and cleanup. */
 void func_801728E4(void *action, void *item, void *sprite, void *actor)
 {
+    void *act = actor;
     u8 state;
     s32 use_global_source;
     u16 action_flags;
     s32 item_kind;
+    u8 *source_sprite;
     static void *const state_labels[] = { &&L0, &&L1, &&L2, &&L3, &&L4 };
     static void *const kind_labels[] = {
         &&K8, &&KB, &&KE, &&KNone, &&K8Special, &&KBSpecial, &&KESpecial
@@ -101,11 +103,11 @@ void func_801728E4(void *action, void *item, void *sprite, void *actor)
 
 L0:
 {
-    register void *source_entity ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *source_entity;
 
     item = 0;
-    if (((S_801728E4_1 *)actor)->unk_1C & 0x2000) {
-        s32 kind_index = (((S_801728E4_1 *)actor)->unk_46 & 0x3FFF) - 1;
+    if (((S_801728E4_1 *)act)->unk_1C & 0x2000) {
+        s32 kind_index = (((S_801728E4_1 *)act)->unk_46 & 0x3FFF) - 1;
 
         if ((u32)kind_index >= 7) {
             goto HaveSource;
@@ -123,7 +125,7 @@ K8Special:
         goto K8;
     }
 
-    item_kind = ((S_801728E4_1 *)actor)->unk_46 & 0x3FFF;
+    item_kind = ((S_801728E4_1 *)act)->unk_46 & 0x3FFF;
     switch (item_kind) {
     case 1:
         goto K8;
@@ -136,13 +138,13 @@ K8Special:
     }
 
 KE:
-    item = (u8 *)actor + 0xE;
+    item = (u8 *)act + 0xE;
     goto HaveSource;
 KB:
-    item = (u8 *)actor + 0xB;
+    item = (u8 *)act + 0xB;
     goto HaveSource;
 K8:
-    item = (u8 *)actor + 8;
+    item = (u8 *)act + 8;
 KNone:
 HaveSource:
     if (((Rec_D_800E3D7C *)item)->unk_00.at00_u8.v == 0) {
@@ -156,7 +158,7 @@ HaveSource:
         global_source_test = use_global_source;
         if (global_source_test) {
             source_entity = D_800814A8;
-            ((S_801728E4_1 *)actor)->unk_60 = source_entity;
+            ((S_801728E4_1 *)act)->unk_60 = source_entity;
             goto CopyFacing;
         }
     }
@@ -165,41 +167,37 @@ HaveSource:
         goto MakeSource;
     }
 
-    source_entity = ((S_801728E4_1 *)actor)->unk_60;
+    source_entity = ((S_801728E4_1 *)act)->unk_60;
     if (source_entity == 0) {
         goto CallUpdate;
     }
 
 CopyFacing:
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    {
-        u8 *source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
-        ASM_KEEP(source_entity);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        ((S_801728E4_1 *)actor)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
-        ((S_801728E4_1 *)actor)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
-    }
+    source_sprite = *(u8 **)((u8 *)source_entity - 0x14);
+    ((S_801728E4_1 *)act)->unk_72.s = ((S_801728E4_3 *)source_sprite)->unk_24;
+    ((S_801728E4_1 *)act)->unk_73.s = ((S_801728E4_3 *)source_sprite)->unk_25;
     goto Update;
 }
 
 MakeSource:
     {
 
-        ((S_801728E4_1 *)actor)->unk_60 =
-            func_800A05A4(actor,
+        ((S_801728E4_1 *)act)->unk_60 =
+            func_800A05A4(act,
                           ((S_801728E4_4 *)sprite)->unk_24,
                           ((S_801728E4_4 *)sprite)->unk_25,
-                          ((S_801728E4_1 *)actor)->unk_2A,
+                          ((S_801728E4_1 *)act)->unk_2A,
                           0x10);
-        ((S_801728E4_1 *)actor)->unk_72.u = abs(((S_801728E4_1 *)actor)->unk_72.u);
-        ((S_801728E4_1 *)actor)->unk_73.u = abs(((S_801728E4_1 *)actor)->unk_73.u);
+        ((S_801728E4_1 *)act)->unk_72.u = abs(((S_801728E4_1 *)act)->unk_72.u);
+        ((S_801728E4_1 *)act)->unk_73.u = abs(((S_801728E4_1 *)act)->unk_73.u);
     }
 
 Update:
 CallUpdate:
-    if (!func_800A94A0(actor, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
+    if (!func_800A94A0(act, item, use_global_source, (u16 *)((u8 *)action + 0x98))) {
         return;
     }
-    func_800BB044(actor);
+    func_800BB044(act);
     ((S_801728E4_0 *)action)->unk_9B++;
     return;
 
@@ -217,7 +215,7 @@ L2:
     }
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176648;
     func_80047784(sprite,
-        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
+        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                 (uptr)D_80176648),
         0);
     ((S_801728E4_0 *)action)->unk_9B++;
@@ -238,7 +236,7 @@ L3:
 
     (*(u8 * *)((u8 *)sprite + 0x2C)) = D_80176668;
     func_80047784(sprite,
-        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7) +
+        *(u8 *)((uptr)(((D_80083228 + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7) +
                 (uptr)D_80176668),
         0);
 AdvanceState:
@@ -249,26 +247,23 @@ L4:
     if (((S_801728E4_4 *)sprite)->unk_14 & 0xE000) {
         (*(u8 * *)((u8 *)sprite + 0x2C)) = D_801765D8;
         func_80047784(sprite,
-            D_801765D8[((D_80083228 + ((S_801728E4_1 *)actor)->unk_2A + 0x100) >> 9) & 7],
+            D_801765D8[((D_80083228 + ((S_801728E4_1 *)act)->unk_2A + 0x100) >> 9) & 7],
             0);
     }
     ((Rec_D_800E3D7C *)item)->unk_14.as_s32 = 0;
     ((Rec_D_800E3D7C *)item)->unk_10.at00_s32.v = 0;
     ((Rec_D_800E3D7C *)item)->unk_0C.as_s32 = 0;
     func_800A2B04(item, ((S_801728E4_4 *)sprite)->unk_24, ((S_801728E4_4 *)sprite)->unk_25);
-    {
-        u8 *action_status = D_80083460;
-
-        if (((S_801728E4_5 *)action_status)->unk_0C != 0) {
-            return;
-        }
-        ((S_801728E4_5 *)action_status)->unk_0A--;
+    source_sprite = D_80083460;
+    if (((S_801728E4_5 *)source_sprite)->unk_0C != 0) {
+        return;
     }
+    ((S_801728E4_5 *)source_sprite)->unk_0A--;
     ((S_801728E4_0 *)action)->unk_8C = D_80170EE4;
-    func_800A4ACC(actor);
-    ((S_801728E4_1 *)actor)->unk_73.s = 0;
-    ((S_801728E4_1 *)actor)->unk_72.s = 0;
-    ((S_801728E4_1 *)actor)->unk_6D--;
-    ((S_801728E4_1 *)actor)->unk_46 &= 0x7FFF;
+    func_800A4ACC(act);
+    ((S_801728E4_1 *)act)->unk_73.s = 0;
+    ((S_801728E4_1 *)act)->unk_72.s = 0;
+    ((S_801728E4_1 *)act)->unk_6D--;
+    ((S_801728E4_1 *)act)->unk_46 &= 0x7FFF;
     func_800A56E0(0xB4);
 }

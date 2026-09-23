@@ -85,12 +85,12 @@ __asm__(".globl func_80152800\n"
 #define BODY_ATTR
 #endif
 
-void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 part_value) BODY_ATTR;
+void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) BODY_ATTR;
 
 /* Allocates an actor and initializes its parts, position, and spawn flags. */
-void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 part_value) {
-    s8 saved_x;
-    s8 saved_y;
+void *BODY_NAME(s16 spawn_flags, s32 grid_x, s32 grid_y, s16 part_value) {
+    s16 saved_x;
+    s16 saved_y;
     s16 init_flags;
     S_80FF9000_1 *work;
     register s32 alloc_kind ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -108,10 +108,8 @@ void *BODY_NAME(s16 spawn_flags, s8 grid_x, s8 grid_y, s16 part_value) {
     work = NULL;
     alloc_kind = 0x112;
     saved_x = grid_x;
-    ASM_KEEP_NV(saved_x);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     alloc_desc = &D_80083498;
     saved_y = grid_y;
-    ASM_KEEP_NV(saved_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     random_bits = (s32) *(s8 *)0x4A64;
     obj = func_8003FD64(alloc_kind, alloc_desc);
     init_flags = spawn_flags;

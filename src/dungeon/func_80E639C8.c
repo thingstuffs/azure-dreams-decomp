@@ -304,7 +304,6 @@ state_2:
 
     {
         s16 particle_count;
-        s16 next_count;
         u8 *particle_script;
         s32 low_color;
         s32 high_color;
@@ -313,14 +312,13 @@ state_2:
         particle_script = D_80171030;
         low_color = 0x20;
         high_color = 0xE0;
-        do {
+        for (; particle_count < 1; particle_count++) {
             void *particle;
 
             particle = func_8003FC64(0x212);
             if (particle == 0) {
-                goto null_counter;
+                continue;
             }
-            ASM_KEEP(particle);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
             {
                 void *particle_part;
                 s32 color_roll;
@@ -372,9 +370,8 @@ state_2:
                 color_roll = func_80069EF8() & 3;
                 color_choice = color_roll;
                 if (color_choice == 0) {
-                    goto null_counter;
+                    continue;
                 }
-                ASM_KEEP(particle_part);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
                 ((S_801731C8_6 *)particle_part)->unk_12 = color_roll + 0x7DC6;
                 ((S_801731C8_6 *)particle_part)->unk_14 |= 0x100;
                 switch (color_choice) {
@@ -395,14 +392,7 @@ state_2:
                         break;
                 }
             }
-            goto assign_counter;
-null_counter:
-assign_counter:
-            next_count = particle_count + 1;
-            particle_count = next_count;
-counter_test:
-            ;
-        } while ((s16)next_count < 1);
+        }
     }
     goto end;
 

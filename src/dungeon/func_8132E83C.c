@@ -66,19 +66,17 @@ typedef struct S_8016583C_4 {
 } S_8016583C_4;   /* ((S_8016583C_0 *)arg0)->unk_08 in func_8016583C */
 
 /* Spawn an effect at an offset from the source with randomized horizontal velocity. */
-void func_8016583C(S_8016583C_0 *source, s32 duration, s32 scale, s32 offset_x, s32 offset_y, s32 offset_z, s32 velocity_z) {
+void func_8016583C(S_8016583C_0 *source, s16 duration, s32 scale, s16 offset_x, s16 offset_y, s16 offset_z, s32 velocity_z) {
     S_8016583C_2 *sprite;
     S_8016583C_1 *effect_state;
     void *effect;
-    s16 held_duration = duration;
     s32 held_scale ;
-    s16 held_offset_x = offset_x;
 
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         held_scale = scale;
         (*(M2C_UNK **)((u8 *)effect + 0x10)) = &D_801654F0;
-        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_02 + held_offset_x);
+        ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_02 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_02 + offset_x);
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_06 = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_06 + offset_y);
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0A = (s16) (((S_8016583C_4 *)(source->unk_08))->unk_0A + offset_z);
         effect_state = effect + 0x20;
@@ -88,7 +86,7 @@ void func_8016583C(S_8016583C_0 *source, s32 duration, s32 scale, s32 offset_x, 
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_0C = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_10 = (s32) (((rand() & 0x7FFF) - 0x4000) * 0x10);
         ((S_8016583C_3 *)((*(void **)((u8 *)effect + 8))))->unk_14 = velocity_z;
-        effect_state->unk_14 = held_duration;
+        effect_state->unk_14 = duration;
         effect_state->unk_32 = 8;
         effect_state->unk_34 = 8;
         func_8004491C(effect, &D_80045340);
@@ -103,11 +101,11 @@ void func_8016583C(S_8016583C_0 *source, s32 duration, s32 scale, s32 offset_x, 
         (*(Copy12 *)((u8 *)effect + 0x56)) =
             (*(Copy12 *)((u8 *)D_80173B34 + 0));
         sprite->unk_08 = (void *) (effect + 0x56);
-        ASM_KEEP(offset_y);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        ASM_KEEP(offset_z);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     }
 }
 
-/* MECHANISM: Explicit s0/s3-s6 argument roles reproduce the 0x30 frame, save order,
-   and held stack-argument lifetimes at the true-space func_8016583C entry.
-   One packed 12-byte assignment emits the retail lwl/lwr plus swl/swr copy sequence. */
+/* MECHANISM: The stack-passed offsets and duration are declared s16, so assign_parms
+   holds each entry value through a narrowing conversion instead of sinking a single-use
+   stack load to its use; offset_y/offset_z stay in $s3/$s4 across func_8003FC64,
+   giving the 0x30 frame and save order. One packed 12-byte assignment emits the
+   retail lwl/lwr plus swl/swr copy sequence. */

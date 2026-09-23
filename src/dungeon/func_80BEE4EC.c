@@ -42,11 +42,6 @@ typedef struct S_80173CEC_5 {
 } S_80173CEC_5;   /* temp_v0_2 in func_80173CEC */
 
 
-typedef struct S_80173CEC_7 {
-    u8 pad_00[0x42E0];
-    s16 unk_42E0;
-} S_80173CEC_7;   /* temp_a1_2 in func_80173CEC */
-
 typedef struct S_80173CEC_8 {
     u8 pad_00[0x8];
     s32 unk_08;
@@ -118,7 +113,6 @@ void func_80173CEC(Rec_func_801732A4_arg0 *state, Rec_D_800E3D7C *position, Rec_
     u8 phase;
     void *effect_model;
     S_80173CEC_4 *target_color;
-    register S_80173CEC_7 *effect_globals ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     S_80173CEC_8 *effect_position;
     S_80173CEC_9 *effect_sprite;
     S_80173CEC_3 *scene_color;
@@ -191,22 +185,19 @@ jt_c4:
     effect->unk_10 = &D_80173B94;
     func_8004491C(effect, &D_801736AC);
     color = 0x808080;
-    ASM_KEEP(color);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     state->unk_AC = effect;
     effect_model = model;
     ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_00 = (s32) position->unk_00.at00_s32.v;
-    ASM_KEEP(effect_model);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_80173CEC_12 *)(((S_80173CEC_11 *)effect)->unk_08))->unk_04 = (s32) position->unk_04.at00_s32.v;
     effect_position = effect->unk_08;
     effect_value_2 = position->unk_08.at00_s32.v;
-    effect_globals = (void *) 0x80170000;
-    effect_globals->unk_42E0 = -8;
+    D_801742E0 = -8;
     effect_position->unk_08 = effect_value_2;
     effect_sprite = effect->unk_0C;
     effect_sprite->unk_1E = 0x1000;
     effect_sprite->unk_1C = 0x1000;
     effect_sprite->unk_0C.s = color;
-    variant_index = func_800498A0(effect_model, effect_globals, effect_position, color) - 1;
+    variant_index = func_800498A0(effect_model) - 1;
     effect_value = variant_index;
     if ((variant_index << 0x10) >= 0) {
         goto set_animation;

@@ -73,8 +73,8 @@ void func_801737B0(void *action, void *motion, void *sprite, void *actor) {
     s32 action_kind;
     s32 particle_zero;
     s32 particle_color;
-    register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 offset_y ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 offset_x;
+    s32 offset_y;
     u16 timer;
     u16 sprite_flags;
     u16 raw_kind;
@@ -146,9 +146,10 @@ kind_ready:
         goto remove_actor;
     }
 
-    ((S_801737B0_0 *)action)->unk_98 &= 0xFF7F;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    direction = (s32)((void *)use_player_target);
+    direction = ((S_801737B0_0 *)action)->unk_98;
+    direction &= 0xFF7F;
+    ((S_801737B0_0 *)action)->unk_98 = direction;
+    direction = use_player_target;
     if (((void *)direction) != 0) {
         direction = (s32)D_800814A8;
         ((Rec_D_800E3D7C *)actor)->unk_60.as_pv = (void *)direction;
@@ -245,12 +246,8 @@ state_2:
     particle_count = 0;
 do {
     particle_count++;
-    offset_x = func_80069EF8() & 0x3F;
-    offset_x -= 0x20;
-    offset_x = (s16)offset_x;
-    offset_y = func_80069EF8() & 0x3F;
-    offset_y -= 0x20;
-    offset_y = (s16)offset_y;
+    offset_x = (s16)((func_80069EF8() & 0x3F) - 0x20);
+    offset_y = (s16)((func_80069EF8() & 0x3F) - 0x20);
     offset_z = func_80069EF8();
     particle_origin = (u8 *)action - 0x20;
     particle_zero = 0;

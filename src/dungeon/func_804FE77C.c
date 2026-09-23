@@ -157,14 +157,24 @@ static void (*const dispatch_table[])(void)
     };
 #endif
 
+static __inline__ void set_light_vectors(S_804FE87C_0 *state, s16 x, s16 y) {
+    state->unk_38 = x;
+    state->unk_3A = y;
+    state->unk_3C = x;
+    state->unk_3E = -x;
+    state->unk_40 = -y;
+    state->unk_42 = -x;
+    state->unk_44 = 0;
+    state->unk_46 = 0;
+    state->unk_48 = 0;
+}
+
 static void func_804FE87C(void) ROW_ATTR;
 /* Initializes lighting, projection, and viewport state and selects the floor monster table. */
 static void func_804FE87C(void)
 {
     u8 *render_data = D_80083160;
     u8 *render_state = render_data + 0x18;
-    s32 light_xz;
-    s32 light_y;
     void *light_matrix;
 
     ((S_804FE87C_0 *)render_state)->unk_88 = 0x200;
@@ -187,22 +197,7 @@ static void func_804FE87C(void)
     func_80064D50(render_data + 0x70);
 
     light_matrix = render_data + 0x50;
-    do {
-        light_xz = -0x800;
-    } while (0);
-    light_y = 0x800;
-    ASM_KEEP(light_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ((S_804FE87C_0 *)render_state)->unk_38 = light_xz;
-    ((S_804FE87C_0 *)render_state)->unk_3C = light_xz;
-    light_xz = 0x800;
-    ((S_804FE87C_0 *)render_state)->unk_3A = light_y;
-    light_y = -0x800;
-    ((S_804FE87C_0 *)render_state)->unk_3E = light_xz;
-    ((S_804FE87C_0 *)render_state)->unk_40 = light_y;
-    ((S_804FE87C_0 *)render_state)->unk_42 = light_xz;
-    ((S_804FE87C_0 *)render_state)->unk_44 = 0;
-    ((S_804FE87C_0 *)render_state)->unk_46 = 0;
-    ((S_804FE87C_0 *)render_state)->unk_48 = 0;
+    set_light_vectors((S_804FE87C_0 *)render_state, -0x800, 0x800);
     func_80064D20(light_matrix);
 
     ((S_804FE87C_0 *)render_state)->unk_84 = 0x1000;

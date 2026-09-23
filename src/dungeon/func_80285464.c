@@ -145,8 +145,8 @@ void func_80018464(s16 layout_number)
         D_800E2970[entry_index].w = room_header[2];
         D_800E2970[entry_index].h = room_header[3];
         D_800E2970[entry_index].count = 0;
-        data = (u8 *)(room_header + 4);
-        ASM_KEEP_NV(room_header);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        room_header += 4;
+        data = (u8 *)room_header;
         while (*data != 0) {
             D_800E2970[entry_index].tiles = &D_800E2C40[entry_index << 6];
             ROOM_CELL(entry_index, D_800E2970[entry_index].count).a = *data++;
@@ -159,8 +159,8 @@ void func_80018464(s16 layout_number)
         data += 2;
         room_header = (u16 *)data;
     }
-    data = (u8 *)(room_header + 4);
-    ASM_KEEP_NV(data);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    room_header += 4;
+    data = (u8 *)room_header;
     D_8008146E = entry_index;
     entry_index = 0;
     while (*data != 0) {

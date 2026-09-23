@@ -168,7 +168,6 @@ check_first_table:
 
         if (((Rec_D_800E3D7C *)actor)->unk_24.at01_u8.v != 0) {
             {
-                register u8 *dir_table ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 
                 actor_kind = ((Rec_D_800E3D7C *)actor)->unk_48.at00_u8.v;
                 if (actor_kind == 14) {
@@ -183,17 +182,17 @@ check_first_table:
                     goto check_second_kind_15;
                 }
 early_second_table_13:
-                dir_table = D_80175E64 + 8;
-                goto second_table_call;
-early_second_table_14:
-                dir_table = D_80175E6C + 8;
-second_table_call:
-                (*(void * *)((u8 *)animation + 0x2C)) = dir_table;
+                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E6C;
                 table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
-                table_entry += (unsigned long)dir_table;
-                func_80047784(animation,
-                    *(u8 *)table_entry,
-                    0);
+                table_entry += (unsigned long)D_80175E6C;
+                func_80047784(animation, *(u8 *)table_entry, 0);
+                goto increment_counter;
+early_second_table_14:
+                (*(void * *)((u8 *)animation + 0x2C)) = D_80175E74;
+                table_entry = ((D_80083228 + ((Rec_D_800E3D7C *)actor)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+                table_entry += (unsigned long)D_80175E74;
+                func_80047784(animation, *(u8 *)table_entry, 0);
+                goto increment_counter;
             }
             goto increment_counter;
         }

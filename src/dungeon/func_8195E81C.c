@@ -130,14 +130,13 @@ jt_c0:
         } while (1);
 
         D_800273A8 = 0;
-        ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         map_data = (u16 *)D_800E3D7C;
         direction_offset = (map_data[0x15] >> 8) & 0xE;
         func_80025AD8(
             (s16)(D_80082E80[0x24] +
-                  (*(s16 *)((u8 *)D_8006CCD8 + direction_offset) * 4)),
+                  (D_8006CCD8[direction_offset >> 1] * 4)),
             (s16)(D_80082E80[0x25] +
-                  (*(s16 *)((u8 *)D_8006CCE8 + direction_offset) * 4)));
+                  (D_8006CCE8[direction_offset >> 1] * 4)));
         ((S_8002401C_0 *)object_bytes)->unk_0A.u++;
         /* fallthrough */
 

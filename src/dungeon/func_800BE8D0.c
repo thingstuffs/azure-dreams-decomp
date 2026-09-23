@@ -1,12 +1,10 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 
-
 typedef struct S_800C4030_1 {
     u8 pad_00[0xA];
     u16 unk_0A;
 } S_800C4030_1;   /* state in func_800C4030 */
-
 
 
 extern s32 func_8004A658(s32, s32);
@@ -74,13 +72,12 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
         func_80099290(result);
         func_800A5720(saved_context);
 
-        first_arg = (s32)target;
-        ASM_KEEP(first_arg);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         table_base = (u8 *)0x800E0000;
         scratch_value = target->unk_10.at03_u8.v;
         table_base_2 = (u8 *)D_800DDE84;
         second_arg = ((u16 *)table_base_2)[scratch_value];
-        if (func_800AD6FC((void *)first_arg, second_arg & 3, action) == 0) {
+        first_arg = second_arg & 3;
+        if (func_800AD6FC(target, first_arg, action) == 0) {
             func_800A5F38(target, action);
             return 1;
         }
@@ -124,6 +121,3 @@ s32 func_800C4030(Rec_D_800E3D7C *target, s32 action, s16 action_type, s32 actio
 
 }
 
-/* MECHANISM: Exact callee arities plus guarded short-lived a0/a1, v0, and saved-s0 roles
-   recover the retail frame and call triangles without false long-lived constants.
-   A pinned v1 D_80083460 base splits the shared tail halfword RMW across both CFG paths. */

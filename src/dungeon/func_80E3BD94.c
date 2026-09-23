@@ -289,16 +289,13 @@ void func_80175594(S_80175594_0 *sprite, Rec_func_800D6DC0_arg1 *position, Rec_f
                 void *vertex_1 = scratch + 0x78;
                 void *vertex_2 = scratch + 0x80;
                 void *vertex_3 = scratch + 0x88;
-                register void *screen_0 ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                void *screen_0;
                 s32 bottom_y;
-                register s32 bottom_scale ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
 
-                bottom_y = ((S_80175594_1 *)scratch)->unk_72.u;
-                screen_0 = scratch + 0xF0;
-                bottom_y = (s16)bottom_y +
+                bottom_y = (s16)((S_80175594_1 *)scratch)->unk_72.u +
                                 ((S_80175594_1 *)scratch)->unk_14.s32;
-                bottom_scale = sprite->unk_30;
-                ((S_80175594_1 *)scratch)->unk_8A = (bottom_y * bottom_scale) >> 12;
+                screen_0 = scratch + 0xF0;
+                ((S_80175594_1 *)scratch)->unk_8A = (bottom_y * sprite->unk_30) >> 12;
 
                 func_800654B0(scratch + 0x70, vertex_1,
                               vertex_2, vertex_3,

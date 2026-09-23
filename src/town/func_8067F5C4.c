@@ -7,18 +7,16 @@ typedef struct {
 extern PackedWord D_80018880;
 extern s32 func_80018594(s32);
 
-/* Copy the header, initialize 32 entries with conditional flags, and append a terminator. */
-void func_8067F5C4(u8 *entries) {
+/* Copy the header, initialize 32 entries with conditional flags, append a terminator, and return the original buffer. */
+u8 * func_8067F5C4(u8 *entries) {
     s32 index;
     s32 marker;
     s32 tail_offset;
-    u8 *copy_page;
     u8 *copy_source;
     u8 *entry;
     u8 *tail_base;
-    register u8 *tail ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *tail;
 
-    copy_page = (u8 *)0x80020000;
     copy_source = (u8 *)&D_80018880;
     *(PackedWord *)entries = *(PackedWord *)copy_source;
     index = 1;
@@ -34,11 +32,10 @@ void func_8067F5C4(u8 *entries) {
         entry += 4;
     } while (index < 0x21);
     tail_base = entries;
-    ASM_KEEP(tail_base);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     tail_offset = index * 4;
     tail = (u8 *)((u32)tail_offset + (u32)tail_base);
-    ASM_KEEP(tail);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     tail[1] = 0;
     tail[0] = 0;
+    return entries;
 }
 
