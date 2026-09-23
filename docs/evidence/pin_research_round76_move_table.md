@@ -130,6 +130,13 @@ dungeon/func_800C78A4.  t115 (address-carrier sweep): dungeon/func_80F89A94 2 ->
 on the text t118 had just landed (the address carrier itself found nothing).  t120: town/func_800C0220, dungeon/func_800A76D4, 80E0F7C0 (each a further pin on a row t118 /
 t119 had just landed).
 
+Landing (land_finished2.sh, isolated; state when this was written): `lane_r76_h_t118_setonce` 9 applied (10 pins),
+`lane_r76_h_t119_deadinit` 4 applied (4 pins, four `dead_init` trade records), in the fin1125 transaction (gate
+pending).  Staged for the next cycle: t69 8 rows / 26 pins, t115 callcopy 5 / 5, t113 1 / 1, barrier compose 2 / 2,
+t120 1 live of 3 (two of its rows moved on under later landings; t120 is in the landing cascade now).  Census
+"Pin sites now": 3,644 in 891 rows at the harvest's start (5581bdfe); 3,590 in 880 rows live in src/ at the end
+(all landings in the window, this harvest's 14 among them; STATUS.md is rewritten by the lander's snapshot).
+
 ## Priority 2: the "stale" t85 verdicts
 
 The lanes named dungeon/func_8008F228 and dungeon/func_80F88C94 as t85 refusals computed on older text.  Re-measured on
@@ -179,7 +186,15 @@ lane's out/ with <= pins: t118 dungeon/func_80CE7A1C (r76_opus_b37_2 holds it at
 
 ## Barrier-strip composition probe (coordinator request)
 
-Running when this was written: t121_barrierstrip standalone over every pinned row with a one-trip `do { } while (0)`
-block or an `ASM_SCHED_BARRIER` (census 142 + 129 rows), then `compose2.py --A t121_barrierstrip --B t2_pins,t118,t119,
-t69,t115,t117,t120,t94,t85,t87 --k 2` on the rows whose nearest stripped text is within listing distance 12 (plus
-dungeon/func_800A6A78).
+`t121_barrierstrip` (built for the probe): every one-trip `do { } while (0)` block rewritten as a plain `{ }` block and
+every `ASM_SCHED_BARRIER` erased, all of a function's barriers at once and each alone.  Standalone
+(`r76_h_t121_barrierstrip`): 241 eligible rows, **0 exact** - 17 rows have a listing-exact strip, 15 of them remove no
+pin site (a do-while strip only: scaffolding, not a pin), and the 2 that do were not byte-exact.  Composition
+(`compose2.py --A t121_barrierstrip --B t2_pins,t118,t119,t69,t115,t117,t120,t94,t85,t87 --k 2`, lane
+`r76_h_barrier_compose`) over the 184 rows whose nearest stripped text is within listing distance 12 (+ 800A6A78):
+**2 wins, 1,198 s** - town/func_80098520 8 -> 7 (the do-while around the `y_step_or_side` block stripped, then its
+`ASM_KEEP_NV` erased; t2_pins, t118 and t119 each reach it) and dungeon/func_8008A31C 6 -> 5 (the do-while around a
+volatile byte load stripped, then t120 drops the `volatile` and the `init_anim ASM_REG("$4")`).  The named example
+dungeon/func_800A6A78 stays a miss: stripped texts d4 / d8, best B near 9 (t115 / t119) - the lane's own finding
+(the order half still needs a memory dependence the fences supplied) holds.  t121 is NOT added to the cascade (0
+standalone); the composition is the lever, at ~6.5 s a row.
