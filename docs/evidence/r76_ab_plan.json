@@ -1,646 +1,880 @@
 {
- "schema": "azure-clean.r76-ab-plan.v1",
  "seed": 76,
- "per_band": 40,
- "pack": 5,
- "arms": [
-  "luna6",
-  "sol6",
-  "astra",
-  "opus",
-  "sonnet"
- ],
- "bands": {
-  "1-2": "b12",
-  "3-7": "b37",
-  "8+": "b8c"
+ "quota_per_band": {
+  "luna6": 10,
+  "sol6": 10,
+  "agy": 10,
+  "opus": 10,
+  "sonnet": 10,
+  "astra": 5
  },
- "pool_counts": {
+ "overlap_per_band": 5,
+ "bands": {
   "1-2": {
-   "strong_kit_pool": 404,
-   "eligible": 320,
-   "eligible_pins": 421,
-   "never": 262
+   "eligible": 248,
+   "sampled": 60,
+   "arms": {
+    "luna6": [
+     {
+      "row": "dungeon/func_80088964",
+      "pins": 1,
+      "distance": 0,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80AC5958",
+      "pins": 1,
+      "distance": 2,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_800C34BC",
+      "pins": 2,
+      "distance": 42,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8194D1E4",
+      "pins": 2,
+      "distance": 10,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_8009BA60",
+      "pins": 1,
+      "distance": 6,
+      "stratum": "other/easy"
+     },
+     {
+      "row": "dungeon/func_8008557C",
+      "pins": 2,
+      "distance": 46,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_813315CC",
+      "pins": 1,
+      "distance": 46,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_810ADDF4",
+      "pins": 2,
+      "distance": 22,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81326794",
+      "pins": 2,
+      "distance": 22,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "town/func_800ADA80",
+      "pins": 1,
+      "distance": 15,
+      "stratum": "other/mid"
+     }
+    ],
+    "sol6": [
+     {
+      "row": "dungeon/func_80D69D94",
+      "pins": 1,
+      "distance": 110,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8008C504",
+      "pins": 1,
+      "distance": 12,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80285E80",
+      "pins": 2,
+      "distance": 6,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80B6F204",
+      "pins": 2,
+      "distance": 41,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_8028BAA4",
+      "pins": 2,
+      "distance": 64,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_80976E28",
+      "pins": 1,
+      "distance": 40,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80A9B07C",
+      "pins": 1,
+      "distance": 80,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_80E37EA4",
+      "pins": 2,
+      "distance": 26,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_819AD81C",
+      "pins": 1,
+      "distance": 4,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_800C1D6C",
+      "pins": 1,
+      "distance": 2,
+      "stratum": "other/easy"
+     }
+    ],
+    "agy": [
+     {
+      "row": "dungeon/func_8108726C",
+      "pins": 2,
+      "distance": 32,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "town/func_8081FCE0",
+      "pins": 2,
+      "distance": 48,
+      "stratum": "other/hard"
+     },
+     {
+      "row": "dungeon/func_8102F674",
+      "pins": 1,
+      "distance": 2,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_818C2FAC",
+      "pins": 1,
+      "distance": 68,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_800A78F8",
+      "pins": 2,
+      "distance": 16,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_819C04E8",
+      "pins": 2,
+      "distance": 55,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_819C0000",
+      "pins": 1,
+      "distance": 10,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_800BEE14",
+      "pins": 1,
+      "distance": 19,
+      "stratum": "other/mid"
+     },
+     {
+      "row": "dungeon/func_80FF9000",
+      "pins": 1,
+      "distance": 82,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_800A38C4",
+      "pins": 1,
+      "distance": 18,
+      "stratum": "dungeon/mid"
+     }
+    ],
+    "opus": [
+     {
+      "row": "dungeon/func_80DFB054",
+      "pins": 2,
+      "distance": 70,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_81338C4C",
+      "pins": 1,
+      "distance": 62,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8009A61C",
+      "pins": 2,
+      "distance": 4,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_8087514C",
+      "pins": 1,
+      "distance": 38,
+      "stratum": "other/mid"
+     },
+     {
+      "row": "dungeon/func_81983138",
+      "pins": 1,
+      "distance": 26,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80AC7A30",
+      "pins": 2,
+      "distance": 28,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81989320",
+      "pins": 2,
+      "distance": 34,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_809CAE20",
+      "pins": 1,
+      "distance": 2,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_809F3C00",
+      "pins": 1,
+      "distance": 138,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8191CD78",
+      "pins": 2,
+      "distance": 43,
+      "stratum": "dungeon/hard"
+     }
+    ],
+    "sonnet": [
+     {
+      "row": "dungeon/func_80C180E0",
+      "pins": 1,
+      "distance": 12,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_81958878",
+      "pins": 2,
+      "distance": 17,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_800BACA4",
+      "pins": 2,
+      "distance": 22,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81984754",
+      "pins": 1,
+      "distance": 2,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80091258",
+      "pins": 1,
+      "distance": 21,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "town/func_8046A6F8",
+      "pins": 1,
+      "distance": 6,
+      "stratum": "other/easy"
+     },
+     {
+      "row": "dungeon/func_809E1054",
+      "pins": 1,
+      "distance": 80,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_80A734C0",
+      "pins": 1,
+      "distance": 92,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "town/func_8096C508",
+      "pins": 1,
+      "distance": 8,
+      "stratum": "other/mid"
+     },
+     {
+      "row": "dungeon/func_7FFEA9D4",
+      "pins": 1,
+      "distance": 12,
+      "stratum": "dungeon/easy"
+     }
+    ],
+    "astra": [
+     {
+      "row": "dungeon/func_80C6B878",
+      "pins": 2,
+      "distance": 3,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_80956E6C",
+      "pins": 1,
+      "distance": 42,
+      "stratum": "other/hard"
+     },
+     {
+      "row": "dungeon/func_818BC9CC",
+      "pins": 1,
+      "distance": 32,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80DBA050",
+      "pins": 1,
+      "distance": 2,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80B452F8",
+      "pins": 2,
+      "distance": 41,
+      "stratum": "dungeon/mid"
+     }
+    ]
+   },
+   "overlap": [
+    {
+     "row": "dungeon/func_80E9D000",
+     "pins": 2,
+     "distance": 11,
+     "stratum": "dungeon/easy"
+    },
+    {
+     "row": "dungeon/func_807AE960",
+     "pins": 1,
+     "distance": 72,
+     "stratum": "dungeon/hard"
+    },
+    {
+     "row": "dungeon/func_809DB054",
+     "pins": 1,
+     "distance": 80,
+     "stratum": "dungeon/hard"
+    },
+    {
+     "row": "dungeon/func_80E38914",
+     "pins": 1,
+     "distance": 36,
+     "stratum": "dungeon/mid"
+    },
+    {
+     "row": "town/func_80819B14",
+     "pins": 2,
+     "distance": 103,
+     "stratum": "other/hard"
+    }
+   ],
+   "strata_mix": {
+    "luna6": {
+     "dungeon/easy": 3,
+     "dungeon/hard": 3,
+     "other/easy": 1,
+     "dungeon/mid": 2,
+     "other/mid": 1
+    },
+    "sol6": {
+     "dungeon/hard": 3,
+     "dungeon/easy": 3,
+     "dungeon/mid": 3,
+     "other/easy": 1
+    },
+    "agy": {
+     "dungeon/mid": 3,
+     "other/hard": 1,
+     "dungeon/easy": 2,
+     "dungeon/hard": 3,
+     "other/mid": 1
+    },
+    "opus": {
+     "dungeon/hard": 4,
+     "dungeon/easy": 2,
+     "other/mid": 1,
+     "dungeon/mid": 3
+    },
+    "sonnet": {
+     "dungeon/easy": 3,
+     "dungeon/mid": 3,
+     "other/easy": 1,
+     "dungeon/hard": 2,
+     "other/mid": 1
+    },
+    "astra": {
+     "dungeon/easy": 2,
+     "other/hard": 1,
+     "dungeon/mid": 2
+    },
+    "overlap": {
+     "dungeon/easy": 1,
+     "dungeon/hard": 2,
+     "dungeon/mid": 1,
+     "other/hard": 1
+    }
+   }
   },
   "3-7": {
-   "strong_kit_pool": 274,
-   "eligible": 166,
-   "eligible_pins": 659,
-   "never": 100
+   "eligible": 144,
+   "sampled": 60,
+   "arms": {
+    "luna6": [
+     {
+      "row": "dungeon/func_80089368",
+      "pins": 7,
+      "distance": 67,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_8197D468",
+      "pins": 4,
+      "distance": 13,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_8186F0C4",
+      "pins": 5,
+      "distance": 265,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "town/func_800C2BFC",
+      "pins": 3,
+      "distance": 117,
+      "stratum": "other/hard"
+     },
+     {
+      "row": "dungeon/func_81845068",
+      "pins": 4,
+      "distance": 72,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_818F34E4",
+      "pins": 4,
+      "distance": 4,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_8182C800",
+      "pins": 5,
+      "distance": 572,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "town/func_8009DB64",
+      "pins": 4,
+      "distance": 10,
+      "stratum": "other/easy"
+     },
+     {
+      "row": "dungeon/func_81334230",
+      "pins": 5,
+      "distance": 376,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8028C354",
+      "pins": 3,
+      "distance": 36,
+      "stratum": "dungeon/easy"
+     }
+    ],
+    "sol6": [
+     {
+      "row": "dungeon/func_80A1FBBC",
+      "pins": 7,
+      "distance": 26,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80A20A28",
+      "pins": 7,
+      "distance": 140,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_800CB068",
+      "pins": 3,
+      "distance": 13,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_80810F98",
+      "pins": 3,
+      "distance": 41,
+      "stratum": "other/mid"
+     },
+     {
+      "row": "dungeon/func_81977584",
+      "pins": 3,
+      "distance": 183,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_80977248",
+      "pins": 4,
+      "distance": 281,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8180B064",
+      "pins": 5,
+      "distance": 76,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80BAF094",
+      "pins": 4,
+      "distance": 22,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80BBB094",
+      "pins": 7,
+      "distance": 76,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "town/func_8080EEC4",
+      "pins": 4,
+      "distance": 99,
+      "stratum": "other/hard"
+     }
+    ],
+    "agy": [
+     {
+      "row": "dungeon/func_81988C1C",
+      "pins": 3,
+      "distance": 38,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_800B5DFC",
+      "pins": 4,
+      "distance": 66,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81326938",
+      "pins": 4,
+      "distance": 29,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "town/func_8065C05C",
+      "pins": 4,
+      "distance": 25,
+      "stratum": "other/easy"
+     },
+     {
+      "row": "dungeon/func_80093598",
+      "pins": 4,
+      "distance": 126,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_80BD3BA8",
+      "pins": 7,
+      "distance": 71,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_8028BF0C",
+      "pins": 4,
+      "distance": 39,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80C16F00",
+      "pins": 4,
+      "distance": 231,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8008DCFC",
+      "pins": 3,
+      "distance": 92,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81856800",
+      "pins": 3,
+      "distance": 120,
+      "stratum": "dungeon/hard"
+     }
+    ],
+    "opus": [
+     {
+      "row": "dungeon/func_800AC3B0",
+      "pins": 4,
+      "distance": 50,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80EB5364",
+      "pins": 5,
+      "distance": 207,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "town/func_800A6A78",
+      "pins": 4,
+      "distance": 41,
+      "stratum": "other/mid"
+     },
+     {
+      "row": "dungeon/func_8028A328",
+      "pins": 3,
+      "distance": 27,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_800B2D84",
+      "pins": 4,
+      "distance": 21,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80084084",
+      "pins": 5,
+      "distance": 41,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80BECDA4",
+      "pins": 7,
+      "distance": 131,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_80CE7A1C",
+      "pins": 5,
+      "distance": 108,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80CE9758",
+      "pins": 6,
+      "distance": 379,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "town/func_800B1464",
+      "pins": 4,
+      "distance": 48,
+      "stratum": "other/mid"
+     }
+    ],
+    "sonnet": [
+     {
+      "row": "dungeon/func_80094DE0",
+      "pins": 5,
+      "distance": 38,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_81087818",
+      "pins": 3,
+      "distance": 48,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_8008F228",
+      "pins": 5,
+      "distance": 117,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_800BA09C",
+      "pins": 3,
+      "distance": 4,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_800BE8D0",
+      "pins": 3,
+      "distance": 14,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_80088FA0",
+      "pins": 3,
+      "distance": 59,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_80092B48",
+      "pins": 3,
+      "distance": 122,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_818632E4",
+      "pins": 3,
+      "distance": 249,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_800BB400",
+      "pins": 5,
+      "distance": 101,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81332EC0",
+      "pins": 3,
+      "distance": 104,
+      "stratum": "dungeon/mid"
+     }
+    ],
+    "astra": [
+     {
+      "row": "dungeon/func_8009C5EC",
+      "pins": 4,
+      "distance": 164,
+      "stratum": "dungeon/hard"
+     },
+     {
+      "row": "dungeon/func_8008EB10",
+      "pins": 3,
+      "distance": 45,
+      "stratum": "dungeon/easy"
+     },
+     {
+      "row": "dungeon/func_8028484C",
+      "pins": 3,
+      "distance": 64,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_8092192C",
+      "pins": 4,
+      "distance": 49,
+      "stratum": "dungeon/mid"
+     },
+     {
+      "row": "dungeon/func_81005278",
+      "pins": 4,
+      "distance": 285,
+      "stratum": "dungeon/hard"
+     }
+    ]
+   },
+   "overlap": [
+    {
+     "row": "dungeon/func_8008D990",
+     "pins": 3,
+     "distance": 23,
+     "stratum": "dungeon/easy"
+    },
+    {
+     "row": "dungeon/func_80F88C94",
+     "pins": 4,
+     "distance": 138,
+     "stratum": "dungeon/hard"
+    },
+    {
+     "row": "dungeon/func_809815A8",
+     "pins": 4,
+     "distance": 284,
+     "stratum": "dungeon/hard"
+    },
+    {
+     "row": "dungeon/func_813236DC",
+     "pins": 4,
+     "distance": 94,
+     "stratum": "dungeon/mid"
+    },
+    {
+     "row": "town/func_8032FD1C",
+     "pins": 3,
+     "distance": 21,
+     "stratum": "other/easy"
+    }
+   ],
+   "strata_mix": {
+    "luna6": {
+     "dungeon/mid": 2,
+     "dungeon/easy": 3,
+     "dungeon/hard": 3,
+     "other/hard": 1,
+     "other/easy": 1
+    },
+    "sol6": {
+     "dungeon/easy": 3,
+     "dungeon/hard": 3,
+     "other/mid": 1,
+     "dungeon/mid": 2,
+     "other/hard": 1
+    },
+    "agy": {
+     "dungeon/easy": 3,
+     "dungeon/mid": 3,
+     "other/easy": 1,
+     "dungeon/hard": 3
+    },
+    "opus": {
+     "dungeon/mid": 2,
+     "dungeon/hard": 3,
+     "other/mid": 2,
+     "dungeon/easy": 3
+    },
+    "sonnet": {
+     "dungeon/easy": 3,
+     "dungeon/mid": 5,
+     "dungeon/hard": 2
+    },
+    "astra": {
+     "dungeon/hard": 2,
+     "dungeon/easy": 1,
+     "dungeon/mid": 2
+    },
+    "overlap": {
+     "dungeon/easy": 1,
+     "dungeon/hard": 2,
+     "dungeon/mid": 1,
+     "other/easy": 1
+    }
+   }
   },
   "8+": {
-   "strong_kit_pool": 102,
    "eligible": 116,
-   "eligible_pins": 1551,
-   "never": 38
+   "astra_cluster": [
+    "dungeon/func_8197C800",
+    "dungeon/func_800969CC",
+    "dungeon/func_800CA184",
+    "dungeon/func_800B6D74",
+    "dungeon/func_8009AE44",
+    "dungeon/func_80285A70",
+    "dungeon/func_818E6800",
+    "dungeon/func_80C1509C",
+    "dungeon/func_818B6AFC",
+    "town/func_809548E4"
+   ]
   }
  },
- "rows": {
-  "1-2": [
-   {
-    "row": "dungeon/func_80976434",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_818B6954",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80088964",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80C69880",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "town/func_800B9B58",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8028B18C",
-    "pins": 1,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800ADA80",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "town/func_8009CCBC",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_809F6D74",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80EF1000",
-    "pins": 1,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_809DB054",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "town/func_80874D84",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80FC3000",
-    "pins": 2,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80091258",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_813374E8",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_81988800",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "town/func_800980E0",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "main/func_80013128",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80B6F204",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_818F8800",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800BF39C",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8009612C",
-    "pins": 2,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_800A7828",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800ACC98",
-    "pins": 2,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_8051E954",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_81059F68",
-    "pins": 1,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_8032E8C0",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800A4DDC",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_819411F0",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8009E94C",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800B3868",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "town/func_80095984",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800CBFFC",
-    "pins": 2,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_81977FB8",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80D3E260",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800A3A00",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800914C4",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80FF9000",
-    "pins": 1,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800C3ACC",
-    "pins": 1,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800C2070",
-    "pins": 1,
-    "status": "never"
-   }
-  ],
-  "3-7": [
-   {
-    "row": "dungeon/func_8132F204",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_7FFEE0B8",
-    "pins": 5,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800BB400",
-    "pins": 5,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8028C354",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_808CB16C",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "town/func_800B1464",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800A172C",
-    "pins": 7,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80F88C94",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800B0F68",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8197192C",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_8080DAB8",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_818632E4",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80093598",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800BE8D0",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_818694D4",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80088FA0",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_81339D2C",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80BAF094",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "town/func_800C2BFC",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "town/func_800BBD9C",
-    "pins": 7,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80BECDA4",
-    "pins": 7,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800A6A78",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_81856800",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_81862ED8",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80094C70",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_8008F228",
-    "pins": 5,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800AE78C",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "town/func_8032FD1C",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_8197D468",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_804FE77C",
-    "pins": 3,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_81905C08",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "town/func_80810F98",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_818CEB58",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80F89A94",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_81087818",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8097B5A8",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80C412B4",
-    "pins": 4,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_812A85D4",
-    "pins": 4,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_800AC008",
-    "pins": 3,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80CE7A1C",
-    "pins": 5,
-    "status": "never"
-   }
-  ],
-  "8+": [
-   {
-    "row": "dungeon/func_818BDEBC",
-    "pins": 12,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80DB9000",
-    "pins": 27,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_800AFA68",
-    "pins": 20,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_81324774",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_819602D8",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8187B1F4",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80D150D0",
-    "pins": 16,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_809F30DC",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_81809A0C",
-    "pins": 9,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_80284BEC",
-    "pins": 9,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_8009AE44",
-    "pins": 15,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80E3B96C",
-    "pins": 8,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_800AA854",
-    "pins": 9,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80AEF12C",
-    "pins": 13,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_80C96F24",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_818DA800",
-    "pins": 9,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_81905FD0",
-    "pins": 22,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_810332A4",
-    "pins": 10,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_8187A9A8",
-    "pins": 15,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8194D354",
-    "pins": 12,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_819835AC",
-    "pins": 8,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80F90E88",
-    "pins": 17,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800AED64",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "town/func_8046C280",
-    "pins": 10,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80AC5000",
-    "pins": 12,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_819A1654",
-    "pins": 8,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80098378",
-    "pins": 8,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_81876014",
-    "pins": 8,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800BC8AC",
-    "pins": 12,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_8132A210",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "town/func_80098520",
-    "pins": 8,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_8028516C",
-    "pins": 10,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_818AAE60",
-    "pins": 14,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_80C2D09C",
-    "pins": 10,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_8180C3C0",
-    "pins": 21,
-    "status": "older-text"
-   },
-   {
-    "row": "town/func_800ABBF8",
-    "pins": 15,
-    "status": "served-whole-at-this-text"
-   },
-   {
-    "row": "dungeon/func_8197C800",
-    "pins": 14,
-    "status": "never"
-   },
-   {
-    "row": "dungeon/func_80084340",
-    "pins": 10,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_818B1664",
-    "pins": 13,
-    "status": "older-text"
-   },
-   {
-    "row": "dungeon/func_819ADDB8",
-    "pins": 8,
-    "status": "older-text"
-   }
-  ]
- }
+ "schema": "azure-clean.r76-ab-plan.v2"
 }

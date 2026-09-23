@@ -134,7 +134,8 @@ class TestUsageAndCost(unittest.TestCase):
     def test_repo_weights_file(self):
         w, _ = ab_report.load_weights(ROOT)
         self.assertEqual((w["gpt-6-luna"], w["gpt-6-sol"]), (1, 10))
-        self.assertIsNone(w["gpt-6-astra"])
+        self.assertEqual((w["gpt-6-astra"], w["claude-opus-5-5"], w["gemini-3.8-flash-high"]), (35, 10, 0))
+        self.assertIsNone(w["claude-sonnet-5"])
         self.assertEqual(ab_report.model_key("claude-opus-5-5[1m]"), "claude-opus-5-5")
 
     def test_cap_status(self):

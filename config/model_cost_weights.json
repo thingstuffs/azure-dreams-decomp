@@ -1,20 +1,29 @@
 {
  "_schema": "azure-clean.model-cost-weights.v1",
- "_note": "Relative usage/cost drain PER TOKEN, gpt-6-luna = 1. Read by tools/lanes/ab_report.py: weighted cost of a lane = tokens x weight / 1e6 (one unit = 1M gpt-6-luna-equivalent tokens). Only the owner's stated ratio is filled in (2026-09-23: gpt-6-luna is ~10x less draining than gpt-6-sol). Every null is a TODO: ask the owner or measure it (usage-meter delta over a known token count); do not invent a number. ab_report --weight MODEL=W supplies a what-if value for one run, labelled as assumed. Token units differ by harness: codex `tokens used` excludes cached input; the Agent tool's figure (usage.json) is about the subagent's final context size - a Claude weight must be stated against THAT figure.",
+ "_note": "Relative usage/cost drain PER TOKEN, gpt-6-luna = 1 (owner's rough estimates, 2026-09-23). Read by tools/lanes/ab_report.py: weighted cost of a lane = tokens x weight / 1e6 (one unit = 1M gpt-6-luna-equivalent tokens). null = unknown, never invented; `range` gives bounds ab_report reports as a range. ab_report --weight MODEL=W overrides one model for one run (marked *). Token units differ by harness: codex `tokens used` = uncached input + output; the Agent tool's figure (usage.json) is about the subagent's final context size, so a Claude weight is NOT apples-to-apples with a codex weight.",
  "weights": {
   "gpt-6-luna": 1,
   "gpt-6-sol": 10,
-  "gpt-6-astra": null,
+  "gpt-6-astra": 35,
+  "claude-opus-5-5": 10,
+  "claude-sonnet-5": null,
+  "claude-fable-5-1": null,
+  "gemini-3.8-flash-high": 0,
   "gpt-5.6-sol": null,
-  "gpt-5.6-luna": null,
-  "claude-opus-5-5": null,
-  "claude-sonnet-5": null
+  "gpt-5.6-luna": null
  },
- "todo": {
-  "gpt-6-astra": "owner: relative drain vs gpt-6-luna not stated",
+ "range": {
+  "claude-sonnet-5": [0, 10]
+ },
+ "notes": {
+  "gpt-6-luna": "owner 09-23: the unit; ~10x less draining than gpt-6-sol",
+  "gpt-6-sol": "owner 09-23: 10x luna",
+  "gpt-6-astra": "owner 09-23: drains '3-4x faster than sol' -> 35",
+  "claude-opus-5-5": "owner 09-23: 'around sol, but different usage; very efficient'. NOT apples-to-apples: a different meter (Claude plan) and a different token unit (Agent-tool figure) from codex",
+  "claude-sonnet-5": "owner 09-23: unknown, cheaper than Opus -> reported as a range [0, opus]",
+  "claude-fable-5-1": "owner 09-23: drains fast; last resort only, on rows nothing else solved",
+  "gemini-3.8-flash-high": "owner 09-23: 0 for this window (remaining weekly usage + a full reset in ~18h, 'use it freely'; rarely pays, sometimes surprises). Revisit after the window",
   "gpt-5.6-sol": "legacy tier; not in the r76 A/B",
-  "gpt-5.6-luna": "legacy tier; not in the r76 A/B",
-  "claude-opus-5-5": "owner: Agent-tool Opus drain per usage.json token not stated (different plan/meter from codex)",
-  "claude-sonnet-5": "owner: Agent-tool Sonnet drain per usage.json token not stated"
+  "gpt-5.6-luna": "legacy tier; not in the r76 A/B"
  }
 }

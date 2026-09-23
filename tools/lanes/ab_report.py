@@ -125,12 +125,14 @@ def model_key(model):
 
 
 def load_weights(root, overrides=()):
-    """({model key: weight or None}, {model key: True when assumed via --weight})."""
+    """({model key: weight or None}, {model key: True when assumed via --weight, or (lo, hi) for a null weight
+    with a `range` in the config})."""
     try:
-        w = dict(json.loads((Path(root) / WEIGHTS).read_text()).get("weights") or {})
+        cfg = json.loads((Path(root) / WEIGHTS).read_text())
     except (OSError, ValueError):
-        w = {}
-    assumed = {}
+        cfg = {}
+    w = dict(cfg.get("weights") or {})
+    assumed = {k: tuple(v) for k, v in (cfg.get("range") or {}).items() if w.get(k) is None}
     for o in overrides:
         k, _, v = o.partition("=")
         w[model_key(k)] = float(v)
@@ -218,7 +220,12 @@ def aggregate(recs, weights=None, assumed=None):
         exact = sum(r["exact"] for r in rs)
         tok_lanes_exact = sum(r["exact"] for r in meas)
         w = weights.get(model_key(model))
+        rng = assumed.get(model_key(model)) if isinstance(assumed.get(model_key(model)), tuple) else None
         wcost = sum(r["tokens"] for r in meas) * w / 1e6 if (w is not None and meas) else None
+        if w == 0:                                         # a free window: zero cost even with no token figure
+            wcost, meas_exact = 0.0, exact
+        else:
+            meas_exact = tok_lanes_exact
         w_pins = sum(r["pins_removed"] for r in meas)
         min_exact = sum(r["exact"] for r in rs if r["minutes"] is not None)
         out.append({"model": model, "lanes": len(rs), "ok": sum(r["status"] == "ok" for r in rs),
@@ -232,10 +239,15 @@ def aggregate(recs, weights=None, assumed=None):
                     "measured_lanes": len(meas), "estimated_lanes": sum(1 for r in rs if r.get("estimated")),
                     # over the lanes that report tokens only, so a missing figure does not flatter a model
                     "tokens_per_exact": round(sum(toks) / tok_lanes_exact) if tok_lanes_exact else None,
-                    "weight": w, "weight_assumed": bool(assumed.get(model_key(model))),
+                    "weight": w, "weight_assumed": assumed.get(model_key(model)) is True, "weight_range": rng,
                     "weighted_cost": round(wcost, 3) if wcost is not None else None,
-                    "wcost_per_exact": round(wcost / tok_lanes_exact, 3) if wcost is not None and tok_lanes_exact else None,
-                    "wcost_per_pin": round(wcost / w_pins, 3) if wcost is not None and w_pins else None})
+                    "wcost_per_exact": round(wcost / meas_exact, 3) if wcost is not None and meas_exact else None,
+                    "wcost_per_pin": round(wcost / (w_pins if w else sum(r["pins_removed"] for r in rs)), 3)
+                    if wcost is not None and (w_pins if w else sum(r["pins_removed"] for r in rs)) else None,
+                    "wcost_per_exact_range": [round(sum(toks) * x / 1e6 / tok_lanes_exact, 3) for x in rng]
+                    if rng and tok_lanes_exact else None,
+                    "wcost_per_pin_range": [round(sum(toks) * x / 1e6 / w_pins, 3) for x in rng]
+                    if rng and w_pins else None})
     return out
 
 
@@ -278,8 +290,10 @@ def markdown(recs, agg):
             a["pins_removed"], _f(a["mean_minutes"]), _f(a["minutes_per_exact"]),
             "-" if a["mean_tokens"] is None else "{:,}".format(a["mean_tokens"]), a["measured_lanes"], est,
             "-" if a["tokens_per_exact"] is None else "{:,}".format(a["tokens_per_exact"]),
-            "TODO" if a["weight"] is None else ("%g%s" % (a["weight"], "*" if a["weight_assumed"] else "")),
-            _f(a["wcost_per_exact"], "%.3f"), _f(a["wcost_per_pin"], "%.3f")))
+            ("%g-%g" % tuple(a["weight_range"]) if a["weight_range"] else "TODO") if a["weight"] is None
+            else ("%g%s" % (a["weight"], "*" if a["weight_assumed"] else "")),
+            "%.3f-%.3f" % tuple(a["wcost_per_exact_range"]) if a["wcost_per_exact_range"] else _f(a["wcost_per_exact"], "%.3f"),
+            "%.3f-%.3f" % tuple(a["wcost_per_pin_range"]) if a["wcost_per_pin_range"] else _f(a["wcost_per_pin"], "%.3f")))
     out += ["", "tokens `~N` = an estimate (self-reported, not measured): excluded from mean tokens, tokens/exact and "
             "weighted cost.  wcost = tokens x weight / 1e6 (config/model_cost_weights.json; `*` = --weight what-if, "
             "TODO = no weight stated).  Codex and Agent-tool token figures are different units (see the docstring)."]

@@ -112,6 +112,9 @@ class TestPlan(unittest.TestCase):
     def test_launch_lane_knows_every_pool_model(self):
         sh = (ROOT / "tools/lanes/launch_lane.sh").read_text()
         for key, mid in pool.MODELS.items():
+            if key == "agy":                                   # AGY_MODEL may override the default Gemini id
+                self.assertIn("agy) M=${AGY_MODEL:-", sh)
+                continue
             self.assertIn("%s) M=%s;;" % (key, mid), sh)
 
     def test_candidate_count(self):

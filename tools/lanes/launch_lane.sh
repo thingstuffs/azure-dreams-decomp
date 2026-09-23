@@ -19,8 +19,10 @@ case "${2:-luna}" in astra) M=gpt-6-astra;; luna) M=gpt-5.6-luna;; sol) M=gpt-5.
 if [ "$2" = agy ]; then
   # Google Antigravity CLI (round 25): print mode with edit permission, the prompt on the command line, the
   # repo as the workspace; the brief is read by the model from the lane directory as codex does.
-  nohup bash -c "agy --print \"\$(cat $D/PROMPT.txt)\" --model $M --mode accept-edits --print-timeout ${AGY_TIMEOUT:-90m} \
-      --dangerously-skip-permissions > $D/last_message.txt 2> $D/agy.log" > /dev/null 2>&1 &
+  nohup setsid bash -c "agy --print \"\$(cat $D/PROMPT.txt)\" --model $M --mode accept-edits --print-timeout ${AGY_TIMEOUT:-90m} \
+      --dangerously-skip-permissions > $D/agy.out 2> $D/agy.log; mv -f $D/agy.out $D/last_message.txt" > /dev/null 2>&1 &
+  # (round 76) stdout goes to agy.out and becomes last_message.txt only at exit: a last_message.txt that exists
+  # from the launch made every running agy lane look finished to pool.py, ab_report.py and land_finished2.
 else
   nohup setsid codex exec -C "$PWD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
       -c 'model_reasoning_effort="xhigh"' -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &

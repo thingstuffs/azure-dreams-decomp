@@ -31,8 +31,8 @@ same-tier retries, which the tier guard still refuses.
 
 Tier = `ledger.tier_of_model` on the lane's model (usage.json, then the codex.log header, then a tier
 token in the lane name: `r73_opus_s11_arms` -> opus).  Kit era = lane name `r<N>_...` with N >= 68.
-Launched = the lane has codex.log, agy.log, last_message.txt, lane.pid or usage.json; a built pack that
-never ran served no model (it still counts under `ever`).
+Launched = the lane has codex.log, agy.log, last_message.txt, lane.pid or usage.json and no limit_cut.txt; a built
+pack that never ran (or died on a usage limit) served no model (it still counts under `ever`).
 """
 import hashlib
 import json
@@ -61,7 +61,7 @@ def served_rows(root=ROOT):
 KIT_ERA = 68                      # lane names r68_* on carry the lane kit (duck brief v2, lanekit)
 STRONG = ("astra", "opus")        # the tiers that paid 61-72% on kit retries (r73-r75)
 LAUNCH_MARKS = ("codex.log", "agy.log", "last_message.txt", "lane.pid", "usage.json")
-_ROUND_RE = re.compile(r"^r(\d+)_")
+_ROUND_RE = re.compile(r"^r(\d+)[a-z]*_")   # r76_..., and r76o_/r76g_ (overlap, Gemini feed)
 _TIER_TOKENS = ("opus", "sonnet", "astra", "sol6", "luna6", "sol", "luna", "agy")
 _RECS = {}
 
@@ -133,7 +133,8 @@ def serve_records(root=ROOT):
     lanes = sorted({f.parent.parent.parent for f in base.glob("*/base/*/*.c")})
     for d in lanes:
         tier, model = lane_tier(d)
-        launched = any((d / m).exists() for m in LAUNCH_MARKS)
+        # limit_cut.txt: the lane died on its model's usage limit before working (gemini_feed.sh marks it)
+        launched = any((d / m).exists() for m in LAUNCH_MARKS) and not (d / "limit_cut.txt").exists()
         clusters = {}
         try:
             clusters = json.loads((d / "cluster.json").read_text())

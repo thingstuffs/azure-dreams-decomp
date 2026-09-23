@@ -19,7 +19,7 @@ The pool
                          builds each missing lane from its row list, with --classes/--exemplars/
                          --paragraphs.  With no --lanes, every key of the file is the lane list.
   --concurrency N        lanes in flight.  Per pool: two pools launched separately both run N.
-  --model KEY            astra|sol|luna|sol6|luna6: model for every lane of the pool (launch_lane.sh holds
+  --model KEY            astra|sol|luna|sol6|luna6|agy: model for every lane of the pool (launch_lane.sh holds
                          the canonical ids; sol6/luna6 = gpt-6-sol/-luna, compare with tools/lanes/ab_report.py).
   --served-guard G       tier (default) | ever | off: the served guard the pool passes to the builders (round 76,
                          tools/lanes/served.py): `tier` refuses only rows a launched lane of the pool's model tier
@@ -81,9 +81,11 @@ import lane_cap  # noqa: E402  (round 76: per-lane caps, the band stop rule)
 
 # launch_lane.sh is canonical for these ids; repeated here only for the capacity probe.
 MODELS = {"astra": "gpt-6-astra", "sol": "gpt-5.6-sol", "luna": "gpt-5.6-luna",
-          "sol6": "gpt-6-sol", "luna6": "gpt-6-luna"}
+          "sol6": "gpt-6-sol", "luna6": "gpt-6-luna",
+          "agy": os.environ.get("AGY_MODEL", "gemini-3.8-flash-high")}   # Gemini via the agy CLI (round 76)
+LIMIT_WORDS = ("usage limit", "quota", "rate limit", "resource_exhausted", "exhausted", "429")
 # the served-guard tier of each model key (tools/lanes/served.py, ledger.tier_of_model)
-TIER_OF = {"astra": "astra", "sol": "sol", "luna": "luna", "sol6": "sol6", "luna6": "luna6"}
+TIER_OF = {"astra": "astra", "sol": "sol", "luna": "luna", "sol6": "sol6", "luna6": "luna6", "agy": "agy"}
 CAPACITY = "ledger/model_capacity.jsonl"
 DEFAULT_CLASSES = "CHANGED|17-32,BOTH|17-32,CHANGED|3-4,MOVED|1-2"
 
@@ -211,17 +213,27 @@ def plan_text(name, model, concurrency, steps, tag, land=True):
 
 # ---------------------------------------------------------------- running
 
+def probe_ok(text):
+    """A probe passes only on an exact `OK` line and no limit wording (reset_watch2's lesson: the first watcher
+    matched the limit error's own words)."""
+    low = text.lower()
+    return any(l.strip() == "OK" for l in text.splitlines()[-5:]) and not any(w in low for w in LIMIT_WORDS)
+
+
 def probe(model_id, timeout=300):
-    """One cheap codex call: is there capacity for this model right now?"""
+    """One cheap call: is there capacity for this model right now?  codex exec, or agy --print for Gemini."""
+    if model_id.startswith("gemini"):
+        cmd = ["timeout", str(timeout), "agy", "--print", "Reply with the single word OK", "--model", model_id,
+               "--print-timeout", "4m"]
+    else:
+        cmd = ["timeout", str(timeout), "codex", "exec", "-C", str(ROOT), "--skip-git-repo-check", "-m", model_id,
+               "-c", 'model_reasoning_effort="low"', "Reply with the single word OK"]
     try:
-        p = subprocess.run(["timeout", str(timeout), "codex", "exec", "-C", str(ROOT),
-                            "--skip-git-repo-check", "-m", model_id,
-                            "-c", 'model_reasoning_effort="low"', "Reply with the single word OK"],
-                           capture_output=True, text=True)
-    except Exception as e:                                      # codex missing: the pool stops, it does not crash
+        p = subprocess.run(cmd, capture_output=True, text=True)
+    except Exception as e:                                      # codex/agy missing: the pool stops, it does not crash
         log("probe failed: %r" % (e,))
         return False
-    return "OK" in "\n".join(p.stdout.splitlines()[-3:])
+    return probe_ok(p.stdout or "") and not any(w in (p.stderr or "").lower() for w in LIMIT_WORDS)
 
 
 def alive(pid):
