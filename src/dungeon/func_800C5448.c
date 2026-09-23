@@ -51,6 +51,9 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
     s16 restore_ticks_left;
     s16 next_duration;
     register s32 green_step_or_effect ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 green_result;
+    s32 red_result;
+    s32 green_step;
     s32 red_step;
     s32 fade_ticks;
     s32 phase_or_ticks;
@@ -63,15 +66,17 @@ void func_800CABA8(void *effect, M2C_UNK context, void *record, void *actor) {
     s32 restore_blue;
     s32 fade_green;
     s32 restore_green;
-    register u8 red ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 red;
+    u8 red_2;
     u8 phase;
     void *effect_base;
     void *actor_state;
     void *actor_or_green;
+    void *actor_or_green_2;
 
-    actor_or_green = actor;
+    actor_or_green_2 = actor;
     phase = ((S_800CABA8_0 *)effect)->unk_9B;
-    actor_state = actor_or_green;
+    actor_state = actor_or_green_2;
     if (phase >= 5U) {
         goto block_23;
     }
@@ -105,21 +110,19 @@ jt_c2:
     ((S_800CABA8_0 *)effect)->unk_A0.at00.v = (s32) (((S_800CABA8_0 *)effect)->unk_A0.at00.v - (((S_800CABA8_0 *)effect)->unk_A0.at00.v / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks));
     func_800CAFDC(effect_base, ((S_800CABA8_2 *)actor_state)->unk_2A, ((S_800CABA8_0 *)effect)->unk_AC.at00.v);
     func_800CB4C0(effect_base, 1);
-    red = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
-    red_step = (s32) (0xE0 - red) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
+    red_2 = (u8) ((S_800CABA8_0 *)effect)->unk_AC.at00.v;
+    red_step = (s32) (0xE0 - red_2) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
     fade_green = ((S_800CABA8_0 *)effect)->unk_AC.at01.v;
     fade_ticks = ((S_800CABA8_0 *)effect)->timer.word >> 16;
-    ASM_KEEP(fade_ticks);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    green_step_or_effect = (s32) (8 - fade_green) / fade_ticks;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    green_step = (s32) (8 - fade_green) / fade_ticks;
+    green_result = fade_green + green_step;
+    red_result = red_2 + red_step;
+    ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = (u8)red_result;
+    ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8)green_result;
     fade_blue = ((S_800CABA8_0 *)effect)->unk_AC.at02.v;
     blue_step = (s32) (8 - fade_blue) / (s16) ((S_800CABA8_0 *)effect)->timer.half.ticks;
     fade_ticks_left = (u16) ((S_800CABA8_0 *)effect)->timer.half.ticks - 1;
     ((S_800CABA8_0 *)effect)->timer.half.ticks = fade_ticks_left;
-    red = (u8) (red + red_step);
-    fade_green += green_step_or_effect;
-    ((S_800CABA8_0 *)effect)->unk_AC.at00u.v = red;
-    ((S_800CABA8_0 *)effect)->unk_AC.at01.v = (u8) fade_green;
     ((S_800CABA8_0 *)effect)->unk_AC.at02.v = (u8) (fade_blue + blue_step);
     if ((fade_ticks_left << 0x10) > 0) {
         return;

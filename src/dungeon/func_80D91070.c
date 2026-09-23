@@ -1,6 +1,7 @@
 #include "common.h"
 #include "records/Rec_D_800E3D7C.h"
 #include "records/Rec_D_800814A8.h"
+extern int abs(int);
 
 typedef struct S_80172870_0 {
     u8 pad_00[0x8C];
@@ -90,8 +91,6 @@ void func_80172870(void *action_state, void *position, void *sprite, void *actor
     register u8 *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 special_mode;
     void *target;
-    s32 target_x;
-    s32 target_y;
     s32 wait_frames;
     u8 *action_counters;
 
@@ -155,25 +154,16 @@ void func_80172870(void *action_state, void *position, void *sprite, void *actor
                     goto do_step;
                 }
             have_obj:
-                target_y = ((S_80172870_2_pre *)target)[-1].unk_00;
-                ((S_80172870_1 *)actor)->unk_72.s = ((S_80172870_3 *)target_y)->unk_24;
-                ((S_80172870_1 *)actor)->unk_73.s = ((S_80172870_3 *)target_y)->unk_25;
+                action_counters = ((S_80172870_2_pre *)target)[-1].unk_00;
+                ((S_80172870_1 *)actor)->unk_72.s = ((S_80172870_3 *)action_counters)->unk_24;
+                ((S_80172870_1 *)actor)->unk_73.s = ((S_80172870_3 *)action_counters)->unk_25;
                 goto do_step;
             }
             ((S_80172870_1 *)actor)->unk_60 =
                 func_800A05A4(actor, ((S_80172870_4 *)sprite)->unk_24, ((S_80172870_4 *)sprite)->unk_25,
                               ((S_80172870_1 *)actor)->unk_2A, 0x10);
-            ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            target_x = ((S_80172870_1 *)actor)->unk_72.u;
-            target_y = ((S_80172870_1 *)actor)->unk_73.u;
-            if (target_x < 0) {
-                target_x = -target_x;
-            }
-            if (target_y < 0) {
-                target_y = -target_y;
-            }
-            ((S_80172870_1 *)actor)->unk_72.s = target_x;
-            ((S_80172870_1 *)actor)->unk_73.s = target_y;
+            ((S_80172870_1 *)actor)->unk_72.s = abs(((S_80172870_1 *)actor)->unk_72.u);
+            ((S_80172870_1 *)actor)->unk_73.s = abs(((S_80172870_1 *)actor)->unk_73.u);
         do_step:
             saved_position[0] = ((Rec_D_800E3D7C *)position)->unk_00.at02_u16.v;
             saved_position[1] = ((Rec_D_800E3D7C *)position)->unk_04.at02_u16.v;

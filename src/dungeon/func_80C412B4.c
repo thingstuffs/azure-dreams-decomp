@@ -1,4 +1,5 @@
 #include "common.h"
+extern int abs(int);
 
 typedef struct S_80172AB4_0 {
     u8 pad_00[0x8C];
@@ -106,8 +107,7 @@ void func_80172AB4(void *action_in, void *motion_in, void *sprite_in, void *acto
     register void *motion ASM_REG("$20") = motion_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *sprite ASM_REG("$18") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register void *actor ASM_REG("$17") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 target_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 target_y;
+    s32 target_x;
     u16 position[3];
     u16 ticks_left;
 
@@ -212,9 +212,9 @@ have_choice:
                 goto move_setup;
             }
 copy_existing:
-            target_y = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
-            ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)(void *)target_y)->unk_24;
-            ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)(void *)target_y)->unk_25;
+            move_kind = (s32)((S_80172AB4_2_pre *)target)[-1].unk_00;
+            ((S_80172AB4_1 *)actor)->unk_72.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_24;
+            ((S_80172AB4_1 *)actor)->unk_73.s = ((S_80172AB4_3 *)(void *)move_kind)->unk_25;
             goto apply_move;
         }
 
@@ -223,16 +223,8 @@ copy_existing:
                           ((S_80172AB4_4 *)sprite)->unk_24,
                           ((S_80172AB4_4 *)sprite)->unk_25,
                           ((S_80172AB4_1 *)actor)->unk_2A, 0x10);
-        target_x = ((S_80172AB4_1 *)actor)->unk_72.u;
-        target_y = ((S_80172AB4_1 *)actor)->unk_73.u;
-        if (target_x < 0) {
-            target_x = -target_x;
-        }
-        if (target_y < 0) {
-            target_y = -target_y;
-        }
-        ((S_80172AB4_1 *)actor)->unk_72.s = target_x;
-        ((S_80172AB4_1 *)actor)->unk_73.s = target_y;
+        ((S_80172AB4_1 *)actor)->unk_72.s = abs(((S_80172AB4_1 *)actor)->unk_72.u);
+        ((S_80172AB4_1 *)actor)->unk_73.s = abs(((S_80172AB4_1 *)actor)->unk_73.u);
 
 move_setup:
 apply_move:
