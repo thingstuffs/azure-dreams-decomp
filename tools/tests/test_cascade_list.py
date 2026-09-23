@@ -20,8 +20,7 @@ class CascadeList(unittest.TestCase):
         toks = cascade_list.extras(warn=msgs.append)
         self.assertEqual(msgs, [], "cascade_extra.txt carries duplicates or stray tokens")
         self.assertEqual(len(toks), len(set(toks)))
-        self.assertNotIn("t116_ptaglink", toks)          # 0/3 exemplars, never swept (r76 decision)
-        for t in ("t100_rmwfold", "t103_dropsink", "t110_paramfold", "t113_sibarity", "t117_stagehost"):
+        for t in ("t100_rmwfold", "t116_ptaglink", "t103_dropsink", "t110_paramfold", "t113_sibarity", "t117_stagehost"):
             self.assertIn(t, toks)
         body = [l for l in cascade_list.EXTRA.read_text().splitlines() if l.strip() and not l.lstrip().startswith("#")]
         self.assertTrue(all(len(l.split()) == 1 for l in body), "one generator per line")

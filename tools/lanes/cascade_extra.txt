@@ -18,7 +18,8 @@
 #
 # Round 76: t78-t87 left this file (they are in land_lanes.sh's built-in list); t96-t102 one per line;
 # t100 and t103-t117 added (every one landed a row or reproduced an exemplar in the round-73 harvests,
-# docs/evidence/pin_research_round73_move_table.md) EXCEPT t116_ptaglink: 0/3 exemplars, never swept
+# docs/evidence/pin_research_round73_move_table.md).  t116_ptaglink reproduced 0/3 exemplars and was never
+# swept; its round-76 catch-up sweep found 2 exact rows in 21 eligible (12 s), so it is here too
 # (docs/evidence/r76_cascade_compose.md).
 t88_castshift
 t89_lifetimesplit
@@ -49,4 +50,5 @@ t112_deadhost
 t113_sibarity
 t114_zeroreg
 t115_carrierfold
+t116_ptaglink
 t117_stagehost

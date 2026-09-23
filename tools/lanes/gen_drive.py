@@ -14,6 +14,11 @@
 --journal-refusals   also journal the rows `T.eligible()` refused, as
                      {"outcome": "refused", "reason": ...}: the refusal table a generator's next version is
                      written from (round 32's t69 table).  Off by default, so a lane's journal is unchanged.
+--catchup            (round 76) also count as done every (id, in_sha) this generator already scored - in any
+                     work/native_lane/*<generator>* lane journal (not *_check / *probe*: those score --base-from
+                     texts) and in ledger/sweeps/<generator>.jsonl (the landing cascade's sweep.py journal) - whose
+                     record is newer than the generator's module file: a tree-wide catch-up then scores only the rows
+                     whose text changed since the generator last saw them.  Refused/error records never count.
 Journal: work/native_lane/<lane>/journal.jsonl (resumable on (id, in_sha); refused records never mark a row
 done, so they do not change what a later run sweeps).  A scorer run during a gate can
 misreport (verify.py scores inside build_ovl, which mk_ovl_root.sh replaces): rerun the misses after the gate.
@@ -52,6 +57,21 @@ if fresh:                                                   # a changed generato
     print('--fresh: journal, out/ and cells.jsonl truncated', flush=True)
 # a refused record never marks a row done: the next run re-asks the (possibly rewritten) eligible()
 done = {(r['id'], r['in_sha']) for r in read_jsonl(J) if r.get('outcome') != 'refused'} if J.exists() else set()
+if flag('--catchup'):
+    import glob, os, datetime
+    _gm = os.path.getmtime(M.__file__); _n0 = len(done)
+    _longer = [p.stem for p in (ROOT / 'tools/xform').glob(gen + '?*.py')]
+    for _j in glob.glob(str(ROOT / 'work/native_lane' / ('*' + gen + '*') / 'journal.jsonl')):
+        _ln = Path(_j).parent.name
+        if _ln == lane or '_check' in _ln or 'probe' in _ln or os.path.getmtime(_j) < _gm: continue
+        if any(k != gen and k.startswith(gen) and k in _ln for k in _longer): continue   # t90_lifetimemerge vs _far
+        done |= {(r['id'], r['in_sha']) for r in read_jsonl(Path(_j)) if r.get('outcome') not in ('refused', 'error') and 'in_sha' in r}
+    _sw = ROOT / 'ledger/sweeps' / (gen + '.jsonl')
+    if _sw.exists():
+        _gt = datetime.datetime.fromtimestamp(_gm, datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+        done |= {(r['id'], r['in_sha']) for r in read_jsonl(_sw)
+                 if r.get('outcome') not in ('refused', 'error') and 'in_sha' in r and r.get('at', '') >= _gt}
+    print('--catchup:', len(done) - _n0, '(id, text) pairs already scored by', gen, flush=True)
 cen = {c['id']: c for c in read_jsonl(ROOT / 'ledger/census.jsonl')}
 todo = []; refusals = []
 for r in rows():
