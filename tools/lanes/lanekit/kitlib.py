@@ -266,6 +266,39 @@ def dumps(row, text, want=None, timeout=None):
         return out
 
 
+# ------------------------------------------------------------------ another cfg, no ledger write
+
+def row_at_cfg(row, cfg):
+    """`row` as if it were registered at `cfg` - an in-memory copy only; the ledger is never touched.
+
+    The same override `tools/lanes/land_coherence.sh` and `land_recipe_switch.sh` score with:
+    `cfg`, `cell` AND `flags` (the slus scorer reads `cell`/`flags`, not `cfg`)."""
+    if not cfg:
+        return row
+    add_paths()
+    from common import parse_cfg                                         # noqa: E402
+    cell, flags = parse_cfg(cfg)
+    return dict(row, cfg=cfg, cell=cell, flags=" ".join(flags))
+
+
+def score_at(row, text, cfg=None, verify=None, diff=False):
+    """Byte-score `text` as `row` at `cfg` (default the registered cfg) - `tools/verify.verify`
+    on a temporary copy named like the row's file, include root `<repo>/include`."""
+    if verify is None:
+        add_paths()
+        from verify import verify                                        # noqa: E402
+    r = row_at_cfg(row, cfg)
+    with tempfile.TemporaryDirectory(prefix="lanekit_score_") as td:
+        f = Path(td) / Path(r["c_path"]).name
+        f.write_text(text)
+        kw = {"diff": True} if diff else {}
+        return verify(r, f, include_root=(ROOT / "include").resolve(), **kw)
+
+
+def score_fields(v):
+    return {k: (v or {}).get(k) for k in ("exact", "total", "subs", "indels", "status")}
+
+
 # ---------------------------------------------------------------------------------- lane ledger
 
 def log_append(lane, rec):
