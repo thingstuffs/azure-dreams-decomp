@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-23T08:38:15Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-23T09:23:32Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -60,7 +60,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 1163 rows, 658,372 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one): pins 916 rows (878,384 B), tail_jump 9 rows (2,544 B), not_in_module 6,767 rows (2,558,124 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 902 rows (873,312 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
