@@ -47,10 +47,13 @@ s32 func_8004491C();
 void func_8003DB94();
 extern M2C_UNK D_800F68AC;
 
+static __inline__ u32 set_flag_bits(u32 flags, u32 mask) { return flags | mask; }
+
 /* Creates and initializes an object at the supplied position plus coordinate offsets. */
 void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offset_z) {
     u16 flags;
-    S_8092192C_1 *render_state;
+    s32 render_value;
+    void *render_state;
     S_8092192C_4 *sprite;
     S_8092192C_0 *object;
     register S_8092192C_3 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -64,14 +67,15 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
         object->unk_10 = &D_800F68AC;
         func_8004491C(object, D_80045340);
         render_state = object->unk_0C;
-        render_state->unk_10 = 0x20;
-        render_state->unk_06 = 6;
-        flags = render_state->unk_14.s;
-        flags = flags | 0xC;
-        render_state->unk_14.u = flags;
-        ASM_KEEP(flags);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        flags = flags | 2;
-        render_state->unk_14.u = flags;
+        flags = ((S_8092192C_1 *)render_state)->unk_14.s;
+        render_value = 0x20;
+        ((S_8092192C_1 *)render_state)->unk_10 = render_value;
+        render_value = 6;
+        ((S_8092192C_1 *)render_state)->unk_06 = render_value;
+        flags = set_flag_bits(flags, 0xC);
+        ((S_8092192C_1 *)render_state)->unk_14.u = flags;
+        flags = set_flag_bits(flags, 2);
+        ((S_8092192C_1 *)render_state)->unk_14.u = flags;
         position = object->unk_08;
         base_x = (s32) base_pos->unk_00;
         sprite_data_addr = 0x800E0000;
@@ -86,12 +90,12 @@ void func_8092192C(S_8092192C_2 *base_pos, s32 offset_x, s32 offset_y, s32 offse
         position->unk_08.at00.v = base_z;
         position->unk_04.at02.v = (u16) (position->unk_04.at02.v + offset_y);
         position->unk_08.at02.v = (u16) (position->unk_08.at02.v + offset_z);
-        sprite = object->unk_0C;
-        sprite->unk_1E = 0x800;
-        sprite->unk_1C = 0x800;
-        sprite->unk_0E = 0x80;
-        sprite->unk_0D = 0x80;
-        sprite->unk_0C = 0x80;
-        func_8003DB94(sprite, (void *) sprite_data_addr, 0);
+        render_state = object->unk_0C;
+        ((S_8092192C_4 *)render_state)->unk_1E = 0x800;
+        ((S_8092192C_4 *)render_state)->unk_1C = 0x800;
+        ((S_8092192C_4 *)render_state)->unk_0E = 0x80;
+        ((S_8092192C_4 *)render_state)->unk_0D = 0x80;
+        ((S_8092192C_4 *)render_state)->unk_0C = 0x80;
+        func_8003DB94(render_state, (void *) sprite_data_addr, 0);
     }
 }

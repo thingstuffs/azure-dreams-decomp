@@ -66,7 +66,7 @@ void func_80091C64(void *motion, void *position, void *entity, void *actor) {
     s32 y_work;
     s32 y_origin;
     s32 y_remaining;
-    register s32 y_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 y_step;
     u16 delay_left;
     u16 hop_frames_left;
     u16 return_frames_left;
@@ -127,9 +127,12 @@ jt_c3:
     y_step = ((Rec_D_80082E80 *)entity)->unk_25;
     y_step <<= 6;
     y_origin = ((S_80091C64_2 *)position)->unk_04.at02.v - 0x20;
-    y_step = (y_step - y_origin) << 0x10;
-    y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
-    y_step /= y_remaining;
+    {
+        s32 y_numerator = (y_step - y_origin) << 0x10;
+
+        y_remaining = ((S_80091C64_0 *)motion)->unk_96.u;
+        y_step = y_numerator / y_remaining;
+    }
     y_work = ((S_80091C64_2 *)position)->unk_04.at00.v + y_step;
     ((S_80091C64_2 *)position)->unk_04.at00.v = y_work;
     ((S_80091C64_0 *)motion)->unk_92 = (s16) ((s32) (0 - func_800644B8((s16) ((S_80091C64_0 *)motion)->unk_96.s << 8)) >> 8);

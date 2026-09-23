@@ -91,34 +91,22 @@ s32 func_800AD058(u8 *state, s32 *position, u8 *sprite, u8 *entity_data) {
     u8 green;
     void *entity = entity_data;
 
-    phase = ((Rec_func_800AD058_arg0 *)state)->unk_9B;
-    if (phase == 1) {
-        goto start_fade;
-    }
-    if ((s32) phase < 2) {
-        dispatch_zero = 0;
-        if (phase == 0) {
-            goto wait_to_start;
+    switch (((Rec_func_800AD058_arg0 *)state)->unk_9B) {
+    case 0:
+        if (*D_8008346A != 0) {
+            return 0;
         }
-        return dispatch_zero;
-    }
-    if (phase == 2) {
+        ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
+        goto start_fade;
+    case 1:
+        goto start_fade;
+    case 2:
         goto update_fade;
-    }
-    dispatch_zero = 3;
-    if (phase == 3) {
-        dispatch_zero = 0;
+    case 3:
         goto update_spiral;
-    }
-     /* MATCH: keep the phase-3 branch followed by the default epilogue jump. */
-    return 0;
-
-wait_to_start:
-    ASM_KEEP(dispatch_zero);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    if (*D_8008346A != 0) {
+    default:
         return 0;
     }
-    ((Rec_func_800AD058_arg0 *)state)->unk_9B = 1U;
 start_fade:
     ((S_800AD058_1 *)sprite)->unk_10 = 0x20;
     ((S_800AD058_1 *)sprite)->unk_12 = (u16) (((S_800AD058_1 *)sprite)->unk_12 - 0x80);

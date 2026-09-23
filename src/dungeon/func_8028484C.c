@@ -76,23 +76,19 @@ retry:
         {
             s32 position_page;
             u8 *meta;
-            register u8 *position ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            u8 *position;
 
             slot_index = 0;
-            position_page = 0x800e0000;
-            ASM_KEEP(position_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-            position = (u8 *)(position_page + 0x39c8);
+            position = D_800E39C8;
             meta = (u8 *)&D_800E3648;
 
             do {
-                position_page = meta[1];
-                if ((position_page != 0) && (position[6] == x) &&
-                    (position[7] == y)) {
+                position_page = (meta + slot_index * 4)[1];
+                if ((position_page != 0) && ((position + slot_index * 24)[6] == x) &&
+                    ((position + slot_index * 24)[7] == y)) {
                     goto retry;
                 }
-                position += 24;
                 slot_index++;
-                meta += 4;
             } while (slot_index < 0x20);
         }
 
