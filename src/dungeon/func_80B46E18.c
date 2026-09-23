@@ -217,15 +217,14 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
     {
         register u32 addr_mask ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 zero;
-        register u32 size_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         addr_mask = 0x00FFFFFF;
         zero = 0;
         ASM_KEEP(zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        size_mask = 0xFF000000;
-        ((S_80174618_5 *)line_packet)->unk_00.at00.v = (((S_80174618_5 *)line_packet)->unk_00.at00.v & size_mask) |
+        global_page = (u8 *)(0xFF000000);
+        ((S_80174618_5 *)line_packet)->unk_00.at00.v = (((S_80174618_5 *)line_packet)->unk_00.at00.v & (u32)global_page) |
                                 (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
         ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
-            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & size_mask) |
+            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & (u32)global_page) |
             ((u32)line_packet & addr_mask);
 
         context = *(u8 **)draw_packet;
@@ -233,11 +232,11 @@ void func_80174618(S_80174618_4 *endpoints, S_80174618_1 *position, void *render
         ((S_80174618_3 *)context)->unk_8D0 = draw_packet + 0xC;
         func_80067F20(draw_packet, 0, 0, (u16)func_80066460(zero, 1, zero, zero), 0);
 
-        ((S_80174618_6 *)draw_packet)->unk_00 = (((S_80174618_6 *)draw_packet)->unk_00 & size_mask) |
+        ((S_80174618_6 *)draw_packet)->unk_00 = (((S_80174618_6 *)draw_packet)->unk_00 & (u32)global_page) |
                                  (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & addr_mask);
         draw_packet = (u8 *)((u32)draw_packet & addr_mask);
         ((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] =
-            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & size_mask) |
+            (((S_80174618_0 *)scratch)->unk_24.u[((S_80174618_0 *)scratch)->unk_100] & (u32)global_page) |
             (u32)draw_packet;
 
         func_80064A40();

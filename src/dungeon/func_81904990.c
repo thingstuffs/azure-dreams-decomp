@@ -275,13 +275,13 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
     S_func_81904990_6 *setup_arg;
     void *row_heights;
     S_func_81904990_8 *view_matrix;
-    s32 quad_words;
+    s16 quad_words;
     s32 tail_value;
     s32 tail_uv;
     register s32 addr_mask ASM_REG("$19");
     s32 length_mask;
     register S_func_81904990_4 *scratch ASM_REG("$18");
-    register void *sprite_base ASM_REG("$23");
+    void *sprite_base;
     u8 *state_page;
 
     setup_arg = screen_pos;
@@ -324,7 +324,6 @@ void func_81904990(void *screen_pos, void *sprite, s32 *ordering_table, s32 draw
         *mode_link = (*mode_link & 0xFF000000) | (s32) setup_arg;
     }
     quad_words = 9;
-    ASM_KEEP_NV(quad_words);
     addr_mask = 0xFFFFFF;
     length_mask = 0xFF000000;
     ASM_KEEP_NV(length_mask);
@@ -450,7 +449,8 @@ frame_loop:
             if (clut_override != 0) {
                 if (scratch->unk_24 & 0x100) {
                     packet->unk_0E = clut_override;
-                    goto clut_done;
+                    packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
+                    goto clut_done_done;
                 }
                 tail_value = clut_override + ((S_func_81904990_3 *)((u8 *)frame_data - 0x8))->unk_06;
             } else {
@@ -458,8 +458,9 @@ frame_loop:
             }
             packet->unk_0E = tail_value;
         }
-clut_done:
         packet->unk_0C.as_s16_0C = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_08);
+        clut_done_done:
+        ;
         packet->unk_14.as_s16_14 = (s16) ((u16) scratch->unk_0C + (u16) scratch->unk_10.as_s32_10);
         tpage_offset = frame->unk_10;
         {

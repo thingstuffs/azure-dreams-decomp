@@ -45,13 +45,11 @@ void func_800930E4(void *self_arg, void *target_arg, M2C_UNK context_arg) {
     u16 busy_countdown;
     u8 *state;
 
-    target = target_arg;
     context = context_arg;
     state = D_80083160;
 
-    func_80095C80(target);
-    ASM_KEEP(target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(context);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    func_80095C80(target_arg);
+    target = target_arg;
 
     func_80095094(target);
     if (func_8009FF50() == 0) {

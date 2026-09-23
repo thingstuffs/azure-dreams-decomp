@@ -18,11 +18,8 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
     u8 *input = D_80083160;
     u8 *entries = *(u8 **)(object + 0x7C);
     s16 state;
-    register void *context_copy ASM_REG("$4"); /* MATCH: retain retail's unused a2-to-a0 move in the entry branch delay slot. */
 
-    context_copy = context;
     if (D_800FC418 != 0) {
-        ASM_USE2_NV(context_copy, context);
         *(void **)(object + 0x68) = D_8008BED8;
         return;
     }
@@ -58,7 +55,7 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
     } else if (state == 9) {
         s16 *position;
 
-        func_800478B8();
+        func_800478B8(context);
         position = (s16 *)D_80083780;
         *(s32 *)(*(u8 **)object + 0x30) = position[1] / 64 - 0x18;
         *(s32 *)(*(u8 **)object + 0x34) = position[3] / 64 - 0x40;
@@ -69,7 +66,7 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
         u8 entry_id;
         u8 *positions;
 
-        func_800478B8();
+        func_800478B8(context);
         buttons = *(s32 *)(input + 0x10);
         if (buttons & 0x6000) {
             if (++*(s32 *)(object + 0x74) >= *(s32 *)(object + 0x78)) {
@@ -85,7 +82,6 @@ void func_8008BC58(u8 *object, void *transform, void *context) {
         func_8008B620(entries[*(s32 *)(object + 0x74)]);
     update_position:
         entry_index = *(s32 *)(object + 0x74);
-           /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
         positions = (u8 *)&D_800D2EA4;
         entry_id = entries[entry_index];
         *(s32 *)(*(u8 **)object + 0x30) = positions[entry_id * 8] - 0x18;

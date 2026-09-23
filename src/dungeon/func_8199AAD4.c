@@ -133,7 +133,8 @@ void func_800242D4(void *self, void *coords)
     s32 flags_value;
     u16 count;
     u32 position_z;
-    register u32 tail_z ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 tail_z;
+    u16 tail_z_2;
     s32 *global_flags;
     void *delta_out;
     D_80024A70++;
@@ -170,16 +171,18 @@ state_zero:
             ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
             ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
             ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            tail_z = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
-            tail_z += delta[2];
-            goto store_z;
+            tail_z_2 = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
+            tail_z_2 += delta[2];
+            ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z_2;
+            goto store_z_done;
 
 fixed_position:
             ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             tail_z = position_z - 0x20;
 
-store_z:
             ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z;
+            store_z_done:
+            ;
         }
 
         if (((S_8199AAD4_11 *)(((S_8199AAD4_0 *)self)->unk_0C))->unk_00 & 0x80) {
@@ -223,15 +226,14 @@ state_two:
     ASM_KEEP(iteration);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     object_entry = (S_8199AAD4_5 *)0x80020000;
     ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    table_end = (u8 *)object_entry + 0x4AE0;
-    ASM_KEEP(table_end);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    table_end = (u8 *)object_entry;
+    table_end += 0x4AE0;
     table_start_2 = table_end - 0x54;
 loop_top:
     object_entry = ((S_8199AAD4_0 *)self)->unk_04;
     start_x = ((S_8199AAD4_2 *)coords)->unk_00.at02u.v;
     start_y = ((S_8199AAD4_2 *)coords)->unk_04.at02u.v;
     target_node = object_entry->unk_08;
-    ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     start_z = ((S_8199AAD4_2 *)coords)->unk_08.at02u.v;
     target[0] = target_node->unk_00;
     target[1] = target_node->unk_04;

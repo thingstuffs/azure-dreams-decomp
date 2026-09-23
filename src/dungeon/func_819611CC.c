@@ -12,7 +12,7 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     u8 *state_slot;
     u32 state_snapshot;
     u8 *render_state;
-    register u8 *initial_state ASM_REG("$2");
+    u8 *initial_state;
     u8 *packet;
     register u8 *quad_code ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *texture ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -45,8 +45,9 @@ s32 func_819611CC(void *quad_data, s32 unused, void *material)
     ASM_KEEP_MEMDEP(scratch, state_snapshot, *((u8 **) D_80083160_addr));   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     quad_code = packet + 7;
     ASM_KEEP(quad_code);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-next_quad:
     *((u32 *) (scratch + 0x70)) = *((u32 *) (((u8 *) quad) + 0x10));
+    next_quad_done:
+    ;
     *((u32 *) (scratch + 0x78)) = *((u32 *) (((u8 *) quad) + 0x18));
     *((u32 *) (scratch + 0x80)) = *((u32 *) (((u8 *) quad) + 0x20));
     vertex0 = scratch + 0x70;
@@ -96,16 +97,16 @@ next_quad:
         packet += 0x28;
         quad_code[0] = code | 2;
         quad_code += 0x28;
-        ASM_KEEP(quad_code);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
         func_8006658C((*((u32 *) (scratch + 0x20))) + ((*((u32 *) (scratch + 0xC0))) << 2), draw_packet);
     }
     vertex_or_link = ((void **) quad)[-2];
     if (vertex_or_link != 0) {
-        quad = ((u8 *) vertex_or_link) + 32;
-        ASM_KEEP(quad);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        quad = ((u8 *) vertex_or_link);
+        quad += 32;
         quad_material = *((void **) (((u8 *) vertex_or_link) + 12));
         ASM_KEEP(quad_material);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-        goto next_quad;
+        *((u32 *) (scratch + 0x70)) = *((u32 *) (((u8 *) quad) + 0x10));
+        goto next_quad_done;
     }
     render_state = *((u8 **) state_slot);
     result = zero;

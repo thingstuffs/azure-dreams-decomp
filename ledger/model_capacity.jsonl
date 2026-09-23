@@ -196,3 +196,12 @@
 {"date": "2026-09-23T03:08Z", "codex": {"pack": "r74_sol6v3_a2", "model": "gpt-6-sol", "candidates": 1}, "note": "r74 A/B gpt-6-sol with the residual_to_form paragraph (v3 brief), 3-7 band"}
 {"date": "2026-09-23T03:08Z", "codex": {"pack": "r73_luna6_s3", "model": "gpt-6-luna", "candidates": 4}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
 {"date": "2026-09-23T03:12Z", "codex": {"pack": "r74_sol6v3_a1", "model": "gpt-6-sol", "candidates": 2}, "note": "r74 A/B gpt-6-sol with the residual_to_form paragraph (v3 brief), 3-7 band"}
+{"date": "2026-09-23T03:18Z", "codex": {"pack": "r74_sol6v3_a3", "model": "gpt-6-sol", "candidates": 2}, "note": "r74 A/B gpt-6-sol with the residual_to_form paragraph (v3 brief), 3-7 band"}
+{"date": "2026-09-23T03:18Z", "codex": {"pack": "r74_sol6v3_a4", "model": "gpt-6-sol", "candidates": 1}, "note": "r74 A/B gpt-6-sol with the residual_to_form paragraph (v3 brief), 3-7 band"}
+{"date": "2026-09-23T03:20Z", "codex": {"pack": "r73_luna6_s2", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
+{"date": "2026-09-23T03:23Z", "codex": {"pack": "r74_astra_pre1", "model": "gpt-6-astra", "candidates": 2}, "note": "r74 astra on sol6-failed rows with the sol6 diagnosis attached"}
+{"date": "2026-09-23T03:27Z", "codex": {"pack": "r74_astra_a5", "model": "gpt-6-astra", "candidates": 4}, "note": "r74 astra on the 3-7 band never-astra retry rows (50% in r73)"}
+{"date": "2026-09-23T03:33Z", "codex": {"pack": "r73_luna6_s4", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
+{"date": "2026-09-23T03:36Z", "codex": {"pack": "r74_astra_a3", "model": "gpt-6-astra", "candidates": 5}, "note": "r74 astra on the 3-7 band never-astra retry rows (50% in r73)"}
+{"date": "2026-09-23T03:52Z", "codex": {"pack": "r73_luna6_s5", "model": "gpt-6-luna", "candidates": 2}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
+{"date": "2026-09-23T03:53Z", "codex": {"pack": "r74_astra_a8", "model": "gpt-6-astra", "candidates": 5}, "note": "r74 astra on the 3-7 band never-astra retry rows (50% in r73)"}

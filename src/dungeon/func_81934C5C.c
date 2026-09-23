@@ -85,18 +85,6 @@ void func_8002445C(void *effect) {
     s32 ticks_left;
     s32 surface_height;
     s16 state;
-    s32 height_work;
-    s32 height_velocity;
-    s32 x_fixed;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-    s32 x_velocity;
-    s32 world_y;
-    s32 world_x;
-    s32 x_step;
-    s32 x_step_tripled;
-    s32 height_step_tripled;
-    s32 display_y_step;
-    s32 display_y;
-    s32 next_display_y;
     u16 final_display_y;
     S_81934C5C_3 *impact_sprite;
     S_81934C5C_2 *impact_effect;
@@ -142,31 +130,11 @@ block_state1:
     goto block_advance;
 
 block_state2:
-    x_fixed = ((S_81934C5C_0 *)effect)->unk_1C.at00.v;
-    x_velocity = ((S_81934C5C_0 *)effect)->unk_28.at00.v;
-    world_y = ((S_81934C5C_0 *)effect)->unk_20.at02.v;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    height_work = ((S_81934C5C_0 *)effect)->unk_30.at02.v;
-    height_velocity = ((S_81934C5C_0 *)effect)->unk_30.at00.v;
-    ((S_81934C5C_0 *)effect)->unk_1C.at00.v = x_fixed + x_velocity;
-    ASM_CLOBBER("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    x_step = ((S_81934C5C_0 *)effect)->unk_28.at02.v;
-    world_x = ((S_81934C5C_0 *)effect)->unk_1C.at02.v;
-    x_step_tripled = x_step * 3;
-    ASM_KEEP(x_step);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_81934C5C_0 *)effect)->unk_0C = (u16) (((S_81934C5C_0 *)effect)->unk_0C + (x_step_tripled >> 2));
-    height_step_tripled = height_work * 3;
-    display_y_step = height_step_tripled >> 2;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    display_y = ((S_81934C5C_0 *)effect)->unk_10;
-    do {
-        height_work = ((S_81934C5C_0 *)effect)->unk_24.at00.v;
-    } while (0);
-    next_display_y = display_y + display_y_step;
-    height_work += height_velocity;
-    ((S_81934C5C_0 *)effect)->unk_24.at00.v = height_work;
-    ((S_81934C5C_0 *)effect)->unk_10 = next_display_y;
-    surface_height = func_800BCB04(world_x, world_y, -0x400, height_velocity);
+    ((S_81934C5C_0 *)effect)->unk_1C.at00.v += ((S_81934C5C_0 *)effect)->unk_28.at00.v;
+    ((S_81934C5C_0 *)effect)->unk_0C += (((S_81934C5C_0 *)effect)->unk_28.at02.v * 3) >> 2;
+    ((S_81934C5C_0 *)effect)->unk_10 += (((S_81934C5C_0 *)effect)->unk_30.at02.v * 3) >> 2;
+    ((S_81934C5C_0 *)effect)->unk_24.at00.v += ((S_81934C5C_0 *)effect)->unk_30.at00.v;
+    surface_height = func_800BCB04(((S_81934C5C_0 *)effect)->unk_1C.at02.v, ((S_81934C5C_0 *)effect)->unk_20.at02.v, -0x400);
     if (surface_height >= 0x201) {
         if (((S_81934C5C_0 *)effect)->unk_24.at02.v > 0) {
             goto block_tail_ff;

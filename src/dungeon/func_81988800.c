@@ -240,10 +240,9 @@ jt_c3: {
                 ((S_81988800_3 *)work)->unk_06 = (((u8 *)actor)[0x25] << 6) + 0x20;
                 ((S_81988800_3 *)work)->unk_08.u16 = ((S_81988800_2 *)position_ref)->unk_08.at02.v;
                 entry_ptr = (u8 *)object + 0x4A;
-                for (entry_index = 7; entry_index >= 0; entry_index--, entry_ptr -= 6) {
+                for (entry_index = 7; entry_index >= 0; entry_ptr -= 6, entry_index--) {
                     ((S_81988800_7 *)entry_ptr)->unk_12 = 0;
                     ((S_81988800_7 *)entry_ptr)->unk_10 = 0;
-                    ASM_KEEP(entry_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
                 }
                 ((S_81988800_3 *)work)->unk_00 = state_data;
                 ((S_81988800_3 *)work)->unk_40 = 0;

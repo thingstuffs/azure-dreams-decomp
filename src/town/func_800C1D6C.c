@@ -26,13 +26,15 @@ extern void SD_Call(s32);
 extern void *D_80089900[];
 
 #ifndef NON_MATCHING
-register s32 state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 #else
 static s32 state;
 #endif
 
 /* Updates the object state, position, and timed target adjustments. */
 void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
+#ifndef NON_MATCHING
+    register s32 state;
+#endif
     S0 *object = self;
     s32 y_limit;
     s32 next_value;
@@ -51,7 +53,6 @@ void func_800BF4CC(S0 *self, s32 *position, S1 *target) {
     }
     next_value_2 = 0x800000;
     y_limit = base_y + next_value_2;
-    ASM_KEEP(base_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if ((u32)state < 6) {
         goto *D_80089900[state];
     }

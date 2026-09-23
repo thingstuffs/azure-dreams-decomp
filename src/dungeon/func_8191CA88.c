@@ -43,9 +43,7 @@ typedef struct S_8191CA88_4 {
 
 
 /* Updates object motion and timers through movement, waiting, falling, and completion states. */
-void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
-    void *object = object_data;
-    register S_8191CA88_3 *motion ASM_REG("$8");
+void func_8191CA88(void *object, S_8191CA88_3 *motion, S_8191CA88_2 *effect) {
     s32 state;
     u16 state_unsigned;
     s32 timer;
@@ -68,7 +66,6 @@ void func_8191CA88(void *object_data, void *motion_data, S_8191CA88_2 *effect) {
     inner = ((S_8191CA88_0 *)object)->unk_00;
     inner->unk_14 = inner->unk_14 + 1;
     phase = effect->unk_1A;
-    motion = motion_data;
     effect->unk_1A = phase + 0x300;
     old_timer = ((S_8191CA88_0 *)object)->unk_10.s;
     state = ((S_8191CA88_0 *)object)->unk_0E.s;

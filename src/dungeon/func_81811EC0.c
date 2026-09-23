@@ -9,13 +9,12 @@ extern u8 D_800157D2;
 
 /* Return the index of the requested zero-based matching occurrence, or -1. */
 s32 func_80026EC0(s32 target_value, s32 target_occurrence) {
-    register s32 occurrence ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 occurrence;
     s32 result;
     s32 index;
     u8 *entry;
 
     occurrence = 0;
-    ASM_KEEP(occurrence);
     index = occurrence;
     entry = &D_800157D2;
 loop_1:

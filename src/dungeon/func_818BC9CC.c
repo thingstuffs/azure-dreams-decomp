@@ -229,9 +229,9 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         scratch->unk_68 = coord;
         far_z = position->unk_0A;
         z_extent = effect->unk_08.as_u16;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         far_z = far_z + z_extent;
-        goto store_z;
+        scratch->unk_80 = far_z;
+        goto store_z_done;
     L_case1:
         coord = position->unk_02;
         scratch->unk_74 = coord;
@@ -250,7 +250,8 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         scratch->unk_68 = coord;
         far_z = position->unk_0A;
         far_z = far_z + effect->unk_08.as_u16;
-        goto store_z;
+        scratch->unk_80 = far_z;
+        goto store_z_done;
     L_case2:
         coord = position->unk_02;
         scratch->unk_74 = coord;
@@ -282,8 +283,9 @@ s32 func_818BC9CC(S_func_818BC9CC_0 *effect, S_func_818BC9CC_1 *position)
         scratch->unk_68 = coord;
         far_z = position->unk_0A;
         far_z -= effect->unk_08.as_u16;
-    store_z:
         scratch->unk_80 = far_z;
+        store_z_done:
+        ;
         scratch->unk_78 = far_z;
 
     L_common:

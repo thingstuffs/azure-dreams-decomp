@@ -190,14 +190,12 @@ state0:
     init_timer = 33;
     effect_page = (u8 *)0x80020000;
     *(s32 *)&dungeon->pad0[0xF4] = 0;
-    ASM_KEEP(dungeon);
     *(s16 *)&dungeon->pad0[0x96] = init_timer;
     dungeon = (DungeonState *)((u8 *)0x80080000);
     ASM_KEEP_NV(dungeon);
     *(s16 *)((u8 *)dungeon + 0x2E86) = 6;
-    next_state = (u16)work->state;
-    *(s16 *)(effect_page + 0x69B4) = 1;
-    next_state++;
+    next_state = (u16)work->state + 1;
+    D_800269B4.value = 1;
     work->state = next_state;
     ASM_KEEP(next_state);
     object = work->object;

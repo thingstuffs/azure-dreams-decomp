@@ -57,7 +57,7 @@ extern u8 D_80083498[];
 #define BODY_ATTR
 #endif
 
-BODY_STORAGE void *BODY_NAME(void *, s8, s8, s16) BODY_ATTR;
+BODY_STORAGE void *BODY_NAME(void *, s32, s8, s16) BODY_ATTR;
 
 #ifdef __mips__
 static const ActorDefinition actor_definition
@@ -126,9 +126,10 @@ typedef struct S_80FB1000_2 {
     u16 unk_06;
 } S_80FB1000_2;   /* (*(u8 * *)((u8 *)monster + 8)) + (scale + i) * 4 in BODY_NAME */
 
-BODY_STORAGE void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
+BODY_STORAGE void *BODY_NAME(void *arg0, s32 arg1, s8 arg2, s16 arg3)
 {
-    register s8 arg1_role ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        s16 arg0_copy;
+    s32 arg1_role;
     register s8 arg2_role ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 arg3_role;
     void *created;
@@ -142,9 +143,10 @@ BODY_STORAGE void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
     arg1_role = arg1;
     arg3_role = arg3;
     arg2_role = arg2;
-    created = func_8003FD64(0x112, D_80083498);
+    arg1 = 0x112;
+    created = func_8003FD64(arg1, D_80083498);
+    arg0_copy = (s32)arg0;
     if (created != 0) {
-        register s32 arg0_copy ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         void *init_arg0;
         s32 flags0;
         s32 flags1;
@@ -154,8 +156,6 @@ BODY_STORAGE void *BODY_NAME(void *arg0, s8 arg1, s8 arg2, s16 arg3)
         s32 scale;
 
         work = (u8 *)created + 0x20;
-        arg0_copy = (s32)arg0;
-        ASM_KEEP(arg0_copy);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         (*(Callback *)((u8 *)created + 0x10)) = func_80170B40;
         ((S_80FB1000_0 *)work)->unk_13 = 0x27;
         func_8004491C(created, func_80045340);
