@@ -45,7 +45,7 @@ void *func_81959E04(s16 x, s16 y, s16 z) {
     void *obj;
     s32 i;
     s32 scale;
-    register s32 sign_bits ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 sign_bits;
     register s16 pos_x ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register s16 pos_y ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s16 pos_z;
@@ -59,11 +59,10 @@ void *func_81959E04(s16 x, s16 y, s16 z) {
     sign_bits = -0x800;
     scale = 0x20;
     angle = i;
-spawn_next:
+    do {
     obj = func_8003FC64(0x212);
     if (obj != NULL) {
         register void *call_arg0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        register void *field_ptr ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
 #ifdef NON_MATCHING
         call_arg1 = D_800C95C0;
 #else
@@ -71,8 +70,7 @@ spawn_next:
         call_arg1 = D_800C95C0;
 #endif
         call_arg0 = obj;
-        field_ptr = &D_80025528;
-        ((S_81959E04_0 *)obj)->unk_10 = field_ptr;
+        ((S_81959E04_0 *)obj)->unk_10 = &D_80025528;
         func_8004491C(call_arg0, call_arg1);
         part = ((S_81959E04_0 *)obj)->unk_08;
         part->unk_02 = pos_x;
@@ -100,12 +98,6 @@ spawn_next:
 next:
     i += 1;
     angle += 0x80;
-    if (i >= 0x20) {
-        return obj;
-    }
-    goto spawn_next;
+    } while (i < 0x20);
+    return obj;
 }
-/* MECHANISM: The 0x38 frame comes from ten held roles: s6/s7/fp args, s3/s0 loop state,
-   s5/s4 constants, and s2/s1 object bases; a kept s3 preserves move s0,s3.
-   Tied tail-slot pins sink both dead v0|s5 values into noreturn j delays.
-   A kept a1 page/low split plus fixed a0/a3 emits the call setup in retail order. */

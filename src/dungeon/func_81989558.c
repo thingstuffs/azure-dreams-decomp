@@ -122,7 +122,7 @@ s32 func_80024D58(void *node) {
     s32 ring_x;
     void **render_context;
     s32 grid_origin;
-    register u8 *rotated_points ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *rotated_points;
     u8 *grid;
     u32 address_mask;
     s32 point_index;
@@ -138,7 +138,7 @@ s32 func_80024D58(void *node) {
     grid = frame.space + 256;
     render_context = &D_80083160[0];
     grid_origin = -720;
-next_object:
+    for (;;) {
     object = node;
     {
         s16 point_y = grid_origin + 1440;
@@ -185,7 +185,7 @@ next_object:
             } while (point_index < (ring + frame.p.f528));
         }
         side = 0;
-next_side:
+        do {
         func_800DBA90(&frame.p.f510);
         switch (side) {
         case 0:
@@ -218,7 +218,6 @@ next_side:
                                   &frame.p.f530, &frame.p.f534);
                     point_index = next_index;
                     ASM_KEEP_NV(ring);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-                    ASM_USE2_NV(grid, grid);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     point_count = ((S_80024D58_5 *)(&frame.p))->unk_18;
                 } while (point_index < (ring + frame.p.f528));
             }
@@ -256,11 +255,8 @@ next_side:
         }
         side += 1;
         frame.p.f51C += 0x400;
-        if (side < 4) {
-            goto next_side;
-        }
+        } while (side < 4);
         span_base -= 2;
-        ASM_USE2_NV(span_base, span_base);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         ring_params -= 6;
         grid_row -= 0x40;
         ring -= 1;
@@ -311,7 +307,8 @@ next_quad:
                     ((S_80024D58_7 *)quad)->unk_15 = 0x1F;
                     ((S_80024D58_7 *)quad)->unk_20 = bottom_right;
                 }
-                (*(s32 *)((u8 *)quad + 0)) = (((S_80024D58_7 *)quad)->unk_00 & tag_mask) | (((S_80024D58_10 *)(*render_context))->unk_B0 & address_mask);
+                bottom_pair = (u8 *)((((S_80024D58_7 *)quad)->unk_00 & tag_mask) | (((S_80024D58_10 *)(*render_context))->unk_B0 & address_mask));
+                (*(s32 *)quad) = (s32)bottom_pair;
                 point_index += 1;
                 ((S_80024D58_10 *)(*render_context))->unk_B0 = (((S_80024D58_10 *)(*render_context))->unk_B0 & tag_mask) | ((s32) quad & address_mask);
             }
@@ -325,8 +322,10 @@ next_quad:
         void *next_node = ((S_80024D58_11_pre *)node)[-1].unk_00;
         if (next_node != 0) {
             node = (u8 *) next_node + 0x20;
-            goto next_object;
+            continue;
         }
+    }
+    break;
     }
     return 0;
 }

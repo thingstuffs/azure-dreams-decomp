@@ -68,14 +68,14 @@ s32 func_80024EF4(void)
         vertices = D_80026478;
         vertex_record = (u8 *)vertices;
 
-loop:
-        {
+        do {
             Entry *quad;
             u32 *near_vertex;
             u32 *near_next_vertex;
             u32 *far_vertex;
             u32 *far_next_vertex;
             u32 *next_row;
+            u32 *far_next_ptr;
             u32 far_next_xy;
             s32 row_start;
             s32 far_index;
@@ -83,7 +83,6 @@ loop:
             u16 far_z;
             EmptyCallArg late_stores;
 
-            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             near_vertex = &scratch->value70;
             row_start = quad_index & ~0xF;
             quad = (Entry *)scratch->current;
@@ -91,12 +90,12 @@ loop:
             far_vertex = &scratch->value80;
             scratch->current = (u8 *)quad + 0x24;
             scratch->value70 = *(u32 *)vertex_record;
-            next_row = vertices + 0x20;
             scratch->value78 = vertices[
                 ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+            next_row = vertices + 0x20;
+            far_next_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (u32)next_row);
             scratch->value80 = next_row[quad_index * 2];
-            far_next_xy = next_row[
-                ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+            far_next_xy = *far_next_ptr;
             far_next_vertex = &scratch->value88;
             near_z = *(u16 *)(vertex_record + 4);
             scratch->half74 = near_z;
@@ -143,14 +142,8 @@ loop:
             }
 
             vertex_record += 8;
-        }
-
-        {
-            s32 quad_count = D_8002632A;
             quad_index++;
-            if (quad_index < quad_count)
-                goto loop;
-        }
+        } while (quad_index < D_8002632A);
 
 done:
         *(u8 **)(*state_slot + 0x8D0) = scratch->current;

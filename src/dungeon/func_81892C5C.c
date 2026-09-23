@@ -132,16 +132,11 @@ loop:
 
         context.pointer = *ot_ctx;
         polyline = ((S_81892C5C_3 *)context.pointer)->unk_8D0;
-        prim_mode = (s32)((u8 *)polyline + 0x18);
-        ((S_81892C5C_3 *)context.pointer)->unk_8D0 = (void *)prim_mode;
-        prim_mode = 5;
-        ((S_81892C5C_4 *)polyline)->unk_00.at03.v = prim_mode;
-        prim_mode = 0x48;
-        ((S_81892C5C_4 *)polyline)->unk_07 = prim_mode;
-        ASM_KEEP_NV(prim_mode);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        ((S_81892C5C_3 *)context.pointer)->unk_8D0 = (u8 *)polyline + 0x18;
+        ((S_81892C5C_4 *)polyline)->unk_00.at03.v = 5;
+        ((S_81892C5C_4 *)polyline)->unk_07 = 0x48;
         ((S_81892C5C_4 *)polyline)->unk_14 = 0x55555555;
-        prim_mode |= 2;
-        ((S_81892C5C_4 *)polyline)->unk_07 = prim_mode;
+        ((S_81892C5C_4 *)polyline)->unk_07 |= 2;
         angle_base = angle_step << 1;
         start_angle = segment * angle_base;
         height = ((S_81892C5C_1 *)effect)->unk_04;

@@ -13,10 +13,6 @@ extern void func_8002590C(Entry *, s32);
 extern void func_800257D0(void *, s32);
 extern void func_800C9088(void *, s32, Entry *, s32);
 
-#ifndef NON_MATCHING
-register s32 volatile v0_carrier ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-#endif
-
 /* Processes twelve buffer slots for each entry in a linked state chain. */
 s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
 {
@@ -29,8 +25,7 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
     void *entry_or_link;
 
 #ifndef NON_MATCHING
-    v0_carrier = (s32)0x80020000;
-    slot_base = (u8 *)v0_carrier + 0x74C0;
+    slot_base = D_800274C0;
 #else
     slot_base = D_800274C0;
 #endif
@@ -49,7 +44,7 @@ s32 func_80025AAC(void *initial_state, s32 initial_value, Entry *initial_entry)
             func_800C9088(state, value, entry, entry->field_6);
             entry_or_link = entry;
 #ifndef NON_MATCHING
-        } while ((v0_carrier = (slot_index < 12)) != 0);
+        } while (slot_index < 12);
 #else
         } while (slot_index < 12);
 #endif

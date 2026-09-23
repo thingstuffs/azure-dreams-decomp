@@ -68,14 +68,14 @@ s32 func_80024A68(void)
         vertices = D_800265C8;
         vertex_record = (u8 *)vertices;
 
-loop:
-        {
+        do {
             Entry *quad;
             u32 *row_left;
             u32 *row_right;
             u32 *next_row_left;
             u32 *next_row_right;
             u32 *next_row;
+            u32 *next_right_ptr;
             u32 next_right_xy;
             s32 row_start;
             s32 next_row_index;
@@ -83,7 +83,6 @@ loop:
             u16 next_row_z;
             EmptyCallArg late_stores;
 
-            ASM_KEEP_NV(scratch);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             row_left = &scratch->value70;
             row_start = quad_index & ~0xF;
             quad = (Entry *)scratch->current;
@@ -91,12 +90,12 @@ loop:
             next_row_left = &scratch->value80;
             scratch->current = (u8 *)quad + 0x24;
             scratch->value70 = *(u32 *)vertex_record;
-            next_row = vertices + 0x20;
             scratch->value78 = vertices[
                 ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+            next_row = vertices + 0x20;
+            next_right_ptr = (u32 *)(((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 8 + (u32)next_row);
             scratch->value80 = next_row[quad_index * 2];
-            next_right_xy = next_row[
-                ((u32)row_start + (u32)((quad_index + 1) & 0xF)) * 2];
+            next_right_xy = *next_right_ptr;
             next_row_right = &scratch->value88;
             row_z = *(u16 *)(vertex_record + 4);
             scratch->half74 = row_z;
@@ -143,14 +142,8 @@ loop:
             }
 
             vertex_record += 8;
-        }
-
-        {
-            s32 quad_count = D_80026476;
             quad_index++;
-            if (quad_index < quad_count)
-                goto loop;
-        }
+        } while (quad_index < D_80026476);
 
 done:
         *(u8 **)(*state_slot + 0x8D0) = scratch->current;

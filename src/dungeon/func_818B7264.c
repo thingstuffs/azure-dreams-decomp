@@ -179,9 +179,8 @@ s32 func_80024A64(S_80024A64_0 *effect, S_80024A64_1 *center, s32 draw_arg) {
     {
         s32 inner_y = center->unk_04 +
             (((func_80064584(effect->unk_0E + 512) >> 4) * (s16)inner_radius) << 8);
-        ASM_KEEP_NV(inner_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        ((S_80024A64_2 *)scratch)->unk_64 = inner_y;
         first_inner_y = inner_y;
-        ((S_80024A64_2 *)scratch)->unk_64 = first_inner_y;
     }
     angle_step = 512;
     do {

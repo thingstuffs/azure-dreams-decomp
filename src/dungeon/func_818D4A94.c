@@ -1,4 +1,5 @@
 #include "common.h"
+int abs(int);
 
 typedef struct S_818D4A94_0 {
     union { struct { s32 v; } at00; struct { u8 pad[0x2]; s16 v; } at02; } unk_00;   /* overlapping accesses */
@@ -31,51 +32,29 @@ extern s32 D_800814A0[3];
 /* Advance position and velocity, and flag completion near the target or when the countdown expires. */
 void func_818D4A94(void *motion, S_818D4A94_0 *position)
 {
-    register s32 axis_value ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 accel_z ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 active_flag;
-    s32 axis_step;
+    s32 updated_value;
+    s32 countdown;
 
     position->unk_00.at00.v += ((S_818D4A94_1 *)motion)->unk_3C;
     position->unk_04 += ((S_818D4A94_1 *)motion)->unk_40;
     position->unk_08 += ((S_818D4A94_1 *)motion)->unk_44;
-
-    {
-    s32 updated_value = ((S_818D4A94_1 *)motion)->unk_3C;
-    axis_step = ((S_818D4A94_1 *)motion)->unk_48;
-    axis_value = ((S_818D4A94_1 *)motion)->unk_4C;
-    accel_z = ((S_818D4A94_1 *)motion)->unk_50;
-    updated_value += axis_step;
-    ((S_818D4A94_1 *)motion)->unk_3C = updated_value;
-    updated_value = ((S_818D4A94_1 *)motion)->unk_40;
-    axis_step = ((S_818D4A94_1 *)motion)->unk_44;
-    updated_value += axis_value;
-    axis_step += accel_z;
-    ((S_818D4A94_1 *)motion)->unk_40 = updated_value;
-    updated_value = ((S_818D4A94_1 *)motion)->unk_34;
-    ASM_USE(updated_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP_MEM_NV(axis_value, D_80025118[0]);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    ((S_818D4A94_1 *)motion)->unk_44 = axis_step;
-    active_flag = 1;
-    updated_value -= (axis_value = position->unk_00.at02.v);
-    ASM_USE2_NV(axis_value, active_flag);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    if (updated_value < 0) {
-        updated_value = -updated_value;
-    }
+    ((S_818D4A94_1 *)motion)->unk_3C += ((S_818D4A94_1 *)motion)->unk_48;
+    ((S_818D4A94_1 *)motion)->unk_40 += ((S_818D4A94_1 *)motion)->unk_4C;
+    ((S_818D4A94_1 *)motion)->unk_44 += ((S_818D4A94_1 *)motion)->unk_50;
+    updated_value = abs(((S_818D4A94_1 *)motion)->unk_34 - position->unk_00.at02.v);
     updated_value = updated_value < 0x10;
-    D_80025118[0] = active_flag;
+    D_80025118[0] = 1;
     if (updated_value) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
     }
 
-    updated_value = ((S_818D4A94_1 *)motion)->unk_32;
-    updated_value -= 8;
-    ((S_818D4A94_1 *)motion)->unk_32 = updated_value;
-    updated_value <<= 16;
-    if (updated_value <= 0) {
+    countdown = ((S_818D4A94_1 *)motion)->unk_32;
+    countdown -= 8;
+    ((S_818D4A94_1 *)motion)->unk_32 = countdown;
+    countdown <<= 16;
+    if (countdown <= 0) {
         ((S_818D4A94_1_pre *)motion)[-1].unk_00 |= 0x8000;
         D_800814A0[0] |= 0x8000;
-    }
     }
 }
