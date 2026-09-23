@@ -158,7 +158,7 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
     register s32 y_step ASM_REG("$10");
     register s32 x_step ASM_REG("$11");
     s32 effect_y;
-    register s32 zero ASM_REG("$0");
+    s32 zero;
     register s32 element_product ASM_REG("$12");
     struct {
         volatile u16 arg2;
@@ -242,11 +242,11 @@ void *func_8009C12C(void *attacker_in, void *tile_in, s16 direction, s16 distanc
             if (modifier >= 0) {
                 func_80099290(message_cursor);
                 func_800A5720(message_start);
-                return (void *)zero;
+                return (void *)0;
             }
             return null_result;
         }
-        return (void *)zero;
+        return (void *)0;
     }
     attack_script = ((S_8009C12C_0 *)attacker_in)->unk_4C;
     if ((attack_script != NULL) && (*attack_script == 0xF0D)) {

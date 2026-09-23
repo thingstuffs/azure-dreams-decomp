@@ -163,13 +163,13 @@ process:
         work.pos.unk8 = position->unk_08 + D_800D0428;
         mode = 0;
         if (state_is_12_or_13) {
-            register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            s32 zero;
 
 #ifdef NON_MATCHING
             zero = 0;
 #else
 #endif
-            mode = (u32)zero < (u32)is_available;
+            mode = is_available != 0;
         }
         created_entry = func_8009DFD8(((S_80093894_3 *)(&D_80110EB8))->unk_00, &work.pos, mode);
         if (created_entry != 0) {
