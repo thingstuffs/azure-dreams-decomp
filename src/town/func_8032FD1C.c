@@ -43,9 +43,10 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
     register s32 dst_index ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     s32 row_offset;
     s32 stride_shift;
+    s32 offset;
     volatile u16 *src_cursor;
     u16 *dst_base;
-    register u16 *dst_cell ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 *dst_cell;
     s8 *grid_info;
     void *buffer_state;
 
@@ -70,7 +71,8 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
                     row_offset <<= stride_shift;
                     dst_index += row_offset;
                     if (*src_cursor != 0) {
-                        dst_cell = (u16 *)((dst_index << 1) + (s32)dst_base);
+                        offset = dst_index * 2;
+                        dst_cell = (u16 *)(offset + (s32)dst_base);
                         ASM_KEEP(dst_cell);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                         *dst_cell = *src_cursor;
                     }
