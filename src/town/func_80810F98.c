@@ -29,7 +29,7 @@ s32 func_8052BB98(void *arg0)
     state = ((S_80810F98_0 *)arg0)->unk_00;
     object = ((S_80810F98_0 *)arg0)->unk_04;
     call_arg = state;
-    if (state == 0) {
+    if ((state & 0xffff) == 0) {
         goto state_0;
     }
     call_arg = 0xFFF70000;
@@ -39,11 +39,7 @@ s32 func_8052BB98(void *arg0)
     return 1;
 
 state_0: {
-        ASM_KEEP(call_arg);   /* SITE-FOR-PIN TRADE 2026-09-22: the two `func_8052BC28()` epilogue
-                                 pseudo-calls are gone; this holds the entry state in $4 across the
-                                 block.  Without it gcc folds `call_arg + 1` to `li 1` (it knows
-                                 call_arg == 0 on this edge), drops the `move a0,v1` copy retail
-                                 keeps, and the prologue slides into the branch delay slot. */
+
         if (((S_80810F98_1 *)object)->unk_0C & 2) {
             s32 result;
             result = call_arg + 1;
@@ -53,10 +49,9 @@ state_0: {
         return call_arg + 1;
     }
 state_1: {
-        register s32 result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 result;
         call_arg |= 0xF7F8;
-        result = ((S_80810F98_0 *)arg0)->unk_08 + call_arg;
-        ((S_80810F98_0 *)arg0)->unk_08 = result;
+        result = (((S_80810F98_0 *)arg0)->unk_08 += call_arg);
         if (result <= 0x80808) {
             (*(u16 *)((u8 *)arg0 + (-2))) |= 0x8000;
             result = D_80084D5C | 0x8000;

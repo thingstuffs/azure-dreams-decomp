@@ -69,7 +69,7 @@ s32 event_tori_in(void *source) {
     do {
         object = func_8003FD64(0x312, &D_80083498);
         if (object != NULL) {
-            s32 motion_base;
+            s32 motion_base = 0;
             s32 color;
             u16 source_x_hi;
             u16 source_y_hi;
@@ -85,7 +85,6 @@ s32 event_tori_in(void *source) {
             (*(M2C_UNK **)((u8 *)object + 0x10)) = child_handler;
             *(void **)child_slot = transform;
             render_state = (*(void **)((u8 *)object + 0xC));
-            ASM_KEEP(render_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             source_x_hi = (*(u16 *)((u8 *)source_data + 2));
             origin = object + 0x20;
             origin->unk_0C = source_x_hi;
@@ -102,7 +101,6 @@ s32 event_tori_in(void *source) {
             }
             z_offset = (child_index << 0x13) + 0xFF800000;
             transform->unk_08 = (s32) ((*(s32 *)((u8 *)source_data + 8)) + z_offset);
-            ASM_KEEP_NV(motion_base);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
             transform->unk_0C = (s32) (motion_base - (child_index << 0x10));
             render_state->unk_1E = 0x1000;
             render_state->unk_1C = 0x1000;

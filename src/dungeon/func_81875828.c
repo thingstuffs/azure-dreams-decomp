@@ -87,12 +87,10 @@ s32 func_81875828(Arg0 *node, Arg1 *coords)
     *((u8 *) (((u8 *) entry) + 7)) = 0x6A;
     *((u32 *) (((u8 *) entry) + 0)) = ((*((u32 *) (((u8 *) entry) + 0))) & high_mask) | (active->table[active->index] & low_mask);
     {
-      register u32 table_slot ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+      u32 table_slot;
       register s32 table_word;
-      table_slot = active->index;
-      table_slot = (table_slot << 2) + (u32) active->table;
-      table_word = *((u32 *) table_slot);
-      table_word = (table_word & high_mask) | ((u32) entry & low_mask);
+      table_slot = (active->index << 2) + (u32) active->table;
+      table_word = ((*((u32 *) table_slot)) & high_mask) | ((u32) entry & low_mask);
       *((u32 *) table_slot) = table_word;
     }
     entry_2 = active->current;

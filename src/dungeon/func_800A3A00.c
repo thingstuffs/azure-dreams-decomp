@@ -44,7 +44,7 @@ void func_800A9160(void)
     u8 *cell_offset;
     s32 group_index;
     s32 clear_index;
-    s32 one;
+    s32 one = 0;
     S_800A9160_1 *bit_byte;
     RamPage *ram;
 
@@ -73,7 +73,6 @@ void func_800A9160(void)
                     bit_byte = group_bits_offset + (set_index >> 3) + (s32)ram;
                     bit_index = cell_index & 7;
                     one = 1;
-                    ASM_KEEP(one);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     bit_byte->unk_5720 =
                         bit_byte->unk_5720 |
                         (one << bit_index);

@@ -153,9 +153,7 @@ initialize:
     if (!(U16(PTR(object, 0xC), 0x14) & 0x8000)) {
         U16(motion, 2) = U16(motion, 2) + origin_offset[0];
         U16(motion, 6) = U16(motion, 6) + origin_offset[1];
-        ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        effect_z = U16(motion, 0xA);
-        effect_z += origin_offset[2];
+        effect_z = U16(motion, 0xA) + origin_offset[2];
         U16(motion, 0xA) = effect_z;
         goto await_launch;
     }

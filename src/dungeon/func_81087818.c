@@ -155,7 +155,7 @@ state0:
     s32 base_y;
     register s32 distance_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 distance_y;
-    register u32 direction_offset ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u32 direction_offset;
     s16 *direction_table;
     s32 tile_x;
 
@@ -165,9 +165,8 @@ state0:
     case 1:
         source = motion->unk_4C;
         tile_x = actor->unk_A8;
-        direction_offset = source->unk_2A.u;
+        direction_offset = (source->unk_2A.u >> 8) & 0xE;
         direction_table = D_8006CCD8;
-        direction_offset = (direction_offset >> 8) & 0xE;
         motion->unk_28.half.unk_2A =
             (tile_x * 64) +
             ((*(s16 *)((u8 *)direction_table + direction_offset) + 1) * 32);

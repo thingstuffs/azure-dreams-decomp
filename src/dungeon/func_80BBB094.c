@@ -68,8 +68,6 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
     s32 mode;
     s32 flag;
     s32 randomTest;
-    u32 word14;
-    u32 word1C;
     slot1 = (unsigned long)attr_c;
     arg2Reg = attr_b;
     obj = func_8003FD64(0x112, D_80083498);
@@ -91,28 +89,14 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
         mode = spawn_flags & 3;
         if (mode == 1) {
             result->unk8C = D_8014CE9C;
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            word14 = result->unk14;
-            word1C = result->unk1C;
-            word14 |= 0x6000;
-            word1C |= 0x6000;
-            result->unk14 = word14;
-            ASM_USE(word14);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            result->unk1C = word1C;
-            slot2 = (unsigned long)D_80150ED8;
-            partB->unk2C = (void *)slot2;
+            result->unk14 |= 0x6000;
+            result->unk1C |= 0x6000;
+            partB->unk2C = D_80150ED8;
         } else if (mode >= 2) {
             result->unk8C = D_8014CE9C;
-            ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            word14 = result->unk14;
-            word1C = result->unk1C;
-            word14 |= 0x2000;
-            word1C |= 0x2000;
-            result->unk14 = word14;
-            ASM_USE2(word14, word1C);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            result->unk1C = word1C;
-            slot2 = (unsigned long)D_80150ED8;
-            partB->unk2C = (void *)slot2;
+            result->unk14 |= 0x2000;
+            result->unk1C |= 0x2000;
+            partB->unk2C = D_80150ED8;
         } else {
             slot2 = spawn_flags & -4;
             slot2 = (u32)slot2 << 16;
@@ -132,8 +116,7 @@ Func80BBB094PartC *func_8014C894(s32 spawn_flags, s32 attr_a, s32 attr_b, s32 at
             } else {
                 result->unk8C = (void *)D_8014CE9C;
             }
-            slot2 = (unsigned long)D_80150ED8;
-            partB->unk2C = (void *)slot2;
+            partB->unk2C = D_80150ED8;
         }
 
         obj->unk10 = D_8014CA98;

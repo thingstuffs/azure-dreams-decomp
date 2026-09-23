@@ -206,15 +206,13 @@ state_2:
     }
     coord_base = (s32)D_8017610C;
     step_x = effect->unk_1C;
-    ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     next_tile_2 = effect->unk_4C.u;
     step_x <<= 2;
     step_x += (s32)coord_base;
     step_x = ((S_func_810332A4_8 *)step_x)->unk_00;
     next_tile_2 += step_x;
     effect->unk_4C.u = next_tile_2;
-    collision_coord = effect->unk_1C;
-    collision_coord <<= 2;
+    collision_coord = effect->unk_1C << 2;
     collision_coord += (s32)coord_base;
     ASM_KEEP_NV(effect);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     step_coord = effect->unk_4C.s;

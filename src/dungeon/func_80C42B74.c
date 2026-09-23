@@ -57,16 +57,16 @@ extern s32 D_800DEC00;
 extern u8 D_801741A0;
 
 /* Creates a yellow effect at an angular offset from the supplied position. */
-void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3, s32 angle, u16 height_offset) {
+void func_80174374(void *unused_context, Rec_func_80173CFC_arg1 *origin, s32 unused_param_2, s32 unused_param_3, s16 angle, u16 height_offset) {
     void *effect;
     S_80174374_0 *effect_state;
-    register void *sprite ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register void *position ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *sprite;
+    void *position;
     s16 wrapped_angle;
 
     effect = func_8003FC64(0x212);
+    wrapped_angle = angle;
     if (effect != 0) {
-        wrapped_angle = angle;
         effect_state = (u8 *)effect + 0x20;
         effect_state->unk_1A = 0x14;
         effect_state->unk_1E = angle;
