@@ -282,6 +282,8 @@ def erase_many(text, chosen, clean_notes=False):
     describing a pin that is gone)."""
     cur = text
     for s in sorted(chosen, key=lambda s: s[3], reverse=True):
+        if s[0] == "expand":           # one expansion of a local macro's pin: nothing to erase here
+            continue
         whole_line = s[0] == "stmt" and text[s[4] - 1:s[4]] == "\n"
         cur = erase(cur, s)
         if not clean_notes or whole_line:

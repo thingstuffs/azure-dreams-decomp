@@ -89,22 +89,55 @@ is port-build damage, not a pin.
   `pins_before`/`pins_after` from `sites_of` in `ledger/recipe_trades.jsonl`.
 - `tools/apply_candidates.py` has no pin check of its own. It relies on its callers.
 
-## For the owner (no change made): pins behind a non-`ASM_` wrapper are counted once per definition
+## Owner ruling 2026-09-23: count a pin in a local macro once per call (implemented)
 
-Neither count sees how many times a pin is expanded. `sites_of` counts an `ASM_*` statement inside a
-`#define WRAPPER(...)` body once. Each `WRAPPER(x);` call is not an `ASM_` token, so the calls are not counted.
-In the current tree this involves 2 rows and 5 extra expanded sites:
+The owner signed off on the proposal: "3706 seems like the more accurate count so we should probably do that". The
+ruling is recorded in `docs/PIN_CAMPAIGN_CHARTER.md` under "Rulings 2026-09-23".
 
-- dungeon/func_807B0B3C: `FINISH_GLOBAL_TABLE` has 1 `ASM_KEEP_DEP_NV` and 4 calls (+3).
-- dungeon/func_818B7F38: `LOAD_TABLE_X_BASE` and `LOAD_TABLE_Y_BASE` each have 1 `ASM_KEEP` and 2 calls (+1 each).
+**Before the change.** `sites_of` counted an `ASM_*` statement inside a `#define WRAPPER(...)` body once. The
+`WRAPPER(x);` calls are not `ASM_` tokens, so they were not counted.
 
-A wrapper with a single call (`LOAD_SPLIT_GLOBAL`) is counted correctly. `pin_census.hidden_asm` already reports 9
-calls of local *asm* wrappers ("Hidden scaffolding, not in the pin count"), but not of `ASM_*` wrappers.
+**Implementation.** `pin_census._expand_wrappers` handles a macro defined in compiled text whose body carries k
+pins. It counts:
+- `ASM_*` tokens other than the macro's own name, with or without `;`;
+- register-pin tuples;
+- k for each local macro the body calls (nested macros).
 
-Proposed wording, if the owner wants the count to follow expansions: *"A pin inside a function-like macro counts
-once per call of that macro in compiled code, not once per definition (`pin_census.sites_of` expands local
-wrappers whose body carries an ASM_* statement)."* The counter would move from 3,701 to 3,706. Otherwise, leave it:
-5 sites in 2 rows, which a lane removes together with the wrapper anyway.
+The macro then contributes k sites for each compiled use.
+
+| macro | its compiled calls are... | the body's own site tuples | extra expansions |
+|---|---|---|---|
+| name not starting `ASM_` | not site tuples (not `ASM_` tokens) | stay while there is at least one call; erasing one removes the pin from every expansion | `expand` tuples at the call |
+| name starting `ASM_` | already one site each | dropped | `expand` tuples at the call |
+| no compiled call | — | not counted | none |
+
+An `expand` tuple has `start == end` and replacement `""`, so `erase` and `pin_sites.erase_many` skip it.
+`hidden_asm` no longer reports a macro whose body carries an `ASM_` pin as a wrapper-call. Only raw-`__asm__`
+wrappers remain in that bucket.
+
+**Gates.** `levels.py` (`len(sites_of)`) and `status.py` follow the rule automatically. So does the
+`land_lanes.sh` strict-decrease check, which also uses `sites_of`. The raw-token check in `land_lanes.sh` still
+refuses any new `__asm__` or `ASM_X(` token, so turning a macro body into raw asm cannot hide a pin either.
+`census.live_sites` counts fidelity sites, not pins, so it is unaffected.
+
+**Tests.** `tools/tests/test_pin_wrappers.py`, 15 cases:
+- count per call; an uncalled macro counts 0;
+- removing calls, or a pin-free body, lowers the count (requirement 1);
+- a body pin without `;`, an object-like macro, a nested macro, or moving pins into a macro cannot lower the count
+  (requirement 2);
+- `ASM_`-named local macros; port-arm calls; the `hidden_asm` hand-off.
+
+**Measured.** Before: 3,701 sites in 902 rows. After: **3,706 sites in 902 rows**.
+- dungeon/func_807B0B3C: 24 -> 27 (`FINISH_GLOBAL_TABLE`: 1 `ASM_KEEP_DEP_NV`, 4 calls).
+- dungeon/func_818B7F38: 13 -> 15 (`LOAD_TABLE_X_BASE` and `LOAD_TABLE_Y_BASE`: 1 `ASM_KEEP` each, 2 calls each).
+- `hidden_asm` wrapper-call: 9 -> 0.
+- `levels.jsonl` sums to 3,706 / 902 without ovmovie, and STATUS regenerated through `status.py` (09:35:34Z)
+  shows "Pin sites now: 3,706 in 902 rows".
+- The "At the pin" figure (25,759) comes from the stored census of the frozen text and was not recomputed.
+
+**Caveat.** In those 2 rows, site indices from `sites_of` shift, because the `expand` tuples interleave by
+position. A tool that erases one site at a time gets unchanged text for an `expand` tuple. The strict-decrease
+landing check refuses such a candidate.
 
 Free cleanup (a src edit, not made here): the three non-`register` `ASM_REG` annotations in dungeon/func_81329D94
 are byte-neutral dead text. Neither count sees them any more.

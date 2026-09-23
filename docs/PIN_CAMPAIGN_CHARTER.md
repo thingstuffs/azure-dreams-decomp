@@ -104,6 +104,21 @@ retrospective: mine the session logs, fix the tooling or the brief, A/B on the n
 kit took astra from ~2 rows per 5-row pack to 38 of 40. See docs/PIN_RESEARCH_ROUND62.md (rounds 68-72) and
 docs/LANE_KIT.md.
 
+## Rulings 2026-09-23 — owner sign-off for rule 5 (pin inside a local macro)
+
+Owner, verbatim: "3706 seems like the more accurate count so we should probably do that".
+
+**Rule (`tools/pin_census.sites_of`):** a pin inside a function-like macro counts once per call of that macro in
+compiled code, not once per definition. This covers file-local macros defined in compiled (non-port, non-`#if 0`)
+text whose body carries `ASM_*` pins. A body pin written without its `;`, an object-like macro, and a macro nested
+inside another macro are covered too, so rewriting a macro body cannot hide a pin. A macro with no compiled call
+contributes nothing. When a landing removes a call, or makes the body pin-free, it removes those sites. Each
+additional expansion is an `expand` site tuple that erases nothing: to remove it, edit the call or the body.
+Measured on the same tree: **3,701 -> 3,706 sites, still 902 rows**. The change affects 2 rows:
+dungeon/func_807B0B3C (24 -> 27: `FINISH_GLOBAL_TABLE`, 4 calls) and dungeon/func_818B7F38 (13 -> 15:
+`LOAD_TABLE_X_BASE`/`LOAD_TABLE_Y_BASE`, 2 calls each). `hidden_asm`'s wrapper-call count drops 9 -> 0, because those
+calls are now counted pins. Evidence: `docs/evidence/r76_pin_count_discrepancy.md`.
+
 ## Rulings 2026-09-22 (evening) — owner sign-off for rule 5 (census/level changes)
 
 Owner decisions, verbatim gist: (1) official ASPSX never rewrites `jal`→`j`, so a retail `j` to a "function" symbol

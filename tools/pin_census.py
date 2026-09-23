@@ -230,7 +230,8 @@ def hidden_asm(text):
             out["asm-code"] += 1
     for m in WRAPPER_DEF_RE.finditer(code):
         name, body = m.group(1), m.group(3)
-        if name.startswith("ASM_") or not re.search(r"__asm__|\bASM_[A-Z0-9_]+\s*\(", body):
+        # a wrapper whose body carries an ASM_* pin is counted per call by sites_of (2026-09-23)
+        if name.startswith("ASM_") or not re.search(r"__asm__", body) or BARE_PIN_RE.search(body):
             continue
         for c in re.finditer(r"\b%s\s*\(" % re.escape(name), code):
             i = line_of(c.start())
@@ -241,12 +242,93 @@ def hidden_asm(text):
 
 def sites_of(text):
     """Return [(kind, macro, arg, start, end, line_no, replacement_text)] for every LIVE pin: a pin in
-    a 'port'/'dead' arm compiles to nothing in either build and scaffolds nothing."""
+    a 'port'/'dead' arm compiles to nothing in either build and scaffolds nothing.
+
+    A pin inside a file-local macro counts once per compiled CALL of that macro, not once per
+    definition (owner ruling 2026-09-23, docs/PIN_CAMPAIGN_CHARTER.md; see _expand_wrappers)."""
     out = _all_sites(text)
-    if out and HAS_PP_RE.search(text):
-        labels = arm_labels(text)
+    labels = arm_labels(text) if HAS_PP_RE.search(text) else None
+    if out and labels:
         out = [s for s in out if s[5] > len(labels) or labels[s[5] - 1] not in ("port", "dead")]
+    if "ASM_" in text and MACRO_DEF_RE.search(text):
+        out = _expand_wrappers(text, out, labels)
     return out
+
+
+# ---- pins behind file-local macros (owner ruling 2026-09-23) ---------------------------------
+# `#define LOAD_TABLE_X_BASE(v) do { ...; ASM_KEEP(v); ... } while (0)` called twice compiles two
+# ASM_KEEPs.  The census used to count the one statement in the definition (and nothing for a
+# wrapper whose body spells the pin without its `;`, e.g. `#define READ_ZERO(v) ASM_UNDEF(v)`).
+# Now a macro defined in compiled text whose body carries k pins (ASM_* tokens other than itself,
+# plus k of any local macro it calls) counts k per compiled use:
+#   * non-ASM_ name: the body's own statement tuples stay (erasing one removes that pin from every
+#     expansion) while the macro has >= 1 compiled use; the other expansions are `expand` tuples;
+#   * ASM_ name: each call is already a `stmt` tuple (one of its k); the rest are `expand` tuples,
+#     and the body's own tuples go (the calls carry them);
+#   * no compiled use: the body pins compile nowhere and are not counted.
+# An `expand` tuple sits at the call (start == end, replacement "") so `erase` is a no-op on it:
+# one expansion cannot be removed by itself; remove the call or edit the macro body.
+MACRO_DEF_RE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)(\([^)]*\))?((?:[^\n]*\\\n)*[^\n]*)", re.M)
+BARE_PIN_RE = re.compile(r"\b(ASM_(?!REG\b)[A-Z0-9_]+)\s*\(")
+
+
+def _expand_wrappers(text, out, labels):
+    code = CMT_RE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
+    line_at = lambda off: code.count("\n", 0, off) + 1
+    live = lambda off: labels is None or line_at(off) > len(labels) or labels[line_at(off) - 1] not in ("port", "dead")
+    all_defs = [m for m in MACRO_DEF_RE.finditer(code)]
+    spans = [(m.start(), m.end()) for m in all_defs]
+    in_def = lambda off: any(a <= off < b for a, b in spans)
+    defs = {}
+    for m in all_defs:                         # last compiled definition of each name wins
+        if live(m.start()):
+            defs[m.group(1)] = m
+    use_re = {n: re.compile(r"\b%s\s*\(" % re.escape(n) if m.group(2) else r"\b%s\b" % re.escape(n))
+              for n, m in defs.items()}
+    memo, busy = {}, set()
+
+    def pins_of(n):                            # the pin macro names one use of `n` compiles, in order
+        if n in memo: return memo[n]
+        if n in busy: return []                # a macro is never re-expanded inside itself (cpp)
+        busy.add(n)
+        m, got = defs[n], []
+        body_start, body = m.start(3), m.group(3)
+        for off, tok in sorted([(b.start(), b.group(1)) for b in BARE_PIN_RE.finditer(body)]
+                               + [(u.start(), w) for w in defs if w != n and not w.startswith("ASM_")
+                                  for u in use_re[w].finditer(body)]):
+            if tok == n: continue
+            got.extend((pins_of(tok) or ([tok] if tok.startswith("ASM_") else [])) if tok in defs else [tok])
+        for s in out:                          # register pins in a statement-expression body
+            if s[0] == "reg" and m.start() <= s[3] < m.end(): got.append("ASM_REG")
+        busy.discard(n); memo[n] = got
+        return got
+
+    wrappers = {n: pins_of(n) for n in defs}
+    wrappers = {n: p for n, p in wrappers.items() if p and not (n.startswith("ASM_") and p == [n])}
+    if not wrappers:
+        return out
+    wspans = [(defs[n].start(), defs[n].end()) for n in wrappers]
+    uses = {n: [u for u in use_re[n].finditer(code) if not in_def(u.start()) and live(u.start())
+                and not re.match(r"[ \t]*#", code[code.rfind("\n", 0, u.start()) + 1:u.start()])]
+            for n in wrappers}
+    res = [s for s in out if not any(a <= s[3] < b for a, b in wspans)]
+    for n, pins in wrappers.items():
+        if not uses[n]:
+            continue
+        a, b = defs[n].start(), defs[n].end()
+        body_tuples = [] if n.startswith("ASM_") else [s for s in out if a <= s[3] < b]
+        res.extend(body_tuples)
+        call_at = collections.Counter(s[5] for s in out if s[1] == n)   # by line: a stmt tuple starts at its indent
+        for i, u in enumerate(uses[n]):
+            rest = list(pins)
+            ln = line_at(u.start())
+            if call_at[ln] > 0:                 # an ASM_-named call is already one stmt tuple
+                call_at[ln] -= 1; rest.pop(0)
+            if i == 0:                          # the first use is carried by the body's own tuples
+                for t in body_tuples:
+                    if t[1] in rest: rest.remove(t[1])
+            res.extend(("expand", p, n, u.start(), u.start(), ln, "") for p in rest)
+    return sorted(res, key=lambda s: s[3])
 
 
 def _all_sites(text):
@@ -290,7 +372,10 @@ def context_of(text, start, end, line_no):
             "nonmatching_file": "NON_MATCHING" in text, "enclosing": fn}
 
 def erase(text, site):
+    """`expand` tuples (one expansion of a local macro's pin, see _expand_wrappers) erase nothing."""
     kind, macro, arg, start, end, line_no, repl = site
+    if kind == "expand":
+        return text
     return text[:start] + repl + text[end:]
 
 def one(job):
