@@ -12,7 +12,7 @@ s32 func_80026E30(s32 target_value) {
 
     count = 0;
     do {
-        index = count; ASM_KEEP(index);
+        index = count; 
         entry = &D_800157D2;
     } while (0);
 loop:

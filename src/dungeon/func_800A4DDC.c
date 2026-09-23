@@ -11,7 +11,6 @@ void func_800AA53C(u8 *context) {
 
     if ((context == 0) || (context[0x13] == 0)) {
         state = D_80082E80;
-        ASM_KEEP(state);
         state[0x26] = func_8009FB34(state[0x24], state[0x25]);
         func_800A1B44(3, 6);
         return;

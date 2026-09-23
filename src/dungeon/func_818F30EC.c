@@ -1,4 +1,8 @@
 #include "common.h"
+typedef struct {
+    u32 addr : 24;
+    u32 len : 8;
+} P_TAG;
 
 typedef struct S_800248EC_0 {
     u8 pad_00[0x8D0];
@@ -79,7 +83,7 @@ s32 func_800248EC(void *first_point, void *first_position)
     void *point = first_point;
     void *position = first_position;
     u8 *render_state = D_80083160;
-    register u32 addr_mask ASM_REG("$18") = 0x00FFFFFF;
+    u32 addr_mask = 0x00FFFFFF;
     u8 *render_ctx = *(u8 **)D_80083160;
     u8 *packet_start;
     u32 tag_mask = 0xFF000000;
@@ -136,14 +140,13 @@ s32 func_800248EC(void *first_point, void *first_position)
             ((S_800248EC_2 *)tile)->unk_04.at03.v = 0x6A;
             page_x = tex_depth;
             ASM_KEEP(tex_depth);
-            tile->tag = (tile->tag & tag_mask) |
-                          (scratch->ot[scratch->index] & addr_mask);
+            ((P_TAG *)&tile->tag)->addr = ((P_TAG *)&scratch->ot[scratch->index])->addr;
             {
                 u32 ot_tag = scratch->ot[scratch->index];
-                draw_page = (u32)tile & addr_mask;
+                draw_page = (u32)tile & 0x00FFFFFF;
 
                 scratch->ot[scratch->index] =
-                    (ot_tag & tag_mask) | draw_page;
+                    (ot_tag & 0xFF000000) | draw_page;
             }
 
             draw_mode = (Packet800248EC *)scratch->cursor;
@@ -151,11 +154,8 @@ s32 func_800248EC(void *first_point, void *first_position)
             draw_page = func_80066460(tex_depth, blend_mode, page_x, tex_depth);
             func_80067F20(draw_mode, 0, 0, (u16)draw_page, 0);
 
-            draw_mode->tag = (draw_mode->tag & tag_mask) |
-                           (scratch->ot[scratch->index] & addr_mask);
-            scratch->ot[scratch->index] =
-                (scratch->ot[scratch->index] & tag_mask) |
-                ((u32)draw_mode & addr_mask);
+            ((P_TAG *)&draw_mode->tag)->addr = ((P_TAG *)&scratch->ot[scratch->index])->addr;
+            ((P_TAG *)&scratch->ot[scratch->index])->addr = (u32)((u32)draw_mode);
         }
 
         next_node = ((S_800248EC_3_pre *)point)[-1].unk_00;

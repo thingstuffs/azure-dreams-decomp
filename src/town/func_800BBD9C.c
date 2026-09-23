@@ -150,9 +150,8 @@ kind_15_13:
 
 kind_16_prep:
     selector = 0xC;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
 kind_16:
-    variant = D_800136B8;
+    variant = (*(u8 *)0x800136B8);
     if (variant == selector) {
         goto kind_16_12;
     }

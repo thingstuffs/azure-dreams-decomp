@@ -1,4 +1,5 @@
 #include "common.h"
+extern u8 D_801744E4[];
 
 typedef unsigned long uptr;
 
@@ -111,23 +112,23 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     s32 saved_kind;
     s32 saved_copy_value;
     s16 saved_tile_y;
-    register void *object ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register void *outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register void *stable_object ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *object;
+    register void *outer ASM_REG("$20");
+    void *stable_object;
     s32 kind_copy;
-    register void *part ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register void *part ASM_REG("$23");
     void *allocated;
-    register uptr scratch_word ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    register uptr scratch_word ASM_REG("$8");
     s32 allocation_size;
     void *allocation_pool;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
-    ASM_KEEP_NV(allocation_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    ASM_KEEP_NV(allocation_size);
     outer = (void *)(s32)tile_x;
     allocation_pool = D_80083498;
-   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
     saved_copy_value = copy_value;
     saved_tile_y = tile_y;
     allocated = func_8003FD64(allocation_size, allocation_pool);
@@ -217,7 +218,7 @@ flags_done:
     ((S_8017089C_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        register u8 *table_page ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        register u8 *table_page ASM_REG("$2");
 
         saved_copy_value = (s32)func_8003FD64(0x112, D_80083498);
         allocated = (void *)saved_copy_value;
@@ -226,6 +227,7 @@ flags_done:
             s32 item_offset;
             s32 item_index;
             register void *outer_base;
+            u8 *table;
             s32 more_items;
 
             saved_kind = (s32)((u8 *)allocated + 0x20);
@@ -233,12 +235,9 @@ flags_done:
             ((S_8017089C_6 *)(void *)saved_kind)->unk_02 = (s16)scratch_word;
             item_index = 0;
             outer_base = outer;
-            ASM_KEEP(outer_base);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             {
 
-                table_page = (u8 *)0x80170000;
-                ASM_KEEP(table_page);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                allocation_pool = (void *)(table_page + 0x44E4);
+                table = D_801744E4;
             }
             item_offset = 8;
             do {
@@ -255,26 +254,26 @@ flags_done:
                 ((S_8017089C_7 *)item)->unk_0C = 0x00808080;
                 ((S_8017089C_7 *)item)->unk_28 = part_value;
                 outer_child = ((S_8017089C_8 *)outer_base)->unk_A4;
-                ASM_KEEP(outer_child);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(outer_child);
                 call_zero = 0;
-                ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+                ASM_KEEP(call_zero);
                 scratch_word = (uptr)D_800D78C0;
                 ((S_8017089C_9 *)outer_child)->unk_10 = (void *)scratch_word;
-                (*(void * *)((u8 *)item + 0x2C)) = (u8 *)allocation_pool;
+                (*(void * *)((u8 *)item + 0x2C)) = table;
                 direction_index = ((D_80083228 +
                     ((S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
                 item_offset += 0x30;
                 func_80047784(item,
-                    *(u8 *)((uptr)direction_index + (uptr)((u8 *)allocation_pool)), call_zero);
+                    *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
                 item_index++;
                 {
-                    register void *call_part ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                    register void *call_data ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                    register void *call_part ASM_REG("$4");
+                    register void *call_data ASM_REG("$5");
 
                     call_part = part;
                     call_data = D_800D71A8;
                     call_zero = 1;
-                    ASM_KEEP(call_zero);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+                    ASM_KEEP(call_zero);
                     scratch_word = (uptr)call_zero;
                     ((S_8017089C_6 *)(void *)saved_kind)->unk_06 = (s16)scratch_word;
                     func_800478E8(call_part, call_data, call_zero);
