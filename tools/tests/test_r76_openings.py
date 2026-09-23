@@ -182,5 +182,33 @@ void m(u8 *initial_stats, u16 config) {
         self.assertIn("old_base = *(u8 *)(initial_stats + 5);", t)
 
 
+class TestT115AddrCarrier(unittest.TestCase):
+    SRC = '''#include "common.h"
+s32 n(s32 a) {
+    s16 relation_detail;
+    register s32 detail_out;
+    s32 flags;
+
+    detail_out = a + 1;
+    func_80001000(detail_out);
+    detail_out = (s32)(&relation_detail);
+    flags = func_800A0818(a, (s16 *)detail_out);
+    detail_out = flags;
+    return detail_out + relation_detail;
+}
+'''
+
+    def test_address_passed_directly(self):
+        cc = dict((l, t) for l, t, _v in T115.addrcarrier_candidates(self.SRC))
+        bare = next(t for l, t in cc.items() if l.endswith(":bare"))
+        self.assertIn("flags = func_800A0818(a, &relation_detail);", bare)
+        self.assertNotIn("(s32)(&relation_detail)", bare)
+        self.assertTrue(any("(s16 *)&relation_detail" in t for t in cc.values()))
+
+    def test_a_later_read_blocks_it(self):
+        t = self.SRC.replace("    detail_out = flags;\n", "")
+        self.assertEqual(T115.addrcarrier_candidates(t), [])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -37,6 +37,7 @@ CANDIDATES  arity index (built once per process): the callee's own DEFINITION's 
 """
 import collections
 import difflib
+import os
 import re
 import sys
 from pathlib import Path
@@ -223,6 +224,18 @@ def candidates(text, idx=None):
                         continue
                     seen.add(cur)
                     out.append(("%s@%d:%d->%d:%s:%s" % (st["f"], st["line"] + 1, len(st["args"]), m, scope, ptag), cur))
+    if os.getenv("T113_ADDRCARRIER", "1") == "1":
+        # round 76: dungeon/func_8009A61C needs the arity drop AND the address argument passed directly
+        # (t115's addrcarrier_candidates), with the pins erased - neither generator alone reaches it
+        try:
+            from .t115_carrierfold import addrcarrier_candidates
+        except ImportError:
+            from t115_carrierfold import addrcarrier_candidates
+        for label, cur in list(out):
+            for l2, t2, _v in addrcarrier_candidates(cur):
+                if t2 not in seen and unscored_text(t2) == sig and len(sites_of(t2)) < n0:
+                    seen.add(t2)
+                    out.append((label + "+" + l2, t2))
     return out
 
 

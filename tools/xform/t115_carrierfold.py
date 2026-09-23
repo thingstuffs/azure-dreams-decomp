@@ -38,6 +38,8 @@ CANDIDATES  per local v named by a pin (a keep argument or a register-pinned dec
             the two nearest go to `vf`.
             T115_CALLCOPY=1 (default ON, round 76): `KEEP(v); x = f(.. v ..); v = w;` -> the call's result routed
             through v (`v = (Tv)f(.. v ..); x = (Tx)v;`) - callcopy_candidates(), dungeon/func_809DB054.
+            T115_ADDRCARRIER=1 (default ON, round 76): `v = (s32)(&x); .. f((T *)v)` -> `f(&x)`, the carrier gone -
+            addrcarrier_candidates(), also composed onto t113's arity drops (dungeon/func_8009A61C).
 """
 import difflib
 import os
@@ -384,8 +386,13 @@ def candidates(text):
                     continue
                 seen.add(cand)
                 out.append(("%s:%s" % (label, ptag), cand))
+    extra = []
     if os.getenv("T115_CALLCOPY", "1") == "1":
-        for label, t2, v in callcopy_candidates(text):
+        extra += callcopy_candidates(text)
+    if os.getenv("T115_ADDRCARRIER", "1") == "1":
+        extra += addrcarrier_candidates(text)
+    if extra:
+        for label, t2, v in extra:
             for ptag, allp in (("named", False), ("all", True)):
                 cand = erase_named(t2, {v}, allp) if allp else t2
                 if cand in seen or unscored_text(cand) != sig or len(sites_of(cand)) >= n0:
@@ -458,6 +465,52 @@ def callcopy_candidates(text):
     return out
 
 
+ADDRSET = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*=(?!=)[ \t]*(?:\([^()]*\)[ \t]*)?\(?[ \t]*&[ \t]*"
+                     r"(?P<x>[A-Za-z_]\w*)[ \t]*\)?[ \t]*;[ \t]*(?:/\*.*\*/)?[ \t]*$")
+
+
+def addrcarrier_candidates(text, window=8):
+    """T115_ADDRCARRIER (round 76): `v = (s32)(&x); ... f(.., (T *)v, ..)` -> `f(.., &x, ..)`, the carrier's set
+    dropped - when v's next mention after that one use is a write (or there is none).  dungeon/func_8009A61C
+    (claude-opus-5-5, r76_opus_b12_1, with t113's surplus-argument drop): "drop the surplus argument ... and
+    pass the address argument directly".  [(label, text, v)]."""
+    out = []
+    lines = text.split("\n")
+    for fn in functions(text):
+        lo, hi = text.count("\n", 0, fn[2]), text.count("\n", 0, fn[3])
+        for i in range(lo, hi):
+            am = ADDRSET.match(lines[i])
+            if not am:
+                continue
+            v, x = am.group("v"), am.group("x")
+            use = None
+            for j in range(i + 1, min(hi, i + window) + 1):
+                if mentions(lines[j], v):
+                    use = j
+                    break
+            if use is None or assigns(lines[use], v):
+                continue
+            rx = re.compile(r"\([ \t]*[A-Za-z_][\w \t]*\*+[ \t]*\)[ \t]*%s\b|(?<![.>\w])%s\b" % (re.escape(v), re.escape(v)))
+            if len(rx.findall(lines[use])) != 1:
+                continue
+            nxt = next((k for k in range(use + 1, hi) if mentions(lines[k], v)), None)
+            if nxt is not None and not re.match(r"^[ \t]*%s[ \t]*=(?!=)" % re.escape(v), lines[nxt]):
+                continue
+            for tag, rep in (("bare", "&" + x), ("cast", None)):
+                def sub(m):
+                    if rep is not None:
+                        return rep
+                    c = re.match(r"\([^()]*\)", m.group(0))
+                    return (c.group(0) if c else "") + "&" + x
+                nl = list(lines)
+                nl[use] = rx.sub(sub, lines[use], count=1)
+                if tag == "cast" and nl[use] == rx.sub(lambda m: "&" + x, lines[use], count=1):
+                    continue
+                nl[i] = None
+                out.append(("%s@%d:addr:%s" % (v, i + 1, tag), "\n".join(z for z in nl if z is not None), v))
+    return out
+
+
 def _dist(a, b):
     return sum(1 for y in difflib.unified_diff(a, b, lineterm="", n=0)
                if y[:1] in "+-" and not y.startswith(("---", "+++")))
@@ -490,7 +543,8 @@ class T:
         if target is None:
             return None, dict(info, refused=["pinned text does not build to a listing"])
         # fixpoints and joint plans first: they are the lanes' shapes; singles fill the rest of the budget
-        menu.sort(key=lambda c: (":fix" not in c[0] and ":usefirst" not in c[0] and ":callcopy" not in c[0],
+        menu.sort(key=lambda c: (":fix" not in c[0] and ":usefirst" not in c[0] and ":callcopy" not in c[0]
+                                 and ":addr:" not in c[0],
                                  len(sites_of(c[1]))))
         ranked, listings = [], 0
         for label, cand in menu:
