@@ -167,15 +167,12 @@ store_timer:
     }
 
     case 0x41: {
-        s16 *best_score;
 
         if ((ticks_left << 16) > 0) {
             break;
         }
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        best_score = (s16 *)D_800135C2;
-        ASM_CLOBBER("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        if (*best_score == child->count) {
+        
+        if (*(s16 *)0x800135C2 == child->count) {
             func_8003F540(0, 0x2C3D, 0x01000001, 0x01000271);
         } else {
             func_8003F540(0, 0x2C3D, 0, 0x01000290);

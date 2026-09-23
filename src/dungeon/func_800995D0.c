@@ -73,48 +73,51 @@ void func_8009ED30(void) {
             func_8004491C(object, &D_8009E798);
             {
                 u16 field_value;
+                u16 field_value_2;
+                u16 field_z;
                 void *object_state;
-                register void *child ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                register s32 color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                void *child;
+                s32 color;
                 void *config_value;
+                s32 config_word;
                 register void *render_data ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
-                child = ((S_8009ED30_0 *)object)->unk_08;
+                child = (*(void **)((u8 *)object + 8));
                 ((S_8009ED30_1 *)child)->unk_0A = -1;
                 render_data = ((S_8009ED30_0 *)object)->unk_0C;
                 ((S_8009ED30_2 *)render_data)->unk_14 = 0xC;
                 ((S_8009ED30_2 *)render_data)->unk_08 = &D_800DD7E0;
-                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 config_value = (void *) 0x80010000;
                 ((S_8009ED30_2 *)render_data)->unk_1E = 0;
                 ((S_8009ED30_2 *)render_data)->unk_1C = 0;
-                field_value = ((S_8009ED30_3 *)config_value)->unk_363C;
+                field_value_2 = ((S_8009ED30_3 *)config_value)->unk_363C;
                 object_state = object + 0x20;
-                ((S_8009ED30_4 *)object_state)->unk_1E = field_value;
+                ((S_8009ED30_4 *)object_state)->unk_1E = field_value_2;
                 field_value = ((S_8009ED30_3 *)config_value)->unk_3638;
                 ((S_8009ED30_1 *)child)->unk_02 = field_value;
                 ((S_8009ED30_4 *)object_state)->unk_14 = field_value;
-                ((S_8009ED30_1 *)child)->unk_06 = (*(u16 *)((u8 *)config_value + 0x363A));
-                ((S_8009ED30_4 *)object_state)->unk_16 = ((S_8009ED30_3 *)config_value)->unk_363A;
+                field_z = ((S_8009ED30_3 *)config_value)->unk_363A;
+                ((S_8009ED30_1 *)child)->unk_06 = field_z;
+                ((S_8009ED30_4 *)object_state)->unk_16 = field_z;
                 ((S_8009ED30_4 *)object_state)->unk_1A = 0x10;
                 ((S_8009ED30_4 *)object_state)->unk_1C = 8;
                 color = 0x808080;
                 ((S_8009ED30_2 *)render_data)->unk_0C = color;
                 ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                config_value = (void *) D_80013630;
+                config_word = D_80013630;
                 ((S_8009ED30_2 *)render_data)->unk_18 = 0;
                 ((S_8009ED30_2 *)render_data)->unk_16 = 0;
                 ((S_8009ED30_2 *)render_data)->unk_18 = 0;
                 ((S_8009ED30_2 *)render_data)->unk_16 = 0;
-                ((S_8009ED30_4 *)object_state)->unk_04 = (s32) config_value;
-                ((S_8009ED30_4 *)object_state)->unk_0C = (s32) config_value;
-                config_value = (void *) D_80013634;
+                ((S_8009ED30_4 *)object_state)->unk_04 = (s32) config_word;
+                ((S_8009ED30_4 *)object_state)->unk_0C = (s32) config_word;
+                config_word = D_80013634;
                 ((S_8009ED30_4 *)object_state)->unk_18 = 0;
-                (*(s32 *)((u8 *)object_state + 8)) = (s32) config_value;
-                (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_value;
+                (*(s32 *)((u8 *)object_state + 8)) = (s32) config_word;
+                (*(s32 *)((u8 *)object_state + 0x10)) = (s32) config_word;
                 render_data = (void *) D_800E296C;
-                config_value = (void *) 4;
-                ((S_8009ED30_4 *)object_state)->unk_1C = (s16) (s32) config_value;
+                config_word = 4;
+                ((S_8009ED30_4 *)object_state)->unk_1C = (s16) (s32) config_word;
                 D_800E296C = (s32) render_data | 0x80;
             }
         }
