@@ -1,3 +1,34 @@
+# Handover (2026-09-24 00:30Z, round 77 in flight) - fresh-eyes check, then an Opus wave
+
+**Fresh-eyes check of the round-76 plan (what changed it).**
+1. **slus was never offered to a strong lane.** `build_class_pack.py:78` and `ab_plan.py` skip `slus` like the parked
+   `ovmovie`, with no recorded reason (round 60). slus rows land through the normal gate (`build_slus.sh` in every
+   lander; 72 commits under `src/slus`) and the kit scores them. 89 rows / 306 pins had no kit-era astra/Opus serve.
+   Wave 1 includes 4 slus rows (via `--rows`, which bypasses the skip); the auto-selection skip is left in place
+   until wave 1 shows the kit works on slus rows.
+2. **Pins per Opus lane rise with row size** (r73-r76): about 3-5 on 1-pin rows, about 6 on 2-3-pin rows, 9-16 on the
+   5-6-pin partial pool. The 8+ band is 106 rows / 1,408 pins (40% of the rest); astra's cluster pack there took 5
+   pins at weight 35 (`r76_astra_b8c_1`, 47 -> 42). So wave 1 leads with the 3-7 band and clone representatives.
+   The 1-2 band (430 rows / 510 pins) comes after.
+3. **Clone families:** 25 live families / 302 pins. Family 0 (10 members, 95 pins) had a rep no strong lane had served.
+   Family 1 (11 x 6 = 66 pins) was served only by astra (r75_astra_p4). Family 18's rep is already pin-free and its
+   sibling `80EA3000` failed mechanical transfer. All three are in wave 1. **After the clone lanes land:
+   `python3 tools/lanes/clone_transfer.py --lanes r77_opus_c1,r77_opus_c2,r77_opus_c3`** (or the families mode).
+4. The r76o overlap candidates were already landed as partial wins; the only pending item was the trade (below).
+5. `brief_paragraphs/new_findings.md` was dated 09-21. It now carries round 76's set-exactly-once family, the
+   dead-init ruling and the sched2-off signature.
+
+**Landed:** `town/func_8032FD1C` pin-for-flag trade (+`-fno-schedule-insns2`; the current 2-pin text is exact at the
+target, so rule 2 holds): 3,512 -> **3,510 / 857**. Ledger kind corrected to `pin-for-flag` by hand.
+This is the second adjacent town row with the sched2 signature, after round 73's `func_8032E364`.
+
+**Wave 1 (Opus, Agent tool, 7 lanes, 31 rows, `docs/evidence/r77_wave1_rows.json`):** `r77_opus_m1..m4` (3-7 band,
+never strong-served, random within container strata seed 77: 12 dungeon / 4 town / 4 slus), `r77_opus_c1` (family
+0 + 1 reps), `r77_opus_c2` (family 2, 18, 9, 10), `r77_opus_c3` (1-2-pin family reps 3/15/4/11/7). `land_finished2`
+(pid 536862) lands `r77_*`. Record each lane's usage at completion (`record_usage.py`).
+Gemini: at its weekly limit since 16:15Z; `gemini_feed.sh` (pid 1018772) re-probes hourly.
+compose2 near-fullB2 finished: 211 rows, 11 wins, 5 h.
+
 # Handover (2026-09-23, round 76) - start here
 
 **State.** Round 76 started at 3,701 pins / 902 rows. The owner's 2026-09-23 ruling ("3706 seems like the more
