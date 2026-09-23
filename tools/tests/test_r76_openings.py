@@ -210,5 +210,28 @@ s32 n(s32 a) {
         self.assertEqual(T115.addrcarrier_candidates(t), [])
 
 
+class TestT121BarrierStrip(unittest.TestCase):
+    SRC = '''#include "common.h"
+void q(S_0 *p, s32 right_u) {
+    do { right_u -= 1; do { p->unk_0D = right_u; } while (0); } while (0);
+    ASM_SCHED_BARRIER();
+    ASM_KEEP(right_u);
+    func_80001000(p->unk_1D);
+}
+'''
+
+    def test_nested_blocks_and_pins_strip(self):
+        import t121_barrierstrip as T121
+        bs = T121.barriers(self.SRC)
+        self.assertEqual([k for k, _b in bs], ["dowhile", "dowhile", "pin"])
+        t = T121.strip(self.SRC, bs)
+        self.assertIn("{ right_u -= 1; { p->unk_0D = right_u; } }", t)
+        self.assertNotIn("SCHED_BARRIER", t)
+        self.assertIn("ASM_KEEP(right_u);", t)
+        labels = [l for l, _t in T121.candidates(self.SRC)]
+        self.assertEqual(labels[0], "all")
+        self.assertEqual(len(labels), 4)
+
+
 if __name__ == "__main__":
     unittest.main()
