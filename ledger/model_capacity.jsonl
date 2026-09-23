@@ -248,3 +248,4 @@
 {"date": "2026-09-23T13:50Z", "codex": {"pack": "r76_luna6_b37_1", "model": "gpt-6-luna", "candidates": 1}, "note": "r76 A/B v2 luna6 arm"}
 {"date": "2026-09-23T14:03Z", "codex": {"pack": "r76o_luna6_b12", "model": "gpt-6-luna", "candidates": 0}, "note": "r76 A/B v2 luna6 arm"}
 {"date": "2026-09-23T14:05Z", "codex": {"pack": "r76o_luna6_b37", "model": "gpt-6-luna", "candidates": 0}, "note": "r76 A/B v2 luna6 arm"}
+{"date": "2026-09-23T15:23Z", "codex": {"pack": "r76_gemf_w_9", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
