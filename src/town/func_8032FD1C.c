@@ -41,49 +41,22 @@ void func_8001A51C(u16 *source, S_8001A51C_1 *rect) {
     s32 col;
     s32 row;
     s32 dst_index;
-    s32 col_index;
-    s32 row_offset;
-    s32 stride_shift;
-    s32 offset;
-    volatile u16 *src_cursor;
     u16 *dst_base;
-    u16 *dst_cell;
     s8 *grid_info;
     void *buffer_state;
+    volatile u16 *src_cursor;
 
     src_cursor = source;
-    ASM_KEEP(src_cursor);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     buffer_state = ((S_8001A51C_4 *)(((S_8001A51C_3 *)(D_80016000[0]))->unk_24))->unk_70;
     grid_info = (s8 *)buffer_state + 0x1DC;
     dst_base = ((S_8001A51C_0 *)buffer_state)->unk_1DC;
-    row = 0;
-    if (rect->unk_06 > 0) {
-        do {
-            col = 0;
-            if (rect->unk_04 > 0) {
-                do {
-                    col_index = rect->unk_00;
-                    col_index += col;
-                    do {
-                        row_offset = rect->unk_02;
-                    } while (0);
-                    row_offset += row;
-                    stride_shift = ((S_8001A51C_2 *)grid_info)->unk_14;
-                    row_offset <<= stride_shift;
-                    dst_index = col_index + row_offset;
-                    if (*src_cursor != 0) {
-                        offset = dst_index * 2;
-                        dst_cell = (u16 *)(offset + (s32)dst_base);
-                        ASM_KEEP(dst_cell);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                        *dst_cell = *src_cursor;
-                    }
-                    col += 1;
-                    src_cursor += 1;
-                } while (col < rect->unk_04);
+    for (row = 0; row < rect->unk_06; row++) {
+        for (col = 0; col < rect->unk_04; col++) {
+            dst_index = rect->unk_00 + col + ((rect->unk_02 + row) << ((S_8001A51C_2 *)grid_info)->unk_14);
+            if (*src_cursor != 0) {
+                dst_base[dst_index] = *src_cursor;
             }
-            do {
-                row += 1;
-            } while (0);
-        } while (row < rect->unk_06);
+            src_cursor++;
+        }
     }
 }
