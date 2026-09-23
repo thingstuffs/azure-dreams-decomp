@@ -111,6 +111,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
     s32 saved_kind;
     s32 saved_halfword;
     s16 saved_byte_25;
+    u16 saved_part_byte_24;
     void *object;
     register void *child_slot ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *stable_object;
@@ -124,8 +125,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
-    ASM_KEEP_NV(allocation_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    child_slot = (void *)(s32)part_byte_24;
+    saved_part_byte_24 = part_byte_24;
     allocation_pool = D_80083498;
    /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_halfword = copy_halfword;
@@ -162,7 +162,7 @@ void *func_8014C89C(s32 kind, s32 part_byte_24, s32 part_byte_25, s32 copy_halfw
         part = ((S_8014C89C_2 *)((void *)ptr_or_count))->unk_0C;
         ((S_8014C89C_3 *)part)->unk_2C = part_callback;
     }
-    ((S_8014C89C_3 *)part)->unk_24 = (s8)(s32)child_slot;
+    ((S_8014C89C_3 *)part)->unk_24 = saved_part_byte_24;
     ((S_8014C89C_3 *)part)->unk_25 = saved_byte_25;
 
     {

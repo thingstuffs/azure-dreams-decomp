@@ -111,6 +111,7 @@ void *func_8015E89C(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
     s32 saved_kind;
     s32 saved_value;
     s16 saved_y;
+    u16 saved_part_byte_24;
     void *object;
     register void *outer ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     void *stable_object;
@@ -124,8 +125,7 @@ void *func_8015E89C(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
-    ASM_KEEP_NV(allocation_size);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    outer = (void *)(s32)part_x;
+    saved_part_byte_24 = part_x;
     allocation_pool = D_80083498;
    /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     saved_value = initial_value;
@@ -162,7 +162,7 @@ void *func_8015E89C(s32 kind, s32 part_x, s32 part_y, s32 initial_value)
         part = ((S_8015E89C_2 *)((void *)address_or_count))->unk_0C;
         ((S_8015E89C_3 *)part)->unk_2C = part_callback;
     }
-    ((S_8015E89C_3 *)part)->unk_24 = (s8)(s32)outer;
+    ((S_8015E89C_3 *)part)->unk_24 = saved_part_byte_24;
     ((S_8015E89C_3 *)part)->unk_25 = saved_y;
 
     {

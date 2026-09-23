@@ -45,8 +45,7 @@ typedef struct S_8015F3A8_2 {
 void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
 {
     register void *entity_base ASM_REG("$19") = entity;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    register s16 old_state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 state_byte ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s16 old_state;
     void *call_entity;
     void *call_motion;
     void *call_sprite;
@@ -55,7 +54,8 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     s16 ground_height;
     s32 flags;
     s32 height_step;
-    register s32 state_check ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 state_check;
+    s32 state_check_2;
     u16 initial_flags;
     u16 sprite_flags;
 
@@ -65,8 +65,8 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_8015F9DC) {
-            ASM_KEEP(entry_entity);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            entry_callback(entry_entity, motion, sprite, entry_entity);
+            entity_base = (void *)entry_callback;
+            ((Callback)entity_base)(entry_entity, motion, sprite, entry_entity);
             return;
         }
         (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
@@ -77,8 +77,7 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     call_motion = motion;
     call_sprite = sprite;
     ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
-    state_byte = (*(u8 *)((u8 *)entity + 0x6D));
-    old_state = (s8)state_byte;
+    old_state = (s8)((*(u8 *)((u8 *)entity + 0x6D)));
     if (func_800A9E70(call_entity, call_motion, call_sprite, entity) != 0) {
         return;
     }
@@ -93,7 +92,6 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     D_801626A0[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, sprite, entity);
     {
         state_check = (u32)(u16)old_state << 16;
-        ASM_KEEP_NV(state_check);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         state_check >>= 16;
         if (state_check != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);
@@ -168,8 +166,8 @@ clear_8000000:
 
             height_step = (*(u16 *)((u8 *)entity + 0x98)) & 8;
             if (height_step == 0) {
-                height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 flags = (*(u16 *)((u8 *)entity + 0x92));
+                height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 if (height_step >= height_offset) {
                     height_step = height_offset < -8;
                     if (height_step != 0) {
@@ -185,10 +183,10 @@ clear_8000000:
         }
 
         {
-            state_check = (*(s32 *)((u8 *)entity + 0xA4));
+            state_check_2 = (*(s32 *)((u8 *)entity + 0xA4));
             (*(s16 *)((u8 *)entity + 0xB8)) = 0;
             (*(s32 *)((u8 *)entity + 0xA4)) = 0;
-            (*(s32 *)((u8 *)entity + 0x90)) += state_check;
+            (*(s32 *)((u8 *)entity + 0x90)) += state_check_2;
             if (!((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
                 ground_height = func_800BCB04(motion->unk_00.at02.v,
                                              motion->unk_04.at02.v,
@@ -256,8 +254,8 @@ clear_8000000:
 
     height_step = (*(u16 *)((u8 *)entity + 0x98)) & 8;
     if (height_step == 0) {
-        height_offset = (*(s16 *)((u8 *)entity + 0x92));
         flags = (*(u16 *)((u8 *)entity + 0x92));
+        height_offset = (*(s16 *)((u8 *)entity + 0x92));
         if (height_step < height_offset) {
             height_step = flags - 8;
             goto store_adjustment;

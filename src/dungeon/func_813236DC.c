@@ -79,9 +79,8 @@ extern u8 D_8017467C[];
 extern u8 *D_80174704;
 
 /* Initialize an actor and its companion, then return the actor work area. */
-void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
+void *func_8016AEDC(s16 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
 {
-    register s32 saved_mode ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 *work_copy;
     register s32 spawn_config_0a ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 saved_config_24;
@@ -99,7 +98,6 @@ void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
     saved_config_24 = config_24;
     saved_config_25 = config_25;
     object = func_8003FD64(0x112, D_80083498);
-    saved_mode = mode_flags;
     *(u16 *)&saved_config_0a = config_0a;
     if (object != 0) {
         work = object + 0x20;
@@ -126,7 +124,7 @@ void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
             ((S_8016AEDC_1 *)work)->unk_1C |= 0x2000;
         }
 
-        func_800A9C18(object, part_a, part_b, (s16)saved_mode);
+        func_800A9C18(object, part_a, part_b, (s16)mode_flags);
         {
 
             ((S_8016AEDC_4 *)work_copy)->unk_9A = 0xFF;
@@ -149,7 +147,7 @@ void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
         s32 spawn_config_24;
         s32 spawn_config_25;
 
-        spawn_mode = (s16)saved_mode;
+        spawn_mode = (s16)mode_flags;
         spawn_config_24 = (s16)(saved_config_24 + 1);
         spawn_config_0a = (s32)((u32)saved_config_25 << 16);
         spawn_config_25 = spawn_config_0a;
@@ -158,7 +156,6 @@ void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
         spawn_config_25 >>= 16;
         spawned = func_8016F160(spawn_mode, spawn_config_24, spawn_config_25, (s16)spawn_config_0a);
     }
-    ASM_KEEP(saved_mode);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     func_800A152C(((S_8016AEDC_6 *)spawned)->unk_13, 1);
     func_80042640(spawned, ((S_8016AEDC_6 *)spawned)->unk_13);
     ((S_8016AEDC_6 *)spawned)->unk_43 = 0xFF;

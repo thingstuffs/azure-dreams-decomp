@@ -90,7 +90,7 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
 {
     u16 saved_pos[4];
     u8 *motion;
-    register s32 special_motion ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 special_motion;
     void *target;
     s32 wait_ticks;
     u8 *action_state;
@@ -141,9 +141,8 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
         if (*motion != 0) {
             ((S_80172AF8_0 *)action)->unk_98 &= 0xFF7F;
             {
-                s32 use_special = special_motion;
+                s16 use_special = special_motion;
 
-                ASM_KEEP(use_special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 if (use_special != 0) {
                     target = D_800814A8;
                     ((S_80172AF8_1 *)actor)->unk_60 = target;
@@ -170,7 +169,8 @@ void func_80172AF8(void *action, void *transform, void *sprite, void *actor)
             saved_pos[0] = ((Rec_D_800E3D7C *)transform)->unk_00.at02_u16.v;
             saved_pos[1] = ((Rec_D_800E3D7C *)transform)->unk_04.at02_u16.v;
             saved_pos[2] = ((Rec_D_800E3D7C *)transform)->unk_08.at02_u16.v;
-            if (func_800A94A0(actor, motion, special_motion, (u8 *)action + 0x98) == 0) {
+            transform = (void *)func_800A94A0(actor, motion, special_motion, (u8 *)action + 0x98);
+            if (transform == 0) {
                 return;
             }
             ((S_80172AF8_4 *)sprite)->unk_14 &= 0xF7FF;

@@ -213,7 +213,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     s32 step_x;
     s32 step_y;
     s32 state;
-    s16 effect_flags;
+    u8 *effect_flags;
     s32 tiles_ahead;
     s32 off_x;
     s32 off_y;
@@ -241,8 +241,7 @@ BODY_STORAGE void BODY_NAME(S_81850800_0 *owner, S_81850800_7 *motion, S_8185080
     union { S_81850800_11 * pointer; s32 value; } effect_data;
     S_81850800_5 *position;
     u8 *spawn_cb;
-    register u8 *particle_cb ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register S_81850800_10 *particle_anim ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_81850800_10 *particle_anim;
     u8 *step_x_table;
     u8 *step_y_table;
     s32 pix_x;
@@ -505,17 +504,15 @@ state_1_after_first:
 
 state_1_loop_setup:
     dx = 0x3C;
-    particle_cb = D_800247DC;
-    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800247DC);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    effect_flags = D_800247DC;
     particle_anim = (S_81850800_10 *)D_800DEC28;
-    ASM_KEEP_MEM_NV(dx, *(u8 *)D_800DEC28);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-do {
+loop_0: {
     obj = func_8003FD64(0x312, &D_80083498);
     if (obj == 0) {
         goto state_1_loop_next;
     }
     work = obj->unk_0C;
-    obj->unk_10 = particle_cb;
+    obj->unk_10 = effect_flags;
     ((S_81850800_5 *)obj->unk_08)->unk_00.unk_02_view_s16.unk_02_s16 =
         motion->unk_00.unk_02_view_u16.unk_02_u16 + (func_80069EF8() & 0x3F) - 0x20;
     ((S_81850800_5 *)obj->unk_08)->unk_04.unk_06_view_s16.unk_06_s16 =
@@ -548,7 +545,7 @@ do {
     effect_data.pointer->unk_4C = 0;
 state_1_loop_next:
     dx--;
-    } while (dx >= 0);
+    } if (dx >= 0) goto loop_0;
     goto shared_motion;
 
 state_1_no_child:
@@ -573,9 +570,8 @@ state_2:
     goto done;
 
 state_3:
-    effect_flags = owner->unk_52.unk_52_s16;
     flags = owner->unk_52.unk_52_u16;
-    if (effect_flags & 0x8000) {
+    if (((s16)((u8 *)owner->unk_52.unk_52_s16)) & 0x8000) {
         owner->unk_52.unk_52_u16 = flags & 0x7FFF;
         return;
     }

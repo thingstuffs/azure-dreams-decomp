@@ -85,8 +85,9 @@ s32 BODY_NAME(void *object_ptr, void *position_ptr) {
     u8 *scratch;
     void *point_prim;
     u32 ot_index;
-    void *state_prim;
+    union { void * pointer; u32 value; } state_prim;
     void *linked_node;
+    u32 prim_address;
 
     ASM_KEEP_DEP_NV(address_mask, render_ctx);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     address_mask |= 0xFFFF;
@@ -120,30 +121,28 @@ next_node:
             (((S_80AD7000_2 *)point_prim)->unk_00.at00.v & length_mask) |
             ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & address_mask);
         {
-            register u32 *ot_entry ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+            u32 *ot_entry;
             ot_entry = (u32 *)(((*(u32 *)((u8 *)scratch + 0x100)) << 2) +
                               (u32)(*(u32 * *)((u8 *)scratch + 0x24)));
-            ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             {
-                register u32 ot_tag ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                u32 prim_address;
-                ot_tag = *ot_entry;
+                state_prim.value = *ot_entry;
                 prim_address = (u32)point_prim & address_mask;
-                ot_tag &= length_mask;
-                ot_tag |= prim_address;
-                *ot_entry = ot_tag;
+                state_prim.value &= length_mask;
+                state_prim.value |= prim_address;
+                *ot_entry = state_prim.value;
             }
         }
-        state_prim = (*(void * *)((u8 *)scratch + 0x1C));
-        (*(void * *)((u8 *)scratch + 0x1C)) = (u8 *)state_prim + 0xC;
-        func_80067F20(state_prim, 0, 0,
-                      func_80066460(0, 1, 0, 0) & 0xFFFF, 0);
-        ((S_80AD7000_4 *)state_prim)->unk_00 =
-            (((S_80AD7000_4 *)state_prim)->unk_00 & length_mask) |
+        state_prim.pointer = (*(void * *)((u8 *)scratch + 0x1C));
+        (*(void * *)((u8 *)scratch + 0x1C)) = (u8 *)state_prim.pointer + 0xC;
+        prim_address = func_80066460(0, 1, 0, 0);
+        func_80067F20(state_prim.pointer, 0, 0,
+                      prim_address & 0xFFFF, 0);
+        ((S_80AD7000_4 *)state_prim.pointer)->unk_00 =
+            (((S_80AD7000_4 *)state_prim.pointer)->unk_00 & length_mask) |
             ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & address_mask);
         (*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) =
             ((*(u32 *)((u8 *)((*(u32 * *)((u8 *)scratch + 0x24))) + (*(u32 *)((u8 *)scratch + 0x100)) * 4)) & length_mask) |
-            ((u32)state_prim & address_mask);
+            ((u32)state_prim.pointer & address_mask);
     }
     linked_node = ((S_80AD7000_3_pre *)object)[-1].unk_00;
     if (linked_node != NULL) {
