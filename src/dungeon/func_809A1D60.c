@@ -85,22 +85,22 @@ typedef struct S_80173560_4 {
 
 
 /* Advance an item action through targeting, audio playback, and animation cleanup. */
-void func_80173560(void *action, void *motion, void *sprite_arg, void *actor_arg) {
+void func_80173560(void *action, void *motion, void *sprite, void *actor_arg) {
     static void *const state_labels[] = {
         &&prepare_item, &&start_audio, &&wait_audio, &&finish_animation, &&reset_action
     };
     static void *const item_labels[] = {
         &&item_at_0e, &&item_at_0b, &&item_at_08, &&item_default
     };
-    void *sprite = sprite_arg;
     void *actor = actor_arg;
     s32 state;
-    register s32 action_value ASM_REG("$2");
-    s32 has_item;
+    s32 action_value;
+    u8 has_item;
     s16 sound_id;
     s32 item_addr;
-    register s32 item_or_audio_base ASM_REG("$17");
+    s32 item_or_audio_base;
     s32 item_id;
+    s32 audio_base;
     s32 direction;
     s32 cd_param;
     s32 item_type;
@@ -110,12 +110,10 @@ void func_80173560(void *action, void *motion, void *sprite_arg, void *actor_arg
     void *target;
 
     state = ((S_80173560_0 *)action)->unk_9B.n;
-    ASM_KEEP(state);
+    item_or_audio_base = 0;
     if ((u32)state >= 5) {
         return;
     }
-    item_or_audio_base = 0;
-    ASM_KEEP(item_or_audio_base);
     (void)state_labels;
     goto *D_80170880[state];
 
@@ -166,27 +164,16 @@ item_ready:
         target = ((S_80173560_1 *)actor)->unk_60;
         if (target != 0) {
 copy_target_pos:
-            {
-                register void *target_pos ASM_REG("$3") = ((S_80173560_2_pre *)target)[-1].unk_00;
-                ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)target_pos)->unk_24;
-                ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)target_pos)->unk_25;
-            }
+            state = (s32)((S_80173560_2_pre *)target)[-1].unk_00;
+            ((S_80173560_1 *)actor)->unk_72.u = ((S_80173560_3 *)state)->unk_24;
+            ((S_80173560_1 *)actor)->unk_73.u = ((S_80173560_3 *)state)->unk_25;
         }
     } else {
-        s32 target_y;
         resource = func_800A05A4(actor, ((S_80173560_4 *)sprite)->unk_24,
                             ((S_80173560_4 *)sprite)->unk_25, ((S_80173560_1 *)actor)->unk_2A, 0x10);
         ((S_80173560_1 *)actor)->unk_60 = resource;
-        action_value = ((S_80173560_1 *)actor)->unk_72.s;
-        target_y = ((S_80173560_1 *)actor)->unk_73.s;
-        if (action_value < 0) {
-            action_value = -action_value;
-        }
-        if (target_y < 0) {
-            target_y = -target_y;
-        }
-        ((S_80173560_1 *)actor)->unk_72.u = action_value;
-        ((S_80173560_1 *)actor)->unk_73.u = target_y;
+        ((S_80173560_1 *)actor)->unk_72.u = abs(((S_80173560_1 *)actor)->unk_72.s);
+        ((S_80173560_1 *)actor)->unk_73.u = abs(((S_80173560_1 *)actor)->unk_73.s);
     }
 
     if (func_800A94A0(actor, (void *)item_addr, item_or_audio_base, (u8 *)action + 0x98) == 0) {
@@ -215,8 +202,12 @@ copy_target_pos:
             return;
         }
         func_800A56E0(0x300);
-        action_value = (s16)func_800A9400(*(u16 *)item_addr & 0x7F);
-        ((S_80173560_0 *)action)->unk_96.s = D_80175F40[action_value] - 0x10;
+        {
+            s32 slot;
+
+            slot = (s16)func_800A9400(*(u16 *)item_addr & 0x7F);
+            ((S_80173560_0 *)action)->unk_96.s = D_80175F40[slot] - 0x10;
+        }
         ((S_80173560_0 *)action)->unk_9B.n++;
         return;
     }
@@ -234,16 +225,13 @@ start_audio:
         return;
     }
     item_id = D_80175F6E & 0x7F;
-    item_or_audio_base = (s32)D_800DDAB8;
-    action_value = func_800A9400(item_id);
+    audio_base = (s32)D_800DDAB8;
+    audio_index = (s16)func_800A9400(item_id);
     sound_id = 0x1300;
-    action_value <<= 16;
-    audio_index = action_value;
-    audio_index >>= 16;
     func_800A56E0(sound_id);
     func_8003F540(0, D_8006CD58[0],
-                  ((s32 *)(((audio_index << 17) >> 14) + item_or_audio_base))[0],
-                  ((s32 *)(((audio_index << 17) >> 14) + item_or_audio_base))[1]);
+                  ((s32 *)(((audio_index << 17) >> 14) + audio_base))[0],
+                  ((s32 *)(((audio_index << 17) >> 14) + audio_base))[1]);
     cd_param = func_800445E0();
     Control_CD(0x15, cd_param, 0);
     ((S_80173560_0 *)action)->unk_9B.n++;
