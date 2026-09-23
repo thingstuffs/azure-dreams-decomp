@@ -112,8 +112,8 @@ normal_kind:
         if (((mode_flags & ~3) << 16) == 0) {
             if (!(work->unk_14 & 0x200)) {
                 part_arg = part_a;
-                ASM_KEEP(object_arg);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                flags_or_result = func_800A6D30(object_arg);
+                object_arg = (void *)func_800A6D30(object_arg);
+                flags_or_result = (s32)object_arg;
                 object_arg = obj;
                 if (!(flags_or_result & 1)) {
                     goto init_parts;

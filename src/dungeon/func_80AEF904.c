@@ -56,12 +56,9 @@ typedef struct S_80171104_2 {
 } S_80171104_2;   /* motion in func_80171104 */
 
 /* Update actor callbacks, animation, movement, and ground contact. */
-void func_80171104(void *actor_arg, void *motion_arg, void *object_arg)
+void func_80171104(u8 *actor, u8 *motion, u8 *object)
 {
-    register u8 *actor ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register u8 *actor_copy ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    u8 *motion;
-    u8 *object;
+    u8 *actor_copy;
     ActorCallback callback;
     s32 old_direction;
     s16 timer;
@@ -69,31 +66,26 @@ void func_80171104(void *actor_arg, void *motion_arg, void *object_arg)
     s16 height_delta;
     s16 floor_height;
     s16 actor_height;
-    register s32 view_index_copy ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s16 view_index_copy;
     u8 *animation;
     s32 shifted_direction;
 
-    actor = actor_arg;
-    motion = motion_arg;
-    object = object_arg;
     actor_copy = actor;
 
     if (D_80083462 & 0x2000) {
         ActorCallback early_callback;
         void *early_actor;
 
-        early_actor = actor_arg;
         early_callback = (*(ActorCallback *)((u8 *)actor + 0x8C));
         if (early_callback == (ActorCallback)&D_801717F4) {
-            ASM_KEEP(early_actor);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            early_callback(early_actor, motion_arg, object_arg, early_actor);
+            early_actor = actor;
+            early_callback(early_actor, motion, object, early_actor);
             goto function_return;
         }
         (*(u8 *)((u8 *)actor + 0x71)) &= 0x7F;
         goto function_return;
     }
 
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
        /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     old_direction = (s8)(*(volatile u8 *)((u8 *)actor + 0x6D));
@@ -216,7 +208,6 @@ compare_direction:
             object_flags = ((S_80171104_0 *)object)->unk_14.n | 1;
             goto store_object_flags;
         }
-        ASM_KEEP(view_index_copy);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
         object_flags = ((S_80171104_0 *)object)->unk_14.n & 0xFFFE;
 store_object_flags:

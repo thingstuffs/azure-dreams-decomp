@@ -110,7 +110,7 @@ void func_8008FA7C(u8 *actor, u8 *motion, u8 *animation, u8 *entity) {
     register u8 *final_anim ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     u32 mask_or_base;
     u32 object_or_base;
-    register u8 *init_anim ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    u8 *init_anim;
 #else
     s32 saved_value;
     s16 action_result;
@@ -147,9 +147,9 @@ state_0:
 
         init_entry = ((D_80083228[0] + ((S_8008FA7C_2 *)entity)->unk_2A + 0x100) >> 9) & 7;
         init_entry += (u32)D_800DD0C8;
-        do {
-            init_frame = *(volatile u8 *)init_entry;
-        } while (0);
+        {
+            init_frame = *(u8 *)init_entry;
+        }
          /* MATCH: Keep the zero argument in the shared-call jump delay slot. */
         func_80048A44(init_anim, init_frame, 0, 1);
         actor[0x9B]++;

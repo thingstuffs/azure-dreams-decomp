@@ -40,8 +40,8 @@ void func_800969B8(void *object, s32 unused_1, s32 unused_2, s32 target) {
     if (!(D_80083168[0] & 0x20)) {
         goto done;
     }
-    ASM_KEEP(dispatch_target);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    target_check = func_800A5C70(dispatch_target);
+    dispatch_target = func_800A5C70(dispatch_target);
+    target_check = dispatch_target;
     dispatch_target = saved_target;
     if (!target_check) {
         goto done;

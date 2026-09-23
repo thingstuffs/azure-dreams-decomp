@@ -71,7 +71,7 @@ extern void func_8004491C(void *, void *);
 extern s32 func_80069EF8(void);
 extern void func_800A56E0(s32);
 extern void func_800A6508();
-extern s32 func_800A6D30(void *, s32, s32, s32);
+extern s32 func_800A6D30(void);
 
 extern u8 D_80045340;
 extern u8 D_80083460[];
@@ -101,10 +101,10 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
     u32 height_offset;
     s32 height_delta;
     u8 *counter;
-    register void *init_effect ASM_REG("$4");
+    void *init_effect;
 
     if (D_800E3D40 == 0) {
-        random_value = func_800A6D30(source, rng_arg_1, rng_arg_2, rng_arg_3);
+        random_value = func_800A6D30();
         roll_range = ((S_800CD004_0 *)source)->unk_03;
         if (roll_range != 0) {
             random_low = (u16)random_value;
@@ -125,8 +125,7 @@ s32 func_800CD004(void *source, s32 rng_arg_1, s32 rng_arg_2, s32 rng_arg_3)
             goto return_object;
         }
         init_effect = effect;
-        random_value = (s32)&D_800CCDA0;
-        ((S_800CD004_1 *)effect)->unk_10 = (void *)random_value;
+        ((S_800CD004_1 *)effect)->unk_10 = &D_800CCDA0;
         func_8004491C(init_effect, &D_80045340);
 
         map = ((S_800CD004_0_pre *)source)[-1].unk_00;
