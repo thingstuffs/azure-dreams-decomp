@@ -98,6 +98,8 @@ extern u8 D_80175298[];
 void func_8017382C(void *action, void *context, void *sprite, void *actor)
 {
     s32 state;
+    s32 record_index;
+    u8 *effect_state;
 
     state = ((S_8017382C_0 *)action)->unk_9B;
     if (state == 1) {
@@ -119,11 +121,10 @@ void func_8017382C(void *action, void *context, void *sprite, void *actor)
 
 state_zero:
     {
-        s32 record_index;
         s32 index_twice;
         s32 word_offset;
         u8 *facing_record;
-        register u8 *record ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        u8 *record;
         u8 *direction_table;
         u8 *counter_base;
         void *effect;
@@ -161,18 +162,18 @@ scan_zero_done:
         counter_base = (u8 *)&D_80083460;
         ((S_8017382C_5 *)counter_base)->unk_0A--;
         effect = func_8003FD64(0x10, D_80083498);
-        index_twice = (u8 *)effect + 0x20;
+        effect_state = (u8 *)effect + 0x20;
         if (effect != 0) {
             ((S_8017382C_6 *)effect)->unk_10 = D_80174424;
-            ((S_8017382C_7 *)index_twice)->unk_A0 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_A0 = 0;
             facing = ((S_8017382C_0 *)action)->unk_AC.s;
-            ((S_8017382C_7 *)index_twice)->unk_A4 = 0x100;
-            ((S_8017382C_7 *)index_twice)->unk_A6 = 1;
-            ((S_8017382C_7 *)index_twice)->unk_A8 = 8;
-            ((S_8017382C_7 *)index_twice)->unk_A2 = (s16)facing >> 6;
+            ((S_8017382C_7 *)effect_state)->unk_A4 = 0x100;
+            ((S_8017382C_7 *)effect_state)->unk_A6 = 1;
+            ((S_8017382C_7 *)effect_state)->unk_A8 = 8;
+            ((S_8017382C_7 *)effect_state)->unk_A2 = (s16)facing >> 6;
             ((S_8017382C_0 *)action)->unk_96 = 8;
-            ((S_8017382C_7 *)index_twice)->unk_96 = 0;
-            ((S_8017382C_7 *)index_twice)->unk_9E = 0;
+            ((S_8017382C_7 *)effect_state)->unk_96 = 0;
+            ((S_8017382C_7 *)effect_state)->unk_9E = 0;
         }
         goto increment_state;
     }
@@ -211,7 +212,6 @@ state_one:
 
 state_two:
     {
-        s32 record_index;
         s32 index_twice;
         s32 word_offset;
         u8 *facing_record;
@@ -222,7 +222,6 @@ state_two:
         u8 *status_base;
         u8 *late_counter;
         void *effect;
-        u8 *effect_state;
         void *check_actor;
         u16 facing;
 

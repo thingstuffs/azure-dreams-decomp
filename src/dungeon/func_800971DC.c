@@ -130,13 +130,13 @@ adjusted:
 
         dance = a->unk84;
         {
-            register s32 r ASM_REG("$3") = func_800A6D30() & 0xFFFF;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 r = func_800A6D30() & 0xFFFF;
 
             step = dance;
             if (a->unk3 != 0) {
                 r %= a->unk3;
-                ASM_USE_NV(r);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-                dance = step + r * 4;
+                r <<= 2;
+                dance = step + r;
             } else {
                 dance = step;
             }

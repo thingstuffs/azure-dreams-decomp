@@ -154,7 +154,7 @@ second_advance:
         Callback *callback_slot;
 
         register Entry **entry_slot;
-        register s32 slot_index ASM_REG("$19");
+        s32 slot_index;
         u8 *D_800E0000;
         s32 stop_dispatch;
 
@@ -172,7 +172,6 @@ loop_third:
                         *(s32 *)((u8 *)D_80083160[0] + 0x8D0));
                     if (stop_dispatch == 0) {
                         callback_slot++;
-                        slot_index++;
                         goto third_advance;
                     }
                     callback_slot++;
@@ -183,10 +182,9 @@ loop_third:
             }
         }
         callback_slot++;
-        slot_index++;
 third_advance:
         entry_slot++;
-        if (slot_index < 0x20) {
+        if (++slot_index < 0x20) {
             goto loop_third;
         }
 third_done:

@@ -128,7 +128,7 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
     s16 bottom_z;
     s16 end_x;
     s16 next_end_x;
-    register u32 *link ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u32 *link;
     s32 radial_x;
     s32 next_delta_y;
     s32 delta_y;
@@ -161,10 +161,8 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
         angle_x_or_mask_2 = (twice_index + 1) * 0x199;
         link = (u32 *)(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
         radial_x = func_800644B8((s32)link);
-        link = (u32 *)(((S_819112CC_0 *)effect)->unk_0A);
-        link = (u32 *)(angle_x_or_mask_2 + (s32)link);
         target_x = radial_coordinate(origin->unk_00, radial_x, ((S_819112CC_0 *)effect)->unk_0E);
-        coord_or_offset = func_80064584((s32)link);
+        coord_or_offset = func_80064584(angle_x_or_mask_2 + ((S_819112CC_0 *)effect)->unk_0A);
         coord_or_offset >>= 4;
         radial_y = origin->unk_04 +
             ((coord_or_offset * ((S_819112CC_0 *)effect)->unk_0E) << 8);
@@ -239,7 +237,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             coord_or_offset += SP32(0x18);
             ((S_819112CC_2 *)prim)->unk_00.at00.v = (((S_819112CC_2 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
                 (*(u32 *)coord_or_offset & low_mask);
-            link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
+            link = (u32 *)SP32(0xB4);
+            link = (u32 *)((u32)link << 2);
+            link = (u32 *)((u8 *)link + SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
             {
                 RenderContext *ctx = *(RenderContext **)context_slot;
@@ -251,7 +251,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
                          0);
             ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
                 (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
-            link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
+            link = (u32 *)SP32(0xB4);
+            link = (u32 *)((u32)link << 2);
+            link = (u32 *)((u8 *)link + SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
         }
         {
@@ -324,7 +326,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
             coord_or_offset += SP32(0x18);
             ((S_819112CC_5 *)prim)->unk_00.at00.v = (((S_819112CC_5 *)prim)->unk_00.at00.v & (u32)angle_x_or_mask) |
                 (*(u32 *)coord_or_offset & low_mask);
-            link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
+            link = (u32 *)SP32(0xB4);
+            link = (u32 *)((u32)link << 2);
+            link = (u32 *)((u8 *)link + SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
             {
                 RenderContext *ctx = *(RenderContext **)context_slot;
@@ -336,7 +340,9 @@ void func_819112CC(void *effect_in, S_819112CC_1 *origin, s16 step_in, s16 durat
                          0);
             ((S_819112CC_4 *)prim)->unk_00 = (((S_819112CC_4 *)prim)->unk_00 & (u32)angle_x_or_mask) |
                 (((u32 *)SP32(0x18))[SP32(0xB4)] & low_mask);
-            link = (u32 *)((SP32(0xB4) << 2) + SP32(0x18));
+            link = (u32 *)SP32(0xB4);
+            link = (u32 *)((u32)link << 2);
+            link = (u32 *)((u8 *)link + SP32(0x18));
             *link = (*link & (u32)angle_x_or_mask) | ((u32)prim & low_mask);
         }
     }

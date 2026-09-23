@@ -49,9 +49,7 @@ object_loop:
         other = SCPTR(scratch, 4);
         SCPTR(scratch, 8) = PTR_AT(VSPTR(scratch, 4), 8);
         other_bounds = PTR_AT(other, 0xC);
-        ASM_KEEP_NV(other_bounds);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        object_ref = other;
-        ASM_KEEP_NV(object_ref);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        object_ref = SCPTR(scratch, 4);
         SCPTR(scratch, 0xC) = other_bounds;
         if (U8_AT(object_ref, 0x15) == 0) {
             goto next_object;
@@ -285,19 +283,13 @@ object_loop:
     }
 
     {
-        s32 x_depth;
-        register s32 abs_x ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+        s32 abs_x;
         s32 y_depth;
         s32 z_depth;
         s32 abs_z;
 
-        x_depth = VSC32(scratch, 0x10);
-        y_depth = VSC32(scratch, 0x18);
-        abs_x = x_depth;
-        if (x_depth < 0) {
-            abs_x = -abs_x;
-        }
-        y_depth = abs(y_depth);
+        abs_x = abs(VSC32(scratch, 0x10));
+        y_depth = abs(VSC32(scratch, 0x18));
         if (abs_x < y_depth) {
             z_depth = VSC32(scratch, 0x20);
             abs_z = z_depth;
