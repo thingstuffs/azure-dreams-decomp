@@ -173,12 +173,12 @@ def scan(d, cap=None):
     if model is None:
         model = (cap.get("codex") or {}).get("model")
     start = _mtime(d / "lane.pid", d / "PROMPT.txt")
-    if (d / "last_message.txt").exists():
+    if (d / "cap.txt").exists():                           # killed at a cap, even if a message was written
+        status, end = "cap", _mtime(d / "cap.txt")
+    elif (d / "last_message.txt").exists():
         status, end = "ok", _mtime(d / "last_message.txt")
     elif _alive(d / "lane.pid"):
         status, end = "running", None
-    elif (d / "cap.txt").exists():
-        status, end = "cap", _mtime(d / "cap.txt")
     elif log.is_file():
         status, end = "limit" if limit else "ended", _mtime(log)
     else:

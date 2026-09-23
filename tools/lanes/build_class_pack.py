@@ -12,7 +12,12 @@ Round 76 adds, also off by default:
     --served-guard off|ever|tier   refuse the pack when a row was already served (tools/lanes/served.py):
                        `ever` = any lane ever (round 26); `tier` = a launched lane of the SAME tier (--tier) at
                        the SAME row text (round 76: kit-era retries of other tiers paid 61-72%). --repack overrides.
-    --tier T           astra|opus|sonnet|sol6|luna6|sol|luna: the model tier this pack is for (guard `tier`)"""
+    --tier T           astra|opus|sonnet|sol6|luna6|sol|luna: the model tier this pack is for (guard `tier`)
+    --cluster K-M      (with --rows) a CLUSTER pack: each row is briefed on ONE cluster of K-M pins that plausibly
+                       fall together (tools/lanes/cluster.py: same pinned variable, then line proximity), the
+                       listing diff erases only those, cluster.json records them (the served key), and BRIEF.md
+                       gets brief_paragraphs/cluster_partial.md: land the cluster, KEEP every other pin.
+    --near N           cluster line span (default 25);  --cluster-rank R  take the R-th disjoint cluster (default 0)"""
 import json, sys, difflib, shutil, glob; sys.path.insert(0,'tools'); sys.path.insert(0,'tools/xform'); sys.path.insert(0,'tools/lanes')
 from pathlib import Path
 from common import rows, clean_path, sha_text
@@ -23,7 +28,7 @@ import screen
 from served import served_rows as _sr
 SERVED_BASE=_sr()
 S='ledger/pack_inputs'; MY=S
-VALOPTS={'--solved','--pins','--exemplars','--only-served-by','--rows','--notes','--paragraphs','--served-guard','--tier'}
+VALOPTS={'--solved','--pins','--exemplars','--only-served-by','--rows','--notes','--paragraphs','--served-guard','--tier','--cluster','--near','--cluster-rank'}
 def opt(name, default=None):
     return sys.argv[sys.argv.index(name)+1] if name in sys.argv else default
 lane=sys.argv[1]
@@ -76,10 +81,27 @@ else:
             if screened(rid, r): screened_out+=1; continue
             cand.append((k,len(t.splitlines()),rid))
     cand.sort(); ids=[c[2] for c in cand[:n]]
+clusters={}                                                        # round 76: {rid: (site indices, why)}
+if opt('--cluster'):
+    import cluster as _cluster
+    ck=opt('--cluster'); kmin,kmax=int(ck.split('-')[0]),int(ck.split('-')[-1]); crank=int(opt('--cluster-rank',0))
+    for rid in ids:
+        st=sites_of(clean_path(by[rid]).read_text(errors='replace'))
+        cl=_cluster.disjoint(_cluster.pick_clusters(st,kmin,kmax,int(opt('--near',25))))
+        if len(cl)>crank: clusters[rid]=cl[crank]
+        else: print('WARNING: no cluster of rank',crank,'for',rid,'(%d pins)'%len(st))
+    ids=[rid for rid in ids if rid in clusters]
+def _csites(rid, st):
+    return [[st[i][5],st[i][1],st[i][2]] for i in clusters[rid][0]]
 guard=opt('--served-guard','off')
 if guard!='off':                                                   # round 76: tools/lanes/served.py assert_unserved
     import served as _served
-    _served.assert_unserved(ids, repack='--repack' in sys.argv, mode=guard, tier=opt('--tier'), skip_lane=lane)
+    scopes={rid:_served.cluster_scope(_csites(rid, sites_of(clean_path(by[rid]).read_text(errors='replace')))) for rid in clusters}
+    _served.assert_unserved(ids, repack='--repack' in sys.argv, mode=guard, tier=opt('--tier'), skip_lane=lane, scopes=scopes)
+if clusters and '--dry-run' in sys.argv:
+    for rid in ids:
+        st=sites_of(clean_path(by[rid]).read_text(errors='replace'))
+        print('cluster', rid, len(st), 'pins ->', ', '.join('%s(%s)@%d'%(m,a,l) for l,m,a in _csites(rid, st)), '--', clusters[rid][1])
 if '--dry-run' in sys.argv:
     print('pool', len(cand), 'screened out', screened_out, 'first', ids[:n]); sys.exit(0)
 L=Path('work/native_lane')/lane; shutil.rmtree(L, ignore_errors=True); (L/'out').mkdir(parents=True); (L/'.ignore').write_text('*\n')
@@ -91,12 +113,20 @@ fresh={}
 for rid in ids:
     r=by[rid]; t=clean_path(r).read_text(errors='replace'); c,nm=rid.split('/')
     (L/'base'/c).mkdir(parents=True, exist_ok=True); (L/'base'/c/(nm+'.c')).write_text(t); (L/'base'/c/(nm+'.c.base_sha')).write_text(sha_text(t)+'\n')
-    sites=sites_of(t); e=erase_many(t,sites,clean_notes=True); la=screen.compile_s(r,t); lb=screen.compile_s(r,e)
+    sites=sites_of(t)
+    target=[sites[i] for i in clusters[rid][0]] if rid in clusters else sites   # a cluster pack erases only its cluster
+    e=erase_many(t,target,clean_notes=True); la=screen.compile_s(r,t); lb=screen.compile_s(r,e)
     d='\n'.join(x for x in difflib.unified_diff(la,lb,lineterm='',n=4) if not x.startswith(('---','+++'))) if la and lb else '(no listing)'
     if only_rows and d.count('\n')>200:                            # a 40-pin row's joint diff is thousands of lines
         dl=d.split('\n'); d='\n'.join(dl[:200])+f"\n... {len(dl)-200} more listing lines (recompile the erased text yourself: the duck's per-pin residues below are the tractable view)"
     fresh[rid]=residue.fingerprint(la,lb).get('L0') if (la and lb) else None
-    md.append(f"\n## {rid}\n- recipe `{r['cfg']}`, {len(t.splitlines())} lines, {len(sites)} pin(s): "+'; '.join(f"`{s[1]}({s[2]})` at line {s[5]}" for s in sites)+f"; erase-census class {cls.get(rid)}\n- cc1 listing, pinned -> every pin erased:\n```\n"+d+"\n```\n")
+    if rid in clusters:
+        md.append(f"\n## {rid}\n- recipe `{r['cfg']}`, {len(t.splitlines())} lines, {len(sites)} pin(s) in the row; "
+                  f"**TARGET CLUSTER ({len(target)} pins, {clusters[rid][1]}): "+'; '.join(f"`{s[1]}({s[2]})` at line {s[5]}" for s in target)
+                  +f"**; every other pin STAYS: "+'; '.join(f"`{s[1]}({s[2]})` at line {s[5]}" for s in sites if s not in target)
+                  +f"; erase-census class {cls.get(rid)}\n- cc1 listing, pinned -> the CLUSTER's pins erased (the others kept):\n```\n"+d+"\n```\n")
+    else:
+        md.append(f"\n## {rid}\n- recipe `{r['cfg']}`, {len(t.splitlines())} lines, {len(sites)} pin(s): "+'; '.join(f"`{s[1]}({s[2]})` at line {s[5]}" for s in sites)+f"; erase-census class {cls.get(rid)}\n- cc1 listing, pinned -> every pin erased:\n```\n"+d+"\n```\n")
     if only_rows:
         sv=sorted(served.get(rid, set())-{lane})                   # a rebuild must not count this lane's own previous rows.md
         old=sorted(set(SERVED_BASE.get(rid, []))-{lane}-set(sv))   # the other served definition: a base/*.c copy in any older lane
@@ -106,6 +136,10 @@ for rid in ids:
     if duck_on:
         md.append('\n'+duck_brief.duck(rid, notes=note_files, row=r, text=t, skip_lane=lane)+'\n')
 (L/'rows.md').write_text(''.join(md))
+if clusters:                                                       # the served key of a cluster serve (served.py)
+    json.dump({rid:{'sites':_csites(rid, sites_of(clean_path(by[rid]).read_text(errors='replace'))),'why':clusters[rid][1]} for rid in ids},
+              open(L/'cluster.json','w'), indent=1)
+    if 'cluster_partial' not in paragraphs: paragraphs.append('cluster_partial')
 for nf in note_files:                                              # LANE_KIT 4: the evidence lives in the lane
     if Path(nf).exists(): (L/'evidence').mkdir(exist_ok=True); shutil.copy(nf, L/'evidence'/Path(nf).name)
 b=open('work/native_lane/r58_order5/BRIEF.md').read().replace('r58_order5',lane)

@@ -5,6 +5,9 @@
 # while it scores (verify.py scores inside build_ovl, which mk_ovl_root.sh replaces); sweeps must skip its rows.
 # The PID goes to work/native_lane/<lane>/lane.pid: wait on it with kill -0 (or the Monitor tool), never with
 # pgrep -f on a pattern your own command line contains. Moved from the session scratchpad in round 24.
+# Round 76: codex runs under setsid (pid == its process group, so a cap can kill the lane's whole tree), and two
+# OPTIONAL runaway caps start tools/lanes/lane_cap.py watch beside it: LANE_TOKEN_CAP=<codex tokens> (read live from
+# the codex session rollout) and LANE_WALL_CAP=<minutes>. A capped lane is killed and gets cap.txt (status `cap`).
 set -u
 cd "$(dirname "$0")/../.."
 N=${1:?lane name}; D=work/native_lane/$N
@@ -19,8 +22,13 @@ if [ "$2" = agy ]; then
   nohup bash -c "agy --print \"\$(cat $D/PROMPT.txt)\" --model $M --mode accept-edits --print-timeout ${AGY_TIMEOUT:-90m} \
       --dangerously-skip-permissions > $D/last_message.txt 2> $D/agy.log" > /dev/null 2>&1 &
 else
-  nohup codex exec -C "$PWD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
+  nohup setsid codex exec -C "$PWD" --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check -m $M \
       -c 'model_reasoning_effort="xhigh"' -o $D/last_message.txt < $D/PROMPT.txt > $D/codex.log 2>&1 &
 fi
 echo $! > $D/lane.pid
 echo "lane $N model $M pid $(cat $D/lane.pid) started $(date -u +%H:%M)"
+if [ "${LANE_TOKEN_CAP:-0}" != 0 ] || [ "${LANE_WALL_CAP:-0}" != 0 ]; then
+  nohup python3 tools/lanes/lane_cap.py watch "$N" --tokens "${LANE_TOKEN_CAP:-0}" --minutes "${LANE_WALL_CAP:-0}" \
+      > $D/cap_watch.log 2>&1 &
+  echo "cap watch: tokens ${LANE_TOKEN_CAP:-0} wall ${LANE_WALL_CAP:-0} min (pid $!)"
+fi

@@ -24,6 +24,8 @@ The pool
   --served-guard G       tier (default) | ever | off: the served guard the pool passes to the builders (round 76,
                          tools/lanes/served.py): `tier` refuses only rows a launched lane of the pool's model tier
                          already served at the same text; a refused build skips that lane.
+  --cluster K-M          build CLUSTER packs (round 76): each big row briefed on one cluster of K-M pins,
+                         partial landing asked for (build_class_pack.py --cluster, tools/lanes/cluster.py).
   --kit                  after build_class_pack.py builds a lane, run tools/lanes/kit_pack.py on it (v2 brief +
                          lane kit), with the pool's --paragraphs.  Only lanes the pool builds; a built pack is
                          never re-kitted.
@@ -39,6 +41,16 @@ Capacity
   Every finished lane appends one line to ledger/model_capacity.jsonl: pack, model, candidates.
   --stop-after-zero N stops launching after N consecutive FINISHED lanes produced no candidate
   (round 63's rule; meaningful at --concurrency 1, advisory above it).
+
+Runaway guards (round 76, tools/lanes/lane_cap.py; all off by default)
+  --token-cap N / --wall-cap MIN   each poll, a running lane past N codex tokens (read live from its
+                         session rollout) or MIN wall minutes is killed (its setsid process group) and gets
+                         cap.txt: status `cap` in ab_report, `ran` here (never relaunched); its staged
+                         candidates still land.
+  --band-stop X [--band-window N]  per pin band (the largest base row's band, served.band_of): once the last N
+                         finished lanes of a band removed fewer than X pins per weighted-cost unit (tokens x
+                         weight / 1e6), no further lane of that band is launched.  A model with no weight in
+                         config/model_cost_weights.json never stops (the rule does not use invented numbers).
 
 Landing
   At drain, every lane with a candidate goes to tools/lanes/land_gap.sh <tag> <lane>... : one wait
@@ -64,6 +76,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py").is_file())
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import lane_cap  # noqa: E402  (round 76: per-lane caps, the band stop rule)
 
 # launch_lane.sh is canonical for these ids; repeated here only for the capacity probe.
 MODELS = {"astra": "gpt-6-astra", "sol": "gpt-5.6-sol", "luna": "gpt-5.6-luna",
@@ -106,7 +120,7 @@ def lane_state(root, lane):
     """'ran' (last_message.txt), 'running' (a live lane.pid), 'built' (pack, never launched),
     or 'missing'."""
     d = Path(root) / "work/native_lane" / lane
-    if (d / "last_message.txt").exists():
+    if (d / "last_message.txt").exists() or (d / "cap.txt").exists():   # a capped lane ran: never relaunched
         return "ran"
     if lane_pid(root, lane) is not None:
         return "running"
@@ -128,7 +142,7 @@ def candidates(root, lane):
 
 
 def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, paragraphs=(),
-         pins="1-2", npack=5, kit=False, served_guard="off", tier=None):
+         pins="1-2", npack=5, kit=False, served_guard="off", tier=None, cluster=None):
     """[{lane, action, rows, build, kit}] - what the pool would do, without doing any of it.
     kit: the kit_pack.py command run after a successful build (only with kit=True and action build+run).
 
@@ -158,6 +172,8 @@ def plan(root, lanes, rows_json=None, classes=DEFAULT_CLASSES, exemplars=6, para
                 build += ["--exemplars", str(exemplars)]
             if paragraphs:
                 build += ["--paragraphs", ",".join(paragraphs)]
+            if cluster:
+                build += ["--cluster", cluster]
             if served_guard != "off":
                 build += ["--served-guard", served_guard] + (["--tier", tier] if tier else [])
             if kit:
@@ -246,7 +262,8 @@ def run(args):
     root = Path(args.root)
     model_id = MODELS.get(args.model, args.model)
     steps = plan(root, args.lanes, args.rows_json, args.classes, args.exemplars,
-                 args.paragraphs, args.pins, args.pack_rows, args.kit, args.served_guard, TIER_OF.get(args.model))
+                 args.paragraphs, args.pins, args.pack_rows, args.kit, args.served_guard, TIER_OF.get(args.model),
+                 args.cluster)
     tag = args.tag or args.name
     if args.dry_run:
         print(plan_text(args.name, args.model, args.concurrency, steps, tag, not args.no_land))
@@ -265,16 +282,39 @@ def run(args):
     def running():
         return [(l, p) for l, p in started if alive(p) and l not in finished]
 
+    band_hist, stopped_bands, bands = {}, set(), {}
+    weight = None
+    if args.band_stop:
+        sys.path.insert(0, str(ROOT / "tools/lanes"))
+        import ab_report
+        weight = ab_report.load_weights(root)[0].get(ab_report.model_key(model_id))
+
     def reap():
         nonlocal zero_streak
         for lane, pid in started:
-            if lane in finished or alive(pid):
+            if lane in finished:
+                continue
+            if alive(pid) and (args.token_cap or args.wall_cap):
+                rec = lane_cap.check(root, lane, pid, args.token_cap, args.wall_cap)
+                if rec:
+                    log("== %s CAPPED (%s %s > %s): killed, cap.txt written" % (lane, rec["cap"], rec["figure"], rec["limit"]))
+                    time.sleep(2)
+            if alive(pid):
                 continue
             finished.add(lane)
             n = candidates(root, lane)
             log("== %s exited, %d candidate(s)" % (lane, n))
             journal(root, lane, model_id, n, args.note)
             zero_streak = zero_streak + 1 if n == 0 else 0
+            if args.band_stop and bands.get(lane):
+                r = ab_report.scan(root / "work/native_lane" / lane)
+                h = band_hist.setdefault(bands[lane], [])
+                h.append(r)
+                stop, rate, why = lane_cap.band_stop(h, args.band_window, args.band_stop, weight)
+                log("== band %s: %s" % (bands[lane], why))
+                if stop and bands[lane] not in stopped_bands:
+                    stopped_bands.add(bands[lane])
+                    log("== band %s STOPPED: no more lanes of this band from this pool" % bands[lane])
 
     for s in steps:
         if s["action"] == "skip":
@@ -306,8 +346,16 @@ def run(args):
             if r.returncode != 0 or "kit pack:" not in (r.stdout or "") or lane_state(root, s["lane"]) != "built":
                 log("== %s: kit_pack failed, skipped\n%s" % (s["lane"], (r.stderr or "")[-2000:]))
                 continue
+        if args.band_stop:
+            bands[s["lane"]] = lane_cap.lane_band(root, s["lane"])
+            if bands[s["lane"]] in stopped_bands:
+                log("== %s: band %s stopped (pins per weighted unit below %g), not launched"
+                    % (s["lane"], bands[s["lane"]], args.band_stop))
+                continue
         while True:
             reap()
+            if args.band_stop and bands.get(s["lane"]) in stopped_bands:
+                break
             if args.stop_after_zero and zero_streak >= args.stop_after_zero:
                 log("== %d finished lanes in a row without a candidate: the pool stops launching"
                     % zero_streak)
@@ -317,6 +365,9 @@ def run(args):
             time.sleep(args.poll)
         if args.stop_after_zero and zero_streak >= args.stop_after_zero:
             break
+        if args.band_stop and bands.get(s["lane"]) in stopped_bands:
+            log("== %s: band %s stopped while it waited, not launched" % (s["lane"], bands[s["lane"]]))
+            continue
         ok = False
         for attempt in range(1, args.probe_retries + 1):
             if probe(model_id):
@@ -381,6 +432,8 @@ def parse(argv=None):
     ap.add_argument("--served-guard", default="tier", choices=("tier", "ever", "off"),
                     help="guard passed to build_class_pack.py/kit_pack.py for lanes the pool builds: tier (default) "
                          "refuses rows a lane of the SAME tier served at the SAME text; ever = any lane ever; off")
+    ap.add_argument("--cluster", help="K-M: build CLUSTER packs (build_class_pack.py --cluster, round 76): one "
+                                      "cluster of K-M pins per big row, partial landing asked for")
     ap.add_argument("--tag", help="landing tag (default: the pool name)")
     ap.add_argument("--no-land", action="store_true")
     ap.add_argument("--dry-run", action="store_true", help="print the plan and exit")
@@ -389,6 +442,13 @@ def parse(argv=None):
     ap.add_argument("--probe-retries", type=int, default=2)
     ap.add_argument("--probe-wait", type=int, default=1800)
     ap.add_argument("--stop-after-zero", type=int, default=0)
+    ap.add_argument("--token-cap", type=int, default=0,
+                    help="kill a lane past this many codex tokens (live, from its session rollout); 0 = off")
+    ap.add_argument("--wall-cap", type=float, default=0, help="kill a lane past this many wall minutes; 0 = off")
+    ap.add_argument("--band-stop", type=float, default=0,
+                    help="stop launching a pin band whose last --band-window finished lanes removed fewer pins per "
+                         "weighted-cost unit (config/model_cost_weights.json) than this; 0 = off")
+    ap.add_argument("--band-window", type=int, default=4)
     ap.add_argument("--wait-for-sentinel", default="", help="FILE:TOKEN - start only once TOKEN appears in FILE")
     ap.add_argument("--wait-for-pid", type=int, default=0, help="start only once this pid has exited")
     ap.add_argument("--note", default="duck-briefed pool (tools/lanes/pool.py)")

@@ -34,6 +34,13 @@ its true base in one command: promote, register, as_flags; `--decision-b` verifi
 `tools/alloc_probe.py` (the allocator counterfactual probe: which ONE allocator input, changed under gdb, makes
 the unpinned compile reproduce retail; a triage of register sites at 1.3 s each, `probe_rows.sh ROWS DIR` over a
 list) and `build_probe_lanes.py` + `probe_lane_brief.md` (retry packs briefed with the measured knob).
+Round 76 (2026-09-23) split "served" in two (`served.py` docstring): `ever` (the above, kept) and `tier` - a serve keyed
+on (model tier, kit era, row text sha, scope), refusing only a same-tier same-text re-serve, because kit-era retries of
+other tiers paid 61-72% (r73-r75); `served.py --strong-kit --count` is the never-served-by-astra/Opus-with-the-kit pool,
+`pool.py` defaults to `--served-guard tier`. Agent-tool (Claude) lanes: prompt from `record_usage.py --prompt`, usage
+recorded from the Agent result into `usage.json` (never a lane's own estimate); cost weights in
+`config/model_cost_weights.json`; caps and the band stop in `lane_cap.py`; cluster packs for 8+-pin rows
+(`build_class_pack.py --cluster 3-5`, `cluster.py`); the fair A/B plan in `docs/evidence/r76_measurement_protocol.md`.
 
 Round 27 added `ledger.py` (the lane ledger: every lane's served/exact/landed/pins/rate read off the disk into
 `ledger/lanes.jsonl`; `--by tier|family|stratum`, `--closed 0.2` prints the (family, stratum) groups no pack may be

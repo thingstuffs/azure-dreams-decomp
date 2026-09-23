@@ -13,6 +13,9 @@ an older text - or none.
   success. Append it to every pack built from a big-row list.
 - `class_question.md` - TEMPLATE for a one-class pack (the mechanism is the ask, not the rows).
   Copy, fill the `<<...>>` slots by hand, pass the copy's name.
+- `cluster_partial.md` - a CLUSTER pack (`build_class_pack.py --rows ... --cluster 3-5`, round 76): one
+  cluster per big row, land it and keep every other pin. Added automatically in cluster mode (and by
+  `kit_pack.py` when the lane has `cluster.json`).
 - `new_findings.md` - "NEW TODAY": what yesterday's lanes found that this pack should try first.
   Rewrite it at the top of a round; it is the one paragraph that goes stale in a day.
 

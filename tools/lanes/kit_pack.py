@@ -48,7 +48,10 @@ def main(argv):
                 f"`lab.py` writes. `TOOLS.md` in this directory lists every tool with its absolute path.\n\n")
         body = v2.replace('<REPO>', str(ROOT)).replace('<KIT>', str(ROOT / 'tools/lanes/lanekit'))
         extra = ''
-        for p in paras:
+        lane_paras = list(paras)
+        if (D / 'cluster.json').is_file() and 'cluster_partial' not in lane_paras:   # round 76 cluster pack
+            lane_paras.append('cluster_partial')
+        for p in lane_paras:
             f = ROOT / 'tools/lanes/brief_paragraphs' / (p if p.endswith('.md') else p + '.md')
             if f.is_file(): extra += '\n\n' + f.read_text().strip() + '\n'
         if qfile: extra += '\n\n' + Path(qfile).read_text().strip() + '\n'
