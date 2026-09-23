@@ -209,14 +209,14 @@ void func_8017121C(void *source_handle, Rec_func_8017121C_arg1 *origin, s32 unus
         y_table_addr += (u32)direction_table;
         y_entry = (s16 *)y_table_addr;
         y_offset = y_entry[1];
-        ASM_KEEP_NV(y_offset);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         y_delta = y_delta - effect_z;
         y_offset <<= 4;
         y_delta -= y_offset;
         ((S_8017121C_0 *)effect_state)->unk_5E = y_delta / 2;
 
         effect_z = coords->unk_0A.u;
-        coord_delta = target_coords->unk_0A - effect_z;
+        y_offset = target_coords->unk_0A - effect_z;
+        coord_delta = y_offset;
         coord_delta -= D_800DDC40[((S_8017121C_10 *)(target->unk_60.as_pv))->unk_13] >> 1;
         ((S_8017121C_0 *)effect_state)->unk_62 = coord_delta / 2;
         return;

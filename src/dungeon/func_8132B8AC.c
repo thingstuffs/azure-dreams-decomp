@@ -146,7 +146,6 @@ void func_801730AC(void *actor_input, void *motion_input, void *sprite_input) {
     s32 particle_random;
 
     direction_vectors = D_8016A894;
-    ASM_KEEP(motion);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     beldo = (S_func_8132B8AC_3 *)(D_80174CE0 + 0x20);
     func_800478B8(sprite);
     state = actor->unk_9A;
@@ -600,7 +599,8 @@ block_98:
     if (D_80174CE0 == 0) {
         goto block_105;
     }
-    sprite_direction = ((s32) (D_80083228 + beldo->unk_2A.s + 0x100) >> 9) & 7;
+    motion = ((s32) (D_80083228 + beldo->unk_2A.s + 0x100) >> 9) & 7;
+    sprite_direction = motion;
     if (actor->unk_94 == sprite_direction) {
         goto block_101;
     }

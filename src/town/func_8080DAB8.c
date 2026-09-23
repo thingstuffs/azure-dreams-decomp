@@ -71,7 +71,7 @@ s32 func_8080DAB8(void *first_record) {
     register u8 *screen_coords;
     u8 *depths;
     u8 *transform_scratch;
-    register u8 *primitive_base ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *primitive_base;
     u8 *mode_base;
     register u32 addr_mask ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u32 tag_mask;
@@ -96,7 +96,8 @@ s32 func_8080DAB8(void *first_record) {
         }
         ((S_8080DAB8_0 *)(*render_root))->unk_8D0 = primitive_cursor;
         mode_cursor = 0;
-        draw_mode = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        primitive_base = ((S_8080DAB8_0 *)(*render_root))->unk_8D0;
+        draw_mode = primitive_base;
         mode_base = (u8 *)*render_root;
         if (draw_mode != 0) {
             mode_end = (u8 *)draw_mode + 0xC;

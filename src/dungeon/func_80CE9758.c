@@ -133,7 +133,7 @@ extern s8 D_800E2970[];
 void func_80172F58(u8 *move_input, void *action_context, u8 *position_input, u8 *actor_input) {
     register u8 *position ASM_REG("$20") = position_input;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *actor ASM_REG("$18") = actor_input;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 near_target ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 near_target;
     register s32 attempt ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *angle_offset;
     register u8 *x_offsets;
@@ -348,7 +348,8 @@ loop:
         ((S_80172F58_1 *)actor)->unk_71.u++;
         func_8009A3D0(((S_80172F58_2 *)position)->unk_24.at00.v, ((S_80172F58_2 *)position)->unk_24.at01.v,
                       (((S_80172F58_1 *)actor)->unk_1C & 0x2000) ? 0x300 : 0x3000);
-        direction_offset = (((S_80172F58_1 *)actor)->unk_2A.u >> 8) & 0xE;
+        near_target = (((S_80172F58_1 *)actor)->unk_2A.u >> 8) & 0xE;
+        direction_offset = near_target;
         ((S_80172F58_2 *)position)->unk_24.at00.v +=
             *((u8 *)((u32)direction_offset + (u32)x_offsets));
         ((S_80172F58_2 *)position)->unk_24.at01.v += *((u8 *)&D_8006CCE8 + direction_offset);

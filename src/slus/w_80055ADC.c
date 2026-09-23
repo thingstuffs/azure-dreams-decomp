@@ -28,12 +28,10 @@ void func_80055ADC(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
   u32 *outputSlot;
   u32 *firstSlot;
 
-  recordCount = recordBlock->count;
-  ASM_MEM_BARRIER();
+  recordCount = (*(s32 *)((u8 *)recordBlock + 0x10));
   slotIndex = 0;
   tableByteOffset &= 0xFFFF;
   tableBase = (u8 *)D_80084878;
-  ASM_USE(tableBase);
   tableByteOffset <<= 6;
   outputSlot = (u32 *)(tableBase + tableByteOffset);
   firstSlot = outputSlot;
@@ -42,7 +40,8 @@ void func_80055ADC(S_80055ADC_arg0 *recordBlock, u32 tableIndex)
     recordHeaderSize = 0x10;
     if (slotIndex >= recordCount)
     {
-      *outputSlot = *firstSlot;
+      tableBase = *firstSlot;
+      *outputSlot = tableBase;
     }
     else
     {

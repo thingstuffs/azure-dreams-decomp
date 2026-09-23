@@ -22,7 +22,7 @@ typedef struct S_800BDC98_1 {
 void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
     u16 value_pairs[8];
     s32 selected_pair;
-    register s32 saved_pair ASM_REG("$8");
+    s32 saved_pair;
     register s32 first_x;
     s32 height;
     s32 y;
@@ -52,7 +52,8 @@ void func_800BDC98(s16 start_x, s16 start_y, s16 mode, s32 pair_index) {
         x_limit += 2;
         if (x < x_limit) {
             shifted_y = start_y << 0x10;
-            pair_test = selected_pair << 0x10;
+            saved_pair = selected_pair << 0x10;
+            pair_test = saved_pair;
             pair_offset = ((s32)pair_test >> 0xE);
             pair_src = (s8 *)((long)pair_offset + (long)value_pairs);
             first_x = x;

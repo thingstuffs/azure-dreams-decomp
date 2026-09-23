@@ -149,7 +149,6 @@ shade:
             lower_color = color_work + intensity;
 
             trig_value >>= 4;
-            ASM_KEEP_NV(trig_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
 
             intensity = shade_step << 3;
             intensity -= shade_step;
@@ -163,7 +162,8 @@ shade:
 
             shade_work >>= 16;
             shade_work &= 0xff;
-            color_pair = (intensity << 8) + intensity;
+            trig_value = (intensity << 8) + intensity;
+            color_pair = trig_value;
             prev_upper_color = (color_pair << 8) + intensity;
 
             color_work = shade_work * 0x10101;

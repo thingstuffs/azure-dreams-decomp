@@ -131,8 +131,8 @@ void func_80AC55DC(
         duration_eighth >>= 3;
 
         step_x = offset_fixed / duration_eighth;
-        work->unk_40 = step_x / 2;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        offset_fixed = step_x / 2;
+        work->unk_40 = offset_fixed;
         offset_fixed = offset_y << 16;
         offset_fixed = -offset_fixed;
         step_y = offset_fixed / duration_eighth;

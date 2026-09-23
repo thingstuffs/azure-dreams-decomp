@@ -99,8 +99,8 @@ jt_c1:
     if ((s16) effect_level < 0x81) {
         goto block_23;
     }
-    ((S_800CABA8_0 *)effect)->unk_A0.at02.v = 0x80U;
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    phase_or_ticks = 0x80U;
+    ((S_800CABA8_0 *)effect)->unk_A0.at02.v = phase_or_ticks;
     phase_or_ticks = ((S_800CABA8_0 *)effect)->unk_9B;
     next_duration = 8;
     ((S_800CABA8_0 *)effect)->timer.half.ticks = next_duration;

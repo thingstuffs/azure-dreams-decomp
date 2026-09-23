@@ -77,7 +77,7 @@ void baken_uriba(void)
     s16 column_x;
     s16 *column_factor;
     s16 *row_factor;
-    register s16 *row_factors ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s16 *row_factors;
 
     buffer = 0;
     screen.text_words = D_80020010;
@@ -186,7 +186,8 @@ void baken_uriba(void)
             column_x = (grid_index * 0x28) + 0x3C;
             row_factors = D_8002430A;
             row_factor = row_factors + grid_index;
-            row_y = (grid_index * 0x10) + 0x24;
+            row_factors = (grid_index * 0x10) + 0x24;
+            row_y = row_factors;
             do {
                 screen.text.x = column_x;
                 screen.text.y = row_y;

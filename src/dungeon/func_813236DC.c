@@ -85,7 +85,7 @@ void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
     u8 *work_copy;
     register s32 spawn_config_0a ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 saved_config_24;
-    register s32 saved_config_25 ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_config_25;
     u8 *object;
     u8 *work;
     u8 *part_a;
@@ -151,8 +151,8 @@ void *func_8016AEDC(s32 mode_flags, s32 config_24, s32 config_25, s32 config_0a)
 
         spawn_mode = (s16)saved_mode;
         spawn_config_24 = (s16)(saved_config_24 + 1);
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        spawn_config_25 = (s32)((u32)saved_config_25 << 16);
+        spawn_config_0a = (s32)((u32)saved_config_25 << 16);
+        spawn_config_25 = spawn_config_0a;
         spawn_config_0a = saved_config_0a;
         ASM_KEEP_NV(spawn_config_0a);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
         spawn_config_25 >>= 16;

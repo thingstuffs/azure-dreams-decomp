@@ -31,7 +31,7 @@ void func_80173DD4(void *action, void *motion, void *object, void *actor)
     s32 direction_off;
     s32 facing_idx;
     s32 object_type;
-    register s32 tick_phase ASM_REG("$5");
+    s32 anim_table;
     s32 next_tick;
     u16 flags;
     s32 state;
@@ -56,7 +56,6 @@ state_two_test:
 
 state_zero:
 {
-    u8 *anim_table;
     u8 *facing_ptr;
 
     flags = U16(object, 0x14);
@@ -69,17 +68,17 @@ state_zero:
     if ((flags & 0x6000) == 0) {
         goto done;
     }
-    anim_table = (u8 *)0x80170000;
+    anim_table = 0x80170000;
     if (S16(action, 0x92) != 0) {
         goto done;
     }
     ASM_KEEP_NV(anim_table);
     anim_table += 0x5C78;
     facing_ptr = (u8 *)D_80080000;
-    PTR(object, 0x2C) = anim_table;
+    PTR(object, 0x2C) = (void *)anim_table;
     facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
     facing_idx &= 7;
-    facing_ptr = (u8 *)(facing_idx + (s32)anim_table);
+    facing_ptr = (u8 *)(facing_idx + anim_table);
     func_80047784(object, *facing_ptr, 0);
     U16(action, 0x96) = 0;
     func_800A56E0(0x808);
@@ -93,13 +92,13 @@ state_one:
     s32 signed_tick;
     s32 direction_y;
 
-    tick_phase = U16(action, 0x96);
+    anim_table = U16(action, 0x96);
     direction_base = (u8 *)&D_8006CCD8;
-    next_tick = tick_phase + 1;
-    tick_phase -= 3;
+    next_tick = anim_table + 1;
+    anim_table -= 3;
     U16(action, 0x96) = next_tick;
     direction_off = (U16(actor, 0x2A) >> 8) & 0xE;
-    tick_phase = (u32)tick_phase < 8U;
+    anim_table = (u32)anim_table < 8U;
     direction_base = (u8 *)(direction_off + (s32)direction_base);
     ASM_KEEP_NV(direction_base);
     delta_x = *(s16 *)direction_base;
@@ -110,7 +109,7 @@ state_one:
     delta_x <<= 16;
     direction_y = -direction_y;
     delta_y = direction_y << 16;
-    if (tick_phase) {
+    if (anim_table) {
         motion_x = S32(motion, 0xC) - delta_x;
         direction_off = S32(motion, 0x10) - delta_y;
         goto store_movement;
@@ -132,20 +131,19 @@ store_movement:
         func_8009C12C(actor, object, S16(actor, 0x2A), 1);
     }
     {
-        u8 *anim_table;
         u8 *facing_ptr;
 
-        anim_table = (u8 *)0x80170000;
+        anim_table = 0x80170000;
         if ((U16(object, 0x14) & 0x6000) == 0) {
             goto done;
         }
         ASM_KEEP_NV(anim_table);
         anim_table += 0x5CA8;
         facing_ptr = (u8 *)D_80080000;
-        PTR(object, 0x2C) = anim_table;
+        PTR(object, 0x2C) = (void *)anim_table;
         facing_idx = (*(s16 *)(facing_ptr + 0x3228) + S16(actor, 0x2A) + 0x100) >> 9;
         facing_idx &= 7;
-        facing_ptr = (u8 *)(facing_idx + (s32)anim_table);
+        facing_ptr = (u8 *)(facing_idx + anim_table);
         func_80047784(object, *facing_ptr, 0);
     }
     S32(motion, 0x14) = 0;

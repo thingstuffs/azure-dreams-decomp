@@ -46,7 +46,6 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
 
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     group = group_index;
-    ASM_KEEP_NV(group);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (group >= 10) {
         return 0;
     }
@@ -111,7 +110,8 @@ void *func_8001D280(s32 group_index, s32 requested_index, s32 lookup_variant) {
     n = lookup_flag - delta;
     goto common;
 negative:
-    n = head - n;
+    group = head - n;
+    n = group;
     n -= 1;
 common:
 

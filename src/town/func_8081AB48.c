@@ -159,7 +159,7 @@ jt_c1: {
     }
 
 jt_c2: {
-        register s32 duration ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+        s32 duration;
         if (actor->timerA2 <= 0) {
             s32 initial_duration;
             u16 actor_type;
@@ -167,12 +167,10 @@ jt_c2: {
             actor_type = actor->typeA0;
             actor->timerA2 = initial_duration;
             {
-                duration = actor->timerA2;
-                duration_roll = -0x400000 / duration;
+                duration_roll = -0x400000 / actor->timerA2;
             }
             {
-                duration = actor_type & 1;
-                if (duration) {
+                if ((actor_type & 1)) {
                     s32 x_speed;
                     if ((s16)actor_type == 1) {
                         x_speed = duration_roll;
@@ -182,7 +180,6 @@ jt_c2: {
                     motion->vx = x_speed;
                     motion->vy = 0;
                 } else {
-                    ASM_UNDEF(duration);
                     motion->vx = 0;
                     motion->vy = duration_roll;
                 }

@@ -20,7 +20,7 @@ void file_load_com(void *packed_data)
     s32 id_or_base;
     s32 target_time;
     register s32 offset_base ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register s32 id_base ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    s32 id_base;
 
     DrawSync(0);
     id_or_base = *(s32 *)packed_data & 0x7FFFFF;
@@ -32,8 +32,8 @@ void file_load_com(void *packed_data)
     } else {
         id_base = D_8008148C.field_0;
         id_or_base = id_or_base | 0x80000000;
+        D_80081480.field_0 = id_base;
         target_time = id_base;
-        D_80081480.field_0 = target_time;
     }
     Control_CD(6, packed_data, 0);
     func_8003F320();

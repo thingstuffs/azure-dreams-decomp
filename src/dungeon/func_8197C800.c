@@ -444,8 +444,8 @@ case_three:
                 {
                     u16 flags;
                     flags = sprite->unk_14;
-                    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-                    sprite_template = (u8 *)sprite_template - 0x1630;
+                    result = (u8 *)sprite_template - 0x1630;
+                    sprite_template = result;
                     sprite->unk_00 = sprite_template;
                     flags |= 0xC;
                     sprite->unk_14 = flags;

@@ -140,7 +140,7 @@ s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_param
     u8 *primitive;
     u32 depth;
     u32 global_value;
-    register s32 reverse_winding ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 reverse_winding;
     s16 vertex_x;
     s16 vertex_y;
     s32 signed_flags;
@@ -324,7 +324,8 @@ lists_done:
     if (next_batch == 0) {
         goto done;
     }
-    batch = next_batch + 0x20;
+    reverse_winding = next_batch + 0x20;
+    batch = reverse_winding;
     dispatch_arg = ((S_800B06F0_6 *)next_batch)->unk_08;
     params = ((S_800B06F0_6 *)next_batch)->unk_0C;
     goto dispatch;

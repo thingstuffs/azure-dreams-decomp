@@ -22,8 +22,8 @@ extern void *D_80083160[3];
 void func_8003D0F0(void)
 {
     u8 *scratch;
-    register u8 *packet ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    register u8 *sprite_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+    u8 *packet;
+    u8 *sprite_data;
     u8 *prim;
     u8 *sprite;
     u8 *transform_flag;
@@ -58,28 +58,26 @@ void func_8003D0F0(void)
     RotMatrix((void *)0x1F800028, (void *)0x1F800050);
     SetRotMatrix((void *)0x1F800050);
     SetTransMatrix((void *)0x1F800050);
-    sprite_data = sprite + 4;
-    packet = prim + 4;
 
     do {
-        tex_start = U8_AT(sprite_data, 4);
+        tex_start = U8_AT((sprite + 4), 4);
         U32_AT(scratch, 0x08) = tex_start;
-        tex_size = U8_AT(sprite_data, 6);
+        tex_size = U8_AT((sprite + 4), 6);
         U32_AT(scratch, 0x10) = tex_size;
         if (tex_start + tex_size >= 0x100) {
             U32_AT(scratch, 0x10) = tex_size - 1;
         }
 
-        tex_start = U8_AT(sprite_data, 5);
+        tex_start = U8_AT((sprite + 4), 5);
         U32_AT(scratch, 0x0C) = tex_start;
-        tex_size = U8_AT(sprite_data, 7);
+        tex_size = U8_AT((sprite + 4), 7);
         U32_AT(scratch, 0x14) = tex_size;
         if (tex_start + tex_size >= 0x100) {
             U32_AT(scratch, 0x14) = tex_size - 1;
         }
 
         if (sprite[0] & 1) {
-            s32 x_offset_byte = U8_AT(sprite_data, -2);
+            s32 x_offset_byte = U8_AT((sprite + 4), -2);
             s32 x_start;
             width = U16_AT(scratch, 0x10);
             ASM_KEEP_DEP_NV(x_offset_byte, width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -88,7 +86,7 @@ void func_8003D0F0(void)
             S16_AT(scratch, 0x70) = x_start;
             x_end = x_start - width;
         } else {
-            s32 x_offset_byte = U8_AT(sprite_data, -2);
+            s32 x_offset_byte = U8_AT((sprite + 4), -2);
             s32 x_start;
             width = U16_AT(scratch, 0x10);
             ASM_KEEP_DEP_NV(x_offset_byte, width);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -101,7 +99,7 @@ void func_8003D0F0(void)
         S16_AT(scratch, 0x78) = x_end;
 
         if (sprite[0] & 2) {
-            s32 y_offset_byte = U8_AT(sprite_data, -1);
+            s32 y_offset_byte = U8_AT((sprite + 4), -1);
             s32 y_start;
             height = U16_AT(scratch, 0x14);
             ASM_KEEP_DEP_NV(y_offset_byte, height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -112,7 +110,7 @@ void func_8003D0F0(void)
             S16_AT(scratch, 0x8A) = y_end;
             S16_AT(scratch, 0x82) = y_end;
         } else {
-            s32 y_offset_byte = U8_AT(sprite_data, -1);
+            s32 y_offset_byte = U8_AT((sprite + 4), -1);
             s32 y_start;
             height = U16_AT(scratch, 0x14);
             ASM_KEEP_DEP_NV(y_offset_byte, height);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
@@ -143,36 +141,36 @@ void func_8003D0F0(void)
             U32_AT(scratch, 0x0C) = uv_value << 8;
         }
 
-        U16_AT(packet, 0x0A) = U16_AT(sprite_data, 2);
-        S16_AT(packet, 0x08) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x08);
-        S16_AT(packet, 0x10) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x10);
-        U16_AT(packet, 0x12) = U16_AT(sprite_data, 0);
-        S16_AT(packet, 0x18) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x08);
-        S16_AT(packet, 0x20) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x10);
+        U16_AT((prim + 4), 0x0A) = U16_AT((sprite + 4), 2);
+        S16_AT((prim + 4), 0x08) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x08);
+        S16_AT((prim + 4), 0x10) = U16_AT(scratch, 0x0C) + U16_AT(scratch, 0x10);
+        U16_AT((prim + 4), 0x12) = U16_AT((sprite + 4), 0);
+        S16_AT((prim + 4), 0x18) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x08);
+        S16_AT((prim + 4), 0x20) = U16_AT(scratch, 0x14) + U16_AT(scratch, 0x10);
 
-        if (S16_AT(packet, 0x04) > S16_AT(packet, 0x1C)) {
-            u8 u_end = U8_AT(packet, 0x20);
-            U8_AT(packet, 0x20) = u_end + 0xFF;
-            U8_AT(packet, 0x10) = u_end;
+        if (S16_AT((prim + 4), 0x04) > S16_AT((prim + 4), 0x1C)) {
+            u8 u_end = U8_AT((prim + 4), 0x20);
+            U8_AT((prim + 4), 0x20) = u_end + 0xFF;
+            U8_AT((prim + 4), 0x10) = u_end;
         }
-        if (S16_AT(packet, 0x06) > S16_AT(packet, 0x1E)) {
-            u8 v_end = U8_AT(packet, 0x21);
-            U8_AT(packet, 0x21) = v_end + 0xFF;
-            U8_AT(packet, 0x19) = v_end;
+        if (S16_AT((prim + 4), 0x06) > S16_AT((prim + 4), 0x1E)) {
+            u8 v_end = U8_AT((prim + 4), 0x21);
+            U8_AT((prim + 4), 0x21) = v_end + 0xFF;
+            U8_AT((prim + 4), 0x19) = v_end;
         }
 
-        U8_AT(packet, -1) = 9;
-        U8_AT(packet, 3) = 0x2C;
-        U8_AT(packet, 2) = 0x80;
-        U8_AT(packet, 1) = 0x80;
-        U8_AT(packet, 0) = 0x80;
+        U8_AT((prim + 4), -1) = 9;
+        U8_AT((prim + 4), 3) = 0x2C;
+        U8_AT((prim + 4), 2) = 0x80;
+        U8_AT((prim + 4), 1) = 0x80;
+        U8_AT((prim + 4), 0) = 0x80;
         DrawPrim(prim);
-        packet += 0x28;
+        packet = (prim + 4) + 0x28;
         prim += 0x28;
         if ((s8)sprite[0] < 0) {
             break;
         }
-        sprite_data += 0xC;
+        sprite_data = (sprite + 4) + 0xC;
         sprite += 0xC;
     } while (1);
 

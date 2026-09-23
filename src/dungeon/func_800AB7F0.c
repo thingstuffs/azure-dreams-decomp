@@ -36,7 +36,7 @@ void *func_800B0F50(void *owner)
   s32 count_or_color;
   register s32 blue_color ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
   s32 color_or_addr;
-  register s32 vertex_color ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  s32 vertex_color;
   s32 text_width;
   s32 text_addr;
   s32 text_addr_2;
@@ -161,7 +161,8 @@ void *func_800B0F50(void *owner)
       prim_index++;
       *((s32 *) (((s8 *) prim) + 0x10)) = vertex_color;
       red_color_2 = *((s32 *) (((s8 *) panel_data) + 0x24));
-      *((u8 *) (((s8 *) prim) + 1)) = (u8) ((*((u8 *) (((s8 *) prim) + 1))) | 2);
+      vertex_color = (u8) ((*((u8 *) (((s8 *) prim) + 1))) | 2);
+      *((u8 *) (((s8 *) prim) + 1)) = vertex_color;
       *((s32 *) (((s8 *) prim) + 0x14)) = red_color_2;
       prim += 0x18;
       *((void **) (((s8 *) ((prim_index * 4) + panel_data)) + 0x50)) = prim;

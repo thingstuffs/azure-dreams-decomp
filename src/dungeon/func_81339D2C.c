@@ -94,8 +94,8 @@ void func_80170D2C(s32 unused, s16 duration, s32 offset_x, s32 offset_y, s32 off
         ((S_80170D2C_3 *)prim)->unk_04.at02.v += offset_y;
         ((S_80170D2C_3 *)prim)->unk_08.at02.v += offset_z;
         ((S_80170D2C_0 *)work)->unk_1C = ((S_80170D2C_4 *)D_80083780)->unk_00.at02.v;
-        ((S_80170D2C_0 *)work)->unk_1E = ((S_80170D2C_4 *)D_80083780)->unk_04.at02.v;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+        fixed_value = ((S_80170D2C_4 *)D_80083780)->unk_04.at02.v;
+        ((S_80170D2C_0 *)work)->unk_1E = fixed_value;
         fixed_value = duration << 16;
         duration_value = fixed_value >> 16;
         ((S_80170D2C_0 *)work)->unk_20 = ((S_80170D2C_4 *)D_80083780)->unk_08.at02.v;

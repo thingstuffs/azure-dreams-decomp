@@ -47,7 +47,7 @@ typedef struct S_8014D3A8_2 {
 /* Update entity callbacks, movement, animation, and ground height. */
 void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
 {
-    register void *entity_base ASM_REG("$19") = entity;
+    void *entity_base = entity;
     s16 old_state;
     void *call_entity;
     void *call_motion;
@@ -68,7 +68,6 @@ void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_8014D9DC) {
-            ASM_KEEP(entry_self);
             entry_callback(entry_self, motion, sprite, entry_self);
             return;
         }
@@ -79,7 +78,6 @@ void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
     call_entity = entity;
     call_motion = motion;
     call_sprite = sprite;
-    ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base);
     old_state = (s8)((*(u8 *)((u8 *)entity + 0x6D)));
     if (func_800A9E70(call_entity, call_motion, call_sprite, entity) != 0) {
         return;
@@ -100,11 +98,14 @@ void func_8014D3A8(void *entity, S_8014D3A8_0 *motion, void *sprite)
         state_compare >>= 16;
         if (state_compare != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);
+            motion->unk_00.at00.v += motion->unk_0C;
+            motion->unk_04.at00.v += motion->unk_10;
+        } else {
+            motion->unk_00.at00.v += motion->unk_0C;
+            motion->unk_04.at00.v += motion->unk_10;
         }
     }
 
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
 
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {
@@ -175,7 +176,6 @@ clear_ground_flag:
                 height_offset = (*(s16 *)((u8 *)entity + 0x92));
                 if (adjustment < height_offset) {
                     adjustment = entity_flags - 8;
-                    ASM_SCHED_BARRIER();
                     (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
                     goto finish_motion;
                 }
@@ -268,7 +268,8 @@ clear_motion:
         entity_flags = (*(u16 *)((u8 *)entity + 0x92));
         if (adjustment < height_offset) {
             adjustment = entity_flags - 8;
-            goto store_adjustment;
+            (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+            goto store_adjustment_done;
         }
 adjust_positive:
         adjustment = height_offset < -8;
@@ -277,8 +278,9 @@ adjust_positive:
         } else {
             goto finish_motion;
         }
-store_adjustment:
         (*(s16 *)((u8 *)entity + 0x92)) = adjustment;
+        store_adjustment_done:
+        ;
     }
 finish_motion:
     entity_flags = ((S_8014D3A8_2 *)entity_base)->unk_1C;

@@ -66,8 +66,8 @@ S_80083968 *func_8003E39C(s16 entry_type, s32 entry_value, s32 payload)
   {
     register s32 slot_offset ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     slot_offset = write_index * 24;
-    D_800814D1 = (D_800814D1 + 1) & 0x1F;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): slus-diff; the source shape that makes it unnecessary has not been found */
+    slot_data = (D_800814D1 + 1) & 0x1F;
+    D_800814D1 = slot_data;
     return (S_80083968 *) ((u8 *) D_80083968 + slot_offset);
   }
 }

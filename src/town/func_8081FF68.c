@@ -359,7 +359,7 @@ sw_6:
         ((S_80022768_0 *)state)->unk_58 = 0;
         {
             register u8 *reel_slot ASM_REG("$12") = (u8 *)state + 8;
-            register u8 *reel_table ASM_REG("$2") = D_800244B8;
+            u8 *reel_table = D_800244B8;
             register u8 *reel_symbols ASM_REG("$10") = reel_table + 0x18;
             s32 *symbol_row = &symbols[2][0];
             u8 *strip;
@@ -374,7 +374,8 @@ sw_6:
         inner_top:
             {
                 register s32 reel_offset ASM_REG("$4");
-                reel_offset = (s16)((S_80022768_13 *)(((S_80022768_6 *)slot_cursor)->unk_4C))->unk_2A;
+                reel_table = (s16)((S_80022768_13 *)(((S_80022768_6 *)slot_cursor)->unk_4C))->unk_2A;
+                reel_offset = reel_table;
                 *symbol_out = strip[(angle + reel_offset) % 12];
                 symbol_out--;
             }
