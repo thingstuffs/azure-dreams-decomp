@@ -16,7 +16,7 @@ extern void func_8016EF00(void);
 extern void func_8016AA98(void);
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-u8 *func_8016A894(s32 flags, u8 kind_id, u16 variant, s16 spawn_value)
+u8 *func_8016A894(s16 flags, u8 kind_id, u16 variant, s16 spawn_value)
 {
     register u8 byte_kind_id ASM_REG("$21") = kind_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     s16 half_spawn = spawn_value;
@@ -28,17 +28,15 @@ u8 *func_8016A894(s32 flags, u8 kind_id, u16 variant, s16 spawn_value)
     u8 *secondary;
     s16 saved_flags;
 
-    ASM_KEEP_NV(flags);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    saved_flags = flags;
     result = 0;
     allocation = func_8003FD64(0x112, D_80083498);
     if (allocation == 0) {
         goto done;
     }
 
-    saved_flags = flags;
     result = allocation;
     result += 0x20;
-    ASM_KEEP(result);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     result[0x13] = 14;
     func_8004491C(allocation, func_80045340);
 

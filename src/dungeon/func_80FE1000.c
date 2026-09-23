@@ -54,7 +54,7 @@ extern u8 D_8016E088[];
 extern u8 D_8016AEA8[];
 
 #ifdef __mips__
-extern void *func_8016A8A8(s16, s8, s8, s16);
+extern void *func_8016A8A8(s16, s32, s32, s16);
 extern void *func_8016B2B8(void);
 extern void *func_8016B2E4(void);
 extern void *func_8016B264(void);
@@ -122,7 +122,7 @@ __asm__(".globl func_8016A800\n"
 #endif
 
 /* Creates a dungeon object and initializes its kind flags and part parameters. */
-void *BODY_NAME(s16 kind_flags, s8 part_value_24, s8 part_value_25, s16 part_value_0a)
+void *BODY_NAME(s16 kind_flags, s32 part_value_24, s32 part_value_25, s16 part_value_0a)
 {
     s32 kind;
     void *obj;
@@ -132,9 +132,9 @@ void *BODY_NAME(s16 kind_flags, s8 part_value_24, s8 part_value_25, s16 part_val
     S_80FE1000_4 *actor;
     s32 flags;
     s32 paired_flags;
-    register s8 saved_value_24 ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_value_24;
     s16 saved_value_0a;
-    register s8 saved_value_25 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 saved_value_25;
     register void *init_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *init_part_a;
 

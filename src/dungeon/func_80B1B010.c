@@ -76,6 +76,7 @@ extern void func_800A56E0(s32);
 extern s32 func_800A94A0(void *, u8 *, s32, void *);
 extern void func_800DA840(void *, s16);
 
+extern int abs(int);
 extern u8 D_8006DE24[];
 extern void *D_800814A8;
 extern s16 D_80083228;
@@ -157,23 +158,16 @@ void func_80172810(void *action_state, void *position, void *sprite, void *actor
                     goto apply_motion;
                 }
             have_target:
-                offset_y = ((S_80172810_2_pre *)target)[-1].unk_00;
-                ((S_80172810_1 *)actor)->unk_72.s = ((S_80172810_3 *)offset_y)->unk_24;
-                ((S_80172810_1 *)actor)->unk_73.s = ((S_80172810_3 *)offset_y)->unk_25;
+                action_globals = ((S_80172810_2_pre *)target)[-1].unk_00;
+                ((S_80172810_1 *)actor)->unk_72.s = ((S_80172810_3 *)action_globals)->unk_24;
+                ((S_80172810_1 *)actor)->unk_73.s = ((S_80172810_3 *)action_globals)->unk_25;
                 goto apply_motion;
             }
             ((S_80172810_1 *)actor)->unk_60 =
                 func_800A05A4(actor, ((S_80172810_4 *)sprite)->unk_24, ((S_80172810_4 *)sprite)->unk_25,
                               ((S_80172810_1 *)actor)->unk_2A, 0x10);
-            ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-            offset_x = ((S_80172810_1 *)actor)->unk_72.u;
-            offset_y = ((S_80172810_1 *)actor)->unk_73.u;
-            if (offset_x < 0) {
-                offset_x = -offset_x;
-            }
-            if (offset_y < 0) {
-                offset_y = -offset_y;
-            }
+            offset_x = abs(((S_80172810_1 *)actor)->unk_72.u);
+            offset_y = abs(((S_80172810_1 *)actor)->unk_73.u);
             ((S_80172810_1 *)actor)->unk_72.s = offset_x;
             ((S_80172810_1 *)actor)->unk_73.s = offset_y;
         apply_motion:

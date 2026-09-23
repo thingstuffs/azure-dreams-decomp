@@ -20,7 +20,6 @@ typedef struct S_800D6804_1 {
 } S_800D6804_1;   /* arg0 in func_800D6804 */
 
 
-
 extern s32 D_800814A0;
 
 /* Advance the state with a decaying delta and fade the effect color until its timer expires. */
@@ -32,7 +31,7 @@ void func_800D6804(void *effect, void *state_data)
         register void *state ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
         register s32 delta ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
         s32 scaled_delta;
-        register s32 delta_copy ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 delta_copy;
         s32 accumulated;
         s32 decayed_delta;
 
@@ -48,7 +47,8 @@ void func_800D6804(void *effect, void *state_data)
         if (scaled_delta < 0) {
             scaled_delta += 3;
         }
-        decayed_delta = scaled_delta >> 2;
+        delta_copy = scaled_delta;
+        decayed_delta = delta_copy >> 2;
         ((S_800D6804_0 *)state)->unk_14 = decayed_delta;
     }
 

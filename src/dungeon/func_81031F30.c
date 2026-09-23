@@ -3,12 +3,6 @@
 #include "records/Rec_D_80082E80.h"
 
 
-/* Input-only liveness extension (no "+r" rewrite): keeps `var` live to this
- * point WITHOUT redefining it. ASM_KEEP's "+r" adds a second def, which flips
- * gcc 2.8.1 sched2's prologue entry-group ordering (the s3 save/copy pair
- * hoists to the front) — proven on this function (v10 vs v11). Candidate for
- * promotion into common.h as ASM_USE. */
-
 extern void func_800A2B04();
 extern void func_800AAA54();
 extern void func_800AD4D0();
@@ -33,28 +27,25 @@ typedef struct S_80173730_0 {
 
 
 /* Updates staged movement toward a target tile and finalizes the action. */
-void func_80173730(void *action_arg, void *motion_arg, void *target_arg, void *actor_arg)
+void func_80173730(void *action, void *motion, void *target, void *actor)
 {
-    void *action;
-    void *motion;
-    register void *target ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
     u8 state;
     s16 timer;
 
-    action = action_arg;
-    motion = motion_arg;
-    target = target_arg;
-    motion_arg = actor_arg;
 
 
     state = ((S_80173730_0 *)action)->unk_9B;
     switch (state) {
     case 0:
-        func_800AD4D0(motion_arg);
+        func_800AD4D0(actor);
         ((S_80173730_0 *)action)->unk_96.u = 4;
         ((S_80173730_0 *)action)->unk_9B++;
-        if (((Rec_D_800E3D7C *)motion_arg)->unk_28 == 0) {
-            goto reset_motion;
+        if (((Rec_D_800E3D7C *)actor)->unk_28 == 0) {
+            ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
+            ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
+            ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
+            func_800AAA54(action, motion, target, &D_801760D4);
+            return;
         }
         if (!(((Rec_D_80082E80 *)target)->unk_14.at00_u16.v & 0x8000)) {
             return;
@@ -69,10 +60,10 @@ void func_80173730(void *action_arg, void *motion_arg, void *target_arg, void *a
         if (timer > 0) {
             ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
                 *(s16 *)(&D_8006CCD8 +
-                    ((((Rec_D_800E3D7C *)motion_arg)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+                    ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
             ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
                 *(s16 *)(&D_8006CCE8 +
-                    ((((Rec_D_800E3D7C *)motion_arg)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
+                    ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 19;
             return;
         }
         if (timer != 0) {
@@ -80,19 +71,18 @@ void func_80173730(void *action_arg, void *motion_arg, void *target_arg, void *a
         }
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 =
             *(s16 *)(&D_8006CCD8 +
-                ((((Rec_D_800E3D7C *)motion_arg)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
+                ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v =
             *(s16 *)(&D_8006CCE8 +
-                ((((Rec_D_800E3D7C *)motion_arg)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
+                ((((Rec_D_800E3D7C *)actor)->unk_6A.as_u16 >> 8) & 0xE)) << 18;
         ((S_80173730_0 *)action)->unk_96.u = 12;
         ((S_80173730_0 *)action)->unk_9B++;
         return;
 
     case 2:
-        if (((Rec_D_800E3D7C *)motion_arg)->unk_28 != 0) {
+        if (((Rec_D_800E3D7C *)actor)->unk_28 != 0) {
             goto update_motion;
         }
-reset_motion:
         ((Rec_D_800E3D7C *)motion)->unk_14.as_s32 = 0;
         ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = 0;
         ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = 0;
@@ -146,11 +136,10 @@ update_motion:
                 ((Rec_D_80082E80 *)target)->unk_25);
             tracking_data = &D_80083460;
             entity_addr = *(s32 *)((u8 *)tracking_data + 0x10);
-            if (entity_addr == (s32)((u8 *)motion_arg - 0x20)) {
+            if (entity_addr == (s32)((u8 *)actor - 0x20)) {
                 *(s32 *)((u8 *)tracking_data + 0x10) = entity_addr & 0x7FFFFFFF;
             }
             ((S_80173730_0 *)action)->unk_8C = &D_801714B8;
-            ASM_USE(motion_arg);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         }
         return;
     }

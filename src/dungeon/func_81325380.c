@@ -50,13 +50,14 @@ typedef struct S_8016CB80_4 {
 /* Updates movement, directional animation, and action completion. */
 void func_8016CB80(void *state, void *motion_arg, void *actor_arg, void *entity_arg) {
     void *motion = motion_arg;
-    register void *actor ASM_REG("$17") = actor_arg;
+    void *actor = actor_arg;
     void *entity = entity_arg;
     M2C_UNK direction_info;
     s32 move_ticks;
     s32 next_move_ticks;
     s32 tile_x;
     s32 pixel_offset;
+    s32 pixel_y;
     s32 entity_flags;
     u16 action_ticks;
     u16 status_flags;
@@ -92,12 +93,11 @@ update_move:
     move_ticks = ((S_8016CB80_0 *)state)->unk_9E;
     ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 - ((S_8016CB80_0 *)state)->unk_A0);
     if (move_ticks != 0) {
-        tile_x = ((S_8016CB80_2 *)actor)->unk_24;
-        ASM_KEEP(tile_x);
+        tile_x = ((S_8016CB80_2 *)actor)->unk_24 << 6;
         pixel_offset = ((Rec_D_800E3D7C *)motion)->unk_00.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) (((tile_x << 6) - pixel_offset) << 0x10) / move_ticks);
-        pixel_offset = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
-        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((s32) (((((S_8016CB80_2 *)actor)->unk_25 << 6) - pixel_offset) << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
+        ((Rec_D_800E3D7C *)motion)->unk_0C.as_s32 = (s32) ((s32) ((tile_x - pixel_offset) << 0x10) / move_ticks);
+        pixel_y = ((Rec_D_800E3D7C *)motion)->unk_04.at02_s16.v - 0x20;
+        ((Rec_D_800E3D7C *)motion)->unk_10.at00_s32.v = (s32) ((s32) (((((S_8016CB80_2 *)actor)->unk_25 << 6) - pixel_y) << 0x10) / (s16) ((S_8016CB80_0 *)state)->unk_9E);
         ((S_8016CB80_0 *)state)->unk_A0 = (s32) ((0 - func_800644B8(((S_8016CB80_0 *)state)->unk_9E * 0x199)) << 0xA);
     }
     ((S_8016CB80_0 *)state)->unk_90 = (s32) (((S_8016CB80_0 *)state)->unk_90 + ((S_8016CB80_0 *)state)->unk_A0);
@@ -124,13 +124,17 @@ update_animation:
     if (((S_8016CB80_0 *)state)->unk_B3 == 0) {
         current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
         anims = (u8 *)&D_8017467C;
+        if (current_anims != anims) {
+            (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+            func_80047784(actor, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
+        }
     } else {
         current_anims = ((S_8016CB80_2 *)actor)->unk_2C.p;
         anims = D_80174684;
-    }
-    if (current_anims != anims) {
-        (*(u8 **)((u8 *)actor + 0x2C)) = anims;
-        func_80047784(actor, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
+        if (current_anims != anims) {
+            (*(u8 **)((u8 *)actor + 0x2C)) = anims;
+            func_80047784(actor, *(u8 *)((((s32) (D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7) + (u32)anims), 0);
+        }
     }
 update_timer:
     action_ticks = ((S_8016CB80_0 *)state)->unk_96 - 1;

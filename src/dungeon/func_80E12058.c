@@ -62,42 +62,35 @@ void *func_80175858(void *direction_src, Copy24 *initial_data, void *render_src)
     void *object_state;
     void *object;
     void *data_dst;
-    register void *result ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register u16 render_attr ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u16 render_attr;
     void *direction_ref = direction_src;
     Copy24 *data_src = initial_data;
     void *render_ref = render_src;
 
     object = func_8003FC64(0x312);
     if (object != NULL) {
-        goto allocated;
+        ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
+        func_8004491C(object, &D_80045340);
+        object_state = object + 0x20;
+        ((S_80175858_1 *)object_state)->unk_04.s =
+            (u16)((S_80175858_2 *)direction_ref)->unk_2A;
+        render_data = ((S_80175858_0 *)object)->unk_0C;
+        ((S_80175858_3 *)render_data)->unk_28 =
+            ((S_80175858_4 *)render_ref)->unk_28;
+        render_attr = ((S_80175858_4 *)render_ref)->unk_12;
+        ((S_80175858_3 *)render_data)->unk_0C = 0x808080;
+        ((S_80175858_3 *)render_data)->unk_1E = 0x800;
+        ((S_80175858_3 *)render_data)->unk_1C = 0x800;
+        (*(u16 *)((u8 *)render_data + 0x12)) = render_attr;
+        func_80047784(
+            render_data,
+            D_80176498[
+                ((D_80083228 + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
+                7],
+            0);
+        data_dst = ((S_80175858_0 *)object)->unk_08;
+        *(Copy24 *)data_dst = *data_src;
+        return object;
     }
-    result = NULL;
-    goto done;
-allocated:
-    ((S_80175858_0 *)object)->unk_10 = &D_8017573C;
-    func_8004491C(object, &D_80045340);
-    object_state = object + 0x20;
-    ASM_KEEP_NV(object_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ((S_80175858_1 *)object_state)->unk_04.s =
-        (u16)((S_80175858_2 *)direction_ref)->unk_2A;
-    render_data = ((S_80175858_0 *)object)->unk_0C;
-    ((S_80175858_3 *)render_data)->unk_28 =
-        ((S_80175858_4 *)render_ref)->unk_28;
-    render_attr = ((S_80175858_4 *)render_ref)->unk_12;
-    ((S_80175858_3 *)render_data)->unk_1E = 0x800;
-    ((S_80175858_3 *)render_data)->unk_1C = 0x800;
-    ((S_80175858_3 *)render_data)->unk_0C = 0x808080;
-    (*(u16 *)((u8 *)render_data + 0x12)) = render_attr;
-    func_80047784(
-        render_data,
-        D_80176498[
-            ((D_80083228 + ((S_80175858_1 *)object_state)->unk_04.u + 0x100) >> 9) &
-            7],
-        0);
-    data_dst = ((S_80175858_0 *)object)->unk_08;
-    result = object;
-    *(Copy24 *)data_dst = *data_src;
-done:
-    return result;
+    return NULL;
 }

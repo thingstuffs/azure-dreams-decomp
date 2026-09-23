@@ -34,7 +34,7 @@ typedef struct S_func_80D40744_1 {
     void *unk_10;
 } S_func_80D40744_1;
 
-extern void func_800A4ACC(void *, s32, s32);
+extern void func_800A4ACC(void *);
 extern s32 D_80083460;
 extern u16 D_80083462;
 
@@ -44,12 +44,11 @@ void func_80175F44(S_func_80D40744_0 *entity, s32 unused_1, s32 unused_2, s32 un
     s32 state_or_flags;
     S_func_80D40744_0 *saved_entity = entity;
     u8 flags_71 = ((volatile S_func_80D40744_0 *)entity)->unk_71;
-    register s32 initial_mode ASM_REG("$3") = requested_mode;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    s32 raw_mode;
+    s32 initial_mode = requested_mode;
+    u16 raw_mode;
 
     flags_71 &= 0x7F;
     raw_mode = initial_mode;
-    ASM_KEEP_NV(initial_mode);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     initial_mode = (s16)initial_mode;
     entity->unk_71 = flags_71;
     if (initial_mode != 2) {
@@ -110,8 +109,7 @@ accepted:
         entity->unk_B2 = 0;
         entity->unk_B4 = raw_mode;
         if (mode == 0) {
-            ASM_KEEP(mode);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            func_800A4ACC(saved_entity, mode, raw_mode);
+            func_800A4ACC(saved_entity);
             saved_entity->unk_6D--;
         }
     }

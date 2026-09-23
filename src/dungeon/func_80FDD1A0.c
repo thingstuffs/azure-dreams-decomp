@@ -127,12 +127,12 @@ void func_801729A0(S_func_80FDD1A0_1 *actor, VecData *motion, S_func_80FDD1A0_2 
         &&kind_1, &&kind_2, &&kind_3, &&kind_default,
         &&kind_5, &&kind_6, &&kind_7
     };
-    register s32 zero ASM_REG("$0");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    s32 use_player = 0;
-    S_func_80FDD1A0_4 *effect = (void *)zero;
+    s16 use_player = 0;
+    S_func_80FDD1A0_4 *effect = 0;
     void *target;
     u8 *item_slot;
     S_func_80FDD1A0_6 *turn_state;
+    S_func_80FDD1A0_2 *effect_sprite;
     ShortVec sound_pos;
     u8 phase;
 
@@ -264,7 +264,7 @@ invoke_item:
                 effect->unk_4A = actor_data->unk_2A.u;
                 {
                     s32 sprite_flags = sprite->unk_28;
-                    register S_func_80FDD1A0_2 *effect_sprite ASM_REG("$4") = effect->unk_0C;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+                    effect_sprite = effect->unk_0C;
 
                     effect_sprite->unk_1E = 0x1000;
                     effect_sprite->unk_1C = 0x1000;
@@ -283,7 +283,6 @@ invoke_item:
         }
 
         {
-            S_func_80FDD1A0_2 *effect_sprite;
             u8 *animations;
             s32 direction;
 

@@ -78,7 +78,7 @@ void func_80170B64(void *actor_arg, void *motion_arg, void *sprite_arg)
 {
     register void *actor ASM_REG("$17") = actor_arg;
     register void *motion ASM_REG("$21") = motion_arg;
-    register void *actor_base ASM_REG("$18") = actor;
+    void *actor_base = actor;
     M2C_UNK (*update_callback)(void *, void *, void *, void *);
     M2C_UNK (*pause_callback)(void *, void *, void *, void *);
     s16 floor_offset;
@@ -277,7 +277,8 @@ update_world_height:
                 ((S_80170B64_3 *)actor_base)->unk_88 = tile_height;
             }
         }
-        ((S_80170B64_1 *)motion)->unk_0A = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
+        actor_arg = motion;
+        ((S_80170B64_1 *)actor_arg)->unk_0A = ((S_80170B64_0 *)actor)->unk_AC.at02.v +
             (((S_80170B64_3 *)actor_base)->unk_88 + (u16)((S_80170B64_0 *)actor)->unk_90.at02.v);
         ((S_80170B64_2 *)sprite_arg)->unk_14 |= 0x40;
     }

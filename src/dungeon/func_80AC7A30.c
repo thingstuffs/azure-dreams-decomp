@@ -122,9 +122,10 @@ void func_80173230(void *action_in, void *motion_in, void *sprite_in, void *acto
     };
     void *sprite;
     void *actor;
-    s32 special_or_effect;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 effect_handle;
+    s16 special_or_effect;
     u16 effect_offset[4];
-    register u8 *item_slot ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    u8 *item_slot;
     u8 *action_object;
     s32 next_state;
     u8 state;
@@ -202,12 +203,10 @@ selection_ready:
         goto empty_selection;
     }
     ((S_80173230_0 *)action_in)->unk_98 &= 0xFF7F;
-       /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
     {
-        s32 is_special;
+        s16 is_special;
 
         is_special = special_or_effect;
-        ASM_KEEP(is_special);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
         if (is_special != 0) {
             item_target = D_800814A8;
             (*(void * *)((u8 *)actor + 0x60)) = item_target;
@@ -291,54 +290,53 @@ state_2:
         timer = ((S_80173230_0 *)action_in)->unk_96.u - 1;
         ((S_80173230_0 *)action_in)->unk_96.u = timer;
         if (timer == 0xB || (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0xE000)) {
-            special_or_effect = (s32)func_8003FD64(0x112, D_80083498);
-            if (special_or_effect != 0) {
+            effect_handle = (s32)func_8003FD64(0x112, D_80083498);
+            if (effect_handle != 0) {
                 u8 *effect_state;
-                u8 *effect_data;
                 u32 *copy_src;
                 u32 *copy_dst;
                 u32 *copy_end;
                 void *actor_model;
                 u8 animation_id;
 
-                effect_state = (u8 *)special_or_effect + 0x20;
+                effect_state = (u8 *)effect_handle + 0x20;
                 ((S_80173230_5 *)effect_state)->unk_96 = 9;
-                ((S_80173230_6 *)((void *)special_or_effect))->unk_10 = D_80171020;
+                ((S_80173230_6 *)((void *)effect_handle))->unk_10 = D_80171020;
                 ((S_80173230_5 *)effect_state)->unk_A8 = motion_in;
                 copy_src = (u32 *)sprite;
                 ((S_80173230_5 *)effect_state)->unk_94 = (*(u16 *)((u8 *)actor + 0x2A));
-                effect_data = ((S_80173230_6 *)((void *)special_or_effect))->unk_0C;
+                item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_0C;
                 ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 copy_end = (u32 *)sprite + 12;
-                copy_dst = (u32 *)effect_data;
+                copy_dst = (u32 *)item_slot;
                 do {
                     *(Copy16 *)copy_dst = *(Copy16 *)copy_src;
                     copy_src += 4;
                     copy_dst += 4;
                 } while (copy_src != copy_end);
-                ((S_80173230_7 *)effect_data)->unk_1E = 0x1000;
-                ((S_80173230_7 *)effect_data)->unk_1C = 0x1000;
-                ((S_80173230_7 *)effect_data)->unk_0E = 0x80;
-                ((S_80173230_7 *)effect_data)->unk_0D = 0x80;
-                ((S_80173230_7 *)effect_data)->unk_0C = 0x80;
-                func_8004491C((void *)special_or_effect, &D_80045340);
+                ((S_80173230_7 *)item_slot)->unk_1E = 0x1000;
+                ((S_80173230_7 *)item_slot)->unk_1C = 0x1000;
+                ((S_80173230_7 *)item_slot)->unk_0E = 0x80;
+                ((S_80173230_7 *)item_slot)->unk_0D = 0x80;
+                ((S_80173230_7 *)item_slot)->unk_0C = 0x80;
+                func_8004491C((void *)effect_handle, &D_80045340);
                 animation_id = D_80174E34[0];
-                ((S_80173230_7 *)effect_data)->unk_2C = D_80174E34;
-                func_80047784(effect_data, animation_id, 0);
-                ((S_80173230_7 *)effect_data)->unk_10 = 0x20;
-                ((S_80173230_7 *)effect_data)->unk_12 = 0xFF80;
-                ((S_80173230_7 *)effect_data)->unk_14 |= 0x0C;
+                ((S_80173230_7 *)item_slot)->unk_2C = D_80174E34;
+                func_80047784(item_slot, animation_id, 0);
+                ((S_80173230_7 *)item_slot)->unk_10 = 0x20;
+                ((S_80173230_7 *)item_slot)->unk_12 = 0xFF80;
+                ((S_80173230_7 *)item_slot)->unk_14 |= 0x0C;
 
                 actor_model = ((S_80173230_8 *)action_object)->unk_0C;
-                effect_data = ((S_80173230_6 *)((void *)special_or_effect))->unk_08;
+                item_slot = ((S_80173230_6 *)((void *)effect_handle))->unk_08;
                 if (func_8003DE58(
                         ((S_80173230_9 *)actor_model)->unk_08, actor_model, effect_offset, 1) != 0) {
-                    ((S_80173230_7 *)effect_data)->unk_02 = ((Rec_D_800E3D7C *)motion_in)->unk_00.at02_u16.v;
-                    ((S_80173230_7 *)effect_data)->unk_06 = ((Rec_D_800E3D7C *)motion_in)->unk_04.at02_u16.v;
-                    ((S_80173230_7 *)effect_data)->unk_0A = ((Rec_D_800E3D7C *)motion_in)->unk_08.at02_u16.v;
-                    ((S_80173230_7 *)effect_data)->unk_02 += effect_offset[0];
-                    ((S_80173230_7 *)effect_data)->unk_06 += effect_offset[1];
-                    ((S_80173230_7 *)effect_data)->unk_0A += effect_offset[2];
+                    ((S_80173230_7 *)item_slot)->unk_02 = ((Rec_D_800E3D7C *)motion_in)->unk_00.at02_u16.v;
+                    ((S_80173230_7 *)item_slot)->unk_06 = ((Rec_D_800E3D7C *)motion_in)->unk_04.at02_u16.v;
+                    ((S_80173230_7 *)item_slot)->unk_0A = ((Rec_D_800E3D7C *)motion_in)->unk_08.at02_u16.v;
+                    ((S_80173230_7 *)item_slot)->unk_02 += effect_offset[0];
+                    ((S_80173230_7 *)item_slot)->unk_06 += effect_offset[1];
+                    ((S_80173230_7 *)item_slot)->unk_0A += effect_offset[2];
                 }
             }
         }

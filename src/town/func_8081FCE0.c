@@ -129,8 +129,8 @@ void func_800224E0(void)
         func_8004491C(obj, D_80046398);
         neutral_color = 0x00808080;
         ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_800224E0_0 *)obj)->unk_10 = D_80023DE0;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        value = (s32)D_80023DE0;
+        ((S_800224E0_0 *)obj)->unk_10 = (void *)value;
         value = 0x1000;
         prim = ((S_800224E0_0 *)obj)->unk_08;
         draw_state = ((S_800224E0_0 *)obj)->unk_0C;

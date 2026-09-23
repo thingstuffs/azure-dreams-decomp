@@ -206,3 +206,5 @@
 {"date": "2026-09-23T03:52Z", "codex": {"pack": "r73_luna6_s5", "model": "gpt-6-luna", "candidates": 2}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
 {"date": "2026-09-23T03:53Z", "codex": {"pack": "r74_astra_a8", "model": "gpt-6-astra", "candidates": 5}, "note": "r74 astra on the 3-7 band never-astra retry rows (50% in r73)"}
 {"date": "2026-09-23T03:56Z", "codex": {"pack": "r74_astra_a7", "model": "gpt-6-astra", "candidates": 4}, "note": "r74 astra on the 3-7 band never-astra retry rows (50% in r73)"}
+{"date": "2026-09-23T04:09Z", "codex": {"pack": "r73_luna6_s6", "model": "gpt-6-luna", "candidates": 0}, "note": "r73 A/B gpt-6-luna: 3-7 band retries + 1-2 band"}
+{"date": "2026-09-23T04:09Z", "codex": {"pack": "r74_astra_pre2", "model": "gpt-6-astra", "candidates": 4}, "note": "r74 astra on sol6-failed rows with the sol6 diagnosis attached"}

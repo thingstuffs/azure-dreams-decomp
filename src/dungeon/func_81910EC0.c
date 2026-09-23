@@ -6,11 +6,16 @@
 #define S32_AT(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define U32_AT(p, o) (*(u32 *)((u8 *)(p) + (o)))
 #define PTR_AT(p, o) (*(u8 **)((u8 *)(p) + (o)))
-/* Same address as D_80083160 (0x80083178 - 0x18); spelled off D_80083178 so the
-   %hi page is one CONST rtx shared with the pin below.  Links to identical words. */
+/* Same address as D_80083160 (0x80083178 - 0x18), spelled off D_80083178.
+   Links to identical words. */
 #define GFX_ROOT_SLOT (((u8 *)&D_80083178) - 0x18)
 #define VU16_AT(p, o) (*(volatile u16 *)((u8 *)(p) + (o)))
 #define VS32_AT(p, o) (*(volatile s32 *)((u8 *)(p) + (o)))
+
+typedef struct {
+    u32 addr : 24;
+    u32 len : 8;
+} P_TAG;
 
 typedef struct GfxContext {
     u8 pad0[0x8D0];
@@ -24,26 +29,20 @@ extern s32 func_80066460(s32, s32, s32, s32);
 extern void func_80067F20(void *, s32, s32, u16, s32);
 
 /* Build and enqueue five translucent quads between interpolated points. */
-void func_81910EC0(void *shape_data, void *position, s16 scale_num, s16 scale_den)
+void func_81910EC0(u8 *shape, void *position, s16 scale_num, s16 scale_den)
 {
-    u8 *page_scratch;
-    u8 *shape = shape_data;
-    u8 *gfx = (({ ASM_KEEP_MEMDEP_NV(shape, page_scratch, *(u8 **)GFX_ROOT_SLOT); 0; }),
-                  *(u8 **)GFX_ROOT_SLOT);
+    u8 *gfx_slot = GFX_ROOT_SLOT;
+    u8 *gfx = *(u8 **)gfx_slot;
     s32 edge = 0;
     s32 scale = scale_num;
     s32 divisor = scale_den;
     s32 interpolate = scale < divisor;
-    register u32 addr_mask ASM_REG("$20") = 0x00FFFFFF;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 length_mask = 0xFF000000;
-    u8 *start_point = shape;
     u8 *scratchpad = (u8 *)0x1F800000;
-    u8 *gfx_slot;
 
     PTR_AT(scratchpad, 0x18) = gfx + 0xB0;
-    gfx_slot = GFX_ROOT_SLOT;
     do {
         GfxContext **gfx_pool = (GfxContext **)gfx_slot;
+        u8 *start_point = shape + edge * 4;
         u8 *packet;
         u8 *end_point;
         s32 coord_delta;
@@ -127,8 +126,10 @@ void func_81910EC0(void *shape_data, void *position, s16 scale_num, s16 scale_de
 
         depth = U32_AT(scratchpad, 0xB4);
         if (depth < 0x1E0) {
-            U32_AT(packet, 0) = (U32_AT(packet, 0) & length_mask) |
-                (*(u32 *)(PTR_AT(scratchpad, 0x18) + depth * 4) & addr_mask);
+            u32 addr_mask = 0x00FFFFFF;
+            u32 length_mask = 0xFF000000;
+
+            ((P_TAG *)packet)->addr = ((P_TAG *)(u32 *)(PTR_AT(scratchpad, 0x18) + depth * 4))->addr;
             *(u32 *)(PTR_AT(scratchpad, 0x18) + U32_AT(scratchpad, 0xB4) * 4) =
                 (*(u32 *)(PTR_AT(scratchpad, 0x18) + U32_AT(scratchpad, 0xB4) * 4) & length_mask) |
                 ((u32)packet & addr_mask);
@@ -152,6 +153,5 @@ void func_81910EC0(void *shape_data, void *position, s16 scale_num, s16 scale_de
         }
 
         edge++;
-        start_point += 4;
     } while (edge < 5);
 }

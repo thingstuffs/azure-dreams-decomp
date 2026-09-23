@@ -192,7 +192,6 @@ state_1:
     for (particle_index = 0; particle_index < 2; particle_index++) {
         particle = func_8003FC64(0x212);
         if (particle != 0) {
-            register Pair16 *particle_directions ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             particle_work = (u8 *)particle;
             particle_work += 0x20;
@@ -218,30 +217,12 @@ state_1:
 
             x = (func_80069EF8() & 0x1F) - 0x10;
             y = (func_80069EF8() & 0x1F) - 0x10;
-            particle_directions = D_8017610C;
             ((S_801757E0_7 *)particle_transform)->unk_02 += x;
             ((S_801757E0_7 *)particle_transform)->unk_06 += y;
             ((S_801757E0_3 *)particle_work)->unk_50.n = x << 12;
             ((S_801757E0_3 *)particle_work)->unk_54.n = y << 12;
-            {
-                s32 velocity_x = ((S_801757E0_3 *)particle_work)->unk_50.v;
-                s32 direction_x =
-                    particle_directions[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].x;
-
-                particle_directions = (Pair16 *)0x80170000;
-                ((S_801757E0_3 *)particle_work)->unk_50.n =
-                    velocity_x + (direction_x << 16);
-            }
-            {
-                u16 facing_angle = ((S_801757E0_8 *)entity)->unk_2A.u;
-
-                ASM_KEEP_DEP_NV(particle_directions, facing_angle);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-                particle_directions =
-                    (Pair16 *)((u8 *)particle_directions + 0x610C);
-                ASM_USE(particle_directions);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-                ((S_801757E0_3 *)particle_work)->unk_54.n = ((S_801757E0_3 *)particle_work)->unk_54.v +
-                    (particle_directions[(facing_angle >> 9) & 7].y << 16);
-            }
+            ((S_801757E0_3 *)particle_work)->unk_50.n += D_8017610C[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].x << 16;
+            ((S_801757E0_3 *)particle_work)->unk_54.n += D_8017610C[(((S_801757E0_8 *)entity)->unk_2A.u >> 9) & 7].y << 16;
             ((S_801757E0_3 *)particle_work)->unk_58 = -(func_80069EF8() + 0x50000);
             ((S_801757E0_3 *)particle_work)->unk_64 = 0x6000;
 

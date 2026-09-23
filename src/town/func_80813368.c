@@ -127,10 +127,11 @@ state_done:
         target_x = S16_AT(hud, 0x1C);
         current_x = S16_AT(hud, 8);
         target_y = S16_AT(hud, 0x1E);
-        ASM_KEEP(target_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
         current_y = S16_AT(hud, 0x10);
         current_x += (target_x - current_x) >> 1;
-        current_y += (target_y - current_y) >> 1;
+        target_y -= current_y;
+        target_y >>= 1;
+        current_y += target_y;
         upper_flag = U16_AT(hud, 0x24) & ~1;
         S16_AT(hud, 8) = current_x;
         S16_AT(hud, 0x10) = current_y;

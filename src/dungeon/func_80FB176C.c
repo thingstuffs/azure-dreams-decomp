@@ -153,7 +153,7 @@ extern u8 D_801752A0[];
 extern void *D_80170808[];
 extern void *D_80170820[];
 
-void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
+void func_80170F6C(void *arg0, void *arg1, void *arg2, void *arg3)
 {
     static void *const sw_keep[] = {
         &&sw_case123, &&sw_generic, &&sw_case89,
@@ -166,15 +166,8 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
     u16 initial_flags = D_80083462[0];
     void *post_current;
     u8 *post_table;
-    u32 tail_state;
-    u32 tail_value;
-    u32 tail_code;
     s32 scratch;
     s8 result;
-    void *arg0 = in_arg0;
-    void *arg1 = in_arg1;
-    void *arg2 = in_arg2;
-    void *arg3 = in_arg3;
 
     if (initial_flags & 0x1000) {
         ((S_80170F6C_0 *)arg0)->unk_9A = 0xE;
@@ -220,7 +213,7 @@ void func_80170F6C(void *in_arg0, void *in_arg1, void *in_arg2, void *in_arg3)
         }
 
         {
-            register u32 state ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+            u32 state;
             u32 current_state = ((S_80170F6C_0 *)arg0)->unk_9A;
                /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
             state = 0xE;
@@ -256,12 +249,8 @@ sw1_case0:
                     ((S_80170F6C_2 *)arg2)->unk_14 &= 0x9FFF;
                     ((S_80170F6C_0 *)arg0)->unk_A6 = 300;
                 }
-                {
-                    tail_state =
-                        ((S_80170F6C_0 *)arg0)->unk_A8.u;
-                    tail_state += 1;
-                    goto store_tail_state;
-                }
+                ((S_80170F6C_0 *)arg0)->unk_A8.u++;
+                goto epilogue;
 
 sw1_case1: {
                 u16 timer = ((S_80170F6C_0 *)arg0)->unk_A6 - 1;
@@ -345,13 +334,9 @@ sw1_case2: {
                        /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                    {
-                        tail_value =
-                            ((S_80170F6C_0 *)arg0)->unk_A8.u;
-                        ASM_SCHED_BARRIER(); /* MATCH: Keep both stores and the state load before the timer assignment. */
-                        tail_code = 4;
-                        goto store_tail_timer;
-                    }
+                    ((S_80170F6C_0 *)arg0)->unk_A6 = 4;
+                    ((S_80170F6C_0 *)arg0)->unk_A8.u++;
+                    goto epilogue;
                 }
                 }
                 goto epilogue;
@@ -365,14 +350,8 @@ sw1_case3: {
                     ((S_80170F6C_2 *)arg2)->unk_14 &= 0xF7FF;
                     ((S_80170F6C_3 *)arg1)->unk_10 = 0;
                     ((S_80170F6C_3 *)arg1)->unk_0C = 0;
-                    tail_code = 3;
-                    tail_value = ((S_80170F6C_0 *)arg0)->unk_A8.u;
-store_tail_timer:
-                     /* MATCH: Keep the shared timer store at its landing point. */
-                    ((S_80170F6C_0 *)arg0)->unk_A6 = tail_code;
-                    tail_state = tail_value + 1;
-store_tail_state:
-                    ((S_80170F6C_0 *)arg0)->unk_A8.u = tail_state;
+                    ((S_80170F6C_0 *)arg0)->unk_A6 = 3;
+                    ((S_80170F6C_0 *)arg0)->unk_A8.u++;
                     goto epilogue;
                 }
                 goto epilogue;

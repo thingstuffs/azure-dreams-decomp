@@ -275,10 +275,10 @@ case_6:
             if ((*(s16 *)((u8 *)(obj) + (0xA2))) <= 0) {
 	                ((S_8052BCCC_0 *)obj)->unk_A2 = 8;
 	                next_state = (s32)0xFF900000 - ((S_8052BCCC_1 *)motion)->unk_08;
-	                ((S_8052BCCC_1 *)motion)->unk_14 = next_state / ((S_8052BCCC_0 *)obj)->unk_A2;
-	                ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-	                next_state = 4;
-                goto set_state;
+	                next_state /= ((S_8052BCCC_0 *)obj)->unk_A2;
+                    ((S_8052BCCC_1 *)motion)->unk_14 = next_state;
+	                ((S_8052BCCC_0 *)obj)->unk_68 = 4;
+                goto state7_finished;
             }
             goto state7_finished;
 

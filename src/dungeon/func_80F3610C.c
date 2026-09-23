@@ -76,7 +76,7 @@ void func_8017390C(S_8017390C_0 *actor, void *transform, Rec_func_800AD058_arg2 
     s32 pos_z;
     s32 pos_x;
     s32 state;
-    register void *work_data ASM_REG("$19") = transform;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    void *work_data;
     void *spawned_obj;
     S_8017390C_5 *spawned_render;
     void *spawned_data;
@@ -115,11 +115,11 @@ active:
         if (spawned_obj != 0) {
             init_obj = spawned_obj;
             spawned_transform = ((S_8017390C_2 *)spawned_obj)->unk_08;
-            pos_x = ((S_8017390C_3 *)work_data)->unk_00;
+            pos_x = ((S_8017390C_3 *)transform)->unk_00;
             spawned_render = ((S_8017390C_2 *)spawned_obj)->unk_0C;
             spawned_transform->unk_00 = pos_x;
-            spawned_transform->unk_04 = ((S_8017390C_3 *)work_data)->unk_04;
-            pos_z = ((S_8017390C_3 *)work_data)->unk_08;
+            spawned_transform->unk_04 = ((S_8017390C_3 *)transform)->unk_04;
+            pos_z = ((S_8017390C_3 *)transform)->unk_08;
             spawned_transform->unk_10 = 0;
             spawned_transform->unk_0C = 0;
             spawned_transform->unk_14 = 0xFFEE0000;
@@ -127,7 +127,6 @@ active:
             angle = 0xC90;
             func_8004491C(init_obj, &D_80045340, pos_z);
             spawned_render->unk_0C = 0x808080;
-            ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
             spawned_render->unk_1E = angle;
             spawned_data = (u8 *)spawned_obj + 0x20;
             spawned_render->unk_1C = angle;
@@ -162,10 +161,7 @@ active:
     goto done;
 
 state_two:
-    transform = actor;
-    ASM_KEEP(work_data);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    func_800AD058(transform, work_data, render, actor_data);
+    func_800AD058(actor, transform, render, actor_data);
 
 done:
     return;

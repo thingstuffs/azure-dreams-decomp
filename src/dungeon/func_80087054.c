@@ -45,7 +45,6 @@ void func_8008C7B4(void *state, s32 mode, void *sprite, void *entity) {
 
 #ifndef NON_MATCHING
     initial_state = 0x1C;
-    ASM_KEEP_NV(initial_state);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     ((S_8008C7B4_0 *)state)->unk_9A = initial_state;
     flags = (u8 *)0x80080000;
 #else
@@ -108,7 +107,8 @@ after_control:
         {
             u8 *direction_entry;
 
-            direction_entry = direction_table + (((s32)(D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7);
+            initial_state = ((s32)(D_80083228 + ((Rec_D_800E3D7C *)entity)->unk_2A.as_s16 + 0x100) >> 9) & 7;
+            direction_entry = direction_table + initial_state;
             func_80048A44(sprite, *direction_entry, 0, 1);
         }
 #else

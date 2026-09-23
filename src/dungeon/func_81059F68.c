@@ -45,7 +45,7 @@ void func_80171768(u8 *move_work, void *entry_context, u8 *position, u8 *actor)
     register s32 current_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     s32 turn_limit;
     s32 trial_angle;
-    register s32 turn_flags ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 turn_flags;
 
     state = (u8 *)&D_80083460;
     state_flags = U16_AT(state, 2);
@@ -97,7 +97,7 @@ negative_entry:
     {
         turn_flags = S32_AT(actor, 0x14);
 
-        if (turn_flags < 0) {
+        if (turn_flags & 0x80000000) {
             goto zero_counter;
         }
         S32_AT(actor, 0x14) = turn_flags | 0x80000000;
@@ -205,13 +205,11 @@ check_tile_kind:
 
 found_actor:
     {
-        u8 *target_actor = PTR_AT(target_link, -0x14);
-        ASM_KEEP(target_actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        turn_flags = (s32)(move_work + 0x98);
+        turn_flags = (s32)PTR_AT(target_link, -0x14);
 
         U16_AT(actor, 0x2A) = func_800A0818(
             U8_AT(position, 0x24), U8_AT(position, 0x25),
-            U8_AT(target_actor, 0x24), U8_AT(target_actor, 0x25), (u8 *)turn_flags);
+            U8_AT(turn_flags, 0x24), U8_AT(turn_flags, 0x25), move_work + 0x98);
         U8_AT(actor, 0x71) &= 0x7F;
         goto done;
     }

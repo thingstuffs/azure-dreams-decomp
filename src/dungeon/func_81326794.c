@@ -29,7 +29,6 @@ void func_8016DF94(void) {
     u8 *map_data;
     u8 *entry;
     u8 *entry_page;
-    u8 *entry_header;
     u8 *status;
     u8 *state_page;
 
@@ -67,18 +66,17 @@ void func_8016DF94(void) {
     D_80174CD0 = 0;
     D_80174CCC = (s32 *)D_801749E0[(coord_result >> 9) & 7];
 
-    do {
+loop:
         map_base = ((s32)entry_slot << 16) >> 14;
         entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
         if (entry != 0) {
-            register u32 high_bit ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
 
             func_8016A908(entry);
             func_8009A028(*(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC]);
-            entry_header = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC] - 0x20;
-            high_bit = 0x80000000;
-            *(u32 *)(entry_header + 0x10) |= high_bit;
+            entry = *(u8 **)&(*(u8 **)(entry_page + 0x3D7C))[map_base + 0xAC];
+            entry -= 0x20;
+            *(u32 *)(entry + 0x10) |= 0x80000000;
         }
         entry_slot++;
-    } while (entry_slot < 2);
+    if (entry_slot < 2) goto loop;
 }

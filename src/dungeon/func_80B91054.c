@@ -80,8 +80,8 @@ void *func_8014C854(s16 arg0, s8 arg1, s16 arg2, s16 arg3)
     saved_arg3 = arg3;
     obj = func_8003FD64(0x112, D_80083498);
     if (obj != 0) {
-        work = (u8 *)obj + 0x20;
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        work = obj;
+        work = (u8 *)work + 0x20;
         actor = work;
         ((S_8014C854_0 *)obj)->unk_10 = D_8014CA30;
         work->unk_13 = 0xD;

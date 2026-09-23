@@ -165,7 +165,6 @@ spawn_particles:
     frame = ((S_80174BEC_0 *)state)->unk_96.u;
     if (frame == 0 || frame == 7) {
         s16 particle_index;
-        register s32 offset_x ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
         if (!(((Rec_D_80082E80 *)source_render)->unk_14.at00_u16.v & 0x8000)) {
             func_800A56E0(0x80D);
@@ -176,14 +175,14 @@ spawn_particles:
             TableEntry *directions;
 
             directions = (TableEntry *)&velocity_table;
-            do {
+            for (; particle_index < 5; particle_index++) {
                 void *particle;
 
                 particle = func_8003FD64(0x112, D_80083498);
-                if (particle == 0) goto next_particle_1;
-                ASM_KEEP_NV(particle);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                if (particle == 0) continue;
                 {
                     s32 offset_y;
+                    s32 offset_x;
                     s32 velocity_y;
                     s32 velocity_x;
                     s32 offset_z;
@@ -231,15 +230,12 @@ spawn_particles:
                         ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
                     }
 
-                    offset_x = func_80069EF8() & 0x1F;
-                    offset_x -= 0x10;
-                    offset_y = func_80069EF8() & 0x1F;
-                    offset_y -= 0x10;
+                    offset_x = (func_80069EF8() & 0x1F) - 0x10;
+                    offset_y = (func_80069EF8() & 0x1F) - 0x10;
                     coord = ((S_80174BEC_6 *)position)->unk_02;
                     coord += offset_x;
                     position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
                     ((S_80174BEC_6 *)position)->unk_02 = coord;
-                       /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                     ((S_80174BEC_6 *)position)->unk_06 = position_y;
                     offset_z = func_80069EF8() & 0x1F;
                     velocity_x = (s32)(offset_x << 16) >> 4;
@@ -263,9 +259,7 @@ spawn_particles:
                     ((S_80174BEC_5 *)render)->unk_0D = 0x80;
                     ((S_80174BEC_5 *)render)->unk_0C = 0x80;
                 }
-next_particle_1:
-                particle_index++;
-            } while (particle_index < 5);
+            }
         }
 
         particle_index = 0;
@@ -273,14 +267,14 @@ next_particle_1:
             TableEntry *directions;
 
             directions = (TableEntry *)&velocity_table;
-            do {
+            for (; particle_index < 4; particle_index++) {
                 void *particle;
 
                 particle = func_8003FC64(0x212);
-                if (particle == 0) goto next_particle_2;
-                ASM_KEEP_NV(particle);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
+                if (particle == 0) continue;
                 {
                     s32 offset_y;
+                    s32 offset_x;
                     s32 velocity_y;
                     s32 velocity_x;
                     s32 offset_z;
@@ -315,10 +309,8 @@ next_particle_1:
                         ((S_80174BEC_6 *)position)->unk_0A += map_offset.z;
                     }
 
-                    offset_x = func_80069EF8() & 0x1F;
-                    offset_x -= 0x10;
-                    offset_y = func_80069EF8() & 0x1F;
-                    offset_y -= 0x10;
+                    offset_x = (func_80069EF8() & 0x1F) - 0x10;
+                    offset_y = (func_80069EF8() & 0x1F) - 0x10;
                     coord = ((S_80174BEC_6 *)position)->unk_02;
                     coord += offset_x;
                     position_y = ((S_80174BEC_6 *)position)->unk_06 + offset_y;
@@ -349,9 +341,7 @@ next_particle_1:
                     ((S_80174BEC_5 *)render)->unk_14 |= 0x100;
                     func_8003DB94(render, &D_800DE870, 0);
                 }
-next_particle_2:
-                particle_index++;
-            } while (particle_index < 4);
+            }
         }
     }
 

@@ -80,8 +80,7 @@ case_0:
         target_offset = -0x80;
         *(s16 *)(scene_data + 0xAC) +=
             (target_offset - *(s16 *)(scene_data + 0xAC)) >> 1;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        first_object = init_state->objects[0];
+        first_object = *(TownObject **)init_state;
         if (first_object->state != 1) {
             goto cleanup;
         }

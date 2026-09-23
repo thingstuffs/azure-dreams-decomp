@@ -72,8 +72,6 @@ void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *block
     s32 table_offset;
     s16 origin_z;
 
-    origin = origin_arg;
-    ASM_KEEP_NV(origin);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     radius = radius_reg;
     radius_reg <<= 0x10;
     if (radius_reg == 0) {
@@ -93,12 +91,14 @@ void func_80024428(s32 effect_param, void *origin_arg, s32 radius_arg, u8 *block
             effect_data->unk_10 |= 0x20;
             effect_data->unk_14 |= 0x10C;
             func_8004491C(effect, D_80045340);
+            origin = origin_arg;
             effect_data = effect->unk_08;
             effect_data->unk_02.s = ((S_81862C28_2 *)origin)->unk_02.s;
             effect_data->unk_06.s = ((S_81862C28_2 *)origin)->unk_06.s;
             effect_data->unk_0A = ((S_81862C28_2 *)origin)->unk_0A.s;
         }
     } else {
+        origin = origin_arg;
         direction = 0;
         page_8007 = (u8 *)0x80070000;
         ASM_KEEP(page_8007);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */

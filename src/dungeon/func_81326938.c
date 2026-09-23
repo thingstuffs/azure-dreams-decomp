@@ -20,7 +20,6 @@ extern u8 *D_80174704;
 void func_8016E138(s32 offset_index) {
     Copy12 offsets;
     s32 old_tile_mask;
-    s32 new_tile_mask;
     u8 *offset_bytes;
     register u8 *offset_page ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register Copy12 *offset_src ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -34,6 +33,7 @@ void func_8016E138(s32 offset_index) {
     s32 status_flags;
     s32 x;
     s32 y;
+    s32 updated_y;
 
     state = D_80174704;
 #ifdef NON_MATCHING
@@ -65,12 +65,11 @@ void func_8016E138(s32 offset_index) {
     object[0x25] = origin[0x25] + ((u8 *)xy_offset)[1];
     func_800A2B04(object_handle, object[0x24], object[0x25]);
     status_flags = *(volatile s32 *)&status->flags;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     x = object[0x24];
-    y = object[0x25];
-    new_tile_mask = 0x3000;
+    updated_y = object[0x25];
     if (status_flags & 0x2000) {
-        new_tile_mask = 0x300;
+        func_8009A21C(x, updated_y, 0x300);
+    } else {
+        func_8009A21C(x, updated_y, 0x3000);
     }
-    func_8009A21C(x, y, new_tile_mask);
 }

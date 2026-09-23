@@ -152,7 +152,6 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
             if (mesh_index != 0) {
                 face = ((Face **) PTR(geometry, 4))[mesh_index];
                 for (;;) {
-                    ASM_SET(vert2_y);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
                     vert0_addr = face->i0 * 8 + (u32)vertices;
                     xy0 = ((Vert *)vert0_addr)->x;
                     xy0 = xy0 + cell_x;
@@ -191,8 +190,8 @@ s32 func_80026864(void *objects, void *view_position, void *render_params)
                     vert3_ref_y = S16((u8 *)vert3_ref_y, 2);
                     xy2 = xy2 + cell_x;
                     xy2 = xy2 & 0xFFFF;
-                    y2_high = cell_y + vert2_y;
-                    y2_high = y2_high << 0x10;
+                    vert2_y = cell_y - -vert2_y;
+                    y2_high = vert2_y << 0x10;
                     xy2 = xy2 | y2_high;
                     xy32 = xy3 + cell_x;
                     xy33 = xy32 & 0xFFFF;

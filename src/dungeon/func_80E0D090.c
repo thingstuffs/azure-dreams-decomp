@@ -66,7 +66,7 @@ extern u8 D_80171094[];
 extern u8 D_801764B8[];
 
 /* Spawn this overlay's 0x112 object: fill its two sub-parts from kind_id/variant/spawn_value, apply the 0x6000 or 0x2000 flag pair the low two bits of flags select (or the random 0x20-mask variant), and run the two setup calls. */
-void *func_80170890(s16 flags, s8 kind_id, s8 variant, s16 spawn_value)
+void *func_80170890(s16 flags, s16 kind_id, s16 variant, s16 spawn_value)
 {
     void *obj;
     void *work = 0;
@@ -76,9 +76,9 @@ void *func_80170890(s16 flags, s8 kind_id, s8 variant, s16 spawn_value)
     s32 kind;
     s32 left;
     s32 right;
-    register s8 saved_kind_id ASM_REG("$21") = kind_id;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 saved_kind_id = kind_id;
     s16 saved_spawn = spawn_value;
-    register s8 saved_variant ASM_REG("$20") = variant;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s8 saved_variant = variant;
 
     obj = func_8003FD64(274, D_80083498);
     if (obj != 0) {
@@ -92,9 +92,9 @@ void *func_80170890(s16 flags, s8 kind_id, s8 variant, s16 spawn_value)
         part_b = ((S_80170890_0 *)obj)->unk_0C;
         kind = flags & 3;
         part_b->unk_25 = saved_variant;
+        part_b->unk_24 = saved_kind_id;
         actor = work;
         part_b->unk_2C = D_80176460;
-        part_b->unk_24 = saved_kind_id;
 
         if (kind == 1) {
             left = ((S_80170890_1 *)work)->unk_14 | 0x6000;

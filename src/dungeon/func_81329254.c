@@ -28,17 +28,13 @@ extern u8 D_80080000[];
 
 /* Applies a direction-indexed table entry in state 2 and sets record and global flags. */
 void func_80170A54(void *record_data) {
-    s32 required_state = 2;
-    register u8 *memory_base ASM_REG("$4") = (u8 *)0x80080000;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    register u8 *state_data = D_80082E80;
-    S_80170A54_1 *active_object;
+    S_80170A54_1 *active_object = (S_80170A54_1 *)D_800814A8[0];
+    u8 *state_data = D_80082E80;
 
-    ASM_KEEP(state_data);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     {
-        register u8 direction_entry;
-        active_object = *(void **)(memory_base + 0x14A8);
-        if (((S_80170A54_0 *)state_data)->unk_04 != required_state)
+        u8 direction_entry;
+        if (((S_80170A54_0 *)state_data)->unk_04 != 2)
             goto done;
         direction_entry = ((u8 **)state_data)[0xB][
                  (((s32) (D_80083228[0] +
