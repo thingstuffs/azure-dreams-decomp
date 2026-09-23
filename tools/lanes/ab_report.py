@@ -14,11 +14,15 @@ is searched recursively - only the files below are opened):
   lane.pid       launch time = its mtime (launch_lane.sh writes it at launch).  PROMPT.txt is NOT used
                  as the start: it is stamped when the pack is built, which in a pool can be hours before
                  the launch (r71_kit_sol1: 88 min).  Fallback when lane.pid is missing: PROMPT.txt.
-  last_message.txt  end time = its mtime (codex -o writes it on a normal exit).  A lane cut by the
-                 usage limit ("You've hit your usage limit" in the log tail) has no last_message.txt but
-                 still prints `tokens used`: its end is codex.log's mtime and its status is `limit`.
-                 status: ok | limit | ended (exited, no message, no limit line) | running (live lane.pid).
-                 Compare models on `ok` lanes: a limit-cut lane stopped early, not by choice.
+  last_message.txt  end time = its mtime (codex -o writes it on a normal exit).  A lane cut by a
+                 PROVIDER quota/capacity error (round 76, tools/lanes/lane_limit.py: codex "at capacity" /
+                 "usage limit" / "rate limit" as a leading `ERROR:` line in codex.log; agy/Gemini
+                 RESOURCE_EXHAUSTED / code 429 / quota in agy.log) is status `limit` REGARDLESS of
+                 last_message.txt -- the agy runner can still write one on a quota error, and codex's may
+                 be missing.  Its end is codex.log's or agy.log's mtime, whichever exists.
+                 status: cap | limit | ok | ended (exited, no message, no limit/cap) | running (live lane.pid).
+                 Compare models on `ok` lanes: a limit-cut (or capped) lane stopped early, not by choice.
+                 `--ok-only` excludes `limit` and `cap` lanes from the aggregate.
   base/*/*.c     rows served; pins before = live ASM_ pin sites (tools/pin_census.py sites_of).
   out/*/*.c      a row is EXACT when out/<c>/<name>.c has a sibling .base_sha (the kit's lab.py writes
                  it for byte-exact candidates only); pins after = sites in that file.
@@ -49,7 +53,9 @@ from pathlib import Path
 
 ROOT = next(p for p in Path(__file__).resolve().parents if (p / "tools/common.py").is_file())
 sys.path.insert(0, str(ROOT / "tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pin_census import sites_of  # noqa: E402
+import lane_limit  # noqa: E402
 
 LANES = "work/native_lane"
 CAPACITY = "ledger/model_capacity.jsonl"
@@ -151,7 +157,7 @@ def scan(d, cap=None):
     """One record for lane directory d."""
     d = Path(d)
     model = tokens = None
-    limit = False
+    tail = ""
     usage = read_usage(d)
     log = d / "codex.log"
     if log.is_file():
@@ -161,7 +167,12 @@ def scan(d, cap=None):
             fh.seek(max(0, size - 65536))
             tail = fh.read().decode("utf-8", "replace")
         tokens = parse_tokens(tail)
-        limit = "hit your usage limit" in tail[-4096:]
+    agy_log = d / "agy.log"
+    agy_tail = lane_limit._tail(agy_log) if agy_log.is_file() else ""
+    # round 76: a provider quota/capacity cut (agy RESOURCE_EXHAUSTED/429, codex "at capacity"/usage
+    # limit/rate limit) is a lane cut off, not a normal finish -- checked ahead of last_message.txt below
+    # because the agy runner can still write one even on a quota error.
+    limit = lane_limit.codex_hit_limit(tail) or lane_limit.agy_hit_limit(agy_tail)
     cap = cap or {}
     tokens_source = "codex-log" if tokens is not None else None
     estimated = False
@@ -177,12 +188,14 @@ def scan(d, cap=None):
     start = _mtime(d / "lane.pid", d / "PROMPT.txt")
     if (d / "cap.txt").exists():                           # killed at a cap, even if a message was written
         status, end = "cap", _mtime(d / "cap.txt")
+    elif limit:                                             # a provider cut it off, whatever else was written
+        status, end = "limit", _mtime(log, agy_log)
     elif (d / "last_message.txt").exists():
         status, end = "ok", _mtime(d / "last_message.txt")
     elif _alive(d / "lane.pid"):
         status, end = "running", None
     elif log.is_file():
-        status, end = "limit" if limit else "ended", _mtime(log)
+        status, end = "ended", _mtime(log)
     else:
         status, end = "unlaunched", None
     minutes = round((end - start) / 60, 1) if start and end and end >= start else None

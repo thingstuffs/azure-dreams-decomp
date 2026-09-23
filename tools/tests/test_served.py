@@ -132,6 +132,22 @@ class TierServed(unittest.TestCase):
             self.assertEqual(served.assert_unserved(["c/big"], root=Path(td), mode="tier", tier="astra",
                                                     texts=texts, scopes={"c/big": k2}), [])
 
+    def test_provider_limit_cut_lane_does_not_count_as_launched(self):
+        """Round 76: a lane cut off by a provider quota/capacity error must not block a same-tier
+        retry, even with no limit_cut.txt marking it (gemini_feed.sh's mark_limit_cut misses lanes with
+        any out/ file, or launched outside its own loop)."""
+        with tempfile.TemporaryDirectory() as td:
+            d = tier_lane(td, "r76_agy_b37_1", {"c/a": "cur-a"})
+            (d / "agy.log").write_text(
+                'error: Individual quota reached.\n'
+                'AGY_ERROR: {"short_error":"RESOURCE_EXHAUSTED (code 429): Individual quota reached.",'
+                '"status":"RESOURCE_EXHAUSTED","error_code":429}\n')
+            (d / "last_message.txt").write_text("done")   # the agy runner writes one even on a quota error
+            texts = {"c/a": sha("cur-a")}
+            self.assertFalse(served.serve_records(Path(td))[0]["launched"])
+            self.assertEqual(served.assert_unserved(["c/a"], root=Path(td), mode="tier", tier="agy",
+                                                     texts=texts), [])
+
     def test_strong_kit_pool(self):
         with tempfile.TemporaryDirectory() as td:
             tier_lane(td, "r73_opus_s1", {"c/a": "A", "c/b": "B-old"}, "claude-opus-5-5[1m]")

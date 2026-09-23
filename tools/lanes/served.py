@@ -31,8 +31,11 @@ same-tier retries, which the tier guard still refuses.
 
 Tier = `ledger.tier_of_model` on the lane's model (usage.json, then the codex.log header, then a tier
 token in the lane name: `r73_opus_s11_arms` -> opus).  Kit era = lane name `r<N>_...` with N >= 68.
-Launched = the lane has codex.log, agy.log, last_message.txt, lane.pid or usage.json and no limit_cut.txt; a built
-pack that never ran (or died on a usage limit) served no model (it still counts under `ever`).
+Launched = the lane has codex.log, agy.log, last_message.txt, lane.pid or usage.json, no limit_cut.txt,
+AND (round 76) its own agy.log/codex.log carries no provider quota/capacity error (`lane_limit.py`,
+read directly -- not just when a launcher script happened to mark limit_cut.txt); a built pack that
+never ran, died on a usage limit, or was cut off by a quota/capacity error served no model (it still
+counts under `ever`).
 """
 import hashlib
 import json
@@ -42,6 +45,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import lane_limit
 
 _CACHE = {}
 
@@ -133,8 +137,11 @@ def serve_records(root=ROOT):
     lanes = sorted({f.parent.parent.parent for f in base.glob("*/base/*/*.c")})
     for d in lanes:
         tier, model = lane_tier(d)
-        # limit_cut.txt: the lane died on its model's usage limit before working (gemini_feed.sh marks it)
-        launched = any((d / m).exists() for m in LAUNCH_MARKS) and not (d / "limit_cut.txt").exists()
+        # limit_cut.txt: a launcher script marked the lane cut on its model's usage limit (gemini_feed.sh);
+        # lane_hit_limit: read the lane's own logs directly for the same condition, so a lane a launcher
+        # missed (round 76: mark_limit_cut skips any lane with an out/ file) is still excluded.
+        launched = (any((d / m).exists() for m in LAUNCH_MARKS) and not (d / "limit_cut.txt").exists()
+                    and not lane_limit.lane_hit_limit(d))
         clusters = {}
         try:
             clusters = json.loads((d / "cluster.json").read_text())

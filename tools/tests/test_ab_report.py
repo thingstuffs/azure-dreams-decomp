@@ -67,6 +67,46 @@ class TestScan(unittest.TestCase):
         r = ab_report.scan(d)
         self.assertEqual((r["model"], r["status"]), ("gpt-6-luna", "limit"))
 
+    def test_codex_capacity_cut_lane(self):
+        """Round 76: codex's own capacity error ("Selected model is at capacity") is a `limit`, same as
+        a usage-limit cut, not `ended` (a lane that finished with no message for some other reason)."""
+        d = make_lane(self.tmp, "r76o_luna6_b12", message=False,
+                      log=LOG.replace("tokens used",
+                                       "ERROR: Selected model is at capacity. Please try a different model.\n"
+                                       "tokens used"))
+        r = ab_report.scan(d)
+        self.assertEqual(r["status"], "limit")
+
+    def test_agy_quota_cut_lane_is_limit_even_with_a_last_message(self):
+        """Round 76: the agy/Gemini runner can still write last_message.txt on a RESOURCE_EXHAUSTED
+        quota error, so the check must not be gated on last_message.txt (unlike a plain `ended`)."""
+        d = make_lane(self.tmp, "r76_agy_b37_1", message=True)   # last_message.txt present
+        (d / "agy.log").write_text(
+            'error: Individual quota reached. Resets in 4h14m1s.\n'
+            'AGY_ERROR: {"short_error":"RESOURCE_EXHAUSTED (code 429): Individual quota reached.",'
+            '"status":"RESOURCE_EXHAUSTED","error_code":429}\n')
+        r = ab_report.scan(d)
+        self.assertEqual(r["status"], "limit")
+
+    def test_ended_lane_with_no_provider_error_stays_ended(self):
+        """A lane that simply finished with no message and no provider error text is `ended`, never
+        `limit` -- the two must stay distinguishable."""
+        d = make_lane(self.tmp, "r76_plain", message=False)
+        r = ab_report.scan(d)
+        self.assertEqual(r["status"], "ended")
+
+    def test_ok_only_excludes_limit_lanes_from_the_aggregate(self):
+        make_lane(self.tmp, "r76_ok1")
+        make_lane(self.tmp, "r76_limit1", message=False,
+                  log=LOG.replace("tokens used",
+                                   "ERROR: Selected model is at capacity. Please try a different model.\n"
+                                   "tokens used"))
+        recs = [ab_report.scan(d) for d in ab_report.lane_dirs(self.tmp, [], ["r76_*"])]
+        agg = ab_report.aggregate([r for r in recs if r["status"] == "ok"])
+        self.assertEqual(agg[0]["lanes"], 1)
+        full = ab_report.aggregate(recs)
+        self.assertEqual((full[0]["lanes"], full[0]["ok"], full[0]["limit"]), (2, 1, 1))
+
     def test_glob_and_aggregate(self):
         make_lane(self.tmp, "r73_sol6_1")
         make_lane(self.tmp, "r73_sol6_2")
