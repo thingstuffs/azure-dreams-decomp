@@ -82,6 +82,24 @@ class TestFlags(unittest.TestCase):
         self.assertFalse((stale / "func_stale.c").exists())
         self.assertFalse((LANE_DIR / "cells.jsonl").exists())
 
+    def test_catchup_skips_text_another_lane_already_scored(self):
+        sys.path.insert(0, str(ROOT / "tools"))
+        from common import rows, clean_path, sha_text
+        r = next(r for r in rows() if r["id"] == self.row)
+        prev = ROOT / "work/native_lane/zz_catchup_prev_stub_gen_refuse"
+        try:
+            prev.mkdir(parents=True, exist_ok=True)
+            (prev / "journal.jsonl").write_text(json.dumps(
+                {"id": self.row, "in_sha": sha_text(clean_path(r).read_text(errors="replace")), "outcome": "miss"}) + "\n")
+            p = self.drive("--catchup", "--journal-refusals")
+            self.assertEqual(p.returncode, 0, p.stderr)
+            self.assertIn("--catchup: 1 ", p.stdout)
+            self.assertEqual(self.journal(), [])          # skipped before eligible(): no refused record
+            p = self.drive("--journal-refusals")          # without the flag the row is asked again
+            self.assertEqual(len(self.journal()), 1)
+        finally:
+            shutil.rmtree(prev, ignore_errors=True)
+
 
 if __name__ == "__main__":
     unittest.main()
