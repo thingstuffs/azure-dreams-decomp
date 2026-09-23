@@ -98,7 +98,7 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
     S_80025CE8_2 *render;
     s32 x_offset;
     u16 y_offset;
-    register u8 *data_entry ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    u8 *data_entry;
     u8 *data_entry_2;
     register s32 previous_index ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     register s32 slot_offset ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
@@ -156,13 +156,11 @@ s32 func_80025CE8(u16 x, u16 y, u16 z, u16 angle) {
 #endif
 
             current_object = *slot;
+            data_entry = (u8 *)current_object + 0x20;
             if ((s16)object_index != 0) {
-                data_entry = (u8 *)current_object + 0x20;
-                ASM_KEEP(data_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                 ((S_80025CE8_0 *)data_entry)->unk_20 = objects[0];
                 goto shared_tail;
             }
-            data_entry = (u8 *)current_object + 0x20;
             alloc_page = (u8 *)D_80030000;
             ((S_80025CE8_3_pre *)alloc_page)[-1].unk_00 = position;
         shared_tail:

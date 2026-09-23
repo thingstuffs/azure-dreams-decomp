@@ -156,13 +156,14 @@ void FUNC_819A6800_BODY(void *, void *)
     __attribute__((section(".text.func_819A6800")));
 #endif
 
+#define SELF ((S_func_819A6800_1 *)sequence)
+
 /* Runs a timed object creation sequence with visual effects and final cleanup. */
 void FUNC_819A6800_BODY(void *sequence, void *out_position)
 {
-    S_func_819A6800_1 *self = (S_func_819A6800_1 *)sequence;
-    register S_func_819A6800_3 *owner ASM_REG("$18") = self->unk_00;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_819A6800_3 *owner = SELF->unk_00;
     S_func_819A6800_2 *record = ((S_func_819A6800_2 *)((u8 *)owner - 0x20))->unk_0C;
-    register S_func_819A6800_2 *owner_object ASM_REG("$16") = (S_func_819A6800_2 *)((u8 *)owner - 0x20);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_819A6800_2 *owner_object = (S_func_819A6800_2 *)((u8 *)owner - 0x20);
     u16 timer;
     s32 state;
     static void *const state_labels[] = {
@@ -174,9 +175,9 @@ void FUNC_819A6800_BODY(void *sequence, void *out_position)
         &&advance_state,
     };
 
-    timer = self->unk_50.u - 1;
-    state = self->unk_0A.s;
-    self->unk_50.u = timer;
+    timer = SELF->unk_50.u - 1;
+    state = SELF->unk_0A.s;
+    SELF->unk_50.u = timer;
     if ((u32)state >= 6U) {
         goto return_done;
     }
@@ -189,7 +190,7 @@ state2:
         S_func_819A6800_4 *counter_object;
         s16 position_offset[3];
         S_func_819A6800_7 *effect_data;
-        register S_func_819A6800_8 *sprite ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        S_func_819A6800_8 *sprite;
 
         u8 *global_slot = (u8 *)&D_800814A0[2];
         S_func_819A6800_4 *global_object = *(void **)global_slot;
@@ -212,21 +213,20 @@ state2:
             owner->unk_72 = record->unk_24;
             owner->unk_73 = record->unk_25;
         } else {
-            register S_func_819A6800_2 *created_record ASM_REG("$6") =
-                ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
-            owner->unk_72 = created_record->unk_24;
-            owner->unk_73 = created_record->unk_25;
+            sprite = ((S_func_819A6800_2 *)((u8 *)new_object - 0x20))->unk_0C;
+            owner->unk_72 = ((S_func_819A6800_2 *)sprite)->unk_24;
+            owner->unk_73 = ((S_func_819A6800_2 *)sprite)->unk_25;
         }
 
-        ((volatile S_func_819A6800_1 *)(self))->unk_0A.u++;
-        if ((((S_func_819A6800_6 *)(((volatile S_func_819A6800_1 *)(self))->unk_04))->unk_00 & 0x80) == 0) {
+        ((volatile S_func_819A6800_1 *)(SELF))->unk_0A.u++;
+        if ((((S_func_819A6800_6 *)(((volatile S_func_819A6800_1 *)(SELF))->unk_04))->unk_00 & 0x80) == 0) {
             goto return_done;
         }
 
         counter_object = GLOBAL_OBJECT;
-        self->unk_50.u = 10;
+        SELF->unk_50.u = 10;
         counter_object->unk_A6--;
-        counter_object->unk_A8 = self->unk_08;
+        counter_object->unk_A8 = SELF->unk_08;
         new_object = func_8003FD64(0x312, D_80083498);
         record = new_object;
         if (record == 0) {
@@ -264,13 +264,13 @@ state2:
         sprite->unk_04 = 0;
         sprite->unk_05 = 0;
         sprite->unk_0C = 0x00606060;
-        record->unk_20 = self;
+        record->unk_20 = SELF;
         effect_data->unk_4C = 0;
     }
     goto advance_state;
 
 state4:
-    if ((s16)self->unk_50.u > 0) {
+    if ((s16)SELF->unk_50.u > 0) {
         goto return_done;
     }
     {
@@ -283,25 +283,25 @@ state4:
         func_800A56E0(mode);
     }
     {
-        u16 next_state = self->unk_0A.u;
+        u16 next_state = SELF->unk_0A.u;
         u16 timer;
         timer = 10;
-        self->unk_50.u = timer;
-        self->unk_0A.u = next_state + 1;
+        SELF->unk_50.u = timer;
+        SELF->unk_0A.u = next_state + 1;
     }
     return;
 
 state5:
     {
-        s16 timer_left = self->unk_50.s;
+        s16 timer_left = SELF->unk_50.s;
         if (timer_left == 7) {
             if (owner->unk_60.p != 0) {
-                S_func_819A6800_2 *new_object = func_8003FD64(0x302, D_80083498);
-                if (new_object != 0) {
-                    S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)new_object + 0x20);
+                record = func_8003FD64(0x302, D_80083498);
+                if (record != 0) {
+                    S_func_819A6800_7 *effect_data = (S_func_819A6800_7 *)((u8 *)record + 0x20);
                     u32 target_object;
-                    new_object->unk_10 = D_80024810;
-                    func_8004491C(new_object, D_80024B20);
+                    record->unk_10 = D_80024810;
+                    func_8004491C(record, D_80024B20);
                     target_object = owner->unk_60.u;
                     effect_data->unk_3C = 0;
                     effect_data->unk_3E = 0;
@@ -311,48 +311,48 @@ state5:
                     effect_data->unk_40 = func_80066460(0, 1, 0x2C0, 0x100);
                     effect_data->unk_42 = func_8006649C(0x60, 0x1F8);
                     effect_data->unk_38 = 0x00404040;
-                    new_object->unk_20 = self;
+                    record->unk_20 = SELF;
                 }
             }
         }
     }
-    if (self->unk_50.s == 4) {
+    if (SELF->unk_50.s == 4) {
         func_8009CE1C(owner->unk_60.p,
                       10,
-                      self->unk_09,
+                      SELF->unk_09,
                       12,
                       ((S_func_819A6800_4 *)(GLOBAL_OBJECT))->unk_2A,
                       owner,
                       2);
     }
     if ((D_80082E94[0] & 0x8000) == 0 &&
-        self->unk_50.s >= 0) {
+        SELF->unk_50.s >= 0) {
         goto return_done;
     }
     {
-        u16 next_state5 = self->unk_0A.u;
+        u16 next_state5 = SELF->unk_0A.u;
         u16 cleanup_delay;
         cleanup_delay = 20;
-        self->unk_50.u = cleanup_delay;
-        self->unk_0A.u = next_state5 + 1;
+        SELF->unk_50.u = cleanup_delay;
+        SELF->unk_0A.u = next_state5 + 1;
     }
     return;
 
 state6:
-    if ((s16)self->unk_50.u > 0) {
+    if ((s16)SELF->unk_50.u > 0) {
         goto return_done;
     }
 
 advance_state:
-    self->unk_0A.u++;
+    SELF->unk_0A.u++;
     return;
 
 state7:
     {
-        s16 signed_flags = self->unk_52.s;
-        u16 flags = self->unk_52.u;
+        s16 signed_flags = SELF->unk_52.s;
+        u16 flags = SELF->unk_52.u;
         if ((signed_flags & 0x8000) != 0) {
-            self->unk_52.u = flags & 0x7FFF;
+            SELF->unk_52.u = flags & 0x7FFF;
             return;
         }
     }
@@ -361,7 +361,7 @@ state7:
         globals->unk_0C = 0;
         globals->unk_0A--;
     }
-    ((S_func_819A6800_6 *)((u8 *)self - 2))->unk_00 |= 0x8000;
+    ((S_func_819A6800_6 *)((u8 *)SELF - 2))->unk_00 |= 0x8000;
     D_800814A0[0] |= 0x8000;
 
 return_done:

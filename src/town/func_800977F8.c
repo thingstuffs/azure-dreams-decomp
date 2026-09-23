@@ -1,6 +1,5 @@
 #include "common.h"
 #include "m2c_compat.h"
-#include "records/Rec_D_800E3D7C.h"
 
 
 
@@ -18,40 +17,15 @@ typedef struct {
 void func_80094F58(s16 angle, s32 max_length, FuncData *vector) {
     s32 first_step;
     s32 second_step;
-    s32 over_limit;
-    s32 rounded_length;
-    register s32 adjusted_length ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 divisor;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 limit_units ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s32 second_quotient;
+    s32 length;
 
     first_step = func_800644B8(angle) << 6;
     second_step = func_80064584(angle) << 6;
     vector->first += first_step;
     vector->second += second_step;
-    second_quotient = func_8003BD84(vector->first, vector->second);
-    over_limit = max_length < second_quotient;
-    rounded_length = second_quotient + 0xFFF;
-    if (over_limit != 0) {
-        adjusted_length = rounded_length;
-        if (rounded_length < 0) {
-            adjusted_length = second_quotient + 0x1FFE;
-        }
-        divisor = adjusted_length >> 12;
-        adjusted_length =
-            ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 / divisor;
-        if (max_length < 0) {
-            limit_units = max_length;
-            limit_units = max_length + 0xFFF;
-        } else {
-            limit_units = max_length;
-        }
-        limit_units >>= 12;
-        ((Rec_D_800E3D7C *)vector)->unk_0C.as_vs32 =
-            adjusted_length * limit_units;
-        second_quotient =
-            ((Rec_D_800E3D7C *)vector)->unk_10.at00_vs32.v / divisor;
-        ((Rec_D_800E3D7C *)vector)->unk_10.at00_vs32.v =
-            second_quotient * limit_units;
+    length = func_8003BD84(vector->first, vector->second);
+    if (max_length < length) {
+        vector->first = vector->first / ((length + 0xFFF) / 0x1000) * (max_length / 0x1000);
+        vector->second = vector->second / ((length + 0xFFF) / 0x1000) * (max_length / 0x1000);
     }
 }

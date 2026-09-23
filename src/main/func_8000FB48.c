@@ -36,7 +36,7 @@ extern Template3 D_8002E5E8;
 void func_80022B48(Entity *entity, s32 node_count)
 {
     register Entity *self ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 node_index ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 node_index;
     u8 *slot_base;
     u8 *pointer_cursor;
     s32 node_offset;
@@ -52,7 +52,7 @@ void func_80022B48(Entity *entity, s32 node_count)
     self = entity;
     ASM_KEEP(self);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     node_index = 0;
-    if (node_count > 0) {
+    if (node_index < node_count) {
 #ifdef NON_MATCHING
         source_page = (u8 *)&D_8002E5D8 + 0x1A28;
 #else

@@ -32,13 +32,6 @@ void func_80094C74(Func97514Object *object) {
     global_base = D_80083160;
     angle = func_80094BC8(((S_80094C74_0 *)global_base)->unk_08, ((S_80094C74_0 *)global_base)->unk_C8);
     if (angle != -1) {
-        register s32 rounded_new ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-        register s32 rounded_old ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        s32 component;
-        s32 x_quotient;
-        s32 y_quotient;
-        s32 scaled_component;
-
         delta_x = func_800644B8(angle) << 6;
         delta_y = func_80064584(angle) << 6;
         old_magnitude = func_8003BD84(object->x, object->y);
@@ -49,24 +42,8 @@ void func_80094C74(Func97514Object *object) {
         object->y += delta_y;
         new_magnitude = func_8003BD84(object->x, object->y);
         if (old_magnitude < new_magnitude) {
-            rounded_new = new_magnitude + 0xFFF;
-            x_quotient = rounded_new;
-            if (rounded_new < 0) {
-                x_quotient = new_magnitude + 0x1FFE;
-            }
-            component = object->x;
-            y_quotient = x_quotient >> 0xC;
-            x_quotient = component / y_quotient;
-            rounded_old = old_magnitude;
-            if (old_magnitude < 0) {
-                rounded_old = old_magnitude + 0xFFF;
-            }
-            rounded_old >>= 0xC;
-            scaled_component = x_quotient * rounded_old;
-            *(volatile s32 *)&object->x = scaled_component;
-            component = *(volatile s32 *)&object->y;
-            y_quotient = component / y_quotient;
-            object->y = y_quotient * rounded_old;
+            object->x = object->x / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
+            object->y = object->y / ((new_magnitude + 0xFFF) / 0x1000) * (old_magnitude / 0x1000);
         }
     }
 }
