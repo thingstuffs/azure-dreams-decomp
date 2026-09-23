@@ -227,15 +227,12 @@ s32 func_8080C324(void) {
 
             entry_template = D_80526970;
             content = *content_ptr;
-            ASM_USE(content);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-            entry_record = &content_record;
-            ASM_KEEP_NV(entry_record);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             content_record.f14 = content_x;
+            content_record.f4 = content;
+            func_80526BFC(entry_template, (&content_record));
             content_x -= 0x10;
             content_ptr--;
             clear_addr--;
-            content_record.f4 = content;
-            func_80526BFC(entry_template, entry_record);
         } if (clear_addr >= 0) goto loop_2;
 
         content_record.f14 = 0xF4;

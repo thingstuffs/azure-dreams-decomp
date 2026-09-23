@@ -159,7 +159,7 @@ s32 func_80024C7C(void *node_data) {
 
                     do {
                         s32 x_jitter;
-                        s32 half_step;
+                        u32 half_step;
                         s16 corner_x;
 
                         jitter_point->y = (s16)((u16)screen_points[4].y +
@@ -167,10 +167,9 @@ s32 func_80024C7C(void *node_data) {
                         x_jitter = func_80069EF8() % step;
                         segment_index--;
                         row_offset -= step;
-                        corner_x = jitter_corner->x;
-                        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+                        half_step = jitter_corner->x;
+                        corner_x = half_step;
                         half_step = step >> 1;
-                        ASM_KEEP(half_step);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
                         jitter_point->x = (s16)(corner_x +
                                                 x_jitter - half_step);
                         jitter_point--;
