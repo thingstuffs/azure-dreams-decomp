@@ -22,16 +22,17 @@
 
 Triage of the 55 non-exact records of `r73_h3_clones` (pin key = macro + pin line + neighbouring code lines):
 only 15 targeted the same pin site as the exemplar's removed pin; 32 hit a site whose neighbourhood differs,
-8 a different site altogether. Many "context does not align" refusals were hunks ALREADY APPLIED by an
-earlier landing (the `*054`/`*5958` rows, `result = object; result += 0x20`), which v1 could not recognise
-once a comment or blank line sat in the window. v2 therefore: works in code-line space (blank and comment-only
+8 a different site altogether. Several "context does not align" refusals were hunks ALREADY APPLIED by an
+earlier landing (`func_80AC5958`/`func_8102F674`: `result = object; result = (u8 *)result + 0x20`), which v1
+could not recognise; the five `*054` rows (F17) are the other kind - their one pin, `ASM_KEEP(call_obj)`, is a
+different site from the exemplar's, and no aligner reaches it. v2 therefore: works in code-line space (blank and comment-only
 lines invisible); cuts the edit twice (3-line groups + bare changed runs, so two nearby pins can go alone);
 locates a hunk through the code-line alignment or as an exact occurrence of its 2/1/0-line window nearest the
 predicted position; reads numbers from the hunk's own lines and never refuses on a globally ambiguous number.
 
 ## A/B (same inputs: 618 exemplar pairs from 273 r5*/r6*/r7* lanes, 902 pinned rows, 56 siblings, no composition)
 
-| aligner | exact rows | pins removed | on r73_h3_clones' 38 siblings |
+| aligner | exact rows | pins removed | on r73_h3_clones' siblings (those still pinned) |
 |---|---|---|---|
 | v1 (rounds 65-75) | 6 | 6 | 2 rows / 2 pins |
 | v2 | 12 | 20 | 8 rows / 16 pins |
@@ -45,10 +46,17 @@ Journals: `work/native_lane/ab76_v1/`, `work/native_lane/ab76_v2/` (control runs
 | lane | rows | pins | note |
 |---|---|---|---|
 | `r76_partials` | 2 | 4 | r70_kit_astra8's byte-exact outs for `func_80A170DC`/`func_80C1509C` (14 -> 12) had a stale `.base_sha`; re-based, LANDED |
-| `r76_clones` | 19 (17 current) | 36 (30 current) | 26 exact steps: 15 lane exemplars (v2), 11 transplants (9 v2, 2 v1) |
-| `r76_clones2` | 2 | 6 | the two rows above after the partial landed: 12 -> 9 each (3 composed steps) |
+| `r76_clones` | 15 | 26 | 26 exact steps over 19 rows: 15 lane exemplars (v2), 11 transplants (9 v2, 2 v1); 4 rows withdrawn (below) |
+| `r76_clones3` | 4 | 6 | `func_809F90DC`/`80A0B0DC` 11 -> 10, `func_80A170DC`/`80C1509C` 12 -> 10, re-run with the scaffolding guard |
 
-F0 (`func_80C1B09C` + 9) goes 10 -> 9 on every member (the r70_kit_sol6 move now transfers), F4 `func_80BC7BA8`
+The first production run staged 6 candidates (4 rows in `r76_clones`, 2 in a `r76_clones2` re-base) on which
+`while (0)` grew (a transplanted donor's barrier): the landing rule would have refused them. They were withdrawn
+and the JUDGE now refuses any candidate on which a scaffolding kind of `land_lanes.sh` grows
+(`scaffold_grew`), as does `clone_families.py --stage-partials` (plus the unscored-arm guard). Total staged:
+36 pins (4 landed with `r76_partials`, 32 queued).
+
+F0 (`func_80C1B09C` + 9) goes down by 1-2 pins on 9 of its 10 members (the r70_kit_sol6 move now transfers;
+`func_80A050DC` gained nothing), F4 `func_80BC7BA8`
 7 -> 2, F7 `func_80EE5000` 4 -> 1 (transplant of `func_80EDF000`), `func_80AD7000` 8 -> 7, `func_80BD3BA8` 7 -> 6.
 Landing is automatic (`land_finished2.sh`).
 
@@ -58,7 +66,7 @@ Projected pins after the staged lanes land; representative = fewest projected pi
 
 | family | rows | pins | representative (pins) | residue |
 |---|---|---|---|---|
-| F0 | 10 | 91 | dungeon/func_80C1B09C (9) | 6 ASM_REG, 3 ASM_KEEP, 1 KEEP_NV; reorders / register colouring (`$20 outer`, `$23 part`, `$8` constant) |
+| F0 | 10 | 92 | dungeon/func_80C1B09C (9) | 6 ASM_REG, 3 ASM_KEEP, 1 KEEP_NV; reorders / register colouring (`$20 outer`, `$23 part`, `$8` constant) |
 | F1 | 11 | 66 | dungeon/func_800D0360 (6) | 5 ASM_REG, 1 ASM_KEEP; reorders, statement across a call (the `func_80BD9084`/`80BC1084`/`80C8D084` group); no exemplar anywhere |
 | F2 | 2 | 26 | dungeon/func_81888258 (13) | REG 4, KEEP_NV 4, MEM_BARRIER 4, SCHED_BARRIER 1; colouring, address form, copy count |
 | F3 | 6 | 24 | dungeon/func_8097B5A8 (4) | REG 3, KEEP 1; address form, delay slot (the `func_809815A8` group) |
