@@ -2,6 +2,19 @@
 
 **Campaign charter (2026-09-18): [PIN_CAMPAIGN_CHARTER.md](PIN_CAMPAIGN_CHARTER.md)** - goal, legitimacy rules, resource ladder, round budget, exit clause. Read it first.
 
+Round 76 (2026-09-23) fixes the counter itself (a pin inside a local macro now counts once per call, not once
+per definition, per owner sign-off: **3,701 -> 3,706 / 902**) and runs a fair small A/B across six models on
+matched strata (`docs/evidence/r76_measurement_protocol.md`): Opus 5.5 is the cheapest 1-7-pin workhorse
+(50% exact, 0.703 weighted cost/pin), astra pays on clone reps and 8+-pin clusters (56%, 4.507/pin), Gemini is
+free and takes the overflow, sonnet solves 0/30. The harvest names the set-exactly-once mechanism (an
+`ASM_KEEP`/`ASM_REG` pin fakes gcc 2.x's single-set boost) behind 25 of 43 harvested pins and ships four new
+generators (t118_setonce, t119_deadinit, t120_unvolatile, t121_barrierstrip) plus depth-2 generator
+composition (`compose2.py`, now with a `--pinfree` stage) and a v2 clone-transfer aligner (194 clone pairs,
+30 pins landed). Landings across the round (cascade catch-up, clone transfer, a CPU-only cell scan that
+refutes the split-address hypothesis for 97% of the small-row tail, and the model lanes) take "Pin sites now"
+past 3,700 down toward the low 3,500s by hand-back; see `docs/HANDOVER.md`'s top block for the live figure and
+next steps.
+
 [Rounds 62-63](PIN_RESEARCH_ROUND62.md) (2026-09-21): rubber-duck briefs on every pack row (`tools/lanes/duck_brief.py`), astra on whole families with the class question, Opus turning each answer into a generator. Astra solved the two bounded clone families 5 of 5 in fifteen minutes by a lifetime merge (one variable carrying the call result, then the next value); t87 took the idea to 24 more rows; t86 (address constants as symbols at a splitting cell, 44 pins, six recorded recipe switches) and t78's page copies (8) landed with it: **5,580 -> 4,575 / 1,077** by 00:00Z on 09-22: the retrospective produced a lane kit and v2 brief that took astra from ~2 rows per pack to 38 of 40 (see rounds 68-72 in the same note), isolated landings, the orchestration kit in the repo, two shared-library fixes and four harvests of generators.
 
 [Round 60](PIN_RESEARCH_ROUND60.md) (2026-09-20) reads the sol misses (half are function-wide register-role swaps no spelling reaches; a residue screen calibrated on 235 served rows), turns the wave's byte-exact rows into six generators (t78 aggregate copy, t80 derived assignment moved before its call, t81 disjoint-local reuse, t82 arm hoist/sink, t83 store next to its producer, t84 narrow parameter groups; four Opus agents, one family each, validated on the lanes' pre-landing texts with `tools/lanes/gen_drive.py`), solves the four-row sprite-spawn family by typing three parameters `s16` (assign_parms gives a narrow stack parameter a real call-crossing pseudo), lands the refused labelled-dispatch row by hand with its port arm intact, and closes the 1-3-pin sol pools: **5,682 -> 5,586 / 1,156** (96 pins, chain G's eleven 4-8-pin sol slices included: 25 pins, far band one row in eight). Round 61 opened the same night: the allocation-order rule for the register-swap class (a pin is a missing allocno; `global.c` sorts by refs/live length and hands out `$s0..` in rank order; a calibrated disposition simulator in `tools/alloc_sim.py`, generator t85), two rows exact by its levers, t80's near band classified, t83/t81 increments and a wider scorer fallback as clean negatives: **5,580 / 1,154**, with chain H (sol retries of Gemini-only rows and the never-served far band) running.
