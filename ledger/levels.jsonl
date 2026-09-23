@@ -1066,7 +1066,7 @@
 {"level":3,"pins_left":5,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_800AB37C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800AB438","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800AB45C","evidence":[]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_800AB548","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm","non_matching"],"l4_residue":["not_in_module"],"id":"town/func_800AB548","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800AB788","evidence":[]}
 {"level":3,"pins_left":15,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"town/func_800ABBF8","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"town/func_800ABDC8","evidence":[]}
@@ -1332,7 +1332,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B771C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"town/func_800B7778","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B795C","evidence":[]}
-{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_800B79CC","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["non_matching"],"l4_residue":["not_in_module"],"id":"town/func_800B79CC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B7A14","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B7B04","evidence":[]}
 {"level":3,"pins_left":6,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"town/func_800B7B94","evidence":[]}
@@ -1382,7 +1382,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_func_800B683C_arg0"],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B97F4","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B9858","evidence":[]}
 {"level":3,"pins_left":6,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"town/func_800B998C","evidence":[]}
-{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_800B9B58","evidence":[]}
+{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_800B9B58","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B9BB4","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B9C24","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_800B9C70","evidence":[]}
@@ -2948,8 +2948,8 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"town/func_80874C9C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_80874D24","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"town/func_80874D84","evidence":[]}
-{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_80874E18","evidence":[]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_80874F4C","evidence":[]}
+{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_80874E18","evidence":[]}
+{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_80874F4C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8087503C","evidence":[]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"town/func_80875060","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","non_matching"],"l4_residue":["not_in_module"],"id":"town/func_80875124","evidence":[]}
@@ -2994,7 +2994,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm"],"l4_residue":["not_in_module"],"id":"town/func_8087FF98","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_80880298","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","non_matching"],"l4_residue":["not_in_module"],"id":"town/func_8088116C","evidence":[]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_8088124C","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","non_matching"],"l4_residue":["not_in_module"],"id":"town/func_8088124C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"town/func_8088134C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"town/func_808813CC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","inline_asm"],"l4_residue":["not_in_module"],"id":"town/func_80881424","evidence":[]}
@@ -3069,9 +3069,9 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8096AD68","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8096ADA0","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"town/func_8096AE44","evidence":[]}
-{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_8096B058","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["non_matching"],"l4_residue":["not_in_module"],"id":"town/func_8096B058","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8096B154","evidence":[]}
-{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"town/func_8096B16C","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["non_matching"],"l4_residue":["not_in_module"],"id":"town/func_8096B16C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8096B268","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8096B2BC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"town/func_8096B30C","evidence":[]}
@@ -3705,7 +3705,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_800B668C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_800B68F4","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_800B6948","evidence":[]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_800B6A54","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm","non_matching"],"l4_residue":["not_in_module"],"id":"dungeon/func_800B6A54","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_800B6AC8","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_800B6B0C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_800B6BB8","evidence":[]}
@@ -3895,7 +3895,7 @@
 {"level":3,"pins_left":6,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_800C92E4","evidence":["adrando"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["non_matching"],"l4_residue":["not_in_module"],"id":"dungeon/func_800C96AC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"dungeon/func_800C979C","evidence":[]}
-{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_800C97F4","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","non_matching"],"l4_residue":["not_in_module"],"id":"dungeon/func_800C97F4","evidence":[]}
 {"level":3,"pins_left":28,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_800C9858","evidence":[]}
 {"level":3,"pins_left":18,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_800CA184","evidence":[]}
 {"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_800CB068","evidence":[]}
@@ -4742,7 +4742,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_80E64DB4","evidence":["data"]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","computed_goto"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_80E64FF0","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_80E65598","evidence":["data"]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_80E657E4","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","non_matching"],"l4_residue":["not_in_module"],"id":"dungeon/func_80E657E4","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","computed_goto"],"l4_residue":["not_in_module"],"id":"dungeon/func_80E658F8","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80082E80","Rec_D_800E3D7C"],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"dungeon/func_80E6934C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80082E80","Rec_D_800E3D7C"],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"dungeon/func_80E6F34C","evidence":[]}
@@ -5072,7 +5072,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81329C0C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80174CD8"],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81329C70","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80082E80"],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81329CB0","evidence":[]}
-{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81329D94","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81329D94","evidence":[]}
 {"level":3,"pins_left":10,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_8132A210","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_8132A4C0","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_8132A730","evidence":[]}
@@ -5301,10 +5301,10 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81811DE0","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811E30","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811E70","evidence":[]}
-{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811EC0","evidence":[]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811F04","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm","non_matching"],"l4_residue":["not_in_module"],"id":"dungeon/func_81811EC0","evidence":[]}
+{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811F04","evidence":[]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811F54","evidence":[]}
-{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811FA8","evidence":[]}
+{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81811FA8","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"dungeon/func_81812008","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81812110","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_8181214C","evidence":[]}
@@ -5529,7 +5529,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_800E3D7C"],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818B6824","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80082E80"],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818B68B8","evidence":[]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818B6954","evidence":[]}
-{"level":3,"pins_left":14,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818B6AFC","evidence":[]}
+{"level":3,"pins_left":11,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818B6AFC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818B6F90","evidence":[]}
 {"level":3,"pins_left":4,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818B7264","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818B77D4","evidence":[]}
@@ -5550,7 +5550,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818BDB44","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818BDCE0","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818BDD8C","evidence":[]}
-{"level":3,"pins_left":14,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","computed_goto","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818BDEBC","evidence":[]}
+{"level":3,"pins_left":12,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","computed_goto","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818BDEBC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C2824","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C28C0","evidence":[]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":["Rec_D_80083160"],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818C29D4","evidence":[]}
@@ -5563,7 +5563,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C370C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":["Rec_D_80082E80"],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C3898","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818C3A3C","evidence":[]}
-{"level":3,"pins_left":13,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","computed_goto","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818C3B90","evidence":[]}
+{"level":3,"pins_left":11,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","computed_goto","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_818C3B90","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C8824","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C8924","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_818C8A70","evidence":[]}
@@ -5798,7 +5798,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81984D4C","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_81984E94","evidence":[]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":["Rec_D_800814A8"],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","tail_call","computed_goto","inline_asm"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81988800","evidence":[]}
-{"level":3,"pins_left":4,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81988C1C","evidence":[]}
+{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","non_matching"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81988C1C","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81988E48","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"dungeon/func_819892A4","evidence":[]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"dungeon/func_81989320","evidence":[]}
@@ -6196,7 +6196,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_8003CB08","evidence":[]}
 {"level":3,"pins_left":9,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"slus/w_8003CCB0","evidence":[]}
 {"level":3,"pins_left":8,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"slus/w_8003D0F0","evidence":[]}
-{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_8003D468","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm","non_matching"],"l4_residue":["not_in_module"],"id":"slus/w_8003D468","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_8003D5A4","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_8003D760","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_8003D7DC","evidence":["knowledge"]}
@@ -6292,7 +6292,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80042B68","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","computed_goto"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80042BDC","evidence":["knowledge"]}
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80043458","evidence":[]}
-{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_800434E4","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm","non_matching"],"l4_residue":["not_in_module"],"id":"slus/w_800434E4","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80043568","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80043674","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80043704","evidence":[]}
@@ -6388,7 +6388,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80048AC8","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80048B28","evidence":["knowledge"]}
 {"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80048B8C","evidence":[]}
-{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80048C3C","evidence":["knowledge"]}
+{"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80048C3C","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80048D60","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80048E00","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80048EE4","evidence":["knowledge"]}
@@ -6568,7 +6568,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_800510DC","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80051164","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_800511B4","evidence":["knowledge"]}
-{"level":3,"pins_left":6,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80051228","evidence":[]}
+{"level":3,"pins_left":4,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80051228","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","inline_asm"],"l4_residue":["not_in_module"],"id":"slus/w_80051548","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80051708","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site","computed_goto"],"l4_residue":["not_in_module"],"id":"slus/w_800517CC","evidence":[]}
@@ -6591,9 +6591,9 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80053428","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80053604","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_800537D0","evidence":["knowledge"]}
-{"level":3,"pins_left":7,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80053858","evidence":["knowledge","name"]}
+{"level":3,"pins_left":3,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80053858","evidence":["knowledge","name"]}
 {"level":3,"pins_left":5,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80053A88","evidence":[]}
-{"level":3,"pins_left":5,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80053CFC","evidence":[]}
+{"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80053CFC","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80053D64","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80053DF0","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80053E20","evidence":["knowledge"]}
@@ -6640,7 +6640,7 @@
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80055C50","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80055CF4","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80055D84","evidence":["knowledge"]}
-{"level":3,"pins_left":4,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80055E84","evidence":[]}
+{"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["inline_asm","non_matching"],"l4_residue":["not_in_module"],"id":"slus/w_80055E84","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80056098","evidence":[]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins"],"l4_residue":["pins","not_in_module"],"id":"slus/w_800561D8","evidence":[]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_800563B0","evidence":["knowledge"]}
@@ -6683,7 +6683,7 @@
 {"level":3,"pins_left":2,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"slus/w_8005947C","evidence":["knowledge"]}
 {"level":3,"pins_left":1,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site","computed_goto"],"l4_residue":["pins","not_in_module"],"id":"slus/w_800595C0","evidence":["knowledge"]}
 {"level":3,"pins_left":5,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"slus/w_800597A8","evidence":["knowledge"]}
-{"level":3,"pins_left":10,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80059814","evidence":[]}
+{"level":3,"pins_left":9,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","inline_asm","non_matching"],"l4_residue":["pins","not_in_module"],"id":"slus/w_80059814","evidence":[]}
 {"level":3,"pins_left":4,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["pins","fidelity_site"],"l4_residue":["pins","not_in_module"],"id":"slus/w_800599B0","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":["fidelity_site"],"l4_residue":["not_in_module"],"id":"slus/w_80059BC4","evidence":["knowledge"]}
 {"level":3,"pins_left":0,"m2c_field":0,"blocking":false,"records":[],"tail_jumps":0,"split_audit":[],"l5_residue":[],"l4_residue":["not_in_module"],"id":"slus/w_80059D1C","evidence":[]}
