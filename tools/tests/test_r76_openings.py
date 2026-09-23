@@ -7,6 +7,7 @@ import t111_selfadd as T111  # noqa: E402
 import t115_carrierfold as T115  # noqa: E402
 import t85_allocorder as T85  # noqa: E402
 import alloc_sim  # noqa: E402
+import t94_castsplit as T94  # noqa: E402
 from pin_census import sites_of  # noqa: E402
 
 PROLOGUE = '''#include "common.h"
@@ -94,6 +95,28 @@ class TestT115CallCopy(unittest.TestCase):
         self.assertEqual(T115.callcopy_candidates(t), [])
 
 
+CASTUSE = '''#include "common.h"
+void k(s32 packet_or_angle, s16 *end_xy) {
+    ASM_KEEP_NV(packet_or_angle);
+    end_xy[0] = (func_80064584((s16)packet_or_angle) >> 7) + 0x362;
+}
+'''
+
+
+class TestT94CastUse(unittest.TestCase):
+    def test_cast_at_the_use_becomes_the_in_place_shift_pair(self):
+        cc = T94.castuse_candidates(CASTUSE)
+        self.assertEqual(len(cc), 1)
+        t = cc[0][1]
+        self.assertIn("packet_or_angle <<= 16;\n    packet_or_angle >>= 16;", t)
+        self.assertIn("func_80064584(packet_or_angle)", t)
+        self.assertNotIn("ASM_KEEP", t)
+
+    def test_a_write_in_the_statement_blocks_it(self):
+        t = CASTUSE.replace("end_xy[0] = (func", "packet_or_angle = end_xy[0] = (func")
+        self.assertEqual(T94.castuse_candidates(t), [])
+
+
 class TestT85Wide(unittest.TestCase):
     def _rd(self, order, disp):
         return {"order": order, "disp": disp, "stats": {p: {"calls_crossed": 1} for p in order}}
@@ -133,6 +156,30 @@ class TestAllocSimSets(unittest.TestCase):
               "stats": {92: {"n_refs": 4, "live_length": 40}, 93: {"n_refs": 4, "live_length": 20}}}
         self.assertEqual(alloc_sim.doubled(rd), {92: True, 93: False})
         self.assertEqual(alloc_sim.priority_undoubled(rd, 92), alloc_sim.priority(4, 20))
+
+
+class TestT120Unvolatile(unittest.TestCase):
+    SRC = '''#include "common.h"
+void m(u8 *initial_stats, u16 config) {
+    register s32 old_base ASM_REG("$6");
+    volatile u16 slot;
+
+    *(u16 *)&slot = config;
+    old_base = *(volatile u8 *)(initial_stats + 5);
+    func_80001000(old_base, slot);
+}
+'''
+
+    def test_sites_and_drop(self):
+        import t120_unvolatile as T120
+        st = T120.sites(self.SRC)
+        self.assertEqual(sorted(s["kind"] for s in st), ["cast", "decl"])
+        cast = next(s for s in st if s["kind"] == "cast")
+        self.assertIn("old_base", cast["names"])
+        t = T120.drop(self.SRC, st)
+        self.assertNotIn("volatile", t)
+        self.assertIn("    slot = config;", t)
+        self.assertIn("old_base = *(u8 *)(initial_stats + 5);", t)
 
 
 if __name__ == "__main__":

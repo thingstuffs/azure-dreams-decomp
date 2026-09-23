@@ -47,6 +47,9 @@ APPEARS     a pinned local assigned a compound right-hand side, the pin standing
                   ->  y_step *= step_distance;
                       step_distance = y_step;
 
+            T94_CASTUSE=1 (default ON, round 76): `ASM_KEEP(v); ... (s16)v ...` -> `v <<= 16; v >>= 16;` in place
+            and the use reads v (castuse_candidates(), dungeon/func_800B5DFC).
+
 RESOLVES    nine pins over four rows of the lanes, byte-exact at their recorded recipes
             (func_8181B3E8 5, func_80097C50 2, func_810332A4 2, func_8180C3C0 1).  Mechanism: gcc 2.x
             gives every tree temporary its own pseudo and `expand_expr` emits the outer operation
@@ -319,6 +322,51 @@ def candidates(text):
                 continue
             seen.add(cand)
             out.append(("%s:%s" % (label, tag), cand))
+    import os
+    if os.getenv("T94_CASTUSE", "1") == "1":
+        for label, cand in castuse_candidates(text):
+            if cand not in seen:
+                seen.add(cand)
+                out.insert(0, (label, cand))
+    return out
+
+
+KEEP_V = re.compile(r"^[ \t]*ASM_KEEP(?:_NV)?[ \t]*\([ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*\)[ \t]*;")
+SHIFT_OF = {"s16": 16, "s8": 24}
+
+
+def castuse_candidates(text):
+    """T94_CASTUSE (round 76): `ASM_KEEP[_NV](v); S` where S reads `(s16)v` / `(s8)v` ->
+    `v <<= 16; v >>= 16; S[(s16)v := v]`, the keep erased - the shift pair written IN PLACE on the kept
+    variable (shape (e) on a use, not on an assignment).  dungeon/func_800B5DFC (gemini agy, r76_agy_b37_1):
+        ASM_KEEP_NV(packet_or_angle);
+        end_xy[0] = (func_80064584((s16)packet_or_angle) >> 7) + 0x362;
+    ->  packet_or_angle <<= 16;  packet_or_angle >>= 16;
+        end_xy[0] = (func_80064584(packet_or_angle) >> 7) + 0x362;
+    The keep's second set is what the in-place pair provides in C: v is set three times either way."""
+    out, sig, n0 = [], unscored_text(text), len(sites_of(text))
+    lines = text.split("\n")
+    for i, ln in enumerate(lines):
+        km = KEEP_V.match(ln)
+        if not km:
+            continue
+        v = km.group("v")
+        for j in range(i + 1, min(i + 3, len(lines))):
+            ms = list(re.finditer(r"\((s16|s8)\)[ \t]*%s\b" % re.escape(v), lines[j]))
+            if not ms or len({m.group(1) for m in ms}) != 1:
+                continue
+            if re.search(r"(?<![\w.>])%s\s*(?:=(?!=)|\+\+|--|[-+*/%%&|^]=)" % re.escape(v), lines[j]):
+                break
+            k = SHIFT_OF[ms[0].group(1)]
+            ind = re.match(r"[ \t]*", lines[j]).group(0)
+            new = list(lines)
+            new[j] = "%s%s <<= %d;\n%s%s >>= %d;\n%s" % (ind, v, k, ind, v, k,
+                     re.sub(r"\((?:s16|s8)\)[ \t]*%s\b" % re.escape(v), v, lines[j]))
+            new[i] = None
+            t2 = "\n".join(x for x in new if x is not None)
+            if unscored_text(t2) == sig and len(sites_of(t2)) < n0:
+                out.append(("castuse:%s@%d" % (v, i + 1), t2))
+            break
     return out
 
 
@@ -334,7 +382,7 @@ class T:
             return why
         if not sites_of(text):
             return "no pins"
-        return None if sites(text) else "no splittable assignment next to a pin"
+        return None if sites(text) or castuse_candidates(text) else "no splittable assignment next to a pin"
 
     @classmethod
     def apply_verified(cls, text, row, census, vf):
