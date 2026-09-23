@@ -27,9 +27,9 @@ are already excluded by L4).  A row that cannot reach L5 stays at L4 with its re
 import re, collections
 from pathlib import Path
 from common import ROOT, LEDGER, rows, read_jsonl, write_jsonl, raw_path
-from census import (PIN_RE, M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
+from census import (M2C_LOCAL_RE, audit_index, DECL_LINE, DEF_HEADER_RE,
                      audit_sites, live_sites as census_live_sites)
-from pin_census import arm_labels, HAS_PP_RE
+from pin_census import arm_labels, HAS_PP_RE, sites_of
 
 # ---- spelling shims the pre-preprocessor scans must see through -----------------------------
 # Two devices in the tree hide or misdirect a tail-jump dependency for a regex that reads the C
@@ -269,8 +269,13 @@ def evaluate_row(r, text, raw_text, promoted, sweeps, split_idx):
     itc_blocking = any(not _decided_cross(tgt) for tgt in itc_targets)
     blocking = label_blocking or passthru_blocking or itc_blocking
     any_site = bool(live)
-    code = re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", text, flags=re.S))       # a pin named in a comment is not a pin
-    pins = len(PIN_RE.findall(code))
+    # The charter's counter (docs/PIN_CAMPAIGN_CHARTER.md rule 5: status.py "Pin sites now" =
+    # pin_census.sites_of), not a raw `ASM_X(` token count.  The token count also read macro
+    # DEFINITIONS (`#define ASM_KEEP(v) __asm__(...)`, a wrapper's body), text in NON_MATCHING/#if 0
+    # arms no byte gate compiles, and `ASM_REG` on a non-`register` local (gcc 2.x ignores that
+    # asm-spec: byte-neutral, verified on dungeon/func_81329D94), so levels.jsonl summed 3,756 pins
+    # in 916 rows against the counter's 3,701 in 902 (docs/evidence/r76_pin_count_discrepancy.md).
+    pins = len(sites_of(text))
     tail_idiom = len(re.findall(r"__attribute__\s*\(\s*\(\s*noreturn\s*\)\s*\)", text)) + len(re.findall(r"\b(?:asm|__asm__)\s*\(\s*\"func_[0-9A-F]{8}\"\s*\)", text))
     computed_goto = len(re.findall(r"\bgoto\s*\*", text)); inline_asm = len(re.findall(r"__asm__|\basm\s*\(", re.sub(r"\bASM_[A-Z0-9_]+\(", "", text)))
     boiler = "This header contains macros emitted by m2c" in text or "typedef float f32;" in text
