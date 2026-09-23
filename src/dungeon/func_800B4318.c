@@ -86,7 +86,6 @@ extern void func_800C77D0();
 void func_800B9A78(Work *work, Out *out, Render *render_arg)
 {
     register Render *render;
-    u8 *controls_page;
     u8 *controls;
     u8 *counter_base;
     u8 *counter_base_2;
@@ -97,11 +96,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
     u8 *height_addr;
     Entity *entity;
 
-    ASM_KEEP_NV(render);
-    controls_page = (u8 *)0x80080000;
-    ASM_KEEP_DEP_NV(controls_page, render);
     render = render_arg;
-    controls = controls_page + 0x3160;
+    controls = D_80083160;
 
     {
         Node *node;
@@ -205,10 +201,6 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             if (work->mode != 0) {
                 goto finish;
             }
-            height_addr = (u8 *)0x80080000;
-            ASM_KEEP_NV(height_addr);
-            height_addr += 0x3460;
-            counter_base = height_addr;
             goto decrement_counter;
         }
         if (input & 0x40) {
@@ -252,10 +244,8 @@ void func_800B9A78(Work *work, Out *out, Render *render_arg)
             if ((s16)result < 0) {
                 goto done;
             }
-            counter_base = (u8 *)0x80080000;
-            ASM_KEEP(counter_base);
-            counter_base += 0x3460;
 decrement_counter:
+            counter_base = D_80083460;
             (*(s16 *)(counter_base + 10))--;
         }
 finish:
@@ -289,7 +279,7 @@ finish:
         func_800478B8(render);
     }
     trig_value = func_80064584(*(s16 *)(controls + 0xC8));
-    out->x = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
+    *(s16 *)((u8 *)out + 2) = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_x + 2);
     trig_value = func_800644B8(*(s16 *)(controls + 0xC8));
     out->y = (trig_value * work->amp >> 11) + *(u16 *)((u8 *)&work->cur_y + 2);
     out->z = work->x + work->y.whole + (work->bias << 15);

@@ -55,17 +55,12 @@ void func_800B62A4(void *source, s32 output) {
             index += 1;
             source_cursor = (void *)((s8 *)source_cursor + 4);
         } while ((index + scan_base) < 3);
-        has_room = slot_count < 3;
-        index = slot_count;
-    } else {
-        index = slot_count;
     }
-    if ((has_room != 0) && (((Rec_D_800E3D7C *)source)->unk_48.at01_u8.v != 0)) {
+    if ((slot_count < 3) && (((Rec_D_800E3D7C *)source)->unk_48.at01_u8.v != 0)) {
         func_800B61C0(source + 0x48, output, slot_count);
         slot_count += 1;
-        ASM_KEEP(slot_count);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        index = slot_count;
     }
+    index = slot_count;
     if (index < 3) {
         slot_cursor = (index * 4) + output;
         do {

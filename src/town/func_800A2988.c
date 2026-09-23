@@ -37,18 +37,18 @@ extern TownOutput D_80100B50;
 extern s32 D_80100B68[];
 
 /* Selects a town entry and writes its root-relative coordinates to the output. */
-void func_800A00E8(s32 entryIndex) {
+s32 func_800A00E8(s32 entryIndex) {
     TownRoot *root = D_80100900[0];
     TownEntry *entry;
     TownEntry *entries;
-    register TownOutput *output ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    TownOutput *output;
     TownEntryOwner *owner;
     u16 rootX;
     u16 rootY;
     register u32 entryX ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     register u16 entryY ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
     u32 entryOffsetOrAddress;
-    register s32 selectedEntryIndex ASM_REG("$2") = entryIndex;   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 selectedEntryIndex = entryIndex;
 
     D_80100B68[0] = selectedEntryIndex;
 
@@ -57,7 +57,6 @@ void func_800A00E8(s32 entryIndex) {
     rootX = root->x;
     rootY = root->y;
     entries = owner->entries;
-    ASM_KEEP(selectedEntryIndex);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     ASM_KEEP(root);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     D_80100B50.first.word = 0;
@@ -75,4 +74,5 @@ void func_800A00E8(s32 entryIndex) {
     entryX = 0xFFE00000;
     output->third = entryX;
     output->second.half.y = entryY + rootY;
+    return selectedEntryIndex;
 }

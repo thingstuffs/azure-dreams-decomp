@@ -58,7 +58,7 @@ typedef struct S_800B19F8_9 {
 #define M2C_FIELD(expr, type_ptr, offset) (*(type_ptr)((u8 *)(expr) + (offset)))
 
 extern void *func_8004DA74(void *a0, u8 *a1, s32 a2);
-extern void func_800B180C(void *a0, s32 a1);
+extern void func_800B180C(void *a0);
 extern void func_800B18F8(s32 a0);
 extern s32 D_80078D6C[4];
 extern u8 D_800D1560[16];
@@ -72,8 +72,6 @@ typedef struct S_800B19F8_0 {
 /* Initialize panel content and element positions. */
 void func_800B19F8(S_800B19F8_0 *panel)
 {
-    register s32 footer_y ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-
     ((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_00 = (s32) D_80078D6C;
     ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_04))->unk_08 = 0;
     ((S_800B19F8_6 *)(((S_800B19F8_2 *)(((S_800B19F8_1 *)panel)->unk_48))->unk_04))->unk_0A = 0;
@@ -85,12 +83,11 @@ void func_800B19F8(S_800B19F8_0 *panel)
     ((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_00 =
         (s32) func_8004DA74(panel->unk_0C, D_800D1560, 0);
     ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_08 = 0x43;
-    footer_y = 0x88;
-    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_0A = footer_y;
+    ((S_800B19F8_8 *)(((S_800B19F8_4 *)(((S_800B19F8_1 *)panel)->unk_54))->unk_04))->unk_0A = 0x88;
 
     ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_08 = 0x67;
-    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_0A = footer_y;
+    ((S_800B19F8_9 *)(((S_800B19F8_5 *)(((S_800B19F8_1 *)panel)->unk_50))->unk_04))->unk_0A = 0x88;
 
-    func_800B180C(panel, footer_y);
+    func_800B180C(panel);
     func_800B18F8(panel->unk_08);
 }

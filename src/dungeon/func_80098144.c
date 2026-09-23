@@ -43,11 +43,10 @@ void func_8009D8A4(void) {
     upload_pair = D_80088CB0;
     buffer = D_800E50A8;
     write_ptr = buffer;
-    ASM_KEEP(write_ptr);
     dungeon_data = D_80083160;
     config = (DungeonConfig *)(dungeon_data + 0x1DC);
+    row = 0;
     if ((1 << config->field_16) > 0) {
-        row = 0;
         zero = 0;
         one = 1;
         cells = D_800EA000;

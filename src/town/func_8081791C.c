@@ -199,11 +199,12 @@ void func_8002191C(void *scene)
     case 2: {
         u8 *motion = D_80083780;
         s32 h2;
-        register u16 rmw ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+        s32 rmw;
 
         rmw = ((S_8002191C_3 *)global)->unk_10.u;
         h2 = ((S_8002191C_2 *)motion)->unk_02.u;
-        ((S_8002191C_3 *)global)->unk_10.s = (rmw + 0x200) & 0xFFF;
+        rmw += 0x200;
+        ((S_8002191C_3 *)global)->unk_10.s = rmw & 0xFFF;
         if (h2 < 0x420) {
             ((S_8002191C_2 *)motion)->unk_02.s = 0x420;
         }

@@ -251,6 +251,9 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
     S_func_81856800_4 *object_base;
     S_func_81856800_4 *effect;
     S_func_81856800_6 *part;
+#ifdef __mips__
+    S_func_81856800_7 *particle_data;
+#endif
     S_func_81856800_10 *model;
     S_func_81856800_11 *src_point;
     s16 coord_offset[3];
@@ -290,7 +293,9 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
         goto dispatch_range;
     }
     {
+#ifndef __mips__
         S_func_81856800_7 *particle_data;
+#endif
         s32 frame_index;
         u16 flags;
 
@@ -300,7 +305,6 @@ BODY_STORAGE void FUNC_81856800_BODY(S_func_81856800_1 *action, void *motion_arg
             if (effect != 0) {
                 particle_data = (S_func_81856800_7 *)((u8 *)effect + 32);
                 part = effect->unk_0C;
-                ASM_KEEP(part);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
                 {
                     void *effect_type = D_80024850;
 
@@ -395,11 +399,11 @@ case0:
         object->unk_72.u8_72 = owner->unk_24;
         object->unk_73.u8_73 = owner->unk_25;
     } else {
-        register S_func_81856800_5 *child_owner ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        
 
-        child_owner = ((S_func_81856800_4 *)((u8 *)object->unk_60 - 32))->unk_0C;
-        object->unk_72.u8_72 = child_owner->unk_24;
-        object->unk_73.u8_73 = child_owner->unk_25;
+        part = ((S_func_81856800_4 *)((u8 *)object->unk_60 - 32))->unk_0C;
+        object->unk_72.u8_72 = ((S_func_81856800_5 *)part)->unk_24;
+        object->unk_73.u8_73 = ((S_func_81856800_5 *)part)->unk_25;
     }
     model = object_base->unk_0C;
     if (func_8003DE58(model->unk_08, model, coord_offset, 0) == 0) {
@@ -628,11 +632,10 @@ case3_tick:
 
 case5:
 {
-#ifdef __mips__
-    register S_func_81856800_7 *particle_data ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-#else
+#ifndef __mips__
     S_func_81856800_7 *particle_data;
 #endif
+
 
     effect = func_8003FD64(0x312, D_80083498);
     if (effect != 0) {

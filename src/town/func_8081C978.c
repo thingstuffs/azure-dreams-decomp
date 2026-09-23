@@ -80,6 +80,7 @@ void func_80026978(S_80026978_1 *origin)
         func_8004491C(effect, D_80045340);
         transform = ((S_80026978_0 *)effect)->unk_08;
         sprite = ((S_80026978_0 *)effect)->unk_0C;
+        effect_state = (S_80026978_3 *)((u8 *)effect + 0x20);
         spawn_x = (origin->unk_02 + (rand() % 40)) - 0x14;
         transform->unk_02 = spawn_x;
         spawn_y = (origin->unk_06 + (rand(spawn_x) % 40)) - 0x14;
@@ -89,12 +90,8 @@ void func_80026978(S_80026978_1 *origin)
         transform->unk_0C = origin->unk_0C;
         random_delta = rand(spawn_z);
         color = 0x808080;
-        do {
-            random_delta = ((random_delta & 0x1FF) - 0x100) << 0xA;
-        } while (0);
-        effect_state = (u8 *)effect + 0x20;
+        random_delta = ((random_delta & 0x1FF) - 0x100) << 0xA;
         transform->unk_14 = random_delta;
-        ASM_KEEP(effect_state);
         effect_state->unk_0E = 3;
         sprite->unk_1E = 0x1000;
         sprite->unk_1C = 0x1000;

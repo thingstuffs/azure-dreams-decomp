@@ -40,7 +40,6 @@ void func_800BCE78(void *actor, void *motion, void *sprite, s32 update_mode)
     register s32 wait_state;
     s32 glide_state;
     u32 settle_state;
-    register s32 x_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 
     sequence = 0;
     if ((func_800352FC(actor, motion, sprite, update_mode) != 0) && (func_800C2AB4(actor) != 0)) {
@@ -235,31 +234,21 @@ case_10: {
     }
 
 case_20: {
-        void *floor_motion;
-        register s32 vx ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+        s32 x;
+        s32 vy;
+        s32 vx;
         s32 y;
         register s32 floor ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         register u16 timer;
 
-        floor_motion = motion;
-        ASM_KEEP(floor_motion);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        x_m = ((S_800BCE78_1 *)motion)->unk_00;
+        x = ((S_800BCE78_1 *)motion)->unk_00;
         vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
         y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
-        settle_state = ((S_800BCE78_1 *)motion)->unk_14;
-        x_m += vx;
-        y += settle_state;
-        ((S_800BCE78_1 *)motion)->unk_00 = x_m;
-        {
-
-            x_m = settle_state;
-            ASM_KEEP(x_m);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_800BCE78_1 *)motion)->unk_08.at00.v = y;
-            y = 0x10000;
-            x_m += y;
-            ((S_800BCE78_1 *)motion)->unk_14 = x_m;
-        }
-        floor = func_800C2AE8(floor_motion);
+        vy = ((S_800BCE78_1 *)motion)->unk_14;
+        ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
+        ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
+        ((S_800BCE78_1 *)motion)->unk_14 += 0x10000;
+        floor = func_800C2AE8(motion);
         state = floor < ((S_800BCE78_1 *)motion)->unk_08.at02.v;
         if (state) {
             ((S_800BCE78_1 *)motion)->unk_08.at02.v = floor;
@@ -278,28 +267,18 @@ case_20: {
     }
 
 case_30: {
+        s32 x;
+        s32 vx;
         s32 vy;
-        s32 new_vy;
+        s32 y;
 
-        {
-            s32 vx;
-
-            x_m = ((S_800BCE78_1 *)motion)->unk_00;
-            vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
-            vy = ((S_800BCE78_1 *)motion)->unk_14;
-            x_m += vx;
-            new_vy = vy;
-            ASM_KEEP(new_vy);   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-            ((S_800BCE78_1 *)motion)->unk_00 = x_m;
-        }
-        {
-
-            x_m = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
-            new_vy -= 0x4000;
-            ((S_800BCE78_1 *)motion)->unk_14 = new_vy;
-            x_m += vy;
-            ((S_800BCE78_1 *)motion)->unk_08.at00.v = x_m;
-        }
+        x = ((S_800BCE78_1 *)motion)->unk_00;
+        vx = ((S_800BCE78_1 *)motion)->unk_0C.s;
+        vy = ((S_800BCE78_1 *)motion)->unk_14;
+        ((S_800BCE78_1 *)motion)->unk_00 = x + vx;
+        y = ((S_800BCE78_1 *)motion)->unk_08.at00.v;
+        ((S_800BCE78_1 *)motion)->unk_08.at00.v = y + vy;
+        ((S_800BCE78_1 *)motion)->unk_14 -= 0x4000;
         if (((Rec_D_80082E80 *)sprite)->unk_14.at00_u16.v & 0x6000) {
             sequence = D_800E9E34;
             ((Rec_D_80082D58 *)actor)->unk_68 = glide_state;

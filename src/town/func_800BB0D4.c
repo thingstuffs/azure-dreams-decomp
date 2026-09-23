@@ -34,8 +34,7 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
         return 0;
     }
     if (record[3] != entity[5]) {
-        return_tail:
-        return 0;
+        goto return_zero;
     }
 
     record_link_page = (u8 *)0x80010000;
@@ -59,7 +58,7 @@ s32 func_800B8834(s32 record_id, s32 entity_id)
 loop:
         slot = (u8 *)(((u32)(slot_index & 0xFF) << 1) + (u32)scan_link_page);
         if (slot[0x33A4] == match_index) {
-            return 0;
+            goto return_zero;
         }
         slot_index++;
         if (slot[0x33A5] != match_index) {
@@ -67,8 +66,7 @@ loop:
         }
 
 return_zero:
-        ASM_SCHED_BARRIER(); /* MATCH: Keep this zero-return block distinct so GCC shares the retail epilogue through a jump. */
-        goto return_tail;
+        return 0;
 
 continue_loop:
         if ((u32)(slot_index & 0xFF) < 0x21U) {

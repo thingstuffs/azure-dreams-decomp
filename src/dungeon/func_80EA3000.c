@@ -17,6 +17,7 @@ extern s32 D_800E3548[];
 extern s32 D_800E3D7C[];
 extern s32 D_8015CFE4[];
 
+typedef struct { s32 value; } ItemWord;
 #ifdef __mips__
 static const u32 identity_bank[] __asm__("func_80EA3000")
     __attribute__((section(".text.func_80EA3000"), aligned(4))) = {
@@ -73,13 +74,9 @@ BODY_STORAGE s32 BODY_NAME(void *origin, void *actor) {
         s32 *item_dest;
         s32 *item_slot;
 #endif
-        s32 item_data;
-
-        item_dest = (s32 *)0x80160000;
-        ASM_KEEP(item_dest);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        item_data = D_800E3548[ground_slot];
-        item_slot = item_dest - 3079;
-        item_dest[-3079] = item_data;
+        item_dest = D_8015CFE4;
+        item_slot = item_dest;
+        *(ItemWord *)item_dest = *(ItemWord *)&D_800E3548[ground_slot];
         D_800E3548[ground_slot] = 0;
         return (s32)item_slot;
     }

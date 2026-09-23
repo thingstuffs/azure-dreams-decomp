@@ -161,13 +161,13 @@ state1:
             goto done;
         }
 
-        if (PTR_AT(owner, 0x60) != 0) {
+        { u32 target = (u32)PTR_AT(owner, 0x60);
+        if (target != 0) {
             u8 *sprite;
             s32 delta;
 
             {
-                register u32 target ASM_REG("$3") =
-                    (u32)PTR_AT(owner, 0x60);
+
                 u32 table;
 
                 copy_source = PTR_AT((u8 *)target, -0x18);
@@ -219,6 +219,7 @@ state1:
             S16_AT(effect_data, 0x78) = (s16)(height - 0x50);
         }
 
+        }
         S32_AT(effect_pos, 0x0C) = direction_offsets[S16_AT(effect_data, 0x7E)].x << 16;
         S32_AT(effect_pos, 0x10) = (u16)direction_offsets[S16_AT(effect_data, 0x7E)].y << 16;
         S32_AT(effect_pos, 0x14) = ((S16_AT(effect_data, 0x78) << 16) -

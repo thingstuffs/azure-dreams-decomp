@@ -23,8 +23,9 @@ void func_80094DA8(TownObject *object) {
     s32 current_abs_x;
     s32 current_x;
     s32 step_x;
-    register s32 clamp_work_x ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 clamp_work_x;
     s32 clamp_abs_x;
+    s32 clamp_cur;
     s32 component_y;
     s32 limit_y;
     s32 limit_abs_y;
@@ -58,11 +59,11 @@ void func_80094DA8(TownObject *object) {
                 ((current_x > 0) && (step_x > 0))) {
                 object->x = object->x - step_x;
             }
-            clamp_work_x = object->x;
+            clamp_cur = object->x;
             clamp_abs_x = limit_x;
             clamp_abs_x = abs(clamp_abs_x);
-            clamp_work_x = abs(clamp_work_x);
-            clamp_work_x = clamp_work_x < clamp_abs_x;
+            clamp_cur = abs(clamp_cur);
+            clamp_work_x = clamp_cur < clamp_abs_x;
 #ifdef __mips__
             __asm__ __volatile__(".set\tnoreorder\n\t.set\tnomacro");
             if (!clamp_work_x) {

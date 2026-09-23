@@ -72,10 +72,9 @@ void func_8009C648(u8 *source_data, M2C_UNK spawn_arg) {
     memcpy(part_indices, D_80088D78, 6);
     part_index = 0;
     velocity_bias = 0xFFFC0000;
-    ASM_KEEP(velocity_bias);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     part_params = D_800D06C8;
-    source_object = (u8 *)source_data - 0x20;
 spawn_part:
+    source_object = (u8 *)source_data - 0x20;
     part_object = func_8009C390(source_object, spawn_arg, ((S_8009C648_0 *)part_params)->unk_00, ((S_8009C648_0 *)part_params)->unk_04);
     if (part_object != NULL) {
         velocity = ((S_8009C648_1 *)part_object)->unk_08;
@@ -95,7 +94,6 @@ spawn_part:
             (s32)(motion->unk_04 + (motion->unk_10 * 8));
         func_8009C46C(part_data, motion, ((S_8009C648_1 *)part_object)->unk_0C);
         part_index += 1;
-        source_object = (u8 *)source_data - 0x20;
         if (part_index < 6) {
             goto spawn_part;
         }

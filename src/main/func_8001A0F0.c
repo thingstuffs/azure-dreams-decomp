@@ -31,7 +31,6 @@ s32 func_804010F0(void) {
         if (state == 3) {
             goto state_three;
         }
-        status = 5;
         goto five_exit;
 
 state_one:
@@ -72,10 +71,12 @@ state_three:
         }
         D_804094E8 = 0;
         return status;
+    } else {
+        goto done;
     }
 
 five_exit:
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    status = 5;
 done:
     return status;
 }

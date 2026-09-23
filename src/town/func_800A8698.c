@@ -54,6 +54,7 @@ extern u8 D_800A5FDC[];
 /* Updates the actor effect and eases scene values before advancing the state. */
 void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     s16 threshold;
+    s32 offset_step;
     s16 angle;
     s32 next_offset;
     u16 ticks_left;
@@ -76,7 +77,8 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     position = D_80083780;
 
     if (func_800C1D44(func_8008C180(((S_800A5DF8_2 *)position)->unk_02, ((S_800A5DF8_2 *)position)->unk_06) & 0xFFFF) != 0) {
-        actor->unk_14 = (s32) (actor->unk_14 - func_800A5894(actor));
+        offset_step = actor->unk_14 - func_800A5894(actor);
+        actor->unk_14 = offset_step;
     }
     func_80095094(actor);
     func_80095094(actor);
@@ -90,7 +92,6 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
     {
         s32 shifted_ticks;
         s32 ticks;
-        register s32 offset_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         shifted_ticks = (s32) ticks_left << 16;
         ticks = shifted_ticks >> 16;
         offset_step = -0x280;
@@ -98,7 +99,7 @@ void func_800A5DF8(S_800A5DF8_4 *state, S_800A5DF8_0 *actor, M2C_UNK context) {
             state->unk_0A.u = 0;
         }
         next_offset = ticks > 0
-            ? (offset_step = (offset_step - ((S_800A5DF8_3 *)scene_state)->unk_C4.s) / ticks,
+            ? (offset_step -= ((S_800A5DF8_3 *)scene_state)->unk_C4.s, offset_step /= ticks,
                ((S_800A5DF8_3 *)scene_state)->unk_C4.u + offset_step)
             : -0x280;
         ((S_800A5DF8_3 *)scene_state)->unk_C4.s = next_offset;

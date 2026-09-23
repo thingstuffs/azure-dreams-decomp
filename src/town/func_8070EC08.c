@@ -18,9 +18,8 @@ extern char *func_80016E48(s32, s32, s32, s32);
 char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
 {
     s32 selector = selection;
-    /* MATCH: Keep the pass-through arguments in their incoming registers across computed-goto labels. */
     s32 forward_value = value;
-    register s32 forward_selection ASM_REG("$6") = selection;
+    s32 forward_selection;
     s32 forward_extra = extra;
     u32 table_index;
     void **jump_table;
@@ -30,6 +29,7 @@ char *func_80017C08(s32 unused, s32 value, s32 selection, s32 extra)
     };
 
     table_index = selector - 12;
+    forward_selection = selection;
     if (table_index >= 43) {
         goto Ldefault;
     }

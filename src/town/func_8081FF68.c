@@ -167,11 +167,12 @@ void func_80022768(State8081FF68 *state, void *position)
     };
     u8 *input = D_80083160;
     u8 *payout_callback;
-    register s32 half_delta ASM_REG("$7");
+    s32 index;
     s32 angle;
     s32 angle_delta;
     s32 angle_delta_2;
     s32 symbols[3][3];
+    void *coin;
 
     (void)state_labels;
     payout_callback = D_80020224;
@@ -186,9 +187,9 @@ void func_80022768(State8081FF68 *state, void *position)
         } else {
             s16 current_angle = ((S_80022768_1 *)angles)->unk_08.at02.v;
             angle_delta = angle - current_angle;
-            half_delta = angle_delta >> 1;
+            index = angle_delta >> 1;
             {
-                angle_delta = angle - half_delta;
+                angle_delta = angle - index;
                 ((S_80022768_1 *)angles)->unk_08.at02.v = angle_delta;
             }
         }
@@ -304,15 +305,15 @@ sw_5:
         if ((s16)timer > 0) {
             return;
         }
-        half_delta = 2;
-        reel_mode = half_delta;
+        index = 2;
+        reel_mode = index;
         reel_slot = (u8 *)state + 8;
         do {
             void *reel = ((S_80022768_3 *)reel_slot)->unk_4C;
             reel_slot -= 4;
-            half_delta--;
+            index--;
             ((S_80022768_4 *)reel)->unk_24 = (s16)reel_mode;
-        } while (half_delta >= 0);
+        } while (index >= 0);
         ((S_80022768_0 *)state)->unk_5C.s = 5;
         return;
     }
@@ -351,7 +352,7 @@ sw_4:
 
 sw_6:
     {
-        s32 index = 2;
+        index = 2;
         if (((S_80022768_0 *)state)->unk_5E.s != 3) {
             return;
         }
@@ -476,9 +477,9 @@ sw_6:
         }
 
         if ((((S_80022768_0 *)state)->unk_62 & 1) != 0) {
-            register void *jackpot_effect ASM_REG("$17") = func_8003FC64(0x100);
-            if (jackpot_effect != NULL) {
-                ((S_80022768_4 *)jackpot_effect)->unk_10 = D_80023BCC;
+            coin = func_8003FC64(0x100);
+            if (coin != NULL) {
+                ((S_80022768_4 *)coin)->unk_10 = D_80023BCC;
             }
         }
 
@@ -554,11 +555,11 @@ sw_7:
         }
 
         {
-            void *coin = func_8003FC64(0x136);
             void *payout_obj;
             u8 *primitive;
             u8 *sprite;
             u8 *payout_state;
+            coin = func_8003FC64(0x136);
             if (coin == NULL) {
                 return;
             }

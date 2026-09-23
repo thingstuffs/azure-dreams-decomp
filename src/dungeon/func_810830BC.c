@@ -54,50 +54,47 @@ extern u8 D_80175F10[];
 extern u8 D_80175F28[];
 
 /* Spawn this overlay's effect object: allocate it, fill its two parts from the attributes and arm its handlers. */
-void *func_801708BC(s16 spawn_flags, s8 attr_a, s8 attr_b, s32 attr_c)
+void *func_801708BC(s16 spawn_flags, s32 attr_a, s32 attr_b, s32 attr_c)
 {
-    s32 kind;
-    void *result;
+    void *result = 0;
     S_801708BC_0 *object;
-    S_801708BC_2 *part0;
+    void *part0;
     S_801708BC_3 *part1;
     S_801708BC_4 *result_copy;
+    s16 held_a;
+    s32 held_c;
+    s16 held_b;
+    s16 flags_copy;
+    s32 kind;
 
-    result = 0;
+    held_a = attr_a;
+    held_c = attr_c;
+    held_b = attr_b;
     object = func_8003FD64(0x112, &D_80083498);
+    flags_copy = spawn_flags;
     if (object == 0) {
         goto done;
     }
 
-    result = object;
-    result = (u8 *)result + 0x20;
+    result = (u8 *)object + 0x20;
     object->unk_10 = D_80170A84;
     ((S_801708BC_1 *)result)->unk_13 = 44;
     func_8004491C(object, &D_80045340);
 
-    {
-        void *page;
-        void *handler;
-
-        page = (void *)0x80170000;
-        ASM_KEEP_NV(page);   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-        part0 = object->unk_08;
-        handler = (u8 *)page + 0x5F10;
-        part0->unk_0A = attr_c;
-        part1 = object->unk_0C;
-        kind = spawn_flags & 3;
-        part1->unk_25 = attr_b;
-        result_copy = result;
-        part1->unk_2C = handler;
-    }
-    part1->unk_24 = attr_a;
+    part0 = object->unk_08;
+    ((S_801708BC_2 *)part0)->unk_0A = held_c;
+    part1 = object->unk_0C;
+    kind = spawn_flags & 3;
+    part1->unk_25 = held_b;
+    result_copy = result;
+    part1->unk_2C = D_80175F10;
+    part1->unk_24 = held_a;
 
     if (kind == 1) {
         ((S_801708BC_1 *)result)->unk_14 |= 0x6000;
         ((S_801708BC_1 *)result)->unk_1C |= 0x6000;
         goto common;
     }
-
     if (kind >= 2) {
         ((S_801708BC_1 *)result)->unk_14 |= 0x2000;
         ((S_801708BC_1 *)result)->unk_1C |= 0x2000;
@@ -116,7 +113,7 @@ void *func_801708BC(s16 spawn_flags, s8 attr_a, s8 attr_b, s32 attr_c)
     }
 
 common:
-    func_800A9C18(object, part0, part1, spawn_flags);
+    func_800A9C18(object, part0, part1, (s16)flags_copy);
     result_copy->unk_9A = 0xFF;
     result_copy->unk_9C = -1;
     result_copy->unk_8C = &D_80170E94;
@@ -125,13 +122,3 @@ common:
 done:
     return result;
 }
-
-/* MECHANISM: attr_c in an ABI word reproduces the 0x38 frame and save order. The
-   two-step `result = object; result = (u8 *)result + 0x20;` gives `result` the
-   extra SET that wins it the first saved-register colour ($s0) -- retail's whole
-   s0..s7 role assignment follows from that one allocation. The flag arms are
-   ordinary `|=` statements; gcc cross-jumps their two trailing stores itself.
-   The only remaining scaffold is the split 0x80170000 page base: gcc emits the
-   address of D_80175F10 as one `la` macro, while retail splits %hi/%lo around
-   `lw $s4,8($s1)`. ASM_KEEP_NV keeps the halves apart with no scheduling
-   barrier and compiles away in the -DNON_MATCHING port build. */
