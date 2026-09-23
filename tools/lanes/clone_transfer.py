@@ -772,6 +772,21 @@ def transplant_exemplar(donor: Doc, sib: Doc):
 
 _MISSING = object()
 
+# the landing rule's scaffolding kinds (tools/lanes/land_lanes.sh): a candidate on which any kind
+# grows is refused there, so it is refused here before it costs a compile (charter rule 3)
+_SCAFF = re.compile(r"ASM_[A-Z0-9_]+(?=\()|while\s*\(\s*0\s*\)|__asm__|\bvolatile\b")
+
+
+def scaffold_kinds(text):
+    return collections.Counter(m.group(0).replace(" ", "")
+                               for m in _SCAFF.finditer(re.sub(r"/\*.*?\*/", "", text, flags=re.S)))
+
+
+def scaffold_grew(cand, cur):
+    """The scaffolding kinds that occur more often in `cand` than in `cur` (empty: none grew)."""
+    kc, ku = scaffold_kinds(cand), scaffold_kinds(cur)
+    return sorted(k for k in kc if kc[k] > ku[k])
+
 
 class Judge:
     """screen.compile_s against the sibling's pinned listing, then the byte scorer."""
@@ -819,6 +834,9 @@ class Judge:
             pins_out = len(sites_of(text))
             if pins_out >= pins_in:
                 notes["no pin removed"] += 1
+                continue
+            if scaffold_grew(text, sib_text):
+                notes["scaffolding grew"] += 1
                 continue
             s = self.screen.compile_s(row, text)
             if s is None:

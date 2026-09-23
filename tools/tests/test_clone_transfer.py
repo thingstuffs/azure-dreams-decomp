@@ -234,6 +234,13 @@ class ReplayV2(unittest.TestCase):
         self.assertTrue(good)
         self.assertIn("func_80047784(node, 39, step);", good[0])
 
+    def test_scaffold_grew_mirrors_the_landing_rule(self):
+        cur = "    x = 1;\n    ASM_KEEP(x);   /* while (0) in a comment */\n"
+        self.assertEqual(C.scaffold_grew(cur, cur), [])
+        self.assertEqual(C.scaffold_grew(cur + "    do { } while (0);\n", cur), ["while(0)"])
+        self.assertEqual(C.scaffold_grew("    x = 1;\n", cur), [])
+        self.assertEqual(C.scaffold_grew(cur.replace("ASM_KEEP(x)", "ASM_KEEP_NV(x)"), cur), ["ASM_KEEP_NV"])
+
     def test_both_dedupes(self):
         b, o, s = C.Doc("b", BASE), C.Doc("o", OUT), C.Doc("s", SIB)
         cands, nh, _, _ = C.candidates_with(b, o, s, "both")

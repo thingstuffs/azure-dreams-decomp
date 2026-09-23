@@ -254,6 +254,10 @@ def main():
                     if o["pins"] < m["pins"] and o.get("exact") and not o["base_current"]:
                         row, d, _ = P[m["id"]]
                         text = (ROOT / o["path"]).read_text()
+                        from pin_census import unscored_text
+                        if unscored_text(text) != unscored_text(d.text) or C.scaffold_grew(text, d.text):
+                            print(f"not staged {m['id']} from {o['lane']}: edits an unscored arm or grows scaffolding")
+                            continue
                         stage(a.stage_partials, row, text, d.text)
                         with J.open("a") as f:
                             f.write(json.dumps({"id": m["id"], "outcome": "exact", "from": o["path"],
