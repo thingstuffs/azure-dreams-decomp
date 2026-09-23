@@ -102,6 +102,12 @@ def main():
                f'(owner ruling 2026-09-22 afternoon, "accept 2 pins") -- charter rule 3, "a pin moved elsewhere is not '
                f'a removal"; the trade is tracked, and L4 is where pins stop counting toward removal regardless): '
                f"{site_for_pin:,}.\n")
+    dead_init = sum(1 for t in trades if t.get("kind") == "dead_init")
+    out.append(f"Dead-initializer trades (`ledger/recipe_trades.jsonl` records shaped "
+               f'`{{"kind":"dead_init","id":row,"site":pins,"init":decl,"lane":lane,"at":iso,"note":str}}` -- a '
+               f"never-read `= 0` at a declaration makes the variable multi-set; ordinary C by the owner ruling "
+               f"2026-09-23, tracked as a spelling trade, informational, the pin count is unchanged; appended by "
+               f"tools/apply_candidates.py at landing): {dead_init:,}.\n")
 
     from census import declared_void_callees, void_exact_targets, live_sites, audit_sites
     import census as _census_mod
