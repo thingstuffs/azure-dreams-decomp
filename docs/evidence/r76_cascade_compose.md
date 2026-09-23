@@ -219,3 +219,114 @@ and lands a generator lane when no process names it).  Journal: `work/native_lan
   800BB6A8, 8033077C, 8046F730; dungeon/func_8008F814, 80098378, 800B8C00, 8194D354) and dungeon/func_800ACC98 (t111 ->
   t105 d0 on its exemplar) - an assembler-level residue class, not a C-shape one.
 * H3-3 compound abs rows and the "t69 composed with t102/t107" rows: bounded negatives (3a table).
+
+## 7. Pin-free intermediates (`compose2.py --pinfree`, owner-approved 2026-09-23)
+
+**The mode.**  §3's structural limit - a stage-1 candidate with no pin left cannot be composed, because every B's
+`eligible()` / detector anchors on a pin site - is lifted by a shared hook, no generator edited
+(`tools/lanes/residue_anchor.py`, commit d6a445ce):
+
+* **Localiser = the -g listing diff.**  Both texts (the row's pinned text = retail, and A's pin-free candidate) are
+  compiled by cc1 with `-g` (a localiser only; never the verifier).  Every cell's cc1 emits `.loc FILE LINE` (checked on
+  2.6.3 / 2.7.2 / 2.7.2-cdk / 2.8.0 / 2.8.1 / 2.91.66 / 2.95.2); with the debug directives dropped the -g instruction
+  stream equals `screen.compile_s`'s plain listing on **40/40** sampled rows.  `difflib` opcodes between the two
+  instruction streams give the candidate's differing instructions and, through the `.loc` of the row's own file, their C
+  lines (weight = instructions charged to the line; a retail-only block is charged to the lines flanking the gap).
+  A residue on the function's `{` line (the parameter loads) falls back to the signature line.  When the listings are
+  equal (d0 - the residue is past cc1) the anchor is A's own move (the C lines the text diff touches).  Cost: two cc1
+  runs per stage-1 candidate.  Chosen over sched_map's `-da` RTL dumps (one compile per pass dump) and residue.py
+  (fingerprints a diff but does not localise it to C).
+* **Anchor = synthetic sites.**  The 6 heaviest residue statements become `("stmt", "RESIDUE", <statement>, start,
+  end, line, "")` tuples.  `install()` patches the `sites_of` binding of every loaded tools/xform module (+ pin_sites,
+  dead_init) to return them for exactly the registered text (the real census for any other text, so a B's
+  "candidate has fewer pins" filter sees 0 < n), and `erase` / `erase_many` never erase a RESIDUE tuple.
+  compose2's own win check and pin_census stay unpatched.
+* **B = PF_B**: t36 t37 t94 (widths), t77 t86 t97 t104 (symbols / pages), t72 t74 (order / multiset), t118 t119
+  (set-once / dead-init).  Win rule unchanged: B exact AND fewer real pin sites than the row's text (the landers keep
+  the scaffolding-growth check).  Tests: `tools/tests/test_residue_anchor.py`, `test_compose2.py` (pin-free menu).
+
+    python3 tools/lanes/compose2.py <lane> --pinfree (--rows id@A+A,.. | --near D) [--max-dA 20] [--anchors 6] ...
+
+### 7a. Named rows (the 42 rows of 3a; t101 not as A: 800B8F90 / 80A1FBBC skipped)
+
+`r76_compose_pf_named` (exemplar texts, `--base-from auto`, k = 3): 40 rows, **145 s** at 8 workers.  **3 wins, all on
+exemplar texts that model lanes have since landed (measurement only, can never land):**
+
+| row | pins | composition | the second move |
+|---|---|---|---|
+| dungeon/func_800900F4 | 6 -> 0 | t113_sibarity (pin-free d3) -> t37_localwidth | `var_s1` (an `ASM_REG` local) -> `u16`; 3a's best was t113 -> t89 d3 |
+| dungeon/func_8191740C | 1 -> 0 | t89_lifetimesplit (d12) -> t118_setonce | `v = f(); v = (v >> 4) * g()` folded to one expression (x3); 3a: A-empty on every A |
+| town/func_8032CE94 | 4 -> 0 | t108_globalreg (d4) -> t97_pagesym | page constant respelled `D_8001F8A5 + 0x10` (3a reached it with the pin kept, via t86) |
+
+`r76_compose_pf_named_src` (today's src/, rows with >= 1 pin): **0 wins in 14 rows** (28 s).
+
+Distance table of the named rows that have a pin-free stage-1 candidate (dA = A's nearest pin-free distance; best B =
+nearest retail distance any PF_B reached; the other 23 rows have no pin-free candidate: A-empty / A-refused, as in 3a):
+
+| row | pins | dA (A) | anchors | best B | PF_B eligible |
+|---|---|---|---|---|---|
+| dungeon/func_80E0D090 | 2 | 18 (t110) | 6 | 16 t37 | 5 |
+| dungeon/func_80B9D094 | 3 | 16 (t110) | 6 | 16 | 4 |
+| dungeon/func_818F33BC | 6 | 6 (t110) | 3 | 6 | 6 |
+| dungeon/func_80BEE4EC | 3 | 15 (t113) | 5 | 11 t37 | 6 |
+| dungeon/func_809F7320 | 3 | 15 (t113) | 5 | 9 t37 | 6 |
+| dungeon/func_80FB1000 | 4 | 16 (t112) | 6 | 16 | 4 |
+| dungeon/func_80FF3000 | 4 | 19 (t112) | 6 | 19 | 5 |
+| dungeon/func_81059F68 | 3 | 18 (t112) | 6 | 13 t37 | 4 |
+| dungeon/func_8009DB44 | 2 | 9 (t112) | 6 | 7 t118 | 7 |
+| dungeon/func_81031F30 | 2 | 10 (t102) | 4 | 10 | 4 |
+| dungeon/func_80977E0C | 7 | 16 (t102) | 6 | 15 t37 | 8 |
+| dungeon/func_800C68F8 | 4 | 6 (t37) | 3 | 3 t37 | 2 |
+| dungeon/func_800C85AC | 4 | 8 (t37) | 4 | 5 t37 | 2 |
+| dungeon/func_80E8F178 | 1 | 18 (t37) | 6 | 18 | 4 |
+
+**The three t110 rows are bounded negatives at depth 2 with PF_B.**  818F33BC shows why: its landed text (987d4397)
+is t110's d6 candidate plus `held_*` retyped `s16` (t37 makes that move - it is in the menu) AND each
+`bias = held - 0x10; pos += bias; dest = pos;` chain folded into `dest = (s16)pos + (s16)(held - 0x10);` - a
+statement MERGE with casts at the sum.  t74 only splits chains; no PF_B generator merges them.  80E0D090 (t37 18 ->
+16) and 80B9D094 (16, no B moved it) need moves of the same kind.
+
+### 7b. Near rows (`--near 20`, nearest journalled miss first, t101 not as A)
+
+`r76_compose_pf_near` (first 100 rows, 385 s) then `r76_compose_pf_near2` (the other 625, 1,983 s, resumed from the
+first journal), then `r76_compose_pf_d0` (the 4 rows whose pin-free candidate was listing-exact, rerun with the
+A-move anchor, 71 s).  **725 rows, 360 with a pin-free stage-1 candidate (dA <= 20), 3 wins / 3 pins, all on today's
+src/ text:**
+
+| row | pins | composition | the second move | lane | state |
+|---|---|---|---|---|---|
+| dungeon/func_80D3C944 | 1 -> 0 | t102_gotojoin (d1) -> t37_localwidth (also t112 d1 -> t37) | `old_x`, `old_x_early` `u8` -> `s16` | r76_compose_pf_near | landed by land_finished2 (STATUS 3,547/871 -> 3,546/870) |
+| dungeon/func_81977FB8 | 1 -> 0 | t113_sibarity (d4) -> t37_localwidth | `height_or_shade` -> `s16` (t113: `func_8004491C` at its 2-argument arity) | r76_compose_pf_near2 | staged |
+| dungeon/func_809DB054 | 1 -> 0 | t115_carrierfold (d0) -> t37_localwidth (A-move anchor) | `flag_bits` -> `u32` | r76_compose_pf_d0 | staged |
+
+Distance table (per row: A's nearest pin-free dA; best B = nearest retail distance any PF_B candidate reached):
+
+| band | rows by dA | rows by best B |
+|---|---|---|
+| 0 | 4 | 6 (3 wins + 80088964, 8008D69C, 80CC2828 listing-exact, byte-inexact) |
+| 1-2 | 49 | 50 |
+| 3-5 | 69 | 80 |
+| 6-10 | 105 | 103 |
+| 11-20 | 133 | 113 |
+| no B eligible | | 8 |
+
+A PF_B move got closer than A's own candidate on 73 of the 360 rows.  A generators that hand pin-free candidates
+(stage-1 candidate runs): t112 548, t115 417, t109 211, t117 180, t102 177, t110 134, t113 56, t105 45, others < 35.
+PF_B eligibility (candidate runs): t119 1,770, t37 1,523, t74 1,480, t94 1,022, t86 936, t77 474, t118 413, t36 168,
+t97 71, t104 40, **t72 0** (its `runs()` wants an `ASM_` statement line by text - `PIN_LINE.match` - so a synthetic
+anchor cannot reach it without a generator edit; t97's `t92.runs` and t118's pin-line tests are partly textual too,
+which is why their counts are low).  Every exact B on a near row was **t37_localwidth** (7 exact runs on 3 rows; t119
+once, on 809DB054, same text).
+
+### 7c. Read
+
+* **The hook works and is cheap** (40 min at 8 workers for 725 rows + 42 named), but the yield is thin: 3 landable
+  pins in 725 near rows (0.4 %), all 1-pin rows, all a width second move (t37).  The width move is the only PF_B move
+  that pays on today's tree; the symbol / page second moves that made every §3a win are spent (§3c), and paid here
+  only on exemplar texts (8032CE94).
+* **The named "needs a second move" rows need a statement merge**, not a width/symbol/order move: a "pin-free
+  polish" of the PF_B kind does not reach them.  A generator that FOLDS a `v = E; v op= F; use(v)` chain into one
+  expression (with narrowing casts at the sum) is the missing second move - the inverse of t74 - and 8191740C's
+  t118 win (fold of `v = f(); v = (v >> 4) * g()`) is the one place the set already made it.
+* Listing-exact, byte-inexact after composition: 80088964, 8008D69C, 80CC2828 join §6's assembler-level class.
+* Not run: t101 as A (cost, as in §3c); rows whose pin-free candidates are beyond d20.
