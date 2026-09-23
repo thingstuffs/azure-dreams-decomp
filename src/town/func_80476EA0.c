@@ -22,9 +22,9 @@ extern Entry12 D_80016470[];
 extern TownState D_800167B4;
 extern Entry4 D_80016818[];
 
-/* Copy the indexed entry value and position into the town state. */
-void func_80017EA0(s32 entry_index) {
-    register TownState *state ASM_REG("$2") = &D_800167B4;   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+/* Copy the indexed entry value and position into the town state (returns the state pointer). */
+TownState *func_80017EA0(s32 entry_index) {
+    TownState *state = &D_800167B4;
     Entry12 *entries = D_80016470;
     Entry12 *entry = &entries[entry_index];
     Entry4 *position;
@@ -33,4 +33,5 @@ void func_80017EA0(s32 entry_index) {
     position = &D_80016818[entry_index];
     state->unk24 = position->unk0;
     state->unk26 = position->unk2;
+    return state;
 }

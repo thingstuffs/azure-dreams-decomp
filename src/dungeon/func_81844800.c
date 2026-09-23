@@ -192,7 +192,6 @@ __asm__(".set func_800246B4, 0x800246b4");
 extern void func_80024C84(void);
 extern void func_80024868(void);
 extern void func_8002472C(void);
-__asm__(".set func_80024C84, 0x80024c84");
 __asm__(".set func_80024868, 0x80024868");
 __asm__(".set func_8002472C, 0x8002472c");
 
@@ -240,24 +239,21 @@ static __inline__ s16 delta_axis(s8 target, u16 start) {
     start -= 32;
     return t - start;
 }
-BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_render) BODY_ATTR;
+BODY_STORAGE void BODY_NAME(void *effect, void *motion, void *source_render) BODY_ATTR;
 /* Updates a staged effect, moves it toward its target, and emits particles. */
-BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_render) {
+BODY_STORAGE void BODY_NAME(void *effect, void *motion, void *source_render) {
     static void *const state_labels[] = {
         &&case0, &&case1, &&case2, &&case3, &&case4, &&case5
     };
-    void *effect = effect_in;
-    void *motion;
-    register void *owner ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *owner;
     Vec3 delta;
     s32 target_timer;
-    register void *owner_start ASM_REG("$8");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    void * volatile owner_base;
+    void *owner_start;
     void *owner_sprite;
     void *spawned;
     void *particle_data;
     void *sprite;
-    register s32 particles_left ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
+    s32 particles_left;
     S_81844800_5 *sprite_page;
     s16 state;
     s16 state_2;
@@ -265,12 +261,9 @@ BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_rende
     owner = ((S_81844800_0 *)effect)->unk_00;
     {
         owner_start = (u8 *)owner - 0x20;
-        owner_base = owner_start;
     }
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
     state = ((S_81844800_0 *)effect)->unk_0A.s;
     owner_sprite = ((S_81844800_1_pre *)owner)[-1].unk_00;
-    motion = motion_in;
     if (state == 0) {
         goto dispatch;
     }
@@ -282,11 +275,7 @@ BODY_STORAGE void BODY_NAME(void *effect_in, void *motion_in, void *source_rende
             if (spawned != 0) {
                 particle_data = (u8 *)spawned + 0x20;
                 sprite = ((S_81844800_2 *)spawned)->unk_0C;
-                ASM_KEEP(sprite);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-                {
-                    owner_start = func_80024C84;
-                    ((S_81844800_2 *)spawned)->unk_10 = owner_start;
-                }
+                ((S_81844800_2 *)spawned)->unk_10 = func_80024C84;
                 ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.s =
                     ((S_81844800_3 *)motion)->unk_00.at00.v + (((func_80069EF8() & 0x1FF) - 255) << 13);
                 ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_04.s =
@@ -348,9 +337,7 @@ case0:
         }
         sprite = ((S_81844800_8_pre *)target)[-1].unk_00;
         if ((((S_81844800_4 *)sprite)->unk_14 & 0x8000) != 0) {
-            owner_start = source_render;
-            ASM_KEEP(owner_start);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            if ((((S_81844800_9 *)owner_start)->unk_14 & 0x8000) != 0) {
+            if ((((S_81844800_9 *)source_render)->unk_14 & 0x8000) != 0) {
                 func_8009CE1C(
                     ((S_81844800_1 *)owner)->unk_60,
                     10,
@@ -366,7 +353,6 @@ case0:
         ((S_81844800_1 *)owner)->unk_73.s = ((S_81844800_4 *)sprite)->unk_25;
     have_target_tile:
         {
-            owner_start = owner_base;
             if (func_8003DE58(
                 ((S_81844800_16 *)(((S_81844800_10 *)owner_start)->unk_0C))->unk_08,
                 ((S_81844800_10 *)owner_start)->unk_0C, &delta, 0) == 0) {
@@ -376,7 +362,6 @@ case0:
             }
             {
                 s32 target_x;
-                owner_start = owner_base;
                 ((S_81844800_3 *)motion)->unk_00.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_02 + delta.x;
                 ((S_81844800_3 *)motion)->unk_04.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_06 + delta.y;
                 ((S_81844800_3 *)motion)->unk_08.at02.v = ((S_81844800_17 *)(((S_81844800_11 *)owner_start)->unk_08))->unk_0A + delta.z;
@@ -480,7 +465,6 @@ case3:
         spawned = func_8003FD64(0x312, &D_80083498);
         if (spawned != 0) {
             particle_data = (u8 *)spawned + 0x20;
-            ASM_KEEP(particle_data);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             sprite = ((S_81844800_2 *)spawned)->unk_0C;
             ((S_81844800_2 *)spawned)->unk_10 = func_80024C84;
             ((S_81844800_14 *)(((S_81844800_2 *)spawned)->unk_08))->unk_00.u = ((S_81844800_3 *)motion)->unk_00.at00.v;

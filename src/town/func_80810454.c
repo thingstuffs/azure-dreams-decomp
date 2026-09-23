@@ -27,9 +27,8 @@ typedef struct S_80810454_2 {
 extern s32 func_8006A3A4();
 extern s32 D_80084D5C;
 
-s32 func_8052B054(void *arg0, S_80810454_1 *arg1) {
+void func_8052B054(void *arg0, S_80810454_1 *arg1) {
     s16 state;
-    register s32 result_m ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
 
     if (((S_80810454_2 *)(((S_80810454_0 *)arg0)->unk_04))->unk_18 == 2) {
         ((S_80810454_0 *)arg0)->unk_00 = 3;
@@ -67,7 +66,7 @@ state_0: {
             ((S_80810454_0 *)arg0)->unk_00 = 1;
             return;
         }
-        return -0x40000;
+        return;
     }
 
 state_1: {
@@ -86,7 +85,7 @@ state_1: {
             ((S_80810454_0 *)arg0)->unk_00 = 2;
             return;
         }
-        return 0x40000;
+        return;
     }
 
 state_2: {
@@ -97,14 +96,12 @@ state_2: {
         speed = arg1->unk_14.s;
         position += speed;
         arg1->unk_08.s = position;
-        result_m = arg1->unk_14.s;
-        result_m -= 0x8000;
-        arg1->unk_14.s = result_m;
-        if (result_m == -0x40000) {
+        arg1->unk_14.s -= 0x8000;
+        if (arg1->unk_14.s == -0x40000) {
             ((S_80810454_0 *)arg0)->unk_00 = 1;
             return;
         }
-        return result_m;
+        return;
     }
 
 state_f0: {
@@ -119,16 +116,15 @@ state_f0: {
     }
 
 state_3: {
+        s32 position;
 
-        result_m = arg1->unk_08.s;
-        result_m -= 0x100000;
-        arg1->unk_08.s = result_m;
-        if (result_m <= (s32)0xFE000000) {
+        position = arg1->unk_08.s;
+        position -= 0x100000;
+        arg1->unk_08.s = position;
+        if (position <= (s32)0xFE000000) {
             ((S_80810454_0_pre *)arg0)[-1].unk_00 |= 0x8000;
-            result_m = D_80084D5C;
-            result_m |= 0x8000;
-            D_80084D5C = result_m;
+            D_80084D5C |= 0x8000;
         }
-        return result_m;
+        return;
     }
 }

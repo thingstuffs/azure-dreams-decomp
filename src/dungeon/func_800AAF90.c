@@ -122,6 +122,7 @@ extern s32 func_800654B0();
 extern s32 func_80065820();
 extern void *func_800B0BE0();
 
+typedef struct { u32 entry; } OtSlot;
 /* Transform and emit linked batches of quad primitives into the rendering buffer. */
 s32 func_800B06F0(u8 *initial_batch, s32 initial_dispatch_arg, u8 *initial_params)
 {
@@ -298,12 +299,11 @@ fallback:
             }
 
             {
-                u32 ot_entry;
+                OtSlot ot_entry = { ((S_800B06F0_0 *)scratch)->unk_C0.i };
 
-                ot_entry = ((S_800B06F0_0 *)scratch)->unk_C0.i;
-                ASM_KEEP_NV(ot_entry);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+
                 do {
-                    packet = func_8004CD28(ot_entry, params, primitive_ref, packet);
+                    packet = func_8004CD28(ot_entry.entry, params, primitive_ref, packet);
                 } while (0);
             }
             if (primitive != 0) {

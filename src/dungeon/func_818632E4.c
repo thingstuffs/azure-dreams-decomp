@@ -91,13 +91,13 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
     Lookup *lookup;
     Lookup *lookup_2;
     Motion *root_motion;
-    register Motion *linked_motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+
     u8 *linked_root;
     u8 *slot;
     s16 delta[3];
     u16 final_x;
     u16 final_y;
-    register s32 step ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 step;
     register s32 diff ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     s32 start_coord;
     s32 floor_height;
@@ -156,16 +156,16 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
             WideProduct product;
 
             ASM_KEEP_NV(div_magic);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-            linked_motion = *(Motion **)(linked_root - 0x18);
+            prefix = (RootPrefix *)*(Motion **)(linked_root - 0x18);
 
             start_coord = motion->x.h.hi;
-            diff = linked_motion->x.h.hi - start_coord;
+            diff = ((Motion *)prefix)->x.h.hi - start_coord;
             if (diff < 0) {
                 diff = -diff;
             }
             delta[0] = diff;
 
-            diff = linked_motion->y.h.hi;
+            diff = ((Motion *)prefix)->y.h.hi;
             diff -= motion->y.h.hi;
             if (diff < 0) {
                 diff = -diff;
@@ -186,8 +186,8 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
             ctrl->cell_x = lookup->cell_x;
             ctrl->cell_y = lookup->cell_y;
 
-            ctrl->target[0].val = linked_motion->x.val;
-            ctrl->target[1].val = linked_motion->y.val;
+            ctrl->target[0].val = ((Motion *)prefix)->x.val;
+            ctrl->target[1].val = ((Motion *)prefix)->y.val;
             diff = *(volatile u16 *)(*(u8 **)(root + 0x60) + 0x88);
             *(volatile u16 *)&ctrl->target[2].h.lo = 0;
             *(volatile u16 *)&ctrl->target[2].h.hi = diff;
@@ -272,19 +272,19 @@ void func_80024AE4(Controller *ctrl, Motion *motion, void *render_data)
         } while (step < 8);
 
         {
-            Fixed32 *target;
+            
 
-            target = ctrl->target;
-            target[2].val = 0;
-            target[1].val = 0;
+            prefix = (RootPrefix *)ctrl->target;
+            ((Fixed32 *)prefix)[2].val = 0;
+            ((Fixed32 *)prefix)[1].val = 0;
             ctrl->target[0].val = 0;
-            target[0].h.hi = ((final_x << 16) >> 10) + 32;
-            target[1].h.hi = ((final_y << 16) >> 10) + 32;
-            target[2].h.hi = -1024;
-            target[2].h.hi = func_800BCB04((u16)target[0].h.hi,
-                                           (u16)target[1].h.hi, -1024);
-            if ((s16)target[2].h.hi >= 513) {
-                target[2].h.hi = motion->z.h.hi + 32;
+            ((Fixed32 *)prefix)[0].h.hi = ((final_x << 16) >> 10) + 32;
+            ((Fixed32 *)prefix)[1].h.hi = ((final_y << 16) >> 10) + 32;
+            ((Fixed32 *)prefix)[2].h.hi = -1024;
+            ((Fixed32 *)prefix)[2].h.hi = func_800BCB04((u16)((Fixed32 *)prefix)[0].h.hi,
+                                           (u16)((Fixed32 *)prefix)[1].h.hi, -1024);
+            if ((s16)((Fixed32 *)prefix)[2].h.hi >= 513) {
+                ((Fixed32 *)prefix)[2].h.hi = motion->z.h.hi + 32;
             }
         }
 

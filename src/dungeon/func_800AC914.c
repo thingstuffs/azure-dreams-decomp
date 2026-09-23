@@ -59,6 +59,7 @@ typedef struct S_800B2074_5 {
     u16 unk_2A;
 } S_800B2074_5;   /* temp_dest in func_800B2074 */
 
+typedef union { void *pointer; u32 word; } InitSlot;
 /* Creates an object at the given map position and updates its tile record. */
 void func_800B2074(s32 world_x, s32 world_z) {
     s32 tile_addr;
@@ -67,9 +68,9 @@ void func_800B2074(s32 world_x, s32 world_z) {
     s32 pos_z;
     void *init_object;
     void *init_data;
-    void *callback;
+
     S_800B2074_5 *state_fields;
-    register u16 inherited_value ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u16 inherited_value;
     s8 *map_state;
     S_800B2074_3 *transform;
     S_800B2074_2 *render_state;
@@ -81,12 +82,12 @@ void func_800B2074(s32 world_x, s32 world_z) {
     object = func_8003FC64(0x12);
     if (object != NULL) {
         init_object = object;
-        ASM_KEEP(init_object);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        callback = D_800B1F34;
+        ASM_KEEP(init_object);
+        { InitSlot slot = { D_800B1F34 };
         init_data = &D_80046398;
-        ASM_KEEP(init_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_800B2074_1 *)object)->unk_10 = callback;
+        ((S_800B2074_1 *)object)->unk_10 = slot.pointer;
         func_8004491C(init_object, init_data);
+        }
         render_state = ((S_800B2074_1 *)object)->unk_0C;
         render_state->unk_20 = 0x1000;
         render_state->unk_1E = 0x1000;
@@ -103,11 +104,9 @@ void func_800B2074(s32 world_x, s32 world_z) {
         transform->unk_0A = (s16) (0 - *((S_800B2074_1 *)object)->unk_20);
         ((S_800B2074_4 *)tile_addr)->unk_02 = (u16) (((S_800B2074_4 *)tile_addr)->unk_02 + 0x20);
         ((S_800B2074_4 *)tile_addr)->unk_04 = (u16) (((S_800B2074_4 *)tile_addr)->unk_04 | 1);
-        func_800A56E0(0x603, transform);
-        state_fields = D_800814A8;
-        inherited_value = state_fields->unk_2A;
         state_fields = object + 0x20;
-        ASM_KEEP(state_fields);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        func_800A56E0(0x603, transform);
+        inherited_value = ((S_800B2074_5 *)D_800814A8)->unk_2A;
         state_fields->unk_0E = inherited_value;
     }
 }

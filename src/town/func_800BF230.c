@@ -38,7 +38,7 @@ void func_800BC990(void *actor, void *motion, void *sprite, s32 update_context) 
     s32 choice;
     s32 direction_index;
     s32 step_offset;
-    register s32 distance ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
+    s32 distance;
     s32 delta_x;
     s32 delta_y;
     s32 walk_ticks;
@@ -140,11 +140,9 @@ random_direction:
     if (distance >= 2) {
         goto random_direction;
     }
-    distance = F_S16(actor, 0xA0);
-    delta_y = *(s16 *)(step_offset + (s32)y_steps);
-    distance += delta_y;
-    distance = abs(distance);
-    if (distance >= 2) {
+    delta_y = F_S16(actor, 0xA0) + *(s16 *)(step_offset + (s32)y_steps);
+    delta_y = abs(delta_y);
+    if (delta_y >= 2) {
         goto random_direction;
     }
 

@@ -50,6 +50,7 @@ extern u8 D_800D0000[];
 /* Updates the object and interpolates town angles before advancing the state. */
 void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     s16 threshold;
+    s32 pitch_step;
     s16 yaw;
     s32 object_ref;
     s32 target_yaw;
@@ -76,7 +77,8 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     }
     coords = (u8 *)&D_80083780;
     if (func_800C1D44(func_8008C180(((S_800A58CC_1 *)coords)->unk_02, ((S_800A58CC_1 *)coords)->unk_06) & 0xFFFF) != 0) {
-        ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = (s32) (((S_800A58CC_0 *)((void *) object_ref))->unk_14 - func_800A5894((void *) object_ref));
+        pitch_step = ((S_800A58CC_0 *)((void *) object_ref))->unk_14 - func_800A5894((void *) object_ref);
+        ((S_800A58CC_0 *)((void *) object_ref))->unk_14 = pitch_step;
     }
     func_80095094((void *) object_ref);
     func_80095094((void *) object_ref);
@@ -97,7 +99,6 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
     {
         s32 shifted_ticks;
         s32 ticks_left;
-        register s32 pitch_step ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         shifted_ticks = (s32) ticks << 16;
         ticks_left = shifted_ticks >> 16;
         pitch_step = -0x2B0;
@@ -105,7 +106,7 @@ void func_800A58CC(S_800A58CC_2 *state_arg, void *object) {
             state_arg->unk_0A.u = 0;
         }
         pitch = ticks_left > 0
-            ? (pitch_step = (pitch_step - ((S_800A58CC_3 *)town)->unk_C4.s) / ticks_left,
+            ? (pitch_step -= ((S_800A58CC_3 *)town)->unk_C4.s, pitch_step /= ticks_left,
                ((S_800A58CC_3 *)town)->unk_C4.u + pitch_step)
             : -0x2B0;
         ((S_800A58CC_3 *)town)->unk_C4.s = pitch;

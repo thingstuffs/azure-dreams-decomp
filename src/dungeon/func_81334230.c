@@ -135,7 +135,8 @@ extern s8 D_800E2970[];
 void func_8016B230(u8 *movement_in, void *action_ctx, u8 *position_in, u8 *actor_in) {
     register u8 *position ASM_REG("$20") = position_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     register u8 *actor ASM_REG("$18") = actor_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 near_target;
+    u16 near_target;
+    s32 height_result;
     register s32 attempt ASM_REG("$19");   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
     register s16 *angle_offset;
     register u8 *x_offsets;
@@ -334,9 +335,8 @@ loop:
     }
     if ((func_8009A66C(move_angle, position, actor, 0x20) << 16) > 0) {
         if (attempt >= 3) {
-            s32 target_nearby = near_target;
+            u8 target_nearby = near_target;
 
-            ASM_KEEP(target_nearby);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
             if (target_nearby) {
                 goto clear_history;
             }
@@ -377,7 +377,8 @@ loop:
     }
 
 after_loop:
-    moved = attempt < 8;
+    near_target = attempt < 8;
+    moved = near_target;
     if (!moved) {
         ((S_8016B230_1 *)actor)->unk_71.u &= 0x7F;
         ((S_8016B230_1 *)actor)->unk_46 &= 0x7FFF;
@@ -398,10 +399,10 @@ clear_history:
     goto end;
 
 update_height:
-    near_target = func_800BCB04((((S_8016B230_2 *)position)->unk_24.at00.v << 6) | 0x20,
+    height_result = func_800BCB04((((S_8016B230_2 *)position)->unk_24.at00.v << 6) | 0x20,
                       (((S_8016B230_2 *)position)->unk_24.at01.v << 6) | 0x20,
                       (s16)(((S_8016B230_1 *)actor)->unk_88 - 0x20));
-    attempt = near_target;
+    attempt = height_result;
     if (attempt < 0x200) {
         ((S_8016B230_1 *)actor)->unk_88 = attempt;
     }

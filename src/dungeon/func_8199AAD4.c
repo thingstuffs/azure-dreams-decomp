@@ -86,7 +86,6 @@ typedef struct S_8199AAD4_11 {
 
 
 #define source source_or_step
-#define iteration source_or_step
 
 typedef struct Vec3s {
     s16 x;
@@ -118,14 +117,15 @@ void func_800242D4(void *self, void *coords)
     s32 start_y;
     s32 start_z;
     s16 state;
-    volatile void *source_or_step;
+    void *source_or_step;
+    void *iteration;
     S_8199AAD4_6 *target_node;
     S_8199AAD4_8 *call_node;
     S_8199AAD4_3 *position;
     void *entry_base;
     S_8199AAD4_5 *object_entry;
     S_8199AAD4_9 *created;
-    register u8 *table_end ASM_REG("$22");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    u8 *table_end;
     u8 *table_start;
     u8 *table_start_2;
     s32 entry_offset;
@@ -170,14 +170,12 @@ state_zero:
             }
             ((S_8199AAD4_2 *)coords)->unk_00.at02.v += delta[0];
             ((S_8199AAD4_2 *)coords)->unk_04.at02.v += delta[1];
-            ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             tail_z_2 = ((S_8199AAD4_2 *)coords)->unk_08.at02.v;
             tail_z_2 += delta[2];
             ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z_2;
             goto store_z_done;
 
 fixed_position:
-            ASM_KEEP(source);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             tail_z = position_z - 0x20;
 
             ((S_8199AAD4_2 *)coords)->unk_08.at02.v = tail_z;
@@ -223,11 +221,7 @@ finish:
     return;
 
 state_two:
-    ASM_KEEP(iteration);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    object_entry = (S_8199AAD4_5 *)0x80020000;
-    ASM_KEEP(object_entry);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    table_end = (u8 *)object_entry;
-    table_end += 0x4AE0;
+    table_end = &D_80024AE0;
     table_start_2 = table_end - 0x54;
 loop_top:
     object_entry = ((S_8199AAD4_0 *)self)->unk_04;
@@ -277,7 +271,6 @@ loop_top:
     if (((S_8199AAD4_0 *)self)->unk_10.u >= table_end) {
         ((S_8199AAD4_0 *)self)->unk_10.u = table_start_2;
     }
-    ASM_KEEP(iteration);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     iteration = (u8 *)iteration + 1;
     goto loop_top;
 

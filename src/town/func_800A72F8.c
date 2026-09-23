@@ -13,7 +13,6 @@ void func_800A4A58(void)
     u8 *channels;
     u32 change_mode;
     s32 level;
-    u32 *state_page;
     static void *const case_labels[] = {
         &&case_0, &&case_1, &&case_2, &&case_3, &&case_4, &&case_5
     };
@@ -32,23 +31,22 @@ case_0:
     channels[0xA8] = 0x80;
     channels[0xA9] = 0x80;
     channels[0xAA] = 0x80;
-    goto clear_state;
+    D_80100D94[0] = 0;
+    goto done;
 
 case_1:
-    {
-        state_page = (u32 *)0x80100000;
-        channels[0xA8] = 0;
-        channels[0xA9] = 0;
-        channels[0xAA] = 0;
-        goto clear_store;
-    }
+    channels[0xA8] = 0;
+    channels[0xA9] = 0;
+    channels[0xAA] = 0;
+    D_80100D94[0] = 0;
+    goto done;
 
 case_2:
     channels[0xA8] = 0x40;
     channels[0xA9] = 0x40;
-    ASM_MEM_BARRIER();
     channels[0xAA] = 0x40;
-    goto clear_state;
+    D_80100D94[0] = 0;
+    goto done;
 
 case_3:
     target_level = 0x80;
@@ -67,10 +65,7 @@ update:
     channels[0xA9] = level;
     channels[0xAA] = level;
     if ((level & 0xFF) == target_level) {
-clear_state:
-        state_page = (u32 *)0x80100000;
-clear_store:
-        state_page[0xD94 / 4] = 0;
+        D_80100D94[0] = 0;
     }
 
 done:

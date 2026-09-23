@@ -192,18 +192,18 @@ s32 func_800A504C(s32 unused, void *source_entity)
     s32 global_flags;
     u16 data_flags;
     u16 remaining_count;
-    register s32 flags_mask ASM_REG("$7");
     s32 update_flags;
     s32 update_flags_2;
     s32 flags_result;
     u8 *global_page;
-    register u8 *copy_call_entity ASM_REG("$4");
+    u8 *copy_call_entity;
     s32 copy_call_zero;
     s32 scale;
     s32 replace_call_zero;
     s32 load_kind;
     u8 *spawned;
     u8 *entity_data;
+    u8 *mode_page;
     u8 *record;
     u8 *record_data;
     u8 *tail_dst;
@@ -219,20 +219,20 @@ s32 func_800A504C(s32 unused, void *source_entity)
         return 0;
     }
 
-    entity_data = (u8 *)0x800E0000;
+    mode_page = (u8 *)0x800E0000;
     if (!(((S_800A504C_1 *)entity)->unk_14 & 0x4000)) {
         goto dispatch_replace;
     }
-    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == count) {
+    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
         goto wait_copy;
     }
-    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 < 2) {
-        if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 0) {
+    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
             goto load_copy;
         }
         return 0;
     }
-    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 2) {
+    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
         goto spawn_copy;
     }
     return 0;
@@ -295,18 +295,15 @@ spawn_copy:
     copy_call_entity = spawned;
     copy_call_zero = 0;
     scale = 0x1000;
-    ASM_KEEP4_NV(copy_call_entity, copy_call_zero,
-                 scale, spawned);
     entity_data = ((S_800A504C_4_pre *)spawned)[-1].unk_00;
     ((S_800A504C_2 *)entity_data)->unk_1E = scale;
     ((S_800A504C_2 *)entity_data)->unk_1C = scale;
-    flags_mask = -8;
-    ((S_800A504C_4 *)spawned)->unk_14 &= flags_mask;
-    ((S_800A504C_4 *)spawned)->unk_1C &= flags_mask;
+    ((S_800A504C_4 *)spawned)->unk_14 &= -8;
+    ((S_800A504C_4 *)spawned)->unk_1C &= -8;
     ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
     ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
     func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                  copy_call_zero, flags_mask);
+                  copy_call_zero);
     func_80042710(spawned, entity);
     ((S_800A504C_4 *)spawned)->unk_14 &= ~0x4000;
 
@@ -340,16 +337,16 @@ spawn_copy:
     return flags_result;
 
 dispatch_replace:
-    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == count) {
+    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == count) {
         goto wait_replacement;
     }
-    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 < 2) {
-        if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 0) {
+    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 < 2) {
+        if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 0) {
             goto load_replacement;
         }
         return 0;
     }
-    if (((S_800A504C_2_pre *)entity_data)[-1].unk_00 == 2) {
+    if (((S_800A504C_2_pre *)mode_page)[-1].unk_00 == 2) {
         goto spawn_replacement;
     }
     return 0;
@@ -382,7 +379,7 @@ wait_replacement:
     }
 
 increment_mode:
-    ((S_800A504C_2_pre *)entity_data)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)entity_data)[-1].unk_00 + 1);
+    ((S_800A504C_2_pre *)mode_page)[-1].unk_00 = (s16)((u16)((S_800A504C_2_pre *)mode_page)[-1].unk_00 + 1);
     goto done;
 
 spawn_replacement:
@@ -414,15 +411,12 @@ spawn_replacement:
     func_80042640(spawned, ((S_800A504C_4 *)spawned)->unk_10.at03.v);
     copy_call_entity = spawned;
     replace_call_zero = 0;
-    ASM_KEEP4_NV(copy_call_entity, replace_call_zero,
-                 spawned, entity_data);
-    flags_mask = -8;
-    ((S_800A504C_4 *)spawned)->unk_14 &= flags_mask;
-    ((S_800A504C_4 *)spawned)->unk_1C &= flags_mask;
+    ((S_800A504C_4 *)spawned)->unk_14 &= -8;
+    ((S_800A504C_4 *)spawned)->unk_1C &= -8;
     ((S_800A504C_4 *)spawned)->unk_14 |= ((S_800A504C_1 *)entity)->unk_14 & 7;
     ((S_800A504C_4 *)spawned)->unk_1C |= ((S_800A504C_1 *)entity)->unk_1C & 7;
     func_800424E0(copy_call_entity, ((S_800A504C_4 *)spawned)->unk_10.at03.v,
-                  replace_call_zero, flags_mask);
+                  replace_call_zero);
     func_80042710(spawned, entity);
 
     if (((S_800A504C_4 *)spawned)->unk_43.v < 0x40) {

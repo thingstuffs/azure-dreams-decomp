@@ -42,13 +42,8 @@ loop:
         if (func_8008C3B8(items, item_index, seed_item) >= 0) {
             probe.work.x = origin->x + offset->x;
             probe.work.y = origin->y + offset->y;
-            offset_x = offset->x;
+            radius = abs(offset->x);
             offset_y = offset->y;
-            radius = offset_x;
-            if (offset_x < 0) {
-                ASM_KEEP_NV(radius);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-                radius = -radius;
-            }
             offset_y = abs(offset_y);
             if (radius < offset_y) radius = offset_y;
             probe.work.z = origin->z - (radius * 2);

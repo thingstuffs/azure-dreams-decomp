@@ -51,7 +51,6 @@ extern M2C_UNK D_800B2A60;
 void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a_value,
                     volatile s32 part_b_value)
 {
-    s32 saved_mode;
     s16 saved_byte_24;
     long value_or_part_b;
     long byte_or_work;
@@ -66,7 +65,7 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
     void *work;
     s16 init_mode;
 
-    saved_mode = mode;
+    init_mode = mode;
     work = 0;
     alloc_code = 0x112;
     saved_byte_24 = part_b_byte_24;
@@ -76,15 +75,14 @@ void *func_800B23F8(s32 mode, s32 part_b_byte_24, s32 part_b_byte_25, s32 part_a
     ASM_KEEP_NV(alloc_code);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(alloc_code, (void *)&D_80083498);
     if (obj != 0) {
-        init_mode = saved_mode;
-        work = (u8 *)obj + 0x20;
-        ASM_KEEP(work);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+        work = obj;
+        work = (u8 *)work + 0x20;
         ((S_800B23F8_0 *)obj)->unk_10 = &D_800B274C;
         ((S_800B23F8_1 *)work)->unk_13 = 0x1E;
         func_8004491C(obj, &D_80045340);
 
         part_a = ((S_800B23F8_0 *)obj)->unk_08;
-        kind = saved_mode & 3;
+        kind = mode & 3;
         ((S_800B23F8_2 *)part_a)->unk_0A = (s16)value_or_part_b;
         value_or_part_b = (long)((S_800B23F8_0 *)obj)->unk_0C;
         kind_test = 1;

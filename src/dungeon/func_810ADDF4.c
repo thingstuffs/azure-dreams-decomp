@@ -236,13 +236,11 @@ void func_801715F4(void *move_state, void *caller_context, void *position_arg, v
                                              D_80082E80_b[0x24],
                                              D_80082E80_b[0x25]);
 
-                ASM_UNDEF(turn_index);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-                turn_index = 0;
-                if (path_ok == 0) {
-                    goto loop_setup;
+                if (path_ok != 0) {
+                    limit_turns = 1;
                 }
             }
-            limit_turns = 1;
+            turn_index = 0;
             goto loop_setup;
         }
         goto call_obstacle;

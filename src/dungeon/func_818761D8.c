@@ -267,7 +267,6 @@ void func_800259D8(void *arg0, void *arg1, S_800259D8_2 *arg2)
     s32 result;
     s32 index;
     s32 value;
-    register s32 tail_a ASM_REG("$2");   /* MATCH: both state transitions pass their loaded state in v0. */
     s32 i;
 
 
@@ -356,35 +355,30 @@ L0_adjust_z:
             D_8006CCE8[((S_800259D8_0 *)arg0)->unk_80 << 1];
         entry = ((S_800259D8_15_pre *)(((S_800259D8_3 *)obj)->unk_60))[-1].unk_00;
         {
-            register s32 resident_delta ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-            s32 resident_copy;
             if (((S_800259D8_3 *)obj)->unk_72 != ((S_800259D8_6 *)resident_work)->unk_24) {
+                s32 resident_delta;
+                s32 resident_copy;
                 resident_delta = ((S_800259D8_4 *)arg1)->unk_00.at02.v;
                 resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_00.at02.v;
-                tail_a = ((S_800259D8_0 *)arg0)->unk_80;
-                tail_a <<= 2;
-                resident_copy = *(s16 *)((u8 *)&copy + tail_a);
-                if (resident_delta < 0) {
-                    resident_delta = -resident_delta;
-                }
-                ASM_USE2(resident_delta, resident_copy);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+                resident_copy = *(s16 *)((u8 *)&copy + (((S_800259D8_0 *)arg0)->unk_80 << 2));
+                resident_delta = abs(resident_delta);
+                resident_copy = abs(resident_copy);
+                ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
             } else {
                 Pair *cp;
                 s32 cidx;
+                s32 resident_delta;
+                s32 resident_copy;
                 resident_delta = ((S_800259D8_4 *)arg1)->unk_04.at02.v;
                 cidx = ((S_800259D8_0 *)arg0)->unk_80 << 2;
                 resident_delta = resident_delta - ((S_800259D8_5 *)entry)->unk_04.at02.v;
                 cp = (Pair *)&copy;
                 resident_copy = ((Pair *)((u8 *)cp + cidx))->y.u;
-                if (resident_delta < 0) {
-                    resident_delta = -resident_delta;
-                }
+                resident_delta = abs(resident_delta);
                 resident_copy = (s32)((u32)resident_copy << 16) >> 16;
+                resident_copy = abs(resident_copy);
+                ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
             }
-            if (resident_copy < 0) {
-                resident_copy = -resident_copy;
-            }
-            ((S_800259D8_0 *)arg0)->unk_7C.s = resident_delta / resident_copy;
         }
         goto L_calc2;
     }
@@ -470,12 +464,11 @@ L_calc2:
     case 2:
     if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
         ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-        tail_a = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
+        ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
     } else {
-        tail_a = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
+        ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
         ((S_800259D8_0 *)arg0)->unk_A0 = 0;
     }
-    ((S_800259D8_0 *)arg0)->unk_AA = tail_a;
     result = func_800A4778(((S_800259D8_4 *)arg1)->unk_00.at02u.v, ((S_800259D8_4 *)arg1)->unk_04.at02u.v,
                            ((S_800259D8_4 *)arg1)->unk_08.at02u.v, ((S_800259D8_3 *)obj)->unk_60);
     if ((result << 16) != 0) {
@@ -530,12 +523,11 @@ L1_calc:
     case 3:
     if (((S_800259D8_0 *)arg0)->unk_A0 == 0) {
         ((S_800259D8_0 *)arg0)->unk_A0 = 1;
-        tail_a = ((S_800259D8_0 *)arg0)->unk_AA + 0x18;
+        ((S_800259D8_0 *)arg0)->unk_AA += 0x18;
     } else {
-        tail_a = ((S_800259D8_0 *)arg0)->unk_AA - 0x18;
+        ((S_800259D8_0 *)arg0)->unk_AA -= 0x18;
         ((S_800259D8_0 *)arg0)->unk_A0 = 0;
     }
-    ((S_800259D8_0 *)arg0)->unk_AA = tail_a;
     {
     void *spawn;
        /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
@@ -600,19 +592,8 @@ L1_calc:
         i = 0;
         while (1) {
             value = func_80069EF8();
+            func_80025338((u8 *)arg0 - 0x20, ((S_800259D8_0 *)arg0)->unk_80, 0x00E02020, (value & 0xFF) | 0x80, 0, 0, 0);
             i++;
-        {
-        register void *p0 ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        s32 p1;
-        register s32 c2 ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        p0 = (u8 *)arg0;
-        p0 -= 0x20;
-        c2 = 0x00E02020;
-        result = (value & 0xFF) | 0x80;
-        p1 = ((S_800259D8_0 *)arg0)->unk_80;
-        ASM_USE2(p0, c2);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        func_80025338(p0, p1, c2, result, 0, 0, 0);
-        }
             if (i >= 4) {
                 goto done;
             }
@@ -628,10 +609,9 @@ L1_calc:
         goto done;
     }
     {
-        tail_a = ((S_800259D8_0 *)arg0)->unk_0A.u;
-           /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
         ((S_800259D8_0 *)arg0)->unk_84.u = 0;
-        goto L_state_advance;
+        ((S_800259D8_0 *)arg0)->unk_0A.u++;
+        goto done;
     }
 
     case 6:
@@ -665,10 +645,8 @@ L1_calc:
         ((S_800259D8_11 *)fade_entry)->unk_0C = 0x80;
         func_80024098(((S_800259D8_3 *)obj)->unk_60, ((S_800259D8_0 *)arg0)->unk_09, obj);
     }
-    tail_a = ((S_800259D8_0 *)arg0)->unk_0A.u;
     ((S_800259D8_0 *)arg0)->unk_84.u = 13;
-L_state_advance:
-    ((S_800259D8_0 *)arg0)->unk_0A.u = tail_a + 1;
+    ((S_800259D8_0 *)arg0)->unk_0A.u++;
     goto done;
     }
 

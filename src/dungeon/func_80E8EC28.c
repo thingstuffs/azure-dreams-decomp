@@ -77,12 +77,11 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
     s32 x_step;
     s16 *x_step_ptr;
     s32 direction_offset;
-    register u32 raw_direction ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    register u32 raw_direction;
     s16 height;
     register s32 attempts_left ASM_REG("$17");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     u8 *world;
     s16 *level;
-    u32 jump_address;
     u32 state_id;
     x_step_ptr = (s16 *)&D_8006CCD8;
     raw_direction = ((S_80174428_0 *)object)->unk_2A.s;
@@ -98,10 +97,7 @@ void func_80174428(void *state, void *motion, void *actor, void *object)
         return;
     }
     (void)state_labels;
-    raw_direction = (u32)(D_801708F0);
-    jump_address = state_id << 2;
-    jump_address = jump_address + (u32)(void **)raw_direction;
-    goto **(void **)jump_address;
+    goto *D_801708F0[state_id];
 
 case_0:
     func_8009A3D0(((S_80174428_2 *)actor)->unk_24, ((S_80174428_2 *)actor)->unk_25,

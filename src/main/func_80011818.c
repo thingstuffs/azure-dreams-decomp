@@ -64,11 +64,11 @@ void func_80024818(void *context)
     if (below_three != 0) {
         void **table;
         void *text_buffer;
+        s32 selection;
 
         func_8004DA74(first_buffer, D_800283C4, 1);
         text_buffer = context + 0x204;
         table = D_800283B8;
-        ASM_USE_NV(table);
         selection = mode_one << 2;
         func_8004DA74(text_buffer, *(void **)((u8 *)table + selection), 1);
         func_8004DA74(context + 0x384, table[2], 1);
