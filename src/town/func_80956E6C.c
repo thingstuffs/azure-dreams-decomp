@@ -57,7 +57,7 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
 {
     Palette palette;
     s32 *palette_entries;
-    register u16 value ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    register s32 value ASM_REG("$2");
     u32 tint_color;
     s32 palette_value;
     void *object;
@@ -76,7 +76,6 @@ void func_80956E6C(s32 signed_position, s32 palette_index, S_80956E6C_4 *setting
         value = signed_position;
         position = ((S_80956E6C_0 *)object)->unk_08.p32;
         if (signed_position < 0) {
-            ASM_KEEP(value);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
             value = -value;
             position->unk_02 = value;
         } else {

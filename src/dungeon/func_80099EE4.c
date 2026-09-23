@@ -48,9 +48,8 @@ void func_8009F644(void *object_ptr, s32 action_code, s32 payload, s8 extra_byte
         if ((entry[1] & 7) != compare_kind) {
             goto clear_entry;
         }
-        shifted_action = action_code << 16;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes a delay-slot fill; the source shape that makes it unnecessary has not been found */
-        if (((*(volatile u8 *)(entry + 1)) & 0xF8) != (shifted_action >> 16)) {
+        shifted_action = (s16)action_code;
+        if (((*(volatile u8 *)(entry + 1)) & 0xF8) != shifted_action) {
             goto clear_entry;
         }
         if (entry[0] < 0x7F) {
