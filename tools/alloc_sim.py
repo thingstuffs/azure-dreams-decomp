@@ -212,7 +212,47 @@ def read(row, text):
     stats = parse_lreg(d["lreg"])
     conf, pref = parse_conflicts(d["greg"], fp)
     return {"order": order, "disp": disp, "stats": stats, "conf": conf, "pref": pref,
-            "listing": norm_asm(d["asm"]), "first": fp, "lreg": d["lreg"]}
+            "listing": norm_asm(d["asm"]), "first": fp, "lreg": d["lreg"], "sets": set_counts(d["lreg"], fp)}
+
+
+INSN_HEAD = re.compile(r"^\((?:insn|call_insn|jump_insn) \d+ ", re.M)
+SET_DEST = re.compile(r"\(set \(reg(?:/\w+)*:\w+ (\d+)\)")
+
+
+def set_counts(lreg, first_pseudo):
+    """pseudo -> (REG_N_SETS as the dump's insn stream shows it, carries REG_EQUIV).
+
+    Round 76 (docs/evidence/pin_research_round76_move_table.md, the set-exactly-once family): an `ASM_KEEP(v)` is
+    an asm "+r" output, a SECOND set of v.  gcc 2.x's local-alloc.c `update_equiv_regs` gives a pseudo with
+    REG_N_SETS == 1 whose set carries REG_EQUAL/REG_EQUIV an equivalence and DOUBLES its REG_LIVE_LENGTH, and
+    sched.c `birthing_insn_p` needs REG_N_SETS == 1 too.  The lreg dump's `used N times across K insns` is read
+    AFTER the doubling, so `simulate()` already sees it; these counts say WHICH allocnos were doubled (a
+    screen: a generator making v single-set can check that v became `doubled`)."""
+    sets, equiv = {}, set()
+    heads = [m.start() for m in INSN_HEAD.finditer(lreg)] + [len(lreg)]
+    for a, b in zip(heads, heads[1:]):
+        blk = lreg[a:b]
+        ds = [int(x) for x in SET_DEST.findall(blk) if int(x) >= first_pseudo]
+        for d in ds:
+            sets[d] = sets.get(d, 0) + 1
+        if "REG_EQUIV" in blk and ds:
+            equiv.add(ds[0])
+    return {p: (n, p in equiv) for p, n in sets.items()}
+
+
+def doubled(rd):
+    """{pseudo: bool} - the allocnos whose live length update_equiv_regs doubled (single set + REG_EQUIV)."""
+    sc = rd.get("sets") or set_counts(rd.get("lreg", ""), rd["first"])
+    return {p: sc.get(p, (0, False)) == (1, True) for p in rd["order"]}
+
+
+def priority_undoubled(rd, p):
+    """The allocno priority p would have with its live length NOT doubled (a what-if for adding a second set)."""
+    st = rd["stats"].get(p, {})
+    life = st.get("live_length", -1)
+    if doubled(rd).get(p):
+        life = max(1, life // 2)
+    return priority(st.get("n_refs", 0), life)
 
 
 def simulate(rd):

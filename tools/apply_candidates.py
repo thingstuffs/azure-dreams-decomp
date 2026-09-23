@@ -81,6 +81,13 @@ def main():
                         return dict(rec, outcome="refused", reason=f"current text not exact at {cell}")
                 rec.update(cell_from=r["cfg"], cell_to=cell)
             done = dict(rec, outcome="applied", out_sha=sha_text(new), lines_delta=new.count("\n") - cur.count("\n"))
+            try:                          # owner ruling 2026-09-23: a dead zero initializer is a tracked trade
+                import dead_init
+                di = dead_init.record(r["id"], cur, new, rec["source"], time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+                if di:
+                    done["_dead_init"] = di
+            except Exception as e:        # never let the bookkeeping block a landing
+                print("dead_init record failed:", r["id"], repr(e)[:120], file=sys.stderr)
             if not a.dry_run:
                 if cell:
                     # held until every verify has finished: the switch re-exports the build roots the
@@ -95,6 +102,13 @@ def main():
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         for rec in ex.map(one, cands):
             rec["at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            di = rec.pop("_dead_init", None)
+            if di and not a.dry_run:
+                from common import read_jsonl
+                tp = LEDGER / "recipe_trades.jsonl"
+                if not any(t.get("kind") == "dead_init" and t.get("id") == di["id"] and t.get("init") == di["init"]
+                           for t in (read_jsonl(tp) if tp.exists() else [])):   # recorded by hand already
+                    append_jsonl(tp, di)
             if "_cell" in rec: held.append(rec)
             elif not a.dry_run: append_jsonl(journal, rec)
             tally[rec["outcome"]] = tally.get(rec["outcome"], 0) + 1

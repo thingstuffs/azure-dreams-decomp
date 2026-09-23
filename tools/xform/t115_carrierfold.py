@@ -36,8 +36,11 @@ CANDIDATES  per local v named by a pin (a keep argument or a register-pinned dec
             and assigning neither -> `S[h:=x]; h = x;`.  Pins on the touched locals erased (then every pin of
             the function).  Ranked by cc1 listing distance to the pinned text; listing-exact candidates and
             the two nearest go to `vf`.
+            T115_CALLCOPY=1 (default ON, round 76): `KEEP(v); x = f(.. v ..); v = w;` -> the call's result routed
+            through v (`v = (Tv)f(.. v ..); x = (Tx)v;`) - callcopy_candidates(), dungeon/func_809DB054.
 """
 import difflib
+import os
 import re
 import sys
 from pathlib import Path
@@ -47,9 +50,11 @@ from pin_census import sites_of, asm_blocker, unscored_text, arm_labels
 from pin_sites import erase_many
 try:
     from .t36_paramwidth import functions
+    from .t29_addrsym import decls_of
     from . import screen
 except ImportError:
     from t36_paramwidth import functions
+    from t29_addrsym import decls_of
     import screen
 
 MAX_VARS = 8
@@ -379,6 +384,77 @@ def candidates(text):
                     continue
                 seen.add(cand)
                 out.append(("%s:%s" % (label, ptag), cand))
+    if os.getenv("T115_CALLCOPY", "1") == "1":
+        for label, t2, v in callcopy_candidates(text):
+            for ptag, allp in (("named", False), ("all", True)):
+                cand = erase_named(t2, {v}, allp) if allp else t2
+                if cand in seen or unscored_text(cand) != sig or len(sites_of(cand)) >= n0:
+                    continue
+                seen.add(cand)
+                out.append(("%s:%s" % (label, ptag), cand))
+    return out
+
+
+KEEP1 = re.compile(r"^[ \t]*ASM_KEEP(?:_NV)?[ \t]*\([ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*\)[ \t]*;")
+CALLSET = re.compile(r"^(?P<ind>[ \t]*)(?P<x>[A-Za-z_]\w*)[ \t]*=(?!=)[ \t]*(?P<rhs>(?:\([^()]*\)[ \t]*)?"
+                     r"[A-Za-z_]\w*[ \t]*\(.*\))[ \t]*;[ \t]*(?:/\*.*\*/)?[ \t]*$")
+RESET = re.compile(r"^[ \t]*(?P<v>[A-Za-z_]\w*)[ \t]*=(?!=)[ \t]*(?P<rhs>[^;]*);")
+
+
+def _vtype(text, fn, v):
+    for p, t, _a, _b in fn[1]:
+        if p == v:
+            return re.sub(r"\s+", " ", re.sub(r"\bregister\b", "", t)).strip()
+    ds = [d for d in decls_of(text, v) if fn[2] < d[2][0] < fn[3]]
+    if len(ds) == 1:
+        return (ds[0][0] + " " + "*" * ds[0][1]).strip()
+    return None
+
+
+def callcopy_candidates(text):
+    """T115_CALLCOPY (round 76): `KEEP(v); x = f(.. v ..); v = w;` -> `v = (Tv)f(.. v ..); x = (Tx)v; v = w;`.
+
+    dungeon/func_809DB054 (claude-opus-5-5, r76o_opus_b12; astra solved it too, r76o_astra_b12): "APPEARS:
+    `ASM_KEEP(v)` right before a call that takes v, where v is a copy of another variable and is re-set to that
+    variable right after the call. RESOLVES: assign the call's result to v, then copy it to the result variable,
+    so the re-set is no longer redundant for cse."  Without the keep cse knows `v == w` across the call and
+    deletes the re-set; routed through v, the call result is a second value of v and the re-set stays."""
+    out = []
+    lines = text.split("\n")
+    for fn in functions(text):
+        lo, hi = text.count("\n", 0, fn[2]), text.count("\n", 0, fn[3])
+        for i in range(lo, min(hi, len(lines) - 2)):
+            km = KEEP1.match(lines[i])
+            if not km:
+                continue
+            v = km.group("v")
+            j = i + 1
+            while j < hi and not lines[j].strip():
+                j += 1
+            cm = CALLSET.match(lines[j])
+            if not cm or cm.group("x") == v or not mentions(cm.group("rhs"), v):
+                continue
+            k = j + 1
+            while k < hi and not lines[k].strip():
+                k += 1
+            rm = RESET.match(lines[k])
+            if not rm or rm.group("v") != v or mentions(rm.group("rhs"), v):
+                continue
+            tv, tx = _vtype(text, fn, v), _vtype(text, fn, cm.group("x"))
+            if not tv or not tx:
+                continue
+            same = re.sub(r"\s", "", tv) == re.sub(r"\s", "", tx)
+            ind, x, rhs = cm.group("ind"), cm.group("x"), cm.group("rhs")
+            for tag, a, b in (("cast", "(%s)" % tv, "(%s)" % tx), ("bare", "", "")):
+                if tag == "bare" and not same:
+                    continue
+                if tag == "cast" and same:
+                    continue
+                nl = list(lines)
+                nl[j] = "%s%s = %s%s;\n%s%s = %s%s;" % (ind, v, a, rhs, ind, x, b, v)
+                nl[i] = None
+                t2 = "\n".join(z for z in nl if z is not None)
+                out.append(("%s@%d:callcopy:%s" % (v, i + 1, tag), t2, v))
     return out
 
 
@@ -414,7 +490,8 @@ class T:
         if target is None:
             return None, dict(info, refused=["pinned text does not build to a listing"])
         # fixpoints and joint plans first: they are the lanes' shapes; singles fill the rest of the budget
-        menu.sort(key=lambda c: (":fix" not in c[0] and ":usefirst" not in c[0], len(sites_of(c[1]))))
+        menu.sort(key=lambda c: (":fix" not in c[0] and ":usefirst" not in c[0] and ":callcopy" not in c[0],
+                                 len(sites_of(c[1]))))
         ranked, listings = [], 0
         for label, cand in menu:
             if listings >= MAX_LISTINGS:

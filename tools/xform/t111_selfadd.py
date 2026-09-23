@@ -34,10 +34,13 @@ CANDIDATES  per `NAME = RHS;` whose RHS is `BASE + K` / `BASE - K` under casts (
             integer literal) and whose next statement is a keep naming NAME or BASE: (split)
             `NAME = BASE; NAME = (T)(RHS with BASE -> NAME);` (T = NAME's declared type), also with `(T)BASE`;
             (inplace) `BASE += K; NAME = (cast)BASE;` and `NAME = BASE; NAME += K;` for a same-typed NAME;
-            each with the keep erased, and with every pin naming NAME erased.  Ranked by cc1 listing distance
+            each with the keep erased, and with every pin naming NAME erased.
+            T111_HOIST=1 (default ON, round 76): each single-site text again with the simple copies that open the
+            enclosing if-arm hoisted above the `if` (hoisted(), dungeon/func_80DFB054).  Ranked by cc1 listing distance
             to the pinned text; the listing-exact candidates and the two nearest go to `vf`.
 """
 import difflib
+import os
 import re
 import sys
 from pathlib import Path
@@ -149,6 +152,35 @@ def build(text, chosen, ptag):
     return erase_many(t2, grp, clean_notes=True)
 
 
+IF_OPEN = re.compile(r"^(?P<ind>[ \t]*)if[ \t]*\((?P<cond>.*)\)[ \t]*\{[ \t]*$")
+SIMPLE_COPY = re.compile(r"^[ \t]*(?P<n>[A-Za-z_]\w*)[ \t]*=(?!=)[ \t]*(?:\([^()]*\)[ \t]*)?(?P<src>[A-Za-z_]\w*)[ \t]*;[ \t]*$")
+
+
+def hoisted(cand, line):
+    """T111_HOIST (round 76): the simple copies `a = b;` that open the if-arm holding the rewritten statement
+    (at 0-based `line`, unchanged above it in `cand`) moved above the `if`.  dungeon/func_80DFB054
+    (claude-opus-5-5, r76_opus_b12_1): "`p = q; p = p + C;` ... If a statement between the KEEP and the next call
+    loses its position, hoist it into the previous block" - `final_arg0 = arg0;` left the `if (obj != 0)` arm."""
+    ls = cand.split("\n")
+    k = line - 1
+    moved = []
+    while k >= 0 and SIMPLE_COPY.match(ls[k]):
+        moved.insert(0, k)
+        k -= 1
+    if not moved or k < 0:
+        return None
+    im = IF_OPEN.match(ls[k])
+    if not im:
+        return None
+    names = {SIMPLE_COPY.match(ls[q]).group("n") for q in moved}
+    if any(re.search(r"\b%s\b" % re.escape(n), im.group("cond")) for n in names):
+        return None
+    ind = im.group("ind")
+    block = [ind + ls[q].lstrip() for q in moved]
+    new = ls[:k] + block + [ls[k]] + [x for q, x in enumerate(ls) if k < q and q not in moved]
+    return "\n".join(new)
+
+
 def candidates(text):
     sig, n0 = unscored_text(text), len(sites_of(text))
     out, seen = [], {text}
@@ -170,6 +202,11 @@ def candidates(text):
                 continue
             seen.add(cand)
             out.append(("%s:%s" % (label, ptag), cand))
+            if os.getenv("T111_HOIST", "1") == "1" and len(ch) == 1:
+                h = hoisted(cand, ch[0][0]["line"])
+                if h and h not in seen and unscored_text(h) == sig:
+                    seen.add(h)
+                    out.append(("%s:%s:hoist" % (label, ptag), h))
     return out
 
 

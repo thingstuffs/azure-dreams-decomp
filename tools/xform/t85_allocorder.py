@@ -43,7 +43,7 @@ CANDIDATES  (a) a local assigned only `x = p;` from a never-written formal of th
             listing-exact candidates only (at most 6), and always on a listing-exact one even if the
             name mapping refused it.
 """
-import difflib, re, sys
+import difflib, os, re, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -61,6 +61,7 @@ except ImportError:
     from t84_narrowparams import retype
     import screen
 
+CALLEE_NUMS = {16, 17, 18, 19, 20, 21, 22, 23, 30}
 MAX_DUMPS = 40
 MAX_VERIFY = 6
 NEAR = 2            # listing distance still worth a byte score (probe.py's rule in the r61 study)
@@ -394,13 +395,26 @@ def name_dispositions(text, rd, disp):
     return {inv[p]: r for p, r in disp.items() if p in inv and r >= 0}
 
 
-def is_order_site(rd_p, rd_e, pins):
-    """The study's APPEARS test, read off the two dumps.  (ok, why)"""
+def is_order_site(rd_p, rd_e, pins, n_erased=0):
+    """The study's APPEARS test, read off the two dumps.  (ok, why)
+
+    T85_WIDE=1 (default ON, round 76): the allocno count may grow by up to the number of ERASED SITES (not only
+    the callee-saved register pins), and the permutation test compares the SETS of callee-saved registers used.
+    Round 76's lanes found the strict test refusing rows whose mechanism IS allocno order: every keep or
+    caller-saved pin erased with the register pins is a second set gone, so REG_N_SETS drops to 1, the pseudo
+    becomes REG_EQUIV (its live length doubled by update_equiv_regs) or a new allocno - dungeon/func_80F88C94
+    (claude-opus-5-5, r76o_opus_b37, 16 vs 13 allocnos, solved by splitting the multi-set `result`: t85's lever
+    (b)) and dungeon/func_8008F228 (40 vs 35).  WIDE refusals are journalled with the strict reason kept."""
     op, oe = rd_p["order"], rd_e["order"]
-    if not (0 < len(oe) - len(op) <= max(1, len(pins))):
+    wide = os.getenv("T85_WIDE", "1") == "1"
+    bound = max(1, len(pins), n_erased if wide else 0)
+    if not (0 < len(oe) - len(op) <= bound):
         return False, "erased allocno count %d vs %d - not a missing-allocno site" % (len(oe), len(op))
     regs_p = sorted([rd_p["disp"].get(p, -1) for p in op] + [r for _, r, _ in pins])
     regs_e = sorted([rd_e["disp"].get(p, -1) for p in oe])
+    if wide:                                           # the SET of callee-saved registers in use: an extra
+        regs_p = sorted({r for r in regs_p if r in CALLEE_NUMS})   # allocno may share a register with another
+        regs_e = sorted({r for r in regs_e if r in CALLEE_NUMS})   # whose life it does not overlap
     if regs_p != regs_e:
         return False, "dispositions are not a permutation (%s vs %s)" % (regs_p, regs_e)
     contested = [p for p in op if p in oe and rd_p["disp"].get(p) != rd_e["disp"].get(p)]
@@ -462,7 +476,7 @@ class T:
             info["dumps"] += 1
             if rd is None:
                 continue
-            ok, why = is_order_site(rd_p, rd, pins)
+            ok, why = is_order_site(rd_p, rd, pins, len(sites))
             if ok:
                 rd_e, info["erasure"] = rd, pl
                 break

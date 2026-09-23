@@ -37,6 +37,13 @@ Openings (env switches; each writes its refusals first and journals an `opened-*
     T69_TWICE=1             two locals copy the same parameter: both ARE the parameter
     T69_ADDR_MEMBER=1       (default ON, round 34)  `&v->field` is the address of the pointed-to
                             OBJECT, not of the variable; `T69_ADDR_MEMBER=0` closes it again
+    T69_UNPIN_REST=1        (default ON, round 76)  the nearest dropped-copy candidates are offered again
+                            with (i) every read of a parameter whose copy SURVIVES renamed to that copy
+                            (`paused_callback(entity_in, .., sprite_in)` -> `(entity, .., sprite)`) and
+                            (ii) the pins that remain erased - all together and one at a time.  Harvest
+                            r76 (docs/evidence/pin_research_round76_move_table.md, the set-exactly-once
+                            family): dungeon/func_809815A8 (claude-opus-5-5, r76o_opus_b37) dropped two
+                            copies AND unpinned the third copy `entity_state` - t69 alone stopped at d2.
 """
 import collections
 import itertools
@@ -748,6 +755,66 @@ def prologue_candidates(text, skips=None):
     return out[:MAX_CANDS]
 
 
+REST_TOP = 3        # T69_UNPIN_REST: how many of the nearest dropped-copy candidates get the variants
+REST_SINGLE = 6     # ... and up to this many remaining pins are also erased one at a time
+
+
+def param_to_copy(text, only=None):
+    """Every read of a never-written parameter whose entry copy survived (the copy's local is never
+    written again and has the parameter's type) renamed to the copy, after the copy - for the
+    parameters in `only` (all when None).  None if nothing changes."""
+    cur, changed = text, False
+    for fn in functions(text):
+        for p, pty, _, v, lty, dspan, cspan in entry_copies(text, fn):
+            if (only is not None and p not in only) or _normty(_bare(pty)) != _normty(lty):
+                continue
+            f2 = next((f for f in functions(cur) if f[0] == fn[0]), None)
+            rec = next((r for r in entry_copies(cur, f2) if r[0] == p and r[3] == v), None) if f2 else None
+            if rec is None:
+                continue
+            masked = _mask(cur)
+            lo = (rec[6] or rec[5])[1]
+            pat = re.compile(r"(?<![\w.>])%s\b(?!\s*(?:=(?!=)|\+\+|--|[-+*/%%&|^]=|<<=|>>=))" % re.escape(p))
+            hits = [m.start() for m in pat.finditer(masked, lo, f2[3])]
+            for a in reversed(hits):
+                cur = cur[:a] + v + cur[a + len(p):]
+            changed = changed or bool(hits)
+    return cur if changed else None
+
+
+def rest_variants(cand, orig_params=None):
+    """T69_UNPIN_REST: [(label, text)] - a surviving copy's parameter reads renamed (each such
+    parameter alone, and all of them), and the remaining pins erased jointly and singly, on one
+    dropped-copy candidate.  `orig_params`: only parameters of the ORIGINAL text qualify (a parameter
+    the merge created by renaming is the variable itself, not a copy source)."""
+    out = []
+    srcs = []
+    for fn in functions(cand):
+        for r in entry_copies(cand, fn):
+            if (orig_params is None or r[0] in orig_params) and r[0] not in srcs:
+                srcs.append(r[0])
+    bases = [("", cand)]
+    for p in srcs:
+        pc = param_to_copy(cand, {p})
+        if pc:
+            bases.append(("usecopy:" + p, pc))
+    if len(srcs) > 1:
+        pc = param_to_copy(cand, set(srcs))
+        if pc and all(pc != b for _, b in bases):
+            bases.append(("usecopy:all", pc))
+    for lab, b in bases:
+        if lab:
+            out.append((lab, b))
+        ss = [s for s in sites_of(b) if s[0] != "expand"]
+        if not ss:
+            continue
+        out.append(((lab + "+" if lab else "") + "unpin-all", erase_many(b, ss, clean_notes=True)))
+        if 1 < len(ss) <= REST_SINGLE:
+            for i, s in enumerate(ss):
+                out.append(((lab + "+" if lab else "") + "unpin-%d" % i, erase_many(b, [s], clean_notes=True)))
+    return out
+
+
 class T:
     name = "t69_prologue"
     level = 1
@@ -781,6 +848,23 @@ class T:
                 skips["does-not-compile"] += 1
                 continue
             ranked.append((d, -(pins_in - len(sites_of(t))), label, t))
+        if os.getenv("T69_UNPIN_REST", "1") == "1" and base is not None:
+            seen = {t for _, _, _, t in ranked}
+            orig_params = {q[0] for fn in functions(text) for q in fn[1]}
+            extra = []
+            for d0, _, label, t in sorted(ranked)[:REST_TOP]:
+                for lab2, t2 in rest_variants(t, orig_params):
+                    if t2 in seen or len(sites_of(t2)) >= len(sites_of(t)):
+                        continue
+                    seen.add(t2)
+                    d = sdiff(base, compile_s(row, t2))
+                    if d is None:
+                        skips["does-not-compile"] += 1
+                        continue
+                    extra.append((d, -(pins_in - len(sites_of(t2))), label + "+" + lab2, t2))
+            if extra:
+                _note(skips, "opened-unpin-rest")
+            ranked += extra
         ranked.sort()
         info["skips"] = dict(skips)
         info["screen"] = [[d, lab] for d, _, lab, _ in ranked[:8]]
