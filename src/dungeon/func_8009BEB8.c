@@ -72,14 +72,20 @@ clear_flags:
         slot_index = start_index;
         goto scan;
     }
-    ASM_KEEP(candidate);
     slot_index = 0;
     if (entry[9] == 0x31) {
         entry += 0x10;
         slot_index = 2;
         goto scan;
     }
-    ASM_KEEP(slot_index);
+    goto scan;
+return_type_two:
+    {
+        u8 *result;
+        D_800E3DA0[6] = 0;
+        result = entry;
+        return result;
+    }
 scan:
     if (slot_index < 6) {
         s32 type_one;
@@ -98,10 +104,7 @@ scan:
             if (((slot_type != type_one) && (slot_type != type_three)) || (*entry == slot_type)) {
                 if ((*entry_id == 0) || (*entry_id == match_id)) {
                     if (slot_type == type_two) {
-                        register u8 *result;
-                        D_800E3DA0[6] = 0;
-                        result = entry;
-                        return result;
+                        goto return_type_two;
                     }
                     candidate = entry;
                     if ((*entry_id == match_id) || (*(s8 *)((unsigned long)slot_index + (unsigned long)slot_ids) == match_id)) break;

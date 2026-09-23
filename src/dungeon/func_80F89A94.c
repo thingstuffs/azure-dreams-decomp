@@ -76,21 +76,19 @@ void func_80173294(void *effect_data, void *motion_data, void *sprite_data, void
     ((S_80173294_1 *)motion_data)->unk_14 = motion_value;
     state = ((S_80173294_2 *)effect_data)->unk_9B;
 
-    if (state == 1) goto state_1;
-    is_low_state = state < 2;
-    if (!is_low_state) goto high_states;
-    ASM_KEEP(is_low_state);
-    if (state == 0) {
+    switch (state) {
+    case 0:
         state = 0xFFFE0000;
         goto state_0;
+    case 1:
+        goto state_1;
+    case 2:
+        goto state_2;
+    case 3:
+        goto state_3;
+    default:
+        goto done;
     }
-    ASM_SCHED_BARRIER();
-    goto done;
-
-high_states:
-    if (state == 2) goto state_2;
-    if (state == 3) goto state_3;
-    goto done;
 
 state_0:
     state |= 0x8000;

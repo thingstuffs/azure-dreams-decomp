@@ -66,12 +66,11 @@ void func_80BC1528(
 {
     S_80BC1528_1 *parent = parent_obj;
     register s16 saved_param ASM_REG("$23") ;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
-    register s32 saved_value = initial_value;
-    register s32 saved_duration ASM_REG("$22") = duration;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 saved_duration = duration;
     s32 saved_offset_x = offset_x;
     s32 saved_offset_y = offset_y;
     s32 saved_offset_z = offset_z;
-    register void *effect ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    void *effect;
     S_80BC1528_2 *effect_data;
     register s32 duration_s16;
     register s32 duration_eighth ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
@@ -110,8 +109,8 @@ void func_80BC1528(
         step_x = return_delta_x / duration_eighth;
         effect_data->unk_40 = step_x / 2;
         ASM_KEEP(step_x);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        initial_value = -(saved_offset_y << 16);
-        step_y = initial_value / duration_eighth;
+        rounded_step_z = -(saved_offset_y << 16);
+        step_y = rounded_step_z / duration_eighth;
         effect_data->unk_44 = step_y / 2;
         ASM_KEEP(step_y);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
         step_z = -(saved_offset_z << 16) / duration_eighth;
@@ -139,13 +138,8 @@ void func_80BC1528(
         effect_data->unk_14 = saved_param;
         effect_data->unk_32 = saved_duration;
         func_8004491C(effect, D_80170884, step_x);
-        ((S_80BC1528_0 *)effect)->unk_20 = saved_value;
-        effect_data->unk_08 = saved_value;
+        ((S_80BC1528_0 *)effect)->unk_20 = initial_value;
+        effect_data->unk_08 = initial_value;
     }
 
-    ASM_KEEP(saved_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_duration);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_offset_x);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_offset_y);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(saved_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 }

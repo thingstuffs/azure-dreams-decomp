@@ -52,6 +52,10 @@ extern s32 rand();
 extern s32 D_80025028;
 extern s32 D_80025278;
 
+static __inline__ S_func_81875B38_2 *effect_offset_32(void *p) {
+    return (S_func_81875B38_2 *)((u8 *)p + 0x20);
+}
+
 /* Spawn and initialize an effect at a randomly offset position relative to the source. */
 void func_81875B38(
     void *source,
@@ -79,7 +83,7 @@ void func_81875B38(
     s32 effect_x;
     s32 effect_y;
     s32 effect_z;
-    register S_func_81875B38_2 *effect_obj ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    S_func_81875B38_2 *effect_obj;
     void *effect_config;
     S_func_81875B38_4 *x_dest;
     S_func_81875B38_4 *y_dest;
@@ -110,7 +114,7 @@ void func_81875B38(
         effect_config = &D_80025028;
         z_jitter &= 0x1F;
         effect_z = ((S_func_81875B38_3 *)source_obj->unk_08)->unk_0A;
-        effect_ptr = (S_func_81875B38_2 *)((u8 *)effect_obj + 0x20);
+        effect_ptr = effect_offset_32(effect_obj);
         z_dest = effect_obj->unk_08;
         effect_z += z_jitter;
         z_bias = saved_z_offset - 0x10;

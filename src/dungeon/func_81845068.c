@@ -63,6 +63,7 @@ s32 func_81845068(u8 *first_node)
     u16 base_y;
     u16 tip_y;
 
+    u32 tag_mask;
     node = first_node;
     render_state = D_80083160;
     ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
@@ -132,7 +133,7 @@ s32 func_81845068(u8 *first_node)
             STORE_U8(prim + 0x15, tex_value + 0x1F);
             STORE_U8(prim + 0x0D, tex_value + 0x1F);
             {
-                register u32 tag_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+                tag_mask = 0xFF000000;
                 ot_ctx = LOAD_PTR(render_state);
                 ot_or_coord = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
                 STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_or_coord & addr_mask));
@@ -190,7 +191,7 @@ s32 func_81845068(u8 *first_node)
         STORE_U16(prim + 0x12, tip_y);
 
         {
-            register u32 tag_mask ASM_REG("$5") = 0xFF000000;   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+            tag_mask = 0xFF000000;
             ot_ctx = LOAD_PTR(render_state);
             ot_or_coord = LOAD_U32(ot_ctx + 0xB0 + depth_bucket * 4);
             STORE_U32(prim, (LOAD_U32(prim) & tag_mask) | (ot_or_coord & addr_mask));
