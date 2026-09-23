@@ -70,8 +70,8 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
     s16 direction;
     s16 move_result;
     s32 effect_status;
-    u8 old_x_early;
-    u8 old_x;
+    s16 old_x_early;
+    s16 old_x;
     s16 old_y;
     s32 step_count;
     S_80172144_3 *path_step;
@@ -93,7 +93,7 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
         effect_status = func_80042900(state, 0x1B);
         old_x = old_x_early;
         if ((effect_status << 0x10) == 0) {
-            register s32 tile_x ASM_REG("$4");
+            s32 tile_x;
             s32 tile_y;
             s32 flags;
             s32 mode;
@@ -133,15 +133,17 @@ void func_80172144(void *actor, s32 actor_slot, void *entity_arg, void *state_ar
                 !(((S_80172144_2 *)entity)->unk_14 & 0x8000)) {
                 func_80172B4C(actor, actor_slot, entity, state);
                 ((S_80172144_1 *)actor)->unk_8C = 0;
-                goto finish_step;
+                ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
+                goto finish_step_done;
             }
             goto reset_action;
         }
 reset_action:
         ((S_80172144_1 *)actor)->unk_9A = 0xF;
         ((S_80172144_1 *)actor)->unk_8C = 0;
-finish_step:
         ((S_80172144_0 *)state)->unk_1C |= 0x40000000;
+        finish_step_done:
+        ;
         if (D_80083462[0] & 0x80) {
             ((S_80172144_1 *)actor)->unk_96 = 0;
             return;

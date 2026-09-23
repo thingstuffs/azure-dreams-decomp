@@ -25,9 +25,9 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     register s32 offset_or_x_step ASM_REG("$21");
     u8 *x_step;
     s32 y_step_or_count;
-    register s32 initial_x ASM_REG("$4");
+    s32 initial_x;
     register s32 initial_y ASM_REG("$5");
-    s32 x;
+    u16 x;
     s32 y;
     s32 signed_limit;
     s16 blocked;
@@ -50,7 +50,6 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
     initial_x = *(u16 *)x_step + start_x;
     limit_or_y_step = max_steps;
     x = initial_x;
-    ASM_KEEP_NV(initial_x);
     initial_y = *(u16 *)(u32)y_step_or_count + start_y;
     y = initial_y;
     ASM_KEEP_NV(initial_y);
@@ -64,8 +63,7 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
         s32 y_result;
 
         start_y = *(u8 *)x_step;
-        start_y -= x;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y - x;
         y_result = *(u8 *)(u32)y_step_or_count;
         start_y = 0;
         y_result -= y;
@@ -73,8 +71,7 @@ void *func_800A05A4(void *source, s32 start_x, s32 start_y, u32 heading, volatil
 
 collision_exit:
         start_y = *(u8 *)(u32)offset_or_x_step;
-        start_y -= x;
-        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y;
+        ((Rec_D_800E3D7C *)source)->unk_72.as_s8 = start_y - x;
         y_result = *(u8 *)(u32)limit_or_y_step;
         start_y = 0;
 collision_tail:
@@ -123,7 +120,7 @@ start:
                 loop_y_table = (u8 *)D_8006CCE8;
                 next_x = *(u16 *)(u32)offset_or_x_step;
                 loop_offset = *(volatile s32 *)&frame_slots[16];
-                next_x2 = x + next_x;
+                next_x2 = (u16)(x + next_x);
                 next_x3 = (s32)((u32)next_x2 << 16);
                 ASM_KEEP(next_x3);
                 limit_or_y_step = (s32)(loop_y_table + loop_offset);
