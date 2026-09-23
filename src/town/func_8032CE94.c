@@ -4,24 +4,19 @@ extern u8 *func_80019DFC();
 extern s32 func_8001ADE0(s32);
 extern s32 D_8001BB6C;
 extern s32 D_8001C354;
+extern u8 D_8001F8B5[];
 
-register u8 *dispatch_result ASM_REG("$2");
 
 /* Return the dispatch result, overriding it when the 0x1390 check succeeds. */
 u8 *func_80017694(s32 dispatch_arg, s32 unused, s32 dispatch_option) {
     u8 *result;
-    register s32 first_arg ASM_REG("$2") = dispatch_arg;
-    register s32 fourth_arg ASM_REG("$7") = dispatch_option;
+    s32 first_arg = dispatch_arg;
+    s32 fourth_arg = dispatch_option;
 
-    ASM_KEEP_NV(fourth_arg);
 
     result = func_80019DFC(&D_8001BB6C, &D_8001C354, first_arg, fourth_arg);
     if (func_8001ADE0(0x1390) != 0) {
-        dispatch_result = (u8 *)0x80020000;
-        dispatch_result -= 0x74B;
-        return dispatch_result;
+        return D_8001F8B5;
     }
-    dispatch_result = (u8 *)0x80020000;
-    dispatch_result = result;
-    return dispatch_result;
+    return result;
 }
