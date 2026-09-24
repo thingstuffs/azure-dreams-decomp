@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T07:44:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T08:01:27Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -24,7 +24,7 @@ Baseline NOT exact: 0 rows
 | m2c boilerplate block | 2332 | 515,092 | 20.1% | 0 | 0 | 0.0% |
 | M2C_FIELD raw offsets | 2950 | 1,457,076 | 57.0% | 0 | 0 | 0.0% |
 | m2c local names | 5182 | 2,172,128 | 84.9% | 2697 | 1,275,120 | 49.8% |
-| ASM_ pins | 2135 | 1,465,048 | 57.3% | 783 | 765,928 | 29.9% |
+| ASM_ pins | 2135 | 1,465,048 | 57.3% | 781 | 763,932 | 29.9% |
 | goto | 1545 | 1,318,412 | 51.5% | 1603 | 1,367,280 | 53.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
 | inline asm outside macros | 362 | 256,260 | 10.0% | 274 | 231,380 | 9.0% |
@@ -32,12 +32,12 @@ Baseline NOT exact: 0 rows
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 123 | 106,692 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 5 | 5,468 | 0.2% |
-| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 357 | 252,808 | 9.9% |
+| do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 356 | 251,476 | 9.8% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
 | local address-named struct | 633 | 346,988 | 13.6% | 3153 | 1,621,344 | 63.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3084 | 549,292 | 21.5% |
 
-Pin sites now: 3,187 in 782 rows; REG 1,516, KEEP 707, KEEP_NV 447, SCHED_BARRIER 158, KEEP_DEP_NV 77, USE_NV 50, USE 43, CLOBBER 36.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
+Pin sites now: 3,185 in 780 rows; REG 1,514, KEEP 707, KEEP_NV 447, SCHED_BARRIER 158, KEEP_DEP_NV 77, USE_NV 50, USE 43, CLOBBER 36.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
 Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 4 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 432.
 
@@ -62,7 +62,7 @@ Void callees (`config/void_callees.txt`, tiers read from its section-header comm
 
 On shared record headers (T7, `include/records/`): 1163 rows, 658,372 bytes (25.7%); records used: 102.
 
-L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 782 rows (765,804 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
+L4 residue (rows below L4, by blocker; a row can carry more than one; parked containers excluded): pins 780 rows (763,808 B), tail_jump 8 rows (2,392 B), not_in_module 6,745 rows (2,555,272 B).
 
 ## Naming and module evidence carried per row (docs/EVIDENCE.md, ledger/evidence/rows.jsonl)
 
