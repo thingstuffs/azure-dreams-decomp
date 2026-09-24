@@ -183,3 +183,11 @@ The complete private transition patch reproduces the ready29 Ninja graph; its
 updated assembler tests pass 418/418. The six-version whole-tree census and normal
 33-owner/two-certificate rehearsal remain in flight. No production assembler
 change or compatibility-pass retirement is claimed.
+
+Final source review removed stale comments/unused source scaffolding with identical
+compiler streams. The normal all-owner prover caught two copied-body aggregators
+violating the canonical-fragment contract; a private correction restores their
+original row sources and include-based ownership, preserving every instruction
+and data directive (only source-file metadata changes). Full verification is
+being rerun on this corrected proposal. The frozen census and any resulting
+include-contract failures are retained as separate evidence.

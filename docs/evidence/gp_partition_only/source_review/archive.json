@@ -1,0 +1,261 @@
+{
+  "note": "Restore each package at its original recorded path to reproduce; no production activation. Original hygiene probe uses its then-current payload; reproduce.py instead uses saved inputs and remains independently replayable. Canonical-source proof preserves all instructions/directives except one added .file metadata line per owner. Full normal ownership proof remains separate.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/probe.py",
+      "archive": "source_hygiene/probe.py",
+      "source_sha256": "4d231b13c6f15ed34fd30b8f1329d63ec290979e7e6b04d608c530c2af0aebb6",
+      "archive_sha256": "4d231b13c6f15ed34fd30b8f1329d63ec290979e7e6b04d608c530c2af0aebb6",
+      "source_bytes": 3227,
+      "archive_bytes": 3227
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+      "archive": "source_hygiene/receipt.json",
+      "source_sha256": "11ad15c736726986c79ba5d4c4e6d6600875997fe858ebfb7290926041753317",
+      "archive_sha256": "1ac90517526c7a96608791d9cadeab880807d57f11a21b2a0fd2436bf4b59eb5",
+      "source_bytes": 2463,
+      "archive_bytes": 2395
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduce.py",
+      "archive": "source_hygiene/reproduce.py",
+      "source_sha256": "3918875bf91ff4d2469ccc2ac0c1c0f3ba04b8d699af37dc5c47336417fe5d42",
+      "archive_sha256": "3918875bf91ff4d2469ccc2ac0c1c0f3ba04b8d699af37dc5c47336417fe5d42",
+      "source_bytes": 5204,
+      "archive_bytes": 5204
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json",
+      "archive": "source_hygiene/reproduction_receipt.json",
+      "source_sha256": "fc2503b46bedb01386d534870b519510353283651e4198bd583d6e2ae0c46f6b",
+      "archive_sha256": "fc2503b46bedb01386d534870b519510353283651e4198bd583d6e2ae0c46f6b",
+      "source_bytes": 15299,
+      "archive_bytes": 15299
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/gp_d92c_owned.c",
+      "archive": "source_hygiene/before/gp_d92c_owned.c",
+      "source_sha256": "576ffc9abbd8310aec3ccae37c9948d95fdc8e2dc373e7e3e8df390d720056c8",
+      "archive_sha256": "576ffc9abbd8310aec3ccae37c9948d95fdc8e2dc373e7e3e8df390d720056c8",
+      "source_bytes": 2646,
+      "archive_bytes": 2646
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/gp_d92c_owned.c.s",
+      "archive": "source_hygiene/before/gp_d92c_owned.c.s",
+      "source_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "archive_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "source_bytes": 4255,
+      "archive_bytes": 4255
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/w_8003FAD4.c",
+      "archive": "source_hygiene/before/w_8003FAD4.c",
+      "source_sha256": "0d86b916467b2838d4337813fe4fa344bac3cd99026566371b5db640138bf1e9",
+      "archive_sha256": "0d86b916467b2838d4337813fe4fa344bac3cd99026566371b5db640138bf1e9",
+      "source_bytes": 1415,
+      "archive_bytes": 1415
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/w_8003FAD4.c.s",
+      "archive": "source_hygiene/before/w_8003FAD4.c.s",
+      "source_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "archive_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "source_bytes": 2136,
+      "archive_bytes": 2136
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/w_80041AB0.c",
+      "archive": "source_hygiene/before/w_80041AB0.c",
+      "source_sha256": "b053cad2605d612a1e6520eda8535c84ecec05fb7cdcc87ee1cf51e27553d20c",
+      "archive_sha256": "b053cad2605d612a1e6520eda8535c84ecec05fb7cdcc87ee1cf51e27553d20c",
+      "source_bytes": 504,
+      "archive_bytes": 504
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/w_80041AB0.c.s",
+      "archive": "source_hygiene/before/w_80041AB0.c.s",
+      "source_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "archive_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "source_bytes": 1189,
+      "archive_bytes": 1189
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/w_8004AB7C.c",
+      "archive": "source_hygiene/before/w_8004AB7C.c",
+      "source_sha256": "76d2b9fd68b53381be6684ca94cddf9e50676b560d13efa297ba0783e8730aa1",
+      "archive_sha256": "76d2b9fd68b53381be6684ca94cddf9e50676b560d13efa297ba0783e8730aa1",
+      "source_bytes": 1295,
+      "archive_bytes": 1295
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/before/w_8004AB7C.c.s",
+      "archive": "source_hygiene/before/w_8004AB7C.c.s",
+      "source_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "archive_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "source_bytes": 1865,
+      "archive_bytes": 1865
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/gp_d92c_owned.c",
+      "archive": "source_hygiene/after/gp_d92c_owned.c",
+      "source_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "archive_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "source_bytes": 2522,
+      "archive_bytes": 2522
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/gp_d92c_owned.c.s",
+      "archive": "source_hygiene/after/gp_d92c_owned.c.s",
+      "source_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "archive_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "source_bytes": 4255,
+      "archive_bytes": 4255
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_8003FAD4.c",
+      "archive": "source_hygiene/after/w_8003FAD4.c",
+      "source_sha256": "fde9d352aec9cea95dc7c388355ec7dc6b1e659a2d604208e00c403a10586b67",
+      "archive_sha256": "fde9d352aec9cea95dc7c388355ec7dc6b1e659a2d604208e00c403a10586b67",
+      "source_bytes": 1368,
+      "archive_bytes": 1368
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_8003FAD4.c.s",
+      "archive": "source_hygiene/after/w_8003FAD4.c.s",
+      "source_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "archive_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "source_bytes": 2136,
+      "archive_bytes": 2136
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_80041AB0.c",
+      "archive": "source_hygiene/after/w_80041AB0.c",
+      "source_sha256": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+      "archive_sha256": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+      "source_bytes": 422,
+      "archive_bytes": 422
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_80041AB0.c.s",
+      "archive": "source_hygiene/after/w_80041AB0.c.s",
+      "source_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "archive_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "source_bytes": 1189,
+      "archive_bytes": 1189
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_8004AB7C.c",
+      "archive": "source_hygiene/after/w_8004AB7C.c",
+      "source_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+      "archive_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+      "source_bytes": 1285,
+      "archive_bytes": 1285
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_8004AB7C.c.s",
+      "archive": "source_hygiene/after/w_8004AB7C.c.s",
+      "source_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "archive_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "source_bytes": 1865,
+      "archive_bytes": 1865
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/probe.py",
+      "archive": "canonical_sources/probe.py",
+      "source_sha256": "050645400ac01e797d50c14d16450d22b2ee1cac7d15acb005743ea4bd40271a",
+      "archive_sha256": "050645400ac01e797d50c14d16450d22b2ee1cac7d15acb005743ea4bd40271a",
+      "source_bytes": 4065,
+      "archive_bytes": 4065
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json",
+      "archive": "canonical_sources/receipt.json",
+      "source_sha256": "5e264a62919083e2ca16cc64b1dfef385e4166d8c7f8c3849529130406cfd82d",
+      "archive_sha256": "5e264a62919083e2ca16cc64b1dfef385e4166d8c7f8c3849529130406cfd82d",
+      "source_bytes": 2086,
+      "archive_bytes": 2086
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/before/gp_d92c_owned.c",
+      "archive": "canonical_sources/before/gp_d92c_owned.c",
+      "source_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "archive_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "source_bytes": 2522,
+      "archive_bytes": 2522
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/before/gp_d92c_owned.c.s",
+      "archive": "canonical_sources/before/gp_d92c_owned.c.s",
+      "source_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "archive_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "source_bytes": 4255,
+      "archive_bytes": 4255
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/before/gp_order_bytes_owner.c",
+      "archive": "canonical_sources/before/gp_order_bytes_owner.c",
+      "source_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+      "archive_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+      "source_bytes": 3305,
+      "archive_bytes": 3305
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/before/gp_order_bytes_owner.c.s",
+      "archive": "canonical_sources/before/gp_order_bytes_owner.c.s",
+      "source_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88",
+      "archive_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88",
+      "source_bytes": 2084,
+      "archive_bytes": 2084
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/gp_d92c_owned.c",
+      "archive": "canonical_sources/after/gp_d92c_owned.c",
+      "source_sha256": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+      "archive_sha256": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+      "source_bytes": 69,
+      "archive_bytes": 69
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/gp_d92c_owned.c.s",
+      "archive": "canonical_sources/after/gp_d92c_owned.c.s",
+      "source_sha256": "dc1bf69beb20ba6ae33aa79e037eadf3ce4c7278755d13bf18fb7640e3ec6861",
+      "archive_sha256": "dc1bf69beb20ba6ae33aa79e037eadf3ce4c7278755d13bf18fb7640e3ec6861",
+      "source_bytes": 4279,
+      "archive_bytes": 4279
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/gp_order_bytes_owner.c",
+      "archive": "canonical_sources/after/gp_order_bytes_owner.c",
+      "source_sha256": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+      "archive_sha256": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+      "source_bytes": 81,
+      "archive_bytes": 81
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/gp_order_bytes_owner.c.s",
+      "archive": "canonical_sources/after/gp_order_bytes_owner.c.s",
+      "source_sha256": "1a2272d423a63b28270e2708ed0f8060b15a866cf11637f3aa021aa389e94b66",
+      "archive_sha256": "1a2272d423a63b28270e2708ed0f8060b15a866cf11637f3aa021aa389e94b66",
+      "source_bytes": 2108,
+      "archive_bytes": 2108
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/w_8003D92C.c",
+      "archive": "canonical_sources/after/w_8003D92C.c",
+      "source_sha256": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+      "archive_sha256": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+      "source_bytes": 2478,
+      "archive_bytes": 2478
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/w_80049F68.c",
+      "archive": "canonical_sources/after/w_80049F68.c",
+      "source_sha256": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675",
+      "archive_sha256": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675",
+      "source_bytes": 3295,
+      "archive_bytes": 3295
+    }
+  ]
+}

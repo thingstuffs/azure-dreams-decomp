@@ -112,3 +112,23 @@ plans, build adapters, guarded assembler, tests, and full logical-row projection
 Its generated Ninja graph matches the retail-exact ready29 graph byte for byte.
 The whole-tree six-version census and full normal ownership/certificate rehearsal
 are running against isolated inputs; their completion is not claimed here.
+
+## Final source review
+
+Four small source cleanups remove stale padded-declaration comments, unused page
+macros and an unused page variable. Each complete compiler assembly stream is
+byte-identical before and after at its registered CDK recipe. The independent
+[source-hygiene reproduction](gp_partition_only/source_review/source_hygiene/reproduction_receipt.json)
+binds the compiler, headers, source snapshots and exact assembly streams.
+
+The normal all-owner rehearsal then exposed a source-organization defect in
+`gp_d92c_owned` (also present in `gp_order_bytes_owner`): copied bodies violated
+the documented canonical-fragment/include contract. The proposed correction
+keeps each body at its original row path and makes the owner include it once,
+with exactly one data definition. Both complete owner compiler streams preserve
+every instruction and directive except one added `.file` source metadata line;
+see the [comparison](gp_partition_only/source_review/canonical_sources/receipt.json).
+The full normal ownership/build rehearsal is being rerun on these final sources.
+The original frozen whole-tree census is retained; any affected-row failures
+must be resolved with separate final-source measurements and explicit provenance,
+not erased or labeled as a wholly passing original run.

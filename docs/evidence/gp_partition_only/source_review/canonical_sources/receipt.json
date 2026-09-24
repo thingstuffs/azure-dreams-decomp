@@ -1,0 +1,49 @@
+{
+  "status": "MATCH_EXCEPT_FILE_METADATA",
+  "records": [
+    {
+      "owner": "gp_d92c_owned.c",
+      "recipe": "2.7.2-cdk ",
+      "before_source_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "compiler_assembly_identical": false,
+      "identical_except_file_metadata": true,
+      "file_metadata": {
+        "before": [
+          "\t.file\t1 \"gp_d92c_owned.c\""
+        ],
+        "after": [
+          "\t.file\t1 \"gp_d92c_owned.c\"",
+          "\t.file\t2 \"w_8003D92C.c\""
+        ]
+      },
+      "instruction_and_directive_sha256": "733fe122ceb83de6c5d2304860373a41229e2fea969105ce1e94d63b2947ea3e",
+      "before_assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "after_assembly_sha256": "dc1bf69beb20ba6ae33aa79e037eadf3ce4c7278755d13bf18fb7640e3ec6861"
+    },
+    {
+      "owner": "gp_order_bytes_owner.c",
+      "recipe": "2.7.2-cdk -fno-strength-reduce",
+      "before_source_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+      "compiler_assembly_identical": false,
+      "identical_except_file_metadata": true,
+      "file_metadata": {
+        "before": [
+          "\t.file\t1 \"gp_order_bytes_owner.c\""
+        ],
+        "after": [
+          "\t.file\t1 \"gp_order_bytes_owner.c\"",
+          "\t.file\t2 \"w_80049F68.c\""
+        ]
+      },
+      "instruction_and_directive_sha256": "c746e3940d0b1114aea5b3f4b04d2454c13e8839b607085316c1629fdd7cc9d4",
+      "before_assembly_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88",
+      "after_assembly_sha256": "1a2272d423a63b28270e2708ed0f8060b15a866cf11637f3aa021aa389e94b66"
+    }
+  ],
+  "proposed_sources": {
+    "gp_d92c_owned.c": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+    "gp_order_bytes_owner.c": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+    "w_8003D92C.c": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+    "w_80049F68.c": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675"
+  }
+}
