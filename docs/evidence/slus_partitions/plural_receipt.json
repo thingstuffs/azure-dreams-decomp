@@ -1,0 +1,83 @@
+{
+  "context_sha256": "046194a17445c6c34d1ae87a7d8117401e3527a8f789db99c2035fbdb68fa870",
+  "verify_sha256": "864b443d5526fbe2c76a9ceee7869698d35c2d36eaf6262633973fc3cebb4e2a",
+  "rows": [
+    {
+      "row": "slus/code",
+      "units": [
+        {
+          "source": "src/code.c",
+          "recipe": {
+            "ccver": "2.7.2",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "row_functions": 155,
+          "emitted_functions": 155,
+          "matches_private_linked_object": true
+        },
+        {
+          "source": "src/w_80041134_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "row_functions": 1,
+          "emitted_functions": 3,
+          "matches_private_linked_object": true
+        }
+      ],
+      "singular_refused": true,
+      "raw_standalone_preserved": true
+    },
+    {
+      "row": "slus/code2",
+      "units": [
+        {
+          "source": "src/code2.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "row_functions": 23,
+          "emitted_functions": 23,
+          "matches_private_linked_object": true
+        },
+        {
+          "source": "src/w_80041134_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "row_functions": 1,
+          "emitted_functions": 3,
+          "matches_private_linked_object": true
+        }
+      ],
+      "singular_refused": true,
+      "raw_standalone_preserved": true
+    },
+    {
+      "row": "slus/w_80041134",
+      "units": [
+        {
+          "source": "src/w_80041134_owned.c",
+          "recipe": {
+            "ccver": "2.8.1",
+            "ccflags": "",
+            "asflags": ""
+          },
+          "row_functions": 1,
+          "emitted_functions": 3,
+          "matches_private_linked_object": true
+        }
+      ],
+      "singular_refused": true,
+      "raw_standalone_preserved": true
+    }
+  ],
+  "production_plan_active": false
+}

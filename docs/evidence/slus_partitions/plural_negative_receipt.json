@@ -1,0 +1,28 @@
+{
+  "trials": [
+    {
+      "trial": "moved",
+      "changed_units": [
+        "src/w_80041134_owned.c"
+      ],
+      "expected_changed_units": [
+        "src/w_80041134_owned.c"
+      ]
+    },
+    {
+      "trial": "remainder",
+      "changed_units": [
+        "src/code.c"
+      ],
+      "expected_changed_units": [
+        "src/code.c"
+      ]
+    },
+    {
+      "trial": "hidden_macro",
+      "refused": true,
+      "error": "module context: emitted function coverage differs: src/code.c"
+    }
+  ],
+  "canonical_source_unchanged": true
+}

@@ -2,7 +2,7 @@
   "inputs": {
     "prototype_stage_manifest_sha256": "f2bce13b997bb98cf25a123790ddbafa01e6bdf2de007b1387ee1d2251e8143d",
     "prototype_plan_sha256": "837ee892e847931030ee89e11e0bc062297978cff0ada45dfb9a35734e84f6f6",
-    "partition_tool_sha256": "d6fdd141537aeebbae02596f6b1e99c5a0b46ea69a7892f3e8dd9ab100dffbd1",
+    "partition_tool_sha256": "acd5f8a2bcdaca0c6104cf816cfa302050d71ea4c102ac4b2f20b1141a9165e4",
     "production_configure_sha256": "7f69dafd42456c4f80e9762609c4671d8c06ac8f6203082da508a1b3a6e9271a",
     "private_configure_sha256": "2d1ac97f2848b58c5afffb693c34e51f63469fbe21715d19aa9c426d09df413e",
     "canonical_sources_sha256": {
@@ -114,7 +114,7 @@
       }
     },
     "assembly_sha256": "90fda3ef5f197b00068a5600aed20d99c1c9eb9e9e88abfd5279cead74bffaf5",
-    "genuine_lnk_sha256": "54880f4ea1505225665c213aa97928fd4f63c0f6c8e6e41d5b561127a6c96a45"
+    "genuine_lnk_sha256": "1ccaa2266d6771c25412ef539c2f3ffacaf43ee2e27e4fcd4d992410ffa324e8"
   },
   "image": {
     "retail_exact": true,

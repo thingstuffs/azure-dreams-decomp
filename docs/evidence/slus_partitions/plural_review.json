@@ -1,0 +1,19 @@
+{
+  "context_sha256": "046194a17445c6c34d1ae87a7d8117401e3527a8f789db99c2035fbdb68fa870",
+  "verify_sha256": "864b443d5526fbe2c76a9ceee7869698d35c2d36eaf6262633973fc3cebb4e2a",
+  "helper_sha256": "acd5f8a2bcdaca0c6104cf816cfa302050d71ea4c102ac4b2f20b1141a9165e4",
+  "private_context_identical": true,
+  "private_verify_identical": true,
+  "compile_receipt_sha256": "241d869707d992a3d9ce7b07f0a0f34f2ee8b66c301073a9e22fecbc2b6ffae4",
+  "negative_receipt_sha256": "0f8278f153e11aaeaa1a4824af728e30f52bbf57fd10ce117e0fae6f9c119f16",
+  "baseline_probe_sha256": "d0dc224cb364e39606fa47f12fe0b3216d430bfd59d3b7ebe28cecadd5f6609e",
+  "negative_probe_sha256": "686d3aa8d4d723bb755854a012c0bd5cab8f776c129d954869bf93ed1c1b0ef5",
+  "whole_image_gate": "runtime_directory certificate refreshed against the unchanged production layout",
+  "runtime_certificate_sha256": "e5d33f41e143b682f280aad7c50644aabb3980e7f5979c93730d32728412896b",
+  "production_partition_plan_active": false,
+  "regression": {
+    "command": "python3 -m unittest discover -s tools/tests -p 'test_slus_*.py'",
+    "passed": 85,
+    "row_database": "OK"
+  }
+}

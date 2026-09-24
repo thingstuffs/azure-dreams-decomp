@@ -1,9 +1,10 @@
 # SLUS function partitions: foundation and private build proof
 
-Status: **planner/renderer and tests available; production activation pending**.
+Status: **planner/renderer and plural compilation available; production activation pending**.
 The existing whole-row module model remains active. There is no production
-`config/slus_partitions.json`, and the production configure, candidate verifier,
-genuine comparator and placement certificate still use the existing model.
+`config/slus_partitions.json`. Production configure, full-image candidate gating,
+genuine comparison and placement certification still use the existing model;
+the new plural compilation API is available independently.
 Do not activate a partition solely from the private build proof below.
 
 ## Purpose and identity
@@ -84,7 +85,7 @@ Normal source edits test both paths. Changing 41110 in canonical `code.c`
 rebuilds only its destination object; changing an unmoved function rebuilds only
 `code.o`. Both images fail retail equality. Restoring each source rebuilds only
 the corresponding object and returns the exact retail image. `code2.o` remains
-untouched in both cases. Twelve [unit tests](../tools/tests/test_slus_partitions.py)
+untouched in both cases. Thirteen [unit tests](../tools/tests/test_slus_partitions.py)
 cover the schema, frozen provenance, missing/duplicate functions, unsupported
 source forms, transitive owner closure, per-owner recipes, fingerprint freshness,
 projection and filesystem output boundaries. See the
@@ -95,11 +96,52 @@ isolated normal build and `python3 -m unittest discover -s tools/tests -p
 test_slus_partitions.py -v` for the library. The private configure candidate is
 saved for review; the production configure file is unchanged.
 
+## Plural candidate compilation
+
+`slus_module_context.compilation_sources` now returns each physical source view,
+its own compiler recipe, the original row's function subset, and the complete
+expected function set of that object. A collector edit renders all connected
+source views privately; a whole member keeps incoming collector functions in its
+actual owner context. Canonical sources and original row IDs are preserved.
+Connected fingerprints include all participating parents, aggregators, whole
+members, declared headers, aliases, recipes, and both rendering/adapter tools.
+Existing unpartitioned module fingerprints retain their previous contract.
+
+`verify.compile_slus_units` compiles each stream and requires exact ELF function
+coverage, with no missing, additional or duplicated ownership. It refuses stale
+inputs and partial compile failures. This is an input/coverage API, not a linked
+retail or genuine-ASPSX verdict. `verify_slus` and other singular consumers refuse
+partition-connected live inputs until their complete plural gates are integrated.
+Historical frozen-raw compilation remains independent.
+
+The [compile receipt](evidence/slus_partitions/plural_receipt.json) checks all
+three E0 logical inputs through this API. Both remainder objects (155 and 23
+functions) and the three-function destination have identical allocated sections,
+relocations and symbols to the already retail-linked private build objects.
+The [negative receipt](evidence/slus_partitions/plural_negative_receipt.json)
+changes a moved body and a remainder body: only the expected object changes.
+A macro-generated extra function, invisible to the conservative source scanner,
+is rejected by the compiled coverage check. This illustrates why source parsing
+alone is not a coverage proof. Likewise, edge projection must still be followed
+by exact whole-ledger equality. Malformed paths and ambiguous or invalid alias
+targets fail closed.
+
+Six context tests cover multiple destinations, incoming sibling parents, distinct
+recipes, host-compiled candidate behavior, fingerprints, legacy refusals and raw
+exceptions. Five compiler-boundary tests check per-owner recipes, complete emission,
+header selection, source/fingerprint drift and failure without partial success.
+All 85 SLUS tests pass; `row_db.py check` passes. The existing runtime-directory
+pilot has been recertified against
+the changed verifier: full production image MATCH and genuine ASPSX 2.79 exact
+with zero masks. See [review hashes](evidence/slus_partitions/plural_review.json).
+Reproduce the actual MIPS routing/coverage probe with
+`python3 work/native_lane/slus_plural_context/negative_probe.py`.
+
 ## Remaining integration, in order
 
-1. Add plural physical-context APIs to `slus_module_context` and candidate
-   compilation. Preserve the standalone frozen-raw exception. Existing singular
-   APIs must refuse a partitioned live row until their plural path is implemented.
+1. **Implemented:** plural physical contexts, connected fingerprints and candidate
+   compilation with exact emitted-function coverage. Legacy singular entry points
+   refuse partition-connected live rows; frozen raw remains standalone.
 2. Wire optional build generation and logical projection, then teach `SlusView`
    to substitute a canonical candidate, render all affected views, run one full
    image gate, and restore every input/object. Require emitted-set coverage.
