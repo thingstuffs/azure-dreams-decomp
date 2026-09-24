@@ -758,7 +758,7 @@ CC_VER = {
     "src/konami_runtime_w_8003C0C0.c": ("2.7.2", ""),
     "src/konami_runtime_w_80033BE4.c": ("2.7.2-cdk", ""),
     "src/konami_runtime_w_80033C8C.c": ("2.7.2-cdk", "-G0"),
-    "src/konami_runtime_w_80033D44.c": ("2.7.2", ""),
+    "src/konami_runtime_w_80033D44.c": ("2.8.1", ""),  # fidelity step 4 (gp_8099c): retail-proven splitting recipe
     "src/konami_runtime_w_80034E48.c": ("2.7.2-cdk", "-G0"),
     "src/konami_runtime_w_80034F58.c": ("2.7.2-cdk", "-G0"),
     "src/konami_runtime_w_80034FE4.c": ("2.7.2", "-G0"),

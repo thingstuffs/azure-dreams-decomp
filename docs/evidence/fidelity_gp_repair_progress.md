@@ -7,18 +7,22 @@ the separate MAIN coverage gaps.
 
 ## Resumed private proofs
 
-[49F68](gp_order_bytes.md) is now genuine/retail-exact after an RTL-guided guard
-ordering repair. The full private link, real four-byte table and all 50 function
-words pass when the generic correction is combined with isolated
-`_fold_selfinc_la` ablation. Its 12 existing pass consumers remain a repair queue.
-[8099C](gp_shared_8099c.md) is full-image exact after correcting the private
-runtime aggregator's routing; its remaining discrepancy is reproduced by the
-already accepted compiler epilogue model. Neither proof removes a production
-dependency. The latest production counts below remain authoritative.
+[49F68](gp_order_bytes.md) is genuine/retail-exact after an RTL-guided guard
+ordering repair. Its [local-data guard](selfinc_local_guard.md) now gives the
+full private image and all 50 words with every pass enabled; its 12 existing
+pass consumers remain a separate retirement queue. The generic assembler
+transition remains private.
 
 ## Latest ownership checkpoint
 
-[Shared state at 81510](gp_shared_state_81510.md) adds two rows at their coherent
+[8099C](gp_shared_8099c.md) now owns the cancellation word in an active two-row
+module. Its full retail image passes. Direct genuine proof covers the setter;
+the renderer's separately recorded genuine proof uses the already accepted
+compiler epilogue model. Its remaining model dependency stays in the ledger.
+Production: **198 dependency records, 30 GP rows, 18 ownership units,
+873 physical / 884 logical rows**. The original runtime pilot is recertified.
+
+Previous checkpoint: [Shared state at 81510](gp_shared_state_81510.md) adds two rows at their coherent
 registered CDK recipe, after a byte-neutral 45340 recipe landing. All 573 words
 match genuine ASPSX 2.79 and retail without masks; no compatibility pass fires.
 The full image passes at 874 physical / 884 logical rows. There are now 199

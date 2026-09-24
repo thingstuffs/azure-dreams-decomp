@@ -109,6 +109,20 @@ For NOBITS `.sbss`, the ELF section size supplies zero storage; an absent sectio
 cannot pass as an empty binary dump. COMMON and absolute symbols cannot stand
 in for allocated storage. Schema-2 ownership receipts group data proofs by section.
 
+Direct genuine-ASPSX equality remains the ownership prover's default. For a
+member that retains the already accepted missing-compiler epilogue model, name
+that row explicitly with `--compiler-model-row ROW`. This selects only the
+`t272` model and produces a schema-3 receipt: the original direct discrepancy
+stays in `rows`, while `modeled_rows` separately proves a fresh compiler stream,
+rewritten only for the selected member's functions, through genuine ASPSX 2.79
+against both the pipeline object and retail without masks. The model code is
+fingerprinted before and after. Unknown/unselected row IDs, unexplained failures,
+and a missing or masked direct measurement are refused. This option certifies
+data ownership with a declared compiler-model dependency; it neither grants
+module placement nor removes the dependency from the ladder. The placement
+certificate's direct-genuine requirement remains unchanged.
+
+
 ## Recipes and row accounting
 
 All member rows and the aggregator must use the same `ccver`, `ccflags`, and
