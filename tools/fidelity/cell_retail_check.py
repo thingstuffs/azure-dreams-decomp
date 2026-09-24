@@ -63,6 +63,18 @@ def genuine_retail_exact(maspsx_exact, genuine_eq, genuine_retail) -> bool:
     return any(d == 0 and (m == 0 or (bool(maspsx_exact) and v in eq)) for v, (d, m) in genuine_retail.items())
 
 
+def require_single_recipe(row):
+    """A cell/asflags trial is undefined across connected physical owners."""
+    if row.get("kind") != "slus":
+        return
+    from slus_module_context import partition_context
+    parents, owners, _ = partition_context(row)
+    if parents:
+        sources = sorted({p["source"] for p in parents} | {m["source"] for m in owners})
+        raise ValueError(f"{row['id']}: partition-connected physical units "
+                         f"({', '.join(sources)}) require an explicit per-unit recipe trial")
+
+
 def _positions(view, fname, ctx, A):
     """Positional word differences (index, ours, retail) of an overlay row vs retail, resolved as
     aspsx_diff.retail_compare resolves them."""
@@ -91,9 +103,10 @@ def check_row(rid: str, cfg: str, asflags_variants: bool, cfile: str | None = No
     """Run inside a worker process (process_row mutates os.environ)."""
     import aspsx_diff as A
     from common import rows
+    row = {r["id"]: r for r in rows()}[rid]
+    require_single_recipe(row)
     A.TMP = SCRATCH / "rows"
     A.TMP.mkdir(parents=True, exist_ok=True)
-    row = {r["id"]: r for r in rows()}[rid]
     captured = {}
     orig_rc = A.retail_compare
 
@@ -145,11 +158,20 @@ def main():
     a = ap.parse_args()
     if a.worker:
         cf = a.worker[2] if len(a.worker) > 2 else None
-        print(json.dumps(check_row(a.worker[0], a.worker[1], a.asflags_variants, cf), separators=(",", ":")))
+        try:
+            result = check_row(a.worker[0], a.worker[1], a.asflags_variants, cf)
+        except ValueError as exc:
+            ap.error(str(exc))
+        print(json.dumps(result, separators=(",", ":")))
         return
     from common import rows
     by = {r["id"]: r for r in rows()}
     ids = [x.strip() for x in (Path(a.rows[1:]).read_text().split() if a.rows.startswith("@") else a.rows.split(","))]
+    for i in ids:
+        try:
+            require_single_recipe(by[i])
+        except ValueError as exc:
+            ap.error(str(exc))
     jobs = []
     for i in ids:
         r = by[i]

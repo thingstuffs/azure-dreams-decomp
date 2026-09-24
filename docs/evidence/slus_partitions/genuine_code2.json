@@ -1,0 +1,390 @@
+{
+  "row": "slus/code2",
+  "kind": "slus",
+  "container": "slus",
+  "cfg": "2.8.1",
+  "pins": 0,
+  "module_fingerprint": "4ecbc63e19bf3befa659187a31f89084217e3340760704482f62b5781002f60b",
+  "partition_gate": {
+    "status": "ok",
+    "exact": true,
+    "proof": "whole SLUS image, partition context",
+    "module_fingerprint": "4ecbc63e19bf3befa659187a31f89084217e3340760704482f62b5781002f60b",
+    "physical_units": [
+      {
+        "source": "src/code2.c",
+        "recipe": {
+          "ccver": "2.8.1",
+          "ccflags": "",
+          "asflags": ""
+        },
+        "functions": [
+          "func_8003F240",
+          "func_8003F540",
+          "func_8003F7E4",
+          "func_80040A88",
+          "func_80040B88",
+          "func_800419EC",
+          "func_8004827C",
+          "func_80048DA0",
+          "func_800499BC",
+          "func_8004A8D8",
+          "func_8004AC18",
+          "func_8004D0C8",
+          "func_8004D110",
+          "func_80050F74",
+          "func_80053C6C",
+          "func_80053CA4",
+          "func_800542AC",
+          "func_8005A3E0",
+          "func_8005B348",
+          "func_8005C818",
+          "func_8005C8B8",
+          "func_8005C918",
+          "func_8005C94C"
+        ],
+        "role": "remainder"
+      },
+      {
+        "source": "src/w_80041134_owned.c",
+        "recipe": {
+          "ccver": "2.8.1",
+          "ccflags": "",
+          "asflags": ""
+        },
+        "functions": [
+          "func_800410FC"
+        ],
+        "role": "module",
+        "module": "list_cursor_e0"
+      }
+    ],
+    "total": 0,
+    "err": null,
+    "secs": 2.33
+  },
+  "physical_units": [
+    {
+      "source": "src/code2.c",
+      "recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "functions": [
+        "func_8003F240",
+        "func_8003F540",
+        "func_8003F7E4",
+        "func_80040A88",
+        "func_80040B88",
+        "func_800419EC",
+        "func_8004827C",
+        "func_80048DA0",
+        "func_800499BC",
+        "func_8004A8D8",
+        "func_8004AC18",
+        "func_8004D0C8",
+        "func_8004D110",
+        "func_80050F74",
+        "func_80053C6C",
+        "func_80053CA4",
+        "func_800542AC",
+        "func_8005A3E0",
+        "func_8005B348",
+        "func_8005C818",
+        "func_8005C8B8",
+        "func_8005C918",
+        "func_8005C94C"
+      ],
+      "expected_functions": [
+        "func_8003F240",
+        "func_8003F540",
+        "func_8003F7E4",
+        "func_80040A88",
+        "func_80040B88",
+        "func_800419EC",
+        "func_8004827C",
+        "func_80048DA0",
+        "func_800499BC",
+        "func_8004A8D8",
+        "func_8004AC18",
+        "func_8004D0C8",
+        "func_8004D110",
+        "func_80050F74",
+        "func_80053C6C",
+        "func_80053CA4",
+        "func_800542AC",
+        "func_8005A3E0",
+        "func_8005B348",
+        "func_8005C818",
+        "func_8005C8B8",
+        "func_8005C918",
+        "func_8005C94C"
+      ],
+      "role": "remainder",
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.8.1",
+      "asflags": "",
+      "cell": "2.8.1",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, partition context",
+      "fired": [
+        "_fold_lo_into_accesses",
+        "_unfill_via_load_delay",
+        "_maybe_unfill_return_delay"
+      ],
+      "module_fingerprint": "4ecbc63e19bf3befa659187a31f89084217e3340760704482f62b5781002f60b",
+      "trace_scope": "whole-physical-unit",
+      "selfcheck": true,
+      "funcs": 23,
+      "words": 236,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 23
+      },
+      "maspsx_physical_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 23
+      },
+      "has_div": true,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 33,
+          "len": 239,
+          "mode": "-0",
+          "retail": [
+            42,
+            0
+          ],
+          "retail_checked": 23,
+          "physical": {
+            "exact": false,
+            "diff": 33,
+            "len_m": 236,
+            "len_g": 239,
+            "missing": [],
+            "retail": {
+              "diff": 42,
+              "masked": 0,
+              "checked": 23
+            }
+          }
+        }
+      },
+      "exact_versions": [],
+      "best": "2.79",
+      "classes": {
+        "gp-extern": 3,
+        "other": 13,
+        "delay-slot": 2
+      },
+      "first_diff": [
+        [
+          "func_8003F240",
+          "replace",
+          1
+        ],
+        [
+          "func_80040B88",
+          "insert",
+          8
+        ],
+        [
+          "func_80040B88",
+          "delete",
+          9
+        ],
+        [
+          "func_8004827C",
+          "insert",
+          16
+        ]
+      ],
+      "gp_externs": [
+        "D_80080B1B",
+        "D_80080B1C",
+        "D_800814D0"
+      ],
+      "n_gp_externs": 3,
+      "attrib": {
+        "2.79": {
+          "base": 33,
+          "fix": [
+            "extern-abs+no:all-fired",
+            "asv:2.79+extern-abs+no:all-fired"
+          ]
+        },
+        "_nochange": [
+          "asv:2.79"
+        ]
+      },
+      "status": "ok"
+    },
+    {
+      "source": "src/w_80041134_owned.c",
+      "recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "functions": [
+        "func_800410FC"
+      ],
+      "expected_functions": [
+        "func_800410FC",
+        "func_80041110",
+        "func_80041134"
+      ],
+      "role": "module",
+      "module": "list_cursor_e0",
+      "row": "slus/code2",
+      "container": "slus",
+      "kind": "slus",
+      "cfg": "2.8.1",
+      "asflags": "",
+      "cell": "2.8.1",
+      "maspsx_exact": true,
+      "proof": "whole SLUS image, partition context",
+      "fired": [],
+      "module_fingerprint": "4ecbc63e19bf3befa659187a31f89084217e3340760704482f62b5781002f60b",
+      "trace_scope": "whole-physical-unit",
+      "selfcheck": true,
+      "funcs": 1,
+      "words": 5,
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "maspsx_physical_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      },
+      "has_div": false,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 5,
+          "mode": "",
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "physical": {
+            "exact": true,
+            "diff": 0,
+            "len_m": 44,
+            "len_g": 44,
+            "missing": [],
+            "retail": {
+              "diff": 0,
+              "masked": 0,
+              "checked": 3
+            }
+          }
+        }
+      },
+      "exact_versions": [
+        "2.79"
+      ],
+      "best": "2.79",
+      "status": "ok"
+    }
+  ],
+  "functions": [
+    "func_8003F240",
+    "func_8003F540",
+    "func_8003F7E4",
+    "func_80040A88",
+    "func_80040B88",
+    "func_800410FC",
+    "func_800419EC",
+    "func_8004827C",
+    "func_80048DA0",
+    "func_800499BC",
+    "func_8004A8D8",
+    "func_8004AC18",
+    "func_8004D0C8",
+    "func_8004D110",
+    "func_80050F74",
+    "func_80053C6C",
+    "func_80053CA4",
+    "func_800542AC",
+    "func_8005A3E0",
+    "func_8005B348",
+    "func_8005C818",
+    "func_8005C8B8",
+    "func_8005C918",
+    "func_8005C94C"
+  ],
+  "funcs": 24,
+  "words": 241,
+  "selfcheck": true,
+  "maspsx_exact": true,
+  "trace_scope": "union-of-whole-physical-units",
+  "cfg_scope": "original-logical-row",
+  "proof": "whole SLUS image, partition context",
+  "cell": "2.8.1",
+  "asflags": "",
+  "maspsx_retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 24
+  },
+  "fired": [
+    "_fold_lo_into_accesses",
+    "_maybe_unfill_return_delay",
+    "_unfill_via_load_delay"
+  ],
+  "has_div": true,
+  "gp_externs": [
+    "D_80080B1B",
+    "D_80080B1C",
+    "D_800814D0"
+  ],
+  "n_gp_externs": 3,
+  "genuine": {
+    "2.79": {
+      "exact": false,
+      "diff": 33,
+      "len": 244,
+      "retail": [
+        42,
+        0
+      ],
+      "retail_checked": 24,
+      "modes": {
+        "src/code2.c": "-0",
+        "src/w_80041134_owned.c": ""
+      }
+    }
+  },
+  "exact_versions": [],
+  "ownerwise_exact_versions": false,
+  "best": "2.79",
+  "partition_attribution": {
+    "src/code2.c": {
+      "2.79": {
+        "base": 33,
+        "fix": [
+          "extern-abs+no:all-fired",
+          "asv:2.79+extern-abs+no:all-fired"
+        ]
+      },
+      "_nochange": [
+        "asv:2.79"
+      ]
+    },
+    "src/w_80041134_owned.c": {}
+  },
+  "status": "ok",
+  "secs": 4.7
+}

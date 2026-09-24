@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 VERSIONS = ["2.56", "2.67", "2.77", "2.79", "2.81", "2.86"]
 CONTAINERS = ["slus", "main", "town", "dungeon", "ovmovie"]
-CELLS = ["2.6.3", "2.7.2", "2.7.2-cdk", "2.8.0", "2.8.1", "2.91.66", "2.95.2"]
+CELLS = ["2.6.3", "2.7.2", "2.7.2-cdk", "2.8.0", "2.8.1", "2.91.66", "2.95.2", "mixed"]
 C = collections.Counter
 
 
@@ -52,6 +52,48 @@ def cause(r):
     return "combined: " + pick, fx
 
 
+def physical_units(r):
+    """An absent field is a legacy single-stream row, not an empty plural proof."""
+    units = r.get("physical_units")
+    if units is None:
+        return []
+    if not isinstance(units, list) or not units:
+        raise ValueError(f"{r.get('row')}: physical_units must be nonempty")
+    return units
+
+
+def ownerwise_exact(r):
+    units = physical_units(r)
+    if units:
+        common = set(units[0].get("exact_versions") or [])
+        for unit in units[1:]:
+            common.intersection_update(unit.get("exact_versions") or [])
+        if common != set(r.get("exact_versions") or []):
+            raise ValueError(f"{r.get('row')}: common genuine versions disagree with physical units")
+    measured = all(bool(unit.get("exact_versions")) for unit in units) if units else bool(r.get("exact_versions"))
+    if units and "ownerwise_exact_versions" in r and bool(r["ownerwise_exact_versions"]) != measured:
+        raise ValueError(f"{r.get('row')}: ownerwise genuine exactness disagrees with physical units")
+    return measured
+
+
+def dependent_units(r):
+    units = physical_units(r)
+    return [unit for unit in units if not unit.get("exact_versions")] if units else (
+        [r] if not r.get("exact_versions") else [])
+
+
+def unit_source(unit):
+    return unit.get("source") or unit.get("physical_source") or unit.get("c_path") or "?"
+
+
+def unit_cause(unit):
+    if unit.get("exact_versions"):
+        return "genuine-exact", []
+    if not any("err" not in g for g in (unit.get("genuine") or {}).values()):
+        return "genuine ASPSX cannot assemble the input", []
+    return cause(unit)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--journal", default=str(ROOT / "work/fidelity/aspsx_diff.jsonl"))
@@ -74,11 +116,24 @@ def main():
     if notex:
         P(f"\nmaspsx leg NOT exact ({len(notex)}; excluded from the fidelity counts): " + ", ".join(notex[:20]))
     base = [r for r in ok if r.get("maspsx_exact")]
+    for r in base:
+        ownerwise_exact(r)  # fail on inconsistent aggregate/owner claims
     gex = [r for r in base if r.get("exact_versions")]
-    dep = [r for r in base if not r.get("exact_versions")]
-    cant = [r for r in dep if not any("err" not in g for g in (r.get("genuine") or {}).values())]
-    P(f"\n**Rows exact under some genuine ASPSX: {len(gex)} / {len(base)}** ({100 * len(gex) / max(1, len(base)):.1f}%); "
-      f"maspsx-dependent: {len(dep)} (of which genuine ASPSX cannot assemble the input at any version: {len(cant)}).")
+    ownerwise = [r for r in base if not r.get("exact_versions") and ownerwise_exact(r)]
+    dep = [r for r in base if not r.get("exact_versions") and not ownerwise_exact(r)]
+    cant = [r for r in dep if any(
+        not any("err" not in g for g in (unit.get("genuine") or {}).values())
+        for unit in dependent_units(r))]
+    P(f"\n**Rows exact under one common genuine ASPSX version: {len(gex)} / {len(base)}** "
+      f"({100 * len(gex) / max(1, len(base)):.1f}%); "
+      f"ownerwise genuine-exact with no common version: {len(ownerwise)}; "
+      f"maspsx-dependent in at least one physical unit: {len(dep)} "
+      f"(of which a dependent unit cannot assemble at any version: {len(cant)}).")
+    modelled = [r for r in base if any(unit.get("compiler_model") or unit.get("model")
+                                     for unit in physical_units(r))]
+    if modelled:
+        P(f"\nRows with a compiler-modelled physical stream: {len(modelled)}. "
+          "Their genuine comparisons are after the named model, not direct unmodelled compiler evidence.")
     P("\nPer version (rows exact / rows assembled):\n")
     P(table(["version"] + VERSIONS,
             [["exact"] + [sum(1 for r in base if v in r.get("exact_versions", [])) for v in VERSIONS],
@@ -86,23 +141,29 @@ def main():
              ["%hi/%lo syntax errors"] + [sum(1 for r in base if (r.get("genuine") or {}).get(v, {}).get("err_kind") == "hilo") for v in VERSIONS]]))
 
     P("\n## Rows exact under genuine ASPSX: container x cell x version\n")
-    P("Cell: rows / exact under ANY version / exact per version 2.56, 2.67, 2.77, 2.79, 2.81, 2.86.\n")
+    P("Cell: rows / exact under one COMMON version / ownerwise exact with no common version / "
+      "exact per common version 2.56, 2.67, 2.77, 2.79, 2.81, 2.86. "
+      "`mixed` means physical owners use different compiler cells.\n")
     rows = []
     for cont in CONTAINERS:
         for cell in CELLS:
             rs = [r for r in base if r["container"] == cont and r.get("cell") == cell]
             if not rs:
                 continue
-            rows.append([cont, cell, len(rs), sum(1 for r in rs if r.get("exact_versions"))] +
+            rows.append([cont, cell, len(rs), sum(1 for r in rs if r.get("exact_versions")),
+                         sum(1 for r in rs if r in ownerwise)] +
                         [sum(1 for r in rs if v in r.get("exact_versions", [])) for v in VERSIONS])
         rs = [r for r in base if r["container"] == cont]
-        rows.append([f"**{cont}**", "all", len(rs), sum(1 for r in rs if r.get("exact_versions"))] +
+        rows.append([f"**{cont}**", "all", len(rs), sum(1 for r in rs if r.get("exact_versions")),
+                     sum(1 for r in rs if r in ownerwise)] +
                     [sum(1 for r in rs if v in r.get("exact_versions", [])) for v in VERSIONS])
-    rows.append(["**tree**", "all", len(base), len(gex)] + [sum(1 for r in base if v in r.get("exact_versions", [])) for v in VERSIONS])
-    P(table(["container", "cell", "rows", "any"] + VERSIONS, rows))
+    rows.append(["**tree**", "all", len(base), len(gex), len(ownerwise)] +
+                [sum(1 for r in base if v in r.get("exact_versions", [])) for v in VERSIONS])
+    P(table(["container", "cell", "rows", "common any", "ownerwise only"] + VERSIONS, rows))
 
     P("\n## Version sets (which genuine versions reproduce a row)\n")
-    vs = C(",".join(r["exact_versions"]) or "none" for r in base)
+    vs = C(",".join(r["exact_versions"]) or
+           ("ownerwise, no common version" if r in ownerwise else "none") for r in base)
     P(table(["exact under", "rows"], [[k.replace(",", ", ") if k != ",".join(VERSIONS) else "all six", v] for k, v in vs.most_common(12)]))
     P("\nOne global version per container (rows exact under that version / rows exact under ANY version):\n")
     rows = []
@@ -120,7 +181,12 @@ def main():
         f"{c} {by_cell[c][True]}/{by_cell[c][True] + by_cell[c][False]}" for c in CELLS if c in by_cell))
 
     P("\n## The -0 switch (unchecked div) and -G\n")
-    divs = [r for r in base if r.get("has_div")]
+    single_base = [r for r in base if not physical_units(r)]
+    single_gex = [r for r in gex if not physical_units(r)]
+    if len(single_base) != len(base):
+        P(f"Plural rows omitted from single-stream mode and flag statistics: {len(base) - len(single_base)}. "
+          "Their effective modes and recipes are in physical_units.tsv.\n")
+    divs = [r for r in single_base if r.get("has_div")]
     def modes(r):
         return {(r["genuine"][v].get("mode") or "") for v in r.get("exact_versions", [])}
     rows = []
@@ -134,7 +200,7 @@ def main():
         rows.append([tag, len(rs), m["exact with -0"], m["exact without -0"], m["either"], m["not genuine-exact"]])
     P(table(["rows with div/rem", "rows", "exact only with -0", "exact only without -0", "either", "not genuine-exact"], rows))
     g0 = C()
-    for r in gex:
+    for r in single_gex:
         ms = modes(r)
         if any("-G0" in x for x in ms):
             g0["exact at -G0"] += 1
@@ -142,26 +208,50 @@ def main():
             g0["cc1 -G0 but exact only at the default -G8"] += 1
     P(f"\n-G: {g0['exact at -G0']:,} genuine-exact rows were compiled by cc1 at -G0 and are exact with ASPSX `-G0`; "
       f"{g0['cc1 -G0 but exact only at the default -G8']} needed the ASPSX default -G8 instead.")
-    n_equ = sum(1 for r in gex if modes(r) and all("equ" in x for x in modes(r)))
+    n_equ = sum(1 for r in single_gex if modes(r) and all("equ" in x for x in modes(r)))
     P(f"\nC-side numeric address equates (`.set D_X, 0x...`, `D_X = 0x...`): genuine-exact rows that are exact ONLY when "
       f"the equates are assembled as constants (`.equ`), not as externals: {n_equ}. (Modes are tried externals first, "
       f"so a row whose recorded mode says `equ` failed as externals.)")
 
+    physical_lines = []
+    for r in base:
+        for unit in physical_units(r):
+            recipe = unit.get("recipe") or {}
+            k, fx = unit_cause(unit)
+            physical_lines.append("\t".join(str(x) for x in [
+                r["row"], unit_source(unit), unit.get("role") or "-", unit.get("module") or "-",
+                json.dumps(recipe, sort_keys=True, separators=(",", ":")),
+                ",".join(unit.get("functions") or []),
+                ",".join(unit.get("exact_versions") or []) or "-", unit.get("best") or "-",
+                k, ",".join(fx) or "-", ",".join(unit.get("fired") or []) or "-",
+                ",".join(unit.get("gp_externs") or []) or "-",
+                unit.get("compiler_model") or unit.get("model") or "-",
+            ]))
+    (out / "physical_units.tsv").write_text(
+        "# row\tsource\trole\tmodule\trecipe\tfunctions\texact_versions\tbest\tcause\towner_ablations\tfired_whole_unit\tgp_externs\tcompiler_model\n"
+        + "\n".join(sorted(physical_lines)) + "\n")
+
     P("\n## maspsx-dependent rows by the maspsx behaviour that made the difference\n")
-    P("Attributed at each row's closest genuine version: the maspsx leg is re-run with one behaviour removed; the "
-      "behaviour whose removal makes maspsx == genuine ASPSX is the cause. `unexplained` = no single or combined "
-      "ablation reaches genuine.\n")
+    P("For a legacy single-stream row, a listed ablation is a measured row fix. For a partitioned row, "
+      "the cause is owner-specific and any ablation is listed only in physical_units.tsv; no owner fix "
+      "is promoted to a whole-row fix. `unexplained` means no tested ablation reaches genuine for "
+      "that measured unit.\n")
     cz = C(); lines = []; by_cause = collections.defaultdict(list)
     for r in dep:
-        if r in cant:
+        plural = bool(physical_units(r))
+        if plural:
+            owner_causes = sorted({unit_cause(unit)[0] for unit in dependent_units(r)})
+            k, fx = "owner-specific: " + "; ".join(owner_causes), []
+        elif r in cant:
             k, fx = "genuine ASPSX cannot assemble the input", []
         else:
             k, fx = cause(r)
         cz[k] += 1
         by_cause[k].append(r)
-        g = (r.get("genuine") or {}).get(r.get("best"), {})
-        lines.append("\t".join(str(x) for x in [r["row"], r["container"], r.get("cfg"), r.get("asflags") or "-", r.get("pins"),
-                                                  r.get("best"), g.get("diff"), r.get("words"), k, ",".join(fx) or "-",
+        g = {} if plural else (r.get("genuine") or {}).get(r.get("best"), {})
+        lines.append("\t".join(str(x) for x in [r["row"], r["container"], r.get("cfg"), "mixed" if plural else r.get("asflags") or "-", r.get("pins"),
+                                                  "owner-specific" if plural else r.get("best"), "-" if plural else g.get("diff"),
+                                                  r.get("words"), k, ",".join(fx) or "-",
                                                   ",".join(f"{a}:{b}" for a, b in (r.get("classes") or {}).items()) or "-"]))
     (out / "maspsx_dependent.tsv").write_text("# row\tcontainer\tcfg\tasflags\tpins\tclosest_version\tdiff_words\twords\tcause\tablations_that_fix\tdiff_classes\n"
                                              + "\n".join(sorted(lines)) + "\n")
@@ -174,43 +264,72 @@ def main():
     P(table(["cause", "rows", "pin-free", "pins in these rows", "containers", "cells"], rows))
 
     P("\n## maspsx post-passes and helpers: where they fire, and who depends on them\n")
-    P("fired = the pass changed maspsx's listing for the row; dependents = rows whose ONLY route to genuine ASPSX "
-      "is removing this behaviour (its single ablation makes maspsx == genuine); neutral = fired on a row that some "
-      "genuine version still reproduces (the pass imitates genuine ASPSX there, or its change is undone downstream).\n")
-    fired = C(); neutral = C(); deps = collections.defaultdict(list)
+    P("fired = the pass changed a whole physical compilation unit's listing, counted once per logical row; "
+      "it may have fired outside that row's scoped functions. Whole-row dependents below exclude owner-only "
+      "ablations, which are listed separately in pass_dependents_physical.tsv.\n")
+    fired = C(); neutral = C(); owner_neutral = C(); deps = collections.defaultdict(list)
     for r in base:
         for p in r.get("fired") or []:
             fired[p] += 1
             if r.get("exact_versions"):
                 neutral[p] += 1
+            elif r in ownerwise:
+                owner_neutral[p] += 1
     for r in dep:
+        if physical_units(r):
+            continue
         a = (r.get("attrib") or {}).get(r.get("best")) or {}
         for f in a.get("fix") or []:
             if f.startswith("no:_"):
                 deps[f[3:]].append(r["row"])
     plines = [f"{p}\t{rid}" for p in sorted(deps) for rid in sorted(deps[p])]
     for r in dep:
+        if physical_units(r):
+            continue
         a = (r.get("attrib") or {}).get(r.get("best")) or {}
         if "extern-abs" in (a.get("fix") or []):
             plines.append(f"small-extern-gp\t{r['row']}")
     (out / "pass_dependents.tsv").write_text("# maspsx behaviour\tdependent row\n" + "\n".join(plines) + "\n")
-    names = sorted(set(fired) | set(deps), key=lambda p: (-len(deps.get(p, [])), -fired[p]))
-    P(table(["pass / helper", "fired on rows", "dependents", "fired but genuine-exact"],
-            [[f"`{p}`", fired[p], len(deps.get(p, [])), neutral[p]] for p in names]))
+    owner_deps = collections.defaultdict(set)
+    for r in dep:
+        for unit in dependent_units(r) if physical_units(r) else []:
+            a = (unit.get("attrib") or {}).get(unit.get("best")) or {}
+            for fix in a.get("fix") or []:
+                if fix.startswith("no:_"):
+                    owner_deps[fix[3:]].add((r["row"], unit_source(unit)))
+                elif fix == "extern-abs":
+                    owner_deps["small-extern-gp"].add((r["row"], unit_source(unit)))
+    (out / "pass_dependents_physical.tsv").write_text(
+        "# maspsx behaviour\tlogical row\tphysical source\tscope\n" +
+        "\n".join(f"{p}\t{row}\t{source}\towner-only"
+                  for p in sorted(owner_deps) for row, source in sorted(owner_deps[p])) + "\n")
+    names = sorted(set(fired) | set(deps) | set(owner_deps),
+                   key=lambda p: (-len(deps.get(p, [])), -len(owner_deps.get(p, [])), -fired[p]))
+    P(table(["pass / helper", "fired on logical rows", "whole-row dependents", "owner-only rows",
+             "fired but common-version exact", "fired but ownerwise exact"],
+            [[f"`{p}`", fired[p], len(set(deps.get(p, []))),
+              len({row for row, _ in owner_deps.get(p, set())}), neutral[p], owner_neutral[p]]
+             for p in names]))
 
     P("\n## Small-extern `$gp` model (decision 3)\n")
     gp = [r for r in base if r.get("n_gp_externs")]
-    fixed = [r for r in gp if "extern-abs" in (((r.get("attrib") or {}).get(r.get("best")) or {}).get("fix") or [])]
+    fixed = [r for r in gp if not physical_units(r) and
+             "extern-abs" in (((r.get("attrib") or {}).get(r.get("best")) or {}).get("fix") or [])]
+    owner_fixed = [r for r in gp if physical_units(r) and any(
+        "extern-abs" in (((unit.get("attrib") or {}).get(unit.get("best")) or {}).get("fix") or [])
+        for unit in dependent_units(r))]
     syms = C()
     for r in gp:
         for s in r.get("gp_externs") or []:
             syms[s] += 1
-    P(f"Rows whose maspsx object (= retail) addresses a symbol the TU does NOT define through `$gp`: **{len(gp)}** "
-      f"({len(syms)} distinct symbols, {sum(r['n_gp_externs'] for r in gp)} row-symbol pairs). Genuine ASPSX 2.56-2.86 "
-      f"never does this (every `.extern` absolute, `-G` included); so each of these rows is maspsx-dependent unless its TU "
-      f"defines the symbol. Rows where withholding the `.extern` sizes alone makes maspsx == genuine: {len(fixed)}.\n")
-    P(table(["container", "cell", "rows", "extern-abs alone reaches genuine"],
-            [[c, cl, n, sum(1 for r in fixed if r["container"] == c and r.get("cell") == cl)]
+    P(f"Logical rows with a scoped physical unit that addresses an external symbol through `$gp`: **{len(gp)}** "
+      f"({len(syms)} distinct symbols, {sum(r['n_gp_externs'] for r in gp)} unique row-symbol pairs). "
+      f"Single-stream rows where withholding `.extern` sizes alone reaches genuine: {len(fixed)}; "
+      f"plural rows with that result for at least one owner only: {len(owner_fixed)}. "
+      "The latter is not a measured whole-row repair; owner symbols and causes are in physical_units.tsv.\n")
+    P(table(["container", "cell", "rows", "single-stream extern-abs fixes", "owner-only extern-abs rows"],
+            [[c, cl, n, sum(1 for r in fixed if r["container"] == c and r.get("cell") == cl),
+              sum(1 for r in owner_fixed if r["container"] == c and r.get("cell") == cl)]
              for (c, cl), n in sorted(C((r["container"], r.get("cell")) for r in gp).items())]))
     (out / "gp_extern_rows.tsv").write_text("# row\tcfg\tpins\tn_gp_externs\tsymbols\n" + "\n".join(
         f"{r['row']}\t{r.get('cfg')}\t{r.get('pins')}\t{r['n_gp_externs']}\t{','.join(r.get('gp_externs') or [])}"
@@ -220,12 +339,17 @@ def main():
     P("\n## Difference classes (maspsx vs the closest genuine version, maspsx-dependent rows)\n")
     cls = C()
     for r in dep:
-        for k, v in (r.get("classes") or {}).items():
+        keys = set((r.get("classes") or {}).keys())
+        for unit in physical_units(r):
+            keys.update((unit.get("classes") or {}).keys())
+        for k in keys:
             cls[k] += 1
     P(table(["class", "rows"], cls.most_common()))
     P("\n## Pins\n")
     P(table(["", "rows", "pin-free rows", "pins"],
             [["genuine-exact", len(gex), sum(1 for r in gex if not r.get("pins")), sum(r.get("pins") or 0 for r in gex)],
+             ["ownerwise exact, no common version", len(ownerwise), sum(1 for r in ownerwise if not r.get("pins")),
+              sum(r.get("pins") or 0 for r in ownerwise)],
              ["maspsx-dependent", len(dep), sum(1 for r in dep if not r.get("pins")), sum(r.get("pins") or 0 for r in dep)]]))
 
 

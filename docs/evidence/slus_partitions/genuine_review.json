@@ -1,0 +1,35 @@
+{
+  "tool_sha256": {
+    "tools/fidelity/aspsx_diff.py": "a5b63d4b068650b20001a09cc16fe18f166ba725a94f1c4e75cf9833533c060d",
+    "tools/fidelity/aspsx_report.py": "3d47b2f6e2473c1dbac79cf154547ad10dafdc59a3593316d106f024df69b752",
+    "tools/fidelity/cell_retail_check.py": "af931685d4f225a9dce9d1dac81606e58cfb69a825396fece772c5750ed9df13"
+  },
+  "matching_private_candidates": {
+    "tools/fidelity/aspsx_diff.py": true,
+    "tools/fidelity/aspsx_report.py": true,
+    "tools/fidelity/cell_retail_check.py": true
+  },
+  "probe_sha256": "02dd66d069a45a0a7d00884be8f0bd1dea66b31d0f2414abb2fec42e278e19db",
+  "receipt_sha256": "bee77d6a27e1550786b9287f456efde28a9e88fea7b99282df3af041726e70e2",
+  "regression": {
+    "slus_tests_passed": 117,
+    "related_tests_passed": 25,
+    "row_database": "OK",
+    "commands": [
+      "python3 -m unittest discover -s tools/tests -p 'test_slus_*.py'",
+      "python3 -m unittest tools.tests.test_aspsx_diff tools.tests.test_cell_retail_check tools.tests.test_configure_slus_modules"
+    ]
+  },
+  "production_gate": {
+    "at": "2026-09-24T18:39:02Z",
+    "result": "MATCH",
+    "tus": 873,
+    "recipe_sha256": "cce6e9580c32bd7dd4c159fa58e4a5d89a6ba4944e9b125e6e1d5035fe305b46",
+    "recipe_vs_pinned": "identical",
+    "secs": 0,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "runtime_certificate_sha256": "3901b1863b7cb23ba9bdcc7d957ebaee82ea3f579974b5b538d2cadcc762334f",
+  "production_partition_plan_active": false,
+  "production_assembler_changed": false
+}
