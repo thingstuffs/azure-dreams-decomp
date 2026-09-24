@@ -478,7 +478,7 @@ CC_VER = {
     "src/w_80059E94.c": ("2.8.1", "-fno-schedule-insns"),
     "src/w_8005A778.c": ("2.7.2-cdk", ""),
     "src/w_800429E4.c": ("2.7.2-cdk", ""),
-    "src/w_8005A1D0.c": ("2.7.2", ""),
+    "src/w_8005A1D0.c": ("2.7.2-cdk", ""),  # r77: C at the retail-proven splitting cell (was a .word paste)
     "src/w_80059DAC.c": ("2.7.2-cdk", ""),
     "src/w_80046A5C.c": ("2.7.2", ""),
     "src/w_80044BB0.c": ("2.7.2", ""),

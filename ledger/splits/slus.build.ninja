@@ -4080,7 +4080,7 @@ build build/src/w_80059F8C.o: cc src/w_80059F8C.c | tools/cc.sh tools/ccproc.py
   asflags = 
 
 build build/src/w_8005A1D0.o: cc src/w_8005A1D0.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.7.2-cdk
   ccflags = 
   asflags = 
 

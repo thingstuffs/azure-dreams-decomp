@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T03:16:55Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T04:11:30Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -27,19 +27,19 @@ Baseline NOT exact: 0 rows
 | ASM_ pins | 2135 | 1,465,048 | 57.3% | 796 | 771,240 | 30.1% |
 | goto | 1545 | 1,318,412 | 51.5% | 1603 | 1,367,280 | 53.4% |
 | computed-goto jump table | 317 | 437,288 | 17.1% | 315 | 435,848 | 17.0% |
-| inline asm outside macros | 362 | 256,260 | 10.0% | 276 | 231,768 | 9.1% |
+| inline asm outside macros | 362 | 256,260 | 10.0% | 275 | 231,536 | 9.1% |
 | fidelity blocking site (LABEL_AS_CALL/PASSTHRU_NO_ARGS) | 1489 | 680,132 | 26.6% | 308 | 157,064 | 6.1% |
 | any fidelity site | 2655 | 1,286,668 | 50.3% | 1778 | 960,508 | 37.5% |
 | noreturn tail-call spelling (scaffolding, docs/FIDELITY.md) | 751 | 560,500 | 21.9% | 123 | 106,692 | 4.2% |
 | maspsx marker pins (scaffolding) | 393 | 351,556 | 13.7% | 5 | 5,468 | 0.2% |
 | do{}while(0) scheduling barrier (scaffolding, pure C) | 227 | 156,176 | 6.1% | 357 | 252,808 | 9.9% |
 | fake dependency x=(e)+a;x-=a / arg+v-v (scaffolding, pure C) | 1 | 408 | 0.0% | 2 | 820 | 0.0% |
-| local address-named struct | 633 | 346,988 | 13.6% | 3152 | 1,621,112 | 63.4% |
+| local address-named struct | 633 | 346,988 | 13.6% | 3153 | 1,621,344 | 63.4% |
 | clean shape (none of boiler/M2C_FIELD/pins/goto/m2c names) | 632 | 156,440 | 6.1% | 3083 | 549,136 | 21.5% |
 
 Pin sites now: 3,207 in 795 rows; REG 1,518, KEEP 724, KEEP_NV 447, SCHED_BARRIER 158, KEEP_DEP_NV 78, USE_NV 50, USE 43, CLOBBER 36.  At the pin: 25,759; REG 12,778, KEEP 6,854, KEEP_NV 2,500, SCHED_BARRIER 1,349, TAILSLOT_PIN 499, USE 294, USE_NV 260, KEEP_DEP_NV 184.
 
-Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 5 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 434.
+Hidden scaffolding, not in the pin count (`pin_census.hidden_asm`): raw asm statements 3, calls of local asm wrappers 0, hand-written asm in function bodies 5 (C that is missing); symbol aliases 111 (a second typed name for one symbol: a missing type); file-scope asm directives 433.
 
 Per-row optimization flags (weak evidence about the real build; each switch is undone from the `t30_cellpins` journal's `cell_from`): 291 rows carry one flag, 41 carry two or more.
 
