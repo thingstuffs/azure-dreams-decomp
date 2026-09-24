@@ -118,3 +118,30 @@ metrics coherently, then extend the proven data-recovery approach. Repair the
 measurement-path discrepancy and finish the CD-control integration in parallel.
 Preserve production defaults until the coordinated repair passes required gates
 and any remaining owner sign-off.
+
+### Build-helper checkpoint
+
+`tools/build/slus_modules.py` now provides optional manifest validation, expansion
+of physical module edges into stable logical row records, verified raw-asset
+carving, ordered linker-slot replacement, and removal of the corresponding
+absolute symbol assignments. The helper is not wired into production yet; no
+module manifest is active. All 13 contract tests in
+`tools/tests/test_slus_modules.py` pass, including negative cases for mismatched
+row IDs, ambiguous linker slots, changed assets and invalid ownership records.
+A read-only check against the actual SLUS asset verifies the four-byte initializer,
+EXE address mapping, prefix/data/suffix boundaries (0..44, 44..48, 48..179648),
+and removal of exactly one absolute assignment.
+
+The proposed integration keeps canonical per-row source fragments and stable row
+IDs; a standard C aggregator includes the members and shared header and owns the
+data definition. Only the aggregator is compiled. The three-row pilot therefore
+has 882 physical SLUS compilation edges but still 884 logical rows. These are
+integration targets, not current production counts.
+
+Unfinished verifier/context edits are retained as an inactive draft under
+`work/native_lane/slus_module_integration/`; production verification remains
+unchanged. Before activation, finish configure/exported-config support, logical
+ledger expansion, recipe-lander safeguards, context-aware ASPSX measurement and
+receipt invalidation. Prove that edits rebuild the entire module, a sibling
+regression fails the full-image gate, and conflicting member recipes are refused.
+The consumer audit is recorded under `work/native_lane/slus_module_consumers/`.
