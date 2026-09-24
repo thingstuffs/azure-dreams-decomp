@@ -104,36 +104,33 @@ extern u8 D_801744FC[];
 /* Allocate and initialize an object, its part, and linked child entries. */
 void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
 {
-    struct {
-        void *root;
-        void *copy;
-        s32 outer_index;
-    } stack;
+    void *root;
+    void *copy;
+    s32 outer_index;
     s32 saved_kind;
     s32 saved_copy_value;
     s16 saved_tile_y;
+    u16 saved_tile_x;
     void *object;
-    register void *outer ASM_REG("$20");
+    void *outer;
     void *stable_object;
     s32 kind_copy;
-    register void *part ASM_REG("$23");
+    void *part;
     void *allocated;
-    register uptr scratch_word ASM_REG("$8");
     s32 allocation_size;
     void *allocation_pool;
 
     saved_kind = kind;
     object = 0;
     allocation_size = 0x112;
-    ASM_KEEP_NV(allocation_size);
-    outer = (void *)(s32)tile_x;
+    saved_tile_x = tile_x;
     allocation_pool = D_80083498;
 
     saved_copy_value = copy_value;
     saved_tile_y = tile_y;
     allocated = func_8003FD64(allocation_size, allocation_pool);
     kind_copy = saved_kind;
-    stack.root = allocated;
+    root = allocated;
     if (allocated == 0) {
         goto done;
     }
@@ -153,17 +150,14 @@ void *func_8017089C(s32 kind, s32 tile_x, s32 tile_y, s32 copy_value)
     {
         void *part_callback;
 
-        scratch_word = (uptr)stack.root;
         part_callback = D_80174494;
-        scratch_word = (uptr)((S_8017089C_2 *)((void *)scratch_word))->unk_08.at00.v;
-        stack.copy = (void *)scratch_word;
-        ((S_8017089C_2 *)((void *)scratch_word))->unk_08.at02.v = saved_copy_value;
-        scratch_word = (uptr)stack.root;
+        copy = ((S_8017089C_2 *)root)->unk_08.at00.v;
+        ((S_8017089C_2 *)copy)->unk_08.at02.v = saved_copy_value;
         stable_object = object;
-        part = ((S_8017089C_2 *)((void *)scratch_word))->unk_0C;
+        part = ((S_8017089C_2 *)root)->unk_0C;
         ((S_8017089C_3 *)part)->unk_2C = part_callback;
     }
-    ((S_8017089C_3 *)part)->unk_24 = (s8)(s32)outer;
+    ((S_8017089C_3 *)part)->unk_24 = saved_tile_x;
     ((S_8017089C_3 *)part)->unk_25 = saved_tile_y;
 
     {
@@ -204,10 +198,10 @@ flags_done:
         ;
     }
 
-    func_800A9C18(stack.root, stack.copy, part, (s16)kind_copy);
+    func_800A9C18(root, copy, part, (s16)kind_copy);
 
     outer = stable_object;
-    stack.outer_index = 0;
+    outer_index = 0;
     ((S_8017089C_4 *)stable_object)->unk_9A = 0xFF;
     ((S_8017089C_4 *)stable_object)->unk_9C = -1;
     ((S_8017089C_4 *)stable_object)->unk_8C = D_801713A8;
@@ -218,7 +212,6 @@ flags_done:
     ((S_8017089C_4 *)stable_object)->unk_98 |= 0x4000;
 
     do {
-        register u8 *table_page ASM_REG("$2");
 
         saved_copy_value = (s32)func_8003FD64(0x112, D_80083498);
         allocated = (void *)saved_copy_value;
@@ -231,14 +224,10 @@ flags_done:
             s32 more_items;
 
             saved_kind = (s32)((u8 *)allocated + 0x20);
-            scratch_word = 1;
-            ((S_8017089C_6 *)(void *)saved_kind)->unk_02 = (s16)scratch_word;
+            ((S_8017089C_6 *)(void *)saved_kind)->unk_02 = 1;
             item_index = 0;
             outer_base = outer;
-            {
-
-                table = D_801744E4;
-            }
+            table = D_801744E4;
             item_offset = 8;
             do {
                 void *item;
@@ -254,52 +243,34 @@ flags_done:
                 ((S_8017089C_7 *)item)->unk_0C = 0x00808080;
                 ((S_8017089C_7 *)item)->unk_28 = part_value;
                 outer_child = ((S_8017089C_8 *)outer_base)->unk_A4;
-                ASM_KEEP(outer_child);
                 call_zero = 0;
-                ASM_KEEP(call_zero);
-                scratch_word = (uptr)D_800D78C0;
-                ((S_8017089C_9 *)outer_child)->unk_10 = (void *)scratch_word;
+                ((S_8017089C_9 *)outer_child)->unk_10 = D_800D78C0;
                 (*(void * *)((u8 *)item + 0x2C)) = table;
                 direction_index = ((D_80083228 +
                     ((S_8017089C_1 *)object)->unk_2A + 0x100) >> 9) & 7;
-                item_offset += 0x30;
                 func_80047784(item,
                     *(u8 *)((uptr)direction_index + (uptr)table), call_zero);
+                item_offset += 0x30;
                 item_index++;
-                {
-                    register void *call_part ASM_REG("$4");
-                    register void *call_data ASM_REG("$5");
-
-                    call_part = part;
-                    call_data = D_800D71A8;
-                    call_zero = 1;
-                    ASM_KEEP(call_zero);
-                    scratch_word = (uptr)call_zero;
-                    ((S_8017089C_6 *)(void *)saved_kind)->unk_06 = (s16)scratch_word;
-                    func_800478E8(call_part, call_data, call_zero);
-                }
-                scratch_word = (uptr)stack.root;
-                table_page = (u8 *)((u8 *)scratch_word + 0x1E);
+                ((S_8017089C_6 *)(void *)saved_kind)->unk_06 = 1;
+                func_800478E8(part, D_800D71A8, 1);
                 more_items = item_index < ((S_8017089C_6 *)(void *)saved_kind)->unk_02;
-                ((S_8017089C_6 *)(void *)saved_kind)->unk_98 = (void *)table_page;
+                ((S_8017089C_6 *)(void *)saved_kind)->unk_98 = (u8 *)root + 0x1E;
             } while (more_items);
         }
         outer = (u8 *)outer + 4;
         {
             s32 child_count;
 
-            scratch_word = (uptr)stack.outer_index;
             child_count = ((S_8017089C_4 *)stable_object)->unk_9E;
-            scratch_word++;
-            stack.outer_index = (s32)scratch_word;
-            table_page = (u8 *)((void *)((s32)scratch_word < child_count));
-            if (!(s32)(void *)table_page) {
+            outer_index++;
+            if (outer_index >= child_count) {
                 break;
             }
         }
     } while (1);
 
-    func_800AA36C(stable_object, stack.copy, part, object);
+    func_800AA36C(stable_object, copy, part, object);
 
 done:
     return object;

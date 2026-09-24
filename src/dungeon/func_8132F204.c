@@ -74,9 +74,7 @@ extern M2C_UNK D_800DE870;
 extern M2C_UNK D_80165A0C;
 
 /* Creates an offset effect with randomized motion and initializes its display properties. */
-void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s32 offset_x, s32 offset_y, s32 offset_z, s32 velocity_z) {
-    register s32 saved_offset_y ASM_REG("$19") = offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    s32 saved_offset_z = offset_z;
+void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s16 offset_x, s16 offset_y, s16 offset_z, s32 velocity_z) {
     register s32 color_component ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 sprite_flags;
     S_80166204_2 *sprite;
@@ -87,10 +85,8 @@ void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s32 offse
     if (effect != NULL) {
         ((S_80166204_0 *)effect)->unk_10 = &D_80165A0C;
         ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_02 = (s16) (((S_80166204_6 *)(source->unk_08))->unk_02 + offset_x);
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_06 = (s16) (((S_80166204_6 *)(source->unk_08))->unk_06 + saved_offset_y);
-        ASM_KEEP(saved_offset_y);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_0A = (s16) (((S_80166204_6 *)(source->unk_08))->unk_0A + saved_offset_z);
-        ASM_KEEP(saved_offset_z);   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_06 = (s16) (((S_80166204_6 *)(source->unk_08))->unk_06 + offset_y);
+        ((S_80166204_5 *)(((S_80166204_3 *)effect)->unk_08))->unk_0A = (s16) (((S_80166204_6 *)(source->unk_08))->unk_0A + offset_z);
         effect_state = effect + 0x20;
         effect_state->unk_42 = (u16) ((S_80166204_6 *)(source->unk_08))->unk_02;
         effect_state->unk_44 = (u16) ((S_80166204_6 *)(source->unk_08))->unk_06;
@@ -119,6 +115,7 @@ void func_80166204(S_80166204_4 *source, s16 effect_value, s32 unused, s32 offse
     }
 }
 
-/* MECHANISM: Seven ABI arguments preserve the unused a2 slot; guarded s3/s4
-   locals hold stack inputs offset_y/offset_z across the allocator-crossing first call.
-   A v1 byte-value pin plus volatile midpoint and tied keep preserve the v0 RMW chain. */
+/* MECHANISM: Seven ABI arguments preserve the unused a2 slot; offset_x/y/z are s16
+   parameters, so assign_parms converts them instead of marking the stack slots REG_EQUIV,
+   and they stay in s0/s3/s4 across the first call. A v1 byte-value pin plus the volatile
+   midpoint preserve the v0 RMW chain. */

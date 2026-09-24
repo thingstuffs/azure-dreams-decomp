@@ -47,12 +47,9 @@ typedef struct S_801713A8_2 {
 /* Update entity callbacks, movement, sprite direction, and ground-relative height. */
 void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
 {
-    register void *entity_base ASM_REG("$19") = entity;
+    void *entity_base = entity;
     s16 old_state;
     u8 old_state_byte;
-    void *call_entity;
-    void *call_motion;
-    void *call_sprite;
     s32 height_offset;
     s32 height_offset_2;
     u16 height_bits;
@@ -71,21 +68,16 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_801719DC) {
-            entity_base = (void *)entry_callback;
-            ((Callback)entity_base)(entry_entity, motion, sprite, entry_entity);
+            entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
         (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
         return;
     }
 
-    call_entity = entity;
-    call_motion = motion;
-    call_sprite = sprite;
-    ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base);
     old_state_byte = (*(u8 *)((u8 *)entity + 0x6D));
     old_state = (s8)old_state_byte;
-    if (func_800A9E70(call_entity, call_motion, call_sprite, entity) != 0) {
+    if (func_800A9E70(entity, motion, sprite, entity) != 0) {
         return;
     }
 
@@ -204,20 +196,10 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
             height_accum += height_work;
             (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
             height_offset = motion_flags & 8;
-            if (height_offset == 0) {
-                ground_height = func_800BCB04(motion->unk_00.at02.v,
-                                      motion->unk_04.at02.v,
-                                      (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -
-                        ((S_801713A8_2 *)entity_base)->unk_88;
-                if (ground_height < (*(s16 *)((u8 *)entity + 0x92))) {
-                    (*(s16 *)((u8 *)entity + 0x92)) = ground_height;
-                    (*(u8 *)((u8 *)entity + 0x9D)) = 0;
-                    motion->unk_14 = 0;
-                    ((S_801713A8_2 *)entity_base)->unk_1C |= 0x08000000;
-                    goto finish_motion;
-                }
+            if (height_offset != 0) {
+                goto finish_motion;
             }
-            goto finish_motion;
+            goto ground_call;
         }
     }
 
@@ -239,6 +221,7 @@ void func_801713A8(void *entity, S_801713A8_0 *motion, void *sprite)
         (*(s32 *)((u8 *)entity + 0x90)) = height_accum;
         height_offset = motion_flags & 8;
         if (height_offset == 0) {
+ground_call:
             ground_height = func_800BCB04(motion->unk_00.at02.v,
                                   motion->unk_04.at02.v,
                                   (s16)(((S_801713A8_2 *)entity_base)->unk_88 - 0x20)) -

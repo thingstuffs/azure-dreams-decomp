@@ -30,14 +30,14 @@ void func_800255E8(void *effect, void *motion, void *rotation)
     s32 green_a;
     s32 blue_a;
     s32 red_b;
-    register s32 green_b ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    register s32 blue_b ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    s32 green_b;
+    s32 blue_b;
     s32 red_step_a;
     s32 green_step_a;
     s32 blue_step_a;
     s32 red_step_b;
-    register s32 green_step_b ASM_REG("$11");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 blue_step_b ASM_REG("$9");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s32 green_step_b;
+    s32 blue_step_b;
     s16 frames_left;
     s32 frames_test;
 
@@ -97,47 +97,19 @@ void func_800255E8(void *effect, void *motion, void *rotation)
     U16_AT(effect, 0x4E) = scratch[0xB2 / 2] + U16_AT(motion_state, 6);
     U16_AT(effect, 0x38) = scratch[0x9C / 2] + U16_AT(motion_state, 0xA);
 
-    red_a = U8_AT(effect, 0x54);
-    ASM_KEEP_NV(red_a);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    red_step_a = red_a / S16_AT(effect, 0x1A);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    green_a = U8_AT(effect, 0x55);
-    ASM_KEEP_NV(green_a);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    green_step_a = green_a / S16_AT(effect, 0x1A);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    blue_a = U8_AT(effect, 0x56);
-    ASM_KEEP_NV(blue_a);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    blue_step_a = blue_a / S16_AT(effect, 0x1A);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    red_b = U8_AT(effect, 0x58);
-    ASM_KEEP_NV(red_b);   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    red_step_b = red_b / S16_AT(effect, 0x1A);
-    ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-    green_b = U8_AT(effect, 0x59);
-    green_step_b = green_b / S16_AT(effect, 0x1A);
     U16_AT(effect, 0x40) = scratch[0xA4 / 2] + U16_AT(motion_state, 0xA);
-    blue_b = U8_AT(effect, 0x5A);
-
-    blue_step_b = blue_b / S16_AT(effect, 0x1A);
     U16_AT(effect, 0x48) = scratch[0xAC / 2] + U16_AT(motion_state, 0xA);
     U16_AT(effect, 0x50) = scratch[0xB4 / 2] + U16_AT(motion_state, 0xA);
+    U8_AT(effect, 0x54) -= U8_AT(effect, 0x54) / S16_AT(effect, 0x1A);
+    U8_AT(effect, 0x55) -= U8_AT(effect, 0x55) / S16_AT(effect, 0x1A);
+    U8_AT(effect, 0x56) -= U8_AT(effect, 0x56) / S16_AT(effect, 0x1A);
+    U8_AT(effect, 0x58) -= U8_AT(effect, 0x58) / S16_AT(effect, 0x1A);
+    U8_AT(effect, 0x59) -= U8_AT(effect, 0x59) / S16_AT(effect, 0x1A);
+    U8_AT(effect, 0x5A) -= U8_AT(effect, 0x5A) / S16_AT(effect, 0x1A);
     frames_left = (u16)S16_AT(effect, 0x1A) - 1;
     S16_AT(effect, 0x1A) = frames_left;
     frames_test = frames_left << 16;
 
-    red_a -= red_step_a;
-    green_a -= green_step_a;
-    blue_a -= blue_step_a;
-    red_b -= red_step_b;
-    green_b -= green_step_b;
-    blue_b -= blue_step_b;
-    ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    U8_AT(effect, 0x54) = red_a;
-    U8_AT(effect, 0x55) = green_a;
-    U8_AT(effect, 0x56) = blue_a;
-    U8_AT(effect, 0x58) = red_b;
-    U8_AT(effect, 0x59) = green_b;
-    U8_AT(effect, 0x5A) = blue_b;
 
     if (frames_test <= 0) {
         U16_AT(effect, -2) |= 0x8000;
