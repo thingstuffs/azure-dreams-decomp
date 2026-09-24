@@ -11,6 +11,25 @@ slus rows    : compile the TU through the same three-step pipeline cc.sh uses (g
 
     python3 tools/verify.py town/func_800A0284 cand.c [--regions]
     python3 tools/verify.py --baseline [--workers 6] [--container town] [--limit 50]
+    python3 tools/verify.py --rebaseline-slus slus/w_8005A1D0[,slus/...] [--dry-run]
+
+slus re-baseline (fidelity step 4, 2026-09-24): the slus reference (ledger/cache/slus_obj.json +
+slus_dis/<tu>.txt) is built ONCE from raw/ at the registered recipe, so it goes stale when a slus row's
+text or recipe changes on purpose (slus/w_8005A1D0: a .word paste landed as C at 2.7.2-cdk reads
+`length-drift` although the SLUS SHA-1 gate matches; every recipe move of tools/fidelity/land_recipe_move.py
+does the same).  `rebaseline_slus(ids)` re-derives the reference of the NAMED rows only, from the LANDED
+src/slus text at the LANDED recipe, and only when the SLUS gate has proven exactly that object:
+  1. the last ledger/gate_slus.jsonl record is MATCH, built the pinned recipe (`recipe_vs_pinned`
+     identical and its recipe_sha256 = sha256 of ledger/splits/slus.build.ninja);
+  2. build_slus/build.ninja is the pinned recipe and its cc edge for the TU carries the row's cell/flags;
+  3. the gated object build_slus/build/src/<tu>.o is older than the image's sha1 stamp (.ok): the
+     sha1 check ran on an image linked from it;
+  4. the object compiled now from src/ at the row's recipe (compile_slus, include/) has the same
+     disassembly (objdump -d -r lines) as the gated object - so the reference is what the gate linked.
+Any failed check refuses that row and writes nothing for it.  The cache entry keeps `src_sha` (the
+raw text's, as --baseline writes it) and gains `rebaselined` {at, cfg, clean_sha, gate_at}; the
+object sha stored is compile_slus's (what verify_slus compares candidates against).  ledger/baseline.jsonl
+is not touched (it records raw/).  Existing callers see no change unless a row is re-baselined.
 """
 import argparse, json, os, re, subprocess, sys, tempfile, time
 from concurrent.futures import ThreadPoolExecutor
@@ -384,6 +403,111 @@ def baseline_slus(row):
         (CACHE / "slus_dis" / (row["id"].split("/")[1] + ".txt")).write_text("\n".join(disasm(obj)) + "\n")
         return {"id": row["id"], "status": "ok", "exact": None, "obj_sha": h, "secs": round(time.time() - t0, 2)}
 
+# ---------------------------------------------------------------- slus re-baseline (fidelity step 4)
+def _slus_gate_evidence(gate_log=None, pinned=None):
+    """(ok, detail, record): the last SLUS gate record proves the pinned recipe's image."""
+    gate_log = Path(gate_log) if gate_log else LEDGER / "gate_slus.jsonl"
+    pinned = Path(pinned) if pinned else LEDGER / "splits" / "slus.build.ninja"
+    recs = read_jsonl(gate_log)
+    if not recs:
+        return False, "no SLUS gate record", None
+    g = recs[-1]
+    if g.get("result") != "MATCH":
+        return False, "last SLUS gate is %s" % g.get("result"), g
+    if g.get("recipe_vs_pinned") != "identical":
+        return False, "last SLUS gate built a recipe that %s the pinned copy" % g.get("recipe_vs_pinned"), g
+    if not pinned.exists() or sha_file(pinned) != g.get("recipe_sha256"):
+        return False, "the pinned recipe changed after the last SLUS gate (recipe sha differs)", g
+    return True, "SLUS gate MATCH at %s" % g.get("at"), g
+
+
+def _obj_lines(obj):
+    """objdump -d -r instruction and relocation lines, per section (the comparison rebaseline makes), with
+    readable symbol names spelled as their func_<addr> originals: the gate's ccproc renames through
+    config/names.tsv (build_slus/config), compile_slus's does not, and the link resolves both to one address."""
+    r = subprocess.run(["mipsel-linux-gnu-objdump", "-d", "-r", str(obj)], capture_output=True, text=True)
+    canon = _names_to_func()
+    def fix(l):
+        m = re.match(r"^(\s+[0-9a-f]+:\s+R_MIPS_\w+\s+)(\S+)$", l)
+        return m.group(1) + canon.get(m.group(2), m.group(2)) if m else re.sub(r"<([^>+]+)", lambda q: "<" + canon.get(q.group(1), q.group(1)), l)
+    return [fix(l) for l in r.stdout.splitlines() if re.match(r"^\s+[0-9a-f]+:\s", l) or l.startswith("Disassembly of section")]
+
+
+def _names_to_func():
+    """{readable name: func_<addr>} from config/names.tsv (the alias layer canonical_spelling reads)."""
+    p = ROOT / "config" / "names.tsv"; table = {}
+    if p.exists():
+        for raw in p.read_text(errors="replace").splitlines():
+            cols = raw.split("#", 1)[0].rstrip().split("\t")
+            if len(cols) >= 3 and cols[1].strip() and cols[2].strip() and cols[2].strip() != cols[1].strip():
+                table[cols[2].strip()] = cols[1].strip()
+    return table
+
+
+def rebaseline_slus(ids, dry_run=False, cache=None, build_root=None, gate_log=None, pinned=None, include_root=None):
+    """Re-derive the slus reference of the named rows from the landed src at the landed recipe, gated on
+    the SLUS SHA-1 gate having linked exactly that object (module docstring).  -> [{id, outcome, detail}].
+    `cache`/`build_root`/`gate_log`/`pinned` default to ledger/cache, build_slus/, ledger/gate_slus.jsonl
+    and ledger/splits/slus.build.ninja (tests point them at copies)."""
+    global _slus_base
+    from common import clean_path, sha_text
+    cache = Path(cache) if cache else CACHE
+    build_root = Path(build_root) if build_root else ROOT / "build_slus"
+    pinned = Path(pinned) if pinned else LEDGER / "splits" / "slus.build.ninja"
+    inc = Path(include_root) if include_root else ROOT / "include"
+    by = {r["id"]: r for r in rows()}
+    ok, why, g = _slus_gate_evidence(gate_log, pinned)
+    out = []
+    recipe = (build_root / "build.ninja").read_text() if (build_root / "build.ninja").exists() else ""
+    stamp = build_root / "build" / "slus_006.14.ok"
+    objp = cache / "slus_obj.json"
+    table = json.loads(objp.read_text()) if objp.exists() else {}
+    changed = {}
+    for rid in ids:
+        row = by.get(rid)
+        if row is None or row["kind"] != "slus":
+            out.append({"id": rid, "outcome": "refused", "detail": "not a slus row"}); continue
+        if not ok:
+            out.append({"id": rid, "outcome": "refused", "detail": why}); continue
+        if not pinned.exists() or recipe != pinned.read_text():
+            out.append({"id": rid, "outcome": "refused", "detail": "build_slus/build.ninja is not the pinned recipe"}); continue
+        stem = Path(row["c_path"]).stem
+        m = re.search(r"^build build/src/%s\.o: cc src/%s\.c[^\n]*\n  ccver = ([^\n]*)\n  ccflags = ([^\n]*)\n"
+                      % (re.escape(stem), re.escape(stem)), recipe, re.M)
+        if not m or m.group(1).strip() != row["cell"] or m.group(2).strip() != (row["flags"] or "").strip():
+            out.append({"id": rid, "outcome": "refused", "detail": "the gated recipe's edge for %s is %s, the row says %s %s"
+                        % (stem, m.groups() if m else None, row["cell"], row["flags"])}); continue
+        gobj = build_root / "build" / "src" / f"{stem}.o"
+        if not gobj.exists() or not stamp.exists() or stamp.stat().st_mtime < gobj.stat().st_mtime:
+            out.append({"id": rid, "outcome": "refused", "detail": "the gated object is missing or newer than the image's sha1 stamp"}); continue
+        src = clean_path(row)
+        with tempfile.TemporaryDirectory() as td:
+            obj, err = compile_slus(row, src, td, inc)
+            if obj is None:
+                out.append({"id": rid, "outcome": "refused", "detail": "landed src does not compile: " + (err or "")[:200]}); continue
+            if _obj_lines(obj) != _obj_lines(gobj):
+                out.append({"id": rid, "outcome": "refused", "detail": "the landed src at the landed recipe is not the object the gate linked"}); continue
+            h = sha_file(obj); dis = "\n".join(disasm(obj)) + "\n"
+        prev = table.get(rid) or {}
+        ent = {"obj_sha": h, "src_sha": prev.get("src_sha", row.get("src_sha")),
+               "rebaselined": {"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "cfg": row["cfg"],
+                               "clean_sha": sha_text(src.read_text(errors="replace")), "gate_at": g.get("at"),
+                               "obj_sha_was": prev.get("obj_sha")}}
+        changed[rid] = (ent, stem, dis)
+        out.append({"id": rid, "outcome": "dry-run" if dry_run else "rebaselined", "detail": "%s; obj %s -> %s"
+                    % (why, (prev.get("obj_sha") or "none")[:12], h[:12])})
+    if changed and not dry_run:
+        (cache / "slus_dis").mkdir(parents=True, exist_ok=True)
+        for rid, (ent, stem, dis) in changed.items():
+            tmp = cache / "slus_dis" / (stem + ".txt.tmp"); tmp.write_text(dis); os.replace(tmp, cache / "slus_dis" / (stem + ".txt"))
+            table[rid] = ent
+        tmp = cache / "slus_obj.json.tmp"                      # atomic: verify workers read it concurrently
+        with open(tmp, "w") as f:
+            json.dump(table, f, indent=0)
+        os.replace(tmp, objp)
+        _slus_base = None
+    return out
+
 # ---------------------------------------------------------------- entry points
 def verify(row, cfile, regions=False, include_root=None, diff=False):
     if row["kind"] == "slus":
@@ -398,7 +522,14 @@ def main():
     ap.add_argument("--gate", action="store_true", help="after a scorer-exact verdict, also prove the candidate through the row's window gate (the proof of record; slower)")
     ap.add_argument("--baseline", action="store_true"); ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--container"); ap.add_argument("--limit", type=int); ap.add_argument("--all", action="store_true", help="include non-stock rows")
+    ap.add_argument("--rebaseline-slus", metavar="IDS", help="comma-separated slus row ids: re-derive their cached reference from the "
+                    "landed src at the landed recipe, gated on the SLUS SHA-1 gate (module docstring)")
+    ap.add_argument("--dry-run", action="store_true", help="--rebaseline-slus: check and report, write nothing")
     a = ap.parse_args()
+    if a.rebaseline_slus:
+        res = rebaseline_slus([x for x in a.rebaseline_slus.split(",") if x], dry_run=a.dry_run)
+        for r in res: print(json.dumps(r))
+        sys.exit(0 if all(r["outcome"] in ("rebaselined", "dry-run") for r in res) else 1)
     by = {r["id"]: r for r in rows()}
     if a.baseline:
         rs = [r for r in by.values() if r["exists"] and (a.all or r["stock"]) and (not a.container or r["container"] == a.container)]
