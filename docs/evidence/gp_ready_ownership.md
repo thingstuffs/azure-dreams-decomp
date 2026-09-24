@@ -63,3 +63,28 @@ These are present ownership reconstructions with explicit recipe and assembler
 treatments. They do not prove historical translation-unit boundaries or L4
 placement. The prepared source files alone are insufficient: retain the linked,
 genuine and symbol-placement gates when integrating them.
+
+## Combined generic-correction rehearsal
+
+The [combined receipt](gp_ready_ownership/combined_receipt.json) puts the two
+address-taking owners, the three 8152C consumers, owned 3D92C and the five earlier
+natural CDK candidates into one private executable. All **11 logical rows**
+match genuine ASPSX and retail across **532 words**, with zero masks. Standalone
+corrected objects equal their actual linked build inputs. Exactly nine physical
+C inputs use the generic correction; the remaining inputs keep stock assembly.
+The complete image remains retail-exact, with all 16 production ownership units
+preserved and all six new data symbols at their exact offsets and VMAs.
+
+Only 3D92C and the five earlier prepared rows change recipes (2.7.2 to CDK).
+All 884 logical IDs remain. Stored preparation hashes were checked before using
+the five earlier candidates; [source hashes](gp_ready_ownership/combined_source_hashes.json)
+identify the staged inputs. Reproduce with
+`work/native_lane/gp_ready_combined/probe.py`. The earlier private recipe-injection
+attempt was overridden by existing configure mappings; the successful reproducer
+applies its private trial recipe overrides after that mapping is constructed.
+
+This is a combined **partial** repair proof: six of these rows belong to the
+remaining GP cohort, while five address other toolchain residue. It does not
+activate a global correction, repair the other GP rows, or remove production
+dependency records. The stock-only 45340/453E0 group above is a separate next
+landing and is not included in this rehearsal.
