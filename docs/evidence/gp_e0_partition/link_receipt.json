@@ -1,0 +1,128 @@
+{
+  "scope": "private function-partition feasibility; existing registry/verification do not yet support this redistribution",
+  "production_manifest_sha256": "6e49570f6e99b912a48523d064ceffe709a6a7440128be2f4ebdac4a2af38190",
+  "moves": [
+    {
+      "function": "func_80041110",
+      "from_row": "slus/code",
+      "from_source_sha256": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+      "removed_body_sha256": "7b5f8e3d4fb72eff1d4ea15b86327c74356cd909957c1a42fe4705b21a01f958",
+      "partitioned_source_sha256": "efc2771761464a9d0b33e5d44484b2b1ed12771185b2d5cf165d59a1588a9520"
+    },
+    {
+      "function": "func_800410FC",
+      "from_row": "slus/code2",
+      "from_source_sha256": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+      "removed_body_sha256": "4fbecd389cead1b91a4db560ba4709a4972f572e062e1b65ed0ba702bb66e1fa",
+      "partitioned_source_sha256": "4268d02238457b541431d55caf1ad03fd8261fe3af05dbfc763ad22c9ec45297"
+    }
+  ],
+  "candidate_sha256": "b98f0860ed4118129597659e283276613db80470fa66a6d1ca7fcda217976e47",
+  "module": {
+    "name": "e0_partition_trial",
+    "source": "src/w_80041134_owned.c",
+    "members": [
+      {
+        "id": "slus/w_80041134",
+        "source": "src/w_80041134.c",
+        "functions": [
+          "func_800410FC",
+          "func_80041110",
+          "func_80041134"
+        ]
+      }
+    ],
+    "headers": [
+      "include/common.h"
+    ],
+    "recipe": {
+      "ccver": "2.8.1",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "data": [
+      {
+        "symbol": "D_800814E0",
+        "asset": "assets/54240.bin",
+        "offset": 2720,
+        "size": 4,
+        "vram": 2148013280,
+        "bytes": "00000000",
+        "section": ".sdata"
+      }
+    ],
+    "evidence": "docs/evidence/gp_component20.md"
+  },
+  "full_retail_exact": true,
+  "image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "symbol": [
+    ".sdata",
+    0,
+    "global",
+    0
+  ],
+  "sdata": "00000000",
+  "linked_symbols": [
+    "800410fc T func_800410FC",
+    "80041110 T func_80041110",
+    "80041134 T func_80041134",
+    "800814e0 T D_800814E0"
+  ],
+  "registry_compatible": false,
+  "production_changed": false,
+  "linked_context_proof": {
+    "stock": {
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 44,
+        "len_g": 44,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    "generic": {
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 44,
+        "len_g": 44,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    "genuine": {
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 44,
+        "len_g": 44,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    }
+  },
+  "registry_gate": {
+    "frozen_row_functions": [
+      "func_80041134"
+    ],
+    "trial_member_functions": [
+      "func_800410FC",
+      "func_80041110",
+      "func_80041134"
+    ],
+    "whole_row_membership_check_would_pass": false
+  }
+}

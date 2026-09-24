@@ -47,3 +47,19 @@ Current recipes are spread over seven exact variants: 10 rows use `2.7.2-cdk` wi
 Current GP membership comes from `ledger/maspsx_dependence.jsonl`; current recipes and split positions come from `ledger/splits/slus.jsonl`; registry definitions come from `ledger/rows.jsonl`. Historical graph edges and GP source-use/declaration sites come from `work/native_lane/gp_remaining38/cohorts.json` and `docs/evidence/fidelity_gp_symbols.tsv`. Recovered naming/source evidence was limited to these IDs in `ledger/evidence/rows.jsonl`, interpreted through `docs/EVIDENCE.md` and `tools/evidence.py`. Actual source sizes, lines, and lexical lower-bound body counts were measured only in the 20 named files. No build or compile was run, and no whole-tree source scan was performed. Asset-backed symbols remain untyped by this inventory.
 
 Next primary analysis: establish per-access retail addressing and actual object extents for one local cluster before any grouping trial. Keep `code`/`code2` bridges and their different recipes explicit; shared names alone do not justify one combined TU.
+
+## Subsequent function-level work
+
+The production denominator is now 29 GP rows; all 20 historical members remain.
+The [combined private rehearsal](gp_ready14.md) prepares the other nine. A
+[focused CD-state audit](gp_component20_local/REPORT.md) maps all 860 retail
+words in the four local functions and records AD0/AD4/ADC access widths and
+initial bytes, without asserting one shared recipe or historical TU.
+
+The [E0 partition prototype](gp_e0_partition.md) is more concrete: extracting
+one function from each collector into the adjacent 41134 list unit gives real
+C storage, all 44 genuine-exact words, and a full retail-exact stock image. It
+is not registry-compatible yet: the current whole-row membership gate correctly
+refuses that redistribution. The next architecture task is explicit function
+provenance and complete collector-remainder verification, using E0 as a bounded
+pilot. No production rows or dependency records are moved by this experiment.
