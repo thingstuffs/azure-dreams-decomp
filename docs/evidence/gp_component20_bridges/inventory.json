@@ -1,0 +1,1072 @@
+{
+  "collector_sources": [
+    {
+      "current_split_recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2",
+        "src": "src/code.c"
+      },
+      "local_bytes": 32093,
+      "local_lines": 1486,
+      "local_sha256": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+      "local_source": "src/slus/code.c",
+      "logical_registry_id": "slus/code",
+      "registry_c_path": "src/code.c",
+      "registry_cfg": "2.7.2",
+      "registry_defs_count": 221,
+      "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+      "split_source_path_exists_in_checkout": false,
+      "frozen_raw_path": "raw/slus/code.c",
+      "frozen_raw_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c"
+    },
+    {
+      "current_split_recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.8.1",
+        "src": "src/code2.c"
+      },
+      "local_bytes": 9565,
+      "local_lines": 364,
+      "local_sha256": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+      "local_source": "src/slus/code2.c",
+      "logical_registry_id": "slus/code2",
+      "registry_c_path": "src/code2.c",
+      "registry_cfg": "2.8.1",
+      "registry_defs_count": 32,
+      "registry_src_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
+      "split_source_path_exists_in_checkout": false,
+      "frozen_raw_path": "raw/slus/code2.c",
+      "frozen_raw_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d"
+    }
+  ],
+  "config_check": {
+    "interpretation": "No per-function module membership/recipe override was found for the mapped functions in this config file. The current row split recipes are recorded above.",
+    "module_count": 19,
+    "path": "config/slus_modules.json",
+    "target_function_names_present": []
+  },
+  "e0_experiment_context": {
+    "functions": [
+      "func_800410FC",
+      "func_80041110",
+      "func_80041134"
+    ],
+    "note": "Separate prototype evidence for a 44-word three-function group; the parent reports stock/generic/genuine exact equality with real four-byte storage. Its receipt explicitly marks frozen-row registry compatibility false, so it is evidence for a bounded function group, not a registry migration or whole-program claim.",
+    "receipts": [
+      "work/native_lane/gp_e0_function_group/receipt.json",
+      "work/native_lane/gp_e0_function_group/link_receipt.json"
+    ]
+  },
+  "functions": [
+    {
+      "function": "func_8003F240",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "registry_src_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        },
+        {
+          "c_path": "src/w_8003E758.c",
+          "cfg": "2.7.2-cdk -G32 -fno-expensive-optimizations",
+          "flags": "-G32 -fno-expensive-optimizations",
+          "id": "slus/w_8003E758",
+          "ndefs": 5,
+          "registry_src_sha256": "2cf0d383901af28922b3bc84d6b8902893cf603bbd8b5778660f56125f288a38",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8003F368.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/w_8003F368",
+          "ndefs": 5,
+          "registry_src_sha256": "24b29e97c267afc91475959fd6a77e92001cb788762bfc2ebb92fcaa260b03b1",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "source": "src/slus/code2.c"
+    },
+    {
+      "function": "func_8003F5D4",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_800558FC.c",
+          "cfg": "2.7.2-cdk -G0",
+          "flags": "-G0",
+          "id": "slus/w_800558FC",
+          "ndefs": 2,
+          "registry_src_sha256": "e9e1f1f39467f54930af381e24a81e3a15c16c5e4be41b08c2f3360204b76543",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-G0",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    },
+    {
+      "function": "func_8003F5E0",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004425C.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/w_8004425C",
+          "ndefs": 7,
+          "registry_src_sha256": "a85ed886a5cb6222fc3dffe9a414c315c7f3f09384fdc2a6b707ebf915e21943",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004450C.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/w_8004450C",
+          "ndefs": 7,
+          "registry_src_sha256": "6488994281b429f5135479f7d49026ce6157de33913d3c94c92a513adf14568c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    },
+    {
+      "function": "func_800410FC",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "registry_src_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        },
+        {
+          "c_path": "src/w_80041A10.c",
+          "cfg": "2.7.2-cdk -G12",
+          "flags": "-G12",
+          "id": "slus/w_80041A10",
+          "ndefs": 6,
+          "registry_src_sha256": "6e0ee092ad3f5f1ddf149e6f75b113e41eef5653fafde1bc2b4ce239d98fcbe3",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-G12",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_80043C30.c",
+          "cfg": "2.7.2-cdk -G12",
+          "flags": "-G12",
+          "id": "slus/w_80043C30",
+          "ndefs": 6,
+          "registry_src_sha256": "6fad8b5c351e3f0ee08775b15a2284def891cba1f0ba462578f0b925f66304e9",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-G12",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "source": "src/slus/code2.c"
+    },
+    {
+      "function": "func_80041110",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    },
+    {
+      "function": "func_80041134",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/w_80041134.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/w_80041134",
+          "ndefs": 1,
+          "registry_src_sha256": "d970467449bb49ffc7c679655ef1453acaad3816d2b803c18c9551e284c2b08e",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        }
+      ],
+      "source": "src/slus/w_80041134.c"
+    },
+    {
+      "function": "func_80048DA0",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "registry_src_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        }
+      ],
+      "source": "src/slus/code2.c"
+    },
+    {
+      "function": "func_8004AE98",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004B08C.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004B08C",
+          "ndefs": 7,
+          "registry_src_sha256": "3946a059bd6359d34c07851547528e6149a0a1ea4358a794bb5173a560182a5a",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    },
+    {
+      "function": "func_8004DCE0",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    },
+    {
+      "function": "func_8004DDB4",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    },
+    {
+      "function": "func_80050CAC",
+      "registered_rows_containing_function": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "registry_src_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "source": "src/slus/code.c"
+    }
+  ],
+  "grouping_constraints": [
+    "The GP component graph treats each collector row as one node; source references in code.c/code2.c resolve to the explicit functions and lines listed above, not all registered defs in either row.",
+    "D_800814E0 is the only listed symbol directly joining both collectors and the existing w_80041134 row; its three source functions have distinct current registry identities.",
+    "Other cross-row edges from code/code2 also attach to specific functions, while the partner rows span several current compiler recipes. Shared-symbol connectivity alone does not establish a historical retail translation-unit boundary.",
+    "Current collector registry identities remain slus/code and slus/code2 with full 221/32-entry defs lists. Future function-level grouping must preserve explicit registry/provenance handling; do not silently re-home a subset under one existing individual ID."
+  ],
+  "schema_version": 1,
+  "scope": {
+    "bounded_sources": [
+      "src/slus/code.c",
+      "src/slus/code2.c",
+      "src/slus/w_80041134.c"
+    ],
+    "current_inputs": [
+      "ledger/rows.jsonl",
+      "ledger/splits/slus.jsonl",
+      "config/slus_modules.json"
+    ],
+    "historical_cohort_id": "gp_01",
+    "historical_component_row_count": 20,
+    "historical_snapshot": "work/native_lane/gp_remaining38/cohorts.json",
+    "no_compile_or_link_performed": true,
+    "snapshot_is_historical_not_current32": true,
+    "source_map": "docs/evidence/fidelity_gp_symbols.tsv"
+  },
+  "symbols": [
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_80050CAC",
+          "kind": "reference",
+          "line": 944,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 937,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code"
+      ],
+      "recipe_intersection": {},
+      "symbol": "D_80080B94"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_80050CAC",
+          "kind": "reference",
+          "line": 945,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 938,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_80050DA8.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_80050DA8",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_80050E20.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_80050E20",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code",
+        "slus/w_80050DA8",
+        "slus/w_80050E20"
+      ],
+      "recipe_intersection": {
+        "2.7.2": 1,
+        "2.7.2-cdk": 2
+      },
+      "symbol": "D_80080B98"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_8003F5D4",
+          "kind": "reference",
+          "line": 94,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": "func_8003F5E0",
+          "kind": "reference",
+          "line": 100,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code"
+      ],
+      "recipe_intersection": {},
+      "symbol": "D_800814C8"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_80041110",
+          "kind": "reference",
+          "line": 187,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": "func_80041110",
+          "kind": "reference",
+          "line": 188,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": "func_80041110",
+          "kind": "reference",
+          "line": 189,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 182,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": "func_800410FC",
+          "kind": "reference",
+          "line": 51,
+          "source": "src/slus/code2.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 47,
+          "source": "src/slus/code2.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        },
+        {
+          "c_path": "src/w_80041134.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/w_80041134",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code",
+        "slus/code2",
+        "slus/w_80041134"
+      ],
+      "recipe_intersection": {
+        "2.7.2": 1,
+        "2.8.1": 2
+      },
+      "symbol": "D_800814E0"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_8004AE98",
+          "kind": "reference (two mentions on this line)",
+          "line": 593,
+          "source": "src/slus/code.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 585,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004B08C.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004B08C",
+          "ndefs": 7,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code",
+        "slus/w_8004B08C"
+      ],
+      "recipe_intersection": {
+        "2.7.2": 1,
+        "2.7.2-cdk": 1
+      },
+      "symbol": "D_80081540"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_8004DCE0",
+          "kind": "reference",
+          "line": 724,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004DCEC.c",
+          "cfg": "2.7.2-cdk -fno-schedule-insns -fno-delayed-branch",
+          "flags": "-fno-schedule-insns -fno-delayed-branch",
+          "id": "slus/w_8004DCEC",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-fno-schedule-insns -fno-delayed-branch",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8004DE88.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004DE88",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8004DF8C.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004DF8C",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code",
+        "slus/w_8004DCEC",
+        "slus/w_8004DE88",
+        "slus/w_8004DF8C"
+      ],
+      "recipe_intersection": {
+        "2.7.2": 1,
+        "2.7.2-cdk": 2,
+        "2.7.2-cdk -fno-schedule-insns -fno-delayed-branch": 1
+      },
+      "symbol": "D_80081550"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_8004DDB4",
+          "kind": "reference",
+          "line": 730,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004DCA8.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/w_8004DCA8",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        },
+        {
+          "c_path": "src/w_8004DD2C.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004DD2C",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8004DDE4.c",
+          "cfg": "2.7.2-cdk -fno-schedule-insns",
+          "flags": "-fno-schedule-insns",
+          "id": "slus/w_8004DDE4",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-fno-schedule-insns",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8004E130.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004E130",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code",
+        "slus/w_8004DCA8",
+        "slus/w_8004DD2C",
+        "slus/w_8004DDE4",
+        "slus/w_8004E130"
+      ],
+      "recipe_intersection": {
+        "2.7.2": 1,
+        "2.7.2-cdk": 2,
+        "2.7.2-cdk -fno-schedule-insns": 1,
+        "2.8.1": 1
+      },
+      "symbol": "D_80081554"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_8004DDB4",
+          "kind": "reference",
+          "line": 731,
+          "source": "src/slus/code.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/code",
+          "ndefs": 221,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        },
+        {
+          "c_path": "src/w_8004DD2C.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004DD2C",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8004DDE4.c",
+          "cfg": "2.7.2-cdk -fno-schedule-insns",
+          "flags": "-fno-schedule-insns",
+          "id": "slus/w_8004DDE4",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-fno-schedule-insns",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8004E130.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8004E130",
+          "ndefs": 3,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code",
+        "slus/w_8004DD2C",
+        "slus/w_8004DDE4",
+        "slus/w_8004E130"
+      ],
+      "recipe_intersection": {
+        "2.7.2": 1,
+        "2.7.2-cdk": 2,
+        "2.7.2-cdk -fno-schedule-insns": 1
+      },
+      "symbol": "D_80081558"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_80048DA0",
+          "kind": "reference",
+          "line": 271,
+          "source": "src/slus/code2.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 263,
+          "source": "src/slus/code2.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code2"
+      ],
+      "recipe_intersection": {},
+      "symbol": "D_80080B1B"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_80048DA0",
+          "kind": "reference",
+          "line": 273,
+          "source": "src/slus/code2.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 264,
+          "source": "src/slus/code2.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code2"
+      ],
+      "recipe_intersection": {},
+      "symbol": "D_80080B1C"
+    },
+    {
+      "collector_source_occurrences": [
+        {
+          "function": "func_8003F240",
+          "kind": "reference",
+          "line": 302,
+          "source": "src/slus/code2.c"
+        },
+        {
+          "function": null,
+          "kind": "translation-unit extern declaration",
+          "line": 297,
+          "source": "src/slus/code2.c"
+        }
+      ],
+      "current_registry_rows_and_recipes": [
+        {
+          "c_path": "src/code2.c",
+          "cfg": "2.8.1",
+          "flags": "",
+          "id": "slus/code2",
+          "ndefs": 32,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.8.1"
+          }
+        },
+        {
+          "c_path": "src/w_8003E34C.c",
+          "cfg": "2.7.2-cdk",
+          "flags": "",
+          "id": "slus/w_8003E34C",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8003E758.c",
+          "cfg": "2.7.2-cdk -G32 -fno-expensive-optimizations",
+          "flags": "-G32 -fno-expensive-optimizations",
+          "id": "slus/w_8003E758",
+          "ndefs": 5,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-G32 -fno-expensive-optimizations",
+            "ccver": "2.7.2-cdk"
+          }
+        },
+        {
+          "c_path": "src/w_8003F2A4.c",
+          "cfg": "2.6.3 -fno-schedule-insns",
+          "flags": "-fno-schedule-insns",
+          "id": "slus/w_8003F2A4",
+          "ndefs": 1,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "-fno-schedule-insns",
+            "ccver": "2.6.3"
+          }
+        },
+        {
+          "c_path": "src/w_8003F368.c",
+          "cfg": "2.7.2",
+          "flags": "",
+          "id": "slus/w_8003F368",
+          "ndefs": 5,
+          "split_recipe": {
+            "asflags": "",
+            "ccflags": "",
+            "ccver": "2.7.2"
+          }
+        }
+      ],
+      "historical_gp_01_component_rows_for_symbol": [
+        "slus/code2",
+        "slus/w_8003E34C",
+        "slus/w_8003E758",
+        "slus/w_8003F2A4",
+        "slus/w_8003F368"
+      ],
+      "recipe_intersection": {
+        "2.6.3 -fno-schedule-insns": 1,
+        "2.7.2": 1,
+        "2.7.2-cdk": 1,
+        "2.7.2-cdk -G32 -fno-expensive-optimizations": 1,
+        "2.8.1": 1
+      },
+      "symbol": "D_800814D0"
+    }
+  ],
+  "title": "Function-level bridge map for historical GP gp_01 collector rows",
+  "primary_review": "Frozen registry source hashes match raw/slus copies. Split paths are build-root-relative; current source hashes are separate. Registry defs name overlaps do not establish duplicate emitted bodies."
+}
