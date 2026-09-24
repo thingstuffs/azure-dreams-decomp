@@ -24,3 +24,13 @@ The direct raw-SLUS [lineage scan](gp_af3_recipe/lineage.json) finds only the st
 The first [explicit-pointer C variant](gp_af3_recipe/v1.c) names early `read_slots` and post-call `write_slots` pointers. Its [object comparison](gp_af3_recipe/v1.json) remains 100 stock words at aligned distance 16 from retail; genuine ASPSX emits 108 words at aligned distance 31 from retail. There was no full-image gate for this variant. A separate [token proof](gp_af3_recipe/v1_token_proof.json) compares the existing v1 object with the unchanged-C `-mmips-as` object: all 100 instruction tokens and relocations are identical, and the compiler assembly differs only in its `.file` directive. Their ELF file hashes differ because of that file metadata. This explicit-pointer spelling produced no instruction change.
 
 The next step is to identify the compiler's address-folding mechanism behind the first load and final store **before** making more C variants. Any candidate must still pass stock, genuine-ASPSX, and full retail-image gates. The 44618 cache result is a one-recipe control, not an ownership or binding proof. Separate `owned_scalars` diagnostics are not included here because their definitions have not passed an ownership/link gate. These measurements make no impossibility claim about C shape or the eventual shared ownership boundary, and the lineage scan does not attribute a compiler family.
+
+## Subsequent declaration repair
+
+[The AF3 declaration continuation](gp_af3_declarations.md) resolves this queue:
+plain word-sized external declarations in 4450C reproduce retail through default
+CDK and genuine ASPSX, while preserving 4437C's body. Its private full-image proof
+owns AF3/AFC and matches all 153 words with zero masks. The AFE cache has landed
+separately at its original plain 2.7.2 recipe. The old pointer/dialect trials
+above remain historical negatives; further address-folding variants are no
+longer the next step. The pair awaits the coordinated generic assembler change.
