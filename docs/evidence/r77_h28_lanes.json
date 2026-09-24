@@ -1,0 +1,101 @@
+{
+ "r77_opus_h1": [
+  "dungeon/func_800C9858",
+  "dungeon/func_80F90E88",
+  "dungeon/func_800969CC"
+ ],
+ "r77_opus_h2": [
+  "dungeon/func_800BFE94",
+  "dungeon/func_81912154",
+  "dungeon/func_8187A9A8"
+ ],
+ "r77_opus_h3": [
+  "dungeon/func_818AAE60",
+  "dungeon/func_8009AE44",
+  "dungeon/func_8197C800"
+ ],
+ "r77_opus_h4": [
+  "dungeon/func_800B5B84",
+  "dungeon/func_818E6800",
+  "dungeon/func_80284BEC"
+ ],
+ "r77_opus_h5": [
+  "dungeon/func_80F5F040",
+  "dungeon/func_819611CC",
+  "dungeon/func_8196B2F8"
+ ],
+ "r77_opus_h6": [
+  "dungeon/func_800C3928",
+  "dungeon/func_80285A70"
+ ],
+ "r77_opus_h7": [
+  "dungeon/func_80DE48EC",
+  "dungeon/func_80FD5000",
+  "dungeon/func_81337998",
+  "dungeon/func_80CE83EC",
+  "dungeon/func_81254460"
+ ],
+ "r77_opus_h8": [
+  "dungeon/func_81911BF4",
+  "town/func_800B998C",
+  "dungeon/func_8008A31C",
+  "dungeon/func_80094DE0",
+  "dungeon/func_8009F190"
+ ],
+ "r77_opus_h9": [
+  "dungeon/func_800BB400",
+  "dungeon/func_8028A5D8",
+  "dungeon/func_81910A9C",
+  "dungeon/func_81934928",
+  "town/func_800B7CEC"
+ ],
+ "r77_opus_h10": [
+  "dungeon/func_800AC3B0",
+  "dungeon/func_800D1A48",
+  "dungeon/func_80BAF094",
+  "dungeon/func_80C412B4",
+  "dungeon/func_80E8D490"
+ ],
+ "r77_opus_h11": [
+  "dungeon/func_81875B38",
+  "dungeon/func_80092B48",
+  "dungeon/func_800A21EC",
+  "dungeon/func_800A4C0C",
+  "dungeon/func_800AC008"
+ ],
+ "r77_opus_h12": [
+  "dungeon/func_80BA9094",
+  "dungeon/func_80CEBD74",
+  "dungeon/func_80D3CBF8",
+  "dungeon/func_813231FC",
+  "dungeon/func_8133336C"
+ ],
+ "r77_opus_h13": [
+  "dungeon/func_818FF5B8",
+  "dungeon/func_8008F814",
+  "dungeon/func_80AC5F28",
+  "dungeon/func_80D3D3B0",
+  "dungeon/func_80E0F7C0"
+ ],
+ "r77_opus_h14": [
+  "dungeon/func_80E61EF4",
+  "dungeon/func_810860B4",
+  "town/func_80819B14",
+  "town/func_808B2D90",
+  "dungeon/func_80A1F0C4"
+ ],
+ "r77_opus_h15": [
+  "dungeon/func_80CC2828",
+  "dungeon/func_80D13E4C",
+  "dungeon/func_80E3B4CC",
+  "dungeon/func_80E65598",
+  "dungeon/func_80E8B8F4"
+ ],
+ "r77_opus_h16": [
+  "dungeon/func_813274E4",
+  "dungeon/func_813284E4",
+  "dungeon/func_81335190",
+  "dungeon/func_81983138",
+  "main/func_80013128"
+ ]
+}
