@@ -180,6 +180,12 @@
           "functions": [
             "func_80050CAC"
           ]
+        },
+        {
+          "module": "sort_rank_81540",
+          "functions": [
+            "func_8004AE98"
+          ]
         }
       ]
     },

@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T19:12:42Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T19:22:08Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -42,6 +42,7 @@ Baseline NOT exact: 0 rows
 | cache_afe | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/cache_afe.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 | list_cursor_e0 | 1 | current: retail + genuine ASPSX 2.79 | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/list_cursor_e0.h |
 | saved_value_b98 | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/saved_value_b98.json' | include/common.h, include/slus/saved_value_b98.h |
+| sort_rank_81540 | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/sort_rank_81540.json' | include/common.h, include/slus/sort_rank_81540.h |
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 

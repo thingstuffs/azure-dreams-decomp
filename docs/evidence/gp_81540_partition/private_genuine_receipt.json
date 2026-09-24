@@ -1,0 +1,165 @@
+{
+  "production_plan_changed": false,
+  "ownership_schema": 4,
+  "physical_functions": [
+    "func_8004AE98",
+    "func_8004B08C"
+  ],
+  "generic": {
+    "physical_functions": [
+      "func_8004AE98",
+      "func_8004B08C"
+    ],
+    "fresh_comparison": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 81,
+      "len_g": 81,
+      "missing": []
+    },
+    "generic_comparison": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 81,
+      "len_g": 81,
+      "missing": []
+    },
+    "generic_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 2
+    },
+    "generic_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "generic_package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "logical_rows": {
+    "slus/w_8004B08C": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 70,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/sort_rank_81540_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    },
+    "slus/w_80050DA8": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 30,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80050DA8_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    },
+    "slus/w_80050E20": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 34,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80050DA8_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    },
+    "slus/w_80041134": {
+      "functions": 1,
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 30,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": []
+    },
+    "slus/code": {
+      "functions": 156,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 40,
+          "len": 1279,
+          "retail": [
+            75,
+            0
+          ],
+          "retail_checked": 156,
+          "modes": {
+            "src/code.c": "-0",
+            "src/w_80041134_owned.c": "",
+            "src/w_80050DA8_owned.c": "",
+            "src/sort_rank_81540_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [
+        "D_800814C8",
+        "D_80081550",
+        "D_80081554",
+        "D_80081558"
+      ]
+    },
+    "slus/code2": {
+      "functions": 24,
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 33,
+          "len": 244,
+          "retail": [
+            42,
+            0
+          ],
+          "retail_checked": 24,
+          "modes": {
+            "src/code2.c": "-0",
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [
+        "D_80080B1B",
+        "D_80080B1C",
+        "D_800814D0"
+      ]
+    }
+  },
+  "full_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+}

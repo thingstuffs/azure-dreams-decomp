@@ -1,13 +1,10 @@
-#include "common.h"
-
-#include "common.h"
+#include "slus/sort_rank_81540.h"
 
 typedef struct {
     u8 unk0;
     u8 unk1;
 } S_8004AFE8;
 
-extern unsigned char *D_80081540;
 extern s32 func_8004AE3C(void **arg0);
 extern void func_8004AFC8(void *base, s32 count, s32 size, void *compar);
 extern s32 func_8004AFE8(S_8004AFE8 **arg0);
@@ -15,7 +12,6 @@ extern void func_8004B028(u8 *arg0, S_8004AFE8 **arg1, s32 arg2);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern void bzero(void *p, s32 n);
 extern s32 func_8004AE68(void *a0, void *a1);
-extern s32 func_8004AE98(void *a0, void *a1);
 
 /* Sorts entries by category, then orders each group using discovery ranks from the original list. */
 void func_8004B08C(S_8004AFE8 **entries) {

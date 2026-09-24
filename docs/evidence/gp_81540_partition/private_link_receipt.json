@@ -1,0 +1,152 @@
+{
+  "production_snapshot": {
+    "config/slus_modules.json": "083fec5dbb0146a05fefd987b29304b2df41ede981415d55d18ccf70e1c36f16",
+    "config/slus_partitions.json": "0689f7f4f85ba61cc78cee3152cb4725c0f6408e21e12ec8039d64764a4fc96c",
+    "src/slus/code.c": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+    "src/slus/code2.c": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+    "src/slus/w_8004B08C.c": "adc7477c6d7f61fc7821c4ac9feb0f1bccad4c141bde6c66b81b212b170e463a",
+    "src/slus/w_80041134_owned.c": "5ceadc57a5935303f6926283824ad48fdddd69254457ee65f7e6980b885c8a5d",
+    "src/slus/w_80050DA8_owned.c": "97d54a74682f3ed719f76295d8e1eb0abd8b4f5983ce14b2ee63f4bd6b29c893",
+    "include/slus/list_cursor_e0.h": "5d486c7dedc12e95150af2697512a36507dd69dcdccd71c9e66ff7941a35db5f",
+    "include/slus/saved_value_b98.h": "98e7c11a889f466e0757dbd6a769b4476fcc7bd34af80eb49cfe797c9ac6a404",
+    "tools/build/configure.py": "b33d29d58b2564388bf7609a5bc3f37f77b0831ce1d215cc582d135ad6f4f10e",
+    "tools/build/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+    "build_slus/assets/54240.bin": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da",
+    "build_slus/build/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "baserom/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+  },
+  "production_inputs_unchanged": true,
+  "baseline": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "production_modules": 21,
+  "trial_modules": 22,
+  "production_plan_parents": [
+    "slus/code",
+    "slus/code2"
+  ],
+  "trial_plan_parents": [
+    "slus/code",
+    "slus/code2"
+  ],
+  "candidate_sha256": {
+    "owner.c": "46009a2d6fb5dbe42a242b8e40d283ffe484a0f4f1ab99ffc1e6cdba3839cedc",
+    "w_8004B08C.c": "770f1d22b5076f6d7909e70499f5b7caa80d407fbd46f2665e23e48eddd4b7cd",
+    "include/slus/sort_rank_81540.h": "0ec3ed0482e9cbee04af9a05087d48ae13897087384f17acfaf91f2f1c2ef30e"
+  },
+  "stage_owner_sha256": "46009a2d6fb5dbe42a242b8e40d283ffe484a0f4f1ab99ffc1e6cdba3839cedc",
+  "configure_tail": [
+    "wrote build.ninja (1140 objects)"
+  ],
+  "build_tail": [
+    "[894/901] BIN build/module_assets/54240_000AD4_000AD8.bin",
+    "[895/901] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[896/901] BIN build/module_assets/54240_000AF2_000B00.bin",
+    "[897/901] BIN build/module_assets/54240_000B04_02BDC0.bin",
+    "[898/901] CC src/w_8005FA34.c (gcc 2.7.2  )",
+    "[899/901] PARTITION-COVERAGE build/partition_sources/coverage.ok",
+    "[900/901] LINK build/slus_006.14.elf",
+    "[901/901] OBJCOPY build/slus_006.14"
+  ],
+  "routing": {
+    "physical_edges": 872,
+    "logical_edges": 884,
+    "projected_ledger_exact": true,
+    "owner_recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "stock_compiler_assembler": true,
+    "removed_object": "build/src/w_8004B08C.o",
+    "added_object": "build/src/sort_rank_81540_owned.o"
+  },
+  "image": {
+    "match_retail": true,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+    "retail_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+  },
+  "data": {
+    "section": "00000000",
+    "symbols": [
+      {
+        "symbol": "D_80081540",
+        "object_symbol": [
+          ".sdata",
+          0,
+          "global",
+          0
+        ],
+        "linked": [
+          {
+            "address": 2148013376,
+            "kind": "T"
+          }
+        ],
+        "asset_offset": 2816,
+        "vram": 2148013376,
+        "asset_bytes": "00000000",
+        "image_bytes": "00000000"
+      }
+    ],
+    "slot": {
+      "kind": "module_data",
+      "start": 2816,
+      "end": 2820,
+      "module": "sort_rank_81540",
+      "object": "build/src/sort_rank_81540_owned.o",
+      "section": ".sdata",
+      "symbols": [
+        "D_80081540"
+      ]
+    }
+  },
+  "closure": {
+    "parents": [
+      "slus/code",
+      "slus/code2"
+    ],
+    "owners": [
+      "list_cursor_e0",
+      "saved_value_b98",
+      "sort_rank_81540"
+    ],
+    "physical_sources": [
+      "src/code.c",
+      "src/code2.c",
+      "src/sort_rank_81540_owned.c",
+      "src/w_80041134_owned.c",
+      "src/w_80050DA8_owned.c"
+    ],
+    "function_counts": {
+      "src/w_80041134_owned.c": 3,
+      "src/w_80050DA8_owned.c": 3,
+      "src/sort_rank_81540_owned.c": 2,
+      "src/code.c": 153,
+      "src/code2.c": 23
+    },
+    "total_functions": 184
+  },
+  "outside_objects": {
+    "checked": 870,
+    "changed": []
+  },
+  "fixture": {
+    "sources": [
+      "src/code.c",
+      "src/code2.c",
+      "src/sort_rank_81540_owned.c",
+      "src/w_80041134.c",
+      "src/w_80041134_owned.c",
+      "src/w_8004B08C.c",
+      "src/w_80050DA8.c",
+      "src/w_80050DA8_owned.c",
+      "src/w_80050E20.c"
+    ],
+    "manifest_sha256": "c806cd0bae0e94299425201c6e6b29d9be9a4fa1b4b3795b4eb53d2c7ff988c4",
+    "plan_sha256": "2f08402028d0f28da4b85ccda98f64f30f1437ab622d7e1bf1dcb87dd81c12e8",
+    "pinned_ninja_sha256": "6c661c2a8db94d3d95ac873c047c9796afe9e8ef14a9064d9abd527f69391d78",
+    "connected_fingerprint": "f603afa3df99588ef38e63369490db9f9de525ca40956ba8d4e4ea8b9c4a9dca"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "source_sha256": {
+    "config/slus_modules.json": "c806cd0bae0e94299425201c6e6b29d9be9a4fa1b4b3795b4eb53d2c7ff988c4",
+    "config/slus_partitions.json": "2f08402028d0f28da4b85ccda98f64f30f1437ab622d7e1bf1dcb87dd81c12e8",
+    "src/slus/code.c": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+    "src/slus/code2.c": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb",
+    "src/slus/w_80050DA8.c": "53a3b360e20f1d5c9c048498893f14ae4cfcff09d123b6e8f38f70183febc138",
+    "src/slus/w_80050E20.c": "d2ae10a5d322f55124265a3d89e0a0b52c71d3ab7af80ee9ba9e32a7053812f2",
+    "src/slus/w_80050DA8_owned.c": "97d54a74682f3ed719f76295d8e1eb0abd8b4f5983ce14b2ee63f4bd6b29c893",
+    "include/slus/saved_value_b98.h": "98e7c11a889f466e0757dbd6a769b4476fcc7bd34af80eb49cfe797c9ac6a404",
+    "src/slus/w_8004B08C.c": "770f1d22b5076f6d7909e70499f5b7caa80d407fbd46f2665e23e48eddd4b7cd",
+    "src/slus/sort_rank_81540_owned.c": "46009a2d6fb5dbe42a242b8e40d283ffe484a0f4f1ab99ffc1e6cdba3839cedc",
+    "include/slus/sort_rank_81540.h": "0ec3ed0482e9cbee04af9a05087d48ae13897087384f17acfaf91f2f1c2ef30e",
+    "docs/evidence/gp_81540_partition.md": "ce58f251ced53971c6bcaf79df83491b90ced29108897a6f1f64eb45698cc9fe"
+  },
+  "tool_sha256": {
+    "tools/build/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+    "tools/slus_module_context.py": "046194a17445c6c34d1ae87a7d8117401e3527a8f789db99c2035fbdb68fa870",
+    "tools/slus_module_evidence.py": "38a699f315e082f16c9e7ead3c414f37a1ef71b18d75e15e2699c5720b80b32a",
+    "tools/fidelity/prove_slus_ownership.py": "6eb7656ea1118212c32b848e22f6d58fb43e1a348ea5f932efb828936e684320",
+    "tools/fidelity/certify_slus_module.py": "0628cfa11b93d1e86b2f9c276f4f82d2f8dd7234ea7f0449dfc50c8017296cf4",
+    "tools/build/mk_slus_root.sh": "0c6441ffcb51d6c958b13a70d3cba98e44b3ff7425db00fdab213abc89dd351e"
+  },
+  "receipts_sha256": {
+    "direct_receipt.json": "4f8a2c5c3990dfed0c76428e64fada9c0f3a4bdaa6ba77d8d8c6fc0394399f44",
+    "gate_receipt.json": "cd324dede351f72c903f33bd76b33524a4b6bd12558dc75cdd8a71c8da31e4c1",
+    "live_rows.json": "c48940d222730aabacf056c85d826e170527a7d5030075b5b511d0b7a522c984",
+    "ownership_receipt.json": "b97777e23ec696cec87fb2fda675c84ea841f564880aa3b601d6ed7584625edb",
+    "private_genuine_receipt.json": "94010585e32f8183a0297bf7202e866a6f1d56f964dc8593aee075143ecee937",
+    "private_link_receipt.json": "fb613c77e44edcb4ad922c848268eb137c7c96f33179104bcb83b061ab499937"
+  },
+  "certificates": {
+    "runtime_directory": {
+      "valid": true,
+      "sha256": "45e4479dda042c23de8edf94c7a9428a55599dd73036ccde68560ea30889084e"
+    },
+    "list_cursor_e0": {
+      "valid": true,
+      "sha256": "f51dde56dfa5c1d762f50b76325d9d2bce233719faf2136de29b7d08d31d1cca"
+    }
+  },
+  "regression": {
+    "slus_tests_passed": 130,
+    "configure_tests_passed": 5,
+    "row_database": "OK",
+    "actual_mips_candidate_trials": 4,
+    "all_trial_restorations_retail_exact": true
+  },
+  "production_gate": {
+    "at": "2026-09-24T19:21:00Z",
+    "result": "MATCH",
+    "tus": 872,
+    "recipe_sha256": "6c661c2a8db94d3d95ac873c047c9796afe9e8ef14a9064d9abd527f69391d78",
+    "recipe_vs_pinned": "identical",
+    "secs": 1,
+    "gate": "sha1sum -c config/slus_006.14.sha1 (ninja)"
+  },
+  "production_image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "counts": {
+    "modules": 22,
+    "physical": 872,
+    "logical": 884,
+    "dependencies": 193,
+    "gp_rows": 25
+  },
+  "ladder": {
+    "slus/code": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module",
+        "cell_imitation"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/code2": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site",
+        "maspsx_dependent"
+      ]
+    },
+    "slus/w_80050DA8": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "inline_asm"
+      ]
+    },
+    "slus/w_80050E20": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": []
+    },
+    "slus/w_80041134": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C634": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/konami_runtime_w_8003C758": {
+      "level": 4,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    },
+    "slus/konami_runtime_w_8003C920": {
+      "level": 5,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [],
+      "l5_residue": []
+    },
+    "slus/w_8004B08C": {
+      "level": 3,
+      "pins_left": 0,
+      "tail_jumps": 0,
+      "l4_residue": [
+        "not_in_module"
+      ],
+      "l5_residue": [
+        "fidelity_site"
+      ]
+    }
+  },
+  "data_ownership_only": "sort_rank_81540; no new placement certificate",
+  "canonical_collectors_unchanged": true,
+  "production_assembler_changed": false,
+  "generated_ninja_note": "New owner input lines preserve the generator existing trailing-space format for empty flags; generated and pinned recipes are byte-identical. All other changed files pass git diff --check."
+}
