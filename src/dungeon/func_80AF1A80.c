@@ -193,10 +193,9 @@ use_kind:
                 if (target_obj != 0) {
 copy_existing:
                     {
-                        register u8 *target_tile ASM_REG("$3") =
-                            ((S_80173280_2 *)((u8 *)target_obj - 0x14))->unk_00;
-                        ((S_80173280_1 *)action)->unk_72.s = target_tile[0x24];
-                        ((S_80173280_1 *)action)->unk_73.s = target_tile[0x25];
+                        state = (s32)((S_80173280_2 *)((u8 *)target_obj - 0x14))->unk_00;
+                        ((S_80173280_1 *)action)->unk_72.s = ((u8 *)state)[0x24];
+                        ((S_80173280_1 *)action)->unk_73.s = ((u8 *)state)[0x25];
                     }
                     goto invoke_move;
                 }

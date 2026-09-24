@@ -265,3 +265,5 @@
 {"date": "2026-09-24T08:02Z", "codex": {"pack": "r76_gemf_w_22", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
 {"date": "2026-09-24T08:02Z", "codex": {"pack": "r76_gemf_w_23", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
 {"date": "2026-09-24T12:37Z", "codex": {"pack": "r76_gemf_w_25", "model": "gemini-3.8-flash-high", "candidates": 1}, "note": "r76 gemini feed (free window)"}
+{"date": "2026-09-24T12:48Z", "codex": {"pack": "r76_gemf_w_26", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
+{"date": "2026-09-24T12:52Z", "codex": {"pack": "r76_gemf_w_27", "model": "gemini-3.8-flash-high", "candidates": 0}, "note": "r76 gemini feed (free window)"}
