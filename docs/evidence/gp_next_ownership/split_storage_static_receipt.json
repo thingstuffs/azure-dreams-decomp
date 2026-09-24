@@ -1,0 +1,125 @@
+{
+  "control": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "static_sbss": true,
+  "inherited_module_count": 15,
+  "source_sha256": "b4d1bb851ee84f406eaf7bcf2a9fb9d96716a7b994c5b1b001606754ab54c371",
+  "candidate_sha256": "188d5f1b7ec511a331880c67b11b3cb521487a6186f9ff645dfc9e191b342889",
+  "outside_D_80081530_sources": [],
+  "sections": {
+    ".sdata": {
+      "size": 6,
+      "bytes": "000000000000"
+    },
+    ".sbss": {
+      "size": 2,
+      "bytes": null
+    }
+  },
+  "symbols": {
+    "D_80080B10": {
+      "expected_vram": 2148010768,
+      "expected_bytes": "0000",
+      "section": ".sdata",
+      "offset": 0,
+      "kind": "global",
+      "linked": {
+        "vram": 2148010768,
+        "kind": "T"
+      },
+      "gp_relocations": [
+        32,
+        80,
+        96,
+        100,
+        124,
+        136
+      ]
+    },
+    "D_80080B12": {
+      "expected_vram": 2148010770,
+      "expected_bytes": "0000",
+      "section": ".sdata",
+      "offset": 2,
+      "kind": "global",
+      "linked": {
+        "vram": 2148010770,
+        "kind": "T"
+      },
+      "gp_relocations": [
+        28,
+        56,
+        88,
+        128,
+        152,
+        188,
+        200
+      ]
+    },
+    "D_80080B14": {
+      "expected_vram": 2148010772,
+      "expected_bytes": "0000",
+      "section": ".sdata",
+      "offset": 4,
+      "kind": "global",
+      "linked": {
+        "vram": 2148010772,
+        "kind": "T"
+      },
+      "gp_relocations": [
+        24,
+        84,
+        132,
+        164,
+        184
+      ]
+    },
+    "D_80081530": {
+      "expected_vram": 2148013360,
+      "expected_bytes": "0000",
+      "section": ".sbss",
+      "offset": 0,
+      "kind": "local",
+      "linked": {
+        "vram": 2148013360,
+        "kind": "t"
+      },
+      "gp_relocations": []
+    }
+  },
+  "standalone_vs_link_object": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 53,
+    "len_g": 53,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "genuine_vs_maspsx": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 53,
+    "len_g": 53,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "genuine_retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 1
+  },
+  "logical_edges": {
+    "baseline": 884,
+    "candidate": 884,
+    "changed": []
+  }
+}

@@ -15,6 +15,12 @@ The original runtime pilot is recertified, with no placement claims for these
 two new ownership units. The numbered checkpoints below retain their historical
 counts and intermediate findings.
 
+[Next private ownership proofs](evidence/gp_next_ownership.md) establish two
+address-taking owners under the experimental generic correction, including a
+53CFC C declaration repair, and stock-assembler exact split `.sdata`/`.sbss`
+storage for 48660. The next concrete build task is per-section carve/proof support;
+the global assembler switch still needs the remaining coordinated repairs.
+
 First execution checkpoint: [SLUS small-data measurements](evidence/fidelity_gp_repair_progress.md).
 The isolated generic assembler correction passes 70/70 pinned-version probes and
 changes exactly 59/884 SLUS TUs; all 69 affected globals currently have raw-asset

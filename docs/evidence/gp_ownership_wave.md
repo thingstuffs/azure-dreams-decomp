@@ -121,8 +121,11 @@ restores all 29 retail words with zero masks. See the
 and [ordinary candidate C](gp_ownership_wave/address_of_80047E78_candidate.c).
 The earlier failing-build receipt used that shifted ELF's addresses, so its
 per-function genuine/retail distance is not the authoritative retail comparison;
-its failed full-image gate remains valid. The 53CFC diagnosis still needs the same
-retail-anchor check. Neither candidate is activated: the global correction and
+its failed full-image gate remains valid. The
+[follow-up ownership proof](gp_next_ownership.md) supplies the 53CFC retail-anchor
+check and fixes its conflicting padded asm alias in private C. Both address-taking
+owners now pass genuine and full-image checks with the experimental correction.
+Neither candidate is activated: the global correction and
 full linked proof must be prepared together before the remaining sign-off.
 
 The remaining shared GP cohorts still include mixed recipes, overlapping data
