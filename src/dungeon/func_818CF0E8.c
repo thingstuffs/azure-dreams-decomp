@@ -111,10 +111,6 @@ typedef struct {
     u16 h[6];
 } Vec12;
 
-typedef struct {
-    s32 w;
-} __attribute__((packed)) UW;
-
 extern s32 func_80069EF8();
 extern void func_80024358();
 extern s32 func_800A4778();
@@ -153,10 +149,8 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
     s16 cnt;
     s32 r;
     s32 b;
-    register u8 *src ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-    register s32 w0 ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    u32 w1;
-    register s32 w2 ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
+    u8 *src;
+    s32 w1;
     u32 hi;
 
     D_80025924[0] = 1;
@@ -164,21 +158,22 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
     if (((S_818CF0E8_0 *)entity)->unk_00.s == 0) {
         p = (void *)0;
         loop_0: {
-            register s32 a3v ASM_REG("$7");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+            s32 a3v;
             s32 rv;
-            p = (u8 *)p + 1;
             rv = func_80069EF8();
             w1 = (s32)((u8 *)entity - 0x20);
             src = (u8 *)(0xC0C0C0);
             a3v = (rv & 0xFF) | 0x80;
-            ASM_USE2(src, a3v);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
             func_80024358((void *)w1, ((S_818CF0E8_0 *)entity)->unk_16, (s32)src, a3v, 0, 0, 0);
+            p = (u8 *)p + 1;
         } if ((s32)p < 4) goto loop_0;
         if ((func_800A4778(pos->unk_00.at02.v, pos->unk_04.at02.v,
                            pos->unk_08.at02.v, ((S_818CF0E8_0 *)entity)->unk_30) << 0x10) != 0) {
             goto finish;
         }
         if (((S_818CF0E8_0 *)entity)->unk_08 != 0) {
+            u16 a2v;
+            u16 a1v;
             star = ((S_818CF0E8_8_pre *)(((S_818CF0E8_0 *)entity)->unk_30))[-1].unk_00;
             if (pos->unk_08.at00.v < ((S_818CF0E8_2 *)star)->unk_08.at00.v + (s32)0xFF800000) {
                 ((S_818CF0E8_0 *)entity)->unk_54 /= 2;
@@ -191,15 +186,14 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
             aw = d;
             aw = abs(aw);
             if (aw < 8) {
-                s32 v;
                 s32 a;
                 s32 lim;
                 lim = 0x40000;
-                v = ((S_818CF0E8_0 *)entity)->unk_4C;
-                a = v;
+                w1 = ((S_818CF0E8_0 *)entity)->unk_4C;
+                a = w1;
                 a = abs(a);
                 if (a > lim) {
-                    ((S_818CF0E8_0 *)entity)->unk_4C = v / 2;
+                    ((S_818CF0E8_0 *)entity)->unk_4C = w1 / 2;
                 }
             } else if (((S_818CF0E8_0 *)entity)->unk_4C == 0) {
                 s32 nv = -0x200000;
@@ -235,16 +229,13 @@ void func_818CF0E8(void *entity, S_818CF0E8_1 *pos, S_818CF0E8_3 *gfx)
             }
             }
             {
-                u16 a2v;
-                u16 a1v;
                 s32 aw;
                 s32 d;
                 s32 st;
                 a2v = pos->unk_00.at02.v;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 d = pos->unk_00.at02u.v;
-                st = ((S_818CF0E8_2 *)star)->unk_02.s;
                 a1v = ((S_818CF0E8_2 *)star)->unk_02.u;
+                st = ((S_818CF0E8_2 *)star)->unk_02.s;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -278,16 +269,13 @@ x_recheck:
                 }
             }
             {
-                u16 a2v;
-                u16 a1v;
                 s32 aw;
                 s32 d;
                 s32 st;
                 a2v = pos->unk_04.at02.v;
-                ASM_MEM_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
                 d = pos->unk_04.at02u.v;
-                st = ((S_818CF0E8_2 *)star)->unk_06.s;
                 a1v = ((S_818CF0E8_2 *)star)->unk_06.u;
+                st = ((S_818CF0E8_2 *)star)->unk_06.s;
                 d -= st;
                 aw = (d >= 0) ? d : (0 - d);
                 if (aw >= 0xC1) {
@@ -321,8 +309,6 @@ y_recheck:
                 }
             }
             {
-                register u16 a2v ASM_REG("$6");   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
-                register u16 a1v ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
                 s32 aw;
                 s32 d;
                 s32 st;
@@ -338,7 +324,6 @@ y_recheck:
                 d -= st;
                 aw = abs(d);
                 if (aw >= 0xC1) {
-                    ASM_USE2(a2v, a1v);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
                     pos->unk_08.at00.v += ((S_818CF0E8_0 *)entity)->unk_54;
                     goto after_axes;
                 }
@@ -377,7 +362,8 @@ after_axes:
         obj = func_8003FC64(0x212);
         {
             u8 *s3;
-            s3 = (u8 *)obj + 0x20;
+            s3 = (u8 *)obj;
+            s3 += 0x20;
             if (obj != 0) {
             ((S_818CF0E8_4 *)s3)->unk_02 = 0x34;
             ((S_818CF0E8_5 *)obj)->unk_10 = D_800245C8;
@@ -524,18 +510,7 @@ finish:
         ((S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
         hi = func_80069EF8() & 0xFFF;
         ((S_818CF0E8_6 *)p)->unk_1A = hi;
-        {
-            hi = (s32)0x80020000;
-            ASM_KEEP(hi);
-            src = (u8 *)(hi + 0x590C);
-            w0 = ((UW *)(src + 0))->w;
-            w1 = ((UW *)(src + 4))->w;
-            w2 = ((UW *)(src + 8))->w;
-            ((UW *)((u8 *)obj + 0x40))->w = w0;
-            ((UW *)((u8 *)obj + 0x44))->w = w1;
-            ((UW *)((u8 *)obj + 0x48))->w = w2;
-        }
-        ASM_SCHED_BARRIER();
+        *(Vec12 *)((u8 *)obj + 0x40) = D_8002590C;
         ((S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
     }
     obj = func_8003FC64(0x12);
@@ -560,18 +535,7 @@ finish:
         ((S_818CF0E8_6 *)p)->unk_0E = gfx->unk_0E;
         hi = func_80069EF8() & 0xFFF;
         ((S_818CF0E8_6 *)p)->unk_1A = hi;
-        {
-            hi = (s32)0x80020000;
-            ASM_KEEP(hi);
-            src = (u8 *)(hi + 0x5918);
-            w0 = ((UW *)(src + 0))->w;
-            w1 = ((UW *)(src + 4))->w;
-            w2 = ((UW *)(src + 8))->w;
-            ((UW *)((u8 *)obj + 0x40))->w = w0;
-            ((UW *)((u8 *)obj + 0x44))->w = w1;
-            ((UW *)((u8 *)obj + 0x48))->w = w2;
-        }
-        ASM_SCHED_BARRIER();
+        *(Vec12 *)((u8 *)obj + 0x40) = D_80025918;
         ((S_818CF0E8_6 *)p)->unk_08.at00.v = (u8 *)obj + 0x40;
     }
     gfx->unk_1A = func_80069EF8() & 0xFFF;

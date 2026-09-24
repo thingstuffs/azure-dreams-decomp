@@ -102,23 +102,19 @@ void func_80026010(void) {
     s32 upper_right_z;
     s32 lower_left_z;
     s32 lower_right_z;
-    register s32 addr_or_coord ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it recolours the count-page register ($2 -> $3) and turns the count read into lhu+sign-extend; the source shape that makes it unnecessary has not been found */
+    s32 addr_or_coord;
     s32 biased_index;
-    s32 quad_count;
 #ifdef NON_MATCHING
     u8 *count_page;
 #endif
 
-    quad_index = 0;
-    if (D_8002632A > 0) {
+    for (quad_index = 0; quad_index < D_8002632A; quad_index++) {
         vertices = D_80026478;
-        do {
-            fragment = func_8003FC64(0x202);
-            SET_COUNT_PAGE();
-            if (fragment != NULL) {
-                object_or_x = (s32)fragment;
-                fragment->unk_10 = D_80025A58;
-                func_8004491C((void *)object_or_x, D_80025E4C);
+        fragment = func_8003FC64(0x202);
+        if (fragment != NULL) {
+            object_or_x = (s32)fragment;
+            fragment->unk_10 = D_80025A58;
+            func_8004491C((void *)object_or_x, D_80025E4C);
 
                 row_start = quad_index & ~0xF;
                 column_or_coord = (quad_index + 1) & 0xF;
@@ -154,19 +150,14 @@ void func_80026010(void) {
                 quad->unk_48 = *(s32 *)((u8 *)D_800264F8 + right_offset);
                 quad->unk_4C = lower_right->z;
 
-                if ((quad_index % 32) < 0x10) {
-                    *(s32 *)((u8 *)quad + 0x50) = D_80026470;
-                    quad->unk_54 = D_80026474;
-                } else {
-                    *(s32 *)((u8 *)quad + 0x54) = D_80026470;
-                    quad->unk_50 = D_80026474;
-                }
-                SET_COUNT_PAGE();
+            if ((quad_index % 32) < 0x10) {
+                *(s32 *)((u8 *)quad + 0x50) = D_80026470;
+                quad->unk_54 = D_80026474;
+            } else {
+                *(s32 *)((u8 *)quad + 0x54) = D_80026470;
+                quad->unk_50 = D_80026474;
             }
-            quad_count = READ_COUNT_PAGE();
-               /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-            quad_index++;
-        } while (quad_index < quad_count);
+        }
     }
-    *(volatile s16 *)&D_8002632A = 0;
+    D_8002632A = 0;
 }

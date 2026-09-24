@@ -38,9 +38,8 @@ s16 func_8009FB34(u16, u16);
 s32 func_800BCB04(s32, s32, s16);
 
 /* Check a directional move against map bounds, collisions, monsters, and floor height. */
-s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16 height_offset) {
+s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 *body, u16 height_offset) {
     StackU16 collision;
-    u16 saved_offset;
     s16 monster_index;
     register s16 floor_height ASM_REG("$18");
     s32 target_height;
@@ -48,7 +47,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
     u8 *x_steps;
     s32 direction;
     s32 coord_work;
-    register s32 target_x ASM_REG("$17");
+    u32 target_x;
     s32 step_offset;
     u32 offset_work;
     s32 result;
@@ -59,17 +58,13 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
     u16 *y_step;
     u16 height;
     u32 target_y_u16;
-    u32 target_x_u16;
     register u32 center_y ASM_REG("$20");
     register s32 direction_or_x ASM_REG("$4");
     register s32 tile_coord ASM_REG("$5");
     s32 y_or_direction;
     u32 collision_out;
-    register u16 offset_arg ASM_REG("$7");
     u32 body_addr;
 
-    offset_arg = height_offset;
-    ASM_KEEP_NV(offset_arg);
     direction_bits = (move_flags >> 9) & 7;
     direction = direction_bits;
     ASM_KEEP_NV(direction);
@@ -79,13 +74,11 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
     coord_or_height = actor->x;
     offset_work = *x_step;
     direction_or_x = direction;
-    saved_offset = offset_arg;
     target_x = coord_or_height + offset_work;
     map_limits = D_8008333C;
     next_x = target_x & 0xFFFF;
     if (next_x != 0) {
         if (((1 << map_limits[10]) - 1) >= next_x) {
-            ASM_USE_NV(target_x);
             y_step = (u16 *)((u8 *)D_8006CCE8 + step_offset);
             coord_or_height = actor->y;
             offset_work = *y_step;
@@ -105,7 +98,7 @@ s32 func_8009A8C0(u32 move_flags, FuncArg1 *actor, FuncArg2 * volatile body, u16
                     offset_work += 0x20;
                     center_y = offset_work;
                     result = func_8009A540(direction_or_x, tile_coord, y_or_direction,
-                                          (s16)(height - offset_arg)) << 0x10;
+                                          (s16)(height - height_offset)) << 0x10;
                     if (result != 0) {
                         y_or_direction = direction;
                         collision_out = (u32)&collision.value;
@@ -136,20 +129,17 @@ collision_clear:
                         !(D_800E2970[monster_index].flags & 2) ||
                         (result = 0, ((body_addr = (u32)body,
                                        ((FuncArg2 *)body_addr)->flags & 0x2000) != 0))) {
-                                           register u32 sample_offset ASM_REG("$8");
                         if (collision.value & 0x3300) {
-                            target_x_u16 = target_x & 0xFFFF;
+                            target_x &= 0xFFFF;
                             if (collision.value & 0x40) {
                                 {
                                     u16 sample_x;
-                                    sample_x = target_x_u16;
+                                    sample_x = target_x;
                                     target_y_u16 = coord_work & 0xFFFF;
-                                    ASM_USE(target_y_u16);
-                                    sample_offset = saved_offset;
                                     floor_height = func_800BCB04(sample_x, target_y_u16,
-                                                                (s16)(height - sample_offset));
+                                                                (s16)(height - height_offset));
                                 }
-                                tile_coord = target_x_u16 >> 6;
+                                tile_coord = target_x >> 6;
                                 y_or_direction = target_y_u16 >> 6;
                                 target_height = (s16)floor_height;
                                 if (target_height >= 0x201) {
@@ -169,9 +159,8 @@ move_failed:
                             return -1;
                         }
                         {
-                            sample_offset = saved_offset;
                             floor_height = func_800BCB04(target_x & 0xFFFF, coord_work & 0xFFFF,
-                                                        (s16)(height - sample_offset));
+                                                        (s16)(height - height_offset));
                         }
                         coord_or_height = floor_height << 0x10;
 check_height:
