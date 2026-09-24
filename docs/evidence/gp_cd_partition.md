@@ -89,6 +89,11 @@ transformer changes no instruction or relocation record. This closes the layout
 experiment above; shared declarations, production tooling and owner activation
 remain unfinished. The earlier tentative-common oracle remains only an oracle.
 
+The subsequent [private tooling integration](gp_data_pieces.md) passes the
+same layout through generated Ninja, candidate compilation/restoration and
+fresh genuine verification. Its complete patch and regression results are saved;
+production tooling rollout and shared CD declaration repairs remain pending.
+
 ## Tracked next work
 
 1. Integrate the now-proved explicit data-piece layout into module tooling,
