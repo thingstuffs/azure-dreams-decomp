@@ -58,7 +58,6 @@ typedef struct {
 extern WordTable18 D_80020088;
 extern HalfTable0C D_800200A0;
 extern PairTable18 D_800200AC;
-extern u8 D_80020000[];
 extern u8 D_800200C4[];
 extern u8 D_800200D0[];
 extern u8 D_800203D8[];
@@ -91,7 +90,6 @@ void func_80020900(TownEntity *menu)
     HalfTable0C option_ids = D_800200A0;
     PairTable18 factor_pairs = D_800200AC;
     s32 option_index;
-    s32 row_y;
     s32 total_factor;
     s32 scaled_quantity;
     s32 second_factor;
@@ -100,11 +98,6 @@ void func_80020900(TownEntity *menu)
     s32 quantity;
     s32 state;
     u8 *input;
-    u8 *data_page;
-    u8 *label_page;
-    s16 *label_cursor;
-    register void *text_pool ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    register TownRecord30 *text_arg ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
     s32 text_color;
 
     input = D_80083160;
@@ -156,14 +149,6 @@ state_0:
     func_8002025C(D_80021028, &panel_record);
 
     text_color = 0x808080;
-#ifdef NON_MATCHING
-    data_page = D_80020000;
-#else
-    data_page = (u8 *)0x80020000;
-#endif
-    ASM_KEEP(data_page);   /* UNRESOLVED C shape (pin): removing it rematerialises a constant retail keeps in a register; the source shape that makes it unnecessary has not been found */
-    text_pool = data_page + 0x4AC;
-    text_arg = &text_record;
     text_record.x = 0xCC;
     text_record.y = 0x14;
     text_record.value = 0x7C80;
@@ -173,23 +158,16 @@ state_0:
     text_record.data = D_800200D0;
     text_record.active = 0;
     text_record.owner = entity;
-    func_800201C8(text_pool, text_arg);
+    func_800201C8(D_800204AC, &text_record);
 
     option_index = 5;
     first_factor = &text_record;
-    label_page = data_page;
-    label_cursor = &text_record.x;
-    row_y = 0x5C;
     text_record.x = 0xDC;
     do {
-        text_pool = label_page + 0x4AC;
-        text_arg = first_factor;
-        text_record.y = row_y;
-        text_record.data = (void *)*(s32 *)((u8 *)label_cursor + 0x58);
-        label_cursor -= 2;
-        row_y -= 0x0C;
+        text_record.y = option_index * 12 + 0x20;
+        text_record.data = (void *)option_labels.word[option_index];
+        func_800201C8(D_800204AC, first_factor);
         option_index--;
-        func_800201C8(text_pool, text_arg);
     } while (option_index >= 0);
     entity->state = (u16)entity->state + 1;
     entity->timer = 0;
