@@ -78,14 +78,26 @@ commons retain GP loads/stores. Direct C section attributes therefore lose the
 required genuine GP code in this measured case; they are not the CD ownership
 solution. No production assembler change was made.
 
+## Linked data-piece prototype
+
+The resumed [layout experiment](gp_cd_partition/object_split/REPORT.md) now
+proves a linkable private representation: eight explicitly initialized globals
+are split into named sections after assembly. All 698 words still match genuine
+ASPSX and retail with zero masks. Stock and generic full-image arms are both
+retail-exact, including 23 selected data bytes and every surrounding byte. The
+transformer changes no instruction or relocation record. This closes the layout
+experiment above; shared declarations, production tooling and owner activation
+remain unfinished. The earlier tentative-common oracle remains only an oracle.
+
 ## Tracked next work
 
-1. Prototype a generic representation of discontiguous real data storage in
-   isolation. The direct named-section approach above changes genuine addressing;
-   investigate partitioning actual assembled data sections while preserving code,
-   symbols and relocations. Require genuine comparison and a linked data-layout
-   proof before expanding the module schema. Preserve raw gap bytes; do not insert
-   padding objects or keyed exceptions.
+1. Integrate the now-proved explicit data-piece layout into module tooling,
+   genuine comparison and ownership certificates together. The
+   [linked prototype](gp_cd_partition/object_split/REPORT.md) uses explicit
+   initialized globals and partitions assembled data without changing instruction
+   bytes or relocation entries. Both full executable arms match retail; all 868
+   outside objects are unchanged. Production schema and activation remain pending.
+   Preserve raw gap bytes and reject ambiguous data targets.
 2. Reconcile the CD shared declarations using the eight-byte result buffer,
    real B0/B4 pair, byte state and AD fields. Measure complete consumers, including
    F240, under evidenced recipes. A grouping is acceptable only with complete

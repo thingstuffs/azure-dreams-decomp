@@ -1,0 +1,336 @@
+{
+  "baseline": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "source_sha256": "1d29f07f03c2648192dfaa7ed8ab49f1c060f7d92860aa2677fbc3cc80cc7c4f",
+  "fresh_stock_object_sha256": "ec96a814c2a0fb2840e11dfef059af74b82596798a8c261bd2fbe6e2338be880",
+  "fresh_stock_compile_tail": [
+    "[1/1] CC src/w_8003E758.c (gcc 2.7.2-cdk -G32 -fno-expensive-optimizations )"
+  ],
+  "instruction_comparisons": {
+    "initialized_stock": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 698,
+      "len_g": 698,
+      "missing": []
+    },
+    "generic": {
+      "exact": true,
+      "diff": 0,
+      "len_m": 698,
+      "len_g": 698,
+      "missing": []
+    }
+  },
+  "splitter_source_sha256": "bfc92a9d5d6db981feb872e7159978485b447fff7eb96af060e2d4851cafcc41",
+  "pieces": [
+    {
+      "symbol": "D_800814D0",
+      "size": 1,
+      "section": ".sdata.D_800814D0",
+      "alignment": 1
+    },
+    {
+      "symbol": "D_800814D4",
+      "size": 1,
+      "section": ".sdata.D_800814D4",
+      "alignment": 1
+    },
+    {
+      "symbol": "D_800814CC",
+      "size": 4,
+      "section": ".sdata.D_800814CC",
+      "alignment": 4
+    },
+    {
+      "symbol": "D_80081450",
+      "size": 8,
+      "section": ".sdata.D_80081450",
+      "alignment": 4
+    },
+    {
+      "symbol": "D_80080AD0",
+      "size": 1,
+      "section": ".sdata.D_80080AD0",
+      "alignment": 1
+    },
+    {
+      "symbol": "D_80080AD2",
+      "size": 2,
+      "section": ".sdata.D_80080AD2",
+      "alignment": 2
+    },
+    {
+      "symbol": "D_80080AD4",
+      "size": 2,
+      "section": ".sdata.D_80080AD4",
+      "alignment": 2
+    },
+    {
+      "symbol": "D_80080AD8",
+      "size": 4,
+      "section": ".sdata.D_80080AD8",
+      "alignment": 4
+    }
+  ],
+  "removed_abs": {
+    "D_80080AD0": 2148010704,
+    "D_80080AD2": 2148010706,
+    "D_80080AD4": 2148010708,
+    "D_80080AD8": 2148010712,
+    "D_80081450": 2148013136,
+    "D_800814CC": 2148013260,
+    "D_800814D0": 2148013264,
+    "D_800814D4": 2148013268
+  },
+  "gap_count": 9,
+  "gap_bytes": 195,
+  "gaps": [
+    {
+      "object": "build/cd_split_gaps/54240_000074_0000BE_000074_000090.o",
+      "start": 116,
+      "end": 144,
+      "sha256": "b1b0d37e93276ed52b8a68326c61e5487c5608b150969d05eb9fb76866b215c6"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000074_0000BE_000091_000092.o",
+      "start": 145,
+      "end": 146,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000074_0000BE_000096_000098.o",
+      "start": 150,
+      "end": 152,
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000074_0000BE_00009C_0000BE.o",
+      "start": 156,
+      "end": 190,
+      "sha256": "712439073b896ad76624d5eab9de507325fa173984223e566fc29d02d826a4ae"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000A0C_000A20_000A0C_000A10.o",
+      "start": 2572,
+      "end": 2576,
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000A0C_000A20_000A18_000A20.o",
+      "start": 2584,
+      "end": 2592,
+      "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000A24_000AA0_000A24_000A8C.o",
+      "start": 2596,
+      "end": 2700,
+      "sha256": "39f37f8d1931b3bdf767e7510dd69509fbf23af1f7654933d0a4d291cbdd4418"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000A24_000AA0_000A91_000A94.o",
+      "start": 2705,
+      "end": 2708,
+      "sha256": "709e80c88487a2411e1ee4dfb9f22a861492d20c4765150c0c794abd70f8147c"
+    },
+    {
+      "object": "build/cd_split_gaps/54240_000A24_000AA0_000A95_000AA0.o",
+      "start": 2709,
+      "end": 2720,
+      "sha256": "71b6c1d53832f789a7f2435a7c629245fa3761ad8487775ebf4957330213a706"
+    }
+  ],
+  "removed_raw_chunks": [
+    "build/module_assets/54240_000074_0000BE.o",
+    "build/module_assets/54240_000A0C_000A20.o",
+    "build/module_assets/54240_000A24_000AA0.o"
+  ],
+  "arms": [
+    {
+      "arm": "stock",
+      "split_object_sha256": "15b6285e035c58e8595f0a41448186a2a8f11a9dcdc2eea29a808aaee1b16869",
+      "splitter": {
+        "input_sha256": "ec96a814c2a0fb2840e11dfef059af74b82596798a8c261bd2fbe6e2338be880",
+        "output_sha256": "15b6285e035c58e8595f0a41448186a2a8f11a9dcdc2eea29a808aaee1b16869",
+        "moved_count": 8,
+        "relocations_unchanged": true,
+        "nondata_payloads_unchanged": true
+      },
+      "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+      "image_match": true,
+      "first_diff_offset": null,
+      "data": [
+        {
+          "symbol": "D_80080AD0",
+          "vram": 2148010704,
+          "size": 1,
+          "asset_offset": 144,
+          "linked_kind": "T",
+          "bytes": "00"
+        },
+        {
+          "symbol": "D_80080AD2",
+          "vram": 2148010706,
+          "size": 2,
+          "asset_offset": 146,
+          "linked_kind": "T",
+          "bytes": "0000"
+        },
+        {
+          "symbol": "D_80080AD4",
+          "vram": 2148010708,
+          "size": 2,
+          "asset_offset": 148,
+          "linked_kind": "T",
+          "bytes": "0000"
+        },
+        {
+          "symbol": "D_80080AD8",
+          "vram": 2148010712,
+          "size": 4,
+          "asset_offset": 152,
+          "linked_kind": "T",
+          "bytes": "00000000"
+        },
+        {
+          "symbol": "D_80081450",
+          "vram": 2148013136,
+          "size": 8,
+          "asset_offset": 2576,
+          "linked_kind": "T",
+          "bytes": "0000000000000000"
+        },
+        {
+          "symbol": "D_800814CC",
+          "vram": 2148013260,
+          "size": 4,
+          "asset_offset": 2700,
+          "linked_kind": "T",
+          "bytes": "00000000"
+        },
+        {
+          "symbol": "D_800814D0",
+          "vram": 2148013264,
+          "size": 1,
+          "asset_offset": 2704,
+          "linked_kind": "T",
+          "bytes": "00"
+        },
+        {
+          "symbol": "D_800814D4",
+          "vram": 2148013268,
+          "size": 1,
+          "asset_offset": 2708,
+          "linked_kind": "T",
+          "bytes": "00"
+        }
+      ],
+      "payload_bytes": 23,
+      "link_input_count": 1144
+    },
+    {
+      "arm": "generic",
+      "split_object_sha256": "1d620e90ab4ce2ed87c3a257373c740f54ac5cadd130e87b07f15be69dab17f1",
+      "splitter": {
+        "input_sha256": "1b56426a94ce9f03e576fdf647edd9edfe2725199ebf4b6221519307dda57c63",
+        "output_sha256": "1d620e90ab4ce2ed87c3a257373c740f54ac5cadd130e87b07f15be69dab17f1",
+        "moved_count": 8,
+        "relocations_unchanged": true,
+        "nondata_payloads_unchanged": true
+      },
+      "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+      "image_match": true,
+      "first_diff_offset": null,
+      "data": [
+        {
+          "symbol": "D_80080AD0",
+          "vram": 2148010704,
+          "size": 1,
+          "asset_offset": 144,
+          "linked_kind": "T",
+          "bytes": "00"
+        },
+        {
+          "symbol": "D_80080AD2",
+          "vram": 2148010706,
+          "size": 2,
+          "asset_offset": 146,
+          "linked_kind": "T",
+          "bytes": "0000"
+        },
+        {
+          "symbol": "D_80080AD4",
+          "vram": 2148010708,
+          "size": 2,
+          "asset_offset": 148,
+          "linked_kind": "T",
+          "bytes": "0000"
+        },
+        {
+          "symbol": "D_80080AD8",
+          "vram": 2148010712,
+          "size": 4,
+          "asset_offset": 152,
+          "linked_kind": "T",
+          "bytes": "00000000"
+        },
+        {
+          "symbol": "D_80081450",
+          "vram": 2148013136,
+          "size": 8,
+          "asset_offset": 2576,
+          "linked_kind": "T",
+          "bytes": "0000000000000000"
+        },
+        {
+          "symbol": "D_800814CC",
+          "vram": 2148013260,
+          "size": 4,
+          "asset_offset": 2700,
+          "linked_kind": "T",
+          "bytes": "00000000"
+        },
+        {
+          "symbol": "D_800814D0",
+          "vram": 2148013264,
+          "size": 1,
+          "asset_offset": 2704,
+          "linked_kind": "T",
+          "bytes": "00"
+        },
+        {
+          "symbol": "D_800814D4",
+          "vram": 2148013268,
+          "size": 1,
+          "asset_offset": 2708,
+          "linked_kind": "T",
+          "bytes": "00"
+        }
+      ],
+      "payload_bytes": 23,
+      "link_input_count": 1144
+    }
+  ],
+  "outside_objects": {
+    "checked": 868,
+    "changed": []
+  },
+  "production_snapshot": {
+    "src/slus/w_8003E758.c": "5e0d0566707dba49b74641b49d4b1ec9e323fe8aef85825e07f01f3abf36ad60",
+    "config/slus_modules.json": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+    "config/slus_partitions.json": "9aac94c3be0c71cb5a7cdccc6de135f0cd37100358db674870523e6aac5a9207",
+    "tools/build/configure.py": "c5a9cb7ac0f68543f8a996ea7d89d10a2d5eacca57c617db6669b9dff92d4b03",
+    "build_slus/build.ninja": "c74e83b131ea6c04c2cc4f62dc042b45ebaf28dfc1d37350b8159a699a52d7f2",
+    "build_slus/build/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "baserom/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "build_slus/assets/54240.bin": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da",
+    "work/native_lane/gp_cd_partition/object_split/initialized/w_8003E758.c": "1d29f07f03c2648192dfaa7ed8ab49f1c060f7d92860aa2677fbc3cc80cc7c4f",
+    "work/native_lane/gp_cd_partition/object_split/initialized/a.o": "3c19c64f5580b2bdc80172a7b400a571e27fd25f662ba5f7c48d1d6d071f4607",
+    "work/native_lane/gp_cd_partition/object_split/initialized/generic.o": "1b56426a94ce9f03e576fdf647edd9edfe2725199ebf4b6221519307dda57c63",
+    "work/native_lane/gp_cd_partition/object_split/split_elf.py": "bfc92a9d5d6db981feb872e7159978485b447fff7eb96af060e2d4851cafcc41"
+  },
+  "production_inputs_unchanged": true
+}

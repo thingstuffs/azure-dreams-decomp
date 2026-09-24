@@ -92,3 +92,13 @@ not required when the primary agent can finish a task more cheaply.
   `evidence/fidelity_step4_measure.md`, `evidence/fidelity_step1_aspsx_diff.md`,
   `evidence/fidelity_lost_compiler_case.md`, `TOOLCHAIN_FIDELITY_PLAN.md`,
   `PIN_CAMPAIGN_CHARTER.md`, and `PLAN.md`.
+
+## Resumption checkpoint: linked CD layout prototype
+
+The [E758 data-piece experiment](evidence/gp_cd_partition/object_split/REPORT.md)
+now passes fresh genuine-ASPSX instruction comparison and both stock/generic
+full-image links. It preserves all surrounding data and 868 outside C objects.
+Production remains 189 dependencies / 21 GP rows; this private proof earns no
+removal. Next: integrate explicit data-piece plans into build/fidelity/ownership
+checks, reconcile the shared CD declarations, then measure the complete consumer
+group. The goal remains active with the same primary/Sol/Luna division of work.

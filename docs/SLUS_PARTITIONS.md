@@ -357,8 +357,11 @@ records the current hashes, counts and ladder results.
    at default CDK, pending the generic assembler transition. Next are the CD
    driver groups. The [CD checkpoint](evidence/gp_cd_partition.md) fixes an eight-byte
    SDK result-buffer declaration without changing any object, and reproduces all
-   698 E758 words in a local-storage oracle. Discontiguous real-data placement
-   and shared declarations remain the next steps. Review source/declaration
+   698 E758 words in a local-storage oracle. A subsequent
+   [data-piece prototype](evidence/gp_cd_partition/object_split/REPORT.md) also
+   passes both full-image links at the scattered retail addresses without
+   rewriting code or relocations. Production tooling and shared declarations
+   remain the next steps. Review source/declaration
    evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact

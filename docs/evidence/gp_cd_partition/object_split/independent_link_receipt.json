@@ -1,0 +1,120 @@
+{
+  "splitter_sha256": "bfc92a9d5d6db981feb872e7159978485b447fff7eb96af060e2d4851cafcc41",
+  "nonzero_data_preserved": true,
+  "text_and_relocation_records_unchanged": true,
+  "contiguous_link_code_pointer_and_payload_equal": true,
+  "scattered_link_addresses": {
+    "alpha": "0x11020",
+    "beta": "0x11000"
+  },
+  "scattered_GP_HI_LO_and_pointer_correct": true,
+  "negative_rejections": {
+    "nonzero_unowned_gap": ".sdata: nonzero unselected alignment bytes",
+    "relocation_from_moved_data": "relocation section 11: relocation originates in moved data",
+    "local_base_target": "piece 1: requires a defined GLOBAL non-FUNC data symbol",
+    "cross_object_addend": "relocation section 2: addend enters discarded alignment or another symbol",
+    "omitted_owner": ".sdata: unselected or unnamed non-section defined symbol",
+    "recorded_size_disagrees": "piece 0: span, alignment, or recorded symbol size differs"
+  },
+  "split_receipt": {
+    "schema": 1,
+    "input_sha256": "ddaed2df8794c3fb289ed9930c0fa2a544c92765d3c6a2e8a61f3ad91d9b159d",
+    "output_sha256": "285a2515f67d3e1000f64ca969b452429142dca276cd8479249c78669f5b9d73",
+    "original_section_count": 15,
+    "new_section_count": 17,
+    "original_symbol_count": 13,
+    "relocation_entries": 6,
+    "selected_relocations": [
+      {
+        "relocation_section": ".rel.text",
+        "offset": 0,
+        "symbol": "alpha",
+        "type": 7,
+        "addend": 0
+      },
+      {
+        "relocation_section": ".rel.text",
+        "offset": 4,
+        "symbol": "beta",
+        "type": 7,
+        "addend": 4
+      },
+      {
+        "relocation_section": ".rel.text",
+        "offset": 8,
+        "symbol": "beta",
+        "type": 5,
+        "addend": 4
+      },
+      {
+        "relocation_section": ".rel.text",
+        "offset": 12,
+        "symbol": "beta",
+        "type": 6,
+        "addend": 4
+      },
+      {
+        "relocation_section": ".rel.data",
+        "offset": 0,
+        "symbol": "alpha",
+        "type": 2,
+        "addend": 0
+      }
+    ],
+    "relocation_entries_unchanged": true,
+    "original_nondata_payloads_unchanged": true,
+    "symbol_indices_and_order_unchanged": true,
+    "moved": [
+      {
+        "symbol": "alpha",
+        "old_section": ".sdata",
+        "old_section_index": 10,
+        "old_offset": 0,
+        "size": 4,
+        "alignment": 4,
+        "new_section": ".sdata.alpha",
+        "new_section_index": 15,
+        "content_sha256": "1a2de690568587e6cd9adbd7d9f65ef269becd2f89fb89c224975b0c5944b973",
+        "content_hex": "78563412",
+        "old_symbol_size": 4
+      },
+      {
+        "symbol": "beta",
+        "old_section": ".sdata",
+        "old_section_index": 10,
+        "old_offset": 4,
+        "size": 8,
+        "alignment": 4,
+        "new_section": ".sdata.beta",
+        "new_section_index": 16,
+        "content_sha256": "9c91579802ad74f47c994cd0352b4a2255a837cc966930f43e05142c89038f97",
+        "content_hex": "efcdab9010325476",
+        "old_symbol_size": 8
+      }
+    ],
+    "emptied_source_sections": {
+      ".sdata": {
+        "old_section_index": 10,
+        "old_size": 16,
+        "kind": "PROGBITS",
+        "discarded_alignment_ranges": [
+          {
+            "start": 12,
+            "end": 16
+          }
+        ],
+        "discarded_alignment_bytes": 4,
+        "all_discarded_bytes_zero": true
+      }
+    },
+    "text_section_sha256": {
+      ".text": "31469f51e71f06a82f8f8e871c7de37f26da6b3cfff1f130ac1c6ecbbf6e7f84"
+    },
+    "boundaries": {
+      "program_headers": 0,
+      "symtabs": 1,
+      "rela": 0,
+      "extended_indices": false
+    }
+  }
+}
