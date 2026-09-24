@@ -28,7 +28,7 @@
 {"src":"src/konami_runtime_w_80033CD8.c","out":"build/src/konami_runtime_w_80033CD8.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_80033D08.c","out":"build/src/konami_runtime_w_80033D08.o","ccver":"2.7.2","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_80033D38.c","out":"build/src/konami_runtime_w_80033D38.o","ccver":"2.7.2","ccflags":"","asflags":""}
-{"src":"src/konami_runtime_w_80033D44.c","out":"build/src/konami_runtime_w_80033D44.o","ccver":"2.7.2","ccflags":"","asflags":""}
+{"src":"src/konami_runtime_w_80033D44.c","out":"build/src/konami_runtime_w_80033D44.o","ccver":"2.8.1","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_80033D54.c","out":"build/src/konami_runtime_w_80033D54.o","ccver":"2.8.1","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_800345B8.c","out":"build/src/konami_runtime_w_800345B8.o","ccver":"2.7.2-cdk","ccflags":"","asflags":""}
 {"src":"src/konami_runtime_w_80034E48.c","out":"build/src/konami_runtime_w_80034E48.o","ccver":"2.7.2-cdk","ccflags":"-G0","asflags":""}

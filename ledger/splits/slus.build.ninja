@@ -218,7 +218,7 @@ build build/src/konami_runtime_w_80033D38.o: cc src/konami_runtime_w_80033D38.c 
   asflags = 
 
 build build/src/konami_runtime_w_80033D44.o: cc src/konami_runtime_w_80033D44.c | tools/cc.sh tools/ccproc.py 
-  ccver = 2.7.2
+  ccver = 2.8.1
   ccflags = 
   asflags = 
 
