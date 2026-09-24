@@ -1,4 +1,4 @@
-#include "common.h"
+#include "slus/cd_state.h"
 
 typedef union ResultBox_8003E4FC {
     s32 value;
@@ -9,8 +9,6 @@ typedef struct EventSource_8003E4FC {
     void *field4;
 } EventSource_8003E4FC;
 
-extern s16 D_80080AD4;
-extern void *D_80080ADC;
 extern s32 func_8003E39C();
 
 /* Dispatch supported event codes and update the associated event state. */

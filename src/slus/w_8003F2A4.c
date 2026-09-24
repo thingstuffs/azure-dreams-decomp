@@ -1,4 +1,4 @@
-#include "common.h"
+#include "slus/cd_state.h"
 
 /* Ring buffer of 32 history entries, each 0x18 (24) bytes; only offset 0 is
  * accessed elsewhere (func_8003F240), matching D_80083968's established layout. */
@@ -7,13 +7,10 @@ typedef struct {
     u8 pad[0x17];
 } Struct80083968;
 
-extern u8 D_800814D0;
 extern Struct80083968 D_80083968[32];
 
 /* Two adjacent scalar globals (loaded/stored individually via $gp) that are
  * also treated as one small struct when their combined address is taken. */
-extern s32 D_800814B0;
-extern s32 D_800814B4;
 
 /* >8B neighbour spanning 0x800814AC..0x800814B7 (established in w_8003D5A4.c),
  * used to synthesize the hi/lo address-of D_800814B0 (offset 4 into it) per

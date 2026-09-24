@@ -1,4 +1,13 @@
 #include "slus/cd_state.h"
+u8 D_800814D0 = 0;
+u8 D_800814D4 = 0;
+u32 D_800814CC = 0;
+SlusCdResult D_80081450 = {0};
+u8 D_80080AD0 = 0;
+u16 D_80080AD2 = 0;
+u16 D_80080AD4 = 0;
+s32 D_80080AD8 = 0;
+
 typedef struct S_80083958 {
     /* 0x0 */ u32 unk0;
     /* 0x4 */ u8  unk4;

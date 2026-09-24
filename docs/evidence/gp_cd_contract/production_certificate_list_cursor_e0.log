@@ -1,0 +1,13 @@
+{
+  "module": "list_cursor_e0",
+  "members": [
+    "slus/w_80041134"
+  ],
+  "gate": {
+    "result": "MATCH",
+    "words_diff": 0,
+    "recipe_sha256": "c74e83b131ea6c04c2cc4f62dc042b45ebaf28dfc1d37350b8159a699a52d7f2"
+  },
+  "genuine": "2.79 exact; zero masked relocations",
+  "written": true
+}

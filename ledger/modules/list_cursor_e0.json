@@ -4,9 +4,9 @@
   "members": [
     "slus/w_80041134"
   ],
-  "at": "2026-09-24T21:32:54Z",
+  "at": "2026-09-24T21:49:11Z",
   "module_fingerprint": "ed85c7b2f880ab00e7eb15621ffe41d0c0e7e0bb39cfd5d1361030c5e05d9fc4",
-  "tool_fingerprint": "1d7f0e6ef7127d9fe3d5",
+  "tool_fingerprint": "c1d52de616ba83235451",
   "review": {
     "path": "docs/evidence/list_cursor_e0.md",
     "sha256": "0295150c1c38923748913a8ae6020c3103b4dd2fdc8a3e69d2f1d0425c8801b7",
@@ -48,7 +48,7 @@
         ],
         "total": 0,
         "err": null,
-        "secs": 2.03
+        "secs": 2.01
       },
       "physical_units": [
         {
@@ -168,7 +168,7 @@
         "src/w_80041134_owned.c": {}
       },
       "status": "ok",
-      "secs": 2.9
+      "secs": 2.8
     }
   },
   "physical": {

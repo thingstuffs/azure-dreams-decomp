@@ -1,0 +1,35 @@
+{
+  "scope": "shared declarations only; no GP dependency removal or new owner",
+  "sources": {
+    "w_8003E34C": "98e8469122c514137781b87db5418652b536c4dbd19eae7918cf2c2a74662300",
+    "w_8003E4FC": "41db07c2944560af8d0f6fcc59c7e54a277315e2e2d5f80680050ddabdb90409",
+    "w_8003E758": "fc94a723170a1bbdd181980c8ec2038c1781a605ac58690e434440dc160ace3c",
+    "w_8003F2A4": "f88540f16d97fc219ae138ac63346a5e869fddc7e399b822943d29a7a67b9e51",
+    "w_8003F368": "c9c83f2e4c7932b08bbaf18cd3730d75fcbf6b5053c4882bc386324d97abbccb",
+    "w_8003F5AC": "a085b8463e5e6e819ad253960920d3fcf5f0616245397b2aad88f24006389ace",
+    "w_8003F624": "5a54136dec09906ac59b15668bf204e56572e83b2bdf74ffc6691640388df447"
+  },
+  "header_sha256": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614",
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "all_869_objects_unchanged": true,
+  "recipe_unchanged": true,
+  "logical_rows": 884,
+  "owners": 23,
+  "dependency_ledger_unchanged": "d110d6d521eba1df9f72ba1db4f0c5d1a2af4724a71d94b154dab36394565cd9",
+  "previous_tool_fingerprint": "1d7f0e6ef7127d9fe3d5",
+  "tool_fingerprint": "c1d52de616ba83235451",
+  "existing_certificates_refreshed_and_valid": {
+    "runtime_directory": "d09190851844661715d27330738f3c61b0d69853a8287e01e5f2928b82f50456",
+    "list_cursor_e0": "129f49c64e1b7e2a7ed33884709b39528e2ff079e896e0db8c237d0b1273703e"
+  },
+  "direct_probes": {
+    "w_8003E34C": "69efe1074b2eb3514e42ad17c4214b22011c56b39584484b22f64095f8c10460",
+    "w_8003E4FC": "22a340cba395f7059e50fe40f983f6d36c26b9a098130153f961d68855670787",
+    "w_8003E758": "2fb806805d1781e5f19008e0dfed595c628674e9515d1f9824e5af12b8b89da9",
+    "w_8003F2A4": "3940e5a0a6df35a79c3d0ae6afbfeb3b9b0cf0a8732f4f3f7e07482bf42fd9ad",
+    "w_8003F368": "72850e1de4bc2026bb9706b65329eab711732f310c4acae05b49d183f91ca10b",
+    "w_8003F5AC": "cdb84c9f7d47ce487d537f9000ed5133aa119f3c711f89b51ad5f636b9493510",
+    "w_8003F624": "538b3a1db15a7be67b23653445a16fa76573a9b54eafdadb74e9472990c85d4a"
+  },
+  "private_gate_receipt_sha256": "cf52b892aa8e2267cb298962155fb1d7d5d68866be62caa3bf77c71cc3a6e755"
+}

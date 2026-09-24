@@ -1,8 +1,5 @@
-#include "common.h"
+#include "slus/cd_state.h"
 
-#include "common.h"
-
-extern u16 D_80080AD4;
 extern u8 D_8008395C[9];
 
 /* Returns the stored flags with bit 2 set when D_80080AD4 is nonzero. */

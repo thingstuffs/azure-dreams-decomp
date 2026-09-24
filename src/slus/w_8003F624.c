@@ -1,9 +1,8 @@
-#include "common.h"
+#include "slus/cd_state.h"
 
 /* dual-access global: sb-store of D_800814D4 via $gp scalar, but address-of
  * (for CdControlB's param pointer) goes through a >8B neighbour symbol
  * D_800814D3[1] == &D_800814D4, forcing hi/lo codegen for the address-of. */
-extern u8 D_800814D4;
 extern u8 D_800814D3[8];
 
 extern int CdControlB(u8 com, u8 *param, u8 *result);

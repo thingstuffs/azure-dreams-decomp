@@ -1,4 +1,13 @@
 #include "slus/cd_state.h"
+u8 D_800814D0 = 0;
+u8 D_800814D4 = 0;
+u32 D_800814CC = 0;
+SlusCdResult D_80081450 = {0};
+u8 D_80080AD0 = 0;
+u16 D_80080AD2 = 0;
+u16 D_80080AD4 = 0;
+s32 D_80080AD8 = 0;
+
 typedef struct S_80083958 {
     /* 0x0 */ u32 unk0;
     /* 0x4 */ u8  unk4;
@@ -33,7 +42,7 @@ extern S_80083958 D_80083958;
 extern void *jtbl_8002D5C0[];
 extern S_80083968 D_80083968[32];
 
-extern u8  D_800814D1[16];    /* tail index: %hi/%lo (size>8) */
+extern u8  D_800814D1[1];    /* tail index: %hi/%lo (size>8) */
     /* driver state byte: %hi/%lo; head via [-3] */
 extern u8  D_800814D8[16];    /* %hi/%lo CdReadSync buffer */
 extern u8  D_80081438[0x20];  /* neighbour: &D_80081438[0x18]==&D_80081450 (%hi/%lo) */
@@ -53,22 +62,22 @@ extern void func_8003E70C(void);
 extern void func_8003F5EC(void);
 extern void func_8003F624(void);
 extern void CdIntToPos(u32 lba, u8 *loc);
-extern u8  D_800814D3[16];
-extern u8  D_800814D3_1[16] __asm__("D_800814D3");
-extern u8  D_800814D3_2[16] __asm__("D_800814D3");
-extern u8  D_800814D3_3[16] __asm__("D_800814D3");
-extern u8  D_800814D3_8[16] __asm__("D_800814D3");
-extern u8  D_800814D3_9[16] __asm__("D_800814D3");
-extern u8  D_800814D3_10[16] __asm__("D_800814D3");
-extern u8  D_800814D3_11[16] __asm__("D_800814D3");
-extern u8  D_800814D3_12[16] __asm__("D_800814D3");
-extern u8  D_800814D3_13[16] __asm__("D_800814D3");
-extern u8  D_800814D3_14[16] __asm__("D_800814D3");
-extern u8  D_800814D3_15[16] __asm__("D_800814D3");
-extern u8  D_800814D3_24[16] __asm__("D_800814D3");
-extern u8  D_800814D2[16];
-extern u8  D_800814D2_P[16] __asm__("D_800814D2");
-extern u8  D_800814D2_R[16] __asm__("D_800814D2");
+extern u8  D_800814D3[2];
+extern u8  D_800814D3_1[1] __asm__("D_800814D3");
+extern u8  D_800814D3_2[1] __asm__("D_800814D3");
+extern u8  D_800814D3_3[1] __asm__("D_800814D3");
+extern u8  D_800814D3_8[1] __asm__("D_800814D3");
+extern u8  D_800814D3_9[1] __asm__("D_800814D3");
+extern u8  D_800814D3_10[1] __asm__("D_800814D3");
+extern u8  D_800814D3_11[1] __asm__("D_800814D3");
+extern u8  D_800814D3_12[1] __asm__("D_800814D3");
+extern u8  D_800814D3_13[1] __asm__("D_800814D3");
+extern u8  D_800814D3_14[1] __asm__("D_800814D3");
+extern u8  D_800814D3_15[1] __asm__("D_800814D3");
+extern u8  D_800814D3_24[1] __asm__("D_800814D3");
+extern u8  D_800814D2[1];
+extern u8  D_800814D2_P[1] __asm__("D_800814D2");
+extern u8  D_800814D2_R[1] __asm__("D_800814D2");
 
 #define CDBUF (&D_80081438[0x18])   /* == &D_80081450, %hi/%lo addressing */
 

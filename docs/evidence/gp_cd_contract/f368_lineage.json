@@ -1,0 +1,28 @@
+{
+  "function": "func_8003F368",
+  "adapter": "SLUS retail slice to unchanged lineage scan/classify API; CLI is overlay-only",
+  "start": "0x8003f368",
+  "end": "0x8003f52c",
+  "words": 113,
+  "slice_sha256": "f359fab539f9ff244cf8f2055e214565b2aa22e89415e7a6cbdfed3c2eeebc1c",
+  "scanner_sha256": "bfc04532d31a918cf5c5f87878b2c4048eb169a10a632df3f5574ed6e5248345",
+  "evidence": {
+    "at_macro": [
+      "[51] lui $at, 0x8008",
+      "[52] sb $v0, 0x14d3($at)"
+    ],
+    "split_store": [],
+    "held_page": [],
+    "slot_store": [],
+    "split_la": [],
+    "zero_copy": [],
+    "ret_copy": []
+  },
+  "held_pages": [],
+  "gp_refs": 9,
+  "classification": {
+    "verdict": "<=2.7.2-family store emission (assembler macros)",
+    "family": "<=2.7.2-family",
+    "notes": []
+  }
+}

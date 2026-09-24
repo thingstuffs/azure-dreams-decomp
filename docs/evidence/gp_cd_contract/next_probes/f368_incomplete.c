@@ -1,12 +1,7 @@
 #include "slus/cd_state.h"
 
-typedef struct {
-    u8 val;
-    u8 pad[15];
-} S_80081451;
-
-extern S_80081451 D_80081451;
-extern S_80081451 D_80081452;
+extern u8 D_80081451[];
+extern u8 D_80081452[];
 extern u8 D_800814D3[16];
 
 extern s32 CdSync(s32 mode, u8 *result);
@@ -73,8 +68,8 @@ L8003F3A4:
     }
 
     cd_loc[0] = D_80081450.bytes[0];
-    cd_loc[1] = D_80081451.val;
-    cd_loc[2] = D_80081452.val;
+    cd_loc[1] = D_80081451[0];
+    cd_loc[2] = D_80081452[0];
     sector_pos = CdPosToInt(cd_loc);
 
     if (func_8003F688(D_80081450.bytes[0]) >= 0x4B) {
