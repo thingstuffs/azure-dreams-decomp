@@ -1,5 +1,34 @@
 # Combined 18-function private rehearsal
 
+## Current rebase after command-slot activation
+
+The [fresh rebase receipt](gp_ready18_rebased_81554/receipt.json) preserves the
+activated 81554/58 owner and repeats all **891 words across 18 functions** with
+fresh generic, genuine and linked-object equality, zero masks and an exact full
+retail image. The [primary review](gp_ready18_rebased_81554/primary_review.json)
+independently checks the complete raw function sets in all twelve physical
+streams. Production remains unchanged by this private experiment.
+
+The baseline is now **23 modules / 869 physical / 884 logical rows**. The private
+trial has 30 modules, 864 physical inputs, 56 exact owned data declarations and
+191 functions in the connected group. All 851 outside active objects are
+unchanged. The existing command-slot owner uses stock assembly throughout;
+only the same twelve prepared inputs use the private correction. Eight proposed
+recipe changes remain, and the current baseline agrees with the current logical
+ledger without a recipe exception.
+
+Production has **189 dependencies and 21 GP rows**. Twelve GP rows are prepared
+in this combined trial; nine remain: `code`, `code2`, 3E34C, 3E4FC, 3E758,
+3F2A4, 3F368, 3F5AC and 3F624. The 18-function scope still comprises seventeen
+whole rows and one collector part, not a complete genuine proof of `code`.
+The global assembler switch and pass retirement remain pending their full gates
+and existing owner signoff.
+
+Reproduce using [the current script metadata](gp_ready18_rebased_81554/reproducer.json).
+The following original checkpoint and its receipts remain as historical evidence.
+
+## Original 22-module checkpoint
+
 All **891 words across 18 functions** match fresh generic assembly, genuine
 ASPSX 2.79 and retail with zero masks, and coexist in one full retail-exact
 private image. The [receipt](gp_ready18/receipt.json) preserves source hashes,

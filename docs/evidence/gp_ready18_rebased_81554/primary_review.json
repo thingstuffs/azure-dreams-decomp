@@ -1,0 +1,171 @@
+{
+  "units": [
+    {
+      "physical": "w_80047E78_owned",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80047E78"
+      ],
+      "words": 29
+    },
+    {
+      "physical": "w_80053CFC_owned",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80053CFC"
+      ],
+      "words": 26
+    },
+    {
+      "physical": "gp_shared_8152c",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80047D44",
+        "func_80047DF0",
+        "func_80047E30"
+      ],
+      "words": 63
+    },
+    {
+      "physical": "gp_d92c_owned",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_8003D92C"
+      ],
+      "words": 136
+    },
+    {
+      "physical": "gp_order_bytes_owner",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80049F68"
+      ],
+      "words": 50
+    },
+    {
+      "physical": "w_8004437C_pair",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_8004437C",
+        "func_8004450C"
+      ],
+      "words": 153
+    },
+    {
+      "physical": "w_8004DCEC_owned",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_8004DCE0",
+        "func_8004DCEC",
+        "func_8004DE88",
+        "func_8004DF8C"
+      ],
+      "words": 156
+    },
+    {
+      "physical": "w_8003FAD4",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_8003FAD4"
+      ],
+      "words": 49
+    },
+    {
+      "physical": "w_80041588",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80041588"
+      ],
+      "words": 164
+    },
+    {
+      "physical": "w_80041AB0",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80041AB0"
+      ],
+      "words": 13
+    },
+    {
+      "physical": "w_80043CD0",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_80043CD0"
+      ],
+      "words": 13
+    },
+    {
+      "physical": "w_8004AB7C",
+      "raw_function_sets_exact": true,
+      "functions": [
+        "func_8004AB7C"
+      ],
+      "words": 39
+    }
+  ],
+  "complete_raw_function_sets_equal": true,
+  "total_words": 891,
+  "total_functions": 18,
+  "production_unchanged": true,
+  "new_stock_command_owner_preserved": true,
+  "gp_cohort": {
+    "current_gp_count": 21,
+    "current_gp_ids": [
+      "slus/code",
+      "slus/code2",
+      "slus/w_8003D92C",
+      "slus/w_8003E34C",
+      "slus/w_8003E4FC",
+      "slus/w_8003E758",
+      "slus/w_8003F2A4",
+      "slus/w_8003F368",
+      "slus/w_8003F5AC",
+      "slus/w_8003F624",
+      "slus/w_8004437C",
+      "slus/w_8004450C",
+      "slus/w_80047D44",
+      "slus/w_80047DF0",
+      "slus/w_80047E30",
+      "slus/w_80047E78",
+      "slus/w_80049F68",
+      "slus/w_8004DCEC",
+      "slus/w_8004DE88",
+      "slus/w_8004DF8C",
+      "slus/w_80053CFC"
+    ],
+    "ready_gp_ids": [
+      "slus/w_8003D92C",
+      "slus/w_8004437C",
+      "slus/w_8004450C",
+      "slus/w_80047D44",
+      "slus/w_80047DF0",
+      "slus/w_80047E30",
+      "slus/w_80047E78",
+      "slus/w_80049F68",
+      "slus/w_8004DCEC",
+      "slus/w_8004DE88",
+      "slus/w_8004DF8C",
+      "slus/w_80053CFC"
+    ],
+    "ready_other_ids": [
+      "slus/w_8003FAD4",
+      "slus/w_80041588",
+      "slus/w_80041AB0",
+      "slus/w_80043CD0",
+      "slus/w_8004AB7C"
+    ],
+    "already_owned_gp_ids": [],
+    "remaining_gp_ids": [
+      "slus/code",
+      "slus/code2",
+      "slus/w_8003E34C",
+      "slus/w_8003E4FC",
+      "slus/w_8003E758",
+      "slus/w_8003F2A4",
+      "slus/w_8003F368",
+      "slus/w_8003F5AC",
+      "slus/w_8003F624"
+    ],
+    "remaining_gp_count": 9
+  }
+}

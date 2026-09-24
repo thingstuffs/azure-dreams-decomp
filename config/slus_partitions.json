@@ -186,6 +186,12 @@
           "functions": [
             "func_8004AE98"
           ]
+        },
+        {
+          "module": "command_slots_81554",
+          "functions": [
+            "func_8004DDB4"
+          ]
         }
       ]
     },
