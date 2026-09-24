@@ -18,6 +18,21 @@
 5. `brief_paragraphs/new_findings.md` was dated 09-21. It now carries round 76's set-exactly-once family, the
    dead-init ruling and the sched2-off signature.
 
+**Split-address "toolchain gap" DISPROVED (Fable sceptic, owner request, 2026-09-24).** The retail split pairs come
+from the `2.7.2-cdk` cell (address splitting), not the assembler; ~50 rows / ~125 page-constant pin sites at
+non-splitting cells are cell-imitation scaffolding. Four owner decisions follow (maspsx la-splitting passes, slus ASPSX
+version, small-extern `$gp` model, recipe route): `docs/evidence/r77_splitaddr_verdict.md`. The ADDR_ALIAS comment in
+`src/slus/w_8003D92C.c` is wrong.
+
+**Round-77 levers measured:** clone ports (lane given the solved sibling's base/out/REPORT) ~150k tokens and ~6 min a
+lane at 3/3 rows vs ~400k / ~45 min for from-scratch lanes; `tools/lanes/port_candidates.py` finds them,
+`clone_wholeport.py` does token-identical siblings mechanically. slus: 4 rows served, 1 pin (the split class). Kit fix:
+slus rows had func=None (lab.py crashed on all 556).
+Review items (landed through the gate): town/func_80953900 deletes a NON_MATCHING block whose arms both reduce to the
+symbol; slus/w_8003E39C removes a $3 pin by reusing the $2-pinned variable; spelling trades in r77_opus_c4 (goto into
+block, duplicated tails), m7, p1, m5 (dead init). r77_opus_m6 has an unstaged site-for-pin trade
+(`trades/func_81875B38_keep_z_dest.c`, 4 -> 1).
+
 **Landed:** `town/func_8032FD1C` pin-for-flag trade (+`-fno-schedule-insns2`; the current 2-pin text is exact at the
 target, so rule 2 holds): 3,512 -> **3,510 / 857**. Ledger kind corrected to `pin-for-flag` by hand.
 This is the second adjacent town row with the sched2 signature, after round 73's `func_8032E364`.
