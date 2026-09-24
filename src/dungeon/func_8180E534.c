@@ -26,7 +26,7 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
     u8 pad22[6];
     s32 sp28;
   } sp;
-  register s32 angle_value ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
+  s32 angle_value;
   s32 sample_angle;
   s32 scale_shift;
   register s32 motion_angle ASM_REG("$23");   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
@@ -56,7 +56,7 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
   group_index = 0;
   ASM_USE2_NV(setup_asset, setup_data);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
   {
-    facing_angle = angle_value << 9;
+    facing_angle = (u8)angle_value << 9;
     *((u16 *) ((void *) (&sp.sp20))) = facing_angle;
   }
   func_800B835C(setup_asset, setup_data, 1, group_index);
@@ -97,24 +97,14 @@ void *func_80027534(s16 pos_x, s16 pos_y, s16 pos_z)
         *((u16 *) (((s8 *) positions) + 0xA)) = facing_angle;
         *((u16 *) (((s8 *) positions) + 0x16)) = facing_angle;
       }
-      trig_result = func_80064584(motion_angle);
       sample_angle = sample_index << 7;
-      setup_asset = (void *)(sample_angle);
-      angle_value = trig_result;
       effect_state = effect + 0x20;
-      {
-        base_angle = angle_value * func_80064584((s32)setup_asset);
-        base_shift = base_angle >> scale_shift;
-        *((s32 *) (((s8 *) effect_state) + 0xC)) = base_shift;
-      }
-      trig_result = func_800644B8(motion_angle);
-      setup_asset = (void *)(sample_angle);
-      angle_value = trig_result;
-      {
-        base_angle = angle_value * func_80064584((s32)setup_asset);
-        base_shift = base_angle >> scale_shift;
-        *((s32 *) (((s8 *) effect_state) + 0x10)) = base_shift;
-      }
+      base_angle = func_80064584(motion_angle) * func_80064584(sample_angle);
+      base_shift = base_angle >> scale_shift;
+      *((s32 *) (((s8 *) effect_state) + 0xC)) = base_shift;
+      base_angle = func_800644B8(motion_angle) * func_80064584(sample_angle);
+      base_shift = base_angle >> scale_shift;
+      *((s32 *) (((s8 *) effect_state) + 0x10)) = base_shift;
       trig_result = func_800644B8(sample_angle);
       {
         setup_data = (void *)(0x808080);

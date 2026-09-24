@@ -54,9 +54,8 @@ typedef struct S_80170DA8_2 {
 } S_80170DA8_2;   /* state in func_80170DA8 */
 
 /* Update entity behavior, movement, directional animation, and ground height. */
-void func_80170DA8(void *entity, void *motion, void *sprite_in)
+void func_80170DA8(void *entity, void *motion, void *sprite)
 {
-    register void *sprite ASM_REG("$20") = sprite_in;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     void *entity_state = entity;
     s16 previous_state;
     s16 sprite_direction;
@@ -76,16 +75,12 @@ void func_80170DA8(void *entity, void *motion, void *sprite_in)
     if (D_80083462 & 0x2000) {
         pause_callback = (*(Callback *)((u8 *)entity + (0x8C)));
         if (pause_callback == (Callback)D_801714D4) {
-            pause_callback(entity, motion, sprite_in, entity);
+            pause_callback(entity, motion, sprite, entity);
             return;
         }
         (*(u8 *)((u8 *)entity + (0x71))) &= 0x7F;
-        do {
-            return;
-        } while (0);
+        return;
     }
-
-       /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
 
     previous_state = (s8)(*(u8 *)((u8 *)entity + (0x6D)));
     if (func_800A9E70(entity, motion, sprite, entity) != 0) {
@@ -148,7 +143,24 @@ void func_80170DA8(void *entity, void *motion, void *sprite_in)
             ((S_80170DA8_2 *)entity_state)->unk_1C.u = airborne_flags;
             airborne_flags &= 0x40000;
             if (!airborne_flags) {
-                goto reset_offset;
+                s32 offset = (*(s32 *)((u8 *)entity + (0xA0)));
+                (*(u16 *)((u8 *)entity + (0x9E))) = 0;
+                (*(s32 *)((u8 *)entity + (0xA0))) = 0;
+                (*(s32 *)((u8 *)entity + (0x90))) -= offset;
+                if (!((*(u16 *)((u8 *)entity + (0x98))) & 8)) {
+                    ground_height = func_800BCB04(((S_80170DA8_0 *)motion)->unk_00.at02.v,
+                        ((S_80170DA8_0 *)motion)->unk_04.at02.v,
+                        (s16)(((S_80170DA8_2 *)entity_state)->unk_88 - 0x20));
+                    ground_delta = ground_height - ((S_80170DA8_2 *)entity_state)->unk_88;
+                    if (ground_delta < (*(s16 *)((u8 *)entity + (0x92)))) {
+                        (*(s16 *)((u8 *)entity + (0x92))) = ground_delta;
+                        (*(u8 *)((u8 *)entity + (0x9D))) = 0;
+                        ((S_80170DA8_0 *)motion)->unk_14 = 0;
+                        ((S_80170DA8_2 *)entity_state)->unk_1C.u |= 0x08000000;
+                        goto final_adjustment;
+                    }
+                }
+                goto final_adjustment;
             }
         }
 
@@ -196,7 +208,6 @@ void func_80170DA8(void *entity, void *motion, void *sprite_in)
         : (sprite_flags | 0x7000);
     ((S_80170DA8_2 *)entity_state)->unk_1C.u &= 0xF7FFFFFF;
     if (!(((S_80170DA8_2 *)entity_state)->unk_1C.u & 0x40000)) {
-reset_offset:
         bob_offset = (*(s32 *)((u8 *)entity + (0xA0)));
         (*(u16 *)((u8 *)entity + (0x9E))) = 0;
         (*(s32 *)((u8 *)entity + (0xA0))) = 0;
