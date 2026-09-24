@@ -5,7 +5,7 @@
     "direct_matrix.py": "e2149bc13c042b7e526dad2eb8774822e146a009439c05a437a3a19223829023",
     "prove.py": "9de936f42e57808e3a0f8c925e2343bee80b8b8c8cd2a3e092acf8862b04ba44",
     "gate_probe.py": "9681dda69efb27ba8d3a3e77c67a8e92e1a1d0772fac0216407c0085d873fd94",
-    "activate.py": "aefaeb327e2e725517b8376f08d7bf95fd6e15fe7ca5b2a48d01dfffe01fc156",
+    "activate.py": "ef10e992c172644aa8e4a560e3f2a19b4e5e94ef5c36bdad8122c4d2dbed3f02",
     "live_rows.py": "d0da5f28ed1b516d5059629dfa21694287bec2657ced9ff9995293454f3a1e1d",
     "finish_checkpoint.py": "506da87546a79ede45b3e0c2cbbecddc56c7f824f5851507b27e8c0a6aeca1ed",
     "record_activation.py": "0c2674af651a43208203cff306ca49bae940d57b8acb3784d35a4f1d4019ad73"

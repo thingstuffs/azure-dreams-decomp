@@ -1,0 +1,309 @@
+{
+  "schema": 1,
+  "baseline_commit": "f02cb899",
+  "modules": 23,
+  "physical_objects": 869,
+  "gp_dependency_rows": 21,
+  "asset": "build_slus/assets/54240.bin",
+  "asset_sha256": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da",
+  "manifest_sha256": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+  "symbols": [
+    {
+      "symbol": "D_80080AD0",
+      "vma_start": "0x80080AD0",
+      "used_end_exclusive": "0x80080AD1",
+      "observed_width_bytes": 1,
+      "asset_offset": "0x90",
+      "initial_bytes": "00",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s8 in w_8003E34C.c",
+        "u8 in w_8003E758.c"
+      ],
+      "consumer_functions": [
+        "func_8003E34C",
+        "func_8003E758"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_80080AD2",
+      "vma_start": "0x80080AD2",
+      "used_end_exclusive": "0x80080AD4",
+      "observed_width_bytes": 2,
+      "asset_offset": "0x92",
+      "initial_bytes": "0000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "u16 in w_8003E758.c"
+      ],
+      "consumer_functions": [
+        "func_8003E758"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_80080AD4",
+      "vma_start": "0x80080AD4",
+      "used_end_exclusive": "0x80080AD6",
+      "observed_width_bytes": 2,
+      "asset_offset": "0x94",
+      "initial_bytes": "0000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s16 in w_8003E34C.c and w_8003E4FC.c",
+        "u16 in w_8003E758.c and w_8003F5AC.c"
+      ],
+      "consumer_functions": [
+        "func_8003E34C",
+        "Control_CD",
+        "func_8003E758",
+        "func_8003F5AC"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_80080AD8",
+      "vma_start": "0x80080AD8",
+      "used_end_exclusive": "0x80080ADC",
+      "observed_width_bytes": 4,
+      "asset_offset": "0x98",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s32 in w_8003E758.c"
+      ],
+      "consumer_functions": [
+        "func_8003E758"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_80080ADC",
+      "vma_start": "0x80080ADC",
+      "used_end_exclusive": "0x80080AE0",
+      "observed_width_bytes": 4,
+      "asset_offset": "0x9C",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s32 in w_8003E34C.c",
+        "void * in w_8003E4FC.c"
+      ],
+      "consumer_functions": [
+        "func_8003E34C",
+        "Control_CD"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_80081450",
+      "vma_start": "0x80081450",
+      "used_end_exclusive": "0x80081454",
+      "observed_width_bytes": 4,
+      "asset_offset": "0xA10",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "u8 in w_8003E758.c",
+        "four-byte S_80081450 union in w_8003F368.c"
+      ],
+      "consumer_functions": [
+        "func_8003E758",
+        "func_8003F368"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_800814B0",
+      "vma_start": "0x800814B0",
+      "used_end_exclusive": "0x800814B4",
+      "observed_width_bytes": 4,
+      "asset_offset": "0xA70",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s32 in w_8003F2A4.c"
+      ],
+      "consumer_functions": [
+        "func_8003F2A4"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_800814B4",
+      "vma_start": "0x800814B4",
+      "used_end_exclusive": "0x800814B8",
+      "observed_width_bytes": 4,
+      "asset_offset": "0xA74",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s32 in w_8003F2A4.c"
+      ],
+      "consumer_functions": [
+        "func_8003F2A4"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_800814CC",
+      "vma_start": "0x800814CC",
+      "used_end_exclusive": "0x800814D0",
+      "observed_width_bytes": 4,
+      "asset_offset": "0xA8C",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "u32 in w_8003E758.c"
+      ],
+      "consumer_functions": [
+        "func_8003E758"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_800814D0",
+      "vma_start": "0x800814D0",
+      "used_end_exclusive": "0x800814D1",
+      "observed_width_bytes": 1,
+      "asset_offset": "0xA90",
+      "initial_bytes": "00",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "s8 in w_8003E34C.c",
+        "u8 in w_8003E758.c, w_8003F2A4.c, w_8003F368.c, code2.c"
+      ],
+      "consumer_functions": [
+        "func_8003E34C",
+        "func_8003E758",
+        "func_8003F2A4",
+        "func_8003F368",
+        "func_8003F240"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_800814D4",
+      "vma_start": "0x800814D4",
+      "used_end_exclusive": "0x800814D5",
+      "observed_width_bytes": 1,
+      "asset_offset": "0xA94",
+      "initial_bytes": "00",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "u8 in w_8003E758.c and w_8003F624.c"
+      ],
+      "consumer_functions": [
+        "func_8003E758",
+        "func_8003F624"
+      ],
+      "historical_allocation_extent_claim": false
+    },
+    {
+      "symbol": "D_80081550",
+      "vma_start": "0x80081550",
+      "used_end_exclusive": "0x80081554",
+      "observed_width_bytes": 4,
+      "asset_offset": "0xB10",
+      "initial_bytes": "00000000",
+      "retail_bytes_equal": true,
+      "module_data_owner": null,
+      "declarations": [
+        "int in include/globals.h and w_8004DCEC.c",
+        "s32 in w_8004DE88.c and w_8004DF8C.c"
+      ],
+      "consumer_functions": [
+        "func_8004DCE0",
+        "func_8004DCEC",
+        "func_8004DE88",
+        "func_8004DF8C"
+      ],
+      "historical_allocation_extent_claim": false
+    }
+  ],
+  "recipes": {
+    "slus/w_8003E34C": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/w_8003E4FC": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/w_8003E758": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-G32 -fno-expensive-optimizations",
+      "asflags": ""
+    },
+    "slus/w_8003F5AC": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/w_8003F2A4": {
+      "ccver": "2.6.3",
+      "ccflags": "-fno-schedule-insns",
+      "asflags": ""
+    },
+    "slus/w_8003F368": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/w_8003F624": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/code2": {
+      "ccver": "2.8.1",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/code": {
+      "ccver": "2.7.2",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/w_8004DCEC": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-fno-schedule-insns -fno-delayed-branch",
+      "asflags": ""
+    },
+    "slus/w_8004DE88": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    },
+    "slus/w_8004DF8C": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "",
+      "asflags": ""
+    }
+  },
+  "selected_symbol_module_claims": [],
+  "collector_parts": {
+    "slus/code2": {
+      "requested_function": "func_8003F240",
+      "current_assignment": "collector remainder"
+    },
+    "slus/code": {
+      "requested_function": "func_8004DCE0",
+      "current_assignment": "collector remainder"
+    }
+  }
+}

@@ -65,3 +65,20 @@ regressions. The [combined rehearsal](../docs/evidence/gp_ready18.md) confirms
 coexistence with the other prepared sources. Production semantics and pass
 retirement remain unchanged until the global consumer gates and required final
 owner signoff are complete.
+
+## E758 mixed-store hypothesis superseded at its current recipe
+
+The [CD-state checkpoint](../docs/evidence/gp_cd_partition.md) rechecks the old
+G8 v3/v4 wall report against the current source and registered CDK
+`-G32 -fno-expensive-optimizations` recipe. Raw compiler output already mixes
+bare D2/D3 stores with allocated-scratch driver-field stores. With eight
+real-width tentative local definitions, stock, private generic and genuine
+ASPSX 2.79 reproduce all 698 retail instruction words. No new split-store
+rewrite is needed for this source. The old measurements remain scoped to their
+historical candidates.
+
+The local-storage oracle is not a full-link or data-placement proof: its packed
+common storage differs from the scattered retail layout. The concrete route is
+real data-section placement and a shared CD declaration contract, followed by
+whole-consumer and full-image gates. No production assembler change or
+GP-dependency removal follows from this instruction-only result.

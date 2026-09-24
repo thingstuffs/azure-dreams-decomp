@@ -1,0 +1,193 @@
+{
+  "scope": "instruction-only non-linkable ownership oracle",
+  "limitations": [
+    "No data placement proof or full image link",
+    "No historical ownership claim",
+    "Common-symbol relocations resolved at named retail addresses",
+    "Existing alias views and pins retained; no added pins"
+  ],
+  "recipe": {
+    "src": "src/w_8003E758.c",
+    "out": "build/src/w_8003E758.o",
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32 -fno-expensive-optimizations",
+    "asflags": ""
+  },
+  "source_sha256": "5e0d0566707dba49b74641b49d4b1ec9e323fe8aef85825e07f01f3abf36ad60",
+  "candidate_sha256": "6a938a4c697f327f268260ef967cc645acca46b9295a2695edc9f81f268c2c74",
+  "data_views": {
+    "D_800814D0": [
+      "u8",
+      1
+    ],
+    "D_800814D4": [
+      "u8",
+      1
+    ],
+    "D_800814CC": [
+      "u32",
+      4
+    ],
+    "D_80081450": [
+      "u8",
+      8
+    ],
+    "D_80080AD0": [
+      "u8",
+      1
+    ],
+    "D_80080AD2": [
+      "u16",
+      2
+    ],
+    "D_80080AD4": [
+      "u16",
+      2
+    ],
+    "D_80080AD8": [
+      "s32",
+      4
+    ]
+  },
+  "raw_function_sets": {
+    "stock": [
+      "func_8003E758"
+    ],
+    "generic": [
+      "func_8003E758"
+    ],
+    "genuine": [
+      "func_8003E758"
+    ]
+  },
+  "retail": {
+    "stock": {
+      "present": true,
+      "address": "0x8003e758",
+      "actual_words": 698,
+      "retail_words": 698,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "generic": {
+      "present": true,
+      "address": "0x8003e758",
+      "actual_words": 698,
+      "retail_words": 698,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "genuine": {
+      "present": true,
+      "address": "0x8003e758",
+      "actual_words": 698,
+      "retail_words": 698,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    }
+  },
+  "stock_generic": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 698,
+    "right_words": 698,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "generic_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 698,
+    "right_words": 698,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "aligned_score_provenance": {
+    "implementation": "tools/gate/match.py:aligned_word_stats",
+    "caller": "tools/gate/aligned_score.py:aligned_stats",
+    "source_sha256": "03f7c6fb2d3f0982b162a2fa1b2c051c4971931a7c57a27608780324427dccc8",
+    "caller_sha256": "3cedadc2f8c8b5fcc53606368b3d5ec0bfa9c00de7e4afd0f641e09c2bee40ef",
+    "selected_ast_sha256": "abd5e5d2f400bc5251d7806a624f0e68a1232d6811c202601eac7e81f9cd597d"
+  },
+  "object_sha256": {
+    "stock": "5a0e1b0f14c2b0a5fb65f2639c065b24302688397e3b633aaa6ebd4be7fe544c",
+    "generic": "c33cbf9859e843d53febe9ab0a321ed0e759f7bf8065da6a3749768ab1d751bc",
+    "genuine": "070c239fb7c3eff88bf7a7118b68b1b44d4c5834bdba1250cffdacb90dca9e3c"
+  },
+  "emitted_data_symbols": {
+    "D_800814D0": [
+      ".sbss",
+      0,
+      "local",
+      0
+    ],
+    "D_800814CC": [
+      ".sbss",
+      4,
+      "local",
+      0
+    ],
+    "D_800814D4": [
+      ".sbss",
+      1,
+      "local",
+      0
+    ],
+    "D_80080AD8": [
+      ".sbss",
+      24,
+      "local",
+      0
+    ],
+    "D_80080AD0": [
+      ".sbss",
+      16,
+      "local",
+      0
+    ],
+    "D_80080AD2": [
+      ".sbss",
+      18,
+      "local",
+      0
+    ],
+    "D_80081450": [
+      ".sbss",
+      8,
+      "local",
+      0
+    ],
+    "D_80080AD4": [
+      ".sbss",
+      20,
+      "local",
+      0
+    ]
+  },
+  "raw_common_directives": [
+    "\n\t.comm\tD_800814D0,1",
+    "\n\t.comm\tD_800814D4,1",
+    "\n\t.comm\tD_800814CC,4",
+    "\n\t.comm\tD_80081450,8",
+    "\n\t.comm\tD_80080AD0,1",
+    "\n\t.comm\tD_80080AD2,2",
+    "\n\t.comm\tD_80080AD4,2",
+    "\n\t.comm\tD_80080AD8,4"
+  ]
+}

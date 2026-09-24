@@ -1,0 +1,14 @@
+{
+  "work_directory": "work/native_lane/gp_cd_partition",
+  "scripts": {
+    "baseline_probe.py": "84ba65c5566f3e18fd8cbdf812cf91aab9912595e1f5fa5578eeb3d1e3cf3a34",
+    "lineage_probe.py": "0cb3e6177d1e55097f48972997532ed1bbbf438321ec9a9b6edd047ef14650e1",
+    "buffer_probe.py": "6842f3aaf8fb145954bedfd546c4bea48ee345cdc61854990ed0e4c1751a266c",
+    "buffer_gate.py": "ba5bd94c8c1027d62acfb8bcabd53a1a8172d6e3d509ba4acc945e9e907fdff3",
+    "e758_owned_oracle.py": "2d4dfe94101dc08eb95f60b1dade0e7d76bd9d4184ad6be7cc9a8f4cf1238408",
+    "land_checkpoint.py": "9529eb49deeb9e7f6cc0c994ca158a7307828c1bdbc8f9b08123fe237ceb072b"
+  },
+  "baseline_scope": "f02cb899 before the one-line buffer correction",
+  "oracle_scope": "instruction-only; not a linkable data-owner candidate",
+  "next_route": "discontiguous-real-data-layout; then shared CD C contract and az-c-rebuild for measured source mismatches"
+}

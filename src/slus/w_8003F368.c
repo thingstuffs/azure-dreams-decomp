@@ -36,7 +36,7 @@ s32 func_8003F368(void)
 {
     S_80081450 saved_loc;
     u8 cd_loc[4];
-    u8 sync_result[4];
+    u8 sync_result[8]; /* CdSync copies eight result bytes. */
     s32 retries_left;
     s32 sector_pos;
     u8 index_is_zero;

@@ -355,7 +355,10 @@ records the current hashes, counts and ladder results.
    recertification pass. Apply the same explicit function grouping to remaining
    components: 81550 has a [prepared declaration/data repair](evidence/gp_81550_partition.md)
    at default CDK, pending the generic assembler transition. Next are the CD
-   driver groups. Review source/declaration
+   driver groups. The [CD checkpoint](evidence/gp_cd_partition.md) fixes an eight-byte
+   SDK result-buffer declaration without changing any object, and reproduces all
+   698 E758 words in a local-storage oracle. Discontiguous real-data placement
+   and shared declarations remain the next steps. Review source/declaration
    evidence independently for each; do not merge the whole historical 20-row graph.
 
 The [consumer inventory](evidence/slus_partitions/consumers.md) identifies exact

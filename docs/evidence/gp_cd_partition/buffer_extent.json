@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "baseline_commit": "f02cb899",
+  "conclusion": "eight-byte minimum writable result view on reachable SDK completion paths; historical allocation unproved",
+  "buffer": {
+    "start": "0x80081450",
+    "end_exclusive": "0x80081458",
+    "bytes": 8,
+    "asset": "build_slus/assets/54240.bin",
+    "asset_offset": "0xA10",
+    "initial_bytes": "0000000000000000",
+    "retail_equal": true,
+    "historical_allocation_extent_claim": false
+  },
+  "callers": [
+    {
+      "function": "func_8003E758",
+      "path": "src/slus/w_8003E758.c",
+      "pointer_expression": "&D_80081438[0x18]",
+      "pointer_site": 82,
+      "resolved_address": "0x80081450",
+      "CdControl_lines": [
+        148,
+        216,
+        232,
+        251,
+        434,
+        448
+      ],
+      "CdSync_lines": [
+        374,
+        411,
+        442
+      ],
+      "direct_scalar_read_lines": [
+        435,
+        455
+      ]
+    },
+    {
+      "function": "func_8003F368",
+      "path": "src/slus/w_8003F368.c",
+      "pointer_expression": "(u8 *)&D_80081451 - 1",
+      "resolved_address": "0x80081450",
+      "CdControl_lines": [
+        56
+      ],
+      "CdSync_lines": [
+        68
+      ],
+      "four_byte_union_sites": [
+        45,
+        46,
+        86
+      ],
+      "byte_read_sites": [
+        90,
+        91,
+        92,
+        95,
+        101,
+        103
+      ]
+    }
+  ],
+  "sdk": [
+    {
+      "entry": "CdSync",
+      "wrapper": "build_slus/asm/psyq/libcd/S_012.s",
+      "wrapper_call_vma": "0x80060D98",
+      "callee": "CD_sync",
+      "callee_path": "build_slus/asm/psyq/libcd/BIOS_1.s",
+      "result_pointer_saved_vma": "0x80061968",
+      "copy_loop_vma": "0x80061B84..0x80061B98",
+      "byte_store_vma": "0x80061B90",
+      "copy_count": 8,
+      "condition": "completion value 2 or 5; non-null result pointer"
+    },
+    {
+      "entry": "CdControl",
+      "wrapper": "build_slus/asm/psyq/libcd/S_016.s",
+      "result_pointer_saved_vma": "0x80060E10",
+      "callee": "CD_cw",
+      "callee_path": "build_slus/asm/psyq/libcd/BIOS_1.s",
+      "result_pointer_saved_vma_in_callee": "0x80061EBC",
+      "copy_loop_vma": "0x8006225C..0x80062278",
+      "byte_store_vma": "0x80062270",
+      "copy_count": 8,
+      "condition": "successful result path; non-null result pointer"
+    }
+  ],
+  "aliases": [
+    {
+      "symbol": "D_80081438",
+      "declared_view_bytes": 32,
+      "mathematical_interval": "0x80081438..0x80081458",
+      "actual_pointer_use": "offset 0x18 only",
+      "overlaps_existing_owned_symbols": [
+        "D_80081440",
+        "D_80081448"
+      ],
+      "allocation_claim": false
+    },
+    {
+      "symbol": "D_80081451",
+      "declared_view_bytes": 16,
+      "actual_access": "byte .val and address-1/address+1",
+      "mathematical_interval": "0x80081451..0x80081461",
+      "overlaps_existing_owned_symbols": [
+        "D_80081460"
+      ],
+      "allocation_claim": false
+    },
+    {
+      "symbol": "D_80081452",
+      "declared_view_bytes": 16,
+      "actual_access": "byte .val and address-1",
+      "mathematical_interval": "0x80081452..0x80081462",
+      "overlaps_existing_owned_symbols": [
+        "D_80081460"
+      ],
+      "allocation_claim": false
+    }
+  ],
+  "source_sha256": {
+    "src/slus/w_8003E758.c": "5e0d0566707dba49b74641b49d4b1ec9e323fe8aef85825e07f01f3abf36ad60",
+    "src/slus/w_8003F368.c": "61ef006142f919dc75a69bbc9adcc4980d08879b51e4c23d86fdf3e12158d384",
+    "build_slus/asm/psyq/libcd/S_012.s": "9c4777714c8881b132ca9f417313bc1f3b80787bf5bb0165536d362bdc86eb83",
+    "build_slus/asm/psyq/libcd/S_016.s": "65bb6409d432bd030bd609421b6bb8b9e42db5ac1698281a05ae1102c184d044",
+    "build_slus/asm/psyq/libcd/BIOS_1.s": "a9459f1c1cc8a52d71d0c4ef7c08dbcc8b5652d7967b1b51d58192c6dfdef4ac",
+    "build_slus/config/generated/slus_006.14.undefined_syms.txt": "11f94fcbe944f1412c0e606c75ca279e37b8cbf97813e55bc0caf3892d89aba2"
+  },
+  "limits": [
+    "Static retail disassembly establishes a possible eight-byte write, not frequency of that branch.",
+    "Current C alias sizes are code-generation views and do not establish storage extent.",
+    "Historical allocation and translation-unit placement remain unproved."
+  ],
+  "retail_loop_slices": [
+    {
+      "name": "CD_sync_eight_byte_loop",
+      "vma_start": "0x80061B84",
+      "vma_end_exclusive": "0x80061B9C",
+      "retail_file_offset": "0x35384",
+      "length_bytes": 24,
+      "retail_hex": "0000829001008424ffff63240000a2a0fbff67140100a524",
+      "retail_sha256": "d86c6206f9a62beb28436d5f07f0f2f41e3173fd862af40ac588fe4127ff6920",
+      "assembly_comment_bytes_equal_retail": true
+    },
+    {
+      "name": "CD_cw_eight_byte_setup_and_loop",
+      "vma_start": "0x8006225C",
+      "vma_end_exclusive": "0x8006227C",
+      "retail_file_offset": "0x35A5C",
+      "length_bytes": 32,
+      "retail_hex": "07000324ffff05240000829001008424ffff63240000c2a0fbff65140100c624",
+      "retail_sha256": "d273f8f88a35c45a5590a5423e59f43ffa114ce11dd8b28b7f844f5be5a03f8a",
+      "assembly_comment_bytes_equal_retail": true
+    }
+  ],
+  "retail_stack_audit": {
+    "source_path": "src/slus/w_8003F368.c",
+    "source_decl_line": 39,
+    "source_declared_bytes": 4,
+    "source_call_line": 48,
+    "retail_function": "func_8003F368",
+    "retail_frame_size_bytes": 48,
+    "retail_call_vma": "0x8003F388",
+    "retail_result_pointer_vma": "0x8003F38C",
+    "result_pointer_stack_offset": 24,
+    "sdk_possible_write_offsets": [
+      24,
+      31
+    ],
+    "saved_register_offsets": {
+      "s0": 32,
+      "s1": 36,
+      "s2": 40,
+      "ra": 44
+    },
+    "later_cd_loc_byte_offsets": [
+      16,
+      17,
+      18
+    ],
+    "other_retail_access_to_offsets_28_through_31": false,
+    "retail_frame_overlap_with_live_slot": false,
+    "source_four_byte_array_out_of_bounds_for_eight_byte_copy": true,
+    "object_allocation_size_claim": false,
+    "retail_call_slice": {
+      "vma_start": "0x8003F368",
+      "vma_end_exclusive": "0x8003F39C",
+      "retail_file_offset": "0x12B68",
+      "length_bytes": 52,
+      "retail_hex": "d0ffbd27010004242800b2afbc0a928f2c00bfaf2400b1af2000b0afbc0a80af6483010c1800a527020003245e00431421100000",
+      "retail_sha256": "a061d5394d177a0bfd11dc1a6166ffb1fe11a612d172234b8cb3875d88fb85d6"
+    },
+    "linked_elf_stack_reference_lines": [
+      "8003f368:\t27bdffd0 \taddiu\tsp,sp,-48",
+      "8003f370:\tafb20028 \tsw\ts2,40(sp)",
+      "8003f378:\tafbf002c \tsw\tra,44(sp)",
+      "8003f37c:\tafb10024 \tsw\ts1,36(sp)",
+      "8003f380:\tafb00020 \tsw\ts0,32(sp)",
+      "8003f38c:\t27a50018 \taddiu\ta1,sp,24",
+      "8003f4a0:\t27a40010 \taddiu\ta0,sp,16",
+      "8003f4a4:\ta3a20010 \tsb\tv0,16(sp)",
+      "8003f4a8:\ta3a30011 \tsb\tv1,17(sp)",
+      "8003f4b0:\ta3a50012 \tsb\ta1,18(sp)",
+      "8003f510:\t8fbf002c \tlw\tra,44(sp)",
+      "8003f514:\t8fb20028 \tlw\ts2,40(sp)",
+      "8003f518:\t8fb10024 \tlw\ts1,36(sp)",
+      "8003f51c:\t8fb00020 \tlw\ts0,32(sp)",
+      "8003f520:\t27bd0030 \taddiu\tsp,sp,48"
+    ]
+  }
+}
