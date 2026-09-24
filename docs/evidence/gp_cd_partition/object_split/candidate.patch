@@ -1,0 +1,49 @@
+--- a/src/slus/w_8003E758.c
++++ b/src/slus/w_8003E758.c
+@@ -33,20 +33,20 @@
+ extern void *jtbl_8002D5C0[];
+ extern S_80083968 D_80083968[32];
+ 
+-extern u8  D_800814D0;        /* head index: $gp scalar */
++u8 D_800814D0 = 0;        /* head index: $gp scalar */
+ extern u8  D_800814D1[16];    /* tail index: %hi/%lo (size>8) */
+     /* driver state byte: %hi/%lo; head via [-3] */
+-extern u8  D_800814D4;        /* mode byte store: $gp scalar */
+-extern u32 D_800814CC;        /* $gp word */
++u8 D_800814D4 = 0;        /* mode byte store: $gp scalar */
++u32 D_800814CC = 0;        /* $gp word */
+ extern u8  D_800814D8[16];    /* %hi/%lo CdReadSync buffer */
+-extern u8  D_80081450;        /* status byte read: $gp scalar */
++u8 D_80081450[8] = {0};        /* status byte read: $gp scalar */
+ extern u8  D_80081438[0x20];  /* neighbour: &D_80081438[0x18]==&D_80081450 (%hi/%lo) */
+ extern u32 D_80081480[8];     /* %hi/%lo */
+ extern S_80083164 D_80083164; /* %hi/%lo (size>8) */
+-extern u8  D_80080AD0;        /* $gp */
+-extern u16 D_80080AD2;        /* $gp */
+-extern u16 D_80080AD4;        /* $gp */
+-extern s32 D_80080AD8;        /* $gp */
++u8 D_80080AD0 = 0;        /* $gp */
++u16 D_80080AD2 = 0;        /* $gp */
++u16 D_80080AD4 = 0;        /* $gp */
++s32 D_80080AD8 = 0;        /* $gp */
+ 
+ extern int  CdSync(int mode, u8 *result);
+ extern int  CdControl(u8 com, u8 *param, u8 *result);
+@@ -432,7 +432,7 @@
+ 
+             check_drive_status:
+                 if (CdControl(1, 0, CDBUF) == 0) goto finish;
+-                if ((D_80081450 & 0xFD) != 0) goto finish;
++                if ((D_80081450[0] & 0xFD) != 0) goto finish;
+                 D_80083958.unk4 = 2;
+                 D_800814D3[0] = 0xFF;
+                 D_800814D0 = D_800814D0 + 1;
+@@ -452,7 +452,7 @@
+                         return;
+                     }
+                 }
+-                status = D_80081450;
++                status = D_80081450[0];
+                 if (status & 0x40) goto finish;
+                 if (status & 0x20) {
+                     u8 *status_ptr = &D_800814D2_P[0];

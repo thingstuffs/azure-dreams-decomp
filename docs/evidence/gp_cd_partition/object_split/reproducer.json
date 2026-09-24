@@ -1,0 +1,21 @@
+{
+  "work_directory": "work/native_lane/gp_cd_partition/object_split",
+  "scripts": {
+    "split_elf.py": "bfc92a9d5d6db981feb872e7159978485b447fff7eb96af060e2d4851cafcc41",
+    "initialized_probe.py": "46205807298a153942e459091807f40647008a31d650dfcbd66c4fdb442f2bad",
+    "independent_link_test.py": "c17297affaf6c9ac7732e2592ecdad08d4edfd389cc58904eb37402db5f3ec1c",
+    "full_link.py": "a3450cb3ef842d59b45df8c37fb7568925601b238db75bac659acc316971b932"
+  },
+  "support_scripts": {
+    "../baseline_probe.py": "84ba65c5566f3e18fd8cbdf812cf91aab9912595e1f5fa5578eeb3d1e3cf3a34"
+  },
+  "candidate_sha256": "1d29f07f03c2648192dfaa7ed8ab49f1c060f7d92860aa2677fbc3cc80cc7c4f",
+  "commands": [
+    "python initialized_probe.py",
+    "python split_elf.py --selfcheck",
+    "python independent_link_test.py",
+    "python full_link.py"
+  ],
+  "scope": "Private layout capability proof only; no schema activation or dependency credit",
+  "next_route": "Explicit data-piece tooling, strict fidelity/ownership proof integration, and shared CD declaration repair"
+}
