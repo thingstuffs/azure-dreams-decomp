@@ -672,7 +672,8 @@ def prepare_slus(row, cfile, cfg, asflags, td):
             if len(got) == len(tgt) and mask(got) == mask(tgt):
                 exact, proof = True, "text-identical"
     from slus_module_context import membership
-    module = membership(row)
+    historical = Path(cfile).resolve() == (ROOT / "raw/slus" / Path(row.get("c_path", Path(cfile).name)).name).resolve()
+    module = None if historical else membership(row)
     if module:
         gate = verify.verify_slus_module(r, cfile)
         exact, proof = bool(gate.get("exact")), gate.get("proof")
@@ -681,7 +682,8 @@ def prepare_slus(row, cfile, cfg, asflags, td):
     # Both legs use production's canonical names. Genuine ASPSX reads the same
     # compiler stream without the GAS-only function-section directives.
     return {"kind": "slus", "m_in": m_in, "g_src": g_src, "as_args": as_args, "env": _clean_env(),
-            "pipeline_obj": obj.read_bytes(), "maspsx_exact": exact, "proof": proof, "cell": cell, "flags": flags}, None
+            "pipeline_obj": obj.read_bytes(), "maspsx_exact": exact, "proof": proof, "cell": cell, "flags": flags,
+            "raw_standalone": historical}, None
 
 
 _OFC = None
@@ -787,6 +789,269 @@ def shape_unit(mv, sym, size):
         mv.follow = {sym: fl}
 
 
+def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_functions=None):
+    """Measure one real compiler/assembler stream; caller owns row freshness."""
+    rec["asflags"] = " ".join(a for a in ctx["as_args"][7:])
+    rec["cell"] = ctx["cell"]
+    rec["maspsx_exact"] = ctx["maspsx_exact"]; rec["proof"] = ctx["proof"]
+    env = ctx["env"]
+    # ---- maspsx leg, traced
+    mo, err = run_maspsx(ctx["m_in"], ctx["as_args"], Path(td) / "m.o", env, trace=Path(td) / "tr.json")
+    if mo is None:
+        rec.update(status="error", err=("maspsx: " + err)[:300]); return rec
+    tr = json.loads((Path(td) / "tr.json").read_text())
+    rec["fired"] = tr["fired"]
+    mv = View(read_elf(mo))
+    if ctx["kind"] == "slus":
+        from slus_module_context import membership, fingerprint
+        module = None if scope is not None or ctx.get("raw_standalone") else membership(row)
+        if scope is None:
+            scope = (sorted(next(m["functions"] for m in module["members"] if m["id"] == row["id"]))
+                     if module else sorted(mv.funcs))
+        if expected_functions is not None:
+            from slus_partitions import check_emitted
+            check_emitted({rec["source"]: expected_functions}, {rec["source"]: list(mv.funcs)})
+            if len(set(scope)) != len(scope) or not set(scope) <= set(mv.funcs):
+                raise ValueError("partition function scope is incomplete or duplicated")
+            rec["functions"] = list(scope)
+            rec["module_fingerprint"] = module_before
+            rec["trace_scope"] = "whole-physical-unit"
+        if module:
+            rec["module"] = module["name"]
+            rec["module_fingerprint"] = module_before
+            rec["trace_scope"] = "whole-module"
+            missing = set(scope) - set(mv.funcs)
+            if missing:
+                rec.update(status="error", err="module member symbols missing: " + str(sorted(missing)))
+                return rec
+        rec["selfcheck"] = _sha(mo) == _sha(ctx["pipeline_obj"])
+    else:
+        sym = ctx["symbol"]
+        mv.add_unit(sym)
+        mv.composite = {sym}
+        shape_unit(mv, sym, len(ctx["retail"]))
+        if sym not in mv.funcs:
+            rec.update(status="error", err=f"target symbol {sym} is not a function in the maspsx object "
+                                           f"({sorted(mv.funcs)[:4]})"); return rec
+        scope = [sym]
+        # the traced object reproduces the scorer's: its instruction stream, relocation fields
+        # masked, equals the scorer's linked words (same length, same non-relocation bits)
+        got = ctx["linked"]
+        toks = mv.tokens(sym)
+        if got is None:
+            rec["selfcheck"] = None
+        else:
+            gw = [struct.unpack_from("<I", got, 4 * i)[0] for i in range(len(got) // 4)]
+            rec["selfcheck"] = len(gw) == len(toks) and all(
+                (g & ~FIELD.get(t[1], 0) & 0xFFFFFFFF) == t[0] if t[1] else g == t[0] for g, t in zip(gw, toks))
+    rec["funcs"] = len(scope)
+    rec["words"] = sum(len(mv.tokens(f)) for f in scope)
+    rec["maspsx_retail"] = retail_compare(mv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None)
+    if expected_functions is not None:
+        rec["maspsx_physical_retail"] = retail_compare(mv, expected_functions, "slus")
+    mr = rec["maspsx_retail"]
+    if ctx["kind"] == "slus" and not rec["maspsx_exact"] and mr["diff"] == 0 and mr["masked"] == 0 and mr["checked"] == len(scope):
+        # the pinned-object reference disagrees, but every word resolves to the retail SLUS
+        rec["maspsx_exact"] = True; rec["proof"] = "retail-resolved"
+    # ---- genuine legs
+    g_srcs = {False: aspsx_input(ctx["g_src"]), True: aspsx_input(ctx["g_src"], equ=True)}
+    alias = aliases(ctx["g_src"])
+    modes, has_div = genuine_modes(ctx["g_src"], ctx["flags"])
+    rec["has_div"] = has_div
+    gen = {}; views = {}; allviews = {}
+    for v in VERSIONS:
+        best = None
+        for fl, equ in modes:
+            label = " ".join(fl[1:] + (["equ"] if equ else []))
+            lnk, err = run_aspsx(g_srcs[equ], v, fl, td)
+            if lnk is None:
+                kind = ("hilo" if "Syntax error in expression" in err and "%hi(" in ctx["g_src"] else
+                        "open" if "Could not open" in err else "other")
+                cand = {"err": err, "err_kind": kind, "mode": label}
+                best = best or cand
+                continue
+            try:
+                gv = View(read_lnk(lnk), mv, alias)
+                gv.composite = mv.composite
+                gv.follow = mv.follow
+                for f in expected_functions if expected_functions is not None else scope:
+                    gv.add_unit(f, mv)
+            except Exception as exc:
+                best = best or {"err": f"LNK: {exc}"[:200], "mode": label}
+                continue
+            c = compare_units(mv, gv, scope)
+            allviews.setdefault(v, []).append(gv)
+            cand = {"exact": c["exact"], "diff": c["diff"], "len": c["len_g"], "mode": label}
+            if c["missing"]:
+                cand["missing"] = c["missing"][:3]
+            if gv.obj.unknown:
+                cand["lnk_unknown"] = gv.obj.unknown[:2]
+            rc = retail_compare(gv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None)
+            cand["retail"] = [rc["diff"], rc["masked"]]                 # direct, positional: [differing, masked]
+            if expected_functions is not None:
+                cand["retail_checked"] = rc["checked"]
+                whole = compare_units(mv, gv, expected_functions)
+                cand["physical"] = {"exact": whole["exact"], "diff": whole["diff"],
+                                    "len_m": whole["len_m"], "len_g": whole["len_g"],
+                                    "missing": whole["missing"],
+                                    "retail": retail_compare(gv, expected_functions, "slus")}
+            if best is None or "err" in best or (c["exact"], -c["diff"]) > (best.get("exact"), -best.get("diff", 1 << 30)):
+                best = cand; views[v] = (gv, c)
+        gen[v] = best
+    rec["genuine"] = gen
+    rec["exact_versions"] = [v for v in VERSIONS if gen[v].get("exact")]
+    ok = [v for v in VERSIONS if v in views]
+    if ok:
+        bv = min(ok, key=lambda v: (not gen[v]["exact"], gen[v]["diff"], VERSIONS.index(v)))
+        rec["best"] = bv
+        gv, c = views[bv]
+        if not c["exact"]:
+            rec["classes"] = classify(c["regions"], mv, c["delay_only"])
+            rec["first_diff"] = [[f, op, off] for f, op, _, _, off in c["regions"][:4]]
+            # extern symbols maspsx/GNU as addressed $gp-relative (decision 3's list)
+        # $gp-relative references to symbols the TU does NOT define (not even as .comm): the
+        # small-extern model genuine ASPSX does not have (it $gp's only TU-defined small data)
+        gpx = mv.gp_extern_names(scope)
+        if gpx:
+            rec["gp_externs"] = gpx if expected_functions is not None else gpx[:40]; rec["n_gp_externs"] = len(gpx)
+    # ---- attribution
+    need = [v for v in ok if not gen[v]["exact"]]
+    if need:
+        rec["attrib"] = attribute(ctx, env, tr["fired"], mv, views, allviews, need, scope, td)
+    rec["status"] = "ok"
+    return rec
+
+
+def _aggregate_partition(rec, units, results, expected_scope, versions):
+    """Keep one logical record without treating a partial owner proof as the row."""
+    sources = [unit["source"] for unit in units]
+    actual_sources = [result.get("source") for result in results]
+    if not sources or len(set(sources)) != len(sources) or len(set(actual_sources)) != len(actual_sources) or set(sources) != set(actual_sources):
+        raise ValueError("partition measurement has missing or duplicate physical units")
+    scopes = [name for unit in units for name in unit["functions"]]
+    if len(set(scopes)) != len(scopes) or len(set(expected_scope)) != len(expected_scope) or set(scopes) != set(expected_scope):
+        raise ValueError("partition measurement has incomplete or duplicate logical function scope")
+    by_source = {result["source"]: result for result in results}
+    ordered = []
+    for unit in units:
+        result = by_source[unit["source"]]
+        if (result.get("status") != "ok" or result.get("selfcheck") is not True
+                or result.get("recipe", unit["recipe"]) != unit["recipe"]
+                or result.get("functions") != unit["functions"]
+                or result.get("funcs") != len(unit["functions"])
+                or result.get("maspsx_retail", {}).get("checked") != len(unit["functions"])):
+            raise ValueError("partition unit lacks complete verified measurement: " + unit["source"])
+        normalized = dict(result, **unit)
+        normalized["exact_versions"] = [version for version in versions
+            if result.get("genuine", {}).get(version, {}).get("exact") is True
+            and result["genuine"][version].get("retail_checked") == len(unit["functions"])]
+        ordered.append(normalized)
+    rec.update(physical_units=ordered, functions=list(expected_scope), funcs=len(expected_scope),
+               words=sum(result["words"] for result in ordered), selfcheck=True,
+               maspsx_exact=all(result.get("maspsx_exact") is True for result in ordered),
+               trace_scope="union-of-whole-physical-units", cfg_scope="original-logical-row",
+               proof="whole SLUS image, partition context")
+    cells = {unit["recipe"]["ccver"] for unit in units}
+    asflags = {unit["recipe"]["asflags"] for unit in units}
+    rec["cell"] = next(iter(cells)) if len(cells) == 1 else "mixed"
+    rec["asflags"] = next(iter(asflags)) if len(asflags) == 1 else "per-owner"
+    rec["maspsx_retail"] = {key: sum(result["maspsx_retail"][key] for result in ordered)
+                             for key in ("diff", "masked", "checked")}
+    rec["fired"] = sorted({p for result in ordered for p in result.get("fired", [])})
+    rec["has_div"] = any(result.get("has_div") for result in ordered)
+    gp = sorted({symbol for result in ordered for symbol in result.get("gp_externs", [])})
+    if gp:
+        rec["gp_externs"], rec["n_gp_externs"] = gp, len(gp)
+    genuine = {}
+    for version in versions:
+        legs = [result.get("genuine", {}).get(version, {"err": "missing version"}) for result in ordered]
+        failed = {result["source"]: leg.get("err", "missing or inconsistent comparison coverage")
+                  for result, leg in zip(ordered, legs) if "err" in leg or "exact" not in leg
+                  or "retail_checked" not in leg
+                  or (leg.get("exact") is True and leg["retail_checked"] != result["funcs"])}
+        if failed:
+            genuine[version] = {"err": "one or more physical streams lack genuine comparison", "unit_errors": failed}
+            continue
+        genuine[version] = {
+            "exact": all(leg.get("exact") is True and leg.get("retail_checked") == result["funcs"]
+                         for result, leg in zip(ordered, legs)),
+            "diff": sum(leg["diff"] for leg in legs), "len": sum(leg["len"] for leg in legs),
+            "retail": [sum(leg["retail"][i] for leg in legs) for i in range(2)],
+            "retail_checked": sum(leg.get("retail_checked", 0) for leg in legs),
+            "modes": {result["source"]: leg["mode"] for result, leg in zip(ordered, legs)}}
+        missing = [name for leg in legs for name in leg.get("missing", [])]
+        if missing:
+            genuine[version]["missing"] = missing
+            genuine[version]["exact"] = False
+        unknown = {result["source"]: leg["lnk_unknown"] for result, leg in zip(ordered, legs) if leg.get("lnk_unknown")}
+        if unknown:
+            genuine[version]["lnk_unknown"] = unknown
+    rec["genuine"] = genuine
+    rec["exact_versions"] = [v for v in versions if genuine[v].get("exact")]
+    rec["ownerwise_exact_versions"] = all(result.get("exact_versions") for result in ordered)
+    complete = [v for v in versions if "err" not in genuine[v]]
+    if complete:
+        rec["best"] = min(complete, key=lambda v: (not genuine[v]["exact"], genuine[v]["diff"], versions.index(v)))
+    # Ablations ran on individual streams. Their union/intersection is not a
+    # tested whole-row intervention, particularly when another stream is exact.
+    rec["partition_attribution"] = {result["source"]: result.get("attrib", {}) for result in ordered}
+    rec["status"] = "ok"
+    return rec
+
+
+def process_partition(row, cfile, cfg, asflags, td, rec, root=None, build_root=None):
+    """Measure disjoint row subsets at their physical owners' actual recipes."""
+    import verify
+    from common import parse_cfg
+    from slus_module_context import partition_context, fingerprint
+    TMP.mkdir(parents=True, exist_ok=True)
+    root = Path(ROOT if root is None else root)
+    parents, owners, _ = partition_context(row, root)
+    if not parents:
+        raise ValueError("row has no partition context")
+    before = fingerprint(row, root)
+    tools_before = tool_fingerprint()
+    source_before = Path(cfile).read_bytes()
+    cell, flags = parse_cfg(cfg)
+    r = dict(row, cell=cell, flags=" ".join(flags), row_asflags=asflags)
+    gate = verify.verify_slus_partition(r, cfile, root=root, build_root=build_root)
+    if gate.get("exact") is not True:
+        raise ValueError("partition full-image gate: " + str(gate))
+    compiled, error = verify.compile_slus_units(r, cfile, Path(td) / "compile", root=root)
+    if error:
+        raise ValueError("partition compilation: " + error)
+    units, results = [], []
+    for index, compiled_unit in enumerate(compiled):
+        unit = {key: compiled_unit[key] for key in ("source", "recipe", "functions", "expected_functions", "role")}
+        if "module" in compiled_unit:
+            unit["module"] = compiled_unit["module"]
+        units.append(unit)
+        recipe = unit["recipe"]
+        directory = compiled_unit["object"].parent
+        assembly = (directory / "a.s").read_text()
+        ctx = {"kind": "slus", "m_in": (directory / "a.proc.s").read_text(),
+               "g_src": verify.postprocess_slus(assembly, names_only=True, root=root),
+               "as_args": ["--aspsx-version=2.79", "--dont-force-G0", f"-I{root / 'raw'}", f"-I{root / 'include'}",
+                           "-EL", "-march=r3000", "-G8", *recipe["asflags"].split()],
+               "env": _clean_env(), "pipeline_obj": compiled_unit["object"].read_bytes(),
+               "maspsx_exact": True, "proof": gate["proof"],
+               "cell": recipe["ccver"], "flags": recipe["ccflags"].split()}
+        measurement = Path(td) / ("measure_" + str(index))
+        measurement.mkdir()
+        physical = dict(unit, row=row["id"], container=row["container"], kind="slus",
+                        cfg=" ".join(filter(None, (recipe["ccver"], recipe["ccflags"]))))
+        result = _measure_context(row, ctx, measurement, before, physical,
+                                  scope=unit["functions"], expected_functions=unit["expected_functions"])
+        results.append(result)
+    parent = next((parent for parent in parents if parent["id"] == row["id"]), None)
+    scope = parent["functions"] if parent else next(member["functions"] for owner in owners for member in owner["members"] if member["id"] == row["id"])
+    rec.update(module_fingerprint=before, partition_gate=gate)
+    rec = _aggregate_partition(rec, units, results, scope, VERSIONS)
+    if fingerprint(row, root) != before or Path(cfile).read_bytes() != source_before or tool_fingerprint() != tools_before:
+        raise ValueError("partition inputs changed during measurement")
+    return rec
+
+
 def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
     from common import clean_path
     t0 = time.time()
@@ -807,120 +1072,18 @@ def process_row(row, cfile=None, cfg=None, asflags=None, keep=False):
         except Exception:
             rec["pins"] = None
         if row["kind"] == "slus":
+            from slus_module_context import partition_context
+            historical = cfile.resolve() == (ROOT / "raw/slus" / Path(row.get("c_path", Path(cfile).name)).name).resolve()
+            if not historical and partition_context(row)[0]:
+                return process_partition(row, cfile, cfg, (row.get("row_asflags") or "") if asflags is None else asflags, td, rec)
             ctx, err = prepare_slus(row, cfile, cfg, row.get("row_asflags") or "" if asflags is None else asflags, td)
         else:
             ctx, err = prepare_overlay(row, cfile, cfg, asflags, td)
         if ctx is None:
             rec.update(status="error", err=("compile: " + str(err))[:300]); return rec
-        rec["asflags"] = " ".join(a for a in ctx["as_args"][7:])
-        rec["cell"] = ctx["cell"]
-        rec["maspsx_exact"] = ctx["maspsx_exact"]; rec["proof"] = ctx["proof"]
-        env = ctx["env"]
-        # ---- maspsx leg, traced
-        mo, err = run_maspsx(ctx["m_in"], ctx["as_args"], Path(td) / "m.o", env, trace=Path(td) / "tr.json")
-        if mo is None:
-            rec.update(status="error", err=("maspsx: " + err)[:300]); return rec
-        tr = json.loads((Path(td) / "tr.json").read_text())
-        rec["fired"] = tr["fired"]
-        mv = View(read_elf(mo))
-        if ctx["kind"] == "slus":
-            from slus_module_context import membership, fingerprint
-            module = membership(row)
-            scope = (sorted(next(m["functions"] for m in module["members"] if m["id"] == row["id"]))
-                     if module else sorted(mv.funcs))
-            if module:
-                rec["module"] = module["name"]
-                rec["module_fingerprint"] = module_before
-                rec["trace_scope"] = "whole-module"
-                missing = set(scope) - set(mv.funcs)
-                if missing:
-                    rec.update(status="error", err="module member symbols missing: " + str(sorted(missing)))
-                    return rec
-            rec["selfcheck"] = _sha(mo) == _sha(ctx["pipeline_obj"])
-        else:
-            sym = ctx["symbol"]
-            mv.add_unit(sym)
-            mv.composite = {sym}
-            shape_unit(mv, sym, len(ctx["retail"]))
-            if sym not in mv.funcs:
-                rec.update(status="error", err=f"target symbol {sym} is not a function in the maspsx object "
-                                               f"({sorted(mv.funcs)[:4]})"); return rec
-            scope = [sym]
-            # the traced object reproduces the scorer's: its instruction stream, relocation fields
-            # masked, equals the scorer's linked words (same length, same non-relocation bits)
-            got = ctx["linked"]
-            toks = mv.tokens(sym)
-            if got is None:
-                rec["selfcheck"] = None
-            else:
-                gw = [struct.unpack_from("<I", got, 4 * i)[0] for i in range(len(got) // 4)]
-                rec["selfcheck"] = len(gw) == len(toks) and all(
-                    (g & ~FIELD.get(t[1], 0) & 0xFFFFFFFF) == t[0] if t[1] else g == t[0] for g, t in zip(gw, toks))
-        rec["funcs"] = len(scope)
-        rec["words"] = sum(len(mv.tokens(f)) for f in scope)
-        rec["maspsx_retail"] = retail_compare(mv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None)
-        mr = rec["maspsx_retail"]
-        if ctx["kind"] == "slus" and not rec["maspsx_exact"] and mr["diff"] == 0 and mr["masked"] == 0 and mr["checked"] == len(scope):
-            # the pinned-object reference disagrees, but every word resolves to the retail SLUS
-            rec["maspsx_exact"] = True; rec["proof"] = "retail-resolved"
-        # ---- genuine legs
-        g_srcs = {False: aspsx_input(ctx["g_src"]), True: aspsx_input(ctx["g_src"], equ=True)}
-        alias = aliases(ctx["g_src"])
-        modes, has_div = genuine_modes(ctx["g_src"], ctx["flags"])
-        rec["has_div"] = has_div
-        gen = {}; views = {}; allviews = {}
-        for v in VERSIONS:
-            best = None
-            for fl, equ in modes:
-                label = " ".join(fl[1:] + (["equ"] if equ else []))
-                lnk, err = run_aspsx(g_srcs[equ], v, fl, td)
-                if lnk is None:
-                    kind = ("hilo" if "Syntax error in expression" in err and "%hi(" in ctx["g_src"] else
-                            "open" if "Could not open" in err else "other")
-                    cand = {"err": err, "err_kind": kind, "mode": label}
-                    best = best or cand
-                    continue
-                try:
-                    gv = View(read_lnk(lnk), mv, alias)
-                    gv.composite = mv.composite
-                    gv.follow = mv.follow
-                    for f in scope:
-                        gv.add_unit(f, mv)
-                except Exception as exc:
-                    best = best or {"err": f"LNK: {exc}"[:200], "mode": label}
-                    continue
-                c = compare_units(mv, gv, scope)
-                allviews.setdefault(v, []).append(gv)
-                cand = {"exact": c["exact"], "diff": c["diff"], "len": c["len_g"], "mode": label}
-                if c["missing"]:
-                    cand["missing"] = c["missing"][:3]
-                if gv.obj.unknown:
-                    cand["lnk_unknown"] = gv.obj.unknown[:2]
-                rc = retail_compare(gv, scope, ctx["kind"], ctx if ctx["kind"] == "overlay" else None)
-                cand["retail"] = [rc["diff"], rc["masked"]]                 # direct, positional: [differing, masked]
-                if best is None or "err" in best or (c["exact"], -c["diff"]) > (best.get("exact"), -best.get("diff", 1 << 30)):
-                    best = cand; views[v] = (gv, c)
-            gen[v] = best
-        rec["genuine"] = gen
-        rec["exact_versions"] = [v for v in VERSIONS if gen[v].get("exact")]
-        ok = [v for v in VERSIONS if v in views]
-        if ok:
-            bv = min(ok, key=lambda v: (not gen[v]["exact"], gen[v]["diff"], VERSIONS.index(v)))
-            rec["best"] = bv
-            gv, c = views[bv]
-            if not c["exact"]:
-                rec["classes"] = classify(c["regions"], mv, c["delay_only"])
-                rec["first_diff"] = [[f, op, off] for f, op, _, _, off in c["regions"][:4]]
-                # extern symbols maspsx/GNU as addressed $gp-relative (decision 3's list)
-            # $gp-relative references to symbols the TU does NOT define (not even as .comm): the
-            # small-extern model genuine ASPSX does not have (it $gp's only TU-defined small data)
-            gpx = mv.gp_extern_names(scope)
-            if gpx:
-                rec["gp_externs"] = gpx[:40]; rec["n_gp_externs"] = len(gpx)
-        # ---- attribution
-        need = [v for v in ok if not gen[v]["exact"]]
-        if need:
-            rec["attrib"] = attribute(ctx, env, tr["fired"], mv, views, allviews, need, scope, td)
+        rec = _measure_context(row, ctx, td, module_before, rec)
+        if rec.get("status") == "error":
+            return rec
         if fingerprint(row) != module_before:
             rec.update(status="error", maspsx_exact=False, err="module inputs changed during measurement")
             return rec

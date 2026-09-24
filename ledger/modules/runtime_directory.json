@@ -6,13 +6,13 @@
     "slus/konami_runtime_w_8003C758",
     "slus/konami_runtime_w_8003C920"
   ],
-  "at": "2026-09-24T18:19:32Z",
+  "at": "2026-09-24T18:38:51Z",
   "module_fingerprint": "743ef88dc04b857707a304059179af9a99c3591026cc79a8083860bef4d8785c",
-  "tool_fingerprint": "232c016f867b115f6bd8",
+  "tool_fingerprint": "c8ec40aa8f9a0fc3f8c5",
   "review": {
     "path": "docs/evidence/runtime_directory_module.md",
     "sha256": "551c75bd2044ab3703d0e153194963edbe5921cec3687b01ebc3ab2878d02771",
-    "reviewer": "Codex primary; partition gate integration and existing module context reviewed"
+    "reviewer": "codex"
   },
   "gate": {
     "result": "MATCH",

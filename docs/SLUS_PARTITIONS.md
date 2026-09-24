@@ -193,6 +193,54 @@ with `python3 work/native_lane/slus_partition_integration/probe.py` for the norm
 build and `python3 work/native_lane/slus_partition_gate/probe.py` for candidate
 routing/restoration. These remain E0 fixtures, not a global ownership rollout.
 
+## Per-owner genuine-ASPSX measurement
+
+The [genuine receipt](evidence/slus_partitions/genuine_receipt.json) measures each
+logical row at its actual physical recipes, after the full-image partition gate
+and emitted-function coverage checks. Every traced object must reproduce its
+pipeline object. A row record retains disjoint function scopes, actual recipes,
+whole-unit pass traces, GP externs and attribution for every physical stream.
+Source, connected-context and tool fingerprints must remain stable throughout.
+
+The top-level row keeps its original recipe as provenance. Genuine exact versions
+are the intersection across all row subsets, with complete comparison coverage.
+Owners exact at different versions form a separate reporting category rather than
+being labelled maspsx-dependent. Owner ablations stay owner-only: their union is
+not a measured intervention on the complete row. Reports retain one logical-row
+denominator and emit separate physical-owner detail. The single-recipe cell trial
+CLI and worker refuse connected rows before measurement or output; a per-owner
+trial requires an explicit future interface. Frozen raw measurement remains
+standalone.
+
+The E0 fixture accounts for all 181 functions. Its destination's three functions
+are a direct 44-word genuine ASPSX 2.79 match with zero masked relocations. Each
+physical result includes a separate complete-TU comparison in the same genuine
+mode; a certificate must use that result, not combine subset proofs from different
+modes. The [code](evidence/slus_partitions/genuine_code.json) collector still has
+156 functions and genuine difference 47; its seven unrelated GP symbols remain.
+The [code2](evidence/slus_partitions/genuine_code2.json) collector still has 24
+functions and genuine difference 33, with its three unrelated GP symbols retained.
+Those differences are token-comparator results; their resolved positional retail
+differences are 97 and 42 respectively. The
+[whole member](evidence/slus_partitions/genuine_w_80041134.json) matches at 30 words.
+All three logical scopes remain stock-retail-exact. None of these subset results
+clears a collector's outstanding dependencies or grants it module placement.
+
+Eighteen new tests cover complete/disjoint aggregation, missing comparison
+coverage, disjoint owner versions, report consistency, owner-only ablations,
+cell-trial refusal and live/raw dispatch. The **117-test SLUS suite**, 25 related
+comparator/cell/configuration tests and row database check pass. The existing
+runtime-directory measurement is identical except for timing; its certificate
+has been refreshed against the integrated tools and full retail image. The
+production SHA-1 gate also remains MATCH with the unchanged pinned recipe.
+See [review hashes](evidence/slus_partitions/genuine_review.json). Reproduce the
+private MIPS measurement with
+`python3 work/native_lane/slus_partition_genuine/probe.py`.
+
+The next [certificate handoff](evidence/slus_partitions/certificate_next.md)
+identifies current whole-member assumptions. It is a proposal, not a placement
+certificate. Data ownership and L4/L5 placement remain separate claims.
+
 ## Remaining integration, in order
 
 1. **Implemented:** plural physical contexts, connected fingerprints and candidate
@@ -201,9 +249,9 @@ routing/restoration. These remain E0 fixtures, not a global ownership rollout.
 2. **Implemented:** optional build generation, logical projection, pre-link ELF
    coverage and the plural `SlusView` candidate gate with full restoration.
    Normal Ninja and row verification both enforce emitted coverage.
-3. Aggregate genuine-ASPSX records across per-owner streams with exact disjoint
-   function scopes and per-owner recipes/pass traces. Keep a single original
-   logical row record; retain unrelated GP/model dependencies in collectors.
+3. **Implemented:** genuine-ASPSX records across per-owner streams with exact
+   disjoint function scopes and per-owner recipes/pass traces. One original
+   logical row is retained, including unrelated GP/model dependencies.
 4. Extend ownership/certificate evidence with incoming function parts and fresh
    connected fingerprints. A subset proof must not grant placement to a whole
    collector. Preserve existing L4/L5 pin and fidelity requirements.

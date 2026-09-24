@@ -1,0 +1,185 @@
+{
+  "tool_sha256": "a5b63d4b068650b20001a09cc16fe18f166ba725a94f1c4e75cf9833533c060d",
+  "rows": [
+    {
+      "row": "slus/code",
+      "functions": 156,
+      "words": 1263,
+      "cell": "mixed",
+      "physical_sources": [
+        "src/code.c",
+        "src/w_80041134_owned.c"
+      ],
+      "physical_genuine": {
+        "src/code.c": {
+          "exact": false,
+          "diff": 47,
+          "len_m": 1254,
+          "len_g": 1273,
+          "missing": [],
+          "retail": {
+            "diff": 97,
+            "masked": 0,
+            "checked": 155
+          }
+        },
+        "src/w_80041134_owned.c": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 44,
+          "len_g": 44,
+          "missing": [],
+          "retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          }
+        }
+      },
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 156
+      },
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 47,
+          "len": 1282,
+          "retail": [
+            97,
+            0
+          ],
+          "retail_checked": 156,
+          "modes": {
+            "src/code.c": "-0",
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [
+        "D_80080B94",
+        "D_80080B98",
+        "D_800814C8",
+        "D_80081540",
+        "D_80081550",
+        "D_80081554",
+        "D_80081558"
+      ],
+      "secs": 6.73
+    },
+    {
+      "row": "slus/code2",
+      "functions": 24,
+      "words": 241,
+      "cell": "2.8.1",
+      "physical_sources": [
+        "src/code2.c",
+        "src/w_80041134_owned.c"
+      ],
+      "physical_genuine": {
+        "src/code2.c": {
+          "exact": false,
+          "diff": 33,
+          "len_m": 236,
+          "len_g": 239,
+          "missing": [],
+          "retail": {
+            "diff": 42,
+            "masked": 0,
+            "checked": 23
+          }
+        },
+        "src/w_80041134_owned.c": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 44,
+          "len_g": 44,
+          "missing": [],
+          "retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          }
+        }
+      },
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 24
+      },
+      "genuine": {
+        "2.79": {
+          "exact": false,
+          "diff": 33,
+          "len": 244,
+          "retail": [
+            42,
+            0
+          ],
+          "retail_checked": 24,
+          "modes": {
+            "src/code2.c": "-0",
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [
+        "D_80080B1B",
+        "D_80080B1C",
+        "D_800814D0"
+      ],
+      "secs": 4.7
+    },
+    {
+      "row": "slus/w_80041134",
+      "functions": 1,
+      "words": 30,
+      "cell": "2.8.1",
+      "physical_sources": [
+        "src/w_80041134_owned.c"
+      ],
+      "physical_genuine": {
+        "src/w_80041134_owned.c": {
+          "exact": true,
+          "diff": 0,
+          "len_m": 44,
+          "len_g": 44,
+          "missing": [],
+          "retail": {
+            "diff": 0,
+            "masked": 0,
+            "checked": 3
+          }
+        }
+      },
+      "maspsx_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "2.79": {
+          "exact": true,
+          "diff": 0,
+          "len": 30,
+          "retail": [
+            0,
+            0
+          ],
+          "retail_checked": 1,
+          "modes": {
+            "src/w_80041134_owned.c": ""
+          }
+        }
+      },
+      "gp_externs": [],
+      "secs": 2.68
+    }
+  ],
+  "legacy_control": {
+    "row": "slus/konami_runtime_w_8003C634",
+    "record_equal_except_timing": true
+  },
+  "production_plan_active": false
+}
