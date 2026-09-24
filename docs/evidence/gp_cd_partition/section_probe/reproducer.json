@@ -1,0 +1,5 @@
+{
+  "work_directory": "work/native_lane/gp_cd_partition/section_probe",
+  "script_sha256": "b762b7a49dc0d268ea9dd033fb36ae4c7b6439b1d7fa35e6bb82dd13759ce8ac",
+  "scope": "Three fixed CDK-default storage spellings; no linker-placement test or production mutation"
+}

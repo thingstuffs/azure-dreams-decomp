@@ -1,0 +1,2628 @@
+{
+  "schema": 1,
+  "purpose": "named small-data section capability only",
+  "recipe": {
+    "ccver": "2.7.2-cdk",
+    "ccflags": "",
+    "asflags": ""
+  },
+  "assemblers": [
+    "stock maspsx 2.79",
+    "private generic maspsx 2.79",
+    "genuine ASPSX 2.79 -q"
+  ],
+  "production_before": {
+    "config/slus_modules.json": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+    "config/slus_partitions.json": "9aac94c3be0c71cb5a7cdccc6de135f0cd37100358db674870523e6aac5a9207",
+    "ledger/splits/slus.build.ninja": "c74e83b131ea6c04c2cc4f62dc042b45ebaf28dfc1d37350b8159a699a52d7f2",
+    "build_slus/build/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "baserom/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "work/native_lane/selfinc_local_guard/candidate/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+    "work/native_lane/gp_cd_partition/section_probe/ordinary.c": "53d253d5b251a9b5843215777154f7e4c5623ff78c7aeea2bc093b3223c46209",
+    "work/native_lane/gp_cd_partition/section_probe/named_sections.c": "965497bf73b9b7b3c447ab6345506de383b08065c200871e7c722c3bb20d52f6",
+    "work/native_lane/gp_cd_partition/section_probe/tentative_common.c": "8d765986cc0779f468162c72fbb1aca1bc764510861d99489d77bc546348c745"
+  },
+  "variants": [
+    {
+      "name": "ordinary",
+      "source": "ordinary.c",
+      "source_sha256": "53d253d5b251a9b5843215777154f7e4c5623ff78c7aeea2bc093b3223c46209",
+      "artifact_dir": "raw/ordinary",
+      "compiler_stream_emitted": true,
+      "stock": {
+        "accepted": true,
+        "object_sha256": "f1da8661d4d4c9cee2ca7b041798640b056f59d008bf4678b9de0eb2c51d177a",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 0,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata": {
+              "size": 8,
+              "bytes": "0300000005000000"
+            },
+            ".text.section_probe_read": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_write": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_left_address": {
+              "size": 12,
+              "bytes": null
+            },
+            ".text.section_probe_right_address": {
+              "size": 12,
+              "bytes": null
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sdata",
+              0,
+              "global",
+              0
+            ],
+            "section_probe_right": [
+              ".sdata",
+              4,
+              "global",
+              0
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 6
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "absolute_text_relocations": [],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 3,
+            "section_probe_right_address": 3
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "GPREL16": 1
+            },
+            "section_probe_right_address": {
+              "GPREL16": 1
+            }
+          }
+        }
+      },
+      "compiler_directives": [
+        ".globl\tsection_probe_left",
+        ".sdata",
+        ".align\t2",
+        ".word\t3",
+        ".globl\tsection_probe_right",
+        ".align\t2",
+        ".word\t5",
+        ".align\t2",
+        ".globl\tsection_probe_read",
+        ".align\t2",
+        ".globl\tsection_probe_write",
+        ".align\t2",
+        ".globl\tsection_probe_left_address",
+        ".align\t2",
+        ".globl\tsection_probe_right_address"
+      ],
+      "compiler_named_sections": [],
+      "generic": {
+        "accepted": true,
+        "exit_code": 0,
+        "log": "generic.log",
+        "object_sha256": "5d17b08a8bf7bae809b8aa20d562dd791ab79b45aa3e0d973eb222f9115ff9b6",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 0,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata": {
+              "size": 8,
+              "bytes": "0300000005000000"
+            },
+            ".text.section_probe_read": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_write": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_left_address": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_right_address": {
+              "size": 16,
+              "bytes": null
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sdata",
+              0,
+              "global",
+              0
+            ],
+            "section_probe_right": [
+              ".sdata",
+              4,
+              "global",
+              0
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 4,
+            "HI16": 2,
+            "LO16": 2
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "absolute_text_relocations": [
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 4,
+            "section_probe_right_address": 4
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "HI16": 1,
+              "LO16": 1
+            },
+            "section_probe_right_address": {
+              "HI16": 1,
+              "LO16": 1
+            }
+          }
+        }
+      },
+      "genuine": {
+        "accepted": true,
+        "object_sha256": "a4bbfb1526ab5f6117daacea0fe80096d5e6f41dae3e3dee8861b3a7ab4e9347",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 64,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata": {
+              "size": 8,
+              "bytes": "0300000005000000"
+            },
+            ".sbss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sdata",
+              0,
+              "global",
+              null
+            ],
+            "section_probe_right": [
+              ".sdata",
+              4,
+              "global",
+              null
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text",
+              "offset": 16,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 20,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text",
+              "offset": 32,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 36,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 48,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text",
+              "offset": 52,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 4,
+            "HI16": 2,
+            "LO16": 2
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text",
+              "offset": 16,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 20,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            }
+          ],
+          "absolute_text_relocations": [
+            {
+              "section": ".text",
+              "offset": 32,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 36,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 48,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text",
+              "offset": 52,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata"
+              ],
+              "addend": 4
+            }
+          ],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 4,
+            "section_probe_right_address": 4
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "HI16": 1,
+              "LO16": 1
+            },
+            "section_probe_right_address": {
+              "HI16": 1,
+              "LO16": 1
+            }
+          }
+        }
+      },
+      "assembler_input_directives": {
+        "compiler": [
+          ".globl\tsection_probe_left",
+          ".sdata",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address"
+        ],
+        "stock_and_generic": [
+          ".globl\tsection_probe_left",
+          ".sdata",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address",
+          ".section .text.section_probe_read,\"ax\",@progbits",
+          ".section .text.section_probe_write,\"ax\",@progbits",
+          ".section .text.section_probe_left_address,\"ax\",@progbits",
+          ".section .text.section_probe_right_address,\"ax\",@progbits"
+        ],
+        "genuine_names_only": [
+          ".globl\tsection_probe_left",
+          ".sdata",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address"
+        ],
+        "genuine_actual_input": [
+          ".globl\tsection_probe_left",
+          ".sdata",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address"
+        ]
+      }
+    },
+    {
+      "name": "named_sections",
+      "source": "named_sections.c",
+      "source_sha256": "965497bf73b9b7b3c447ab6345506de383b08065c200871e7c722c3bb20d52f6",
+      "artifact_dir": "raw/named_sections",
+      "compiler_stream_emitted": true,
+      "stock": {
+        "accepted": true,
+        "object_sha256": "7e6c068c6ed2fe275756ae48616ac89a7bd22a35cfe6384707cb3f61913a292a",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 0,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata.section_probe_left": {
+              "size": 4,
+              "bytes": "03000000"
+            },
+            ".sdata.section_probe_right": {
+              "size": 4,
+              "bytes": "05000000"
+            },
+            ".text.section_probe_read": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_write": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_left_address": {
+              "size": 12,
+              "bytes": null
+            },
+            ".text.section_probe_right_address": {
+              "size": 12,
+              "bytes": null
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sdata.section_probe_left",
+              0,
+              "global",
+              0
+            ],
+            "section_probe_right": [
+              ".sdata.section_probe_right",
+              0,
+              "global",
+              0
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 6
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "absolute_text_relocations": [],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 3,
+            "section_probe_right_address": 3
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "GPREL16": 1
+            },
+            "section_probe_right_address": {
+              "GPREL16": 1
+            }
+          }
+        }
+      },
+      "compiler_directives": [
+        ".globl\tsection_probe_left",
+        ".section .sdata.section_probe_left,\"aw\",@progbits",
+        ".align\t2",
+        ".word\t3",
+        ".globl\tsection_probe_right",
+        ".section .sdata.section_probe_right,\"aw\",@progbits",
+        ".align\t2",
+        ".word\t5",
+        ".align\t2",
+        ".globl\tsection_probe_read",
+        ".align\t2",
+        ".globl\tsection_probe_write",
+        ".align\t2",
+        ".globl\tsection_probe_left_address",
+        ".align\t2",
+        ".globl\tsection_probe_right_address"
+      ],
+      "compiler_named_sections": [
+        ".sdata.section_probe_left",
+        ".sdata.section_probe_right"
+      ],
+      "generic": {
+        "accepted": true,
+        "exit_code": 0,
+        "log": "generic.log",
+        "object_sha256": "37cc44f1dc8f28fd259e24eaa00046a69f33a30e94eba689cdf234903d219650",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 0,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata.section_probe_left": {
+              "size": 4,
+              "bytes": "03000000"
+            },
+            ".sdata.section_probe_right": {
+              "size": 4,
+              "bytes": "05000000"
+            },
+            ".text.section_probe_read": {
+              "size": 24,
+              "bytes": null
+            },
+            ".text.section_probe_write": {
+              "size": 24,
+              "bytes": null
+            },
+            ".text.section_probe_left_address": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_right_address": {
+              "size": 16,
+              "bytes": null
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sdata.section_probe_left",
+              0,
+              "global",
+              0
+            ],
+            "section_probe_right": [
+              ".sdata.section_probe_right",
+              0,
+              "global",
+              0
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 8,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 12,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 8,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 12,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "text_relocation_types": {
+            "HI16": 6,
+            "LO16": 6
+          },
+          "gp_relative_text_relocations": [],
+          "absolute_text_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 8,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 12,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 8,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 12,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 6,
+            "section_probe_write": 6,
+            "section_probe_left_address": 4,
+            "section_probe_right_address": 4
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "HI16": 2,
+              "LO16": 2
+            },
+            "section_probe_write": {
+              "HI16": 2,
+              "LO16": 2
+            },
+            "section_probe_left_address": {
+              "HI16": 1,
+              "LO16": 1
+            },
+            "section_probe_right_address": {
+              "HI16": 1,
+              "LO16": 1
+            }
+          }
+        }
+      },
+      "genuine": {
+        "accepted": true,
+        "object_sha256": "219685e6ee7c2a4fc1d60f278153fff19797c13964cd38bdeb8fc1b21cae4128",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 80,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sbss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata.section_probe_left": {
+              "size": 4,
+              "bytes": "03000000"
+            },
+            ".sdata.section_probe_right": {
+              "size": 4,
+              "bytes": "05000000"
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sdata.section_probe_left",
+              0,
+              "global",
+              null
+            ],
+            "section_probe_right": [
+              ".sdata.section_probe_right",
+              0,
+              "global",
+              null
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 8,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 12,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 24,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 28,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 32,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 36,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 48,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 52,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 64,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 68,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "text_relocation_types": {
+            "HI16": 6,
+            "LO16": 6
+          },
+          "gp_relative_text_relocations": [],
+          "absolute_text_relocations": [
+            {
+              "section": ".text",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 8,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 12,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 24,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 28,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 32,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 36,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 48,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 52,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 64,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 68,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sdata.section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 6,
+            "section_probe_write": 6,
+            "section_probe_left_address": 4,
+            "section_probe_right_address": 4
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "HI16": 2,
+              "LO16": 2
+            },
+            "section_probe_write": {
+              "HI16": 2,
+              "LO16": 2
+            },
+            "section_probe_left_address": {
+              "HI16": 1,
+              "LO16": 1
+            },
+            "section_probe_right_address": {
+              "HI16": 1,
+              "LO16": 1
+            }
+          }
+        }
+      },
+      "assembler_input_directives": {
+        "compiler": [
+          ".globl\tsection_probe_left",
+          ".section .sdata.section_probe_left,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".section .sdata.section_probe_right,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address"
+        ],
+        "stock_and_generic": [
+          ".globl\tsection_probe_left",
+          ".section .sdata.section_probe_left,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".section .sdata.section_probe_right,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address",
+          ".section .text.section_probe_read,\"ax\",@progbits",
+          ".section .text.section_probe_write,\"ax\",@progbits",
+          ".section .text.section_probe_left_address,\"ax\",@progbits",
+          ".section .text.section_probe_right_address,\"ax\",@progbits"
+        ],
+        "genuine_names_only": [
+          ".globl\tsection_probe_left",
+          ".section .sdata.section_probe_left,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".section .sdata.section_probe_right,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address"
+        ],
+        "genuine_actual_input": [
+          ".globl\tsection_probe_left",
+          ".section .sdata.section_probe_left,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t3",
+          ".globl\tsection_probe_right",
+          ".section .sdata.section_probe_right,\"aw\",@progbits",
+          ".align\t2",
+          ".word\t5",
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address"
+        ]
+      },
+      "named_section_directives_preserved": true
+    },
+    {
+      "name": "tentative_common",
+      "source": "tentative_common.c",
+      "source_sha256": "8d765986cc0779f468162c72fbb1aca1bc764510861d99489d77bc546348c745",
+      "artifact_dir": "raw/tentative_common",
+      "compiler_stream_emitted": true,
+      "stock": {
+        "accepted": true,
+        "object_sha256": "03fe9887a6d421c58c8f22eec97839462e803b9401cde5fd1862ceffbed5f633",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 0,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".text.section_probe_read": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_write": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_left_address": {
+              "size": 12,
+              "bytes": null
+            },
+            ".text.section_probe_right_address": {
+              "size": 12,
+              "bytes": null
+            },
+            ".sbss": {
+              "size": 8,
+              "bytes": "0000000000000000"
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sbss",
+              0,
+              "local",
+              0
+            ],
+            "section_probe_right": [
+              ".sbss",
+              4,
+              "local",
+              0
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 6
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            }
+          ],
+          "absolute_text_relocations": [],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 3,
+            "section_probe_right_address": 3
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "GPREL16": 1
+            },
+            "section_probe_right_address": {
+              "GPREL16": 1
+            }
+          }
+        }
+      },
+      "compiler_directives": [
+        ".align\t2",
+        ".globl\tsection_probe_read",
+        ".align\t2",
+        ".globl\tsection_probe_write",
+        ".align\t2",
+        ".globl\tsection_probe_left_address",
+        ".align\t2",
+        ".globl\tsection_probe_right_address",
+        ".comm\tsection_probe_left,4",
+        ".comm\tsection_probe_right,4"
+      ],
+      "compiler_named_sections": [],
+      "generic": {
+        "accepted": true,
+        "exit_code": 0,
+        "log": "generic.log",
+        "object_sha256": "9e12a08cfb210f9983f0eb3c27717011ebc78605eb936a0e4a94d086c14d28ae",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 0,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".text.section_probe_read": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_write": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_left_address": {
+              "size": 16,
+              "bytes": null
+            },
+            ".text.section_probe_right_address": {
+              "size": 16,
+              "bytes": null
+            },
+            ".sbss": {
+              "size": 8,
+              "bytes": "0000000000000000"
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              ".sbss",
+              0,
+              "local",
+              0
+            ],
+            "section_probe_right": [
+              ".sbss",
+              4,
+              "local",
+              0
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 4,
+            "HI16": 2,
+            "LO16": 2
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text.section_probe_read",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_read",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_write",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            }
+          ],
+          "absolute_text_relocations": [
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_left_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 0,
+              "type": "HI16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            },
+            {
+              "section": ".text.section_probe_right_address",
+              "offset": 4,
+              "type": "LO16",
+              "target": [
+                "sec",
+                ".sbss"
+              ],
+              "addend": 4
+            }
+          ],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 4,
+            "section_probe_right_address": 4
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "HI16": 1,
+              "LO16": 1
+            },
+            "section_probe_right_address": {
+              "HI16": 1,
+              "LO16": 1
+            }
+          }
+        }
+      },
+      "genuine": {
+        "accepted": true,
+        "object_sha256": "98fc316882b8383361006088872e20e1087919bbd5b995bd06421edb035dd93c",
+        "shape": {
+          "sections": {
+            ".text": {
+              "size": 64,
+              "bytes": null
+            },
+            ".data": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sdata": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".sbss": {
+              "size": 0,
+              "bytes": ""
+            },
+            ".bss": {
+              "size": 0,
+              "bytes": ""
+            }
+          },
+          "global_symbols": {
+            "section_probe_left": [
+              null,
+              0,
+              "common",
+              4
+            ],
+            "section_probe_right": [
+              null,
+              0,
+              "common",
+              4
+            ]
+          },
+          "all_relocations": [
+            {
+              "section": ".text",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 16,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 20,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 32,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 36,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 48,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 52,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "text_relocation_types": {
+            "GPREL16": 4,
+            "HI16": 2,
+            "LO16": 2
+          },
+          "gp_relative_text_relocations": [
+            {
+              "section": ".text",
+              "offset": 0,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 4,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 16,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 20,
+              "type": "GPREL16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "absolute_text_relocations": [
+            {
+              "section": ".text",
+              "offset": 32,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 36,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_left"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 48,
+              "type": "HI16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            },
+            {
+              "section": ".text",
+              "offset": 52,
+              "type": "LO16",
+              "target": [
+                "sym",
+                "section_probe_right"
+              ],
+              "addend": 0
+            }
+          ],
+          "unknown_records": [],
+          "parse_status": "ok",
+          "raw_function_set": [
+            "section_probe_left_address",
+            "section_probe_read",
+            "section_probe_right_address",
+            "section_probe_write"
+          ],
+          "function_words": {
+            "section_probe_read": 4,
+            "section_probe_write": 4,
+            "section_probe_left_address": 4,
+            "section_probe_right_address": 4
+          },
+          "function_relocation_types": {
+            "section_probe_read": {
+              "GPREL16": 2
+            },
+            "section_probe_write": {
+              "GPREL16": 2
+            },
+            "section_probe_left_address": {
+              "HI16": 1,
+              "LO16": 1
+            },
+            "section_probe_right_address": {
+              "HI16": 1,
+              "LO16": 1
+            }
+          }
+        }
+      },
+      "assembler_input_directives": {
+        "compiler": [
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address",
+          ".comm\tsection_probe_left,4",
+          ".comm\tsection_probe_right,4"
+        ],
+        "stock_and_generic": [
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address",
+          ".comm\tsection_probe_left,4",
+          ".comm\tsection_probe_right,4",
+          ".section .text.section_probe_read,\"ax\",@progbits",
+          ".section .text.section_probe_write,\"ax\",@progbits",
+          ".section .text.section_probe_left_address,\"ax\",@progbits",
+          ".section .text.section_probe_right_address,\"ax\",@progbits"
+        ],
+        "genuine_names_only": [
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address",
+          ".comm\tsection_probe_left,4",
+          ".comm\tsection_probe_right,4"
+        ],
+        "genuine_actual_input": [
+          ".align\t2",
+          ".globl\tsection_probe_read",
+          ".align\t2",
+          ".globl\tsection_probe_write",
+          ".align\t2",
+          ".globl\tsection_probe_left_address",
+          ".align\t2",
+          ".globl\tsection_probe_right_address",
+          ".comm\tsection_probe_left,4",
+          ".comm\tsection_probe_right,4"
+        ]
+      }
+    }
+  ],
+  "production_after": {
+    "config/slus_modules.json": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+    "config/slus_partitions.json": "9aac94c3be0c71cb5a7cdccc6de135f0cd37100358db674870523e6aac5a9207",
+    "ledger/splits/slus.build.ninja": "c74e83b131ea6c04c2cc4f62dc042b45ebaf28dfc1d37350b8159a699a52d7f2",
+    "build_slus/build/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "baserom/slus_006.14": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "work/native_lane/selfinc_local_guard/candidate/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+    "work/native_lane/gp_cd_partition/section_probe/ordinary.c": "53d253d5b251a9b5843215777154f7e4c5623ff78c7aeea2bc093b3223c46209",
+    "work/native_lane/gp_cd_partition/section_probe/named_sections.c": "965497bf73b9b7b3c447ab6345506de383b08065c200871e7c722c3bb20d52f6",
+    "work/native_lane/gp_cd_partition/section_probe/tentative_common.c": "8d765986cc0779f468162c72fbb1aca1bc764510861d99489d77bc546348c745"
+  },
+  "production_unchanged": true
+}

@@ -67,12 +67,25 @@ to their G8 v3/v4 candidates. Their suggested split-store bridge is superseded
 as a diagnosis of the present E758 source. The classifier itself still reports
 mixed evidence and does not identify a unique historical compiler or TU.
 
+## Named sections: measured capability, not the needed fix
+
+The [three-spelling storage probe](gp_cd_partition/section_probe/REPORT.md)
+confirms that CDK and genuine ASPSX accept two independently named four-byte
+data sections. The actual named-section directives survive the complete input
+path. However, genuine and private generic assembly then use absolute addressing
+for all six tested references. Ordinary initialized small data and tentative
+commons retain GP loads/stores. Direct C section attributes therefore lose the
+required genuine GP code in this measured case; they are not the CD ownership
+solution. No production assembler change was made.
+
 ## Tracked next work
 
 1. Prototype a generic representation of discontiguous real data storage in
-   isolation. Check compiler-emitted named sections and genuine assembler support
-   before choosing a linker/object representation. Preserve existing small-data
-   semantics and raw gap bytes; do not insert padding objects or keyed exceptions.
+   isolation. The direct named-section approach above changes genuine addressing;
+   investigate partitioning actual assembled data sections while preserving code,
+   symbols and relocations. Require genuine comparison and a linked data-layout
+   proof before expanding the module schema. Preserve raw gap bytes; do not insert
+   padding objects or keyed exceptions.
 2. Reconcile the CD shared declarations using the eight-byte result buffer,
    real B0/B4 pair, byte state and AD fields. Measure complete consumers, including
    F240, under evidenced recipes. A grouping is acceptable only with complete
