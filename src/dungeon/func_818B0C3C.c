@@ -54,35 +54,30 @@ extern M2C_UNK D_80045340;
 extern M2C_UNK D_800DEC70;
 
 /* Creates a sprite node with a randomized offset from the supplied origin. */
-s32 func_8002443C(s32 owner, void *origin, s32 motion, s32 frame) {
+s32 func_8002443C(s32 owner, void *origin, s16 motion, s32 frame) {
     M2C_UNK *node_type;
     u16 position_z;
     s32 angle;
     S_8002443C_3 *sprite;
     s32 result;
-    u8 *state = (u8 *)owner;
-    u8 *position = (u8 *)origin;
-    s16 motion_value = motion;
+    u8 *position;
     u8 *node;
     s16 frame_index = frame;
     s32 sprite_mode;
 
     node = func_8003FC64(0x212);
-    ASM_KEEP(state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(motion_value);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(frame_index);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     if (node != NULL) {
         node_type = &D_800242E0;
-        ((S_8002443C_0 *)node)->unk_20 = (s32)state;
-        state = node + 0x20;
+        ((S_8002443C_0 *)node)->unk_20 = owner;
+        owner = (s32)(node + 0x20);
         ((S_8002443C_0 *)node)->unk_10 = node_type;
-        ((S_8002443C_1 *)state)->unk_04 = motion_value;
-        ((S_8002443C_1 *)state)->unk_06 = (s16) (-6 - (func_80069EF8() % 5));
-        ((S_8002443C_1 *)state)->unk_08 = (u16) ((S_8002443C_2 *)position)->unk_02.s;
-        ((S_8002443C_1 *)state)->unk_0A = (u16) ((S_8002443C_2 *)position)->unk_06.s;
-        node_type = (M2C_UNK *)(((S_8002443C_2 *)position)->unk_0A.s);
+        ((S_8002443C_1 *)owner)->unk_04 = motion;
+        ((S_8002443C_1 *)owner)->unk_06 = (s16) (-6 - (func_80069EF8() % 5));
+        ((S_8002443C_1 *)owner)->unk_08 = (u16) ((S_8002443C_2 *)origin)->unk_02.s;
+        ((S_8002443C_1 *)owner)->unk_0A = (u16) ((S_8002443C_2 *)origin)->unk_06.s;
+        node_type = (M2C_UNK *)(((S_8002443C_2 *)origin)->unk_0A.s);
         sprite_mode = 0x7E09;
-        ((S_8002443C_1 *)state)->unk_0C = (u16)node_type;
+        ((S_8002443C_1 *)owner)->unk_0C = (u16)node_type;
         sprite = ((S_8002443C_0 *)node)->unk_0C;
         sprite->unk_0E = 0;
         sprite->unk_0D = 0;
@@ -97,9 +92,9 @@ s32 func_8002443C(s32 owner, void *origin, s32 motion, s32 frame) {
         func_8004491C(node, &D_80045340);
         position = ((S_8002443C_0 *)node)->unk_08;
         angle = func_80069EF8() % 0x1000;
-        ((S_8002443C_2 *)position)->unk_02.u = (s16) (((S_8002443C_1 *)state)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
-        ((S_8002443C_2 *)position)->unk_06.u = (s16) (((S_8002443C_1 *)state)->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
-        position_z = ((S_8002443C_1 *)state)->unk_0C;
+        ((S_8002443C_2 *)position)->unk_02.u = (s16) (((S_8002443C_1 *)owner)->unk_08 + ((s32) (func_800644B8(angle) * 2) >> 8));
+        ((S_8002443C_2 *)position)->unk_06.u = (s16) (((S_8002443C_1 *)owner)->unk_0A + ((s32) (func_80064584(angle) * 2) >> 8));
+        position_z = ((S_8002443C_1 *)owner)->unk_0C;
         result = (s32)node;
         ((S_8002443C_2 *)position)->unk_0A.u = (s16)position_z;
         return result;

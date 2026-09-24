@@ -78,12 +78,11 @@ typedef struct S_80169EC0_5 {
 } S_80169EC0_5;   /* motion in func_80169EC0 */
 
 /* Updates actor callbacks, facing, movement, and terrain height. */
-void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
+void func_80169EC0(void *owner_arg, void *motion, void *data)
 {
-    void *motion = motion_arg;
-    void *data = data_arg;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
     void *actor = owner_arg;
-    register s16 initial_state ASM_REG("$18");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s16 initial_state;
+    s16 direction;
     u32 state_bits;
     Callback special_callback;
     Callback update_callback;
@@ -142,9 +141,7 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         void *call_motion = motion;
         void *call_data = data;
 
-        state_bits = (u32)((S_80169EC0_3 *)actor)->unk_6D.u << 24;
-        ASM_KEEP_NV(state_bits);   /* UNRESOLVED C shape (pin): removing it changes the instruction count (a copy retail keeps is dropped or added); the source shape that makes it unnecessary has not been found */
-        initial_state = (s32)state_bits >> 24;
+        initial_state = (s8)((S_80169EC0_3 *)actor)->unk_6D.u;
         if (func_800A9E70(call_owner, call_motion, call_data, actor) != 0) {
             return;
         }
@@ -155,7 +152,7 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         update_callback(owner_arg, motion, data, actor);
     }
     D_80173B94[(*(u8 *)((u8 *)owner_arg + (0x9A)))](owner_arg, motion, data, actor);
-    if (initial_state != ((S_80169EC0_3 *)actor)->unk_6D.s) {
+    if ((s16)initial_state != ((S_80169EC0_3 *)actor)->unk_6D.s) {
         func_800AA36C(owner_arg, motion, data, actor);
     }
 
@@ -165,13 +162,13 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         u16 cleared_status;
         state_bits = (u32)(D_80083228 + ((S_80169EC0_3 *)actor)->unk_2A + 0x100);
         state_bits = (s32)state_bits >> 9;
-        initial_state = state_bits & 7;
-        if ((*(s16 *)((u8 *)owner_arg + (0x94))) != initial_state) {
+        direction = state_bits & 7;
+        if ((*(s16 *)((u8 *)owner_arg + (0x94))) != direction) {
             u8 *facing_steps = ((S_80169EC0_4 *)data)->unk_2C;
             if (facing_steps != NULL) {
-                func_80047738(data, facing_steps[initial_state], ((S_80169EC0_4 *)data)->unk_04);
+                func_80047738(data, facing_steps[direction], ((S_80169EC0_4 *)data)->unk_04);
             }
-            (*(s16 *)((u8 *)owner_arg + (0x94))) = initial_state;
+            (*(s16 *)((u8 *)owner_arg + (0x94))) = direction;
         }
 
         frame_status = ((S_80169EC0_4 *)data)->unk_14;
@@ -198,7 +195,6 @@ void func_80169EC0(void *owner_arg, void *motion_arg, void *data_arg)
         ((S_80169EC0_5 *)motion)->unk_14 += (*(s8 *)((u8 *)owner_arg + (0x9D))) * 0x14000;
         (*(u8 *)((u8 *)owner_arg + (0x9D)))++;
     }
-       /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
     (*(s32 *)((u8 *)owner_arg + (0x90))) += ((S_80169EC0_5 *)motion)->unk_14;
 
     if ((*(u16 *)((u8 *)owner_arg + (0x98))) & 4) {
@@ -243,7 +239,4 @@ finish:
                               (((S_80169EC0_3 *)actor)->unk_88.u +
                                (*(u16 *)((u8 *)owner_arg + (0x92))));
     ((S_80169EC0_4 *)data)->unk_14 |= 0x40;
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-       /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
-    ASM_KEEP(initial_state);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
 }

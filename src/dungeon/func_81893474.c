@@ -91,7 +91,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
     Scratch scratch;
     register u8 *origin;
     s32 target_z;
-    register s32 height_valid ASM_REG("$2");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+    s32 direction_bits;
     s32 state_id;
     s32 source_z;
     s32 adjusted_z;
@@ -107,31 +107,14 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
     switch (state_id) {
     case 0:
         origin = D_80082E80_early;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it changes the immediate-load split; the source shape that makes it unnecessary has not been found */
         {
-            register u32 lookup_addr ASM_REG("$2") =
-                (u32)PTR_AT((u8 *)owner - 0x20, 0xC);
-            s32 start_x = U8_AT(lookup_addr, 0x24);
-            s32 start_y = U8_AT(lookup_addr, 0x25);
-            u32 origin_x;
-            u32 step_x;
-            u32 step_y;
-
-            step_x = (u32)D_8006CCD8_early;
-            lookup_addr = (u32)D_800814A8_early - 0x14A8;
-            lookup_addr = *(u32 *)(lookup_addr + 0x14A8);
-            step_y = U16_AT(lookup_addr, 0x2A);
-            origin_x = origin[0x24];
-            step_y = (step_y >> 8) & 0xE;
-            step_x = step_y + step_x;
-            lookup_addr = (u32)D_8006CCE8_early;
-            step_y += lookup_addr;
-            step_x = U16_AT(step_x, 0);
-            step_y = U16_AT(step_y, 0);
+            u8 *node = PTR_AT((u8 *)owner - 0x20, 0xC);
+            u32 offset = (U16_AT(D_800814A8_early[0], 0x2A) >> 8) & 0xE;
 
             U16_AT(owner, 0x2A) = func_800A0818(
-                start_x, start_y, origin_x + step_x,
-                origin[0x25] + step_y, &result);
+                node[0x24], node[0x25],
+                origin[0x24] + U16_AT((u8 *)D_8006CCD8_early + offset, 0),
+                origin[0x25] + U16_AT((u8 *)D_8006CCE8_early + offset, 0), &result);
         }
         state->timer = 0;
         state->state++;
@@ -168,12 +151,18 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
             u8 *position_base = D_80082E80;
             void *direction_node = D_800814A8[0];
 
-            height_valid = (s32)(U16_AT(direction_node, 0x2A));
-            state->x = position_base[0x24] +
-                ((s16 *)((u8 *)D_8006CCD8 + (((u32)height_valid >> 8) & 0xE)))[0];
-            height_valid = (s32)(U16_AT(direction_node, 0x2A));
-            state->y = position_base[0x25] +
-                ((s16 *)((u8 *)D_8006CCE8 + (((u32)height_valid >> 8) & 0xE)))[0];
+            {
+                u8 *x_table = (u8 *)D_8006CCD8;
+                direction_bits = U16_AT(direction_node, 0x2A);
+                state->x = position_base[0x24] +
+                    ((s16 *)(x_table + (((u32)direction_bits >> 8) & 0xE)))[0];
+            }
+            {
+                u8 *y_table = (u8 *)D_8006CCE8;
+                direction_bits = U16_AT(direction_node, 0x2A);
+                state->y = position_base[0x25] +
+                    ((s16 *)(y_table + (((u32)direction_bits >> 8) & 0xE)))[0];
+            }
         } else {
             state->x = D_80082E80[0x24] + D_8006CCD8[state->direction];
             state->y = D_80082E80[0x25] + D_8006CCE8[state->direction];
@@ -193,7 +182,7 @@ void func_80024C74(EffectState *effect_state, Motion *effect_motion, ColorPart *
         state->z = S16_AT(target_pos, 0xA);
         func_8009A350(state->x - 1, state->y, 0, &map_flags);
         if ((map_flags & 0x3300) != 0 ||
-            (target_z = S16_AT(target_pos, 0xA), height_valid = target_z < 0x201, !height_valid) ||
+            (target_z = S16_AT(target_pos, 0xA)) > 0x200 ||
             (func_800A45D8(U16_AT(target_pos, 2), U16_AT(target_pos, 6), target_z) << 16) != 0 ||
             (func_800A5690() << 16) == 0) {
             state->state = 7;

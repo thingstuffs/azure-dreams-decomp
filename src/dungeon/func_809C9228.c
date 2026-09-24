@@ -8,7 +8,7 @@ extern void func_800478B8();
 extern void func_800A020C();
 extern s32 func_800A9E70();
 extern void func_800AA36C();
-extern s32 func_800BCB04();
+extern s16 func_800BCB04();
 extern u8 D_8006CCF8[];
 extern u16 D_80083462;
 extern s16 D_80083228;
@@ -46,29 +46,23 @@ typedef struct S_80170A28_2 {
 } S_80170A28_2;   /* arg1 in func_80170A28 */
 
 /* Run entity callbacks and update facing, motion, and ground contact. */
-void func_80170A28(void *entity_input, void *motion_input, void *part_input)
+void func_80170A28(void *entity, S_80170A28_2 *motion, void *part)
 {
-    register void *entity ASM_REG("$18") = entity_input;   /* UNRESOLVED C shape (pin): removing it changes the register colouring; the source shape that makes it unnecessary has not been found */
-    S_80170A28_2 *motion = motion_input;
-    void *part = part_input;
-    register void *entity_base ASM_REG("$17") = entity;   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-    s16 state_or_direction;
-    s32 direction_index;
+    void *entity_base = entity;
+    s16 old_state;
+    s32 state_or_direction;
+    s16 direction_index;
+    s16 direction_copy;
     void *call_entity;
     void *call_motion;
     void *call_part;
     void *call_self;
-    s32 previous_state;
-    s32 previous_state_2;
     u32 unused_tail;
-    register s32 floor_height ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     EntityCallback callback;
     s32 rounded_angle;
     s16 ground_height;
     s16 base_height;
-    s32 previous_direction;
     s32 entity_flags;
-    s32 current_state;
     u16 part_flags;
     u16 new_part_flags;
     u8 direction_flag;
@@ -77,8 +71,8 @@ void func_80170A28(void *entity_input, void *motion_input, void *part_input)
         callback = (*(EntityCallback *)((u8 *)entity + 0x8C));
         if (callback == (EntityCallback)&D_80170E54) {
             {
-                call_self = entity_input;
-                callback(call_self, motion_input, part_input, call_self);
+                call_self = entity;
+                callback(call_self, motion, part, call_self);
             }
             return;
         }
@@ -89,9 +83,8 @@ void func_80170A28(void *entity_input, void *motion_input, void *part_input)
     call_entity = entity;
     call_motion = motion;
     call_part = part;
-    previous_state_2 = (*(u8 *)((u8 *)entity + 0x6D));
+    old_state = (s8)(*(u8 *)((u8 *)entity + 0x6D));
     call_self = entity;
-    state_or_direction = (s8)previous_state_2;
     if (func_800A9E70(call_entity, call_motion, call_part, call_self) != 0) {
         return;
     }
@@ -105,10 +98,7 @@ void func_80170A28(void *entity_input, void *motion_input, void *part_input)
     }
     D_80173CEC[(*(u8 *)((u8 *)entity + 0x9A))](entity, motion, part, entity);
 
-    previous_state = (s32)state_or_direction << 16;
-    current_state = (*(s8 *)((u8 *)entity + 0x6D));
-    previous_state >>= 16;
-    if (previous_state != current_state) {
+    if ((s16)old_state != (*(s8 *)((u8 *)entity + 0x6D))) {
         func_800AA36C(entity, motion, part, entity);
     }
 
@@ -116,12 +106,12 @@ void func_80170A28(void *entity_input, void *motion_input, void *part_input)
     if (!(part_flags & 0x8000)) {
         rounded_angle = D_80083228 + (*(s16 *)((u8 *)entity + 0x2A)) + 0x100;
         state_or_direction = (rounded_angle >> 9) & 7;
-        previous_direction = (*(s16 *)((u8 *)entity + 0x94));
-        direction_index = (u16)state_or_direction;
-        if (previous_direction != state_or_direction) {
+        direction_index = state_or_direction;
+        direction_copy = state_or_direction;
+        if ((*(s16 *)((u8 *)entity + 0x94)) != direction_copy) {
             if (((S_80170A28_0 *)part)->unk_2C != 0) {
                 func_80047738(part,
-                              ((S_80170A28_0 *)part)->unk_2C[state_or_direction],
+                              ((S_80170A28_0 *)part)->unk_2C[direction_copy],
                               ((S_80170A28_0 *)part)->unk_04);
             }
             (*(s16 *)((u8 *)entity + 0x94)) = state_or_direction;
@@ -194,13 +184,13 @@ flags_test:
             entity_flags = ((S_80170A28_1 *)entity_base)->unk_1C;
             if (entity_flags & 0x40000000) {
                 ((S_80170A28_1 *)entity_base)->unk_1C = entity_flags & 0xBFFFFFFF;
-                floor_height = func_800BCB04(
+                ground_height = func_800BCB04(
                     (((S_80170A28_0 *)part)->unk_24 << 6) | 0x20,
                     (((S_80170A28_0 *)part)->unk_25 << 6) | 0x20,
                     (s16)(((S_80170A28_1 *)entity_base)->unk_88 - 0x20));
                 (*(s16 *)((u8 *)entity + 0x92)) +=
-                    ((S_80170A28_1 *)entity_base)->unk_88 - floor_height;
-                ((S_80170A28_1 *)entity_base)->unk_88 = floor_height;
+                    ((S_80170A28_1 *)entity_base)->unk_88 - ground_height;
+                ((S_80170A28_1 *)entity_base)->unk_88 = ground_height;
                 goto finish;
             }
             goto finish;
@@ -210,8 +200,9 @@ flags_test:
     ((S_80170A28_1 *)entity_base)->unk_1C &= 0xF7FFFFFF;
 
 finish:
+    entity_base = (u8 *)entity_base + 0x88;
     motion->unk_0A =
-        ((S_80170A28_1 *)entity_base)->unk_88 + (*(u16 *)((u8 *)entity + 0x92));
+        *(u16 *)entity_base + (*(u16 *)((u8 *)entity + 0x92));
     ((S_80170A28_0 *)part)->unk_14.n |= 0x40;
 
 done:
