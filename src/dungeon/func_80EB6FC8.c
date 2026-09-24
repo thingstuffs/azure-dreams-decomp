@@ -119,10 +119,14 @@ block_7:
         goto block_13;
     }
     special_slot = ((Rec_D_800E3D7C *)actor)->unk_44.at02_u16.v & 0x3FFF;
-    if ((u32) (special_slot - 1) >= 7U) {
+    {
+        u32 idx = special_slot - 1;
+        if (idx >= 7U) {
         goto block_21;
     }
-    (void)case_labels; goto *D_80170838[(u32)((special_slot) - 1)];
+        (void)case_labels;
+        goto *D_80170838[idx];
+    }
 jt_c7:
     is_special = 1;
     goto block_18;

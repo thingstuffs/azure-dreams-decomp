@@ -222,11 +222,14 @@ void func_80171F1C(void *motion_arg, void *actor_index_arg, void *actor_arg, voi
         }
 
         action_state = ((Rec_D_800E3D7C *)move_data)->unk_44.at02_u16.v & 0x3FFF;
-        if ((u32)(action_state - 1) >= 12) {
+        {
+            u32 idx = action_state - 1;
+            if (idx >= 12) {
             goto ordinary_cleanup;
         }
-        (void)state_labels;
-        goto *D_80170808[(u32)(action_state - 1)];
+            (void)state_labels;
+            goto *D_80170808[idx];
+        }
 
 handler_case:
         if ((func_80172E80(motion_arg, actor_index_arg, actor_arg, move_data) << 16) != 0) {

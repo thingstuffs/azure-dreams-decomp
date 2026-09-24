@@ -163,11 +163,15 @@ void func_80173B98(void *actor, M2C_UNK context, void *sprite, void *creature) {
             }
         }
         action_id = ((Rec_D_800E3D7C *)creature)->unk_44.at02_u16.v & 0x3FFF;
-        if ((u32) (action_id - 1) >= 0xCU) {
+        {
+            u32 idx = action_id - 1;
+            if (idx >= 0xCU) {
             func_8017405C(actor, context, sprite, creature);
             return;
         }
-        (void)action_labels; goto *D_80170858[(u32)((action_id) - 1)];
+            (void)action_labels;
+            goto *D_80170858[idx];
+        }
 jt_c9:
         if (func_80175E6C(actor, context, sprite, creature) != 0) {
             return;
