@@ -60,28 +60,30 @@ typedef struct S_81971760_4 {
     u16 unk_0A;
 } S_81971760_4;   /* temp_arg1 in func_81971760 */
 
+typedef struct {
+    s32 y;
+    s32 z;
+} OffsetYZ;
+
 /* Creates an effect at a randomized offset from the origin and initializes its rendering data. */
-void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, s32 offset_y, s32 offset_z) {
+void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x, OffsetYZ offset_yz) {
     u16 jittered_x;
     void *effect_arg;
     u16 coord;
-    u16 position_x;
     s32 random_value;
     S_81971760_2 *render_data;
     S_81971760_0 *effect_state;
-    S_81971760_3 *position;
     void *effect;
     S_81971760_4 *origin = origin_data;
-    s32 initial_x = offset_x;
-    register s32 initial_y ASM_REG("$19") = *(volatile s32 *)&offset_y;   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
-    register s32 initial_z ASM_REG("$20") = *(volatile s32 *)&offset_z;   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+    s32 initial_y = offset_yz.y;
+    s32 initial_z = offset_yz.z;
     effect = func_8003FC64(0x212);
     if (effect != NULL) {
         effect_arg = effect;
         effect_state = effect + 0x20;
         effect_state->unk_38 = 0x1E;
         effect_state->unk_3A = 0x1E;
-        effect_state->unk_44 = initial_x;
+        effect_state->unk_44 = offset_x;
         effect_state->unk_46 = (u16) initial_y;
         effect_state->unk_48 = (u16) initial_z;
         effect_state->unk_40 = origin;
@@ -91,7 +93,7 @@ void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         render_data->unk_10 = 0x20;
         render_data->unk_06 = 6;
         render_data->unk_14 = (u16) (render_data->unk_14 | 0xC);
-        position = ((S_81971760_1 *)effect)->unk_08;
+        offset_x = (s32)((S_81971760_1 *)effect)->unk_08;
         random_value = func_80069EF8();
         coord = effect_state->unk_44;
         coord -= 0x10;
@@ -105,17 +107,12 @@ void func_81971760(void *unused_0, void *origin_data, s32 unused_2, s32 offset_x
         jittered_x = effect_state->unk_44;
         coord -= 0x10;
         effect_state->unk_48 = coord + (random_value & 0x1F);
-        position->unk_02 = jittered_x;
-        position->unk_06 = (u16) effect_state->unk_46;
-        position->unk_0A = (u16) effect_state->unk_48;
-        coord = origin->unk_02;
-        ASM_KEEP(coord);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-        position_x = jittered_x;
-        ASM_KEEP(position_x);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
-        position_x = (u16) (position_x + coord);
-        position->unk_02 = position_x;
-        position->unk_06 = (u16) (position->unk_06 + origin->unk_06);
-        position->unk_0A = (u16) (position->unk_0A + origin->unk_0A);
+        ((S_81971760_3 *)offset_x)->unk_02 = jittered_x;
+        ((S_81971760_3 *)offset_x)->unk_06 = (u16) effect_state->unk_46;
+        ((S_81971760_3 *)offset_x)->unk_0A = (u16) effect_state->unk_48;
+        ((S_81971760_3 *)offset_x)->unk_02 = (u16) (((S_81971760_3 *)offset_x)->unk_02 + origin->unk_02);
+        ((S_81971760_3 *)offset_x)->unk_06 = (u16) (((S_81971760_3 *)offset_x)->unk_06 + origin->unk_06);
+        ((S_81971760_3 *)offset_x)->unk_0A = (u16) (((S_81971760_3 *)offset_x)->unk_0A + origin->unk_0A);
         render_data = ((S_81971760_1 *)effect)->unk_0C;
         render_data->unk_1E = 0x800;
         render_data->unk_1C = 0x800;

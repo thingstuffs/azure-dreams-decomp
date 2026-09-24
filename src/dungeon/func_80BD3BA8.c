@@ -44,7 +44,7 @@ typedef struct S_8015F3A8_2 {
 /* Run entity callbacks and update motion, facing, and ground height. */
 void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
 {
-    register void *entity_base ASM_REG("$19") = entity;   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+    void *entity_base = entity;
     s16 old_state;
     void *call_entity;
     void *call_motion;
@@ -65,8 +65,7 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
 
         entry_callback = (*(Callback *)((u8 *)entity + 0x8C));
         if (entry_callback == (Callback)&D_8015F9DC) {
-            entity_base = (void *)entry_callback;
-            ((Callback)entity_base)(entry_entity, motion, sprite, entry_entity);
+            entry_callback(entry_entity, motion, sprite, entry_entity);
             return;
         }
         (*(u8 *)((u8 *)entity + 0x71)) &= 0x7F;
@@ -76,7 +75,6 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
     call_entity = entity;
     call_motion = motion;
     call_sprite = sprite;
-    ASM_KEEP4(call_entity, call_motion, call_sprite, entity_base);   /* UNRESOLVED C shape (pin): removing it drops a computation retail keeps; the source shape that makes it unnecessary has not been found */
     old_state = (s8)((*(u8 *)((u8 *)entity + 0x6D)));
     if (func_800A9E70(call_entity, call_motion, call_sprite, entity) != 0) {
         return;
@@ -95,11 +93,13 @@ void func_8015F3A8(void *entity, S_8015F3A8_0 *motion, void *sprite)
         state_check >>= 16;
         if (state_check != (*(s8 *)((u8 *)entity + 0x6D))) {
             func_800AA36C(entity, motion, sprite, entity);
+            motion->unk_00.at00.v += motion->unk_0C;
+            motion->unk_04.at00.v += motion->unk_10;
+        } else {
+            motion->unk_00.at00.v += motion->unk_0C;
+            motion->unk_04.at00.v += motion->unk_10;
         }
     }
-
-    motion->unk_00.at00.v += motion->unk_0C;
-    motion->unk_04.at00.v += motion->unk_10;
 
     if (!((*(s32 *)((u8 *)entity + 0x1C)) & 0x40000) &&
         !((*(u16 *)((u8 *)entity + 0x98)) & 8)) {

@@ -61,7 +61,7 @@ extern u8 D_8015D298[];
 
 
 #ifdef __mips__
-extern void *func_801588A4(s32, s8, s8, s16);
+extern void *func_801588A4(s32, s16, s16, s16);
 static const u32 bank_words[] __asm__("func_80158800")
     __attribute__((section(".text.func_80158800"), aligned(4))) = {
     (u32)func_801588A4, (u32)D_80158B40, 0x8015912C, 0x80159198,
@@ -83,18 +83,18 @@ __asm__(".globl func_80158800\n"
 #define BODY_NAME func_80158800
 #endif
 
-void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
 #ifdef __mips__
     __attribute__((section(".text.func_80158800")))
 #endif
     ;
 
-void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
+void *BODY_NAME(s32 arg0, s16 arg1, s16 arg2, s16 arg3)
 {
     void *work;
     void *obj;
-    register s32 call_id ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
-    register void *call_target ASM_REG("$5");   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    s32 call_id;
+    void *call_target;
     S_80FC9000_3 *part_b;
     void *part_a;
     s16 saved_arg0;
@@ -110,18 +110,16 @@ void *BODY_NAME(s32 arg0, s8 arg1, s8 arg2, s16 arg3)
     s16 *values_ptr;
     s16 values[4];
     u8 *entry;
-    register s8 pin_arg1 ASM_REG("$21");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    s16 pin_arg1;
     s16 pin_arg3;
     void *pin_part_a;
     register void *pin_actor ASM_REG("$20");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
 
     work = 0;
     call_id = 0x112;
-    ASM_USE_NV(call_id);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     pin_arg1 = arg1;
     pin_arg3 = arg3;
     call_target = D_80083498;
-    ASM_USE2_NV(pin_arg3, call_target);   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     obj = func_8003FD64(call_id, call_target);
     saved_arg0 = (s16)arg0;
     if (obj != 0) {

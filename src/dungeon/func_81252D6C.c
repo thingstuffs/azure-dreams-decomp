@@ -92,7 +92,7 @@ typedef struct S_8017256C_6 {
 } S_8017256C_6;   /* global in func_8017256C */
 
 /* Advances an actor's action state, updating its target, animation, and completion. */
-void func_8017256C(void *action_data, void *motion_data, void *sprite_data, void *actor_data)
+void func_8017256C(void *action, void *motion, void *sprite, void *actor)
 {
     static void *const state_labels[] = {
         &&state0, &&state1, &&state2, &&state3, &&state4,
@@ -103,12 +103,8 @@ void func_8017256C(void *action_data, void *motion_data, void *sprite_data, void
         &&kind8_special, &&kind11_special, &&kind14_special,
         &&kind8_special
     };
-    register void *action ASM_REG("$18") = action_data;
-    void *motion = motion_data;
-    void *sprite = sprite_data;
-    void *actor = actor_data;
-    register s32 is_special;
-    register u8 *action_entry ASM_REG("$17");
+    register s32 is_special = 0;
+    u8 *action_entry;
     u32 state;
     u32 prior_state;
     s32 kind;
@@ -117,14 +113,11 @@ void func_8017256C(void *action_data, void *motion_data, void *sprite_data, void
     s32 next_ticks;
     u8 *target_link;
 
-    ASM_KEEP(action);
 
     state = ((S_8017256C_0 *)action)->unk_9B;
     if (state >= 9) {
         return;
     }
-    is_special = 0;
-    ASM_KEEP(is_special);
     (void)state_labels;
     goto *D_80170838[state];
 
@@ -186,9 +179,8 @@ kind_chosen:
 
     ((S_8017256C_0 *)action)->unk_98 &= 0xFF7F;
     {
-        s32 use_player_target = is_special;
+        u8 use_player_target = is_special;
 
-        ASM_KEEP(use_player_target);
         if (use_player_target) {
             target_link = D_800814A8;
             ((S_8017256C_1 *)actor)->unk_60.p = target_link;
@@ -201,10 +193,10 @@ kind_chosen:
         target_link = ((S_8017256C_1 *)actor)->unk_60.p2;
         if (target_link != 0) {
 state0_linked:
-            motion_data = ((S_8017256C_2_pre *)target_link)[-1].unk_00;
+            kind = (s32)((S_8017256C_2_pre *)target_link)[-1].unk_00;
 
-            ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)motion_data)->unk_24;
-            ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)motion_data)->unk_25;
+            ((S_8017256C_1 *)actor)->unk_72.u = ((S_8017256C_3 *)kind)->unk_24;
+            ((S_8017256C_1 *)actor)->unk_73.u = ((S_8017256C_3 *)kind)->unk_25;
             goto state0_copy;
         }
     } else {

@@ -102,7 +102,6 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
     u8 *global_page;
     s32 state_id;
     u32 source_z;
-    s32 adjusted_z;
     s32 axis;
     u8 *delta_ptr;
     s16 *target_pos;
@@ -121,8 +120,8 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
         ASM_SCHED_BARRIER();
 
         {
-            register s32 start_x ASM_REG("$4");
-            register s32 start_y ASM_REG("$5");
+            s32 start_x;
+            s32 start_y;
             u32 origin_x;
             register u32 x_table ASM_REG("$7");
             u32 x_offset;
@@ -132,7 +131,8 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
             start_x = U8_AT(direction_x, 0x24);
             start_y = U8_AT(direction_x, 0x25);
             x_table = (u32)D_8006CCD8_early;
-            direction_x = (u32)D_800814A8_early[0];
+            direction_x = (u32)D_800814A8_early - 0x14A8;
+            direction_x = *(u32 *)(direction_x + 0x14A8);
             y_offset = U16_AT(direction_x, 0x2A);
             origin_x = origin[0x24];
             y_offset = (y_offset >> 8) & 0xE;
@@ -168,14 +168,10 @@ void func_800246BC(EffectState *effect_state, Motion *effect_motion, ColorPart *
         if (!(U16_AT(PTR_AT(owner_data, 0xC), 0x14) & 0x8000)) {
             U16_AT(motion, 2) += probe[0];
             U16_AT(motion, 6) += probe[1];
-            ASM_MEM_BARRIER();
-            adjusted_z = U16_AT(motion, 0xA);
-            source_z = U16_AT(probe, 4);
-            adjusted_z += source_z;
+            U16_AT(motion, 0xA) += probe[2];
         } else {
-            adjusted_z = source_z - 0x40;
+            U16_AT(motion, 0xA) = source_z - 0x40;
         }
-        U16_AT(motion, 0xA) = adjusted_z;
         if (!(U16_AT(state->image, 0) & 0x80)) {
             goto done;
         }

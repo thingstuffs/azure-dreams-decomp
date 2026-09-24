@@ -122,13 +122,12 @@ void func_800C035C(void *actor, S_800C035C_1 *motion, Rec_D_80082E80 *sprite) {
     s16 ground_height;
     s16 view_angle;
     s32 speed;
-    s32 sprite_dir;
     s32 angle_base;
     s32 angle_value;
     s32 motion_adjustment;
     s32 state;
     s32 held_buttons;
-    register s32 angle_delta ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the callee-saved set / frame layout; the source shape that makes it unnecessary has not been found */
+    s32 angle_delta;
     s32 heading_or_speed;
     s32 view_error;
     s32 turn_size;
@@ -238,10 +237,7 @@ wrap_angle_delta:
             goto align_view;
         }
     } else {
-        view_error = angle_delta;
-        if (angle_delta < 0) {
-            view_error = 0 - view_error;
-        }
+        view_error = abs(angle_delta);
         if (view_error >= 8) {
             motion_adjustment = angle_delta >> 3;
             view_angle = (u16) controls->unk_C8.s + motion_adjustment;
@@ -252,12 +248,7 @@ align_view:
     }
     controls->unk_C8.s = view_angle;
     controls->unk_C8.u = (s16) ((controls->unk_C8.p + 0x1000) & 0xFFF);
-    do {
-        turn_size = angle_delta;
-    } while (0);
-    if (angle_delta < 0) {
-        turn_size = 0 - turn_size;
-    }
+    turn_size = abs(angle_delta);
     if (turn_size >= 0xA0) {
         if (ground_height <= (motion->unk_08.at02.v + 2)) {
             if (((S_800C035C_0 *)actor)->unk_48 > 0xC0000) {
@@ -352,21 +343,20 @@ state_finish:
     }
 update_sprite:
     {
-        register s32 sprite_angle ASM_REG("$3");   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
+        s32 sprite_angle;
         angle_base = (s32) ((S_800C035C_0 *)actor)->unk_10.u - 0x1500;
         angle_value = controls->unk_C8.s;
         sprite_angle = angle_value - angle_base;
-        sprite_dir = (sprite_angle & 0xFFF) >> 9;
-        ASM_SCHED_BARRIER();   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
+        angle_delta = (sprite_angle & 0xFFF) >> 9;
     }
     ((S_800C035C_0 *)actor)->unk_10.s = (u16) ((((S_800C035C_0 *)actor)->unk_10.s + 0x2000) & 0xFFF);
-    if (((S_800C035C_0 *)actor)->unk_12 != sprite_dir) {
+    if (((S_800C035C_0 *)actor)->unk_12 != angle_delta) {
         if (sprite->unk_2C.as_s32 != 0) {
-            func_800489F4(sprite, ((u8 *)((S_800C035C_0 *)actor)->unk_1C)[sprite_dir], sprite->unk_04.as_s8, 0);
+            func_800489F4(sprite, ((u8 *)((S_800C035C_0 *)actor)->unk_1C)[angle_delta], sprite->unk_04.as_s8, 0);
         }
-        ((S_800C035C_0 *)actor)->unk_12 = (s16) sprite_dir;
+        ((S_800C035C_0 *)actor)->unk_12 = (s16) angle_delta;
     }
-    if (((u8 *)&D_8006CCF8)[sprite_dir] != 0) {
+    if (((u8 *)&D_8006CCF8)[angle_delta] != 0) {
         sprite->unk_14.at00_u16.v |= 1;
     } else {
         sprite->unk_14.at00_u16.v &= 0xFFFE;

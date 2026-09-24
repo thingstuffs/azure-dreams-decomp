@@ -88,7 +88,7 @@ extern u8 D_80174A7C[];
 void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
 {
     u16 saved_pos[3];
-    register u8 *motion ASM_REG("$16");   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
+    u8 *motion;
     s16 use_player;
     void *target;
     s32 target_x;
@@ -107,7 +107,8 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
             u32 action_index = (u32)((((S_80172F5C_1 *)actor)->unk_46 & 0x3FFF) - 1);
 
             if (action_index >= 7) {
-                goto sel_none;
+                motion = (u8 *)0;
+                goto have_motion;
             }
             (void)dispatch_labels;
             goto *D_80170878[action_index];
@@ -141,6 +142,7 @@ void func_80172F5C(void *state, void *transform, void *sprite, void *actor)
             break;
         }
 
+    have_motion:
         if (*motion != 0) {
             ((S_80172F5C_0 *)state)->unk_98 &= 0xFF7F;
             {

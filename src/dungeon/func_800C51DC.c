@@ -39,21 +39,17 @@ extern void func_800CA444(void *, s32, void *, void *);
 extern void func_800CA788(void *, s32, void *, void *);
 
 /* Selects a target and updates the object's state before dispatching its action. */
-s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
-    S_800CA93C_2 *origin = origin_arg;
+s32 func_800CA93C(void *actor_arg, s32 action_arg, S_800CA93C_2 *origin) {
     void *actor;
     s32 clear_flag_mask;
     S_800CA93C_3 *target;
-    register void *lookup_origin ASM_REG("$4");   /* UNRESOLVED C shape (pin): removing it reorders the instructions (same instructions, different order); the source shape that makes it unnecessary has not been found */
     s32 found_entry;
     void *target_entry;
 
-    lookup_origin = origin;
     actor = actor_arg;
     ((S_800CA93C_0 *)actor)->unk_14 |= 0x2000;
     ((S_800CA93C_0 *)actor)->unk_1C |= 0x2000;
-    ((S_800CA93C_0 *)actor)->unk_60 = func_800A3D18(lookup_origin, actor, 4);
-    ASM_KEEP(actor);   /* UNRESOLVED C shape (pin): removing it moves a statement across a call/branch; the source shape that makes it unnecessary has not been found */
+    ((S_800CA93C_0 *)actor)->unk_60 = func_800A3D18(origin, actor, 4);
 
     clear_flag_mask = -0x2001;
     ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
@@ -70,7 +66,6 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
         ((S_800CA93C_0 *)actor)->unk_14 &= clear_flag_mask;
         ((S_800CA93C_0 *)actor)->unk_1C &= clear_flag_mask;
         if (found_entry == (s32)((S_800CA93C_0 *)actor)->unk_60) {
-            ASM_KEEP(clear_flag_mask);   /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
             func_800CA788(actor, action_arg, origin, actor);
             return 0;
         }
@@ -83,7 +78,6 @@ s32 func_800CA93C(void *actor_arg, s32 action_arg, void *origin_arg) {
         ((S_800CA93C_0 *)actor)->unk_46 |= 0x8000;
     }
 
-       /* UNRESOLVED C shape (pin): removing it changes the address form (%hi/%lo vs base+offset); the source shape that makes it unnecessary has not been found */
     func_800CA444(actor_arg, action_arg, origin, actor);
     return 0;
 }

@@ -65,7 +65,8 @@ void func_80173078(void *action, void *movement, void *sprite, void *actor)
         &&kind_7, &&kind_6, &&kind_5
     };
     u8 *item_slot;
-    s32 special;
+    s16 special;
+    s32 count;
     s32 next_state;
     u8 state;
     void *target;
@@ -138,16 +139,10 @@ selection_ready:
         goto empty_selection;
     }
     ((S_80173078_0 *)action)->unk_98 &= 0xFF7F;
-    {
-        s32 is_special;
-
-        is_special = special;
-        ASM_KEEP(is_special);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
-        if (is_special != 0) {
-            target = D_800814A8;
-            (*(void * *)((u8 *)actor + 0x60)) = target;
-            goto copy_active_coords;
-        }
+    if (special != 0) {
+        target = D_800814A8;
+        (*(void * *)((u8 *)actor + 0x60)) = target;
+        goto copy_active_coords;
     }
 
     {
@@ -248,14 +243,14 @@ store_next_state:
         }
     }
 
-    special = 0;
-state_4:
+    count = 0;
+particle_loop:
     {
         register s32 x;
         register s32 y;
         s16 z;
 
-        special++;
+        count++;
         sprite = (void *)(rand() & 0xFF);
         sprite = (void *)((u32)sprite | 0x80);
         x = rand();
@@ -271,8 +266,8 @@ state_4:
         z = (rand() & 0x7F) - 0x40;
         func_80170D28((u8 *)action - 0x20, 0, 0x00C0C0C0,
                       (s32)sprite, x, y, z);
-        if ((u16)special < 5) {
-            goto state_4;
+        if ((u16)count < 5) {
+            goto particle_loop;
         }
     }
     goto end;
@@ -285,17 +280,17 @@ state_3:
         ((S_80173078_0 *)action)->unk_96.u = 0x20;
         ((S_80173078_0 *)action)->unk_98 |= 0x80;
         ((S_80173078_0 *)action)->unk_9B++;
-        special = 0;
+        count = 0;
         do {
             s32 brightness;
 
-            special++;
+            count++;
             brightness = (rand() & 0xFF) | 0x80;
             func_80170F2C((u8 *)action - 0x20, 0, 0x00C0C0C0,
                           brightness, 0, 0, 0);
-        } while ((u16)special < 20);
-        ASM_KEEP(special);   /* UNRESOLVED C shape (pin): removing it changes the basic-block layout; the source shape that makes it unnecessary has not been found */
+        } while ((u16)count < 20);
     }
+state_4:
     {
         u8 *effect_state;
         s16 timer;

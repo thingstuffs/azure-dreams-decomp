@@ -104,7 +104,6 @@ void func_801745E0(Source *source, Vec3i *origin)
         entity->callback = callback;
         func_8004491C(init_entity, &D_80045340);
 
-        angle = segment;
         prim = entity->prim;
         prim_flags = &prim->field_14;
         flags = *(u16 *)prim_flags;
@@ -116,7 +115,7 @@ void func_801745E0(Source *source, Vec3i *origin)
 
         position = entity->vec;
         position->x = origin->x;
-        next_angle = (angle + 1) << 8;
+        next_angle = (segment + 1) << 8;
         position->y = origin->y;
         position->z = origin->z;
 
@@ -126,11 +125,8 @@ void func_801745E0(Source *source, Vec3i *origin)
         sub->field_74 = 0;
 
         trig_value = func_80064584(next_angle);
-        do {
-            angle <<= 8;
-        } while (0);
+        angle = segment << 8;
         trig_angle = angle;
-        ASM_KEEP(trig_value);   /* UNRESOLVED C shape (pin): removing it changes the whole function shape; the source shape that makes it unnecessary has not been found */
         radial_offset = (trig_value * 24) >> 12;
         sub->field_70 = radial_offset;
         sub->field_64 = radial_offset;
