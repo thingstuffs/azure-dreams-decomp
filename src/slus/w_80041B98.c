@@ -1,18 +1,4 @@
-#include "common.h"
-
-typedef struct S_80083120 {
-    s16 field0;
-    s16 field2;
-    s16 field4;
-    s16 field6;
-} S_80083120;
-
-extern S_80083120 D_80083120[8];
-extern s16 D_800814E8;
-
-extern void func_80041CBC(void);
-extern void func_80040A88(int a0);
-extern void func_80041BE4(void);
+#include "slus/slot_transition.h"
 
 /* Runs the state update and registers the next callback when the current slot becomes inactive. */
 void func_80041B98(void)
