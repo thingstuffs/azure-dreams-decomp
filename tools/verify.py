@@ -309,9 +309,9 @@ def gate_fallback(row, rec, raw: bool):
     return rec
 
 # ---------------------------------------------------------------- slus rows
-def postprocess_slus(assembly, names_only=False):
+def postprocess_slus(assembly, names_only=False, root=None):
     """Use the same canonical names as the exported production ccproc entry point."""
-    cmd = [sys.executable, str(CCPROC), "--names-tsv", str(ROOT / "config/names.tsv")]
+    cmd = [sys.executable, str(CCPROC), "--names-tsv", str(Path(ROOT if root is None else root) / "config/names.tsv")]
     if names_only:
         cmd.append("--names-only")
     r = subprocess.run(cmd, input=assembly, capture_output=True, text=True, env=_env())
@@ -322,34 +322,88 @@ def postprocess_slus(assembly, names_only=False):
 
 def compile_slus(row, cfile, outdir, include_root=None):
     inc = Path(include_root).resolve() if include_root else RAW / "include"
-    cc_dir = COMPILERS / f"gcc-{row['cell']}"
-    s_path = Path(outdir) / "a.s"; o_path = Path(outdir) / "a.o"
     # compile from the source's own directory by basename: the ELF FILE symbol records the path
     # as given, and the object hash must not depend on where the candidate lives
     from slus_module_context import compilation_source, membership
     try:
-        if include_root is None and membership(row) and Path(cfile).resolve() != raw_path(row).resolve():
+        if include_root is None and Path(cfile).resolve() != raw_path(row).resolve() and membership(row):
             inc = ROOT / "include"
         cfile = compilation_source(row, cfile, outdir)
     except (OSError, ValueError) as exc:
         return None, "module context: " + str(exc)
+    return _compile_slus_source(row, cfile, outdir, inc)
+
+
+def _compile_slus_source(row, cfile, outdir, inc, root=ROOT):
+    """Compile one already-selected physical source, without context recursion."""
+    root = Path(root)
+    cfile = Path(cfile)
+    outdir = Path(outdir).resolve()
+    outdir.mkdir(parents=True, exist_ok=True)
+    cc_dir = COMPILERS / f"gcc-{row['cell']}"
+    s_path = outdir / "a.s"; o_path = outdir / "a.o"
     gcc = [str(cc_dir / "gcc"), f"-B{cc_dir}/", "-S", "-O2"] + row["flags"].split() + ["-I", str(inc), "-w", cfile.name, "-o", str(s_path)]
     r = subprocess.run(NICE + gcc, capture_output=True, text=True, cwd=cfile.parent, env=_env())
     if r.returncode != 0:
         return None, "gcc: " + (r.stderr or r.stdout)[-300:]
     asflags = (row.get("row_asflags") or "").split()
     try:
-        processed = postprocess_slus(s_path.read_text())
+        processed = postprocess_slus(s_path.read_text(), root=root)
     except ValueError as exc:
         return None, str(exc)
     (Path(outdir) / "a.proc.s").write_text(processed)
     command = [str(VENV_PY), str(MASPSX), "--aspsx-version=2.79", "--dont-force-G0",
-               "--run-assembler", "--gnu-as-path=mipsel-linux-gnu-as", f"-I{RAW}", f"-I{inc}",
+               "--run-assembler", "--gnu-as-path=mipsel-linux-gnu-as", f"-I{root / 'raw'}", f"-I{inc}",
                "-EL", "-march=r3000", "-G8", *asflags, "-o", str(o_path)]
-    r = subprocess.run(command, input=processed, capture_output=True, text=True, cwd=ROOT, env=_env())
+    r = subprocess.run(command, input=processed, capture_output=True, text=True, cwd=root, env=_env())
     if r.returncode != 0 or not o_path.exists():
         return None, "as: " + (r.stderr or r.stdout)[-300:]
     return o_path, None
+
+
+def compile_slus_units(row, cfile, outdir, include_root=None, root=ROOT):
+    """Compile every physical stream of a logical row and check full TU coverage.
+
+    Each result retains the row's function subset and the owner's recipe. This
+    establishes emitted ownership only; genuine-ASPSX and linked retail gates
+    remain separate requirements. No caller may infer byte equality from this.
+    """
+    from slus_module_context import compilation_sources, fingerprint
+    from slus_partitions import check_emitted, read_aliases
+    from fidelity.objread import read_elf
+    root = Path(root).resolve()
+    outdir = Path(outdir).resolve()
+    raw = root / "raw/slus" / Path(row["c_path"]).name
+    historical = Path(cfile).resolve() == raw.resolve()
+    try:
+        before = None if historical else fingerprint(row, root)
+        candidate_sha = sha_file(cfile)
+        units = compilation_sources(row, cfile, outdir, root)
+        context = any(unit["role"] in ("module", "remainder") for unit in units)
+        if context and include_root is not None and Path(include_root).resolve() != root / "include":
+            raise ValueError("module compilation requires current shared headers")
+        inc = Path(include_root).resolve() if include_root else root / ("include" if context else "raw/include")
+        aliases = read_aliases(root / "config/names.tsv") if context else {}
+        results, expected, emitted = [], {}, {}
+        for i, unit in enumerate(units):
+            recipe = unit["recipe"]
+            physical_row = dict(row, cell=recipe["ccver"], flags=recipe["ccflags"], row_asflags=recipe["asflags"])
+            obj, error = _compile_slus_source(physical_row, unit["cfile"], outdir / str(i), inc, root)
+            if error:
+                return None, unit["source"] + ": " + error
+            if unit["expected_functions"] is not None:
+                parsed = read_elf(obj.read_bytes())
+                expected[unit["source"]] = unit["expected_functions"]
+                emitted[unit["source"]] = [aliases.get(name, name) for name, symbol in parsed.symbols.items()
+                    if symbol[2] == "func" and symbol[0] and (symbol[0] == ".text" or symbol[0].startswith(".text."))]
+            results.append(dict(unit, object=obj, module_fingerprint=before))
+        if expected:
+            check_emitted(expected, emitted)
+        if sha_file(cfile) != candidate_sha or (not historical and fingerprint(row, root) != before):
+            raise ValueError("compilation inputs changed during verification")
+        return results, None
+    except (OSError, ValueError) as exc:
+        return None, "module context: " + str(exc)
 
 def disasm(obj):
     r = subprocess.run(["mipsel-linux-gnu-objdump", "-d", "-r", str(obj)], capture_output=True, text=True)
@@ -379,7 +433,11 @@ def slus_regions(got, tgt, mask):
 def verify_slus(row, cfile, include_root=None, regions=False, diff=False):
     t0 = time.time()
     from slus_module_context import membership
-    if membership(row) and Path(cfile).resolve() != raw_path(row).resolve():
+    try:
+        module = membership(row) if Path(cfile).resolve() != raw_path(row).resolve() else None
+    except (OSError, ValueError) as exc:
+        return {"status": "failed", "exact": False, "err": "module context: " + str(exc)}
+    if module:
         if include_root is not None and Path(include_root).resolve() != (ROOT / "include").resolve():
             return {"status": "failed", "exact": False, "err": "module gate requires current shared headers"}
         return verify_slus_module(row, cfile, regions=regions, diff=diff)

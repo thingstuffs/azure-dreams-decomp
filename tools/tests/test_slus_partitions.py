@@ -348,5 +348,18 @@ class BuildProjectionTest(unittest.TestCase):
             p.write_text(p.read_text()+f'slus\t{C}\talpha\n')
             with self.assertRaises(P.PartitionError):P.read_aliases(p)
 
+    def test_malformed_path_and_alias_targets_fail_closed(self):
+        with self.assertRaises(P.PartitionError):
+            P.path('.', 'parent.source', 'src', '.c')
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / 'names.tsv'
+            for target in ('', 'not a name', '1bad', B):
+                with self.subTest(target=target):
+                    path.write_text(f'slus\t{A}\t{target}\n')
+                    with self.assertRaises(P.PartitionError):
+                        P.read_aliases(path)
+            path.write_text(f'slus\t{A}\t{A}\n')
+            self.assertEqual(P.read_aliases(path), {})
+
 if __name__ == "__main__":
     unittest.main()

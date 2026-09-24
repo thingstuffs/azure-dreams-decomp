@@ -25,7 +25,7 @@ def path(value, where, prefix, suffix):
     if not isinstance(value, str) or not re.fullmatch(r'[A-Za-z0-9_./-]+', value):
         raise PartitionError(f'{where}: unsafe path')
     p = PurePosixPath(value)
-    if p.is_absolute() or str(p) != value or any(x in ('.', '..') for x in p.parts) or p.parts[0] != prefix or p.suffix != suffix:
+    if p.is_absolute() or str(p) != value or not p.parts or any(x in ('.', '..') for x in p.parts) or p.parts[0] != prefix or p.suffix != suffix:
         raise PartitionError(f'{where}: unsafe path')
     return value
 
@@ -329,10 +329,12 @@ def read_aliases(file):
         columns=line.split('#',1)[0].split('\t')
         if len(columns)<3:continue
         canonical,renamed=columns[1].strip(),columns[2].strip()
-        if not canonical or not renamed or canonical==renamed:continue
         # The table contains non-function metadata too; only SLUS-style names
         # participate in this source-definition extractor.
         if not CANONICAL.fullmatch(canonical):continue
+        if canonical==renamed:continue
+        if not IDENT.fullmatch(renamed) or CANONICAL.fullmatch(renamed):
+            raise PartitionError('invalid canonical name alias target: '+renamed)
         if renamed in aliases and aliases[renamed]!=canonical:
             raise PartitionError('ambiguous canonical name alias: '+renamed)
         aliases[renamed]=canonical

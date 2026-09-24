@@ -1,9 +1,9 @@
 {
-  "tool_sha256": "d6fdd141537aeebbae02596f6b1e99c5a0b46ea69a7892f3e8dd9ab100dffbd1",
-  "tests_sha256": "bab3146aa8c9273dda2ec91babfa4009841f84c9d6642575d395f37b174f53fa",
+  "tool_sha256": "acd5f8a2bcdaca0c6104cf816cfa302050d71ea4c102ac4b2f20b1141a9165e4",
+  "tests_sha256": "c23f09687dcd8efe030cf099ccd789b35d4525639b4d991d4197c46547def901",
   "test_command": "python3 -m unittest discover -s tools/tests -p test_slus_partitions.py -v",
-  "tests_passed": 12,
-  "normal_build_receipt_sha256": "a94d201fa644b728589413866bd26d9cbd5714eccb3b912259c1bd9d4b1e0e7b",
+  "tests_passed": 13,
+  "normal_build_receipt_sha256": "c5a0ec1d1e83a2cb29a71dce0daad4ec9b57c880837ddc93274a98770c5d7860",
   "configure_candidate_sha256": "2d1ac97f2848b58c5afffb693c34e51f63469fbe21715d19aa9c426d09df413e",
   "probe_sha256": "0efa2e2270ac1bb0b3304022b9b2f90ac37224db2c6440686133ba7e6ca2b67f",
   "owned_data": {
