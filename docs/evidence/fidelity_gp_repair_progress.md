@@ -7,6 +7,12 @@ the separate MAIN coverage gaps.
 
 ## Latest ownership checkpoint
 
+[Shared state at 81510](gp_shared_state_81510.md) adds two rows at their coherent
+registered CDK recipe, after a byte-neutral 45340 recipe landing. All 573 words
+match genuine ASPSX 2.79 and retail without masks; no compatibility pass fires.
+The full image passes at 874 physical / 884 logical rows. There are now 199
+dependency records and 32 remaining GP rows, with 17 active ownership units.
+
 [Split small-data storage](gp_split_storage.md) adds a further row with three
 initialized halfwords and one private uninitialized halfword in C. Production
 now supports separately placed `.sdata` and zero-only `.sbss` sections. Full

@@ -8,7 +8,8 @@ verified natural-C candidates. Production toolchain defaults remain unchanged.
 The [ownership wave](evidence/gp_ownership_wave.md) repaired 18 more GP rows;
 [runtime count and shared slots](evidence/gp_count_and_slots.md) repair another
 three. [Split storage for 48660](evidence/gp_split_storage.md) repairs one more.
-Now 34 remain, with 201 total dependency records. The live build has 875
+The [81510 group](evidence/gp_shared_state_81510.md) repairs another two.
+Now 32 remain, with 199 total dependency records. The live build has 874
 physical C inputs and the same 884 logical rows; no compatibility pass has been removed.
 The interrupted wave has now landed 11 CDK moves (74 pins removed; 9 newly
 pin-free), all genuine-ASPSX exact. See `docs/evidence/r77_h28_recovery.md` for the
