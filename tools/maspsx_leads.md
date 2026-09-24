@@ -25,3 +25,10 @@ then prepare pass retirement with genuine and complete-image gates. Regression
 risk: existing sources may rely on the folded address and changed loop offsets;
 the new local-data case alone does not establish that the pass is globally
 unused. Preserve the goal's existing final sign-off for shared assembler changes.
+
+The [fresh bounded consumer check](../docs/evidence/selfinc_consumers.md) verifies
+12 current direct dependents plus the historical byte-neutral fired control.
+Every direct consumer still fails retail with this pass removed; all disabled
+outputs match genuine ASPSX 2.79. Removing only `-mno-split-addresses` from the
+three flagged 81811E* rows does not repair them. This is a concrete consumer
+queue, not permission to retire the pass or a complete whole-tree fired census.

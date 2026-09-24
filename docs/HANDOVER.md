@@ -42,8 +42,8 @@ consumers and the prepared pin-free 3D92C under the generic correction. The
 words through genuine ASPSX 2.79. Reading the first byte before assigning the
 sentinel fixes its register roles without added pins. Its private full image is
 exact with real four-byte storage and `_fold_selfinc_la` disabled only in the
-private owner input. That pass still has 12 measured consumers to repair before
-retirement; no production assembler or dependency change follows yet.
+private owner input. That pass still has [12 measured consumers](evidence/selfinc_consumers.md)
+to repair before retirement; no production assembler or dependency change follows yet.
 
 [8099C private ownership](evidence/gp_shared_8099c.md) is also full-image exact
 after retaining the runtime source-name prefix required by the current linker.

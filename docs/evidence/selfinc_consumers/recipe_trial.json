@@ -1,0 +1,265 @@
+{
+  "purpose": "unchanged-source trial removing only -mno-split-addresses from three registered recipes",
+  "base_receipt_sha256": "54131c4a380c9d63fd9bc3fa61a9d25347902af00e129aa7b1d2a1d9c9a35eb3",
+  "script_sha256": "e3854dc6f0f5dd4393a8be971c851070054b129ffdf49e9788bac2b311c05b55",
+  "checks": [
+    {
+      "row": "dungeon/func_81811E30",
+      "same_source_sha256": true,
+      "only_flag_removed": true,
+      "same_asflags": true,
+      "same_object_as_registered_disable_only": false
+    },
+    {
+      "row": "dungeon/func_81811E70",
+      "same_source_sha256": true,
+      "only_flag_removed": true,
+      "same_asflags": true,
+      "same_object_as_registered_disable_only": false
+    },
+    {
+      "row": "dungeon/func_81811EC0",
+      "same_source_sha256": true,
+      "only_flag_removed": true,
+      "same_asflags": true,
+      "same_object_as_registered_disable_only": false
+    }
+  ],
+  "rows": [
+    {
+      "row": "dungeon/func_81811E30",
+      "source": "src/dungeon/func_81811E30.c",
+      "source_sha256": "e23597d61acf8aa535812871108ac889171d116ec65072ad92ef4cf1a61e259c",
+      "registered_cfg": "2.8.0-G0 -mno-split-addresses",
+      "trial_cfg": "2.8.0-G0",
+      "row_asflags": "",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "maspsx_exact": false,
+      "maspsx_retail": {
+        "diff": 15,
+        "masked": 0,
+        "checked": 1,
+        "len": 17,
+        "retail_len": 16
+      },
+      "selfcheck": true,
+      "fired": [],
+      "words": 17,
+      "genuine_2_79": {
+        "exact": true,
+        "diff": 0,
+        "len": 17,
+        "mode": "-G0",
+        "retail": [
+          15,
+          0
+        ]
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "classes": null,
+      "first_diff": null,
+      "attrib_2_79": null,
+      "proof": "scorer: not exact",
+      "secs": 0.7,
+      "stock_object_sha256": "41feb5dc45fb6b7bc0920de5c0e73ab11a81545b9004e510549f6143bef4b4ff",
+      "registered_stock_object_sha256": "eb64c7baf42bab035df09d6349cd366d9579b6b799383e600d24518a6702a960",
+      "registered_rerun": {
+        "status": "ok",
+        "maspsx_exact": true,
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 16,
+          "retail_len": 16
+        },
+        "fired": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "registered_to_trial_aligned": {
+        "exact": false,
+        "diff": 3,
+        "registered_words": 16,
+        "trial_words": 17,
+        "regions": [
+          {
+            "function": "func_80026E30",
+            "op": "replace",
+            "registered_index": 2,
+            "registered_words": 2,
+            "trial_words": 3
+          }
+        ]
+      }
+    },
+    {
+      "row": "dungeon/func_81811E70",
+      "source": "src/dungeon/func_81811E70.c",
+      "source_sha256": "ab62b8160195263f1aeda95e102168420a721acaeade1c83fb2b504106d5daaa",
+      "registered_cfg": "2.8.0 -mno-split-addresses",
+      "trial_cfg": "2.8.0",
+      "row_asflags": "",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "maspsx_exact": false,
+      "maspsx_retail": {
+        "diff": 19,
+        "masked": 0,
+        "checked": 1,
+        "len": 21,
+        "retail_len": 20
+      },
+      "selfcheck": true,
+      "fired": [],
+      "words": 21,
+      "genuine_2_79": {
+        "exact": true,
+        "diff": 0,
+        "len": 21,
+        "mode": "",
+        "retail": [
+          19,
+          0
+        ]
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "classes": null,
+      "first_diff": null,
+      "attrib_2_79": null,
+      "proof": "scorer: not exact",
+      "secs": 0.7,
+      "stock_object_sha256": "0bfc3463248d69fd776e390e987ead867a319707a1b9dde77eb64a3c4ac2c5a6",
+      "registered_stock_object_sha256": "8faef938ca7a36d43866737880c3988dacd8c84bcff3eef87f9d1bf82c9cbd97",
+      "registered_rerun": {
+        "status": "ok",
+        "maspsx_exact": true,
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 20,
+          "retail_len": 20
+        },
+        "fired": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "registered_to_trial_aligned": {
+        "exact": false,
+        "diff": 4,
+        "registered_words": 20,
+        "trial_words": 21,
+        "regions": [
+          {
+            "function": "func_80026E70",
+            "op": "replace",
+            "registered_index": 2,
+            "registered_words": 2,
+            "trial_words": 3
+          },
+          {
+            "function": "func_80026E70",
+            "op": "replace",
+            "registered_index": 9,
+            "registered_words": 1,
+            "trial_words": 1
+          }
+        ]
+      }
+    },
+    {
+      "row": "dungeon/func_81811EC0",
+      "source": "src/dungeon/func_81811EC0.c",
+      "source_sha256": "0e2f9fbc74b39ea4d8f8eec6116fd5d70aba82c6718a2ef42432bd2316af8605",
+      "registered_cfg": "2.8.1-G0 -mno-split-addresses",
+      "trial_cfg": "2.8.1-G0",
+      "row_asflags": "",
+      "effective_asflags": "--fill-shadowed-return-delay",
+      "status": "ok",
+      "error": null,
+      "pins": 0,
+      "maspsx_exact": false,
+      "maspsx_retail": {
+        "diff": 16,
+        "masked": 0,
+        "checked": 1,
+        "len": 18,
+        "retail_len": 17
+      },
+      "selfcheck": true,
+      "fired": [],
+      "words": 18,
+      "genuine_2_79": {
+        "exact": true,
+        "diff": 0,
+        "len": 18,
+        "mode": "-G0",
+        "retail": [
+          16,
+          0
+        ]
+      },
+      "exact_versions": [
+        "2.67",
+        "2.77",
+        "2.79",
+        "2.81",
+        "2.86"
+      ],
+      "classes": null,
+      "first_diff": null,
+      "attrib_2_79": null,
+      "proof": "scorer: not exact",
+      "secs": 0.7,
+      "stock_object_sha256": "ee8355ccc04a9b83af6dcb08506f1e4a07767771d484dfa82be9ec709a332256",
+      "registered_stock_object_sha256": "48c47ec456dfb9d9b18ffa9618992fdf0ecf2a89cf493b518923963bed6f6b8f",
+      "registered_rerun": {
+        "status": "ok",
+        "maspsx_exact": true,
+        "maspsx_retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1,
+          "len": 17,
+          "retail_len": 17
+        },
+        "fired": [
+          "_fold_selfinc_la"
+        ]
+      },
+      "registered_to_trial_aligned": {
+        "exact": false,
+        "diff": 3,
+        "registered_words": 17,
+        "trial_words": 18,
+        "regions": [
+          {
+            "function": "func_80026EC0",
+            "op": "replace",
+            "registered_index": 2,
+            "registered_words": 2,
+            "trial_words": 3
+          }
+        ]
+      }
+    }
+  ]
+}
