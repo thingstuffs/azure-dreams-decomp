@@ -132,3 +132,12 @@ The full normal ownership/build rehearsal is being rerun on these final sources.
 The original frozen whole-tree census is retained; any affected-row failures
 must be resolved with separate final-source measurements and explicit provenance,
 not erased or labeled as a wholly passing original run.
+
+The [57-file transition proposal](gp_partition_only/transition/transition.patch)
+and [root review](gp_partition_only/transition/root_review.json) are archived with
+before/after input hashes. The patch applies cleanly to current production and
+retains all 884 logical rows; it includes the canonical-source corrections above.
+This is a reviewable proposal, not an activation or approval. The
+[retirement inventory](gp_partition_only/transition/pass_retirement_inventory.md)
+identifies the next small pass cohorts without mistaking zero dependence for
+zero firing.

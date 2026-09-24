@@ -1,0 +1,1017 @@
+{
+  "assembler_source_or_address_special_cases": 0,
+  "canonical_source_repairs": {
+    "src/slus/gp_d92c_owned.c": {
+      "final_canonical_sha256": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+      "owner_assembly_difference": "one added .file 2 metadata directive",
+      "owner_whole_tu_non_file_assembly_sha256": "733fe122ceb83de6c5d2304860373a41229e2fea969105ce1e94d63b2947ea3e",
+      "previous_candidate_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+    },
+    "src/slus/gp_order_bytes_owner.c": {
+      "final_canonical_sha256": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+      "owner_assembly_difference": "one added .file 2 metadata directive",
+      "owner_whole_tu_non_file_assembly_sha256": "c746e3940d0b1114aea5b3f4b04d2454c13e8839b607085316c1629fdd7cc9d4",
+      "previous_candidate_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+      "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+    },
+    "src/slus/w_8003D92C.c": {
+      "final_canonical_sha256": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+      "owner_assembly_difference": "one added .file 2 metadata directive",
+      "owner_whole_tu_non_file_assembly_sha256": "733fe122ceb83de6c5d2304860373a41229e2fea969105ce1e94d63b2947ea3e",
+      "previous_candidate_sha256": "e561bedf36fe177514c4c6abb2cfe37c9d9de2359d6069c2ec528aa088285152",
+      "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+    },
+    "src/slus/w_80049F68.c": {
+      "final_canonical_sha256": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675",
+      "owner_assembly_difference": "one added .file 2 metadata directive",
+      "owner_whole_tu_non_file_assembly_sha256": "c746e3940d0b1114aea5b3f4b04d2454c13e8839b607085316c1629fdd7cc9d4",
+      "previous_candidate_sha256": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0",
+      "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+    }
+  },
+  "category_counts": {
+    "assembler_test": 7,
+    "canonical_source": 29,
+    "complete_ledger": 3,
+    "guarded_assembler": 2,
+    "module_plan": 2,
+    "portable_test": 2,
+    "shared_header": 2,
+    "tool_adapter": 9,
+    "workflow_doc": 1
+  },
+  "configure": {
+    "core_candidate_sha256": "5728f7979b573c189c05817aa48b94b98bbf45566a3e6d982dc658861279f4fd",
+    "final_policy_sha256": "ae9639ee865fc821df79f2f9bc9697aa705beac21b6c026c1cf8be5e2668ca2c",
+    "fresh_generated_ninja_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+    "ready29_ninja_byte_equal": true,
+    "recipe_override_count": 15
+  },
+  "files": [
+    {
+      "after_bytes": 154,
+      "after_sha256": "1abd2b6cd38cbf9d22403bd013da517472825ae9266e065d19a834a62e3b52dc",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_80080B1B",
+        "D_80080B1C"
+      ],
+      "functions": [
+        "func_80048DA0"
+      ],
+      "module": "table_counters_b1b_b1c",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/b1b_b1c_table_owned.c",
+      "state": "new",
+      "target": "src/slus/b1b_b1c_table_owned.c"
+    },
+    {
+      "after_bytes": 104,
+      "after_sha256": "e24f5ea4e323b25bafc9f6f2c5fea59704b194df135fef3447ff3c5395c18e91",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_800814C8"
+      ],
+      "functions": [
+        "func_8003F5D4",
+        "func_8003F5E0"
+      ],
+      "module": "accessors_814c8",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/c8_accessors_owned.c",
+      "state": "new",
+      "target": "src/slus/c8_accessors_owned.c"
+    },
+    {
+      "after_bytes": 523,
+      "after_sha256": "3a1a47fdaca76973cef226a7fb9acdc5d7cfe46cdb2cb62eee65da28aa716f6b",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_800814D0",
+        "D_800814D4",
+        "D_800814CC",
+        "D_80081450",
+        "D_80080AD0",
+        "D_80080AD2",
+        "D_80080AD4",
+        "D_80080AD8",
+        "D_80080ADC",
+        "D_800814B0",
+        "D_800814B4"
+      ],
+      "functions": [
+        "func_8003E34C",
+        "func_8003E4FC",
+        "func_8003E758",
+        "func_8003F2A4",
+        "func_8003F368",
+        "func_8003F5AC",
+        "func_8003F624",
+        "func_8003F240"
+      ],
+      "module": "cd_command_state",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/cd_command_state_owned.c",
+      "state": "new",
+      "target": "src/slus/cd_command_state_owned.c"
+    },
+    {
+      "after_bytes": 69,
+      "after_sha256": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "canonical_repair": {
+        "final_canonical_sha256": "377d7efd70a3fc2d13d98f28a79bbb1f6f6c537f5988bc782a8045190eee1d90",
+        "owner_assembly_difference": "one added .file 2 metadata directive",
+        "owner_whole_tu_non_file_assembly_sha256": "733fe122ceb83de6c5d2304860373a41229e2fea969105ce1e94d63b2947ea3e",
+        "previous_candidate_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+        "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+      },
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_80080ABC",
+        "D_80080ABE"
+      ],
+      "functions": [
+        "func_8003D92C"
+      ],
+      "module": "gp_d92c_owned",
+      "refinement": {
+        "raw_compiler_assembly_identical": true,
+        "raw_compiler_assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+        "ready29_source_sha256": "576ffc9abbd8310aec3ccae37c9948d95fdc8e2dc373e7e3e8df390d720056c8",
+        "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+        "refined_source_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+        "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+      },
+      "role": "aggregator",
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/gp_d92c_owned.c",
+      "state": "new",
+      "target": "src/slus/gp_d92c_owned.c"
+    },
+    {
+      "after_bytes": 81,
+      "after_sha256": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "canonical_repair": {
+        "final_canonical_sha256": "49505bcd6bba6220cb935fe4d5eb564441902d70dce55243f896d85a553f1c4d",
+        "owner_assembly_difference": "one added .file 2 metadata directive",
+        "owner_whole_tu_non_file_assembly_sha256": "c746e3940d0b1114aea5b3f4b04d2454c13e8839b607085316c1629fdd7cc9d4",
+        "previous_candidate_sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388",
+        "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+      },
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_80080B30"
+      ],
+      "functions": [
+        "func_80049F68"
+      ],
+      "module": "gp_order_bytes_owner",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/gp_order_bytes_owner.c",
+      "state": "new",
+      "target": "src/slus/gp_order_bytes_owner.c"
+    },
+    {
+      "after_bytes": 94,
+      "after_sha256": "8e58c347be359dc2ddb5e47365e2290969ca832382182d1873d617fe551d4e5e",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_8008152C"
+      ],
+      "functions": [
+        "func_80047D44",
+        "func_80047DF0",
+        "func_80047E30"
+      ],
+      "module": "gp_shared_8152c",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/gp_shared_8152c.c",
+      "state": "new",
+      "target": "src/slus/gp_shared_8152c.c"
+    },
+    {
+      "after_bytes": 2478,
+      "after_sha256": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+      "before_bytes": 4525,
+      "before_sha256": "e561bedf36fe177514c4c6abb2cfe37c9d9de2359d6069c2ec528aa088285152",
+      "canonical_repair": {
+        "final_canonical_sha256": "e656a830bcfb99616c605560416cfa97a0de75f38966bbaaa8d87677c6210ff5",
+        "owner_assembly_difference": "one added .file 2 metadata directive",
+        "owner_whole_tu_non_file_assembly_sha256": "733fe122ceb83de6c5d2304860373a41229e2fea969105ce1e94d63b2947ea3e",
+        "previous_candidate_sha256": "e561bedf36fe177514c4c6abb2cfe37c9d9de2359d6069c2ec528aa088285152",
+        "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+      },
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003D92C"
+      ],
+      "module": "gp_d92c_owned",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/w_8003D92C.c",
+      "state": "changed",
+      "target": "src/slus/w_8003D92C.c"
+    },
+    {
+      "after_bytes": 458,
+      "after_sha256": "5bca8c77dbcb20c9e648fd3d9b7f578497d9daaded7c44f95983e0aad1073955",
+      "before_bytes": 559,
+      "before_sha256": "98e8469122c514137781b87db5418652b536c4dbd19eae7918cf2c2a74662300",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003E34C"
+      ],
+      "module": "cd_command_state",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003E34C.c",
+      "state": "changed",
+      "target": "src/slus/w_8003E34C.c"
+    },
+    {
+      "after_bytes": 17085,
+      "after_sha256": "30f57595570cab4726a5db69be227dfac637243621a542b9888af9ead95c6ffc",
+      "before_bytes": 17379,
+      "before_sha256": "fc94a723170a1bbdd181980c8ec2038c1781a605ac58690e434440dc160ace3c",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003E758"
+      ],
+      "module": "cd_command_state",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003E758.c",
+      "state": "changed",
+      "target": "src/slus/w_8003E758.c"
+    },
+    {
+      "after_bytes": 962,
+      "after_sha256": "102426b3f2dd15f8a2e2f103ec24977958945b48c1085e1b764dc765755952e9",
+      "before_bytes": 1245,
+      "before_sha256": "f88540f16d97fc219ae138ac63346a5e869fddc7e399b822943d29a7a67b9e51",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003F2A4"
+      ],
+      "module": "cd_command_state",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003F2A4.c",
+      "state": "changed",
+      "target": "src/slus/w_8003F2A4.c"
+    },
+    {
+      "after_bytes": 2613,
+      "after_sha256": "060cef847bf5f71619a4763b8fbcfbe5be7ec62bfb799613078d34d3edeeacb1",
+      "before_bytes": 2668,
+      "before_sha256": "c9c83f2e4c7932b08bbaf18cd3730d75fcbf6b5053c4882bc386324d97abbccb",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003F368"
+      ],
+      "module": "cd_command_state",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003F368.c",
+      "state": "changed",
+      "target": "src/slus/w_8003F368.c"
+    },
+    {
+      "after_bytes": 282,
+      "after_sha256": "a28ececbbc96b7641c9f6c407418586255f9e2f76a4ab3063ef50156ee8d4db3",
+      "before_bytes": 295,
+      "before_sha256": "a085b8463e5e6e819ad253960920d3fcf5f0616245397b2aad88f24006389ace",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003F5AC"
+      ],
+      "module": "cd_command_state",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003F5AC.c",
+      "state": "changed",
+      "target": "src/slus/w_8003F5AC.c"
+    },
+    {
+      "after_bytes": 727,
+      "after_sha256": "20490dab0f4583af6069208a22257807a073c4f4e1ba14be8ceca561a4e63cec",
+      "before_bytes": 781,
+      "before_sha256": "5a54136dec09906ac59b15668bf204e56572e83b2bdf74ffc6691640388df447",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003F624"
+      ],
+      "module": "cd_command_state",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003F624.c",
+      "state": "changed",
+      "target": "src/slus/w_8003F624.c"
+    },
+    {
+      "after_bytes": 1368,
+      "after_sha256": "fde9d352aec9cea95dc7c388355ec7dc6b1e659a2d604208e00c403a10586b67",
+      "before_bytes": 2243,
+      "before_sha256": "736c57ea0f0706b3b498cabef84c6161de08a7a5772ec2880799ca7b0660f15b",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8003FAD4"
+      ],
+      "module": null,
+      "refinement": {
+        "raw_compiler_assembly_identical": true,
+        "raw_compiler_assembly_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+        "ready29_source_sha256": "0d86b916467b2838d4337813fe4fa344bac3cd99026566371b5db640138bf1e9",
+        "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+        "refined_source_sha256": "fde9d352aec9cea95dc7c388355ec7dc6b1e659a2d604208e00c403a10586b67",
+        "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+      },
+      "role": "standalone",
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_8003FAD4.c",
+      "state": "changed",
+      "target": "src/slus/w_8003FAD4.c"
+    },
+    {
+      "after_bytes": 4811,
+      "after_sha256": "6994feb8355be6ccf078ca6c867470b7905c6937c7d716e4385c97269ffda82b",
+      "before_bytes": 4908,
+      "before_sha256": "4b8ff95891df4e8523e9140aac607d08c4df2a5c1daafff711463bdfab79fd5d",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_80041588"
+      ],
+      "module": null,
+      "role": "standalone",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_80041588.c",
+      "state": "changed",
+      "target": "src/slus/w_80041588.c"
+    },
+    {
+      "after_bytes": 422,
+      "after_sha256": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+      "before_bytes": 682,
+      "before_sha256": "5b199d3116df7daea7c558940164711c2ff1be670a02fb6519578b1bc760d12e",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_80041AB0"
+      ],
+      "module": null,
+      "refinement": {
+        "raw_compiler_assembly_identical": true,
+        "raw_compiler_assembly_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+        "ready29_source_sha256": "b053cad2605d612a1e6520eda8535c84ecec05fb7cdcc87ee1cf51e27553d20c",
+        "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+        "refined_source_sha256": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+        "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+      },
+      "role": "standalone",
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_80041AB0.c",
+      "state": "changed",
+      "target": "src/slus/w_80041AB0.c"
+    },
+    {
+      "after_bytes": 520,
+      "after_sha256": "8828b96db04845e88f65a6e7409e67b332fa661028966fe79ae074b82f88dc2d",
+      "before_bytes": 1036,
+      "before_sha256": "7d3ce5a69bf7b74a0868392bae76f855ecb7e11605e66fc283d5da236051e9ec",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_80043CD0"
+      ],
+      "module": null,
+      "role": "standalone",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_80043CD0.c",
+      "state": "changed",
+      "target": "src/slus/w_80043CD0.c"
+    },
+    {
+      "after_bytes": 2339,
+      "after_sha256": "5b44c59a9bec77a34bc97a87da450274f6f5830f6483fcec34a7c2c73eec1b43",
+      "before_bytes": 2339,
+      "before_sha256": "4c5295998419e52082e17b3dccd35b5826206aa04544163b3e6c5dd1598e5819",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8004437C"
+      ],
+      "module": "gp_af3_pair",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004437C.c",
+      "state": "changed",
+      "target": "src/slus/w_8004437C.c"
+    },
+    {
+      "after_bytes": 88,
+      "after_sha256": "a68eaad07fbef94af7a11e337a62af263731f5da7d37de08cd4150da971c5d45",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_80080AF3",
+        "D_80080AFC"
+      ],
+      "functions": [
+        "func_8004437C",
+        "func_8004450C"
+      ],
+      "module": "gp_af3_pair",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004437C_pair.c",
+      "state": "new",
+      "target": "src/slus/w_8004437C_pair.c"
+    },
+    {
+      "after_bytes": 1474,
+      "after_sha256": "2da007da149d935be5d2275201b1b938cd0e0fb1871fc4328c258e7fe2bc4a73",
+      "before_bytes": 1819,
+      "before_sha256": "c2f99b3c4d77da268daf069e0f45ceafd1722b89e0cacb668a29b2e8fbe6c3f4",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8004450C"
+      ],
+      "module": "gp_af3_pair",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004450C.c",
+      "state": "changed",
+      "target": "src/slus/w_8004450C.c"
+    },
+    {
+      "after_bytes": 144,
+      "after_sha256": "49533b65c6ef223e01798040391067f484b7fb82ab2b6e41b7104b3aaa01e54c",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_80081528"
+      ],
+      "functions": [
+        "func_80047E78"
+      ],
+      "module": "address_slot",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_80047E78_owned.c",
+      "state": "new",
+      "target": "src/slus/w_80047E78_owned.c"
+    },
+    {
+      "after_bytes": 3295,
+      "after_sha256": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675",
+      "before_bytes": 3290,
+      "before_sha256": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0",
+      "canonical_repair": {
+        "final_canonical_sha256": "e55283688e29200caac56d7fb76dd715bcb1da2f68159373b6e5741bbb051675",
+        "owner_assembly_difference": "one added .file 2 metadata directive",
+        "owner_whole_tu_non_file_assembly_sha256": "c746e3940d0b1114aea5b3f4b04d2454c13e8839b607085316c1629fdd7cc9d4",
+        "previous_candidate_sha256": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0",
+        "receipt": "work/native_lane/gp_partition_only_tools/canonical_sources/receipt.json"
+      },
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_80049F68"
+      ],
+      "module": "gp_order_bytes_owner",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_partition_only_tools/canonical_sources/after/w_80049F68.c",
+      "state": "changed",
+      "target": "src/slus/w_80049F68.c"
+    },
+    {
+      "after_bytes": 1285,
+      "after_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+      "before_bytes": 1367,
+      "before_sha256": "ef073018d88eafb86d24e7f0b4818a4566d6b458be989edd7f7edbdb587bb6f9",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8004AB7C"
+      ],
+      "module": null,
+      "refinement": {
+        "raw_compiler_assembly_identical": true,
+        "raw_compiler_assembly_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+        "ready29_source_sha256": "76d2b9fd68b53381be6684ca94cddf9e50676b560d13efa297ba0783e8730aa1",
+        "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+        "refined_source_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+        "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+      },
+      "role": "standalone",
+      "source": "work/native_lane/gp_partition_only_tools/source_hygiene/after/w_8004AB7C.c",
+      "state": "changed",
+      "target": "src/slus/w_8004AB7C.c"
+    },
+    {
+      "after_bytes": 319,
+      "after_sha256": "4da9f2da2681337b378cbfc9d2675f5360a50a2c0d6c20e9e55b5028b9e43be3",
+      "before_bytes": 364,
+      "before_sha256": "2d5075cd35da97faf07f7b8f7790a5e2db029f80368da8e02219a175f9c68ed1",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8004DCEC"
+      ],
+      "module": "message_mode_81550",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004DCEC.c",
+      "state": "changed",
+      "target": "src/slus/w_8004DCEC.c"
+    },
+    {
+      "after_bytes": 216,
+      "after_sha256": "4068ae2303c6563c1113f7b4c93b9d9f2c4b9d20fbb1d7904d82dca1c8aaa725",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_8008154C",
+        "D_80081550"
+      ],
+      "functions": [
+        "func_8004DCEC",
+        "func_8004DE88",
+        "func_8004DF8C",
+        "func_8004DCE0"
+      ],
+      "module": "message_mode_81550",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004DCEC_owned.c",
+      "state": "new",
+      "target": "src/slus/w_8004DCEC_owned.c"
+    },
+    {
+      "after_bytes": 1470,
+      "after_sha256": "ad2c9fbfab8bd21ac9b6a5324b6c9d9c7962ba7464244a4aee01a6584ec3a666",
+      "before_bytes": 1655,
+      "before_sha256": "0c2b6cf5a2f81279f8d1326cd3bf57ee484a9d048cd9bd03889836e7d4aadeae",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8004DE88"
+      ],
+      "module": "message_mode_81550",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004DE88.c",
+      "state": "changed",
+      "target": "src/slus/w_8004DE88.c"
+    },
+    {
+      "after_bytes": 1576,
+      "after_sha256": "5187d162fe3e261f51ae62a00967d5d03be0cf815fcf166c5d234d0f738494ce",
+      "before_bytes": 1713,
+      "before_sha256": "8ade45effdf38a9e39c908ba3e8c2cbe339a2353f9b330908e75e46b0c1d789b",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_8004DF8C"
+      ],
+      "module": "message_mode_81550",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8004DF8C.c",
+      "state": "changed",
+      "target": "src/slus/w_8004DF8C.c"
+    },
+    {
+      "after_bytes": 1069,
+      "after_sha256": "73f57c09d0300456c8134519c5af57a714ab2e91cc2e1f9b83421bfe9bda3504",
+      "before_bytes": 1213,
+      "before_sha256": "1d8fc3c2295c4d305a26ac9d2cc9ca42dc886ccd8468b7ec4597a007ab1b611b",
+      "category": "canonical_source",
+      "data_symbols": [],
+      "functions": [
+        "func_80053CFC"
+      ],
+      "module": "command_words",
+      "role": "whole_member",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_80053CFC.c",
+      "state": "changed",
+      "target": "src/slus/w_80053CFC.c"
+    },
+    {
+      "after_bytes": 171,
+      "after_sha256": "068b8a07b670aff583abca51cc36f8b95640d3b7e3697001beb21ad05fad0dfe",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "canonical_source",
+      "data_symbols": [
+        "D_80081568",
+        "D_8008156C"
+      ],
+      "functions": [
+        "func_80053CFC"
+      ],
+      "module": "command_words",
+      "role": "aggregator",
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_80053CFC_owned.c",
+      "state": "new",
+      "target": "src/slus/w_80053CFC_owned.c"
+    },
+    {
+      "after_bytes": 485,
+      "after_sha256": "4a972fa5eb6a6175a8f7578fd1b29111655666b2d7f674e94049d1b9268c02f4",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "shared_header",
+      "modules": [
+        "cd_command_state"
+      ],
+      "role": "header",
+      "source": "work/native_lane/gp_ready29_collectors/stage/include/slus/cd_cohort_types.h",
+      "state": "new",
+      "target": "include/slus/cd_cohort_types.h"
+    },
+    {
+      "after_bytes": 308,
+      "after_sha256": "3e13e4a8d0a0c782311f1ed557c48f363092fb9df07a57851676aac174d8e583",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "shared_header",
+      "modules": [
+        "message_mode_81550"
+      ],
+      "role": "header",
+      "source": "work/native_lane/gp_ready29_collectors/stage/include/slus/message_mode_81550.h",
+      "state": "new",
+      "target": "include/slus/message_mode_81550.h"
+    },
+    {
+      "after_bytes": 41246,
+      "after_sha256": "7bd10d6c6992d10c398c1e519e1502d0d6b6c60ce59821b8af9ff0259ec3d352",
+      "before_bytes": 27007,
+      "before_sha256": "8fbae5f5809f285594a1d9f09685b12297840921dd960bfa6be00b4e2decd9c8",
+      "category": "module_plan",
+      "source": "work/native_lane/gp_ready29_collectors/stage/config/slus_modules.json",
+      "state": "changed",
+      "target": "config/slus_modules.json"
+    },
+    {
+      "after_bytes": 6321,
+      "after_sha256": "202a7e01da77aabf45458330c94c308159f47eb9df122ad644bd01891a949571",
+      "before_bytes": 5781,
+      "before_sha256": "9aac94c3be0c71cb5a7cdccc6de135f0cd37100358db674870523e6aac5a9207",
+      "category": "module_plan",
+      "source": "work/native_lane/gp_ready29_collectors/stage/config/slus_partitions.json",
+      "state": "changed",
+      "target": "config/slus_partitions.json"
+    },
+    {
+      "after_bytes": 15774,
+      "after_sha256": "de999f03cab01fb0d907b063a5857997bb78dcb8301cd92993fa0f688b295c57",
+      "before_bytes": 13514,
+      "before_sha256": "4249582681e912a3a598dc4640c9559f7b1e5cb7181c6c0709308a1408cab4d3",
+      "category": "workflow_doc",
+      "source": "work/native_lane/gp_partition_only_tools/SLUS_MODULES.md",
+      "state": "changed",
+      "target": "docs/SLUS_MODULES.md"
+    },
+    {
+      "after_bytes": 25296,
+      "after_sha256": "7ad5248f055c79b9a71b4f64eec8fe3626291f99006f7a8598417595fdccf05e",
+      "before_bytes": 24574,
+      "before_sha256": "69b68d32d0d2aef22f947bb985b067234c382d33a218d5517e21c496effc1b80",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/build/slus_modules.py",
+      "state": "changed",
+      "target": "tools/build/slus_modules.py"
+    },
+    {
+      "after_bytes": 24534,
+      "after_sha256": "1e484e42d7678e493b7dcd078282fe882c8c94ca58b749b2c5f19af35b7caf17",
+      "before_bytes": 22538,
+      "before_sha256": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/build/slus_partitions.py",
+      "state": "changed",
+      "target": "tools/build/slus_partitions.py"
+    },
+    {
+      "after_bytes": 64859,
+      "after_sha256": "ae9639ee865fc821df79f2f9bc9697aa705beac21b6c026c1cf8be5e2668ca2c",
+      "before_bytes": 63841,
+      "before_sha256": "bab4b98f03b89c771c04d1ea3d937b1868c9cb24ebb0f7741a413546f43d51df",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_ready29_collectors/stage/tools/configure.py",
+      "state": "changed",
+      "target": "tools/build/configure.py"
+    },
+    {
+      "after_bytes": 12084,
+      "after_sha256": "cce0cf354cc5795dc446c1bb2d7eed63d1cb6a220cb5f5d65fe9a90af40670ba",
+      "before_bytes": 10988,
+      "before_sha256": "ff9b39ef5f3f1625139d159750f035469828b14f7a9d36128e6e8adf6117953e",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/slus_module_context.py",
+      "state": "changed",
+      "target": "tools/slus_module_context.py"
+    },
+    {
+      "after_bytes": 18905,
+      "after_sha256": "edcab572d0fc98f3bc70cc8d398a5e92a0c8fafd95309791880b57d2851baf36",
+      "before_bytes": 14184,
+      "before_sha256": "e86e46a050d0a2695b108d2c1351dd7c5fdcee9d37a01b85c0af17569af6230e",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/slus_module_evidence.py",
+      "state": "changed",
+      "target": "tools/slus_module_evidence.py"
+    },
+    {
+      "after_bytes": 18441,
+      "after_sha256": "5e83fe19077d295c1facaccb6ec126fddd5370fbe5c391c88953896bdea0cb12",
+      "before_bytes": 16818,
+      "before_sha256": "150a0313a0debadeeb86d6540e01c1e78e00650b1ef60e4e82c5c5466be5ac83",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/fidelity/prove_slus_ownership.py",
+      "state": "changed",
+      "target": "tools/fidelity/prove_slus_ownership.py"
+    },
+    {
+      "after_bytes": 3964,
+      "after_sha256": "969f6f8db6577f0a6203e932cc64f21626d5e89a90b1f00531ebd5c23663efad",
+      "before_bytes": 3813,
+      "before_sha256": "0628cfa11b93d1e86b2f9c276f4f82d2f8dd7234ea7f0449dfc50c8017296cf4",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/fidelity/certify_slus_module.py",
+      "state": "changed",
+      "target": "tools/fidelity/certify_slus_module.py"
+    },
+    {
+      "after_bytes": 20641,
+      "after_sha256": "e1f39d20c7791c545cdea29a95452a4931365ab75f38af0797f39454f8d38f2a",
+      "before_bytes": 20577,
+      "before_sha256": "941818aa3d830c22c6182ad61dbdf34949a464cb0e2964b6afcef66d3b24dd95",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/fidelity/slus_iso.py",
+      "state": "changed",
+      "target": "tools/fidelity/slus_iso.py"
+    },
+    {
+      "after_bytes": 8491,
+      "after_sha256": "8e20b8dedbd81cafa170935aac7e400c636e5362f2a71b18a1bfce03c706029c",
+      "before_bytes": 8428,
+      "before_sha256": "69d78b6b741cc30e2e040ad31e42c40a9439598ba3c901badf8760b413ff2461",
+      "category": "tool_adapter",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/row_db.py",
+      "state": "changed",
+      "target": "tools/row_db.py"
+    },
+    {
+      "after_bytes": 9728,
+      "after_sha256": "bd6f759d9b41e7e88c782b47f4624ddde3b1873fe10aa0db47204846eaf507ca",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "portable_test",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/tests/test_slus_partition_only_build.py",
+      "state": "new",
+      "target": "tools/tests/test_slus_partition_only_build.py"
+    },
+    {
+      "after_bytes": 14451,
+      "after_sha256": "6f4fb1b4e8a628f472e835c166e2fda17b70e94b0dded8e6f587821187251a80",
+      "before_bytes": 0,
+      "before_sha256": null,
+      "category": "portable_test",
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/tests/test_slus_partition_only_evidence.py",
+      "state": "new",
+      "target": "tools/tests/test_slus_partition_only_evidence.py"
+    },
+    {
+      "after_bytes": 7407,
+      "after_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+      "before_bytes": 7375,
+      "before_sha256": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086",
+      "category": "guarded_assembler",
+      "source": "work/native_lane/selfinc_local_guard/candidate/maspsx.py",
+      "state": "changed",
+      "target": "tools/maspsx/maspsx.py"
+    },
+    {
+      "after_bytes": 282170,
+      "after_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+      "before_bytes": 281800,
+      "before_sha256": "a5e87a9c60f067144874411aefd61ab57b44e9c752b80a02c4417ed05263464f",
+      "category": "guarded_assembler",
+      "source": "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py",
+      "state": "changed",
+      "target": "tools/maspsx/maspsx/__init__.py"
+    },
+    {
+      "after_bytes": 2688,
+      "after_sha256": "7ae2f31de4a0fa7852e7799c575bdd0b89deef81e4fd1db2e5dc9827255ab47e",
+      "before_bytes": 2726,
+      "before_sha256": "8c0f4de8b41a8b1d54ac91bea4dddec7735777021f7660b9ed23b0d8cb2a1615",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_branch_delay_lui.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_branch_delay_lui.py"
+    },
+    {
+      "after_bytes": 7669,
+      "after_sha256": "ad4b8cb7db50da302cacf7dd95aeb5614b3a5bdc5a96be7477332fa2778a72d3",
+      "before_bytes": 7325,
+      "before_sha256": "eb6d7c0712300b1151807096257cd2de331cbd6ae9e9a73ee779cf0c1021931b",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_casesi_jumptable.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_casesi_jumptable.py"
+    },
+    {
+      "after_bytes": 3645,
+      "after_sha256": "6d7cde6e2f71903a2145051afc2bd5991c2dcf113fb21626ea7645f4ab80b815",
+      "before_bytes": 3721,
+      "before_sha256": "691c43e41611ce9b41f7a5454901278a916ac59fec73390df1b922e7dd19e3d0",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_funcaddr_split.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_funcaddr_split.py"
+    },
+    {
+      "after_bytes": 9519,
+      "after_sha256": "03f133339533902232e61262c3f974eef42306760516716abf835d9c932607b3",
+      "before_bytes": 9595,
+      "before_sha256": "affd043f4a3a824a040f61a1503b2190943aef694b87cc900b1bd8179de1225d",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_funcaddr_split_branch_delay.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_funcaddr_split_branch_delay.py"
+    },
+    {
+      "after_bytes": 3654,
+      "after_sha256": "c7e012304c3e784fc5372b79e393e198c4b18a930fad0bd2ad6a98384f40ae61",
+      "before_bytes": 3398,
+      "before_sha256": "9eccf28ca5ca2f0a927d5d1c5c1b50f326a818681bbf3c94245102280781da45",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_main_endgame_closures.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_main_endgame_closures.py"
+    },
+    {
+      "after_bytes": 6048,
+      "after_sha256": "322b13f050f92237ec187fb2062715623325de2575c342aeb0bd1603bf4fb4da",
+      "before_bytes": 6289,
+      "before_sha256": "dd20617006908cd15ec7ac1f7d9a515881437e23136ac0ca5e1b02b44c641679",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_store_delay.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_store_delay.py"
+    },
+    {
+      "after_bytes": 3011,
+      "after_sha256": "3c74fb9a45a769a726e963030f1275a3bf23984ca38743f6d28d125d2bec7007",
+      "before_bytes": 2992,
+      "before_sha256": "a276a798f82f40ee5b2a867178f1b7f1ac3d0a46ebbcf73e260e251b1ab06016",
+      "category": "assembler_test",
+      "source": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests/test_uses_gp_extern.py",
+      "state": "changed",
+      "target": "tools/maspsx/tests/test_uses_gp_extern.py"
+    },
+    {
+      "after_bytes": 189228,
+      "after_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+      "before_bytes": 185411,
+      "before_sha256": "c74e83b131ea6c04c2cc4f62dc042b45ebaf28dfc1d37350b8159a699a52d7f2",
+      "category": "complete_ledger",
+      "source": "work/native_lane/gp_partition_only_tools/census_fixture/ledger/splits/slus.build.ninja",
+      "state": "changed",
+      "target": "ledger/splits/slus.build.ninja"
+    },
+    {
+      "after_bytes": 100345,
+      "after_sha256": "a4073f4835bf202b8ba4850a144ff567bc635fb9801467d3b5d823b0e6a4e0d8",
+      "before_bytes": 100368,
+      "before_sha256": "1ba46ed2ffaec2afaa0ad23103288eb2613269275504d1a93528bd1a00a441eb",
+      "category": "complete_ledger",
+      "source": "work/native_lane/gp_partition_only_tools/transition/serialized_slus.jsonl",
+      "state": "changed",
+      "target": "ledger/splits/slus.jsonl"
+    },
+    {
+      "after_bytes": 3101547,
+      "after_sha256": "dad8bb076a6c6c2479aa488f24419394976040a42797a4783a1912426ce608bb",
+      "before_bytes": 3101589,
+      "before_sha256": "c2d6352a1440e2f67981aba0a4122d8809ddeb4ebe401a9252f7eac68057ed07",
+      "category": "complete_ledger",
+      "source": "work/native_lane/gp_partition_only_tools/census_fixture/ledger/rows.jsonl",
+      "state": "changed",
+      "target": "ledger/rows.jsonl"
+    }
+  ],
+  "inputs": {
+    "assembler_test_receipt_sha256": "84a3a916ca6dfdb4f29e2f5856d0512fff4ad0f167629a175c760f15e879ba1c",
+    "canonical_source_probe_sha256": "050645400ac01e797d50c14d16450d22b2ee1cac7d15acb005743ea4bd40271a",
+    "canonical_source_receipt_sha256": "5e264a62919083e2ca16cc64b1dfef385e4166d8c7f8c3849529130406cfd82d",
+    "census_setup_receipt_sha256": "102a84ba40d96bbf66cd27cd61ba97456e367728de8edb7a87b7cf2db595b8f3",
+    "code_baseline_commit": "b4130ec4d7ab9500e86a594aa3606b71fa1611b6",
+    "current_docs_only_commit": "6eb1f284e9d8391fbab3f97d3b7ac43fb21b7441",
+    "guarded_assembler_sha256": {
+      "tools/maspsx/maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+      "tools/maspsx/maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+    },
+    "nine_tool_candidate_sha256": {
+      "tools/build/configure.py": "5728f7979b573c189c05817aa48b94b98bbf45566a3e6d982dc658861279f4fd",
+      "tools/build/slus_modules.py": "7ad5248f055c79b9a71b4f64eec8fe3626291f99006f7a8598417595fdccf05e",
+      "tools/build/slus_partitions.py": "1e484e42d7678e493b7dcd078282fe882c8c94ca58b749b2c5f19af35b7caf17",
+      "tools/fidelity/certify_slus_module.py": "969f6f8db6577f0a6203e932cc64f21626d5e89a90b1f00531ebd5c23663efad",
+      "tools/fidelity/prove_slus_ownership.py": "5e83fe19077d295c1facaccb6ec126fddd5370fbe5c391c88953896bdea0cb12",
+      "tools/fidelity/slus_iso.py": "e1f39d20c7791c545cdea29a95452a4931365ab75f38af0797f39454f8d38f2a",
+      "tools/row_db.py": "8e20b8dedbd81cafa170935aac7e400c636e5362f2a71b18a1bfce03c706029c",
+      "tools/slus_module_context.py": "cce0cf354cc5795dc446c1bb2d7eed63d1cb6a220cb5f5d65fe9a90af40670ba",
+      "tools/slus_module_evidence.py": "edcab572d0fc98f3bc70cc8d398a5e92a0c8fafd95309791880b57d2851baf36"
+    },
+    "portable_regression_receipt_sha256": "59567809988595fd4ed2c8d686cffb6a6d129ce6df18468461f8ad020d03c79e",
+    "ready29_receipt_sha256": "2a046a66e241a08c8575bdcdea4372d9c0f8d917803647fed48c22e80d242a05",
+    "ready29_stage_image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+    "ready29_stage_ninja_sha256": "968784a7addd9c20cca57e34f3f28d73a101dcc88c91e5046adbe55d0a7cdc44",
+    "source_hygiene_receipt_sha256": "11ad15c736726986c79ba5d4c4e6d6600875997fe858ebfb7290926041753317",
+    "source_hygiene_reproducer_sha256": "3918875bf91ff4d2469ccc2ac0c1c0f3ba04b8d699af37dc5c47336417fe5d42",
+    "source_hygiene_reproduction_receipt_sha256": "fc2503b46bedb01386d534870b519510353283651e4198bd583d6e2ae0c46f6b"
+  },
+  "new_config_pin_files": 0,
+  "patch_replay_exact": true,
+  "patch_sha256": "1edc3b64c5d0a359ecfa1774420f2a5585756c57bd467ab053c7c1d522554400",
+  "production_applied": false,
+  "projection": {
+    "duplicate_owned_storage": 0,
+    "logical": 884,
+    "new_keyed_asflags": 0,
+    "owned_data_records": 70,
+    "physical": 860,
+    "recipe_changed_sources": [
+      "src/w_8003D92C.c",
+      "src/w_8003E34C.c",
+      "src/w_8003E4FC.c",
+      "src/w_8003E758.c",
+      "src/w_8003F2A4.c",
+      "src/w_8003F368.c",
+      "src/w_8003F5AC.c",
+      "src/w_8003F624.c",
+      "src/w_8003FAD4.c",
+      "src/w_80041588.c",
+      "src/w_80041AB0.c",
+      "src/w_80043CD0.c",
+      "src/w_8004450C.c",
+      "src/w_8004AB7C.c",
+      "src/w_8004DCEC.c"
+    ],
+    "registry_rows": 6767
+  },
+  "remaining_activation_work": [
+    "Review and apply this source/tool/test/assembler/ledger patch as one transaction.",
+    "Run production-shaped configure and compare pinned Ninja and all 884 logical rows.",
+    "Regenerate any other derived views or caches from the complete row registry.",
+    "Run candidate-bound full SLUS, overlay, ownership, and dependency census gates before activation."
+  ],
+  "slus_ledger_rewritten_recipe_lines": 15,
+  "slus_ledger_unchanged_line_bytes_preserved": 869,
+  "source_hygiene_refinements": {
+    "src/slus/gp_d92c_owned.c": {
+      "raw_compiler_assembly_identical": true,
+      "raw_compiler_assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "ready29_source_sha256": "576ffc9abbd8310aec3ccae37c9948d95fdc8e2dc373e7e3e8df390d720056c8",
+      "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+      "refined_source_sha256": "094846f0ceafe918e5bee6cddf2267f44e3dd27cd6ad4777855d91492e11f146",
+      "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+    },
+    "src/slus/w_8003FAD4.c": {
+      "raw_compiler_assembly_identical": true,
+      "raw_compiler_assembly_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "ready29_source_sha256": "0d86b916467b2838d4337813fe4fa344bac3cd99026566371b5db640138bf1e9",
+      "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+      "refined_source_sha256": "fde9d352aec9cea95dc7c388355ec7dc6b1e659a2d604208e00c403a10586b67",
+      "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+    },
+    "src/slus/w_80041AB0.c": {
+      "raw_compiler_assembly_identical": true,
+      "raw_compiler_assembly_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "ready29_source_sha256": "b053cad2605d612a1e6520eda8535c84ecec05fb7cdcc87ee1cf51e27553d20c",
+      "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+      "refined_source_sha256": "38e6eba7ca19b4f91ecc63b6f2b0a74e966e268cc912ae3820588cdd83d68816",
+      "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+    },
+    "src/slus/w_8004AB7C.c": {
+      "raw_compiler_assembly_identical": true,
+      "raw_compiler_assembly_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "ready29_source_sha256": "76d2b9fd68b53381be6684ca94cddf9e50676b560d13efa297ba0783e8730aa1",
+      "receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/receipt.json",
+      "refined_source_sha256": "43b1cad48154576b7c58bc64245c55fe1372e454ff2f320965fef889797403ce",
+      "reproduction_receipt": "work/native_lane/gp_partition_only_tools/source_hygiene/reproduction_receipt.json"
+    }
+  },
+  "status": "PRIVATE_REVIEW_READY",
+  "total_changed_or_new_files": 57
+}
