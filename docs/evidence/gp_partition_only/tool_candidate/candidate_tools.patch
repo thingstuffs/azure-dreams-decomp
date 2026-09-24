@@ -1,0 +1,388 @@
+--- a/tools/build/slus_modules.py
++++ b/tools/build/slus_modules.py
+@@ -26,6 +26,16 @@
+ 
+ class ModuleError(ValueError):
+     """Unsafe, ambiguous, or unsupported module plan."""
++
++
++def _partition_only(module, where):
++    if "partition_only" not in module:
++        return False
++    if module["partition_only"] is not True:
++        raise ModuleError(f"{where}: partition_only must be true when present")
++    if module.get("members") != []:
++        raise ModuleError(f"{where}: partition_only owner must have no whole members")
++    return True
+ 
+ 
+ def _keys(value, required, where):
+@@ -88,9 +98,11 @@
+     """Validate an opt-in named-section plan and return exact physical pieces."""
+     if not isinstance(module, dict):
+         raise ModuleError("module: expected an object")
++    _partition_only(module, "module")
+     if "data_pieces" not in module:
+         return []
+-    allowed = {"name", "source", "members", "headers", "recipe", "data", "evidence", "data_pieces"}
++    allowed = {"name", "source", "members", "headers", "recipe", "data", "evidence",
++               "data_pieces", "partition_only"}
+     if set(module) - allowed:
+         raise ModuleError(f"module: unexpected keys {sorted(set(module) - allowed)}")
+     name = module.get("name")
+@@ -152,7 +164,8 @@
+     for i, module in enumerate(doc["modules"]):
+         where = f"modules[{i}]"
+         module_keys = ("name", "source", "members", "headers", "recipe", "data", "evidence")
+-        _keys(module, module_keys + (("data_pieces",) if "data_pieces" in module else ()), where)
++        optional_keys = tuple(key for key in ("data_pieces", "partition_only") if key in module)
++        _keys(module, module_keys + optional_keys, where)
+         name = module["name"]
+         if not isinstance(name, str) or not _NAME.fullmatch(name) or name in seen_names:
+             raise ModuleError(f"{where}: invalid or duplicate name {name!r}")
+@@ -173,7 +186,10 @@
+         evidence = _path(module["evidence"], where + ".evidence", "docs", ".md")
+         if not evidence.startswith("docs/evidence/"):
+             raise ModuleError(f"{where}: evidence must be under docs/evidence/")
+-        if not isinstance(module["members"], list) or not module["members"]:
++        partition_only = _partition_only(module, where)
++        if not isinstance(module["members"], list):
++            raise ModuleError(f"{where}: members must be a list")
++        if not partition_only and not module["members"]:
+             raise ModuleError(f"{where}: members must be nonempty")
+         members = []
+         for j, member in enumerate(module["members"]):
+@@ -216,6 +232,8 @@
+             parsed_data.append(parsed)
+         parsed_module = {"name": name, "source": source, "members": members, "headers": headers,
+                          "recipe": recipe, "data": parsed_data, "evidence": evidence}
++        if partition_only:
++            parsed_module["partition_only"] = True
+         if "data_pieces" in module:
+             parsed_module["data_pieces"] = [dict(piece) if isinstance(piece, dict) else piece
+                                             for piece in module["data_pieces"]] if isinstance(module["data_pieces"], list) else module["data_pieces"]
+--- a/tools/build/slus_partitions.py
++++ b/tools/build/slus_partitions.py
+@@ -91,12 +91,23 @@
+     by_module = {m['name']:m for m in modules}
+     if len(by_module) != len(modules):
+         raise PartitionError('duplicate destination module')
++    partition_only = set()
++    for module in modules:
++        if 'partition_only' in module:
++            if module['partition_only'] is not True or module['members']:
++                raise PartitionError('partition_only requires true and no whole members: '+module['name'])
++            partition_only.add(module['name'])
+     by_source = {e['src']:e for e in logical_edges}
+     if len(by_source) != len(logical_edges):
+         raise PartitionError('duplicate logical source')
++    for name in partition_only:
++        if by_module[name]['source'] in by_source:
++            raise PartitionError('partition_only owner has a fake logical row: '+name)
+     module_sources = {m['source'] for m in modules}
+     whole_rows = {m['id'] for module in modules for m in module['members']}
+     whole_functions = {f for module in modules for m in module['members'] for f in m['functions']}
++    incoming = {name: 0 for name in partition_only}
++    claimed = set()
+     for parent in plan:
+         if parent['source'] in module_sources:
+             raise PartitionError('partition parent source is also a module aggregator')
+@@ -112,9 +123,22 @@
+             raise PartitionError('partition functions differ from frozen definitions: '+parent['id'])
+         if whole_functions.intersection(parent['functions']):
+             raise PartitionError('partition function is also owned by a whole module member')
++        seen_destinations = set()
+         for part in parent['parts']:
+             if part['module'] not in by_module:
+                 raise PartitionError('unknown destination module: '+part['module'])
++            selected = functions(part['functions'], 'part.functions')
++            if not set(selected) <= set(parent['functions']):
++                raise PartitionError('partition part has unknown function coverage')
++            if part['module'] in seen_destinations or claimed.intersection(selected):
++                raise PartitionError('duplicate partition destination or function coverage')
++            seen_destinations.add(part['module'])
++            claimed.update(selected)
++            if part['module'] in incoming:
++                incoming[part['module']] += 1
++    orphaned = sorted(name for name, count in incoming.items() if count == 0)
++    if orphaned:
++        raise PartitionError('partition_only owner has no incoming nonempty part: '+str(orphaned))
+     return True
+ 
+ def lexical_mask(source):
+@@ -210,11 +234,21 @@
+     """Expected complete canonical function sets, keyed by physical source."""
+     expected={m['source']:set(f for member in m['members'] for f in member['functions']) for m in modules}
+     module_source={m['name']:m['source'] for m in modules}
++    incoming={m['name']:0 for m in modules if m.get('partition_only') is True}
+     for parent in plan:
+         moved=set()
+         for part in parent['parts']:
++            if part['module'] not in module_source:
++                raise PartitionError('unknown destination module: '+part['module'])
++            if part['module'] in incoming:
++                if not part['functions']:
++                    raise PartitionError('partition_only part must be nonempty: '+part['module'])
++                incoming[part['module']]+=1
+             expected[module_source[part['module']]].update(part['functions']);moved.update(part['functions'])
+         expected[parent['source']]=set(parent['functions'])-moved
++    orphaned=sorted(name for name,count in incoming.items() if count == 0)
++    if orphaned:
++        raise PartitionError('partition_only owner has no incoming nonempty part: '+str(orphaned))
+     return expected
+ 
+ def check_emitted(expected, emitted):
+--- a/tools/build/configure.py
++++ b/tools/build/configure.py
+@@ -1023,6 +1023,10 @@
+ PARTITION_PATHS = partition_support.output_paths(PARTITIONS)
+ PARTITION_MODULE_DEPS = {}
+ PARTITION_COVERAGE_STAMP = f"{BUILDDIR}/partition_sources/coverage.ok"
++if not PARTITIONS and any(module.get("partition_only") is True for module in MODULES):
++    # An owner with no whole rows cannot be anchored by the logical ledger.
++    # Even an absent optional plan must go through the incoming-part check.
++    partition_support.validate_context([], MODULES, [], "raw/slus")
+ if PARTITIONS:
+     if NM:
+         raise RuntimeError("SLUS partitions are not supported in --non-matching builds")
+--- a/tools/slus_module_context.py
++++ b/tools/slus_module_context.py
+@@ -22,6 +22,28 @@
+ 
+ def modules(root=ROOT):
+     return load_manifest(Path(root) / "config/slus_modules.json")
++
++
++def module_anchor(module, root=ROOT):
++    """Choose a real logical contributor for context; never invent a member row.
++
++    This is a fingerprint/compilation entry point, not a placement grant.
++    A partition-only destination must be reachable from an actual parent.
++    """
++    if module["members"]:
++        return {"kind": "slus", "id": module["members"][0]["id"]}
++    if module.get("partition_only") is not True:
++        raise partitions.PartitionError("empty module lacks partition-only opt-in")
++    plan = partitions.load_plan(Path(root) / "config/slus_partitions.json")
++    parent = next((p for p in plan if any(part["module"] == module["name"]
++                                        for part in p["parts"])), None)
++    if parent is None:
++        raise partitions.PartitionError("partition-only owner has no incoming functions: " + module["name"])
++    row = {"kind": "slus", "id": parent["id"]}
++    _, owners, _ = partition_context(row, root)
++    if module not in owners:
++        raise partitions.PartitionError("partition-only owner is absent from contributor context")
++    return row
+ 
+ 
+ def partition_context(row, root=ROOT):
+--- a/tools/slus_module_evidence.py
++++ b/tools/slus_module_evidence.py
+@@ -10,7 +10,7 @@
+ from pathlib import Path
+ 
+ from common import ROOT
+-from slus_module_context import fingerprint, modules, partition_context
++from slus_module_context import fingerprint, modules, partition_context, module_anchor
+ 
+ 
+ def physical_descriptor(module, root=ROOT):
+@@ -19,7 +19,7 @@
+     Contributor IDs document function provenance; they are not placement grants.
+     The manifest's whole-member list remains the only placement candidate list.
+     """
+-    row = {"kind": "slus", "id": module["members"][0]["id"]}
++    row = module_anchor(module, root)
+     parents, owners, _ = partition_context(row, root)
+     if not parents:
+         return None
+@@ -93,6 +93,78 @@
+             or not isinstance(physical.get("len_m"), int) or physical["len_m"] <= 0
+             or physical.get("len_g") != physical["len_m"]):
+         raise ValueError("destination lacks coherent full-TU direct genuine proof: " + descriptor["source"])
++    return unit
++
++
++def check_partition_record(record, contributor, descriptor, expected_fingerprint, root=ROOT):
++    """Prove a part-only owner from its real collector measurement.
++
++    The collector must have complete pipeline/retail coverage. Its unrelated
++    streams need not be genuine-exact: direct genuine equality is required for
++    this destination's entire TU, including every other incoming contributor.
++    This result grants data ownership, never whole-collector placement.
++    """
++    import slus_partitions as partitions
++    if (contributor.get("kind") != "part"
++            or contributor not in descriptor["contributors"]):
++        raise ValueError("partition proof has no declared contributor")
++    row = {"kind": "slus", "id": contributor["row"]}
++    parents, owners, _ = partition_context(row, root)
++    parent = next((p for p in parents if p["id"] == row["id"]), None)
++    if parent is None or parent["source"] != contributor["source"]:
++        raise ValueError("partition proof has no matching collector")
++    units = partitions.row_units(row["id"], parents, owners)
++    emitted = partitions.expected_units(parents, owners)
++    measured = record.get("physical_units")
++    total = {"diff": 0, "masked": 0, "checked": len(parent["functions"])}
++    if (record.get("row") != row["id"] or record.get("status") != "ok"
++            or record.get("selfcheck") is not True or record.get("maspsx_exact") is not True
++            or record.get("functions") != parent["functions"]
++            or record.get("funcs") != len(parent["functions"])
++            or record.get("maspsx_retail") != total
++            or record.get("module_fingerprint") != expected_fingerprint
++            or record.get("compiler_model") or record.get("model")
++            or not isinstance(measured, list) or len(measured) != len(units)
++            or any(not isinstance(u, dict) for u in measured)):
++        raise ValueError("collector lacks complete pipeline/retail proof")
++    for expected, actual in zip(units, measured):
++        scope = {"diff": 0, "masked": 0, "checked": len(expected["functions"])}
++        if (any(actual.get(key) != value for key, value in expected.items())
++                or actual.get("row") != row["id"] or actual.get("status") != "ok"
++                or actual.get("selfcheck") is not True or actual.get("maspsx_exact") is not True
++                or actual.get("module_fingerprint") != expected_fingerprint
++                or actual.get("funcs") != len(expected["functions"])
++                or actual.get("maspsx_retail") != scope
++                or actual.get("expected_functions") != sorted(emitted[expected["source"]])):
++            raise ValueError("collector physical coverage or context differs")
++    matches = [u for u in measured if u.get("source") == descriptor["source"]]
++    if len(matches) != 1:
++        raise ValueError("partition destination proof is missing or ambiguous")
++    unit = matches[0]
++    cfg = " ".join(filter(None, (descriptor["recipe"]["ccver"], descriptor["recipe"]["ccflags"])))
++    full = {"diff": 0, "masked": 0, "checked": len(descriptor["functions"])}
++    if (unit.get("module") != descriptor["module"] or unit.get("role") != "module"
++            or unit.get("recipe") != descriptor["recipe"] or unit.get("cfg") != cfg
++            or unit.get("functions") != contributor["functions"]
++            or unit.get("expected_functions") != descriptor["functions"]
++            or unit.get("maspsx_physical_retail") != full
++            or unit.get("compiler_model") or unit.get("model")):
++        raise ValueError("partition destination physical proof differs")
++    versions = unit.get("genuine")
++    genuine = versions.get("2.79") if isinstance(versions, dict) else None
++    if not isinstance(genuine, dict):
++        raise ValueError("partition destination genuine result is missing")
++    physical = genuine.get("physical")
++    if (genuine.get("exact") is not True or genuine.get("retail") != [0, 0]
++            or genuine.get("retail_checked") != len(contributor["functions"])
++            or "err" in genuine or genuine.get("missing") or genuine.get("lnk_unknown")
++            or not isinstance(genuine.get("mode"), str)
++            or not isinstance(physical, dict)
++            or physical.get("exact") is not True or physical.get("diff") != 0
++            or physical.get("missing") != [] or physical.get("retail") != full
++            or type(physical.get("len_m")) is not int or physical["len_m"] <= 0
++            or physical.get("len_g") != physical["len_m"]):
++        raise ValueError("partition destination lacks direct full-TU genuine proof")
+     return unit
+ 
+ 
+@@ -164,6 +236,8 @@
+ def certificate_reason(module, cert, root=ROOT, tool_fp=None):
+     """None means current evidence; a string explains why placement is unproved."""
+     root = Path(root)
++    if module.get("partition_only"):
++        return "partition-only owners have no whole-row placement grants; use data ownership proof"
+     ids = [m["id"] for m in module["members"]]
+     if not isinstance(cert, dict):
+         return "certificate is not an object"
+--- a/tools/fidelity/prove_slus_ownership.py
++++ b/tools/fidelity/prove_slus_ownership.py
+@@ -1,8 +1,10 @@
+ #!/usr/bin/env python3
+ """Prove declared SLUS data ownership without granting module-cleanup placement.
+ 
+-The complete image, object section bytes, symbol offsets/VMAs and every member's
+-unmasked genuine-ASPSX comparison must agree. This receipt does not certify L4.
++The complete image, object section bytes, symbol offsets/VMAs and selected
++owners' unmasked genuine-ASPSX comparisons must agree. Connected owners require
++complete physical-TU proof; collector records retain their full logical scope.
++This receipt does not certify L4.
+ Run under the shared landing lock when recording authoritative evidence.
+ """
+ from __future__ import annotations
+@@ -20,7 +22,8 @@
+ sys.path.insert(0, str(ROOT / 'tools'))
+ from common import clean_path, rows
+ from slus_module_context import modules, fingerprint
+-from slus_module_evidence import verifier_fingerprint, physical_descriptor, check_physical_record, check_data_piece_record
++from slus_module_evidence import (verifier_fingerprint, physical_descriptor, check_physical_record,
++                                  check_data_piece_record, check_partition_record)
+ from slus_modules import data_sections
+ from fidelity.slus_iso import SlusView
+ from fidelity import aspsx_diff as A
+@@ -223,6 +226,13 @@
+     model_code_before = compiler_model_code() if modeled_ids else None
+     by_id = {r['id']: r for r in rows()}
+     ids = [member['id'] for module in selected for member in module['members']]
++    part_only = [module for module in selected if module.get('partition_only')]
++    for module in part_only:
++        descriptor = physical.get(module['name'])
++        if not descriptor or any(c['kind'] != 'part' for c in descriptor['contributors']):
++            raise ValueError('partition-only owner lacks complete contributor context: ' + module['name'])
++        ids.extend(c['row'] for c in descriptor['contributors'])
++    ids = list(dict.fromkeys(ids))
+     initial = {rid: fingerprint(by_id[rid]) for rid in ids}
+     tool_fp = verifier_fingerprint()
+     data = {}
+@@ -255,6 +265,17 @@
+         results = {}
+         modeled_results = {}
+         for module in selected:
++            if module.get('partition_only'):
++                descriptor = physical[module['name']]
++                for contributor in descriptor['contributors']:
++                    rid = contributor['row']
++                    if rid not in results:
++                        results[rid] = A.process_row(by_id[rid])
++                    record = results[rid]
++                    check_partition_record(record, contributor, descriptor, initial[rid])
++                    check_data_piece_record(module, record, descriptor)
++                    print(module['name'] + ' via ' + rid + ': full owner direct genuine and retail exact', flush=True)
++                continue
+             for member in module['members']:
+                 rid = member['id']
+                 record = A.process_row(by_id[rid])
+@@ -295,6 +316,11 @@
+         receipt['physical_modules'] = physical
+         receipt['purpose'] = ('data ownership with direct full-TU genuine proof for connected owners; '
+                               'any legacy compiler-model rows remain explicitly labelled; no L4/L5 certificate')
++    if part_only:
++        receipt['schema'] = 5
++        receipt['partition_only_modules'] = [module['name'] for module in part_only]
++        receipt['purpose'] += ('; collector records preserve full logical coverage, but direct genuine '
++                               'equality is required only for selected complete physical owners')
+     return receipt
+ 
+ 
+--- a/tools/fidelity/certify_slus_module.py
++++ b/tools/fidelity/certify_slus_module.py
+@@ -28,6 +28,8 @@
+     module = next((m for m in modules() if m["name"] == name), None)
+     if module is None:
+         raise ValueError("module is not declared: " + name)
++    if module.get("partition_only"):
++        raise ValueError("partition-only owners have no whole-row placement grants; use prove_slus_ownership.py")
+     review = ROOT / module["evidence"]
+     if not review.is_file() or not reviewer.strip():
+         raise ValueError("a reviewed evidence document and reviewer are required")
+--- a/tools/fidelity/slus_iso.py
++++ b/tools/fidelity/slus_iso.py
+@@ -115,7 +115,7 @@
+         self.pristine = (self.dest / "build.ninja").read_text()
+         self.modules = load_manifest(self.dest / "config/slus_modules.json")
+         self.partitions = partitions.load_plan(self.dest / "config/slus_partitions.json")
+-        if self.partitions:
++        if self.partitions or any(module.get("partition_only") for module in self.modules):
+             self.aliases = partitions.read_aliases(self.dest / "config/names.tsv")
+             edges = logical_edges(partitions.project_edges(edges_of(self.pristine), self.partitions), self.modules)
+             expected = [json.loads(line) for line in (ROOT / "ledger/splits/slus.jsonl").read_text().splitlines() if line.strip()]
+--- a/tools/row_db.py
++++ b/tools/row_db.py
+@@ -63,7 +63,7 @@
+     from slus_partitions import load_plan, read_aliases, validate_context
+     root = Path(root)
+     plan = load_plan(root / "config/slus_partitions.json")
+-    if plan:
++    if plan or any(module.get("partition_only") for module in all_modules):
+         validate_context(plan, all_modules, original_logical_edges, root / "raw/slus",
+                          read_aliases(root / "config/names.tsv"))
+     return plan

@@ -111,13 +111,14 @@ symbols explicitly. The overlapping `D_80080B18` table stays an external address
 view and gains no duplicate storage. These are isolated instruction proofs;
 they do not yet prove the two proposed owners in the full linked build.
 
-All three functions come from collector rows. The next tooling change will
-support explicitly declared owners made entirely from collector fragments,
-requiring incoming function coverage and full physical-owner genuine proof.
-It must preserve collector identities and must not grant whole-row placement
-from a fragment proof. After integration, repeat the global generic gate,
-refresh dependency evidence, and complete the remaining transition gates before
-the existing owner sign-off step. The overall goal remains active.
+All three functions come from collector rows. The subsequent
+[collector-only candidate](gp_partition_only.md) now supports explicit owners
+made entirely from these fragments, preserving collector identities without
+whole-row placement grants. Its all-860-object generic build passes the full
+retail image and SHA-1 gate, with all 29 repaired functions genuine-exact.
+The failed all-858 trial above remains the diagnosis before those final repairs.
+Normal ownership integration, broader transition gates, the dependency refresh,
+and the existing owner sign-off step remain. The overall goal is active.
 
 ## Reproduction and archive
 

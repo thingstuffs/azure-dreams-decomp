@@ -1,0 +1,16 @@
+test_duplicate_unit_missing_remainder_and_forged_contributor_rejected (test_partition_only_evidence.PartitionOnlyEvidence.test_duplicate_unit_missing_remainder_and_forged_contributor_rejected) ... ok
+test_isolated_gate_validates_orphan_partition_owner_even_with_empty_plan (test_partition_only_evidence.PartitionOnlyEvidence.test_isolated_gate_validates_orphan_partition_owner_even_with_empty_plan) ... ok
+test_mask_unknown_lnk_fingerprint_recipe_and_scope_are_rejected (test_partition_only_evidence.PartitionOnlyEvidence.test_mask_unknown_lnk_fingerprint_recipe_and_scope_are_rejected) ... ok
+test_missing_incoming_function_or_full_tu_discrepancy_is_rejected (test_partition_only_evidence.PartitionOnlyEvidence.test_missing_incoming_function_or_full_tu_discrepancy_is_rejected) ... ok
+test_ownership_processes_real_parent_rows_with_empty_members (test_partition_only_evidence.PartitionOnlyEvidence.test_ownership_processes_real_parent_rows_with_empty_members) ... part_owner via slus/code: full owner direct genuine and retail exact
+part_owner via slus/code2: full owner direct genuine and retail exact
+ok
+test_partition_owner_never_receives_whole_row_placement (test_partition_only_evidence.PartitionOnlyEvidence.test_partition_owner_never_receives_whole_row_placement) ... ok
+test_real_part_anchor_and_complete_descriptor (test_partition_only_evidence.PartitionOnlyEvidence.test_real_part_anchor_and_complete_descriptor) ... ok
+test_row_database_rejects_orphan_partition_owner_with_empty_plan (test_partition_only_evidence.PartitionOnlyEvidence.test_row_database_rejects_orphan_partition_owner_with_empty_plan) ... ok
+test_selected_complete_owner_passes_despite_remainder_genuine_mismatch (test_partition_only_evidence.PartitionOnlyEvidence.test_selected_complete_owner_passes_despite_remainder_genuine_mismatch) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.026s
+
+OK

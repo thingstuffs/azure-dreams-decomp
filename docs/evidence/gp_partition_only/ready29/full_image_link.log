@@ -1,0 +1,45 @@
+[1/43] DATA-PIECE-VERIFY build/src/cd_command_state_owned.o
+{"applied": true, "module": "cd_command_state", "post_object_sha256": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da", "verified": true}
+[2/43] DATA-PIECE-VERIFY build/src/b1b_b1c_table_owned.o
+{"applied": true, "module": "table_counters_b1b_b1c", "post_object_sha256": "be54dc68c58196663e7792f32ffa3c0b6e03f7711b7b711e1ae4ffff2ff0f779", "verified": true}
+[3/43] LD-SCRIPT build/slus_006.14_ordered.ld
+[4/43] MODULE-ASSETS build/module_assets/3E018_000000_016184.bin build/module_assets/3E018_016188_0161A0.bin build/module_assets/3E018_0161A8_0161B8.bin build/module_assets/54240_000000_00002C.bin build/module_assets/54240_000030_000064.bin build/module_assets/54240_000074_00007C.bin build/module_assets/54240_000080_000090.bin build/module_assets/54240_000091_000092.bin build/module_assets/54240_000096_000098.bin build/module_assets/54240_0000A0_0000B3.bin build/module_assets/54240_0000B4_0000BC.bin build/module_assets/54240_0000C2_0000C8.bin build/module_assets/54240_0000CC_0000D0.bin build/module_assets/54240_0000D6_0000DB.bin build/module_assets/54240_0000DD_0000F0.bin build/module_assets/54240_0000F4_000118.bin build/module_assets/54240_000128_000140.bin build/module_assets/54240_000148_000154.bin build/module_assets/54240_00015C_000A00.bin build/module_assets/54240_000A04_000A08.bin build/module_assets/54240_000A0C_000A10.bin build/module_assets/54240_000A18_000A20.bin build/module_assets/54240_000A24_000A70.bin build/module_assets/54240_000A78_000A88.bin build/module_assets/54240_000A91_000A94.bin build/module_assets/54240_000A95_000AA0.bin build/module_assets/54240_000AA4_000AA8.bin build/module_assets/54240_000AAA_000AC0.bin build/module_assets/54240_000AC2_000AC8.bin build/module_assets/54240_000ACC_000AD0.bin build/module_assets/54240_000AD4_000AD8.bin build/module_assets/54240_000AF2_000B00.bin build/module_assets/54240_000B04_000B0C.bin build/module_assets/54240_000B1C_000B28.bin build/module_assets/54240_000B30_02BDC0.bin
+[5/43] BIN build/module_assets/3E018_016188_0161A0.bin
+[6/43] BIN build/module_assets/3E018_000000_016184.bin
+[7/43] BIN build/module_assets/3E018_0161A8_0161B8.bin
+[8/43] BIN build/module_assets/54240_000000_00002C.bin
+[9/43] BIN build/module_assets/54240_000030_000064.bin
+[10/43] BIN build/module_assets/54240_000074_00007C.bin
+[11/43] BIN build/module_assets/54240_000080_000090.bin
+[12/43] BIN build/module_assets/54240_000091_000092.bin
+[13/43] BIN build/module_assets/54240_000096_000098.bin
+[14/43] BIN build/module_assets/54240_0000A0_0000B3.bin
+[15/43] BIN build/module_assets/54240_0000B4_0000BC.bin
+[16/43] BIN build/module_assets/54240_0000C2_0000C8.bin
+[17/43] BIN build/module_assets/54240_0000CC_0000D0.bin
+[18/43] BIN build/module_assets/54240_0000D6_0000DB.bin
+[19/43] BIN build/module_assets/54240_0000DD_0000F0.bin
+[20/43] BIN build/module_assets/54240_0000F4_000118.bin
+[21/43] BIN build/module_assets/54240_000128_000140.bin
+[22/43] BIN build/module_assets/54240_000148_000154.bin
+[23/43] BIN build/module_assets/54240_00015C_000A00.bin
+[24/43] BIN build/module_assets/54240_000A04_000A08.bin
+[25/43] BIN build/module_assets/54240_000A0C_000A10.bin
+[26/43] BIN build/module_assets/54240_000A18_000A20.bin
+[27/43] BIN build/module_assets/54240_000A24_000A70.bin
+[28/43] BIN build/module_assets/54240_000A78_000A88.bin
+[29/43] BIN build/module_assets/54240_000A91_000A94.bin
+[30/43] BIN build/module_assets/54240_000A95_000AA0.bin
+[31/43] BIN build/module_assets/54240_000AA4_000AA8.bin
+[32/43] BIN build/module_assets/54240_000AAA_000AC0.bin
+[33/43] BIN build/module_assets/54240_000AC2_000AC8.bin
+[34/43] BIN build/module_assets/54240_000ACC_000AD0.bin
+[35/43] BIN build/module_assets/54240_000AD4_000AD8.bin
+[36/43] BIN build/module_assets/54240_000AF2_000B00.bin
+[37/43] BIN build/module_assets/54240_000B04_000B0C.bin
+[38/43] BIN build/module_assets/54240_000B1C_000B28.bin
+[39/43] BIN build/module_assets/54240_000B30_02BDC0.bin
+[40/43] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt
+[41/43] PARTITION-COVERAGE build/partition_sources/coverage.ok
+[42/43] LINK build/slus_006.14.elf
+[43/43] OBJCOPY build/slus_006.14

@@ -1,0 +1,355 @@
+{
+  "note": "Private partition-only ready29 rehearsal and frozen nine-tool candidate. Paths scrubbed. Restore probe and helpers to indexed source paths for execution; build objects and images are represented by input pins and hashes, not copied. Normal ownership and overlay/census gates are separate.",
+  "groups": {
+    "ready29": 9,
+    "stage_sources": 7,
+    "tool_candidate": 8,
+    "regression": 9
+  },
+  "ready29_image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "ready29_receipt_status": "MATCH",
+  "regression": {
+    "tests": 182,
+    "passed": 182,
+    "skipped": 0,
+    "failed": 0
+  },
+  "files": [
+    {
+      "source": "work/native_lane/gp_ready29_collectors/REPORT.md",
+      "archive": "ready29/REPORT.md",
+      "source_sha256": "e552600fe6f51d7e4a84335a9867a8c1b9382aef78eb6a3002a9c99bf66526a1",
+      "archive_sha256": "e552600fe6f51d7e4a84335a9867a8c1b9382aef78eb6a3002a9c99bf66526a1",
+      "source_bytes": 3332,
+      "archive_bytes": 3332,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/receipt.json",
+      "archive": "ready29/receipt.json",
+      "source_sha256": "2a046a66e241a08c8575bdcdea4372d9c0f8d917803647fed48c22e80d242a05",
+      "archive_sha256": "2a046a66e241a08c8575bdcdea4372d9c0f8d917803647fed48c22e80d242a05",
+      "source_bytes": 72934,
+      "archive_bytes": 72934,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/probe.py",
+      "archive": "ready29/probe.py",
+      "source_sha256": "6b5b7040fb1685f2fcd1bc37debf97f48506d93021541accc3904423cf6de150",
+      "archive_sha256": "6b5b7040fb1685f2fcd1bc37debf97f48506d93021541accc3904423cf6de150",
+      "source_bytes": 33415,
+      "archive_bytes": 33415,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/input_pins.json",
+      "archive": "ready29/input_pins.json",
+      "source_sha256": "7ced4514ad6993ca8fcb93057499bc3e1a054a0075bb8d3e73855d137ee5d873",
+      "archive_sha256": "7ced4514ad6993ca8fcb93057499bc3e1a054a0075bb8d3e73855d137ee5d873",
+      "source_bytes": 184118,
+      "archive_bytes": 184118,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/all_objects_build.log",
+      "archive": "ready29/all_objects_build.log",
+      "source_sha256": "2e21b486267abaa32694d714ba3f20f9d0ab1e84856e13eaa9744663e4ac5132",
+      "archive_sha256": "2e21b486267abaa32694d714ba3f20f9d0ab1e84856e13eaa9744663e4ac5132",
+      "source_bytes": 45864,
+      "archive_bytes": 45864,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/configure.log",
+      "archive": "ready29/configure.log",
+      "source_sha256": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+      "archive_sha256": "3e89ef5447f24139a035999709aa38b3bb097c02acd33248515ed8cf0cb18d88",
+      "source_bytes": 33,
+      "archive_bytes": 33,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/partition_render.log",
+      "archive": "ready29/partition_render.log",
+      "source_sha256": "07a0631a01420583e13109ee664a44515deec038b952a4020af856d63f984227",
+      "archive_sha256": "07a0631a01420583e13109ee664a44515deec038b952a4020af856d63f984227",
+      "source_bytes": 534,
+      "archive_bytes": 534,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/full_image_link.log",
+      "archive": "ready29/full_image_link.log",
+      "source_sha256": "768419d336e3b0d5db22a56ad864d2b219a2757d30dba5b1bb212717971f0bce",
+      "archive_sha256": "768419d336e3b0d5db22a56ad864d2b219a2757d30dba5b1bb212717971f0bce",
+      "source_bytes": 4194,
+      "archive_bytes": 4194,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/sha1_gate.log",
+      "archive": "ready29/sha1_gate.log",
+      "source_sha256": "1f686bdbbb46b8c251c3c038a3f756d6918e12c2118888eb4a1f3e68a3e8f87c",
+      "archive_sha256": "1f686bdbbb46b8c251c3c038a3f756d6918e12c2118888eb4a1f3e68a3e8f87c",
+      "source_bytes": 57,
+      "archive_bytes": 57,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/c8_accessors_owned.c",
+      "archive": "stage_sources/c8_accessors_owned.c",
+      "source_sha256": "e24f5ea4e323b25bafc9f6f2c5fea59704b194df135fef3447ff3c5395c18e91",
+      "archive_sha256": "e24f5ea4e323b25bafc9f6f2c5fea59704b194df135fef3447ff3c5395c18e91",
+      "source_bytes": 104,
+      "archive_bytes": 104,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/b1b_b1c_table_owned.c",
+      "archive": "stage_sources/b1b_b1c_table_owned.c",
+      "source_sha256": "1abd2b6cd38cbf9d22403bd013da517472825ae9266e065d19a834a62e3b52dc",
+      "archive_sha256": "1abd2b6cd38cbf9d22403bd013da517472825ae9266e065d19a834a62e3b52dc",
+      "source_bytes": 154,
+      "archive_bytes": 154,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/src/w_8003F624.c",
+      "archive": "stage_sources/w_8003F624.c",
+      "source_sha256": "20490dab0f4583af6069208a22257807a073c4f4e1ba14be8ceca561a4e63cec",
+      "archive_sha256": "20490dab0f4583af6069208a22257807a073c4f4e1ba14be8ceca561a4e63cec",
+      "source_bytes": 727,
+      "archive_bytes": 727,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/config/slus_modules.json",
+      "archive": "stage_sources/slus_modules.json",
+      "source_sha256": "7bd10d6c6992d10c398c1e519e1502d0d6b6c60ce59821b8af9ff0259ec3d352",
+      "archive_sha256": "7bd10d6c6992d10c398c1e519e1502d0d6b6c60ce59821b8af9ff0259ec3d352",
+      "source_bytes": 41246,
+      "archive_bytes": 41246,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/config/slus_partitions.json",
+      "archive": "stage_sources/slus_partitions.json",
+      "source_sha256": "202a7e01da77aabf45458330c94c308159f47eb9df122ad644bd01891a949571",
+      "archive_sha256": "202a7e01da77aabf45458330c94c308159f47eb9df122ad644bd01891a949571",
+      "source_bytes": 6321,
+      "archive_bytes": 6321,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/build/partition_sources/code__accessors_814c8.c",
+      "archive": "stage_sources/code__accessors_814c8.c",
+      "source_sha256": "ba1803f32b361df0104229397615ac301ae4dc863280aa132168a37d9334aeaf",
+      "archive_sha256": "ba1803f32b361df0104229397615ac301ae4dc863280aa132168a37d9334aeaf",
+      "source_bytes": 110,
+      "archive_bytes": 110,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready29_collectors/stage/build/partition_sources/code2__table_counters_b1b_b1c.c",
+      "archive": "stage_sources/code2__table_counters_b1b_b1c.c",
+      "source_sha256": "6bfabc71d6f8ab594442e43607126c8217cfa72567e8bc51bd248db1db118fe3",
+      "archive_sha256": "6bfabc71d6f8ab594442e43607126c8217cfa72567e8bc51bd248db1db118fe3",
+      "source_bytes": 170,
+      "archive_bytes": 170,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate_tools.patch",
+      "archive": "tool_candidate/candidate_tools.patch",
+      "source_sha256": "4c98354c67acae5bcd159c516700e36a82067afc7f956e64d412d6f47a68d24b",
+      "archive_sha256": "4c98354c67acae5bcd159c516700e36a82067afc7f956e64d412d6f47a68d24b",
+      "source_bytes": 20882,
+      "archive_bytes": 20882,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/patch_inputs.json",
+      "archive": "tool_candidate/patch_inputs.json",
+      "source_sha256": "1f059792f991432b78a0492efebb63876f801142af37a3911bb208587cb7e390",
+      "archive_sha256": "1f059792f991432b78a0492efebb63876f801142af37a3911bb208587cb7e390",
+      "source_bytes": 1832,
+      "archive_bytes": 1832,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/tool_pins.json",
+      "archive": "tool_candidate/tool_pins.json",
+      "source_sha256": "dc54053a5213cc7a903751e2f7e332b42b1e37dfe09595a04763c9600b652360",
+      "archive_sha256": "dc54053a5213cc7a903751e2f7e332b42b1e37dfe09595a04763c9600b652360",
+      "source_bytes": 923,
+      "archive_bytes": 923,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/DESIGN.md",
+      "archive": "tool_candidate/DESIGN.md",
+      "source_sha256": "6787ae00492e7e5b7f1e362ac4b62eb8c701a58eb3945cae974b50126f9e70bf",
+      "archive_sha256": "6787ae00492e7e5b7f1e362ac4b62eb8c701a58eb3945cae974b50126f9e70bf",
+      "source_bytes": 2267,
+      "archive_bytes": 2267,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tests/test_partition_only_build.py",
+      "archive": "tool_candidate/test_partition_only_build.py",
+      "source_sha256": "d152edf54ff886a85834819d63281bea710234c17055264386cf609fa3f0b449",
+      "archive_sha256": "d152edf54ff886a85834819d63281bea710234c17055264386cf609fa3f0b449",
+      "source_bytes": 9718,
+      "archive_bytes": 9718,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tests/test_partition_only_evidence.py",
+      "archive": "tool_candidate/test_partition_only_evidence.py",
+      "source_sha256": "62e316b5d8501030a06931d7a8e84c0347640742f38faab8d4a804450faa7e39",
+      "archive_sha256": "62e316b5d8501030a06931d7a8e84c0347640742f38faab8d4a804450faa7e39",
+      "source_bytes": 14731,
+      "archive_bytes": 14731,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate/review.md",
+      "archive": "tool_candidate/review.md",
+      "source_sha256": "8a62e3bc174d7b2d3db82f0c2a05c68efa0743d64d3a3f47fb17e04ff89a26b2",
+      "archive_sha256": "8a62e3bc174d7b2d3db82f0c2a05c68efa0743d64d3a3f47fb17e04ff89a26b2",
+      "source_bytes": 2816,
+      "archive_bytes": 2816,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate/review.json",
+      "archive": "tool_candidate/review.json",
+      "source_sha256": "5707ec933e4fa3b311bb1fa450bfcb3d946369b0fcd2f893b3c18888f5aff607",
+      "archive_sha256": "5707ec933e4fa3b311bb1fa450bfcb3d946369b0fcd2f893b3c18888f5aff607",
+      "source_bytes": 3398,
+      "archive_bytes": 3398,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/REPORT.md",
+      "archive": "regression/REPORT.md",
+      "source_sha256": "710dbcf9e7e28d1af605df17ff9c4eba2ade6a7f3e2544d7ebd5ec3d1b52b813",
+      "archive_sha256": "710dbcf9e7e28d1af605df17ff9c4eba2ade6a7f3e2544d7ebd5ec3d1b52b813",
+      "source_bytes": 947,
+      "archive_bytes": 947,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/regression_receipt.json",
+      "archive": "regression/regression_receipt.json",
+      "source_sha256": "0f2cc80989e8558babf0d3025c4895a86282f13da4987d09f33b27235a03fa1b",
+      "archive_sha256": "2d5d78e8bb4b5bf3d38cf12f4ed1af7fb2cd4d62cb174c55acf407223ebce02f",
+      "source_bytes": 35284,
+      "archive_bytes": 35046,
+      "scrubbed_repo_paths": 14,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/slus_tests.log",
+      "archive": "regression/slus_tests.log",
+      "source_sha256": "68cc6e69bc12ebd84ed5b3f1be2a897e47073bd85fc6556399efad8d7a019913",
+      "archive_sha256": "68cc6e69bc12ebd84ed5b3f1be2a897e47073bd85fc6556399efad8d7a019913",
+      "source_bytes": 25273,
+      "archive_bytes": 25273,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/configure_tests.log",
+      "archive": "regression/configure_tests.log",
+      "source_sha256": "7596ddfca29f995355f6b0287d06a7904038910f2a421caa6f5be58d0e2bf3a4",
+      "archive_sha256": "7596ddfca29f995355f6b0287d06a7904038910f2a421caa6f5be58d0e2bf3a4",
+      "source_bytes": 1491,
+      "archive_bytes": 1491,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/aspsx_tests.log",
+      "archive": "regression/aspsx_tests.log",
+      "source_sha256": "8bcfc15f81a6e60d9f4dbf3aa875c61591bbe69ea21cdafdeb3057e0545d54b1",
+      "archive_sha256": "8bcfc15f81a6e60d9f4dbf3aa875c61591bbe69ea21cdafdeb3057e0545d54b1",
+      "source_bytes": 1947,
+      "archive_bytes": 1947,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/partition_only_evidence_tests.log",
+      "archive": "regression/partition_only_evidence_tests.log",
+      "source_sha256": "695089f070b7aa53635281876462ec2512cac5fd0eaa6269bba4591f1d84f5d3",
+      "archive_sha256": "695089f070b7aa53635281876462ec2512cac5fd0eaa6269bba4591f1d84f5d3",
+      "source_bytes": 1921,
+      "archive_bytes": 1921,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/import_assertions.json",
+      "archive": "regression/import_assertions.json",
+      "source_sha256": "5a244c994671a5d9d7bb199aa5734f3b4f6c7cb1597b1b08e59ac99e56088507",
+      "archive_sha256": "6860d1a1c53af6de01c26ad8e762cfd5ba9a05b37f226e75d9c85c967fbd075e",
+      "source_bytes": 2978,
+      "archive_bytes": 2740,
+      "scrubbed_repo_paths": 14,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/setup.json",
+      "archive": "regression/setup.json",
+      "source_sha256": "efd965e2b7e17ef34a0931f8b46195993b1ad0d23ffb31f1d39fb9e4e365fbe6",
+      "archive_sha256": "44ddef735de04741032de0dac5f81aaf0162758fdcd215736ec0737e14103cc9",
+      "source_bytes": 1596,
+      "archive_bytes": 1562,
+      "scrubbed_repo_paths": 2,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/regression_testroot/verify_imports.py",
+      "archive": "regression/verify_imports.py",
+      "source_sha256": "7036c35f73aa5203862e70aaddc6355297419db3871916df1ac0656d581195b0",
+      "archive_sha256": "d0548122db7d5820bde3d55e7bdf21a36801e2cca81985e973ea717f0c7f2171",
+      "source_bytes": 2234,
+      "archive_bytes": 2217,
+      "scrubbed_repo_paths": 1,
+      "scrubbed_reference_repo_paths": 0
+    }
+  ],
+  "dependencies": {
+    "ready18_helper": "docs/evidence/gp_cd_cohort/baseline_rehearsal_archive.json",
+    "ready26_and_all858_helpers": "docs/evidence/gp_cd_cohort/closure_archive.json",
+    "cd8_link_helper_and_residual_sources": "docs/evidence/gp_cd_cohort/linked_archive.json",
+    "guarded_generic_assembler": "docs/evidence/selfinc_local_guard.md"
+  }
+}
