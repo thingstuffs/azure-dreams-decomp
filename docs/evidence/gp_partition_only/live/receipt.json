@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "result": "PASS",
+  "duration_seconds": 19.2,
+  "selected_modules": [
+    "accessors_814c8",
+    "table_counters_b1b_b1c"
+  ],
+  "collector_rows": [
+    "slus/code",
+    "slus/code2"
+  ],
+  "ownership_schema": 5,
+  "retail_gate": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "image_sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52",
+  "owners": {
+    "accessors_814c8": {
+      "source": "src/c8_accessors_owned.c",
+      "functions": [
+        "func_8003F5D4",
+        "func_8003F5E0"
+      ],
+      "words": 6,
+      "pipeline_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 2
+      },
+      "genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 6,
+        "len_g": 6,
+        "missing": [],
+        "retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 2
+        }
+      },
+      "data_sections": [
+        ".sdata"
+      ]
+    },
+    "table_counters_b1b_b1c": {
+      "source": "src/b1b_b1c_table_owned.c",
+      "functions": [
+        "func_80048DA0"
+      ],
+      "words": 11,
+      "pipeline_retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 1
+      },
+      "genuine": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 11,
+        "len_g": 11,
+        "missing": [],
+        "retail": {
+          "diff": 0,
+          "masked": 0,
+          "checked": 1
+        }
+      },
+      "data_sections": [
+        ".sdata.D_80080B1B",
+        ".sdata.D_80080B1C"
+      ]
+    }
+  },
+  "collector_remainder_genuine_claimed": false,
+  "receipt_sha256": "7bd5395f4467bd2e079406197fafc3999256df745fd246a43ec573ebe89eb5f5",
+  "production_unchanged": true,
+  "candidate_tool_hashes": {
+    "tools/build/slus_modules.py": "7ad5248f055c79b9a71b4f64eec8fe3626291f99006f7a8598417595fdccf05e",
+    "tools/build/slus_partitions.py": "1e484e42d7678e493b7dcd078282fe882c8c94ca58b749b2c5f19af35b7caf17",
+    "tools/build/configure.py": "5728f7979b573c189c05817aa48b94b98bbf45566a3e6d982dc658861279f4fd",
+    "tools/slus_module_context.py": "cce0cf354cc5795dc446c1bb2d7eed63d1cb6a220cb5f5d65fe9a90af40670ba",
+    "tools/slus_module_evidence.py": "edcab572d0fc98f3bc70cc8d398a5e92a0c8fafd95309791880b57d2851baf36",
+    "tools/fidelity/prove_slus_ownership.py": "5e83fe19077d295c1facaccb6ec126fddd5370fbe5c391c88953896bdea0cb12",
+    "tools/fidelity/certify_slus_module.py": "969f6f8db6577f0a6203e932cc64f21626d5e89a90b1f00531ebd5c23663efad",
+    "tools/fidelity/slus_iso.py": "e1f39d20c7791c545cdea29a95452a4931365ab75f38af0797f39454f8d38f2a",
+    "tools/row_db.py": "8e20b8dedbd81cafa170935aac7e400c636e5362f2a71b18a1bfce03c706029c"
+  },
+  "guarded_generic_hashes": {
+    "maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  }
+}

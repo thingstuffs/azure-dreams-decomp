@@ -1,0 +1,145 @@
+{
+  "assembler_inputs": {
+    "candidate_cli_path": "work/native_lane/selfinc_local_guard/candidate/maspsx.py",
+    "candidate_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "candidate_package_path": "work/native_lane/selfinc_local_guard/candidate/maspsx/__init__.py",
+    "candidate_package_sha256": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe",
+    "generic_before_package_sha256": "f2c5472906bece3da0288974834c256e33a0dfc305e8c1159e9a7bb9194622c3",
+    "production_cli_sha256": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086",
+    "production_package_sha256": "a5e87a9c60f067144874411aefd61ab57b44e9c752b80a02c4417ed05263464f"
+  },
+  "classification": {
+    "extern_metadata_expectations": [
+      "test_prefers_lui_in_branch_delay_over_path_local_shift (tools.maspsx.tests.test_branch_delay_lui.TestPreferLuiOverSllBranchDelay.test_prefers_lui_in_branch_delay_over_path_local_shift)",
+      "test_funcaddr_arg_split_over_store (tools.maspsx.tests.test_funcaddr_split.TestFuncAddrSplit.test_funcaddr_arg_split_over_store)",
+      "test_prologue_hoist_is_unchanged (tools.maspsx.tests.test_funcaddr_split_branch_delay.TestFuncAddrSplitBranchDelayGuard.test_prologue_hoist_is_unchanged)",
+      "test_jr_ra_also_matches (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_jr_ra_also_matches)",
+      "test_load_address_into_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_load_address_into_delay)",
+      "test_store_arg_reg_uses_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_arg_reg_uses_v0)",
+      "test_store_half_word (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_half_word)",
+      "test_store_zero_into_return_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_zero_into_return_delay)",
+      "test_temp_steps_to_v1_when_data_is_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_temp_steps_to_v1_when_data_is_v0)"
+    ],
+    "gp_extern_hazard_expectation": [
+      "test_small_extern_store_after_load_gets_nop (tools.maspsx.tests.test_uses_gp_extern.TestUsesGpExtern.test_small_extern_store_after_load_gets_nop)"
+    ],
+    "hidden_main_golden_fixture_delta": "candidate CLI removes exactly six .extern metadata lines; instruction and all other lines identical",
+    "preexisting_removed_casesi_tests": [
+      "test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)",
+      "test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)",
+      "test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)"
+    ]
+  },
+  "commands": {
+    "private": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=work/native_lane/selfinc_local_guard/candidate <reference-repo>/.venv/bin/python -m unittest discover -s work/native_lane/gp_partition_only_tools/assembler_tests_candidate/tools/maspsx/tests -t work/native_lane/gp_partition_only_tools/assembler_tests_candidate",
+    "production": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tools/maspsx <reference-repo>/.venv/bin/python -m unittest discover -s tools/maspsx/tests -t ."
+  },
+  "evidence": {
+    "evidence_sha256": "e68c1ca50cfc404d8772e7b3bf675c7c509afb3a1485b5cb2b598f874cde37ac",
+    "genuine_extern_model": "docs/evidence/fidelity_step1_aspsx_diff.md:257",
+    "removed_local_casesi_rewrite": "docs/evidence/fidelity_step1_aspsx_diff.md:106"
+  },
+  "golden": {
+    "added_lines": 0,
+    "candidate_path": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/candidate_golden.s",
+    "candidate_sha256": "3b79c3a477b2d507bb96e2c9e6d178aaf2003dc86ae55e5cd0fce9271f86c56a",
+    "delta_path": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/golden_delta.patch",
+    "delta_sha256": "b09bec19364c25451f2b52ef1d905f30128624ad85e94c2418bd0a8f007ea515",
+    "other_lines_identical": true,
+    "production_path": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/production_golden.s",
+    "production_sha256": "9e5c2f3f4a469228c91b1dc7baef59961227db693ece943a71d7ddb8230f753b",
+    "removed_extern_metadata_lines": 6
+  },
+  "runs": {
+    "generic_before": {
+      "failures": 13,
+      "log": "work/native_lane/gp_partition_only_tools/overlay_gate/unit_before.log",
+      "same_failure_set_as_overlay_candidate": true,
+      "sha256": "8340f04158768fb43c55441a511369cc677d4b3c1262fe28b60004086a61068d",
+      "tests": 417
+    },
+    "overlay_candidate": {
+      "failure_names": [
+        "test_prefers_lui_in_branch_delay_over_path_local_shift (tools.maspsx.tests.test_branch_delay_lui.TestPreferLuiOverSllBranchDelay.test_prefers_lui_in_branch_delay_over_path_local_shift)",
+        "test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)",
+        "test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)",
+        "test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)",
+        "test_funcaddr_arg_split_over_store (tools.maspsx.tests.test_funcaddr_split.TestFuncAddrSplit.test_funcaddr_arg_split_over_store)",
+        "test_prologue_hoist_is_unchanged (tools.maspsx.tests.test_funcaddr_split_branch_delay.TestFuncAddrSplitBranchDelayGuard.test_prologue_hoist_is_unchanged)",
+        "test_jr_ra_also_matches (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_jr_ra_also_matches)",
+        "test_load_address_into_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_load_address_into_delay)",
+        "test_store_arg_reg_uses_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_arg_reg_uses_v0)",
+        "test_store_half_word (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_half_word)",
+        "test_store_zero_into_return_delay (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_store_zero_into_return_delay)",
+        "test_temp_steps_to_v1_when_data_is_v0 (tools.maspsx.tests.test_store_delay.TestStoreToSymbolInDelaySlot.test_temp_steps_to_v1_when_data_is_v0)",
+        "test_small_extern_store_after_load_gets_nop (tools.maspsx.tests.test_uses_gp_extern.TestUsesGpExtern.test_small_extern_store_after_load_gets_nop)"
+      ],
+      "failures": 13,
+      "log": "work/native_lane/gp_partition_only_tools/overlay_gate/unit.log",
+      "sha256": "b128b817a4cbe431f106ad04d9406c4d61e7e7bff46f740ca662a98c6ec79675",
+      "tests": 417
+    },
+    "private_candidate": {
+      "errors": 0,
+      "failures": 0,
+      "log": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/candidate_unit.log",
+      "sha256": "44072bdb902cc0186682721be910042fb142a4ef481b34ffc8a6d781d136d0d7",
+      "tests": 418
+    },
+    "production": {
+      "failure_names": [
+        "test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)",
+        "test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)",
+        "test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)"
+      ],
+      "failures": 3,
+      "log": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/production_unit.log",
+      "sha256": "516628d4b902467eae5e4ad1f075904e6d2d738f661baa8c59f1dd2a9ea171ca",
+      "tests": 417
+    }
+  },
+  "schema": 1,
+  "scope": {
+    "assembler_code_changed": false,
+    "new_genuine_probe_run": false,
+    "production_tests_changed": false,
+    "updated_positive_instruction_expectations_are_exact": true
+  },
+  "status": "PRIVATE_TEST_MIGRATION_PASS",
+  "test_updates": {
+    "modified_files": {
+      "test_branch_delay_lui.py": {
+        "private_sha256": "7ae2f31de4a0fa7852e7799c575bdd0b89deef81e4fd1db2e5dc9827255ab47e",
+        "production_sha256": "8c0f4de8b41a8b1d54ac91bea4dddec7735777021f7660b9ed23b0d8cb2a1615"
+      },
+      "test_casesi_jumptable.py": {
+        "private_sha256": "ad4b8cb7db50da302cacf7dd95aeb5614b3a5bdc5a96be7477332fa2778a72d3",
+        "production_sha256": "eb6d7c0712300b1151807096257cd2de331cbd6ae9e9a73ee779cf0c1021931b"
+      },
+      "test_funcaddr_split.py": {
+        "private_sha256": "6d7cde6e2f71903a2145051afc2bd5991c2dcf113fb21626ea7645f4ab80b815",
+        "production_sha256": "691c43e41611ce9b41f7a5454901278a916ac59fec73390df1b922e7dd19e3d0"
+      },
+      "test_funcaddr_split_branch_delay.py": {
+        "private_sha256": "03f133339533902232e61262c3f974eef42306760516716abf835d9c932607b3",
+        "production_sha256": "affd043f4a3a824a040f61a1503b2190943aef694b87cc900b1bd8179de1225d"
+      },
+      "test_main_endgame_closures.py": {
+        "private_sha256": "c7e012304c3e784fc5372b79e393e198c4b18a930fad0bd2ad6a98384f40ae61",
+        "production_sha256": "9eccf28ca5ca2f0a927d5d1c5c1b50f326a818681bbf3c94245102280781da45"
+      },
+      "test_store_delay.py": {
+        "private_sha256": "322b13f050f92237ec187fb2062715623325de2575c342aeb0bd1603bf4fb4da",
+        "production_sha256": "dd20617006908cd15ec7ac1f7d9a515881437e23136ac0ca5e1b02b44c641679"
+      },
+      "test_uses_gp_extern.py": {
+        "private_sha256": "3c74fb9a45a769a726e963030f1275a3bf23984ca38743f6d28d125d2bec7007",
+        "production_sha256": "a276a798f82f40ee5b2a867178f1b7f1ac3d0a46ebbcf73e260e251b1ab06016"
+      }
+    },
+    "new_owned_gp_hazard_test": true,
+    "patch": "work/native_lane/gp_partition_only_tools/assembler_tests_candidate/test_updates.patch",
+    "patch_sha256": "052e027ed2d6f400e35b0c5ec598ce28271075c7a15ee60b697e6c58fdee45b8",
+    "unmodified_private_test_files": 37
+  }
+}

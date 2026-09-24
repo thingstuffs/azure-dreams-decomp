@@ -1,0 +1,133 @@
+{
+  "note": "Normal ownership integration and portable tests; restore scripts to original recorded paths. No production activation.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_report.md",
+      "archive": "live/REPORT.md",
+      "source_sha256": "d9bcd6b4029b1d829c8ff0e245b2f1c3511ae5d9bc570dafe1fae722364040c5",
+      "archive_sha256": "d9bcd6b4029b1d829c8ff0e245b2f1c3511ae5d9bc570dafe1fae722364040c5",
+      "source_bytes": 1818,
+      "archive_bytes": 1818
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_ownership_probe.py",
+      "archive": "live/probe.py",
+      "source_sha256": "7b47a8282d82055d5b4975527ebbf6aa9cfe4f456f44ecb6f106cd14596c888d",
+      "archive_sha256": "7b47a8282d82055d5b4975527ebbf6aa9cfe4f456f44ecb6f106cd14596c888d",
+      "source_bytes": 18367,
+      "archive_bytes": 18367
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_prepare.log",
+      "archive": "live/prepare.log",
+      "source_sha256": "f03c76d870601a33a362e26d277d894a9b8969e7a94a28b0f26c47172f600aff",
+      "archive_sha256": "f03c76d870601a33a362e26d277d894a9b8969e7a94a28b0f26c47172f600aff",
+      "source_bytes": 1458,
+      "archive_bytes": 1458
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_prove.log",
+      "archive": "live/prove.log",
+      "source_sha256": "24f65e545bff976b3eccfe2311d095e4a853199d6854a2e497d7353bb7184649",
+      "archive_sha256": "24f65e545bff976b3eccfe2311d095e4a853199d6854a2e497d7353bb7184649",
+      "source_bytes": 3012,
+      "archive_bytes": 3012
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_fixture/ownership_receipt.json",
+      "archive": "live/ownership_receipt.json",
+      "source_sha256": "7bd5395f4467bd2e079406197fafc3999256df745fd246a43ec573ebe89eb5f5",
+      "archive_sha256": "7bd5395f4467bd2e079406197fafc3999256df745fd246a43ec573ebe89eb5f5",
+      "source_bytes": 87200,
+      "archive_bytes": 87200
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_fixture/live_probe_receipt.json",
+      "archive": "live/receipt.json",
+      "source_sha256": "32532b46f16d6b0b7ab5b0539bc1843c1cc304174c1d206e654a6b6f257ec354",
+      "archive_sha256": "32532b46f16d6b0b7ab5b0539bc1843c1cc304174c1d206e654a6b6f257ec354",
+      "source_bytes": 2856,
+      "archive_bytes": 2856
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_fixture/prepare_receipt.json",
+      "archive": "live/prepare_receipt.json",
+      "source_sha256": "f03c76d870601a33a362e26d277d894a9b8969e7a94a28b0f26c47172f600aff",
+      "archive_sha256": "f03c76d870601a33a362e26d277d894a9b8969e7a94a28b0f26c47172f600aff",
+      "source_bytes": 1458,
+      "archive_bytes": 1458
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_fixture/source_pins.json",
+      "archive": "live/source_pins.json",
+      "source_sha256": "1de64b54808bfe3d56410ef576bf3d59318a63017b3510463e96a19ae2a66f0e",
+      "archive_sha256": "1de64b54808bfe3d56410ef576bf3d59318a63017b3510463e96a19ae2a66f0e",
+      "source_bytes": 91126,
+      "archive_bytes": 91126
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_fixture/production_before.json",
+      "archive": "live/production_before.json",
+      "source_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "archive_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "source_bytes": 91675,
+      "archive_bytes": 91675
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/live_fixture/production_after_prove.json",
+      "archive": "live/production_after.json",
+      "source_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "archive_sha256": "d6b496f2789e89301588d8839d81e2c77dc76627f7c216f88c74d230699a1f38",
+      "source_bytes": 91675,
+      "archive_bytes": 91675
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/portable_regression.py",
+      "archive": "portable_tests/probe.py",
+      "source_sha256": "a2852f9135ae8533aa7c1778062275c8df8048fce5b2182e5e558c72d5f1d1d7",
+      "archive_sha256": "a2852f9135ae8533aa7c1778062275c8df8048fce5b2182e5e558c72d5f1d1d7",
+      "source_bytes": 6274,
+      "archive_bytes": 6274
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/portable_regression_receipt.json",
+      "archive": "portable_tests/receipt.json",
+      "source_sha256": "59567809988595fd4ed2c8d686cffb6a6d129ce6df18468461f8ad020d03c79e",
+      "archive_sha256": "59567809988595fd4ed2c8d686cffb6a6d129ce6df18468461f8ad020d03c79e",
+      "source_bytes": 24262,
+      "archive_bytes": 24262
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/portable_regression.log",
+      "archive": "portable_tests/run.log",
+      "source_sha256": "17d2876325a4d58598bfd632e88dc2059b52581d58b12b4eadbe126d9a322a28",
+      "archive_sha256": "17d2876325a4d58598bfd632e88dc2059b52581d58b12b4eadbe126d9a322a28",
+      "source_bytes": 31112,
+      "archive_bytes": 31112
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/portable_regression_report.md",
+      "archive": "portable_tests/REPORT.md",
+      "source_sha256": "3a517b5da91c5cd2a238930aceb4ffe7be748b156c2cfffa79b2a7026cd2c2cb",
+      "archive_sha256": "3a517b5da91c5cd2a238930aceb4ffe7be748b156c2cfffa79b2a7026cd2c2cb",
+      "source_bytes": 1402,
+      "archive_bytes": 1402
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/tests/test_slus_partition_only_build.py",
+      "archive": "portable_tests/test_slus_partition_only_build.py",
+      "source_sha256": "bd6f759d9b41e7e88c782b47f4624ddde3b1873fe10aa0db47204846eaf507ca",
+      "archive_sha256": "bd6f759d9b41e7e88c782b47f4624ddde3b1873fe10aa0db47204846eaf507ca",
+      "source_bytes": 9728,
+      "archive_bytes": 9728
+    },
+    {
+      "source": "work/native_lane/gp_partition_only_tools/candidate/tools/tests/test_slus_partition_only_evidence.py",
+      "archive": "portable_tests/test_slus_partition_only_evidence.py",
+      "source_sha256": "6f4fb1b4e8a628f472e835c166e2fda17b70e94b0dded8e6f587821187251a80",
+      "archive_sha256": "6f4fb1b4e8a628f472e835c166e2fda17b70e94b0dded8e6f587821187251a80",
+      "source_bytes": 14451,
+      "archive_bytes": 14451
+    }
+  ]
+}

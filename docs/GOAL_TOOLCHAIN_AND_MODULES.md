@@ -169,3 +169,9 @@ Next: normal ownership-prover integration, complete overlay gate, refreshed
 candidate dependency census, and final transition review/sign-off. The previously
 failed all-858 trial remains preserved as the diagnosis, superseded for the
 repaired private candidate by this passing full-SLUS gate.
+
+The normal private ownership prover now also passes for both collector-only
+owners through real code/code2 measurements. Complete selected TUs are genuine
+and retail exact; unrelated collector debt stays explicit. Portable tests pass
+187/187 together with no skips. Full overlay gating and a private whole-tree
+dependency census are the next transition gates; production remains unchanged.

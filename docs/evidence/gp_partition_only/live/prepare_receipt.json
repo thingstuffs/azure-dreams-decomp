@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "result": "PREPARED",
+  "ready29_receipt_sha256": "2a046a66e241a08c8575bdcdea4372d9c0f8d917803647fed48c22e80d242a05",
+  "stage_graph": {
+    "physical": 860,
+    "logical": 884
+  },
+  "module_count": 33,
+  "partition_parents": 2,
+  "candidate_tool_hashes": {
+    "tools/build/slus_modules.py": "7ad5248f055c79b9a71b4f64eec8fe3626291f99006f7a8598417595fdccf05e",
+    "tools/build/slus_partitions.py": "1e484e42d7678e493b7dcd078282fe882c8c94ca58b749b2c5f19af35b7caf17",
+    "tools/build/configure.py": "5728f7979b573c189c05817aa48b94b98bbf45566a3e6d982dc658861279f4fd",
+    "tools/slus_module_context.py": "cce0cf354cc5795dc446c1bb2d7eed63d1cb6a220cb5f5d65fe9a90af40670ba",
+    "tools/slus_module_evidence.py": "edcab572d0fc98f3bc70cc8d398a5e92a0c8fafd95309791880b57d2851baf36",
+    "tools/fidelity/prove_slus_ownership.py": "5e83fe19077d295c1facaccb6ec126fddd5370fbe5c391c88953896bdea0cb12",
+    "tools/fidelity/certify_slus_module.py": "969f6f8db6577f0a6203e932cc64f21626d5e89a90b1f00531ebd5c23663efad",
+    "tools/fidelity/slus_iso.py": "e1f39d20c7791c545cdea29a95452a4931365ab75f38af0797f39454f8d38f2a",
+    "tools/row_db.py": "8e20b8dedbd81cafa170935aac7e400c636e5362f2a71b18a1bfce03c706029c"
+  },
+  "generic_hashes": {
+    "maspsx.py": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "maspsx/__init__.py": "28e45bbcf00fc90dc0645250f233b73f96ad11d06a2f8230ce533fc2fafbbfbe"
+  },
+  "production_unchanged": true
+}

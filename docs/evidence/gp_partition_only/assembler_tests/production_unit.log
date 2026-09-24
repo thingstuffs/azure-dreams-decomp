@@ -1,0 +1,61 @@
+....................................................F......FF....................................................................................................................................................................................................................................................................................................................................................................
+======================================================================
+FAIL: test_local_tables_still_fire_with_an_empty_table (tools.maspsx.tests.test_casesi_jumptable.TestCasesiExternDispatchTable.test_local_tables_still_fire_with_an_empty_table)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_casesi_jumptable.py", line 217, in test_local_tables_still_fire_with_an_empty_table
+    self.assertIn("lui\t$2,%hi($Ltable)", out)
+AssertionError: 'lui\t$2,%hi($Ltable)' not found in ['beq\t$2,$0,$Ldefault', 'sll\t$2,$3,2', '.set\tnoat', 'lui\t$at,%hi($Ltable)', 'addu\t$at,$at,$2', 'lw\t$2,%lo($Ltable)($at)', '.set\tat', 'nop', 'j\t$2', 'nop']
+
+======================================================================
+FAIL: test_distinct_index_temp_keeps_temp_as_index_register (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_distinct_index_temp_keeps_temp_as_index_register)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_casesi_jumptable.py", line 61, in test_distinct_index_temp_keeps_temp_as_index_register
+    self.assertIn("lui\t$2,%hi($Ltable)", out)
+AssertionError: 'lui\t$2,%hi($Ltable)' not found in ['sll\t$4,$3,2', '.set\tnoat', 'lui\t$at,%hi($Ltable)', 'addu\t$at,$at,$4', 'lw\t$2,%lo($Ltable)($at)', '.set\tat', 'nop', 'j\t$2', 'nop']
+
+======================================================================
+FAIL: test_local_jumptable_dispatch_expands_to_base_materialize_form (tools.maspsx.tests.test_casesi_jumptable.TestCasesiJumpTableLoad.test_local_jumptable_dispatch_expands_to_base_materialize_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tools/maspsx/tests/test_casesi_jumptable.py", line 35, in test_local_jumptable_dispatch_expands_to_base_materialize_form
+    self.assertEqual(
+AssertionError: Lists differ: ['beq[16 chars]t', 'lui\t$2,%hi($Ltable)', 'addiu\t$2,$2,%lo([78 chars]nop'] != ['beq[16 chars]t', 'sll\t$2,$3,2', '.set\tnoat', 'lui\t$at,%h[90 chars]nop']
+
+First differing element 1:
+'lui\t$2,%hi($Ltable)'
+'sll\t$2,$3,2'
+
+Second list contains 1 additional elements.
+First extra element 9:
+'nop'
+
+  ['beq\t$2,$0,$Ldefault',
++  'sll\t$2,$3,2',
++  '.set\tnoat',
+-  'lui\t$2,%hi($Ltable)',
+?         ^
+
++  'lui\t$at,%hi($Ltable)',
+?         ^^
+
+-  'addiu\t$2,$2,%lo($Ltable)',
+-  'sll\t$3,$3,2',
+-  'addu\t$3,$3,$2',
+?          ^  ^
+
++  'addu\t$at,$at,$2',
+?          ^^  ^^
+
+-  'lw\t$2,0($3)',
++  'lw\t$2,%lo($Ltable)($at)',
++  '.set\tat',
+   'nop',
+   'j\t$2',
+   'nop']
+
+----------------------------------------------------------------------
+Ran 417 tests in 0.902s
+
+FAILED (failures=3)
