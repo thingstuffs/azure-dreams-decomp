@@ -1,0 +1,163 @@
+{
+  "inputs": {
+    "prototype_stage_manifest_sha256": "f2bce13b997bb98cf25a123790ddbafa01e6bdf2de007b1387ee1d2251e8143d",
+    "prototype_plan_sha256": "837ee892e847931030ee89e11e0bc062297978cff0ada45dfb9a35734e84f6f6",
+    "partition_tool_sha256": "d6fdd141537aeebbae02596f6b1e99c5a0b46ea69a7892f3e8dd9ab100dffbd1",
+    "production_configure_sha256": "7f69dafd42456c4f80e9762609c4671d8c06ac8f6203082da508a1b3a6e9271a",
+    "private_configure_sha256": "2d1ac97f2848b58c5afffb693c34e51f63469fbe21715d19aa9c426d09df413e",
+    "canonical_sources_sha256": {
+      "code": "1c1afc31d56af7f3505ad1a9e54c4c21023aac81b2314ad3581dbeadf1e28b16",
+      "code2": "443e6c482c7a5fe6fcf53c5381384618acac6adb06cff6d287aea2386f65c2bb"
+    },
+    "private_owner_sha256": "c851e33d3a264e5e87b624ed84e63fb2729b5bb144111685fe7eb0009637af19"
+  },
+  "plan_summary": [
+    {
+      "id": "slus/code",
+      "source": "src/code.c",
+      "raw_sha256": "b2c7805e009a7ae79b7cdbd95f4c7d246f4491dd1d4367ac12e101564b302c9c",
+      "recipe": {
+        "ccver": "2.7.2",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "function_count": 156,
+      "parts": [
+        {
+          "module": "list_cursor_e0",
+          "functions": [
+            "func_80041110"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slus/code2",
+      "source": "src/code2.c",
+      "raw_sha256": "6e3cdb453228a565637cab754f42e70df8647c75bbf38fbf30dc16116029d69d",
+      "recipe": {
+        "ccver": "2.8.1",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "function_count": 24,
+      "parts": [
+        {
+          "module": "list_cursor_e0",
+          "functions": [
+            "func_800410FC"
+          ]
+        }
+      ]
+    }
+  ],
+  "paths": {
+    "remainders": {
+      "src/code.c": "build/partition_sources/code.c",
+      "src/code2.c": "build/partition_sources/code2.c"
+    },
+    "parts": {
+      "slus/code": {
+        "list_cursor_e0": "build/partition_sources/code__list_cursor_e0.c"
+      },
+      "slus/code2": {
+        "list_cursor_e0": "build/partition_sources/code2__list_cursor_e0.c"
+      }
+    }
+  },
+  "configure": "wrote build.ninja (1139 objects)",
+  "build_tail": [
+    "[1/6] PARTITION-RENDER build/partition_sources/code.c build/partition_sources/code2.c build/partition_sources/code2__list_cursor_e0.c build/partition_sources/code__list_cursor_e0.c",
+    "[2/6] CC src/w_80041134_owned.c (gcc 2.8.1  )",
+    "[3/6] CC build/partition_sources/code2.c (gcc 2.8.1  )",
+    "[4/6] CC build/partition_sources/code.c (gcc 2.7.2  )",
+    "[5/6] LINK build/slus_006.14.elf",
+    "[6/6] OBJCOPY build/slus_006.14"
+  ],
+  "physical_edges": 873,
+  "projected_logical_edges": 884,
+  "projected_recipes_equal_ledger": true,
+  "normal_ninja_rule": "partition_render",
+  "emitted_unique_functions": 181,
+  "genuine": {
+    "functions": [
+      "func_800410FC",
+      "func_80041110",
+      "func_80041134"
+    ],
+    "stock": {
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 44,
+        "len_g": 44,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    "genuine": {
+      "comparison": {
+        "exact": true,
+        "diff": 0,
+        "len_m": 44,
+        "len_g": 44,
+        "missing": []
+      },
+      "retail": {
+        "diff": 0,
+        "masked": 0,
+        "checked": 3
+      }
+    },
+    "assembly_sha256": "90fda3ef5f197b00068a5600aed20d99c1c9eb9e9e88abfd5279cead74bffaf5",
+    "genuine_lnk_sha256": "54880f4ea1505225665c213aa97928fd4f63c0f6c8e6e41d5b561127a6c96a45"
+  },
+  "image": {
+    "retail_exact": true,
+    "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+  },
+  "negative_dependencies": [
+    {
+      "case": "moved_code_body",
+      "source": "src/code.c",
+      "changed_object": "w_80041134_owned",
+      "changed_compiles": [
+        "w_80041134_owned"
+      ],
+      "restored_compiles": [
+        "w_80041134_owned"
+      ],
+      "isolated_compiles": true,
+      "render_ran": true,
+      "object_changed": true,
+      "full_image_rejected": true,
+      "restored_render_ran": true,
+      "restored_object": true,
+      "restored_retail": true
+    },
+    {
+      "case": "collector_remainder",
+      "source": "src/code.c",
+      "changed_object": "code",
+      "changed_compiles": [
+        "code"
+      ],
+      "restored_compiles": [
+        "code"
+      ],
+      "isolated_compiles": true,
+      "render_ran": true,
+      "object_changed": true,
+      "full_image_rejected": true,
+      "restored_render_ran": true,
+      "restored_object": true,
+      "restored_retail": true
+    }
+  ],
+  "scope": "private normal-Ninja partition adapter; production tools/config unchanged",
+  "production_activated": false
+}

@@ -20,11 +20,14 @@ with zero masks and nine correctly owned symbols. Nine of 29 GP rows are ready;
 the remaining 20 form the collector-linked component. Production counts and
 defaults remain unchanged by this selective rehearsal.
 
-Next architecture pilot: [E0 list-cursor partition](evidence/gp_e0_partition.md)
-extracts one function from each compiler collector and groups them with 41134.
-All 44 words and the whole stock-linked image pass with real storage. The current
-whole-row registry gate correctly rejects the prototype's moved-function claim;
-implement explicit provenance/partition verification before any production move.
+Current architecture checkpoint: [explicit function partitions](SLUS_PARTITIONS.md)
+have a tested planner/renderer and a normal-Ninja private proof. Canonical code
+files remain intact, all 181 affected functions are accounted for once, all 44
+E0 words are genuine-exact, and the whole image matches retail. Candidate edits
+rebuild only the appropriate owner or remainder; twelve unit tests pass.
+Production activation awaits plural verification/fingerprints, emitted coverage
+in the gate, and part-aware ownership certificates. No partition plan is active.
+
 
 Previous checkpoint: [shared cancellation state at 8099C](evidence/gp_shared_8099c.md)
 lands 33D44/33D54 at 2.8.1 after an unchanged-source byte-neutral setter move.

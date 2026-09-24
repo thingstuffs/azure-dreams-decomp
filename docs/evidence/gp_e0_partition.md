@@ -72,3 +72,13 @@ The [collector bridge inventory](gp_component20_bridges/REPORT.md) records the
 11 relevant symbol names and their actual containing functions, separate from
 frozen registry-name occurrences. Primary review confirms the registry hashes
 match `raw/slus/` copies; current edited source hashes are retained separately.
+
+## Explicit partition continuation
+
+[The partition foundation](../SLUS_PARTITIONS.md) now keeps both collector C
+files and IDs intact, renders physical function views, preserves the original
+41134 member scope, and proves all 181 emitted functions exactly once. Its
+normal-Ninja private build is retail-exact, all 44 E0 words are genuine-exact,
+and source-edit negatives rebuild only their proper owner or remainder. The
+old prototype's silent redistribution is replaced by explicit provenance.
+Plural verification and part-aware ownership evidence remain before activation.
