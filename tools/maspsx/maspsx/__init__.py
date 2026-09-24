@@ -4186,6 +4186,11 @@ class MaspsxProcessor:
               ->  lw $31,K($sp); addu $sp,$sp,N; j $31; nop
 
         Only fires on this exact 4-instruction shape. See func_8004A8D8, func_8004B404.
+        PROVENANCE (fidelity plan, 2026-09-24): this is NOT an ASPSX behaviour - genuine ASPSX 2.56-2.86 never
+        un-fills a slot.  It models the PRODUCTION COMPILER's epilogue decision: a post-July-1997 gcc2 snapshot
+        (not held) that kept gcc 2.7.2's text epilogue (return slot left to the assembler, 2.7.2's `$31`-only rule),
+        followed by ASPSX's own reorder-mode fill.  Evidence: docs/evidence/fidelity_lost_compiler_case.md,
+        fidelity_step1b_epilogue.md.  Rows that depend on it carry the L5 `maspsx_dependent` marker.
         """
         def C(i):
             return strip_comments(res[i]).strip()
@@ -5769,6 +5774,11 @@ class MaspsxProcessor:
         Only fires in gcc-scheduled (noreorder) regions; a no-op on 2.7.2 (which already
         leaves it unfilled at >=2 restores) and on non-sp delay fills. Returns the
         replacement lines, or None when not applicable.
+        PROVENANCE (fidelity plan, 2026-09-24): this is NOT an ASPSX behaviour - genuine ASPSX 2.56-2.86 never
+        un-fills a slot.  It models the PRODUCTION COMPILER's epilogue decision: a post-July-1997 gcc2 snapshot
+        (not held) that kept gcc 2.7.2's text epilogue (return slot left to the assembler, 2.7.2's `$31`-only rule),
+        followed by ASPSX's own reorder-mode fill.  Evidence: docs/evidence/fidelity_lost_compiler_case.md,
+        fidelity_step1b_epilogue.md.  Rows that depend on it carry the L5 `maspsx_dependent` marker.
         """
         if self.is_reorder:
             return None  # only when gcc explicitly scheduled the delay slot
