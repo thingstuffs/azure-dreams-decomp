@@ -67,3 +67,8 @@ Reproduction scripts remain in `work/native_lane/gp_e0_function_group/`:
 `probe.py`, `link_probe.py`, then `confirm.py`. The final confirmation checks the
 actual staged linked object and explicitly demonstrates the current membership
 rejection. Source and extraction hashes are retained in the receipts.
+
+The [collector bridge inventory](gp_component20_bridges/REPORT.md) records the
+11 relevant symbol names and their actual containing functions, separate from
+frozen registry-name occurrences. Primary review confirms the registry hashes
+match `raw/slus/` copies; current edited source hashes are retained separately.
