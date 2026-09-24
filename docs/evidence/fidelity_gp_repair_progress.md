@@ -5,6 +5,17 @@ below precede the production activation recorded in the next section. The primar
 agent performed the assembler experiments; Sol inventoried ownership and prepared module candidates; Luna audited
 the separate MAIN coverage gaps.
 
+## Resumed private proofs
+
+[49F68](gp_order_bytes.md) is now genuine/retail-exact after an RTL-guided guard
+ordering repair. The full private link, real four-byte table and all 50 function
+words pass when the generic correction is combined with isolated
+`_fold_selfinc_la` ablation. Its 12 existing pass consumers remain a repair queue.
+[8099C](gp_shared_8099c.md) is full-image exact after correcting the private
+runtime aggregator's routing; its remaining discrepancy is reproduced by the
+already accepted compiler epilogue model. Neither proof removes a production
+dependency. The latest production counts below remain authoritative.
+
 ## Latest ownership checkpoint
 
 [Shared state at 81510](gp_shared_state_81510.md) adds two rows at their coherent

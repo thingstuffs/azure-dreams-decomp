@@ -1,0 +1,236 @@
+{
+  "baseline": {
+    "manifest": {
+      "path": "config/slus_modules.json",
+      "sha256": "e9838878711d50575118b5993f5cbb9fb1facf193b3b63d338b6bca2fabf6370"
+    },
+    "recipe": {
+      "path": "ledger/splits/slus.jsonl",
+      "sha256": "5815a015e7785df97cbfa7ac7263db9f9156bc6a527842eae00872929eff15ee"
+    },
+    "row_source": {
+      "path": "src/slus/w_80049F68.c",
+      "sha256": "320c7d2a9d36142cf062cbdcb4a2746bb5c285c9fa7db964db700d3b51dfa4f0"
+    },
+    "candidate_source": {
+      "path": "work/native_lane/gp_order_bytes/guard_before_marker/candidate.c",
+      "sha256": "b6faa63327ca26472cda02992d722eee347d639c75daffe7b17f4a03368da388"
+    },
+    "asset": {
+      "path": "build_slus/assets/54240.bin",
+      "sha256": "c4e7faf5c7f42838e9fb2e9238af76ed6972cdc8ef055fa2b02a18d9360f76da"
+    },
+    "retail": {
+      "path": "baserom/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "built_image": {
+      "path": "build_slus/build/slus_006.14",
+      "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+    },
+    "built_elf": {
+      "path": "build_slus/build/slus_006.14.elf",
+      "sha256": "eb14c9cde1141e8912db1d0ba51afd5150c72c30f2b378be23f8185cf1d03a05"
+    },
+    "configure": {
+      "path": "tools/build/configure.py",
+      "sha256": "8e6d2bd3d4957a2ad1bd6cf3152f45b2ff364f17394e8c16add78f1079e34367"
+    },
+    "cc": {
+      "path": "tools/build/cc.sh",
+      "sha256": "b58c05bc2dd1ad16dd4fb701df595d795b4f6e8aaca09de63db5f1916baf7638"
+    },
+    "generic_cli": {
+      "path": "work/fidelity/gp_probe279/candidate/maspsx.py",
+      "sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf"
+    },
+    "generic_package": {
+      "path": "work/fidelity/gp_probe279/candidate/maspsx/__init__.py",
+      "sha256": "f2c5472906bece3da0288974834c256e33a0dfc305e8c1159e9a7bb9194622c3"
+    },
+    "trace_source": {
+      "path": "work/native_lane/gp_order_bytes/trace_corrected.py",
+      "sha256": "36fce1836c80a5ae2ed1e556045da10bea0ae8d93003be903a738ba87ba4704e"
+    }
+  },
+  "production_inputs_unchanged": true,
+  "control": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "production_modules": 17,
+  "trial_modules": 18,
+  "configured": "wrote build.ninja (1139 objects)",
+  "build_tail": [
+    "[38/43] BIN build/module_assets/54240_000AD4_000AD8.bin",
+    "[39/43] BIN build/module_assets/54240_000AE8_000AF0.bin",
+    "[40/43] BIN build/module_assets/54240_000AF2_02BDC0.bin",
+    "[41/43] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt",
+    "[42/43] LINK build/slus_006.14.elf",
+    "[43/43] OBJCOPY build/slus_006.14"
+  ],
+  "routing": {
+    "owner_edge": "src/gp_order_bytes_owner.c",
+    "private_rule_count": 1,
+    "owner_recipe": {
+      "ccver": "2.7.2-cdk",
+      "ccflags": "-fno-strength-reduce",
+      "asflags": ""
+    },
+    "physical_edges": 874,
+    "logical_edges": 884,
+    "logical_recipes_identical": true
+  },
+  "image": {
+    "match_retail": true,
+    "first_diff_offset": null,
+    "sha1": "e6bfbb95ff6676899e077481221d73ddd4d3bf52"
+  },
+  "function": {
+    "retail_layout": [
+      {
+        "address": 2147786600,
+        "size": 200,
+        "section": "2"
+      }
+    ],
+    "linked_layout": [
+      {
+        "address": 2147786600,
+        "size": 200,
+        "section": "2"
+      }
+    ],
+    "layout_exact": true
+  },
+  "data": {
+    "object_sdata": "01030204",
+    "object_symbol": [
+      ".sdata",
+      0,
+      "global",
+      0
+    ],
+    "linked_symbol": [
+      {
+        "address": 2148010800,
+        "size": 0,
+        "section": "2"
+      }
+    ],
+    "asset_offset": 240,
+    "retail_vram": 2148010800,
+    "asset_bytes": "01030204",
+    "image_bytes": "01030204",
+    "owned_slot": {
+      "kind": "module_data",
+      "start": 240,
+      "end": 244,
+      "module": "gp_order_bytes_owner",
+      "object": "build/src/gp_order_bytes_owner.o",
+      "section": ".sdata",
+      "symbols": [
+        "D_80080B30"
+      ]
+    },
+    "adjacent_raw_80080B2C": "bcbc9c00",
+    "adjacent_chunk": {
+      "kind": "chunk",
+      "start": 214,
+      "end": 240,
+      "input": "build/module_assets/54240_0000D6_0000F0.bin",
+      "object": "build/module_assets/54240_0000D6_0000F0.o",
+      "section": ".data"
+    },
+    "exact": true
+  },
+  "outside_objects": {
+    "checked": 873,
+    "changed": []
+  },
+  "assembler": {
+    "generic_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "generic_package_sha256": "f2c5472906bece3da0288974834c256e33a0dfc305e8c1159e9a7bb9194622c3",
+    "trace_copy_sha256": "36fce1836c80a5ae2ed1e556045da10bea0ae8d93003be903a738ba87ba4704e",
+    "trace": {
+      "passes": [
+        "_expand_casesi_jumptable_load",
+        "_fold_lo_into_accesses",
+        "_fold_selfinc_la",
+        "_sink_call_separated_la",
+        "_split_funcaddr_la",
+        "_prefer_lui_over_sll_branch_delay",
+        "_prefer_marked_target_arg_setup",
+        "_hoist_delay_luis",
+        "_unfill_via_load_delay",
+        "_unfill_jal_sp_delay",
+        "_hoist_zero_arg_before_global_clears",
+        "_expand_smalldata_la",
+        "_rewrite_tail_call_jal_to_j",
+        "_rewrite_arg_sibcall_jal_to_j",
+        "_rewrite_sidecar_shape_d_sibcall",
+        "_rewrite_marked_shape_d_sibcall",
+        "_rewrite_marked_live_sibcall_tail",
+        "_elide_ra_only_frame_for_noreturn_tail",
+        "_rotate_sibcall_v0_into_branch_delay",
+        "_sink_dead_pagebase_into_tail_j_delay",
+        "_rotate_dead_value_into_tail_j_delay",
+        "_rotate_marked_store_into_jal_delay",
+        "_split_marked_branch_label",
+        "_maybe_unfill_return_delay",
+        "_expand_store_to_symbol_in_delay",
+        "_backfill_return_delay_store"
+      ],
+      "fired": [],
+      "disabled": [
+        "_fold_selfinc_la"
+      ],
+      "strip_externs": false
+    }
+  },
+  "genuine": {
+    "standalone_vs_linked": {
+      "diff": 0,
+      "exact": true,
+      "len_m": 50,
+      "len_g": 50,
+      "missing": [],
+      "regions": [],
+      "delay_only": []
+    },
+    "linked_vs_genuine": {
+      "diff": 0,
+      "exact": true,
+      "len_m": 50,
+      "len_g": 50,
+      "missing": [],
+      "regions": [],
+      "delay_only": []
+    },
+    "standalone_vs_genuine": {
+      "diff": 0,
+      "exact": true,
+      "len_m": 50,
+      "len_g": 50,
+      "missing": [],
+      "regions": [],
+      "delay_only": []
+    },
+    "genuine_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "stock_retail": {
+      "diff": 0,
+      "masked": 0,
+      "checked": 1
+    },
+    "words": {
+      "standalone": 50,
+      "linked": 50,
+      "genuine": 50
+    },
+    "assembly_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88"
+  }
+}

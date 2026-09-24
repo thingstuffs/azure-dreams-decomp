@@ -15,7 +15,7 @@ retain their pre-landing counts.
 |---|---|---|
 | 47D44 / 47DF0 / 47E30 | All three functions, 63 words combined, zero masks | Existing 2.7.2 recipe; generic correction only for the new owner object. Production global correction remains pending. |
 | 3D92C | 136 words, zero masks | Prepared pin-free C, trial CDK recipe and generic correction only for the new object. Production source/recipe/assembler transition remains pending. |
-| 45340 / 453E0 | 40 + 533 words, zero masks | Stock assembler. Byte-neutral standalone CDK recipe trial for 45340 passes; recipe landing and ownership integration remain. |
+| 45340 / 453E0 | 40 + 533 words, zero masks | Stock assembler; subsequently integrated with the recorded CDK recipe landing (link above). |
 
 ## Shared pointer at 8152C
 
@@ -62,8 +62,8 @@ only that row's recipe changes from 2.8.1 to CDK. Both functions, the four-byte
 data section, linked addresses and the full image are exact. The private build
 has 874 physical inputs and 884 logical rows. Source, shared header and aggregator
 are retained with the receipt. Reproduce with
-`work/native_lane/gp_shared_81510/probe.py`; integrate the recipe through
-`tools/fidelity/land_recipe_move.py` before activating the grouped source.
+`work/native_lane/gp_shared_81510/probe.py`. The recipe has since landed through
+`tools/fidelity/land_recipe_move.py` and the grouped source is active (link above).
 
 These are present ownership reconstructions with explicit recipe and assembler
 treatments. They do not prove historical translation-unit boundaries or L4
@@ -92,5 +92,5 @@ applies its private trial recipe overrides after that mapping is constructed.
 This is a combined **partial** repair proof: six of these rows belong to the
 remaining GP cohort, while five address other toolchain residue. It does not
 activate a global correction, repair the other GP rows, or remove production
-dependency records. The stock-only 45340/453E0 group above is a separate next
-landing and is not included in this rehearsal.
+dependency records. The stock-only 45340/453E0 group above landed separately
+and is not included in this historical rehearsal.

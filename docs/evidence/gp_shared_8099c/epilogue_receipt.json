@@ -1,0 +1,45 @@
+{
+  "cc1_source_sha256": "00705a6733ffe693106178457bf4975812df10e8e408d3c53aa3a9a51dd416b3",
+  "rewrite": "existing epilogue_model.rewrite t272; private attribution only",
+  "census": [
+    {
+      "f": "obj_disp23_cancel_sw_set",
+      "mask": "00000000",
+      "fmask": "00000000",
+      "ra_only": false,
+      "restores": 0,
+      "nr_sp": 0,
+      "other_ret": 1,
+      "blocks": []
+    },
+    {
+      "f": "func_80033D54",
+      "mask": "c0ff0000",
+      "fmask": "00000000",
+      "ra_only": false,
+      "restores": 10,
+      "nr_sp": 1,
+      "other_ret": 0,
+      "blocks": [
+        {
+          "prev": "lw\t$16,48($sp)",
+          "after_ra_load": false
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "diff": 0,
+    "exact": true,
+    "len_m": 541,
+    "len_g": 541,
+    "missing": [],
+    "regions": [],
+    "delay_only": []
+  },
+  "retail": {
+    "diff": 0,
+    "masked": 0,
+    "checked": 2
+  }
+}
