@@ -1,0 +1,283 @@
+{
+  "note": "Private CD closure evidence. Absolute checkout paths are scrubbed; restore probe files to their recorded source paths before execution. The all858 receipt records the failed whole-program SHA-1 gate.",
+  "groups": {
+    "merged26": 6,
+    "all858": 7,
+    "residual3": 14
+  },
+  "files": [
+    {
+      "source": "work/native_lane/gp_ready26_cd/REPORT.md",
+      "archive": "merged26/REPORT.md",
+      "source_sha256": "726ad399bd4c8e66bfd2ea68f5c02410d907e02453af45e09dd09dfabaf278ca",
+      "archive_sha256": "726ad399bd4c8e66bfd2ea68f5c02410d907e02453af45e09dd09dfabaf278ca",
+      "source_bytes": 2059,
+      "archive_bytes": 2059,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready26_cd/receipt.json",
+      "archive": "merged26/receipt.json",
+      "source_sha256": "28e7f73874a118f203e22ba4ddbf600e98b5be0ba89d1b2ccc37f2b5121a70ec",
+      "archive_sha256": "28e7f73874a118f203e22ba4ddbf600e98b5be0ba89d1b2ccc37f2b5121a70ec",
+      "source_bytes": 74654,
+      "archive_bytes": 74654,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready26_cd/probe.py",
+      "archive": "merged26/probe.py",
+      "source_sha256": "ad0d7a9c5b239337dc736a83051185eea264555b2603381a780c66f327886be2",
+      "archive_sha256": "ad0d7a9c5b239337dc736a83051185eea264555b2603381a780c66f327886be2",
+      "source_bytes": 24239,
+      "archive_bytes": 24239,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready26_cd/compile.log",
+      "archive": "merged26/compile.log",
+      "source_sha256": "3332bcb2876184f648663dec91312c03b0ae6e32d70a97272e9c9ac6f614f5a7",
+      "archive_sha256": "3332bcb2876184f648663dec91312c03b0ae6e32d70a97272e9c9ac6f614f5a7",
+      "source_bytes": 773,
+      "archive_bytes": 773,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready26_cd/build.log",
+      "archive": "merged26/build.log",
+      "source_sha256": "3b6a1a2e40f0335c3bccf0d53cb4898b7e0500d05c6f0846609dfbefa78fb19f",
+      "archive_sha256": "3b6a1a2e40f0335c3bccf0d53cb4898b7e0500d05c6f0846609dfbefa78fb19f",
+      "source_bytes": 5193,
+      "archive_bytes": 5193,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_ready26_cd/gate.log",
+      "archive": "merged26/gate.log",
+      "source_sha256": "1f686bdbbb46b8c251c3c038a3f756d6918e12c2118888eb4a1f3e68a3e8f87c",
+      "archive_sha256": "1f686bdbbb46b8c251c3c038a3f756d6918e12c2118888eb4a1f3e68a3e8f87c",
+      "source_bytes": 57,
+      "archive_bytes": 57,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/REPORT.md",
+      "archive": "all858/REPORT.md",
+      "source_sha256": "c12f3fee48fb6b56f6441d2ddc03d7ee65f5e903d3d5bcdfe7c412fcf831aa90",
+      "archive_sha256": "c12f3fee48fb6b56f6441d2ddc03d7ee65f5e903d3d5bcdfe7c412fcf831aa90",
+      "source_bytes": 2366,
+      "archive_bytes": 2366,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/receipt.json",
+      "archive": "all858/receipt.json",
+      "source_sha256": "19ff9fc11fc7063b9eacf4fe1c3e56f45865982126ebf20debcbf1dca3864c37",
+      "archive_sha256": "8009b8ae20128375e3058962617fe1a6074005188e005a4b7a07556fa53af964",
+      "source_bytes": 816566,
+      "archive_bytes": 816549,
+      "scrubbed_repo_paths": 1,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/probe.py",
+      "archive": "all858/probe.py",
+      "source_sha256": "751e37c01c0f412728ba594e085e9c3d9fe39c1b7440fa734bd18f40c42c805b",
+      "archive_sha256": "751e37c01c0f412728ba594e085e9c3d9fe39c1b7440fa734bd18f40c42c805b",
+      "source_bytes": 15693,
+      "archive_bytes": 15693,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/image_diff_summary.json",
+      "archive": "all858/image_diff_summary.json",
+      "source_sha256": "1e3a19314adad5b4878cd35dad448154f2e8fa212b8ddf5c16531d55934e4226",
+      "archive_sha256": "1e3a19314adad5b4878cd35dad448154f2e8fa212b8ddf5c16531d55934e4226",
+      "source_bytes": 569,
+      "archive_bytes": 569,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/full_image_gate.log",
+      "archive": "all858/full_image_gate.log",
+      "source_sha256": "911cbdbf3315d44166c705e9b4912bb8954ef7a2704cc15de2a555ef94294f40",
+      "archive_sha256": "f70d635c8aed44a5a56fc7813b6f276a14185c02ca0155c30136a78d0b836099",
+      "source_bytes": 681,
+      "archive_bytes": 664,
+      "scrubbed_repo_paths": 1,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/all_objects_build.log",
+      "archive": "all858/all_objects_build.log",
+      "source_sha256": "72eb9ead6eee1a6890e555991d368f6e0e83e1e28efba218125c8d6cae5a51da",
+      "archive_sha256": "76c67d75e0d7cdf06ef13cb30b127def71628c18834ba0b7969ced582672b13f",
+      "source_bytes": 45649,
+      "archive_bytes": 45632,
+      "scrubbed_repo_paths": 1,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_all858_probe/baseline_pins.json",
+      "archive": "all858/baseline_pins.json",
+      "source_sha256": "d1ddcecf4b5bbb6e931bd28b51ae8ce784ea457d1d0afe9c3476bd173c552ae0",
+      "archive_sha256": "d1ddcecf4b5bbb6e931bd28b51ae8ce784ea457d1d0afe9c3476bd173c552ae0",
+      "source_bytes": 90891,
+      "archive_bytes": 90891,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_accessors.c",
+      "archive": "residual3/c8_accessors.c",
+      "source_sha256": "ea6590c282d3d968cde82de4c00f8543318871841a5f5d7eb51e667591ce25de",
+      "archive_sha256": "ea6590c282d3d968cde82de4c00f8543318871841a5f5d7eb51e667591ce25de",
+      "source_bytes": 152,
+      "archive_bytes": 152,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_probe.py",
+      "archive": "residual3/c8_probe.py",
+      "source_sha256": "ecd87b57391a8885e14814c2e01f386e612c99f744a07a4523a3b309bad09eea",
+      "archive_sha256": "ecd87b57391a8885e14814c2e01f386e612c99f744a07a4523a3b309bad09eea",
+      "source_bytes": 1358,
+      "archive_bytes": 1358,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_accessors_receipt.json",
+      "archive": "residual3/c8_accessors_receipt.json",
+      "source_sha256": "919c61af07b18923d5fbacbd57b401f78c2a5ebded61f6c40b9a660eee2770e3",
+      "archive_sha256": "919c61af07b18923d5fbacbd57b401f78c2a5ebded61f6c40b9a660eee2770e3",
+      "source_bytes": 5402,
+      "archive_bytes": 5402,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_probe.log",
+      "archive": "residual3/c8_probe.log",
+      "source_sha256": "cfd0674aecd00c29a262b7842ca20203894f6b0ce5512d56944011356a5bb650",
+      "archive_sha256": "cfd0674aecd00c29a262b7842ca20203894f6b0ce5512d56944011356a5bb650",
+      "source_bytes": 206,
+      "archive_bytes": 206,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_registered_probe.py",
+      "archive": "residual3/c8_registered_probe.py",
+      "source_sha256": "54f35f7e95720b6133151822c3a5c265d08bc1f124715040502c0f0eab9cda56",
+      "archive_sha256": "54f35f7e95720b6133151822c3a5c265d08bc1f124715040502c0f0eab9cda56",
+      "source_bytes": 1352,
+      "archive_bytes": 1352,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_registered_receipt.json",
+      "archive": "residual3/c8_registered_receipt.json",
+      "source_sha256": "961e74a2e030369062f55e4e11c03d40389365aa61aaaf7c76431130b6e6e54a",
+      "archive_sha256": "961e74a2e030369062f55e4e11c03d40389365aa61aaaf7c76431130b6e6e54a",
+      "source_bytes": 5394,
+      "archive_bytes": 5394,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/c8_registered_probe.log",
+      "archive": "residual3/c8_registered_probe.log",
+      "source_sha256": "cfd0674aecd00c29a262b7842ca20203894f6b0ce5512d56944011356a5bb650",
+      "archive_sha256": "cfd0674aecd00c29a262b7842ca20203894f6b0ce5512d56944011356a5bb650",
+      "source_bytes": 206,
+      "archive_bytes": 206,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/b1b_b1c_table.c",
+      "archive": "residual3/b1b_b1c_table.c",
+      "source_sha256": "ab98a9ec20c2f80736a3d1a2e87cf032ae2ce4535d3c7916b2edca24629e4a5c",
+      "archive_sha256": "ab98a9ec20c2f80736a3d1a2e87cf032ae2ce4535d3c7916b2edca24629e4a5c",
+      "source_bytes": 254,
+      "archive_bytes": 254,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/b1b_b1c_probe.py",
+      "archive": "residual3/b1b_b1c_probe.py",
+      "source_sha256": "edc57e81f231bf6db2883ac698da4d8a4817f6ae1365077ca5441a7c8be86c9c",
+      "archive_sha256": "edc57e81f231bf6db2883ac698da4d8a4817f6ae1365077ca5441a7c8be86c9c",
+      "source_bytes": 1508,
+      "archive_bytes": 1508,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/b1b_b1c_table_receipt.json",
+      "archive": "residual3/b1b_b1c_table_receipt.json",
+      "source_sha256": "6c3543d48e4a251c633e1e600f23d55b831e914e9bbf8b9a033b8c8fa8e9a30d",
+      "archive_sha256": "6c3543d48e4a251c633e1e600f23d55b831e914e9bbf8b9a033b8c8fa8e9a30d",
+      "source_bytes": 3283,
+      "archive_bytes": 3283,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/b1b_b1c_probe.log",
+      "archive": "residual3/b1b_b1c_probe.log",
+      "source_sha256": "abb4d3d42335a6a8d44ff164fcdd2a5099374980d5f7bec8c4c3237b42f6ea8a",
+      "archive_sha256": "abb4d3d42335a6a8d44ff164fcdd2a5099374980d5f7bec8c4c3237b42f6ea8a",
+      "source_bytes": 125,
+      "archive_bytes": 125,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_residual_collectors/inventory.json",
+      "archive": "residual3/inventory.json",
+      "source_sha256": "722bd662689bf415037dab970f508854aa7b0d592082ad0bcd8b67bb25ec8fc5",
+      "archive_sha256": "722bd662689bf415037dab970f508854aa7b0d592082ad0bcd8b67bb25ec8fc5",
+      "source_bytes": 10406,
+      "archive_bytes": 10406,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_residual_collectors/inventory.md",
+      "archive": "residual3/inventory.md",
+      "source_sha256": "c13f3f59f8e98000fa9448bf2f6fd8fff744869fcd30aaaf35eb76e2f6363445",
+      "archive_sha256": "c13f3f59f8e98000fa9448bf2f6fd8fff744869fcd30aaaf35eb76e2f6363445",
+      "source_bytes": 7131,
+      "archive_bytes": 7131,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/cohort/module.json",
+      "archive": "residual3/module.json",
+      "source_sha256": "a7aea180a25317756d326e54fd7a2f9d5e8d7a3610fedaadfb02423d8354d427",
+      "archive_sha256": "a7aea180a25317756d326e54fd7a2f9d5e8d7a3610fedaadfb02423d8354d427",
+      "source_bytes": 3803,
+      "archive_bytes": 3803,
+      "scrubbed_repo_paths": 0,
+      "scrubbed_reference_repo_paths": 0
+    }
+  ],
+  "dependencies": {
+    "residual3_helpers": "Existing linked_archive.json preserves helpers/cd_contract_probe.py and helpers/cd_partition_baseline_probe.py; existing include/ stores the shared CD headers."
+  }
+}

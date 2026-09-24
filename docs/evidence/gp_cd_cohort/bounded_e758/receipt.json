@@ -1,0 +1,96 @@
+{
+  "compile_log_tail": "ninja: Entering directory `<repo>/work/native_lane/gp_cd_bounded_link/stage'\n[1/1] CC src/w_8003E758_owned.c (gcc 2.7.2-cdk -G32 -fno-expensive-optimizations )\n{\"applied\": true, \"module\": \"cd_e758_pieces\", \"post_object_sha256\": \"903203a11ace18691c3963bb3558176e1fa817bb5d47c378007cfb16a4cbc1c9\", \"verified\": false}\n",
+  "configure_log_tail": "wrote build.ninja (1144 objects)\n",
+  "control": {
+    "result": "MATCH",
+    "words_diff": 0
+  },
+  "data_piece_receipt_sha256": "82edc4643bc0dc07c01dd333bab3b2dcff668cd8c15006d0470b48357e0fc42e",
+  "function_section_sha256": "fba3e2bb1fa0577bd07a3f1740a1fbcfd9dacafc052a085ea490e155d72a8099",
+  "function_words": 698,
+  "head": "89b14658",
+  "image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "link_log_tail": "ule_assets/3E018_016188_0161A0.bin\n[29/60] BIN build/module_assets/3E018_0161A8_0161B8.bin\n[30/60] BIN build/module_assets/54240_000000_00002C.bin\n[31/60] BIN build/module_assets/54240_000030_000064.bin\n[32/60] BIN build/module_assets/54240_000074_000090.bin\n[33/60] BIN build/module_assets/54240_000091_000092.bin\n[34/60] BIN build/module_assets/54240_000096_000098.bin\n[35/60] BIN build/module_assets/54240_00009C_0000BE.bin\n[36/60] BIN build/module_assets/54240_0000C2_0000C8.bin\n[37/60] BIN build/module_assets/54240_0000CC_0000D0.bin\n[38/60] BIN build/module_assets/54240_0000D6_000118.bin\n[39/60] BIN build/module_assets/54240_000128_000140.bin\n[40/60] BIN build/module_assets/54240_000148_000154.bin\n[41/60] BIN build/module_assets/54240_00015C_000A00.bin\n[42/60] BIN build/module_assets/54240_000A04_000A08.bin\n[43/60] BIN build/module_assets/54240_000A0C_000A10.bin\n[44/60] BIN build/module_assets/54240_000A18_000A20.bin\n[45/60] BIN build/module_assets/54240_000A24_000A8C.bin\n[46/60] BIN build/module_assets/54240_000A91_000A94.bin\n[47/60] BIN build/module_assets/54240_000A95_000AA0.bin\n[48/60] BIN build/module_assets/54240_000AA4_000AA8.bin\n[49/60] BIN build/module_assets/54240_000AAA_000AC0.bin\n[50/60] BIN build/module_assets/54240_000AC2_000AC8.bin\n[51/60] BIN build/module_assets/54240_000ACC_000AD0.bin\n[52/60] BIN build/module_assets/54240_000AD4_000AD8.bin\n[53/60] BIN build/module_assets/54240_000AE8_000AF0.bin\n[54/60] BIN build/module_assets/54240_000AF2_000B00.bin\n[55/60] BIN build/module_assets/54240_000B04_000B14.bin\n[56/60] BIN build/module_assets/54240_000B1C_02BDC0.bin\n[57/60] MODULE-SYMS build/slus_006.14.undefined_syms.modules.txt\n[58/60] PARTITION-COVERAGE build/partition_sources/coverage.ok\n[59/60] LINK build/slus_006.14.elf\n[60/60] OBJCOPY build/slus_006.14\n",
+  "linked_data": [
+    {
+      "section_index": 2,
+      "size": 1,
+      "symbol": "D_800814D0",
+      "vram": "0x800814D0"
+    },
+    {
+      "section_index": 2,
+      "size": 1,
+      "symbol": "D_800814D4",
+      "vram": "0x800814D4"
+    },
+    {
+      "section_index": 2,
+      "size": 4,
+      "symbol": "D_800814CC",
+      "vram": "0x800814CC"
+    },
+    {
+      "section_index": 2,
+      "size": 8,
+      "symbol": "D_80081450",
+      "vram": "0x80081450"
+    },
+    {
+      "section_index": 2,
+      "size": 1,
+      "symbol": "D_80080AD0",
+      "vram": "0x80080AD0"
+    },
+    {
+      "section_index": 2,
+      "size": 2,
+      "symbol": "D_80080AD2",
+      "vram": "0x80080AD2"
+    },
+    {
+      "section_index": 2,
+      "size": 2,
+      "symbol": "D_80080AD4",
+      "vram": "0x80080AD4"
+    },
+    {
+      "section_index": 2,
+      "size": 4,
+      "symbol": "D_80080AD8",
+      "vram": "0x80080AD8"
+    }
+  ],
+  "logical_edges": 884,
+  "outside_objects_changed": [],
+  "outside_objects_checked": 868,
+  "owner_object_sha256_after_link": "903203a11ace18691c3963bb3558176e1fa817bb5d47c378007cfb16a4cbc1c9",
+  "owner_object_sha256_before_link": "903203a11ace18691c3963bb3558176e1fa817bb5d47c378007cfb16a4cbc1c9",
+  "owner_unsplit_sha256": "27bd363c2d1e52d4fcbb505c9950a137100998e64a2b1703871bf19000bc10a0",
+  "physical_edges": 869,
+  "production_inputs_unchanged": true,
+  "retail_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "sha1_gate_log_tail": "ninja: Entering directory `<repo>/work/native_lane/gp_cd_bounded_link/stage'\n[1/1] SHA1 config/slus_006.14.sha1\nbuild/slus_006.14: OK\n",
+  "sidecar_sha256": {
+    ".data-pieces.json": "82edc4643bc0dc07c01dd333bab3b2dcff668cd8c15006d0470b48357e0fc42e",
+    ".data-pieces.ok": "39331044ec4c5ce43db06ad15dadf6023f1b401718ea8855e59ec3258a765962",
+    ".unsplit.o": "27bd363c2d1e52d4fcbb505c9950a137100998e64a2b1703871bf19000bc10a0"
+  },
+  "source_sha256": {
+    "aggregator": "2465f195caa4f8d2571a5ccc2e68975da92755ac9c37e3c6b37da34679bbf9ca",
+    "candidate": "56e2ca2b440e6238a7a2662f845dfe45217a82a4dfdb1da4a3ecfce2a2f98b9c",
+    "cd_state_header": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614",
+    "fragment": "5b076d2875a3d0d24c9971f8d1643cf194eeefed0786bf76684f4209445f1d2d",
+    "private_manifest": "5360284bb33f128ef7e673b6f9e3c01e8ba2cbaa9a7790e4f705f48c8d84fc92"
+  },
+  "stage": "work/native_lane/gp_cd_bounded_link/stage",
+  "status": "MATCH",
+  "tools_sha256": {
+    "configure": "bab4b98f03b89c771c04d1ea3d937b1868c9cb24ebb0f7741a413546f43d51df",
+    "generic_maspsx": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "slus_data_pieces": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+    "slus_iso": "941818aa3d830c22c6182ad61dbdf34949a464cb0e2964b6afcef66d3b24dd95",
+    "slus_modules": "69b68d32d0d2aef22f947bb985b067234c382d33a218d5517e21c496effc1b80",
+    "stock_maspsx": "3bbb64075ab6384f6b670a495cce152acb50f3318cf714c6ab9a082b7adaf086"
+  }
+}

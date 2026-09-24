@@ -1,0 +1,663 @@
+{
+  "source_sha256": "07730fff2eacf4bb404cb50bac85ee106ede6da1f9b4f7d08a5b05f66ddeeed4",
+  "recipe": {
+    "src": "src/w_8003F368.c",
+    "out": "build/src/w_8003F368.o",
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32 -fno-expensive-optimizations",
+    "asflags": ""
+  },
+  "functions": [
+    "func_8003F368"
+  ],
+  "hashes": {
+    "stock": "4f06ada99d9e14f1af85ee23d97c5db9a4cd3bb6d7e2c50f80bc4c1d0336f2d9",
+    "generic": "a5a268b9f9ce167589b4092570edd57084a2674eb4313a78f5cf9cf1077fc314",
+    "genuine": "a522f2274ad534cb4ca60bdaeb604826d7e2226e28f05c9b5ee971565374e85a"
+  },
+  "retail": {
+    "stock": {
+      "func_8003F368": {
+        "present": true,
+        "address": "0x8003f368",
+        "actual_words": 109,
+        "retail_words": 113,
+        "length_equal": false,
+        "masked_indices": [
+          3,
+          7,
+          54,
+          57,
+          61,
+          64,
+          69,
+          72,
+          80
+        ],
+        "masked_relocations": [
+          {
+            "index": 3,
+            "word": "8f920000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 7,
+            "word": "af800000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 54,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 57,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 61,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 64,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 69,
+            "word": "af920000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 72,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 80,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "aligned_lcs": {
+          "status": "withheld: unresolved relocations"
+        }
+      }
+    },
+    "generic": {
+      "func_8003F368": {
+        "present": true,
+        "address": "0x8003f368",
+        "actual_words": 113,
+        "retail_words": 113,
+        "length_equal": true,
+        "masked_indices": [
+          3,
+          7,
+          55,
+          58,
+          62,
+          65,
+          70,
+          73,
+          83
+        ],
+        "masked_relocations": [
+          {
+            "index": 3,
+            "word": "8f920000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 7,
+            "word": "af800000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 55,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 58,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 62,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 65,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 70,
+            "word": "af920000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 73,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 83,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 3,
+            "address": "0x8003f374",
+            "actual": "8f920000",
+            "retail": "8f920abc"
+          },
+          {
+            "index": 7,
+            "address": "0x8003f384",
+            "actual": "af800000",
+            "retail": "af800abc"
+          },
+          {
+            "index": 55,
+            "address": "0x8003f444",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 58,
+            "address": "0x8003f450",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 62,
+            "address": "0x8003f460",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 65,
+            "address": "0x8003f46c",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 70,
+            "address": "0x8003f480",
+            "actual": "af920000",
+            "retail": "af920abc"
+          },
+          {
+            "index": 73,
+            "address": "0x8003f48c",
+            "actual": "93820000",
+            "retail": "93820abc"
+          },
+          {
+            "index": 83,
+            "address": "0x8003f4b4",
+            "actual": "93840000",
+            "retail": "93840abc"
+          }
+        ]
+      }
+    },
+    "genuine": {
+      "func_8003F368": {
+        "present": true,
+        "address": "0x8003f368",
+        "actual_words": 113,
+        "retail_words": 113,
+        "length_equal": true,
+        "masked_indices": [
+          3,
+          7,
+          55,
+          58,
+          62,
+          65,
+          70,
+          73,
+          83
+        ],
+        "masked_relocations": [
+          {
+            "index": 3,
+            "word": "8f920000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 7,
+            "word": "af800000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 55,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 58,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 62,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 65,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 70,
+            "word": "af920000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 73,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 83,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 3,
+            "address": "0x8003f374",
+            "actual": "8f920000",
+            "retail": "8f920abc"
+          },
+          {
+            "index": 7,
+            "address": "0x8003f384",
+            "actual": "af800000",
+            "retail": "af800abc"
+          },
+          {
+            "index": 55,
+            "address": "0x8003f444",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 58,
+            "address": "0x8003f450",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 62,
+            "address": "0x8003f460",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 65,
+            "address": "0x8003f46c",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 70,
+            "address": "0x8003f480",
+            "actual": "af920000",
+            "retail": "af920abc"
+          },
+          {
+            "index": 73,
+            "address": "0x8003f48c",
+            "actual": "93820000",
+            "retail": "93820abc"
+          },
+          {
+            "index": 83,
+            "address": "0x8003f4b4",
+            "actual": "93840000",
+            "retail": "93840abc"
+          }
+        ]
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 113,
+    "right_words": 113,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "projected_retail": {
+    "stock": {
+      "present": true,
+      "address": "0x8003f368",
+      "actual_words": 109,
+      "retail_words": 113,
+      "length_equal": false,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": false,
+      "aligned_lcs": {
+        "substitutions": 9,
+        "indels": 4,
+        "total": 13,
+        "jump_targets_normalized": true,
+        "regions": [
+          {
+            "op": "replace",
+            "actual_index": 11,
+            "retail_index": 11,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1443005a"
+            ],
+            "retail": [
+              "1443005e"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 38,
+            "retail_index": 38,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10430021"
+            ],
+            "retail": [
+              "10430022"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 48,
+            "retail_index": 48,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "14430014"
+            ],
+            "retail": [
+              "14430015"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 51,
+            "retail_index": 51,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3820b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 58,
+            "retail_index": 59,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fd17"
+            ],
+            "retail": [
+              "0800fd18"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 73,
+            "retail_index": 74,
+            "actual_length": 2,
+            "retail_length": 4,
+            "actual": [
+              "93830abd",
+              "93850abe"
+            ],
+            "retail": [
+              "3c038008",
+              "90631451",
+              "3c058008",
+              "90a51452"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 84,
+            "retail_index": 87,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400011"
+            ],
+            "retail": [
+              "10400012"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 91,
+            "retail_index": 94,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400009"
+            ],
+            "retail": [
+              "1040000a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 93,
+            "retail_index": 96,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "93840abe"
+            ],
+            "retail": [
+              "3c048008",
+              "90841452"
+            ]
+          }
+        ]
+      }
+    },
+    "generic": {
+      "present": true,
+      "address": "0x8003f368",
+      "actual_words": 113,
+      "retail_words": 113,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "genuine": {
+      "present": true,
+      "address": "0x8003f368",
+      "actual_words": 113,
+      "retail_words": 113,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    }
+  },
+  "projected_generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 113,
+    "right_words": 113,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

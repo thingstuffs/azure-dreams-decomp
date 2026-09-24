@@ -1,0 +1,2972 @@
+{
+  "baseline_commit": "89b1465834114c4cfb67dba1f298e86fb3303b18",
+  "code2_remainder": {
+    "baseline_functions": 23,
+    "exact": true,
+    "remainder_functions": 22,
+    "removed_function": "func_8003F240",
+    "token_diff": 0,
+    "unchanged_words": 224
+  },
+  "connected_closure": {
+    "function_counts": {
+      "src/cd_command_state_owned.c": 8,
+      "src/code.c": 151,
+      "src/code2.c": 22,
+      "src/sort_rank_81540_owned.c": 2,
+      "src/w_80041134_owned.c": 3,
+      "src/w_8004DCA8_owned.c": 5,
+      "src/w_8004DCEC_owned.c": 4,
+      "src/w_80050DA8_owned.c": 3
+    },
+    "owners": [
+      "cd_command_state",
+      "command_slots_81554",
+      "list_cursor_e0",
+      "message_mode_81550",
+      "saved_value_b98",
+      "sort_rank_81540"
+    ],
+    "parents": [
+      "slus/code",
+      "slus/code2"
+    ],
+    "total_functions": 198,
+    "whole_collector_genuine_claim": false
+  },
+  "fresh_ready18_data": [
+    {
+      "asset_bytes": "04000000",
+      "asset_offset": 44,
+      "carve": {
+        "end": 48,
+        "kind": "module_data",
+        "module": "runtime_directory",
+        "object": "build/src/konami_runtime_directory.o",
+        "section": ".sdata",
+        "start": 44,
+        "symbols": [
+          "D_80080A6C"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "04000000",
+      "linked": [
+        {
+          "address": 2148010604,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "runtime_directory",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "04000000",
+      "section": ".sdata",
+      "symbol": "D_80080A6C"
+    },
+    {
+      "asset_bytes": "b8b89800",
+      "asset_offset": 320,
+      "carve": {
+        "end": 328,
+        "kind": "module_data",
+        "module": "entry_words",
+        "object": "build/src/w_800508F0_owned.o",
+        "section": ".sdata",
+        "start": 320,
+        "symbols": [
+          "D_80080B80",
+          "D_80080B84"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "b8b89800",
+      "linked": [
+        {
+          "address": 2148010880,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "entry_words",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "b8b89800",
+      "section": ".sdata",
+      "symbol": "D_80080B80"
+    },
+    {
+      "asset_bytes": "68685800",
+      "asset_offset": 324,
+      "carve": {
+        "end": 328,
+        "kind": "module_data",
+        "module": "entry_words",
+        "object": "build/src/w_800508F0_owned.o",
+        "section": ".sdata",
+        "start": 320,
+        "symbols": [
+          "D_80080B80",
+          "D_80080B84"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "68685800",
+      "linked": [
+        {
+          "address": 2148010884,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "entry_words",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "68685800",
+      "section": ".sdata",
+      "symbol": "D_80080B84"
+    },
+    {
+      "asset_bytes": "e003de01",
+      "asset_offset": 90528,
+      "carve": {
+        "end": 90536,
+        "kind": "module_data",
+        "module": "render_words",
+        "object": "build/src/konami_runtime_w_80035888_owned.o",
+        "section": ".sdata",
+        "start": 90528,
+        "symbols": [
+          "D_800809B8",
+          "D_800809BC"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "e003de01",
+      "linked": [
+        {
+          "address": 2148010424,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "render_words",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "e003de01",
+      "section": ".sdata",
+      "symbol": "D_800809B8"
+    },
+    {
+      "asset_bytes": "30001000",
+      "asset_offset": 90532,
+      "carve": {
+        "end": 90536,
+        "kind": "module_data",
+        "module": "render_words",
+        "object": "build/src/konami_runtime_w_80035888_owned.o",
+        "section": ".sdata",
+        "start": 90528,
+        "symbols": [
+          "D_800809B8",
+          "D_800809BC"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "30001000",
+      "linked": [
+        {
+          "address": 2148010428,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "render_words",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "30001000",
+      "section": ".sdata",
+      "symbol": "D_800809BC"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2560,
+      "carve": {
+        "end": 2564,
+        "kind": "module_data",
+        "module": "owned_80035484",
+        "object": "build/src/konami_runtime_w_80035484_owned.o",
+        "section": ".sdata",
+        "start": 2560,
+        "symbols": [
+          "D_80081440"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013120,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80035484",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081440"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2568,
+      "carve": {
+        "end": 2572,
+        "kind": "module_data",
+        "module": "owned_80038A10",
+        "object": "build/src/konami_runtime_w_80038A10_owned.o",
+        "section": ".sdata",
+        "start": 2568,
+        "symbols": [
+          "D_80081448"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013128,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80038A10",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081448"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 192,
+      "carve": {
+        "end": 194,
+        "kind": "module_data",
+        "module": "owned_80044698",
+        "object": "build/src/w_80044698_owned.o",
+        "section": ".sdata",
+        "start": 192,
+        "symbols": [
+          "D_80080B00"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010752,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80044698",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080B00"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2760,
+      "carve": {
+        "end": 2764,
+        "kind": "module_data",
+        "module": "owned_800448BC",
+        "object": "build/src/w_800448BC_owned.o",
+        "section": ".sdata",
+        "start": 2760,
+        "symbols": [
+          "D_80081508"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013320,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_800448BC",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081508"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 200,
+      "carve": {
+        "end": 204,
+        "kind": "module_data",
+        "module": "owned_8004713C",
+        "object": "build/src/w_8004713C_owned.o",
+        "section": ".sdata",
+        "start": 200,
+        "symbols": [
+          "D_80080B08",
+          "D_80080B0A"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010760,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_8004713C",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080B08"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 202,
+      "carve": {
+        "end": 204,
+        "kind": "module_data",
+        "module": "owned_8004713C",
+        "object": "build/src/w_8004713C_owned.o",
+        "section": ".sdata",
+        "start": 200,
+        "symbols": [
+          "D_80080B08",
+          "D_80080B0A"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010762,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_8004713C",
+      "object": [
+        ".sdata",
+        2,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080B0A"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2776,
+      "carve": {
+        "end": 2784,
+        "kind": "module_data",
+        "module": "owned_80047338",
+        "object": "build/src/w_80047338_owned.o",
+        "section": ".sdata",
+        "start": 2776,
+        "symbols": [
+          "D_80081518",
+          "D_8008151A",
+          "D_8008151C",
+          "D_8008151E"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013336,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047338",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80081518"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2778,
+      "carve": {
+        "end": 2784,
+        "kind": "module_data",
+        "module": "owned_80047338",
+        "object": "build/src/w_80047338_owned.o",
+        "section": ".sdata",
+        "start": 2776,
+        "symbols": [
+          "D_80081518",
+          "D_8008151A",
+          "D_8008151C",
+          "D_8008151E"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013338,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047338",
+      "object": [
+        ".sdata",
+        2,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_8008151A"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2780,
+      "carve": {
+        "end": 2784,
+        "kind": "module_data",
+        "module": "owned_80047338",
+        "object": "build/src/w_80047338_owned.o",
+        "section": ".sdata",
+        "start": 2776,
+        "symbols": [
+          "D_80081518",
+          "D_8008151A",
+          "D_8008151C",
+          "D_8008151E"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013340,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047338",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_8008151C"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2782,
+      "carve": {
+        "end": 2784,
+        "kind": "module_data",
+        "module": "owned_80047338",
+        "object": "build/src/w_80047338_owned.o",
+        "section": ".sdata",
+        "start": 2776,
+        "symbols": [
+          "D_80081518",
+          "D_8008151A",
+          "D_8008151C",
+          "D_8008151E"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013342,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047338",
+      "object": [
+        ".sdata",
+        6,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_8008151E"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2784,
+      "carve": {
+        "end": 2792,
+        "kind": "module_data",
+        "module": "owned_80047468",
+        "object": "build/src/w_80047468_owned.o",
+        "section": ".sdata",
+        "start": 2784,
+        "symbols": [
+          "D_80081520",
+          "D_80081522",
+          "D_80081524",
+          "D_80081526"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013344,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047468",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80081520"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2786,
+      "carve": {
+        "end": 2792,
+        "kind": "module_data",
+        "module": "owned_80047468",
+        "object": "build/src/w_80047468_owned.o",
+        "section": ".sdata",
+        "start": 2784,
+        "symbols": [
+          "D_80081520",
+          "D_80081522",
+          "D_80081524",
+          "D_80081526"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013346,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047468",
+      "object": [
+        ".sdata",
+        2,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80081522"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2788,
+      "carve": {
+        "end": 2792,
+        "kind": "module_data",
+        "module": "owned_80047468",
+        "object": "build/src/w_80047468_owned.o",
+        "section": ".sdata",
+        "start": 2784,
+        "symbols": [
+          "D_80081520",
+          "D_80081522",
+          "D_80081524",
+          "D_80081526"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013348,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047468",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80081524"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2790,
+      "carve": {
+        "end": 2792,
+        "kind": "module_data",
+        "module": "owned_80047468",
+        "object": "build/src/w_80047468_owned.o",
+        "section": ".sdata",
+        "start": 2784,
+        "symbols": [
+          "D_80081520",
+          "D_80081522",
+          "D_80081524",
+          "D_80081526"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013350,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "owned_80047468",
+      "object": [
+        ".sdata",
+        6,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80081526"
+    },
+    {
+      "asset_bytes": "80fd0000",
+      "asset_offset": 280,
+      "carve": {
+        "end": 296,
+        "kind": "module_data",
+        "module": "state_defaults",
+        "object": "build/src/gp_state_defaults.o",
+        "section": ".sdata",
+        "start": 280,
+        "symbols": [
+          "D_80080B58",
+          "D_80080B5C",
+          "D_80080B60",
+          "D_80080B64"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "80fd0000",
+      "linked": [
+        {
+          "address": 2148010840,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "state_defaults",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "80fd0000",
+      "section": ".sdata",
+      "symbol": "D_80080B58"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 284,
+      "carve": {
+        "end": 296,
+        "kind": "module_data",
+        "module": "state_defaults",
+        "object": "build/src/gp_state_defaults.o",
+        "section": ".sdata",
+        "start": 280,
+        "symbols": [
+          "D_80080B58",
+          "D_80080B5C",
+          "D_80080B60",
+          "D_80080B64"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148010844,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "state_defaults",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80080B5C"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 288,
+      "carve": {
+        "end": 296,
+        "kind": "module_data",
+        "module": "state_defaults",
+        "object": "build/src/gp_state_defaults.o",
+        "section": ".sdata",
+        "start": 280,
+        "symbols": [
+          "D_80080B58",
+          "D_80080B5C",
+          "D_80080B60",
+          "D_80080B64"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148010848,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "state_defaults",
+      "object": [
+        ".sdata",
+        8,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80080B60"
+    },
+    {
+      "asset_bytes": "00040000",
+      "asset_offset": 292,
+      "carve": {
+        "end": 296,
+        "kind": "module_data",
+        "module": "state_defaults",
+        "object": "build/src/gp_state_defaults.o",
+        "section": ".sdata",
+        "start": 280,
+        "symbols": [
+          "D_80080B58",
+          "D_80080B5C",
+          "D_80080B60",
+          "D_80080B64"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00040000",
+      "linked": [
+        {
+          "address": 2148010852,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "state_defaults",
+      "object": [
+        ".sdata",
+        12,
+        "global",
+        0
+      ],
+      "object_bytes": "00040000",
+      "section": ".sdata",
+      "symbol": "D_80080B64"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2728,
+      "carve": {
+        "end": 2730,
+        "kind": "module_data",
+        "module": "slot_transition",
+        "object": "build/src/slot_transition.o",
+        "section": ".sdata",
+        "start": 2728,
+        "symbols": [
+          "D_800814E8"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013288,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "slot_transition",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_800814E8"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2752,
+      "carve": {
+        "end": 2754,
+        "kind": "module_data",
+        "module": "slot_transition_secondary",
+        "object": "build/src/slot_transition_secondary.o",
+        "section": ".sdata",
+        "start": 2752,
+        "symbols": [
+          "D_80081500"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013312,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "slot_transition_secondary",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80081500"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2592,
+      "carve": {
+        "end": 2596,
+        "kind": "module_data",
+        "module": "konami_runtime_gp_count",
+        "object": "build/src/konami_runtime_gp_count.o",
+        "section": ".sdata",
+        "start": 2592,
+        "symbols": [
+          "D_80081460"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013152,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "konami_runtime_gp_count",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081460"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 100,
+      "carve": {
+        "end": 116,
+        "kind": "module_data",
+        "module": "gp_shared_slots",
+        "object": "build/src/gp_shared_slots.o",
+        "section": ".sdata",
+        "start": 100,
+        "symbols": [
+          "D_80080AA4",
+          "D_80080AA6",
+          "D_80080AA8",
+          "D_80080AAA",
+          "D_80080AAC",
+          "D_80080AB0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010660,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_slots",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080AA4"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 102,
+      "carve": {
+        "end": 116,
+        "kind": "module_data",
+        "module": "gp_shared_slots",
+        "object": "build/src/gp_shared_slots.o",
+        "section": ".sdata",
+        "start": 100,
+        "symbols": [
+          "D_80080AA4",
+          "D_80080AA6",
+          "D_80080AA8",
+          "D_80080AAA",
+          "D_80080AAC",
+          "D_80080AB0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010662,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_slots",
+      "object": [
+        ".sdata",
+        2,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080AA6"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 104,
+      "carve": {
+        "end": 116,
+        "kind": "module_data",
+        "module": "gp_shared_slots",
+        "object": "build/src/gp_shared_slots.o",
+        "section": ".sdata",
+        "start": 100,
+        "symbols": [
+          "D_80080AA4",
+          "D_80080AA6",
+          "D_80080AA8",
+          "D_80080AAA",
+          "D_80080AAC",
+          "D_80080AB0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010664,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_slots",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080AA8"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 106,
+      "carve": {
+        "end": 116,
+        "kind": "module_data",
+        "module": "gp_shared_slots",
+        "object": "build/src/gp_shared_slots.o",
+        "section": ".sdata",
+        "start": 100,
+        "symbols": [
+          "D_80080AA4",
+          "D_80080AA6",
+          "D_80080AA8",
+          "D_80080AAA",
+          "D_80080AAC",
+          "D_80080AB0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010666,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_slots",
+      "object": [
+        ".sdata",
+        6,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080AAA"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 108,
+      "carve": {
+        "end": 116,
+        "kind": "module_data",
+        "module": "gp_shared_slots",
+        "object": "build/src/gp_shared_slots.o",
+        "section": ".sdata",
+        "start": 100,
+        "symbols": [
+          "D_80080AA4",
+          "D_80080AA6",
+          "D_80080AA8",
+          "D_80080AAA",
+          "D_80080AAC",
+          "D_80080AB0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148010668,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_slots",
+      "object": [
+        ".sdata",
+        8,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80080AAC"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 112,
+      "carve": {
+        "end": 116,
+        "kind": "module_data",
+        "module": "gp_shared_slots",
+        "object": "build/src/gp_shared_slots.o",
+        "section": ".sdata",
+        "start": 100,
+        "symbols": [
+          "D_80080AA4",
+          "D_80080AA6",
+          "D_80080AA8",
+          "D_80080AAA",
+          "D_80080AAC",
+          "D_80080AB0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148010672,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_slots",
+      "object": [
+        ".sdata",
+        12,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80080AB0"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 208,
+      "carve": {
+        "end": 214,
+        "kind": "module_data",
+        "module": "gp_split_storage",
+        "object": "build/src/gp_split_storage.o",
+        "section": ".sdata",
+        "start": 208,
+        "symbols": [
+          "D_80080B10",
+          "D_80080B12",
+          "D_80080B14"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010768,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_split_storage",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080B10"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 210,
+      "carve": {
+        "end": 214,
+        "kind": "module_data",
+        "module": "gp_split_storage",
+        "object": "build/src/gp_split_storage.o",
+        "section": ".sdata",
+        "start": 208,
+        "symbols": [
+          "D_80080B10",
+          "D_80080B12",
+          "D_80080B14"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010770,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_split_storage",
+      "object": [
+        ".sdata",
+        2,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080B12"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 212,
+      "carve": {
+        "end": 214,
+        "kind": "module_data",
+        "module": "gp_split_storage",
+        "object": "build/src/gp_split_storage.o",
+        "section": ".sdata",
+        "start": 208,
+        "symbols": [
+          "D_80080B10",
+          "D_80080B12",
+          "D_80080B14"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010772,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_split_storage",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080B14"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 2800,
+      "carve": {
+        "end": 2802,
+        "kind": "module_data",
+        "module": "gp_split_storage",
+        "object": "build/src/gp_split_storage.o",
+        "section": ".sbss",
+        "start": 2800,
+        "symbols": [
+          "D_80081530"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148013360,
+          "binding": "LOCAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_split_storage",
+      "object": [
+        ".sbss",
+        0,
+        "local",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sbss",
+      "symbol": "D_80081530"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2768,
+      "carve": {
+        "end": 2772,
+        "kind": "module_data",
+        "module": "gp_shared_81510",
+        "object": "build/src/gp_shared_81510.o",
+        "section": ".sdata",
+        "start": 2768,
+        "symbols": [
+          "D_80081510"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013328,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_81510",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081510"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 90500,
+      "carve": {
+        "end": 90504,
+        "kind": "module_data",
+        "module": "gp_shared_8099c",
+        "object": "build/src/konami_runtime_gp_shared_8099c.o",
+        "section": ".sdata",
+        "start": 90500,
+        "symbols": [
+          "D_8008099C"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148010396,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_8099c",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_8008099C"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 190,
+      "carve": {
+        "end": 192,
+        "kind": "module_data",
+        "module": "cache_afe",
+        "object": "build/src/w_80044618_owned.o",
+        "section": ".sdata",
+        "start": 190,
+        "symbols": [
+          "D_80080AFE"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010750,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "cache_afe",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080AFE"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2720,
+      "carve": {
+        "end": 2724,
+        "kind": "module_data",
+        "module": "list_cursor_e0",
+        "object": "build/src/w_80041134_owned.o",
+        "section": ".sdata",
+        "start": 2720,
+        "symbols": [
+          "D_800814E0"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013280,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "list_cursor_e0",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_800814E0"
+    },
+    {
+      "asset_bytes": "01000000",
+      "asset_offset": 340,
+      "carve": {
+        "end": 348,
+        "kind": "module_data",
+        "module": "saved_value_b98",
+        "object": "build/src/w_80050DA8_owned.o",
+        "section": ".sdata",
+        "start": 340,
+        "symbols": [
+          "D_80080B94",
+          "D_80080B98"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "01000000",
+      "linked": [
+        {
+          "address": 2148010900,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "saved_value_b98",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "01000000",
+      "section": ".sdata",
+      "symbol": "D_80080B94"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 344,
+      "carve": {
+        "end": 348,
+        "kind": "module_data",
+        "module": "saved_value_b98",
+        "object": "build/src/w_80050DA8_owned.o",
+        "section": ".sdata",
+        "start": 340,
+        "symbols": [
+          "D_80080B94",
+          "D_80080B98"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148010904,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "saved_value_b98",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80080B98"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2816,
+      "carve": {
+        "end": 2820,
+        "kind": "module_data",
+        "module": "sort_rank_81540",
+        "object": "build/src/sort_rank_81540_owned.o",
+        "section": ".sdata",
+        "start": 2816,
+        "symbols": [
+          "D_80081540"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013376,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "sort_rank_81540",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081540"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2836,
+      "carve": {
+        "end": 2844,
+        "kind": "module_data",
+        "module": "command_slots_81554",
+        "object": "build/src/w_8004DCA8_owned.o",
+        "section": ".sdata",
+        "start": 2836,
+        "symbols": [
+          "D_80081554",
+          "D_80081558"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013396,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "command_slots_81554",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081554"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2840,
+      "carve": {
+        "end": 2844,
+        "kind": "module_data",
+        "module": "command_slots_81554",
+        "object": "build/src/w_8004DCA8_owned.o",
+        "section": ".sdata",
+        "start": 2836,
+        "symbols": [
+          "D_80081554",
+          "D_80081558"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013400,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "command_slots_81554",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081558"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2792,
+      "carve": {
+        "end": 2796,
+        "kind": "module_data",
+        "module": "address_slot",
+        "object": "build/src/w_80047E78_owned.o",
+        "section": ".sdata",
+        "start": 2792,
+        "symbols": [
+          "D_80081528"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013352,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "address_slot",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081528"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2856,
+      "carve": {
+        "end": 2864,
+        "kind": "module_data",
+        "module": "command_words",
+        "object": "build/src/w_80053CFC_owned.o",
+        "section": ".sdata",
+        "start": 2856,
+        "symbols": [
+          "D_80081568",
+          "D_8008156C"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013416,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "command_words",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081568"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2860,
+      "carve": {
+        "end": 2864,
+        "kind": "module_data",
+        "module": "command_words",
+        "object": "build/src/w_80053CFC_owned.o",
+        "section": ".sdata",
+        "start": 2856,
+        "symbols": [
+          "D_80081568",
+          "D_8008156C"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013420,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "command_words",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_8008156C"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2796,
+      "carve": {
+        "end": 2800,
+        "kind": "module_data",
+        "module": "gp_shared_8152c",
+        "object": "build/src/gp_shared_8152c.o",
+        "section": ".sdata",
+        "start": 2796,
+        "symbols": [
+          "D_8008152C"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013356,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_shared_8152c",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_8008152C"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 124,
+      "carve": {
+        "end": 128,
+        "kind": "module_data",
+        "module": "gp_d92c_owned",
+        "object": "build/src/gp_d92c_owned.o",
+        "section": ".sdata",
+        "start": 124,
+        "symbols": [
+          "D_80080ABC",
+          "D_80080ABE"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010684,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_d92c_owned",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080ABC"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 126,
+      "carve": {
+        "end": 128,
+        "kind": "module_data",
+        "module": "gp_d92c_owned",
+        "object": "build/src/gp_d92c_owned.o",
+        "section": ".sdata",
+        "start": 124,
+        "symbols": [
+          "D_80080ABC",
+          "D_80080ABE"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010686,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_d92c_owned",
+      "object": [
+        ".sdata",
+        2,
+        "global",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sdata",
+      "symbol": "D_80080ABE"
+    },
+    {
+      "asset_bytes": "01030204",
+      "asset_offset": 240,
+      "carve": {
+        "end": 244,
+        "kind": "module_data",
+        "module": "gp_order_bytes_owner",
+        "object": "build/src/gp_order_bytes_owner.o",
+        "section": ".sdata",
+        "start": 240,
+        "symbols": [
+          "D_80080B30"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "01030204",
+      "linked": [
+        {
+          "address": 2148010800,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_order_bytes_owner",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "01030204",
+      "section": ".sdata",
+      "symbol": "D_80080B30"
+    },
+    {
+      "asset_bytes": "ff",
+      "asset_offset": 179,
+      "carve": {
+        "end": 180,
+        "kind": "module_data",
+        "module": "gp_af3_pair",
+        "object": "build/src/w_8004437C_pair.o",
+        "section": ".sdata",
+        "start": 179,
+        "symbols": [
+          "D_80080AF3"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "ff",
+      "linked": [
+        {
+          "address": 2148010739,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_af3_pair",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "ff",
+      "section": ".sdata",
+      "symbol": "D_80080AF3"
+    },
+    {
+      "asset_bytes": "0000",
+      "asset_offset": 188,
+      "carve": {
+        "end": 190,
+        "kind": "module_data",
+        "module": "gp_af3_pair",
+        "object": "build/src/w_8004437C_pair.o",
+        "section": ".sbss",
+        "start": 188,
+        "symbols": [
+          "D_80080AFC"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "0000",
+      "linked": [
+        {
+          "address": 2148010748,
+          "binding": "LOCAL",
+          "section": "2"
+        }
+      ],
+      "module": "gp_af3_pair",
+      "object": [
+        ".sbss",
+        0,
+        "local",
+        0
+      ],
+      "object_bytes": "0000",
+      "section": ".sbss",
+      "symbol": "D_80080AFC"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2828,
+      "carve": {
+        "end": 2836,
+        "kind": "module_data",
+        "module": "message_mode_81550",
+        "object": "build/src/w_8004DCEC_owned.o",
+        "section": ".sdata",
+        "start": 2828,
+        "symbols": [
+          "D_8008154C",
+          "D_80081550"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013388,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "message_mode_81550",
+      "object": [
+        ".sdata",
+        0,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_8008154C"
+    },
+    {
+      "asset_bytes": "00000000",
+      "asset_offset": 2832,
+      "carve": {
+        "end": 2836,
+        "kind": "module_data",
+        "module": "message_mode_81550",
+        "object": "build/src/w_8004DCEC_owned.o",
+        "section": ".sdata",
+        "start": 2828,
+        "symbols": [
+          "D_8008154C",
+          "D_80081550"
+        ]
+      },
+      "exact": true,
+      "filtered_assignment_absent": true,
+      "generated_assignment": true,
+      "image_bytes": "00000000",
+      "linked": [
+        {
+          "address": 2148013392,
+          "binding": "GLOBAL",
+          "section": "2"
+        }
+      ],
+      "module": "message_mode_81550",
+      "object": [
+        ".sdata",
+        4,
+        "global",
+        0
+      ],
+      "object_bytes": "00000000",
+      "section": ".sdata",
+      "symbol": "D_80081550"
+    }
+  ],
+  "fresh_ready18_genuine": [
+    {
+      "assembly_sha256": "3dacebfe27ad72275ab43c3d7b12edd3c1a9a3f27a490998c08fc40320cfcb2a",
+      "functions": [
+        "func_80047E78"
+      ],
+      "generic_obj_sha256": "b17e9b02dbbb5f6bfd73ecfd8c78349761a756cd38576583a2417931b1cfc862",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 29,
+        "len_m": 29,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 29,
+        "len_m": 29,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "f3ee45ce7e6ecaa69b1221005ec54f4d9b868e43815a0e7d5e3494d0b7547eea",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_80047E78_owned",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "76fae36d982bf603d401b48e1d3982d2fc0362d3f6bc5ade7c145dc1ef70fef0",
+      "functions": [
+        "func_80053CFC"
+      ],
+      "generic_obj_sha256": "128c1e965d2fe61d0ffe64d19bada03566e4e52c0715db0d43aac314b10f5efe",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 26,
+        "len_m": 26,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 26,
+        "len_m": 26,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "4932a925be3673101fdffadbf45ddcea0b2231766434bf71dce4ce08d997bfc4",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_80053CFC_owned",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "9485d7eafe524bfba6ee01bac956a5520835c3a488ecc64166456896a0e524f9",
+      "functions": [
+        "func_80047D44",
+        "func_80047DF0",
+        "func_80047E30"
+      ],
+      "generic_obj_sha256": "c111fc5af1e0620b1323e38738099405c37772106765f6fb7ce4d73a8661abc5",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 63,
+        "len_m": 63,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 63,
+        "len_m": 63,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "55ef024d910b08a4dbc1b6e597a83cd7d325f1c96237c0b74a4d95b807d70c8b",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "gp_shared_8152c",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2"
+      },
+      "retail": {
+        "generic": {
+          "checked": 3,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 3,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "377eeb0d2b3e5152312b151267153de99ffbdaacb53e3994ec0787ce48bceda7",
+      "functions": [
+        "func_8003D92C"
+      ],
+      "generic_obj_sha256": "07d2cccb53b100a174eded98455556d8213020f129c8daff6a0b4a3dcd9c695a",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 136,
+        "len_m": 136,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 136,
+        "len_m": 136,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "7c19ab1ab6b71028226cd185de524de1f1d6e170be2d393cb88ea8de26263350",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "gp_d92c_owned",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "5ba1208422d22f69711166fd3b8ecafba29870799b45ff2256d74c0295379d88",
+      "functions": [
+        "func_80049F68"
+      ],
+      "generic_obj_sha256": "647446b3ea690ce44cc415c18b0f0c2db2771388b36e65cefdc5bfdbe9907b00",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 50,
+        "len_m": 50,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 50,
+        "len_m": 50,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "b74776bce33393cf165e3399a8b619ce5d231d1db5c52148f9f323aa0fbbbad1",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "gp_order_bytes_owner",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "-fno-strength-reduce",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "9fb657d29d24286cdb4ca8eabe113d0bcb9faa927a69b5ad5c46cd16654965fc",
+      "functions": [
+        "func_8004437C",
+        "func_8004450C"
+      ],
+      "generic_obj_sha256": "7a827b126d2c9b649b008039e0ca101c5982d1b11884f819ff4ea6661c5ffc42",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 153,
+        "len_m": 153,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 153,
+        "len_m": 153,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "02c750cea91cabac63194b70891af64029e26ed8db44befd34756d3d05f36c62",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_8004437C_pair",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 2,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 2,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "56bc025dbd6d0682be776a1f339b8ac85cd7c0c9bfef0dacd6032f90ccc8e6ee",
+      "functions": [
+        "func_8004DCE0",
+        "func_8004DCEC",
+        "func_8004DE88",
+        "func_8004DF8C"
+      ],
+      "generic_obj_sha256": "c0b1c1d4a80e826146b0d257491f8f71111aeeac889bab7989436d0be38e0816",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 156,
+        "len_m": 156,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 156,
+        "len_m": 156,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "39c2740e47ab2900572a5c51932a3649a78399e40616860e1f1997c2a5e4b511",
+      "genuine_mode": [
+        "-q"
+      ],
+      "physical": "w_8004DCEC_owned",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 4,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 4,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "7b43550e2b31e24bb0834f198ddfda3b8dd8f207716aa7205d74d34d6671fbb3",
+      "functions": [
+        "func_8003FAD4"
+      ],
+      "generic_obj_sha256": "8ce6f55e2be0f24519cfcbd1994b152fcf9a1d6c1d7545e0cc6c2dd46b2d80c6",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 49,
+        "len_m": 49,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 49,
+        "len_m": 49,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "4984977221398f30e1d8a0c8d7e61fa23f0ff2a50c5c06eed4ceb7f867326f48",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_8003FAD4",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "8f87f07a12b34ac7b1ad09ef28d409a87c0c72a618b4d24545b91525c2fc075b",
+      "functions": [
+        "func_80041588"
+      ],
+      "generic_obj_sha256": "cd0449b96e5ca4f15f4802bdcf0ef787afbcdb64c30ae3b7904aa5e9968e2378",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 164,
+        "len_m": 164,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 164,
+        "len_m": 164,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "3fefd7388710d5a01a288c931685fe53ab1fc2273eec59142d48af0ce9e9e775",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_80041588",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "607af3d7e0bc516f6573247945f8ecdda5f9bf32b13a2a0716d481b68b140446",
+      "functions": [
+        "func_80041AB0"
+      ],
+      "generic_obj_sha256": "37b0df01461875b8867b6f5f92cbbfef1a84bc8c001a5d41cd9afc0e3472f03d",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 13,
+        "len_m": 13,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 13,
+        "len_m": 13,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "475337a28d1081d03006c86c9bb59935b326685ef357a1d4fbc6b7d5cba66839",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_80041AB0",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "4f32217139f89c2182a7b5ced19f3ebae6db00fe58ea0f35d43c8915a3d6cf5c",
+      "functions": [
+        "func_80043CD0"
+      ],
+      "generic_obj_sha256": "973250ec48cd42c73ea452893817fe61583c91ab973bfc55125a9e813ffddf88",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 13,
+        "len_m": 13,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 13,
+        "len_m": 13,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "7dbd49360535681a5e3274ab20c5efd884dcdb08bcc012068228b0b918364618",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_80043CD0",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    },
+    {
+      "assembly_sha256": "92fd5d51847861f216898f0002c93f1a54d0674d0ce0e870fc9fdd2e96c03acb",
+      "functions": [
+        "func_8004AB7C"
+      ],
+      "generic_obj_sha256": "928f358bf2906ad722bec358f6f02d9978a268a2e0db899973b632711cc947cd",
+      "generic_vs_built": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 39,
+        "len_m": 39,
+        "missing": []
+      },
+      "generic_vs_genuine": {
+        "diff": 0,
+        "exact": true,
+        "len_g": 39,
+        "len_m": 39,
+        "missing": []
+      },
+      "genuine_lnk_sha256": "d4a68c1bf14c33a0529eca7f48fd384fcd1d137dca9c8af4958b3795565264da",
+      "genuine_mode": [
+        "-q",
+        "-0"
+      ],
+      "physical": "w_8004AB7C",
+      "recipe": {
+        "asflags": "",
+        "ccflags": "",
+        "ccver": "2.7.2-cdk"
+      },
+      "retail": {
+        "generic": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        },
+        "genuine": {
+          "checked": 1,
+          "diff": 0,
+          "masked": 0
+        }
+      }
+    }
+  ],
+  "graph": {
+    "added_output": "build/src/cd_command_state_owned.o",
+    "changed_logical_sources": [
+      "src/w_8003E34C.c",
+      "src/w_8003E4FC.c",
+      "src/w_8003E758.c",
+      "src/w_8003F2A4.c",
+      "src/w_8003F368.c",
+      "src/w_8003F5AC.c",
+      "src/w_8003F624.c"
+    ],
+    "configure_log": "wrote build.ninja (1137 objects)",
+    "logical": 884,
+    "owner_asset_slots": 11,
+    "partition_render_log": "[1/1] PARTITION-RENDER build/partition_sources/code.c build/partition_sources/code2.c build/partition_sources/code2__cd_command_state.c build/partition_sources/code2__list_cursor_e0.c build/partition_sources/code__command_slots_81554.c build/partition_sources/code__list_cursor_e0.c build/partition_sources/code__message_mode_81550.c build/partition_sources/code__saved_value_b98.c build/partition_sources/code__sort_rank_81540.c",
+    "physical": 858,
+    "removed_outputs": [
+      "build/src/w_8003E34C.o",
+      "build/src/w_8003E4FC.o",
+      "build/src/w_8003E758.o",
+      "build/src/w_8003F2A4.o",
+      "build/src/w_8003F368.o",
+      "build/src/w_8003F5AC.o",
+      "build/src/w_8003F624.o"
+    ]
+  },
+  "image": {
+    "retail_exact": true,
+    "sha1_gate": true,
+    "sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+  },
+  "inputs": {
+    "combined8_receipt_sha256": "8a73188903710248f24f42f99f111dac9eebda48ccde716ab133119806f021cf",
+    "combined8_source_sha256": {
+      "aggregator_sha256": "d535e5b06ad2757f49f5cbeda655a0964e52a8da7fc5c715cb3701839877fc63",
+      "code2_part_sha256": "1a29119de5c8fc22122be81c0a307f993a7ef17cf8e324afab1c11a091b731ee",
+      "fragments_sha256": {
+        "e34c.c": "5bca8c77dbcb20c9e648fd3d9b7f578497d9daaded7c44f95983e0aad1073955",
+        "e4fc.c": "41db07c2944560af8d0f6fcc59c7e54a277315e2e2d5f80680050ddabdb90409",
+        "e758.c": "30f57595570cab4726a5db69be227dfac637243621a542b9888af9ead95c6ffc",
+        "f240.c": "114f3f56949dd25008a9683260abe625547740a6e1cc4fffc24104611673ba20",
+        "f2a4.c": "102426b3f2dd15f8a2e2f103ec24977958945b48c1085e1b764dc765755952e9",
+        "f368.c": "060cef847bf5f71619a4763b8fbcfbe5be7ec62bfb799613078d34d3edeeacb1",
+        "f5ac.c": "a28ececbbc96b7641c9f6c407418586255f9e2f76a4ab3063ef50156ee8d4db3",
+        "f624.c": "f6b2f1617c08693562bb4e681056da8e8349058f0f1645dc86db02e5ae9178b5"
+      },
+      "inputs_sha256": {
+        "e34c_driver_view.c": "b2a0831df16e197f6cee9c1f7a3ee15f86869c80c8f536677402547d6f16e94f",
+        "e758_prefix_view.c": "e46b83cfbf0560c0d32e961ea372ef32495ff33cf28fcac9bf57b0a52857fb85",
+        "f240_owned.c": "fd2520894739effd99a2ae2ca6299bb9681902bab774d8713c6852f779e17cdf",
+        "f2a4_queue_view.c": "5895816a752092e590e939803e08d5f60b47902bf4e73922277a76b1e0c30ec3",
+        "f368_address_views.c": "07730fff2eacf4bb404cb50bac85ee106ede6da1f9b4f7d08a5b05f66ddeeed4",
+        "f5ac_driver_view.c": "60405d53a746ac7d50f25d794090c1c706039e6fb4a38b68f36d489936562e3e",
+        "w_8003E4FC_owned.c": "291f05e79942228e2219617cc795198af24ec62e446bad1284c7e8e7e5542d84",
+        "w_8003F624_owned.c": "6935c3fdcaceaaa5446570f075c1f358843d18283dd7a4ab5f49d62a5c239952"
+      },
+      "member_candidates_sha256": {
+        "w_8003E34C.c": "5bca8c77dbcb20c9e648fd3d9b7f578497d9daaded7c44f95983e0aad1073955",
+        "w_8003E4FC.c": "41db07c2944560af8d0f6fcc59c7e54a277315e2e2d5f80680050ddabdb90409",
+        "w_8003E758.c": "30f57595570cab4726a5db69be227dfac637243621a542b9888af9ead95c6ffc",
+        "w_8003F2A4.c": "102426b3f2dd15f8a2e2f103ec24977958945b48c1085e1b764dc765755952e9",
+        "w_8003F368.c": "060cef847bf5f71619a4763b8fbcfbe5be7ec62bfb799613078d34d3edeeacb1",
+        "w_8003F5AC.c": "a28ececbbc96b7641c9f6c407418586255f9e2f76a4ab3063ef50156ee8d4db3",
+        "w_8003F624.c": "f6b2f1617c08693562bb4e681056da8e8349058f0f1645dc86db02e5ae9178b5"
+      },
+      "owner_template_sha256": "3a1a47fdaca76973cef226a7fb9acdc5d7cfe46cdb2cb62eee65da28aa716f6b",
+      "shared_definitions_sha256": "eca87bf29f0a0e2bb9aa5917ee6c870e7adc2ee17966bff5b9752fb305ee45d1"
+    },
+    "generic_cli_sha256": "d3e6ec7d120abe00f963c82258dfdeb0e228774adce646177525f1dbed925caf",
+    "ready18_receipt_sha256": "423e42907042df85305a781764fcf1094072feab45b00503ce2fd1837b78dcbe",
+    "stage_input_sha256": {
+      "config/names.tsv": "3576763c6538e26aa9953194283f427be22893cbafba88ab734b748d30de0a22",
+      "config/slus_modules.json": "881a81dc3f336a9942b8f150eb860bf974426bb1156d2deff86d7637f9ad0df4",
+      "config/slus_partitions.json": "f99fbbbef44b35b8e12f18d04ff562a0c7af28f5cf8779c873519f006596a28a",
+      "include/slus/cd_cohort_types.h": "4a972fa5eb6a6175a8f7578fd1b29111655666b2d7f674e94049d1b9268c02f4",
+      "include/slus/cd_state.h": "993ba6df16dd90218f278f09a180a1db6a8f8a3bfa3a03c41c0df73e684e3614",
+      "src/cd_command_state_owned.c": "3a1a47fdaca76973cef226a7fb9acdc5d7cfe46cdb2cb62eee65da28aa716f6b",
+      "src/w_8003E34C.c": "5bca8c77dbcb20c9e648fd3d9b7f578497d9daaded7c44f95983e0aad1073955",
+      "src/w_8003E4FC.c": "41db07c2944560af8d0f6fcc59c7e54a277315e2e2d5f80680050ddabdb90409",
+      "src/w_8003E758.c": "30f57595570cab4726a5db69be227dfac637243621a542b9888af9ead95c6ffc",
+      "src/w_8003F2A4.c": "102426b3f2dd15f8a2e2f103ec24977958945b48c1085e1b764dc765755952e9",
+      "src/w_8003F368.c": "060cef847bf5f71619a4763b8fbcfbe5be7ec62bfb799613078d34d3edeeacb1",
+      "src/w_8003F5AC.c": "a28ececbbc96b7641c9f6c407418586255f9e2f76a4ab3063ef50156ee8d4db3",
+      "src/w_8003F624.c": "f6b2f1617c08693562bb4e681056da8e8349058f0f1645dc86db02e5ae9178b5",
+      "tools/cc.sh": "b58c05bc2dd1ad16dd4fb701df595d795b4f6e8aaca09de63db5f1916baf7638",
+      "tools/ccproc.py": "fdfcf0cb45308cd2722f1eb055a2b06c3d907434c058265d838c76e96161195c",
+      "tools/configure.py": "aaeb389d95495bebb62cd6297b5362f080b9be45eb2e255bae298a7231c521a9",
+      "tools/slus_data_pieces.py": "d72b0b7c9c910315dc1c344f64af6b6799d7036ee0709533d09422cbf28daea2",
+      "tools/slus_modules.py": "69b68d32d0d2aef22f947bb985b067234c382d33a218d5517e21c496effc1b80",
+      "tools/slus_partitions.py": "28004bb63ec42f23c1b3835098dc2f725d7d0b6affaf60b487fefdee675cb897"
+    },
+    "standalone_cd_receipt_sha256": "b7b761ef290f03213a07f67689a62ffcba0d28897d6d0e37d2c8d8b39ccd9f79",
+    "standalone_harness_sha256": "bbb1dd9629e2888f0abe73f36fc2b3634a8a77297911c64d8a6de27e4d868966"
+  },
+  "measured_cohort": {
+    "cd8_functions": 8,
+    "cd8_words": 1041,
+    "ready18_functions": 18,
+    "ready18_words": 891,
+    "total_functions": 26,
+    "total_words": 1932
+  },
+  "new_owned_data": [
+    {
+      "asset_offset": 2704,
+      "linked_section_index": 2,
+      "payload_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "section": ".sdata.D_800814D0",
+      "size": 1,
+      "symbol": "D_800814D0",
+      "vram": "0x800814D0"
+    },
+    {
+      "asset_offset": 2708,
+      "linked_section_index": 2,
+      "payload_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "section": ".sdata.D_800814D4",
+      "size": 1,
+      "symbol": "D_800814D4",
+      "vram": "0x800814D4"
+    },
+    {
+      "asset_offset": 2700,
+      "linked_section_index": 2,
+      "payload_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": ".sdata.D_800814CC",
+      "size": 4,
+      "symbol": "D_800814CC",
+      "vram": "0x800814CC"
+    },
+    {
+      "asset_offset": 2576,
+      "linked_section_index": 2,
+      "payload_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "section": ".sdata.D_80081450",
+      "size": 8,
+      "symbol": "D_80081450",
+      "vram": "0x80081450"
+    },
+    {
+      "asset_offset": 144,
+      "linked_section_index": 2,
+      "payload_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "section": ".sdata.D_80080AD0",
+      "size": 1,
+      "symbol": "D_80080AD0",
+      "vram": "0x80080AD0"
+    },
+    {
+      "asset_offset": 146,
+      "linked_section_index": 2,
+      "payload_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "section": ".sdata.D_80080AD2",
+      "size": 2,
+      "symbol": "D_80080AD2",
+      "vram": "0x80080AD2"
+    },
+    {
+      "asset_offset": 148,
+      "linked_section_index": 2,
+      "payload_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "section": ".sdata.D_80080AD4",
+      "size": 2,
+      "symbol": "D_80080AD4",
+      "vram": "0x80080AD4"
+    },
+    {
+      "asset_offset": 152,
+      "linked_section_index": 2,
+      "payload_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": ".sdata.D_80080AD8",
+      "size": 4,
+      "symbol": "D_80080AD8",
+      "vram": "0x80080AD8"
+    },
+    {
+      "asset_offset": 156,
+      "linked_section_index": 2,
+      "payload_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": ".sdata.D_80080ADC",
+      "size": 4,
+      "symbol": "D_80080ADC",
+      "vram": "0x80080ADC"
+    },
+    {
+      "asset_offset": 2672,
+      "linked_section_index": 2,
+      "payload_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": ".sdata.D_800814B0",
+      "size": 4,
+      "symbol": "D_800814B0",
+      "vram": "0x800814B0"
+    },
+    {
+      "asset_offset": 2676,
+      "linked_section_index": 2,
+      "payload_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "section": ".sdata.D_800814B4",
+      "size": 4,
+      "symbol": "D_800814B4",
+      "vram": "0x800814B4"
+    }
+  ],
+  "outside_objects": {
+    "changed": [],
+    "checked": 856
+  },
+  "owner_genuine": {
+    "assembly_sha256": "a1821890856dd53c6ddf25ea3744ed24fe87a9a4c657f5de2c10b7c75948017a",
+    "fresh_generic_sha256": "93baf6a10551bd8b7997b035e90e34aca72ef3ad5330dd5341791c48879f29d6",
+    "functions": [
+      "func_8003E34C",
+      "func_8003E4FC",
+      "func_8003E758",
+      "func_8003F2A4",
+      "func_8003F368",
+      "func_8003F5AC",
+      "func_8003F624",
+      "func_8003F240"
+    ],
+    "generic_vs_built": {
+      "diff": 0,
+      "exact": true,
+      "len_g": 1041,
+      "len_m": 1041,
+      "missing": []
+    },
+    "generic_vs_genuine": {
+      "diff": 0,
+      "exact": true,
+      "len_g": 1041,
+      "len_m": 1041,
+      "missing": []
+    },
+    "genuine_lnk_sha256": "52bccb5f14436a0dd1336e7a3db623b0af0725af2262662020b15e10763bb2ca",
+    "linked_owner_sha256": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da",
+    "retail": {
+      "built_generic": {
+        "checked": 8,
+        "diff": 0,
+        "masked": 0
+      },
+      "fresh_generic": {
+        "checked": 8,
+        "diff": 0,
+        "masked": 0
+      },
+      "genuine": {
+        "checked": 8,
+        "diff": 0,
+        "masked": 0
+      }
+    },
+    "words": 1041
+  },
+  "owner_object_sha256_after_link": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da",
+  "owner_object_sha256_before_link": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da",
+  "prepared": {
+    "ready18_code_part_sha256": "83a2e15b66addf300f3fb3801219a6563105affdef01f1cc249e88ec5c9ed5df",
+    "ready18_generic_objects": {
+      "gp_d92c_owned": "be002bbfd2e92eb1855054a4d88cb2d26a9fb1496518ec4681a4096e0eacc401",
+      "gp_order_bytes_owner": "f102bcab987f3628883e19cbc5e3e2edbba5f8bab275ba0fa02965b0c8d04429",
+      "gp_shared_8152c": "711971c65d54dead03967640fec419238bd6412a2501f47f43fa9212b6d27e13",
+      "w_8003FAD4": "95644531e8441e41284a75d039a503d1bc8d24d7557f3ff601b41095d6e04571",
+      "w_80041588": "6363fcbb6609c94e8ca7110f178c93801d2a8e3088c49e28b7b6aff4da5cd54a",
+      "w_80041AB0": "dc24c2a6dd2aac652676771cdd105c754af7c29c3e4526162eba38042c5f14af",
+      "w_80043CD0": "46200acacfb1f313425c0f08760d6c28b559a5a10a4519ba68043ae93c4ce678",
+      "w_8004437C_pair": "1c85bfa9eedaa65d1d3733a9b29d1c91d70ecced1b327984b65faaed5577c859",
+      "w_80047E78_owned": "dd15fd9bbf8035e0eab426580ced8366d62acdbdd4186b6977181b87bcdf7591",
+      "w_8004AB7C": "ec50b0f0dcc399fb1e586450aa2581dd89f810ceb5c305551474b87b4268ee0c",
+      "w_8004DCEC_owned": "ff8c626a6afca7f04c5fc44f98d43769fe979b64cef3ba03b42cf9564f31c736",
+      "w_80053CFC_owned": "ff3d724c351b84a44fdf38ac5109b43d9a68e9b7d991bd5382801aed9c87dd2b"
+    },
+    "stage_initial_image_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f"
+  },
+  "production_snapshot_sha256": "efb11b530e086cf754d647255e9a1608e6ccc9da8da9732e4e8c34f9fb402dfd",
+  "production_unchanged": true,
+  "scope_limit": "Selective generic assembly for thirteen physical TUs only.",
+  "selective_generic_tus": [
+    "w_80047E78_owned",
+    "w_80053CFC_owned",
+    "gp_shared_8152c",
+    "gp_d92c_owned",
+    "gp_order_bytes_owner",
+    "w_8004437C_pair",
+    "w_8003FAD4",
+    "w_80041588",
+    "w_80041AB0",
+    "w_80043CD0",
+    "w_8004AB7C",
+    "w_8004DCEC_owned",
+    "cd_command_state_owned"
+  ],
+  "status": "MATCH"
+}

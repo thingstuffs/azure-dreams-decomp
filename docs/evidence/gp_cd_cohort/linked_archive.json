@@ -1,0 +1,59 @@
+{
+  "note": "Private standalone eight-function full link. No production change. Paths scrubbed; restore helper scripts to their recorded original locations before execution.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_cd_cohort_link/probe.py",
+      "archive": "linked/probe.py",
+      "source_sha256": "bbb1dd9629e2888f0abe73f36fc2b3634a8a77297911c64d8a6de27e4d868966",
+      "archive_sha256": "bbb1dd9629e2888f0abe73f36fc2b3634a8a77297911c64d8a6de27e4d868966"
+    },
+    {
+      "source": "work/native_lane/gp_cd_cohort_link/receipt.json",
+      "archive": "linked/receipt.json",
+      "source_sha256": "b7b761ef290f03213a07f67689a62ffcba0d28897d6d0e37d2c8d8b39ccd9f79",
+      "archive_sha256": "b7b761ef290f03213a07f67689a62ffcba0d28897d6d0e37d2c8d8b39ccd9f79"
+    },
+    {
+      "source": "work/native_lane/gp_cd_cohort_link/REPORT.md",
+      "archive": "linked/REPORT.md",
+      "source_sha256": "5b5b38a114715ec0147fd5611470fb63ae99bfc49e93dfbb3072c08852031e78",
+      "archive_sha256": "5b5b38a114715ec0147fd5611470fb63ae99bfc49e93dfbb3072c08852031e78"
+    },
+    {
+      "source": "work/native_lane/gp_cd_cohort_link/input_pins.json",
+      "archive": "linked/input_pins.json",
+      "source_sha256": "e1a364b5c4fe640135a9c91ba8879188cf41c37a65efcad33a0da848bbe0d679",
+      "archive_sha256": "e1a364b5c4fe640135a9c91ba8879188cf41c37a65efcad33a0da848bbe0d679"
+    },
+    {
+      "source": "work/native_lane/gp_cd_cohort_link/owner_compile.log",
+      "archive": "linked/owner_compile.log",
+      "source_sha256": "4aa8daec3ce00c6a8bc2a5945bce2548ce467c683574ddc3d6d3a114bbe1e443",
+      "archive_sha256": "772ad80d7c437a32a61163bb3a325c57672eb88b82ff536a566d0aefb3bd5f7c"
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/combined8/final_source_review.md",
+      "archive": "combined8/final_source_review.md",
+      "source_sha256": "4ba95d869b14549baf56205991ca189c4eac1c1c770ae697fa0bcd18dcd8a062",
+      "archive_sha256": "4ba95d869b14549baf56205991ca189c4eac1c1c770ae697fa0bcd18dcd8a062"
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/combined8/final_source_review.json",
+      "archive": "combined8/final_source_review.json",
+      "source_sha256": "1a5ca95cb0775670b41ca3d0fdc207f16cf9ac0e9142a8a385ae968b7cfb21c3",
+      "archive_sha256": "1a5ca95cb0775670b41ca3d0fdc207f16cf9ac0e9142a8a385ae968b7cfb21c3"
+    },
+    {
+      "source": "work/native_lane/gp_cd_contract/probe.py",
+      "archive": "helpers/cd_contract_probe.py",
+      "source_sha256": "8056810135a11101bfd895c8152499370b4f8a81461ec9c177d95b43d3a50e92",
+      "archive_sha256": "8056810135a11101bfd895c8152499370b4f8a81461ec9c177d95b43d3a50e92"
+    },
+    {
+      "source": "work/native_lane/gp_cd_partition/baseline_probe.py",
+      "archive": "helpers/cd_partition_baseline_probe.py",
+      "source_sha256": "84ba65c5566f3e18fd8cbdf812cf91aab9912595e1f5fa5578eeb3d1e3cf3a34",
+      "archive_sha256": "5e53fdcb8f35b711f9f8a45885565047cd6e78dc9c704e54c2f1691e01ad1cdb"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "note": "Archived scripts preserve measured text except home-path scrubbing. Copy to their recorded original work paths before execution; companion private inputs are pinned by the receipts. These are partial private rehearsals, not a global transition gate.",
+  "files": [
+    {
+      "source": "work/native_lane/gp_cd_bounded_link/probe.py",
+      "archive": "bounded_e758/probe.py",
+      "source_sha256": "b46eda3e1e9ce62480e700175e774faeb3698eb0c90c317127e1a6baf77e17da",
+      "archive_sha256": "b46eda3e1e9ce62480e700175e774faeb3698eb0c90c317127e1a6baf77e17da"
+    },
+    {
+      "source": "work/native_lane/gp_cd_bounded_link/receipt.json",
+      "archive": "bounded_e758/receipt.json",
+      "source_sha256": "d60fdf5d44e86ffbf4d91ff478607f0219f9f8d026c105c23555005ed04b3b88",
+      "archive_sha256": "56e23b5f6b7c837efed54382a813abba01c8bf99ad5b258750c703286e28206a"
+    },
+    {
+      "source": "work/native_lane/gp_ready18_cd_contract/probe.py",
+      "archive": "ready18/probe.py",
+      "source_sha256": "e38e72b910f777bebc66a4bad9f0bb2d4918e94d40f714509bca4c6e203f7cd3",
+      "archive_sha256": "e38e72b910f777bebc66a4bad9f0bb2d4918e94d40f714509bca4c6e203f7cd3"
+    },
+    {
+      "source": "work/native_lane/gp_ready18_cd_contract/receipt.json",
+      "archive": "ready18/receipt.json",
+      "source_sha256": "423e42907042df85305a781764fcf1094072feab45b00503ce2fd1837b78dcbe",
+      "archive_sha256": "423e42907042df85305a781764fcf1094072feab45b00503ce2fd1837b78dcbe"
+    },
+    {
+      "source": "work/native_lane/gp_ready18_cd_contract/REPORT.md",
+      "archive": "ready18/REPORT.md",
+      "source_sha256": "d1692a9ff5bc4ee3b7c0d0dff07f748e4f4a5ecb96ef4fafc4198dcf860ba39f",
+      "archive_sha256": "d1692a9ff5bc4ee3b7c0d0dff07f748e4f4a5ecb96ef4fafc4198dcf860ba39f"
+    },
+    {
+      "source": "work/native_lane/gp_ready18_cd_contract/genuine_receipt.json",
+      "archive": "ready18/genuine_receipt.json",
+      "source_sha256": "385fb44526785151e7e3e64695b2f5e33d6d45976ecd13829be25debee508984",
+      "archive_sha256": "385fb44526785151e7e3e64695b2f5e33d6d45976ecd13829be25debee508984"
+    }
+  ]
+}

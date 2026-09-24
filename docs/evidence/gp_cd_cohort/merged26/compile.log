@@ -1,0 +1,14 @@
+[1/13] CC-GUARDED-PRIVATE src/gp_order_bytes_owner.c
+[2/13] CC-GUARDED-PRIVATE src/gp_shared_8152c.c
+[3/13] CC-GUARDED-PRIVATE src/gp_d92c_owned.c
+[4/13] CC-GUARDED-PRIVATE src/w_8003FAD4.c
+[5/13] CC-GUARDED-PRIVATE src/w_80041AB0.c
+[6/13] CC-GUARDED-PRIVATE src/w_80041588.c
+[7/13] CC-GUARDED-PRIVATE src/cd_command_state_owned.c
+{"applied": true, "module": "cd_command_state", "post_object_sha256": "84b03e9d27636a7eb2804e666989bdc1dbf0532e37e060fea78ddc3ad25743da", "verified": false}
+[8/13] CC-GUARDED-PRIVATE src/w_80043CD0.c
+[9/13] CC-GUARDED-PRIVATE src/w_80047E78_owned.c
+[10/13] CC-GUARDED-PRIVATE src/w_8004437C_pair.c
+[11/13] CC-GUARDED-PRIVATE src/w_8004AB7C.c
+[12/13] CC-GUARDED-PRIVATE src/w_80053CFC_owned.c
+[13/13] CC-GUARDED-PRIVATE src/w_8004DCEC_owned.c

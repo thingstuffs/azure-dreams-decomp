@@ -1,0 +1,126 @@
+{
+  "source_sha256": "ab98a9ec20c2f80736a3d1a2e87cf032ae2ce4535d3c7916b2edca24629e4a5c",
+  "recipe": {
+    "src": "src/w_80048DA0.c",
+    "out": "build/src/w_80048DA0.o",
+    "ccver": "2.8.1",
+    "ccflags": "",
+    "asflags": ""
+  },
+  "functions": [
+    "func_80048DA0"
+  ],
+  "hashes": {
+    "stock": "49681cfbfb7a1f74e2590a01422d936feeda4f72cac7f80f437a16d6d5251c46",
+    "generic": "49681cfbfb7a1f74e2590a01422d936feeda4f72cac7f80f437a16d6d5251c46",
+    "genuine": "b6ed9fa970ffb7db8b169652684341edb09722734d15f271dc332b49fdc60ae5"
+  },
+  "retail": {
+    "stock": {
+      "func_80048DA0": {
+        "present": true,
+        "address": "0x80048da0",
+        "actual_words": 11,
+        "retail_words": 11,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic": {
+      "func_80048DA0": {
+        "present": true,
+        "address": "0x80048da0",
+        "actual_words": 11,
+        "retail_words": 11,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "genuine": {
+      "func_80048DA0": {
+        "present": true,
+        "address": "0x80048da0",
+        "actual_words": 11,
+        "retail_words": 11,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 11,
+    "right_words": 11,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "projected_retail": {
+    "stock": {
+      "func_80048DA0": {
+        "present": true,
+        "address": "0x80048da0",
+        "actual_words": 11,
+        "retail_words": 11,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic": {
+      "func_80048DA0": {
+        "present": true,
+        "address": "0x80048da0",
+        "actual_words": 11,
+        "retail_words": 11,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "genuine": {
+      "func_80048DA0": {
+        "present": true,
+        "address": "0x80048da0",
+        "actual_words": 11,
+        "retail_words": 11,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    }
+  },
+  "projected_generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 11,
+    "right_words": 11,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

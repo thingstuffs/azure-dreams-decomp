@@ -12,9 +12,12 @@ The [81510 group](evidence/gp_shared_state_81510.md) repairs another two.
 The [8099C group](evidence/gp_shared_8099c.md) repairs two more GP rows while
 retaining the renderer's accepted epilogue-model dependency. The
 [AFE cache](evidence/gp_cache_afe.md) repairs another with an unchanged recipe.
-Now 29 GP rows remain, with 197 total dependency records. The live build has 19 ownership units,
-873 physical C inputs and the same 884 logical rows; no compatibility pass has
-been removed.
+The current production checkpoint has 21 GP rows and 189 total dependency records,
+with 23 ownership units, 869 physical C inputs and the same 884 logical rows.
+Integrated data-piece tooling and shared CD declarations preserve all production
+objects. The [private CD group](evidence/gp_cd_cohort.md) now matches eight functions
+at one common recipe and passes a full retail-exact placement trial. The combined
+transition gates remain pending. No compatibility pass has been removed.
 The interrupted wave has now landed 11 CDK moves (74 pins removed; 9 newly
 pin-free), all genuine-ASPSX exact. See `docs/evidence/r77_h28_recovery.md` for the
 recovery receipt and remaining work. The dated log below retains the investigation

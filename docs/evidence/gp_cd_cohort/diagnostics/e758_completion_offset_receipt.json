@@ -1,0 +1,3119 @@
+{
+  "source_sha256": "2927fb99305399deaf6c9ab1ab7e42679a90542438f37f300d9e9935feca291d",
+  "recipe": {
+    "src": "src/w_8003E758.c",
+    "out": "build/src/w_8003E758.o",
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32",
+    "asflags": ""
+  },
+  "functions": [
+    "func_8003E758"
+  ],
+  "hashes": {
+    "stock": "670aa0a1c0f2ac7b9408c5dd2830a22f4e1f7027e2cc62c8dbc8c8b5186aaedb",
+    "generic": "6e21cf1deba6f937f5c114e5af3d12a3afb5f53157dc6a1f5dbd95bbbd7a2a8e",
+    "genuine": "8f5f71e9881ee94f450c949b640c881342cbe89d5919ffb7bf20214c2e2012f8"
+  },
+  "retail": {
+    "stock": {
+      "func_8003E758": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 667,
+        "retail_words": 698,
+        "length_equal": false,
+        "masked_indices": [
+          8,
+          20,
+          93,
+          106,
+          121,
+          138,
+          151,
+          189,
+          191,
+          258,
+          271,
+          286,
+          299,
+          313,
+          340,
+          404,
+          409,
+          415,
+          458,
+          463,
+          467,
+          477,
+          481,
+          547,
+          555,
+          559,
+          584,
+          610,
+          635,
+          641,
+          656,
+          659
+        ],
+        "masked_relocations": [
+          {
+            "index": 8,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 20,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 93,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 106,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 121,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 138,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 151,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 189,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              4
+            ]
+          },
+          {
+            "index": 191,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              1
+            ]
+          },
+          {
+            "index": 258,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 271,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 286,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 299,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 313,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 340,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 404,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 409,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 415,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 458,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              24
+            ]
+          },
+          {
+            "index": 463,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              16
+            ]
+          },
+          {
+            "index": 467,
+            "word": "8f820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              4
+            ]
+          },
+          {
+            "index": 477,
+            "word": "97820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              18
+            ]
+          },
+          {
+            "index": 481,
+            "word": "a7820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              18
+            ]
+          },
+          {
+            "index": 547,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 555,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 559,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 584,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 610,
+            "word": "a7820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              20
+            ]
+          },
+          {
+            "index": 635,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 641,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 656,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 659,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "aligned_lcs": {
+          "status": "withheld: unresolved relocations"
+        }
+      }
+    },
+    "generic": {
+      "func_8003E758": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [
+          8,
+          22,
+          97,
+          110,
+          126,
+          144,
+          157,
+          197,
+          199,
+          267,
+          281,
+          297,
+          311,
+          326,
+          354,
+          421,
+          426,
+          432,
+          477,
+          482,
+          486,
+          496,
+          501,
+          572,
+          580,
+          585,
+          611,
+          639,
+          665,
+          672,
+          687,
+          690
+        ],
+        "masked_relocations": [
+          {
+            "index": 8,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 22,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 97,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 110,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 126,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 144,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 157,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 197,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              4
+            ]
+          },
+          {
+            "index": 199,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              1
+            ]
+          },
+          {
+            "index": 267,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 281,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 297,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 311,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 326,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 354,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 421,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 426,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 432,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 477,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              24
+            ]
+          },
+          {
+            "index": 482,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              16
+            ]
+          },
+          {
+            "index": 486,
+            "word": "8f820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              4
+            ]
+          },
+          {
+            "index": 496,
+            "word": "97820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              18
+            ]
+          },
+          {
+            "index": 501,
+            "word": "a7820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              18
+            ]
+          },
+          {
+            "index": 572,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 580,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 585,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 611,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 639,
+            "word": "a7820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              20
+            ]
+          },
+          {
+            "index": 665,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 672,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 687,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 690,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 8,
+            "address": "0x8003e778",
+            "actual": "93840000",
+            "retail": "93840b3c"
+          },
+          {
+            "index": 22,
+            "address": "0x8003e7b0",
+            "actual": "93840000",
+            "retail": "93840b3c"
+          },
+          {
+            "index": 97,
+            "address": "0x8003e8dc",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 110,
+            "address": "0x8003e910",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 126,
+            "address": "0x8003e950",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 144,
+            "address": "0x8003e998",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 157,
+            "address": "0x8003e9cc",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 197,
+            "address": "0x8003ea6c",
+            "actual": "af820000",
+            "retail": "af820b38"
+          },
+          {
+            "index": 199,
+            "address": "0x8003ea74",
+            "actual": "a3820000",
+            "retail": "a3820b40"
+          },
+          {
+            "index": 267,
+            "address": "0x8003eb84",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 281,
+            "address": "0x8003ebbc",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 297,
+            "address": "0x8003ebfc",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 311,
+            "address": "0x8003ec34",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 326,
+            "address": "0x8003ec70",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 354,
+            "address": "0x8003ece0",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 421,
+            "address": "0x8003edec",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 426,
+            "address": "0x8003ee00",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 432,
+            "address": "0x8003ee18",
+            "actual": "93840000",
+            "retail": "93840b3c"
+          },
+          {
+            "index": 477,
+            "address": "0x8003eecc",
+            "actual": "af820000",
+            "retail": "af820144"
+          },
+          {
+            "index": 482,
+            "address": "0x8003eee0",
+            "actual": "93820000",
+            "retail": "9382013c"
+          },
+          {
+            "index": 486,
+            "address": "0x8003eef0",
+            "actual": "8f820000",
+            "retail": "8f820b38"
+          },
+          {
+            "index": 496,
+            "address": "0x8003ef18",
+            "actual": "97820000",
+            "retail": "9782013e"
+          },
+          {
+            "index": 501,
+            "address": "0x8003ef2c",
+            "actual": "a7820000",
+            "retail": "a782013e"
+          },
+          {
+            "index": 572,
+            "address": "0x8003f048",
+            "actual": "93820000",
+            "retail": "93820abc"
+          },
+          {
+            "index": 580,
+            "address": "0x8003f068",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 585,
+            "address": "0x8003f07c",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 611,
+            "address": "0x8003f0e4",
+            "actual": "93830000",
+            "retail": "93830abc"
+          },
+          {
+            "index": 639,
+            "address": "0x8003f154",
+            "actual": "a7820000",
+            "retail": "a7820140"
+          },
+          {
+            "index": 665,
+            "address": "0x8003f1bc",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 672,
+            "address": "0x8003f1d8",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 687,
+            "address": "0x8003f214",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 690,
+            "address": "0x8003f220",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          }
+        ]
+      }
+    },
+    "genuine": {
+      "func_8003E758": {
+        "present": true,
+        "address": "0x8003e758",
+        "actual_words": 698,
+        "retail_words": 698,
+        "length_equal": true,
+        "masked_indices": [
+          8,
+          22,
+          97,
+          110,
+          126,
+          144,
+          157,
+          197,
+          199,
+          267,
+          281,
+          297,
+          311,
+          326,
+          354,
+          421,
+          426,
+          432,
+          477,
+          482,
+          486,
+          496,
+          501,
+          572,
+          580,
+          585,
+          611,
+          639,
+          665,
+          672,
+          687,
+          690
+        ],
+        "masked_relocations": [
+          {
+            "index": 8,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 22,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 97,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 110,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 126,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 144,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 157,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 197,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              4
+            ]
+          },
+          {
+            "index": 199,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              1
+            ]
+          },
+          {
+            "index": 267,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 281,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 297,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 311,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 326,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 354,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 421,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 426,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 432,
+            "word": "93840000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 477,
+            "word": "af820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              24
+            ]
+          },
+          {
+            "index": 482,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              16
+            ]
+          },
+          {
+            "index": 486,
+            "word": "8f820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              4
+            ]
+          },
+          {
+            "index": 496,
+            "word": "97820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              18
+            ]
+          },
+          {
+            "index": 501,
+            "word": "a7820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              18
+            ]
+          },
+          {
+            "index": 572,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 580,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 585,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 611,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              8
+            ]
+          },
+          {
+            "index": 639,
+            "word": "a7820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              20
+            ]
+          },
+          {
+            "index": 665,
+            "word": "93830000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 672,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 687,
+            "word": "93820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          },
+          {
+            "index": 690,
+            "word": "a3820000",
+            "relocation": "GPREL16",
+            "target": [
+              "sec",
+              ".sdata",
+              0
+            ]
+          }
+        ],
+        "exact_unmasked": false,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": [
+          {
+            "index": 8,
+            "address": "0x8003e778",
+            "actual": "93840000",
+            "retail": "93840b3c"
+          },
+          {
+            "index": 22,
+            "address": "0x8003e7b0",
+            "actual": "93840000",
+            "retail": "93840b3c"
+          },
+          {
+            "index": 97,
+            "address": "0x8003e8dc",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 110,
+            "address": "0x8003e910",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 126,
+            "address": "0x8003e950",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 144,
+            "address": "0x8003e998",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 157,
+            "address": "0x8003e9cc",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 197,
+            "address": "0x8003ea6c",
+            "actual": "af820000",
+            "retail": "af820b38"
+          },
+          {
+            "index": 199,
+            "address": "0x8003ea74",
+            "actual": "a3820000",
+            "retail": "a3820b40"
+          },
+          {
+            "index": 267,
+            "address": "0x8003eb84",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 281,
+            "address": "0x8003ebbc",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 297,
+            "address": "0x8003ebfc",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 311,
+            "address": "0x8003ec34",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 326,
+            "address": "0x8003ec70",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 354,
+            "address": "0x8003ece0",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 421,
+            "address": "0x8003edec",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 426,
+            "address": "0x8003ee00",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 432,
+            "address": "0x8003ee18",
+            "actual": "93840000",
+            "retail": "93840b3c"
+          },
+          {
+            "index": 477,
+            "address": "0x8003eecc",
+            "actual": "af820000",
+            "retail": "af820144"
+          },
+          {
+            "index": 482,
+            "address": "0x8003eee0",
+            "actual": "93820000",
+            "retail": "9382013c"
+          },
+          {
+            "index": 486,
+            "address": "0x8003eef0",
+            "actual": "8f820000",
+            "retail": "8f820b38"
+          },
+          {
+            "index": 496,
+            "address": "0x8003ef18",
+            "actual": "97820000",
+            "retail": "9782013e"
+          },
+          {
+            "index": 501,
+            "address": "0x8003ef2c",
+            "actual": "a7820000",
+            "retail": "a782013e"
+          },
+          {
+            "index": 572,
+            "address": "0x8003f048",
+            "actual": "93820000",
+            "retail": "93820abc"
+          },
+          {
+            "index": 580,
+            "address": "0x8003f068",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 585,
+            "address": "0x8003f07c",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 611,
+            "address": "0x8003f0e4",
+            "actual": "93830000",
+            "retail": "93830abc"
+          },
+          {
+            "index": 639,
+            "address": "0x8003f154",
+            "actual": "a7820000",
+            "retail": "a7820140"
+          },
+          {
+            "index": 665,
+            "address": "0x8003f1bc",
+            "actual": "93830000",
+            "retail": "93830b3c"
+          },
+          {
+            "index": 672,
+            "address": "0x8003f1d8",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          },
+          {
+            "index": 687,
+            "address": "0x8003f214",
+            "actual": "93820000",
+            "retail": "93820b3c"
+          },
+          {
+            "index": 690,
+            "address": "0x8003f220",
+            "actual": "a3820000",
+            "retail": "a3820b3c"
+          }
+        ]
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 698,
+    "right_words": 698,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "projected_retail": {
+    "stock": {
+      "present": true,
+      "address": "0x8003e758",
+      "actual_words": 667,
+      "retail_words": 698,
+      "length_equal": false,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": false,
+      "aligned_lcs": {
+        "substitutions": 92,
+        "indels": 31,
+        "total": 123,
+        "jump_targets_normalized": true,
+        "regions": [
+          {
+            "op": "replace",
+            "actual_index": 9,
+            "retail_index": 9,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "93830b3d"
+            ],
+            "retail": [
+              "3c038008",
+              "906314d1"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 11,
+            "retail_index": 12,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10830263"
+            ],
+            "retail": [
+              "10830280"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 15,
+            "retail_index": 16,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "93900b3f"
+            ],
+            "retail": [
+              "3c108008",
+              "921014d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 17,
+            "retail_index": 19,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1602018a"
+            ],
+            "retail": [
+              "16020199"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 31,
+            "retail_index": 33,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400269"
+            ],
+            "retail": [
+              "10400286"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 33,
+            "retail_index": 35,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620267"
+            ],
+            "retail": [
+              "10620284"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 37,
+            "retail_index": 39,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1062003a"
+            ],
+            "retail": [
+              "1062003c"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 43,
+            "retail_index": 45,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 45,
+            "retail_index": 47,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620041"
+            ],
+            "retail": [
+              "10620044"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 47,
+            "retail_index": 49,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 50,
+            "retail_index": 52,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620256"
+            ],
+            "retail": [
+              "10620273"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 54,
+            "retail_index": 56,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620056"
+            ],
+            "retail": [
+              "1062005a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 56,
+            "retail_index": 58,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 59,
+            "retail_index": 61,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106200a7"
+            ],
+            "retail": [
+              "106200ad"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 61,
+            "retail_index": 63,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620145"
+            ],
+            "retail": [
+              "10620153"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 63,
+            "retail_index": 65,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 66,
+            "retail_index": 68,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106200ec"
+            ],
+            "retail": [
+              "106200f7"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 70,
+            "retail_index": 72,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106200cc"
+            ],
+            "retail": [
+              "106200d5"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 72,
+            "retail_index": 74,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "144000af"
+            ],
+            "retail": [
+              "144000b6"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 74,
+            "retail_index": 76,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 77,
+            "retail_index": 79,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106200fc"
+            ],
+            "retail": [
+              "10620108"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 79,
+            "retail_index": 81,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1440023a"
+            ],
+            "retail": [
+              "14400257"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 82,
+            "retail_index": 84,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620144"
+            ],
+            "retail": [
+              "10620153"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 84,
+            "retail_index": 86,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10700139"
+            ],
+            "retail": [
+              "10700148"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 86,
+            "retail_index": 88,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 90,
+            "retail_index": 92,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3900b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a03014d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 92,
+            "retail_index": 95,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 100,
+            "retail_index": 104,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10600224"
+            ],
+            "retail": [
+              "1060023f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 108,
+            "retail_index": 112,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3830b3e",
+              "0800fc04"
+            ],
+            "retail": [
+              "3c018008",
+              "a02314d2",
+              "0800fc1e"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 115,
+            "retail_index": 120,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10600215"
+            ],
+            "retail": [
+              "1060022f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 122,
+            "retail_index": 127,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 136,
+            "retail_index": 142,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400201"
+            ],
+            "retail": [
+              "1040021a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 139,
+            "retail_index": 145,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc05"
+            ],
+            "retail": [
+              "0800fc1f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 145,
+            "retail_index": 151,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106001f7"
+            ],
+            "retail": [
+              "10600210"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 152,
+            "retail_index": 158,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 167,
+            "retail_index": 174,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fa84"
+            ],
+            "retail": [
+              "0800fa8b"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 174,
+            "retail_index": 181,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "16400009"
+            ],
+            "retail": [
+              "1640000a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 180,
+            "retail_index": 187,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3840b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02414d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 182,
+            "retail_index": 190,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc5f"
+            ],
+            "retail": [
+              "0800fc7e"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 194,
+            "retail_index": 202,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "104001d1"
+            ],
+            "retail": [
+              "104001e8"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 201,
+            "retail_index": 209,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106200a3"
+            ],
+            "retail": [
+              "106200aa"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 210,
+            "retail_index": 218,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "104001c1"
+            ],
+            "retail": [
+              "104001d8"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 217,
+            "retail_index": 225,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10620093"
+            ],
+            "retail": [
+              "1062009a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 223,
+            "retail_index": 231,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "104001b4"
+            ],
+            "retail": [
+              "104001cb"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 225,
+            "retail_index": 233,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fb56"
+            ],
+            "retail": [
+              "0800fb65"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 231,
+            "retail_index": 239,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106001a1"
+            ],
+            "retail": [
+              "106001b8"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 241,
+            "retail_index": 249,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 244,
+            "retail_index": 253,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400194"
+            ],
+            "retail": [
+              "104001aa"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 246,
+            "retail_index": 255,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fb56"
+            ],
+            "retail": [
+              "0800fb65"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 251,
+            "retail_index": 260,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1060018d"
+            ],
+            "retail": [
+              "106001a3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 261,
+            "retail_index": 270,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 269,
+            "retail_index": 279,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1040017c"
+            ],
+            "retail": [
+              "10400191"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 272,
+            "retail_index": 282,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3900b3f",
+              "0800fc05"
+            ],
+            "retail": [
+              "3c018008",
+              "a03014d3",
+              "0800fc1f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 279,
+            "retail_index": 290,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10600171"
+            ],
+            "retail": [
+              "10600185"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 289,
+            "retail_index": 300,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 297,
+            "retail_index": 309,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400160"
+            ],
+            "retail": [
+              "10400173"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 300,
+            "retail_index": 312,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3900b3f",
+              "0800fc05"
+            ],
+            "retail": [
+              "3c018008",
+              "a03014d3",
+              "0800fc1f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 307,
+            "retail_index": 320,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10600155"
+            ],
+            "retail": [
+              "10600167"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 314,
+            "retail_index": 327,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 326,
+            "retail_index": 340,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400142"
+            ],
+            "retail": [
+              "10400153"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 328,
+            "retail_index": 342,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fb56"
+            ],
+            "retail": [
+              "0800fb65"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 334,
+            "retail_index": 348,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1060013a"
+            ],
+            "retail": [
+              "1060014b"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 342,
+            "retail_index": 356,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 355,
+            "retail_index": 370,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400130"
+            ],
+            "retail": [
+              "10400140"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 367,
+            "retail_index": 382,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc6a"
+            ],
+            "retail": [
+              "0800fc89"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 371,
+            "retail_index": 386,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fb43"
+            ],
+            "retail": [
+              "0800fb52"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 379,
+            "retail_index": 394,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fb4b"
+            ],
+            "retail": [
+              "0800fb5a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 384,
+            "retail_index": 399,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3820b3f",
+              "0800fc60"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3",
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 388,
+            "retail_index": 404,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 392,
+            "retail_index": 409,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "144000a2"
+            ],
+            "retail": [
+              "144000aa"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 394,
+            "retail_index": 411,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1200ffe2"
+            ],
+            "retail": [
+              "1200ffe0"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 396,
+            "retail_index": 413,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fb5c"
+            ],
+            "retail": [
+              "0800fb6d"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 405,
+            "retail_index": 422,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc05"
+            ],
+            "retail": [
+              "0800fc1f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 410,
+            "retail_index": 427,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc05"
+            ],
+            "retail": [
+              "0800fc1f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 412,
+            "retail_index": 429,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "160200ed"
+            ],
+            "retail": [
+              "160200fb"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 424,
+            "retail_index": 441,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "104000e0"
+            ],
+            "retail": [
+              "104000ee"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 436,
+            "retail_index": 453,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3820b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 440,
+            "retail_index": 458,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 450,
+            "retail_index": 469,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "106000c6"
+            ],
+            "retail": [
+              "106000d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 452,
+            "retail_index": 471,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1062004f"
+            ],
+            "retail": [
+              "10620053"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 459,
+            "retail_index": 478,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1c4000bd"
+            ],
+            "retail": [
+              "1c4000c9"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 461,
+            "retail_index": 480,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1440002f"
+            ],
+            "retail": [
+              "14400033"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 465,
+            "retail_index": 484,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400019"
+            ],
+            "retail": [
+              "1040001a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 473,
+            "retail_index": 492,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "104300b0"
+            ],
+            "retail": [
+              "104300bc"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 479,
+            "retail_index": 498,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3800b3e"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 483,
+            "retail_index": 503,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "14430088"
+            ],
+            "retail": [
+              "14430091"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 489,
+            "retail_index": 509,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc42"
+            ],
+            "retail": [
+              "0800fc5f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 496,
+            "retail_index": 516,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3820b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 502,
+            "retail_index": 523,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "93820b3e"
+            ],
+            "retail": [
+              "3c028008",
+              "904214d2"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 506,
+            "retail_index": 528,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3820b3e",
+              "0800fc5f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d2",
+              "0800fc7e"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 509,
+            "retail_index": 532,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0441008c"
+            ],
+            "retail": [
+              "04410094"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 511,
+            "retail_index": 534,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fbea"
+            ],
+            "retail": [
+              "0800fc01"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 518,
+            "retail_index": 541,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10600082"
+            ],
+            "retail": [
+              "1060008a"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 522,
+            "retail_index": 545,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fbf3"
+            ],
+            "retail": [
+              "0800fc0c"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 528,
+            "retail_index": 551,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10600078"
+            ],
+            "retail": [
+              "10600080"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 530,
+            "retail_index": 553,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1462000a"
+            ],
+            "retail": [
+              "1462000c"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 535,
+            "retail_index": 558,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3820b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 538,
+            "retail_index": 562,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3800b3e",
+              "0800fc60"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2",
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 545,
+            "retail_index": 570,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400068"
+            ],
+            "retail": [
+              "1040006e"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 550,
+            "retail_index": 575,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "14400063"
+            ],
+            "retail": [
+              "14400069"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 557,
+            "retail_index": 582,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3830b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02314d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 560,
+            "retail_index": 586,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 567,
+            "retail_index": 593,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10430033"
+            ],
+            "retail": [
+              "10430036"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 575,
+            "retail_index": 601,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "14400008"
+            ],
+            "retail": [
+              "14400009"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 581,
+            "retail_index": 607,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3910b3f",
+              "0800fc6a"
+            ],
+            "retail": [
+              "3c018008",
+              "a03114d3",
+              "0800fc89"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 587,
+            "retail_index": 614,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1440003e"
+            ],
+            "retail": [
+              "14400042"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 590,
+            "retail_index": 617,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400019"
+            ],
+            "retail": [
+              "1040001b"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 595,
+            "retail_index": 622,
+            "actual_length": 2,
+            "retail_length": 4,
+            "actual": [
+              "a3800b3e",
+              "a3820b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02014d2",
+              "3c018008",
+              "a02214d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 614,
+            "retail_index": 643,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc5f"
+            ],
+            "retail": [
+              "0800fc7e"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 617,
+            "retail_index": 646,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "10400020"
+            ],
+            "retail": [
+              "10400022"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 620,
+            "retail_index": 649,
+            "actual_length": 2,
+            "retail_length": 3,
+            "actual": [
+              "a3820b3f",
+              "0800fc60"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3",
+              "0800fc7f"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 627,
+            "retail_index": 657,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "14430016"
+            ],
+            "retail": [
+              "14430017"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 633,
+            "retail_index": 663,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "1443000c"
+            ],
+            "retail": [
+              "1443000d"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 637,
+            "retail_index": 667,
+            "actual_length": 1,
+            "retail_length": 2,
+            "actual": [
+              "a3820b3f"
+            ],
+            "retail": [
+              "3c018008",
+              "a02214d3"
+            ]
+          },
+          {
+            "op": "replace",
+            "actual_index": 644,
+            "retail_index": 675,
+            "actual_length": 1,
+            "retail_length": 1,
+            "actual": [
+              "0800fc60"
+            ],
+            "retail": [
+              "0800fc7f"
+            ]
+          }
+        ]
+      }
+    },
+    "generic": {
+      "present": true,
+      "address": "0x8003e758",
+      "actual_words": 698,
+      "retail_words": 698,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    },
+    "genuine": {
+      "present": true,
+      "address": "0x8003e758",
+      "actual_words": 698,
+      "retail_words": 698,
+      "length_equal": true,
+      "masked_indices": [],
+      "masked_relocations": [],
+      "exact_unmasked": true,
+      "unmasked_mismatch_sites": [],
+      "masked_disagreement_sites": []
+    }
+  },
+  "projected_generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 698,
+    "right_words": 698,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

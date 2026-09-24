@@ -1,0 +1,199 @@
+{
+  "source_sha256": "ea6590c282d3d968cde82de4c00f8543318871841a5f5d7eb51e667591ce25de",
+  "recipe": {
+    "src": "src/w_8003F5D4.c",
+    "out": "build/src/w_8003F5D4.o",
+    "ccver": "2.7.2-cdk",
+    "ccflags": "-G32",
+    "asflags": ""
+  },
+  "functions": [
+    "func_8003F5D4",
+    "func_8003F5E0"
+  ],
+  "hashes": {
+    "stock": "553a00c16183c55cc75f9d6ff1fc3f74030e704faba7d8e267e58e250f94a818",
+    "generic": "553a00c16183c55cc75f9d6ff1fc3f74030e704faba7d8e267e58e250f94a818",
+    "genuine": "edc209b8fdd93a4d7b79d4dfabf93be8eb5b1ea63295cef75b605de76ec13e89"
+  },
+  "retail": {
+    "stock": {
+      "func_8003F5D4": {
+        "present": true,
+        "address": "0x8003f5d4",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "func_8003F5E0": {
+        "present": true,
+        "address": "0x8003f5e0",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic": {
+      "func_8003F5D4": {
+        "present": true,
+        "address": "0x8003f5d4",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "func_8003F5E0": {
+        "present": true,
+        "address": "0x8003f5e0",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "genuine": {
+      "func_8003F5D4": {
+        "present": true,
+        "address": "0x8003f5d4",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "func_8003F5E0": {
+        "present": true,
+        "address": "0x8003f5e0",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    }
+  },
+  "generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 6,
+    "right_words": 6,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  },
+  "projected_retail": {
+    "stock": {
+      "func_8003F5D4": {
+        "present": true,
+        "address": "0x8003f5d4",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "func_8003F5E0": {
+        "present": true,
+        "address": "0x8003f5e0",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "generic": {
+      "func_8003F5D4": {
+        "present": true,
+        "address": "0x8003f5d4",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "func_8003F5E0": {
+        "present": true,
+        "address": "0x8003f5e0",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    },
+    "genuine": {
+      "func_8003F5D4": {
+        "present": true,
+        "address": "0x8003f5d4",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      },
+      "func_8003F5E0": {
+        "present": true,
+        "address": "0x8003f5e0",
+        "actual_words": 3,
+        "retail_words": 3,
+        "length_equal": true,
+        "masked_indices": [],
+        "masked_relocations": [],
+        "exact_unmasked": true,
+        "unmasked_mismatch_sites": [],
+        "masked_disagreement_sites": []
+      }
+    }
+  },
+  "projected_generic_vs_genuine": {
+    "exact": true,
+    "pair_token_diff_diagnostic": 0,
+    "left_words": 6,
+    "right_words": 6,
+    "missing_right": [],
+    "delay_only": [],
+    "classes": {},
+    "regions": []
+  }
+}

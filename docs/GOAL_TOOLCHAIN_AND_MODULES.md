@@ -131,3 +131,27 @@ explicit ownership and data-piece projection, corrected/genuine assemblers both
 match all 698 words unmasked; stock's external-size GP rule produces 667 words.
 This candidate is queued with the generic transition, not activated separately.
 See the [next-probe evidence](evidence/gp_cd_contract.md#next-probes-recorded-after-the-shared-header-gate).
+
+## Resumption checkpoint: common CD recipe
+
+The [eight-function CD candidate](evidence/gp_cd_cohort.md) now matches all
+1,041 words through genuine ASPSX and the corrected generic assembler at one
+`2.7.2-cdk -G32` recipe, with zero masked relocations. Shared queue/driver
+types, bounded result views, and a distinct completion-offset lifetime reconcile
+the formerly mixed recipes. Eleven globals are defined once, with an explicit
+data-piece plan and one new code2 partition for F240. Its full linked trial also
+passes: eleven exact data pieces, 861 unaffected objects unchanged, all 22 code2
+remainder functions unchanged, and a retail-exact image/SHA-1 gate. The merged
+ready18+CD8 rehearsal now also passes: 26 functions / 1,932 exact words, 67 data
+records, 858 physical objects and 884 logical rows. Production remains 189 dependencies / 21 GP rows;
+no global assembler transition or pass retirement is claimed.
+
+The complete generic-assembler rebuild of all 858 objects isolates the remaining
+changes to three collector functions: F5D4/F5E0 (C8 accessors) and 48DA0
+(B1B/B1C table-state bytes). The full link succeeds but the image gains four
+instructions / 16 bytes and fails SHA-1. All three already match individually
+with explicit data definitions at their original compiler recipes (17 words).
+Next: add strict support for owners consisting entirely of collector fragments,
+integrate these two small owners, then repeat the complete generic build/gate.
+The [closure evidence](evidence/gp_cd_cohort.md#whole-slus-generic-audit-and-the-final-three-functions)
+retains both the passing selective rehearsal and the failed unrestricted trial.

@@ -1,0 +1,224 @@
+{
+  "data": [
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00",
+      "offset": 2704,
+      "section": ".sdata.D_800814D0",
+      "size": 1,
+      "symbol": "D_800814D0",
+      "vram": 2148013264
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00",
+      "offset": 2708,
+      "section": ".sdata.D_800814D4",
+      "size": 1,
+      "symbol": "D_800814D4",
+      "vram": 2148013268
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00000000",
+      "offset": 2700,
+      "section": ".sdata.D_800814CC",
+      "size": 4,
+      "symbol": "D_800814CC",
+      "vram": 2148013260
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "0000000000000000",
+      "offset": 2576,
+      "section": ".sdata.D_80081450",
+      "size": 8,
+      "symbol": "D_80081450",
+      "vram": 2148013136
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00",
+      "offset": 144,
+      "section": ".sdata.D_80080AD0",
+      "size": 1,
+      "symbol": "D_80080AD0",
+      "vram": 2148010704
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "0000",
+      "offset": 146,
+      "section": ".sdata.D_80080AD2",
+      "size": 2,
+      "symbol": "D_80080AD2",
+      "vram": 2148010706
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "0000",
+      "offset": 148,
+      "section": ".sdata.D_80080AD4",
+      "size": 2,
+      "symbol": "D_80080AD4",
+      "vram": 2148010708
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00000000",
+      "offset": 152,
+      "section": ".sdata.D_80080AD8",
+      "size": 4,
+      "symbol": "D_80080AD8",
+      "vram": 2148010712
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00000000",
+      "offset": 156,
+      "section": ".sdata.D_80080ADC",
+      "size": 4,
+      "symbol": "D_80080ADC",
+      "vram": 2148010716
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00000000",
+      "offset": 2672,
+      "section": ".sdata.D_800814B0",
+      "size": 4,
+      "symbol": "D_800814B0",
+      "vram": 2148013232
+    },
+    {
+      "asset": "assets/54240.bin",
+      "bytes": "00000000",
+      "offset": 2676,
+      "section": ".sdata.D_800814B4",
+      "size": 4,
+      "symbol": "D_800814B4",
+      "vram": 2148013236
+    }
+  ],
+  "data_pieces": [
+    {
+      "alignment": 1,
+      "source_section": ".sdata",
+      "symbol": "D_800814D0"
+    },
+    {
+      "alignment": 1,
+      "source_section": ".sdata",
+      "symbol": "D_800814D4"
+    },
+    {
+      "alignment": 4,
+      "source_section": ".sdata",
+      "symbol": "D_800814CC"
+    },
+    {
+      "alignment": 4,
+      "source_section": ".sdata",
+      "symbol": "D_80081450"
+    },
+    {
+      "alignment": 1,
+      "source_section": ".sdata",
+      "symbol": "D_80080AD0"
+    },
+    {
+      "alignment": 2,
+      "source_section": ".sdata",
+      "symbol": "D_80080AD2"
+    },
+    {
+      "alignment": 2,
+      "source_section": ".sdata",
+      "symbol": "D_80080AD4"
+    },
+    {
+      "alignment": 4,
+      "source_section": ".sdata",
+      "symbol": "D_80080AD8"
+    },
+    {
+      "alignment": 4,
+      "source_section": ".sdata",
+      "symbol": "D_80080ADC"
+    },
+    {
+      "alignment": 4,
+      "source_section": ".sdata",
+      "symbol": "D_800814B0"
+    },
+    {
+      "alignment": 4,
+      "source_section": ".sdata",
+      "symbol": "D_800814B4"
+    }
+  ],
+  "evidence": "docs/evidence/gp_cd_contract.md",
+  "headers": [
+    "include/common.h",
+    "include/slus/cd_state.h",
+    "include/slus/cd_cohort_types.h"
+  ],
+  "members": [
+    {
+      "functions": [
+        "func_8003E34C"
+      ],
+      "id": "slus/w_8003E34C",
+      "source": "src/w_8003E34C.c"
+    },
+    {
+      "functions": [
+        "func_8003E4FC"
+      ],
+      "id": "slus/w_8003E4FC",
+      "source": "src/w_8003E4FC.c"
+    },
+    {
+      "functions": [
+        "func_8003E758"
+      ],
+      "id": "slus/w_8003E758",
+      "source": "src/w_8003E758.c"
+    },
+    {
+      "functions": [
+        "func_8003F2A4"
+      ],
+      "id": "slus/w_8003F2A4",
+      "source": "src/w_8003F2A4.c"
+    },
+    {
+      "functions": [
+        "func_8003F368"
+      ],
+      "id": "slus/w_8003F368",
+      "source": "src/w_8003F368.c"
+    },
+    {
+      "functions": [
+        "func_8003F5AC"
+      ],
+      "id": "slus/w_8003F5AC",
+      "source": "src/w_8003F5AC.c"
+    },
+    {
+      "functions": [
+        "func_8003F624"
+      ],
+      "id": "slus/w_8003F624",
+      "source": "src/w_8003F624.c"
+    }
+  ],
+  "name": "cd_command_state",
+  "recipe": {
+    "asflags": "",
+    "ccflags": "-G32",
+    "ccver": "2.7.2-cdk"
+  },
+  "source": "src/cd_command_state_owned.c"
+}

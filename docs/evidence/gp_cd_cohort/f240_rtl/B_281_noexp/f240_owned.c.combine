@@ -1,0 +1,91 @@
+
+;; Function func_8003F240
+
+;; Combiner statistics: 24 attempts, 24 substitutions (2 requiring new space),
+;; 1 successes.
+
+(note 2 0 3 "" NOTE_INSN_DELETED)
+
+(note 3 2 4 "" NOTE_INSN_FUNCTION_BEG)
+
+(note 4 3 6 "" NOTE_INSN_DELETED)
+
+(note 6 4 7 "" NOTE_INSN_DELETED)
+
+;; Start of basic block 0.
+;; Registers live: 29 [$sp] 30 [$fp]
+
+(insn 7 6 8 (set (reg:SI 82)
+        (high:SI (symbol_ref:SI ("D_80083968")))) 161 {high} (nil)
+    (expr_list:REG_EQUAL (high:SI (symbol_ref:SI ("D_80083968")))
+        (nil)))
+
+(insn 8 7 9 (set (reg:SI 81)
+        (lo_sum:SI (reg:SI 82)
+            (symbol_ref:SI ("D_80083968")))) 162 {low} (insn_list 7 (nil))
+    (expr_list:REG_DEAD (reg:SI 82)
+        (expr_list:REG_EQUAL (symbol_ref:SI ("D_80083968"))
+            (nil))))
+
+(insn 9 8 11 (set (reg:SI 83)
+        (zero_extend:SI (mem:QI (symbol_ref/v:SI ("D_800814D0"))))) 128 {zero_extendqisi2} (nil)
+    (nil))
+
+(insn 11 9 12 (set (reg:SI 84)
+        (plus:SI (reg:SI 83)
+            (const_int 31))) 3 {addsi3_internal} (insn_list 9 (nil))
+    (expr_list:REG_DEAD (reg:SI 83)
+        (nil)))
+
+(insn 12 11 15 (set (reg:SI 85)
+        (and:SI (reg:SI 84)
+            (const_int 31))) 99 {andsi3} (insn_list 11 (nil))
+    (expr_list:REG_DEAD (reg:SI 84)
+        (nil)))
+
+(insn 15 12 17 (set (reg:SI 87)
+        (ashift:SI (reg:SI 85)
+            (const_int 1))) 205 {ashlsi3} (insn_list 12 (nil))
+    (expr_list:REG_EQUAL (mult:SI (reg:SI 85)
+            (const_int 2))
+        (nil)))
+
+(insn 17 15 18 (set (reg:SI 87)
+        (plus:SI (reg:SI 87)
+            (reg:SI 85))) 3 {addsi3_internal} (insn_list 15 (nil))
+    (expr_list:REG_DEAD (reg:SI 85)
+        (expr_list:REG_EQUAL (mult:SI (reg:SI 85)
+                (const_int 3))
+            (nil))))
+
+(insn 18 17 20 (set (reg:SI 88)
+        (ashift:SI (reg:SI 87)
+            (const_int 3))) 205 {ashlsi3} (insn_list 17 (nil))
+    (expr_list:REG_DEAD (reg:SI 87)
+        (expr_list:REG_EQUAL (mult:SI (reg:SI 85)
+                (const_int 24))
+            (nil))))
+
+(insn 20 18 21 (set (reg:SI 89)
+        (plus:SI (reg:SI 88)
+            (reg:SI 81))) 3 {addsi3_internal} (insn_list 8 (insn_list 18 (nil)))
+    (expr_list:REG_DEAD (reg:SI 88)
+        (expr_list:REG_DEAD (reg:SI 81)
+            (nil))))
+
+(note 21 20 23 "" NOTE_INSN_DELETED)
+
+(insn 23 21 24 (set (reg/i:SI 2 v0)
+        (zero_extend:SI (mem/s:QI (reg:SI 89)))) 128 {zero_extendqisi2} (insn_list 20 (nil))
+    (expr_list:REG_DEAD (reg:SI 89)
+        (nil)))
+
+(insn 24 23 0 (use (reg/i:SI 2 v0)) -1 (insn_list 23 (nil))
+    (expr_list:REG_DEAD (reg/i:SI 2 v0)
+        (nil)))
+
+
+;; End of basic block 0.
+
+;; Combiner totals: 24 attempts, 24 substitutions (2 requiring new space),
+;; 1 successes.

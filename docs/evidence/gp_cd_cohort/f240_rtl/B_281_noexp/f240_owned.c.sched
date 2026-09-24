@@ -1,0 +1,123 @@
+
+;; Function func_8003F240
+
+;;	 -- basic block number 0 from 7 to 24 --
+;; ready list initially:
+;; 24 
+
+;; insn[   7]: priority =    1, ref_count =    1
+;; insn[   8]: priority =    1, ref_count =    1
+;; insn[   9]: priority =    1, ref_count =    1
+;; insn[  11]: priority =    2, ref_count =    1
+;; insn[  12]: priority =    2, ref_count =    2
+;; insn[  15]: priority =    2, ref_count =    1
+;; insn[  17]: priority =    2, ref_count =    1
+;; insn[  18]: priority =    2, ref_count =    1
+;; insn[  20]: priority =    2, ref_count =    1
+;; insn[  23]: priority =    2, ref_count =    1
+;; insn[  24]: priority = 2147483556, ref_count =    0
+;; ready list at T-1: 24 (7fffffa4), now 24
+;; ready list at T-2: 23 (7f000001), now 23
+;; ready list at T-3: 20 (7f000001), now 20
+;; ready list at T-4: 8 (7f000001) 18 (7f000001), now 18 8
+;; ready list at T-5: 8 (7f000001) 17 (2), now 8 17
+;; ready list at T-6: 17 (2) 7 (7f000001), now 7 17
+;; ready list at T-7: 17 (2), now 17
+;; ready list at T-8: 15 (2), now 15
+;; ready list at T-9: 12 (7f000001), now 12
+;; ready list at T-10: 11 (7f000001), now 11
+;; launching 9 before 11 with 1 stalls at T-11
+;; ready list at T-12: 9 (7f000001), now 9
+;; total time = 12
+;; new basic block head = 21
+;; new basic block end = 24
+
+;; register 2 life extended from 1 to 2
+;; register 29 life shortened from 12 to 11
+;; register 30 life shortened from 12 to 11
+;; register 81 life shortened from 8 to 3
+;; register 87 life extended from 4 to 5
+(note 2 0 3 "" NOTE_INSN_DELETED)
+
+(note 3 2 4 "" NOTE_INSN_FUNCTION_BEG)
+
+(note 4 3 6 "" NOTE_INSN_DELETED)
+
+(note 6 4 21 "" NOTE_INSN_DELETED)
+
+;; Start of basic block 0.
+;; Registers live: 29 [$sp] 30 [$fp]
+
+(note 21 6 9 "" NOTE_INSN_DELETED)
+
+(insn 9 21 11 (set (reg:SI 83)
+        (zero_extend:SI (mem:QI (symbol_ref/v:SI ("D_800814D0"))))) 128 {zero_extendqisi2} (nil)
+    (nil))
+
+(insn 11 9 12 (set (reg:SI 84)
+        (plus:SI (reg:SI 83)
+            (const_int 31))) 3 {addsi3_internal} (insn_list 9 (nil))
+    (expr_list:REG_DEAD (reg:SI 83)
+        (nil)))
+
+(insn 12 11 15 (set (reg:SI 85)
+        (and:SI (reg:SI 84)
+            (const_int 31))) 99 {andsi3} (insn_list 11 (nil))
+    (expr_list:REG_DEAD (reg:SI 84)
+        (nil)))
+
+(insn 15 12 17 (set (reg:SI 87)
+        (ashift:SI (reg:SI 85)
+            (const_int 1))) 205 {ashlsi3} (insn_list 12 (nil))
+    (expr_list:REG_EQUAL (mult:SI (reg:SI 85)
+            (const_int 2))
+        (nil)))
+
+(insn 17 15 7 (set (reg:SI 87)
+        (plus:SI (reg:SI 87)
+            (reg:SI 85))) 3 {addsi3_internal} (insn_list 12 (insn_list 15 (nil)))
+    (expr_list:REG_DEAD (reg:SI 85)
+        (expr_list:REG_EQUAL (mult:SI (reg:SI 85)
+                (const_int 3))
+            (nil))))
+
+(insn 7 17 8 (set (reg:SI 82)
+        (high:SI (symbol_ref:SI ("D_80083968")))) 161 {high} (nil)
+    (expr_list:REG_EQUAL (high:SI (symbol_ref:SI ("D_80083968")))
+        (nil)))
+
+(insn 8 7 18 (set (reg:SI 81)
+        (lo_sum:SI (reg:SI 82)
+            (symbol_ref:SI ("D_80083968")))) 162 {low} (insn_list 7 (nil))
+    (expr_list:REG_DEAD (reg:SI 82)
+        (expr_list:REG_EQUAL (symbol_ref:SI ("D_80083968"))
+            (nil))))
+
+(insn 18 8 20 (set (reg:SI 88)
+        (ashift:SI (reg:SI 87)
+            (const_int 3))) 205 {ashlsi3} (insn_list 17 (nil))
+    (expr_list:REG_DEAD (reg:SI 87)
+        (expr_list:REG_EQUAL (mult:SI (reg:SI 85)
+                (const_int 24))
+            (nil))))
+
+(insn 20 18 23 (set (reg:SI 89)
+        (plus:SI (reg:SI 88)
+            (reg:SI 81))) 3 {addsi3_internal} (insn_list 8 (insn_list 18 (nil)))
+    (expr_list:REG_DEAD (reg:SI 88)
+        (expr_list:REG_DEAD (reg:SI 81)
+            (nil))))
+
+(insn 23 20 24 (set (reg/i:SI 2 v0)
+        (zero_extend:SI (mem/s:QI (reg:SI 89)))) 128 {zero_extendqisi2} (insn_list 20 (nil))
+    (expr_list:REG_DEAD (reg:SI 89)
+        (nil)))
+
+(insn 24 23 31 (use (reg/i:SI 2 v0)) -1 (insn_list 23 (nil))
+    (expr_list:REG_DEAD (reg/i:SI 2 v0)
+        (nil)))
+
+
+;; End of basic block 0.
+(note 31 24 0 "" NOTE_INSN_DELETED)
+
