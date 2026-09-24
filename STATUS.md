@@ -1,6 +1,6 @@
 # azure-dreams-decomp status
 
-Generated 2026-09-24T15:21:25Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
+Generated 2026-09-24T15:35:40Z. Pin `82f20568` (82f20568997a, raw/ frozen at 2026-09-07T12:42:23Z).
 
 ## Denominator (rows matched at the pin)
 
@@ -34,6 +34,8 @@ Baseline NOT exact: 0 rows
 | state_defaults | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/state_defaults.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 | slot_transition | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/slot_transition.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
 | slot_transition_secondary | 4 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/slot_transition_secondary.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h, include/slus/slot_transition.h |
+| konami_runtime_gp_count | 1 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/konami_runtime_gp_count.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
+| gp_shared_slots | 2 | unproved: certificate unavailable or invalid: [Errno 2] No such file or directory: '<repo>/ledger/modules/gp_shared_slots.json' | include/common.h, include/game.h, include/globals.h, include/include_asm.h |
 
 Module placement preserves logical row IDs. The existing L4/L5 pin, tail-jump and fidelity requirements still apply; changed shared inputs invalidate placement evidence.
 
