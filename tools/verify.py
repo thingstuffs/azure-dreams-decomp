@@ -321,7 +321,7 @@ def compile_slus(row, cfile, outdir, include_root=None):
     if r.returncode != 0:
         return None, "gcc: " + (r.stderr or r.stdout)[-300:]
     asflags = (row.get("row_asflags") or "").split()
-    pipe = (f"python3 {CCPROC} < {s_path} | {VENV_PY} {MASPSX} --aspsx-version=2.56 --dont-force-G0 "
+    pipe = (f"python3 {CCPROC} < {s_path} | {VENV_PY} {MASPSX} --aspsx-version=2.79 --dont-force-G0 "
             f"--run-assembler --gnu-as-path=mipsel-linux-gnu-as -I{RAW} -I{inc} -EL -march=r3000 -G8 {' '.join(asflags)} -o {o_path}")
     r = subprocess.run(pipe, shell=True, capture_output=True, text=True, cwd=ROOT, env=_env())
     if r.returncode != 0 or not o_path.exists():

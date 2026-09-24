@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Compile one C translation unit through the pinned Azure Dreams pipeline:
-#   gcc 2.7.2 -O2 -S  ->  ccproc (per-function sections)  ->  maspsx (aspsx 2.56)  ->  mipsel as
+#   gcc 2.7.2 -O2 -S  ->  ccproc (per-function sections)  ->  maspsx (aspsx 2.79; was 2.56 until 2026-09-24, byte-neutral - docs/evidence/fidelity_asv_trial.md)  ->  mipsel as
 # Usage: tools/cc.sh <in.c> <out.o>
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -18,6 +18,6 @@ trap 'rm -f "$TMP"' EXIT
 "$CC_DIR/gcc" -B"$CC_DIR/" -S -O2 $CCFLAGS -I"$ROOT/include" -w "$IN" -o "$TMP"
 # $MASPSX_FLAGS is intentionally unquoted so a multi-flag string word-splits.
 python3 "$ROOT/tools/ccproc.py" < "$TMP" \
-  | "$ROOT/.venv/bin/python" "$MASPSX_BIN" --aspsx-version=2.56 --dont-force-G0 \
+  | "$ROOT/.venv/bin/python" "$MASPSX_BIN" --aspsx-version=2.79 --dont-force-G0 \
       --run-assembler --gnu-as-path=mipsel-linux-gnu-as \
       -I"$ROOT" -I"$ROOT/include" -EL -march=r3000 -G8 $MASPSX_FLAGS -o "$OUT"

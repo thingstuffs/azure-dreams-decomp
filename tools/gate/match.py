@@ -1455,7 +1455,7 @@ def _summary_main(a, tgt, length, vram, asm_frags):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("name"); ap.add_argument("cfile")
-    ap.add_argument("--gcc", default="2.7.2"); ap.add_argument("--opt", default="O2"); ap.add_argument("--aspsx", default="2.56")
+    ap.add_argument("--gcc", default="2.7.2"); ap.add_argument("--opt", default="O2"); ap.add_argument("--aspsx", default="2.79")
     ap.add_argument("--gcc-flags", default=""); ap.add_argument("--as-flags", default=None)
     ap.add_argument("--psyq", default=None, help="use genuine SN cc1: 4.0 (gcc2.7.2) / 4.4 (gcc2.8.1) / 4.6 (gcc2.95.2)")
     ap.add_argument("--psyq-cpp", default=None, choices=("decompals", "production"),

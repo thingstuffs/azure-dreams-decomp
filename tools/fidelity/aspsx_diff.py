@@ -5,7 +5,7 @@ For every row: the row's CURRENT source (src/), compiled by its registered recip
 assembled twice from ONE gcc -S stream:
 
   maspsx leg   exactly the project pipeline (slus: tools/verify.compile_slus = gcc -> ccproc -> maspsx
-               --aspsx-version=2.56 --dont-force-G0 -G8 <row_asflags> -> GNU as; overlays: the per-row
+               --aspsx-version=2.79 --dont-force-G0 -G8 <row_asflags> -> GNU as; overlays: the per-row
                scorer's own match.build_text inside build_ovl/, with the overlay evidence env, the
                row's as-flags dial and the rowbase link base), re-run through
                tools/fidelity/maspsx_trace.py so the maspsx post-passes that FIRED are named;
@@ -633,7 +633,7 @@ def prepare_slus(row, cfile, cfg, asflags, td):
     s_raw = (Path(td) / "a.s").read_text(errors="replace")
     ccp = subprocess.run(["python3", str(ROOT / "tools/build/ccproc.py")], input=s_raw, capture_output=True, text=True)
     m_in = ccp.stdout
-    as_args = ["--aspsx-version=2.56", "--dont-force-G0", f"-I{ROOT / 'raw'}", f"-I{ROOT / 'include'}",
+    as_args = ["--aspsx-version=2.79", "--dont-force-G0", f"-I{ROOT / 'raw'}", f"-I{ROOT / 'include'}",
                "-EL", "-march=r3000", "-G8"] + asflags.split()
     # maspsx_exact exactly as verify_slus decides it (pinned TU object; name-masked text fallback)
     ref = (verify.read_baseline_slus() or {}).get(row["id"])
@@ -701,13 +701,13 @@ def prepare_overlay(row, cfile, cfg, asflags_override, td):
     as_flags = ofc.default_as_flags(func, overlay, target_symbol if target_symbol != func else None) \
         if asflags_override is None else asflags_override
     asm_out = Path(td) / "gcc.latest.s"
-    got, err = M.build_text(str(cfile), ofc.compiler_for(gcc_ver), "O2", "2.56", gcc_flags, as_flags, link_vram,
+    got, err = M.build_text(str(cfile), ofc.compiler_for(gcc_ver), "O2", "2.79", gcc_flags, as_flags, link_vram,
                             target=target_symbol, retail_text=target, asm_output=str(asm_out))
     if not asm_out.exists():
         return None, err or "no assembly"
     exact = got is not None and ofc.linked_words_equal(got, target)
     s = asm_out.read_text(errors="replace")
-    as_args = ["--aspsx-version=2.56", "--dont-force-G0", f"-I{BROOT}", f"-I{BROOT / 'include'}",
+    as_args = ["--aspsx-version=2.79", "--dont-force-G0", f"-I{BROOT}", f"-I{BROOT / 'include'}",
                "-EL", "-march=r3000", "-G8"] + as_flags.split()
     return {"kind": "overlay", "m_in": s, "g_src": s, "as_args": as_args, "env": dict(os.environ),
             "maspsx_exact": exact, "proof": "scorer-linked" if exact else (err or "scorer: not exact"),
@@ -906,7 +906,7 @@ def attribute(ctx, env, fired, mv, views, allviews, need, scope, td):
     for fl in base_args[7:]:
         variants["drop:" + fl] = dict(args=[a for a in base_args if a != fl])
     for vc in sorted(set(MASPSX_VCONF[v] for v in need if v in MASPSX_VCONF)):
-        a = [f"--aspsx-version={vc}" if x == "--aspsx-version=2.56" else x for x in base_args]
+        a = [f"--aspsx-version={vc}" if x == "--aspsx-version=2.79" else x for x in base_args]
         variants["asv:" + vc] = dict(args=a)
         variants[f"asv:{vc}+extern-abs" + ("+no:all-fired" if fired else "")] = dict(args=a, strip_externs=True, disable=list(fired))
     res = {}
