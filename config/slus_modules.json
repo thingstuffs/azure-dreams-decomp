@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "modules": [
+    {
+      "name": "runtime_directory",
+      "source": "src/konami_runtime_directory.c",
+      "members": [
+        {
+          "id": "slus/konami_runtime_w_8003C634",
+          "source": "src/konami_runtime_w_8003C634.c",
+          "functions": [
+            "func_8003C634"
+          ]
+        },
+        {
+          "id": "slus/konami_runtime_w_8003C758",
+          "source": "src/konami_runtime_w_8003C758.c",
+          "functions": [
+            "func_8003C758"
+          ]
+        },
+        {
+          "id": "slus/konami_runtime_w_8003C920",
+          "source": "src/konami_runtime_w_8003C920.c",
+          "functions": [
+            "func_8003C920"
+          ]
+        }
+      ],
+      "headers": [
+        "include/common.h",
+        "include/slus/runtime_directory.h"
+      ],
+      "recipe": {
+        "ccver": "2.7.2-cdk",
+        "ccflags": "",
+        "asflags": ""
+      },
+      "data": [
+        {
+          "symbol": "D_80080A6C",
+          "asset": "assets/54240.bin",
+          "offset": 44,
+          "size": 4,
+          "vram": 2148010604,
+          "bytes": "04000000",
+          "section": ".sdata"
+        }
+      ],
+      "evidence": "docs/evidence/runtime_directory_module.md"
+    }
+  ]
+}

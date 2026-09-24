@@ -151,8 +151,14 @@ def genuine_comparison():
     row = next(json.loads(line) for line in (ROOT / "ledger/rows.jsonl").open()
                if '"id":"slus/konami_runtime_w_8003C634"' in line)
     source = project / "src/slus" / f"{STEMS[0]}.c"
-    wrapper = compilation_source(row, source, dest, root=project)
-    compiled, error = verify.compile_slus(row, wrapper, dest, include_root=STAGE / "include")
+    # compile_slus wraps the member exactly once, using this private project.
+    # Passing an already-wrapped aggregate would wrap it again once the live
+    # tree also declares the module, creating a self-include.
+    from unittest.mock import patch
+    def staged_source(row, candidate, outdir):
+        return compilation_source(row, candidate, outdir, root=project)
+    with patch("slus_module_context.compilation_source", side_effect=staged_source):
+        compiled, error = verify.compile_slus(row, source, dest, include_root=STAGE / "include")
     assert compiled is not None, error
     maspsx = A.View(A.read_elf(compiled.read_bytes()))
     assembly = verify.postprocess_slus((dest / "a.s").read_text(), names_only=True)

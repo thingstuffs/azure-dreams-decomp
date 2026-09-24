@@ -124,11 +124,11 @@ class ConfigureSlusModulesTest(unittest.TestCase):
             target.with_suffix(target.suffix + ".hidden").rename(target)
 
     @unittest.skipUnless((REPO / "build_slus/build.ninja").is_file(), "pinned SLUS build unavailable")
-    def test_no_manifest_matches_pinned_ninja_byte_for_byte(self):
+    def test_current_manifest_matches_pinned_ninja_byte_for_byte(self):
         pinned = REPO / "build_slus"
         other = Path(tempfile.mkdtemp(prefix="configure_slus_identity_"))
         self.addCleanup(shutil.rmtree, other)
-        for name in ("src", "asm", "assets", "config"):
+        for name in ("src", "asm", "assets", "config", "include"):
             (other / name).symlink_to(pinned / name, target_is_directory=True)
         (other / "tools").symlink_to(TOOLS, target_is_directory=True)
         subprocess.run(("python3", "tools/configure.py"), cwd=other,
