@@ -123,6 +123,47 @@ module placement nor removes the dependency from the ladder. The placement
 certificate's direct-genuine requirement remains unchanged.
 
 
+### Scattered small-data pieces
+
+An owner whose ordinary assembler small-data layout differs from retail may opt
+into `data_pieces`. Each entry names one existing `data` symbol, its original
+`.sdata` or `.sbss` section, and its alignment:
+
+```json
+"data_pieces": [
+  {"symbol": "D_80080A6C", "source_section": ".sdata", "alignment": 4}
+]
+```
+
+For this form, the corresponding `data.section` is `.sdata.D_80080A6C` and its
+size is the explicit object span, excluding padding between objects. Every
+`data` entry must have exactly one piece. Definitions remain ordinary C globals
+in the original small-data section; naming sections directly in C changes the
+historical assembler's address selection and is not equivalent.
+
+`tools/build/slus_data_pieces.py` appends named ELF sections and moves only the
+selected global symbols' section and offset. It preserves all instruction bytes,
+relocation entries and symbol indices. Every non-section label in a selected
+source section must belong to a piece; discarded gaps must contain only zero
+alignment bytes and have no relocation targets. Section-base targets, relocations
+originating in moved data, and out-of-span addends are refused. This validates the
+selected source sections, not a census of every data symbol in the object.
+
+Normal compilation retains `.unsplit.o` and `.data-pieces.json` sidecars. Linking
+requires a stamp from independently repeating the transformation and comparing
+all output bytes and the receipt. Missing or stale sidecars fail verification;
+rebuild the owner object to regenerate them. Candidate compilation and restoration
+use the same checks. No opted-in owner means the generated Ninja graph is unchanged.
+
+The genuine-ASPSX object remains read-only. Its verified data spans are projected
+onto the same symbol identities for comparison. Proof requires the complete
+owner's emitted function set and unmasked genuine/retail equality, in addition
+to the full-image and actual storage checks. Transformation hashes are part of
+ownership and placement evidence. A layout proof does not establish shared C
+types, an original allocation boundary, or historical module membership.
+See [the implementation and integration evidence](evidence/gp_data_pieces.md).
+
+
 ## Recipes and row accounting
 
 All member rows and the aggregator must use the same `ccver`, `ccflags`, and

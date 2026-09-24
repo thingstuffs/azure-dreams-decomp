@@ -151,6 +151,10 @@ class SlusView:
 
     def _partition_coverage(self):
         """Source parsing cannot detect every macro-generated function: read ELF."""
+        for module in self.modules:
+            if module.get("data_pieces"):
+                from slus_data_pieces import verify_data_pieces
+                verify_data_pieces(self.dest / "build" / Path(module["source"]).with_suffix(".o"), module)
         plan = getattr(self, "partitions", [])
         if not plan:
             return

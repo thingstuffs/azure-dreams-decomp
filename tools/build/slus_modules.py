@@ -62,6 +62,82 @@ def _recipe(value, where):
     return dict(value)
 
 
+def _data_record(datum, where):
+    _keys(datum, ("symbol", "asset", "offset", "size", "vram", "bytes", "section"), where)
+    _ident(datum["symbol"], where + ".symbol")
+    asset = _path(datum["asset"], where + ".asset", "assets", ".bin")
+    if len(PurePosixPath(asset).parts) != 2:
+        raise ModuleError(f"{where}: only flat assets/*.bin are supported")
+    if not re.fullmatch(r"[0-9A-Fa-f]+", PurePosixPath(asset).stem):
+        raise ModuleError(f"{where}: asset stem must be its hexadecimal ROM offset")
+    offset, size, vram = (datum[k] for k in ("offset", "size", "vram"))
+    if any(type(x) is not int for x in (offset, size, vram)) or offset < 0 or size <= 0 or not 0 <= vram <= 0xFFFFFFFF:
+        raise ModuleError(f"{where}: invalid offset, size, or vram")
+    raw = datum["bytes"]
+    if not isinstance(raw, str) or not re.fullmatch(r"[0-9A-Fa-f]+", raw) or len(raw) != 2 * size:
+        raise ModuleError(f"{where}: bytes must encode exactly size bytes")
+    section = datum["section"]
+    if not isinstance(section, str) or not re.fullmatch(r"\.(?:sdata|sbss)(?:\.[A-Za-z_][A-Za-z0-9_]*)?", section):
+        raise ModuleError(f"{where}: unsupported data section {section!r}")
+    if section.startswith(".sbss") and any(bytes.fromhex(raw)):
+        raise ModuleError(f"{where}: .sbss storage must be zero")
+    return dict(datum, bytes=raw.lower())
+
+
+def data_piece_plan(module) -> list[dict]:
+    """Validate an opt-in named-section plan and return exact physical pieces."""
+    if not isinstance(module, dict):
+        raise ModuleError("module: expected an object")
+    if "data_pieces" not in module:
+        return []
+    allowed = {"name", "source", "members", "headers", "recipe", "data", "evidence", "data_pieces"}
+    if set(module) - allowed:
+        raise ModuleError(f"module: unexpected keys {sorted(set(module) - allowed)}")
+    name = module.get("name")
+    if not isinstance(name, str) or not _NAME.fullmatch(name):
+        raise ModuleError("module: invalid name")
+    pieces, data = module["data_pieces"], module.get("data")
+    if not isinstance(pieces, list) or not pieces:
+        raise ModuleError(f"{name}: data_pieces must be a nonempty list")
+    if not isinstance(data, list):
+        raise ModuleError(f"{name}: data must be a list")
+    by_symbol = {}
+    for i, raw in enumerate(data):
+        datum = _data_record(raw, f"{name}.data[{i}]")
+        symbol = datum["symbol"]
+        if symbol in by_symbol:
+            raise ModuleError(f"{name}: duplicate data symbol {symbol}")
+        by_symbol[symbol] = datum
+    plan, seen = [], set()
+    for i, piece in enumerate(pieces):
+        where = f"{name}.data_pieces[{i}]"
+        _keys(piece, ("symbol", "source_section", "alignment"), where)
+        symbol = _ident(piece["symbol"], where + ".symbol")
+        if symbol in seen:
+            raise ModuleError(f"{where}: duplicate piece {symbol}")
+        seen.add(symbol)
+        if symbol not in by_symbol:
+            raise ModuleError(f"{where}: no data record for {symbol}")
+        source_section = piece["source_section"]
+        if source_section not in (".sdata", ".sbss"):
+            raise ModuleError(f"{where}: unsupported source_section {source_section!r}")
+        alignment = piece["alignment"]
+        if type(alignment) is not int or not 1 <= alignment <= 0x1000 or alignment & (alignment - 1):
+            raise ModuleError(f"{where}: alignment must be a power of two from 1 to 0x1000")
+        datum = by_symbol[symbol]
+        section = source_section + "." + symbol
+        if datum["section"] != section:
+            raise ModuleError(f"{where}: {symbol} destination section must be {section}")
+        if datum["vram"] % alignment:
+            raise ModuleError(f"{where}: {symbol} VMA is not aligned to {alignment}")
+        plan.append({"symbol": symbol, "size": datum["size"], "section": section,
+                     "alignment": alignment, "source_section": source_section})
+    missing = set(by_symbol) - seen
+    if missing:
+        raise ModuleError(f"{name}: missing data piece(s) for {sorted(missing)}")
+    return plan
+
+
 def load_manifest(path) -> list[dict]:
     """Load and validate a version-1 manifest; a missing path means no modules."""
     path = Path(path)
@@ -75,7 +151,8 @@ def load_manifest(path) -> list[dict]:
     modules = []
     for i, module in enumerate(doc["modules"]):
         where = f"modules[{i}]"
-        _keys(module, ("name", "source", "members", "headers", "recipe", "data", "evidence"), where)
+        module_keys = ("name", "source", "members", "headers", "recipe", "data", "evidence")
+        _keys(module, module_keys + (("data_pieces",) if "data_pieces" in module else ()), where)
         name = module["name"]
         if not isinstance(name, str) or not _NAME.fullmatch(name) or name in seen_names:
             raise ModuleError(f"{where}: invalid or duplicate name {name!r}")
@@ -131,29 +208,19 @@ def load_manifest(path) -> list[dict]:
         parsed_data = []
         for j, datum in enumerate(data):
             dw = f"{where}.data[{j}]"
-            _keys(datum, ("symbol", "asset", "offset", "size", "vram", "bytes", "section"), dw)
-            symbol = _ident(datum["symbol"], dw + ".symbol")
+            parsed = _data_record(datum, dw)
+            symbol = parsed["symbol"]
             if symbol in seen_symbols:
                 raise ModuleError(f"{dw}: duplicate symbol {symbol}")
             seen_symbols.add(symbol)
-            asset = _path(datum["asset"], dw + ".asset", "assets", ".bin")
-            if len(PurePosixPath(asset).parts) != 2:
-                raise ModuleError(f"{dw}: only flat assets/*.bin are supported")
-            if not re.fullmatch(r"[0-9A-Fa-f]+", PurePosixPath(asset).stem):
-                raise ModuleError(f"{dw}: asset stem must be its hexadecimal ROM offset")
-            offset, size, vram = (datum[k] for k in ("offset", "size", "vram"))
-            if any(type(x) is not int for x in (offset, size, vram)) or offset < 0 or size <= 0 or not 0 <= vram <= 0xFFFFFFFF:
-                raise ModuleError(f"{dw}: invalid offset, size, or vram")
-            raw = datum["bytes"]
-            if not isinstance(raw, str) or not re.fullmatch(r"[0-9A-Fa-f]+", raw) or len(raw) != 2 * size:
-                raise ModuleError(f"{dw}: bytes must encode exactly size bytes")
-            if datum["section"] not in (".sdata", ".sbss"):
-                raise ModuleError(f"{dw}: unsupported data section {datum['section']!r}")
-            if datum["section"] == ".sbss" and any(bytes.fromhex(raw)):
-                raise ModuleError(f"{dw}: .sbss storage must be zero")
-            parsed_data.append(dict(datum, bytes=raw.lower()))
-        modules.append({"name": name, "source": source, "members": members, "headers": headers,
-                        "recipe": recipe, "data": parsed_data, "evidence": evidence})
+            parsed_data.append(parsed)
+        parsed_module = {"name": name, "source": source, "members": members, "headers": headers,
+                         "recipe": recipe, "data": parsed_data, "evidence": evidence}
+        if "data_pieces" in module:
+            parsed_module["data_pieces"] = [dict(piece) if isinstance(piece, dict) else piece
+                                            for piece in module["data_pieces"]] if isinstance(module["data_pieces"], list) else module["data_pieces"]
+        data_sections(parsed_module)
+        modules.append(parsed_module)
     return modules
 
 
@@ -219,14 +286,20 @@ def _prepare_output(root, relative):
 
 def data_sections(module) -> dict[str, list[dict]]:
     """Group records by real input section; each section has one ordered span."""
-    sections = {}
-    for datum in module["data"]:
+    if not isinstance(module, dict) or not isinstance(module.get("name"), str) or not isinstance(module.get("data"), list):
+        raise ModuleError("module: expected name and data list")
+    pieces = data_piece_plan(module)
+    named = {piece["section"] for piece in pieces}
+    sections, seen_symbols = {}, set()
+    for i, raw in enumerate(module["data"]):
+        datum = _data_record(raw, f"{module['name']}.data[{i}]")
+        if datum["symbol"] in seen_symbols:
+            raise ModuleError(f"{module['name']}: duplicate data symbol {datum['symbol']}")
+        seen_symbols.add(datum["symbol"])
         section = datum["section"]
-        if section not in (".sdata", ".sbss"):
+        if section not in ((".sdata", ".sbss") if not pieces else named):
             raise ModuleError(f"{module['name']}: unsupported data section {section!r}")
-        if section == ".sbss" and any(bytes.fromhex(datum["bytes"])):
-            raise ModuleError(f"{module['name']}: .sbss storage must be zero")
-        sections.setdefault(section, []).append(datum)
+        sections.setdefault(section, []).append(raw)
     for section, records in sections.items():
         if len({d["asset"] for d in records}) != 1:
             raise ModuleError(f"{module['name']}: one {section} section cannot span multiple assets")
@@ -234,6 +307,22 @@ def data_sections(module) -> dict[str, list[dict]]:
                for a, b in zip(records, records[1:])):
             raise ModuleError(f"{module['name']}: multiple {section} definitions must be contiguous and ordered")
     return sections
+
+
+def _unique_owned_data(modules):
+    """Validate direct callers' module data and reject cross-module ownership."""
+    seen = set()
+    result = []
+    for module in modules:
+        sections = data_sections(module)
+        for records in sections.values():
+            for datum in records:
+                symbol = datum["symbol"]
+                if symbol in seen:
+                    raise ModuleError(f"duplicate data ownership of {symbol}")
+                seen.add(symbol)
+        result.append((module, sections))
+    return result
 
 
 def plan_asset_carves(modules, root=Path.cwd(), out_dir="build/module_assets") -> list[dict]:
@@ -252,8 +341,8 @@ def plan_asset_carves(modules, root=Path.cwd(), out_dir="build/module_assets") -
             raise ModuleError("baserom/slus_006.14: invalid PS-X EXE header")
         load_address = int.from_bytes(head[0x18:0x1C], "little")
     grouped = {}
-    for module in modules:
-        for records in data_sections(module).values():
+    for module, sections in _unique_owned_data(modules):
+        for records in sections.values():
             grouped.setdefault(records[0]["asset"], []).append((module, records))
     plans = []
     for asset in sorted(grouped):
@@ -357,7 +446,8 @@ def rewrite_ordered_linker_script(text: str, plans) -> str:
 
 def filter_owned_symbols(text: str, modules) -> str:
     """Remove only registered absolute assignments, checking name and VMA."""
-    owned = {d["symbol"]: d["vram"] for m in modules for d in m["data"]}
+    owned = {d["symbol"]: d["vram"] for _, sections in _unique_owned_data(modules)
+             for records in sections.values() for d in records}
     if not owned:
         return text
     lines, seen = [], set()

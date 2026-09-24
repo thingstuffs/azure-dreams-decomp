@@ -109,3 +109,10 @@ generic assembler arm, and three candidate-rejection/restoration cases. The
 complete patch is recorded. Next is portable integration-test completion and a
 production tooling/recertification transaction, followed by the shared CD source
 repairs. No production dependency count has changed at this checkpoint.
+
+The data-piece tooling is now integrated with 159 passing tests, an unchanged
+production recipe and all 869 C objects unchanged. All 23 ownership proofs and
+both existing placement certificates have been refreshed. See the
+[production receipt](evidence/gp_data_pieces/production/integration_receipt.json).
+Next is the shared CD source contract and complete consumer repair; the private
+E758 layout proof has not activated an owner or removed a GP dependency.

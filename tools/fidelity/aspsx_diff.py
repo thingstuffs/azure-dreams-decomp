@@ -91,6 +91,7 @@ def tool_fingerprint() -> str:
              ROOT / "tools/maspsx/maspsx.py", ROOT / "tools/maspsx/maspsx/__init__.py",
              ROOT / "tools/verify.py", ROOT / "tools/build/ccproc.py", ROOT / "config/names.tsv",
              ROOT / "tools/slus_module_context.py", ROOT / "tools/build/slus_modules.py",
+             ROOT / "tools/build/slus_data_pieces.py",
              HERE / "slus_iso.py", ROOT / "tools/build/slus_partitions.py",
              ROOT / "tools/row_db.py", ROOT / "tools/build/mk_slus_root.sh",
              ROOT / "tools/slus_module_evidence.py", HERE / "certify_slus_module.py", HERE / "prove_slus_ownership.py",
@@ -347,6 +348,73 @@ class View:
             else:
                 out.append((w, None, None))
         return out
+
+
+class DataPieceView(View):
+    """Read-only projection of validated data spans through an explicit layout.
+
+    Handles either the original assembler layout (including genuine LNK) or
+    the split ELF. Nothing in the input object is rewritten by this view.
+    Actual storage allocation remains a separate full-link/ownership proof.
+    """
+    def __init__(self, obj, module, ref=None, alias=None):
+        from slus_modules import data_piece_plan
+        pieces = data_piece_plan(module)
+        if not pieces or obj.unknown:
+            raise ValueError("data-piece view needs a complete plan and decoded relocations")
+        records = {datum["symbol"]: datum for datum in module["data"]}
+        self.piece_ranges = {}
+        layouts = set()
+        for piece in pieces:
+            name = piece["symbol"]
+            symbol = obj.symbols.get(name)
+            if not symbol or symbol[2] != "global":
+                raise ValueError("data piece lacks a defined global: " + name)
+            section, offset, _, size = symbol
+            if section not in (piece["source_section"], piece["section"]):
+                raise ValueError("data piece is in an undeclared section: " + name)
+            split = section == piece["section"]
+            layouts.add(split)
+            if (offset < 0 or offset % piece["alignment"] or (split and offset != 0)
+                    or size not in (None, 0, piece["size"])):
+                raise ValueError("data piece offset/alignment/size differs: " + name)
+            end = offset + piece["size"]
+            if obj.sections.get(section, b"")[offset:end] != bytes.fromhex(records[name]["bytes"]):
+                raise ValueError("data piece initializer or extent differs: " + name)
+            self.piece_ranges.setdefault(section, []).append((offset, end, name))
+        if len(layouts) != 1:
+            raise ValueError("mixed original and split data layout")
+        for section, ranges in self.piece_ranges.items():
+            owned = {name for _, _, name in ranges}
+            defined = {name for name, symbol in obj.symbols.items() if symbol[0] == section}
+            if defined != owned:
+                raise ValueError("data piece section has unselected labels: " + section)
+            payload = obj.sections[section]
+            cursor = 0
+            for start, end, name in sorted(ranges):
+                if start < cursor or any(payload[cursor:start]):
+                    raise ValueError("overlap or nonzero unowned data: " + section)
+                cursor = end
+            if any(payload[cursor:]) or (True in layouts and cursor != len(payload)):
+                raise ValueError("unowned trailing data: " + section)
+        # An emptied original section must not retain payload in a split object.
+        if True in layouts and any(obj.sections.get(p["source_section"], b"") for p in pieces):
+            raise ValueError("split object retains original small-data storage")
+        super().__init__(obj, ref, alias)
+
+    def loc(self, section, offset):
+        if section in self.piece_ranges:
+            matches = [(start, name) for start, end, name in self.piece_ranges[section]
+                       if start <= offset < end]
+            if len(matches) != 1:
+                raise ValueError("data relocation is outside a declared piece")
+            start, name = matches[0]
+            return ("sym", name, offset - start)
+        return super().loc(section, offset)
+
+
+def data_piece_view(obj, module=None, ref=None, alias=None):
+    return DataPieceView(obj, module, ref, alias) if module and module.get("data_pieces") else View(obj, ref, alias)
 
 
 def _is_jump(w):
@@ -683,7 +751,7 @@ def prepare_slus(row, cfile, cfg, asflags, td):
     # compiler stream without the GAS-only function-section directives.
     return {"kind": "slus", "m_in": m_in, "g_src": g_src, "as_args": as_args, "env": _clean_env(),
             "pipeline_obj": obj.read_bytes(), "maspsx_exact": exact, "proof": proof, "cell": cell, "flags": flags,
-            "raw_standalone": historical}, None
+            "raw_standalone": historical, "data_piece_module": module if module and module.get("data_pieces") else None}, None
 
 
 _OFC = None
@@ -801,7 +869,16 @@ def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_func
         rec.update(status="error", err=("maspsx: " + err)[:300]); return rec
     tr = json.loads((Path(td) / "tr.json").read_text())
     rec["fired"] = tr["fired"]
-    mv = View(read_elf(mo))
+    piece_module = ctx.get("data_piece_module")
+    if piece_module:
+        from slus_data_pieces import apply_data_pieces
+        rec["data_piece_transform"] = apply_data_pieces(Path(td) / "m.o", piece_module)
+        mo = (Path(td) / "m.o").read_bytes()
+        if expected_functions is None:
+            expected_functions = sorted(f for member in piece_module["members"] for f in member["functions"])
+            rec["source"] = piece_module["source"]
+        rec["data_piece_functions"] = list(expected_functions)
+    mv = data_piece_view(read_elf(mo), piece_module)
     if ctx["kind"] == "slus":
         from slus_module_context import membership, fingerprint
         module = None if scope is not None or ctx.get("raw_standalone") else membership(row)
@@ -871,7 +948,9 @@ def _measure_context(row, ctx, td, module_before, rec, scope=None, expected_func
                 best = best or cand
                 continue
             try:
-                gv = View(read_lnk(lnk), mv, alias)
+                gv = data_piece_view(read_lnk(lnk), piece_module, mv, alias)
+                if piece_module and set(gv.funcs) != set(expected_functions):
+                    raise ValueError("genuine emitted functions differ from complete data-piece owner")
                 gv.composite = mv.composite
                 gv.follow = mv.follow
                 for f in expected_functions if expected_functions is not None else scope:
@@ -1036,6 +1115,8 @@ def process_partition(row, cfile, cfg, asflags, td, rec, root=None, build_root=N
                "env": _clean_env(), "pipeline_obj": compiled_unit["object"].read_bytes(),
                "maspsx_exact": True, "proof": gate["proof"],
                "cell": recipe["ccver"], "flags": recipe["ccflags"].split()}
+        if compiled_unit.get("data_piece_module"):
+            ctx["data_piece_module"] = compiled_unit["data_piece_module"]
         measurement = Path(td) / ("measure_" + str(index))
         measurement.mkdir()
         physical = dict(unit, row=row["id"], container=row["container"], kind="slus",
@@ -1119,7 +1200,10 @@ def attribute(ctx, env, fired, mv, views, allviews, need, scope, td):
         variants[f"asv:{vc}+extern-abs" + ("+no:all-fired" if fired else "")] = dict(args=a, strip_externs=True, disable=list(fired))
     res = {}
     vviews = {}
-    base_sha = _sha((Path(td) / "m.o").read_bytes())
+    # Ablation runs return raw assembler objects. Compare them with the raw
+    # baseline retained by the layout transform, not its repackaged ELF.
+    baseline = "m.unsplit.o" if ctx.get("data_piece_module") else "m.o"
+    base_sha = _sha((Path(td) / baseline).read_bytes())
     for name, spec in variants.items():
         o, err = run_maspsx(ctx["m_in"], spec.get("args", base_args), Path(td) / "v.o", env,
                             disable=spec.get("disable", ()), strip_externs=spec.get("strip_externs", False))
@@ -1127,7 +1211,7 @@ def attribute(ctx, env, fired, mv, views, allviews, need, scope, td):
             vviews[name] = None; continue
         if _sha(o) == base_sha:
             vviews[name] = "same"; continue
-        vw = View(read_elf(o))
+        vw = data_piece_view(read_elf(o), ctx.get("data_piece_module"))
         vw.composite = mv.composite
         for f in scope:
             vw.add_unit(f)

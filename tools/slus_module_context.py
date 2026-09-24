@@ -65,6 +65,14 @@ def input_paths(module, root=ROOT):
             + [Path(root) / header for header in module["headers"]])
 
 
+def _data_piece_code(owners):
+    """Only opted-in owners depend on the binary transformation implementation."""
+    if not any(owner.get("data_pieces") for owner in owners):
+        return b""
+    import slus_data_pieces
+    return Path(slus_data_pieces.__file__).read_bytes()
+
+
 def fingerprint(row, root=ROOT):
     parents, owners, aliases = partition_context(row, root)
     if parents:
@@ -76,7 +84,8 @@ def fingerprint(row, root=ROOT):
             {s: source_path(s, root).read_text() for s in sources},
             {h: (Path(root) / h).read_text() for h in headers}, aliases)
         # Include the adapter itself: its include rewriting is part of the input.
-        return hashlib.sha256(value.encode() + Path(__file__).read_bytes()).hexdigest()
+        return hashlib.sha256(value.encode() + Path(__file__).read_bytes()
+                              + _data_piece_code(owners)).hexdigest()
     module = membership(row, root)
     if module is None:
         return None
@@ -84,6 +93,7 @@ def fingerprint(row, root=ROOT):
     for path in input_paths(module, root):
         h.update(str(path.relative_to(root)).encode())
         h.update(path.read_bytes())
+    h.update(_data_piece_code([module]))
     return h.hexdigest()
 
 
